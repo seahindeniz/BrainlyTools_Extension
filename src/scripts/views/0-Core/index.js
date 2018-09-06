@@ -8,6 +8,7 @@ import WaitForFn from "../../helpers/WaitForFn";
 import Inject2body from "../../helpers/Inject2body";
 import Storage from "../../helpers/extStorage";
 import themeColorChanger from "../../helpers/themeColorChanger";
+import messagesLayoutExtender from "../../helpers/messagesLayoutExtender";
 import Request from "../../controllers/Request";
 
 let System = new _System();
@@ -137,10 +138,10 @@ let getUserData = (callback, resetThemeColor) => {
 		var json = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
 			if (json.success && json.success == true) {
-				if (resetThemeColor) {
+				/*if (resetThemeColor) {
 					json.data.themeColor = "#57b2f8";
 					themeColorChanger(json.data.themeColor);
-				}
+				}*/
 				System.data.Brainly.userData = json.data;
 				Storage.set({ user: json.data }, function () {
 					callback && callback();
@@ -158,12 +159,10 @@ let setUserData = (callback) => {
 	WaitForFn("window.dataLayer", obj => {
 		if (obj && obj[0] && obj[0].user && obj[0].user.isLoggedIn) {
 			console.log("request user data from storage");
-			Storage.get(['user', "themeColor"], res => {
+			Storage.get(["user", "themeColor", "extendMessagesLayout"], res => {
 				console.log("storageUser: ", res);
 				if (res && res.user && res.user.user && res.user.user.id && res.user.user.id == obj[0].user.id) {
-					themeColorChanger(res.themeColor || "#57b2f8");
-					System.data.Brainly.userData = res.user;
-					callback && callback();
+					callback && callback(res);
 					getUserData();
 				}
 				else {
@@ -237,8 +236,13 @@ let onEventHandler = e => {
 window.addEventListener('shareGatheredData2Background', onEventHandler);
 setMetaData(() => {
 	console.log("MetaData OK!");
-	setUserData(() => {
+	setUserData((resUserData) => {
 		console.log("setUserData OK!");
+		console.log("resUserData:",resUserData);
+		themeColorChanger(resUserData.themeColor || "#57b2f8");
+		messagesLayoutExtender(resUserData.extendMessagesLayout || false);
+		System.data.Brainly.userData = resUserData.user;
+
 		setBrainlyData(() => {
 			console.log("setBrainlyData OK!");
 			Inject2body(`/scripts/locales/${System.data.Brainly.userData.user.iso_locale}/locale.js`, () => {
@@ -255,16 +259,26 @@ setMetaData(() => {
 						if (obj) {
 							console.log("Jquery OK!");
 							//System.shareGatheredData2Background();
-							if (System.checkRoute(1, "") || System.checkRoute(1, "task_subject_dynamic")) {
-								prepareDeleteReasons(() => {
-									Inject2body([
+							let scriptList = null;
+							prepareDeleteReasons(() => {
+								if (System.checkRoute(1, "") || System.checkRoute(1, "task_subject_dynamic")) {
+									scriptList = [
 										"/scripts/lib/jquery-observe-2.0.3.min.js",
 										"/scripts/views/1-Root/index.js",
 										"/scripts/views/1-Root/Root.css"
-									]);
-								});
+									]
+								}
+							});
+
+							if (System.checkRoute(1, "messages")) {
+								scriptList = [
+									"/scripts/lib/jquery-observe-2.0.3.min.js",
+									"/scripts/views/2-Messages/index.js",
+									"/scripts/views/2-Messages/Messages.css"
+								];
 
 							}
+							scriptList && Inject2body(scriptList);
 						}
 					});
 				});

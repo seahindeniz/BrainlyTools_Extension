@@ -69,7 +69,6 @@ System.data.locale = {
 		extension_options: {
 			title: "Extension Options",
 			version_text: "Extension version: ",
-			otherOptions: "Other options",
 			themeColor: {
 				title: "Theme Color",
 				description: "You can use it to change Brainly's theme color.",
@@ -90,9 +89,12 @@ System.data.locale = {
 				button_3: "Slot 3",
 				effects_on_refresh: "Buttons will change when the page is refreshed"
 			},
-			extend_messages: {
-				title: "Expand messages.",
-				description: "Expand the messages page"
+			otherOptions: {
+				title: "Other options"
+			},
+			extendMessagesLayout: {
+				title: "Extended messages layout",
+				description: "This option will extend the layout of the messages page. You can try it when the messages page is on"
 			},
 			answer_box_height: {
 				title: "Answer box height",

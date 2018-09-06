@@ -2,6 +2,7 @@ import ext from "./utils/ext";
 import Inject2body from "./helpers/Inject2body";
 //import WaitForElm from "./helpers/WaitForElm";
 import themeColorChanger from "./helpers/themeColorChanger";
+import messagesLayoutExtender from "./helpers/messagesLayoutExtender";
 import _System from "./controllers/System";
 
 let manifest = ext.runtime.getManifest();
@@ -71,6 +72,9 @@ function onRuntimeHandler(request, sender, sendResponse) {
 		window.addEventListener('shareGatheredData2BackgroundDone', e => {
 			//sendResponse("sharingDone");
 		});
+	}
+	if (request.action === "extendMessagesLayout") {
+		messagesLayoutExtender(request.data);
 	}
 }
 ext.runtime.onMessage.addListener(onRuntimeHandler);

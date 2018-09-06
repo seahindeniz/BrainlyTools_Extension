@@ -1,8 +1,10 @@
 "use strict";
 
 import WaitForElm from "./WaitForElm";
+
 export default color => {
 	let rainbow = false;
+	console.log("color:", color);
 	if (color.indexOf(",") == 0)
 		rainbow = true;
 	let personalColors = `
@@ -12,7 +14,8 @@ export default color => {
 	.mint-tabs__tab--active,
 	#html .mint .mint-header,
 	#html .mint #tabs-doj #main_menu>li.active,
-	#html .mint #footer {
+	#html .mint #footer,
+	.sg-box--blue {
 		${!rainbow ? "background-color: " + color + ";" : ""}
 		${rainbow ? "background-image: linear-gradient(to right, " + color + "); color: #fff;" : ""}
 	}

@@ -20,6 +20,15 @@ let save2Storage = (data) => {
 		});
 	})
 };
+let send2AllBrainlyTabs = (callback) => {
+	ext.tabs.query({}, function (tabs) {
+		for (var i = 0; i < tabs.length; ++i) {
+			if (_brainly_regexp.test(tabs[i].url)) {
+				callback(tabs[i]);
+			}
+		}
+	});
+}
 let loadErrorTemplate = () => {
 	return `
 	<section class="hero is-medium is-danger is-bold">
@@ -58,7 +67,7 @@ let appTemplate = data => {
 						<h4 class="title is-4 has-text-centered">${System.data.locale.texts.extension_options.title}</h4>
 
 						<div id="themeColor" class="column is-narrow">
-							<article class="message is-dark">
+							<article class="message is-info">
 								<div class="message-header">
 									<p>${System.data.locale.texts.extension_options.themeColor.title}</p>
 								</div>
@@ -73,7 +82,7 @@ let appTemplate = data => {
 								<div class="message-body">${data.deleteButonOptions}</div>
 							</article>
 						</div>
-						<div id="themeColor" class="column is-narrow">
+						<div id="otherOptions" class="column is-narrow">
 							<article class="message is-dark">
 								<div class="message-header">
 									<p>${System.data.locale.texts.extension_options.otherOptions.title}</p>
@@ -133,14 +142,9 @@ let renderBody = template => {
 	let $colorValue = $("#colorValue");
 	let $rainbow = $("#rainbow");
 	let changeColor = color => {
-
-		ext.tabs.query({}, function (tabs) {
-			for (var i = 0; i < tabs.length; ++i) {
-				if (_brainly_regexp.test(tabs[i].url)) {
-					var message = { action: "changeColor", url: tabs[i].url, data: color };
-					ext.tabs.sendMessage(tabs[i].id, message);
-				}
-			}
+		send2AllBrainlyTabs(tab => {
+			var message = { action: "changeColor", url: tab.url, data: color };
+			ext.tabs.sendMessage(tab.id, message);
 		});
 	}
 	let colorInputHandler = function () {
@@ -162,51 +166,57 @@ let renderBody = template => {
 		makeNotification("Color saved");
 		Storage.set({ themeColor: $colorValue.val() });
 	});
+
+	$("#extendMessagesLayout").change(function () {
+		makeNotification("Layout " + (this.checked ? "extended" : "switched back to normal"));
+		Storage.set({ extendMessagesLayout: this.checked });
+		send2AllBrainlyTabs(tab => {
+			var message = { action: "extendMessagesLayout", url: tab.url, data: this.checked };
+			ext.tabs.sendMessage(tab.id, message);
+		});
+	});
 }
 let renderThemeColor = (color = "") => {
 	return `
-  <div class="field is-horizontal">
-    <div class="field-label has-text-centered">
+	<div class="field is-horizontal">
+		<div class="field-label has-text-centered">
 			<label class="label">${System.data.locale.texts.extension_options.themeColor.choose_color}</label>
 		</div>
 		<div class="field-body">
 			<div class="field">
 				<div class="control">
 					<label class="checkbox">
-						<input id="rainbow" type="checkbox">
-						🌈 ${System.data.locale.texts.extension_options.themeColor.rainbow}
+						<input id="rainbow" type="checkbox"> 🌈 ${System.data.locale.texts.extension_options.themeColor.rainbow}
 					</label>
 				</div>
 			</div>
-      <div class="field is-expanded">
+			<div class="field is-expanded">
 				<div class="field has-addons">
 					<datalist id="flatColors">
 						<option value="#1abc9c">Turquoise</option><option value="#2ecc71">Emerland</option><option value="#3498db">Peterriver</option><option value="#9b59b6">Amethyst</option><option value="#34495e">Wetasphalt</option><option value="#16a085">Greensea</option><option value="#27ae60">Nephritis</option><option value="#2980b9">Belizehole</option><option value="#8e44ad">Wisteria</option><option value="#2c3e50">Midnightblue</option><option value="#f1c40f">Sunflower</option><option value="#e67e22">Carrot</option><option value="#e74c3c">Alizarin</option><option value="#ecf0f1">Clouds</option><option value="#95a5a6">Concrete</option><option value="#f39c12">Orange</option><option value="#d35400">Pumpkin</option><option value="#c0392b">Pomegranate</option><option value="#bdc3c7">Silver</option><option value="#7f8c8d">Asbestos</option>
 					</datalist>
 					<p class="control is-expanded">
 						<input id="colorPicker" list="flatColors" class="input" type="color" placeholder="Text input" value="${color}">
-          </p>
-          <p class="control">
-						<input id="colorValue" list="flatColors" class="input" type="text" placeholder="${System.data.locale.texts.extension_options.themeColor.choose_color}"${color && ' value="' + color + '"'}>
-          </p>
-        </div>
-        <p class="help">${System.data.locale.texts.extension_options.themeColor.fontColorExample}</p>
-      </div>
-    </div>
-  </div>
-  <div class="field is-horizontal">
-    <div class="field-label"></div>
-    <div class="field-body">
-      <div class="field is-grouped is-grouped-right">
-        <div class="control">
-          <button class="button is-primary">${System.data.locale.texts.globals.save}</button>
-        </div>
-      </div>
-    </div>
-  </div>
-		
-		
-	`;
+					</p>
+					<p class="control">
+						<input id="colorValue" list="flatColors" class="input" type="text" placeholder="${System.data.locale.texts.extension_options.themeColor.choose_color}"
+						${color && ' value="' + color + '"'}>
+					</p>
+				</div>
+				<p class="help">${System.data.locale.texts.extension_options.themeColor.fontColorExample}</p>
+			</div>
+		</div>
+	</div>
+	<div class="field is-horizontal">
+		<div class="field-label"></div>
+		<div class="field-body">
+			<div class="field is-grouped is-grouped-right">
+				<div class="control">
+					<button class="button is-primary">${System.data.locale.texts.globals.save}</button>
+				</div>
+			</div>
+		</div>
+	</div>`;
 }
 let renderDeleteButtonOptions = quickDeleteButtonsReasons => {
 	let fields = "";
@@ -252,7 +262,23 @@ let renderDeleteButtonOptions = quickDeleteButtonsReasons => {
 	}
 	return fields;
 }
-let renderOtherOptions = () => { };
+let renderOtherOptions = (options) => {
+	return `
+	<div class="field is-horizontal">
+		<div class="field-label has-text-centered">
+			<label class="label">${""/*System.data.locale.texts.extension_options.themeColor.choose_color*/}</label>
+		</div>
+		<div class="field-body">
+			<div class="field">
+				<div class="control">
+					<label class="checkbox" title="${System.data.locale.texts.extension_options.extendMessagesLayout.description}">
+						<input id="extendMessagesLayout" type="checkbox"${options.extendMessagesLayout ? " checked" : ""}> ${System.data.locale.texts.extension_options.extendMessagesLayout.title}
+					</label>
+				</div>
+			</div>
+		</div>
+	</div>`;
+};
 $(() => {
 	var messageDone = () => {
 		messageDone = () => { };
@@ -260,13 +286,13 @@ $(() => {
 			console.log(res);
 			if (res) {
 				System.data = res;
-				Storage.get(["user", "themeColor", "quickDeleteButtonsReasons"], res => {
+				Storage.get(["user", "themeColor", "quickDeleteButtonsReasons", "extendMessagesLayout"], res => {
 					console.log("storageUser: ", res);
 					if (res && res.user && res.user.user && res.user.user.id && res.user.user.id == res.user.user.id) {
 						let data = {
-							themeColor: renderThemeColor(res.themeColor),
+							themeColor: renderThemeColor(res.themeColor || "#57b2f8"),
 							deleteButonOptions: renderDeleteButtonOptions(res.quickDeleteButtonsReasons),
-							otherOptions: renderOtherOptions()
+							otherOptions: renderOtherOptions(res)
 						}
 						renderBody(appTemplate(data));
 					}

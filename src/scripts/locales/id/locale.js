@@ -69,7 +69,6 @@ System.data.locale = {
 		extension_options: {
 			title: "Opsi Ekstensi",
 			version_text: "Extension version: ",
-			otherOptions: "Pilihan lain",
 			themeColor: {
 				title: "Warna Tema",
 				description: "Kamu dapat menggunakannya untuk mengubah warna dari tema Brainly.",
@@ -90,9 +89,12 @@ System.data.locale = {
 				button_3: "Slot 3",
 				effects_on_refresh: "Tombol akan berubah ketika halaman di refresh"
 			},
-			extend_messages: {
-				title: "Memperluas pesan.",
-				description: "Memperluas halaman pesan"
+			otherOptions: {
+				title: "Pilihan lain"
+			},
+			extendMessagesLayout: {
+				title: "Memperluas pesan",
+				description: "Opsi ini akan memperpanjang tata letak halaman pesan.\nAnda dapat mencobanya ketika halaman pesan aktif"
 			},
 			answer_box_height: {
 				title: "Tinggi kotak jawaban",

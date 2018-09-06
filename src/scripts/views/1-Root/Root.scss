@@ -1,0 +1,42 @@
+.js-feed-item>.sg-content-box {
+    min-height: 160px;
+    .sg-content-box__title {
+        &,
+        .sg-actions-list {
+            height: 48px;
+            .sg-actions-list>.sg-actions-list__hole:first-child {
+                margin-top: 115px;
+            }
+        }
+    }
+    .sg-content-box__content {
+        min-height: 35px;
+    }
+    &:hover {
+        .ext_actions {
+            visibility: visible;
+        }
+    }
+}
+
+.ext_actions {
+    width: 32px;
+    visibility: hidden;
+    button {
+        padding: 0 9px;
+        float: right;
+        margin-top: 7px;
+        label.sg-label__text {
+            display: none;
+            margin-right: 10px;
+        }
+        span.sg-button-primary__icon {
+            margin: 0;
+        }
+        &:hover {
+            label {
+                display: block;
+            }
+        }
+    }
+}

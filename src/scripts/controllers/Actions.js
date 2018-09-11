@@ -2,6 +2,14 @@ import Request from "./Request";
 
 const Actions = {
 	/**
+	 * Get actions details of a question
+	 * @param {number|string} taskId - Id number of a question
+	 * @param {function} callback
+	 */
+	GetTaskContent(taskId, callback) {
+		Request.BrainlyReq("GET", '/api_tasks/main_view/' + taskId, callback);
+	},
+	/**
 	 * Delete question by id
 	 * @param {object} data - Post data
 	 * @param {function} callback

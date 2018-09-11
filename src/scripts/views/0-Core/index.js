@@ -275,7 +275,7 @@ setMetaData(() => {
 										"/scripts/views/3-Task/Task.css"
 									])
 								}
-								if (System.checkRoute(2, "user_content")) {
+								if (System.checkRoute(2, "user_content") && !System.checkRoute(4, "comments_tr")) {
 									Inject2body([
 										"/scripts/views/4-UserContent/index.js",
 										"/scripts/views/4-UserContent/UserContent.css"

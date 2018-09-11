@@ -33,23 +33,30 @@ const resizeIt = (elm) => {
 	}
 	`;
 }
+let $cssExtendMessagesLayout;
 const resizer = status => {
 	WaitForElm("head", head => {
 		if (head) {
 			head = head[0];
-			let $cssExtendMessagesLayout = document.getElementById("cssExtendMessagesLayout");
-			if (!$cssExtendMessagesLayout) {
-				head.innerHTML += `<style id="cssExtendMessagesLayout"></style>`;
-				$cssExtendMessagesLayout = document.getElementById("cssExtendMessagesLayout");
-			}
-
-			if (status) {
-				resizeIt($cssExtendMessagesLayout);
-				window.onresize = () => resizeIt($cssExtendMessagesLayout);
-			}
-			else {
-				$cssExtendMessagesLayout.innerHTML = "";
-				window.onresize = undefined;
+			$cssExtendMessagesLayout = document.getElementById("cssExtendMessagesLayout");
+			let $private_messages_container = document.getElementById("private-messages-container");
+			if ($private_messages_container) {
+				if (!$cssExtendMessagesLayout) {
+					head.innerHTML += `<style id="cssExtendMessagesLayout"></style>`;
+					$cssExtendMessagesLayout = document.getElementById("cssExtendMessagesLayout");
+					window.addEventListener("resize", () => {
+						if ($private_messages_container && $private_messages_container.classList.contains("extendedLayout"))
+							resizeIt($cssExtendMessagesLayout)
+					}, true);
+				}
+				if (status) {
+					resizeIt($cssExtendMessagesLayout);
+					$private_messages_container && $private_messages_container.classList.add("extendedLayout");
+				}
+				else {
+					$cssExtendMessagesLayout.innerHTML = "";
+					$private_messages_container && $private_messages_container.classList.remove("extendedLayout");
+				}
 			}
 		}
 	});

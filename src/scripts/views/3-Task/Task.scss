@@ -1,0 +1,33 @@
+article.brn-question {
+	&:not(.brn-question--deleted):hover {
+		.ext_actions {
+			visibility: visible;
+		}
+	}
+}
+
+.ext_actions {
+	margin-right: -22px;
+	position: relative;
+
+	button {
+		padding: 0 9px;
+		float: right;
+		margin-top: 7px;
+
+		label.sg-label__text {
+			display: none;
+			margin-right: 10px;
+		}
+
+		span.sg-button-primary__icon {
+			margin: 0;
+		}
+
+		&:hover {
+			label {
+				display: block;
+			}
+		}
+	}
+}

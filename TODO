@@ -7,8 +7,9 @@ TODO:
 
 	Global
 	- Eklenti duyuruları kutusu
-	- Kenar moderatör paneline id veya isim bazlı kişi arama/sorgulama
-	- Silim butonlarının sebeplerini seçebilmek için eklenti seçenekleri butonu ve optionslarını hazırla
+	+ Kenar moderatör paneline id bazlı kişi arama/sorgulama
+	- Kenar moderatör paneline nick bazlı kişi arama/sorgulama
+	+ Silim butonlarının sebeplerini seçebilmek için eklenti seçenekleri butonu ve optionslarını hazırla
 	+ Renk seçimi yapabilmek için option ekle
 	- Eklenti seçeneklerine, link shorter api ekle
 	- Eklenti seçeneklerine resim paylaşma özelliği ekle. Olursa eğer
@@ -16,7 +17,7 @@ TODO:
 	- Gelen bildirimleri takip etmek için web socket oluştur ve bildirimleri tarayıcının notification panelinde göster
 
 	Anasayfa
-	- Hızlı silim butonlarının eylemlerini aktifleştir
+	+ Hızlı silim butonlarının eylemlerini aktifleştir
 	+ Profil kutusunda eylem sayısı
 
 	 Tümünü düzelt
@@ -28,14 +29,13 @@ TODO:
 	- Düzenle panelinde sağ sol okları ve A, D ve yön tuşlarıyla hareket etme, esc tuşuyla panel kapatma
 	
 	 Soru sayfası
-	- Hızlı silim butonları, soruya ve cevaplara
-	- Cevap kutusu boyutunu px olarak belirlemek için eklenti seçeneklerine px değer kutusu ve range input ekle 
+	+ Hızlı silim butonları, soruya ve cevaplara
 	- Ek bir hesap ile kendi cevaplarını doğrulama servisi
 	- Cevap, yorum yazarken yasaklı kelimelerde kontrol
 	- Kişi avatarına "kişi eklenti kullanıcısı" etiketi
 
 	Mesajlar
-	- Görünüm genişletme seçeneğini ekle
+	+ Görünüm genişletme seçeneğini ekle
 	- Kişi notu ekleme/düzeneleme kutusu
 	- Mesaj grubu oluşturma seçenekleri
 	- Mesajlaşmada yasaklı kelime kontrolü

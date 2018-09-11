@@ -46,6 +46,7 @@ System.data.locale = {
 			accept: "Diterima",
 			later: "Kemudian",
 			show: "Show",
+			point: "poin",
 			extension_user: "Extension user",
 			manage_users: "Mengelola extension user",
 			previous_nicks: "Previous nicks:",
@@ -62,8 +63,9 @@ System.data.locale = {
 				only_number: "Hanya angka.",
 				greater_than_zero: "Masukkan sebuah nomor diatas nol.",
 				error_at_reason: "Operasi tidak lengkap.",
-				update_account_error: "An expected error occurred while trying to update. Please try again in 2 sec.",
-				if_error_continue: "If this error persists, please contact with extension manager and explain what happened :)"
+				update_account_error: "Kesalahan yang diharapkan terjadi saat mencoba memperbarui. Silakan coba lagi dalam 2 detik.",
+				if_error_continue: "Jika kesalahan ini berlanjut, hubungi manajer ekstensi dan jelaskan apa yang terjadi :)",
+				userNotFound: "Pengguna tidak ditemukan"
 			}
 		},
 		extension_options: {
@@ -293,17 +295,17 @@ System.data.locale = {
 		moderate: {
 			description: "Edit pada panel moderasi",
 			take_points: {
-				title: "Mengambil poin kembali poin responden",
+				title: "Ambil kembali poin responden",
 				answer_title: "Mengambil poin kembali",
 				description: "Menghapus poin yang diterima oleh responden, ketika mereka menjawab pertanyaan",
 				answer_description: "Mengambil kembali poin dari user"
 			},
 			return_points: {
-				title: " Mengmbalikan poin penanya",
+				title: "Jangan kembalikan poin",
 				description: "Mengembalikan point penanya"
 			},
 			give_warning: {
-				title: " Berikan peringatan",
+				title: "Beri peringatan",
 				description: "Menghapus konten yang dipilih dengan peringatan"
 			},
 			moreOptions: "Lebih Banyak Opsi",

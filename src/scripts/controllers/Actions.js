@@ -1,30 +1,89 @@
 import Request from "./Request";
 
-/**
- * Delete question by id
- * @param {number|string} id - Id number of a question
- * @param {object|function} data - Post data
- * @param {function} callback
- */
-const RemoveQuestion = (id, data, callback) => {
-	if (typeof data === "function") {
-		callback = data;
-		data = {};
+const Actions = {
+	/**
+	 * Delete question by id
+	 * @param {object} data - Post data
+	 * @param {function} callback
+	 */
+	RemoveQuestion(data, callback) {
+		data = {
+			"model_type_id": 1,
+			"give_warning": false,
+			"take_points": true,
+			"return_points": true,
+			...data
+		}
+		Request.BrainlyReq("POST", '/moderation_new/delete_task_content', data, callback);
+	},
+	/**
+	 * Delete answer by id
+	 * @param {object} data - Post data
+	 * @param {function} callback
+	 */
+	RemoveAnswer(data, callback) {
+		data = {
+			model_type_id: 2,
+			give_warning: false,
+			take_points: true,
+			schema: "moderation.response.delete.req",
+			...data
+		}
+		console.log("RemoveAnswer:", data);
+		Request.BrainlyReq("POST", '/moderation_new/delete_response_content', data, callback);
+	},
+	/**
+	 * Create a ticket for a question
+	 * @param {number|string} taskId - Id number of a question
+	 * @param {function} callback
+	 * @param {boolean} withTaskDetails - If you want to get the actions list of a question then pass "true"
+	 */
+	OpenModerationTicket(taskId, callback, withTaskDetails = false) {
+		let data = {
+			model_id: taskId,
+			model_type_id: 1,
+			schema: "moderation.content.result.res"
+		}
+		let _callback = callback;
+		if (withTaskDetails) {
+			_callback = resTask => {
+				if (resTask.success) {
+					Actions.TaskActions(taskId, resActions => {
+						if (resActions.success) {
+							callback({
+								...resTask,
+								actions: resActions
+							})
+						}
+					});
+				}
+			}
+		}
+
+		Request.BrainlyReq("POST", '/moderation_new/get_content', data, _callback);
+	},
+
+	/**
+	 * Get actions details of a question
+	 * @param {number|string} taskId - Id number of a question
+	 * @param {function} callback
+	 */
+	TaskActions(taskId, callback) {
+		Request.BrainlyReq("GET", '/api_task_lines/big/' + taskId, callback);
+	},
+
+	/**
+	 * Close a opened ticket for a question
+	 * @param {number|string} taskId - Id number of a question
+	 * @param {function} callback
+	 */
+	CloseModerationTicket(taskId, callback) {
+		let data = {
+			model_id: taskId,
+			model_type_id: 1,
+			schema: ""
+		}
+		Request.BrainlyReq("POST", '/moderate_tickets/expire', data, callback);
 	}
-	let _data = {
-		"model_id": id,
-		"model_type_id": 1,
-		"reason_id": 25,
-		"reason": "Default",
-		"give_warning": false,
-		"take_points": true,
-		"return_points": true,
-		...data
-	}
-	Request.BrainlyPost('https://brainly.co.id/api/28/moderation_new/delete_task_content', _data, function (res) {
-		console.log(res);
-	});
 }
-
-
-export {RemoveQuestion};
+export default Actions;

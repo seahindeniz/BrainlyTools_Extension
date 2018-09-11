@@ -1,0 +1,33 @@
+.js-hidden {
+	display: none !important;
+}
+
+.userFinder {
+	input[type="search"] {
+		border: 2px solid #e1e8ed;
+		padding: 0 12px;
+		height: 1.5rem;
+		border-radius: 7px;
+	}
+
+	.notFound {
+		margin: 1rem 0;
+	}
+
+	.userList {
+		margin: 0.5rem 0;
+
+		a {
+			text-align: center;
+		}
+
+		.rankList {
+			max-width: 12rem;
+			margin-right: 3px;
+		}
+	}
+}
+
+.sg-text--peach {
+	color: #ff796b;
+}

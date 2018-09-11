@@ -46,6 +46,7 @@ System.data.locale = {
 			accept: "Accept",
 			later: "Later",
 			show: "Show",
+			point: "point",
 			extension_user: "Extension user",
 			manage_users: "Manage extension user's",
 			previous_nicks: "Previous nicks:",
@@ -63,7 +64,8 @@ System.data.locale = {
 				greater_than_zero: "Enter a number above zero.",
 				error_at_reason: "Incomplete operation.",
 				update_account_error: "An expected error occurred while trying to update. Please try again in 2 sec.",
-				if_error_continue: "If this error persists, please contact with extension manager and explain what happened :)"
+				if_error_continue: "If this error persists, please contact with extension manager and explain what happened :)",
+				userNotFound: "User not found"
 			}
 		},
 		extension_options: {

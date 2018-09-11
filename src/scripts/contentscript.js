@@ -25,7 +25,7 @@ System.changeBadgeColor("loading");
 require("./helpers/preExecuteScripts")();
 
 Inject2body("/scripts/helpers/prototypeOverrides.js");
-Inject2body("/scripts/views/0-Core/index.js");
+Inject2body(["/scripts/views/0-Core/index.js", "/scripts/views/0-Core/Core.css"]);
 
 /*
 

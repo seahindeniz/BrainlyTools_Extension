@@ -2,11 +2,14 @@ import ext from "../utils/ext";
 import WaitForFn from "../helpers/WaitForFn";
 import Notification from "../components/Notification";
 import Request from "./Request";
+import cookie from "../helpers/cookie"
 
 class _System {
 	constructor() {
 		this.data = {
 			Brainly: {
+				apiURL: document.location.origin + "/api/28",
+				tokenLong: cookie.get("Zadanepl_cookie[Token][Long]"),
 				Routing: {
 					prefix: undefined,
 					routes: undefined
@@ -16,6 +19,10 @@ class _System {
 			locale: {},
 			config: {}
 		}
+		this.routeMasks = {
+			profile: null,
+			task: null
+		};
 	}
 	init() {
 		console.log("System initalized");
@@ -39,8 +46,7 @@ class _System {
 			if (res && res.success && res.data.probatus) {
 				System.data.Brainly.userData.secretKey = res.data.secretKey;
 				callback(JSON.parse(atob(res.data.hash)));
-			}
-			else {
+			} else {
 				Notification(System.data.locale.texts.globals.errors.permission_error.description, "error", true);
 			}
 		};
@@ -60,17 +66,21 @@ class _System {
 		let curr_path = location.pathname.split("/"),
 			result = false;
 		if (curr_path.length >= 2) {
-			if (curr_path[index] == str) {
+			console.log("str:", curr_path[index], str, curr_path[index] == str, typeof str);
+			if (typeof str == "undefined") {
+				console.log("tanımsız geldi");
+				result = curr_path[index];
+			} else if ((curr_path[index] || "") == str) {
 				result = true;
-			}
-			else {
+			} else {
 				let route = System.data.Brainly.Routing.routes[str] || System.data.Brainly.Routing.routes[System.data.Brainly.Routing.prefix + str]
 				if (route) {
 					let tokens = route.tokens;
 					if (!tokens)
 						console.error("Route tokens not found");
 					else {
-						for (let i = 0; (i < tokens.length && typeof tokens != "string"); i++)
+						for (let i = 0;
+							(i < tokens.length && typeof tokens != "string"); i++)
 							tokens = tokens.pop();
 						if (!tokens)
 							console.error("Route tokens not found");
@@ -89,8 +99,7 @@ class _System {
 		ext.runtime.sendMessage(System.data.meta.extension.id, { action: "setMarketData", data: System.data }, res => {
 			if (!res || res != "done") {
 				console.error("I couldn't share the System data variable to background");
-			}
-			else {
+			} else {
 				callback && callback();
 			}
 		})
@@ -98,8 +107,38 @@ class _System {
 	enableExtensionIcon() {
 		ext.runtime.sendMessage(System.data.meta.extension.id, { action: "enableExtensionIcon" })
 	}
-	changeBadgeColor(status){
-		ext.runtime.sendMessage(System.data.meta.extension.id, { action: "changeBadgeColor", status})
+	changeBadgeColor(status) {
+		ext.runtime.sendMessage(System.data.meta.extension.id, { action: "changeBadgeColor", status })
+	}
+	createProfileLink(nick, id) {
+		if (!this.profileLinkRoute)
+			this.profileLinkRoute = (System.data.Brainly.Routing.routes[System.data.Brainly.Routing.prefix + "user_profile"]).tokens.pop().pop();
+		if (this.profileLinkRoute)
+			return location.origin + this.profileLinkRoute + "/" + nick + "-" + id;
+		else
+			return "";
+	}
+	createBrainlyLink(type, data) {
+		let _return = "";
+		if (type === "profile") {
+			if (!this.routeMasks.profile)
+				this.routeMasks.profile = (System.data.Brainly.Routing.routes[System.data.Brainly.Routing.prefix + "user_profile"]).tokens.pop().pop();
+
+			if (this.routeMasks.profile)
+				_return = location.origin + this.routeMasks.profile + "/" + data.nick + "-" + data.id;
+			else
+				_return = "";
+		}
+		if (type === "task") {
+			if (!this.routeMasks.task)
+				this.routeMasks.task = (System.data.Brainly.Routing.routes[System.data.Brainly.Routing.prefix + "task_view"]).tokens.pop().pop();
+
+			if (this.routeMasks.task)
+				_return = location.origin + this.routeMasks.task + "/" + data.id;
+			else
+				_return = "";
+		}
+		return _return;
 	}
 }
 export default _System;

@@ -17,7 +17,9 @@ class _System {
 			},
 			meta: {},
 			locale: {},
-			config: {}
+			config: {
+				reasonSign: "Ω"
+			}
 		}
 		this.routeMasks = {
 			profile: null,
@@ -42,7 +44,6 @@ class _System {
 			}
 		}
 		let authRequestHandler = res => {
-			console.log(res);
 			if (res && res.success && res.data.probatus) {
 				System.data.Brainly.userData.secretKey = res.data.secretKey;
 				callback(JSON.parse(atob(res.data.hash)));
@@ -66,9 +67,8 @@ class _System {
 		let curr_path = location.pathname.split("/"),
 			result = false;
 		if (curr_path.length >= 2) {
-			console.log("str:", curr_path[index], str, curr_path[index] == str, typeof str);
 			if (typeof str == "undefined") {
-				console.log("tanımsız geldi");
+				console.log("str is undefined, check please");
 				result = curr_path[index];
 			} else if ((curr_path[index] || "") == str) {
 				result = true;

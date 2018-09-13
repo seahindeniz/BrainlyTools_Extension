@@ -295,10 +295,14 @@ System.data.locale = {
 		moderate: {
 			description: "Edit in moderation panel",
 			take_points: {
-				title: " Take back respondents' points",
-				answer_title: "Take points back",
-				description: "Remove the points received by the respondents, when they answered the question",
-				answer_description: "Take points back from user"
+				task: {
+					title: " Take back respondents' points",
+					description: "Remove the points received by the respondents, when they answered the question"
+				},
+				response: {
+					title: "Take points back",
+					description: "Take points back from user"
+				}
 			},
 			return_points: {
 				title: " Return asker's points",
@@ -310,11 +314,11 @@ System.data.locale = {
 			},
 			moreOptions: "More Options",
 			confirm: "Confirm",
-			choose_reason: "Please select the reason for deletion",
+			choose_reason: "Please select a reason",
 			question_removed: "Question has been removed",
 			do_you_want_to_delete: "Do you want to delete this content?",
 			authorized_content: "Authorized content. Are you sure you want to delete it?",
-			authorized_comment: "Authorized content. Are you sure you want to delete it?",
+			authorized_comment: "Authorized comment. Are you sure you want to delete it?",
 			done_moderating: "Moderation Completed",
 			answer_deleted: "Answer has been deleted",
 			answers_deleted: "Answers have been deleted"
@@ -440,8 +444,8 @@ System.data.locale = {
 		user_content: {
 			select: "Select",
 			remove_answer: "Remove selected content",
-			select_a_question_first: "Select a question",
-			select_an_answer_first: "Select an answer",
+			select_a_question_first: "Select some question(s) first",
+			select_an_answer_first: "Select some answer(s) first",
 			warning__reason_not_selected: "Reason for deletion has not been specified",
 			warning__more_than_5_question_selected: "Over 5 questions are selected.",
 			warning__more_than_5_answer_selected: "Over 5 answers are selected.",

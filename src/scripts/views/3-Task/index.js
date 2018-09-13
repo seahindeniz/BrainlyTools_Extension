@@ -4,8 +4,9 @@ import { RemoveQuestion, RemoveAnswer } from "../../controllers/Actions";
 import Buttons from "../../components/Buttons";
 import WaitForFn from "../../helpers/WaitForFn";
 import WaitForElm from "../../helpers/WaitForElm";
+import Notification from "../../components/Notification"
 
-_console.log("Task inject OK!");
+Console.log("Task inject OK!");
 System.printLoadedTime();
 System.changeBadgeColor("loaded");
 
@@ -24,14 +25,14 @@ const selectors = {
 
 let taskDeleteButtons = Buttons('RemoveQuestion', [
 	{
-		text: System.data.Brainly.deleteReasons.task[System.data.config.quickDeleteButtonsReasons.task[0]].title,
-		title: System.data.Brainly.deleteReasons.task[System.data.config.quickDeleteButtonsReasons.task[0]].text,
+		text: System.data.Brainly.deleteReasons.__withTitles.task[System.data.config.quickDeleteButtonsReasons.task[0]].title,
+		title: System.data.Brainly.deleteReasons.__withTitles.task[System.data.config.quickDeleteButtonsReasons.task[0]].text,
 		type: "peach",
 		icon: "x"
 	},
 	{
-		text: System.data.Brainly.deleteReasons.task[System.data.config.quickDeleteButtonsReasons.task[1]].title,
-		title: System.data.Brainly.deleteReasons.task[System.data.config.quickDeleteButtonsReasons.task[1]].text,
+		text: System.data.Brainly.deleteReasons.__withTitles.task[System.data.config.quickDeleteButtonsReasons.task[1]].title,
+		title: System.data.Brainly.deleteReasons.__withTitles.task[System.data.config.quickDeleteButtonsReasons.task[1]].text,
 		type: "peach",
 		icon: "x"
 	}
@@ -55,25 +56,33 @@ let taskModerateButtonsClickHandler = function() {
 
 	if (question_id > 0) {
 		if (confirm(System.data.locale.texts.moderate.do_you_want_to_delete)) {
-			let reason = System.data.Brainly.deleteReasons.task[System.data.config.quickDeleteButtonsReasons.task[btn_index]];
+			let reason = System.data.Brainly.deleteReasons.__withTitles.task[System.data.config.quickDeleteButtonsReasons.task[btn_index]];
 			let taskData = {
 				model_id: question_id,
 				reason_id: reason.category_id,
 				reason: reason.text
 			};
 			let svg = $("svg", this);
-			$(`<div class="sg-spinner sg-spinner--xxsmall sg-spinner--light"></div>`).insertBefore(svg);
-			svg.remove();
+			let spinner = $(`<div class="sg-spinner sg-spinner--xxsmall sg-spinner--light"></div>`).insertBefore(svg);
+			svg.hide();
 			RemoveQuestion(taskData, res => {
-				if (res && res.success) {
-					parentArticle.addClass("brn-question--deleted");
-					$(selectors.taskModerateButton).remove();
-					$taskModerateButtons.remove();
+				if (res) {
+					if (res.success) {
+						parentArticle.addClass("brn-question--deleted");
+						$(selectors.taskModerateButton).remove();
+						$taskModerateButtons.remove();
+					} else if (res.message) {
+						Notification(res.message, "error");
+					}
+				} else {
+					Notification(System.data.locale.texts.globals.errors.went_wrong, "error");
 				}
+				spinner.remove();
+				svg.show();
 			});
 		}
 	} else {
-		_console.error("Cannot find the question id");
+		Console.error("Cannot find the question id");
 	}
 };
 $("button", $taskModerateButtons).on("click", taskModerateButtonsClickHandler);
@@ -83,20 +92,20 @@ $("button", $taskModerateButtons).on("click", taskModerateButtonsClickHandler);
  */
 let responseDeleteButtons = Buttons('RemoveQuestion', [
 	{
-		text: System.data.Brainly.deleteReasons.response[System.data.config.quickDeleteButtonsReasons.response[0]].title,
-		title: System.data.Brainly.deleteReasons.response[System.data.config.quickDeleteButtonsReasons.response[0]].text,
+		text: System.data.Brainly.deleteReasons.__withTitles.response[System.data.config.quickDeleteButtonsReasons.response[0]].title,
+		title: System.data.Brainly.deleteReasons.__withTitles.response[System.data.config.quickDeleteButtonsReasons.response[0]].text,
 		type: "peach",
 		icon: "x"
 	},
 	{
-		text: System.data.Brainly.deleteReasons.response[System.data.config.quickDeleteButtonsReasons.response[1]].title,
-		title: System.data.Brainly.deleteReasons.response[System.data.config.quickDeleteButtonsReasons.response[1]].text,
+		text: System.data.Brainly.deleteReasons.__withTitles.response[System.data.config.quickDeleteButtonsReasons.response[1]].title,
+		title: System.data.Brainly.deleteReasons.__withTitles.response[System.data.config.quickDeleteButtonsReasons.response[1]].text,
 		type: "peach",
 		icon: "x"
 	},
 	{
-		text: System.data.Brainly.deleteReasons.response[System.data.config.quickDeleteButtonsReasons.response[2]].title,
-		title: System.data.Brainly.deleteReasons.response[System.data.config.quickDeleteButtonsReasons.response[2]].text,
+		text: System.data.Brainly.deleteReasons.__withTitles.response[System.data.config.quickDeleteButtonsReasons.response[2]].title,
+		title: System.data.Brainly.deleteReasons.__withTitles.response[System.data.config.quickDeleteButtonsReasons.response[2]].text,
 		type: "peach",
 		icon: "x"
 	}
@@ -129,7 +138,7 @@ let responseModerateButtonsClickHandler = function() {
 
 	if (answer_id > 0) {
 		if (confirm(System.data.locale.texts.moderate.do_you_want_to_delete)) {
-			let reason = System.data.Brainly.deleteReasons.response[System.data.config.quickDeleteButtonsReasons.response[btn_index]];
+			let reason = System.data.Brainly.deleteReasons.__withTitles.response[System.data.config.quickDeleteButtonsReasons.response[btn_index]];
 			let responseData = {
 				model_id: answer_id,
 				reason_id: reason.category_id,
@@ -147,7 +156,7 @@ let responseModerateButtonsClickHandler = function() {
 			});
 		}
 	} else {
-		_console.error("Cannot find the answer id");
+		Console.error("Cannot find the answer id");
 	}
 };
 $(selectors.responseParentContainer).on("click", selectors.responseContainer + " " + selectors.responseModerateButtonContainer + ":last-child button", responseModerateButtonsClickHandler);

@@ -4,7 +4,6 @@ import WaitForElm from "./WaitForElm";
 
 export default color => {
 	let rainbow = false;
-	console.log("color:", color);
 	if (color.indexOf(",") == 0)
 		rainbow = true;
 	let personalColors = `

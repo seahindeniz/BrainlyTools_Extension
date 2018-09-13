@@ -220,18 +220,18 @@ let renderThemeColor = (color = "") => {
 }
 let renderDeleteButtonOptions = quickDeleteButtonsReasons => {
 	let fields = "";
-	if (!System.data.Brainly.deleteReasons) {
+	if (!System.data.Brainly.deleteReasons.__withTitles) {
 		renderBody(loadErrorTemplate());
 	}
 	else {
-		let reasonTypeKeys = Object.keys(System.data.Brainly.deleteReasons).reverse();
+		let reasonTypeKeys = Object.keys(System.data.Brainly.deleteReasons.__withTitles).reverse();
 		reasonTypeKeys.forEach(reasonTypeKey => {
 			let dropDownFields = "";
 			var listOptions = i => {
 				let options = "";
-				Object.keys(System.data.Brainly.deleteReasons[reasonTypeKey]).forEach(reasonKey => {
+				Object.keys(System.data.Brainly.deleteReasons.__withTitles[reasonTypeKey]).forEach(reasonKey => {
 					if (reasonKey != "__categories") {
-						let contentType = System.data.Brainly.deleteReasons[reasonTypeKey];
+						let contentType = System.data.Brainly.deleteReasons.__withTitles[reasonTypeKey];
 						let reason = contentType[reasonKey];
 						let category = contentType.__categories[reason.category_id];
 						let buttonDefaultSelectedItem = (quickDeleteButtonsReasons && quickDeleteButtonsReasons[reasonTypeKey][i]) || System.data.locale.config.quickDeleteButtonsDefaultReasons[reasonTypeKey][i]

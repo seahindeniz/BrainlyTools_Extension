@@ -22,6 +22,8 @@ const Actions = {
 			"return_points": true,
 			...data
 		}
+		data.reason += " "+System.data.config.reasonSign;
+
 		Request.BrainlyReq("POST", '/moderation_new/delete_task_content', data, callback);
 	},
 	/**
@@ -37,7 +39,8 @@ const Actions = {
 			schema: "moderation.response.delete.req",
 			...data
 		}
-		console.log("RemoveAnswer:", data);
+		data.reason += " "+System.data.config.reasonSign;
+
 		Request.BrainlyReq("POST", '/moderation_new/delete_response_content', data, callback);
 	},
 	/**

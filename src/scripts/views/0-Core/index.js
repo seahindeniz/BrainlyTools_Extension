@@ -18,15 +18,18 @@ window.System = System;
 System.init();
 
 /**
- * Preventing the _console method preventer
+ * Preventing the Console method preventer
  */
-window._console = console;
-/*let _loop_console_expire = MakeExpire();
-let _loop_console = setInterval(() => {
-	if (_loop_console_expire < new Date().getTime()) {
-		clearInterval(_loop_console);
+console.l = ()=>{
+	
+}
+window.Console = console;
+/*let _loopConsole_expire = MakeExpire();
+let _loopConsole = setInterval(() => {
+	if (_loopConsole_expire < new Date().getTime()) {
+		clearInterval(_loopConsole);
 	}
-	console = _console;
+	console = Console;
 });*/
 
 let setMetaData = callback => {
@@ -66,7 +69,7 @@ let processDefaultConfig = (callback) => {
 			localStorage.setObject("_Routing", System.data.Brainly.Routing);
 			callback && callback();
 		} else {
-			_console.log("Routing error", obj);
+			Console.log("Routing error", obj);
 		}
 	})
 }
@@ -78,11 +81,11 @@ let getDefaultConfig = callback => {
 			let matchAuthJSFile = res.match(/(\/sf\/js\/bundle\/include_auth\_[a-z\_\-]{1,}\-[a-z0-9]{1,}\.min\.js)/gmi);
 
 			if (!matchConfig || matchConfig.length < 2) {
-				_console.error("Config object not found");
+				Console.error("Config object not found");
 			} else if (!matchSecondConfig || matchSecondConfig.length < 2) {
-				_console.error("Second config object not found");
+				Console.error("Second config object not found");
 			} else if (!matchAuthJSFile || matchAuthJSFile.length < 1) {
-				_console.error("Auth JS file not found");
+				Console.error("Auth JS file not found");
 			} else {
 				System.data.Brainly.defaultConfig = new Function(`return ${matchConfig[matchConfig.length - 1]}`)();
 				System.data.Brainly.defaultConfig.user.ME = JSON.parse(System.data.Brainly.defaultConfig.user.ME);
@@ -101,7 +104,7 @@ let getDefaultConfig = callback => {
 				Request.get(matchAuthJSFile[matchAuthJSFile.length - 1], res1 => {
 					let matchRoutes = res1.match(/(routes:.*scheme\:\"http\")/gmi);
 					if (!matchRoutes || matchRoutes.length < 1) {
-						_console.error("Routes not found", res1);
+						Console.error("Routes not found", res1);
 					} else {
 						let _Routing = new Function(`return {${matchRoutes[matchRoutes.length - 1]}}`)();
 						System.data.Brainly.Routing.prefix = _Routing.prefix;
@@ -149,9 +152,9 @@ let getUserData = (callback, resetThemeColor) => {
 					callback && callback({ user: json.data });
 				});
 			} else
-				_console.log("User has not signed in yet");
+				Console.log("User has not signed in yet");
 		} else {
-			_console.error(json);
+			Console.error(json);
 		}
 	}
 	xhr.send(null);
@@ -159,9 +162,7 @@ let getUserData = (callback, resetThemeColor) => {
 let setUserData = (callback) => {
 	WaitForFn("window.dataLayer", obj => {
 		if (obj && obj[0] && obj[0].user && obj[0].user.isLoggedIn) {
-			_console.log("request user data from storage");
 			Storage.get(["user", "themeColor", "extendMessagesLayout"], res => {
-				_console.log("storageUser: ", res);
 				if (res && res.user && res.user.user && res.user.user.id && res.user.user.id == obj[0].user.id) {
 					callback && callback(res);
 					getUserData();
@@ -170,13 +171,12 @@ let setUserData = (callback) => {
 				}
 			});
 		} else {
-			_console.error("User data error. Maybe not logged in", obj);
+			Console.error("User data error. Maybe not logged in", obj);
 		}
 	});
 };
 let prepareDeleteButtonSettings = (callback) => {
 	Storage.get("quickDeleteButtonsReasons", res => {
-		_console.log("quickDeleteButtonsReasons:", res);
 		if (res.quickDeleteButtonsReasons) {
 			System.data.config.quickDeleteButtonsReasons = res.quickDeleteButtonsReasons;
 			callback();
@@ -184,22 +184,73 @@ let prepareDeleteButtonSettings = (callback) => {
 			Storage.setL({
 				quickDeleteButtonsReasons: System.data.locale.config.quickDeleteButtonsDefaultReasons
 			}, () => {
-				System.data.config.quickDeleteButtonsReasons = System.data.locale.config.quickDeleteButtonsDefaultReasons
-				_console.log("quickDeleteButtonsReasons:", System.data.config.quickDeleteButtonsReasons);
+				System.data.config.quickDeleteButtonsReasons = System.data.locale.config.quickDeleteButtonsDefaultReasons;
 				callback();
 			});
 		}
 	});
 }
 let prepareDeleteReasons = callback => {
-	_console.log("Prepare delete reasons");
 	Storage.getL("deleteReasons", res => {
-		_console.log(res);
 		if (res.deleteReasons) {
 			System.data.Brainly.deleteReasons = res.deleteReasons;
 			prepareDeleteButtonSettings(callback)
 		} else {
 			System.getDeleteReasons(deleteReasons => {
+				let deleteReasonsKeys = Object.keys(deleteReasons);
+				deleteReasons.__withTitles = {};
+				deleteReasonsKeys.forEach(reasonKey => {
+					let reason = deleteReasons[reasonKey];
+					deleteReasons.__withTitles[reasonKey] = {
+						__categories: {}
+					};
+					reason.forEach(elm => {
+						deleteReasons.__withTitles[reasonKey].__categories[elm.id] = elm;
+						elm.subcategories.forEach(subcategory => {
+							subcategory.category_id = elm.id;
+							let title = subcategory.title == "" ? elm.text : subcategory.title;
+							title = title.trim();
+							deleteReasons.__withTitles[reasonKey][title] = subcategory;
+						});
+					});
+				});
+				Storage.setL({
+					deleteReasons
+				}, () => {
+					System.data.Brainly.deleteReasons = deleteReasons;
+					prepareDeleteButtonSettings(callback)
+				});
+			});
+			/*System.getDeleteReasons(deleteReasons => {
+				Object.keys(deleteReasons).forEach(reasonTypeKey => {
+					let categories = deleteReasons[reasonTypeKey];
+					Console.log(categories);
+					deleteReasons[reasonTypeKey] = {
+						__withTitles : {
+							__categories: {}
+						},
+						...categories
+					};
+					categories.forEach(category => {
+						deleteReasons[reasonTypeKey].__withTitles.__categories[category.id] = category;
+						category.subcategories.forEach(reason => {
+							reason.category_id = category.id;
+							let title = reason.title == "" ? category.text : reason.title;
+							title = title.trim();
+							deleteReasons[reasonTypeKey].__withTitles[title] = reason;
+						});
+						//delete category.subcategories;
+					});
+				});
+				Console.log(deleteReasons);
+				Storage.setL({
+					deleteReasons
+				}, () => {
+					System.data.Brainly.deleteReasons.__withTitles = deleteReasons;
+					prepareDeleteButtonSettings(callback)
+				});
+			});*/
+			/*			System.getDeleteReasons(deleteReasons => {
 				Object.keys(deleteReasons).forEach(reasonKey => {
 					let reason = deleteReasons[reasonKey];
 					deleteReasons[reasonKey] = {
@@ -219,10 +270,10 @@ let prepareDeleteReasons = callback => {
 				Storage.setL({
 					deleteReasons
 				}, () => {
-					System.data.Brainly.deleteReasons = deleteReasons;
+					System.data.Brainly.deleteReasons.__withTitles = deleteReasons;
 					prepareDeleteButtonSettings(callback)
 				});
-			});
+			});*/
 		}
 	});
 }
@@ -233,21 +284,22 @@ let onEventHandler = e => {
 }
 window.addEventListener('shareGatheredData2Background', onEventHandler);
 setMetaData(() => {
-	_console.log("MetaData OK!");
+	Console.log("MetaData OK!");
 	setUserData((resUserData) => {
-		_console.log("setUserData OK!");
+		Console.log("setUserData OK!");
 
 		themeColorChanger(resUserData.themeColor || "#57b2f8");
 		messagesLayoutExtender(resUserData.extendMessagesLayout || false);
 		System.data.Brainly.userData = resUserData.user;
 
 		setBrainlyData(() => {
-			_console.log("setBrainlyData OK!");
+			Console.log("setBrainlyData OK!");
+
 			Inject2body(`/scripts/locales/${System.data.Brainly.userData.user.iso_locale}/locale.js`, () => {
-				_console.log("inject locale OK!");
-				_console.log(System.data.locale);
+				Console.info("Locale inject OK!");
+
 				System.Auth((hash) => {
-					_console.log("authProcess OK!");
+					Console.log("authProcess OK!");
 
 					System.data.Brainly.userData._hash = hash;
 					/**
@@ -255,12 +307,12 @@ setMetaData(() => {
 					 */
 					WaitForFn("jQuery", obj => {
 						if (obj) {
-							_console.log("Jquery OK!");
+							Console.log("Jquery OK!");
 							//System.shareGatheredData2Background();
 
 							renderUserFinder();
 							prepareDeleteReasons(() => {
-								_console.log("Delete reasons OK!");
+								Console.log("Delete reasons OK!");
 								if (System.checkRoute(1, "") || System.checkRoute(1, "task_subject_dynamic")) {
 									Inject2body([
 										"/scripts/lib/jquery-observe-2.0.3.min.js",
@@ -278,6 +330,7 @@ setMetaData(() => {
 								if (System.checkRoute(2, "user_content") && !System.checkRoute(4, "comments_tr")) {
 									Inject2body([
 										"/scripts/views/4-UserContent/index.js",
+										"https://styleguide.brainly.com/136.14.1/style-guide.css?treat=.ext_css",
 										"/scripts/views/4-UserContent/UserContent.css"
 									])
 								}

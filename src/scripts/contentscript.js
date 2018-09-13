@@ -54,6 +54,7 @@ var extractTags = () => {
 
 	return data;
 }
+
 function onRuntimeHandler(request, sender, sendResponse) {
 	if (request.action === 'process-page') {
 		sendResponse(extractTags())
@@ -79,11 +80,10 @@ function onRuntimeHandler(request, sender, sendResponse) {
 }
 ext.runtime.onMessage.addListener(onRuntimeHandler);
 
-
 window.addEventListener('metaGet', e => {
 	window.postMessage({
-		action: 'metaSet',
-		data: System.data.meta
-	},
+			action: 'metaSet',
+			data: System.data.meta
+		},
 		e.target.URL);
 });

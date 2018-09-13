@@ -1,6 +1,8 @@
 "use strict";
 
 import makeToplayer from "../../components/Toplayer";
+import DeleteReasonCategoryList from "../../components/DeleteReasonCategoryList";
+import DeleteSection from "../DeleteSection";
 
 const createPanel = res => {
 	let questionOwner = res.users_data.find(user => user.id == res.data.task.user.id);
@@ -35,22 +37,7 @@ const createPanel = res => {
 		</div>`
 	});
 
-	let categories = "";
-	res.data.delete_reasons.task.forEach((category, i) => {
-		categories += `
-		<div class="sg-actions-list__hole sg-actions-list__hole--spaced-xsmall">
-			<div class="sg-label sg-label--secondary">
-				<div class="sg-label__icon">
-					<div class="sg-radio sg-radio--undefined">
-						<input type="radio" class="sg-radio__element" name="categories" id="category${category.id}">
-						<label class="sg-radio__ghost" for="category${category.id}"></label>
-					</div>
-				</div>
-				<label class="sg-label__text" for="category${category.id}">${category.text}</label>
-			</div>
-		</div>`
-	});
-
+	
 	let $toplayer = makeToplayer(
 		`<div class="sg-actions-list sg-actions-list--space-between">
 			<div class="sg-actions-list__hole">
@@ -115,56 +102,6 @@ const createPanel = res => {
 		</div>
 		<div class="sg-content-box sg-content-box--spaced-top-large sg-content-box--spaced-bottom">
 			<div class="sg-actions-list">${attachments}</div>
-		</div>
-	
-		<div class="sg-actions-list sg-content-box__actions--spaced-top sg-content-box__actions--spaced-bottom categories">${categories}</div>
-		<div class="sg-horizontal-separator js-hidden"></div>
-		<div class="sg-actions-list sg-content-box__actions--spaced-top sg-content-box__actions--spaced-bottom reasons"></div>
-		
-		<textarea class="sg-textarea sg-textarea--invalid sg-textarea--full-width"></textarea>
-
-		<div class="sg-content-box__actions">
-			<div class="sg-label sg-label--secondary" >
-				<div class="sg-label__icon" title="${System.data.locale.texts.moderate.take_points.description}">
-					<div class="sg-checkbox">
-						<input type="checkbox" class="sg-checkbox__element" id="take_points">
-						<label class="sg-checkbox__ghost" for="take_points">
-						<svg class="sg-icon sg-icon--adaptive sg-icon--x10">
-							<use xlink:href="#icon-check"></use>
-						</svg>
-						</label>
-					</div>
-				</div>
-				<label class="sg-label__text" for="take_points">${System.data.locale.texts.moderate.take_points.title}</label>
-			</div>
-			<div class="sg-vertical-separator sg-vertical-separator--small"></div>
-			<div class="sg-label sg-label--secondary" >
-				<div class="sg-label__icon" title="${System.data.locale.texts.moderate.return_points.description}">
-					<div class="sg-checkbox">
-						<input type="checkbox" class="sg-checkbox__element" id="return_points">
-						<label class="sg-checkbox__ghost" for="return_points">
-						<svg class="sg-icon sg-icon--adaptive sg-icon--x10">
-							<use xlink:href="#icon-check"></use>
-						</svg>
-						</label>
-					</div>
-				</div>
-				<label class="sg-label__text" for="return_points">${System.data.locale.texts.moderate.return_points.title}</label>
-			</div>
-			<div class="sg-vertical-separator sg-vertical-separator--small"></div>
-			<div class="sg-label sg-label--secondary" >
-				<div class="sg-label__icon" title="${System.data.locale.texts.moderate.give_warning.description}">
-					<div class="sg-checkbox">
-						<input type="checkbox" class="sg-checkbox__element" id="give_warning">
-						<label class="sg-checkbox__ghost" for="give_warning">
-						<svg class="sg-icon sg-icon--adaptive sg-icon--x10">
-							<use xlink:href="#icon-check"></use>
-						</svg>
-						</label>
-					</div>
-				</div>
-				<label class="sg-label__text" for="give_warning">${System.data.locale.texts.moderate.give_warning.title}</label>
-			</div>
 		</div>`,
 
 		`<div class="sg-spinner-container">
@@ -195,7 +132,10 @@ const createPanel = res => {
 
 	let taskContent = $(".taskContent", $toplayer);
 	let $taskContentH1 = $(".taskContent > h1", $toplayer);
+	let $toplayerContentBox = $(".sg-toplayer__wrapper > .sg-content-box > div:nth-child(2)", $toplayer);
 	let brMatch = res.data.task.content.match(/<br\s*\/?>/gmi);
+
+	DeleteSection(res.data.delete_reasons).appendTo($toplayerContentBox);
 
 	if(!((brMatch && brMatch.length > 6) || $taskContentH1.text().length > 255)){
 		taskContent.removeClass("js-shrink")

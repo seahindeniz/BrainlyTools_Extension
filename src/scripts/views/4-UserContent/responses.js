@@ -1,6 +1,6 @@
 "use strict";
 
-import { RemoveQuestion } from "../../controllers/Actions";
+import { RemoveAnswer } from "../../controllers/Actions";
 import DeleteSection from "../../components/DeleteSection";
 
 let selectors = window.selectors,
@@ -10,11 +10,10 @@ let selectors = window.selectors,
 let $contentRows = $(selectors.contentRows);
 let $tableContentBody = $(selectors.tableContentBody);
 
-let $deleteSection = DeleteSection(System.data.Brainly.deleteReasons.task, "task");
+let $deleteSection = DeleteSection(System.data.Brainly.deleteReasons.response, "response");
 let $categories = $(".categories", $deleteSection);
 let $textarea = $('textarea', $deleteSection);
 let $take_points = $('#take_points', $deleteSection);
-let $return_points = $('#return_points', $deleteSection);
 let $give_warning = $('#give_warning', $deleteSection);
 
 $deleteSection.appendTo($("td", $moderateActions));
@@ -27,15 +26,15 @@ let $submit = $(".js-submit", $submitContainer);
 
 $submit.click(function() {
 	let $checkedContentSelectCheckboxes = $('input[type="checkbox"]:checked:not([disabled])', $tableContentBody);
-	let $selectTaskWarn = $(".selectTaskWarn", $moderateActions);
+	let $selectResponseWarn = $(".selectResponseWarn", $moderateActions);
 	if ($checkedContentSelectCheckboxes.length == 0) {
-		if ($selectTaskWarn.length == 0) {
-			$(`<div class="sg-bubble sg-bubble--top sg-bubble--row-start sg-bubble--peach sg-text--light selectTaskWarn">${System.data.locale.texts.user_content.select_a_question_first}</div>`).prependTo($("td", $moderateActions));
+		if ($selectResponseWarn.length == 0) {
+			$(`<div class="sg-bubble sg-bubble--top sg-bubble--row-start sg-bubble--peach sg-text--light selectResponseWarn">${System.data.locale.texts.user_content.select_an_answer_first}</div>`).prependTo($("td", $moderateActions));
 		} else {
-			$selectTaskWarn.fadeTo('fast', 0.5).fadeTo('fast', 1.0).fadeTo('fast', 0.5).fadeTo('fast', 1.0);
+			$selectResponseWarn.fadeTo('fast', 0.5).fadeTo('fast', 1.0).fadeTo('fast', 0.5).fadeTo('fast', 1.0);
 		}
 	} else {
-		$selectTaskWarn.remove();
+		$selectResponseWarn.remove();
 		let $selectReasonWarn = $(".selectReasonWarn", $deleteSection);
 
 		if (!window.selectedCategory) {
@@ -56,16 +55,15 @@ $submit.click(function() {
 
 				$checkedContentSelectCheckboxes.each(function() {
 					let $parentRow = $(this).parents("tr");
-					let taskId = $parentRow.data("taskid");
-					let taskData = {
-						model_id: taskId,
+					let responseId = $parentRow.data("responseid");
+					let responseData = {
+						model_id: responseId,
 						reason_id: window.selectedCategory.id,
 						reason: $textarea.val(),
 						give_warning: $give_warning.is(':checked'),
-						take_points: $take_points.is(':checked'),
-						return_points: $return_points.is(':checked')
+						take_points: $take_points.is(':checked')
 					};
-					RemoveQuestion(taskData, (res) => {
+					RemoveAnswer(responseData, (res) => {
 						if (res) {
 							if (res.success) {
 								$(this).attr("disabled", "disabled")

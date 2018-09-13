@@ -295,10 +295,14 @@ System.data.locale = {
 		moderate: {
 			description: "Edit pada panel moderasi",
 			take_points: {
-				title: "Ambil kembali poin responden",
-				answer_title: "Mengambil poin kembali",
-				description: "Menghapus poin yang diterima oleh responden, ketika mereka menjawab pertanyaan",
-				answer_description: "Mengambil kembali poin dari user"
+				task: {
+					title: "Ambil kembali poin responden",
+					description: "Menghapus poin yang diterima oleh responden, ketika mereka menjawab pertanyaan"
+				},
+				response: {
+					title: "Mengambil poin kembali",
+					description: "Mengambil kembali poin dari use"
+				}
 			},
 			return_points: {
 				title: "Jangan kembalikan poin",

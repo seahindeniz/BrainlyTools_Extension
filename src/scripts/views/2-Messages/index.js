@@ -1,4 +1,4 @@
 
-_console.log("Messages inject OK!");
+Console.log("Messages inject OK!");
 System.printLoadedTime();
 System.changeBadgeColor("loaded");

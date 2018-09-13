@@ -32,8 +32,11 @@ let inject_it = function(file_paths, add_ext_id) {
 					console.warn("manually create extension url");
 					extension_URL = "chrome-extension://" + chrome.runtime.id
 				}
-				let file_ext = (file_name).pop(),
-					file_path_fixed = extension_URL + file_path;
+				let file_ext = (file_name).pop();
+				let file_path_fixed = extension_URL + file_path;
+				if (file_path.indexOf("http") >= 0) {
+					file_path_fixed = file_path
+				}
 				switch (file_ext) {
 					case "js":
 						elm = document.documentElement;
@@ -50,6 +53,14 @@ let inject_it = function(file_paths, add_ext_id) {
 							injected.setAttribute('extension_URL', chrome.runtime.id || add_ext_id);
 						}
 						elm && elm.appendChild(injected);
+						break;
+					case "ext_css":
+						elm = document.documentElement;
+						injected = document.createElement('link');
+						injected.setAttribute('rel', 'stylesheet');
+						injected.setAttribute('type', 'text/css');
+						injected.setAttribute('href', file_path_fixed);
+						elm && elm.prepend(injected);
 						break;
 					case "css":
 						WaitForFn("document.head", head => {

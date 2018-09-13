@@ -1,16 +1,38 @@
+input,
+button,
+select,
+textarea {
+	font-family: inherit;
+}
+
+.sg-bubble {
+	display: inline-block;
+}
+label.sg-label__text {
+    margin-top: 5px;
+}
+#content-old table a {
+	color: #f04;
+	cursor: pointer;
+	font-weight: bold;
+}
+
 tr {
 	&>th:nth-child(1) {
-        width: 4% !important;
-    }
+		width: 4% !important;
+	}
+
 	&>th:nth-child(2) {
-        width: 3% !important;
-    }
+		width: 3% !important;
+	}
+
 	&>th:nth-child(4) {
-        width: 17% !important;
-    }
+		width: 17% !important;
+	}
+
 	&>th:nth-child(5) {
-        width: 11% !important;
-    }
+		width: 11% !important;
+	}
 
 	&:nth-child(even) {
 		background: #f2eee7;
@@ -30,12 +52,16 @@ tr {
 		}
 	}
 
-	&.silindi {
+	&.removed {
 		background: #ff8073 !important;
 		color: white;
 
 		a {
 			color: #fff !important;
+		}
+		.sg-checkbox label {
+			background-color: #ccc !important;
+			border-color: #ccc !important;
 		}
 	}
 
@@ -67,11 +93,6 @@ tr {
 	td {
 		padding: 20px 0 0px;
 		font-size: 13px;
-
-		&>* {
-			float: left;
-			margin: 0 0 0 18.5px;
-		}
 	}
 
 	.moderate {
@@ -131,7 +152,7 @@ tr {
 					}
 				}
 
-				&>.icerik {
+				&>.taskContent {
 					display: none;
 					background-color: #fafafa;
 					width: 98%;
@@ -146,7 +167,7 @@ tr {
 						border-color: #ccc;
 					}
 
-					&>.soru {
+					&>.task {
 						border-width: 1px;
 						border-style: solid;
 						border-color: #ccc;
@@ -156,10 +177,12 @@ tr {
 						&>legend {
 							width: initial;
 							border: 0;
+							padding: 0 15px;
+							margin-left: -15px;
 						}
 					}
 
-					&>.cevap {
+					&>.responseField {
 						background-color: #fafafa;
 					}
 
@@ -170,15 +193,13 @@ tr {
 
 						&:not(:empty) {
 							display: inline-block;
-							border: 1px solid #ccc;
+							border: 1px solid #e4e4e4;
 							border-radius: 3px;
 							width: 100%;
 						}
 
-						&>a {
-							display: block;
-							float: left;
-							margin: 5px 13.6px;
+						&>.sg-actions-list>.sg-actions-list__hole {
+							margin: 10px 0 10px 5.7px;
 						}
 					}
 				}
@@ -194,7 +215,7 @@ tr {
 
 			&.open {
 				&>td {
-					&>.icerik {
+					&>.taskContent {
 						display: block;
 					}
 				}
@@ -247,6 +268,7 @@ tr {
 	border-radius: 50%;
 	color: #fff;
 	margin: 0 1px 0 4px;
+	font-weight: bold;
 }
 
 .attachment-icon {

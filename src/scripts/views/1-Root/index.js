@@ -9,7 +9,7 @@ import Notification from "../../components/Notification";
 import extModeratePanel from "../../components/extModeratePanel";
 import Storage from "../../helpers/extStorage";
 
-_console.log("Root inject OK!");
+Console.log("Root inject OK!");
 
 let selectors = {
 	feeds_parent: ".sg-layout__box.js-feed-stream",
@@ -37,19 +37,27 @@ let ext_actions_buttons_click_handler = function() {
 		if (question_id => 0) {
 			if (btn_index == 0 || btn_index == 1) {
 				if (confirm(System.data.locale.texts.moderate.do_you_want_to_delete)) {
-					let reason = System.data.Brainly.deleteReasons.task[System.data.config.quickDeleteButtonsReasons.task[btn_index]];
+					let reason = System.data.Brainly.deleteReasons.__withTitles.task[System.data.config.quickDeleteButtonsReasons.task[btn_index]];
 					let taskData = {
 						model_id: question_id,
 						reason_id: reason.category_id,
 						reason: reason.text
 					};
 					let svg = $("svg", this);
-					$(`<div class="sg-spinner sg-spinner--xxsmall sg-spinner--light"></div>`).insertBefore(svg);
-					svg.remove();
-					RemoveQuestion(taskData, (res) => {
-						if (res && res.success) {
-							feedContentBox.addClass("sg-flash__message--error");
+					let spinner = $(`<div class="sg-spinner sg-spinner--xxsmall sg-spinner--light"></div>`).insertBefore(svg);
+					svg.hide();
+					RemoveQuestion(taskData, res => {
+						if (res) {
+							if (res.success) {
+								feedContentBox.addClass("sg-flash__message--error");
+							} else if (res.message) {
+								Notification(res.message, "error");
+							}
+						} else {
+							Notification(System.data.locale.texts.globals.errors.went_wrong, "error");
 						}
+						spinner.remove();
+						svg.show();
 					});
 				}
 			} else if (btn_index == 2) {
@@ -62,16 +70,15 @@ let ext_actions_buttons_click_handler = function() {
 						let $toplayer = extModeratePanel(res);
 						let $closeIcon = $(".sg-toplayer__close", $toplayer);
 						let $counter = $(".js-counter", $toplayer);
-						let $reasonCategories = $(".reasonCategories", $toplayer);
-						let $categoryRadio = $('input[name="categories"]', $toplayer);
+						let $categories = $(".categories", $toplayer);
+						/*let $categoryRadio = $('input[name="categories"]:checked', $toplayer);
 						let $reasons = $('div.reasons', $toplayer);
-						let $reasonSeperator = $('div.sg-horizontal-separator', $toplayer);
+						let $reasonSeperator = $('div.sg-horizontal-separator', $toplayer);*/
 						let $textarea = $('textarea', $toplayer);
 						let $take_points = $('#take_points', $toplayer);
 						let $return_points = $('#return_points', $toplayer);
 						let $give_warning = $('#give_warning', $toplayer);
 						let $submit = $('button.js-submit', $toplayer);
-						let selectedCategory = null;
 
 						$toplayer.appendTo(selectors.toplayerContainer);
 
@@ -107,53 +114,19 @@ let ext_actions_buttons_click_handler = function() {
 
 						$closeIcon.click(closeModPanel);
 
-						$categoryRadio.change(function() {
-							$(".selecReasonWarn", $toplayer).remove();
-							$reasonSeperator.removeClass("js-hidden");
-							$textarea.val("");
-
-							let selectedCategoryId = this.id.replace(/^\D+/g, "");
-							selectedCategory = res.data.delete_reasons.task.find((cat) => {
-								return cat.id == selectedCategoryId;
-							});
-
-							let reasons = "";
-							selectedCategory.subcategories.forEach((reason, i) => {
-								reasons += `
-								<div class="sg-actions-list__hole sg-actions-list__hole--spaced-xsmall">
-									<div class="sg-label sg-label--secondary">
-										<div class="sg-label__icon">
-											<div class="sg-radio sg-radio--undefined">
-												<input type="radio" class="sg-radio__element" name="reasons" id="reason${reason.id}">
-												<label class="sg-radio__ghost" for="reason${reason.id}"></label>
-											</div>
-										</div>
-										<label class="sg-label__text" for="reason${reason.id}">${reason.title}</label>
-									</div>
-								</div>`
-							});
-							$reasons.html(reasons);
-						});
-						$reasons.on("change", "input", function() {
-							let selectedReasonId = this.id.replace(/^\D+/g, "");
-							let reason = selectedCategory.subcategories.find((cat) => {
-								return cat.id == selectedReasonId;
-							});
-							$textarea.val(reason.text);
-						});
 						$submit.click(function() {
-							if (!selectedCategory) {
-								let $selecReasonWarn = $(".selecReasonWarn", $toplayer);
-								if ($selecReasonWarn.length == 0) {
-									$(`<div class="sg-bubble sg-bubble--bottom sg-bubble--row-start sg-bubble--peach selecReasonWarn">${System.data.locale.texts.moderate.choose_reason}</div>`).insertBefore($reasonCategories)
+							if (!window.selectedCategory) {
+								let $selectReasonWarn = $(".selectReasonWarn", $toplayer);
+								if ($selectReasonWarn.length == 0) {
+									$(`<div class="sg-bubble sg-bubble--bottom sg-bubble--row-start sg-bubble--peach sg-text--light selectReasonWarn">${System.data.locale.texts.moderate.choose_reason}</div>`).insertBefore($categories)
 								} else {
-									$selecReasonWarn.fadeTo('fast', 0.5).fadeTo('fast', 1.0).fadeTo('fast', 0.5).fadeTo('fast', 1.0);
+									$selectReasonWarn.fadeTo('fast', 0.5).fadeTo('fast', 1.0).fadeTo('fast', 0.5).fadeTo('fast', 1.0);
 								}
 							} else {
 								$(`<div class="sg-spinner-container__overlay"><div class="sg-spinner"></div></div>`).insertAfter($submit);;
 								let taskData = {
 									model_id: res.data.task.id,
-									reason_id: selectedCategory.id,
+									reason_id: window.selectedCategory.id,
 									reason: $textarea.val(),
 									give_warning: $give_warning.is(':checked'),
 									take_points: $take_points.is(':checked'),
@@ -176,14 +149,14 @@ let ext_actions_buttons_click_handler = function() {
 };
 let prepareButtons = Buttons('RemoveQuestion', [
 	{
-		text: System.data.Brainly.deleteReasons.task[System.data.config.quickDeleteButtonsReasons.task[0]].title,
-		title: System.data.Brainly.deleteReasons.task[System.data.config.quickDeleteButtonsReasons.task[0]].text,
+		text: System.data.Brainly.deleteReasons.__withTitles.task[System.data.config.quickDeleteButtonsReasons.task[0]].title,
+		title: System.data.Brainly.deleteReasons.__withTitles.task[System.data.config.quickDeleteButtonsReasons.task[0]].text,
 		type: "peach",
 		icon: "x"
 	},
 	{
-		text: System.data.Brainly.deleteReasons.task[System.data.config.quickDeleteButtonsReasons.task[1]].title,
-		title: System.data.Brainly.deleteReasons.task[System.data.config.quickDeleteButtonsReasons.task[1]].text,
+		text: System.data.Brainly.deleteReasons.__withTitles.task[System.data.config.quickDeleteButtonsReasons.task[1]].title,
+		title: System.data.Brainly.deleteReasons.__withTitles.task[System.data.config.quickDeleteButtonsReasons.task[1]].text,
 		type: "peach",
 		icon: "x"
 	},
@@ -206,7 +179,7 @@ let createQuestionRemoveButtons = nodes => {
 	}
 }
 let observeForNewQuestionBoxes = feeds_parent => {
-	_console.log("feed parent has found");
+	Console.log("feed parent has found");
 	WaitForElm('div.js-feed-item:not(.ext-buttons-added)', e => {
 		createQuestionRemoveButtons(e);
 	});
@@ -218,7 +191,7 @@ let observeForNewQuestionBoxes = feeds_parent => {
 	System.changeBadgeColor("loaded");
 };
 let wait_for_feeds_parent = () => {
-	_console.log("observe has found");
+	Console.log("observe has found");
 	WaitForElm(selectors.feeds_parent, observeForNewQuestionBoxes)
 }
 WaitForFn('$().observe', wait_for_feeds_parent);

@@ -50,9 +50,10 @@ TODO:
 	- Hesap silimi yapıldığında topluluk yöneticisine otomatik e-posta gönder
 
 	Kullanıcı bilgilerini gör sayfası
-	- Soru/Cevap içeriğini genişlet/göster butonu. Sağ, aşağı yönlü ok simgesi. Bu içerikler, sayfa onload olduktan sonra kullanıcı içeriği görüntülemeden önce fetch edilecek. Maksat, içerikleri kullanıcıyı bekletmeden göstermek. Butona bastığında, display:block edilecek ama fetchden sonra gösterilecek. Malum, fetch isteği tamamlanmadan, kullanıcı içeriği göster butonuna basabilir.
-	- Soru/Cevap seçimi için kutucuk, tümünü seç kutusu
-	- Seçilmiş içerikleri hızlı sil, sebep seçerek sil, doğrula
+	+ Soru/Cevap içeriğini genişlet/göster butonu. Sağ, aşağı yönlü ok simgesi. Bu içerikler, sayfa onload olduktan sonra kullanıcı içeriği görüntülemeden önce fetch edilecek. Maksat, içerikleri kullanıcıyı bekletmeden göstermek. Butona bastığında, display:block edilecek ama fetchden sonra gösterilecek. Malum, fetch isteği tamamlanmadan, kullanıcı içeriği göster butonuna basabilir.
+	+ Soru/Cevap seçimi için kutucuk, tümünü seç kutusu
+	+ Seçilmiş içerikleri hızlı sil, sebep seçerek sil, doğrula
+	- Seçilmiş içerikleri doğrula
 
 	Uyarılar sayfası
 	- Uyarı seçimi için kutucuk, tümünü seç kutusu ekle

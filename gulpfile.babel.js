@@ -24,6 +24,7 @@ var manifest = {
     "background": {
       "scripts": [
         "scripts/livereload.js",
+        "scripts/lib/jquery-3.3.1.min.js",
         "scripts/background.js"
       ]
     }

@@ -7,7 +7,7 @@ import MakeExpire from "./MakeExpire";
  * @param {number} minimum_number_of_element - If you want to find elements at least n
 **/
 
-const wait_for_element = (query, callback, minimum_number_of_element) => {
+const WaitForElm = (query, callback, minimum_number_of_element) => {
 	let elements,
 		_loop_expire = MakeExpire();
 	let _loop = setInterval(() => {
@@ -24,4 +24,4 @@ const wait_for_element = (query, callback, minimum_number_of_element) => {
 	});
 }
 
-export default wait_for_element;
+export default WaitForElm;

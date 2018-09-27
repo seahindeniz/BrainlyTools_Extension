@@ -58,7 +58,7 @@ export default (Reason, type)=>{
 		</div>
 	</div>`);
 
-	let $categoryRadio = $('input[name="categories"]', $deleteSection);
+	let $categoryRadio = $('.categories input', $deleteSection);
 	let $reasonSeperator = $('div.sg-horizontal-separator', $deleteSection);
 	let $reasons = $('div.reasons', $deleteSection);
 	let $textarea = $('textarea', $deleteSection);
@@ -76,21 +76,7 @@ export default (Reason, type)=>{
 		});
 		Console.log("window.selectedCategory:", window.selectedCategory);
 
-		let reasons = "";
-		window.selectedCategory.subcategories.forEach((reason, i) => {
-			reasons += `
-			<div class="sg-actions-list__hole sg-actions-list__hole--spaced-xsmall">
-				<div class="sg-label sg-label--secondary">
-					<div class="sg-label__icon">
-						<div class="sg-radio sg-radio--undefined">
-							<input type="radio" class="sg-radio__element" name="reasons" id="reason${reason.id}">
-							<label class="sg-radio__ghost" for="reason${reason.id}"></label>
-						</div>
-					</div>
-					<label class="sg-label__text" for="reason${reason.id}">${reason.title}</label>
-				</div>
-			</div>`
-		});
+		let reasons = DeleteReasonCategoryList(window.selectedCategory.subcategories);
 		$reasons.html(reasons);
 	});
 	$reasons.on("change", "input", function() {

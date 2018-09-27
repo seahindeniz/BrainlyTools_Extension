@@ -1,0 +1,30 @@
+* {
+	box-sizing: unset;
+}
+
+.inputNote {
+	width: 90%;
+	padding: 0;
+}
+
+div.previousNicks,
+div.userDescription {
+	padding: 14px 0 10px;
+	border-bottom: 1px solid #e1e3e5;
+	font-size: 1.1em;
+	margin-top: 0.5em;
+}
+
+img.userFlag {
+	top: -7px;
+	left: 20px;
+	width: 50px;
+}
+
+.ranking {
+
+	&>a,
+	div.userFlag .sg-badge {
+		margin-right: 1em;
+	}
+}

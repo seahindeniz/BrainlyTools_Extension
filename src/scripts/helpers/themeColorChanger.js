@@ -1,10 +1,11 @@
 "use strict";
 
 import WaitForElm from "./WaitForElm";
+import MakeExpire from "./MakeExpire";
 
 export default color => {
 	let rainbow = false;
-	if (color.indexOf(",") == 0)
+	if (color.indexOf(",") >= 0)
 		rainbow = true;
 	let personalColors = `
 	.sg-header__container,
@@ -34,13 +35,33 @@ export default color => {
 	WaitForElm("head", head => {
 		if (head) {
 			head = head[0];
-			let previousElm = document.getElementById("personalColors");
-			if (previousElm) {
-				previousElm.innerHTML = personalColors;
+			let $personalColors = document.getElementById("personalColors");
+			if ($personalColors) {
+				$personalColors.innerHTML = personalColors;
+			} else {
+				//head.innerHTML += `<style id="personalColors">${personalColors}</style>`;
+				$personalColors = document.createElement('style');
+				$personalColors.type = 'text/css';
+				$personalColors.id = "personalColors"
+
+				var styles = `<style id="personalColors">${personalColors}</style>`;
+
+				if ($personalColors.styleSheet)
+					$personalColors.styleSheet.cssText = styles;
+				else
+					$personalColors.appendChild(document.createTextNode(styles));
+
+				head.appendChild($personalColors);
+
 			}
-			else {
-				head.innerHTML += `<style id="personalColors">${personalColors}</style>`;
-			}
+			let _loop_personalColors_expire = MakeExpire(6);
+			let _loop_personalColors = setInterval(() => {
+				if (_loop_personalColors_expire < new Date().getTime()) {
+					clearInterval(_loop_personalColors);
+				}
+				
+				$personalColors.parentNode && $personalColors.parentNode.appendChild($personalColors);
+			});
 		}
 	});
 }

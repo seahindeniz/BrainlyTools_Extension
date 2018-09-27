@@ -32,6 +32,7 @@ System.data.locale = {
 			ok: "Okay",
 			save: "Save",
 			cancel: "Cancel",
+			delete: "Hapus",
 			choose_option: "Choose an option",
 			select_all: "Select All",
 			edit: "Edit",
@@ -51,7 +52,13 @@ System.data.locale = {
 			manage_users: "Mengelola extension user",
 			previous_nicks: "Previous nicks:",
 			previous_nicks_description: "User's previous nicks stored at extension",
+			userDescription: "Deskripsi",
 			changes_affected: "Changes affected",
+			are_you_sure: "Kamu yakin?",
+			yes: "Ya",
+			no: "Tidak",
+			update: "Memperbarui",
+			cancelEdit: "Batalkan pengeditan",
 			errors: {
 				operation_error: "Terjadi kesalahan selama proses operasi. Silahkan mencoba kembali",
 				went_wrong: "Oops, terjadi kesalahan",
@@ -63,13 +70,16 @@ System.data.locale = {
 				only_number: "Hanya angka.",
 				greater_than_zero: "Masukkan sebuah nomor diatas nol.",
 				error_at_reason: "Operasi tidak lengkap.",
-				update_account_error: "Kesalahan yang diharapkan terjadi saat mencoba memperbarui. Silakan coba lagi dalam 2 detik.",
+				update_account_error: "Kesalahan tak terduga terjadi saat mencoba memperbarui. Silakan coba lagi dalam 2 detik.",
 				if_error_continue: "Jika kesalahan ini berlanjut, hubungi manajer ekstensi dan jelaskan apa yang terjadi :)",
-				userNotFound: "Pengguna tidak ditemukan"
+				userNotFound: "Pengguna tidak ditemukan",
+				passUser: "Kesalahan tak terduga terjadi ketika mencoba mengirim informasi pengguna ke server ekstensi. Silakan coba lagi dalam 2 detik",
+				extensionServerError: "Terjadi kesalahan yang tidak terduga saat menghubungkan server ekstensi. Silakan coba lagi dalam ~5 detik."
 			}
 		},
 		extension_options: {
 			title: "Opsi Ekstensi",
+			extensionManagement: "Manajemen Eks.",
 			version_text: "Extension version: ",
 			themeColor: {
 				title: "Warna Tema",
@@ -111,9 +121,16 @@ System.data.locale = {
 				description: "Managing extension interval announcements",
 				short_description_of_announcement: "Title(inside of notification balloon)",
 				publish: "Publish",
+				unpublish: "Unpublish",
+				published: "Published",
+				unpublished: "Unpublished",
 				draft: "Draft",
 				on: "On",
-				off: "Off"
+				off: "Off",
+				createdMessage:"Berhasil dibuat",
+				updatedMessage:"Berhasil diperbarui",
+				removedMessage: "Berhasil dihapus",
+				clearForm: "Hapus input teks"
 			},
 			hide_unnecessary_contents: {
 				title: "Hide unnecessary containers",
@@ -149,12 +166,9 @@ System.data.locale = {
 						searchModeButtonTooltip: "Switch to searching",
 						insertModeButtonTooltip: "Switch to inserting",
 						editButtonTooltip: "Edit",
-						deleteButtonTooltip: "Delete",
 						searchButtonTooltip: "Search",
 						clearFilterButtonTooltip: "Clear filter",
-						insertButtonTooltip: "Insert",
-						updateButtonTooltip: "Update",
-						cancelEditButtonTooltip: "Cancel edit"
+						insertButtonTooltip: "Insert"
 					}
 				},
 				validators: {
@@ -394,9 +408,6 @@ System.data.locale = {
 			do_you_want_to_delete_comments: "Apakah kamu yakin ingin menghapus komentar?",
 			warning__no_turning_back: "Tidak ada pengembalian.",
 			n_comments_deleted: "${n} Komentar telah dihapus",
-			are_you_sure: "Kamu yakin?",
-			yes: "Ya",
-			no: "Tidak",
 			delete_selected_comments: "Menghapus komentar yang dipilih",
 			select_at_least_one_comment: "Kamu harus memilih setidaknya satu komentar",
 			show_all_friends: {
@@ -449,7 +460,7 @@ System.data.locale = {
 			warning__reason_not_selected: "Alasan penghapusan belum ditentukan",
 			warning__more_than_5_question_selected: "Lebih dari 5 pertanyaan dipilih.",
 			warning__more_than_5_answer_selected: "Lebih dari 5 jawaban dipilih.",
-			warning__continue_deleting: " Apakah kamu yakin untuk melanjutkan proses penghapusan?",
+			warning__continue_deleting: "Anda yakin ingin melanjutkan proses penghapusan?",
 			approve_selected_answers: "Approve jawaban yang dipilih",
 			unapprove_selected_answers: "Unapprove jawaban yang dipilih",
 			remove_selected_answers: "Hapus jawaban yang dipilih",
@@ -511,197 +522,5 @@ System.data.locale = {
 			x_send_you_a_new_message: "{x} send you a new message",
 			new_notify: "New notification"
 		}
-	},
-	rules: {
-		question: {
-			warnings: [],
-			contents: {
-				Default: {
-					title: "Default",
-					reason: "Pertanyaanmu sudah dihapus, karena melanggar Ketentuan Penggunaan. Oleh karena itu diharap lebih berhati hati untuk tidak mengulang kesalahan yang sama. Terima kasih dan Selamat Belajar.",
-					code: 25
-				},
-				Link_web_Lain: {
-					title: "Link web Lain",
-					reason: "Mohon maaf pertanyaan kami hapus karena mengandung tautan ke halaman lain. Mohon untuk tidak mengulangi kesalahan yang sama supaya tidak diberi peringatan yang akan membuat akun anda dihapus/direstart. Terima kasih.",
-					code: 27
-				},
-				Promosi: {
-					title: "Promosi",
-					reason: "Mohon maaf pertanyaan Anda dihapus karena memuat iklan/promosi. Mari kita jadikan Brainly sebagai tempat yang nyaman untuk belajar. Terima kasih",
-					code: 27
-				},
-				Pertanyaan_tidak_wajar: {
-					title: "Pertanyaan tidak wajar",
-					reason: "Pertanyaan kami hapus karena pertanyaan yang diajukan tidak wajar. Mohon untuk tidak mengulangi kesalahan yang sama supaya tidak diberi peringatan yang akan membuat akun anda dihapus/direstart. Terima kasih.",
-					code: 28
-				},
-				Terlalu_General: {
-					title: "Terlalu General",
-					reason: "Pertanyaan kami hapus karena pertanyaan yang diajukan terlalu general. Silakan ajukan pertanyaan yang lebih spesifik. Terima kasih.",
-					code: 28
-				},
-				Bukan_pertanyaan_tapi_berkirim_pesan: {
-					title: "Bukan pertanyaan, tapi berkirim pesan",
-					reason: "Pertanyaan kami hapus karena pertanyaan yang diajukan bersifat menanyakan informasi seperti pesan. Kami sarankan untuk menggunakan halaman profil karena pertanyaan seperti ini sulit dievaluasi oleh moderator. Terima kasih.",
-					code: 28
-				},
-				Terlalu_banyak_pertanyaan: {
-					title: "Terlalu banyak pertanyaan",
-					reason: "Maaf pertanyaan kamu dihapus karena terlalu banyak dan poin yang disertakan tidak setara dengan jumlah pertanyaan. Silahkan ajukan pertanyaan sesuai dengan jumlah poin (misalnya 5 poin untuk 1-2 pertanyaan), agar pertanyaan kamu segera terjawab. Selamat belajar :)",
-					code: 28
-				},
-				Rangkuman_Kisi_kisi_Kunci_jawaban: {
-					title: "Rangkuman/Kisi-kisi/Kunci jawaban",
-					reason: "Di Brainly tidak diperkenankan meminta kisi-kisi/rangkuman/kunci jawaban termasuk bertanya saat ujian berlangsung. Terima kasih.",
-					code: 28
-				},
-				Informasi_Pribadi: {
-					title: "Informasi Pribadi",
-					reason: "Hi, mohon maaf pertanyaanmu kami hapus karena berisi tentang informasi pribadi. Alangkah lebih baik jika informasi pribadi tidak diekspos di dunia maya. Terima kasih dan selamat belajar :)",
-					code: 28
-				},
-				Tidak_berhubungan_dengan_pelajaran_sekolah: {
-					title: "Tidak berhubungan dengan pelajaran sekolah",
-					reason: "Hi, mari kita gunakan Brainly sebagai wadah murni belajar bersama. Untuk menyalurkan hobby Anda, silahkan kunjungi forum yang sesuai dan sudah banyak dikenal. Terima kasih :)",
-					code: 28
-				},
-				Materi_Pertanyaan_tidak_lengkap: {
-					title: "Materi Pertanyaan tidak lengkap",
-					reason: "Poin kami kembalikan dan pertanyaan kami hapus dikarenakan materi yang ditanyakan tidak lengkap/Gambar tidak jelas. Mohon kirimkan ulang dengan lebih lengkap, sehingga user lain bisa menjawab pertanyaan Anda dengan jawaban terbaik. Terima kasih dan selamat belajar.",
-					code: 29
-				},
-				Hanya_mencantumkan_nomor_halaman_buku: {
-					title: "Hanya mencantumkan nomor halaman buku",
-					reason: "Poin kami kembalikan dan pertanyaan kami hapus dikarenakan hanya mencantumkan nomor halaman buku. Mohon kirimkan ulang dengan lebih lengkap, sehingga user lain bisa menjawab pertanyaan Anda dengan jawaban terbaik. Terima kasih dan selamat belajar",
-					code: 29
-				},
-				Mapel_keliru: {
-					title: "Mapel keliru",
-					reason: "Pertanyaan kami hapus namun poin anda kami kembalikan. Silahkan posting pertanyaan sesuai dengan mata pelajarannya ya. Semangat belajar!",
-					code: 30
-				},
-				UN_only: {
-					title: "UN only",
-					reason: "Poin & pertanyaan kami kembalikan karena kolom ini dikhususkan hanya untuk materi Ujian Nasional atau Soal-soal Olimpiade. Silahkan menanyakan kembali pertanyaanmu ke mapel yang lebih relevan ya. Terima kasih.",
-					code: 30
-				},
-				SBMPTN_Only: {
-					title: "SBMPTN Only",
-					reason: "Poin & pertanyaan kami kembalikan karena kolom ini dikhususkan hanya untuk materi Tes Masuk Perguruan Tinggi. Silahkan menanyakan kembali pertanyaanmu ke mapel yang lebih relevan ya. Terima kasih.",
-					code: 30
-				},
-				Menjurus_Ke_SARA: {
-					title: "Menjurus Ke SARA",
-					reason: "Pertanyaan kami hapus karena mengandung unsur politis atau sentimen identitas, agama, ras, dan antar golongan. Mari kita jadikan Brainly sebagai sarana belajar dan membangun Indonesia melalui ilmu pengetahuan. Terima kasih.",
-					code: 31
-				}
-			}
-		},
-		answer: {
-			warnings: [],
-			contents: {
-				Default: {
-					title: "Default",
-					reason: "Jawabanmu sudah dihapus, karena melanggar Ketentuan Penggunaan. Oleh karena itu diharap lebih berhati hati untuk tidak mengulang kesalahan yang sama. Terima kasih dan Selamat Belajar.",
-					code: 37
-				},
-				Lebih_ke_arah_Komentar: {
-					title: "Lebih ke arah Komentar",
-					reason: "Jawabanmu dihapus karena bersifat komentar dari pada jawaban. Jawaban di brainly harus genuine, jelas, dan dapat dipertanggungjawabkan. Terima kasih.",
-					code: 38
-				},
-				Salinan_web_lain: {
-					title: "Salinan web lain",
-					reason: "Mohon menggunakan ide dan bahasa Anda sendiri dalam menjawab pertanyaan. Jawaban Anda kami hapus karena Anda menyalin dari web. BUKTI SUMBER: www.xxx.com",
-					code: 39
-				},
-				Copas: {
-					title: "Copas",
-					reason: "Mohon menggunakan ide dan bahasa Anda sendiri dalam menjawab pertanyaan. Jawaban Anda kami hapus karena Anda menyalin dari jawaban pertama.",
-					code: 39
-				},
-				copas_dari_apk: {
-					title: "copas dari apk pembantu/berupa foto isi buku",
-					reason: "Jawaban anda dihapus karena terbukti copas dengan screenshot hasil hitungan aplikasi/mengambil foto isi buku cetak secara langsung. Mohon menggunakan ide dan bahasa anda sendiri dalam menjawab pertanyaan",
-					code: 39
-				},
-				Tidak_Relevan: {
-					title: "Tidak Relevan",
-					reason: "Jawaban Anda kami hapus karena tidak berhubungan dengan konteks pertanyaan. Terima kasih.",
-					code: 40
-				},
-				Promosi_konten_pribadi: {
-					title: "Promosi/konten pribadi",
-					reason: "Mohon maaf jawaban Anda dihapus karena menyampaikan informasi lain di luar pembahasan soal yang ditanyakan. Mari kita jadikan Brainly sebagai tempat yang nyaman untuk belajar. Terima kasih.",
-					code: 40
-				},
-				Belum_tepat_memberi_kesempatan_user_lain: {
-					title: "Belum tepat/memberi kesempatan user lain",
-					reason: "Terima kasih Anda sudah berusaha. Jawaban Anda kami hapus karena belum tepat dan untuk memberikan kesempatan kepada user lain, silakan mencoba lagi. Terima kasih.",
-					code: 41
-				},
-				Tanpa_langkah_cara: {
-					title: "Tanpa langkah cara",
-					reason: "Terima kasih Anda sudah berusaha. Jawaban Anda kami hapus karena tidak memperlihatkan langkah pengerjaan ataupun uraian tertentu (khususnya untuk matematika, fisika, dan kimia). Silakan mencoba lagi. Terima kasih.",
-					code: 41
-				},
-				Terlalu_General: {
-					title: "Terlalu General",
-					reason: "Maaf, jawaban yang diberikan terlalu umum. Gunakan kemampuan terbaik anda untuk menjelaskan secara rinci. Jawaban ini kami hapus agar user lain memiliki kesempatan yang sama. Terima kasih.",
-					code: 41
-				},
-				Link_ke_web_lain: {
-					title: "Link ke web lain",
-					reason: "Jawaban kami hapus karena Anda hanya berkomentar dan mengarahkan ke web lain. Terima kasih dan Selamat Belajar",
-					code: 42
-				},
-				Abusive: {
-					title: "Abusive",
-					reason: "Jawaban Anda kami hapus karena mengandung istilah dan maksud yang tidak pantas. Mari kita jadikan Brainly sebagai tempat yang nyaman untuk belajar. Terima kasih",
-					code: 43
-				},
-				Bebas_Politik: {
-					title: "Bebas Politik",
-					reason: "Mohon maaf jawaban Anda kami hapus karena mengandung sentimen identitas, suku, agama, ras dan unsur politis. Jadikan Brainly sebagai sarana belajar dan membangun Indonesia melalui ilmu pengetahuan. Terima kasih",
-					code: 43
-				},
-				Duplikasi_Jawaban: {
-					title: "Duplikasi Jawaban",
-					reason: "Kami selaku moderator memohon maaf atas kesalahan sistem yang terjadi. Di Brainly tiap user hanya memiliki hak untuk menjawab sekali dari tiap pertanyaan yang ada, sehingga untuk jawaban yang berulang akan kami hapus salah satu nya. Terima kasih dan selamat belajar.",
-					code: 44
-				}
-			}
-		},
-		comment: {
-			warnings: [],
-			contents: {
-				Default: {
-					title: "Default",
-					reason: "Komentarmu sudah dihapus, karena melanggar Ketentuan Penggunaan",
-					code: 32
-				},
-				Konten_pribadi: {
-					title: "Konten pribadi",
-					reason: "Komentarmu dihapus karena memuat informasi pribadi. Terima kasih.",
-					code: 35
-				},
-				Jawaban_di_Komentar: {
-					title: "Jawaban di Komentar",
-					reason: "Komentarmu dihapus karena memuat informasi yang tidak tepat. Terima kasih.",
-					code: 36
-				}
-			}
-		},
-		account: [{
-			title: "Melanggar ketentuan",
-			reason: "Akunmu sudah dihapus, karena kami menemukan sejumlah pelanggaran Ketentuan Penggunaan"
-		}, {
-			title: "Tidak berniat berpartisipasi dalam belajar",
-			reason: "Akun anda dihapus karena kami melihat anda tidak berniat berpartisipasi dalam belajar kelompok dan terlalu banyak melakukan abusive answer. Silahkan membuat akun baru apabila anda ingin belajar di brainly kembali. "
-		}, {
-			title: "Permintaan Pribadi",
-			reason: "Akunmu dihapus karena permintaan pribadi / sendiri. Terima kasih atas pengalamannya bersama brainly dan sukses selalu."
-		}]
 	}
 }

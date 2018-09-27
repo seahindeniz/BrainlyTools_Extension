@@ -27,7 +27,7 @@ const resizeIt = (elm) => {
 		min-height: unset;
 	}
 	.brn-messages__chatbox .brn-chatbox__chat {
-		height: ${wh - 210}px;
+		height: ${wh - 220}px;
 		min-height: unset;
 		max-height: unset;
 	}

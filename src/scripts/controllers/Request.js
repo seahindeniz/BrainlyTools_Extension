@@ -1,7 +1,6 @@
 "use strict";
+import ext from "../utils/ext";
 
-let extensionServerURL = "https://sahin.in/BrainlyTools"
-extensionServerURL = "http://127.0.0.1:3001/BrainlyTools"
 let countErr = 0;
 class Ajax {
 	constructor() {}
@@ -45,7 +44,32 @@ class Ajax {
 		});
 	}
 	BrainlyGet() {}
-	ExtensionServerReq(method, path, data, callback) {
+	ExtensionServerReq(method, path, data = null, callback) {
+		if (typeof data == "function") {
+			callback = data;
+			data = null;
+		} else if (typeof data != "undefined") {
+			data = JSON.stringify(data);
+		}
+
+		let headers = {
+			"Content-type": "application/json; charset=utf-8"
+		};
+		if (System.data.Brainly.userData.extension && System.data.Brainly.userData.extension.secretKey) {
+			headers["SecretKey"] = System.data.Brainly.userData.extension.secretKey;
+		}
+		
+		let messageData = {
+			action: "xmlHttpRequest",
+			method,
+			path,
+			headers,
+			data
+		};
+
+		ext.runtime.sendMessage(System.data.meta.extension.id, messageData, callback);
+	}
+	_old_ExtensionServerReq(method, path, data, callback) {
 		if (typeof data !== "function") {
 			data = JSON.stringify(data);
 		} else {
@@ -56,13 +80,12 @@ class Ajax {
 		var xhr = new XMLHttpRequest();
 		xhr.open(method, extensionServerURL + path, true);
 		xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+		if (System.data.Brainly.userData.extension && System.data.Brainly.userData.extension.secretKey) {
+			xhr.setRequestHeader('SecretKey', System.data.Brainly.userData.extension.secretKey);
+		}
 		xhr.onload = function() {
 			if (xhr && xhr.responseText && xhr.responseText != "") {
 				var results = JSON.parse(xhr.responseText);
-				/*if (xhr.readyState == 4 && xhr.status == "201") {
-					callback(results);
-				} else {
-				}*/
 				callback(results);
 			}
 		}

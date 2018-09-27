@@ -1,62 +1,83 @@
 TODO:
-	+ Silim sebepleri sunucu tarafından güncellenmeli. Brainly silim sebeplerini karmaşık bir biçimde sunuyor. Bu yüzden eklenti sunucusunda işlev yazılıp, her gün güncelleme yapacak şekilde kodlanmalı. Eklenti ise her sayfa yenilendiğinde bu verileri asenkron bir biçimde arkaplanda çekmeli ve işlemeli. 
-	- Silim sebeplerini sunarken status: true/false gibi bir flag koyulmalı, böylece sunulması istenmeyen silim sebepleri listelenmez.
-	+ Reklamlar kaldırmak için ekleme yap ve eklenti seçeneklerine ekle
-	+ Eklenti nin simgesine badge renkleri ekle. BeforeStart: Red, SystemInit: Yellow, SystemLoad: Green
-	- sahin.in isteklerini web sayfası üzerinden yapmak yerine eklenti üzerinden yaparak işlem hızını arttır. 
+	New:
+		Extension:
+			- Silim sebeplerini sunarken status: true/false gibi bir flag koyulmalı, böylece sunulması istenmeyen silim sebepleri listelenmez.
+			- Sunucuya yapılan her isteği logla
 
-	Global
-	- Eklenti duyuruları kutusu
-	+ Kenar moderatör paneline id bazlı kişi arama/sorgulama
-	- Kenar moderatör paneline nick bazlı kişi arama/sorgulama
-	+ Silim butonlarının sebeplerini seçebilmek için eklenti seçenekleri butonu ve optionslarını hazırla
-	+ Renk seçimi yapabilmek için option ekle
-	- Eklenti seçeneklerine, link shorter api ekle
-	- Eklenti seçeneklerine resim paylaşma özelliği ekle. Olursa eğer
-	- Chatango ile market içi mesajlaşma
-	- Gelen bildirimleri takip etmek için web socket oluştur ve bildirimleri tarayıcının notification panelinde göster
+		Global:
+			- Eklenti duyuruları kutusu
+			- Kenar moderatör paneline nick bazlı kişi arama/sorgulama
+			- Eklenti seçeneklerine, link shorter api ekle
+			- Eklenti seçeneklerine resim paylaşma özelliği ekle. Olursa eğer
+			- Chatango ile market içi mesajlaşma
+			- Gelen bildirimleri takip etmek için web socket oluştur ve bildirimleri tarayıcının notification panelinde göster
 
-	Anasayfa
-	+ Hızlı silim butonlarının eylemlerini aktifleştir
-	+ Profil kutusunda eylem sayısı
+		Anasayfa:
 
-	 Tümünü düzelt
-	- Daha fazla yükle butonu
-	- Sorular, cevaplar ve yorumlara(onaylama ve seçerek veya hızlıca) silim butonları ekle
-	- Tablo ve liste seçenekleri
-	- Yorum sayısına tıklandığında yorumları göster
-	- Şikayet edilmiş içeriklerin kutularını iyileştir http://i.hizliresim.com/VPnGvv.png
-	- Düzenle panelinde sağ sol okları ve A, D ve yön tuşlarıyla hareket etme, esc tuşuyla panel kapatma
-	
-	 Soru sayfası
-	+ Hızlı silim butonları, soruya ve cevaplara
-	- Ek bir hesap ile kendi cevaplarını doğrulama servisi
-	- Cevap, yorum yazarken yasaklı kelimelerde kontrol
-	- Kişi avatarına "kişi eklenti kullanıcısı" etiketi
+		Tümünü düzelt:
+			- Daha fazla yükle butonu
+			- Sorular, cevaplar ve yorumlara(onaylama ve seçerek veya hızlıca) silim butonları ekle
+			- Tablo ve liste seçenekleri
+			- Yorum sayısına tıklandığında yorumları göster
+			- Şikayet edilmiş içeriklerin kutularını iyileştir http://i.hizliresim.com/VPnGvv.png
+			- Düzenle panelinde sağ sol okları ve A, D ve yön tuşlarıyla hareket etme, esc tuşuyla panel kapatma
+		
+		Soru sayfası:
+			- Ek bir hesap ile kendi cevaplarını doğrulama servisi
+			- Cevap, yorum yazarken yasaklı kelimelerde kontrol
+			- Kişi avatarına "kişi eklenti kullanıcısı" etiketi
 
-	Mesajlar
-	+ Görünüm genişletme seçeneğini ekle
-	- Kişi notu ekleme/düzeneleme kutusu
-	- Mesaj grubu oluşturma seçenekleri
-	- Mesajlaşmada yasaklı kelime kontrolü
-	- Kişi avatarına "kişi eklenti kullanıcısı" etiketi
+		Mesajlar:
+			- Mesaj grubu oluşturma seçenekleri
+			- Mesajlaşmada yasaklı kelime kontrolü
 
-	Profil sayfası
-	- Previos nicks
-	- Profil notu
-	- Kişi avatarına "kişi eklenti kullanıcısı" etiketi
-	- Tüm cevaplara yıldız, teşekkür et servisi
-	- Tüm arkadaşları göster, sil
-	- Hesap silimi yapıldığında topluluk yöneticisine otomatik e-posta gönder
+		Profil sayfası:
+			- Tüm cevaplara yıldız, teşekkür et servisi
+			- Tüm arkadaşları göster, sil
+			- Hesap silimi yapıldığında topluluk yöneticisine otomatik e-posta gönder
 
-	Kullanıcı bilgilerini gör sayfası
-	+ Soru/Cevap içeriğini genişlet/göster butonu. Sağ, aşağı yönlü ok simgesi. Bu içerikler, sayfa onload olduktan sonra kullanıcı içeriği görüntülemeden önce fetch edilecek. Maksat, içerikleri kullanıcıyı bekletmeden göstermek. Butona bastığında, display:block edilecek ama fetchden sonra gösterilecek. Malum, fetch isteği tamamlanmadan, kullanıcı içeriği göster butonuna basabilir.
-	+ Soru/Cevap seçimi için kutucuk, tümünü seç kutusu
-	+ Seçilmiş içerikleri hızlı sil, sebep seçerek sil, doğrula
-	- Seçilmiş içerikleri doğrula
+		Kullanıcı bilgilerini gör sayfası:
+			- Seçilmiş içerikleri doğrula
 
-	Uyarılar sayfası
-	- Uyarı seçimi için kutucuk, tümünü seç kutusu ekle
-	- Seçilmiş uyarıları geri alma işlemi
-	- Kendi uyarılarını geri alma işlemi
+		Uyarılar sayfası:
+			- Uyarı seçimi için kutucuk, tümünü seç kutusu ekle
+			- Seçilmiş uyarıları geri alma işlemi
+			- Kendi uyarılarını geri alma işlemi
+	Done:
+		Extension:
+			+ Silim sebepleri sunucu tarafından güncellenmeli. Brainly silim sebeplerini karmaşık bir biçimde sunuyor. Bu yüzden eklenti sunucusunda işlev yazılıp, her gün güncelleme yapacak şekilde kodlanmalı. Eklenti ise her sayfa yenilendiğinde bu verileri asenkron bir biçimde arkaplanda çekmeli ve işlemeli. 
+			+ Reklamlar kaldırmak için ekleme yap ve eklenti seçeneklerine ekle
+			+ Eklenti nin simgesine badge renkleri ekle. BeforeStart: Red, SystemInit: Yellow, SystemLoad: Green
+			+ sahin.in isteklerini web sayfası üzerinden yapmak yerine eklenti üzerinden yaparak işlem hızını arttır.
 
+		Global:
+			+ Kenar moderatör paneline id bazlı kişi arama/sorgulama
+			+ Silim butonlarının sebeplerini seçebilmek için eklenti seçenekleri butonu ve optionslarını hazırla
+			+ Renk seçimi yapabilmek için option ekle
+			+ Yetki sınırlandırmalarını ekle
+
+		Anasayfa:
+			+ Hızlı silim butonlarının eylemlerini aktifleştir
+			+ Profil kutusunda eylem sayısı
+
+		Tümünü düzelt:
+		
+		Soru sayfası:
+			+ Hızlı silim butonları, soruya ve cevaplara
+
+		Mesajlar:
+			+ Görünüm genişletme seçeneğini ekle
+			+ Kişi notu ekleme/düzeneleme kutusu
+			+ Kullanıcı adı, header'a "kişi eklenti kullanıcısı" etiketi
+
+		Profil sayfası:
+			+ Profil notu
+			+ Previos nicks
+			+ Kişi avatarına ve  kullanıcı adına "kişi eklenti kullanıcısı" etiketi
+
+		Kullanıcı bilgilerini gör sayfası:
+			+ Soru/Cevap içeriğini genişlet/göster butonu. Sağ, aşağı yönlü ok simgesi. Bu içerikler, sayfa onload olduktan sonra kullanıcı içeriği görüntülemeden önce fetch edilecek. Maksat, içerikleri kullanıcıyı bekletmeden göstermek. Butona bastığında, display:block edilecek ama fetchden sonra gösterilecek. Malum, fetch isteği tamamlanmadan, kullanıcı içeriği göster butonuna basabilir.
+			+ Soru/Cevap seçimi için kutucuk, tümünü seç kutusu
+			+ Seçilmiş içerikleri hızlı sil, sebep seçerek sil, doğrula
+
+		Uyarılar sayfası:

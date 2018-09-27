@@ -32,6 +32,7 @@ System.data.locale = {
 			ok: "Okay",
 			save: "Save",
 			cancel: "Cancel",
+			delete: "Delete",
 			choose_option: "Choose an option",
 			select_all: "Select All",
 			edit: "Edit",
@@ -51,7 +52,13 @@ System.data.locale = {
 			manage_users: "Manage extension user's",
 			previous_nicks: "Previous nicks:",
 			previous_nicks_description: "User's previous nicks stored at extension",
+			userDescription: "Description",
 			changes_affected: "Changes affected",
+			are_you_sure: "Are you sure?",
+			yes: "Yes",
+			no: "No",
+			update: "Update",
+			cancelEdit: "Cancel edit",
 			errors: {
 				operation_error: "An error occurred during operation. Please try again.",
 				went_wrong: "Oops, something went wrong.",
@@ -63,13 +70,16 @@ System.data.locale = {
 				only_number: "Only numbers please.",
 				greater_than_zero: "Enter a number above zero.",
 				error_at_reason: "Incomplete operation.",
-				update_account_error: "An expected error occurred while trying to update. Please try again in 2 sec.",
+				update_account_error: "An unexpected error occurred while trying to update. Please try again in 2 sec",
 				if_error_continue: "If this error persists, please contact with extension manager and explain what happened :)",
-				userNotFound: "User not found"
+				userNotFound: "User not found",
+				passUser: "An unexpected error occurred while trying to sending the user informations to the extension server. Please try again in 2 sec",
+				extensionServerError: "An unexpected error occurred while connecting the extension server. Please try again in ~5 sec."
 			}
 		},
 		extension_options: {
 			title: "Extension Options",
+			extensionManagement: "Ext. Management",
 			version_text: "Extension version: ",
 			themeColor: {
 				title: "Theme Color",
@@ -111,9 +121,16 @@ System.data.locale = {
 				description: "Managing extension interval announcements",
 				short_description_of_announcement: "Title(inside of notification balloon)",
 				publish: "Publish",
+				unpublish: "Unpublish",
+				published: "Published",
+				unpublished: "Unpublished",
 				draft: "Draft",
 				on: "On",
-				off: "Off"
+				off: "Off",
+				createdMessage:"Created successfully",
+				updatedMessage:"Updated successfully",
+				removedMessage: "Removed successfully",
+				clearForm: "Clear the text inputs"
 			},
 			hide_unnecessary_contents: {
 				title: "Hide unnecessary containers",
@@ -149,12 +166,10 @@ System.data.locale = {
 						searchModeButtonTooltip: "Switch to searching",
 						insertModeButtonTooltip: "Switch to inserting",
 						editButtonTooltip: "Edit",
-						deleteButtonTooltip: "Delete",
+						//deleteButtonTooltip: "Delete",
 						searchButtonTooltip: "Search",
 						clearFilterButtonTooltip: "Clear filter",
-						insertButtonTooltip: "Insert",
-						updateButtonTooltip: "Update",
-						cancelEditButtonTooltip: "Cancel edit"
+						insertButtonTooltip: "Insert"
 					}
 				},
 				validators: {
@@ -394,9 +409,6 @@ System.data.locale = {
 			do_you_want_to_delete_comments: "Are you sure you want to delete the comments?",
 			warning__no_turning_back: "There is no turning back.",
 			n_comments_deleted: "${n} comments have been deleted",
-			are_you_sure: "Are you sure?",
-			yes: "Yes",
-			no: "No",
 			delete_selected_comments: "Delete selected comments",
 			select_at_least_one_comment: "You must select at least one comment",
 			show_all_friends: {
@@ -449,7 +461,7 @@ System.data.locale = {
 			warning__reason_not_selected: "Reason for deletion has not been specified",
 			warning__more_than_5_question_selected: "Over 5 questions are selected.",
 			warning__more_than_5_answer_selected: "Over 5 answers are selected.",
-			warning__continue_deleting: " Are you sure you would like to continue the deletion process?",
+			warning__continue_deleting: "Are you sure you want to continue the deletion process?",
 			approve_selected_answers: "Approve selected answers",
 			unapprove_selected_answers: "Unapprove selected answers",
 			remove_selected_answers: "Remove selected answers",
@@ -511,234 +523,5 @@ System.data.locale = {
 			x_send_you_a_new_message: "{x} send you a new message",
 			new_notify: "New notification"
 		}
-	},
-	rules: {
-		question: {
-			warnings: [],
-			contents: {
-				Default: {
-					title: "Default",
-					reason: "Uh oh. Your question has been removed. Please review the Terms of Use and thanks for sticking to our posting guidelines!",
-					code: 22
-				},
-				Incomplete: {
-					title: "Incomplete",
-					reason: "Aw snap! We really want to help you out, but it looks like your question is incomplete. Please repost and include all helpful information, so other user's can get back to you with the best answer. Thanks!",
-					code: 1
-				},
-				Not_a_School_Problem: {
-					title: "Not a School Problem",
-					reason: "#Yikes. Looks like your question is not school-related. Please repost with only school-specific problems. Thanks!",
-					code: 1
-				},
-				Unclear_Question: {
-					title: "Unclear Question",
-					reason: "We're really sorry, but we just can't figure out what you are asking. Please repost and try to be as specific and detailed as possible, so we can get back to you with the best answer. Thanks!",
-					code: 1
-				},
-				Too_Trivial: {
-					title: "Too Trivial",
-					reason: "We're all about challenging our user's to push their intellectual boundaries. Your question, while much appreciated, seems just a bit too trivial for the site. Please try to post more difficult questions in the future. Thanks!",
-					code: 1
-				},
-				Test_Preparation: {
-					title: "Test Preparation",
-					reason: "Sorry, we wish we could help you out with all of life's biggest challenges, but Brainly is all about helping you learn to work through specific academic-related problems, so that you can tackle them on your own out there. Therefore, questions about how to prep for that big exam are not permitted. Thanks for your cooperation!",
-					code: 1
-				},
-				Silly_Pointless_Question: {
-					title: "Silly/Pointless Question",
-					reason: "We love a sense of humor, but please save the comedy act for another forum. Your schoolwork-related questions really help to improve the content and overall quality of Brainly. So follow the rules, ask solid questions and, of course, have fun!",
-					code: 1
-				},
-				Essay_or_Project: {
-					title: "Essay or Project",
-					reason: "Your question about your assignment was removed because it was too complex - you'll need to complete this project on your own, rather than asking other Brainly user's to write your response for you. But, feel free to repost any specific questions you have about the assignment that can help you get started!",
-					code: 1
-				},
-				Too_General: {
-					title: "Too General",
-					reason: "Say whaaa? Unfortunately, your question is not clear or too general for your fellow Brainiacs to answer. The site is designed to give specific answers to specific academic questions. Please add some details to your question so we can get back to you! Thanks!",
-					code: 1
-				},
-				Not_English: {
-					title: "Not English",
-					reason: "Hi! Hola! Salut! Hallo! Looks like you've posted a question not in English. Please stick to proper English or check out our other language versions of Brainly. Thanks! Gracias! Merci! Danke!",
-					code: 8
-				},
-				Multiple_Posting: {
-					title: "Multiple Posting",
-					reason: "Either we're seeing double or this question has already been asked. Since it's posted twice, we had to remove it. Sorry about that, but please post a new question!",
-					code: 22
-				},
-				Link_in_Question: {
-					title: "Link in Question",
-					reason: "Let's keep this between us. Please don't include external links that could lead us to the furthest reaches of the internet. It can get unruly, but moreover, this violates our Terms of Use. Thanks for adhering to Brainly's posting guidelines!",
-					code: 22
-				},
-				Missing_Info_or_Attachment: {
-					title: "Missing Info or Attachment",
-					reason: "Oops! Looks like your question is missing some information needed to properly answer it. Help us help you. Please repost  your question with all necessary info and attachments. Thanks!",
-					code: 22
-				},
-				Too_Complex: {
-					title: "Too Complex",
-					reason: "Whoa there! Turns out there is such as a thing as too much of a good thing. Your questions are great, but there are just too many all rolled into one. Please post your questions individually to get the best answers. Thanks!",
-					code: 22
-				},
-				Personal_Information: {
-					title: "Personal Information",
-					reason: "Your question was removed because it’s not safe to share or ask for personal information online. Keep information like your real name, school name, social media usernames, and selfies to yourself!",
-					code: 22
-				},
-				Brainly_Related_Question: {
-					title: "Brainly-Related Question",
-					reason: "Looks like you've asked a question about how to use Brainly! As Brainly is only intended for help with school-related questions, instead, be sure to check out our help site to see if your question has been answered here: faq.brainly.com. If you still need help, send us a message here: https://brainly.com/contact/index and we'll reply very soon!",
-					code: 22
-				}
-			}
-		},
-		answer: {
-			warnings: [],
-			contents: {
-				Copied_From_Another_Source: {
-					title: "Copied From Another Source",
-					reason: "Your answer has been removed because plagiarism is serious business. Remember that it is forbidden to post any content from another website, person or source. Besides, we know you can do it on your own. Thanks!",
-					code: 16
-				},
-				Link_in_Answer: {
-					title: "Link in Answer",
-					reason: "Is that yours? Please don't include any links in your answers, even to cite sources. We ask that your answers be original and in your own words. Thanks!",
-					code: 16
-				},
-				Copied_from_Another_User: {
-					title: "Copied from Another User",
-					reason: "Be cool. Be original. It looks like your answer may have been copied from another user. Copying answers is a direct violation of our Terms of Use. Keep your account in good standing and post answers in your own words. Thanks!",
-					code: 16
-				},
-				Not_English: {
-					title: "Not English",
-					reason: "Hello there! It seems like you posted an answer which is not in a language that is recognized by most Brainly user's. Please remember to always use proper English, or use a Brainly version in your language. Thanks!",
-					code: 20
-				},
-				Not_Clear_or_Answer_Did_Not_Answer_Specific_Question: {
-					title: "Not Clear or Answer Did Not Answer Specific Question",
-					reason: "(Head scratch). We're sorry, but it looks like your answer is unclear, has nothing to do with the question, or did not specifically answer the question being asked. We know you were excited to answer, so please try again. Thanks!",
-					code: 21
-				},
-				Uninformative: {
-					title: "Uninformative",
-					reason: "Not so fast...Your answer does not provide any work or examples as to why it is right. Always show your work and include any information that may be helpful to your peers. This is the only way they'll be able to learn how to tackle the problem on their own in the future. Thanks!",
-					code: 21
-				},
-				Mistakes_in_Answer: {
-					title: "Mistakes in Answer",
-					reason: "Aw shucks! Looks like there are some mistakes in your answer. Please recheck your work and answer and try again. Second time's a charm! Thanks!",
-					code: 21
-				},
-				No_Calculations: {
-					title: "No Calculations",
-					reason: "Brainly is all about giving students the tools they need to tackle future problems on their own, so it's important to show your work and explain how you reached your answer. Thanks for helping others and keep up the great work!",
-					code: 21
-				},
-				Incomplete_Answer: {
-					title: "Incomplete Answer",
-					reason: "Hey there, your answer has been deleted because it was incomplete or missing some crucial information. After all, it just isn't quite a burger without the bun, right? Please repost and include all necessary info and details. Thanks!",
-					code: 21
-				},
-				Spam_Answer: {
-					title: "Spam Answer",
-					reason: "Please don't post unhelpful answers - keep Brainly's answer quality high! If you contribute quality answers to Brainly, you'll earn more points and help others learn. Check out what makes a great answer here: http://finest.brainly.com/answeringguidelines/",
-					code: 21
-				},
-				I_Dont_Know: {
-					title: "I Don't Know",
-					reason: "Whoa there, Brainiac! Telling someone that you’re not sure how to answer their question isn’t very helpful to them, and Brainly’s Answer section is intended for genuine attempts at answering the question. Next time, just move on to another question you can answer. Also, be sure to “follow” this question if you’re interested in learning the answer from other posters.",
-					code: 21
-				},
-				Just_For_Points: {
-					title: "Just For Points",
-					reason: "Not so fast… answering just to get the points isn’t cool. Your goal is to provide a helpful and specific answer to earn those points, and to help the asker learn how to do this problem on their own! Plus, you’ll lose the points again when your unhelpful answer is removed by a moderator. Learn more about providing helpful answers here: http://finest.brainly.com/answeringguidelines/",
-					code: 21
-				},
-				Default: {
-					title: "Default",
-					reason: "We love the rebel in you, but please don't violate our Terms and Conditions. Your answer has been removed, but please review our posting guidelines and repost your answer. Thanks!",
-					code: 23
-				},
-				Question_About_Question: {
-					title: "Question About Question",
-					reason: "Not to be total neat freaks, but please use the comments section to ask about questions. The \"Answer\" feature is designed for posting answers you're sure about and can respond to specifically. Thanks!",
-					code: 23
-				},
-				Comment_or_Advice: {
-					title: "Comment or Advice (Not an Answer)",
-					reason: "Answers? Comments? They fall under two different categories here on Brainly. If you'd like to comment on a question or give advice, please use the \"Comments\" section, rather than post it as an answer. You can also use the private messaging feature or post on a user's public board as well. Thanks!",
-					code: 23
-				},
-				Please_Be_Nice_to_Other_users: {
-					title: "Please Be Nice to Other user's",
-					reason: "Not cool. We have a zero tolerance policy for cyber bullying or being mean to other user's on Brainly. We are a welcoming and friendly place where awesome students come to learn from other awesome students, so be nice! If you continue to break the golden rule, we will delete your account and you will be banned from using Brainly.",
-					code: 23
-				},
-				Google_It_or_Search_for_Answer: {
-					title: "Google It or Search for Answer",
-					reason: "Hey Brainiac! Members are looking to you for complete and accurate answers, so sending them to Google or another search engine just isn't very helpful. Help out your fellow students and post complete and direct answers in your own words. Thanks!",
-					code: 23
-				},
-				Personal_Information: {
-					title: "Personal Information",
-					reason: "Your answer was removed because it’s not safe to share or ask for personal information online. Keep information like your real name, school name, social media usernames, and selfies to yourself!",
-					code: 23
-				}
-			}
-		},
-		comment: {
-			warnings: [],
-			contents: {
-				Default: {
-					title: "Default",
-					reason: "Your comment violates our Terms of Use, so we had to take it down. Please review the terms and thanks for being a team player!",
-					code: 5
-				},
-				Please_Be_Nice_to_Other_users: {
-					title: "Please Be Nice to Other user's",
-					reason: "If you wouldn't want your mom to see it, don't post it! We have a zero tolerance policy for cyberbullying or general meanness on Brainly. Just don't do it. If you continue to break this golden rule, your Brainly account may be banned. Thanks for being cool and keeping Brainly awesome!",
-					code: 5
-				},
-				Not_English: {
-					title: "Not English",
-					reason: "Hi! Hola! Salut! Hallo! Looks like you've posted a comment not in English. Please stick to proper English or check out our other language versions of Brainly. Thanks! Gracias! Merci! Danke!",
-					code: 5
-				},
-				Link_in_Comment: {
-					title: "Link in Comment",
-					reason: "Whoops! Your comment was removed because it contained a link. Please keep in mind that links to other sites/sources are not allowed. Thanks!",
-					code: 5
-				},
-				Question_Posted_as_a_Comment: {
-					title: "Question Posted as a Comment",
-					reason: "Uh oh, looks like you've posted your question as a comment. Please remember to use the \"Ask a Question\" feature for asking questions. Comments are only for asking for clarification or more information. Thanks!",
-					code: 5
-				},
-				Personal_Information: {
-					title: "Personal Information",
-					reason: "Your comment was removed because it’s not safe to share or ask for personal information online. Keep information like your real name, school name, social media usernames, and selfies to yourself!",
-					code: 5
-				},
-				Answer_in_Comment: {
-					title: "Answer in Comment",
-					reason: "Uh oh, looks like you've posted your answer as a comment. Comments are for asking about the question. Please use the \"Answer\" option to post your solutions, so other user's can learn and you can earn points. Thanks!",
-					code: 15
-				}
-			}
-		},
-		account: [{
-			title: "Reason 1",
-			reason: "Put a delete reason in here"
-		}, {
-			title: "Reason 2",
-			reason: "Put a delete reason in here too.."
-		}]
 	}
 }

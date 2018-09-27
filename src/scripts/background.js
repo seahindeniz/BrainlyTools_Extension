@@ -1,4 +1,7 @@
+"use strict";
+
 import ext from "./utils/ext";
+import _System from "./controllers/System";
 import { storageS, storageL } from "./utils/storage";
 
 /*storageS.set({ color: "#f00" }, function () {
@@ -12,8 +15,15 @@ storageS.get('color', function (res) {
 });
 */
 const __c = `font-size: 14px;color: #57b2f8;font-family:century gothic;`;
+//let marketData = null;
 const manifest = chrome.runtime.getManifest();
 let browserAction = ext.browserAction;
+
+let System = new _System();
+window.System = System;
+
+System.init();
+
 let badge_update = opt => {
 	console.log("Badge updated");
 	browserAction.setBadgeText({
@@ -27,9 +37,7 @@ let badge_update = opt => {
 };
 browserAction.disable();
 
-let marketData = null;
-
-const onRequest = function (request, sender, sendResponse) {
+const onRequest = function(request, sender, sendResponse) {
 	if (request.action === "perform-save") {
 		console.log("Extension Type: ", "/* @echo extension */");
 		console.log("PERFORM AJAX", request.data);
@@ -56,12 +64,12 @@ const onRequest = function (request, sender, sendResponse) {
 		storageS.get(request.marketKey, res => {
 			let _res = {};
 			if (Object.prototype.toString.call(request.data) === "[object Array]") {
-				for (let i = 0, obj; (obj = request.data[i]); i++) {
+				for (let i = 0, obj;
+					(obj = request.data[i]); i++) {
 					if (res[request.marketKey])
 						_res[obj] = res[request.marketKey][obj];
 				}
-			}
-			else if (typeof request.data === "string") {
+			} else if (typeof request.data === "string") {
 				if (res[request.marketKey])
 					_res[request.data] = res[request.marketKey][request.data];
 			}
@@ -90,12 +98,12 @@ const onRequest = function (request, sender, sendResponse) {
 			//console.log('storageL', res)
 			let _res = {};
 			if (Object.prototype.toString.call(request.data) === "[object Array]") {
-				for (let i = 0, obj; (obj = request.data[i]); i++) {
+				for (let i = 0, obj;
+					(obj = request.data[i]); i++) {
 					if (res[request.marketKey])
 						_res[obj] = res[request.marketKey][obj];
 				}
-			}
-			else if (typeof request.data === "string") {
+			} else if (typeof request.data === "string") {
 				if (res[request.marketKey])
 					_res[request.data] = res[request.marketKey][request.data];
 			}
@@ -111,16 +119,15 @@ const onRequest = function (request, sender, sendResponse) {
 	}
 	if (request.action === "setMarketData") {
 		if (request.data) {
-			marketData = request.data;
+			System.data = request.data;
 			sendResponse("done");
-		}
-		else {
+		} else {
 			sendResponse();
 		}
 	}
 	if (request.action === "getMarketData") {
 		setTimeout(() => {
-			sendResponse(marketData);
+			sendResponse(System.data);
 		}, 500);
 		return true;
 	}
@@ -142,12 +149,27 @@ const onRequest = function (request, sender, sendResponse) {
 			color: color
 		});
 	}
+	if (request.action === "xmlHttpRequest") {
+		$.ajax({
+			method: request.method,
+			//type: "POST",
+			url: System.data.config.extensionServerURL + request.path,
+			headers: request.headers,
+			//async: true,
+			dataType: "json",
+			data: request.data,
+			success: res => {
+				sendResponse(res)
+			}
+		}).fail(function(err) {
+			sendResponse(false, err);
+		});
+		return true;
+	}
 
 }
 ext.runtime.onMessage.addListener(onRequest);
 ext.runtime.onMessageExternal.addListener(onRequest);
-
-
 
 let brainlyURI_regexp = /:\/\/(?:www\.)?((?:eodev|znanija)\.com|zadane\.pl|nosdevoirs\.fr|brainly(?:(?:\-thailand\.com)|(?:\.(?:com+(?:\.br|\.ng|)|co\.(?:id|za)|lat|in|my|ph|ro))))/i;
 let blockedDomains = /mc.yandex.ru|hotjar.com|google(-analytics|tagmanager|eadservices).com|kissmetrics.com|doubleclick.net|ravenjs.com/i;
@@ -156,7 +178,8 @@ let blockRequest = req => {
 	return {
 		cancel: blockedDomains.test(req.url)
 	};
-}; let blocking_init = () => {
+};
+let blocking_init = () => {
 	if (ext.webRequest.onBeforeRequest.hasListener(blockRequest)) {
 		ext.webRequest.onBeforeRequest.removeListener(blockRequest);
 	}
@@ -209,7 +232,7 @@ let tabCreated = tabs => {
 	console.log(this);
 });*/
 //ext.tabs.onCreated.addListener(tabCreated);
-ext.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
+ext.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 	//console.log("this:", tabId, changeInfo, tab);
 	if (changeInfo.status == "loading")
 		tabCreated(tab);

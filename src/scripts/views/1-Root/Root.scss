@@ -1,25 +1,27 @@
-.js-feed-item>.sg-content-box {
-	min-height: 160px;
+.quickDelete {
+	.js-feed-item>.sg-content-box {
+		min-height: 160px;
 
-	.sg-content-box__title {
+		.sg-content-box__title {
 
-		&,
-		.sg-actions-list {
-			height: 48px;
+			&,
+			.sg-actions-list {
+				height: 48px;
 
-			.sg-actions-list>.sg-actions-list__hole:first-child {
-				margin-top: 115px;
+				.sg-actions-list>.sg-actions-list__hole:first-child {
+					margin-top: 115px;
+				}
 			}
 		}
-	}
 
-	.sg-content-box__content {
-		min-height: 35px;
-	}
+		.sg-content-box__content {
+			min-height: 35px;
+		}
 
-	&:not(.sg-flash__message--error):hover {
-		.ext_actions {
-			visibility: visible;
+		&:not(.sg-flash__message--error):hover {
+			.ext_actions {
+				visibility: visible;
+			}
 		}
 	}
 }

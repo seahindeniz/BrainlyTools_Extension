@@ -12,6 +12,7 @@ manifest.clientID = Math.random().toString(36).slice(2);
 
 let System = new _System();
 System.data.meta.marketName = location.hostname;
+System.data.meta.location = JSON.parse(JSON.stringify(location));
 System.data.meta.manifest = manifest;
 
 System.data.meta.marketTitle = document.title;
@@ -67,7 +68,7 @@ function onRuntimeHandler(request, sender, sendResponse) {
 	}
 	if (request.action === "shareGatheredData2Background") {
 		window.postMessage({
-			action: 'shareGatheredData2Background'
+			action: "shareGatheredData2Background"
 		}, request.url);
 
 		window.addEventListener('shareGatheredData2BackgroundDone', e => {

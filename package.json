@@ -20,7 +20,7 @@
     "type": "git",
     "url": "https://gitlab.com/seahindeniz/_brainly_tools"
   },
-  "author": "Sahin D. <seahindeniz@gmail.com> (https://github.com/seahindeniz)",
+  "author": "Sahin D. <seahindeniz@gmail.com> (https://gitlab.com/seahindeniz)",
   "bugs": {
     "url": "https://gitlab.com/seahindeniz/_brainly_tools/issues"
   },
@@ -56,5 +56,7 @@
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "easyeditor": "^1.2.0"
+  }
 }

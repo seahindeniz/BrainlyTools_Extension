@@ -1,0 +1,41 @@
+section.brn-messages__chatbox>div.sg-content-box>div.sg-content-box__header {
+	align-items: start;
+	margin-bottom: 10px;
+
+	.sg-actions-list .sg-actions-list__hole {
+		float: left;
+		clear: both;
+
+		&.sg-actions-list__hole--to-right {
+			float: right;
+		}
+
+		&.userNoteBox {
+			width: 100%;
+			display: inline-block;
+		}
+
+		textarea.inputNote {
+			width: 100%;
+			resize: none;
+			position: relative;
+			z-index: 2;
+			height: 32px;
+			margin-top: 3px;
+			overflow: hidden;
+
+			&:focus {
+				height: 15em;
+				overflow: auto;
+				color: #000;
+			}
+			&:not(:focus){
+				padding: 0;
+			}
+
+			&.changed {
+				border: 3px solid #a7e6c6;
+			}
+		}
+	}
+}

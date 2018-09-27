@@ -11,6 +11,8 @@ import themeColorChanger from "../../helpers/themeColorChanger";
 import messagesLayoutExtender from "../../helpers/messagesLayoutExtender";
 import Request from "../../controllers/Request";
 import renderUserFinder from "../../components/UserFinder"
+import renderAnnouncements from "../../components/Announcements"
+import { GetDeleteReasons } from "../../controllers/ActionsOfServer"
 
 let System = new _System();
 window.System = System;
@@ -20,9 +22,6 @@ System.init();
 /**
  * Preventing the Console method preventer
  */
-console.l = ()=>{
-	
-}
 window.Console = console;
 /*let _loopConsole_expire = MakeExpire();
 let _loopConsole = setInterval(() => {
@@ -52,13 +51,27 @@ let setMetaData = callback => {
 			callback && callback();
 		}
 		if (e.data.action == "shareGatheredData2Background") {
-			System.shareGatheredData2Background(() => {
-				var evtSharingDone = new Event("shareGatheredData2BackgroundDone", { "bubbles": true, "cancelable": false });
-				document.dispatchEvent(evtSharingDone);
+			prepareDeleteReasons(() => {
+				System.shareGatheredData2Background(() => {
+					var evtSharingDone = new Event("shareGatheredData2BackgroundDone", { "bubbles": true, "cancelable": false });
+					document.dispatchEvent(evtSharingDone);
+				});
 			});
 		}
 	});
 }
+
+/*window.addEventListener('message', e => {
+	if (e.data.action == "shareGatheredData2Background") {
+		console.log("contentscript ile paylaş", e.data);
+		prepareDeleteReasons(() => {
+			System.shareGatheredData2Background(() => {
+				console.log("background ile paylaşıldı");
+				ext.runtime.sendMessage(System.data.meta.extension.id, { action: "shareGatheredData2Background" }, res => {});
+			});
+		});
+	}
+});*/
 let processDefaultConfig = (callback) => {
 	WaitForFn("Routing", obj => {
 		if (obj && obj.b && obj.b.prefix && obj.d && obj.d.c) {
@@ -67,6 +80,7 @@ let processDefaultConfig = (callback) => {
 			System.data.Brainly.Routing.prefix = obj.b.prefix;
 			System.data.Brainly.Routing.routes = obj.d.c;
 			localStorage.setObject("_Routing", System.data.Brainly.Routing);
+			localStorage.setObject("__default_config", System.data.Brainly.defaultConfig);
 			callback && callback();
 		} else {
 			Console.log("Routing error", obj);
@@ -100,6 +114,7 @@ let getDefaultConfig = callback => {
 					};
 				}
 				window.defaultConfig = System.data.Brainly.defaultConfig;
+				localStorage.setObject("__default_config", System.data.Brainly.defaultConfig);
 
 				Request.get(matchAuthJSFile[matchAuthJSFile.length - 1], res1 => {
 					let matchRoutes = res1.match(/(routes:.*scheme\:\"http\")/gmi);
@@ -120,8 +135,10 @@ let getDefaultConfig = callback => {
 }
 let setBrainlyData = callback => {
 	let localRouting = localStorage.getObject("_Routing");
-	if (localRouting) {
+	let __default_config = localStorage.getObject("__default_config");
+	if (localRouting && __default_config) {
 		System.data.Brainly.Routing = localRouting;
+		window.defaultConfig = System.data.Brainly.defaultConfig = __default_config;
 		callback && callback();
 		if (document.head.innerHTML.match(/__default_config/gmi)) {
 			processDefaultConfig()
@@ -196,7 +213,7 @@ let prepareDeleteReasons = callback => {
 			System.data.Brainly.deleteReasons = res.deleteReasons;
 			prepareDeleteButtonSettings(callback)
 		} else {
-			System.getDeleteReasons(deleteReasons => {
+			GetDeleteReasons(deleteReasons => {
 				let deleteReasonsKeys = Object.keys(deleteReasons);
 				deleteReasons.__withTitles = {};
 				deleteReasonsKeys.forEach(reasonKey => {
@@ -221,7 +238,7 @@ let prepareDeleteReasons = callback => {
 					prepareDeleteButtonSettings(callback)
 				});
 			});
-			/*System.getDeleteReasons(deleteReasons => {
+			/*GetDeleteReasons(deleteReasons => {
 				Object.keys(deleteReasons).forEach(reasonTypeKey => {
 					let categories = deleteReasons[reasonTypeKey];
 					Console.log(categories);
@@ -250,7 +267,7 @@ let prepareDeleteReasons = callback => {
 					prepareDeleteButtonSettings(callback)
 				});
 			});*/
-			/*			System.getDeleteReasons(deleteReasons => {
+			/*			GetDeleteReasons(deleteReasons => {
 				Object.keys(deleteReasons).forEach(reasonKey => {
 					let reason = deleteReasons[reasonKey];
 					deleteReasons[reasonKey] = {
@@ -277,12 +294,7 @@ let prepareDeleteReasons = callback => {
 		}
 	});
 }
-let onEventHandler = e => {
-	System.shareGatheredData2Background(() => {
-		ext.runtime.sendMessage(System.data.meta.extension.id, { action: "shareGatheredData2Background" }, res => {});
-	});
-}
-window.addEventListener('shareGatheredData2Background', onEventHandler);
+
 setMetaData(() => {
 	Console.log("MetaData OK!");
 	setUserData((resUserData) => {
@@ -294,56 +306,75 @@ setMetaData(() => {
 
 		setBrainlyData(() => {
 			Console.log("setBrainlyData OK!");
-
-			Inject2body(`/scripts/locales/${System.data.Brainly.userData.user.iso_locale}/locale.js`, () => {
+			/*if (Sistem.depo.current_locale) {
+				return Sistem.depo.current_locale;
+			} else {
+				let locale = window.__default_config;
+				locale && (locale = locale.MARKET);
+				//console.log("market: ", locale);
+				!locale && (locale = document.head.querySelector('meta[name="market"]'), locale && (locale = locale.getAttribute("content")));
+				//console.log("meta: ", locale);
+				!locale && (locale = window.siteLocale, locale && (locale = locale.replace(/.*[-_]/, "")));
+				//console.log("sitelocale: ", locale);
+				Sistem.depo.current_locale = locale;
+				return locale;
+			}*/
+			Inject2body(`/scripts/locales/${System.data.Brainly.defaultConfig.locale.LANGUAGE}/locale.js`, () => {
 				Console.info("Locale inject OK!");
+				System.shareGatheredData2Background(() => {
+					System.Auth((hash) => {
+						Console.log("authProcess OK!");
 
-				System.Auth((hash) => {
-					Console.log("authProcess OK!");
-
-					System.data.Brainly.userData._hash = hash;
-					/**
-					 * Wait for the declaration of the jQuery object
-					 */
-					WaitForFn("jQuery", obj => {
-						if (obj) {
-							Console.log("Jquery OK!");
-							//System.shareGatheredData2Background();
-
-							renderUserFinder();
-							prepareDeleteReasons(() => {
-								Console.log("Delete reasons OK!");
-								if (System.checkRoute(1, "") || System.checkRoute(1, "task_subject_dynamic")) {
-									Inject2body([
+						System.data.Brainly.userData._hash = hash;
+						/**
+						 * Wait for the declaration of the jQuery object
+						 */
+						WaitForFn("jQuery", obj => {
+							if (obj) {
+								Console.log("Jquery OK!");
+								renderUserFinder();
+								renderAnnouncements();
+								prepareDeleteReasons(() => {
+									Console.log("Delete reasons OK!");
+									if (System.checkRoute(1, "") || System.checkRoute(1, "task_subject_dynamic")) {
+										Inject2body([
 										"/scripts/lib/jquery-observe-2.0.3.min.js",
 										"/scripts/views/1-Root/index.js",
 										"/scripts/views/1-Root/Root.css"
 									])
-								}
-								if (System.checkRoute(1, "task_view")) {
-									Inject2body([
+									}
+									if (System.checkRoute(1, "task_view")) {
+										Inject2body([
 										"/scripts/lib/jquery-observe-2.0.3.min.js",
 										"/scripts/views/3-Task/index.js",
 										"/scripts/views/3-Task/Task.css"
 									])
-								}
-								if (System.checkRoute(2, "user_content") && !System.checkRoute(4, "comments_tr")) {
-									Inject2body([
+									}
+									if (System.checkRoute(2, "user_content") && !System.checkRoute(4, "comments_tr")) {
+										Inject2body([
 										"/scripts/views/4-UserContent/index.js",
-										"https://styleguide.brainly.com/136.14.1/style-guide.css?treat=.ext_css",
+										System.data.Brainly.style_guide,
 										"/scripts/views/4-UserContent/UserContent.css"
 									])
-								}
-							});
+									}
+								});
 
-							if (System.checkRoute(1, "messages")) {
-								Inject2body([
+								if (System.checkRoute(1, "messages")) {
+									Inject2body([
+									"/scripts/lib/jquery-observe-2.0.3.min.js",
 									"/scripts/views/2-Messages/index.js",
 									"/scripts/views/2-Messages/Messages.css"
 								]);
-
+								}
+								if (System.checkRoute(1, "user_profile") || (System.checkRoute(1, "users") && System.checkRoute(2, "view"))) {
+									Inject2body([
+									"/scripts/views/5-UserProfile/index.js",
+									System.data.Brainly.style_guide,
+									"/scripts/views/5-UserProfile/UserProfile.css"
+								]);
+								}
 							}
-						}
+						});
 					});
 				});
 			});

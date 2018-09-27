@@ -1,6 +1,6 @@
 "use strict";
 
-import makeToplayer from "../../components/Toplayer";
+import makeModal from "../../components/ModalToplayer";
 import DeleteReasonCategoryList from "../../components/DeleteReasonCategoryList";
 import DeleteSection from "../DeleteSection";
 
@@ -38,7 +38,7 @@ const createPanel = res => {
 	});
 
 	
-	let $toplayer = makeToplayer(
+	let $toplayer = makeModal(
 		`<div class="sg-actions-list sg-actions-list--space-between">
 			<div class="sg-actions-list__hole">
 				<div class="sg-label sg-label--small sg-label--secondary">
@@ -135,7 +135,7 @@ const createPanel = res => {
 	let $toplayerContentBox = $(".sg-toplayer__wrapper > .sg-content-box > div:nth-child(2)", $toplayer);
 	let brMatch = res.data.task.content.match(/<br\s*\/?>/gmi);
 
-	DeleteSection(res.data.delete_reasons).appendTo($toplayerContentBox);
+	DeleteSection(res.data.delete_reasons.task, "task").appendTo($toplayerContentBox);
 
 	if(!((brMatch && brMatch.length > 6) || $taskContentH1.text().length > 255)){
 		taskContent.removeClass("js-shrink")

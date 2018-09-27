@@ -13,6 +13,7 @@
   "default_locale": "en",
   "background": {
     "scripts": [
+      "scripts/lib/jquery-3.3.1.min.js",
       "scripts/background.js"
     ]
   },
@@ -27,7 +28,6 @@
     "default_title": "__MSG_btnTooltip__",
     "default_popup": "popup.html"
   },
-  "content_security_policy": "script-src 'self' 'sha256-dmqj0TcqQJmF0uUwDP2VaNwRNGCSsXvhFY1/MrQUgoo='; object-src 'self'",
   "permissions": [
     "clipboardRead",
     "clipboardWrite",
@@ -62,7 +62,8 @@
       "*://nosdevoirs.fr/*",
       "*://brainly.ro/*",
       "*://brainly.com.ng/*",
-      "*://brainly.co.za/*"
+      "*://brainly.co.za/*",
+      "*://cdnjs.cloudflare.com/*"
     ],
     "accepts_tls_channel_id": false
   },

@@ -1,6 +1,6 @@
 "use strict";
 
-import { RemoveAnswer } from "../../controllers/Actions";
+import { RemoveAnswer } from "../../controllers/ActionsOfBrainly";
 import DeleteSection from "../../components/DeleteSection";
 
 let selectors = window.selectors,

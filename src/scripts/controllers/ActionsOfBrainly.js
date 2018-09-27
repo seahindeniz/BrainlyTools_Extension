@@ -1,6 +1,6 @@
 import Request from "./Request";
 
-const Actions = {
+const ActionsOfBrainly = {
 	/**
 	 * Get actions details of a question
 	 * @param {number|string} taskId - Id number of a question
@@ -22,7 +22,7 @@ const Actions = {
 			"return_points": true,
 			...data
 		}
-		data.reason += " "+System.data.config.reasonSign;
+		data.reason += " " + System.data.config.reasonSign;
 
 		Request.BrainlyReq("POST", '/moderation_new/delete_task_content', data, callback);
 	},
@@ -39,7 +39,7 @@ const Actions = {
 			schema: "moderation.response.delete.req",
 			...data
 		}
-		data.reason += " "+System.data.config.reasonSign;
+		data.reason += " " + System.data.config.reasonSign;
 
 		Request.BrainlyReq("POST", '/moderation_new/delete_response_content', data, callback);
 	},
@@ -59,7 +59,7 @@ const Actions = {
 		if (withTaskDetails) {
 			_callback = resTask => {
 				if (resTask.success) {
-					Actions.TaskActions(taskId, resActions => {
+					ActionsOfBrainly.TaskActions(taskId, resActions => {
 						if (resActions.success) {
 							callback({
 								...resTask,
@@ -95,6 +95,15 @@ const Actions = {
 			schema: ""
 		}
 		Request.BrainlyReq("POST", '/moderate_tickets/expire', data, callback);
+	},
+
+	/**
+	 * Get user profile data by user id
+	 * @param {number} id - User id
+	 * @param {function} callback 
+	 */
+	getUserByID(id, callback) {
+		Request.BrainlyReq("GET", `/api_user_profiles/get_by_id/${~~id}`, callback);
 	}
 }
-export default Actions;
+export default ActionsOfBrainly;

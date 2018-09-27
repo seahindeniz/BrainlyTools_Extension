@@ -2,11 +2,10 @@
 
 import Inject2body from "../../helpers/Inject2body";
 import { attachmentIcon } from "../../components/Icons";
-import { RemoveQuestion, OpenModerationTicket, GetTaskContent } from "../../controllers/Actions";
+import { RemoveQuestion, OpenModerationTicket, GetTaskContent } from "../../controllers/ActionsOfBrainly";
 
-Console.log("User Content inject OK!");
-System.printLoadedTime();
-System.changeBadgeColor("loaded");
+System.pageLoaded("User Content inject OK!");
+
 window.sitePassedParams && (window.sitePassedParams = JSON.parse(sitePassedParams));
 //Console.clear();
 

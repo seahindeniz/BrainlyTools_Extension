@@ -1,34 +1,35 @@
 {
-  "short_name": "__MSG_btnTooltip__",
-  "version": "6.0.0",
-  "author": "Sahin Deniz - traBolic",
-  "icons": {
-    "16": "icons/icon16.png",
-    "128": "icons/icon128.png"
-  },
-  "name": "__MSG_appName__",
-  "manifest_version": 2,
-  "incognito": "spanning",
-  "description": "__MSG_appDescription__",
-  "default_locale": "en",
-  "background": {
-    "scripts": [
+	"short_name": "__MSG_btnTooltip__",
+	"version": "6.0.0",
+	"author": "Sahin Deniz - traBolic",
+	"icons": {
+		"16": "icons/icon16.png",
+		"128": "icons/icon128.png"
+	},
+	"name": "__MSG_appName__",
+	"manifest_version": 2,
+	"incognito": "spanning",
+	"description": "__MSG_appDescription__",
+	"default_locale": "en",
+	"background": {
+		"scripts": [
       "scripts/lib/jquery-3.3.1.min.js",
       "scripts/background.js"
     ]
-  },
-  "options_ui": {
-    "page": "options.html"
-  },
-  "browser_action": {
-    "default_icon": {
-      "48": "icons/icon48.png",
-      "50": "icons/icon50.png"
-    },
-    "default_title": "__MSG_btnTooltip__",
-    "default_popup": "popup.html"
-  },
-  "permissions": [
+	},
+	"options_ui": {
+		"page": "options.html"
+	},
+	"browser_action": {
+		"default_icon": {
+			"48": "icons/icon48.png",
+			"50": "icons/icon50.png"
+		},
+		"default_title": "__MSG_btnTooltip__",
+		"default_popup": "popup.html"
+	},
+	"content_security_policy": "script-src 'self' https://cdnjs.cloudflare.com 'unsafe-eval'; object-src 'self' https://cdnjs.cloudflare.com",
+	"permissions": [
     "clipboardRead",
     "clipboardWrite",
     "contentSettings",
@@ -42,11 +43,11 @@
     "webRequestBlocking",
     "<all_urls>"
   ],
-  "web_accessible_resources": [
+	"web_accessible_resources": [
     "*/*"
   ],
-  "externally_connectable": {
-    "matches": [
+	"externally_connectable": {
+		"matches": [
       "*://eodev.com/*",
       "*://brainly.com/*",
       "*://zadane.pl/*",
@@ -65,13 +66,13 @@
       "*://brainly.co.za/*",
       "*://cdnjs.cloudflare.com/*"
     ],
-    "accepts_tls_channel_id": false
-  },
-  "content_scripts": [
-    {
-      "run_at": "document_start",
-      "all_frames": true  ,
-      "matches": [
+		"accepts_tls_channel_id": false
+	},
+	"content_scripts": [
+		{
+			"run_at": "document_start",
+			"all_frames": true,
+			"matches": [
         "*://eodev.com/*",
         "*://brainly.com/*",
         "*://zadane.pl/*",
@@ -88,7 +89,7 @@
         "*://brainly.com.ng/*",
         "*://brainly.co.za/*"
       ],
-      "js": [
+			"js": [
         "scripts/contentscript.js"
       ]
     }

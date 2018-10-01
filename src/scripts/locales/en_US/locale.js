@@ -59,6 +59,10 @@ System.data.locale = {
 			no: "No",
 			update: "Update",
 			cancelEdit: "Cancel edit",
+			moderate: "Moderate",
+			progressing: "Progressing",
+			allDone: "All done!",
+			warning_ongoingProcess: "Some of the content is still processed. Do you still want to exit the page?",
 			errors: {
 				operation_error: "An error occurred during operation. Please try again.",
 				went_wrong: "Oops, something went wrong.",
@@ -81,6 +85,11 @@ System.data.locale = {
 			title: "Extension Options",
 			extensionManagement: "Ext. Management",
 			version_text: "Extension version: ",
+			createShortLinkButton: {
+				title: "Create a short link",
+				description: "Create a short link for this page"
+			},
+			shortLinkSuccessMessage: "Short link has been created and copied to clipboard(CTRL + C)",
 			themeColor: {
 				title: "Theme Color",
 				description: "You can use it to change Brainly's theme color.",
@@ -127,10 +136,15 @@ System.data.locale = {
 				draft: "Draft",
 				on: "On",
 				off: "Off",
-				createdMessage:"Created successfully",
-				updatedMessage:"Updated successfully",
+				createdMessage: "Created successfully",
+				updatedMessage: "Updated successfully",
 				removedMessage: "Removed successfully",
-				clearForm: "Clear the text inputs"
+				clearForm: "Clear the text inputs",
+				/**
+				 * \n represents the new line for clear reading
+				 * %s represents the date when user readed the announcement. Example> Readed on 01.01.2018
+				 */
+				readedOn: "Readed on:\n%s"
 			},
 			hide_unnecessary_contents: {
 				title: "Hide unnecessary containers",
@@ -468,7 +482,10 @@ System.data.locale = {
 			correction_for_selected_answers: "Ask for correction on selected answers",
 			warning__before_approving_review_the_answer_first: "Before action is taken, please review the content first.",
 			show_content: "Show user content",
-			range_of_listing: "Range number of content listing"
+			range_of_listing: "Range number of content listing",
+			warning_selectAnUnapprovedAnswerForApproving: "You need select some unapproved answer(s) for start approving",
+			warning_someOfSelectedAnswersAreApproved: "Some of selected answers have already been approved, so you don't need to approve those answers again",
+			message_confirmApproving: "Do you want approve this answer(s)?"
 		},
 		user_warnings: {
 			operations: "Operations",

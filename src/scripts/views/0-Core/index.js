@@ -1,6 +1,7 @@
 "use strict";
 
 window.performanceStartTiming = performance.now();
+
 import _System from "../../controllers/System";
 import ext from "../../utils/ext";
 import MakeExpire from "../../helpers/MakeExpire";
@@ -332,30 +333,40 @@ setMetaData(() => {
 						WaitForFn("jQuery", obj => {
 							if (obj) {
 								Console.log("Jquery OK!");
+								System.changeBadgeColor("loaded");
 								renderUserFinder();
 								renderAnnouncements();
 								prepareDeleteReasons(() => {
 									Console.log("Delete reasons OK!");
 									if (System.checkRoute(1, "") || System.checkRoute(1, "task_subject_dynamic")) {
 										Inject2body([
-										"/scripts/lib/jquery-observe-2.0.3.min.js",
-										"/scripts/views/1-Root/index.js",
-										"/scripts/views/1-Root/Root.css"
-									])
+											"/scripts/lib/jquery-observe-2.0.3.min.js",
+											"/scripts/views/1-Root/index.js",
+											"/scripts/views/1-Root/Root.css"
+										])
 									}
 									if (System.checkRoute(1, "task_view")) {
 										Inject2body([
-										"/scripts/lib/jquery-observe-2.0.3.min.js",
-										"/scripts/views/3-Task/index.js",
-										"/scripts/views/3-Task/Task.css"
-									])
+											"/scripts/lib/jquery-observe-2.0.3.min.js",
+											"/scripts/views/3-Task/index.js",
+											"/scripts/views/3-Task/Task.css"
+										])
 									}
 									if (System.checkRoute(2, "user_content") && !System.checkRoute(4, "comments_tr")) {
 										Inject2body([
-										"/scripts/views/4-UserContent/index.js",
-										System.data.Brainly.style_guide,
-										"/scripts/views/4-UserContent/UserContent.css"
-									])
+											"/scripts/views/4-UserContent/index.js",
+											System.data.Brainly.style_guide.css,
+											"/scripts/views/4-UserContent/UserContent.css"
+										])
+									}
+									if (System.checkRoute(2, "archive_mod")) {
+										Inject2body([
+											"/scripts/lib/jquery-observe-2.0.3.min.js",
+											"/scripts/views/6-ArchiveMod/index.js",
+											System.data.Brainly.style_guide.css,
+											System.data.Brainly.style_guide.icons,
+											"/scripts/views/6-ArchiveMod/ArchiveMod.css"
+										])
 									}
 								});
 
@@ -369,7 +380,7 @@ setMetaData(() => {
 								if (System.checkRoute(1, "user_profile") || (System.checkRoute(1, "users") && System.checkRoute(2, "view"))) {
 									Inject2body([
 									"/scripts/views/5-UserProfile/index.js",
-									System.data.Brainly.style_guide,
+									System.data.Brainly.style_guide.css,
 									"/scripts/views/5-UserProfile/UserProfile.css"
 								]);
 								}

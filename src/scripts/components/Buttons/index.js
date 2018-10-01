@@ -8,6 +8,10 @@ const buttons = {
 				</svg>
 			</span>
 		</button>`,
+		RemoveQuestionNoIcon: `
+		<button class="sg-button-secondary sg-label--unstyled{type}" title="{title}">
+			<label class="sg-label__text">{text}</label>
+		</button>`,
 	RemoveQuestionMore: `<button class="sg-button-secondary sg-button-secondary--small sg-button-secondary--alt" title="{title}">{text}</button>`,
 	//contentDetails: 
 }

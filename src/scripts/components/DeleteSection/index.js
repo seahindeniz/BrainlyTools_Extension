@@ -3,7 +3,7 @@ import DeleteReasonCategoryList from "../DeleteReasonCategoryList";
 export default (Reason, type)=>{
 	let categories = DeleteReasonCategoryList(Reason);
 	let $deleteSection = $(`
-	<div>
+	<div id="deleteSection">
 		<div class="sg-actions-list sg-content-box__actions--spaced-top sg-content-box__actions--spaced-bottom categories">${categories}</div>
 		<div class="sg-horizontal-separator js-hidden"></div>
 		<div class="sg-actions-list sg-content-box__actions--spaced-top sg-content-box__actions--spaced-bottom reasons"></div>

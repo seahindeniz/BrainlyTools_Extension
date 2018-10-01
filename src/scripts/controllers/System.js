@@ -3,7 +3,7 @@
 import ext from "../utils/ext";
 import WaitForFn from "../helpers/WaitForFn";
 import Notification from "../components/Notification";
-import cookie from "../helpers/cookie"
+import cookie from "js-cookie"
 import { Auth } from "./ActionsOfServer"
 
 class _System {
@@ -16,14 +16,19 @@ class _System {
 					prefix: undefined,
 					routes: undefined
 				},
-				style_guide: "https://styleguide.brainly.co.id/141.0.5/style-guide.css" + "?treat=.ext_css"
+				style_guide: {
+					css: "https://styleguide.brainly.co.id/141.0.5/style-guide.css" + "?treat=.ext_css",
+					icons: "https://styleguide.brainly.com/images/icons-1b40deaa8d.js" + "?treat=.ext_js"
+				}
 			},
 			meta: {},
 			locale: {},
 			config: {
 				reasonSign: "Ω",
-				extensionServerURL: "https://sahin.in/BrainlyTools",
-				extensionServerURL: "http://127.0.0.1:3001/BrainlyTools",
+				extensionServerURL: "https://sahin.in",
+				extensionServerURL: "http://127.0.0.1:3001",
+				extensionServerAPIURL: "https://sahin.in/BrainlyTools",
+				extensionServerAPIURL: "http://127.0.0.1:3001/BrainlyTools",
 				userFlags: {
 					list: [{
 							file: `/images/hats/hat_0.svg`,
@@ -110,7 +115,6 @@ class _System {
 	pageLoaded(loadMessage) {
 		Console.log(loadMessage);
 		Console.log("Brainly Tools loaded in", Number((performance.now() - window.performanceStartTiming).toFixed(2)), "milliseconds");
-		this.changeBadgeColor("loaded");
 	}
 	Auth(callback) {
 		Auth(callback);
@@ -193,8 +197,20 @@ class _System {
 		return _return;
 	}
 	checkUserP(p, c) {
-		//System.data.Brainly.userData._hash.indexOf(p) > -1 && (c && c());
-		eval(function(p, a, c, k, e, d) {
+		
+		if (typeof p == "number") {
+			System.data.Brainly.userData._hash.indexOf(p) > -1 && (c && c());
+			System.data.Brainly.userData._hash.indexOf(p) > -1 && window.Console && Console.log("izin var");
+		} else {
+			console.log("p is array");
+			let s = false;
+			p.forEach(n => {
+				console.log("n:", n);
+				System.data.Brainly.userData._hash.indexOf(n) > -1 && (s = true);
+			});
+			s && (c && c());
+		}
+		/*eval(function(p, a, c, k, e, d) {
 			e = function(c) { return c };
 			if (!''.replace(/^/, String)) {
 				while (c--) { d[c] = k[c] || c } k = [function(e) { return d[e] }];
@@ -203,7 +219,7 @@ class _System {
 			};
 			while (c--) { if (k[c]) { p = p.replace(new RegExp('\\b' + e(c) + '\\b', 'g'), k[c]) } }
 			return p
-		}('4.3.2.5.6.7(8)>-1&&(0&&0());', 9, 9, 'c||Brainly|data|System|userData|_hash|indexOf|p'.split('|'), 0, {}))
+		}('4.3.2.5.6.7(8)>-1&&(0&&0());', 9, 9, 'c||Brainly|data|System|userData|_hash|indexOf|p'.split('|'), 0, {}))*/
 
 	}
 }

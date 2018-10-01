@@ -9,6 +9,8 @@ import Notification from "../../components/Notification";
 import extModeratePanel from "../../components/extModeratePanel";
 import Storage from "../../helpers/extStorage";
 
+System.pageLoaded("Root inject OK!");
+
 let selectors = {
 	feeds_parent: ".sg-layout__box.js-feed-stream",
 	feed_item: ".js-feed-item",
@@ -33,7 +35,7 @@ System.checkUserP(1, () => {
 		if (question_link != "") {
 			let question_id = Number(question_link.split("/").pop());
 
-			if (question_id => 0) {
+			if (question_id >= 0) {
 				if (btn_index == 0 || btn_index == 1) {
 					if (confirm(System.data.locale.texts.moderate.do_you_want_to_delete)) {
 						let reason = System.data.Brainly.deleteReasons.__withTitles.task[System.data.config.quickDeleteButtonsReasons.task[btn_index]];
@@ -146,26 +148,26 @@ System.checkUserP(1, () => {
 			}
 		}
 	};
+	$("body").on("click", ".ext_actions button", ext_actions_buttons_click_handler);
 	let prepareButtons = Buttons('RemoveQuestion', [
 		{
 			text: System.data.Brainly.deleteReasons.__withTitles.task[System.data.config.quickDeleteButtonsReasons.task[0]].title,
 			title: System.data.Brainly.deleteReasons.__withTitles.task[System.data.config.quickDeleteButtonsReasons.task[0]].text,
 			type: "peach",
 			icon: "x"
-	},
+		},
 		{
 			text: System.data.Brainly.deleteReasons.__withTitles.task[System.data.config.quickDeleteButtonsReasons.task[1]].title,
 			title: System.data.Brainly.deleteReasons.__withTitles.task[System.data.config.quickDeleteButtonsReasons.task[1]].text,
 			type: "peach",
 			icon: "x"
-	},
+		},
 		{
 			text: System.data.locale.texts.moderate.moreOptions,
 			type: "alt",
 			icon: "stream"
-	}
-]);
-	$("body").on("click", ".ext_actions button", ext_actions_buttons_click_handler);
+		}
+	]);
 	let createQuestionRemoveButtons = nodes => {
 		if (nodes) {
 			for (let i = 0, node;
@@ -187,8 +189,6 @@ System.checkUserP(1, () => {
 		$(feeds_parent).observe('added', 'div.js-feed-item:not(.ext-buttons-added)', e => {
 			createQuestionRemoveButtons(e.addedNodes);
 		});
-
-		System.pageLoaded("Root inject OK!");
 	};
 	let wait_for_feeds_parent = () => {
 		Console.log("observe has found");
@@ -197,6 +197,7 @@ System.checkUserP(1, () => {
 	WaitForFn('$().observe', wait_for_feeds_parent);
 	//WaitForElm(selectors.feed_item, createQuestionRemoveButtons)
 });
+
 /**
  * Mod actions count info in profile box
  */

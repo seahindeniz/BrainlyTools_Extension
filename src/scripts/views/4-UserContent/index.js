@@ -63,6 +63,7 @@ if (System.checkRoute(4, "") || System.checkRoute(4, "tasks") || System.checkRou
 
 	let prepareContentBoxes = taskId => {
 		let $taskLink = $(`a[href$="${taskId}"]`);
+		let $parentTr = $($taskLink).parents("tr");
 		let $parentTd = $($taskLink).parent();
 		let taskView = taskContents[taskId];
 		let task = taskView.data.task;
@@ -110,6 +111,7 @@ if (System.checkRoute(4, "") || System.checkRoute(4, "tasks") || System.checkRou
 					$parentTd.parent().attr("data-responseId", response.id);
 					if (response.approved && response.approved.approver && response.user_id == window.sitePassedParams[0]) {
 						$(`<span class="approved">🗸</span>`).prependTo($parentTd);
+						$parentTr.addClass("approved");
 					}
 				}
 				let responseOwner = taskView.users_data_WithUID[response.user_id];
@@ -167,5 +169,5 @@ if (System.checkRoute(4, "") || System.checkRoute(4, "tasks") || System.checkRou
 	if (System.checkRoute(4, "") || System.checkRoute(4, "tasks"))
 		Inject2body("/scripts/views/4-UserContent/tasks.js");
 	else if (System.checkRoute(4, "responses"))
-		Inject2body("/scripts/views/4-UserContent/responses.js");
+		Inject2body(["/scripts/views/4-UserContent/responses.js"]);
 }

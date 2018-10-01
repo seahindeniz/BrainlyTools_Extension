@@ -24,7 +24,8 @@ class Ajax {
 			url: System.data.Brainly.apiURL + path,
 			headers: {
 				"Content-Type": "application/json",
-				"X-B-Token-Long": System.data.Brainly.tokenLong
+				"X-B-Token-Long": System.data.Brainly.tokenLong,
+				accept: "text/plain, */*; q=0.01"
 			},
 			async: async,
 			dataType: "json",
@@ -58,7 +59,7 @@ class Ajax {
 		if (System.data.Brainly.userData.extension && System.data.Brainly.userData.extension.secretKey) {
 			headers["SecretKey"] = System.data.Brainly.userData.extension.secretKey;
 		}
-		
+
 		let messageData = {
 			action: "xmlHttpRequest",
 			method,
@@ -78,7 +79,7 @@ class Ajax {
 		}
 
 		var xhr = new XMLHttpRequest();
-		xhr.open(method, extensionServerURL + path, true);
+		xhr.open(method, extensionServerAPIURL + path, true);
 		xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
 		if (System.data.Brainly.userData.extension && System.data.Brainly.userData.extension.secretKey) {
 			xhr.setRequestHeader('SecretKey', System.data.Brainly.userData.extension.secretKey);

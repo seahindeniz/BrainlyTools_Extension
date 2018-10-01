@@ -18,58 +18,84 @@ let inject_it = function(file_paths, add_ext_id) {
 		if (typeof file_paths == "string") {
 			file_paths = [file_paths];
 		}
+
 		for (let i = 0, file_path;
 			(file_path = file_paths[i]); i++) {
 			let file_name = file_path.split(".");
+
 			if (file_name.length < 2) {
 				console.error("Injected file name is incorrect: ", file_path);
 				_return = false;
 			} else {
 				let extension_URL;
+
 				if (typeof System != "undefined" && System.data.meta && System.data.meta.extension) {
 					extension_URL = System.data.meta.extension.URL
 				} else {
 					console.warn("manually create extension url");
 					extension_URL = "chrome-extension://" + chrome.runtime.id
 				}
+
 				let file_ext = (file_name).pop();
 				let file_path_fixed = extension_URL + file_path;
+
 				if (file_path.indexOf("http") >= 0) {
 					file_path_fixed = file_path
 				}
+
 				switch (file_ext) {
 					case "js":
 						elm = document.documentElement;
 						injected = document.createElement('script');
 						injected.setAttribute('type', 'text/javascript');
 						injected.setAttribute('src', file_path_fixed);
+
 						if (typeof add_ext_id === "function") {
 							injected.onload = function() {
 								add_ext_id();
 							};
 						}
+
 						if (add_ext_id && typeof add_ext_id !== "function") {
 							//noinspection JSUnresolvedVariable
 							injected.setAttribute('extension_URL', chrome.runtime.id || add_ext_id);
 						}
+
 						elm && elm.appendChild(injected);
+
+						break;
+					case "ext_js":
+						elm = document.documentElement;
+						injected = document.createElement('script');
+
+						injected.setAttribute('type', 'text/javascript');
+						injected.setAttribute('src', file_path_fixed);
+
+						elm && elm.prepend(injected);
+
 						break;
 					case "ext_css":
 						elm = document.documentElement;
 						injected = document.createElement('link');
+
 						injected.setAttribute('rel', 'stylesheet');
 						injected.setAttribute('type', 'text/css');
 						injected.setAttribute('href', file_path_fixed);
+
 						elm && elm.prepend(injected);
+
 						break;
 					case "css":
 						WaitForFn("document.head", head => {
 							injected = document.createElement('link');
+
 							injected.setAttribute('rel', 'stylesheet');
 							injected.setAttribute('type', 'text/css');
 							injected.setAttribute('href', file_path_fixed);
+
 							head && head.appendChild(injected);
 						});
+						
 						break;
 				}
 			}

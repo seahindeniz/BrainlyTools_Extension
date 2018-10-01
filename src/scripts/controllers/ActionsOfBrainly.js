@@ -44,6 +44,37 @@ const ActionsOfBrainly = {
 		Request.BrainlyReq("POST", '/moderation_new/delete_response_content', data, callback);
 	},
 	/**
+	 * Delete comment by id
+	 * @param {object} data - Post data
+	 * @param {function} callback
+	 */
+	RemoveComment(data, callback) {
+		data = {
+			"model_type_id": 45,
+			"give_warning": false,
+			...data
+		}
+		
+		data.reason += " " + System.data.config.reasonSign;
+
+		Request.BrainlyReq("POST", '/moderation_new/delete_comment_content', data, callback);
+	},
+	/**
+	 * Approve answer by id
+	 * @param {object} data - Post data
+	 * @param {function} callback
+	 */
+	ApproveAnswer(model_id, callback) {
+		let coupon = btoa(`[object Object]${myData.id}-${new Date().getTime()}-${Math.floor(1 + Math.random() * 99999999)}`);
+		let data = {
+			model_type: 2,
+			model_id,
+			_coupon_: coupon
+		}
+
+		Request.BrainlyReq("POST", '/api_content_quality/confirm', data, callback);
+	},
+	/**
 	 * Create a ticket for a question
 	 * @param {number|string} taskId - Id number of a question
 	 * @param {function} callback

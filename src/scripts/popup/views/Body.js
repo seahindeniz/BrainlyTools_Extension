@@ -17,7 +17,7 @@ const Layout = template => {
 	$(".box > .title").on("click", function() {
 		$(this).parent().toggleClass("is-active");
 	});
-	$(".message-header > p").on("click", function() {
+	$("body").on("click", ".message-header > p", function() {
 		$(this).parents("article").toggleClass("is-active");
 	});
 	$(".dropdown-trigger").on("click", function() {

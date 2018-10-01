@@ -27,11 +27,11 @@ System.init();
 let badge_update = opt => {
 	console.log("Badge updated");
 	browserAction.setBadgeText({
-		tabId: opt.id,
+		//tabId: opt.id,
 		text: opt.text
 	});
 	browserAction.setBadgeBackgroundColor({
-		tabId: opt.id,
+		//tabId: opt.id,
 		color: opt.color
 	});
 };
@@ -141,7 +141,7 @@ const onRequest = function(request, sender, sendResponse) {
 		}
 		if (request.status === "loaded") {
 			color = [83, 207, 146, 255]
-			browserAction.enable(sender.tab.id);
+			browserAction.enable();
 		}
 		badge_update({
 			id: sender.tab.id,
@@ -153,7 +153,7 @@ const onRequest = function(request, sender, sendResponse) {
 		$.ajax({
 			method: request.method,
 			//type: "POST",
-			url: System.data.config.extensionServerURL + request.path,
+			url: System.data.config.extensionServerAPIURL + request.path,
 			headers: request.headers,
 			//async: true,
 			dataType: "json",

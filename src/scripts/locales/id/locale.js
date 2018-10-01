@@ -59,6 +59,10 @@ System.data.locale = {
 			no: "Tidak",
 			update: "Memperbarui",
 			cancelEdit: "Batalkan pengeditan",
+			moderate: "Moderasi",
+			progressing: "Maju",
+			allDone: "All done!",
+			warning_ongoingProcess: "Beberapa konten masih diproses. Apakah Anda masih ingin keluar halaman?",
 			errors: {
 				operation_error: "Terjadi kesalahan selama proses operasi. Silahkan mencoba kembali",
 				went_wrong: "Oops, terjadi kesalahan",
@@ -81,6 +85,11 @@ System.data.locale = {
 			title: "Opsi Ekstensi",
 			extensionManagement: "Manajemen Eks.",
 			version_text: "Extension version: ",
+			createShortLinkButton: {
+				title: "Buat tautan pendek",
+				description: "Buat tautan pendek untuk halaman ini"
+			},
+			shortLinkSuccessMessage: "Tautan pendek telah dibuat dan disalin ke papan klip(CTRL + C)",
 			themeColor: {
 				title: "Warna Tema",
 				description: "Kamu dapat menggunakannya untuk mengubah warna dari tema Brainly.",
@@ -127,10 +136,15 @@ System.data.locale = {
 				draft: "Draft",
 				on: "On",
 				off: "Off",
-				createdMessage:"Berhasil dibuat",
-				updatedMessage:"Berhasil diperbarui",
+				createdMessage: "Berhasil dibuat",
+				updatedMessage: "Berhasil diperbarui",
 				removedMessage: "Berhasil dihapus",
-				clearForm: "Hapus input teks"
+				clearForm: "Hapus input teks",
+				/**
+				 * \n represents the new line for clear reading
+				 * %s represents the date when user readed the announcement. Example> Readed on 01.01.2018
+				 */
+				readedOn: "Tiba pada:\n%s"
 			},
 			hide_unnecessary_contents: {
 				title: "Hide unnecessary containers",
@@ -467,7 +481,10 @@ System.data.locale = {
 			correction_for_selected_answers: "Meminta koreksi pada jawaban yang dpilih",
 			warning__before_approving_review_the_answer_first: "Sebelum tindakan diambil, silahkan meninjau konten terlebih dahulu.",
 			show_content: "Tampilkan konten user",
-			range_of_listing: "Range number of content listing"
+			range_of_listing: "Range number of content listing",
+			warning_selectAnUnapprovedAnswerForApproving: "Anda perlu memilih beberapa jawaban yang tidak disetujui untuk mulai menyetujui",
+			warning_someOfSelectedAnswersAreApproved: "Beberapa jawaban yang dipilih telah disetujui, jadi Anda tidak perlu menyetujui jawaban itu lagi",
+			message_confirmApproving: "Apakah Anda ingin menyetujui jawaban ini?"
 		},
 		user_warnings: {
 			operations: "Operasi",

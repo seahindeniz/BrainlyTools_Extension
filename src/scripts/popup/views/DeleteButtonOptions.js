@@ -6,22 +6,23 @@ let DeleteButtonOptions = (quickDeleteButtonsReasons, callback) => {
 	let reasonTypeKeys = Object.keys(System.data.Brainly.deleteReasons.__withTitles).reverse();
 
 	reasonTypeKeys.forEach(reasonTypeKey => {
-		let dropDownFields = "";
-		var listOptions = i => {
-			let options = "";
-			Object.keys(System.data.Brainly.deleteReasons.__withTitles[reasonTypeKey]).forEach(reasonKey => {
-				if (reasonKey != "__categories") {
-					let contentType = System.data.Brainly.deleteReasons.__withTitles[reasonTypeKey];
-					let reason = contentType[reasonKey];
-					let category = contentType.__categories[reason.category_id];
-					let buttonDefaultSelectedItem = (quickDeleteButtonsReasons && quickDeleteButtonsReasons[reasonTypeKey][i]) || System.data.locale.config.quickDeleteButtonsDefaultReasons[reasonTypeKey][i]
-					options += `<option data-cat-id="${category.id}" data-key="${reasonKey}" title="${reason.text}"${buttonDefaultSelectedItem == reasonKey ? " selected" : ""}>${category.text == reasonKey ? reasonKey : category.text + " - " + reasonKey}</option>`
-				}
-			});
-			return options;
-		}
-		for (let i = 0; i < (System.data.config.quickDeleteButtonsReasons[reasonTypeKey].length); i++) {
-			dropDownFields += `
+		System.checkUserP(reasonTypeKey == "task" ? 1 : reasonTypeKey == "response" ? 2 : reasonTypeKey == "comment" ? 3 : null, () => {
+			let dropDownFields = "";
+			var listOptions = i => {
+				let options = "";
+				Object.keys(System.data.Brainly.deleteReasons.__withTitles[reasonTypeKey]).forEach(reasonKey => {
+					if (reasonKey != "__categories") {
+						let contentType = System.data.Brainly.deleteReasons.__withTitles[reasonTypeKey];
+						let reason = contentType[reasonKey];
+						let category = contentType.__categories[reason.category_id];
+						let buttonDefaultSelectedItem = (quickDeleteButtonsReasons && quickDeleteButtonsReasons[reasonTypeKey][i]) || System.data.locale.config.quickDeleteButtonsDefaultReasons[reasonTypeKey][i]
+						options += `<option data-cat-id="${category.id}" data-key="${reasonKey}" title="${reason.text}"${buttonDefaultSelectedItem == reasonKey ? " selected" : ""}>${category.text == reasonKey ? reasonKey : category.text + " - " + reasonKey}</option>`
+					}
+				});
+				return options;
+			}
+			for (let i = 0; i < (System.data.config.quickDeleteButtonsReasons[reasonTypeKey].length); i++) {
+				dropDownFields += `
 				<div class="control title is-6 has-text-centered">
 					<div class="select">
 						<select>
@@ -30,19 +31,20 @@ let DeleteButtonOptions = (quickDeleteButtonsReasons, callback) => {
 						</select>
 					</div>
 				</div>`;
-		}
-		fields += `
+			}
+			fields += `
 			<div class="board-item">
 				<div class="board-item-content" data-type="${reasonTypeKey}">
 					<span>${System.data.locale.texts.extension_options.quick_delete_buttons[reasonTypeKey]}</span>
 					${dropDownFields}
 				</div>
 			</div>`
+		});
 	});
 	let $fields = $(fields);
 
 	let $quickDeleteButtonsSelect = $(".board-item-content[data-type] select", $fields);
-	
+
 	//$(".board-item-content[data-type] select", $fields)
 	$quickDeleteButtonsSelect.each((i, select) => {
 		let selectedItem = $("option:selected", select).val();
@@ -61,6 +63,16 @@ let DeleteButtonOptions = (quickDeleteButtonsReasons, callback) => {
 		Storage.set({ quickDeleteButtonsReasons: data });
 	});
 
-	callback($fields);
+	let $layout = $(`
+	<article class="message is-danger">
+		<div class="message-header">
+			<p>${System.data.locale.texts.extension_options.quick_delete_buttons.title}</p>
+		</div>
+		<div class="message-body"></div>
+	</article>`);
+
+	$(".message-body", $layout).append($fields);
+
+	callback($layout);
 }
 export default DeleteButtonOptions

@@ -3,23 +3,20 @@ TODO:
 		Extension:
 			- Silim sebeplerini sunarken status: true/false gibi bir flag koyulmalı, böylece sunulması istenmeyen silim sebepleri listelenmez.
 			- Sunucuya yapılan her isteği logla
+			- Auth kontrollerini ilk seferde senkron, localstorage da varsa asenkron yap. Böylece kişiyi bekletme süresi azalır. Ayrıca asenkron yapıldığında gelen cevaba göre eklentinin kullanım izni yoksa/kaldırılmışsa, anında kullanıma kapansın veya sayfayı yenilesin.
 
 		Global:
-			- Eklenti duyuruları kutusu
 			- Kenar moderatör paneline nick bazlı kişi arama/sorgulama
-			- Eklenti seçeneklerine, link shorter api ekle
 			- Eklenti seçeneklerine resim paylaşma özelliği ekle. Olursa eğer
 			- Chatango ile market içi mesajlaşma
 			- Gelen bildirimleri takip etmek için web socket oluştur ve bildirimleri tarayıcının notification panelinde göster
+			- Eklenti kullanıcılarını yönetmek için alan oluştur
 
 		Anasayfa:
 
 		Tümünü düzelt:
 			- Daha fazla yükle butonu
-			- Sorular, cevaplar ve yorumlara(onaylama ve seçerek veya hızlıca) silim butonları ekle
 			- Tablo ve liste seçenekleri
-			- Yorum sayısına tıklandığında yorumları göster
-			- Şikayet edilmiş içeriklerin kutularını iyileştir http://i.hizliresim.com/VPnGvv.png
 			- Düzenle panelinde sağ sol okları ve A, D ve yön tuşlarıyla hareket etme, esc tuşuyla panel kapatma
 		
 		Soru sayfası:
@@ -37,7 +34,6 @@ TODO:
 			- Hesap silimi yapıldığında topluluk yöneticisine otomatik e-posta gönder
 
 		Kullanıcı bilgilerini gör sayfası:
-			- Seçilmiş içerikleri doğrula
 
 		Uyarılar sayfası:
 			- Uyarı seçimi için kutucuk, tümünü seç kutusu ekle
@@ -55,12 +51,17 @@ TODO:
 			+ Silim butonlarının sebeplerini seçebilmek için eklenti seçenekleri butonu ve optionslarını hazırla
 			+ Renk seçimi yapabilmek için option ekle
 			+ Yetki sınırlandırmalarını ekle
+			+ Eklenti duyuruları kutusu
+			+ Eklenti seçeneklerine, link shorter ekle
 
 		Anasayfa:
 			+ Hızlı silim butonlarının eylemlerini aktifleştir
 			+ Profil kutusunda eylem sayısı
 
 		Tümünü düzelt:
+			+ Sorular, cevaplar ve yorumlara(onaylama ve seçerek veya hızlıca) silim butonları ekle
+			+ Yorum sayısına tıklandığında yorumları göster
+			+ Şikayet edilmiş içeriklerin kutularını iyileştir http://i.hizliresim.com/VPnGvv.png
 		
 		Soru sayfası:
 			+ Hızlı silim butonları, soruya ve cevaplara
@@ -79,5 +80,6 @@ TODO:
 			+ Soru/Cevap içeriğini genişlet/göster butonu. Sağ, aşağı yönlü ok simgesi. Bu içerikler, sayfa onload olduktan sonra kullanıcı içeriği görüntülemeden önce fetch edilecek. Maksat, içerikleri kullanıcıyı bekletmeden göstermek. Butona bastığında, display:block edilecek ama fetchden sonra gösterilecek. Malum, fetch isteği tamamlanmadan, kullanıcı içeriği göster butonuna basabilir.
 			+ Soru/Cevap seçimi için kutucuk, tümünü seç kutusu
 			+ Seçilmiş içerikleri hızlı sil, sebep seçerek sil, doğrula
+			+ Seçilmiş içerikleri doğrula
 
 		Uyarılar sayfası:

@@ -16,7 +16,7 @@ const ActionsOfServer = {
 		let authRequestHandler = res => {
 			if (!res) {
 				Notification(System.data.locale.texts.globals.errors.extensionServerError + "<br>" + System.data.locale.texts.globals.errors.if_error_continue, "error", true);
-			} else if (!res.success && !res.data.probatus) {
+			} else if (!res.data.probatus) {
 				Notification(System.data.locale.texts.globals.errors.permission_error.description, "error", true);
 			} else {
 				System.data.Brainly.userData.extension = res.data;
@@ -67,6 +67,15 @@ const ActionsOfServer = {
 			data = { id: data };
 		}
 		Request.ExtensionServerReq("DELETE", "/announcements", data, callback);
+	},
+	AnnouncementRead(data, callback) {
+		if (typeof data == "string" || typeof data == "number") {
+			data = { id: data };
+		}
+		Request.ExtensionServerReq("PUT", "/announcement", data, callback);
+	},
+	CreateShortLink(data, callback) {
+		Request.ExtensionServerReq("POST", "/urlshortener", data, callback);
 	}
 }
 export default ActionsOfServer;

@@ -86,7 +86,7 @@ System.checkUserP(2, () => {
 	$("button", $taskModerateButtons).on("click", taskModerateButtonsClickHandler);
 });
 
-System.checkUserP(3, () => {
+System.checkUserP(45, () => {
 	/**
 	 * Prepare and add quick delete buttons to answer boxes
 	 */

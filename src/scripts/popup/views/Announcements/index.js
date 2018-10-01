@@ -13,11 +13,13 @@ const refreshUserAvatar = (user, elm) => {
 			$img.attr("src", user.avatars[64] || user.avatars[100]);
 			el.removeAttribute("data-user-id");
 			el.href = System.createProfileLink(user.nick, user.id);
-			el.title = user.nick;
+			!el.title && (el.title = user.nick);
 		});
 };
 const refreshUsers = (elm) => {
+	console.log(window.fetchedUsers);
 	Object.keys(window.fetchedUsers).forEach(brainlyID => {
+		console.log(window.fetchedUsers[brainlyID], !window.fetchedUsers[brainlyID]);
 		if (!window.fetchedUsers[brainlyID]) {
 			getUserByID(brainlyID, res => {
 				window.fetchedUsers[brainlyID] = res.data;
@@ -29,12 +31,21 @@ const refreshUsers = (elm) => {
 
 const Announcements = (callback) => {
 	GetAnnouncements(res => {
-		let $announcementLayout = $("<div/>");
+		let $announcementLayout = $(`
+		<div id="announcements" class="column is-narrow">
+			<article class="message is-info">
+				<div class="message-header">
+					<p>${System.data.locale.texts.extension_options.announcements.title}</p>
+				</div>
+				<div class="message-body"></div>
+			</article>
+		</div>`);
 
+		let $announcementsBody = $(".message-body", $announcementLayout);
 		if (res.success && res.data) {
 			let $announcementsNodes = announcementsNodes(res.data);
-			$announcementLayout.append($announcementsNodes);
-			refreshUsers($announcementLayout);
+			$announcementsBody.append($announcementsNodes);
+			refreshUsers($announcementsBody);
 		}
 
 		let $addNewBox = $(`
@@ -65,7 +76,7 @@ const Announcements = (callback) => {
 				</a>
 			</div>
 		</article>`);
-		$announcementLayout.append($addNewBox);
+		$announcementsBody.append($addNewBox);
 
 		let createEditor = (elm) => {
 			let options = {
@@ -108,9 +119,9 @@ const Announcements = (callback) => {
 		/**
 		 * Prepare WYSIWYG for new announcement inputs
 		 */
-		let $announcementTitle = $(".addNew input.announcementTitle", $announcementLayout);
-		let $announcementContent = $(".addNew textarea.announcementContent", $announcementLayout);
-		let $actionsContainer = $(".addNew .media-right.is-invisible", $announcementLayout);
+		let $announcementTitle = $(".addNew input.announcementTitle", $announcementsBody);
+		let $announcementContent = $(".addNew textarea.announcementContent", $announcementsBody);
+		let $actionsContainer = $(".addNew .media-right.is-invisible", $announcementsBody);
 
 		var editorNewAnnouncementTitle = createEditor($announcementTitle);
 		var editorNewAnnouncementContent = createEditor($announcementContent);
@@ -134,7 +145,7 @@ const Announcements = (callback) => {
 		/**
 		 * Action buttons handling
 		 */
-		$(".message-body").on("click", ".media-right > a", function(e) {
+		$("body").on("click", ".message-body .media-right > a", function(e) {
 			e.preventDefault();
 			let that = $(this);
 			if (that.is(".reset")) {
@@ -163,8 +174,8 @@ const Announcements = (callback) => {
 								} else {
 									Notification(System.data.locale.texts.extension_options.announcements.createdMessage);
 
-									$announcementLayout.prepend(announcementsNodes(res.data));
-									refreshUsers($announcementLayout);
+									$announcementsBody.prepend(announcementsNodes(res.data));
+									refreshUsers($announcementsBody);
 
 									$('html, body').animate({
 										scrollTop: $("#" + res.data._id).offset().top

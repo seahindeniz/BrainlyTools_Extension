@@ -4,6 +4,8 @@ import renderThemeColor from "./ThemeColor";
 import renderDeleteButtonOptions from "./DeleteButtonOptions";
 import renderOtherOptions from "./OtherOptions";
 import renderAnnouncements from "./Announcements";
+import { CreateShortLink } from "../../controllers/ActionsOfServer";
+import Notification from "../components/Notification"
 
 const Layout = res => {
 	System.data.Brainly.userData.user.fixedAvatar = System.data.Brainly.userData.user.avatars[100] || `https://${System.data.meta.marketName}/img/avatars/100-ON.png`;
@@ -13,49 +15,48 @@ const Layout = res => {
 		<div class="hero-body">
 			<div class="container">
 				<div class="column">
-					<h3 class="title has-text-grey has-text-centered">${System.data.meta.manifest.short_name} for</h3>
-					<h3 class="title has-text-grey has-text-centered marketName">${System.data.meta.marketName}</h3>
 					<div class="box">
 						<figure class="avatar has-text-centered">
 							<img src="${System.data.Brainly.userData.user.fixedAvatar}" title="${System.data.Brainly.userData.user.nick} - ${System.data.Brainly.userData.user.id}">
 						</figure>
-						<h4 class="title is-4 has-text-centered">${System.data.locale.texts.extension_options.title}</h4>
-
-						<div id="themeColor" class="column is-narrow">
-							<article class="message is-info">
-								<div class="message-header">
-									<p>${System.data.locale.texts.extension_options.themeColor.title}</p>
+						<section class="section-1">
+							<div id="linkShorter" class="column">
+								<div class="field is-grouped">
+									<div class="control">
+										<button class="button is-link" title="${System.data.locale.texts.extension_options.createShortLinkButton.description}">${System.data.locale.texts.extension_options.createShortLinkButton.title}</button>
+									</div>
+									<div class="control is-expanded has-icons-left has-icons-right is-hidden js-input">
+										<input class="input is-success" type="text" readonly>
+										<span class="icon is-small is-left">
+											<i class="fas fa-globe"></i>
+										</span>
+										<p class="help is-success">${System.data.locale.texts.extension_options.shortLinkSuccessMessage}</p>
+									</div>
 								</div>
-								<div class="message-body"></div>
-							</article>
-						</div>
-						<div id="quickDeleteButtons" class="column is-narrow">
-							<article class="message is-danger">
-								<div class="message-header">
-									<p>${System.data.locale.texts.extension_options.quick_delete_buttons.title}</p>
-								</div>
-								<div class="message-body"></div>
-							</article>
-						</div>
-						<div id="otherOptions" class="column is-narrow">
-							<article class="message is-dark">
-								<div class="message-header">
-									<p>${System.data.locale.texts.extension_options.otherOptions.title}</p>
-								</div>
-								<div class="message-body"></div>
-							</article>
-						</div>
+							</div>
 						
-						<h4 class="title is-4 has-text-centered">${System.data.locale.texts.extension_options.extensionManagement}</h4>
+							
+							<h4 class="title is-4 has-text-centered">${System.data.locale.texts.extension_options.title}</h4>
 
-						<div id="announcements" class="column is-narrow">
-							<article class="message is-info">
-								<div class="message-header">
-									<p>${System.data.locale.texts.extension_options.announcements.title}</p>
-								</div>
-								<div class="message-body"></div>
-							</article>
-						</div>
+							<div id="themeColor" class="column is-narrow">
+								<article class="message is-info">
+									<div class="message-header">
+										<p>${System.data.locale.texts.extension_options.themeColor.title}</p>
+									</div>
+									<div class="message-body"></div>
+								</article>
+							</div>
+							<div id="quickDeleteButtons" class="column is-narrow"></div>
+							<div id="otherOptions" class="column is-narrow">
+								<article class="message is-dark">
+									<div class="message-header">
+										<p>${System.data.locale.texts.extension_options.otherOptions.title}</p>
+									</div>
+									<div class="message-body"></div>
+								</article>
+							</div>
+						</section>
+						<section class="section-2"></section>
 					</div>
 				</div>
 			</div>
@@ -66,19 +67,75 @@ const Layout = res => {
 			<a href="https://chrome.google.com/webstore/detail/${System.data.meta.extension.id}" class="has-text-grey" target="_blank">Brainly Tools v${System.data.meta.manifest.version}</a>
 		</p>
 	</footer>`);
+	let $section1 = $("section.section-1", $layout);
+	let $section2 = $("section.section-2", $layout);
 
 	renderThemeColor(res.themeColor, announcements => {
 		$("#themeColor .message-body", $layout).append(announcements);
 	});
-	renderDeleteButtonOptions(res.quickDeleteButtonsReasons, announcements => {
-		$("#quickDeleteButtons .message-body", $layout).append(announcements);
+	System.checkUserP([1, 2, 45], () => {
+		renderDeleteButtonOptions(res.quickDeleteButtonsReasons, announcements => {
+			$("#quickDeleteButtons", $layout).append(announcements);
+		});
 	});
 	renderOtherOptions(res, announcements => {
 		$("#otherOptions .message-body", $layout).append(announcements);
 	});
 
-	renderAnnouncements(announcements => {
-		$("#announcements .message-body", $layout).append(announcements);
+	System.checkUserP([4], () => {
+		console.log("duyuru yönetim yetkisine sahip");
+		$(`<h4 class="title is-4 has-text-centered">${System.data.locale.texts.extension_options.extensionManagement}</h4>`).appendTo($section2);
+		System.checkUserP(4, () => {
+			console.log("duyuru yönetim yetkisine sahip");
+			renderAnnouncements(announcements => {
+				$section2.append(announcements);
+			});
+		});
+	});
+
+	let $shorterInputContainer = $("#linkShorter .js-input", $layout),
+		input = $("input.input", $shorterInputContainer);
+
+	input.click(() => input.select());
+	$("#linkShorter button", $layout).on("click", function() {
+		let that = $(this);
+
+		that.addClass("is-loading").attr("disabled", "true");
+		chrome.tabs.query({ active: true, currentWindow: true }, function callback(tabs) {
+			var currentTab = tabs[0];
+			let url = currentTab.url;
+
+			CreateShortLink({ url }, res => {
+				if (!res) {
+					Notification("Server error", "danger");
+					that.removeClass("is-loading").removeAttr("disabled");
+				} else {
+					if (!res.success || !res.shortCode) {
+						Notification(res.message || "Unknown error", "danger");
+						that.removeClass("is-loading");
+						!res.message && that.removeAttr("disabled");
+					} else {
+						let shortLink = System.data.config.extensionServerURL + "/l/" + res.shortCode;
+
+						input.val(shortLink);
+
+						$shorterInputContainer.removeClass("is-hidden");
+						that.removeClass("is-loading").removeAttr("disabled");
+
+						const selected =
+							document.getSelection().rangeCount > 0 ?
+							document.getSelection().getRangeAt(0) :
+							false;
+						input.select();
+						document.execCommand('copy');
+						if (selected) {
+							document.getSelection().removeAllRanges();
+							document.getSelection().addRange(selected);
+						}
+					}
+				}
+			});
+		});
 	});
 	return $layout;
 }

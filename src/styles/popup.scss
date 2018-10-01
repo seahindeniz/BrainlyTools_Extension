@@ -1,4 +1,4 @@
-$bodyWidth: 40rem;
+$bodyWidth: 42rem;
 
 html,
 body {
@@ -49,15 +49,12 @@ a {
 				}
 
 				&>.box {
-					margin-top: 6rem;
+					margin-top: 2rem;
 					box-shadow: -1px 1px 10px rgba(10, 10, 10, 0.1), 0px 0px 5px 0px rgba(10, 10, 10, 0.1);
 
-					&>.title {
-						margin: 3em 0 1rem;
-					}
 
 					&>.avatar {
-						margin-top: -70px;
+						margin: -5rem 0 3rem;
 
 						img {
 							padding: 5px;
@@ -68,149 +65,173 @@ a {
 						}
 					}
 
-					&>.column {
-						padding: 0 .75rem;
-					}
-
-					.board-item {
-						margin: 5px 0;
-						will-change: transform;
-					}
-
-					.board-item-content {
-						word-wrap: normal;
-						position: relative;
-						padding: 1.2em 0;
-						background: #fff;
-						border-radius: 4px;
-						font-size: 17px;
-						text-align: center;
-						-webkit-box-shadow: 0px 1px 3px 0 rgba(0, 0, 0, 0.2);
-						box-shadow: 0px 1px 3px 0 rgba(0, 0, 0, 0.2);
-						margin: 0;
-
-						&>span {
-							margin-bottom: 1.5rem;
-							display: inline-block;
-						}
-
-						&>.control {
-							padding: 0 0.5rem;
-						}
-					}
-
-					.message-header {
-						padding: 0;
-						border-radius: 4px 0 0px 4px;
-
-						p {
-							width: 100%;
-							padding: 1em 1.2em;
-						}
-
-						* {
-							cursor: pointer;
-						}
-					}
-
-					article .message-body {
-						transition: all 0.5s ease;
-						padding: 1.25em 1em;
-					}
-
-					article:not(.is-active) .message-body,
-					article:not(.is-active) .message-header>.delete {
-						display: none;
-					}
-
-					.select select {
-						width: 16.5rem;
-						max-width: 16.5rem;
-					}
-
-					.delete {
-						pointer-events: auto;
-					}
-
-					&>.box {
+					&>section {
 						&>.title {
-							cursor: pointer;
-							cursor: pointer;
+							margin: 3em 0 1rem;
 						}
 
-						&:not(.is-active)>.title {
-							margin-bottom: 0.3rem;
+						&>.column {
+							padding: 0 .75rem;
 						}
 
-						&>div {
+						.board-item {
+							margin: 5px 0;
+							will-change: transform;
+						}
+
+						.board-item-content {
+							word-wrap: normal;
+							position: relative;
+							padding: 1.2em 0;
+							background: #fff;
+							border-radius: 4px;
+							font-size: 17px;
+							text-align: center;
+							-webkit-box-shadow: 0px 1px 3px 0 rgba(0, 0, 0, 0.2);
+							box-shadow: 0px 1px 3px 0 rgba(0, 0, 0, 0.2);
+							margin: 0;
+
+							&>span {
+								margin-bottom: 1.5rem;
+								display: inline-block;
+							}
+
+							&>.control {
+								padding: 0 0.5rem;
+							}
+						}
+
+						.message.is-info .message-body {
+							color: #000;
+						}
+
+						.message-header {
+							padding: 0;
+							border-radius: 4px 0 0px 4px;
+
+							p {
+								width: 100%;
+								padding: 1em 1.2em;
+							}
+
+							* {
+								cursor: pointer;
+							}
+						}
+
+						article .message-body {
+							transition: all 0.5s ease;
+							padding: 1.25em 1em;
+						}
+
+						article:not(.is-active) .message-body,
+						article:not(.is-active) .message-header>.delete {
 							display: none;
 						}
 
-						&.is-active>div {
-							display: block;
+						.select select {
+							width: ($bodyWidth - 15);
+							max-width: ($bodyWidth - 15);
 						}
 
-						.dropdown-content .dropdown-item {
-							white-space: unset;
-							word-break: break-word;
+						.delete {
+							pointer-events: auto;
 						}
-					}
 
-					#announcements>article>div.message-body {
-						padding: unset;
+						&>.box {
+							&>.title {
+								cursor: pointer;
+								cursor: pointer;
+							}
 
-						&>div>article.media:not(.addNew) {
-							padding: 2em 1em;
-							margin: 0;
+							&:not(.is-active)>.title {
+								margin-bottom: 0.3rem;
+							}
 
-							&.is-editing>div.media-content,
-							&.is-editing>div.media-right,
-							&>div.media-content.editor,
-							&>div.media-right.editing  {
+							&>div {
 								display: none;
 							}
 
-							&.is-editing>div.media-content.editor,
-							&.is-editing>div.media-right.editing {
+							&.is-active>div {
 								display: block;
 							}
 
-							&>div.media-content>div.content {
-
-								&>.announcementTitle,
-								&>.announcementContent {
-									white-space: nowrap;
-									overflow: hidden;
-									text-overflow: ellipsis;
-								}
-
-								&>.announcementTitle {
-									max-width: 15em;
-									display: inline-block;
-									position: relative;
-									top: 4px;
-								}
-
-								&>.announcementContent {
-									width: 23rem;
-									height: 1.5em;
-									margin-top: 1rem;
-								}
+							.dropdown-content .dropdown-item {
+								white-space: unset;
+								word-break: break-word;
 							}
+						}
 
-							&>div.media-right {
-								width: 21px;
-								visibility: hidden;
-							}
+						#announcements>article>div.message-body {
+							padding: unset;
 
-							&:hover {
+							&>article.media:not(.addNew) {
+								padding: 2em 1em;
+								margin: 0;
+
+								&.is-editing>div.media-content,
+								&.is-editing>div.media-right,
+								&>div.media-content.editor,
+								&>div.media-right.editing {
+									display: none;
+								}
+
+								&.is-editing>div.media-content.editor,
+								&.is-editing>div.media-right.editing {
+									display: block;
+								}
+
+								&>div.media-content {
+
+									&>div.content {
+
+										&>.announcementTitle {
+											max-width: ($bodyWidth - 25);
+											display: inline-block;
+											position: relative;
+											top: 4px;
+										}
+
+										&>.announcementContent {
+											width: ($bodyWidth - 17);
+											height: 19px;
+											margin-top: 1rem;
+										}
+									}
+
+									&>nav.level,
+									&>div.content>.announcementTitle,
+									&>div.content>.announcementContent {
+										white-space: nowrap;
+										overflow: hidden;
+										text-overflow: ellipsis;
+									}
+
+									&>nav.level,
+									&>div.content>.announcementContent {
+										max-width: ($bodyWidth - 17);
+									}
+								}
+
 								&>div.media-right {
-									visibility: visible;
+									width: 21px;
+									visibility: hidden;
 								}
 
-								&>div.media-content>div.content>.announcementContent {
-									white-space: unset;
-									height: unset;
+								&:hover {
+									&>div.media-right {
+										visibility: visible;
+									}
+
+									&>div.media-content {
+
+										&>nav.level,
+										&>div.content>.announcementContent {
+											white-space: unset;
+											height: unset;
+											max-width: unset;
+										}
+									}
 								}
 							}
 						}

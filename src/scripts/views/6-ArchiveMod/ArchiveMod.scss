@@ -1,0 +1,56 @@
+button {
+	label.sg-label__text {
+		margin-bottom: 0;
+	}
+
+	span.sg-button-primary__icon {
+		margin: 0;
+	}
+}
+
+#moderation-all {
+	&>div.top>div.header>h1>span {
+		cursor: pointer;
+	}
+
+	.content .moderation-item {
+
+		height: 17.5em;
+		overflow: hidden;
+
+		&>.content {
+			height: 14rem;
+
+			&>.body {
+				overflow: hidden;
+				height: 11em;
+			}
+
+			&>.footer {
+				padding-bottom: 0;
+
+				&>.row:last-child {
+					margin-bottom: 0 !important;
+				}
+			}
+		}
+	}
+
+	&.removed {
+		&>.content {
+			background-color: #eaa;
+		}
+
+		div.content>div.footer {
+			min-height: 0px;
+			padding: 0;
+			height: 0;
+			border: 0;
+		}
+	}
+}
+
+.quickDeleteButtons {
+	clear: both;
+	margin-top: 1em;
+}

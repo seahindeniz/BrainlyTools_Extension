@@ -18,13 +18,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/seahindeniz/_brainly_tools"
+    "url": "https://gitlab.com/seahindeniz/BrainlyTools_Extension"
   },
   "author": "Sahin D. <seahindeniz@gmail.com> (https://gitlab.com/seahindeniz)",
   "bugs": {
-    "url": "https://gitlab.com/seahindeniz/_brainly_tools/issues"
+    "url": "https://gitlab.com/seahindeniz/BrainlyTools_Extension/issues"
   },
-  "homepage": "https://gitlab.com/seahindeniz/_brainly_tools",
+  "homepage": "https://gitlab.com/seahindeniz/BrainlyTools_Extension",
   "devDependencies": {
     "@babel/core": "^7.0.0-rc.1",
     "babel-plugin-add-module-exports": "^0.3.3",
@@ -58,6 +58,7 @@
   },
   "dependencies": {
     "easyeditor": "^1.2.0",
-    "js-cookie": "^2.2.0"
+    "js-cookie": "^2.2.0",
+    "js-md5": "^0.7.3"
   }
 }

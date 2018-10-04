@@ -4,6 +4,7 @@ import WaitForElm from "../../helpers/WaitForElm";
 import WaitForFn from "../../helpers/WaitForFn";
 import { RemoveQuestion, RemoveAnswer, RemoveComment } from "../../controllers/ActionsOfBrainly";
 import Buttons from "../../components/Buttons";
+import Storage from "../../helpers/extStorage";
 
 System.pageLoaded("Arcive Mod page OK!");
 
@@ -39,7 +40,6 @@ System.checkUserP([1, 2, 45], () => {
 			prepareButtons[key] = Buttons('RemoveQuestionNoIcon', data);
 		}
 	});
-	Console.log(prepareButtons);
 	let createQuickDeleteButtons = nodes => {
 		if (nodes) {
 			for (let i = 0, node;
@@ -57,7 +57,6 @@ System.checkUserP([1, 2, 45], () => {
 
 					//$footer.html("");
 					prepareButtons[itemType] && $footer.append($ext_actions);
-					Console.log("ekleme yap");
 				});
 			}
 		}
@@ -69,7 +68,6 @@ System.checkUserP([1, 2, 45], () => {
 		let obj = Zadanium.getObject($moderation_item.attr("objecthash"));
 
 		let $itemContent = $("> div.content ", $moderation_item);
-		Console.log(obj);
 		if (obj && obj.data && obj.data.model_id && obj.data.model_id >= 0) {
 			let contentType = obj.data.model_type_id == 1 ? "task" : obj.data.model_type_id == 2 ? "response" : "comment";
 
@@ -81,7 +79,6 @@ System.checkUserP([1, 2, 45], () => {
 					reason: reason.text
 				};
 				let spinner = $(`<div class="sg-spinner sg-spinner--xxsmall sg-spinner--light"></div>`).appendTo(this);
-				Console.log(data);
 				let onRes = res => {
 					if (res) {
 						if (res.success) {
@@ -102,11 +99,15 @@ System.checkUserP([1, 2, 45], () => {
 					}
 					spinner.remove();
 				};
+
 				if (contentType == "task") {
+					System.log(5, obj.data.user, [data.model_id]);
 					RemoveQuestion(data, onRes);
 				} else if (contentType == "response") {
+					System.log(6, obj.data.user, [data.model_id]);
 					RemoveAnswer(data, onRes);
 				} else if (contentType == "comment") {
+					System.log(7, obj.data.user, [data.model_id]);
 					RemoveComment(data, onRes);
 				}
 			}
@@ -114,20 +115,6 @@ System.checkUserP([1, 2, 45], () => {
 		}
 	};
 	$("body").on("click", ".ext_actions button", ext_actions_buttons_click_handler);
-	let observeForNewModerationItem = moderationItemParent => {
-		//moderationItemParent[0].classList.add("quickDelete");
-		WaitForElm("#moderation-all > div.top > div.header > h1", h1 => {
-			$(h1).on("click", "span", function() {
-				$("#moderation-all > div.top > div.sub-header.row > div.span5 > select").val($(this).is(".total") ? "0" : "998").change();
-			});
-		});
-		WaitForElm('div.moderation-item:not(.ext-buttons-added)', e => {
-			createQuickDeleteButtons(e);
-		});
-		$(moderationItemParent).observe('added', 'div.moderation-item:not(.ext-buttons-added)', e => {
-			createQuickDeleteButtons(e.addedNodes);
-		});
-	};
 
 	/**
 	 * Manipulate moderation panel
@@ -196,9 +183,23 @@ System.checkUserP([1, 2, 45], () => {
 								}
 								spinner.remove();
 							};
+							
+							let obj = Zadanium.getObject($($toplayer).attr("objecthash"));
+
 							if (contentType == "task") {
+								let user=Zadanium.users.getUserObject(obj.data.task.user.id);
+
+								System.log(5, user.data, [contentID]);
+
 								RemoveQuestion(data, onRes);
 							} else if (contentType == "response") {
+								let response = obj.data.responses.find(res => {
+									return res.id == contentID;
+								});
+								let user = Zadanium.users.getUserObject(response.user_id);
+
+								System.log(6, user.data, [contentID]);
+
 								RemoveAnswer(data, onRes);
 							}
 						}
@@ -209,6 +210,28 @@ System.checkUserP([1, 2, 45], () => {
 		});
 	}
 
+	let observeForNewModerationItem = moderationItemParent => {
+		//moderationItemParent[0].classList.add("quickDelete");
+		WaitForElm("#moderation-all > div.top > div.header > h1", h1 => {
+			$(h1).on("click", "span", function() {
+				$("#moderation-all > div.top > div.sub-header.row > div.span5 > select").val($(this).is(".total") ? "0" : "998").change();
+			});
+			Storage.get("archive_mod_layout", res => {
+				if (res.archive_mod_layout) {
+					let $moderationItemParent = $(selectors.moderationItemParent);
+
+					$moderationItemParent.addClass('listView');
+				}
+			});
+		});
+		WaitForElm('div.moderation-item:not(.ext-buttons-added)', e => {
+			createQuickDeleteButtons(e);
+		});
+		$(moderationItemParent).observe('added', 'div.moderation-item:not(.ext-buttons-added)', e => {
+			createQuickDeleteButtons(e.addedNodes);
+		});
+	};
+
 	let observeFound = () => {
 		WaitForElm(selectors.moderationItemParent, observeForNewModerationItem);
 		$("#toplayer").observe('added', '.moderation-toplayer', e => {
@@ -217,4 +240,27 @@ System.checkUserP([1, 2, 45], () => {
 	}
 	WaitForFn('$().observe', observeFound);
 	//WaitForElm(selectors.feed_item, createQuestionRemoveButtons)
+});
+
+WaitForElm("#moderation-all > div.top > div.sub-header.row > div.pull-right", layoutChangerParent => {
+	let $btnChangeLayout = $(`
+	<button class="btn">
+		<i class="icon icon-th nomargin"></i>
+	</button>
+	<button class="btn">
+		<i class="icon icon-align-justify nomargin"></i>
+	</button>`).prependTo(layoutChangerParent);
+
+	$btnChangeLayout.click(function() {
+		let $moderationItemParent = $(selectors.moderationItemParent);
+		let isListView = $('i', this).is('.icon-align-justify');
+
+		if (isListView) {
+			$moderationItemParent.addClass('listView');
+		} else {
+			$moderationItemParent.removeClass('listView');
+		}
+
+		Storage.set({ archive_mod_layout: isListView });
+	});
 });

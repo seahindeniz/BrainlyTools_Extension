@@ -122,13 +122,96 @@ System.data.locale = {
 				description: "Meningkatkan ukuran dari kotak balasan.\n Kamu dapat melihat lebih banyak konten pada nomor ini."
 			},
 			manage_users: {
-				title: "Manage extension user's",
-				description: "Managing extension user's access and privileges"
+				title: "Users",
+				description: "You can set the extension user's permission and privileges",
+				addNew: "Add a new or edit extension user",
+				enterUserID: "Enter ID number of a user",
+				warning_cannotFindUser: "I couldn't find the user's data with entered ID number",
+				brainly_id: "Brainly Id",
+				privileges: "Privileges",
+				extension_privileges: "Extension privileges",
+				first_usage_date: "First time of using the extension",
+				permission: "Extension permission",
+				can_use_extension: "Allow",
+				can_not_use_extension: "Deny",
+				comment: "Comment",
+				"hasn'tUsed": "User hasn't used the extension",
+				firstUsageTimeAgoPreTitle: "Started to use %s",
+				/**
+				 * %s represents the date suffix of first usage time of the extension.
+				 * Started to use 5 days ago
+				 **/
+				js_grid: {
+					grid: {
+						noDataContent: "Not found",
+						deleteConfirm: "Are you sure?",
+						pagerFormat: "Pages: {first} {prev} {pages} {next} {last} &nbsp;&nbsp; {pageIndex} of {pageCount}",
+						pagePrevText: "Prev",
+						pageNextText: "Next",
+						pageFirstText: "First",
+						pageLastText: "Last",
+						loadMessage: "Please, wait...",
+						invalidMessage: "Invalid data entered!"
+					},
+					loadIndicator: {
+						message: "Loading..."
+					},
+					fields: {
+						control: {
+							searchModeButtonTooltip: "Switch to searching",
+							insertModeButtonTooltip: "Switch to inserting",
+							editButtonTooltip: "Edit",
+							searchButtonTooltip: "Search",
+							clearFilterButtonTooltip: "Clear filter",
+							insertButtonTooltip: "Insert"
+						}
+					},
+				},
+				privilegeList: [
+					/*
+					1 - Homepage, Question View, Archive Mod > Quick delete buttons for question  http://i.imgur.com/KC6SG5F.png http://i.imgur.com/F8QBayc.png
+					2 - Question View, Archive Mod > Quick delete buttons for answer http://i.imgur.com/fEwnMix.png
+					45 - Question View, Archive Mod > Quick delete buttons for comments http://i.imgur.com/fEwnMix.png
+					4 - Extension popup > Announcement management
+					5 - Extension popup > User management */
+					{
+						type: 0,
+						title: "Extension admin",
+						description: "Can able use the extension without any restriction"
+					},
+					{
+						type: 1,
+						title: "Quick delete questions",
+						description: "In the homepage, question page and archive mod page, user can use the quick delete buttons for deleting the question(s)"
+					},
+					{
+						type: 2,
+						title: "Quick delete answers",
+						description: "In the question page and archive mod page, user can use the quick delete buttons for deleting the answer(s)"
+					},
+					{
+						type: 45,
+						title: "Quick delete comments",
+						description: "In the question page and archive mod page, user can use the quick delete buttons for deleting the comment(s)"
+					},
+					{
+						type: 4,
+						title: "Announcement management",
+						description: "Can able to create, edit, remove or publish the internal extension announcements"
+					},
+					{
+						type: 5,
+						title: "User management",
+						description: "Can able to add or editing the extension users and give them privileges or permission to use the extension"
+					}
+				]
 			},
 			announcements: {
-				title: "Extension announcements",
+				title: "Announcements",
 				description: "Managing extension interval announcements",
-				short_description_of_announcement: "Title(inside of notification balloon)",
+				addNew: "Add a new announcement",
+				editorTitle: "Title",
+				editorContent: "Content",
 				publish: "Publish",
 				unpublish: "Unpublish",
 				published: "Published",
@@ -149,166 +232,6 @@ System.data.locale = {
 			hide_unnecessary_contents: {
 				title: "Hide unnecessary containers",
 				description: "This will hide unnecessary containers that we are not use all the time"
-			}
-		},
-		management: {
-			brainly_id: "Brainly Id",
-			privileges: "Privileges",
-			extension_privileges: "Extension privileges",
-			first_usage_date: "First time of using the extension",
-			access: "Extension access",
-			can_use_extension: "Allow",
-			can_not_use_extension: "Deny",
-			comment: "Comment",
-			js_grid: {
-				grid: {
-					noDataContent: "Not found",
-					deleteConfirm: "Are you sure?",
-					pagerFormat: "Pages: {first} {prev} {pages} {next} {last} &nbsp;&nbsp; {pageIndex} of {pageCount}",
-					pagePrevText: "Prev",
-					pageNextText: "Next",
-					pageFirstText: "First",
-					pageLastText: "Last",
-					loadMessage: "Please, wait...",
-					invalidMessage: "Invalid data entered!"
-				},
-				loadIndicator: {
-					message: "Loading..."
-				},
-				fields: {
-					control: {
-						searchModeButtonTooltip: "Switch to searching",
-						insertModeButtonTooltip: "Switch to inserting",
-						editButtonTooltip: "Edit",
-						searchButtonTooltip: "Search",
-						clearFilterButtonTooltip: "Clear filter",
-						insertButtonTooltip: "Insert"
-					}
-				},
-				validators: {
-					required: {
-						message: "Field is required"
-					},
-					rangeLength: {
-						message: "Field value length is out of the defined range"
-					},
-					minLength: {
-						message: "Field value is too short"
-					},
-					maxLength: {
-						message: "Field value is too long"
-					},
-					pattern: {
-						message: "Field value is not matching the defined pattern"
-					},
-					range: {
-						message: "Field value is out of the defined range"
-					},
-					min: {
-						message: "Field value is too small"
-					},
-					max: {
-						message: "Field value is too large"
-					}
-				}
-			},
-			privileges_list: {
-				20: {
-					title: "Global > Extension admin",
-					description: "Extension admin privilige"
-				},
-				23: {
-					title: "Global > Extension announcements[Not prepared yet]",
-					description: "Can manage extension internal announcements"
-				},
-				22: {
-					title: "Mod Panel > <b>Cannot</b> delete multiple account",
-					description: "Cannot delete multiple accounts in moderator panel even if user has account delete privilige"
-				},
-				24: {
-					title: "Mod Func > <b>Cannot</b> delete multiple account",
-					description: "Cannot delete multiple accounts in moderator functions even if user has account delete privilige"
-				},
-				1: {
-					title: "Home Page > Express",
-					description: "Can use express buttons in home page"
-				},
-				25: {
-					title: "Question search > Express",
-					description: "Can use express buttons in question search page"
-				},
-				2: {
-					title: "M. All > Question express",
-					description: "Can use the question express buttons in moderate all"
-				},
-				3: {
-					title: "M. All > Answer express",
-					description: "Can use the answer express buttons in moderate all"
-				},
-				4: {
-					title: "M. All > Comment express (with selection)",
-					description: "Can use the comment express buttons in moderate all"
-				},
-				5: {
-					title: "M. All > Comment express (with buttons)",
-					description: "Can use the comment express buttons in moderate all"
-				},
-				6: {
-					title: "MKP > Question express",
-					description: "Can use the question express buttons in Melihat konten pengguna"
-				},
-				7: {
-					title: "MKP > Answer express",
-					description: "Can use the answer express button in Melihat konten pengguna"
-				},
-				8: {
-					title: "MKP > Answer approve",
-					description: "Can use the answer approve button in Melihat konten pengguna"
-				},
-				19: {
-					title: "MKP > Unapprove answers",
-					description: "Can use the answer unapprove button in Melihat konten pengguna"
-				},
-				21: {
-					title: "MKP > Mass. ask for correction",
-					description: "Can use the massive ask for correction button in Melihat konten pengguna"
-				},
-				9: {
-					title: "Question > Question express",
-					description: "Can use the question express buttons in question page"
-				},
-				10: {
-					title: "Question > Own answer approve",
-					description: "Can use the own answer approve button"
-				},
-				11: {
-					title: "Question > Answer express",
-					description: "Can use the answer express buttons in question page"
-				},
-				12: {
-					title: "Messages > Group message",
-					description: "Can use group message sending"
-				},
-				13: {
-					title: "Messages > Highlight vulgarisms (Not being used on Brainly US)",
-					description: ""
-				},
-				15: {
-					title: "Profile > Delete all comments",
-					description: "Can delete all comments in other user's profile page"
-				},
-				16: {
-					title: "Profile > Selectable comment delete",
-					description: "Can delete selected comments in other user's profile page"
-				},
-				17: {
-					title: "Profile > Mass. approve user's answers",
-					description: "Can use the massive approve user's all answers function in profile page"
-				},
-				18: {
-					title: "Profile > Star and thank user's answers",
-					description: "Can use the thank and add star user's all answers function in profile page"
-				}
 			}
 		},
 		announcements: {
@@ -489,7 +412,7 @@ System.data.locale = {
 		user_warnings: {
 			operations: "Operasi",
 			undo: "Batalkan",
-			message__if_you_have_privileges: "Peringatan dicabut jika anda memiliki kewenangan."
+			message__if_you_have_privileges: "Peringatan dicabut jika anda memiliki kewenangan. Juga tunggu seperti ~10 detik untuk prosesnya"
 		},
 		delete_accounts: {
 			delete_multiple_accounts: "Hapus beberapa akun",

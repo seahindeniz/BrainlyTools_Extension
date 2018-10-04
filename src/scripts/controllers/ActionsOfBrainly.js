@@ -54,7 +54,7 @@ const ActionsOfBrainly = {
 			"give_warning": false,
 			...data
 		}
-		
+
 		data.reason += " " + System.data.config.reasonSign;
 
 		Request.BrainlyReq("POST", '/moderation_new/delete_comment_content', data, callback);
@@ -135,6 +135,35 @@ const ActionsOfBrainly = {
 	 */
 	getUserByID(id, callback) {
 		Request.BrainlyReq("GET", `/api_user_profiles/get_by_id/${~~id}`, callback);
+	},
+
+	/**
+	 * Cancel user warning by warning id
+	 * @param {number|string|Object} data - Warning id or id's in array. Example: { userID: 1183068, warningIDs: [5016271, 5016272] }
+	 * @param {function} callback 
+	 */
+	CancelWarning(data, callback, onError) {
+		let userID = null;
+
+		if (window.sitePassedParams) {
+			userID = JSON.parse(sitePassedParams)[0];
+		}
+
+		if (typeof data === "string" || typeof data == "number") {
+			data = {
+				userID,
+				warningIDs: [data]
+			};
+		} else if (Object.prototype.toString.call(data) === "[object Array]") {
+			data = {
+				userID,
+				warningIDs: data
+			}
+		}
+
+		data.warningIDs.forEach(id => {
+			Request.BrainlySaltGet(`/moderators/cancel_warning/${data.userID}/${id}`, callback, onError);
+		});
 	}
 }
 export default ActionsOfBrainly;

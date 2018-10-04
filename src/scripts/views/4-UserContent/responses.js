@@ -13,7 +13,6 @@ let $tableContentBody = $(selectors.tableContentBody);
 let onPageIsProcess = false;
 window.onbeforeunload = function() {
 	if (onPageIsProcess) {
-		Console.log(System.data.locale.texts.globals.warning_ongoingProcess);
 		return System.data.locale.texts.globals.warning_ongoingProcess;
 	}
 }
@@ -51,19 +50,19 @@ $("button.approve", $actions).click(function() {
 	if ($checkedContentSelectCheckboxes.length == 0) {
 		Notification(System.data.locale.texts.user_content.warning_selectAnUnapprovedAnswerForApproving, "info");
 	} else {
-		let $progressBarContainer = $("#approveProgress", $moderateActions);
-
-		if ($progressBarContainer.length == 0) {
-			$progressBarContainer = $(`<div id="approveProgress" class="sg-content-box--spaced-top-large  sg-content-box--spaced-bottom-large"><progress class="progress is-info" value="0" max="${$checkedContentSelectCheckboxes.length}" data-label="${System.data.locale.texts.globals.progressing}"></progress></div>`);
-
-			$progressBarContainer.appendTo($("td", $moderateActions));
-		}
-
-		let $progressBar = $("progress", $progressBarContainer);
-
-		$progressBarContainer.show();
-
 		if (confirm(System.data.locale.texts.user_content.message_confirmApproving)) {
+			let $progressBarContainer = $("#approveProgress", $moderateActions);
+
+			if ($progressBarContainer.length == 0) {
+				$progressBarContainer = $(`<div id="approveProgress" class="sg-content-box--spaced-top-large  sg-content-box--spaced-bottom-large"><progress class="progress is-info" value="0" max="${$checkedContentSelectCheckboxes.length}" data-label="${System.data.locale.texts.globals.progressing}"></progress></div>`);
+
+				$progressBarContainer.appendTo($("td", $moderateActions));
+			}
+
+			let $progressBar = $("progress", $progressBarContainer);
+
+			$progressBarContainer.show();
+
 			onPageIsProcess = true;
 			let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner"></div></div>`).insertAfter(this);
 			let counter = 0;
@@ -144,19 +143,19 @@ $submit.click(function() {
 				$selectReasonWarn.fadeTo('fast', 0.5).fadeTo('fast', 1.0).fadeTo('fast', 0.5).fadeTo('fast', 1.0);
 			}
 		} else {
-			let $progressBarContainer = $("#deleteProgress", $moderateActions);
-
-			if ($progressBarContainer.length == 0) {
-				$progressBarContainer = $(`<div id="deleteProgress" class="sg-content-box--spaced-top-large  sg-content-box--spaced-bottom-large"><progress class="progress is-info" value="0" max="${$checkedContentSelectCheckboxes.length}" data-label="${System.data.locale.texts.globals.progressing}"></progress></div>`);
-
-				$progressBarContainer.appendTo($("td", $moderateActions));
-			}
-
-			let $progressBar = $("progress", $progressBarContainer);
-
-			$progressBarContainer.show();
-
 			if (confirm(System.data.locale.texts.moderate.do_you_want_to_delete)) {
+				let $progressBarContainer = $("#deleteProgress", $moderateActions);
+
+				if ($progressBarContainer.length == 0) {
+					$progressBarContainer = $(`<div id="deleteProgress" class="sg-content-box--spaced-top-large  sg-content-box--spaced-bottom-large"><progress class="progress is-info" value="0" max="${$checkedContentSelectCheckboxes.length}" data-label="${System.data.locale.texts.globals.progressing}"></progress></div>`);
+
+					$progressBarContainer.appendTo($("td", $moderateActions));
+				}
+
+				let $progressBar = $("progress", $progressBarContainer);
+
+				$progressBarContainer.show();
+
 				onPageIsProcess = true;
 				let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner"></div></div>`).insertAfter(this);
 				let counter = 0;
@@ -174,6 +173,8 @@ $submit.click(function() {
 					}
 				}
 
+				let idList = [];
+
 				$checkedContentSelectCheckboxes.each(function() {
 					let $parentRow = $(this).parents("tr");
 					let responseId = $parentRow.data("responseid");
@@ -184,6 +185,9 @@ $submit.click(function() {
 						give_warning: $give_warning.is(':checked'),
 						take_points: $take_points.is(':checked')
 					};
+
+					idList.push(responseId);
+
 					RemoveAnswer(responseData, res => {
 						if (!res) {
 							Notification(System.data.locale.texts.globals.errors.went_wrong, "error");
@@ -198,6 +202,8 @@ $submit.click(function() {
 						}
 					});
 				});
+
+				System.log(6, sitePassedParams[0], idList);
 			}
 		}
 	}

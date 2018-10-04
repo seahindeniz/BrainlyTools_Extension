@@ -13,7 +13,9 @@ const UserFinder = () => {
 			<div class="sg-text sg-text--peach js-hidden notFound">${System.data.locale.texts.globals.errors.userNotFound}</div>
 			<div class="userList"></div>
 		</li>`);
+
 		searchInput.prependTo(brn_moderation_panel);
+
 		$("input", searchInput).on("input", function() {
 			let userList = $(".userList", searchInput);
 			let $notFound = $(".notFound", searchInput);
@@ -23,19 +25,21 @@ const UserFinder = () => {
 				Request.BrainlyReq("GET", `/api_users/get/${this.value}`, (res) => {
 					userList.html("");
 					if (res.success && res.data) {
-						$notFound.addClass("js-hidden")
-						let profileLink = System.createBrainlyLink("profile", { nick: data.nick, id: data.id });
+						$notFound.addClass("js-hidden");
 
+						let profileLink = System.createBrainlyLink("profile", { nick: res.data.nick, id: res.data.id });
 						let ranks = [];
+						let avatar = "/img/avatars/100-ON.png";
+
 						res.data.ranks_ids.forEach(rankId => {
 							let current_rank = System.data.Brainly.defaultConfig.config.data.ranksWithId[rankId];
 							ranks.push(`<span class="" style="color:#${(current_rank.color || "000")};">${current_rank.name}</span>`);
 						});
 
-						let avatar = "/img/avatars/100-ON.png";
 						if (res.data.avatar) {
 							avatar = res.data.avatar[64] || res.data.avatar[100];
 						}
+
 						userList.append(`
 						<div class="sg-content-box sg-content-box--full">
 							<div class="sg-content-box__content sg-content-box__content--spaced-top-small">

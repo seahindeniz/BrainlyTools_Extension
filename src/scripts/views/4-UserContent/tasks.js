@@ -9,6 +9,12 @@ let selectors = window.selectors,
 //WaitForElm('#content-old > div > div > table > tbody > tr:nth-child(1) > td', () => {
 let $contentRows = $(selectors.contentRows);
 let $tableContentBody = $(selectors.tableContentBody);
+let onPageIsProcess = false;
+window.onbeforeunload = function() {
+	if (onPageIsProcess) {
+		return System.data.locale.texts.globals.warning_ongoingProcess;
+	}
+}
 
 let $deleteSection = DeleteSection(System.data.Brainly.deleteReasons.task, "task");
 let $categories = $(".categories", $deleteSection);
@@ -46,13 +52,36 @@ $submit.click(function() {
 			}
 		} else {
 			if (confirm(System.data.locale.texts.moderate.do_you_want_to_delete)) {
-				let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner"></div></div>`).insertAfter($submit);
-				let countRemove = 0;
+				let $progressBarContainer = $("#taskProgress", $moderateActions);
 
-				let removeSpinner = i => {
-					if (i == $checkedContentSelectCheckboxes.length)
-						$spinner.remove();
+				if ($progressBarContainer.length == 0) {
+					$progressBarContainer = $(`<div id="taskProgress" class="sg-content-box--spaced-top-large  sg-content-box--spaced-bottom-large"><progress class="progress is-info" value="0" max="${$checkedContentSelectCheckboxes.length}" data-label="${System.data.locale.texts.globals.progressing}"></progress></div>`);
+
+					$progressBarContainer.appendTo($("td", $moderateActions));
 				}
+
+				let $progressBar = $("progress", $progressBarContainer);
+
+				$progressBarContainer.show();
+
+				onPageIsProcess = true;
+				let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner"></div></div>`).insertAfter($submit);
+				let counter = 0;
+
+				let updateCounter = () => {
+					counter++;
+
+					$progressBar.val(counter);
+
+					if (counter == $checkedContentSelectCheckboxes.length) {
+						$spinner.remove();
+						$progressBar.attr("data-label", System.data.locale.texts.globals.allDone)
+						$progressBar.attr("class", "progress is-success");
+						onPageIsProcess = false;
+					}
+				}
+
+				let idList = [];
 
 				$checkedContentSelectCheckboxes.each(function() {
 					let $parentRow = $(this).parents("tr");
@@ -65,20 +94,25 @@ $submit.click(function() {
 						take_points: $take_points.is(':checked'),
 						return_points: $return_points.is(':checked')
 					};
+
+					idList.push(taskId);
+
 					RemoveQuestion(taskData, (res) => {
-						if (res) {
+						if (!res) {
+							Notification(System.data.locale.texts.globals.errors.went_wrong, "error");
+						} else {
 							if (res.success) {
 								$(this).attr("disabled", "disabled")
 								$parentRow.addClass("removed");
-								removeSpinner(++countRemove);
+								updateCounter();
 							} else if (res.message) {
 								Notification(res.message, "error");
 							}
-						} else {
-							Notification(System.data.locale.texts.globals.errors.went_wrong, "error");
 						}
 					});
 				});
+
+				System.log(5, sitePassedParams[0], idList);
 			}
 		}
 	}

@@ -13,24 +13,61 @@ button {
 		cursor: pointer;
 	}
 
-	.content .moderation-item {
+	.content {
+		.moderation-item {
 
-		height: 17.5em;
-		overflow: hidden;
+			height: 17.5em;
+			overflow: hidden;
 
-		&>.content {
-			height: 14rem;
+			&>.content {
+				height: 14rem;
 
-			&>.body {
-				overflow: hidden;
-				height: 11em;
+				&>.body {
+					overflow: hidden;
+					height: 11em;
+				}
+
+				&>.footer {
+					padding-bottom: 0;
+
+					&>.row:last-child {
+						margin-bottom: 0 !important;
+					}
+				}
+			}
+		}
+
+		&.listView .moderation-item {
+			height: 89px;
+			width: 98%;
+
+			.header {
+				height: 25px;
 			}
 
-			&>.footer {
-				padding-bottom: 0;
+			.content {
+				height: 60px;
 
-				&>.row:last-child {
-					margin-bottom: 0 !important;
+				.footer {
+					width: 19rem;
+					top: -1.85rem;
+					right: 4em;
+					border: 0;
+
+					.zadane-green {
+						margin: 3px 20px 0 0;
+					}
+
+					.ext_actions {
+						text-align: right;
+
+						.sg-button-secondary {
+							padding: 0 14px;
+							height: 1.5rem;
+							border-radius: 5px;
+							font-size: .75rem;
+						}
+					}
 				}
 			}
 		}

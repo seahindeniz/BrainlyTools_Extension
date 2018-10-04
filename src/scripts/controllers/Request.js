@@ -4,11 +4,11 @@ import ext from "../utils/ext";
 let countErr = 0;
 class Ajax {
 	constructor() {}
-	BrainlyReq(method, path, data, callback, async, onHata) {
+	BrainlyReq(method, path, data, callback, async, onError) {
 		let that = this;
 		if (typeof data === "function") {
-			async = onHata;
-			onHata = callback;
+			async = onError;
+			onError = callback;
 			callback = data;
 			data = null;
 		}
@@ -33,18 +33,34 @@ class Ajax {
 			success: callback
 		}).fail(function() {
 			if (++countErr < 3) {
-				that.BrainlyReq(method, path, data, callback, async, onHata);
+				that.BrainlyReq(method, path, data, callback, async, onError);
 			} else {
-				if (typeof onHata === "undefined") { //noinspection JSUnresolvedVariable
+				if (typeof onError === "undefined") { //noinspection JSUnresolvedVariable
 					//Sistem.fn.alert(Sistem.locale.texts.errors.operation_error, "error");
-				} else if (typeof onHata === "function") {
-					onHata();
+				} else if (typeof onError === "function") {
+					onError();
 				}
 				countErr = 0;
 			}
 		});
 	}
-	BrainlyGet() {}
+	BrainlySaltGet(path, data, callback, onError) {
+		let that = this;
+		if (typeof data === "function") {
+			onError = callback;
+			callback = data;
+			data = null;
+		}
+		callback = typeof callback === "undefined" ? (function() {}) : callback;
+		$.ajax({
+			method: "get",
+			url: System.data.meta.location.origin + path,
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader('X-Requested-With', { toString: function() { return ''; } });
+			},
+			success: callback
+		}).fail(onError);
+	}
 	ExtensionServerReq(method, path, data = null, callback) {
 		if (typeof data == "function") {
 			callback = data;

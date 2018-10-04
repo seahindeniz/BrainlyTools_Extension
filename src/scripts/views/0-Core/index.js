@@ -372,17 +372,24 @@ setMetaData(() => {
 
 								if (System.checkRoute(1, "messages")) {
 									Inject2body([
-									"/scripts/lib/jquery-observe-2.0.3.min.js",
-									"/scripts/views/2-Messages/index.js",
-									"/scripts/views/2-Messages/Messages.css"
-								]);
+										"/scripts/lib/jquery-observe-2.0.3.min.js",
+										"/scripts/views/2-Messages/index.js",
+										"/scripts/views/2-Messages/Messages.css"
+									]);
 								}
 								if (System.checkRoute(1, "user_profile") || (System.checkRoute(1, "users") && System.checkRoute(2, "view"))) {
 									Inject2body([
 									"/scripts/views/5-UserProfile/index.js",
 									System.data.Brainly.style_guide.css,
 									"/scripts/views/5-UserProfile/UserProfile.css"
-								]);
+									]);
+								}
+								if (System.checkRoute(2, "view_user_warns")) {
+									Inject2body([
+									"/scripts/views/7-UserWarnings/index.js",
+									System.data.Brainly.style_guide.css,
+									"/scripts/views/7-UserWarnings/UserWarnings.css"
+									]);
 								}
 							}
 						});

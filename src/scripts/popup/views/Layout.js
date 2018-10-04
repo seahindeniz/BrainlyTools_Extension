@@ -4,6 +4,7 @@ import renderThemeColor from "./ThemeColor";
 import renderDeleteButtonOptions from "./DeleteButtonOptions";
 import renderOtherOptions from "./OtherOptions";
 import renderAnnouncements from "./Announcements";
+import renderUsers from "./Users";
 import { CreateShortLink } from "../../controllers/ActionsOfServer";
 import Notification from "../components/Notification"
 
@@ -70,25 +71,30 @@ const Layout = res => {
 	let $section1 = $("section.section-1", $layout);
 	let $section2 = $("section.section-2", $layout);
 
-	renderThemeColor(res.themeColor, announcements => {
-		$("#themeColor .message-body", $layout).append(announcements);
+	renderThemeColor(res.themeColor, $themeColorLayout => {
+		$("#themeColor .message-body", $layout).append($themeColorLayout);
 	});
 	System.checkUserP([1, 2, 45], () => {
-		renderDeleteButtonOptions(res.quickDeleteButtonsReasons, announcements => {
-			$("#quickDeleteButtons", $layout).append(announcements);
+		renderDeleteButtonOptions(res.quickDeleteButtonsReasons, $deleteButtonOptionsLayout => {
+			$("#quickDeleteButtons", $layout).append($deleteButtonOptionsLayout);
 		});
 	});
-	renderOtherOptions(res, announcements => {
-		$("#otherOptions .message-body", $layout).append(announcements);
+	renderOtherOptions(res, $otherOptionsLayout => {
+		$("#otherOptions .message-body", $layout).append($otherOptionsLayout);
 	});
 
-	System.checkUserP([4], () => {
-		console.log("duyuru yönetim yetkisine sahip");
+	System.checkUserP([4, 5], () => {
 		$(`<h4 class="title is-4 has-text-centered">${System.data.locale.texts.extension_options.extensionManagement}</h4>`).appendTo($section2);
+
 		System.checkUserP(4, () => {
-			console.log("duyuru yönetim yetkisine sahip");
-			renderAnnouncements(announcements => {
-				$section2.append(announcements);
+			renderAnnouncements($announcementsLayout => {
+				$section2.append($announcementsLayout);
+			});
+		});
+
+		System.checkUserP(5, () => {
+			renderUsers($usersLayout => {
+				$section2.append($usersLayout);
 			});
 		});
 	});

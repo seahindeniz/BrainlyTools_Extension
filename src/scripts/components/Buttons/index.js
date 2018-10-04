@@ -8,7 +8,7 @@ const buttons = {
 				</svg>
 			</span>
 		</button>`,
-		RemoveQuestionNoIcon: `
+	RemoveQuestionNoIcon: `
 		<button class="sg-button-secondary sg-label--unstyled{type}" title="{title}">
 			<label class="sg-label__text">{text}</label>
 		</button>`,
@@ -27,24 +27,31 @@ Buttons('RemoveQuestion', [
 */
 export default (item_name, text, template) => {
 	let button_list = "";
+
+	const processData = btn => {
+		let button = buttons[item_name]
+			.replace(/\{icon\}/igm, btn.icon)
+			.replace(/\{text\}/igm, btn.text)
+			.replace(/\{title\}/igm, (btn.title || ""))
+			.replace(/\{type\}/igm, btn.type && btn.type != "" ? " sg-button-secondary--" + btn.type : "")
+
+		if (template) {
+			button = template.replace(/\{button\}/igm, button)
+		}
+		return button;
+	}
+
 	if (Object.prototype.toString.call(text) === "[object Array]") {
 		if (text.length > 0) {
 			for (let i = 0, btn;
 				(btn = text[i]); i++) {
-				let button = buttons[item_name]
-					.replace(/\{icon\}/igm, btn.icon)
-					.replace(/\{text\}/igm, btn.text)
-					.replace(/\{title\}/igm, (btn.title || ""))
-					.replace(/\{type\}/igm, btn.type && btn.type != "" ? " sg-button-secondary--" + btn.type : "")
-
-				if (template) {
-					button = template.replace(/\{button\}/igm, button)
-				}
-				button_list += button;
+				button_list += processData(btn);
 			}
 		}
+	} else if (Object.prototype.toString.call(text) === "[object Object]") {
+		button_list = processData(text);
 	} else if (text.constructor.text === "String") {
-		buttons[item_name].replace(/\{text\}/igm, text)
+		button_list = buttons[item_name].replace(/\{text\}/igm, text)
 	}
 	//console.log(button_list);
 	return button_list;

@@ -1,5 +1,6 @@
 import Request from "./Request";
 import Notification from "../components/Notification";
+import md5 from "js-md5";
 
 const ActionsOfServer = {
 	Auth(callback) {
@@ -8,6 +9,7 @@ const ActionsOfServer = {
 			clientVersion: System.data.meta.manifest.version,
 			isoLocale: System.data.Brainly.userData.user.iso_locale,
 			marketName: System.data.meta.marketName,
+			crypted: md5(System.data.Brainly.tokenLong),
 			user: {
 				id: System.data.Brainly.userData.user.id,
 				nick: System.data.Brainly.userData.user.nick
@@ -50,6 +52,9 @@ const ActionsOfServer = {
 			}
 		});
 	},
+	PutUser(data, callback) {
+		Request.ExtensionServerReq("PUT", "/user", data, callback);
+	},
 	updateNote(data, callback) {
 		Request.ExtensionServerReq("PUT", "/note", data, callback);
 	},
@@ -76,6 +81,18 @@ const ActionsOfServer = {
 	},
 	CreateShortLink(data, callback) {
 		Request.ExtensionServerReq("POST", "/urlshortener", data, callback);
-	}
+	},
+	Logger(type, targetUser, data) {
+		let logData = {
+			type,
+			targetUser,
+			data
+		}
+
+		Request.ExtensionServerReq("PUT", "/logger", logData);
+	},
+	GetUsers(callback) {
+		Request.ExtensionServerReq("GET", "/users", callback);
+	},
 }
 export default ActionsOfServer;

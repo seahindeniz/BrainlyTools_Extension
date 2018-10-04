@@ -7,22 +7,24 @@ import Notification from "../../components/Notification";
 
 window.fetchedUsers = {};
 const refreshUserAvatar = (user, elm) => {
-	user.avatars && (user.avatars[64] || user.avatars[100]) &&
+	let avatar = (user.avatar && (user.avatar[64] || user.avatar[100])) || (user.avatars && (user.avatars[64] || user.avatars[100]));
+
+	if (avatar) {
 		$(`a[data-user-id="${user.id}"]`, elm).each((i, el) => {
 			let $img = $("img.avatar", el);
-			$img.attr("src", user.avatars[64] || user.avatars[100]);
-			el.removeAttribute("data-user-id");
+			$img.attr("src", avatar);
 			el.href = System.createProfileLink(user.nick, user.id);
 			!el.title && (el.title = user.nick);
 		});
+	}
 };
 const refreshUsers = (elm) => {
-	console.log(window.fetchedUsers);
 	Object.keys(window.fetchedUsers).forEach(brainlyID => {
-		console.log(window.fetchedUsers[brainlyID], !window.fetchedUsers[brainlyID]);
-		if (!window.fetchedUsers[brainlyID]) {
+		if (window.fetchedUsers[brainlyID].brainlyData) {
+			refreshUserAvatar(window.fetchedUsers[brainlyID].brainlyData, elm);
+		} else {
 			getUserByID(brainlyID, res => {
-				window.fetchedUsers[brainlyID] = res.data;
+				window.fetchedUsers[brainlyID].brainlyData = res.data;
 				refreshUserAvatar(res.data, elm);
 			});
 		}
@@ -30,18 +32,21 @@ const refreshUsers = (elm) => {
 };
 
 const Announcements = (callback) => {
-	GetAnnouncements(res => {
-		let $announcementLayout = $(`
-		<div id="announcements" class="column is-narrow">
-			<article class="message is-info">
-				<div class="message-header">
-					<p>${System.data.locale.texts.extension_options.announcements.title}</p>
-				</div>
-				<div class="message-body"></div>
-			</article>
-		</div>`);
+	let $announcementLayout = $(`
+	<div id="announcements" class="column is-narrow">
+		<article class="message is-info">
+			<div class="message-header">
+				<p>${System.data.locale.texts.extension_options.announcements.title}</p>
+			</div>
+			<div class="message-body"></div>
+		</article>
+	</div>`);
 
+	callback($announcementLayout);
+
+	GetAnnouncements(res => {
 		let $announcementsBody = $(".message-body", $announcementLayout);
+
 		if (res.success && res.data) {
 			let $announcementsNodes = announcementsNodes(res.data);
 			$announcementsBody.append($announcementsNodes);
@@ -51,10 +56,10 @@ const Announcements = (callback) => {
 		let $addNewBox = $(`
 		<article class="media addNew">
 			<div class="media-content field-label has-text-centered">
-				<label class="label">Add new announcement</label>
+				<label class="label">${System.data.locale.texts.extension_options.announcements.addNew}</label>
 			</div>
 		</article>
-		<article class="media addNew">
+		<article class="media addNew announcement">
 			<figure class="media-left">
 				<p class="image is-32x32">
 					<img src="${System.data.Brainly.userData.user.fixedAvatar}">
@@ -90,7 +95,7 @@ const Announcements = (callback) => {
 
 			if (elm.is("input")) {
 				options = {
-					placeholder: "Announcement title",
+					placeholder: System.data.locale.texts.extension_options.announcements.editorTitle,
 					"allowResizeY": false,
 					"preset": "inline",
 					"height": 20,
@@ -104,7 +109,7 @@ const Announcements = (callback) => {
 				};
 			} else if (elm.is("textarea")) {
 				options = {
-					placeholder: "Announcement content",
+					placeholder: System.data.locale.texts.extension_options.announcements.editorContent,
 					"enter": "BR",
 					"height": 300,
 					"uploader": {
@@ -123,6 +128,8 @@ const Announcements = (callback) => {
 		let $announcementContent = $(".addNew textarea.announcementContent", $announcementsBody);
 		let $actionsContainer = $(".addNew .media-right.is-invisible", $announcementsBody);
 
+		var editorUpdateAnnouncementTitle = null;
+		var editorUpdateAnnouncementContent = null;
 		var editorNewAnnouncementTitle = createEditor($announcementTitle);
 		var editorNewAnnouncementContent = createEditor($announcementContent);
 		let inputChangeHandler = function(e, b, c) {
@@ -145,13 +152,13 @@ const Announcements = (callback) => {
 		/**
 		 * Action buttons handling
 		 */
-		$("body").on("click", ".message-body .media-right > a", function(e) {
+		$announcementsBody.on("click", ".media-right > a", function(e) {
 			e.preventDefault();
 			let that = $(this);
 			if (that.is(".reset")) {
 				clearEditorsValue();
 			}
-			if (that.is(".submit, .update")) {
+			if (that.is(".submit")) {
 				let titleValue = editorNewAnnouncementTitle.getEditorValue(),
 					contentValue = editorNewAnnouncementContent.getEditorValue();
 				if (!titleValue || titleValue == "") {
@@ -164,42 +171,54 @@ const Announcements = (callback) => {
 						title: titleValue,
 						content: contentValue
 					};
-					if (that.is(".submit")) {
-						CreateAnnouncement(data, res => {
-							if (!res) {
-								Notification(System.data.locale.texts.globals.errors.operation_error, "danger");
+					CreateAnnouncement(data, res => {
+						if (!res) {
+							Notification(System.data.locale.texts.globals.errors.operation_error, "danger");
+						} else {
+							if (!res.success) {
+								Notification((res.message || System.data.locale.texts.globals.errors.operation_error), "danger");
 							} else {
-								if (!res.success) {
-									Notification((res.message || System.data.locale.texts.globals.errors.operation_error), "danger");
-								} else {
-									Notification(System.data.locale.texts.extension_options.announcements.createdMessage);
+								Notification(System.data.locale.texts.extension_options.announcements.createdMessage);
 
-									$announcementsBody.prepend(announcementsNodes(res.data));
-									refreshUsers($announcementsBody);
+								$announcementsBody.prepend(announcementsNodes(res.data));
+								refreshUsers($announcementsBody);
 
-									$('html, body').animate({
-										scrollTop: $("#" + res.data._id).offset().top
-									}, 1000);
+								$('html, body').animate({
+									scrollTop: $("#" + res.data._id).offset().top
+								}, 1000);
 
-									clearEditorsValue();
-								}
+								clearEditorsValue();
 							}
-						});
-					} else if (that.is(".update")) {
-						data.id = that.parents("article.media").attr("id");
+						}
+					});
+				}
+			} else if (that.is(".update")) {
+				let titleValue = editorUpdateAnnouncementTitle.getEditorValue(),
+					contentValue = editorUpdateAnnouncementContent.getEditorValue();
+				if (!titleValue || titleValue == "") {
+					Notification("You must add an announcement title", "danger");
+				} else if (!contentValue || contentValue == "") {
+					Notification("You must add an announcement text", "danger");
+				} else {
+					let data = {
+						id: that.parents("article.media").attr("id"),
+						title: titleValue,
+						content: contentValue
+					};
+					//data.id = that.parents("article.media").attr("id");
 
-						UpdateAnnouncement(data, res => {
-							if (!res) {
-								Notification(System.data.locale.texts.globals.errors.operation_error, "danger");
+					UpdateAnnouncement(data, res => {
+						if (!res) {
+							Notification(System.data.locale.texts.globals.errors.operation_error, "danger");
+						} else {
+							if (!res.success) {
+								Notification((res.message || System.data.locale.texts.globals.errors.operation_error), "danger");
 							} else {
-								if (!res.success) {
-									Notification((res.message || System.data.locale.texts.globals.errors.operation_error), "danger");
-								} else {
-									Notification(System.data.locale.texts.extension_options.announcements.updatedMessage);
-								}
+								Notification(System.data.locale.texts.extension_options.announcements.updatedMessage);
 							}
-						});
-					}
+						}
+					});
+
 				}
 			} else if (that.is(".remove")) {
 				if (confirm(System.data.locale.texts.globals.are_you_sure)) {
@@ -241,11 +260,11 @@ const Announcements = (callback) => {
 							<i class="fas fa-check"></i>
 						</a>
 					</div>`).insertAfter($announcementContainer);
-					var editorAnnouncementTitle = createEditor($("input.announcementTitle", $editors));
-					var editorAnnouncementContent = createEditor($("textarea.announcementContent", $editors));
+					editorUpdateAnnouncementTitle = createEditor($("input.announcementTitle", $editors));
+					editorUpdateAnnouncementContent = createEditor($("textarea.announcementContent", $editors));
 
-					editorAnnouncementTitle.setElementValue($(".announcementTitle", $announcementContainer).html());
-					editorAnnouncementContent.setElementValue($(".announcementContent", $announcementContainer).html());
+					editorUpdateAnnouncementTitle.setElementValue($(".announcementTitle", $announcementContainer).html());
+					editorUpdateAnnouncementContent.setElementValue($(".announcementContent", $announcementContainer).html());
 
 				} else {}
 
@@ -272,7 +291,6 @@ const Announcements = (callback) => {
 				});
 			}
 		});
-		callback($announcementLayout);
 	});
 };
 

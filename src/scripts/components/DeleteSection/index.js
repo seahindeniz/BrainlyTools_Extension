@@ -1,6 +1,6 @@
 import DeleteReasonCategoryList from "../DeleteReasonCategoryList";
 
-export default (Reason, type)=>{
+export default (Reason, type) => {
 	let categories = DeleteReasonCategoryList(Reason);
 	let $deleteSection = $(`
 	<div id="deleteSection">
@@ -70,11 +70,9 @@ export default (Reason, type)=>{
 		$textarea.val("");
 
 		let selectedCategoryId = this.id.replace(/^\D+/g, "");
-		Console.log("selectedCategoryId:", selectedCategoryId);
 		window.selectedCategory = Reason.find((cat) => {
 			return cat.id == selectedCategoryId;
 		});
-		Console.log("window.selectedCategory:", window.selectedCategory);
 
 		let reasons = DeleteReasonCategoryList(window.selectedCategory.subcategories);
 		$reasons.html(reasons);
@@ -84,6 +82,7 @@ export default (Reason, type)=>{
 		let reason = window.selectedCategory.subcategories.find((cat) => {
 			return cat.id == selectedReasonId;
 		});
+		
 		$textarea.val(reason.text);
 	});
 	return $deleteSection;

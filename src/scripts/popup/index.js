@@ -11,26 +11,15 @@ import _System from "../controllers/System";
 let System = new _System();
 window.System = System;
 
-let save2Storage = (data) => {
-	storageS.get(res => {
-		let data = {};
-		let marketKey = System.data.meta.marketName + "_" + System.data.Brainly.userData.user.id;
-		data[marketKey] = { ...data, ...res[marketKey] };
-		storageS.set(data, resSave => {
-			//sendResponse(true);
-			console.log(resSave);
-		});
-	})
-};
 $(() => {
 	var messageDone = () => {
 		messageDone = () => {};
 		ext.runtime.sendMessage({ action: "getMarketData" }, function(res) {
-			console.log(res);
+			//console.log(res);
 			if (res) {
 				System.data = res;
 				Storage.get(["user", "themeColor", "quickDeleteButtonsReasons", "extendMessagesBody"], res => {
-					console.log("storageUser: ", res);
+					//console.log("storageUser: ", res);
 					if (!(res && res.user && res.user.user && res.user.user.id && res.user.user.id == res.user.user.id)) {
 						Body(renderError(`I'm unable to fetch your data from Brainly<br><br>Please go to Brainly's homepage or reload the page`));
 					}

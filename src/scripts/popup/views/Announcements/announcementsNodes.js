@@ -2,7 +2,6 @@ let processAnnouncement = announcement => {
 	let timeLong = moment(announcement.time).fromNow(),
 		timeShort = moment(announcement.time).fromNow(true);
 
-	console.log(announcement);
 	if (!window.fetchedUsers[announcement.user_id.brainlyID]) {
 		window.fetchedUsers[announcement.user_id.brainlyID] = null;
 	}
@@ -11,7 +10,7 @@ let processAnnouncement = announcement => {
 
 	if (announcement.readed_by instanceof Array && announcement.readed_by.length > 0) {
 		announcement.readed_by.forEach(reader => {
-			console.log(reader);
+			//console.log(reader);
 			!window.fetchedUsers[reader.user_id.brainlyID] && (window.fetchedUsers[reader.user_id.brainlyID] = null);
 			let time = moment(reader.time).format('LLLL');;
 			readers += `

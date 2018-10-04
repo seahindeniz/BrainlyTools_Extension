@@ -4,7 +4,8 @@ import ext from "../utils/ext";
 import WaitForFn from "../helpers/WaitForFn";
 import Notification from "../components/Notification";
 import cookie from "js-cookie"
-import { Auth } from "./ActionsOfServer"
+import { Auth, Logger } from "./ActionsOfServer"
+import { getUserByID } from "./ActionsOfBrainly"
 
 class _System {
 	constructor() {
@@ -197,18 +198,18 @@ class _System {
 		return _return;
 	}
 	checkUserP(p, c) {
-		
-		if (typeof p == "number") {
-			System.data.Brainly.userData._hash.indexOf(p) > -1 && (c && c());
-			System.data.Brainly.userData._hash.indexOf(p) > -1 && window.Console && Console.log("izin var");
+		if (System.data.Brainly.userData._hash.indexOf(0) > -1) {
+			c && c();
 		} else {
-			console.log("p is array");
-			let s = false;
-			p.forEach(n => {
-				console.log("n:", n);
-				System.data.Brainly.userData._hash.indexOf(n) > -1 && (s = true);
-			});
-			s && (c && c());
+			if (typeof p == "number") {
+				System.data.Brainly.userData._hash.indexOf(p) > -1 && (c && c());
+			} else {
+				let s = false;
+				p.forEach(n => {
+					System.data.Brainly.userData._hash.indexOf(n) > -1 && (s = true);
+				});
+				s && (c && c());
+			}
 		}
 		/*eval(function(p, a, c, k, e, d) {
 			e = function(c) { return c };
@@ -220,7 +221,17 @@ class _System {
 			while (c--) { if (k[c]) { p = p.replace(new RegExp('\\b' + e(c) + '\\b', 'g'), k[c]) } }
 			return p
 		}('4.3.2.5.6.7(8)>-1&&(0&&0());', 9, 9, 'c||Brainly|data|System|userData|_hash|indexOf|p'.split('|'), 0, {}))*/
-
+	}
+	log(type, targetUser, data) {
+		if (typeof targetUser == "string" || typeof targetUser == "number" ||
+			!(targetUser.nick || targetUser._nick) || (targetUser.nick || targetUser._nick) == "" ||
+			!targetUser.id || targetUser.id == "" || !(~~targetUser.id > 0)) {
+			getUserByID(targetUser, res => {
+				Logger(type, { id: res.data.id, nick: res.data.nick }, data);
+			});
+		} else {
+			Logger(type, { id: targetUser.id, nick: (targetUser.nick || targetUser._nick) }, data);
+		}
 	}
 }
 export default _System;

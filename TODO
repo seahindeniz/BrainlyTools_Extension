@@ -4,19 +4,21 @@ TODO:
 			- Silim sebeplerini sunarken status: true/false gibi bir flag koyulmalı, böylece sunulması istenmeyen silim sebepleri listelenmez.
 			- Sunucuya yapılan her isteği logla
 			- Auth kontrollerini ilk seferde senkron, localstorage da varsa asenkron yap. Böylece kişiyi bekletme süresi azalır. Ayrıca asenkron yapıldığında gelen cevaba göre eklentinin kullanım izni yoksa/kaldırılmışsa, anında kullanıma kapansın veya sayfayı yenilesin.
+			- Kullanıcı yönetimi için, popup içine section oluştur
+			- Eklenti dilini isteğe göre değiştirebilme özelliği ekle. Market bazlı configleri ise dil dosyasından ayrı bir dosyada tut.
+
+			- Marketler arasında geçiş yapınca eklenti kitleniyor
 
 		Global:
 			- Kenar moderatör paneline nick bazlı kişi arama/sorgulama
 			- Eklenti seçeneklerine resim paylaşma özelliği ekle. Olursa eğer
 			- Chatango ile market içi mesajlaşma
 			- Gelen bildirimleri takip etmek için web socket oluştur ve bildirimleri tarayıcının notification panelinde göster
-			- Eklenti kullanıcılarını yönetmek için alan oluştur
 
 		Anasayfa:
 
 		Tümünü düzelt:
 			- Daha fazla yükle butonu
-			- Tablo ve liste seçenekleri
 			- Düzenle panelinde sağ sol okları ve A, D ve yön tuşlarıyla hareket etme, esc tuşuyla panel kapatma
 		
 		Soru sayfası:
@@ -36,8 +38,6 @@ TODO:
 		Kullanıcı bilgilerini gör sayfası:
 
 		Uyarılar sayfası:
-			- Uyarı seçimi için kutucuk, tümünü seç kutusu ekle
-			- Seçilmiş uyarıları geri alma işlemi
 			- Kendi uyarılarını geri alma işlemi
 	Done:
 		Extension:
@@ -46,6 +46,11 @@ TODO:
 			+ Eklenti nin simgesine badge renkleri ekle. BeforeStart: Red, SystemInit: Yellow, SystemLoad: Green
 			+ sahin.in isteklerini web sayfası üzerinden yapmak yerine eklenti üzerinden yaparak işlem hızını arttır.
 
+			#Issues
+			+ DB de kayıtlı olmayan birisi eklentiyi kullandığı zaman, checkintime eklenmiyor.
+			+ db de kayıtlı olmayan birisini, bir kullanıcı ilettiği zaman, ekleyen kişi olarak loglanmıyor.
+			+ Duyuru düzenlemede sorun var. Title hatası aldım
+
 		Global:
 			+ Kenar moderatör paneline id bazlı kişi arama/sorgulama
 			+ Silim butonlarının sebeplerini seçebilmek için eklenti seçenekleri butonu ve optionslarını hazırla
@@ -53,6 +58,7 @@ TODO:
 			+ Yetki sınırlandırmalarını ekle
 			+ Eklenti duyuruları kutusu
 			+ Eklenti seçeneklerine, link shorter ekle
+			+ Eklenti kullanıcılarını yönetmek için alan oluştur
 
 		Anasayfa:
 			+ Hızlı silim butonlarının eylemlerini aktifleştir
@@ -62,6 +68,7 @@ TODO:
 			+ Sorular, cevaplar ve yorumlara(onaylama ve seçerek veya hızlıca) silim butonları ekle
 			+ Yorum sayısına tıklandığında yorumları göster
 			+ Şikayet edilmiş içeriklerin kutularını iyileştir http://i.hizliresim.com/VPnGvv.png
+			+ Tablo ve liste seçenekleri
 		
 		Soru sayfası:
 			+ Hızlı silim butonları, soruya ve cevaplara
@@ -83,3 +90,5 @@ TODO:
 			+ Seçilmiş içerikleri doğrula
 
 		Uyarılar sayfası:
+			+ Uyarı seçimi için kutucuk, tümünü seç kutusu ekle
+			+ Seçilmiş uyarıları geri alma işlemi

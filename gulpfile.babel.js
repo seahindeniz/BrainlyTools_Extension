@@ -23,10 +23,10 @@ var manifest = {
 	dev: {
 		"background": {
 			"scripts": [
-        "scripts/livereload.js",
-        "scripts/lib/jquery-3.3.1.min.js",
-        "scripts/background.js"
-      ]
+				"scripts/livereload.js",
+				"scripts/lib/jquery-3.3.1.min.js",
+				"scripts/background.js"
+			]
 		}
 	},
 
@@ -58,7 +58,7 @@ gulp.task('watch', ['build'], () => {
 
 gulp.task('default', ['build']);
 
-gulp.task('ext', ['manifest', 'js', 'js2', "locales"], () => {
+gulp.task('ext', ['manifest', 'js', 'js-min', "js-config", "locales"], () => {
 	return mergeAll(target)
 });
 
@@ -67,37 +67,43 @@ gulp.task('ext', ['manifest', 'js', 'js2', "locales"], () => {
 // -----------------
 gulp.task('js', () => {
 	return gulp.src([
-    'src/scripts/*.js',
-    'src/scripts/**/**/*.js',
-    '!src/scripts/utils/*.js',
-    "!src/scripts/locales/**/*.js",
-    "!src/scripts/lib/*.min.js"
-  ])
+			'src/scripts/*.js',
+			'src/scripts/**/**/*.js',
+			'!src/scripts/utils/*.js',
+			"!src/scripts/locales/**/*.js",
+			"!src/scripts/lib/*.min.js"
+		])
 		.pipe(bro({
 			transform: [
-        babelify.configure({ presets: ['latest'] }),
-        ['uglifyify', { global: true }]
-      ]
+				babelify.configure({ presets: ['latest'] }),
+				['uglifyify', { global: true }]
+			]
 		}))
 		.pipe(gulp.dest(`build/${target}/scripts`));
 });
-gulp.task('js2', () => {
+gulp.task('js-min', () => {
 	return gulp.src([
-    "src/scripts/**/*.min.js"
-  ])
+			"src/scripts/**/*.min.js"
+		])
 		.pipe(gulp.dest(`build/${target}/scripts`));
-})
+});
+gulp.task("js-config", () => {
+	return gulp.src([
+			'src/config/*',
+		])
+		.pipe(gulp.dest(`build/${target}/config`));
+});
 gulp.task('locales', () => {
 	return gulp.src([
-    "src/scripts/locales/**/*.js"
-  ])
+			"src/scripts/locales/**/*"
+		])
 		.pipe(gulp.dest(`build/${target}/scripts/locales`));
 })
 
 gulp.task('styles', () => {
 	return gulp.src([
-    'src/styles/**/*.scss',
-  ])
+			'src/styles/**/*.scss',
+		])
 		.pipe($.plumber())
 		.pipe($.sourcemaps.init())
 		.pipe($.sass.sync({
@@ -167,12 +173,12 @@ function mergeAll(dest) {
 
 function buildJS(target) {
 	const files = [
-    'background.js',
-    'contentscript.js',
-    'options.js',
-    'popup.js',
-    'livereload.js'
-  ]
+		'background.js',
+		'contentscript.js',
+		'options.js',
+		'popup.js',
+		'livereload.js'
+	]
 
 	let tasks = files.map(file => {
 		return browserify({

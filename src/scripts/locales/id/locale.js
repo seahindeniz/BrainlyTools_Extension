@@ -1,28 +1,5 @@
 System.data.locale = {
 	lang: "id",
-	config: {
-		account_using_for_approve: "",
-		reserve: "Tiket",
-		Deleted_account: "Akun yang dihapus",
-		special_ranks_starts: 8,
-		chatango: {
-			for: "brainly.co.id",
-			id: "cid0020000160003917943",
-			handle: "brainlycoid"
-		},
-		change_forum_link: {
-			use_it: false,
-			links: [{
-				title: "",
-				link: ""
-			}]
-		},
-		quickDeleteButtonsDefaultReasons: { //Recommended 2 items at least 
-			task: ["Default", "Mapel Keliru"],
-			response: ["Default", "Salinan Web Lain", "Tidak Relevan"],
-			comment: ["Default", "Konten Pribadi", "Jawaban di Komentar"]
-		}
-	},
 	texts: {
 		globals: {
 			nick: "Nick",
@@ -111,11 +88,12 @@ System.data.locale = {
 				effects_on_refresh: "Tombol akan berubah ketika halaman di refresh"
 			},
 			otherOptions: {
-				title: "Pilihan lain"
-			},
-			extendMessagesLayout: {
-				title: "Memperluas pesan",
-				description: "Opsi ini akan memperpanjang tata letak halaman pesan.\nAnda dapat mencobanya ketika halaman pesan aktif"
+				title: "Pilihan lain",
+				extendMessagesLayout: {
+					title: "Memperluas pesan",
+					description: "Opsi ini akan memperpanjang tata letak halaman pesan.\nAnda dapat mencobanya ketika halaman pesan aktif"
+				},
+				extensionLanguage: "Bahasa ekstensi"
 			},
 			answer_box_height: {
 				title: "Tinggi kotak jawaban",

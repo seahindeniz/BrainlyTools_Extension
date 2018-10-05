@@ -200,9 +200,9 @@ let prepareDeleteButtonSettings = (callback) => {
 			callback();
 		} else {
 			Storage.setL({
-				quickDeleteButtonsReasons: System.data.locale.config.quickDeleteButtonsDefaultReasons
+				quickDeleteButtonsReasons: System.data.config.marketConfig.quickDeleteButtonsDefaultReasons
 			}, () => {
-				System.data.config.quickDeleteButtonsReasons = System.data.locale.config.quickDeleteButtonsDefaultReasons;
+				System.data.config.quickDeleteButtonsReasons = System.data.config.marketConfig.quickDeleteButtonsDefaultReasons;
 				callback();
 			});
 		}
@@ -320,78 +320,85 @@ setMetaData(() => {
 				Sistem.depo.current_locale = locale;
 				return locale;
 			}*/
-			Inject2body(`/scripts/locales/${System.data.Brainly.defaultConfig.locale.LANGUAGE}/locale.js`, () => {
-				Console.info("Locale inject OK!");
-				System.shareGatheredData2Background(() => {
-					System.Auth((hash) => {
-						Console.log("authProcess OK!");
 
-						System.data.Brainly.userData._hash = hash;
-						/**
-						 * Wait for the declaration of the jQuery object
-						 */
-						WaitForFn("jQuery", obj => {
-							if (obj) {
-								Console.log("Jquery OK!");
-								System.changeBadgeColor("loaded");
-								renderUserFinder();
-								renderAnnouncements();
-								prepareDeleteReasons(() => {
-									Console.log("Delete reasons OK!");
-									if (System.checkRoute(1, "") || System.checkRoute(1, "task_subject_dynamic")) {
-										Inject2body([
-											"/scripts/lib/jquery-observe-2.0.3.min.js",
-											"/scripts/views/1-Root/index.js",
-											"/scripts/views/1-Root/Root.css"
-										])
-									}
-									if (System.checkRoute(1, "task_view")) {
-										Inject2body([
-											"/scripts/lib/jquery-observe-2.0.3.min.js",
-											"/scripts/views/3-Task/index.js",
-											"/scripts/views/3-Task/Task.css"
-										])
-									}
-									if (System.checkRoute(2, "user_content") && !System.checkRoute(4, "comments_tr")) {
-										Inject2body([
-											"/scripts/views/4-UserContent/index.js",
-											System.data.Brainly.style_guide.css,
-											"/scripts/views/4-UserContent/UserContent.css"
-										])
-									}
-									if (System.checkRoute(2, "archive_mod")) {
-										Inject2body([
-											"/scripts/lib/jquery-observe-2.0.3.min.js",
-											"/scripts/views/6-ArchiveMod/index.js",
-											System.data.Brainly.style_guide.css,
-											System.data.Brainly.style_guide.icons,
-											"/scripts/views/6-ArchiveMod/ArchiveMod.css"
-										])
-									}
-								});
+			Inject2body(`/config/${location.hostname}.json`, configData => {
+				System.data.config.marketConfig = configData;
 
-								if (System.checkRoute(1, "messages")) {
-									Inject2body([
-										"/scripts/lib/jquery-observe-2.0.3.min.js",
-										"/scripts/views/2-Messages/index.js",
-										"/scripts/views/2-Messages/Messages.css"
-									]);
+				Inject2body(`/scripts/locales/${"en_US"||System.data.Brainly.defaultConfig.locale.LANGUAGE}/locale.json`, localeData => {
+					System.data.locale = localeData;
+
+					Console.info("Locale inject OK!");
+					System.shareGatheredData2Background(() => {
+						System.Auth((hash) => {
+							Console.log("authProcess OK!");
+
+							System.data.Brainly.userData._hash = hash;
+							/**
+							 * Wait for the declaration of the jQuery object
+							 */
+							WaitForFn("jQuery", obj => {
+								if (obj) {
+									Console.log("Jquery OK!");
+									System.changeBadgeColor("loaded");
+									renderUserFinder();
+									renderAnnouncements();
+									prepareDeleteReasons(() => {
+										Console.log("Delete reasons OK!");
+										if (System.checkRoute(1, "") || System.checkRoute(1, "task_subject_dynamic")) {
+											Inject2body([
+												"/scripts/lib/jquery-observe-2.0.3.min.js",
+												"/scripts/views/1-Root/index.js",
+												"/scripts/views/1-Root/Root.css"
+											])
+										}
+										if (System.checkRoute(1, "task_view")) {
+											Inject2body([
+												"/scripts/lib/jquery-observe-2.0.3.min.js",
+												"/scripts/views/3-Task/index.js",
+												"/scripts/views/3-Task/Task.css"
+											])
+										}
+										if (System.checkRoute(2, "user_content") && !System.checkRoute(4, "comments_tr")) {
+											Inject2body([
+												"/scripts/views/4-UserContent/index.js",
+												System.data.Brainly.style_guide.css,
+												"/scripts/views/4-UserContent/UserContent.css"
+											])
+										}
+										if (System.checkRoute(2, "archive_mod")) {
+											Inject2body([
+												"/scripts/lib/jquery-observe-2.0.3.min.js",
+												"/scripts/views/6-ArchiveMod/index.js",
+												System.data.Brainly.style_guide.css,
+												System.data.Brainly.style_guide.icons,
+												"/scripts/views/6-ArchiveMod/ArchiveMod.css"
+											])
+										}
+									});
+
+									if (System.checkRoute(1, "messages")) {
+										Inject2body([
+											"/scripts/lib/jquery-observe-2.0.3.min.js",
+											"/scripts/views/2-Messages/index.js",
+											"/scripts/views/2-Messages/Messages.css"
+										]);
+									}
+									if (System.checkRoute(1, "user_profile") || (System.checkRoute(1, "users") && System.checkRoute(2, "view"))) {
+										Inject2body([
+										"/scripts/views/5-UserProfile/index.js",
+										System.data.Brainly.style_guide.css,
+										"/scripts/views/5-UserProfile/UserProfile.css"
+										]);
+									}
+									if (System.checkRoute(2, "view_user_warns")) {
+										Inject2body([
+										"/scripts/views/7-UserWarnings/index.js",
+										System.data.Brainly.style_guide.css,
+										"/scripts/views/7-UserWarnings/UserWarnings.css"
+										]);
+									}
 								}
-								if (System.checkRoute(1, "user_profile") || (System.checkRoute(1, "users") && System.checkRoute(2, "view"))) {
-									Inject2body([
-									"/scripts/views/5-UserProfile/index.js",
-									System.data.Brainly.style_guide.css,
-									"/scripts/views/5-UserProfile/UserProfile.css"
-									]);
-								}
-								if (System.checkRoute(2, "view_user_warns")) {
-									Inject2body([
-									"/scripts/views/7-UserWarnings/index.js",
-									System.data.Brainly.style_guide.css,
-									"/scripts/views/7-UserWarnings/UserWarnings.css"
-									]);
-								}
-							}
+							});
 						});
 					});
 				});

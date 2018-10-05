@@ -1,28 +1,5 @@
 System.data.locale = {
 	lang: "en",
-	config: {
-		account_using_for_approve: "",
-		reserve: "reserve",
-		Deleted_account: "Deleted account",
-		special_ranks_starts: 8,
-		chatango: {
-			for: "brainly.com",
-			id: "cid0020000160005754810",
-			handle: "brainlycom"
-		},
-		change_forum_link: {
-			use_it: false,
-			links: [{
-				title: "",
-				link: ""
-			}]
-		},
-		quickDeleteButtonsDefaultReasons: { //Recommended 2 items at least 
-			task: ["Default", "Incomplete"],
-			response: ["Default", "Just For Points"],
-			comment: ["Default", "Incomplete", "Incomplete"]
-		}
-	},
 	texts: {
 		globals: {
 			nick: "Nick",
@@ -111,11 +88,14 @@ System.data.locale = {
 				effects_on_refresh: "Buttons will change when the page is refreshed"
 			},
 			otherOptions: {
-				title: "Other options"
-			},
-			extendMessagesLayout: {
-				title: "Extended messages layout",
-				description: "This option will extend the layout of the messages page. You can try it when the messages page is on"
+				title: "Other options",
+				extendMessagesLayout: {
+					title: "Extended messages layout",
+					description: "This option will extend the layout of the messages page. You can try it when the messages page is on"
+				},
+				extensionLanguage: {
+					title: "Extension language"
+				}
 			},
 			answer_box_height: {
 				title: "Answer box height",

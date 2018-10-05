@@ -234,7 +234,7 @@ let renderDeleteButtonOptions = quickDeleteButtonsReasons => {
 						let contentType = System.data.Brainly.deleteReasons.__withTitles[reasonTypeKey];
 						let reason = contentType[reasonKey];
 						let category = contentType.__categories[reason.category_id];
-						let buttonDefaultSelectedItem = (quickDeleteButtonsReasons && quickDeleteButtonsReasons[reasonTypeKey][i]) || System.data.locale.config.quickDeleteButtonsDefaultReasons[reasonTypeKey][i]
+						let buttonDefaultSelectedItem = (quickDeleteButtonsReasons && quickDeleteButtonsReasons[reasonTypeKey][i]) || System.data.config.marketConfig.quickDeleteButtonsDefaultReasons[reasonTypeKey][i]
 						options += `<option data-cat-id="${category.id}" data-key="${reasonKey}" title="${reason.text}"${buttonDefaultSelectedItem == reasonKey ? " selected" : ""}>${category.text == reasonKey ? reasonKey : category.text + " - " + reasonKey}</option>`
 					}
 				});
@@ -271,8 +271,8 @@ let renderOtherOptions = (options) => {
 		<div class="field-body">
 			<div class="field">
 				<div class="control">
-					<label class="checkbox" title="${System.data.locale.texts.extension_options.extendMessagesLayout.description}">
-						<input id="extendMessagesLayout" type="checkbox"${options.extendMessagesLayout ? " checked" : ""}> ${System.data.locale.texts.extension_options.extendMessagesLayout.title}
+					<label class="checkbox" title="${System.data.locale.texts.extension_options.otherOptions.extendMessagesLayout.description}">
+						<input id="extendMessagesLayout" type="checkbox"${options.extendMessagesLayout ? " checked" : ""}> ${System.data.locale.texts.extension_options.otherOptions.extendMessagesLayout.title}
 					</label>
 				</div>
 			</div>

@@ -1,0 +1,23 @@
+{
+	"account_using_for_approve": "",
+	"reserve": "reserve",
+	"Deleted_account": "Deleted account",
+	"special_ranks_starts": 8,
+	"chatango": {
+		"for": "brainly.com",
+		"id": "cid0020000160005754810",
+		"handle": "brainlycom"
+	},
+	"change_forum_link": {
+		"use_it": false,
+		"links": [{
+			"title": "",
+			"link": ""
+		}]
+	},
+	"quickDeleteButtonsDefaultReasons": {
+		"task": ["Default", "Incomplete"],
+		"response": ["Default", "Just For Points"],
+		"comment": ["Default", "Incomplete", "Incomplete"]
+	}
+}

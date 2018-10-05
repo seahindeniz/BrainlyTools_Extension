@@ -6,6 +6,8 @@ TODO:
 			- Auth kontrollerini ilk seferde senkron, localstorage da varsa asenkron yap. Böylece kişiyi bekletme süresi azalır. Ayrıca asenkron yapıldığında gelen cevaba göre eklentinin kullanım izni yoksa/kaldırılmışsa, anında kullanıma kapansın veya sayfayı yenilesin.
 			- Kullanıcı yönetimi için, popup içine section oluştur
 			- Eklenti dilini isteğe göre değiştirebilme özelliği ekle. Market bazlı configleri ise dil dosyasından ayrı bir dosyada tut.
+			- Eklenti kullanıcısı, moderatör değilse otomatik olarak eklenti izni kaldırılsın.
+			- Eklenti kullanıcısı, doğrulama gibi özel izin gerektiren eylemlerde, brainly privilege'i kontrol edilsin ve ona göre içerik gösterilsin.
 
 			- Marketler arasında geçiş yapınca eklenti kitleniyor
 

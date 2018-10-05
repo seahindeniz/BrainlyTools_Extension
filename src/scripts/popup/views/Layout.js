@@ -49,7 +49,7 @@ const Layout = res => {
 							</div>
 							<div id="quickDeleteButtons" class="column is-narrow"></div>
 							<div id="otherOptions" class="column is-narrow">
-								<article class="message is-dark">
+								<article class="is-dark">
 									<div class="message-header">
 										<p>${System.data.locale.texts.extension_options.otherOptions.title}</p>
 									</div>

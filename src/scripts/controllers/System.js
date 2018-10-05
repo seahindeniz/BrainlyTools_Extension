@@ -27,8 +27,8 @@ class _System {
 			config: {
 				reasonSign: "Ω",
 				extensionServerURL: "https://sahin.in",
-				extensionServerURL: "http://127.0.0.1:3001",
 				extensionServerAPIURL: "https://sahin.in/BrainlyTools",
+				extensionServerURL: "http://127.0.0.1:3001",
 				extensionServerAPIURL: "http://127.0.0.1:3001/BrainlyTools",
 				userFlags: {
 					list: [{

@@ -15,7 +15,7 @@ let DeleteButtonOptions = (quickDeleteButtonsReasons, callback) => {
 						let contentType = System.data.Brainly.deleteReasons.__withTitles[reasonTypeKey];
 						let reason = contentType[reasonKey];
 						let category = contentType.__categories[reason.category_id];
-						let buttonDefaultSelectedItem = (quickDeleteButtonsReasons && quickDeleteButtonsReasons[reasonTypeKey][i]) || System.data.locale.config.quickDeleteButtonsDefaultReasons[reasonTypeKey][i]
+						let buttonDefaultSelectedItem = (quickDeleteButtonsReasons && quickDeleteButtonsReasons[reasonTypeKey][i]) || System.data.config.marketConfig.quickDeleteButtonsDefaultReasons[reasonTypeKey][i]
 						options += `<option data-cat-id="${category.id}" data-key="${reasonKey}" title="${reason.text}"${buttonDefaultSelectedItem == reasonKey ? " selected" : ""}>${category.text == reasonKey ? reasonKey : category.text + " - " + reasonKey}</option>`
 					}
 				});

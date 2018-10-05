@@ -64,6 +64,11 @@ let inject_it = function(file_paths, add_ext_id) {
 						elm && elm.appendChild(injected);
 
 						break;
+					case "json":
+						fetch(file_path_fixed)
+							.then(response => response.json())
+							.then(add_ext_id);
+						break;
 					case "ext_js":
 						elm = document.documentElement;
 						injected = document.createElement('script');
@@ -95,7 +100,7 @@ let inject_it = function(file_paths, add_ext_id) {
 
 							head && head.appendChild(injected);
 						});
-						
+
 						break;
 				}
 			}

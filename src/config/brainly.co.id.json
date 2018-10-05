@@ -1,0 +1,23 @@
+{
+	"account_using_for_approve": "",
+	"reserve": "Tiket",
+	"Deleted_account": "Akun yang dihapus",
+	"special_ranks_starts": 8,
+	"chatango": {
+		"for": "brainly.co.id",
+		"id": "cid0020000160003917943",
+		"handle": "brainlycoid"
+	},
+	"change_forum_link": {
+		"use_it": false,
+		"links": [{
+			"title": "",
+			"link": ""
+		}]
+	},
+	"quickDeleteButtonsDefaultReasons": {
+		"task": ["Default", "Mapel Keliru"],
+		"response": ["Default", "Salinan Web Lain", "Tidak Relevan"],
+		"comment": ["Default", "Konten Pribadi", "Jawaban di Komentar"]
+	}
+}

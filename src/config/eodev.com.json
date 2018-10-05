@@ -1,0 +1,45 @@
+{
+	"account_using_for_approve": "kendisi",
+	"archive_page": "arsiv",
+	"reserve": "rezerv",
+	"Deleted_account": "Silinmiş hesap",
+	"special_ranks_starts": 12,
+	"chatango": {
+		"for": "eodev.com",
+		"id": "cid0020000160003733978",
+		"handle": "eodevcom"
+	},
+	"change_forum_link": {
+		"use_it": true,
+		"links": [{
+			"title": "Slack",
+			"link": "https://eodev-mod.slack.com/"
+		}, {
+			"title": "Hangouts",
+			"link": "https://hangouts.google.com/"
+		}]
+	},
+	"default_reasons": {
+		"question": {
+			"button_1": "Kural",
+			"button_2": "Banal"
+		},
+		"answer": {
+			"button_1": "Alinti",
+			"button_2": "Kural",
+			"button_3": "Eksik"
+		},
+		"comment": {
+			"button_1": {
+				"rule": "Argo",
+				"title": "Argo",
+				"description": "Argo + Uyarı"
+			},
+			"button_2": {
+				"rule": "Kural",
+				"title": "K. İ.",
+				"description": "Kural İhlali + Uyarı"
+			}
+		}
+	}
+}

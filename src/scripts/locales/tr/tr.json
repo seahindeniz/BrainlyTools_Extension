@@ -1,0 +1,432 @@
+{
+	"lang": "tr",
+	"texts": {
+		"globals": {
+			"nick": "Nick",
+			"rank": "Rütbe",
+			"moderator": "Moderatör",
+			"username": "Kullanıcı adı",
+			"ok": "Tamam",
+			"save": "Kaydet",
+			"cancel": "İptal",
+			"delete": "Sil",
+			"choose_option": "Seçim yapın",
+			"select_all": "Tümünü seç",
+			"edit": "Düzenle",
+			"pause": "Duraklat",
+			"continue": "Devam et",
+			"all_ranks": "Tüm Gruplar",
+			"warning__wait_for_process_done": "İşlem tamamlanana kadar bekleyin ve sayfayı kapatmayın!",
+			"enterId": "Profil Id",
+			"saving": "Kaydediliyor",
+			"all": "Tümünü",
+			"all2": "Tümü",
+			"accept": "Kabul et",
+			"later": "Sonra",
+			"show": "Göster",
+			"point": "puan",
+			"extension_user": "Eklenti kullanıcısı",
+			"manage_users": "Eklenti kullanıcı yönetimi",
+			"previous_nicks": "Önceki kullanıcı adları:",
+			"previous_nicks_description": "Kişinin, eklentiye işlenmiş olan önceki kullanıcı adları",
+			"userDescription": "Profil notu",
+			"changes_affected": "Değişiklik yapıldı",
+			"are_you_sure": "Emin misin?",
+			"yes": "Evet",
+			"no": "Hayır",
+			"update": "Güncelle",
+			"cancelEdit": "Bitir",
+			"moderate": "Düzenle",
+			"progressing": "İşleniyor",
+			"allDone": "Tamamdır!",
+			"warning_ongoingProcess": "Bazı içerikler halen işleniyor. Sayfadan ayrılmak istediğine emin misin?",
+			"errors": {
+				"operation_error": "İşlem sırasında bir hata oluştu. Tekrar deneyin",
+				"went_wrong": "Bir hata oluştu",
+				"options_cant_be_same": "Seçenekler aynı olamaz!",
+				"permission_error": {
+					"title": "Uyarı!",
+					"description": "Brainly Tools eklentisini kullanma yetkisine sahip değilsin<br>Eklenti yöneticisi ile iletişime geçip yetki istemen gerekiyor veya eklentiyi kaldırmalısın :)"
+				},
+				"only_number": "Sadece sayı lütfen :)",
+				"greater_than_zero": "Sıfırın üzerinde bir sayı gir -_-",
+				"error_at_reason": "Silim sebebinde hatalı işlem",
+				"update_account_error": "Kişi güncellenirken hata oluştu. 2 saniye sonra tekrar deneyin",
+				"if_error_continue": "Hatanın devam etmesi halinde, lütfen eklenti yöneticisi ile iletişime geçin ve durumu bilgilendirin :)",
+				"userNotFound": "Kullanıcı bulunamadı",
+				"passUser": "Kullanıcı bilgilerini eklenti sunucusuna iletirken beklenmedik bir hata oluştu. 2 saniye sonra tekrar deneyin",
+				"extensionServerError": "Sunucuya bağlanırken beklenmedik bir hata oluştu. ~2 saniye sonra tekrar deneyin"
+			}
+		},
+		"extension_options": {
+			"title": "Eklenti Seçenekleri",
+			"extensionManagement": "Ekl. Yönetimi",
+			"version_text": "Eklenti sürümü: ",
+			"createShortLinkButton": {
+				"title": "Link kısalt",
+				"description": "Görüntülenen sayfa için kısa link oluştur"
+			},
+			"shortLinkSuccessMessage": "Kısa link oluşturuldu ve panoya kopyalandı(CTRL + C)",
+			"themeColor": {
+				"title": "Tema rengi",
+				"description": "Sayfanın üstündeki ve en altındaki mavi şeritlerin rengini değiştirmek için kullanabilirsin.",
+				"choose_color": "Renk belirleyerek",
+				"timer_color": "Saniyelik değişen",
+				"on_refresh_random": "Sf. yenileme ile rastgele",
+				"fontColorExample": "Renkler hex formatında belirlenebilir. Örneğin, kırmızı renk için #FF0000 şeklinde format kullanılabilir",
+				"rainbow": "Gökkuşağı"
+			},
+			"quick_delete_buttons": {
+				"title": "Hızlı silim butonları",
+				"description": "Hızlı silim butonlarını belirleme",
+				"task": "Sorular",
+				"response": "Cevaplar",
+				"comment": "Yorumlar",
+				"button_1": "Slot 1",
+				"button_2": "Slot 2",
+				"button_3": "Slot 3",
+				"effects_on_refresh": "Butonlar sayfa yenilendiğinde değişecek"
+			},
+			"otherOptions": {
+				"title": "Other options",
+				"extendMessagesLayout": {
+					"title": "Mesajları genişlet",
+					"description": "Bu seçenek, mesajlar sayfasının görünümünü genişletir. Mesajlar sayfası açıkken deneyebilirsin"
+				},
+				"extensionLanguage": {
+					"title": "Eklenti dili"
+				}
+			},
+			"answer_box_height": {
+				"title": "Cevap kutusu yüksekliği",
+				"description": "Cevap vermek için kullanılan cevap kutusunun boyutunu yükseltir.\nBu sayede daha fazla içerik görebilirsin."
+			},
+			"manage_users": {
+				"title": "Eklenti kullanıcı yönetimi",
+				"description": "Eklenti ile ilişkili kullanıcıların erişim ve yetkilerinin yönetim bölümü",
+				"addNew": "Eklenti kullanıcısı ekle veya düzenle",
+				"enterUserID": "Kullanıcı id'si",
+				"warning_cannotFindUser": "Girilen id numarasıyla kullanıcı bulamadım",
+				"brainly_id": "Eodev Id",
+				"privileges": "Yetkiler",
+				"extension_privileges": "Eklenti yetkileri",
+				"first_usage_date": "Eklentiyi ilk kullanımı",
+				"permission": "Erişim izni",
+				"can_use_extension": "Eklenti kullanabilir",
+				"can_not_use_extension": "Kullanamaz",
+				"comment": "Not",
+				"hasn'tUsed": "Kullanıcı henüz eklentiyi kullanmadı",
+				"firstUsageTimeAgoPreTitle": "%s kullanmaya başladı",
+				"js_grid": {
+					"grid": {
+						"noDataContent": "Kayıt Bulunamadı",
+						"deleteConfirm": "Emin misiniz ?",
+						"pagerFormat": "Sayfalar: {first} {prev} {pages} {next} {last} &nbsp;&nbsp; {pageIndex} / {pageCount}",
+						"pagePrevText": "<",
+						"pageNextText": ">",
+						"pageFirstText": "<<",
+						"pageLastText": ">>",
+						"loadMessage": "Lütfen bekleyiniz...",
+						"invalidMessage": "Geçersiz veri girişi !"
+					},
+					"loadIndicator": {
+						"message": "Yükleniyor..."
+					},
+					"fields": {
+						"control": {
+							"searchModeButtonTooltip": "Arama moduna geç",
+							"insertModeButtonTooltip": "Yeni kayıt moduna geç",
+							"editButtonTooltip": "Değiştir",
+							"searchButtonTooltip": "Bul",
+							"clearFilterButtonTooltip": "Filtreyi temizle",
+							"insertButtonTooltip": "Ekle"
+						}
+					}
+				},
+				"privilegeList": [
+					{
+						"type": 0,
+						"title": "Extension admin",
+						"description": "Can able use the extension without any restriction"
+				},
+					{
+						"type": 1,
+						"title": "Hızlı soru silimi",
+						"description": "In the homepage, question page and archive mod page, user can use the quick delete buttons for deleting the question(s)"
+				},
+					{
+						"type": 2,
+						"title": "Hızlı cevap silimi",
+						"description": "In the question page and archive mod page, user can use the quick delete buttons for deleting the answer(s)"
+				},
+					{
+						"type": 45,
+						"title": "Hızlı yorum silimi",
+						"description": "In the question page and archive mod page, user can use the quick delete buttons for deleting the comment(s)"
+				},
+					{
+						"type": 4,
+						"title": "Duyuru yönetimi",
+						"description": "Can able to create, edit, remove or publish the internal extension announcements"
+				},
+					{
+						"type": 5,
+						"title": "Kullanıcı yönetimi",
+						"description": "Can able to add or editing the extension users and give them privileges or permission to use the extension"
+					}
+				]
+			},
+			"announcements": {
+				"title": "Duyurular",
+				"description": "Eklenti içinde duyuru oluşturma ve yayınlama",
+				"addNew": "Yeni duyuru ekle",
+				"editorTitle": "Başlık",
+				"editorContent": "İçerik",
+				"publish": "Yayınla",
+				"unpublish": "Yayınla",
+				"published": "Yayınlandı",
+				"unpublished": "Yayınlanmadı",
+				"draft": "Taslak",
+				"on": "Yayında",
+				"off": "Kapalı",
+				"createdMessage": "Oluşturuldu",
+				"updatedMessage": "Düzenlendi",
+				"removedMessage": "Kaldırıldı",
+				"clearForm": "Temizle",
+				"readedOn": "Okunduğu zaman:\n%s"
+			},
+			"hide_unnecessary_contents": {
+				"title": "Gereksiz alanları gizle",
+				"description": "Bu seçenek, sıkça kullanmadığımız alanları gizler"
+			}
+		},
+		"announcements": {
+			"title": "Duyurular",
+			"announcement": "Duyuru",
+			"description": "Duyuruyu okuduktan sonra \"okundu\" olarak işaretleyin.",
+			"mark_as_read": {
+				"long": "Okundu olarak işaretle",
+				"short": "Onayla"
+			}
+		},
+		"moderate": {
+			"description": "Moderatör panelinde düzenle",
+			"take_points": {
+				"task": {
+					"title": "Cevap verenlerin puanlarını al",
+					"description": "RSoruya cevap verenlerden puanları geri al"
+				},
+				"response": {
+					"title": "Kazandığı puanları geri al",
+					"description": "Kişinin sorudan kazandığı puanları geri al"
+				}
+			},
+			"return_points": {
+				"title": "Puanı iade et",
+				"description": "Soru sahibine puanını iade et"
+			},
+			"give_warning": {
+				"title": "Uyarı ver",
+				"description": "Uyarı vererek sil"
+			},
+			"moreOptions": "Daha fazla",
+			"confirm": "Onayla",
+			"choose_reason": "Lütfen silme sebebini seçiniz",
+			"question_removed": "Ödev silindi",
+			"do_you_want_to_delete": "İçeriği silmek istiyor musun?",
+			"authorized_content": "Yetkili paylaşımıdır. Silmek istiyor musun?",
+			"authorized_comment": "Yetkili yorumunu silmek istiyor musun?",
+			"done_moderating": "Düzenleme bitmiştir",
+			"answer_deleted": "Cevap silindi",
+			"answers_deleted": "Cevaplar silindi"
+		},
+		"moderate_all": {
+			"pages": "Sayfa",
+			"comments": {
+				"remove": "Yorumu kaldır",
+				"confirm": "Yorumu onayla"
+			}
+		},
+		"answer_approve": {
+			"approve": "Doğrula",
+			"message__wait_for_approve": "Kendi cevabımızı doğrulama işlemi, normalden biraz fazla sürebilir :) Bekleyelim..",
+			"approved": "Doğrulandı",
+			"message__approved": "Cevabın doğrulandı.&nbsp;&nbsp;Doğrulama işlemleri kendisi hesabı üzerinden yapılmaktadır."
+		},
+		"notes": {
+			"placeholder": "Not ekle..",
+			"description": "Kişiyle alakalı notlarını buraya ekleyebilirsin :)",
+			"personal_note": "KİŞİYLE İLGİLİ NOT"
+		},
+		"todays_actions": "Eylem sayısı",
+		"messages": "Mesajlar",
+		"groups": {
+			"title": "Gruplar",
+			"choose_group": "Grup seç",
+			"add_group": "Grup Ekle",
+			"edit_group": "Grubu düzenle",
+			"group_added": "Grup eklendi",
+			"dbl_click_for_edit_title": "Başlığı değiştirmek için çift tıkla",
+			"save_changes": "Değişiklikleri kaydet",
+			"changes_saved": "Değişiklikler kaydedildi",
+			"delete_group": "Grubu sil",
+			"do_you_want_to_delete_group": "Grubu silmek istiyor musun?",
+			"group_deleted": "Grup silindi",
+			"search_except_friends": "Arkadaşlarının haricinde kişi aramak istiyorsan, metin girişi yaptıktan sonra ${search_icon} ikonuna tıklamalısın.",
+			"enter_username": "Kullanıcı adı veya ID gir..",
+			"dont_forget_save": "Listede veya grup adında değişiklik yaptıktan sonra kaydetmeyi unutma.",
+			"group_members": "Grup üyeleri",
+			"enter_group_title": "Grup başlığını gir..",
+			"loading": "yükleniyor...",
+			"group_list": "Grup listesi",
+			"type_here": "Mesajını buraya yaz",
+			"character_count": "Karakter sayısı: ",
+			"char_limit_exceeded": "Göndereceğin mesaj maksimum 512 karakter olmalı",
+			"send": "Gönder",
+			"supervisors": {
+				"table_view": "Tablo görünümü",
+				"send_bulk_messages": "Toplu mesaj gönder",
+				"send_message_to_listed_accounts": "Listelenen hesaplara mesaj gönder",
+				"multiple_selection_with_ctrl": "CTRL ile çoklu seçim yapabilirsin",
+				"press_show_for_listing": "Seçimi listelemek için \"Göster\" butonunu kullan",
+				"selected": "Seçilenler",
+				"export_as_csv": "CSV olarak dışarı aktar"
+			}
+		},
+		"profile": {
+			"give_stars_to_all_answers": "Tüm cevaplarına yıldız ver",
+			"give_stars_and_add_thanks_to_all_answers": "Tüm cevaplarına yıldız ver ve teşekkür et",
+			"approve_all_answers": "Tüm cevaplarını doğrula",
+			"explaining_on_start": "İşlemi sıfırlamak için sayfayı yenileyin.",
+			"explaining_on_pause": "Kaldığın yerden devam edebilirsin. Lakin 25 ve katlarından devam eder.<br>Yani 132 de bittiyse 125 den devam eder.",
+			"paused": "Duraklatıldı",
+			"its_done": "Tamamlandı",
+			"processed": "İşlenen",
+			"approving": "Doğrulanan",
+			"see_more_comment": "n adet göster",
+			"delete_comments": "Tüm yorumları sil",
+			"how_many_comments_should_delete": "Kaç adet yorum silinsin?",
+			"how_many_comment_fetch": "Kaç yorum gösterilsin?",
+			"explaining_how_many": "Örneğin son 1000 adet yorum ise, 1000 girmen yeterli.",
+			"do_you_want_to_delete_comments": "Yorumları silmek istediğinden emin misin?",
+			"warning__no_turning_back": "Geri dönüşü yoktur.",
+			"n_comments_deleted": "${n} adet yorum silindi",
+			"delete_selected_comments": "Seçili olanları sil",
+			"select_at_least_one_comment": "En az 1 tane yorum seçmelisin :)",
+			"show_all_friends": {
+				"title": "Tümünü göster",
+				"description": "Tüm arkadaşlarını listele",
+				"warning__no_friends_to_show": "Listelenecek arkadaş bulunamadı"
+			},
+			"remove_all_friends": "Tüm arkadaşları sil",
+			"deleting_friends": {
+				"remove_all_friends": "Tüm arkadaşları sil",
+				"on_pause_message": "Kaldığın yerden devam edebilirsin. Lakin 20 ve katlarından devam eder.",
+				"on_start_message": "İşlemi sıfırlamak için sayfayı yenileyin.",
+				"delete_selected_friends": "Seçili olanları sil",
+				"delete_selected_friends_title": "Seçili olan kişileri arkadaşlıktan çıkart",
+				"select_at_least_one_friend": "En az 1 arkadaş seçmelisin.",
+				"warning__are_you_sure_delete_selected_friends": "Seçili arkadaşları silmek istediğine emin misin?",
+				"warning__are_you_sure_delete_all_friends": "Tüm arkadaşlarını silmek istediğinden emin misin?",
+				"n_deleted": "${n} kişi arkadaşlıktan çıkartıldı"
+			},
+			"delete_account": {
+				"delete_reason": "Silim nedeni",
+				"evidences": "Kanıtlar",
+				"cm_explain": "topluluk yöneticisine iletilecek",
+				"more_details": "Açıklama ekle..",
+				"add_files": "Dosya ekle",
+				"are_you_sure": "Hesabı silmek istediğinden emin misin?",
+				"file_size_limit_exceeded": "250MB dosya limiti aşıldı",
+				"uploading": "Yükleniyor",
+				"processing": "İşleniyor",
+				"mail_sent": "Mail gönderildi",
+				"upload_failed": "Dosya(lar) yüklenirken hata oluştu",
+				"mail_failed": "Mail gönderilirken hata oluştu",
+				"continue_deletion": "Yine de hesap silinsin mi?(hesap silimini kendin bildirmen gerekecek)",
+				"lnk_file_warn": "Eklemek istediğin şey bir dosya değil, dosyanın kısayoludur.\nYine de eklensin mi?"
+			},
+			"rank_appended": "Rütbe atandı",
+			"edit_users_profile": {
+				"title": "Profili düzenle",
+				"email": "E-Mail",
+				"nickname": "Kullanıcı Adı"
+			},
+			"confirm_for_add_moderator": "Kişi moderatör olarak atansın mı?",
+			"moderator_privileges_added": "Kişi moderatör olarak atandı\nDeğişiklikler 3 dakika içerisinde geçerli olacaktır"
+		},
+		"user_content": {
+			"select": "Seç",
+			"remove_answer": "İçeriği kaldır",
+			"select_a_question_first": "Önce soru seçmelisin",
+			"select_an_answer_first": "Önce cevap seçmelisin",
+			"warning__reason_not_selected": "Silme sebebi belirtilmedi",
+			"warning__more_than_5_question_selected": "Beşin üzerinde soru seçildi.",
+			"warning__more_than_5_answer_selected": "Beşin üzerinde cevap seçildi.",
+			"warning__continue_deleting": "Silim işlemine devam edilsin mi?",
+			"approve_selected_answers": "Seçilen yanıtları doğrula",
+			"unapprove_selected_answers": "Seçilen yanıtların doğrulamalarını kaldır",
+			"remove_selected_answers": "Seçilen yanıtları kaldır",
+			"correction_for_selected_answers": "Seçilen yanıtları hatalı olarak bildir",
+			"warning__before_approving_review_the_answer_first": "İçeriği kontrol ederek doğrulamak daha doğru olur",
+			"show_content": "İçeriği göster",
+			"range_of_listing": "Gösterilecek içeriğin sayı aralığı",
+			"warning_selectAnUnapprovedAnswerForApproving": "Doğrulamaya başlamadan önce doğrulanmamış cevap(ları) seçmelisin",
+			"warning_someOfSelectedAnswersAreApproved": "Seçilmiş bazı cevaplar zaten doğrulanmış. O yüzden tekrar doğrulamaya gerek kalmıyor",
+			"message_confirmApproving": "Do you want approve this answer(s)?"
+		},
+		"user_warnings": {
+			"operations": "İşlemler",
+			"undo": "Geri al",
+			"message__if_you_have_privileges": "Yetkin varsa, uyarı geri alınır :)"
+		},
+		"delete_accounts": {
+			"delete_multiple_accounts": "Çoklu hesap silimi",
+			"add_accounts_line_by_line": [
+				"İşlenecek hesapları satır satır, numaraları olacak şekilde ekleyelim.",
+				"Örneğin;",
+				"https://eodev.com/profil/aaa-1234567",
+				"https://eodev.com/profil/bbb-2345678",
+				"1234567",
+				"2345678"
+			],
+			"matched_accounts_number": "Silinecek hesap:",
+			"deleted_accounts_number": "Silinen hesap:",
+			"accounts_cannot_be_deleted_number": "Silinemeyen hesap:",
+			"already_deleted_accounts_number": "Önceden silinmişler:",
+			"delete_reason": "Silim sebebi",
+			"delete": "SİL !",
+			"are_you_sure": "Hesapları silmek istediğinden emin misin?",
+			"button__delete_accounts": "Hesapları sil!",
+			"error_during_deletion": "{nick} hesabı silinirken hata oluştu"
+		},
+		"moderating_functions": {
+			"compare_moderators_ip_address": {
+				"title": "Moderatör IP'lerini, birbirleri ile karşılaştır",
+				"information": [
+					"Şimdi bir uyarı yapalım :)",
+					"Aşağıda adı geçen arkadaşlar belki şifrelerini birbirine paylaşmıştır, belki aynı IP adresinden bağlanmışlardır, belki de <b>kardeştirler</b>"
+				],
+				"moderators": "Moderatörler",
+				"matched_moderators": "Eşleşen moderatörler",
+				"confirm__multiple_accounts_will_be_processed": "Çok fazla hesap üzerinde işlem yapılacak ve zaman alabilir.\n\nDevam edilsin mi?"
+			}
+		},
+		"archive": {
+			"export": {
+				"title": "Soru linklerini CSV olarak dışa aktar",
+				"range_of_page_numbers": "Taranacak sayfaların sayı aralığı",
+				"scan": "Tara",
+				"processed_page_count": "İşlenen sayfa sayısı",
+				"elapsed_time": "Geçen süre",
+				"ranges_cannot_be_empty": "Sayı aralığı boş olamaz",
+				"wrong_ranges": "Geçersiz sayı aralığı",
+				"csv_file_compatible_with_google_spreadsheet": "CSV dosyası, Google E-Tablolar ile uyumludur"
+			}
+		},
+		"notifications": {
+			"x_send_you_a_new_message": "{x} sana mesaj gönderdi",
+			"new_notify": "Yeni bildiri"
+		}
+	}
+}

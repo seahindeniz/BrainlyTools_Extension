@@ -3,9 +3,9 @@ TODO:
 		Extension:
 			- Silim sebeplerini sunarken status: true/false gibi bir flag koyulmalı, böylece sunulması istenmeyen silim sebepleri listelenmez.
 			- Auth kontrollerini ilk seferde senkron, localstorage da varsa asenkron yap. Böylece kişiyi bekletme süresi azalır. Ayrıca asenkron yapıldığında gelen cevaba göre eklentinin kullanım izni yoksa/kaldırılmışsa, anında kullanıma kapansın veya sayfayı yenilesin.
-			- Kullanıcı yönetimi için, popup içine section oluştur
 			- Eklenti kullanıcısı, moderatör değilse otomatik olarak eklenti izni kaldırılsın.
 			- Eklenti kullanıcısı, doğrulama gibi özel izin gerektiren eylemlerde, brainly privilege'i kontrol edilsin ve ona göre içerik gösterilsin.
+			- Eklentinin sürüm kontrolü yapılsın ve eğer yeni sürüm varsa eklenti kendini güncelleyebilsin. Böyle bir seçenek olmazsa şayet, kullanıcının eklentiyi kullanmasını kısıtlasın.
 
 			- Marketler arasında geçiş yapınca eklenti kitleniyor
 
@@ -47,6 +47,7 @@ TODO:
 			+ Eklenti nin simgesine badge renkleri ekle. BeforeStart: Red, SystemInit: Yellow, SystemLoad: Green
 			+ sahin.in isteklerini web sayfası üzerinden yapmak yerine eklenti üzerinden yaparak işlem hızını arttır.
 			+ Eklenti dilini isteğe göre değiştirebilme özelliği ekle. Market bazlı configleri ise dil dosyasından ayrı bir dosyada tut.
+			+ Kullanıcı yönetimi için, popup içine section oluştur
 
 			#Issues
 			+ DB de kayıtlı olmayan birisi eklentiyi kullandığı zaman, checkintime eklenmiyor.

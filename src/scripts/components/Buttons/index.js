@@ -41,7 +41,7 @@ export default (item_name, text, template) => {
 				.replace(/\{button\}/igm, button)
 				.replace(/\{class\}/igm, btn.templateClass ? " " + btn.templateClass : "")
 		}
-		console.log(button)
+		
 		return button + "\n";
 	}
 

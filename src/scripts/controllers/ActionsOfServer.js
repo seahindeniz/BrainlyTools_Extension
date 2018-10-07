@@ -41,8 +41,7 @@ const ActionsOfServer = {
 	passUser(id, nick, callback) {
 		let data = {
 			id,
-			nick,
-			marketName: System.data.meta.marketName
+			nick
 		}
 		Request.ExtensionServerReq("PUT", "/user", data, res => {
 			if (res && res.success) {

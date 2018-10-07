@@ -184,7 +184,6 @@ System.checkUserP(1, () => {
 		}
 	}
 	let observeForNewQuestionBoxes = feeds_parent => {
-		Console.log("feed parent has found");
 		feeds_parent[0].classList.add("quickDelete");
 
 		WaitForElm('div.js-feed-item:not(.ext-buttons-added)', e => {
@@ -195,7 +194,6 @@ System.checkUserP(1, () => {
 		});
 	};
 	let wait_for_feeds_parent = () => {
-		Console.log("observe has found");
 		WaitForElm(selectors.feeds_parent, observeForNewQuestionBoxes)
 	}
 	WaitForFn('$().observe', wait_for_feeds_parent);
@@ -210,5 +208,5 @@ let $todaysActions = $(`
 	<span class="sg-text sg-text--obscure sg-text--gray sg-text--capitalize">${System.data.locale.texts.todays_actions}: </span>
 	<span class="sg-text sg-text--obscure sg-text--gray sg-text--emphasised">${System.data.Brainly.userData.user.mod_actions_count}</span>
 </div>`);
-Console.log($todaysActions);
+
 WaitForElm(selectors.userInfoBoxPoints, infoBox => $todaysActions.insertBefore(infoBox));

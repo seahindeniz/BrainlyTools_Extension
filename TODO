@@ -2,10 +2,8 @@ TODO:
 	New:
 		Extension:
 			- Silim sebeplerini sunarken status: true/false gibi bir flag koyulmalı, böylece sunulması istenmeyen silim sebepleri listelenmez.
-			- Sunucuya yapılan her isteği logla
 			- Auth kontrollerini ilk seferde senkron, localstorage da varsa asenkron yap. Böylece kişiyi bekletme süresi azalır. Ayrıca asenkron yapıldığında gelen cevaba göre eklentinin kullanım izni yoksa/kaldırılmışsa, anında kullanıma kapansın veya sayfayı yenilesin.
 			- Kullanıcı yönetimi için, popup içine section oluştur
-			- Eklenti dilini isteğe göre değiştirebilme özelliği ekle. Market bazlı configleri ise dil dosyasından ayrı bir dosyada tut.
 			- Eklenti kullanıcısı, moderatör değilse otomatik olarak eklenti izni kaldırılsın.
 			- Eklenti kullanıcısı, doğrulama gibi özel izin gerektiren eylemlerde, brainly privilege'i kontrol edilsin ve ona göre içerik gösterilsin.
 
@@ -14,7 +12,6 @@ TODO:
 		Global:
 			- Kenar moderatör paneline nick bazlı kişi arama/sorgulama
 			- Eklenti seçeneklerine resim paylaşma özelliği ekle. Olursa eğer
-			- Chatango ile market içi mesajlaşma
 			- Gelen bildirimleri takip etmek için web socket oluştur ve bildirimleri tarayıcının notification panelinde göster
 
 		Anasayfa:
@@ -43,10 +40,13 @@ TODO:
 			- Kendi uyarılarını geri alma işlemi
 	Done:
 		Extension:
+			+ Sunucuya yapılan her isteği logla
+			
 			+ Silim sebepleri sunucu tarafından güncellenmeli. Brainly silim sebeplerini karmaşık bir biçimde sunuyor. Bu yüzden eklenti sunucusunda işlev yazılıp, her gün güncelleme yapacak şekilde kodlanmalı. Eklenti ise her sayfa yenilendiğinde bu verileri asenkron bir biçimde arkaplanda çekmeli ve işlemeli. 
 			+ Reklamlar kaldırmak için ekleme yap ve eklenti seçeneklerine ekle
 			+ Eklenti nin simgesine badge renkleri ekle. BeforeStart: Red, SystemInit: Yellow, SystemLoad: Green
 			+ sahin.in isteklerini web sayfası üzerinden yapmak yerine eklenti üzerinden yaparak işlem hızını arttır.
+			+ Eklenti dilini isteğe göre değiştirebilme özelliği ekle. Market bazlı configleri ise dil dosyasından ayrı bir dosyada tut.
 
 			#Issues
 			+ DB de kayıtlı olmayan birisi eklentiyi kullandığı zaman, checkintime eklenmiyor.
@@ -61,6 +61,7 @@ TODO:
 			+ Eklenti duyuruları kutusu
 			+ Eklenti seçeneklerine, link shorter ekle
 			+ Eklenti kullanıcılarını yönetmek için alan oluştur
+			+ Chatango ile market içi mesajlaşma
 
 		Anasayfa:
 			+ Hızlı silim butonlarının eylemlerini aktifleştir

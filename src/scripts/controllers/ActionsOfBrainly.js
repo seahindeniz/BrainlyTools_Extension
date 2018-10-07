@@ -164,6 +164,42 @@ const ActionsOfBrainly = {
 		data.warningIDs.forEach(id => {
 			Request.BrainlySaltGet(`/moderators/cancel_warning/${data.userID}/${id}`, callback, onError);
 		});
+	},
+	getAllFriends(callback) {
+		$.getJSON(`//${location.hostname}/buddies_new/ajax_panel_get_buddies`, callback);
+	},
+	RemoveFriend(idList, handler) {
+		let counter = 0;
+
+		if (typeof idList == "boolean" && idList == true) {
+			idList = System.friends.map((friend) => {
+				return friend.id;
+			});
+		}
+		if (typeof idList == "string" || typeof idList == "number") {
+			idList = [idList];
+		}
+		if (typeof handler == "function") {
+			handler = {
+				success: handler,
+				each: () => {}
+			}
+		}
+
+		if (idList && typeof idList == "object" && idList.length > 0) {
+			idList.forEach(id => {
+				Request.BrainlySaltGet(`/buddies_new/unbuddy/${id}`, (res, textStatus, jqXHR) => {
+					counter++;
+
+					if (handler && jqXHR && jqXHR.responseURL && jqXHR.responseURL.indexOf("users/view") >= 0) {
+						handler.each && handler.each(counter, id);
+					}
+					if (counter == idList.length) {
+						handler.success && handler.success();
+					}
+				});
+			});
+		}
 	}
 }
 export default ActionsOfBrainly;

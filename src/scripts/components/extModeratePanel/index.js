@@ -10,7 +10,7 @@ const createPanel = res => {
 	
 	let avatar = `<div class="sg-avatar__image sg-avatar__image--icon"><svg class="sg-icon sg-icon--gray sg-icon--x32"><use xlink:href="#icon-profile"></use></svg></div>`;
 	if (questionOwner.avatar) {
-		avatar = `<img class="sg-avatar__image" src="${questionOwner.avatar[64] || questionOwner.avatar[100]}">`;
+		avatar = `<img class="sg-avatar__image" src="${System.prepareAvatar(questionOwner)}">`;
 	}
 
 	let attachments = "";

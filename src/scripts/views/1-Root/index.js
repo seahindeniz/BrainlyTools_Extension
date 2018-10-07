@@ -22,10 +22,10 @@ let selectors = {
 	userInfoBoxPoints: ".sg-layout__aside-content .game-box__element > .game-box__user-info > .game-box__progress-items"
 }
 
+/**
+ *  Adding remove buttons inside of question boxes
+ **/
 System.checkUserP(1, () => {
-	/**
-	 *  Adding remove buttons inside of question boxes
-	 **/
 	let ext_actions_buttons_click_handler = function() {
 		let btn_index = $(this).index();
 		let parent_feed = $(this).parents(selectors.feed_item);
@@ -36,7 +36,7 @@ System.checkUserP(1, () => {
 			let question_id = Number(question_link.split("/").pop());
 
 			if (question_id >= 0) {
-				if (btn_index == 0 || btn_index == 1) {
+				if (btn_index == 1 || btn_index == 2) {
 					if (confirm(System.data.locale.texts.moderate.do_you_want_to_delete)) {
 						let reason = System.data.Brainly.deleteReasons.__withTitles.task[System.data.config.quickDeleteButtonsReasons.task[btn_index]];
 						let taskData = {
@@ -61,7 +61,7 @@ System.checkUserP(1, () => {
 							svg.show();
 						});
 					}
-				} else if (btn_index == 2) {
+				} else if (btn_index == 0) {
 					OpenModerationTicket(question_id, res => {
 						if (!res) {
 							Notification(System.data.locale.texts.globals.errors.went_wrong, "error");
@@ -149,25 +149,29 @@ System.checkUserP(1, () => {
 		}
 	};
 	$("body").on("click", ".ext_actions button", ext_actions_buttons_click_handler);
-	let prepareButtons = Buttons('RemoveQuestion', [
-		{
-			text: System.data.Brainly.deleteReasons.__withTitles.task[System.data.config.quickDeleteButtonsReasons.task[0]].title,
-			title: System.data.Brainly.deleteReasons.__withTitles.task[System.data.config.quickDeleteButtonsReasons.task[0]].text,
-			type: "peach",
-			icon: "x"
-		},
-		{
-			text: System.data.Brainly.deleteReasons.__withTitles.task[System.data.config.quickDeleteButtonsReasons.task[1]].title,
-			title: System.data.Brainly.deleteReasons.__withTitles.task[System.data.config.quickDeleteButtonsReasons.task[1]].text,
-			type: "peach",
-			icon: "x"
-		},
-		{
+
+	let prepareButtons = "";
+
+	if (!System.data.config.quickDeleteButtonsReasons) {
+		Console.error("Quick delete reasons cannot be found");
+	} else {
+		let data = [{
 			text: System.data.locale.texts.moderate.moreOptions,
 			type: "alt",
 			icon: "stream"
-		}
-	]);
+		}];
+
+		System.data.config.quickDeleteButtonsReasons.task.forEach((reason, i) => {
+			data.push({
+				text: System.data.Brainly.deleteReasons.__withTitles.task[reason].title,
+				title: System.data.Brainly.deleteReasons.__withTitles.task[reason].text,
+				type: "peach",
+				icon: "x"
+			});
+		});
+		prepareButtons = Buttons('RemoveQuestion', data);
+	}
+
 	let createQuestionRemoveButtons = nodes => {
 		if (nodes) {
 			for (let i = 0, node;

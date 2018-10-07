@@ -2,6 +2,7 @@ import ext from "../../utils/ext";
 import Storage from "../../helpers/extStorage";
 import Notification from "../components/Notification";
 import send2AllBrainlyTabs from "../helpers/send2AllBrainlyTabs";
+import Inject2body from "../../helpers/Inject2body";
 
 const OtherOptions = (options, callback) => {
 	let $otherOptions = $(`
@@ -20,37 +21,22 @@ const OtherOptions = (options, callback) => {
 			<div class="field is-grouped">
 				<div class="control">
 					<label class="checkbox">
-						${System.data.locale.texts.extension_options.otherOptions.extensionLanguage}
+						${System.data.locale.texts.extension_options.otherOptions.extensionLanguage.title}
 					</label>
 				</div>
 				<div class="control is-expanded">
-					<div class="dropdown is-active">
+					<div class="dropdown">
 						<div class="dropdown-trigger">
 							<button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-						<span>Dropdown button</span>
-						<span class="icon is-small">
-							<i class="fas fa-angle-down" aria-hidden="true"></i>
-						</span>
-						</button>
+								<span>${System.data.locale.texts.extension_options.otherOptions.extensionLanguage.chooseLang}</span>
+								<span class="icon is-small">
+									<i class="fas fa-angle-down" aria-hidden="true"></i>
+								</span>
+							</button>
 						</div>
-						<div class="dropdown-menu" id="dropdown-menu" role="menu">
+						<div class="dropdown-menu" role="menu">
 							<div class="dropdown-content">
-								<a href="#" class="dropdown-item">
-									Dropdown item
-								</a>
-								<a class="dropdown-item">
-									Other dropdown item
-								</a>
-								<a href="#" class="dropdown-item is-active">
-									Active dropdown item
-								</a>
-								<a href="#" class="dropdown-item">
-									Other dropdown item
-								</a>
 								<hr class="dropdown-divider">
-								<a href="#" class="dropdown-item">
-									With a divider
-								</a>
 							</div>
 						</div>
 					</div>
@@ -58,6 +44,31 @@ const OtherOptions = (options, callback) => {
 			</div>
 		</div>
 	</div>`);
+
+	callback($otherOptions);
+
+	let $dropdown = $(".dropdown", $otherOptions);
+	let $languagesContainer = $(".dropdown-menu > .dropdown-content", $dropdown);
+	let $dropdownText = $(".dropdown-trigger > button.button > span:not(.icon)", $dropdown);
+
+	Storage.get("language", selectedLang => {
+		if (selectedLang) {
+			let selected = System.data.config.availableLanguages.find(lang => lang.key == selectedLang);
+
+			$dropdownText.text(selected.title);
+		}
+
+		System.data.config.availableLanguages.forEach(lang => {
+			let $lang = `
+			<a href="#" class="dropdown-item ${selectedLang == lang.key ? "is-active" : ""}" value="${lang.key}">${lang.title}</a>`;
+
+			if (System.data.Brainly.defaultConfig.locale.LANGUAGE == lang.key) {
+				$languagesContainer.prepend($lang);
+			} else {
+				$languagesContainer.append($lang);
+			}
+		});
+	});
 
 	$("#extendMessagesLayout", $otherOptions).change(function() {
 		Notification("Layout " + (this.checked ? "extended" : "switched back to normal"));
@@ -67,7 +78,15 @@ const OtherOptions = (options, callback) => {
 			ext.tabs.sendMessage(tab.id, message);
 		});
 	});
-	callback($otherOptions);
+
+	$dropdown.change(function() {
+		Inject2body(`/config/locales/${this.value}.json`, localeData => {
+			System.data.locale = localeData;
+			Notification(System.data.locale.texts.extension_options.otherOptions.extensionLanguage.langChanged, "success");
+			console.log(this.value);
+			Storage.set({ language: this.value });
+		});
+	});
 };
 
 export default OtherOptions

@@ -7,7 +7,7 @@ import Notification from "../../components/Notification";
 
 window.fetchedUsers = {};
 const refreshUserAvatar = (user, elm) => {
-	let avatar = (user.avatar && (user.avatar[64] || user.avatar[100])) || (user.avatars && (user.avatars[64] || user.avatars[100]));
+	let avatar = System.prepareAvatar(user);
 
 	if (avatar) {
 		$(`a[data-user-id="${user.id}"]`, elm).each((i, el) => {

@@ -1,6 +1,6 @@
 const buttons = {
 	RemoveQuestion: `
-		<button class="sg-button-secondary sg-label--unstyled{type}" title="{title}">
+		<button class="sg-button-secondary sg-label--unstyled{type}"{title}>
 			<label class="sg-label__text">{text}</label>
 			<span class="sg-button-primary__icon">
 				<svg class="sg-icon sg-icon--adaptive sg-icon--x14">
@@ -9,10 +9,11 @@ const buttons = {
 			</span>
 		</button>`,
 	RemoveQuestionNoIcon: `
-		<button class="sg-button-secondary sg-label--unstyled{type}" title="{title}">
+		<button class="sg-button-secondary sg-label--unstyled{type}"{title}>
 			<label class="sg-label__text">{text}</label>
 		</button>`,
-	RemoveQuestionMore: `<button class="sg-button-secondary sg-button-secondary--small sg-button-secondary--alt" title="{title}">{text}</button>`,
+	RemoveQuestionMore: `<button class="sg-button-secondary sg-button-secondary--small sg-button-secondary--alt"{title}>{text}</button>`,
+	ActionButtonNoIcon: `<button class="sg-button-secondary sg-label--unstyled{type}"{title}><label class="sg-label__text">{text}</label></button>`,
 	//contentDetails: 
 }
 /*
@@ -32,13 +33,16 @@ export default (item_name, text, template) => {
 		let button = buttons[item_name]
 			.replace(/\{icon\}/igm, btn.icon)
 			.replace(/\{text\}/igm, btn.text)
-			.replace(/\{title\}/igm, (btn.title || ""))
+			.replace(/\{title\}/igm, (btn.title && `title="${btn.title}"` || ""))
 			.replace(/\{type\}/igm, btn.type && btn.type != "" ? " sg-button-secondary--" + btn.type : "")
 
 		if (template) {
-			button = template.replace(/\{button\}/igm, button)
+			button = template
+				.replace(/\{button\}/igm, button)
+				.replace(/\{class\}/igm, btn.templateClass ? " " + btn.templateClass : "")
 		}
-		return button;
+		console.log(button)
+		return button + "\n";
 	}
 
 	if (Object.prototype.toString.call(text) === "[object Array]") {
@@ -53,6 +57,6 @@ export default (item_name, text, template) => {
 	} else if (text.constructor.text === "String") {
 		button_list = buttons[item_name].replace(/\{text\}/igm, text)
 	}
-	//console.log(button_list);
+
 	return button_list;
 };

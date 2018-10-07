@@ -71,7 +71,7 @@ const onRequest = function(request, sender, sendResponse) {
 				}
 			} else if (typeof request.data === "string") {
 				if (res[request.marketKey])
-					_res[request.data] = res[request.marketKey][request.data];
+					_res = res[request.marketKey][request.data];
 			}
 			sendResponse(_res);
 		});
@@ -105,7 +105,7 @@ const onRequest = function(request, sender, sendResponse) {
 				}
 			} else if (typeof request.data === "string") {
 				if (res[request.marketKey])
-					_res[request.data] = res[request.marketKey][request.data];
+					_res = res[request.marketKey][request.data];
 			}
 			sendResponse(_res);
 		});

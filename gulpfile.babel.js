@@ -58,7 +58,7 @@ gulp.task('watch', ['build'], () => {
 
 gulp.task('default', ['build']);
 
-gulp.task('ext', ['manifest', 'js', 'js-min', "js-config", "locales"], () => {
+gulp.task('ext', ['manifest', 'js', 'js-min', "js-config"], () => {
 	return mergeAll(target)
 });
 
@@ -90,15 +90,16 @@ gulp.task('js-min', () => {
 gulp.task("js-config", () => {
 	return gulp.src([
 			'src/config/*',
+			'src/config/**/*',
 		])
 		.pipe(gulp.dest(`build/${target}/config`));
 });
-gulp.task('locales', () => {
+/*gulp.task('locales', () => {
 	return gulp.src([
-			"src/scripts/locales/**/*"
+			"src/scripts/locales/** /*"
 		])
 		.pipe(gulp.dest(`build/${target}/scripts/locales`));
-})
+})*/
 
 gulp.task('styles', () => {
 	return gulp.src([

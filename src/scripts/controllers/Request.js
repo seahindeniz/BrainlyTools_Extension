@@ -52,13 +52,19 @@ class Ajax {
 			data = null;
 		}
 		callback = typeof callback === "undefined" ? (function() {}) : callback;
+
+		var xhr = new XMLHttpRequest();
 		$.ajax({
 			method: "get",
 			url: System.data.meta.location.origin + path,
 			beforeSend: function(xhr) {
 				xhr.setRequestHeader('X-Requested-With', { toString: function() { return ''; } });
 			},
-			success: callback
+			xhr: () => xhr,
+			success: (data, textStatus, jqXHR) => {
+				jqXHR.responseURL = xhr.responseURL;
+				callback && callback(data, textStatus, jqXHR);
+			}
 		}).fail(onError);
 	}
 	ExtensionServerReq(method, path, data = null, callback) {

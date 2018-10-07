@@ -13,7 +13,10 @@ import messagesLayoutExtender from "../../helpers/messagesLayoutExtender";
 import Request from "../../controllers/Request";
 import renderUserFinder from "../../components/UserFinder"
 import renderAnnouncements from "../../components/Announcements"
+import renderChatPanel from "../../components/ChatPanel"
 import { GetDeleteReasons } from "../../controllers/ActionsOfServer"
+import { getAllFriends } from "../../controllers/ActionsOfBrainly"
+import Notification from "../../components/Notification";
 
 let System = new _System();
 window.System = System;
@@ -24,13 +27,13 @@ System.init();
  * Preventing the Console method preventer
  */
 window.Console = console;
-/*let _loopConsole_expire = MakeExpire();
+let _loopConsole_expire = MakeExpire();
 let _loopConsole = setInterval(() => {
 	if (_loopConsole_expire < new Date().getTime()) {
 		clearInterval(_loopConsole);
 	}
 	console = Console;
-});*/
+});
 
 let setMetaData = callback => {
 	let extension_URL = new URL(document.currentScript.src);
@@ -194,9 +197,9 @@ let setUserData = (callback) => {
 	});
 };
 let prepareDeleteButtonSettings = (callback) => {
-	Storage.get("quickDeleteButtonsReasons", res => {
-		if (res.quickDeleteButtonsReasons) {
-			System.data.config.quickDeleteButtonsReasons = res.quickDeleteButtonsReasons;
+	Storage.get("quickDeleteButtonsReasons", quickDeleteButtonsReasons => {
+		if (quickDeleteButtonsReasons) {
+			System.data.config.quickDeleteButtonsReasons = quickDeleteButtonsReasons;
 			callback();
 		} else {
 			Storage.setL({
@@ -210,34 +213,42 @@ let prepareDeleteButtonSettings = (callback) => {
 }
 let prepareDeleteReasons = callback => {
 	Storage.getL("deleteReasons", res => {
-		if (res.deleteReasons) {
-			System.data.Brainly.deleteReasons = res.deleteReasons;
+		if (res) {
+			System.data.Brainly.deleteReasons = res;
 			prepareDeleteButtonSettings(callback)
 		} else {
 			GetDeleteReasons(deleteReasons => {
 				let deleteReasonsKeys = Object.keys(deleteReasons);
-				deleteReasons.__withTitles = {};
-				deleteReasonsKeys.forEach(reasonKey => {
-					let reason = deleteReasons[reasonKey];
-					deleteReasons.__withTitles[reasonKey] = {
-						__categories: {}
-					};
-					reason.forEach(elm => {
-						deleteReasons.__withTitles[reasonKey].__categories[elm.id] = elm;
-						elm.subcategories.forEach(subcategory => {
-							subcategory.category_id = elm.id;
-							let title = subcategory.title == "" ? elm.text : subcategory.title;
-							title = title.trim();
-							deleteReasons.__withTitles[reasonKey][title] = subcategory;
+
+				Console.log(deleteReasons);
+				if (deleteReasons.empty) {
+					Console.log("show error");
+					Notification(System.data.locale.texts.globals.errors.cantFetchDeleteReasons, "error");
+				} else {
+					deleteReasons.__withTitles = {};
+
+					deleteReasonsKeys.forEach(reasonKey => {
+						let reason = deleteReasons[reasonKey];
+						deleteReasons.__withTitles[reasonKey] = {
+							__categories: {}
+						};
+						reason.forEach(elm => {
+							deleteReasons.__withTitles[reasonKey].__categories[elm.id] = elm;
+							elm.subcategories.forEach(subcategory => {
+								subcategory.category_id = elm.id;
+								let title = subcategory.title == "" ? elm.text : subcategory.title;
+								title = title.trim();
+								deleteReasons.__withTitles[reasonKey][title] = subcategory;
+							});
 						});
 					});
-				});
-				Storage.setL({
-					deleteReasons
-				}, () => {
-					System.data.Brainly.deleteReasons = deleteReasons;
-					prepareDeleteButtonSettings(callback)
-				});
+					Storage.setL({
+						deleteReasons
+					}, () => {
+						System.data.Brainly.deleteReasons = deleteReasons;
+						prepareDeleteButtonSettings(callback)
+					});
+				}
 			});
 			/*GetDeleteReasons(deleteReasons => {
 				Object.keys(deleteReasons).forEach(reasonTypeKey => {
@@ -295,18 +306,30 @@ let prepareDeleteReasons = callback => {
 		}
 	});
 }
+let fetchFriends = callback => {
+	getAllFriends(res => {
+		Console.log("users:", res);
+		if (!res) {
+			Console.error("I couldn't fetch user's friends from Brainly");
+		} else {
+			System.friends = res;
+
+			callback && callback();
+		}
+	});
+};
 
 setMetaData(() => {
-	Console.log("MetaData OK!");
+	Console.info("MetaData OK!");
 	setUserData((resUserData) => {
-		Console.log("setUserData OK!");
+		Console.info("setUserData OK!");
 
 		themeColorChanger(resUserData.themeColor || "#57b2f8");
 		messagesLayoutExtender(resUserData.extendMessagesLayout || false);
 		System.data.Brainly.userData = resUserData.user;
 
 		setBrainlyData(() => {
-			Console.log("setBrainlyData OK!");
+			Console.info("setBrainlyData OK!");
 			/*if (Sistem.depo.current_locale) {
 				return Sistem.depo.current_locale;
 			} else {
@@ -324,80 +347,101 @@ setMetaData(() => {
 			Inject2body(`/config/${location.hostname}.json`, configData => {
 				System.data.config.marketConfig = configData;
 
-				Inject2body(`/scripts/locales/${"en_US"||System.data.Brainly.defaultConfig.locale.LANGUAGE}/locale.json`, localeData => {
-					System.data.locale = localeData;
+				Storage.get("language", language => {
+					if (!language) {
+						language = System.data.Brainly.defaultConfig.locale.LANGUAGE;
 
-					Console.info("Locale inject OK!");
-					System.shareGatheredData2Background(() => {
-						System.Auth((hash) => {
-							Console.log("authProcess OK!");
+						Storage.set({ language });
+					}
 
-							System.data.Brainly.userData._hash = hash;
-							/**
-							 * Wait for the declaration of the jQuery object
-							 */
-							WaitForFn("jQuery", obj => {
-								if (obj) {
-									Console.log("Jquery OK!");
-									System.changeBadgeColor("loaded");
-									renderUserFinder();
-									renderAnnouncements();
-									prepareDeleteReasons(() => {
-										Console.log("Delete reasons OK!");
-										if (System.checkRoute(1, "") || System.checkRoute(1, "task_subject_dynamic")) {
-											Inject2body([
-												"/scripts/lib/jquery-observe-2.0.3.min.js",
-												"/scripts/views/1-Root/index.js",
-												"/scripts/views/1-Root/Root.css"
-											])
+					Inject2body(`/config/locales/${language}.json`, localeData => {
+						System.data.locale = localeData;
+
+						Console.info("Locale inject OK!");
+						System.shareGatheredData2Background(() => {
+							System.Auth((hash) => {
+								System.data.Brainly.userData._hash = hash;
+
+								Console.info("authProcess OK!");
+								/**
+								 * Wait for the declaration of the jQuery object
+								 */
+								WaitForFn("jQuery", obj => {
+									if (!obj) {
+										Console.error("Jquery error");
+									} else {
+										Console.info("Jquery OK!");
+										System.changeBadgeColor("loaded");
+										renderUserFinder();
+										renderAnnouncements();
+										renderChatPanel();
+										prepareDeleteReasons(() => {
+											Console.info("Delete reasons OK!");
+
+											if (System.checkRoute(1, "") || System.checkRoute(1, "task_subject_dynamic")) {
+												Inject2body([
+													"/scripts/lib/jquery-observe-2.0.3.min.js",
+													"/scripts/views/1-Root/index.js",
+													"/scripts/views/1-Root/Root.css"
+												])
+											}
+
+											if (System.checkRoute(1, "task_view")) {
+												Inject2body([
+													"/scripts/lib/jquery-observe-2.0.3.min.js",
+													"/scripts/views/3-Task/index.js",
+													"/scripts/views/3-Task/Task.css"
+												])
+											}
+
+											if (System.checkRoute(2, "user_content") && !System.checkRoute(4, "comments_tr")) {
+												Inject2body([
+													"/scripts/views/4-UserContent/index.js",
+													System.data.Brainly.style_guide.css,
+													"/scripts/views/4-UserContent/UserContent.css"
+												])
+											}
+
+											if (System.checkRoute(2, "archive_mod")) {
+												Inject2body([
+													"/scripts/lib/jquery-observe-2.0.3.min.js",
+													"/scripts/views/6-ArchiveMod/index.js",
+													System.data.Brainly.style_guide.css,
+													System.data.Brainly.style_guide.icons,
+													"/scripts/views/6-ArchiveMod/ArchiveMod.css"
+												])
+											}
+										});
+
+										if (System.checkRoute(1, "messages")) {
+											fetchFriends(() => {
+												Inject2body([
+													"/scripts/lib/jquery-observe-2.0.3.min.js",
+													"/scripts/views/2-Messages/index.js",
+													"/scripts/views/2-Messages/Messages.css"
+												]);
+											});
 										}
-										if (System.checkRoute(1, "task_view")) {
-											Inject2body([
-												"/scripts/lib/jquery-observe-2.0.3.min.js",
-												"/scripts/views/3-Task/index.js",
-												"/scripts/views/3-Task/Task.css"
-											])
+
+										if (System.checkRoute(1, "user_profile") || (System.checkRoute(1, "users") && System.checkRoute(2, "view"))) {
+											fetchFriends(() => {
+												Inject2body([
+													"/scripts/views/5-UserProfile/index.js",
+													System.data.Brainly.style_guide.css,
+													"/scripts/views/5-UserProfile/UserProfile.css"
+												]);
+											});
 										}
-										if (System.checkRoute(2, "user_content") && !System.checkRoute(4, "comments_tr")) {
+
+										if (System.checkRoute(2, "view_user_warns")) {
 											Inject2body([
-												"/scripts/views/4-UserContent/index.js",
+												"/scripts/views/7-UserWarnings/index.js",
 												System.data.Brainly.style_guide.css,
-												"/scripts/views/4-UserContent/UserContent.css"
-											])
+												"/scripts/views/7-UserWarnings/UserWarnings.css"
+											]);
 										}
-										if (System.checkRoute(2, "archive_mod")) {
-											Inject2body([
-												"/scripts/lib/jquery-observe-2.0.3.min.js",
-												"/scripts/views/6-ArchiveMod/index.js",
-												System.data.Brainly.style_guide.css,
-												System.data.Brainly.style_guide.icons,
-												"/scripts/views/6-ArchiveMod/ArchiveMod.css"
-											])
-										}
-									});
-
-									if (System.checkRoute(1, "messages")) {
-										Inject2body([
-											"/scripts/lib/jquery-observe-2.0.3.min.js",
-											"/scripts/views/2-Messages/index.js",
-											"/scripts/views/2-Messages/Messages.css"
-										]);
 									}
-									if (System.checkRoute(1, "user_profile") || (System.checkRoute(1, "users") && System.checkRoute(2, "view"))) {
-										Inject2body([
-										"/scripts/views/5-UserProfile/index.js",
-										System.data.Brainly.style_guide.css,
-										"/scripts/views/5-UserProfile/UserProfile.css"
-										]);
-									}
-									if (System.checkRoute(2, "view_user_warns")) {
-										Inject2body([
-										"/scripts/views/7-UserWarnings/index.js",
-										System.data.Brainly.style_guide.css,
-										"/scripts/views/7-UserWarnings/UserWarnings.css"
-										]);
-									}
-								}
+								});
 							});
 						});
 					});

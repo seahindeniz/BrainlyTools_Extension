@@ -19,27 +19,9 @@
 			"link": "https://hangouts.google.com/"
 		}]
 	},
-	"default_reasons": {
-		"question": {
-			"button_1": "Kural",
-			"button_2": "Banal"
-		},
-		"answer": {
-			"button_1": "Alinti",
-			"button_2": "Kural",
-			"button_3": "Eksik"
-		},
-		"comment": {
-			"button_1": {
-				"rule": "Argo",
-				"title": "Argo",
-				"description": "Argo + Uyarı"
-			},
-			"button_2": {
-				"rule": "Kural",
-				"title": "K. İ.",
-				"description": "Kural İhlali + Uyarı"
-			}
-		}
+	"quickDeleteButtonsDefaultReasons": {
+		"task": ["Ödev Dışı İçerik", "Argo Kullanımı"],
+		"response": ["Kopya/Eser Hırsızlığı", "Kural İhlali/Argo", "Eksik Cevap"],
+		"comment": ["Argo Kullanımı", "Ödev Dışı İçerik", "Reklam"]
 	}
 }

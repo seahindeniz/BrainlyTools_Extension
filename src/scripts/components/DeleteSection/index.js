@@ -1,7 +1,7 @@
 import DeleteReasonCategoryList from "../DeleteReasonCategoryList";
 
 export default (Reason, type) => {
-	let categories = DeleteReasonCategoryList(Reason);
+	let categories = DeleteReasonCategoryList(Reason, type);
 	let $deleteSection = $(`
 	<div id="deleteSection">
 		<div class="sg-actions-list sg-content-box__actions--spaced-top sg-content-box__actions--spaced-bottom categories">${categories}</div>
@@ -74,7 +74,7 @@ export default (Reason, type) => {
 			return cat.id == selectedCategoryId;
 		});
 
-		let reasons = DeleteReasonCategoryList(window.selectedCategory.subcategories);
+		let reasons = DeleteReasonCategoryList(window.selectedCategory.subcategories, "sub-reasons");
 		$reasons.html(reasons);
 	});
 	$reasons.on("change", "input", function() {

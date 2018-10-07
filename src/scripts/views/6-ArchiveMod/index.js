@@ -217,7 +217,7 @@ System.checkUserP([1, 2, 45], () => {
 				$("#moderation-all > div.top > div.sub-header.row > div.span5 > select").val($(this).is(".total") ? "0" : "998").change();
 			});
 			Storage.get("archive_mod_layout", res => {
-				if (res.archive_mod_layout) {
+				if (res) {
 					let $moderationItemParent = $(selectors.moderationItemParent);
 
 					$moderationItemParent.addClass('listView');

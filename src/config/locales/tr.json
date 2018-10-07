@@ -29,7 +29,6 @@
 			"manage_users": "Eklenti kullanıcı yönetimi",
 			"previous_nicks": "Önceki kullanıcı adları:",
 			"previous_nicks_description": "Kişinin, eklentiye işlenmiş olan önceki kullanıcı adları",
-			"userDescription": "Profil notu",
 			"changes_affected": "Değişiklik yapıldı",
 			"are_you_sure": "Emin misin?",
 			"yes": "Evet",
@@ -46,7 +45,7 @@
 				"options_cant_be_same": "Seçenekler aynı olamaz!",
 				"permission_error": {
 					"title": "Uyarı!",
-					"description": "Brainly Tools eklentisini kullanma yetkisine sahip değilsin<br>Eklenti yöneticisi ile iletişime geçip yetki istemen gerekiyor veya eklentiyi kaldırmalısın :)"
+					"description": "Brainly Tools eklentisini kullanma yetkisine sahip değilsin<br>Eklenti yöneticisi ile iletişime geçip yetki istemen gerekiyor ya da eklentiyi tarayıcından kaldırmalısın"
 				},
 				"only_number": "Sadece sayı lütfen :)",
 				"greater_than_zero": "Sıfırın üzerinde bir sayı gir -_-",
@@ -55,7 +54,8 @@
 				"if_error_continue": "Hatanın devam etmesi halinde, lütfen eklenti yöneticisi ile iletişime geçin ve durumu bilgilendirin :)",
 				"userNotFound": "Kullanıcı bulunamadı",
 				"passUser": "Kullanıcı bilgilerini eklenti sunucusuna iletirken beklenmedik bir hata oluştu. 2 saniye sonra tekrar deneyin",
-				"extensionServerError": "Sunucuya bağlanırken beklenmedik bir hata oluştu. ~2 saniye sonra tekrar deneyin"
+				"extensionServerError": "Sunucuya bağlanırken beklenmedik bir hata oluştu. ~2 saniye sonra tekrar deneyin",
+				"cantFetchDeleteReasons": "Silim sebeplerini hazırlarken beklenmedik bir hata oluştu"
 			}
 		},
 		"extension_options": {
@@ -88,13 +88,15 @@
 				"effects_on_refresh": "Butonlar sayfa yenilendiğinde değişecek"
 			},
 			"otherOptions": {
-				"title": "Other options",
+				"title": "Diğer seçenekler",
 				"extendMessagesLayout": {
 					"title": "Mesajları genişlet",
 					"description": "Bu seçenek, mesajlar sayfasının görünümünü genişletir. Mesajlar sayfası açıkken deneyebilirsin"
 				},
 				"extensionLanguage": {
-					"title": "Eklenti dili"
+					"title": "Eklenti dili",
+					"chooseLang": "Dil seçin",
+					"langChanged": "Dil değiştirildi"
 				}
 			},
 			"answer_box_height": {
@@ -143,36 +145,40 @@
 						}
 					}
 				},
-				"privilegeList": [
-					{
+				"privilegeList": [{
 						"type": 0,
 						"title": "Extension admin",
-						"description": "Can able use the extension without any restriction"
-				},
+						"description": "Eklentiyi hiç bir sınırlama olmadan kullanma yetkisi"
+					},
 					{
 						"type": 1,
 						"title": "Hızlı soru silimi",
-						"description": "In the homepage, question page and archive mod page, user can use the quick delete buttons for deleting the question(s)"
-				},
+						"description": "Anasayfada, soru sayfasında ve Tümünü Düzelt'te hızlı silim butonlarını kullanarak soru(ları) silme"
+					},
 					{
 						"type": 2,
 						"title": "Hızlı cevap silimi",
-						"description": "In the question page and archive mod page, user can use the quick delete buttons for deleting the answer(s)"
-				},
+						"description": "Soru sayfasında ve Tümünü Düzelt'te hızlı silim butonlarını kullanarak cevap(ları) silme"
+					},
 					{
 						"type": 45,
 						"title": "Hızlı yorum silimi",
-						"description": "In the question page and archive mod page, user can use the quick delete buttons for deleting the comment(s)"
-				},
+						"description": "Soru sayfasında ve Tümünü Düzelt'te hızlı silim butonlarını kullanarak yorum(ları) silme"
+					},
 					{
 						"type": 4,
 						"title": "Duyuru yönetimi",
-						"description": "Can able to create, edit, remove or publish the internal extension announcements"
-				},
+						"description": "Eklenti duyuruları oluşturma, düzenleme, kaldırma ve yayınlama yetkisi"
+					},
 					{
 						"type": 5,
 						"title": "Kullanıcı yönetimi",
-						"description": "Can able to add or editing the extension users and give them privileges or permission to use the extension"
+						"description": "Eklenti kullanıcılarının erişim izni ve yetkilerini düzenleme yetkisi"
+					},
+					{
+						"type": 6,
+						"title": "Hızlı cevap doğrulama",
+						"description": "Kullanıcı bilgilerini gör sayfasında, kullanıcı cevaplarını seçerek doğrulama"
 					}
 				]
 			},
@@ -323,8 +329,8 @@
 				"remove_all_friends": "Tüm arkadaşları sil",
 				"on_pause_message": "Kaldığın yerden devam edebilirsin. Lakin 20 ve katlarından devam eder.",
 				"on_start_message": "İşlemi sıfırlamak için sayfayı yenileyin.",
-				"delete_selected_friends": "Seçili olanları sil",
-				"delete_selected_friends_title": "Seçili olan kişileri arkadaşlıktan çıkart",
+				"delete_selected_friends": "Arkadaşlıktan çıkart",
+				"delete_selected_friends_title": "Seçeceğin kişileri arkadaşlık listenden kaldırabilirsin",
 				"select_at_least_one_friend": "En az 1 arkadaş seçmelisin.",
 				"warning__are_you_sure_delete_selected_friends": "Seçili arkadaşları silmek istediğine emin misin?",
 				"warning__are_you_sure_delete_all_friends": "Tüm arkadaşlarını silmek istediğinden emin misin?",
@@ -353,7 +359,11 @@
 				"nickname": "Kullanıcı Adı"
 			},
 			"confirm_for_add_moderator": "Kişi moderatör olarak atansın mı?",
-			"moderator_privileges_added": "Kişi moderatör olarak atandı\nDeğişiklikler 3 dakika içerisinde geçerli olacaktır"
+			"moderator_privileges_added": "Kişi moderatör olarak atandı\nDeğişiklikler 3 dakika içerisinde geçerli olacaktır",
+			"userDescription": {
+				"title": "Profil notu",
+				"description": "Mobil uygulamada eklenen profil notu. Kullanıcı eğer, Brainly mobil uygulamasını kullanarak profil notu eklemişse, burada gözükecektir."
+			}
 		},
 		"user_content": {
 			"select": "Seç",

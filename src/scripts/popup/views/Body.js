@@ -17,19 +17,35 @@ const Layout = template => {
 	$(".box > .title").on("click", function() {
 		$(this).parent().toggleClass("is-active");
 	});
-	$("body").on("click", ".message-header > p", function() {
-		$(this).parents("article").toggleClass("is-active");
-	});
-	$(".dropdown-trigger").on("click", function() {
-		$(this).parent().toggleClass("is-active");
-	});
-	$(".dropdown-menu .dropdown-item").on("click", function() {
-		let dropdown = $(this).parents('.dropdown');
-		dropdown.toggleClass("is-active");
-		let trigger = $(".dropdown-trigger", dropdown);
-		$("button > label", trigger).text(this.innerText);
-		$(dropdown).change();
-	});
+	$("body")
+		.click(() => {
+			let $dropdowns = $(".dropdown");
+
+			$dropdowns.removeClass("is-active");
+		})
+		.on("click", ".message-header > p", function() {
+			$(this).parents("article").toggleClass("is-active");
+		})
+		.on("click", ".dropdown-trigger", function(e) {
+			e.stopPropagation();
+
+			$(this).parent().toggleClass("is-active");
+		})
+		.on("click", ".dropdown-menu .dropdown-item", function(e) {
+			e.preventDefault();
+
+			let $dropdown = $(this).parents('.dropdown');
+			let $lastActive = $(".is-active", $dropdown);
+			let $trigger = $(".dropdown-trigger", $dropdown);
+			let $buttonText = $("button.button > span:not(.icon)", $trigger);
+			let value = this.getAttribute("value") || this.innerHTML;
+
+			this.classList.add("is-active");
+			$lastActive.removeClass("is-active");
+			$buttonText.text(this.innerHTML);
+			$dropdown.val(value);
+			$dropdown.change();
+		});
 	/* $(".board-item[data-type] select").each((i, select) => {
 		let selectedItem = $("option:selected", select).val();
 		$("option:gt(0)", select).sort((a, b) => $(b).text() < $(a).text() ? 1 : -1).appendTo(select);

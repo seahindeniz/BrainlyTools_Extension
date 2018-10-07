@@ -8,7 +8,7 @@ import Notification from "../../components/Notification";
 
 window.fetchedUsers = {};
 const refreshUserAvatar = (user, elm) => {
-	let avatar = (user.avatar && (user.avatar[64] || user.avatar[100])) || (user.avatars && (user.avatars[64] || user.avatars[100]));
+	let avatar = System.prepareAvatar(user);
 
 	if (avatar) {
 		$(`a[data-user-id="${user.id}"]`, elm).each((i, el) => {
@@ -58,7 +58,6 @@ const Users = (callback) => {
 
 	GetUsers(res => {
 		let $usersListContainer = $(".message-body > article.media", $usersLayout);
-		console.log($usersListContainer);
 		let $level = $(".level > .level-left", $usersListContainer);
 
 		if (res.success && res.data) {
@@ -143,17 +142,10 @@ const Users = (callback) => {
 		let $nick = $(".nick", $avatarContainer);
 		let $avatar = $("img.avatar", $avatarContainer);
 		let $idInput = $('input[type="text"]', $addNewBox);
-		let avatar = `https://${System.data.meta.marketName}/img/avatars/100-ON.png`;
 		let processUser = user => {
 			let profileLink = System.createBrainlyLink("profile", { nick: user.nick, id: user.id });
-			let userAvatar = avatar;
+			let userAvatar = System.prepareAvatar(user);
 			let serverData = window.fetchedUsers[user.id];
-
-			if (user.avatar) {
-				userAvatar = user.avatar[64] || user.avatar[100];
-			} else if (user.avatars) {
-				userAvatar = user.avatars[64] || user.avatars[100];
-			}
 
 			$link.attr("href", profileLink);
 			$nick.text(user.nick);

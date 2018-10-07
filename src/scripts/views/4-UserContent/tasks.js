@@ -55,7 +55,7 @@ $submit.click(function() {
 				let $progressBarContainer = $("#taskProgress", $moderateActions);
 
 				if ($progressBarContainer.length == 0) {
-					$progressBarContainer = $(`<div id="taskProgress" class="sg-content-box--spaced-top-large  sg-content-box--spaced-bottom-large"><progress class="progress is-info" value="0" max="${$checkedContentSelectCheckboxes.length}" data-label="${System.data.locale.texts.globals.progressing}"></progress></div>`);
+					$progressBarContainer = $(`<div id="taskProgress" class="progress-container sg-content-box--spaced-top-large  sg-content-box--spaced-bottom-large"><progress class="progress is-info" value="0" max="${$checkedContentSelectCheckboxes.length}" data-label="${System.data.locale.texts.globals.progressing}"></progress></div>`);
 
 					$progressBarContainer.appendTo($("td", $moderateActions));
 				}

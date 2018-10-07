@@ -29,16 +29,12 @@ const UserFinder = () => {
 
 						let profileLink = System.createBrainlyLink("profile", { nick: res.data.nick, id: res.data.id });
 						let ranks = [];
-						let avatar = "/img/avatars/100-ON.png";
+						let avatar = System.prepareAvatar(res.data);
 
 						res.data.ranks_ids.forEach(rankId => {
 							let current_rank = System.data.Brainly.defaultConfig.config.data.ranksWithId[rankId];
 							ranks.push(`<span class="" style="color:#${(current_rank.color || "000")};">${current_rank.name}</span>`);
 						});
-
-						if (res.data.avatar) {
-							avatar = res.data.avatar[64] || res.data.avatar[100];
-						}
 
 						userList.append(`
 						<div class="sg-content-box sg-content-box--full">

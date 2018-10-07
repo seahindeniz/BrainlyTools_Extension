@@ -23,43 +23,49 @@ if (System.checkRoute(4, "") || System.checkRoute(4, "tasks") || System.checkRou
 	let $contentLinks = $(selectors.contentLinks);
 	let taskContents = {};
 
-	$tableHeaderRow.prepend(`<th style="width: 5%;"><b>${System.data.locale.texts.user_content.select}</b></th>`);
+	System.checkUserP([1, 2, 6], () => {
+		$tableHeaderRow.prepend(`<th style="width: 5%;"><b>${System.data.locale.texts.user_content.select}</b></th>`);
 
-	$contentRows.each((i, el) => {
-		$(el).prepend(`
-		<td>
-			<div class="sg-checkbox">
-				<input type="checkbox" class="sg-checkbox__element" id="${"select"+i}">
-				<label class="sg-checkbox__ghost" for="${"select"+i}">
-				<svg class="sg-icon sg-icon--adaptive sg-icon--x10">
-					<use xlink:href="#icon-check"></use>
-				</svg>
-				</label>
-			</div>
-		</td>`);
-	});
-	let $contentSelectCheckboxes = $('input[type="checkbox"]', $contentRows);
-
-	window.$moderateActions = $(`
-	<tbody>
-		<tr class="moderateActions">
-			<td colspan="5">
-				<div class="sg-label sg-label--secondary" >
-					<div class="sg-label__icon">
-						<div class="sg-checkbox">
-							<input type="checkbox" class="sg-checkbox__element" id="selectAll">
-							<label class="sg-checkbox__ghost" for="selectAll">
-							<svg class="sg-icon sg-icon--adaptive sg-icon--x10">
-								<use xlink:href="#icon-check"></use>
-							</svg>
-							</label>
-						</div>
-					</div>
-					<label class="sg-label__text" for="selectAll">${System.data.locale.texts.globals.select_all}</label>
+		$contentRows.each((i, el) => {
+			$(el).prepend(`
+			<td>
+				<div class="sg-checkbox">
+					<input type="checkbox" class="sg-checkbox__element" id="${"select"+i}">
+					<label class="sg-checkbox__ghost" for="${"select"+i}">
+					<svg class="sg-icon sg-icon--adaptive sg-icon--x10">
+						<use xlink:href="#icon-check"></use>
+					</svg>
+					</label>
 				</div>
-			</td>
-		</tr>
-	</tbody>`).insertAfter($tableContentBody);
+			</td>`);
+		});
+		let $contentSelectCheckboxes = $('input[type="checkbox"]', $contentRows);
+
+		window.$moderateActions = $(`
+		<tbody>
+			<tr class="moderateActions">
+				<td colspan="5">
+					<div class="sg-label sg-label--secondary" >
+						<div class="sg-label__icon">
+							<div class="sg-checkbox">
+								<input type="checkbox" class="sg-checkbox__element" id="selectAll">
+								<label class="sg-checkbox__ghost" for="selectAll">
+								<svg class="sg-icon sg-icon--adaptive sg-icon--x10">
+									<use xlink:href="#icon-check"></use>
+								</svg>
+								</label>
+							</div>
+						</div>
+						<label class="sg-label__text" for="selectAll">${System.data.locale.texts.globals.select_all}</label>
+					</div>
+				</td>
+			</tr>
+		</tbody>`).insertAfter($tableContentBody);
+
+		$("input#selectAll", window.$moderateActions).click(function() {
+			$contentSelectCheckboxes.prop("checked", this.checked);
+		});
+	});
 
 	let prepareContentBoxes = taskId => {
 		let $taskLink = $(`a[href$="${taskId}"]`);
@@ -108,10 +114,12 @@ if (System.checkRoute(4, "") || System.checkRoute(4, "tasks") || System.checkRou
 			for (let j = 0, response;
 				(response = responses[j]); j++) {
 				if (System.checkRoute(4, "responses")) {
-					$parentTd.parent().attr("data-responseId", response.id);
-					if (response.approved && response.approved.approver && response.user_id == window.sitePassedParams[0]) {
-						$(`<span class="approved">🗸</span>`).prependTo($parentTd);
-						$parentTr.addClass("approved");
+					if (response.user_id == window.sitePassedParams[0]) {
+						$parentTd.parent().attr("data-responseid", response.id);
+						if (response.approved && response.approved.approver) {
+							$(`<span class="approved">🗸</span>`).prependTo($parentTd);
+							$parentTr.addClass("approved");
+						}
 					}
 				}
 				let responseOwner = taskView.users_data_WithUID[response.user_id];
@@ -162,12 +170,14 @@ if (System.checkRoute(4, "") || System.checkRoute(4, "tasks") || System.checkRou
 		}
 	});
 
-	$("input#selectAll", window.$moderateActions).click(function() {
-		$contentSelectCheckboxes.prop("checked", this.checked);
+	System.checkUserP(1, () => {
+		if (System.checkRoute(4, "") || System.checkRoute(4, "tasks")) {
+			Inject2body("/scripts/views/4-UserContent/tasks.js");
+		}
 	});
-
-	if (System.checkRoute(4, "") || System.checkRoute(4, "tasks"))
-		Inject2body("/scripts/views/4-UserContent/tasks.js");
-	else if (System.checkRoute(4, "responses"))
-		Inject2body(["/scripts/views/4-UserContent/responses.js"]);
+	System.checkUserP([2, 6], () => {
+		if (System.checkRoute(4, "responses")) {
+			Inject2body(["/scripts/views/4-UserContent/responses.js"]);
+		}
+	});
 }

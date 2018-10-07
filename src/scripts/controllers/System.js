@@ -18,7 +18,7 @@ class _System {
 					routes: undefined
 				},
 				style_guide: {
-					css: "https://styleguide.brainly.co.id/141.0.5/style-guide.css" + "?treat=.ext_css",
+					css: "https://styleguide.brainly.co.id/142.0.0/style-guide.css" + "?treat=.ext_css",
 					icons: "https://styleguide.brainly.com/images/icons-1b40deaa8d.js" + "?treat=.ext_js"
 				}
 			},
@@ -30,6 +30,19 @@ class _System {
 				extensionServerAPIURL: "https://sahin.in/BrainlyTools",
 				extensionServerURL: "http://127.0.0.1:3001",
 				extensionServerAPIURL: "http://127.0.0.1:3001/BrainlyTools",
+				availableLanguages: [{
+						key: "en_US",
+						title: "English"
+					},
+					{
+						key: "tr",
+						title: "Türkçe"
+					},
+					{
+						key: "id",
+						title: "Bahasa Indonesia"
+					}
+				],
 				userFlags: {
 					list: [{
 							file: `/images/hats/hat_0.svg`,
@@ -174,6 +187,20 @@ class _System {
 			return System.data.meta.location.origin + this.profileLinkRoute + "/" + nick + "-" + id;
 		} else
 			return "";
+	}
+	prepareAvatar(user) {
+		let avatar = "";
+
+		if (user.avatar) {
+			avatar = user.avatar[64] || user.avatar[100] || user.avatar.src;
+		}
+		if (user.avatars) {
+			avatar = user.avatars[64] || user.avatars[100];
+		}
+
+		avatar = avatar || `https://${System.data.meta.marketName}/img/avatars/100-ON.png`;
+
+		return avatar;
 	}
 	createBrainlyLink(type, data) {
 		let _return = "";

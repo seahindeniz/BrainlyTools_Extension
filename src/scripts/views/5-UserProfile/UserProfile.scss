@@ -28,3 +28,109 @@ img.userFlag {
 		margin-right: 1em;
 	}
 }
+
+#profile-friends {
+	display: inline-block;
+
+	.avatar.all {
+		float: left;
+		width: 182px;
+		max-width: initial !important;
+		max-height: initial !important;
+		text-align: left;
+		padding: 0;
+		overflow: hidden;
+		margin: 0 0px 20px 0 !important;
+		padding: 6px 4px 0;
+
+		&.removed {
+			background-color: #fcc;
+
+			.sg-checkbox {
+				display: none;
+			}
+		}
+
+		&:nth-child(3n) {
+			margin-right: 0px !important;
+		}
+
+		>div.bilgi {
+			float: left;
+			width: 100%;
+			max-width: 141px;
+			height: 37px;
+
+			img {
+				max-width: 65px;
+				max-height: 65px;
+			}
+
+			>div {
+				&.nick {
+					font-size: 12px;
+					text-overflow: ellipsis;
+					overflow: hidden;
+					max-width: 125px;
+				}
+
+				&.rank {
+					position: relative;
+					max-width: 100%;
+					background-color: #fff;
+					height: 21px;
+					overflow: hidden;
+					padding: 0 3px 4px;
+					border: 1px solid transparent;
+					//Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+					border-radius: 3px;
+					word-break: break-all;
+					top: 4px;
+
+					&:empty {
+						display: none;
+					}
+				}
+			}
+
+			>.sg-checkbox {
+				float: right;
+				z-index: 2;
+				left: -5px;
+				bottom: 15px;
+
+				>.sg-checkbox__ghost {
+					display: none;
+				}
+
+				>.sg-checkbox__element:checked+.sg-checkbox__ghost {
+					display: block;
+				}
+
+				>.sg-checkbox__element:not(:checked)+.sg-checkbox__ghost {
+					border-color: #ff796b;
+				}
+			}
+		}
+
+		&:hover {
+			overflow: unset;
+
+			&:not(.removed)>div.bilgi>div.sg-checkbox>label.sg-checkbox__ghost {
+				display: inline-block;
+			}
+
+			>div.bilgi {
+				>div.rank {
+					overflow: visible;
+					height: initial;
+					z-index: 1;
+
+					&:not(:empty) {
+						border: 1px solid;
+					}
+				}
+			}
+		}
+	}
+}

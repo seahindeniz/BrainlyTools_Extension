@@ -29,7 +29,6 @@
 			"manage_users": "Manage extension user's",
 			"previous_nicks": "Previous nicks:",
 			"previous_nicks_description": "User's previous nicks stored at extension",
-			"userDescription": "Description",
 			"changes_affected": "Changes affected",
 			"are_you_sure": "Are you sure?",
 			"yes": "Yes",
@@ -46,7 +45,7 @@
 				"options_cant_be_same": "Options cannot be the same!",
 				"permission_error": {
 					"title": "Warning!",
-					"description": "Your are not authorized to use Brainly Tools extension.<br>Please contact with the Extension Manager for getting permission or remove the extension."
+					"description": "Your are not authorized to use Brainly Tools extension.<br>Please contact with the Extension Manager for getting permission or remove the extension from your browser"
 				},
 				"only_number": "Only numbers please.",
 				"greater_than_zero": "Enter a number above zero.",
@@ -55,7 +54,8 @@
 				"if_error_continue": "If this error persists, please contact with extension manager and explain what happened :)",
 				"userNotFound": "User not found",
 				"passUser": "An unexpected error occurred while trying to sending the user informations to the extension server. Please try again in 2 sec",
-				"extensionServerError": "An unexpected error occurred while connecting the extension server. Please try again in ~5 sec."
+				"extensionServerError": "An unexpected error occurred while connecting the extension server. Please try again in ~5 sec.",
+				"cantFetchDeleteReasons": "An unexpected error occurred while trying to prepare delete reasons"
 			}
 		},
 		"extension_options": {
@@ -94,7 +94,9 @@
 					"description": "This option will extend the layout of the messages page. You can try it when the messages page is on"
 				},
 				"extensionLanguage": {
-					"title": "Extension language"
+					"title": "Extension language",
+					"chooseLang": "Select a language",
+					"langChanged": "Language changed"
 				}
 			},
 			"answer_box_height": {
@@ -173,6 +175,11 @@
 						"type": 5,
 						"title": "User management",
 						"description": "Can able to add or editing the extension users and give them privileges or permission to use the extension"
+					},
+					{
+						"type": 6,
+						"title": "Answer approvement",
+						"description": "In the user content page, user can approve the answer by selecting"
 					}
 				]
 			},
@@ -323,8 +330,8 @@
 				"remove_all_friends": "Remove all friends",
 				"on_pause_message": "You can continue where you left off.",
 				"on_start_message": "Refresh the page to reset the progress.",
-				"delete_selected_friends": "Unfriend selected friends",
-				"delete_selected_friends_title": "You can unfriend selected friends.",
+				"delete_selected_friends": "Unfriend",
+				"delete_selected_friends_title": "You can remove the selected friends from your friend list",
 				"select_at_least_one_friend": "You must select at least one friend",
 				"warning__are_you_sure_delete_selected_friends": "Are you sure you want to unfriend selected friends?",
 				"warning__are_you_sure_delete_all_friends": "Are you sure you want to remove all of your friends?",
@@ -353,7 +360,11 @@
 				"nickname": "Nickname"
 			},
 			"confirm_for_add_moderator": "Do you wanna add this account as a moderator?",
-			"moderator_privileges_added": "Account added as a moderator\nChanges will affect in 3 minutes"
+			"moderator_privileges_added": "Account added as a moderator\nChanges will affect in 3 minutes",
+			"userDescription": {
+				"title": "Description",
+				"description": "Description text from the mobile app. If the user added a description message in the mobile app of Brainly, then it’ll show up here."
+			}
 		},
 		"user_content": {
 			"select": "Select",

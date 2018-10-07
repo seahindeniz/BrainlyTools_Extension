@@ -17,60 +17,60 @@
 			"continue": "Continue",
 			"all_ranks": "All Ranks",
 			"warning__wait_for_process_done": "Tunggu sampai proses selesai, dan jangan menutup halaman",
-			"enterId": "Profile Id",
+			"enterId": "Profil Id",
 			"saving": "Simpan",
 			"all": "Semua",
-			"all2": "All",
+			"all2": "Semua",
 			"accept": "Diterima",
 			"later": "Kemudian",
-			"show": "Show",
+			"show": "Tampilkan",
 			"point": "poin",
 			"extension_user": "Extension user",
 			"manage_users": "Mengelola extension user",
 			"previous_nicks": "Previous nicks:",
-			"previous_nicks_description": "User's previous nicks stored at extension",
-			"userDescription": "Deskripsi",
-			"changes_affected": "Changes affected",
+			"previous_nicks_description": "Nick pengguana sebelumnya tersimpan di ekstensi",
+			"changes_affected": "Perubahan disimpan",
 			"are_you_sure": "Kamu yakin?",
 			"yes": "Ya",
 			"no": "Tidak",
 			"update": "Memperbarui",
 			"cancelEdit": "Batalkan pengeditan",
 			"moderate": "Moderasi",
-			"progressing": "Maju",
+			"progressing": "Progressing",
 			"allDone": "All done!",
-			"warning_ongoingProcess": "Beberapa konten masih diproses. Apakah Anda masih ingin keluar halaman?",
+			"warning_ongoingProcess": "Beberapa konten masih diproses. Apakah kamu ingin keluar dari halaman ini?",
 			"errors": {
 				"operation_error": "Terjadi kesalahan selama proses operasi. Silahkan mencoba kembali",
 				"went_wrong": "Oops, terjadi kesalahan",
 				"options_cant_be_same": "Pilihan tidak boleh sama!",
 				"permission_error": {
 					"title": "Warning!",
-					"description": "Kamu pengguna plugin yang bukan wewenang kamu. Tolong hapus plugin nya."
+					"description": "Kamu tidak memiliki wewenang untuk menggunakan ekstensi Brainly tools. Silahkan hubungi Mahapatih untuk mendapatkan izin atau hapus ekstensi ini dari browser kamu."
 				},
 				"only_number": "Hanya angka.",
 				"greater_than_zero": "Masukkan sebuah nomor diatas nol.",
 				"error_at_reason": "Operasi tidak lengkap.",
 				"update_account_error": "Kesalahan tak terduga terjadi saat mencoba memperbarui. Silakan coba lagi dalam 2 detik.",
-				"if_error_continue": "Jika kesalahan ini berlanjut, hubungi manajer ekstensi dan jelaskan apa yang terjadi :)",
+				"if_error_continue": "Jika kesalahan ini berlanjut, hubungi Mahapatih dan jelaskan apa yang terjadi :)",
 				"userNotFound": "Pengguna tidak ditemukan",
 				"passUser": "Kesalahan tak terduga terjadi ketika mencoba mengirim informasi pengguna ke server ekstensi. Silakan coba lagi dalam 2 detik",
-				"extensionServerError": "Terjadi kesalahan yang tidak terduga saat menghubungkan server ekstensi. Silakan coba lagi dalam ~5 detik."
+				"extensionServerError": "Terjadi kesalahan yang tidak terduga saat menghubungkan ke server ekstensi. Silakan coba lagi dalam ~5 detik.",
+				"cantFetchDeleteReasons": "An unexpected error occurred while trying to prepare delete reasons"
 			}
 		},
 		"extension_options": {
 			"title": "Opsi Ekstensi",
-			"extensionManagement": "Manajemen Eks.",
+			"extensionManagement": "Manajemen Ekstensi",
 			"version_text": "Extension version: ",
 			"createShortLinkButton": {
 				"title": "Buat tautan pendek",
 				"description": "Buat tautan pendek untuk halaman ini"
 			},
-			"shortLinkSuccessMessage": "Tautan pendek telah dibuat dan disalin ke papan klip(CTRL + C)",
+			"shortLinkSuccessMessage": "Tautan pendek telah dibuat dan disalin ke clipboard (CTRL + C)",
 			"themeColor": {
 				"title": "Warna Tema",
 				"description": "Kamu dapat menggunakannya untuk mengubah warna dari tema Brainly.",
-				"choose_color": "Pilih sebuag warna",
+				"choose_color": "Pilih salah satu warna",
 				"timer_color": "Breathing theme color",
 				"on_refresh_random": "Refresh untuk random warna",
 				"fontColorExample": "Warna dapat diatur dalam format hex. Jadi misalnya, Anda perlu menentukan warna merah sebagai #FF0000",
@@ -85,7 +85,7 @@
 				"button_1": "Slot 1",
 				"button_2": "Slot 2",
 				"button_3": "Slot 3",
-				"effects_on_refresh": "Tombol akan berubah ketika halaman di refresh"
+				"effects_on_refresh": "Tombol akan berubah ketika halaman direfresh"
 			},
 			"otherOptions": {
 				"title": "Pilihan lain",
@@ -94,7 +94,9 @@
 					"description": "Opsi ini akan memperpanjang tata letak halaman pesan.\nAnda dapat mencobanya ketika halaman pesan aktif"
 				},
 				"extensionLanguage": {
-					"title": "Bahasa ekstensi"
+					"title": "Bahasa ekstensi",
+					"chooseLang": "Pilih bahasa",
+					"langChanged": "Bahasa telah dipilih"
 				}
 			},
 			"answer_box_height": {
@@ -106,17 +108,17 @@
 				"description": "You can set the extension user's permission and privileges",
 				"addNew": "Add a new or edit extension user",
 				"enterUserID": "Enter ID number of a user",
-				"warning_cannotFindUser": "I couldn't find the user's data with entered ID number",
+				"warning_cannotFindUser": "Aku tidak dapat menemukan data user dengan memasukkan no ID",
 				"brainly_id": "Brainly Id",
 				"privileges": "Privileges",
 				"extension_privileges": "Extension privileges",
-				"first_usage_date": "First time of using the extension",
+				"first_usage_date": "Pertama kali dalam menggunakan ekstensi",
 				"permission": "Extension permission",
 				"can_use_extension": "Allow",
 				"can_not_use_extension": "Deny",
 				"comment": "Comment",
 				"hasn'tUsed": "User hasn't used the extension",
-				"firstUsageTimeAgoPreTitle": "Started to use %s",
+				"firstUsageTimeAgoPreTitle": "Mulai digunakan",
 				"js_grid": {
 					"grid": {
 						"noDataContent": "Not found",
@@ -173,6 +175,11 @@
 						"type": 5,
 						"title": "User management",
 						"description": "Can able to add or editing the extension users and give them privileges or permission to use the extension"
+					},
+					{
+						"type": 6,
+						"title": "Answer approvement",
+						"description": "In the user content page, user can approve the answer by selecting"
 					}
 				]
 			},
@@ -323,8 +330,8 @@
 				"remove_all_friends": "Hapus semua teman",
 				"on_pause_message": "Kamu dapat melanjutkan dimana kamu berhenti",
 				"on_start_message": "Refresh halaman untuk mengulang proses.",
-				"delete_selected_friends": "Batalkan pertemanan yang dipilih",
-				"delete_selected_friends_title": "Kamu dapat membatalkan pertemanan dari teman yang kamu pilih.",
+				"delete_selected_friends": "Unfriend",
+				"delete_selected_friends_title": "You can remove the selected friends from your friend list",
 				"select_at_least_one_friend": "Kamu harus memilih setidaknya satu teman",
 				"warning__are_you_sure_delete_selected_friends": "Aakah kamu yakin untuk membatalkan pertemanan dari teman yang kamu pilih?",
 				"warning__are_you_sure_delete_all_friends": "Apakah kamu yakin untuk menghapus semua temanmu?",
@@ -353,7 +360,11 @@
 				"nickname": "Nickname"
 			},
 			"confirm_for_add_moderator": "Do you wanna add this account as a moderator?",
-			"moderator_privileges_added": "Account added as a moderator\nChanges will affect in 3 minutes"
+			"moderator_privileges_added": "Account added as a moderator\nChanges will affect in 3 minutes",
+			"userDescription": {
+				"title": "Description",
+				"description": "Description text from the mobile app. If the user added a description message in the mobile app of Brainly, then it’ll show up here."
+			}
 		},
 		"user_content": {
 			"select": "Pilih",

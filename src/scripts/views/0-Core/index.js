@@ -318,6 +318,20 @@ let fetchFriends = callback => {
 		}
 	});
 };
+let CheckForNewUpdate = () => {
+
+}
+let prepareLangFile = (language, callback) => {
+	Inject2body(`/config/locales/${language}.json`, localeData => {
+		if (Object.prototype.toString.call(localeData) == "[object Error]") {
+			prepareLangFile("en_US", callback);
+			
+			return false;
+		}
+
+		callback && callback(localeData);
+	});
+}
 
 setMetaData(() => {
 	Console.info("MetaData OK!");
@@ -330,19 +344,6 @@ setMetaData(() => {
 
 		setBrainlyData(() => {
 			Console.info("setBrainlyData OK!");
-			/*if (Sistem.depo.current_locale) {
-				return Sistem.depo.current_locale;
-			} else {
-				let locale = window.__default_config;
-				locale && (locale = locale.MARKET);
-				//console.log("market: ", locale);
-				!locale && (locale = document.head.querySelector('meta[name="market"]'), locale && (locale = locale.getAttribute("content")));
-				//console.log("meta: ", locale);
-				!locale && (locale = window.siteLocale, locale && (locale = locale.replace(/.*[-_]/, "")));
-				//console.log("sitelocale: ", locale);
-				Sistem.depo.current_locale = locale;
-				return locale;
-			}*/
 
 			Inject2body(`/config/${location.hostname}.json`, configData => {
 				System.data.config.marketConfig = configData;
@@ -354,7 +355,7 @@ setMetaData(() => {
 						Storage.set({ language });
 					}
 
-					Inject2body(`/config/locales/${language}.json`, localeData => {
+					prepareLangFile(language, localeData => {
 						System.data.locale = localeData;
 
 						Console.info("Locale inject OK!");
@@ -363,6 +364,7 @@ setMetaData(() => {
 								System.data.Brainly.userData._hash = hash;
 
 								Console.info("authProcess OK!");
+								CheckForNewUpdate();
 								/**
 								 * Wait for the declaration of the jQuery object
 								 */

@@ -1,0 +1,23 @@
+{
+	"account_using_for_approve": "",
+	"reserve": "Tiket",
+	"Deleted_account": "Akun yang dihapus",
+	"special_ranks_starts": 8,
+	"chatango": {
+		"for": "nosdevoirs.fr",
+		"id": "cid0020000199927160327",
+		"handle": "nosdevoirsfr"
+	},
+	"change_forum_link": {
+		"use_it": false,
+		"links": [{
+			"title": "",
+			"link": ""
+		}]
+	},
+	"quickDeleteButtonsDefaultReasons": {
+		"task": ["Devoir incomplet", "Question déjà posée"],
+		"response": ["Réponse fausse", "Commentaires", "Copie d'une autre source"],
+		"comment": ["Contenu inapproprié", "Publicité pour un autre devoir", "Copie"]
+	}
+}

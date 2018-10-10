@@ -35,7 +35,7 @@ let DeleteButtonOptions = (quickDeleteButtonsReasons, callback) => {
 			fields += `
 			<div class="board-item">
 				<div class="board-item-content" data-type="${reasonTypeKey}">
-					<span>${System.data.locale.texts.extension_options.quick_delete_buttons[reasonTypeKey]}</span>
+					<span>${System.data.locale.popup.extensionOptions.quickDeleteButtons[reasonTypeKey]}</span>
 					${dropDownFields}
 				</div>
 			</div>`
@@ -65,8 +65,8 @@ let DeleteButtonOptions = (quickDeleteButtonsReasons, callback) => {
 
 	let $layout = $(`
 	<article class="message is-danger">
-		<div class="message-header">
-			<p>${System.data.locale.texts.extension_options.quick_delete_buttons.title}</p>
+		<div class="message-header" title="${System.data.locale.popup.extensionOptions.quickDeleteButtons.title}">
+			<p>${System.data.locale.popup.extensionOptions.quickDeleteButtons.text}</p>
 		</div>
 		<div class="message-body"></div>
 	</article>`);

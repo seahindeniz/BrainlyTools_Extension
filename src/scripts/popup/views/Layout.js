@@ -24,25 +24,25 @@ const Layout = res => {
 							<div id="linkShorter" class="column">
 								<div class="field is-grouped">
 									<div class="control">
-										<button class="button is-link" title="${System.data.locale.texts.extension_options.createShortLinkButton.description}">${System.data.locale.texts.extension_options.createShortLinkButton.title}</button>
+										<button class="button is-link" title="${System.data.locale.popup.createShortLinkButton.title}">${System.data.locale.popup.createShortLinkButton.text}</button>
 									</div>
 									<div class="control is-expanded has-icons-left has-icons-right is-hidden js-input">
 										<input class="input is-success" type="text" readonly>
 										<span class="icon is-small is-left">
 											<i class="fas fa-globe"></i>
 										</span>
-										<p class="help is-success">${System.data.locale.texts.extension_options.shortLinkSuccessMessage}</p>
+										<p class="help is-success">${System.data.locale.popup.notificationMessages.shortLinkSuccessMessage}</p>
 									</div>
 								</div>
 							</div>
 						
 							
-							<h4 class="title is-4 has-text-centered">${System.data.locale.texts.extension_options.title}</h4>
+							<h4 class="title is-4 has-text-centered">${System.data.locale.popup.extensionOptions.title}</h4>
 
 							<div id="themeColor" class="column is-narrow">
 								<article class="message is-info">
 									<div class="message-header">
-										<p>${System.data.locale.texts.extension_options.themeColor.title}</p>
+										<p>${System.data.locale.popup.extensionOptions.themeColor.title}</p>
 									</div>
 									<div class="message-body"></div>
 								</article>
@@ -51,7 +51,7 @@ const Layout = res => {
 							<div id="otherOptions" class="column is-narrow">
 								<article class="is-dark">
 									<div class="message-header">
-										<p>${System.data.locale.texts.extension_options.otherOptions.title}</p>
+										<p>${System.data.locale.popup.extensionOptions.otherOptions.title}</p>
 									</div>
 									<div class="message-body"></div>
 								</article>
@@ -84,7 +84,7 @@ const Layout = res => {
 	});
 
 	System.checkUserP([4, 5], () => {
-		$(`<h4 class="title is-4 has-text-centered">${System.data.locale.texts.extension_options.extensionManagement}</h4>`).appendTo($section2);
+		$(`<h4 class="title is-4 has-text-centered">${System.data.locale.popup.extensionManagement.title}</h4>`).appendTo($section2);
 
 		System.checkUserP(4, () => {
 			renderAnnouncements($announcementsLayout => {

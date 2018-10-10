@@ -8,27 +8,27 @@ const OtherOptions = (options, callback) => {
 	let $otherOptions = $(`
 	<div class="field is-horizontal">
 		<div class="field-label has-text-centered">
-			<label class="label">${""/*System.data.locale.texts.extension_options.themeColor.choose_color*/}</label>
+			<label class="label">${""/*System.data.locale.*/}</label>
 		</div>
 		<div class="field-body">
 			<div class="field">
 				<div class="control">
-					<label class="checkbox" title="${System.data.locale.texts.extension_options.otherOptions.extendMessagesLayout.description}">
-						<input id="extendMessagesLayout" type="checkbox"${options.extendMessagesLayout ? " checked" : ""}> ${System.data.locale.texts.extension_options.otherOptions.extendMessagesLayout.title}
+					<label class="checkbox" title="${System.data.locale.popup.extensionOptions.otherOptions.extendMessagesLayout.title}">
+						<input id="extendMessagesLayout" type="checkbox"${options.extendMessagesLayout ? " checked" : ""}> ${System.data.locale.popup.extensionOptions.otherOptions.extendMessagesLayout.text}
 					</label>
 				</div>
 			</div>
 			<div class="field is-grouped">
 				<div class="control">
 					<label class="checkbox">
-						${System.data.locale.texts.extension_options.otherOptions.extensionLanguage.title}
+						${System.data.locale.popup.extensionOptions.otherOptions.extensionLanguage.text}
 					</label>
 				</div>
 				<div class="control is-expanded">
 					<div class="dropdown">
 						<div class="dropdown-trigger">
 							<button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-								<span>${System.data.locale.texts.extension_options.otherOptions.extensionLanguage.chooseLang}</span>
+								<span>${System.data.locale.popup.extensionOptions.otherOptions.extensionLanguage.chooseLanguage}</span>
 								<span class="icon is-small">
 									<i class="fas fa-angle-down" aria-hidden="true"></i>
 								</span>
@@ -82,7 +82,7 @@ const OtherOptions = (options, callback) => {
 	$dropdown.change(function() {
 		Inject2body(`/config/locales/${this.value}.json`, localeData => {
 			System.data.locale = localeData;
-			Notification(System.data.locale.texts.extension_options.otherOptions.extensionLanguage.langChanged, "success");
+			Notification(System.data.locale.popup.notificationMessages.languageChanged, "success");
 			console.log(this.value);
 			Storage.set({ language: this.value });
 		});

@@ -7,13 +7,13 @@ let ThemeColor = (color = "#57b2f8", callback) => {
 	let $themeColor = $(`
 	<div class="field is-horizontal">
 		<div class="field-label has-text-centered">
-			<label class="label">${System.data.locale.texts.extension_options.themeColor.choose_color}</label>
+			<label class="label">${System.data.locale.popup.extensionOptions.themeColor.setYourColor}</label>
 		</div>
 		<div class="field-body">
 			<div class="field">
 				<div class="control">
 					<label class="checkbox">
-						<input id="rainbow" type="checkbox"> 🌈 ${System.data.locale.texts.extension_options.themeColor.rainbow}
+						<input id="rainbow" type="checkbox"> 🌈 ${System.data.locale.popup.extensionOptions.themeColor.rainbow}
 					</label>
 				</div>
 			</div>
@@ -26,11 +26,11 @@ let ThemeColor = (color = "#57b2f8", callback) => {
 						<input id="colorPicker" list="flatColors" class="input" type="color" placeholder="Text input" value="${color}">
 					</p>
 					<p class="control">
-						<input id="colorValue" list="flatColors" class="input" type="text" placeholder="${System.data.locale.texts.extension_options.themeColor.choose_color}"
+						<input id="colorValue" list="flatColors" class="input" type="text" placeholder="${System.data.locale.popup.extensionOptions.themeColor.pickAColor}"
 						${color && ' value="' + color + '"'}>
 					</p>
 				</div>
-				<p class="help">${System.data.locale.texts.extension_options.themeColor.fontColorExample}</p>
+				<p class="help">${System.data.locale.popup.extensionOptions.themeColor.colorFormatInfo}</p>
 			</div>
 		</div>
 	</div>
@@ -39,7 +39,7 @@ let ThemeColor = (color = "#57b2f8", callback) => {
 		<div class="field-body">
 			<div class="field is-grouped is-grouped-right">
 				<div class="control">
-					<button class="button is-primary save">${System.data.locale.texts.globals.save}</button>
+					<button class="button is-primary save">${System.data.locale.common.save}</button>
 				</div>
 			</div>
 		</div>

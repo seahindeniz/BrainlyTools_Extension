@@ -218,13 +218,11 @@ let prepareDeleteReasons = callback => {
 			prepareDeleteButtonSettings(callback)
 		} else {
 			GetDeleteReasons(deleteReasons => {
-				let deleteReasonsKeys = Object.keys(deleteReasons);
 
-				Console.log(deleteReasons);
 				if (deleteReasons.empty) {
-					Console.log("show error");
-					Notification(System.data.locale.texts.globals.errors.cantFetchDeleteReasons, "error");
+					Notification(System.data.locale.core.notificationMessages.cantFetchDeleteReasons, "error");
 				} else {
+					let deleteReasonsKeys = Object.keys(deleteReasons);
 					deleteReasons.__withTitles = {};
 
 					deleteReasonsKeys.forEach(reasonKey => {
@@ -322,10 +320,10 @@ let CheckForNewUpdate = () => {
 
 }
 let prepareLangFile = (language, callback) => {
-	Inject2body(`/config/locales/${language}.json`, localeData => {
+	Inject2body(`/config/locales/new/${language}.json`, localeData => {
 		if (Object.prototype.toString.call(localeData) == "[object Error]") {
 			prepareLangFile("en_US", callback);
-			
+
 			return false;
 		}
 
@@ -383,8 +381,8 @@ setMetaData(() => {
 											if (System.checkRoute(1, "") || System.checkRoute(1, "task_subject_dynamic")) {
 												Inject2body([
 													"/scripts/lib/jquery-observe-2.0.3.min.js",
-													"/scripts/views/1-Root/index.js",
-													"/scripts/views/1-Root/Root.css"
+													"/scripts/views/1-Home/index.js",
+													"/scripts/views/1-Home/Home.css"
 												])
 											}
 

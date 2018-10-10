@@ -7,10 +7,10 @@ const UserFinder = () => {
 	if (brn_moderation_panel) {
 		searchInput = $(`
 		<li class="sg-menu-list__element userFinder" style="display: table; width: 100%;">
-			<label class="sg-text sg-text--blue">${System.data.locale.texts.globals.enterId}:
+			<label class="sg-text sg-text--blue">${System.data.locale.core.UserFinder.profileID}:
 				<input type="number" class="sg-input sg-input--small" placeholder="1234567"/>
 			</label>
-			<div class="sg-text sg-text--peach js-hidden notFound">${System.data.locale.texts.globals.errors.userNotFound}</div>
+			<div class="sg-text sg-text--peach js-hidden notFound">${System.data.locale.core.notificationMessages.userNotFound}</div>
 			<div class="userList"></div>
 		</li>`);
 

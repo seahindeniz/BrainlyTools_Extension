@@ -36,7 +36,7 @@ const Announcements = (callback) => {
 	<div id="announcements" class="column is-narrow">
 		<article class="message is-info">
 			<div class="message-header">
-				<p>${System.data.locale.texts.extension_options.announcements.title}</p>
+				<p>${System.data.locale.popup.extensionManagement.announcements.text}</p>
 			</div>
 			<div class="message-body"></div>
 		</article>
@@ -49,6 +49,7 @@ const Announcements = (callback) => {
 
 		if (res.success && res.data) {
 			let $announcementsNodes = announcementsNodes(res.data);
+
 			$announcementsBody.append($announcementsNodes);
 			refreshUsers($announcementsBody);
 		}
@@ -56,7 +57,7 @@ const Announcements = (callback) => {
 		let $addNewBox = $(`
 		<article class="media addNew">
 			<div class="media-content field-label has-text-centered">
-				<label class="label">${System.data.locale.texts.extension_options.announcements.addNew}</label>
+				<label class="label">${System.data.locale.popup.extensionManagement.announcements.addNewAnnouncement}</label>
 			</div>
 		</article>
 		<article class="media addNew announcement">
@@ -73,10 +74,10 @@ const Announcements = (callback) => {
 				</div>
 			</div>
 			<div class="media-right is-invisible">
-				<a href="#" class="icon has-text-success submit" title="${System.data.locale.texts.globals.save}">
+				<a href="#" class="icon has-text-success submit" title="${System.data.locale.common.save}">
 					<i class="fas fa-check"></i>
 				</a><br>
-				<a href="#" class="icon has-text-danger reset" title="${System.data.locale.texts.extension_options.announcements.clearForm}">
+				<a href="#" class="icon has-text-danger reset" title="${System.data.locale.common.clearInputs}">
 					<i class="fas fa-undo"></i>
 				</a>
 			</div>
@@ -95,7 +96,7 @@ const Announcements = (callback) => {
 
 			if (elm.is("input")) {
 				options = {
-					placeholder: System.data.locale.texts.extension_options.announcements.editorTitle,
+					placeholder: System.data.locale.popup.extensionManagement.announcements.editorTitle,
 					"allowResizeY": false,
 					"preset": "inline",
 					"height": 20,
@@ -109,7 +110,7 @@ const Announcements = (callback) => {
 				};
 			} else if (elm.is("textarea")) {
 				options = {
-					placeholder: System.data.locale.texts.extension_options.announcements.editorContent,
+					placeholder: System.data.locale.popup.extensionManagement.announcements.editorContent,
 					"enter": "BR",
 					"height": 300,
 					"uploader": {
@@ -173,12 +174,12 @@ const Announcements = (callback) => {
 					};
 					CreateAnnouncement(data, res => {
 						if (!res) {
-							Notification(System.data.locale.texts.globals.errors.operation_error, "danger");
+							Notification(System.data.locale.common.notificationMessages.operationError, "danger");
 						} else {
 							if (!res.success) {
-								Notification((res.message || System.data.locale.texts.globals.errors.operation_error), "danger");
+								Notification((res.message || System.data.locale.common.notificationMessages.operationError), "danger");
 							} else {
-								Notification(System.data.locale.texts.extension_options.announcements.createdMessage);
+								Notification(System.data.locale.popup.notificationMessages.createdMessage);
 
 								$announcementsBody.prepend(announcementsNodes(res.data));
 								refreshUsers($announcementsBody);
@@ -209,29 +210,29 @@ const Announcements = (callback) => {
 
 					UpdateAnnouncement(data, res => {
 						if (!res) {
-							Notification(System.data.locale.texts.globals.errors.operation_error, "danger");
+							Notification(System.data.locale.common.notificationMessages.operationError, "danger");
 						} else {
 							if (!res.success) {
-								Notification((res.message || System.data.locale.texts.globals.errors.operation_error), "danger");
+								Notification((res.message || System.data.locale.common.notificationMessages.operationError), "danger");
 							} else {
-								Notification(System.data.locale.texts.extension_options.announcements.updatedMessage);
+								Notification(System.data.locale.popup.notificationMessages.updatedMessage);
 							}
 						}
 					});
 
 				}
 			} else if (that.is(".remove")) {
-				if (confirm(System.data.locale.texts.globals.are_you_sure)) {
+				if (confirm(System.data.locale.common.notificationMessages.areYouSure)) {
 					let parentArticle = that.parents("article.media");
 					let id = parentArticle.attr("id");
 					RemoveAnnouncement(id, res => {
 						if (!res) {
-							Notification(System.data.locale.texts.globals.errors.operation_error, "danger");
+							Notification(System.data.locale.common.notificationMessages.operationError, "danger");
 						} else {
 							if (!res.success) {
-								Notification((res.message || System.data.locale.texts.globals.errors.operation_error), "danger");
+								Notification((res.message || System.data.locale.common.notificationMessages.operationError), "danger");
 							} else {
-								Notification(System.data.locale.texts.extension_options.announcements.removedMessage);
+								Notification(System.data.locale.popup.notificationMessages.removedMessage);
 								parentArticle.slideUp("normal", function() { this.remove(); });
 							}
 						}
@@ -253,10 +254,10 @@ const Announcements = (callback) => {
 					</div>
 					
 					<div class="media-right editing">
-						<a href="#" class="icon has-text-danger edit" title="${System.data.locale.texts.globals.cancelEdit}">
+						<a href="#" class="icon has-text-danger edit" title="${System.data.locale.popup.extensionManagement.announcements.cancelEdit}">
 							<i class="fas fa-lg fa-times-circle"></i>
 						</a><br>
-						<a href="#" class="icon has-text-success update" title="${System.data.locale.texts.globals.update}">
+						<a href="#" class="icon has-text-success update" title="${System.data.locale.popup.extensionManagement.announcements.update}">
 							<i class="fas fa-check"></i>
 						</a>
 					</div>`).insertAfter($announcementContainer);
@@ -274,15 +275,15 @@ const Announcements = (callback) => {
 
 				UpdateAnnouncement({ id: $article.attr("id"), publish: !status }, res => {
 					if (!res) {
-						Notification(System.data.locale.texts.globals.errors.operation_error, "danger");
+						Notification(System.data.locale.common.notificationMessages.operationError, "danger");
 					} else {
 						if (!res.success) {
-							Notification((res.message || System.data.locale.texts.globals.errors.operation_error), "danger");
+							Notification((res.message || System.data.locale.common.notificationMessages.operationError), "danger");
 						} else {
-							Notification(System.data.locale.texts.extension_options.announcements.updatedMessage);
+							Notification(System.data.locale.popup.notificationMessages.updatedMessage);
 							$(this).attr({
 								"data-published": !status,
-								title: System.data.locale.texts.extension_options.announcements[!status ? "unpublish" : "publish"]
+								title: System.data.locale.popup.extensionManagement.announcements[!status ? "unpublish" : "publish"]
 							});
 							$("[data-fa-i2svg]", this).toggleClass('fa-eye').toggleClass('fa-eye-slash');
 							$(".media-content > .content > [data-fa-i2svg]", $article).toggleClass('fa-eye').toggleClass('fa-eye-slash');

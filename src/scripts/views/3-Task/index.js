@@ -53,7 +53,7 @@ System.checkUserP(2, () => {
 		let question_id = Number(parentArticle.data("question-id"));
 
 		if (question_id > 0) {
-			if (confirm(System.data.locale.texts.moderate.do_you_want_to_delete)) {
+			if (confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
 				let reason = System.data.Brainly.deleteReasons.__withTitles.task[System.data.config.quickDeleteButtonsReasons.task[btn_index]];
 				let taskData = {
 					model_id: question_id,
@@ -73,7 +73,7 @@ System.checkUserP(2, () => {
 							Notification(res.message, "error");
 						}
 					} else {
-						Notification(System.data.locale.texts.globals.errors.went_wrong, "error");
+						Notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
 					}
 					spinner.remove();
 					svg.show();
@@ -137,7 +137,7 @@ System.checkUserP(45, () => {
 		let answer_id = Number(parentResponseContainer.data("answer-id"));
 
 		if (answer_id > 0) {
-			if (confirm(System.data.locale.texts.moderate.do_you_want_to_delete)) {
+			if (confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
 				let reason = System.data.Brainly.deleteReasons.__withTitles.response[System.data.config.quickDeleteButtonsReasons.response[btn_index]];
 				let responseData = {
 					model_id: answer_id,

@@ -36,8 +36,8 @@ const Users = (callback) => {
 	let $usersLayout = $(`
 	<div id="users" class="column is-narrow">
 		<article class="message is-warning">
-			<div class="message-header" title="${System.data.locale.texts.extension_options.manage_users.description}">
-				<p>${System.data.locale.texts.extension_options.manage_users.title}</p>
+			<div class="message-header" title="${System.data.locale.popup.extensionManagement.users.title}">
+				<p>${System.data.locale.popup.extensionManagement.users.text}</p>
 			</div>
 			<div class="message-body">
 				<article class="media">
@@ -69,7 +69,7 @@ const Users = (callback) => {
 		let $addNewBox = $(`
 		<article class="media addNew">
 			<div class="media-content field-label has-text-centered">
-				<label class="label">${System.data.locale.texts.extension_options.manage_users.addNew}</label>
+				<label class="label">${System.data.locale.popup.extensionManagement.users.addNewOrEditUser}</label>
 			</div>
 		</article>
 		<article class="media addNew user">
@@ -90,31 +90,30 @@ const Users = (callback) => {
 				<div class="content">
 					<div class="field">
 						<div class="control is-expanded has-icons-left">
-							<input class="input" type="text" placeholder="${System.data.locale.texts.extension_options.manage_users.enterUserID}">
+							<input class="input" type="text" placeholder="${System.data.locale.core.UserFinder.profileID}">
 							<span class="icon is-left">
 								<i class="fas fa-user"></i>
 							</span>
 						</div>
 						<br>
 						<div class="control permission is-hidden">
-							<label class="label is-hidden">${System.data.locale.texts.extension_options.manage_users.permission}</label>
 							<div class="field">
 								<input id="switchPermission" type="checkbox" class="switch is-rtls" checked="checked">
-								<label for="switchPermission">${System.data.locale.texts.extension_options.manage_users.permission}</label>
+								<label for="switchPermission">${System.data.locale.popup.extensionManagement.users.permission}</label>
 							</div>
 						</div>
 						<br>
 						<div class="control privileges is-hidden">
-							<label class="label">${System.data.locale.texts.extension_options.manage_users.privileges}</label>
+							<label class="label">${System.data.locale.popup.extensionManagement.userManagement.privileges}</label>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="media-right is-invisible">
-				<a href="#" class="icon has-text-success submit" title="${System.data.locale.texts.globals.save}">
+				<a href="#" class="icon has-text-success submit" title="${System.data.locale.common.save}">
 					<i class="fas fa-check"></i>
 				</a><br>
-				<a href="#" class="icon has-text-danger reset" title="${System.data.locale.texts.extension_options.announcements.clearForm}">
+				<a href="#" class="icon has-text-danger reset" title="${System.data.locale.common.clearInputs}">
 					<i class="fas fa-undo"></i>
 				</a>
 			</div>
@@ -124,7 +123,7 @@ const Users = (callback) => {
 
 		let $privilegesContainer = $(".media-content .privileges", $addNewBox);
 
-		System.data.locale.texts.extension_options.manage_users.privilegeList.forEach(privilege => {
+		System.data.locale.popup.extensionManagement.users.privilegeList.forEach(privilege => {
 			$privilegesContainer.append(`
 			<div class="field" title="${privilege.description}">
 				<input class="is-checkradio is-block is-info" id="p-${privilege.type}" type="checkbox">
@@ -217,7 +216,7 @@ const Users = (callback) => {
 
 									processUser(res.data);
 								} else {
-									Notification(System.data.locale.texts.extension_options.manage_users.warning_cannotFindUser, "danger");
+									Notification(System.data.locale.popup.notificationMessages.cannotFindUser, "danger");
 									hideItems();
 								}
 							});
@@ -250,7 +249,7 @@ const Users = (callback) => {
 					let user = window.fetchedUsers[id];
 
 					if (!user) {
-						Notification(System.data.locale.texts.extension_options.manage_users.warning_cannotFindUser, "danger");
+						Notification(System.data.locale.popup.notificationMessages.cannotFindUser, "danger");
 					} else {
 						let approved = $permission.prop("checked");
 						let data = {
@@ -264,12 +263,12 @@ const Users = (callback) => {
 						PutUser(data, res => {
 							//console.log(res);
 							if (!res) {
-								Notification(System.data.locale.texts.globals.errors.operation_error, "danger");
+								Notification(System.data.locale.common.notificationMessages.operationError, "danger");
 							} else {
 								if (!res.success) {
-									Notification((res.message || System.data.locale.texts.globals.errors.operation_error), "danger");
+									Notification((res.message || System.data.locale.common.notificationMessages.operationError), "danger");
 								} else {
-									Notification(System.data.locale.texts.globals.allDone, "success");
+									Notification(System.data.locale.common.allDone, "success");
 
 									$("#"+res.data._id, $level).parent().remove();
 									user._id = res.data._id;

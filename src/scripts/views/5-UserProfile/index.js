@@ -13,7 +13,7 @@ System.pageLoaded("User Profile inject OK!");
 
 WaitForElm("#main-right", targetElm => {
 	if (profileData && profileData.id && profileData.nick) {
-		let $userNoteContainer = $(`<div class="userNoteContainer"><h3 class="bold dark_grey">${System.data.locale.texts.notes.personal_note}</h3></div>`);
+		let $userNoteContainer = $(`<div class="userNoteContainer"><h3 class="bold dark_grey" title="${System.data.locale.common.personalNote.title}">${System.data.locale.common.personalNote.placeholder}</h3></div>`);
 
 		$userNoteContainer.prependTo(targetElm);
 		let userGender = null,
@@ -47,24 +47,25 @@ WaitForElm("#main-right", targetElm => {
 
 		let $profile_friends = $('#profile-friends');
 		if ($profile_friends.length > 0 && $profile_friends[0].childElementCount > 0) {
-			let _locale = System.data.locale.texts.profile;
+			let _locale = System.data.locale.userProfile;
 			let buttonData = [{
-					text: _locale.deleting_friends.remove_all_friends,
+					text: _locale.removeAllFriends.text,
+					title: _locale.removeAllFriends.title,
 					type: "peach removeAll"
 				},
 				{
-					text: _locale.show_all_friends.title,
-					title: _locale.show_all_friends.description,
+					text: _locale.showAllFriends.text,
+					title: _locale.showAllFriends.title,
 					type: "alt showAll"
 				},
 				{
-					text: System.data.locale.texts.globals.select_all,
+					text: System.data.locale.common.selectAll,
 					type: "alt selectAll",
 					templateClass: "js-hidden"
 				},
 				{
-					text: _locale.deleting_friends.delete_selected_friends,
-					title: _locale.deleting_friends.delete_selected_friends_title,
+					text: _locale.removeSelectedFriends.text,
+					title: _locale.removeSelectedFriends.title,
 					type: "dark removeSelected",
 					templateClass: "js-hidden"
 				}
@@ -91,7 +92,7 @@ WaitForElm("#main-right", targetElm => {
 
 				RemoveFriend(idList, {
 					success: () => {
-						progress.updateLabel(System.data.locale.texts.globals.allDone).close();
+						progress.updateLabel(System.data.locale.common.allDone).close();
 					},
 					each: (i, id) => {
 						let friend = System.friends.find(f => {
@@ -116,11 +117,11 @@ WaitForElm("#main-right", targetElm => {
 				}).get();
 
 				if (idList.length == 0) {
-					Notification(System.data.locale.texts.profile.deleting_friends.select_at_least_one_friend, "info");
-				} else if (confirm(System.data.locale.texts.profile.deleting_friends.warning__are_you_sure_delete_selected_friends)) {
+					Notification(System.data.locale.userProfile.notificationMessages.selectAtLeasetOneUser, "info");
+				} else if (confirm(System.data.locale.userProfile.notificationMessages.areYouSureDeleteSelectedFriends)) {
 					let progress = new Progress({
 						type: "is-success",
-						label: System.data.locale.texts.globals.progressing,
+						label: System.data.locale.common.progressing,
 						max: idList.length
 					});
 
@@ -128,10 +129,10 @@ WaitForElm("#main-right", targetElm => {
 				}
 			});
 			$removeAll.click(() => {
-				if (confirm(System.data.locale.texts.profile.deleting_friends.warning__are_you_sure_delete_all_friends)) {
+				if (confirm(System.data.locale.userProfile.notificationMessages.areYouSureRemoveAllFriends)) {
 					let progress = new Progress({
 						type: "is-success",
-						label: System.data.locale.texts.globals.progressing,
+						label: System.data.locale.common.progressing,
 						max: System.friends.length
 					});
 
@@ -140,7 +141,7 @@ WaitForElm("#main-right", targetElm => {
 			});
 			$showAllFriends.click(() => {
 				if (!System.friends || System.friends.length == 0) {
-					Notification(System.data.locale.texts.profile.show_all_friends.warning__no_friends_to_show, "info");
+					Notification(System.data.locale.userContent.notificationMessages.youHaveNoFriends, "info");
 				} else {
 					$profile_friends.html("");
 					$showAllFriends.parent().remove();

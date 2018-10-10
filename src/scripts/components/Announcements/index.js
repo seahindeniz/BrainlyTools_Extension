@@ -7,7 +7,7 @@ export default () => {
 	if (announcements && announcements.length > 0) {
 		let $overlay = $(`<div class="announcementOverlay"></div>`);
 		let $announcementToplayer = makeToplayer(null,
-			`<h2 class="sg-header-secondary" title="${System.data.locale.texts.announcements.description}">${System.data.locale.texts.announcements.title}</h2>`);
+			`<h2 class="sg-header-secondary" title="${System.data.locale.core.announcements.title}">${System.data.locale.core.announcements.text}</h2>`);
 
 		$announcementToplayer.appendTo($overlay);
 		$overlay.appendTo("body > div.page-wrapper.js-page-wrapper > section > div.js-toplayers-container");
@@ -26,7 +26,7 @@ export default () => {
 			<article class="announcement" id="${announcement._id}">
 				<div class="sg-content-box sg-content-box--spaced">
 					<div class="sg-content-box__title">
-						<button class="sg-button-secondary sg-button-secondary--small sg-button-secondary--dark js-read" title="${System.data.locale.texts.announcements.mark_as_read.long}">
+						<button class="sg-button-secondary sg-button-secondary--small sg-button-secondary--dark js-read" title="${System.data.locale.core.announcements.markAsRead}">
 							<span class="sg-button-secondary__icon">
 								<div class="sg-icon sg-icon--x10 sg-icon--adaptive">
 									<svg class="sg-icon__svg">
@@ -66,7 +66,7 @@ export default () => {
 				if (res && res.success) {
 					that.removeClass("sg-button-secondary--dark");
 				} else {
-					Notification(System.data.locale.texts.globals.errors.operation_error, "error");
+					Notification(System.data.locale.common.notificationMessages.operationError, "error");
 					that.removeClass("sg-button-secondary--disabled").removeAttr("disabled");
 				}
 			});

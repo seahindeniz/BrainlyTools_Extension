@@ -29,7 +29,7 @@ WaitForElm("#content-old > table > tbody > tr", row => {
 	});
 
 	let $button = Buttons('RemoveQuestionNoIcon', {
-		text: "Cancel warnings",
+		text: System.data.locale.userWarnings.cancelWarnings,
 		title: "",
 		type: "alt"
 	});
@@ -53,6 +53,6 @@ WaitForElm("#content-old > table > tbody > tr", row => {
 
 		System.log(4, JSON.parse(sitePassedParams)[0], idList);
 
-		Notification(System.data.locale.texts.user_warnings.message__if_you_have_privileges, "info");
+		Notification(System.data.locale.userWarnings.notificationMessages.ifYouHavePrivileges, "info");
 	});
 })

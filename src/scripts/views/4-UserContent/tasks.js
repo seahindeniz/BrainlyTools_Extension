@@ -9,10 +9,10 @@ let selectors = window.selectors,
 //WaitForElm('#content-old > div > div > table > tbody > tr:nth-child(1) > td', () => {
 let $contentRows = $(selectors.contentRows);
 let $tableContentBody = $(selectors.tableContentBody);
-let onPageIsProcess = false;
+let isPageProcessing = false;
 window.onbeforeunload = function() {
-	if (onPageIsProcess) {
-		return System.data.locale.texts.globals.warning_ongoingProcess;
+	if (isPageProcessing) {
+		return System.data.locale.common.notificationMessages.ongoingProcess;
 	}
 }
 
@@ -27,7 +27,7 @@ $deleteSection.appendTo($("td", $moderateActions));
 
 let $submitContainer = $(`
 <div class="sg-spinner-container">
-	<button class="sg-button-secondary sg-button-secondary--peach js-submit">${System.data.locale.texts.moderate.confirm} !</button>
+	<button class="sg-button-secondary sg-button-secondary--peach js-submit">${System.data.locale.common.moderating.confirm} !</button>
 </div>`).insertAfter($deleteSection);
 let $submit = $(".js-submit", $submitContainer);
 
@@ -36,7 +36,7 @@ $submit.click(function() {
 	let $selectTaskWarn = $(".selectTaskWarn", $moderateActions);
 	if ($checkedContentSelectCheckboxes.length == 0) {
 		if ($selectTaskWarn.length == 0) {
-			$(`<div class="sg-bubble sg-bubble--top sg-bubble--row-start sg-bubble--peach sg-text--light selectTaskWarn">${System.data.locale.texts.user_content.select_a_question_first}</div>`).prependTo($("td", $moderateActions));
+			$(`<div class="sg-bubble sg-bubble--top sg-bubble--row-start sg-bubble--peach sg-text--light selectTaskWarn">${System.data.locale.userContent.notificationMessages.selectAtLeasetOneQuestion}</div>`).prependTo($("td", $moderateActions));
 		} else {
 			$selectTaskWarn.fadeTo('fast', 0.5).fadeTo('fast', 1.0).fadeTo('fast', 0.5).fadeTo('fast', 1.0);
 		}
@@ -46,16 +46,16 @@ $submit.click(function() {
 
 		if (!window.selectedCategory) {
 			if ($selectReasonWarn.length == 0) {
-				$(`<div class="sg-bubble sg-bubble--bottom sg-bubble--row-start sg-bubble--peach sg-text--light selectReasonWarn">${System.data.locale.texts.moderate.choose_reason}</div>`).insertBefore($categories)
+				$(`<div class="sg-bubble sg-bubble--bottom sg-bubble--row-start sg-bubble--peach sg-text--light selectReasonWarn">${System.data.locale.common.moderating.selectReason}</div>`).insertBefore($categories)
 			} else {
 				$selectReasonWarn.fadeTo('fast', 0.5).fadeTo('fast', 1.0).fadeTo('fast', 0.5).fadeTo('fast', 1.0);
 			}
 		} else {
-			if (confirm(System.data.locale.texts.moderate.do_you_want_to_delete)) {
+			if (confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
 				let $progressBarContainer = $("#taskProgress", $moderateActions);
 
 				if ($progressBarContainer.length == 0) {
-					$progressBarContainer = $(`<div id="taskProgress" class="progress-container sg-content-box--spaced-top-large  sg-content-box--spaced-bottom-large"><progress class="progress is-info" value="0" max="${$checkedContentSelectCheckboxes.length}" data-label="${System.data.locale.texts.globals.progressing}"></progress></div>`);
+					$progressBarContainer = $(`<div id="taskProgress" class="progress-container sg-content-box--spaced-top-large  sg-content-box--spaced-bottom-large"><progress class="progress is-info" value="0" max="${$checkedContentSelectCheckboxes.length}" data-label="${System.data.locale.common.progressing}"></progress></div>`);
 
 					$progressBarContainer.appendTo($("td", $moderateActions));
 				}
@@ -64,7 +64,7 @@ $submit.click(function() {
 
 				$progressBarContainer.show();
 
-				onPageIsProcess = true;
+				isPageProcessing = true;
 				let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner"></div></div>`).insertAfter($submit);
 				let counter = 0;
 
@@ -75,9 +75,9 @@ $submit.click(function() {
 
 					if (counter == $checkedContentSelectCheckboxes.length) {
 						$spinner.remove();
-						$progressBar.attr("data-label", System.data.locale.texts.globals.allDone)
+						$progressBar.attr("data-label", System.data.locale.common.allDone)
 						$progressBar.attr("class", "progress is-success");
-						onPageIsProcess = false;
+						isPageProcessing = false;
 					}
 				}
 
@@ -99,7 +99,7 @@ $submit.click(function() {
 
 					RemoveQuestion(taskData, (res) => {
 						if (!res) {
-							Notification(System.data.locale.texts.globals.errors.went_wrong, "error");
+							Notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
 						} else {
 							if (res.success) {
 								$(this).attr("disabled", "disabled")

@@ -17,9 +17,9 @@ const ActionsOfServer = {
 		}
 		let authRequestHandler = res => {
 			if (!res) {
-				Notification(System.data.locale.texts.globals.errors.extensionServerError + "<br>" + System.data.locale.texts.globals.errors.if_error_continue, "error", true);
+				Notification(System.data.locale.core.notificationMessages.extensionServerError + "<br>" + System.data.locale.core.notificationMessages.ifErrorPersists, "error", true);
 			} else if (!res.data.probatus) {
-				Notification(System.data.locale.texts.globals.errors.permission_error.description, "error", true);
+				Notification(System.data.locale.core.notificationMessages.accessPermissionDenied, "error", true);
 			} else {
 				System.data.Brainly.userData.extension = res.data;
 				callback(JSON.parse(atob(res.data.hash)));
@@ -47,7 +47,7 @@ const ActionsOfServer = {
 			if (res && res.success) {
 				callback(res.data);
 			} else {
-				Notification(System.data.locale.texts.globals.errors.passUser, "error");
+				Notification(System.data.locale.common.notificationMessages.cannotShareUserInfoWithServer, "error");
 			}
 		});
 	},

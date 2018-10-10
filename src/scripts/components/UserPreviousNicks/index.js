@@ -1,7 +1,7 @@
 export default (user) => {
 	let $previousNickBox = $(`
 	<div class="previousNicks">
-		<b>${System.data.locale.texts.globals.previous_nicks} </b>
+		<b title="${System.data.locale.userProfile.previousNicks.title}">${System.data.locale.userProfile.previousNicks.text}: </b>
 		<span>${(user.previousNicks && user.previousNicks.join(", ")) || " -"}</span>
 	</div>`);
 

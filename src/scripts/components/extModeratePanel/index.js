@@ -42,7 +42,7 @@ const createPanel = res => {
 		`<div class="sg-actions-list sg-actions-list--space-between">
 			<div class="sg-actions-list__hole">
 				<div class="sg-label sg-label--small sg-label--secondary">
-					<div class="sg-text sg-text--peach">${System.data.locale.texts.moderate.description}</div>
+					<div class="sg-text sg-text--peach">${System.data.locale.common.moderating.editInPanel}</div>
 				</div>
 			</div>
 			<div class="sg-actions-list__hole">
@@ -79,7 +79,7 @@ const createPanel = res => {
 										</a>
 									</li>
 									<li class="sg-breadcrumb-list__element">
-										<span class="sg-link sg-link--small sg-link--gray sg-link--disabled">${res.data.task.points.ptsForResp}+${res.data.task.points.ptsForBest} ${System.data.locale.texts.globals.point}</span>
+										<span class="sg-link sg-link--small sg-link--gray sg-link--disabled">${res.data.task.points.ptsForResp}+${res.data.task.points.ptsForBest} ${System.data.locale.common.moderating.point}</span>
 									</li>
 								</ul>
 							</div>
@@ -105,7 +105,7 @@ const createPanel = res => {
 		</div>`,
 
 		`<div class="sg-spinner-container">
-			<button class="sg-button-primary sg-button-primary--peach js-submit">${System.data.locale.texts.moderate.confirm}</button>
+			<button class="sg-button-primary sg-button-primary--peach js-submit">${System.data.locale.common.moderating.confirm}</button>
 		</div>`/*,
 
 		`<section class="js-react-taskline">

@@ -71,7 +71,7 @@ System.checkUserP([1, 2, 45], () => {
 		if (obj && obj.data && obj.data.model_id && obj.data.model_id >= 0) {
 			let contentType = obj.data.model_type_id == 1 ? "task" : obj.data.model_type_id == 2 ? "response" : "comment";
 
-			if (confirm(System.data.locale.texts.moderate.do_you_want_to_delete)) {
+			if (confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
 				let reason = System.data.Brainly.deleteReasons.__withTitles[contentType][System.data.config.quickDeleteButtonsReasons[contentType][btn_index]];
 				let data = {
 					model_id: obj.data.model_id,
@@ -95,7 +95,7 @@ System.checkUserP([1, 2, 45], () => {
 							Zadanium.toplayer.createdObjects[Zadanium.toplayer.createdObjects.length - 1].data.toplayer.setMessage(res.message, "failure")
 						}
 					} else {
-						Zadanium.toplayer.createdObjects[Zadanium.toplayer.createdObjects.length - 1].data.toplayer.setMessage(System.data.locale.texts.globals.errors.went_wrong, "failure")
+						Zadanium.toplayer.createdObjects[Zadanium.toplayer.createdObjects.length - 1].data.toplayer.setMessage(System.data.locale.common.notificationMessages.somethingWentWrong, "failure")
 					}
 					spinner.remove();
 				};
@@ -156,7 +156,7 @@ System.checkUserP([1, 2, 45], () => {
 					let btn_index = $(this).index();
 
 					if (contentID >= 0) {
-						if (confirm(System.data.locale.texts.moderate.do_you_want_to_delete)) {
+						if (confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
 							let reason = System.data.Brainly.deleteReasons.__withTitles[contentType][System.data.config.quickDeleteButtonsReasons[contentType][btn_index]];
 							let data = {
 								model_id: contentID,
@@ -179,7 +179,7 @@ System.checkUserP([1, 2, 45], () => {
 										Zadanium.toplayer.createdObjects[Zadanium.toplayer.createdObjects.length - 1].data.toplayer.setMessage(res.message, "failure")
 									}
 								} else {
-									Zadanium.toplayer.createdObjects[Zadanium.toplayer.createdObjects.length - 1].data.toplayer.setMessage(System.data.locale.texts.globals.errors.went_wrong, "failure")
+									Zadanium.toplayer.createdObjects[Zadanium.toplayer.createdObjects.length - 1].data.toplayer.setMessage(System.data.locale.common.notificationMessages.somethingWentWrong, "failure")
 								}
 								spinner.remove();
 							};

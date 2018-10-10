@@ -24,7 +24,7 @@ if (System.checkRoute(4, "") || System.checkRoute(4, "tasks") || System.checkRou
 	let taskContents = {};
 
 	System.checkUserP([1, 2, 6], () => {
-		$tableHeaderRow.prepend(`<th style="width: 5%;"><b>${System.data.locale.texts.user_content.select}</b></th>`);
+		$tableHeaderRow.prepend(`<th style="width: 5%;"><b>${System.data.locale.userContent.select}</b></th>`);
 
 		$contentRows.each((i, el) => {
 			$(el).prepend(`
@@ -56,7 +56,7 @@ if (System.checkRoute(4, "") || System.checkRoute(4, "tasks") || System.checkRou
 								</label>
 							</div>
 						</div>
-						<label class="sg-label__text" for="selectAll">${System.data.locale.texts.globals.select_all}</label>
+						<label class="sg-label__text" for="selectAll">${System.data.locale.common.selectAll}</label>
 					</div>
 				</td>
 			</tr>

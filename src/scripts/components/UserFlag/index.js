@@ -11,7 +11,7 @@ export default (gender = 0, page) => {
 		$userFlag = $(`
 		<div class="sg-actions-list__hole userFlag">
 			<div class="sg-badge sg-badge--lavender">
-				<div class="sg-text sg-text--xsmall sg-text--light sg-text--emphasised">${System.data.locale.texts.globals.extension_user}</div>
+				<div class="sg-text sg-text--xsmall sg-text--light sg-text--emphasised">${System.data.locale.common.extensionUser}</div>
 			</div>
 		</div>`);
 	}

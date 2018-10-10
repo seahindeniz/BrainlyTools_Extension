@@ -8,7 +8,7 @@ let processUser = user => {
 
 	if (user.checkInTime) {
 		time = moment(user.checkInTime).fromNow();
-		time = System.data.locale.texts.extension_options.manage_users.firstUsageTimeAgoPreTitle.replace("%s", time);
+		time = System.data.locale.popup.extensionManagement.users.firstUsageTimeAgoPreTitle.replace("%s", time);
 
 		if (user.approved) {
 			userStatus += " active";
@@ -16,7 +16,7 @@ let processUser = user => {
 			userStatus += " banned";
 		}
 	} else {
-		time = System.data.locale.texts.extension_options.manage_users["hasn'tUsed"];
+		time = System.data.locale.popup.extensionManagement.users.hasntUsed;
 	}
 
 	console.log(user);

@@ -37,7 +37,7 @@ System.checkUserP(1, () => {
 
 			if (question_id >= 0) {
 				if (btn_index == 1 || btn_index == 2) {
-					if (confirm(System.data.locale.texts.moderate.do_you_want_to_delete)) {
+					if (confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
 						let reason = System.data.Brainly.deleteReasons.__withTitles.task[System.data.config.quickDeleteButtonsReasons.task[btn_index]];
 						let taskData = {
 							model_id: question_id,
@@ -55,7 +55,7 @@ System.checkUserP(1, () => {
 									Notification(res.message, "error");
 								}
 							} else {
-								Notification(System.data.locale.texts.globals.errors.went_wrong, "error");
+								Notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
 							}
 							spinner.remove();
 							svg.show();
@@ -64,7 +64,7 @@ System.checkUserP(1, () => {
 				} else if (btn_index == 0) {
 					OpenModerationTicket(question_id, res => {
 						if (!res) {
-							Notification(System.data.locale.texts.globals.errors.went_wrong, "error");
+							Notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
 						} else if (!res.success) {
 							res && Notification(res.message, "error");
 						} else {
@@ -119,7 +119,7 @@ System.checkUserP(1, () => {
 								if (!window.selectedCategory) {
 									let $selectReasonWarn = $(".selectReasonWarn", $toplayer);
 									if ($selectReasonWarn.length == 0) {
-										$(`<div class="sg-bubble sg-bubble--bottom sg-bubble--row-start sg-bubble--peach sg-text--light selectReasonWarn">${System.data.locale.texts.moderate.choose_reason}</div>`).insertBefore($categories)
+										$(`<div class="sg-bubble sg-bubble--bottom sg-bubble--row-start sg-bubble--peach sg-text--light selectReasonWarn">${System.data.locale.common.moderating.selectReason}</div>`).insertBefore($categories)
 									} else {
 										$selectReasonWarn.fadeTo('fast', 0.5).fadeTo('fast', 1.0).fadeTo('fast', 0.5).fadeTo('fast', 1.0);
 									}
@@ -156,7 +156,7 @@ System.checkUserP(1, () => {
 		Console.error("Quick delete reasons cannot be found");
 	} else {
 		let data = [{
-			text: System.data.locale.texts.moderate.moreOptions,
+			text: System.data.locale.common.moderating.moreOptions,
 			type: "alt",
 			icon: "stream"
 		}];
@@ -205,7 +205,7 @@ System.checkUserP(1, () => {
  */
 let $todaysActions = $(`
 <div style="margin: -4px 0 3px;">
-	<span class="sg-text sg-text--obscure sg-text--gray sg-text--capitalize">${System.data.locale.texts.todays_actions}: </span>
+	<span class="sg-text sg-text--obscure sg-text--gray sg-text--capitalize">${System.data.locale.home.todaysActions}: </span>
 	<span class="sg-text sg-text--obscure sg-text--gray sg-text--emphasised">${System.data.Brainly.userData.user.mod_actions_count}</span>
 </div>`);
 

@@ -1,9 +1,10 @@
 import Request from "./Request";
 import Notification from "../components/Notification";
 import md5 from "js-md5";
+import Storage from "../helpers/extStorage";
 
 const ActionsOfServer = {
-	Auth(callback) {
+	userAuth(callback) {
 		let data = {
 			clientID: System.data.meta.manifest.clientID,
 			clientVersion: System.data.meta.manifest.version,
@@ -19,14 +20,34 @@ const ActionsOfServer = {
 			if (!res) {
 				Notification(System.data.locale.core.notificationMessages.extensionServerError + "<br>" + System.data.locale.core.notificationMessages.ifErrorPersists, "error", true);
 			} else if (!res.data.probatus) {
-				Notification(System.data.locale.core.notificationMessages.accessPermissionDenied, "error", true);
+				callback && Notification(System.data.locale.core.notificationMessages.accessPermissionDenied, "error", true);
 			} else {
 				System.data.Brainly.userData.extension = res.data;
-				callback(JSON.parse(atob(res.data.hash)));
+
+				Storage.setL({ authData: res.data });
+				callback && callback(JSON.parse(atob(res.data.hash)));
 			}
 
 		};
+
+		Storage.setL({ authData: null });
 		Request.ExtensionServerReq("POST", "/auth", data, authRequestHandler);
+	},
+	Auth(callback) {
+		Storage.getL("authData", authData => {
+			if (authData && authData.hash) {
+				System.data.Brainly.userData.extension = authData;
+
+				callback && callback(JSON.parse(atob(authData.hash)));
+				ActionsOfServer.userAuth(() => {
+					if (!System.data.Brainly.userData.extension.probatus) {
+						location.reload(true);
+					}
+				});
+			} else {
+				ActionsOfServer.userAuth(callback);
+			}
+		});
 	},
 	GetDeleteReasons(callback) {
 		Request.ExtensionServerReq("GET", "/deleteReasons", res => {

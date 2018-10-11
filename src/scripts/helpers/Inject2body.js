@@ -70,6 +70,12 @@ let inject_it = function(file_paths, add_ext_id) {
 							.then(add_ext_id)
 							.catch(add_ext_id);
 						break;
+					case "yml":
+						fetch(file_path_fixed)
+							.then(response => response.text())
+							.then(add_ext_id)
+							.catch(add_ext_id);
+						break;
 					case "ext_js":
 						elm = document.documentElement;
 						injected = document.createElement('script');

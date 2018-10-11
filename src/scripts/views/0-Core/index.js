@@ -14,9 +14,10 @@ import Request from "../../controllers/Request";
 import renderUserFinder from "../../components/UserFinder"
 import renderAnnouncements from "../../components/Announcements"
 import renderChatPanel from "../../components/ChatPanel"
-import { GetDeleteReasons } from "../../controllers/ActionsOfServer"
+import { Auth, GetDeleteReasons } from "../../controllers/ActionsOfServer"
 import { getAllFriends } from "../../controllers/ActionsOfBrainly"
 import Notification from "../../components/Notification";
+import yaml from "js-yaml";
 
 let System = new _System();
 window.System = System;
@@ -317,15 +318,19 @@ let fetchFriends = callback => {
 	});
 };
 let CheckForNewUpdate = () => {
-
+	if (System.data.Brainly.userData.extension.newUpdate) {
+		System.updateExtension();
+	}
 }
 let prepareLangFile = (language, callback) => {
-	Inject2body(`/config/locales/new/${language}.json`, localeData => {
+	Inject2body(`/config/locales/${language}.yml`, localeData => {
 		if (Object.prototype.toString.call(localeData) == "[object Error]") {
 			prepareLangFile("en_US", callback);
 
 			return false;
 		}
+
+		localeData = yaml.load(localeData);
 
 		callback && callback(localeData);
 	});
@@ -358,90 +363,94 @@ setMetaData(() => {
 
 						Console.info("Locale inject OK!");
 						System.shareGatheredData2Background(() => {
-							System.Auth((hash) => {
+							Auth((hash) => {
 								System.data.Brainly.userData._hash = hash;
 
 								Console.info("authProcess OK!");
 								CheckForNewUpdate();
-								/**
-								 * Wait for the declaration of the jQuery object
-								 */
-								WaitForFn("jQuery", obj => {
-									if (!obj) {
-										Console.error("Jquery error");
-									} else {
-										Console.info("Jquery OK!");
-										System.changeBadgeColor("loaded");
-										renderUserFinder();
-										renderAnnouncements();
-										renderChatPanel();
-										prepareDeleteReasons(() => {
-											Console.info("Delete reasons OK!");
+								if (System.data.Brainly.userData.extension.newUpdate) {
+									Notification(System.data.locale.core.notificationMessages.updateNeeded, "info", true);
+								} else {
+									/**
+									 * Wait for the declaration of the jQuery object
+									 */
+									WaitForFn("jQuery", obj => {
+										if (!obj) {
+											Console.error("Jquery error");
+										} else {
+											Console.info("Jquery OK!");
+											System.changeBadgeColor("loaded");
+											renderUserFinder();
+											renderAnnouncements();
+											renderChatPanel();
+											prepareDeleteReasons(() => {
+												Console.info("Delete reasons OK!");
 
-											if (System.checkRoute(1, "") || System.checkRoute(1, "task_subject_dynamic")) {
-												Inject2body([
-													"/scripts/lib/jquery-observe-2.0.3.min.js",
-													"/scripts/views/1-Home/index.js",
-													"/scripts/views/1-Home/Home.css"
-												])
-											}
+												if (System.checkRoute(1, "") || System.checkRoute(1, "task_subject_dynamic")) {
+													Inject2body([
+														"/scripts/lib/jquery-observe-2.0.3.min.js",
+														"/scripts/views/1-Home/index.js",
+														"/scripts/views/1-Home/Home.css"
+													])
+												}
 
-											if (System.checkRoute(1, "task_view")) {
-												Inject2body([
-													"/scripts/lib/jquery-observe-2.0.3.min.js",
-													"/scripts/views/3-Task/index.js",
-													"/scripts/views/3-Task/Task.css"
-												])
-											}
+												if (System.checkRoute(1, "task_view")) {
+													Inject2body([
+														"/scripts/lib/jquery-observe-2.0.3.min.js",
+														"/scripts/views/3-Task/index.js",
+														"/scripts/views/3-Task/Task.css"
+													])
+												}
 
-											if (System.checkRoute(2, "user_content") && !System.checkRoute(4, "comments_tr")) {
-												Inject2body([
-													"/scripts/views/4-UserContent/index.js",
-													System.data.Brainly.style_guide.css,
-													"/scripts/views/4-UserContent/UserContent.css"
-												])
-											}
+												if (System.checkRoute(2, "user_content") && !System.checkRoute(4, "comments_tr")) {
+													Inject2body([
+														"/scripts/views/4-UserContent/index.js",
+														System.data.Brainly.style_guide.css,
+														"/scripts/views/4-UserContent/UserContent.css"
+													])
+												}
 
-											if (System.checkRoute(2, "archive_mod")) {
-												Inject2body([
-													"/scripts/lib/jquery-observe-2.0.3.min.js",
-													"/scripts/views/6-ArchiveMod/index.js",
-													System.data.Brainly.style_guide.css,
-													System.data.Brainly.style_guide.icons,
-													"/scripts/views/6-ArchiveMod/ArchiveMod.css"
-												])
-											}
-										});
-
-										if (System.checkRoute(1, "messages")) {
-											fetchFriends(() => {
-												Inject2body([
-													"/scripts/lib/jquery-observe-2.0.3.min.js",
-													"/scripts/views/2-Messages/index.js",
-													"/scripts/views/2-Messages/Messages.css"
-												]);
+												if (System.checkRoute(2, "archive_mod")) {
+													Inject2body([
+														"/scripts/lib/jquery-observe-2.0.3.min.js",
+														"/scripts/views/6-ArchiveMod/index.js",
+														System.data.Brainly.style_guide.css,
+														System.data.Brainly.style_guide.icons,
+														"/scripts/views/6-ArchiveMod/ArchiveMod.css"
+													])
+												}
 											});
-										}
 
-										if (System.checkRoute(1, "user_profile") || (System.checkRoute(1, "users") && System.checkRoute(2, "view"))) {
-											fetchFriends(() => {
+											if (System.checkRoute(1, "messages")) {
+												fetchFriends(() => {
+													Inject2body([
+														"/scripts/lib/jquery-observe-2.0.3.min.js",
+														"/scripts/views/2-Messages/index.js",
+														"/scripts/views/2-Messages/Messages.css"
+													]);
+												});
+											}
+
+											if (System.checkRoute(1, "user_profile") || (System.checkRoute(1, "users") && System.checkRoute(2, "view"))) {
+												fetchFriends(() => {
+													Inject2body([
+														"/scripts/views/5-UserProfile/index.js",
+														System.data.Brainly.style_guide.css,
+														"/scripts/views/5-UserProfile/UserProfile.css"
+													]);
+												});
+											}
+
+											if (System.checkRoute(2, "view_user_warns")) {
 												Inject2body([
-													"/scripts/views/5-UserProfile/index.js",
+													"/scripts/views/7-UserWarnings/index.js",
 													System.data.Brainly.style_guide.css,
-													"/scripts/views/5-UserProfile/UserProfile.css"
+													"/scripts/views/7-UserWarnings/UserWarnings.css"
 												]);
-											});
+											}
 										}
-
-										if (System.checkRoute(2, "view_user_warns")) {
-											Inject2body([
-												"/scripts/views/7-UserWarnings/index.js",
-												System.data.Brainly.style_guide.css,
-												"/scripts/views/7-UserWarnings/UserWarnings.css"
-											]);
-										}
-									}
-								});
+									});
+								}
 							});
 						});
 					});

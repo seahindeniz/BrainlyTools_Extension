@@ -1,0 +1,172 @@
+common:
+  extensionUser: ''
+  selectAll: ''
+  progressing: ''
+  allDone: All done!
+  save: Save
+  clearInputs: Hapus input teks
+  delete: Hapus !
+  edit: ''
+  notificationMessages:
+    operationError: Terjadi kesalahan selama proses operasi. Silahkan mencoba kembali
+    somethingWentWrong: Oops, terjadi kesalahan
+    cannotShareUserInfoWithServer: Kesalahan tak terduga terjadi ketika mencoba mengirim informasi pengguna ke server ekstensi. Silakan coba lagi dalam 2 detik
+    ongoingProcess: Beberapa konten masih diproses. Apakah kamu ingin keluar dari halaman ini?
+    areYouSure: Kamu yakin?
+  moderating:
+    moreOptions: Lebih Banyak Opsi
+    moderate: Moderasi
+    doYouWantToDelete: Tolong pilih alasan penghapusan
+    selectReason: ''
+    editInPanel: Edit pada panel moderasi
+    point: poin
+    confirm: Konfirmasi
+    notificationMessages:
+      someOfSelectedAnswersAreApproved: ''
+      selectAnUnapprovedAnswerForApproving: ''
+      confirmApproving: ''
+    takePoints:
+      task:
+        text: Ambil kembali poin responden
+        title: Menghapus poin yang diterima oleh responden, ketika mereka menjawab pertanyaan
+      response:
+        text: Mengambil poin kembali
+        title: Mengambil kembali poin dari use
+    returnPoints:
+      text: Jangan kembalikan poin
+      title: Mengembalikan point penanya
+    giveWarning:
+      text: Beri peringatan
+      title: Menghapus konten yang dipilih dengan peringatan
+    approve: Menyetujui
+    approved: ''
+  personalNote:
+    placeholder: ''
+    title: ''
+popup:
+  notificationMessages:
+    shortLinkSuccessMessage: ''
+    languageChanged: Bahasa telah dipilih
+    cannotFindUser: Saya tidak dapat menemukan pengguna dengan memasukkan nomor ID
+    createdMessage: ''
+    updatedMessage: ''
+    removedMessage: ''
+    published: ''
+    unpublished: ''
+  createShortLinkButton:
+    text: Shorten URL
+    title: ''
+  extensionOptions:
+    title: Opsi Ekstensi
+    themeColor:
+      title: Warna Tema
+      setYourColor: ''
+      rainbow: Pelangi
+      pickAColor: ''
+      colorFormatInfo: ''
+    quickDeleteButtons:
+      text: Tombol hapus cepat
+      title: ''
+      task: Pertanyaan
+      response: Jawaban
+      comment: Komentar
+    otherOptions:
+      title: Pilihan Lain
+      extendMessagesLayout:
+        text: Memperluas pesan
+        title: Opsi ini akan memperpanjang tata letak halaman pesan.\nAnda dapat mencobanya ketika halaman pesan aktif
+      extensionLanguage:
+        text: Bahasa ekstensi
+        chooseLanguage: Pilih bahasa
+  extensionManagement:
+    title: ''
+    users:
+      text: ''
+      title: ''
+      addNewOrEditUser: ''
+      permission: ''
+      privileges: ''
+      # %{time} represents the date suffix of first usage time of the extension.
+      # Suffix will bee in your language as well. In English '5 days ago', in Turkish '5 gün önce'
+      # Started to use 5 days ago
+      firstUsageTimeAgoPreTitle: ''
+      hasntUsed: ''
+      privilegeList:
+      - type: 0
+        title: ''
+        description: ''
+      - type: 1
+        title: ''
+        description: ''
+      - type: 2
+        title: ''
+        description: ''
+      - type: 45
+        title: ''
+        description: ''
+      - type: 4
+        title: ''
+        description: ''
+      - type: 5
+        title: ''
+        description: ''
+      - type: 6
+        title: Jawaban disetujui
+        description: Di halaman konten pengguna, moderator dapat menyetujui jawabannya dengan memilih
+    announcements:
+      text: ''
+      addNewAnnouncement: ''
+      editorTitle: ''
+      editorContent: ''
+      cancelEdit: Batalkan pengeditan
+      update: Memperbarui
+      publish: ''
+      unpublish: ''
+      # \n represents the new line for clear reading
+      # %{date} represents the date when user readed the announcement. Example> Readed on 01.01.2018
+      readedOn: ''
+core:
+  notificationMessages:
+    cantFetchDeleteReasons: ''
+    userNotFound: Pengguna tidak ditemukan
+    extensionServerError: Terjadi kesalahan yang tidak terduga saat menghubungkan ke server ekstensi. Silakan coba lagi dalam ~5 detik.
+    ifErrorPersists: Jika kesalahan ini berlanjut, hubungi Mahapatih dan jelaskan apa yang terjadi :)
+    accessPermissionDenied: Kamu tidak memiliki wewenang untuk menggunakan ekstensi Brainly tools. Silahkan hubungi Mahapatih untuk mendapatkan izin atau hapus ekstensi ini dari browser kamu.
+  UserFinder:
+    profileID: Profil ID
+  announcements:
+    text: ''
+    title: ''
+    markAsRead: Tandai telah dibaca
+home:
+  todaysActions: Aksi hari ini
+userContent:
+  select: Pilih
+  notificationMessages:
+    selectAtLeasetOneQuestion: ''
+    selectAtLeasetOneAnswer: ''
+userProfile:
+  notificationMessages:
+    selectAtLeasetOneUser: ''
+    areYouSureDeleteSelectedFriends: ''
+    areYouSureRemoveAllFriends: ''
+    youHaveNoFriends: ''
+  previousNicks:
+    text: ''
+    title: ''
+  userDescription:
+    title: Deskripsi
+    description: ''
+  showAllFriends:
+    text: ''
+    title: ''
+  removeAllFriends:
+    text: ''
+    title: ''
+  removeSelectedFriends:
+    text: ''
+    title: ''
+userWarnings:
+  notificationMessages:
+    ifYouHavePrivileges: ''
+  cancelWarnings: ''

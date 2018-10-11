@@ -14,7 +14,7 @@ let processAnnouncement = announcement => {
 			!window.fetchedUsers[reader.user_id.brainlyID] && (window.fetchedUsers[reader.user_id.brainlyID] = null);
 			let time = moment(reader.time).format('LLLL');;
 			readers += `
-			<a class="level-item is-inline-block" data-user-id="${reader.user_id.brainlyID}" title="${System.data.locale.popup.extensionManagement.announcements.readedOn.replace("%s", time)}" target="_blank">
+			<a class="level-item is-inline-block" data-user-id="${reader.user_id.brainlyID}" title="${System.data.locale.popup.extensionManagement.announcements.readedOn.replace("%{date}}", time)}" target="_blank">
 				<figure class="image is-24x24">
 					<img class="avatar is-rounded" src="https://${System.data.meta.marketName}/img/avatars/100-ON.png">
 				</figure>

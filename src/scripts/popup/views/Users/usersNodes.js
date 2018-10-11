@@ -8,7 +8,7 @@ let processUser = user => {
 
 	if (user.checkInTime) {
 		time = moment(user.checkInTime).fromNow();
-		time = System.data.locale.popup.extensionManagement.users.firstUsageTimeAgoPreTitle.replace("%s", time);
+		time = System.data.locale.popup.extensionManagement.users.firstUsageTimeAgoPreTitle.replace("%{time}", time);
 
 		if (user.approved) {
 			userStatus += " active";

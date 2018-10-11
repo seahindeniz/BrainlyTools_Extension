@@ -4,7 +4,7 @@ import ext from "../utils/ext";
 import WaitForFn from "../helpers/WaitForFn";
 import Notification from "../components/Notification";
 import cookie from "js-cookie"
-import { Auth, Logger } from "./ActionsOfServer"
+import { Logger } from "./ActionsOfServer"
 import { getUserByID } from "./ActionsOfBrainly"
 
 class _System {
@@ -129,9 +129,6 @@ class _System {
 	pageLoaded(loadMessage) {
 		Console.log(loadMessage);
 		Console.log("Brainly Tools loaded in", Number((performance.now() - window.performanceStartTiming).toFixed(2)), "milliseconds");
-	}
-	Auth(callback) {
-		Auth(callback);
 	}
 	checkRoute(index, str) {
 		let curr_path = System.data.meta.location.pathname.split("/"),
@@ -259,6 +256,17 @@ class _System {
 		} else {
 			Logger(type, { id: targetUser.id, nick: (targetUser.nick || targetUser._nick) }, data);
 		}
+	}
+	updateExtension() {
+		ext.runtime.sendMessage(System.data.meta.extension.id, { action: "updateExtension" }, status => {
+			if (status == "update_available") {
+				console.log("update pending...");
+			} else if (status == "no_update") {
+				console.log("no update found");
+			} else if (status == "throttled") {
+				console.log("Asking too frequently. It's throttled");
+			}
+		});
 	}
 }
 export default _System;

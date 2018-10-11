@@ -1,0 +1,180 @@
+common:
+  extensionUser: Eklenti kullanıcısı
+  selectAll: Tümünü seç
+  progressing: İşleniyor
+  allDone: Tamamdır!
+  save: Kaydet
+  clearInputs: Metin girişlerini temizle
+  delete: Sil !
+  edit: Düzenle
+  notificationMessages:
+    operationError: İşlem sırasında bir hata oluştu. Tekrar deneyin
+    somethingWentWrong: Oops, bir hata oluştu
+    cannotShareUserInfoWithServer: Kullanıcı bilgilerini eklenti sunucusuna iletirken beklenmedik bir hata oluştu. 2 saniye sonra tekrar deneyin
+    ongoingProcess: Bazı içerikler halen işleniyor. Sayfadan ayrılmak istediğine emin misin?
+    areYouSure: Emin misin?
+  moderating:
+    moreOptions: Daha fazla
+    moderate: Düzenle
+    doYouWantToDelete: İçeriği silmek istiyor musun?
+    selectReason: Silim sebebi seçmelisin
+    editInPanel: Moderatör panelinde düzenle
+    point: puan
+    confirm: Onayla
+    notificationMessages:
+      someOfSelectedAnswersAreApproved: Seçilmiş bazı cevaplar zaten doğrulanmış. O yüzden tekrar doğrulamaya gerek kalmıyor
+      selectAnUnapprovedAnswerForApproving: Doğrulamaya başlamadan önce doğrulanmamış cevap(ları) seçmelisin
+      confirmApproving: Seçili cevabı/cevapları doğrulamak istiyor musun?
+    takePoints:
+      task:
+        text: Cevap verenlerin puanlarını al
+        title: RSoruya cevap verenlerden puanları geri al
+      response:
+        text: Kazandığı puanları geri al
+        title: Kişinin sorudan kazandığı puanları geri al
+    returnPoints:
+      text: Puanı iade et
+      title: Soru sahibine puanını iade et
+    giveWarning:
+      text: Uyarı ver
+      title: Uyarı vererek sil
+    approve: Doğrula
+    approved: Doğrulandı
+  personalNote:
+    placeholder: Not yaz..
+    title: Buraya, bu kullanıcıyla alakalı bir not ekleyebilirsin ve bu alan sadece sana özeldir
+popup:
+  notificationMessages:
+    shortLinkSuccessMessage: Kısa link oluşturuldu ve panoya kopyalandı(CTRL + C)
+    languageChanged: Dil değişti
+    cannotFindUser: Girilen ID numarasıyla kullanıcıyı bulamadım
+    createdMessage: Oluşturuldu
+    updatedMessage: Güncellendi
+    removedMessage: Kaldırıldı
+    published: Yayınlandı
+    unpublished: Yayından kaldırıldı
+  createShortLinkButton:
+    text: URL Kısalt
+    title: Görüntülenen web sitenin URL adresi için kısa link oluşturur
+  extensionOptions:
+    title: Eklenti Seçenekleri
+    themeColor:
+      title: Tema Rengi
+      setYourColor: Renk belirle
+      rainbow: Gökkuşağı
+      pickAColor: Renk seç
+      colorFormatInfo: 'Tema rengi, Hex kodlarıyla ayarlanabilir. Örneğin, kırmızı renk için #FF0000 şeklinde kod kullanılması gerekiyor'
+    quickDeleteButtons:
+      text: Hızlı Silim Butonları
+      title: Butonların silim sebeplerini belirleyebilirsin
+      task: Soru
+      response: Cevap
+      comment: Yorum
+    otherOptions:
+      title: Diğer Seçenekler
+      extendMessagesLayout:
+        text: Tamsayfa mesajlaşma
+        title: Bu seçenek, mesajlar sayfasının görünümünü genişletir. Mesajlar sayfası açıkken deneyebilirsin
+      extensionLanguage:
+        text: Eklenti dili
+        chooseLanguage: Dil seçin
+  extensionManagement:
+    title: Ekl. Yönetimi
+    users:
+      text: Kullanıcılar
+      title: Eklenti ile ilişkili kullanıcıların erişim izni ve yetkilerini buradan atayabilirsin
+      addNewOrEditUser: Eklenti kullanıcısı ekle veya düzenle
+      permission: Erişim izni
+      privileges: Yetkiler
+      # %{time} represents the date suffix of first usage time of the extension.
+      # Suffix will bee in your language as well. In English '5 days ago', in Turkish '5 gün önce'
+      # Started to use 5 days ago
+      firstUsageTimeAgoPreTitle: "%{time} kullanmaya başladı"
+      hasntUsed: Kullanıcı henüz eklentiyi kullanmadı
+      privilegeList:
+      - type: 0
+        title: Extension admin
+        description: Eklentiyi hiç bir sınırlama olmadan kullanma yetkisi
+      - type: 1
+        title: Hızlı soru silimi
+        description: Anasayfada, soru sayfasında ve Tümünü Düzelt'te hızlı silim butonlarını
+          kullanarak soru(ları) silme
+      - type: 2
+        title: Hızlı cevap silimi
+        description: Soru sayfasında ve Tümünü Düzelt'te hızlı silim butonlarını kullanarak
+          cevap(ları) silme
+      - type: 45
+        title: Hızlı yorum silimi
+        description: Soru sayfasında ve Tümünü Düzelt'te hızlı silim butonlarını kullanarak
+          yorum(ları) silme
+      - type: 4
+        title: Duyuru yönetimi
+        description: Eklenti duyuruları oluşturma, düzenleme, kaldırma ve yayınlama
+          yetkisi
+      - type: 5
+        title: Kullanıcı yönetimi
+        description: Eklenti kullanıcılarının erişim izni ve yetkilerini düzenleme
+          yetkisi
+      - type: 6
+        title: Hızlı cevap doğrulama
+        description: Kullanıcı bilgilerini gör sayfasında, kullanıcı cevaplarını seçerek
+          doğrulama
+    announcements:
+      text: Duyurular
+      addNewAnnouncement: Yeni duyuru ekle
+      editorTitle: Başlık
+      editorContent: İçerik
+      cancelEdit: Bitir
+      update: Güncelle
+      publish: Yayınla
+      unpublish: Yayından kaldır
+      # \n represents the new line for clear reading
+      # %{date} represents the date when user readed the announcement. Example> Readed on 01.01.2018
+      readedOn: Okunduğu zaman:\n%{date}
+core:
+  notificationMessages:
+    cantFetchDeleteReasons: Silim sebeplerini hazırlarken beklenmedik bir hata oluştu
+    userNotFound: Kullanıcı bulunamadı
+    extensionServerError: Sunucuya bağlanırken beklenmedik bir hata oluştu. ~2 saniye
+      sonra tekrar deneyin
+    ifErrorPersists: Hatanın devam etmesi halinde, lütfen eklenti yöneticisi ile iletişime
+      geçin ve durumu bilgilendirin :)
+    accessPermissionDenied: Brainly Tools eklentisini kullanma yetkisine sahip değilsin<br>Eklenti yöneticisi ile iletişime geçip yetki istemen gerekiyor ya da eklentiyi tarayıcından kaldırmalısın
+  UserFinder:
+    profileID: Profil ID
+  announcements:
+    text: Announcements
+    title: Duyuruyu okuduktan sonra "okundu" olarak işaretlemeniz gerekiyor
+    markAsRead: Okundu olarak işaretle
+home:
+  todaysActions: Eylem sayısı
+userContent:
+  select: Seç
+  notificationMessages:
+    selectAtLeasetOneQuestion: Devam etmek için en az bir soru seçmelisin
+    selectAtLeasetOneAnswer: Devam etmek için en az bir cevap seçmelisin
+userProfile:
+  notificationMessages:
+    selectAtLeasetOneUser: En az bir kullanıcı seçmelisin
+    areYouSureDeleteSelectedFriends: Seçili kişileri arkadaşlık listenden kaldırmak istiyor musun?
+    areYouSureRemoveAllFriends: Tüm arkadaşlarını silmek istediğinden emin misin?
+    youHaveNoFriends: Üzülme çünkü listeleyebileceğim bir arkadaşın yok :/ Sorry
+  previousNicks:
+    text: Önceki kullanıcı adları
+    title: Kişinin, eklentiye kayıt edilmiş olan önceki kullanıcı adları
+  userDescription:
+    title: Profil notu
+    description: Mobil uygulamada eklenen profil notu. Kullanıcı eğer, Brainly mobil uygulamasını kullanarak profil notu eklemişse, burada gözükecektir.
+  showAllFriends:
+    text: Tümünü göster
+    title: Tüm arkadaşlarını listele
+  removeAllFriends:
+    text: Unfriend all
+    title: Tüm arkadaşlarını arkadaşlık listenden kaldır
+  removeSelectedFriends:
+    text: Unfriend
+    title: Seçili olan arkadaşlarını, arkadaşlık listesinden kaldır
+userWarnings:
+  notificationMessages:
+    ifYouHavePrivileges: Yetkin varsa, seçtiğin uyarı(lar) geri alınır. Ayrıca işlem başladıktan sonra ~10 saniye kadar sayfayı terk etmemeni öneririm
+  cancelWarnings: Uyarıları geri al

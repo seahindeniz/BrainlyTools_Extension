@@ -87,10 +87,19 @@ popup:
       permission: Access permission
       privileges: Privileges
       # %{time} represents the date suffix of first usage time of the extension.
-      # Suffix will bee in your language as well. In English '5 days ago', in Turkish '5 gün önce'
-      # Started to use 5 days ago
+      # Suffix will needs to added in your language as well. Example: in English words will replaced as 'Started to use 5 days ago', in Turkish '5 gün önce kullanmaya başladı'
       firstUsageTimeAgoPreTitle: Started to use %{time}
       hasntUsed: User hasn't used the extension yet
+      explainingColors:
+        line1: Some users has colored border in their avatars and this colors shows that their access permission status of the extension.
+        # ! Important: You need to specify a color name inside the braces like this: in English {Red} or in Turkish {Kırmızı} or in Indonesian {Merah}
+        line2: "{Red} border means that shown user are banned from the extension."
+        # ! Important: You need to specify a color name inside the braces like this: in English {Mustard} or in Turkish {Hardal} or in Indonesian {Moster}
+        line3: "{Mustard} border means the user has permission to use the extension but hasn't started use it yet"
+        # ! Important: You need to specify a color name inside the braces like this: in English {Green} or in Turkish {Yeşil} or in Indonesian {Hijau}
+        line4: "{Green} color means the user is an active authorized user."
+        # ! Important: You need to specify the "no border" word inside the braces like this: in English {No border} or in Turkish {Kenarlığı olmayan}
+        line5: "{No border} means that user has some privileges assigned but not given permission to use the extension in their account and hasn't started to use the extension yet."
       privilegeList:
       - type: 0
         title: Extension admin

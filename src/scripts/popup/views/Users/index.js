@@ -45,11 +45,11 @@ const Users = (callback) => {
 						<div class="level-left"></div>
 					</nav>
 				</article>
-				<p class="help">Some users has colored border in their avatars and this color shows their permission status of extension usability.</br></br>
-				<b style="color:#f00">Red</b> border means this user are banned from the extension.</br>
-				<b style="color:#fc0">Mustard</b> border means the user has permission to use the extension but hasn't use it yet</br>
-				<b style="color:#0f0">Green</b> color means the user is an active user.</br>
-				<b>No border</b> color means that user has privilege assigned but not given permission to use the extension in their account and hasn't started to use yet.</p>
+				<p class="help">${System.data.locale.popup.extensionManagement.users.explainingColors.line1}</br></br>
+				${System.data.locale.popup.extensionManagement.users.explainingColors.line2.replace(/\{(.*)\}/, '<b style="color:#f00">$1</b>')}</br>
+				${System.data.locale.popup.extensionManagement.users.explainingColors.line3.replace(/\{(.*)\}/, '<b style="color:#fc0">$1</b>')}</br>
+				${System.data.locale.popup.extensionManagement.users.explainingColors.line4.replace(/\{(.*)\}/, '<b style="color:#0f0">$1</b>')}</br>
+				${System.data.locale.popup.extensionManagement.users.explainingColors.line5.replace(/\{(.*)\}/, '<b>$1</b>')}</p>
 			</div>
 		</article>
 	</div>`);
@@ -104,7 +104,7 @@ const Users = (callback) => {
 						</div>
 						<br>
 						<div class="control privileges is-hidden">
-							<label class="label">${System.data.locale.popup.extensionManagement.userManagement.privileges}</label>
+							<label class="label">${System.data.locale.popup.extensionManagement.users.privileges}</label>
 						</div>
 					</div>
 				</div>

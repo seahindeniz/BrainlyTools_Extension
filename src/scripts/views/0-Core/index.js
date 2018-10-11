@@ -17,7 +17,6 @@ import renderChatPanel from "../../components/ChatPanel"
 import { Auth, GetDeleteReasons } from "../../controllers/ActionsOfServer"
 import { getAllFriends } from "../../controllers/ActionsOfBrainly"
 import Notification from "../../components/Notification";
-import yaml from "js-yaml";
 
 let System = new _System();
 window.System = System;
@@ -322,19 +321,6 @@ let CheckForNewUpdate = () => {
 		System.updateExtension();
 	}
 }
-let prepareLangFile = (language, callback) => {
-	Inject2body(`/config/locales/${language}.yml`, localeData => {
-		if (Object.prototype.toString.call(localeData) == "[object Error]") {
-			prepareLangFile("en_US", callback);
-
-			return false;
-		}
-
-		localeData = yaml.load(localeData);
-
-		callback && callback(localeData);
-	});
-}
 
 setMetaData(() => {
 	Console.info("MetaData OK!");
@@ -358,7 +344,7 @@ setMetaData(() => {
 						Storage.set({ language });
 					}
 
-					prepareLangFile(language, localeData => {
+					System.prepareLangFile(language, localeData => {
 						System.data.locale = localeData;
 
 						Console.info("Locale inject OK!");
@@ -368,6 +354,7 @@ setMetaData(() => {
 
 								Console.info("authProcess OK!");
 								CheckForNewUpdate();
+
 								if (System.data.Brainly.userData.extension.newUpdate) {
 									Notification(System.data.locale.core.notificationMessages.updateNeeded, "info", true);
 								} else {

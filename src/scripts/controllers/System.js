@@ -3,9 +3,11 @@
 import ext from "../utils/ext";
 import WaitForFn from "../helpers/WaitForFn";
 import Notification from "../components/Notification";
-import cookie from "js-cookie"
-import { Logger } from "./ActionsOfServer"
-import { getUserByID } from "./ActionsOfBrainly"
+import cookie from "js-cookie";
+import { Logger } from "./ActionsOfServer";
+import { getUserByID } from "./ActionsOfBrainly";
+import Inject2body from "../helpers/Inject2body";
+import yaml from "js-yaml";
 
 class _System {
 	constructor() {
@@ -266,6 +268,21 @@ class _System {
 			} else if (status == "throttled") {
 				console.log("Asking too frequently. It's throttled");
 			}
+		});
+	}
+	prepareLangFile(language, callback) {
+		Inject2body(`/config/locales/${language}.yml`, localeData => {
+			if (Object.prototype.toString.call(localeData) == "[object Error]") {
+				if (language != "en_US") {
+					this.prepareLangFile("en_US", callback);
+				}
+
+				return false;
+			}
+
+			localeData = yaml.load(localeData);
+
+			callback && callback(localeData);
 		});
 	}
 }

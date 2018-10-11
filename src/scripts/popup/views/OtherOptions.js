@@ -80,7 +80,7 @@ const OtherOptions = (options, callback) => {
 	});
 
 	$dropdown.change(function() {
-		Inject2body(`/config/locales/${this.value}.json`, localeData => {
+		System.prepareLangFile(this.value, localeData => {
 			System.data.locale = localeData;
 			Notification(System.data.locale.popup.notificationMessages.languageChanged, "success");
 			console.log(this.value);

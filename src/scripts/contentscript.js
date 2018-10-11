@@ -1,3 +1,4 @@
+require("./helpers/preExecuteScripts")();
 import ext from "./utils/ext";
 import Inject2body from "./helpers/Inject2body";
 //import WaitForElm from "./helpers/WaitForElm";
@@ -23,7 +24,6 @@ System.data.meta.extension = {
 window.System = System;
 System.changeBadgeColor("loading");
 
-require("./helpers/preExecuteScripts")();
 
 Inject2body("/scripts/helpers/prototypeOverrides.js");
 Inject2body(["/scripts/views/0-Core/index.js", "/scripts/views/0-Core/Core.css"]);

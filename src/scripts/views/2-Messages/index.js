@@ -12,9 +12,7 @@ const selectors = {
 	get profileLinkContainer() {
 		return "section.brn-messages__chatbox:not(.group_mesaj)" + selectors.profileLinkContainerSub;
 	},
-
 	profileLink: ".sg-actions-list__hole:nth-child(2) a",
-
 	chatBox: "#private-messages-container"
 }
 let profileLinkContainerFound = function(targetElm) {

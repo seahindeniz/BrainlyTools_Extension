@@ -5,8 +5,11 @@ import MakeExpire from "./MakeExpire";
 
 export default color => {
 	let rainbow = false;
-	if (color.indexOf(",") >= 0)
+
+	if (color.indexOf(",") >= 0) {
 		rainbow = true;
+	}
+
 	let personalColors = `
 	.sg-header__container,
 	.sg-button-primary--alt,
@@ -16,8 +19,7 @@ export default color => {
 	#html .mint #tabs-doj #main_menu>li.active,
 	#html .mint #footer,
 	.sg-box--blue {
-		${!rainbow ? "background-color: " + color + ";" : ""}
-		${rainbow ? "background-image: linear-gradient(to right, " + color + "); color: #fff;" : ""}
+		${!rainbow ? "background-color: " + color + ";" : "background-image: linear-gradient(to right, " + color + "); color: #fff;"}
 	}
 	
 	.sg-link:not([class*="gray"]):not([class*="light"]):not([class*="mustard"]):not([class*="peach"]),
@@ -27,6 +29,7 @@ export default color => {
 	#html .mint #profile #main-left .personal_info .helped_subjects>li .green{
 		color: ${color};
 	}
+
 	.sg-button-secondary--alt-inverse {
 		color: ${color};
 		fill: ${color};
@@ -36,6 +39,7 @@ export default color => {
 		if (head) {
 			head = head[0];
 			let $personalColors = document.getElementById("personalColors");
+
 			if ($personalColors) {
 				$personalColors.innerHTML = personalColors;
 			} else {
@@ -44,12 +48,13 @@ export default color => {
 				$personalColors.type = 'text/css';
 				$personalColors.id = "personalColors"
 
-				var styles = `<style id="personalColors">${personalColors}</style>`;
+				//var styles = `<style id="personalColors">${personalColors}</style>`;
 
-				if ($personalColors.styleSheet)
-					$personalColors.styleSheet.cssText = styles;
-				else
-					$personalColors.appendChild(document.createTextNode(styles));
+				if ($personalColors.styleSheet) {
+					$personalColors.styleSheet.cssText = personalColors;
+				} else {
+					$personalColors.appendChild(document.createTextNode(personalColors));
+				}
 
 				head.appendChild($personalColors);
 
@@ -59,7 +64,7 @@ export default color => {
 				if (_loop_personalColors_expire < new Date().getTime()) {
 					clearInterval(_loop_personalColors);
 				}
-				
+
 				$personalColors.parentNode && $personalColors.parentNode.appendChild($personalColors);
 			});
 		}

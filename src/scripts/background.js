@@ -25,7 +25,6 @@ window.System = System;
 System.init();
 
 let badge_update = opt => {
-	console.log("Badge updated");
 	browserAction.setBadgeText({
 		//tabId: opt.id,
 		text: opt.text
@@ -38,22 +37,14 @@ let badge_update = opt => {
 browserAction.disable();
 
 const onRequest = function(request, sender, sendResponse) {
-	if (request.action === "perform-save") {
-		console.log("Extension Type: ", "/* @echo extension */");
-		console.log("PERFORM AJAX", request.data);
-
-		sendResponse({ action: "saved" });
-	}
 	if (request.action == "i18n") {
 		sendResponse(ext.i18n.getMessage(request.data));
 	}
 	if (request.action == "storageSet") {
 		storageS.get(request.marketKey, res => {
 			let data = {};
-			console.log("res[request.marketKey]: ", res[request.marketKey]);
-			console.log("request.data: ", request.data);
 			data[request.marketKey] = { ...res[request.marketKey], ...request.data };
-			console.log("data: ", data);
+
 			storageS.set(data, res => {
 				sendResponse("true");
 			});
@@ -86,17 +77,18 @@ const onRequest = function(request, sender, sendResponse) {
 	if (request.action == "storageSetL") {
 		storageL.get(request.marketKey, res => {
 			let data = {};
-			data[request.marketKey] = { ...request.data, ...res[request.marketKey] };
+			data[request.marketKey] = { ...res[request.marketKey], ...request.data };
+
 			storageL.set(data, res => {
-				sendResponse(true);
+				sendResponse("true");
 			});
 		});
 		return true;
 	}
 	if (request.action == "storageGetL") {
 		storageL.get(request.marketKey, res => {
-			//console.log('storageL', res)
 			let _res = {};
+
 			if (Object.prototype.toString.call(request.data) === "[object Array]") {
 				for (let i = 0, obj;
 					(obj = request.data[i]); i++) {
@@ -104,8 +96,9 @@ const onRequest = function(request, sender, sendResponse) {
 						_res[obj] = res[request.marketKey][obj];
 				}
 			} else if (typeof request.data === "string") {
-				if (res[request.marketKey])
+				if (res[request.marketKey]) {
 					_res = res[request.marketKey][request.data];
+				}
 			}
 			sendResponse(_res);
 		});
@@ -163,6 +156,16 @@ const onRequest = function(request, sender, sendResponse) {
 			}
 		}).fail(function(err) {
 			sendResponse(false, err);
+		});
+		return true;
+	}
+	if (request.action === "updateExtension") {
+		ext.runtime.requestUpdateCheck(function(status) {
+			sendResponse(status);
+
+			if (status == "update_available") {
+				ext.runtime.reload();
+			}
 		});
 		return true;
 	}

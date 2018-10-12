@@ -5,7 +5,6 @@ TODO:
 			- Auth kontrollerini ilk seferde senkron, localstorage da varsa asenkron yap. Böylece kişiyi bekletme süresi azalır. Ayrıca asenkron yapıldığında gelen cevaba göre eklentinin kullanım izni yoksa/kaldırılmışsa, anında kullanıma kapansın veya sayfayı yenilesin.
 			- Eklenti kullanıcısı, moderatör değilse otomatik olarak eklenti izni kaldırılsın.
 			- Eklenti kullanıcısı, doğrulama gibi özel izin gerektiren eylemlerde, brainly privilege'i kontrol edilsin ve ona göre içerik gösterilsin.
-			- Eklentinin sürüm kontrolü yapılsın ve eğer yeni sürüm varsa eklenti kendini güncelleyebilsin. Böyle bir seçenek olmazsa şayet, kullanıcının eklentiyi kullanmasını kısıtlasın.
 
 			- Marketler arasında geçiş yapınca eklenti kitleniyor
 
@@ -42,6 +41,7 @@ TODO:
 		Extension:
 			+ Sunucuya yapılan her isteği logla
 			
+			+ Eklentinin sürüm kontrolü yapılsın ve eğer yeni sürüm varsa eklenti kendini güncelleyebilsin. Böyle bir seçenek olmazsa şayet, kullanıcının eklentiyi kullanmasını kısıtlasın.
 			+ Silim sebepleri sunucu tarafından güncellenmeli. Brainly silim sebeplerini karmaşık bir biçimde sunuyor. Bu yüzden eklenti sunucusunda işlev yazılıp, her gün güncelleme yapacak şekilde kodlanmalı. Eklenti ise her sayfa yenilendiğinde bu verileri asenkron bir biçimde arkaplanda çekmeli ve işlemeli. 
 			+ Reklamlar kaldırmak için ekleme yap ve eklenti seçeneklerine ekle
 			+ Eklenti nin simgesine badge renkleri ekle. BeforeStart: Red, SystemInit: Yellow, SystemLoad: Green

@@ -150,6 +150,18 @@ core:
     markAsRead: Mark as read
 home:
   todaysActions: Today's actions
+messages:
+  groups: 
+    title: Groups
+    createGroup: Create a group
+    groupName: Group name
+    groupMembers: Group members
+    findUsers: Find users
+    notificationMessages:
+      doYouWantToSaveChanges: Do you want to save your changes?
+      # %{groupName} represents the new group name. Example notification> My friends successfully created
+      groupCreated: "%{groupName} successfully created"
+      cantCreate: I can't create this group because something must be wrong. Could you please check your details?
 userContent:
   select: Select
   notificationMessages:

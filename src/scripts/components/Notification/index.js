@@ -28,10 +28,15 @@ let makeFlash = (message, type = "", permanent = false) => {
 				<div class="sg-text sg-text--to-center sg-text--emphasised sg-text--small sg-text--light">${message}</div>
 			</div>
 		</div>`);
+
 		flash.appendTo(".flash-messages-container");
+
 		let flashClickHandler = () => flash.remove();
+		
 		flash.click(flashClickHandler);
 		!permanent && setTimeout(flashClickHandler, 10000);
+
+		return flash;
 	}
 }
 

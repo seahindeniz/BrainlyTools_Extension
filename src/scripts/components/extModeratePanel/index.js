@@ -1,6 +1,6 @@
 "use strict";
 
-import makeModal from "../../components/ModalToplayer";
+import Modal from "../../components/ModalToplayer";
 import DeleteReasonCategoryList from "../../components/DeleteReasonCategoryList";
 import DeleteSection from "../DeleteSection";
 
@@ -38,7 +38,7 @@ const createPanel = res => {
 	});
 
 	
-	let $toplayer = makeModal(
+	let $toplayer = new Modal(
 		`<div class="sg-actions-list sg-actions-list--space-between">
 			<div class="sg-actions-list__hole">
 				<div class="sg-label sg-label--small sg-label--secondary">
@@ -130,9 +130,9 @@ const createPanel = res => {
 		</section>`*/
 	);
 
-	let taskContent = $(".taskContent", $toplayer);
-	let $taskContentH1 = $(".taskContent > h1", $toplayer);
-	let $toplayerContentBox = $(".sg-toplayer__wrapper > .sg-content-box > div:nth-child(2)", $toplayer);
+	let taskContent = $(".taskContent", $toplayer.$);
+	let $taskContentH1 = $(".taskContent > h1", $toplayer.$);
+	let $toplayerContentBox = $(".sg-toplayer__wrapper > .sg-content-box > div:nth-child(2)", $toplayer.$);
 	let brMatch = res.data.task.content.match(/<br\s*\/?>/gmi);
 
 	DeleteSection(res.data.delete_reasons.task, "task").appendTo($toplayerContentBox);
@@ -141,12 +141,12 @@ const createPanel = res => {
 		taskContent.removeClass("js-shrink")
 	}
 
-	let taskContentShowMore = $(".taskContent > span", $toplayer);
+	let taskContentShowMore = $(".taskContent > span", $toplayer.$);
 	taskContentShowMore.click(function(){
 		taskContent.removeClass("js-shrink")
 	});
 
-	return $toplayer;
+	return $toplayer.$;
 }
 
 export default createPanel;

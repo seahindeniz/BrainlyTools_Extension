@@ -114,5 +114,11 @@ const ActionsOfServer = {
 	GetUsers(callback) {
 		Request.ExtensionServerReq("GET", "/users", callback);
 	},
+	GetMessageGroups(callback) {
+		Request.ExtensionServerReq("GET", "/messageGroups", callback);
+	},
+	CreateMessageGroup(data, callback) {
+		Request.ExtensionServerReq("POST", "/messageGroup", data, callback);
+	}
 }
 export default ActionsOfServer;

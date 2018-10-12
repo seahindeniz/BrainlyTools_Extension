@@ -1,3 +1,9 @@
+section.brn-messages__conversations {
+	>div.sg-content-box>div.sg-content-box__header.dock-box__top>a:nth-child(2) {
+		margin-left: auto;
+	}
+}
+
 section.brn-messages__chatbox>div.sg-content-box>div.sg-content-box__header {
 	align-items: start;
 	margin-bottom: 10px;
@@ -29,7 +35,8 @@ section.brn-messages__chatbox>div.sg-content-box>div.sg-content-box__header {
 				overflow: auto;
 				color: #000;
 			}
-			&:not(:focus){
+
+			&:not(:focus) {
 				padding: 0;
 			}
 
@@ -37,5 +44,27 @@ section.brn-messages__chatbox>div.sg-content-box>div.sg-content-box__header {
 				border: 3px solid #a7e6c6;
 			}
 		}
+	}
+}
+
+.js-modal {
+	.group-header {
+		.sg-actions-list__hole {
+			&:nth-child(1) {
+				display: flex;
+			}
+
+			&:nth-child(2) {
+				width: 50%;
+			}
+
+			.js-first-letter {
+				text-shadow: 0px 0px 0.5px;
+			}
+		}
+	}
+
+	div.sg-card>div.sg-card__hole>ul {
+		height: 10rem;
 	}
 }

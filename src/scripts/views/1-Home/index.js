@@ -100,7 +100,7 @@ System.checkUserP(1, () => {
 									}
 									Notification(res.message, notifyType);
 									clearInterval(_loop_panelCounter);
-									$closeIcon.parents(".js-moderate-modal").remove();
+									$closeIcon.parents(".js-modal").remove();
 								});
 							}
 
@@ -139,7 +139,7 @@ System.checkUserP(1, () => {
 									RemoveQuestion(taskData, (res) => {
 										if (res && res.success) {
 											feedContentBox.addClass("sg-flash__message--error");
-											$closeIcon.parents(".js-moderate-modal").remove();
+											$closeIcon.parents(".js-modal").remove();
 											clearInterval(_loop_panelCounter);
 										}
 									});

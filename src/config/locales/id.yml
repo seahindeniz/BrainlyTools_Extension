@@ -1,34 +1,34 @@
 common:
-  extensionUser: ''
-  selectAll: ''
-  progressing: ''
+  extensionUser: Extension user
+  selectAll: Pilih semua
+  progressing: Progressing
   allDone: All done!
   save: Save
   clearInputs: Hapus input teks
   delete: Hapus !
-  edit: ''
+  edit: Edit
   notificationMessages:
     operationError: Terjadi kesalahan selama proses operasi. Silahkan mencoba kembali
-    somethingWentWrong: Oops, terjadi kesalahan
+    somethingWentWrong: "Oops, terjadi kesalahan"
     cannotShareUserInfoWithServer: Kesalahan tak terduga terjadi ketika mencoba mengirim informasi pengguna ke server ekstensi. Silakan coba lagi dalam 2 detik
-    ongoingProcess: Beberapa konten masih diproses. Apakah kamu ingin keluar dari halaman ini?
-    areYouSure: Kamu yakin?
+    ongoingProcess: "Beberapa konten masih diproses. Apakah kamu ingin keluar dari halaman ini?"
+    areYouSure: "Kamu yakin?"
   moderating:
     moreOptions: Lebih Banyak Opsi
     moderate: Moderasi
     doYouWantToDelete: Tolong pilih alasan penghapusan
-    selectReason: ''
+    selectReason: Pilih sebuah alasan
     editInPanel: Edit pada panel moderasi
     point: poin
     confirm: Konfirmasi
     notificationMessages:
-      someOfSelectedAnswersAreApproved: ''
-      selectAnUnapprovedAnswerForApproving: ''
-      confirmApproving: ''
+      someOfSelectedAnswersAreApproved: "Beberapa dari jawaban yang dipilih telah disetujui, sehingga kamu tidak perlu untuk menyetujui jawaban iini lagi."
+      selectAnUnapprovedAnswerForApproving: Kamu perlu memilih beberapa jawaban yang belum disetujui untuk memulai menyetujui
+      confirmApproving: "Apakah kamu ingin menyetujui jawaban ini?"
     takePoints:
       task:
         text: Ambil kembali poin responden
-        title: Menghapus poin yang diterima oleh responden, ketika mereka menjawab pertanyaan
+        title: "Menghapus poin yang diterima oleh responden, ketika mereka menjawab pertanyaan"
       response:
         text: Mengambil poin kembali
         title: Mengambil kembali poin dari use
@@ -39,34 +39,34 @@ common:
       text: Beri peringatan
       title: Menghapus konten yang dipilih dengan peringatan
     approve: Menyetujui
-    approved: ''
+    approved: Disetujui
   personalNote:
-    placeholder: ''
-    title: ''
+    placeholder: Tambahkan catatan pribadi
+    title: Kamu dapat menambahkan catatan pribadi disini dan ini itu hanya akan berhubungan dengan user ini saja
 popup:
   notificationMessages:
-    shortLinkSuccessMessage: ''
+    shortLinkSuccessMessage: Short link telah dibuat dan ditambahkan ke clipboard (CTRL + C)
     languageChanged: Bahasa telah dipilih
     cannotFindUser: Saya tidak dapat menemukan pengguna dengan memasukkan nomor ID
-    createdMessage: ''
-    updatedMessage: ''
-    removedMessage: ''
-    published: ''
-    unpublished: ''
+    createdMessage: Berhasil dibuat
+    updatedMessage: Updated successfully
+    removedMessage: Penghapusan sukses
+    published: Published
+    unpublished: Unpublished
   createShortLinkButton:
     text: Shorten URL
-    title: ''
+    title: Buat sebuah tautan pendek untuk halaman web ini
   extensionOptions:
     title: Opsi Ekstensi
     themeColor:
       title: Warna Tema
-      setYourColor: ''
+      setYourColor: Atur warna mu
       rainbow: Pelangi
-      pickAColor: ''
-      colorFormatInfo: ''
+      pickAColor: Pilih warna
+      colorFormatInfo: 'Kamu dapat mengatur warna tema dengan kode warna Hex. Maksud saya, kamu perlu untuk mengatur  #FF0000 untuk warna merah'
     quickDeleteButtons:
       text: Tombol hapus cepat
-      title: ''
+      title: Kamu dapat mengatur alasan penghapusan di tombol cepat
       task: Pertanyaan
       response: Jawaban
       comment: Komentar
@@ -79,105 +79,105 @@ popup:
         text: Bahasa ekstensi
         chooseLanguage: Pilih bahasa
   extensionManagement:
-    title: ''
+    title: Ext. Management
     users:
-      text: ''
-      title: ''
-      addNewOrEditUser: ''
-      permission: ''
-      privileges: ''
+      text: Users
+      title: Kamu dapat mengatur izin  dan privileges pengguna ekstensi
+      addNewOrEditUser: Tambahkan pengguna baru atau edit ekstension pengguna
+      permission: Izin akses
+      privileges: Privileges
       # %{time} represents the date suffix of first usage time of the extension.
       # Suffix will bee in your language as well. In English '5 days ago', in Turkish '5 gün önce'
       # Started to use 5 days ago
-      firstUsageTimeAgoPreTitle: ''
-      hasntUsed: ''
+      firstUsageTimeAgoPreTitle: "Mulai digunakan pada %{time}"
+      hasntUsed: Pengguna belum menggunakan ekstensi
       explainingColors:
-        line1: ''
+        line1: Beberapa pengguna memiliki warna pada border avatar mereka dan warna ini menunjukkan status izin penggunaan ekstensi mereka
         # ! Important: You need to specify a color name inside the braces like this: in English {Red} or in Turkish {Kırmızı} or in Indonesian {Merah}
-        line2: ''
+        line2: "Boerder {Merah} berarti pengguna yang ditampilkan dilarang menggunakan ekstensi"
         # ! Important: You need to specify a color name inside the braces like this: in English {Mustard} or in Turkish {Hardal} or in Indonesian {Moster}
-        line3: ''
+        line3: "Border {Mustard} berarti pengguna memiliki izin untuk menggunakan ekstensi tetapi belum mulai menggunakannya"
         # ! Important: You need to specify a color name inside the braces like this: in English {Green} or in Turkish {Yeşil} or in Indonesian {Hijau}
-        line4: ''
+        line4: "Warna {hijau} berarti pengguna ini adalah pengguna resmi aktif"
         # ! Important: You need to specify the "no border" word inside the braces like this: in English {No border} or in Turkish {Kenarlığı olmayan}
-        line5: ''
+        line5: "{Tidak ada border} berarti bahwa pengguna memiliki beberapa privilege yang ditetapkan tetapi tidak diberi izin untuk menggunakan ekstensi di akun mereka dan belum mulai menggunakan ekstensi."
       privilegeList:
       - type: 0
-        title: ''
-        description: ''
+        title: Jawaban disetujui
+        description: "Di halaman konten pengguna, moderator dapat menyetujui jawabannya dengan memilih"
       - type: 1
-        title: ''
-        description: ''
+        title: Tombol hapus cepat
+        description: "Di hompage, halaman pertanyaan dan arsip moderator, pengguna dapat menggunakan tombol penghapusan cepat untuk menghapus beberapa jawaban"
       - type: 2
-        title: ''
-        description: ''
+        title: Tombol hapus cepat
+        description: "Di halaman pertanyaan dan arsip moderator, pengguna dapat menggunakan tombol penghapusan cepat untuk menghapus beberapa jawaban"
       - type: 45
-        title: ''
-        description: ''
+        title: Tombol hapus cepat
+        description: "Dalam halaman pertanyaan dan halaman arisp moderator, pengguna dapat menggunakan tombol hapus cepat untuk menghapus beberapa komentar."
       - type: 4
-        title: ''
-        description: ''
+        title: Pengaturan Pengumuman
+        description: "Dapat membuat, mengedit menghapus atau mempublikasikan pengumuman ekstensi internal"
       - type: 5
-        title: ''
-        description: ''
+        title: User management
+        description: Dapat menambahkan atau mengedit ekstensi user dan memberikan mereka privileges atau izin untuk menggunakan ekstensi
       - type: 6
         title: Jawaban disetujui
-        description: Di halaman konten pengguna, moderator dapat menyetujui jawabannya dengan memilih
+        description: "Di halaman konten pengguna, moderator dapat menyetujui jawabannya dengan memilih"
     announcements:
-      text: ''
-      addNewAnnouncement: ''
-      editorTitle: ''
-      editorContent: ''
+      text: Pengumuman
+      addNewAnnouncement: Tambahkan sebuah pengumuman
+      editorTitle: Judul
+      editorContent: Konten
       cancelEdit: Batalkan pengeditan
       update: Memperbarui
-      publish: ''
-      unpublish: ''
+      publish: Publish
+      unpublish: Unpublish
       # \n represents the new line for clear reading
       # %{date} represents the date when user readed the announcement. Example> Readed on 01.01.2018
-      readedOn: ''
+      readedOn: "Dibaca pada:\\n%{date}"
 core:
   notificationMessages:
-    cantFetchDeleteReasons: ''
+    cantFetchDeleteReasons: Kesalahan tak terduga terjadi selama mempersiapkan alasan penghapusan
     userNotFound: Pengguna tidak ditemukan
     extensionServerError: Terjadi kesalahan yang tidak terduga saat menghubungkan ke server ekstensi. Silakan coba lagi dalam ~5 detik.
-    ifErrorPersists: Jika kesalahan ini berlanjut, hubungi Mahapatih dan jelaskan apa yang terjadi :)
+    ifErrorPersists: "Jika kesalahan ini berlanjut, hubungi Mahapatih dan jelaskan apa yang terjadi :)"
     accessPermissionDenied: Kamu tidak memiliki wewenang untuk menggunakan ekstensi Brainly tools. Silahkan hubungi Mahapatih untuk mendapatkan izin atau hapus ekstensi ini dari browser kamu.
-    updateNeeded: ''
+    updateNeeded: Ekstensi memiliki sebuah versi baru dan browser kamu perlu diupdate. Proses ini akan dilakukan secara otomatis dan kamu perlu untuk menyegarkan halaman dalam ~`10 detik
   UserFinder:
     profileID: Profil ID
   announcements:
-    text: ''
-    title: ''
+    text: Pengumuman
+    title: "Ketika kamu telah membaca pengumuman, kamu perlu untuk menandainya sebagai telah dibaca"
     markAsRead: Tandai telah dibaca
 home:
   todaysActions: Aksi hari ini
 userContent:
   select: Pilih
   notificationMessages:
-    selectAtLeasetOneQuestion: ''
-    selectAtLeasetOneAnswer: ''
+    selectAtLeasetOneQuestion: Pilih setidaknya satu pertanyaan
+    selectAtLeasetOneAnswer: Pilih setidaknya satu jawaban
 userProfile:
   notificationMessages:
-    selectAtLeasetOneUser: ''
-    areYouSureDeleteSelectedFriends: ''
-    areYouSureRemoveAllFriends: ''
-    youHaveNoFriends: ''
+    selectAtLeasetOneUser: Kamu perlu memilih setidaknya satu pengguna
+    areYouSureDeleteSelectedFriends: "Apakah kamu yakin akan menghapus ingin menghapus pengguna yang dipilih dari daftar teman?"
+    areYouSureRemoveAllFriends: "Apakah kamu yakin ingin menghapus semua daftar temanmu?"
+    youHaveNoFriends: "Jangan sedih karena kamu tidak memiliki teman dalam daftar kamu.:/ Maaf"
   previousNicks:
-    text: ''
-    title: ''
+    text: Nick sebelumnya
+    title: Nick pengguna sebelumnya yang terdaftar di database
   userDescription:
     title: Deskripsi
-    description: ''
+    description: "Teks deskripsi pengguna dari aplikasi mobile. Jika pengguna menambahkan sebuah pesan deskripsi pribadi di aplikasi mobile Brainly, maka akan ditampilkan disini"
   showAllFriends:
-    text: ''
-    title: ''
+    text: Tampilkan semua
+    title: Daftar teman kamu
   removeAllFriends:
-    text: ''
-    title: ''
+    text: Unfriend all
+    title: Hapus semua daftar temanmu
   removeSelectedFriends:
-    text: ''
-    title: ''
+    text: Unfriend
+    title: Kamu dapat menghapus teman yang kamu pilih dari daftar temanmu
 userWarnings:
   notificationMessages:
-    ifYouHavePrivileges: ''
-  cancelWarnings: ''
+    ifYouHavePrivileges: Peringatan akan dihapus jika kamu memiliki wewenang. Kami juga menyarankan kamu untuk menunggu sekitar ~10 menit setelah proses dimulai
+  cancelWarnings: Cancel peringatan

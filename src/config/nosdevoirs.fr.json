@@ -16,7 +16,7 @@
 		}]
 	},
 	"quickDeleteButtonsDefaultReasons": {
-		"task": ["Devoir incomplet", "Question déjà posée"],
+		"task": ["Devoir incomplet", "Politesse"],
 		"response": ["Réponse fausse", "Commentaires", "Copie d'une autre source"],
 		"comment": ["Contenu inapproprié", "Publicité pour un autre devoir", "Copie"]
 	}

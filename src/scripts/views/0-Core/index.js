@@ -211,96 +211,48 @@ let prepareDeleteButtonSettings = (callback) => {
 		}
 	});
 }
+let prepareDeleteReasonsWithGet = (callback) => {
+	GetDeleteReasons(deleteReasons => {
+
+		if (deleteReasons.empty) {
+			Notification(System.data.locale.core.notificationMessages.cantFetchDeleteReasons, "error");
+		} else {
+			let deleteReasonsKeys = Object.keys(deleteReasons);
+			deleteReasons.__withTitles = {};
+
+			deleteReasonsKeys.forEach(reasonKey => {
+				let reason = deleteReasons[reasonKey];
+				deleteReasons.__withTitles[reasonKey] = {
+					__categories: {}
+				};
+
+				reason.forEach(elm => {
+					deleteReasons.__withTitles[reasonKey].__categories[elm.id] = elm;
+
+					elm.subcategories.forEach(subcategory => {
+						subcategory.category_id = elm.id;
+						let title = subcategory.title == "" ? elm.text : subcategory.title;
+						title = title.trim();
+						deleteReasons.__withTitles[reasonKey][title] = subcategory;
+					});
+				});
+			});
+			Storage.setL({ deleteReasons }, () => {
+				System.data.Brainly.deleteReasons = deleteReasons;
+				callback && prepareDeleteButtonSettings(callback)
+			});
+		}
+	});
+};
 let prepareDeleteReasons = callback => {
 	Storage.getL("deleteReasons", res => {
 		if (res) {
 			System.data.Brainly.deleteReasons = res;
+
 			prepareDeleteButtonSettings(callback)
+			prepareDeleteReasonsWithGet();
 		} else {
-			GetDeleteReasons(deleteReasons => {
-
-				if (deleteReasons.empty) {
-					Notification(System.data.locale.core.notificationMessages.cantFetchDeleteReasons, "error");
-				} else {
-					let deleteReasonsKeys = Object.keys(deleteReasons);
-					deleteReasons.__withTitles = {};
-
-					deleteReasonsKeys.forEach(reasonKey => {
-						let reason = deleteReasons[reasonKey];
-						deleteReasons.__withTitles[reasonKey] = {
-							__categories: {}
-						};
-						reason.forEach(elm => {
-							deleteReasons.__withTitles[reasonKey].__categories[elm.id] = elm;
-							elm.subcategories.forEach(subcategory => {
-								subcategory.category_id = elm.id;
-								let title = subcategory.title == "" ? elm.text : subcategory.title;
-								title = title.trim();
-								deleteReasons.__withTitles[reasonKey][title] = subcategory;
-							});
-						});
-					});
-					Storage.setL({
-						deleteReasons
-					}, () => {
-						System.data.Brainly.deleteReasons = deleteReasons;
-						prepareDeleteButtonSettings(callback)
-					});
-				}
-			});
-			/*GetDeleteReasons(deleteReasons => {
-				Object.keys(deleteReasons).forEach(reasonTypeKey => {
-					let categories = deleteReasons[reasonTypeKey];
-					Console.log(categories);
-					deleteReasons[reasonTypeKey] = {
-						__withTitles : {
-							__categories: {}
-						},
-						...categories
-					};
-					categories.forEach(category => {
-						deleteReasons[reasonTypeKey].__withTitles.__categories[category.id] = category;
-						category.subcategories.forEach(reason => {
-							reason.category_id = category.id;
-							let title = reason.title == "" ? category.text : reason.title;
-							title = title.trim();
-							deleteReasons[reasonTypeKey].__withTitles[title] = reason;
-						});
-						//delete category.subcategories;
-					});
-				});
-				Console.log(deleteReasons);
-				Storage.setL({
-					deleteReasons
-				}, () => {
-					System.data.Brainly.deleteReasons.__withTitles = deleteReasons;
-					prepareDeleteButtonSettings(callback)
-				});
-			});*/
-			/*			GetDeleteReasons(deleteReasons => {
-				Object.keys(deleteReasons).forEach(reasonKey => {
-					let reason = deleteReasons[reasonKey];
-					deleteReasons[reasonKey] = {
-						__categories: {}
-					};
-					reason.forEach(elm => {
-						deleteReasons[reasonKey].__categories[elm.id] = elm;
-						elm.subcategories.forEach(subcategory => {
-							subcategory.category_id = elm.id;
-							let title = subcategory.title == "" ? elm.text : subcategory.title;
-							title = title.trim();
-							deleteReasons[reasonKey][title] = subcategory;
-						});
-						delete elm.subcategories;
-					});
-				});
-				Storage.setL({
-					deleteReasons
-				}, () => {
-					System.data.Brainly.deleteReasons.__withTitles = deleteReasons;
-					prepareDeleteButtonSettings(callback)
-				});
-			});*/
+			prepareDeleteReasonsWithGet(callback);
 		}
 	});
 }

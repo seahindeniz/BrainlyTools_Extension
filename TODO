@@ -10,6 +10,8 @@ TODO:
 
 			- Marketler arasında geçiş yapınca eklenti kitleniyor
 			- Kullanıcı bilgileri gör ve hızlı silim butonlarında silinen içerik önceden silinmişse, içeriğin durumuna göre işleme devam etsin. 
+			- Hızlı soru silim butonunu 3'e çıkartmayı incele, tasarıma uyarmı gibi..
+			- Tümünü düzelt içinde şikayet edilmiş kutucukları, içerik tiplerine göre renklendir. Soruları açık yeşil, cevapları açık mavi
 
 		Global:
 			- Kenar moderatör paneline nick bazlı kişi arama/sorgulama

@@ -5,8 +5,11 @@ TODO:
 			- Auth kontrollerini ilk seferde senkron, localstorage da varsa asenkron yap. Böylece kişiyi bekletme süresi azalır. Ayrıca asenkron yapıldığında gelen cevaba göre eklentinin kullanım izni yoksa/kaldırılmışsa, anında kullanıma kapansın veya sayfayı yenilesin.
 			- Eklenti kullanıcısı, moderatör değilse otomatik olarak eklenti izni kaldırılsın.
 			- Eklenti kullanıcısı, doğrulama gibi özel izin gerektiren eylemlerde, brainly privilege'i kontrol edilsin ve ona göre içerik gösterilsin.
+			- Chatango ile mesajlaşmada çoklu sohbet odaları seçme özelliği lazım. Belli kişilere özel bir yol çizilmeli ve kimlerin hangi odaya girebileceği gibi durumları kararlaştır
+			- Eklenti sunum dosyası yerine, sahin.in içerisinde dil değişkenli bir sunum alanı oluştur
 
 			- Marketler arasında geçiş yapınca eklenti kitleniyor
+			- Kullanıcı bilgileri gör ve hızlı silim butonlarında silinen içerik önceden silinmişse, içeriğin durumuna göre işleme devam etsin. 
 
 		Global:
 			- Kenar moderatör paneline nick bazlı kişi arama/sorgulama

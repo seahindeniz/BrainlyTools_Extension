@@ -11,7 +11,7 @@ System.pageLoaded("Messages inject OK!");
 const selectors = {
 	profileLinkContainerSub: " div.sg-content-box__header > div.sg-actions-list",
 	get profileLinkContainer() {
-		return "section.brn-messages__chatbox:not(.group_mesaj)" + selectors.profileLinkContainerSub;
+		return "section.brn-messages__chatbox:not(.js-group-chatbox)" + selectors.profileLinkContainerSub;
 	},
 	profileLink: ".sg-actions-list__hole:nth-child(2) a",
 	messagesContainer: "#private-messages-container",
@@ -43,17 +43,15 @@ let profileLinkContainerFound = function(targetElm) {
 }
 
 let observeFound = () => {
-	$(selectors.messagesContainer).observe('added', '.brn-chatbox', function() {
+	$(selectors.messagesContainer).observe('added', '.brn-chatbox:not(.js-group-chatbox)', function() {
 		profileLinkContainerFound($(selectors.profileLinkContainerSub, this));
 	});
 }
 
-WaitForFn('$().observe', observeFound);
 WaitForElm(selectors.profileLinkContainer, (targetElm) => {
 	profileLinkContainerFound(targetElm);
-	console.log(targetElm);
+	WaitForFn('$().observe', observeFound);
 });
-/*WaitForElm(selectors.conversationsHeader, $conversationsHeader => {
+WaitForElm(selectors.conversationsHeader, $conversationsHeader => {
 	renderGroupMessaging($conversationsHeader);
-	console.log($conversationsHeader);
-});*/
+});

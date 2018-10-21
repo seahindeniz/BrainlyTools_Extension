@@ -2,9 +2,9 @@
 	display: none !important;
 }
 
-.sg-text--xxlarge {
-	font-size: 45px;
-	line-height: 60px;
+.sg-disabled {
+	cursor: default;
+	pointer-events: none;
 }
 
 .userFinder {
@@ -160,9 +160,9 @@ img.userFlag {
 	.progress {
 		border: none;
 		text-align: center;
-		border-radius: 290486px;
+		border-radius: 50px;
 		display: block;
-		height: 2em;
+		height: 26px;
 		overflow: hidden;
 		padding: 0;
 		width: 100%;
@@ -318,12 +318,17 @@ img.userFlag {
 
 		&:after {
 			content: attr(data-label);
-			top: -1.3em;
+			top: -14px;
 			position: relative;
 			font-weight: bold;
 			letter-spacing: 0px;
-			font-size: 1rem;
-			color: #bb2d2d;
+			font-size: 16px;
+			color: #fff;
+			text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);
 		}
 	}
+}
+
+body.mint .progress-container .progress:after {
+	top: -22px !important;
 }

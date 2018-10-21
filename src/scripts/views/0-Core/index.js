@@ -15,7 +15,7 @@ import renderUserFinder from "../../components/UserFinder"
 import renderAnnouncements from "../../components/Announcements"
 import renderChatPanel from "../../components/ChatPanel"
 import { Auth, GetDeleteReasons } from "../../controllers/ActionsOfServer"
-import { getAllFriends } from "../../controllers/ActionsOfBrainly"
+import { getAllFriends, getAllModerators } from "../../controllers/ActionsOfBrainly"
 import Notification from "../../components/Notification";
 
 let System = new _System();
@@ -109,9 +109,15 @@ let getDefaultConfig = callback => {
 				System.data.Brainly.defaultConfig.user.ME = JSON.parse(System.data.Brainly.defaultConfig.user.ME);
 				System.data.Brainly.defaultConfig.config = JSON.parse(matchSecondConfig[matchSecondConfig.length - 1]);
 				System.data.Brainly.defaultConfig.config.data.ranksWithId = {};
+				System.data.Brainly.defaultConfig.config.data.ranksWithName = {};
 				for (let i = 0, rank;
 					(rank = System.data.Brainly.defaultConfig.config.data.ranks[i]); i++) {
 					System.data.Brainly.defaultConfig.config.data.ranksWithId[rank.id] = {
+						name: rank.name,
+						color: rank.color,
+						type: rank.type,
+					};
+					System.data.Brainly.defaultConfig.config.data.ranksWithName[rank.name] = {
 						name: rank.name,
 						color: rank.color,
 						type: rank.type,
@@ -258,14 +264,16 @@ let prepareDeleteReasons = callback => {
 }
 let fetchFriends = callback => {
 	getAllFriends(res => {
-		Console.log("users:", res);
 		if (!res) {
 			Console.error("I couldn't fetch user's friends from Brainly");
-		} else {
-			System.friends = res;
 
-			callback && callback();
+			return false;
 		}
+
+		System.friends = res;
+
+		callback && callback();
+
 	});
 };
 let CheckForNewUpdate = () => {
@@ -361,9 +369,11 @@ setMetaData(() => {
 											});
 
 											if (System.checkRoute(1, "messages")) {
+												getAllModerators();
 												fetchFriends(() => {
 													Inject2body([
 														"/scripts/lib/jquery-observe-2.0.3.min.js",
+														"/scripts/lib/jquery-ui.min.js",
 														"/scripts/views/2-Messages/index.js",
 														"/scripts/views/2-Messages/Messages.css"
 													]);

@@ -8,7 +8,7 @@ class Progress {
 		this.bar = $("progress", this.container);
 
 		this.container.click(() => {
-			this.close();
+			this.forceClose();
 		});
 
 		return this;
@@ -22,11 +22,12 @@ class Progress {
 		return this;
 	}
 	close() {
-		setTimeout(() => {
-			if (this.bar.val() == ~~this.bar.attr("max")) {
-				this.container.remove();
-			}
-		}, 3000);
+		setTimeout(() => this.forceClose(), 3000);
+	}
+	forceClose() {
+		if (this.bar.val() == ~~this.bar.attr("max")) {
+			this.container.remove();
+		}
 	}
 }
 export default Progress;

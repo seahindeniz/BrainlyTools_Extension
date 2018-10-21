@@ -9,15 +9,18 @@ class ModalToplayer {
 		</div>`);
 
 		$(".sg-overlay", this.$).append(makeToplayer(size || "medium", heading, content, actions, addAfter));
-		
+
 		return this;
 	}
 	notification(message, type = "", permanent = false) {
 		let $notification = Notification(message, type, permanent);
-		let $closeIcon = $(".sg-toplayer__close", this.$);
+		
+		if ($notification) {
+			let $closeIcon = $(".sg-toplayer__close", this.$);
 
-		$notification.css("z-index", 2);
-		$notification.insertBefore($closeIcon);
+			$notification.css("z-index", 2);
+			$notification.insertBefore($closeIcon);
+		}
 	}
 }
 export default ModalToplayer;

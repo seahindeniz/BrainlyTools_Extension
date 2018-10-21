@@ -15,7 +15,7 @@ let selectors = {
 	feeds_parent: ".sg-layout__box.js-feed-stream",
 	feed_item: ".js-feed-item",
 	feeds_questionsBox_buttonList: ".sg-content-box > .sg-content-box__title .sg-actions-list > .sg-actions-list__hole:first-child",
-	questionLink: ".sg-content-box > .sg-content-box__content > a.sg-link",
+	questionLink: ".sg-content-box > .sg-content-box__content > a",
 
 	toplayerContainer: "body > div.page-wrapper.js-page-wrapper > section > div.js-toplayers-container",
 

@@ -1,14 +1,13 @@
 "use strict";
 import ext from "../utils/ext";
 
-let countErr = 0;
-class Ajax {
-	constructor() {}
-	BrainlyReq(method, path, data, callback, async, onError) {
+const Request = {
+	Brainly(method, path, data, callback, async, onError, countErr = 0) {
 		let that = this;
 		if (typeof data === "function") {
-			async = onError;
-			onError = callback;
+			countErr = onError || 0;
+			onError = async;
+			async = callback;
 			callback = data;
 			data = null;
 		}
@@ -18,7 +17,7 @@ class Ajax {
 				settings.data = settings.data.replace(/(\&data\%5B\_Token\%5D\%5Block\%5D\=.+)/, "");
 			}
 		});
-		$.ajax({
+		let reqData = {
 			method: method,
 			type: method,
 			url: System.data.Brainly.apiURL + path,
@@ -31,19 +30,21 @@ class Ajax {
 			dataType: "json",
 			data: data ? JSON.stringify(data) : null,
 			success: callback
-		}).fail(function() {
+		};
+		$.ajax(reqData).fail(function() {
+			console.log(countErr);
 			if (++countErr < 3) {
-				that.BrainlyReq(method, path, data, callback, async, onError);
+				setTimeout(() => that.Brainly(method, path, data, callback, async, onError, countErr), 500);
 			} else {
 				if (typeof onError === "undefined") { //noinspection JSUnresolvedVariable
 					//Sistem.fn.alert(Sistem.locale.texts.errors.operation_error, "error");
 				} else if (typeof onError === "function") {
 					onError();
 				}
-				countErr = 0;
+				reqData.countErr = 0;
 			}
 		});
-	}
+	},
 	BrainlySaltGet(path, data, callback, onError) {
 		let that = this;
 		if (typeof data === "function") {
@@ -66,8 +67,8 @@ class Ajax {
 				callback && callback(data, textStatus, jqXHR);
 			}
 		}).fail(onError);
-	}
-	ExtensionServerReq(method, path, data = null, callback) {
+	},
+	ExtensionServer(method, path, data = null, callback) {
 		if (typeof data == "function") {
 			callback = data;
 			data = null;
@@ -91,8 +92,8 @@ class Ajax {
 		};
 
 		ext.runtime.sendMessage(System.data.meta.extension.id, messageData, callback);
-	}
-	_old_ExtensionServerReq(method, path, data, callback) {
+	},
+	_old_ExtensionServer(method, path, data, callback) {
 		if (typeof data !== "function") {
 			data = JSON.stringify(data);
 		} else {
@@ -113,7 +114,7 @@ class Ajax {
 			}
 		}
 		xhr.send(data);
-	}
+	},
 	get(path, callback) {
 		let xhr = new XMLHttpRequest();
 		xhr.open("GET", path, true);
@@ -133,4 +134,4 @@ class Ajax {
 		xhr.send(null);
 	}
 }
-export default new Ajax();
+export default Request;

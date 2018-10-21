@@ -14,6 +14,9 @@ class _System {
 		this.data = {
 			Brainly: {
 				apiURL: ((window.System && System.data.meta.location.origin) || document.location.origin) + "/api/28",
+				get nullAvatar() {
+					return `https://${System.data.meta.marketName}/img/avatars/100-ON.png`;
+				},
 				tokenLong: cookie.get("Zadanepl_cookie[Token][Long]"),
 				Routing: {
 					prefix: undefined,
@@ -30,21 +33,26 @@ class _System {
 				reasonSign: "Ω",
 				extensionServerURL: "https://sahin.in",
 				extensionServerAPIURL: "https://sahin.in/BrainlyTools",
-				/*extensionServerURL: "http://127.0.0.1:3001",
-				extensionServerAPIURL: "http://127.0.0.1:3001/BrainlyTools",*/
+				extensionServerURL: "http://127.0.0.1:3001",
+				extensionServerAPIURL: "http://127.0.0.1:3001/BrainlyTools",
 				availableLanguages: [{
 						key: "en_US",
 						title: "English"
 					},
 					{
-						key: "tr",
-						title: "Türkçe"
-					},
-					{
 						key: "id",
 						title: "Bahasa Indonesia"
+					},
+					{
+						key: "fr",
+						title: "Français"
+					},
+					{
+						key: "tr",
+						title: "Türkçe"
 					}
 				],
+				pinIcon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" class="sg-icon sg-icon--gray sg-icon--x{size}"><path d="M18.266 4.3l-9.192 9.192 5.237 5.237c.357-1.2.484-2.486.28-3.68l5.657-5.657c.86.01 1.8-.2 2.638-.473L18.266 4.3z" fill="#c0392b"></path><path d="M9.074 13.483L3.417 19.14 2.7 21.26l7.07-7.07-.707-.707z" fill="#bdc3c7"></path><path d="M9.78 14.2L2.7 21.26l2.12-.707 5.657-5.657-.707-.707z" fill="#7f8c8d"></path><path d="M15.062 1.086c-.282.85-.484 1.778-.473 2.638L8.932 9.38c-1.195-.205-2.483-.08-3.68.278l4.53 4.53 9.192-9.192-3.91-3.91z" fill="#e74c3c"></path></svg>`,
 				userFlags: {
 					list: [{
 							file: `/images/hats/hat_0.svg`,
@@ -189,15 +197,20 @@ class _System {
 	}
 	prepareAvatar(user) {
 		let avatar = "";
-
-		if (user.avatar) {
-			avatar = user.avatar[64] || user.avatar[100] || user.avatar.src;
+		
+		if (user) {
+			if (user.avatar) {
+				avatar = user.avatar[64] || user.avatar[100] || user.avatar.src || user.avatar.small || user.avatar.medium;
+			}
+			if (user.avatars) {
+				avatar = user.avatars[64] || user.avatars[100] || user.avatars.src || user.avatars.small || user.avatars.medium;
+			}
+			if (user[64] || user[100] || user.src || user.small || user.medium) {
+				avatar = user[64] || user[100] || user.src || user.small || user.medium;
+			}
 		}
-		if (user.avatars) {
-			avatar = user.avatars[64] || user.avatars[100];
-		}
 
-		avatar = avatar || `https://${System.data.meta.marketName}/img/avatars/100-ON.png`;
+		avatar = avatar || System.data.Brainly.nullAvatar;
 
 		return avatar;
 	}

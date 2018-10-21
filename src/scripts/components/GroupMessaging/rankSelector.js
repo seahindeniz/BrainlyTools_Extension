@@ -25,7 +25,6 @@ export default $createGroupToplayer => {
 			let users = System.allModerators.withRanks[this.value];
 
 			if (users && users.length > 0) {
-				console.log(users);
 				users.forEach(({ id, nick, ranks_ids, avatar }) => {
 
 					let userRanks = [];

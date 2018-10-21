@@ -20,7 +20,7 @@ const refreshUserAvatar = (user, elm) => {
 };
 const refreshUsers = (elm) => {
 	Object.keys(window.fetchedUsers).forEach(brainlyID => {
-		if (window.fetchedUsers[brainlyID].brainlyData) {
+		if (window.fetchedUsers[brainlyID] && window.fetchedUsers[brainlyID].brainlyData) {
 			refreshUserAvatar(window.fetchedUsers[brainlyID].brainlyData, elm);
 		} else {
 			getUserByID(brainlyID, res => {

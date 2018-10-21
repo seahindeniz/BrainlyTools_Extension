@@ -3,7 +3,7 @@ import { getUserByID, RemoveFriend } from "../../controllers/ActionsOfBrainly";
 import { passUser } from "../../controllers/ActionsOfServer";
 import UserNoteBox from "../../components/UserNoteBox";
 import UserPreviousNicks from "../../components/UserPreviousNicks";
-import UserDescription from "../../components/UserDescription";
+import UserBio from "../../components/UserBio";
 import UserFlag from "../../components/UserFlag";
 import Notification from "../../components/Notification";
 import Progress from "../../components/Progress";
@@ -41,7 +41,7 @@ WaitForElm("#main-right", targetElm => {
 				userGender = res.data.gender || 0;
 
 				renderFlags();
-				UserDescription(res.data.description);
+				UserBio(res.data.description);
 			}
 		});
 

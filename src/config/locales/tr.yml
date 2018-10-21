@@ -165,7 +165,7 @@ userProfile:
   previousNicks:
     text: Önceki kullanıcı adları
     title: Kişinin, eklentiye kayıt edilmiş olan önceki kullanıcı adları
-  userDescription:
+  userBio:
     title: Profil notu
     description: Mobil uygulamada eklenen profil notu. Kullanıcı eğer, Brainly mobil uygulamasını kullanarak profil notu eklemişse, burada gözükecektir.
   showAllFriends:

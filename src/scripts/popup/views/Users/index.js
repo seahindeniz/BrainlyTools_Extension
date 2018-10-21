@@ -46,10 +46,10 @@ const Users = (callback) => {
 					</nav>
 				</article>
 				<p class="help">${System.data.locale.popup.extensionManagement.users.explainingColors.line1}</br></br>
-				${System.data.locale.popup.extensionManagement.users.explainingColors.line2.replace(/\{(.*)\}/, '<b style="color:#f00">$1</b>')}</br>
-				${System.data.locale.popup.extensionManagement.users.explainingColors.line3.replace(/\{(.*)\}/, '<b style="color:#fc0">$1</b>')}</br>
-				${System.data.locale.popup.extensionManagement.users.explainingColors.line4.replace(/\{(.*)\}/, '<b style="color:#0f0">$1</b>')}</br>
-				${System.data.locale.popup.extensionManagement.users.explainingColors.line5.replace(/\{(.*)\}/, '<b>$1</b>')}</p>
+				${System.data.locale.popup.extensionManagement.users.explainingColors.line2.replace(/\%\{(.*)\}/, '<b style="color:#f00">$1</b>')}</br>
+				${System.data.locale.popup.extensionManagement.users.explainingColors.line3.replace(/\%\{(.*)\}/, '<b style="color:#fc0">$1</b>')}</br>
+				${System.data.locale.popup.extensionManagement.users.explainingColors.line4.replace(/\%\{(.*)\}/, '<b style="color:#0f0">$1</b>')}</br>
+				${System.data.locale.popup.extensionManagement.users.explainingColors.line5.replace(/\%\{(.*)\}/, '<b>$1</b>')}</p>
 			</div>
 		</article>
 	</div>`);
@@ -205,7 +205,7 @@ const Users = (callback) => {
 						if (window.fetchedUsers[id] && window.fetchedUsers[id].brainlyData) {
 							processUser(window.fetchedUsers[id].brainlyData);
 						} else {
-							Request.BrainlyReq("GET", `/api_users/get/${id}`, (res) => {
+							Request.Brainly("GET", `/api_users/get/${id}`, (res) => {
 								if (res.success && res.data) {
 									window.fetchedUsers[id] = {
 										nick: res.data.nick,

@@ -165,7 +165,7 @@ userProfile:
   previousNicks:
     text: Nick sebelumnya
     title: Nick pengguna sebelumnya yang terdaftar di database
-  userDescription:
+  userBio:
     title: Deskripsi
     description: "Teks deskripsi pengguna dari aplikasi mobile. Jika pengguna menambahkan sebuah pesan deskripsi pribadi di aplikasi mobile Brainly, maka akan ditampilkan disini"
   showAllFriends:

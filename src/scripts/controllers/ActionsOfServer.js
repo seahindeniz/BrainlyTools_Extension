@@ -31,7 +31,7 @@ const ActionsOfServer = {
 		};
 
 		Storage.setL({ authData: null });
-		Request.ExtensionServerReq("POST", "/auth", data, authRequestHandler);
+		Request.ExtensionServer("POST", "/auth", data, authRequestHandler);
 	},
 	Auth(callback) {
 		Storage.getL("authData", authData => {
@@ -50,7 +50,7 @@ const ActionsOfServer = {
 		});
 	},
 	GetDeleteReasons(callback) {
-		Request.ExtensionServerReq("GET", "/deleteReasons", res => {
+		Request.ExtensionServer("GET", "/deleteReasons", res => {
 			if (res && res.success) {
 				callback(res.data.deleteReasons);
 			}
@@ -64,7 +64,7 @@ const ActionsOfServer = {
 			id,
 			nick
 		}
-		Request.ExtensionServerReq("PUT", "/user", data, res => {
+		Request.ExtensionServer("PUT", "/user", data, res => {
 			if (res && res.success) {
 				callback(res.data);
 			} else {
@@ -73,34 +73,34 @@ const ActionsOfServer = {
 		});
 	},
 	PutUser(data, callback) {
-		Request.ExtensionServerReq("PUT", "/user", data, callback);
+		Request.ExtensionServer("PUT", "/user", data, callback);
 	},
 	updateNote(data, callback) {
-		Request.ExtensionServerReq("PUT", "/note", data, callback);
+		Request.ExtensionServer("PUT", "/note", data, callback);
 	},
 	GetAnnouncements(callback) {
-		Request.ExtensionServerReq("GET", "/announcements", callback);
+		Request.ExtensionServer("GET", "/announcements", callback);
 	},
 	CreateAnnouncement(data, callback) {
-		Request.ExtensionServerReq("POST", "/announcements", data, callback);
+		Request.ExtensionServer("POST", "/announcements", data, callback);
 	},
 	UpdateAnnouncement(data, callback) {
-		Request.ExtensionServerReq("PUT", "/announcements", data, callback);
+		Request.ExtensionServer("PUT", "/announcements", data, callback);
 	},
 	RemoveAnnouncement(data, callback) {
 		if (typeof data == "string" || typeof data == "number") {
 			data = { id: data };
 		}
-		Request.ExtensionServerReq("DELETE", "/announcements", data, callback);
+		Request.ExtensionServer("DELETE", "/announcements", data, callback);
 	},
 	AnnouncementRead(data, callback) {
 		if (typeof data == "string" || typeof data == "number") {
 			data = { id: data };
 		}
-		Request.ExtensionServerReq("PUT", "/announcement", data, callback);
+		Request.ExtensionServer("PUT", "/announcement", data, callback);
 	},
 	CreateShortLink(data, callback) {
-		Request.ExtensionServerReq("POST", "/urlshortener", data, callback);
+		Request.ExtensionServer("POST", "/urlshortener", data, callback);
 	},
 	Logger(type, targetUser, data) {
 		let logData = {
@@ -109,16 +109,25 @@ const ActionsOfServer = {
 			data
 		}
 
-		Request.ExtensionServerReq("PUT", "/logger", logData);
+		Request.ExtensionServer("PUT", "/logger", logData);
 	},
 	GetUsers(callback) {
-		Request.ExtensionServerReq("GET", "/users", callback);
+		Request.ExtensionServer("GET", "/users", callback);
 	},
 	GetMessageGroups(callback) {
-		Request.ExtensionServerReq("GET", "/messageGroups", callback);
+		Request.ExtensionServer("GET", "/messageGroups", callback);
 	},
 	CreateMessageGroup(data, callback) {
-		Request.ExtensionServerReq("POST", "/messageGroup", data, callback);
-	}
+		Request.ExtensionServer("POST", "/messageGroups", data, callback);
+	},
+	GetMessages(_id, callback) {
+		Request.ExtensionServer("GET", `/messageGroup/${_id}`, callback);
+	},
+	MessageSended(data, callback) {
+		Request.ExtensionServer("POST", "/messageGroup", data, callback);
+	},
+	UpdateMessageGroup(_id, data, callback) {
+		Request.ExtensionServer("PUT", `/messageGroup/${_id}`, data, callback);
+	},
 }
 export default ActionsOfServer;

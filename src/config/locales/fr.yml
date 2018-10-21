@@ -165,7 +165,7 @@ userProfile:
   previousNicks:
     text: Pseudo précédent
     title: Précédent pseudo de l'utilisateur
-  userDescription:
+  userBio:
     title: Description
     description: Description de l'utilisateur dans l'application mobile
   showAllFriends:

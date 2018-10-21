@@ -7,7 +7,7 @@ const ActionsOfBrainly = {
 	 * @param {function} callback
 	 */
 	GetTaskContent(taskId, callback) {
-		Request.BrainlyReq("GET", '/api_tasks/main_view/' + taskId, callback);
+		Request.Brainly("GET", '/api_tasks/main_view/' + taskId, callback);
 	},
 	/**
 	 * Delete question by id
@@ -24,7 +24,7 @@ const ActionsOfBrainly = {
 		}
 		data.reason += " " + System.data.config.reasonSign;
 
-		Request.BrainlyReq("POST", '/moderation_new/delete_task_content', data, callback);
+		Request.Brainly("POST", '/moderation_new/delete_task_content', data, callback);
 	},
 	/**
 	 * Delete answer by id
@@ -41,7 +41,7 @@ const ActionsOfBrainly = {
 		}
 		data.reason += " " + System.data.config.reasonSign;
 
-		Request.BrainlyReq("POST", '/moderation_new/delete_response_content', data, callback);
+		Request.Brainly("POST", '/moderation_new/delete_response_content', data, callback);
 	},
 	/**
 	 * Delete comment by id
@@ -57,7 +57,7 @@ const ActionsOfBrainly = {
 
 		data.reason += " " + System.data.config.reasonSign;
 
-		Request.BrainlyReq("POST", '/moderation_new/delete_comment_content', data, callback);
+		Request.Brainly("POST", '/moderation_new/delete_comment_content', data, callback);
 	},
 	/**
 	 * Approve answer by id
@@ -72,7 +72,7 @@ const ActionsOfBrainly = {
 			_coupon_: coupon
 		}
 
-		Request.BrainlyReq("POST", '/api_content_quality/confirm', data, callback);
+		Request.Brainly("POST", '/api_content_quality/confirm', data, callback);
 	},
 	/**
 	 * Create a ticket for a question
@@ -102,7 +102,7 @@ const ActionsOfBrainly = {
 			}
 		}
 
-		Request.BrainlyReq("POST", '/moderation_new/get_content', data, _callback);
+		Request.Brainly("POST", '/moderation_new/get_content', data, _callback);
 	},
 
 	/**
@@ -111,7 +111,7 @@ const ActionsOfBrainly = {
 	 * @param {function} callback
 	 */
 	TaskActions(taskId, callback) {
-		Request.BrainlyReq("GET", '/api_task_lines/big/' + taskId, callback);
+		Request.Brainly("GET", '/api_task_lines/big/' + taskId, callback);
 	},
 
 	/**
@@ -125,7 +125,7 @@ const ActionsOfBrainly = {
 			model_type_id: 1,
 			schema: ""
 		}
-		Request.BrainlyReq("POST", '/moderate_tickets/expire', data, callback);
+		Request.Brainly("POST", '/moderate_tickets/expire', data, callback);
 	},
 
 	/**
@@ -134,7 +134,12 @@ const ActionsOfBrainly = {
 	 * @param {function} callback 
 	 */
 	getUserByID(id, callback) {
-		Request.BrainlyReq("GET", `/api_user_profiles/get_by_id/${~~id}`, callback);
+		if (id instanceof Array) {
+			Request.Brainly("GET", `/api_users/get_by_id?id[]=${id.join("&id[]=")}`, callback);
+
+			return true;
+		}
+		Request.Brainly("GET", `/api_user_profiles/get_by_id/${~~id}`, callback);
 	},
 
 	/**
@@ -200,6 +205,58 @@ const ActionsOfBrainly = {
 				});
 			});
 		}
+	},
+	findUser(nick, callback, onError) {
+		Request.BrainlySaltGet(`/users/search/${nick}`, callback, onError);
+	},
+	getAllModerators(callback) {
+		Request.get(`/moderators/supervisors/${System.data.Brainly.userData.user.id}`, res => {
+			let idList = res.match(/\=\d{1,}/gim);
+
+			if (idList && idList.length > 0) {
+				Request.Brainly("GET", `/api_users/get_by_id?id[]${idList.join("&id[]")}`, res => {
+					if (res && res.success) {
+						System.allModerators = {
+							list: res.data,
+							withNicks: {},
+							withID: {},
+							withRanks: {}
+						};
+						if (res.data && res.data.length > 0) {
+							res.data.forEach(user => {
+								System.allModerators.withNicks[user.nick] = user;
+								System.allModerators.withID[user.nick] = user;
+
+								if (user.ranks_ids && user.ranks_ids.length > 0) {
+									user.ranks_ids.forEach(rank => {
+										let currentRank = System.allModerators.withRanks[rank];
+
+										if (!currentRank) {
+											currentRank = System.allModerators.withRanks[rank] = []
+										}
+
+										currentRank.push(user);
+									});
+								}
+							});
+						}
+
+						callback && callback();
+					}
+				});
+			}
+		});
+	},
+	getMessageID(user_id, callback) {
+		Request.Brainly("POST", `/api_messages/check`, { user_id }, callback);
+	},
+	sendMessage(conversation_id, content, callback) {
+		let data = {
+			content,
+			conversation_id
+		};
+
+		Request.Brainly("POST", `/api_messages/send`, data, callback);
 	}
 }
 export default ActionsOfBrainly;

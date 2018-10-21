@@ -18,13 +18,13 @@ const Layout = template => {
 		$(this).parent().toggleClass("is-active");
 	});
 	$("body")
+		.on("click", ".message-header > p", function() {
+			$(this).parents("article").toggleClass("is-active");
+		})
 		.click(() => {
 			let $dropdowns = $(".dropdown");
 
 			$dropdowns.removeClass("is-active");
-		})
-		.on("click", ".message-header > p", function() {
-			$(this).parents("article").toggleClass("is-active");
 		})
 		.on("click", ".dropdown-trigger", function(e) {
 			e.stopPropagation();

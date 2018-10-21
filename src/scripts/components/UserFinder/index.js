@@ -22,7 +22,7 @@ const UserFinder = () => {
 			if (!this.value || this.value === "" || !(this.value > 0)) {
 				userList.html("");
 			} else {
-				Request.BrainlyReq("GET", `/api_users/get/${this.value}`, (res) => {
+				Request.Brainly("GET", `/api_users/get/${this.value}`, (res) => {
 					userList.html("");
 					if (res.success && res.data) {
 						$notFound.addClass("js-hidden");

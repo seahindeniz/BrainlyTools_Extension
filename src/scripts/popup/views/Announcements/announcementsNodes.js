@@ -12,7 +12,7 @@ let processAnnouncement = announcement => {
 		announcement.readed_by.forEach(reader => {
 			//console.log(reader);
 			!window.fetchedUsers[reader.user_id.brainlyID] && (window.fetchedUsers[reader.user_id.brainlyID] = null);
-			let time = moment(reader.time).format('LLLL');;
+			let time = moment(reader.time).format('LLLL');
 			readers += `
 			<a class="level-item is-inline-block" data-user-id="${reader.user_id.brainlyID}" title="${System.data.locale.popup.extensionManagement.announcements.readedOn.replace("%{date}}", time)}" target="_blank">
 				<figure class="image is-24x24">

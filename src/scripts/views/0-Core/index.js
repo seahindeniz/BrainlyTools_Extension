@@ -11,9 +11,11 @@ import Storage from "../../helpers/extStorage";
 import themeColorChanger from "../../helpers/themeColorChanger";
 import messagesLayoutExtender from "../../helpers/messagesLayoutExtender";
 import Request from "../../controllers/Request";
-import renderUserFinder from "../../components/UserFinder"
+import renderModerationPanelSeperator from "../../components/ModerationPanelSeperator";
+import renderUserFinder from "../../components/UserFinder";
 import renderAnnouncements from "../../components/Announcements"
 import renderChatPanel from "../../components/ChatPanel"
+import renderTaskDeleter from "../../components/TaskDeleter"
 import { Auth, GetDeleteReasons } from "../../controllers/ActionsOfServer"
 import { getAllFriends, getAllModerators } from "../../controllers/ActionsOfBrainly"
 import Notification from "../../components/Notification";
@@ -327,9 +329,13 @@ setMetaData(() => {
 										} else {
 											Console.info("Jquery OK!");
 											System.changeBadgeColor("loaded");
-											renderUserFinder();
+											let $seperator = renderModerationPanelSeperator();
+											renderUserFinder($seperator);
 											renderAnnouncements();
 											renderChatPanel();
+											System.checkUserP(7, () => {
+												renderTaskDeleter($seperator);
+											});
 											prepareDeleteReasons(() => {
 												Console.info("Delete reasons OK!");
 

@@ -2,6 +2,13 @@
 	display: none !important;
 }
 
+[contenteditable=true]:empty:before {
+	content: attr(placeholder);
+	display: block;
+	color: #9fa6b5;
+	font-weight: bold;
+}
+
 .sg-disabled {
 	cursor: default;
 	pointer-events: none;
@@ -11,7 +18,7 @@
 	input[type="search"] {
 		border: 2px solid #e1e8ed;
 		padding: 0 12px;
-		height: 1.5rem;
+		height: 2rem;
 		border-radius: 7px;
 	}
 
@@ -61,6 +68,28 @@ textarea.inputNote {
 	}
 }
 
+blockquote {
+	background-color: #f5f5f5;
+	border-left: 5px solid #dbdbdb;
+	padding: 1.25em 1.5em;
+	margin: 0;
+
+	blockquote:before,
+	blockquote:after {
+		content: "\"";
+		position: relative;
+		font-size: 2em;
+	}
+
+	&:before {
+		left: -1rem;
+	}
+
+	&:after {
+		left: 1rem;
+	}
+}
+
 .announcementOverlay {
 	width: 25em;
 	bottom: 1em;
@@ -98,27 +127,7 @@ textarea.inputNote {
 			max-height: 230px;
 			padding: 0 3px;
 
-			blockquote {
-				background-color: #f5f5f5;
-				border-left: 5px solid #dbdbdb;
-				padding: 1.25em 1.5em;
-				margin: 0;
 
-				blockquote:before,
-				blockquote:after {
-					content: "\"";
-					position: relative;
-					font-size: 2em;
-				}
-
-				&:before {
-					left: -1rem;
-				}
-
-				&:after {
-					left: 1rem;
-				}
-			}
 		}
 	}
 

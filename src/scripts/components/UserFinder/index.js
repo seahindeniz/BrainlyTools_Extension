@@ -1,42 +1,40 @@
 import Request from "../../controllers/Request";
 
-const UserFinder = () => {
-	let searchInput,
-		brn_moderation_panel = $(".brn-moderation-panel__list > ul, #moderate-functions > ul");
-
-	if (brn_moderation_panel) {
-		searchInput = $(`
+const UserFinder = $seperator => {
+	let searchInput = $(`
 		<li class="sg-menu-list__element userFinder" style="display: table; width: 100%;">
 			<label class="sg-text sg-text--blue">${System.data.locale.core.UserFinder.profileID}:
-				<input type="number" class="sg-input sg-input--small" placeholder="1234567"/>
+				<input type="search" class="sg-input sg-input--small" placeholder="1234567"/>
 			</label>
 			<div class="sg-text sg-text--peach js-hidden notFound">${System.data.locale.core.notificationMessages.userNotFound}</div>
 			<div class="userList"></div>
 		</li>`);
 
-		searchInput.prependTo(brn_moderation_panel);
+	searchInput.insertBefore($seperator);
 
-		$("input", searchInput).on("input", function() {
-			let userList = $(".userList", searchInput);
-			let $notFound = $(".notFound", searchInput);
-			if (!this.value || this.value === "" || !(this.value > 0)) {
+	$("input", searchInput).on("input", function() {
+		let userList = $(".userList", searchInput);
+		let $notFound = $(".notFound", searchInput);
+		const isPosInt = str => /^\+?\d+$/.test(str);
+
+		if (!this.value || this.value === "" || isPosInt(this.value) || !(~~this.value > 0)) {
+			userList.html("");
+		} else {
+			Request.Brainly("GET", `/api_users/get/${this.value}`, (res) => {
 				userList.html("");
-			} else {
-				Request.Brainly("GET", `/api_users/get/${this.value}`, (res) => {
-					userList.html("");
-					if (res.success && res.data) {
-						$notFound.addClass("js-hidden");
+				if (res.success && res.data) {
+					$notFound.addClass("js-hidden");
 
-						let profileLink = System.createBrainlyLink("profile", { nick: res.data.nick, id: res.data.id });
-						let ranks = [];
-						let avatar = System.prepareAvatar(res.data);
+					let profileLink = System.createBrainlyLink("profile", { nick: res.data.nick, id: res.data.id });
+					let ranks = [];
+					let avatar = System.prepareAvatar(res.data);
 
-						res.data.ranks_ids.forEach(rankId => {
-							let current_rank = System.data.Brainly.defaultConfig.config.data.ranksWithId[rankId];
-							ranks.push(`<span class="" style="color:#${(current_rank.color || "000")};">${current_rank.name}</span>`);
-						});
+					res.data.ranks_ids.forEach(rankId => {
+						let current_rank = System.data.Brainly.defaultConfig.config.data.ranksWithId[rankId];
+						ranks.push(`<span class="" style="color:#${(current_rank.color || "000")};">${current_rank.name}</span>`);
+					});
 
-						userList.append(`
+					userList.append(`
 						<div class="sg-content-box sg-content-box--full">
 							<div class="sg-content-box__content sg-content-box__content--spaced-top-small">
 								<div class="sg-actions-list">
@@ -56,13 +54,13 @@ const UserFinder = () => {
 								</div>
 							</div>
 						</div>`);
-					} else {
-						$notFound.removeClass("js-hidden");
-					}
-				});
-			}
-		});
-	}
+				} else {
+					$notFound.removeClass("js-hidden");
+				}
+			});
+		}
+	});
+
 };
 
 export default UserFinder

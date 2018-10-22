@@ -51,6 +51,7 @@ $submit.click(function() {
 				$selectReasonWarn.fadeTo('fast', 0.5).fadeTo('fast', 1.0).fadeTo('fast', 0.5).fadeTo('fast', 1.0);
 			}
 		} else {
+			$selectReasonWarn.remove();
 			if (confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
 				let $progressBarContainer = $("#taskProgress", $moderateActions);
 
@@ -69,9 +70,7 @@ $submit.click(function() {
 				let counter = 0;
 
 				let updateCounter = () => {
-					counter++;
-
-					$progressBar.val(counter);
+					$progressBar.val(++counter);
 
 					if (counter == $checkedContentSelectCheckboxes.length) {
 						$spinner.remove();
@@ -85,9 +84,9 @@ $submit.click(function() {
 
 				$checkedContentSelectCheckboxes.each(function() {
 					let $parentRow = $(this).parents("tr");
-					let taskId = $parentRow.data("taskid");
+					let model_id = $parentRow.data("taskid");
 					let taskData = {
-						model_id: taskId,
+						model_id,
 						reason_id: window.selectedCategory.id,
 						reason: $textarea.val(),
 						give_warning: $give_warning.is(':checked'),
@@ -95,7 +94,7 @@ $submit.click(function() {
 						return_points: $return_points.is(':checked')
 					};
 
-					idList.push(taskId);
+					idList.push(model_id);
 
 					RemoveQuestion(taskData, (res) => {
 						if (!res) {

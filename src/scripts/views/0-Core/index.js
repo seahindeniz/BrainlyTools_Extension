@@ -11,14 +11,13 @@ import Storage from "../../helpers/extStorage";
 import themeColorChanger from "../../helpers/themeColorChanger";
 import messagesLayoutExtender from "../../helpers/messagesLayoutExtender";
 import Request from "../../controllers/Request";
-import renderModerationPanelSeperator from "../../components/ModerationPanelSeperator";
-import renderUserFinder from "../../components/UserFinder";
+import renderExtraItemsForModerationPanel from "./ExtraItemsForModerationPanel"
 import renderAnnouncements from "../../components/Announcements"
 import renderChatPanel from "../../components/ChatPanel"
-import renderTaskDeleter from "../../components/TaskDeleter"
 import { Auth, GetDeleteReasons } from "../../controllers/ActionsOfServer"
 import { getAllFriends, getAllModerators } from "../../controllers/ActionsOfBrainly"
 import Notification from "../../components/Notification";
+import renderHalloween from "./Halloween"
 
 let System = new _System();
 window.System = System;
@@ -329,13 +328,15 @@ setMetaData(() => {
 										} else {
 											Console.info("Jquery OK!");
 											System.changeBadgeColor("loaded");
-											let $seperator = renderModerationPanelSeperator();
-											renderUserFinder($seperator);
+											
+											let _date = new Date();
+											if (_date.getMonth() == 9 && _date.getDate() == 31) {
+												renderHalloween();
+											}
+
+											renderExtraItemsForModerationPanel();
 											renderAnnouncements();
 											renderChatPanel();
-											System.checkUserP(7, () => {
-												renderTaskDeleter($seperator);
-											});
 											prepareDeleteReasons(() => {
 												Console.info("Delete reasons OK!");
 
@@ -401,6 +402,14 @@ setMetaData(() => {
 													"/scripts/views/7-UserWarnings/index.js",
 													System.data.Brainly.style_guide.css,
 													"/scripts/views/7-UserWarnings/UserWarnings.css"
+												]);
+											}
+
+											if (System.checkRoute(2, "supervisors")) {
+												Inject2body([
+													"/scripts/views/8-Supervisors/index.js",
+													System.data.Brainly.style_guide.css,
+													"/scripts/views/8-Supervisors/Supervisors.css"
 												]);
 											}
 										}

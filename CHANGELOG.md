@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [6.2.0] - 2018.10.29
+## [6.2.0] - 2018.10.30
 ### Added
 - This change log file :). We will see the new update logs here when there is a new update.
 

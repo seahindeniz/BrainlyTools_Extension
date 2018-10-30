@@ -75,13 +75,12 @@ const UserFinder = $seperator => {
 		$userList.attr("data-placeholder", System.data.locale.core.notificationMessages.searching);
 		$userList.removeClass("js-hidden");
 
+		clearTimeout(delayTimer);
+		
 		if (!value || value == "") {
-			clearTimeout(delayTimer);
 			$userList.attr("data-placeholder", "");
 			$userList.addClass("js-hidden");
 		} else {
-			clearTimeout(delayTimer);
-
 			delayTimer = setTimeout(() => {
 				if (isPosInt(value)) {
 					getUserByID(value, res => {

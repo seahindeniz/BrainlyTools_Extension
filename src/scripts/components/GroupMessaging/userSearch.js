@@ -48,82 +48,88 @@ const idSearch = n => {
 export default $createGroupToplayer => {
 
 	let $idInput = $(`<input type="text" class="sg-input sg-input--small sg-input--full-width" placeholder="${System.data.locale.messages.groups.userCategories.findUsers.nickOrID}" />`);
+	let delayTimer;
 
 	$idInput.on("input", function() {
 		let $findUsersList = $(".find-users-list>ul", $createGroupToplayer);
 		//let $notFound = $(".notFound", searchInput);
 		let value = this.value;
+
+		clearTimeout(delayTimer);
+
 		if (!value || value === "") {
 			$findUsersList.html("");
 		} else {
-			$findUsersList.html("");
-			if (isPosInt(value)) {
-				getUserByID(value, res => {
-					if (res.success && res.data) {
-						let ranks = [];
-						let avatar = System.prepareAvatar(res.data);
-						let buddyUrl = System.createBrainlyLink("profile", { nick: res.data.nick, id: res.data.id });
+			delayTimer = setTimeout(() => {
+				$findUsersList.html("");
+				if (isPosInt(value)) {
+					getUserByID(value, res => {
+						if (res.success && res.data) {
+							let ranks = [];
+							let avatar = System.prepareAvatar(res.data);
+							let buddyUrl = System.createBrainlyLink("profile", { nick: res.data.nick, id: res.data.id });
 
-						res.data.ranks_ids.forEach(rankId => {
-							ranks.push(System.data.Brainly.defaultConfig.config.data.ranksWithId[rankId]);
-						});
+							res.data.ranks_ids.forEach(rankId => {
+								ranks.push(System.data.Brainly.defaultConfig.config.data.ranksWithId[rankId]);
+							});
+
+							let $li = userLi({
+								id: res.data.id,
+								nick: res.data.nick,
+								avatar,
+								buddyUrl,
+								ranks
+							});
+
+							$findUsersList.append($li);
+						}
+					});
+				}
+
+				findUser(value, res => {
+					let $userContainers = $('td', res);
+
+					$userContainers.each(function(i, $userContainer) {
+						let avatar = $('.user-data > a > img', $userContainer).attr('src');
+						let $userLink = $('.user-data > div.user-nick > a.nick', $userContainer);
+						let nick = $userLink.text();
+						let buddyUrl = $userLink.attr('href');
+						//let kisi_id = url.match(/\-(\d{1,})/)[1];
+						let id = ~~(buddyUrl.replace(/.*\-/gi, ""))
+						let rankList = $('div.user-data > div.user-nick > a:nth-child(3), div.user-data > div.user-nick > span', $userContainer);
+						let ranks = "";
+
+						if (rankList.length == 1) {
+							ranks = {
+								name: rankList.text(),
+								color: rankList.css("color")
+							};
+						} else if (rankList.length > 1) {
+							ranks = [];
+							rankList.each((i, rank) => {
+								ranks.push({
+									name: rank.innerText,
+									color: rank.style.color
+								});
+							});
+						}
+
+						if (avatar == '/img/') {
+							avatar = '/img/avatars/100-ON.png';
+						}
 
 						let $li = userLi({
-							id: res.data.id,
-							nick: res.data.nick,
+							id,
+							nick,
 							avatar,
 							buddyUrl,
 							ranks
 						});
 
 						$findUsersList.append($li);
-					}
-				});
-			}
-
-			findUser(value, res => {
-				let $userContainers = $('td', res);
-
-				$userContainers.each(function(i, $userContainer) {
-					let avatar = $('.user-data > a > img', $userContainer).attr('src');
-					let $userLink = $('.user-data > div.user-nick > a.nick', $userContainer);
-					let nick = $userLink.text();
-					let buddyUrl = $userLink.attr('href');
-					//let kisi_id = url.match(/\-(\d{1,})/)[1];
-					let id = ~~(buddyUrl.replace(/.*\-/gi, ""))
-					let rankList = $('div.user-data > div.user-nick > a:nth-child(3), div.user-data > div.user-nick > span', $userContainer);
-					let ranks = "";
-
-					if (rankList.length == 1) {
-						ranks = {
-							name: rankList.text(),
-							color: rankList.css("color")
-						};
-					} else if (rankList.length > 1) {
-						ranks = [];
-						rankList.each((i, rank) => {
-							ranks.push({
-								name: rank.innerText,
-								color: rank.style.color
-							});
-						});
-					}
-
-					if (avatar == '/img/') {
-						avatar = '/img/avatars/100-ON.png';
-					}
-
-					let $li = userLi({
-						id,
-						nick,
-						avatar,
-						buddyUrl,
-						ranks
 					});
-
-					$findUsersList.append($li);
 				});
-			});
+			}, 600);
 		}
 	});
 

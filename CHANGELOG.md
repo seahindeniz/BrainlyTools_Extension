@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [6.2.1] - 2018.10.30
+### Changed/Fixed
+- Searching users in while creating or editing a message group had a bug that couse messing the search results
+
 ## [6.2.0] - 2018.10.30
 ### Added
 - This change log file :). We will see the new update logs here when there is a new update.

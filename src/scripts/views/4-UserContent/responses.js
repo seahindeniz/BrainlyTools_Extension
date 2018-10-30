@@ -86,19 +86,21 @@ System.checkUserP(6, () => {
 
 				$checkedContentSelectCheckboxes.each(function() {
 					let $parentRow = $(this).parents("tr");
+					let rowNumber = ~~($(">td:eq(1)", $parentRow).text());
 					let responseId = $parentRow.data("responseid");
 
 					ApproveAnswer(responseId, res => {
 						if (!res) {
 							Notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
+							updateCounter();
 						} else {
-							if (res.success) {
-								$(`<span class="approved">🗸</span>`).insertBefore($("> td > a", $parentRow));
-								$parentRow.addClass("approved");
-								updateCounter();
-							} else if (res.message) {
-								Notification(res.message, "error");
+							if (!res.success) {
+								Notification("#" + rowNumber + " > " + (res.message || System.data.locale.userContent.notificationMessages.alreadyApproved), "error");
+								$parentRow.addClass("already");
 							}
+							$(`<span class="approved">🗸</span>`).insertBefore($("> td > a", $parentRow));
+							$parentRow.addClass("approved");
+							updateCounter();
 						}
 					});
 				});
@@ -189,8 +191,9 @@ System.checkUserP(2, () => {
 
 					let idList = [];
 
-					$checkedContentSelectCheckboxes.each(function() {
+					$checkedContentSelectCheckboxes.each(function(i) {
 						let $parentRow = $(this).parents("tr");
+						let rowNumber = ~~($(">td:eq(1)", $parentRow).text());
 						let responseId = $parentRow.data("responseid");
 						let responseData = {
 							model_id: responseId,
@@ -205,14 +208,16 @@ System.checkUserP(2, () => {
 						RemoveAnswer(responseData, res => {
 							if (!res) {
 								Notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
+								updateCounter();
 							} else {
-								if (res.success) {
-									$(this).attr("disabled", "disabled")
-									$parentRow.addClass("removed");
-									updateCounter();
-								} else if (res.message) {
-									Notification(res.message, "error");
+								if (!res.success && res.message) {
+									Notification("#" + rowNumber + " > " + res.message, "error");
+									$parentRow.addClass("already");
 								}
+
+								$(this).attr("disabled", "disabled")
+								$parentRow.addClass("removed");
+								updateCounter();
 							}
 						});
 					});

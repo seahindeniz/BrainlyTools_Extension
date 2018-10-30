@@ -1,0 +1,89 @@
+$rank-border: 1px solid rgba(0, 0, 0, 0.1);
+
+th {
+	padding: 10px !important;
+	text-align: center;
+	font-weight: bold;
+	font-size: 1.2em;
+}
+
+td {
+	padding: 10px !important;
+}
+
+.actionBox {
+	width: 190px;
+	margin: 21px 0 5px;
+	float: right;
+	outline: 1px solid #ccc;
+	padding: 19px 3px;
+
+	>*:not(:last-child) {
+		margin-bottom: 10px;
+	}
+
+	.ranks>select {
+		width: 100%;
+		height: 15em;
+	}
+
+	.messageBox {
+		text-align: center;
+
+		>* {
+			margin-bottom: 3px;
+			text-transform: unset;
+		}
+
+		textarea {
+			position: relative;
+			resize: both;
+			background-color: #fff;
+			height: 60px;
+			width: 99%;
+			min-width: 182px;
+			min-height: 60px;
+			padding: 0 3px;
+		}
+	}
+}
+
+ul.connectedSortable {
+	background-color: #fff;
+
+	>li {
+		text-align: center;
+		padding: 0;
+		height: 88px;
+		border: $rank-border;
+
+		>a {
+			margin-top: 5px;
+			width: 100%;
+			height: 100%;
+			display: block;
+		}
+
+		>.ranks {
+			font-size: 11px;
+			height: 0;
+			width: 120px;
+			position: relative;
+			top: -5px;
+			right: 1px;
+			overflow: hidden;
+		}
+
+		&:hover>.ranks {
+			height: auto;
+			background: #f0f3f5;
+			z-index: 99999;
+			overflow: visible;
+			border-right: $rank-border;
+			border-left: $rank-border;
+			border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+			border-bottom-right-radius: 5px;
+			border-bottom-left-radius: 5px;
+		}
+	}
+}

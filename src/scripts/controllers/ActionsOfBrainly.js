@@ -1,4 +1,7 @@
+"use strict";
+
 import Request from "./Request";
+import fillRange from "../helpers/fillRange";
 
 const ActionsOfBrainly = {
 	/**
@@ -7,7 +10,7 @@ const ActionsOfBrainly = {
 	 * @param {function} callback
 	 */
 	GetTaskContent(taskId, callback) {
-		Request.Brainly("GET", '/api_tasks/main_view/' + taskId, callback);
+		Request.BrainlyAPI("GET", '/api_tasks/main_view/' + taskId, callback);
 	},
 	/**
 	 * Delete question by id
@@ -24,7 +27,7 @@ const ActionsOfBrainly = {
 		}
 		data.reason += " " + System.data.config.reasonSign;
 
-		Request.Brainly("POST", '/moderation_new/delete_task_content', data, callback);
+		Request.BrainlyAPI("POST", '/moderation_new/delete_task_content', data, callback);
 	},
 	/**
 	 * Delete answer by id
@@ -41,7 +44,7 @@ const ActionsOfBrainly = {
 		}
 		data.reason += " " + System.data.config.reasonSign;
 
-		Request.Brainly("POST", '/moderation_new/delete_response_content', data, callback);
+		Request.BrainlyAPI("POST", '/moderation_new/delete_response_content', data, callback);
 	},
 	/**
 	 * Delete comment by id
@@ -57,7 +60,7 @@ const ActionsOfBrainly = {
 
 		data.reason += " " + System.data.config.reasonSign;
 
-		Request.Brainly("POST", '/moderation_new/delete_comment_content', data, callback);
+		Request.BrainlyAPI("POST", '/moderation_new/delete_comment_content', data, callback);
 	},
 	/**
 	 * Approve answer by id
@@ -72,7 +75,7 @@ const ActionsOfBrainly = {
 			_coupon_: coupon
 		}
 
-		Request.Brainly("POST", '/api_content_quality/confirm', data, callback);
+		Request.BrainlyAPI("POST", '/api_content_quality/confirm', data, callback);
 	},
 	/**
 	 * Create a ticket for a question
@@ -102,7 +105,7 @@ const ActionsOfBrainly = {
 			}
 		}
 
-		Request.Brainly("POST", '/moderation_new/get_content', data, _callback);
+		Request.BrainlyAPI("POST", '/moderation_new/get_content', data, _callback);
 	},
 
 	/**
@@ -111,7 +114,7 @@ const ActionsOfBrainly = {
 	 * @param {function} callback
 	 */
 	TaskActions(taskId, callback) {
-		Request.Brainly("GET", '/api_task_lines/big/' + taskId, callback);
+		Request.BrainlyAPI("GET", '/api_task_lines/big/' + taskId, callback);
 	},
 
 	/**
@@ -125,7 +128,7 @@ const ActionsOfBrainly = {
 			model_type_id: 1,
 			schema: ""
 		}
-		Request.Brainly("POST", '/moderate_tickets/expire', data, callback);
+		Request.BrainlyAPI("POST", '/moderate_tickets/expire', data, callback);
 	},
 
 	/**
@@ -135,11 +138,12 @@ const ActionsOfBrainly = {
 	 */
 	getUserByID(id, callback) {
 		if (id instanceof Array) {
-			Request.Brainly("GET", `/api_users/get_by_id?id[]=${id.join("&id[]=")}`, callback);
+			Request.BrainlyAPI("GET", `/api_users/get_by_id?id[]=${id.join("&id[]=")}`, callback);
 
 			return true;
 		}
-		Request.Brainly("GET", `/api_user_profiles/get_by_id/${~~id}`, callback);
+
+		Request.BrainlyAPI("GET", `/api_user_profiles/get_by_id/${~~id}`, callback);
 	},
 
 	/**
@@ -207,56 +211,151 @@ const ActionsOfBrainly = {
 		}
 	},
 	findUser(nick, callback, onError) {
+		/*Request.Brainly({
+			method: "GET",
+			path: `/users/search/${nick}`,
+			callback,
+			onError
+		});*/
+
 		Request.BrainlySaltGet(`/users/search/${nick}`, callback, onError);
 	},
-	getAllModerators(callback) {
-		Request.get(`/moderators/supervisors/${System.data.Brainly.userData.user.id}`, res => {
-			let idList = res.match(/\=\d{1,}/gim);
+	getAllModerators(idList, callback) {
+		if (typeof idList == "function") {
+			callback = idList;
+			idList = null;
+		}
 
-			if (idList && idList.length > 0) {
-				Request.Brainly("GET", `/api_users/get_by_id?id[]${idList.join("&id[]")}`, res => {
-					if (res && res.success) {
-						System.allModerators = {
-							list: res.data,
-							withNicks: {},
-							withID: {},
-							withRanks: {}
-						};
-						if (res.data && res.data.length > 0) {
-							res.data.forEach(user => {
-								System.allModerators.withNicks[user.nick] = user;
-								System.allModerators.withID[user.nick] = user;
+		let prepareUsers = _idList => {
+			ActionsOfBrainly.getUserByID(_idList, res => {
+				if (res && res.success) {
+					System.allModerators = {
+						list: res.data,
+						withNicks: {},
+						withID: {},
+						withRanks: {}
+					};
 
-								if (user.ranks_ids && user.ranks_ids.length > 0) {
-									user.ranks_ids.forEach(rank => {
-										let currentRank = System.allModerators.withRanks[rank];
+					if (res.data && res.data.length > 0) {
+						res.data.forEach(user => {
+							System.allModerators.withNicks[user.nick] = user;
+							System.allModerators.withID[user.nick] = user;
 
-										if (!currentRank) {
-											currentRank = System.allModerators.withRanks[rank] = []
-										}
+							if (typeof callback == "object" && callback.each) {
+								callback.each(user);
+							}
 
-										currentRank.push(user);
-									});
-								}
-							});
-						}
+							if (user.ranks_ids && user.ranks_ids.length > 0) {
+								user.ranks_ids.forEach(rank => {
+									let currentRank = System.allModerators.withRanks[rank];
 
-						callback && callback();
+									if (!currentRank) {
+										currentRank = System.allModerators.withRanks[rank] = []
+									}
+
+									currentRank.push(user);
+								});
+							}
+						});
 					}
-				});
-			}
-		});
+
+					callback && (callback.done || callback)();
+				}
+			});
+		}
+
+		if (idList) {
+			prepareUsers(idList);
+		} else {
+			Request.get(`/moderators/supervisors/${System.data.Brainly.userData.user.id}`, res => {
+				idList = res.match(/\=\d{1,}/gim);
+
+				if (idList && idList.length > 0) {
+					if (typeof idList[0] == "string") {
+						idList = idList.map(id => ~~(id.replace(/\D/gim, "")));
+					}
+
+					prepareUsers(idList);
+				}
+			});
+		}
 	},
 	getMessageID(user_id, callback) {
-		Request.Brainly("POST", `/api_messages/check`, { user_id }, callback);
+		Request.BrainlyAPI("POST", `/api_messages/check`, { user_id }, callback);
 	},
-	sendMessage(conversation_id, content, callback) {
-		let data = {
-			content,
-			conversation_id
-		};
+	sendMessage(conversation_id, content, callbacks) {
+		let isRange = (typeof conversation_id == "string" && conversation_id.indexOf(":") >= 0);
+		if (typeof conversation_id == "object" || isRange) {
+			if (isRange) {
+				let range = conversation_id.split(":");
+				conversation_id = fillRange(...range);
+			}
 
-		Request.Brainly("POST", `/api_messages/send`, data, callback);
+			let openedRequests = 0;
+			let currentUserIndex = 0;
+			let membersLen = conversation_id.length;
+			let sendedMessagesCounter = 0;
+
+			let onResponseHandler = res => {
+				openedRequests--;
+				sendedMessagesCounter++;
+				if (res && res.success) {
+					callbacks.each(sendedMessagesCounter);
+				}
+
+				if (sendedMessagesCounter == membersLen) {
+					callbacks.done(conversation_id);
+				}
+			};
+			let _loop_sendMessage = setInterval(() => {
+				if (currentUserIndex == membersLen) {
+					clearInterval(_loop_sendMessage);
+
+					return true;
+				}
+
+				if (openedRequests < 250) {
+					openedRequests++;
+					let user = conversation_id[currentUserIndex++];
+					if (!(user.conversation_id || user.conversationID)) {
+						ActionsOfBrainly.getMessageID(user.id || user, res => {
+							if (res && res.success) {
+								if (typeof user == "number") {
+									user = { user_id: user }
+								}
+								user.conversation_id = res.data.conversation_id;
+								ActionsOfBrainly.sendMessage(user.conversation_id, content, onResponseHandler);
+							}
+							else {
+								sendedMessagesCounter++;
+								callbacks.each(sendedMessagesCounter);
+							}
+						});
+					} else {
+						ActionsOfBrainly.sendMessage(user.conversation_id || user.conversationID, content, onResponseHandler);
+					}
+				}
+			});
+
+			return _loop_sendMessage;
+		} else {
+			let data = {
+				content,
+				conversation_id
+			};
+
+			Request.BrainlyAPI("POST", `/api_messages/send`, data, callbacks);
+		}
+	},
+	sendMessageById(user_id, content, callback) {
+		this.getMessageID(user_id, res => {
+			if (res && res.success) {
+				userData.conversationID = res.data.conversation_id;
+				sendMessage(res.data.conversation_id, content, callback);
+			} else {
+				callback(res);
+			}
+		});
 	}
 }
 export default ActionsOfBrainly;

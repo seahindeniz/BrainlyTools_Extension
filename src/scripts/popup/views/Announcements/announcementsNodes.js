@@ -27,7 +27,7 @@ let processAnnouncement = announcement => {
 		<figure class="media-left">
 			<p class="image is-32x32">
 				<a href="#" data-user-id="${announcement.user_id.brainlyID}" target="_blank">
-					<img class="avatar" src="https://${System.data.meta.marketName}/img/avatars/100-ON.png">
+					<img class="avatar is-rounded" src="https://${System.data.meta.marketName}/img/avatars/100-ON.png">
 				</a>
 			</p>
 		</figure>

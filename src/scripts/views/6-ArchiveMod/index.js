@@ -33,7 +33,7 @@ System.checkUserP([1, 2, 45], () => {
 				data.push({
 					text: i + 1,
 					title: System.data.Brainly.deleteReasons.__withTitles[key][reason].title + ":\n" + System.data.Brainly.deleteReasons.__withTitles[key][reason].text,
-					type: "peach"
+					type: "peach "+ key
 				});
 			});
 
@@ -183,11 +183,11 @@ System.checkUserP([1, 2, 45], () => {
 								}
 								spinner.remove();
 							};
-							
+
 							let obj = Zadanium.getObject($($toplayer).attr("objecthash"));
 
 							if (contentType == "task") {
-								let user=Zadanium.users.getUserObject(obj.data.task.user.id);
+								let user = Zadanium.users.getUserObject(obj.data.task.user.id);
 
 								System.log(5, user.data, [contentID]);
 
@@ -212,18 +212,6 @@ System.checkUserP([1, 2, 45], () => {
 
 	let observeForNewModerationItem = moderationItemParent => {
 		//moderationItemParent[0].classList.add("quickDelete");
-		WaitForElm("#moderation-all > div.top > div.header > h1", h1 => {
-			$(h1).on("click", "span", function() {
-				$("#moderation-all > div.top > div.sub-header.row > div.span5 > select").val($(this).is(".total") ? "0" : "998").change();
-			});
-			Storage.get("archive_mod_layout", res => {
-				if (res) {
-					let $moderationItemParent = $(selectors.moderationItemParent);
-
-					$moderationItemParent.addClass('listView');
-				}
-			});
-		});
 		WaitForElm('div.moderation-item:not(.ext-buttons-added)', e => {
 			createQuickDeleteButtons(e);
 		});
@@ -262,5 +250,18 @@ WaitForElm("#moderation-all > div.top > div.sub-header.row > div.pull-right", la
 		}
 
 		Storage.set({ archive_mod_layout: isListView });
+	});
+
+	WaitForElm("#moderation-all > div.top > div.header > h1", h1 => {
+		$(h1).on("click", "span", function() {
+			$("#moderation-all > div.top > div.sub-header.row > div.span5 > select.filters").val($(this).is(".total") ? "0" : "998").change();
+		});
+		Storage.get("archive_mod_layout", res => {
+			if (res) {
+				let $moderationItemParent = $(selectors.moderationItemParent);
+
+				$moderationItemParent.addClass('listView');
+			}
+		});
 	});
 });

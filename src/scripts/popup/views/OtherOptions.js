@@ -19,7 +19,7 @@ const OtherOptions = (options, callback) => {
 				</div>
 			</div>
 			<div class="field is-grouped">
-				<div class="control">
+				<div class="control tags">
 					<label class="checkbox">
 						${System.data.locale.popup.extensionOptions.otherOptions.extensionLanguage.text}
 					</label>
@@ -27,7 +27,7 @@ const OtherOptions = (options, callback) => {
 				<div class="control is-expanded">
 					<div class="dropdown">
 						<div class="dropdown-trigger">
-							<button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+							<button class="button level" aria-haspopup="true" aria-controls="dropdown-menu">
 								<span>${System.data.locale.popup.extensionOptions.otherOptions.extensionLanguage.chooseLanguage}</span>
 								<span class="icon is-small">
 									<i class="fas fa-angle-down" aria-hidden="true"></i>
@@ -50,12 +50,33 @@ const OtherOptions = (options, callback) => {
 	let $dropdown = $(".dropdown", $otherOptions);
 	let $languagesContainer = $(".dropdown-menu > .dropdown-content", $dropdown);
 	let $dropdownText = $(".dropdown-trigger > button.button > span:not(.icon)", $dropdown);
+	let $extendMessageLayoutCheckbox = $("#extendMessagesLayout", $otherOptions);
 
+	/**
+	 * Message layout option
+	 */
+	Storage.get("extendMessagesLayout", selectedLang => {
+		if (selectedLang) {
+			$extendMessageLayoutCheckbox.prop("checked", selectedLang);
+		}
+	});
+	$extendMessageLayoutCheckbox.change(function() {
+		Notification("Layout " + (this.checked ? "extended" : "switched back to normal"));
+		Storage.set({ extendMessagesLayout: this.checked });
+		send2AllBrainlyTabs(tab => {
+			var message = { action: "extendMessagesLayout", url: tab.url, data: this.checked };
+			ext.tabs.sendMessage(tab.id, message);
+		});
+	});
+
+	/**
+	 * Language option
+	 */
 	Storage.get("language", selectedLang => {
 		if (selectedLang) {
 			let selected = System.data.config.availableLanguages.find(lang => lang.key == selectedLang);
 
-			$dropdownText.text(selected.title);
+			$dropdownText.html(selected.title.replace(/<.*>/, ""));
 		}
 
 		System.data.config.availableLanguages.forEach(lang => {
@@ -67,15 +88,6 @@ const OtherOptions = (options, callback) => {
 			} else {
 				$languagesContainer.append($lang);
 			}
-		});
-	});
-
-	$("#extendMessagesLayout", $otherOptions).change(function() {
-		Notification("Layout " + (this.checked ? "extended" : "switched back to normal"));
-		Storage.set({ extendMessagesLayout: this.checked });
-		send2AllBrainlyTabs(tab => {
-			var message = { action: "extendMessagesLayout", url: tab.url, data: this.checked };
-			ext.tabs.sendMessage(tab.id, message);
 		});
 	});
 

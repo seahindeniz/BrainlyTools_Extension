@@ -6,6 +6,10 @@ button {
 	span.sg-button-primary__icon {
 		margin: 0;
 	}
+
+	&.task {
+		background-color: #FBC02D;
+	}
 }
 
 #moderation-all {

@@ -26,7 +26,7 @@ const groupModal = function(group) {
 				</div>
 			</div>
 		</div>`,
-		`<div class="sg-actions-list sg-actions-list--space-between group-header">
+		`<div class="sg-actions-list sg-actions-list--space-between group-header sg-content-box__content--spaced-bottom">
 				<div class="sg-actions-list__hole">
 					<div class="sg-actions-list sg-actions-list--space-between sg-actions-list--no-wrap">
 						<div class="sg-actions-list__hole">

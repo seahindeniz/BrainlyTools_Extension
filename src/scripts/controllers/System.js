@@ -33,19 +33,19 @@ class _System {
 				reasonSign: "Ω",
 				extensionServerURL: "https://sahin.in",
 				extensionServerAPIURL: "https://sahin.in/BrainlyTools",
-				extensionServerURL: "http://127.0.0.1:3001",
-				extensionServerAPIURL: "http://127.0.0.1:3001/BrainlyTools",
+				/* extensionServerURL: "http://127.0.0.1:3001",
+				extensionServerAPIURL: "http://127.0.0.1:3001/BrainlyTools", */
 				availableLanguages: [{
 						key: "en_US",
 						title: "English"
 					},
 					{
 						key: "id",
-						title: "Bahasa Indonesia"
+						title: `Bahasa Indonesia <span class="is-pulled-right">Zuhh</span>`
 					},
 					{
 						key: "fr",
-						title: "Français"
+						title: `Français <span class="is-pulled-right">MichaelS</span>`
 					},
 					{
 						key: "tr",
@@ -56,69 +56,58 @@ class _System {
 				userFlags: {
 					list: [{
 							file: `/images/hats/hat_0.svg`,
-							css: {
-								img: "top: -8px;left: 15px;transform: rotate(-28deg);",
-								tag: "width: 25px; transform: rotate(-28deg);"
-							}
+							css: "top: -8px;left: 15px;transform: rotate(-28deg);"
+
 						},
 						{
 							file: `/images/hats/hat_1.svg`,
 							css: {
-								img: "top: -10px;left: 37px;transform: rotate(-7deg);",
-								tag: "top: -3px;"
+								img: "top: -10px;left: 37px;transform: rotate(-7deg);"
 							}
 						},
 						{
 							file: `/images/hats/hat_2.svg`,
-							css: {
-								img: "top: -6px; transform: rotate(-26deg); ",
-								tag: "top: -6px; left: -16px;width: 34px;transform: rotate(-29deg);"
-							}
+							css: "top: -6px; transform: rotate(-26deg); "
+
 						},
 						{
 							file: `/images/hats/hat_3.svg`,
-							css: {
-								img: "width: 44px;top: -9px;left: 21px;",
-								tag: "left: -9px;width: 24px;"
-							}
+							css: "width: 44px;top: -9px;left: 21px;"
+
 						},
 						{
 							file: `/images/hats/hat_4.svg`,
 							css: {
-								img: "top: -8px;left: 75px;transform: rotate(25deg);",
-								tag: "top: -5px;left: -11px;transform: scaleX(-1) rotate(25deg);"
+								img: "top: -8px;left: 75px;transform: rotate(25deg);"
 							}
 						},
 						{
 							file: `/images/hats/hat_5.svg`,
-							css: {
-								img: "",
-								tag: ""
-							}
+							css: ""
+
 						},
 						{
 							file: `/images/hats/hat_6.svg`,
-							css: {
-								img: "top: -6px;left: 40px;width: 65px;transform: rotate(-7deg);",
-								tag: "transform: rotate(-7deg);top: -6px;left: -3px;width: 40px;"
-							}
+							css: "top: -6px;left: 40px;width: 65px;transform: rotate(-7deg);"
+
 						},
 						{
 							file: `/images/hats/hat_7.svg`,
-							css: {
-								img: "top: -2px; left:33px;width: 50px;transform: rotate(26deg);",
-								tag: "transform: rotate(19deg);top: 0px;left: -8px;"
-							}
+							css: "top: -2px; left:33px;width: 50px;transform: rotate(26deg);"
+
 						},
 						{
-							file: ``,
-							css: {
-								img: "",
-								tag: ""
-							}
+							file: `/images/hats/hat_8.svg`,
+							css: "top: -12px; left: 16px; width: 70px; transform: rotate(5deg);"
+
+						},
+						{
+							file: `/images/hats/hat_9.png`,
+							css: "top: -25px; left: 30px; width: 70px; transform: rotate(-6deg);"
+
 						},
 					],
-					0: [0],
+					0: [0, 8, 9],
 					1: [1, 2, 4],
 					2: [3, 5, 6, 7]
 				}
@@ -188,8 +177,9 @@ class _System {
 		ext.runtime.sendMessage(System.data.meta.extension.id, { action: "changeBadgeColor", status })
 	}
 	createProfileLink(nick, id) {
-		if (!this.profileLinkRoute)
-			this.profileLinkRoute = (System.data.Brainly.Routing.routes[System.data.Brainly.Routing.prefix + "user_profile"]).tokens.pop().pop();
+		if (!this.profileLinkRoute) {
+			this.profileLinkRoute = (System.data.Brainly.Routing.routes[System.data.Brainly.Routing.prefix + "user_profile"]).tokens.slice().pop().pop();
+		}
 		if (this.profileLinkRoute) {
 			return System.data.meta.location.origin + this.profileLinkRoute + "/" + nick + "-" + id;
 		} else
@@ -197,7 +187,7 @@ class _System {
 	}
 	prepareAvatar(user) {
 		let avatar = "";
-		
+
 		if (user) {
 			if (user.avatar) {
 				avatar = user.avatar[64] || user.avatar[100] || user.avatar.src || user.avatar.small || user.avatar.medium;
@@ -218,22 +208,28 @@ class _System {
 		let _return = "";
 		if (type === "profile") {
 			if (!this.routeMasks.profile)
-				this.routeMasks.profile = (System.data.Brainly.Routing.routes[System.data.Brainly.Routing.prefix + "user_profile"]).tokens.pop().pop();
+				this.routeMasks.profile = (System.data.Brainly.Routing.routes[System.data.Brainly.Routing.prefix + "user_profile"]).tokens.slice().pop().pop();
 
-			if (this.routeMasks.profile)
-				_return = System.data.meta.location.origin + this.routeMasks.profile + "/" + data.nick + "-" + data.id;
-			else
+			if (this.routeMasks.profile) {
+				/* console.log(System.data.meta.location.origin);
+				console.log(this.routeMasks.profile);
+				console.log(data.nick);
+				console.log((data.id || data.brainlyID)); */
+				_return = System.data.meta.location.origin + this.routeMasks.profile + "/" + data.nick + "-" + (data.id || data.brainlyID);
+			} else
 				_return = "";
 		}
 		if (type === "task") {
-			if (!this.routeMasks.task)
-				this.routeMasks.task = (System.data.Brainly.Routing.routes[System.data.Brainly.Routing.prefix + "task_view"]).tokens.pop().pop();
+			if (!this.routeMasks.task) {
+				this.routeMasks.task = (System.data.Brainly.Routing.routes[System.data.Brainly.Routing.prefix + "task_view"]).tokens.slice().pop().pop();
+			}
 
 			if (this.routeMasks.task)
-				_return = System.data.meta.location.origin + this.routeMasks.task + "/" + data.id;
+				_return = System.data.meta.location.origin + this.routeMasks.task + "/" + (data.id || data.brainlyID);
 			else
 				_return = "";
 		}
+
 		return _return;
 	}
 	checkUserP(p, c) {

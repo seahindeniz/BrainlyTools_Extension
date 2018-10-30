@@ -135,6 +135,7 @@ let getDefaultConfig = callback => {
 						let _Routing = new Function(`return {${matchRoutes[matchRoutes.length - 1]}}`)();
 						System.data.Brainly.Routing.prefix = _Routing.prefix;
 						System.data.Brainly.Routing.routes = _Routing.routes;
+						
 						localStorage.setObject("_Routing", System.data.Brainly.Routing);
 						callback && callback();
 					}

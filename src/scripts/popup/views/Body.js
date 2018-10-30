@@ -42,7 +42,7 @@ const Layout = template => {
 
 			this.classList.add("is-active");
 			$lastActive.removeClass("is-active");
-			$buttonText.text(this.innerHTML);
+			$buttonText.text(this.innerHTML.replace(/<.*>/, ""));
 			$dropdown.val(value);
 			$dropdown.change();
 		});

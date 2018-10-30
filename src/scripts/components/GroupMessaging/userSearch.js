@@ -5,7 +5,7 @@ import userLi from "./userLi";
 
 const isPosInt = str => /^\+?\d+$/.test(str);
 const idSearch = n => {
-	Request.Brainly("GET", `/api_users/get/${n}`, (res) => {
+	Request.BrainlyAPI("GET", `/api_users/get/${n}`, (res) => {
 		$findUsersList.html("");
 		if (res.success && res.data) {
 			$notFound.addClass("js-hidden");

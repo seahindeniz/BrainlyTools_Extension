@@ -51,7 +51,8 @@ WaitForElm("#main-right", targetElm => {
 			let buttonData = [{
 					text: _locale.removeAllFriends.text,
 					title: _locale.removeAllFriends.title,
-					type: "peach removeAll"
+					type: "peach removeAll",
+					templateClass: "js-hidden"
 				},
 				{
 					text: _locale.showAllFriends.text,
@@ -146,7 +147,10 @@ WaitForElm("#main-right", targetElm => {
 					$profile_friends.html("");
 					$showAllFriends.parent().remove();
 					$selectAll.parent().removeClass('js-hidden');
-					$removeSelected.parent().removeClass('js-hidden');
+					if ((profileData && profileData.id == System.data.Brainly.userData.user.id)) {
+						$removeAll.parent().removeClass('js-hidden');
+						$removeSelected.parent().removeClass('js-hidden');
+					}
 					System.friends.forEach(friend => {
 						let ranks = "";
 

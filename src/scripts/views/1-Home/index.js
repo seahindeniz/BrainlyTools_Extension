@@ -120,33 +120,35 @@ System.checkUserP(1, () => {
 						}
 					});
 				} else if (btn_index == 1 || btn_index == 2) {
-					if (confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
-						let reason = System.data.Brainly.deleteReasons.__withTitles.task[System.data.config.quickDeleteButtonsReasons.task[btn_index - 1]];
-						let taskData = {
-							model_id: question_id,
-							reason_id: reason.category_id,
-							reason: reason.text
-						};
-						let $svg = $("svg", this);
-						let $spinner = $(`<div class="sg-spinner sg-spinner--xxsmall sg-spinner--light"></div>`);
+					setTimeout(() => {
+						if (confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
+							let reason = System.data.Brainly.deleteReasons.__withTitles.task[System.data.config.quickDeleteButtonsReasons.task[btn_index - 1]];
+							let taskData = {
+								model_id: question_id,
+								reason_id: reason.category_id,
+								reason: reason.text
+							};
+							let $svg = $("svg", this);
+							let $spinner = $(`<div class="sg-spinner sg-spinner--xxsmall sg-spinner--light"></div>`);
 
-						$spinner.insertBefore($svg);
-						$svg.hide();
-						RemoveQuestion(taskData, res => {
-							if (res) {
-								if (res.success) {
-									feedContentBox.addClass("sg-flash__message--error");
-								} else if (res.message) {
-									Notification(res.message, "error");
+							$spinner.insertBefore($svg);
+							$svg.hide();
+							RemoveQuestion(taskData, res => {
+								if (res) {
+									if (res.success) {
+										feedContentBox.addClass("sg-flash__message--error");
+									} else if (res.message) {
+										Notification(res.message, "error");
+									}
+								} else {
+									Notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
 								}
-							} else {
-								Notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
-							}
 
-							$spinner.remove();
-							$svg.show();
-						});
-					}
+								$spinner.remove();
+								$svg.show();
+							});
+						}
+					}, 10);
 				}
 			}
 		}

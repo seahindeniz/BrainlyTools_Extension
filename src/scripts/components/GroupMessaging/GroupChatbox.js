@@ -71,13 +71,12 @@ const GroupChatbox = function(group) {
 		</footer>
 	</div>`);
 
-	if (group.messages && group.messages.length > 0) {
+	let messageMedia = messages => {
 		let $messagesContainer = $(".brn-chatbox__chat.js-group-chat", $chatBox);
 		let user = System.data.Brainly.userData.user;
 		let avatar = System.prepareAvatar(user);
 		let profileLink = System.createProfileLink(user.nick, user.id);
-
-		group.messages.forEach(message => {
+		let createMedia = message => {
 			$messagesContainer.append(`
 			<article class="sg-media message sg-media--to-right">
 				<div class="sg-media__aside">
@@ -110,7 +109,12 @@ const GroupChatbox = function(group) {
 					</div>
 				</div>
 			</article>`);
-		});
+		};
+		if (messages instanceof Array) {
+			messages.forEach(createMedia);
+		} else {
+			createMedia(messages);
+		}
 
 		let __e = $messagesContainer.get(0);
 		let __loop_scroll = setInterval(() => {
@@ -120,11 +124,16 @@ const GroupChatbox = function(group) {
 		});
 	}
 
+	if (group.messages && group.messages.length > 0) {
+		messageMedia(group.messages);
+	}
+
 	let $deleteGroup = $("button.js-delete-group", $chatBox);
 	let $editGroup = $("button.js-edit-group", $chatBox);
 	let $messageInput = $("footer.brn-chatbox__footer textarea", $chatBox);
 	let $sendButton = $("footer.brn-chatbox__footer button", $chatBox);
 	let $progressHole = $(".sg-actions-list > .sg-actions-list__hole.progress", $chatBox);
+	let $groupLiMessateContent = $(".js-message-content", this);
 	let isSending = false;
 
 	window.onbeforeunload = function() {
@@ -141,9 +150,7 @@ const GroupChatbox = function(group) {
 		isSending = true;
 		let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--small"></div></div>`).insertAfter($sendButton);
 		let membersLen = group.members.length;
-		let openedRequests = 0;
 		let sendedMessagesCount = 0;
-		let currentUserIndex = 0;
 		let message = $messageInput.val();
 		let previousProgressBars = $(".progress-container", $progressHole);
 		let progress = new Progress({
@@ -159,14 +166,12 @@ const GroupChatbox = function(group) {
 			previousProgressBars.remove();
 		}
 
-		let onResponseHandler = res => {
-			openedRequests--;
-			if (res && res.success) {
+		sendMessage(group.members, message, {
+			each: () => {
 				progress.update(++sendedMessagesCount);
 				progress.updateLabel(`${sendedMessagesCount} - ${membersLen}`);
-			}
-
-			if (sendedMessagesCount == membersLen) {
+			},
+			done: () => {
 				isSending = false;
 
 				$spinner.remove();
@@ -174,26 +179,15 @@ const GroupChatbox = function(group) {
 				$messageInput.val("");
 				$messageInput.prop("disabled", false);
 				autosize.update($messageInput);
+				messageMedia({ message, time: new Date().toISOString() });
+				console.log($groupLiMessateContent);
+				$groupLiMessateContent.text(message.substring(0, 60));
+				$groupLiMessateContent.attr("title", message);
 				MessageSended({
 					_id: group._id,
 					message,
 					members: group.members.map(member => ~~member.brainlyID)
 				});
-			}
-		};
-		let _loop_sendMessage = setInterval(() => {
-			if (currentUserIndex == membersLen) {
-				clearInterval(_loop_sendMessage);
-
-				return true;
-			}
-
-			if (openedRequests < 300) {
-				openedRequests++;
-				let user = group.members[currentUserIndex++];
-				console.log(user);
-				onResponseHandler({ success: true });
-				//sendMessage(user.conversationID, message, onResponseHandler);
 			}
 		});
 	};

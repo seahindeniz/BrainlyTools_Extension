@@ -1,7 +1,7 @@
 "use strict";
 
-import Modal from "../../components/ModalToplayer";
-import DeleteSection from "../DeleteSection";
+import Modal from "../../../components/ModalToplayer";
+import DeleteSection from "../../../components/DeleteSection";
 
 export default () => {
 	let modal = new Modal(

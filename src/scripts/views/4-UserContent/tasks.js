@@ -2,6 +2,7 @@
 
 import { RemoveQuestion } from "../../controllers/ActionsOfBrainly";
 import DeleteSection from "../../components/DeleteSection";
+import Notification from "../../components/Notification";
 
 let selectors = window.selectors,
 	$moderateActions = window.$moderateActions;
@@ -84,6 +85,7 @@ $submit.click(function() {
 
 				$checkedContentSelectCheckboxes.each(function() {
 					let $parentRow = $(this).parents("tr");
+					let rowNumber = ~~($(">td:eq(1)", $parentRow).text());
 					let model_id = $parentRow.data("taskid");
 					let taskData = {
 						model_id,
@@ -99,14 +101,16 @@ $submit.click(function() {
 					RemoveQuestion(taskData, (res) => {
 						if (!res) {
 							Notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
+							updateCounter();
 						} else {
-							if (res.success) {
-								$(this).attr("disabled", "disabled")
-								$parentRow.addClass("removed");
-								updateCounter();
-							} else if (res.message) {
-								Notification(res.message, "error");
+							if (!res.success && res.message) {
+								Notification("#" + rowNumber + " > " + res.message, "error");
+								$parentRow.addClass("already");
 							}
+							
+							$(this).attr("disabled", "disabled")
+							$parentRow.addClass("removed");
+							updateCounter();
 						}
 					});
 				});

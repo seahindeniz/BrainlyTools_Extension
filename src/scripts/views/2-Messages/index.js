@@ -52,6 +52,9 @@ WaitForElm(selectors.profileLinkContainer, (targetElm) => {
 	profileLinkContainerFound(targetElm);
 	WaitForFn('$().observe', observeFound);
 });
-WaitForElm(selectors.conversationsHeader, $conversationsHeader => {
-	renderGroupMessaging($conversationsHeader);
+
+System.checkUserP(8, () => {
+	WaitForElm(selectors.conversationsHeader, $conversationsHeader => {
+		renderGroupMessaging($conversationsHeader);
+	});
 });

@@ -9,21 +9,20 @@ TODO:
 			- Eklenti kullanıcısı, doğrulama gibi özel izin gerektiren eylemlerde, brainly privilege'ı kontrol edilsin ve ona göre içerik gösterilsin.
 			- Chatango ile mesajlaşmada çoklu sohbet odaları seçme özelliği lazım. Belli kişilere özel bir yol çizilmeli ve kimlerin hangi odaya girebileceği gibi durumları kararlaştır
 			- Eklenti tanıtım dökümanı yerine, sahin.in içerisinde dil değişkenli bir sunum alanı oluştur
+			- Eklenti seçeneklerine, kişinin oluşturduğu kısa linkleri 30 adetle sınırlandıracak şekilde listele
 
 		Global:
-			- Kenar moderatör paneline nick bazlı kişi arama/sorgulama
 			- Eklenti seçeneklerine resim paylaşma özelliği ekle. Olursa eğer
 			- Gelen bildirimleri takip etmek için web socket oluştur ve bildirimleri tarayıcının notification panelinde göster
 			- Eklentiye özel silim sebebi tanımlama seçeneği. Bununla ilgili eklenti seçeneğine özel olarak alan oluştur ve yönetilebilsin
 			- Hızlı soru silim butonunu 3'e çıkartmayı incele, tasarıma uyarmı gibi..
-			- Chatango ile mesajlaşmada çoklu sohbet odaları seçme özelliği lazım. Belli kişilere özel bir yol çizilmeli ve kimlerin hangi odaya girebileceği gibi durumları kararlaştır
 
 		Anasayfa:
 
 		Tümünü düzelt:
 			- Daha fazla yükle butonu yerine sayfa numaralandırma
 			- Düzenle panelinde sağ sol okları ve A, D ve yön tuşlarıyla hareket etme, esc tuşuyla panel kapatma
-			- Şikayet edilmiş kutucukları, içerik tiplerine göre renklendir. Soruları açık yeşil, cevapları açık mavi
+			- Liste görünümünde soru içeriklerinin altına, cevapları da ekleme
 		
 		Soru sayfası:
 			- Ek bir hesap ile kendi cevaplarını doğrulama servisi
@@ -31,15 +30,13 @@ TODO:
 			- Kişi avatarına "kişi eklenti kullanıcısı" etiketi
 
 		Mesajlar:
-			- Mesaj grubu oluşturma seçenekleri
 			- Mesajlaşmada yasaklı kelime kontrolü
 
 		Profil sayfası:
-			- Tüm cevaplara yıldız, teşekkür et servisi
-			- Tüm arkadaşları göster, sil
 			- Hesap silimi yapıldığında topluluk yöneticisine otomatik e-posta gönder
 
 		Kullanıcı bilgilerini gör sayfası:
+			- Yorum silme olayına imkan araştır. Muhtemel olasılık, görüntülenen kısmi yorum içeriğini, yapılan yorumlar arasından filtrelemek
 
 		Uyarılar sayfası:
 			- Kendi uyarılarını geri alma işlemi
@@ -73,6 +70,7 @@ TODO:
 			+ Eklenti kullanıcılarını yönetmek için alan oluştur
 			+ Chatango ile market içi mesajlaşma
 			+ ID listesi ile, ödev silimi yapılma özelliği.
+			+ Kenar moderatör paneline nick bazlı kişi arama/sorgulama
 
 		Anasayfa:
 			+ Hızlı silim butonlarının eylemlerini aktifleştir
@@ -83,6 +81,7 @@ TODO:
 			+ Yorum sayısına tıklandığında yorumları göster
 			+ Şikayet edilmiş içeriklerin kutularını iyileştir http://i.hizliresim.com/VPnGvv.png
 			+ Tablo ve liste seçenekleri
+			+ Şikayet edilmiş kutucukları, içerik tiplerine göre renklendir. Soruları turuncu, cevapları ve yorumları kırmızı renkte
 		
 		Soru sayfası:
 			+ Hızlı silim butonları, soruya ve cevaplara
@@ -91,11 +90,13 @@ TODO:
 			+ Görünüm genişletme seçeneğini ekle
 			+ Kişi notu ekleme/düzeneleme kutusu
 			+ Kullanıcı adı, header'a "kişi eklenti kullanıcısı" etiketi
+			+ Mesaj grubu oluşturma seçenekleri
 
 		Profil sayfası:
 			+ Profil notu
 			+ Previos nicks
 			+ Kişi avatarına ve  kullanıcı adına "kişi eklenti kullanıcısı" etiketi
+			+ Tüm arkadaşları göster, sil
 
 		Kullanıcı bilgilerini gör sayfası:
 			+ Soru/Cevap içeriğini genişlet/göster butonu. Sağ, aşağı yönlü ok simgesi. Bu içerikler, sayfa onload olduktan sonra kullanıcı içeriği görüntülemeden önce fetch edilecek. Maksat, içerikleri kullanıcıyı bekletmeden göstermek. Butona bastığında, display:block edilecek ama fetchden sonra gösterilecek. Malum, fetch isteği tamamlanmadan, kullanıcı içeriği göster butonuna basabilir.
@@ -106,3 +107,7 @@ TODO:
 		Uyarılar sayfası:
 			+ Uyarı seçimi için kutucuk, tümünü seç kutusu ekle
 			+ Seçilmiş uyarıları geri alma işlemi
+
+		Supervisors sayfası:
+			+ Moderatör kutularının görünümlerini değiştirme ve filtreleme
+			+ Moderatörlere çoklu mesaj gönderme

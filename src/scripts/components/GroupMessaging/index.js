@@ -35,6 +35,7 @@ const renderGroupConversations = () => {
 
 	$conversationsList.html("");
 	$conversationsList.off("scroll");
+	$conversationsList.attr("data-empty-message", __groups.notificationMessages.youHaventCreatedAGroupYet);
 	$(selectors.chatbox + ">*").remove();
 	$(selectors.tipText).html(__groups.pinTip.replace("%{pin}", System.data.config.pinIcon.replace(/\{size\}/g, 16)));
 

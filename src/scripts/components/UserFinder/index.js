@@ -1,63 +1,157 @@
-import Request from "../../controllers/Request";
+"use strict";
+
+import { findUser, getUserByID } from "../../controllers/ActionsOfBrainly";
+
+let $userList;
+
+const isPosInt = str => (/^\+?\d+$/).test(str);
+const userLi = ({ id, nick, avatar, buddyUrl, ranks }) => {
+	let $userBox = $(`
+	<div class="sg-content-box sg-content-box--full">
+		<div class="sg-content-box__content sg-content-box__content--spaced-top-small">
+			<div class="sg-actions-list">
+				<div class="sg-actions-list__hole">
+					<div class="sg-avatar sg-avatar--normal sg-avatar--spaced">
+						<a href="${buddyUrl}" style="text-align: center;">
+							<img class="sg-avatar__image" src="${avatar}">
+						</a>
+					</div>
+				</div>
+				<div class="sg-actions-list__hole sg-actions-list__hole--grow">
+					<a class="sg-link sg-link--unstyled" href="${buddyUrl}">
+						<span class="sg-text sg-text--small sg-text--gray sg-text--emphasised">${nick}</span>
+					</a>
+					<div class="sg-text--xsmall rankList"></div>
+				</div>
+			</div>
+		</div>
+	</div>`);
+
+	let $rankList = $("div.rankList", $userBox);
+	let addRank = rank => {
+		let color = "#000";
+		if (rank.color) {
+			color = rank.color;
+
+			if (color.indexOf("rgb") < 0) {
+				color = "#" + rank.color;
+			}
+		}
+
+		$rankList.append(`<span style="color:${color};">${rank.name}</span>`);
+	}
+
+	if (ranks != "") {
+		if (ranks instanceof Array) {
+			ranks.forEach(rank => {
+				addRank(rank);
+			});
+		} else if (typeof ranks == "object") {
+			addRank(ranks);
+		}
+	}
+
+	$userBox.appendTo($userList);
+}
 
 const UserFinder = $seperator => {
-	let searchInput = $(`
-		<li class="sg-menu-list__element userFinder" style="display: table; width: 100%;">
-			<label class="sg-text sg-text--blue">${System.data.locale.core.UserFinder.profileID}:
-				<input type="search" class="sg-input sg-input--small" placeholder="1234567"/>
-			</label>
-			<div class="sg-text sg-text--peach js-hidden notFound">${System.data.locale.core.notificationMessages.userNotFound}</div>
-			<div class="userList"></div>
-		</li>`);
+	let $userFinder = $(`
+	<li class="sg-menu-list__element userFinder" style="display: table; width: 100%;">
+		<label class="sg-text sg-text--blue">${System.data.locale.messages.groups.userCategories.findUsers.text}:
+			<input type="search" class="sg-input sg-input--small" placeholder="${System.data.locale.messages.groups.userCategories.findUsers.nickOrID}"/>
+		</label>
+		<div class="userList js-hidden" data-placeholder=""></div>
+	</li>`);
 
-	searchInput.insertBefore($seperator);
+	$userFinder.insertBefore($seperator);
 
-	$("input", searchInput).on("input", function() {
-		let userList = $(".userList", searchInput);
-		let $notFound = $(".notFound", searchInput);
-		const isPosInt = str => /^\+?\d+$/.test(str);
+	$userList = $(".userList", $userFinder);
+	let delayTimer;
 
-		if (!this.value || this.value === "" || isPosInt(this.value) || !(~~this.value > 0)) {
-			userList.html("");
+	$("input", $userFinder).on("input", function() {
+		let value = this.value;
+
+		$userList.html("");
+		$userList.attr("data-placeholder", System.data.locale.core.notificationMessages.searching);
+		$userList.removeClass("js-hidden");
+
+		if (!value || value == "") {
+			clearTimeout(delayTimer);
+			$userList.attr("data-placeholder", "");
+			$userList.addClass("js-hidden");
 		} else {
-			Request.Brainly("GET", `/api_users/get/${this.value}`, (res) => {
-				userList.html("");
-				if (res.success && res.data) {
-					$notFound.addClass("js-hidden");
+			clearTimeout(delayTimer);
 
-					let profileLink = System.createBrainlyLink("profile", { nick: res.data.nick, id: res.data.id });
-					let ranks = [];
-					let avatar = System.prepareAvatar(res.data);
+			delayTimer = setTimeout(() => {
+				if (isPosInt(value)) {
+					getUserByID(value, res => {
+						if (!res || !res.success || !res.data) {
+							$userList.attr("data-placeholder", System.data.locale.core.notificationMessages.userNotFound);
+						} else {
+							let ranks = [];
+							let avatar = System.prepareAvatar(res.data);
+							let buddyUrl = System.createBrainlyLink("profile", { nick: res.data.nick, id: res.data.id });
 
-					res.data.ranks_ids.forEach(rankId => {
-						let current_rank = System.data.Brainly.defaultConfig.config.data.ranksWithId[rankId];
-						ranks.push(`<span class="" style="color:#${(current_rank.color || "000")};">${current_rank.name}</span>`);
+							res.data.ranks_ids.forEach(rankId => {
+								ranks.push(System.data.Brainly.defaultConfig.config.data.ranksWithId[rankId]);
+							});
+
+							userLi({
+								id: res.data.id,
+								nick: res.data.nick,
+								avatar,
+								buddyUrl,
+								ranks
+							});
+						}
 					});
-
-					userList.append(`
-						<div class="sg-content-box sg-content-box--full">
-							<div class="sg-content-box__content sg-content-box__content--spaced-top-small">
-								<div class="sg-actions-list">
-									<div class="sg-actions-list__hole">
-										<div class="sg-avatar sg-avatar--normal sg-avatar--spaced">
-											<a href="${profileLink}" style="text-align: center;">
-												<img class="sg-avatar__image" src="${avatar}">
-											</a>
-										</div>
-									</div>
-									<div class="sg-actions-list__hole sg-actions-list__hole--grow">
-										<a class="sg-link sg-link--unstyled" href="${profileLink}">
-											<span class="sg-text sg-text--small sg-text--gray sg-text--emphasised">${res.data.nick}</span>
-										</a>
-										<div class="sg-text--xsmall rankList">${ranks.join(", ")}</div>
-									</div>
-								</div>
-							</div>
-						</div>`);
-				} else {
-					$notFound.removeClass("js-hidden");
 				}
-			});
+
+				findUser(value, res => {
+					let $userContainers = $('td', res);
+
+					if (!$userContainers || $userContainers.length == 0) {
+						$userList.attr("data-placeholder", System.data.locale.core.notificationMessages.userNotFound);
+					} else {
+						$userContainers.each(function(i, $userContainer) {
+							let avatar = $('.user-data > a > img', $userContainer).attr('src');
+							let $userLink = $('.user-data > div.user-nick > a.nick', $userContainer);
+							let nick = $userLink.text();
+							let buddyUrl = $userLink.attr('href');
+							let id = ~~(buddyUrl.replace(/.*\-/gi, ""))
+							let rankList = $('div.user-data > div.user-nick > a:nth-child(3), div.user-data > div.user-nick > span', $userContainer);
+							let ranks = "";
+
+							if (rankList.length == 1) {
+								ranks = {
+									name: rankList.text(),
+									color: rankList.css("color")
+								};
+							} else if (rankList.length > 1) {
+								ranks = [];
+								rankList.each((i, rank) => {
+									ranks.push({
+										name: rank.innerText,
+										color: rank.style.color
+									});
+								});
+							}
+
+							if (avatar == '/img/') {
+								avatar = '/img/avatars/100-ON.png';
+							}
+
+							userLi({
+								id,
+								nick,
+								avatar,
+								buddyUrl,
+								ranks
+							});
+						});
+					}
+				});
+			}, 600);
 		}
 	});
 

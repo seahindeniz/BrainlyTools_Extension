@@ -123,8 +123,9 @@ if (System.checkRoute(4, "") || System.checkRoute(4, "tasks") || System.checkRou
 					}
 				}
 				let responseOwner = taskView.users_data_WithUID[response.user_id];
+				console.log(responseOwner)
 				let responseAttachments = attachmentPrepare(response.attachments);
-				if (responseAttachments && System.checkRoute(4, "responses")) {
+				if (responseOwner.id == sitePassedParams[0] && responseAttachments && System.checkRoute(4, "responses")) {
 					$parentTd.prepend(attachmentIcon);
 				}
 				responseFields += `

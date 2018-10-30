@@ -28,28 +28,47 @@ section.brn-messages__conversations {
 
 
 
-	ul.js-conversations>li {
-		&.pinned .js-pin {
-			border-radius: 50%;
-			box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
+	ul.js-conversations {
+		&:empty:after {
+			content: attr(data-empty-message);
+			border: 1px solid #eee;
+			padding: 15px 10px;
+			position: relative;
+			display: block;
 		}
 
-		&:not(.pinned) .js-pin {
-			display: none;
-		}
+		>li {
+			&.pinned .js-pin {
+				border-radius: 50%;
+				box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
+			}
 
-		&:hover .js-pin {
-			display: inline-block;
-		}
+			&:not(.pinned) .js-pin {
+				display: none;
+			}
 
-		.js-pin {
-			position: absolute;
-			right: 0;
-			height: 26px;
-			padding: 2px;
+			&:hover .js-pin {
+				display: inline-block;
+			}
 
-			* {
-				pointer-events: none;
+			&.js-group-conversation {
+				.js-message-content {
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+				}
+			}
+
+			.js-pin {
+				position: absolute;
+				right: 0;
+				top: -8px;
+				height: 26px;
+				padding: 2px;
+
+				* {
+					pointer-events: none;
+				}
 			}
 		}
 	}

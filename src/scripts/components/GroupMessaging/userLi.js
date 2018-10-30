@@ -18,13 +18,27 @@ export default (user, isGroupMember) => {
 		</div>
 	</li>`);
 
+	let $rankList = $("ul.sg-breadcrumb-list", $conversation);
+	let addRank = rank => {
+		let color = "#000";
+		if (rank.color) {
+			color = rank.color;
+
+			if (color.indexOf("rgb") < 0) {
+				color = "#" + rank.color;
+			}
+		}
+
+		$rankList.append(`<li class="sg-breadcrumb-list__element" style="color:${color};">${rank.name}</li>`);
+	}
+
 	if (user.ranks != "") {
 		if (user.ranks instanceof Array) {
 			user.ranks.forEach(rank => {
-				$("ul.sg-breadcrumb-list", $conversation).append(`<li class="sg-breadcrumb-list__element" style="color:#${rank.color||"000"}">${rank.name}</li>`);
+				addRank(rank);
 			});
 		} else if (typeof user.ranks == "object") {
-			$("ul.sg-breadcrumb-list", $conversation).append(`<li class="sg-breadcrumb-list__element" style="color:#${user.ranks.color||"000"}">${user.ranks.name}</li>`);
+			addRank(user.ranks);
 		}
 	}
 

@@ -1,26 +1,41 @@
 .quickDelete {
-	.js-feed-item>.sg-content-box {
-		min-height: 160px;
+	.js-feed-item {
+		>.sg-content-box {
+			min-height: 160px;
 
-		.sg-content-box__title {
+			.sg-content-box__title {
 
-			&,
-			.sg-actions-list {
-				height: 48px;
+				&,
+				.sg-actions-list {
+					height: 48px;
 
-				.sg-actions-list>.sg-actions-list__hole:first-child {
-					margin-top: 115px;
+					.sg-actions-list>.sg-actions-list__hole:first-child {
+						margin-top: 115px;
+					}
 				}
 			}
-		}
 
-		.sg-content-box__content {
-			min-height: 35px;
-		}
+			.sg-content-box__content {
+				min-height: 35px;
+			}
 
-		&:not(.sg-flash__message--error):hover {
-			.ext_actions {
-				visibility: visible;
+			&:not(.sg-flash__message--error):hover {
+				>.sg-content-box__title .sg-actions-list>.sg-actions-list__hole {
+					background: #fff;
+					z-index: 1;
+
+					.ext_actions {
+						visibility: visible;
+						border-radius: 5px;
+						position: relative;
+						display: inline-block;
+						padding: 0px 5px 7px;
+						left: -5px;
+						box-shadow: 0px 0px 10px 0px #c5c5c5;
+						width: 42px;
+
+					}
+				}
 			}
 		}
 	}
@@ -49,6 +64,12 @@
 				display: block;
 			}
 		}
+	}
+}
+
+@media (max-width: 767px) {
+	.ext_actions button {
+		float: left;
 	}
 }
 

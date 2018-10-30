@@ -46,10 +46,10 @@ const Users = (callback) => {
 					</nav>
 				</article>
 				<p class="help">${System.data.locale.popup.extensionManagement.users.explainingColors.line1}</br></br>
-				${System.data.locale.popup.extensionManagement.users.explainingColors.line2.replace(/\%\{(.*)\}/, '<b style="color:#f00">$1</b>')}</br>
-				${System.data.locale.popup.extensionManagement.users.explainingColors.line3.replace(/\%\{(.*)\}/, '<b style="color:#fc0">$1</b>')}</br>
-				${System.data.locale.popup.extensionManagement.users.explainingColors.line4.replace(/\%\{(.*)\}/, '<b style="color:#0f0">$1</b>')}</br>
-				${System.data.locale.popup.extensionManagement.users.explainingColors.line5.replace(/\%\{(.*)\}/, '<b>$1</b>')}</p>
+				${System.data.locale.popup.extensionManagement.users.explainingColors.line2.replace(/<s>(.*)<\/s>/, '<b style="color:#f00">$1</b>')}</br>
+				${System.data.locale.popup.extensionManagement.users.explainingColors.line3.replace(/<s>(.*)<\/s>/, '<b style="color:#fc0">$1</b>')}</br>
+				${System.data.locale.popup.extensionManagement.users.explainingColors.line4.replace(/<s>(.*)<\/s>/, '<b style="color:#0f0">$1</b>')}</br>
+				${System.data.locale.popup.extensionManagement.users.explainingColors.line5.replace(/<s>(.*)<\/s>/, '<b>$1</b>')}</p>
 			</div>
 		</article>
 	</div>`);
@@ -90,7 +90,7 @@ const Users = (callback) => {
 				<div class="content">
 					<div class="field">
 						<div class="control is-expanded has-icons-left">
-							<input class="input" type="text" placeholder="${System.data.locale.core.UserFinder.profileID}">
+							<input class="input" type="text" placeholder="${System.data.locale.common.profileID}">
 							<span class="icon is-left">
 								<i class="fas fa-user"></i>
 							</span>
@@ -142,9 +142,9 @@ const Users = (callback) => {
 		let $avatar = $("img.avatar", $avatarContainer);
 		let $idInput = $('input[type="text"]', $addNewBox);
 		let processUser = user => {
-			let profileLink = System.createBrainlyLink("profile", { nick: user.nick, id: user.id });
+			let profileLink = System.createBrainlyLink("profile", user);
 			let userAvatar = System.prepareAvatar(user);
-			let serverData = window.fetchedUsers[user.id];
+			let serverData = window.fetchedUsers[user.id || user.brainlyID];
 
 			$link.attr("href", profileLink);
 			$nick.text(user.nick);
@@ -161,7 +161,7 @@ const Users = (callback) => {
 					serverData.privileges.forEach(type => $("#p-" + type, $privilegesContainer).prop("checked", true));
 				}
 			}
-			
+
 			$permissionContainer.removeClass("is-hidden");
 			$privilegesContainer.removeClass("is-hidden");
 		}
@@ -205,7 +205,7 @@ const Users = (callback) => {
 						if (window.fetchedUsers[id] && window.fetchedUsers[id].brainlyData) {
 							processUser(window.fetchedUsers[id].brainlyData);
 						} else {
-							Request.Brainly("GET", `/api_users/get/${id}`, (res) => {
+							Request.BrainlyAPI("GET", `/api_users/get/${id}`, (res) => {
 								if (res.success && res.data) {
 									window.fetchedUsers[id] = {
 										nick: res.data.nick,
@@ -270,7 +270,7 @@ const Users = (callback) => {
 								} else {
 									Notification(System.data.locale.common.allDone, "success");
 
-									$("#"+res.data._id, $level).parent().remove();
+									$("#" + res.data._id, $level).parent().remove();
 									user._id = res.data._id;
 									user.approved = approved;
 									$level.prepend(usersNodes(user));

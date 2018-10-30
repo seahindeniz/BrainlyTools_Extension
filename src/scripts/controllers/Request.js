@@ -2,37 +2,35 @@
 import ext from "../utils/ext";
 
 const Request = {
-	Brainly(method, path, data, callback, async, onError, countErr = 0) {
+	Brainly(options) {
 		let that = this;
-		if (typeof data === "function") {
-			countErr = onError || 0;
-			onError = async;
-			async = callback;
-			callback = data;
-			data = null;
-		}
-		callback = typeof callback === "undefined" ? (function() {}) : callback;
+		let { method, path, data, callback, async, onError, countErr = 0 } = options
 		$(document).ajaxSend(function(xhr, s, settings) {
 			if (typeof settings.data === "string") {
 				settings.data = settings.data.replace(/(\&data\%5B\_Token\%5D\%5Block\%5D\=.+)/, "");
 			}
 		});
+
 		let reqData = {
 			method: method,
 			type: method,
-			url: System.data.Brainly.apiURL + path,
+			url: path,
 			headers: {
 				"Content-Type": "application/json",
 				"X-B-Token-Long": System.data.Brainly.tokenLong,
 				accept: "text/plain, */*; q=0.01"
 			},
 			async: async,
-			dataType: "json",
-			data: data ? JSON.stringify(data) : null,
+			data,
 			success: callback
 		};
-		$.ajax(reqData).fail(function() {
-			console.log(countErr);
+
+		if (options.ajaxOptions) {
+			reqData = { ...reqData, ...options.ajaxOptions }
+		}
+
+		$.ajax(reqData).fail(function(e) {
+			console.log(countErr, e);
 			if (++countErr < 3) {
 				setTimeout(() => that.Brainly(method, path, data, callback, async, onError, countErr), 500);
 			} else {
@@ -44,6 +42,34 @@ const Request = {
 				reqData.countErr = 0;
 			}
 		});
+	},
+	BrainlyAPI(method, path, data, callback, async, onError, countErr) {
+		if (typeof data === "function") {
+			countErr = onError || 0;
+			onError = async;
+			async = callback;
+			callback = data;
+			data = null;
+		}
+
+		callback = callback || function() {};
+		let requestData = {
+			method,
+			path: System.data.Brainly.apiURL + path,
+			callback,
+			async,
+			onError,
+			countErr,
+			ajaxOptions: {
+				dataType: "json"
+			}
+		};
+
+		if (data) {
+			requestData.data = JSON.stringify(data);
+		}
+
+		this.Brainly(requestData);
 	},
 	BrainlySaltGet(path, data, callback, onError) {
 		let that = this;

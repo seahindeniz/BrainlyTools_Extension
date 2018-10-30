@@ -1,7 +1,7 @@
 "use strict";
 
 import renderModal from "./modal";
-import { RemoveQuestion } from "../../controllers/ActionsOfBrainly";
+import { RemoveQuestion } from "../../../controllers/ActionsOfBrainly";
 
 let isPageProcessing = false;
 window.onbeforeunload = function() {
@@ -17,7 +17,7 @@ const TaskDeleter = $seperator => {
 	<li class="sg-menu-list__element TaskDeleter" style="display: table; width: 100%;">
 		<a class="sg-menu-list__link" href="#">${System.data.locale.core.TaskDeleter.text}</a>
 	</li>`);
-	
+
 	if ($seperator.parents(".brn-moderation-panel__list").length > 0) {
 		$taskDeleterLink.insertBefore($seperator);
 
@@ -64,6 +64,13 @@ const TaskDeleter = $seperator => {
 							});
 							$textareaBack.html(temp);
 						}
+					},
+					paste: function(e) {
+						e.preventDefault();
+
+						let text = (e.originalEvent || e).clipboardData.getData("text/plain");
+
+						document.execCommand("insertText", false, text);
 					}
 				});
 

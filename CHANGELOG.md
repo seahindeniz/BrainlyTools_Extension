@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [6.2.2] - 2018.10.30
+### Changed/Fixed
+- Language issue on ID market
+
 ## [6.2.1] - 2018.10.30
 ### Changed/Fixed
 - Searching users in while creating or editing a message group had a bug that couse messing the search results

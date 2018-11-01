@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [6.3.0] - 2018.11.01
+### Added
+- Moderation panel pagination ability. Moderators can navigate between old and new reported contents by clicking the page numbers (https://ibb.co/eNt6Nf)
+
 ## [6.2.2] - 2018.10.30
 ### Changed/Fixed
 - Language issue on ID market

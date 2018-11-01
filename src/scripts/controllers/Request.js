@@ -94,10 +94,10 @@ const Request = {
 			}
 		}).fail(onError);
 	},
-	ExtensionServer(method, path, data = null, callback) {
+	ExtensionServer(method, path, data, callback) {
 		if (typeof data == "function") {
 			callback = data;
-			data = null;
+			data = undefined;
 		} else if (typeof data != "undefined") {
 			data = JSON.stringify(data);
 		}

@@ -143,20 +143,24 @@ const onRequest = function(request, sender, sendResponse) {
 		});
 	}
 	if (request.action === "xmlHttpRequest") {
-		$.ajax({
+		let ajaxData = {
 			method: request.method,
-			//type: "POST",
 			url: System.data.config.extensionServerAPIURL + request.path,
 			headers: request.headers,
-			//async: true,
-			dataType: "json",
-			data: request.data,
 			success: res => {
 				sendResponse(res)
 			}
-		}).fail(function(err) {
+		};
+
+		if (request.data) {
+			ajaxData.data = request.data;
+			ajaxData.dataType = "json";
+		}
+
+		$.ajax(ajaxData).fail(function(err) {
 			sendResponse(false, err);
 		});
+
 		return true;
 	}
 	if (request.action === "updateExtension") {
@@ -167,6 +171,7 @@ const onRequest = function(request, sender, sendResponse) {
 				ext.runtime.reload();
 			}
 		});
+
 		return true;
 	}
 

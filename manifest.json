@@ -1,6 +1,6 @@
 {
 	"short_name": "__MSG_btnTooltip__",
-	"version": "6.2.2",
+	"version": "6.3.0",
 	"author": "Sahin Deniz - traBolic",
 	"icons": {
 		"16": "icons/icon16.png",
@@ -49,16 +49,12 @@
       "*://zadane.pl/*",
       "*://brainly.com.br/*",
       "*://brainly.co.id/*",
-      "*://brainly.co.id/",
       "*://znanija.com/*",
       "*://brainly.lat/*",
       "*://brainly.in/*",
-      "*://brainly-thailand.com/*",
-      "*://brainly.my/*",
       "*://brainly.ph/*",
       "*://nosdevoirs.fr/*",
       "*://brainly.ro/*",
-      "*://brainly.com.ng/*",
       "*://brainly.co.za/*",
       "*://cdnjs.cloudflare.com/*"
     ],
@@ -77,12 +73,9 @@
         "*://znanija.com/*",
         "*://brainly.lat/*",
         "*://brainly.in/*",
-        "*://brainly-thailand.com/*",
-        "*://brainly.my/*",
         "*://brainly.ph/*",
         "*://nosdevoirs.fr/*",
         "*://brainly.ro/*",
-        "*://brainly.com.ng/*",
         "*://brainly.co.za/*"
       ],
 			"js": [

@@ -129,5 +129,8 @@ const ActionsOfServer = {
 	UpdateMessageGroup(_id, data, callback) {
 		Request.ExtensionServer("PUT", `/messageGroup/${_id}`, data, callback);
 	},
+	GetModerateAllPages(callback) {
+		Request.ExtensionServer("GET", `/moderateAllPages`, callback);
+	},
 }
 export default ActionsOfServer;

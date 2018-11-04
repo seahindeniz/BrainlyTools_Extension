@@ -2,6 +2,7 @@ common:
   extensionUser: Extension user
   selectAll: Select All
   progressing: Progressing
+  done: Done!
   allDone: All done!
   save: Save
   clearInputs: Clear text inputs
@@ -152,6 +153,14 @@ popup:
       # \n flag indicates the new line for clear reading
       # %{date} flag indicates the date when user readed the announcement. Example> Readed on 01.01.2018
       readedOn: "Readed on:\n%{date}"
+    manageDeleteReasons:
+      text: Delete reasons preferences
+      withoutAsk: Give warning without asking confirmation
+      withAsk: Show confirmation dialog while deleting a content
+      findReason: Find a reason
+      explaining:
+        line1: You find delete reasons by typing the name of the reason.
+        line2: After selecting one from the results, you can click %{exclamation-circle} button to give warning without asking confirmation from moderators while they deleting a content. But in some cases, that may can change and moderators should decide if giving a warning is necessary or not. So you can click %{exclamation-triangle} to show confirmation dialog to moderators while they are deleting a content.
 core:
   notificationMessages:
     cantFetchDeleteReasons: An unexpected error occurred while trying to prepare delete reasons
@@ -273,4 +282,3 @@ supervisors:
     noUser: There is no users to send this message
     emptyMessage: You cannot send empty message
     ongoingProcess: You've already started a sending process and you have to wait till it finished
-

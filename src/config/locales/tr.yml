@@ -2,6 +2,7 @@ common:
   extensionUser: Eklenti kullanıcısı
   selectAll: Tümünü seç
   progressing: İşleniyor
+  done: Done!
   allDone: Tamamdır!
   save: Kaydet
   clearInputs: Metin girişlerini temizle
@@ -19,6 +20,7 @@ common:
     cannotShareUserInfoWithServer: Kullanıcı bilgilerini eklenti sunucusuna iletirken beklenmedik bir hata oluştu. 2 saniye sonra tekrar deneyin
     ongoingProcess: "Bazı içerikler halen işleniyor. Sayfadan ayrılmak istediğine emin misin?"
     areYouSure: "Emin misin?"
+    mayRequireWarning: "Silmeye çalıştığın içeriğe uyarı verilebilir gibi görünüyor.\\nUyarı verilsin mi?"
   moderating:
     moreOptions: Daha fazla
     moderate: Düzenle
@@ -93,18 +95,18 @@ popup:
       permission: Erişim izni
       privileges: Yetkiler
       # %{time} flag indicates the date suffix of first usage time of the extension.
-      # Suffix will needs to added in your language as well. Example: in English words will replaced as 'Started to use 5 days ago', in Turkish '5 gün önce kullanmaya başladı'
+      # Suffix will needs to added in your language as well. Example: in English words will replaced as 'Started to use 5 days ago', in Turkish '5 gun once kullanmaya basladi'
       firstUsageTimeAgoPreTitle: "%{time} kullanmaya başladı"
       hasntUsed: Kullanıcı henüz eklentiyi kullanmadı
       explainingColors:
         line1: "Bazı kullanıcıların avatarlarında renkli kenarlık var ve bu kenarlıklar, kullanıcıların eklenti kullanım durumlarını gösterir."
-        # ! Important: You need to specify a color name inside the braces like this: in English <s>Red</s> or in Turkish <s>Kırmızı</s> or in Indonesian <s>Merah</s>
+        # ! Important: You need to specify a color name inside the braces like this: in English <s>Red</s> or in Turkish <s>Kirmizi</s> or in Indonesian <s>Merah</s>
         line2: "<s>Kırmızı</s> kenarlık, kullanıcının eklenti izninin kaldırıldığı,"
         # ! Important: You need to specify a color name inside the braces like this: in English <s>Mustard</s> or in Turkish <s>Hardal</s> or in Indonesian <s>Moster</s>
         line3: "<s>Hardal</s> kenarlık, kullanıcıya eklenti izni ve yetki atanmış fakat henüz eklentiyi kullanmamış,"
-        # ! Important: You need to specify a color name inside the braces like this: in English <s>Green</s> or in Turkish <s>Yeşil</s> or in Indonesian <s>Hijau</s>
+        # ! Important: You need to specify a color name inside the braces like this: in English <s>Green</s> or in Turkish <s>Yesil</s> or in Indonesian <s>Hijau</s>
         line4: "<s>Yeşil</s> kenarlık, kullanıcının erişim izni ve yetkileri olup, aktif bir eklenti kullanıcısı,"
-        # ! Important: You need to specify the "no border" word inside the braces like this: in English <s>No border</s> or in Turkish <s>Kenarlığı olmayan</s>
+        # ! Important: You need to specify the "no border" word inside the braces like this: in English <s>No border</s> or in Turkish <s>Kenarligi olmayan</s>
         line5: "<s>Kenarlığı olmayan</s> kullanıcı, hesabına yetkiler atanmış fakat erişim izni verilmemiş ve eklentiyi henüz kullanmamış olduğu anlamına gelir."
       privilegeList:
       - type: 0
@@ -133,10 +135,13 @@ popup:
         description: "Kullanıcı, Moderatör Paneli'nde çoklu soru silim özelliğini kullanabilir"
       - type: 8
         title: Grup mesaj gönderme
-        description: "Mesajlar sayfasında, birden fazla kullanıcıya tek seferde mesaj gönderebilme"
+        description: "Mesajlar sayfasında, kullanıcı gruplar oluşturarak birden fazla kişiye özel mesaj gönderebilir"
       - type: 9
         title: Toplu özel mesaj gönderimi
         description: Kullanıcı moderatör panelinden bu özelliği kullanarak marketteki tüm üyelere özel mesaj gönderebilir
+      - type: 10
+        title: "Supervisors, Özel mesaj gönderimi"
+        description: "Supervisors(Gözlemlenen tanımla) sayfasında kullanıcı, listelediği moderatörlere veya tüm moderatörlere özel mesaj gönderebilir"
     announcements:
       text: Duyurular
       addNewAnnouncement: Yeni duyuru ekle
@@ -149,6 +154,14 @@ popup:
       # \n flag indicates the new line for clear reading
       # %{date} flag indicates the date when user readed the announcement. Example> Readed on 01.01.2018
       readedOn: "Okunduğu zaman:\n%{date}"
+    manageDeleteReasons:
+      text: Silim sebebi tercihleri
+      withoutAsk: Onay beklemeden uyarı verdir
+      withAsk: Uyarı verilmesi için moderatörden onay al
+      findReason: Silim sebebi bul
+      explaining:
+        line1: Silim sebebini adını girerek bulabilirsin
+        line2: "Silim sebebini seçtikten sonra %{exclamation-circle} butonunu kullanarak silim sebebi kullanıldığı anda moderatörden ek onay almaksızın uyarı vererek silimi gerçekleştirir. Eğer seçtiğin silim sebebi bazı durumlarda uyarı verilmemesi gerekiyor diye düşünüyorsan ve moderatörden bu duruma yönelik eylem yapmasını istiyorsan, %{exclamation-triangle} butonunu seçebilirsin."
 core:
   notificationMessages:
     cantFetchDeleteReasons: Silim sebeplerini hazırlarken beklenmedik bir hata oluştu
@@ -198,7 +211,7 @@ messages:
     addAll: Tümünü ekle
     removeAll: Tümünü kaldır
     # %{n} flag indicates the number of people in the group.
-    # Replaced example in English: "12 users" in Turkish: "12 kullanıcı"
+    # Replaced example in English: "12 users" in Turkish: "12 kullanici"
     nUser: "%{n} kullanıcı"
     # A placeholder text for message input https://image.ibb.co/fQk130/image.png
     writeSomething: Mesajını buraya yaz
@@ -237,12 +250,13 @@ userProfile:
     areYouSureDeleteSelectedFriends: "Seçili kişileri arkadaşlık listenden kaldırmak istiyor musun?"
     areYouSureRemoveAllFriends: "Tüm arkadaşlarını silmek istediğinden emin misin?"
     youHaveNoFriends: "Üzülme çünkü listeleyebileceğim bir arkadaşın yok :/ Sorry"
+    cannotChangeBio: "Üzgünüm, bio metnini değiştiremedim :/"
   previousNicks:
     text: Önceki kullanıcı adları
     title: "Kişinin, eklentiye kayıt edilmiş olan önceki kullanıcı adları"
   userBio:
     title: Bio
-    description: "Kullanıcının mobil uygulamada eklediği bio metni. Eğer mobil uygulamada bio metni eklemişse, burada gözükür."
+    description: Mobil uygulamada eklenen bio metni
   showAllFriends:
     text: Tümünü göster
     title: Tüm arkadaşlarını listele

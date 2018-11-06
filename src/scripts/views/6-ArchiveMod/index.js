@@ -33,12 +33,12 @@ System.checkUserP([1, 2, 45], () => {
 			reasons.forEach((reason, i) => {
 				data.push({
 					text: i + 1,
-					title: System.data.Brainly.deleteReasons.__withTitles[key][reason].title + ":\n" + System.data.Brainly.deleteReasons.__withTitles[key][reason].text,
+					title: System.data.Brainly.deleteReasons.__withIds[key][reason].title + ":\n" + System.data.Brainly.deleteReasons.__withIds[key][reason].text,
 					type: "peach " + key
 				});
 			});
 
-			prepareButtons[key] = Buttons('RemoveQuestionNoIcon', data);
+			prepareButtons[key] = Buttons('RemoveQuestionNoIcon', data, `<div class="sg-spinner-container">{button}</div>`);
 		}
 	});
 	let createQuickDeleteButtons = nodes => {
@@ -54,10 +54,10 @@ System.checkUserP([1, 2, 45], () => {
 				System.checkUserP(obj.data.model_type_id, () => {
 					$("> div", $footer).hide();
 					let itemType = obj.data.model_type_id == 1 ? "task" : obj.data.model_type_id == 2 ? "response" : "comment";
-					let $ext_actions = $(`<div class="ext_actions sg-content-box__content--with-centered-text">${prepareButtons[itemType]}</div>`);
+					let $extActionButtons = $(`<div class="ext-action-buttons sg-content-box__content--with-centered-text">${prepareButtons[itemType]}</div>`);
 
 					//$footer.html("");
-					prepareButtons[itemType] && $footer.append($ext_actions);
+					prepareButtons[itemType] && $footer.append($extActionButtons);
 				});
 			}
 		}
@@ -73,13 +73,18 @@ System.checkUserP([1, 2, 45], () => {
 			let contentType = obj.data.model_type_id == 1 ? "task" : obj.data.model_type_id == 2 ? "response" : "comment";
 
 			if (confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
-				let reason = System.data.Brainly.deleteReasons.__withTitles[contentType][System.data.config.quickDeleteButtonsReasons[contentType][btn_index]];
+				let reason = System.data.Brainly.deleteReasons.__withIds[contentType][System.data.config.quickDeleteButtonsReasons[contentType][btn_index]];
 				let data = {
 					model_id: obj.data.model_id,
 					reason_id: reason.category_id,
 					reason: reason.text
 				};
-				let spinner = $(`<div class="sg-spinner sg-spinner--xxsmall sg-spinner--light"></div>`).appendTo(this);
+				data.give_warning = System.canBeWarned(reason.id);
+				let spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--small sg-spinner--light"></div></div>`).appendTo(this);
+				let $extActions = $(this).parents(".ext-action-buttons");
+				
+				$extActions.addClass("is-deleting");
+
 				let onRes = res => {
 					if (res) {
 						if (res.success) {
@@ -115,7 +120,7 @@ System.checkUserP([1, 2, 45], () => {
 
 		}
 	};
-	$("body").on("click", ".ext_actions button", ext_actions_buttons_click_handler);
+	$("body").on("click", ".ext-action-buttons button", ext_actions_buttons_click_handler);
 
 	/**
 	 * Manipulate moderation panel
@@ -131,8 +136,8 @@ System.checkUserP([1, 2, 45], () => {
 
 			reasons.forEach((reason, i) => {
 				data.push({
-					text: System.data.Brainly.deleteReasons.__withTitles[key][reason].title,
-					title: System.data.Brainly.deleteReasons.__withTitles[key][reason].text,
+					text: System.data.Brainly.deleteReasons.__withIds[key][reason].title,
+					title: System.data.Brainly.deleteReasons.__withIds[key][reason].text,
 					type: "peach sg-button-secondary--small"
 				});
 			});
@@ -158,7 +163,7 @@ System.checkUserP([1, 2, 45], () => {
 
 					if (contentID >= 0) {
 						if (confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
-							let reason = System.data.Brainly.deleteReasons.__withTitles[contentType][System.data.config.quickDeleteButtonsReasons[contentType][btn_index]];
+							let reason = System.data.Brainly.deleteReasons.__withIds[contentType][System.data.config.quickDeleteButtonsReasons[contentType][btn_index]];
 							let data = {
 								model_id: contentID,
 								reason_id: reason.category_id,

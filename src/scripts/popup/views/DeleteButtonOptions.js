@@ -1,22 +1,26 @@
 import Storage from "../../helpers/extStorage";
 import Notification from "../components/Notification";
 
+const isPosInt = str => /^\+?\d+$/.test(str);
+
 let DeleteButtonOptions = (quickDeleteButtonsReasons, callback) => {
 	let fields = "";
-	let reasonTypeKeys = Object.keys(System.data.Brainly.deleteReasons.__withTitles).reverse();
+	let reasonTypeKeys = Object.keys(System.data.Brainly.deleteReasons.__withIds);
+	reasonTypeKeys = reasonTypeKeys.filter(key => key.indexOf("__") < 0).reverse()
 
 	reasonTypeKeys.forEach(reasonTypeKey => {
 		System.checkUserP(reasonTypeKey == "task" ? 1 : reasonTypeKey == "response" ? 2 : reasonTypeKey == "comment" ? 3 : null, () => {
 			let dropDownFields = "";
 			var listOptions = i => {
 				let options = "";
-				Object.keys(System.data.Brainly.deleteReasons.__withTitles[reasonTypeKey]).forEach(reasonKey => {
-					if (reasonKey != "__categories") {
-						let contentType = System.data.Brainly.deleteReasons.__withTitles[reasonTypeKey];
-						let reason = contentType[reasonKey];
+				Object.keys(System.data.Brainly.deleteReasons.__withIds[reasonTypeKey]).forEach(reasonId => {
+					if (reasonId != "__categories") {
+						let contentType = System.data.Brainly.deleteReasons.__withIds[reasonTypeKey];
+						let reason = contentType[reasonId];
 						let category = contentType.__categories[reason.category_id];
-						let buttonDefaultSelectedItem = (quickDeleteButtonsReasons && quickDeleteButtonsReasons[reasonTypeKey][i]) || System.data.config.marketConfig.quickDeleteButtonsDefaultReasons[reasonTypeKey][i]
-						options += `<option data-cat-id="${category.id}" data-key="${reasonKey}" title="${reason.text}"${buttonDefaultSelectedItem == reasonKey ? " selected" : ""}>${category.text == reasonKey ? reasonKey : category.text + " - " + reasonKey}</option>`
+						let buttonDefaultSelectedItem = (quickDeleteButtonsReasons && quickDeleteButtonsReasons[reasonTypeKey][i] && isPosInt(quickDeleteButtonsReasons[reasonTypeKey][i]) && quickDeleteButtonsReasons[reasonTypeKey][i]) || System.data.config.marketConfig.quickDeleteButtonsDefaultReasons[reasonTypeKey][i];
+
+						options += `<option data-cat-id="${category.id}" data-reason-id="${reasonId}" title="${reason.text}"${buttonDefaultSelectedItem == reasonId ? " selected" : ""}>${ category.text == reason.title ? reason.title : category.text + " › " + reason.title }</option>`
 					}
 				});
 				return options;
@@ -58,7 +62,7 @@ let DeleteButtonOptions = (quickDeleteButtonsReasons, callback) => {
 		$quickDeleteButtonsSelect.each((i, elm) => {
 			let reasonType = $(elm).parents(".board-item-content").data("type");
 			!data[reasonType] && (data[reasonType] = []);
-			data[reasonType].push($('option:selected', elm).data("key"));
+			data[reasonType].push($('option:selected', elm).data("reason-id"));
 		});
 		Storage.set({ quickDeleteButtonsReasons: data });
 	});

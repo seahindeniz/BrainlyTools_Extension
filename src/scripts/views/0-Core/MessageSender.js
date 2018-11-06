@@ -5,9 +5,7 @@ import Notification from "../../components/Notification";
 
 const isPosInt = str => /^\+?\d+$/.test(str);
 const MessageSender = $seperator => {
-	let $messageSenderLi;
-
-	$messageSenderLi = $(`
+	let $messageSenderLi = $(`
 	<li class="sg-menu-list__element MessageSender" style="display: table; width: 100%;">
 		<a class="sg-menu-list__link" href="#">${System.data.locale.core.MessageSender.text} (Beta)</a>
 		<div class="sg-content-box js-hidden">
@@ -41,6 +39,7 @@ const MessageSender = $seperator => {
 			</div>
 		</div>
 	</li>`);
+
 	if ($seperator.parents(".brn-moderation-panel__list").length > 0) {
 		$messageSenderLi.insertBefore($seperator);
 
@@ -53,7 +52,6 @@ const MessageSender = $seperator => {
 		let $messageInput = $(".message", $messageSenderLi);
 		let $sendButton = $(`input.js-send`, $messageSenderLi);
 		let $stopButton = $(`input.js-stop`, $messageSenderLi);
-		let __loop_messageSendProcess;
 		let isSending = false;
 
 		window.onbeforeunload = function() {

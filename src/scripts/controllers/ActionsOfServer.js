@@ -52,7 +52,7 @@ const ActionsOfServer = {
 	GetDeleteReasons(callback) {
 		Request.ExtensionServer("GET", "/deleteReasons", res => {
 			if (res && res.success) {
-				callback(res.data.deleteReasons);
+				callback(res.data);
 			}
 		});
 		/*$.get("admin/del_reasons/reasons/1", res => {
@@ -131,6 +131,9 @@ const ActionsOfServer = {
 	},
 	GetModerateAllPages(callback) {
 		Request.ExtensionServer("GET", `/moderateAllPages`, callback);
+	},
+	UpdateDeleteReasonsPreferences(data, callback) {
+		Request.ExtensionServer("PUT", `/deleteReasonsPreferences`, data, callback);
 	},
 }
 export default ActionsOfServer;

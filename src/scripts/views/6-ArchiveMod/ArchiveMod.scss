@@ -1,6 +1,6 @@
 button {
 	label.sg-label__text {
-		margin-bottom: 0;
+		margin: 0 auto;
 	}
 
 	span.sg-button-primary__icon {
@@ -9,6 +9,12 @@ button {
 
 	&.task {
 		background-color: #FBC02D;
+	}
+}
+
+.ext-action-buttons {
+	&.is-deleting{
+		pointer-events: none;
 	}
 }
 
@@ -62,7 +68,7 @@ button {
 						margin: 3px 20px 0 0;
 					}
 
-					.ext_actions {
+					.ext-action-buttons {
 						text-align: right;
 
 						.sg-button-secondary {

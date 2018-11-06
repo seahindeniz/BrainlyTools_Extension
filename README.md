@@ -8,18 +8,6 @@
   </p>
 </div>
 
-## Features
-
-<dl>
-  <dt>Quick deletion buttons</dt>
-  <dd>
-    You can easily remove the questions without visiting the questions content page and clicking the moderate button.
-  </dd>
-</dl>
-
-## TODO
-- [ ] Add support to Firefox
-
 -----------
 This project is licensed under the MIT license. 
 

@@ -299,6 +299,7 @@ const ActionsOfBrainly = {
 			let onResponseHandler = res => {
 				openedRequests--;
 				sendedMessagesCounter++;
+				
 				if (res && res.success) {
 					callbacks.each(sendedMessagesCounter);
 				}
@@ -307,6 +308,7 @@ const ActionsOfBrainly = {
 					callbacks.done(conversation_id);
 				}
 			};
+			
 			let _loop_sendMessage = setInterval(() => {
 				if (currentUserIndex == membersLen) {
 					clearInterval(_loop_sendMessage);
@@ -314,20 +316,24 @@ const ActionsOfBrainly = {
 					return true;
 				}
 
-				if (openedRequests < 250) {
+				if (openedRequests < 500) {
 					openedRequests++;
 					let user = conversation_id[currentUserIndex++];
+					
 					if (!(user.conversation_id || user.conversationID)) {
 						ActionsOfBrainly.getMessageID(user.id || user, res => {
 							if (res && res.success) {
 								if (typeof user == "number") {
 									user = { user_id: user }
 								}
+
 								user.conversation_id = res.data.conversation_id;
+
 								ActionsOfBrainly.sendMessage(user.conversation_id, content, onResponseHandler);
-							}
-							else {
+							} else {
+								openedRequests--;
 								sendedMessagesCounter++;
+
 								callbacks.each(sendedMessagesCounter);
 							}
 						});
@@ -355,6 +361,18 @@ const ActionsOfBrainly = {
 			} else {
 				callback(res);
 			}
+		});
+	},
+	ChangeBio(content, callback) {
+		Request.Brainly({
+			method: "POST",
+			path: `/graphql/${System.data.Brainly.defaultConfig.MARKET}?op=changeBio`,
+			callback,
+			data: JSON.stringify({
+				operationName: "changeBio",
+				query: `mutation changeBio { updateUserDescription( token:"${System.data.Brainly.tokenLong}", input:{ description: "${content}"}){user{id}}}`,
+				variables: {}
+			})
 		});
 	}
 }

@@ -14,8 +14,9 @@ import Request from "../../controllers/Request";
 import renderExtraItemsForModerationPanel from "./ExtraItemsForModerationPanel"
 import renderAnnouncements from "../../components/Announcements"
 import renderChatPanel from "../../components/ChatPanel"
-import { Auth, GetDeleteReasons } from "../../controllers/ActionsOfServer"
+import { Auth } from "../../controllers/ActionsOfServer"
 import { getAllFriends, getAllModerators } from "../../controllers/ActionsOfBrainly"
+import PrepareDeleteReasons from "../../controllers/PrepareDeleteReasons"
 import Notification from "../../components/Notification";
 import renderHalloween from "./Halloween"
 
@@ -56,7 +57,7 @@ let setMetaData = callback => {
 			callback && callback();
 		}
 		if (e.data.action == "shareGatheredData2Background") {
-			prepareDeleteReasons(() => {
+			PrepareDeleteReasons(() => {
 				System.shareGatheredData2Background(() => {
 					var evtSharingDone = new Event("shareGatheredData2BackgroundDone", { "bubbles": true, "cancelable": false });
 					document.dispatchEvent(evtSharingDone);
@@ -69,7 +70,7 @@ let setMetaData = callback => {
 /*window.addEventListener('message', e => {
 	if (e.data.action == "shareGatheredData2Background") {
 		console.log("contentscript ile paylaş", e.data);
-		prepareDeleteReasons(() => {
+		PrepareDeleteReasons(() => {
 			System.shareGatheredData2Background(() => {
 				console.log("background ile paylaşıldı");
 				ext.runtime.sendMessage(System.data.meta.extension.id, { action: "shareGatheredData2Background" }, res => {});
@@ -135,7 +136,7 @@ let getDefaultConfig = callback => {
 						let _Routing = new Function(`return {${matchRoutes[matchRoutes.length - 1]}}`)();
 						System.data.Brainly.Routing.prefix = _Routing.prefix;
 						System.data.Brainly.Routing.routes = _Routing.routes;
-						
+
 						localStorage.setObject("_Routing", System.data.Brainly.Routing);
 						callback && callback();
 					}
@@ -204,66 +205,7 @@ let setUserData = (callback) => {
 		}
 	});
 };
-let prepareDeleteButtonSettings = (callback) => {
-	Storage.get("quickDeleteButtonsReasons", quickDeleteButtonsReasons => {
-		if (quickDeleteButtonsReasons) {
-			System.data.config.quickDeleteButtonsReasons = quickDeleteButtonsReasons;
-			callback();
-		} else {
-			Storage.setL({
-				quickDeleteButtonsReasons: System.data.config.marketConfig.quickDeleteButtonsDefaultReasons
-			}, () => {
-				System.data.config.quickDeleteButtonsReasons = System.data.config.marketConfig.quickDeleteButtonsDefaultReasons;
-				callback();
-			});
-		}
-	});
-}
-let prepareDeleteReasonsWithGet = (callback) => {
-	GetDeleteReasons(deleteReasons => {
 
-		if (deleteReasons.empty) {
-			Notification(System.data.locale.core.notificationMessages.cantFetchDeleteReasons, "error");
-		} else {
-			let deleteReasonsKeys = Object.keys(deleteReasons);
-			deleteReasons.__withTitles = {};
-
-			deleteReasonsKeys.forEach(reasonKey => {
-				let reason = deleteReasons[reasonKey];
-				deleteReasons.__withTitles[reasonKey] = {
-					__categories: {}
-				};
-
-				reason.forEach(elm => {
-					deleteReasons.__withTitles[reasonKey].__categories[elm.id] = elm;
-
-					elm.subcategories.forEach(subcategory => {
-						subcategory.category_id = elm.id;
-						let title = subcategory.title == "" ? elm.text : subcategory.title;
-						title = title.trim();
-						deleteReasons.__withTitles[reasonKey][title] = subcategory;
-					});
-				});
-			});
-			Storage.setL({ deleteReasons }, () => {
-				System.data.Brainly.deleteReasons = deleteReasons;
-				callback && prepareDeleteButtonSettings(callback)
-			});
-		}
-	});
-};
-let prepareDeleteReasons = callback => {
-	Storage.getL("deleteReasons", res => {
-		if (res) {
-			System.data.Brainly.deleteReasons = res;
-
-			prepareDeleteButtonSettings(callback)
-			prepareDeleteReasonsWithGet();
-		} else {
-			prepareDeleteReasonsWithGet(callback);
-		}
-	});
-}
 let fetchFriends = callback => {
 	getAllFriends(res => {
 		if (!res) {
@@ -329,16 +271,16 @@ setMetaData(() => {
 										} else {
 											Console.info("Jquery OK!");
 											System.changeBadgeColor("loaded");
-											
-											let _date = new Date();
+
+											/*let _date = new Date();
 											if (_date.getMonth() == 9 && _date.getDate() == 31) {
 												renderHalloween();
-											}
+											}*/
 
 											renderExtraItemsForModerationPanel();
 											renderAnnouncements();
 											renderChatPanel();
-											prepareDeleteReasons(() => {
+											PrepareDeleteReasons(() => {
 												Console.info("Delete reasons OK!");
 
 												if (System.checkRoute(1, "") || System.checkRoute(1, "task_subject_dynamic")) {

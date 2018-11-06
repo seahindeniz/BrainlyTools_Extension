@@ -4,5 +4,7 @@ temp
 dist
 .sass-cache
 .DS_Store
-build
+build/*
+!build/.gitkeep
 privilege_list.md
+Brainly_endpoints_list.json

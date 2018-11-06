@@ -8,6 +8,7 @@ import buffer from 'vinyl-buffer';
 import preprocessify from 'preprocessify';
 import gulpif from "gulp-if";
 import bro from "gulp-bro";
+import yaml from "gulp-yaml";
 
 const $ = require('gulp-load-plugins')();
 
@@ -21,6 +22,7 @@ var context = Object.assign({}, generic, specific);
 
 var manifest = {
 	dev: {
+		"version": process.env.npm_package_version,
 		"background": {
 			"scripts": [
 				"scripts/livereload.js",
@@ -28,6 +30,10 @@ var manifest = {
 				"scripts/background.js"
 			]
 		}
+	},
+
+	production: {
+		"version": process.env.npm_package_version
 	},
 
 	firefox: {
@@ -38,7 +44,6 @@ var manifest = {
 		}
 	}
 }
-
 // Tasks
 gulp.task('clean', () => {
 	return pipe(`./build/${target}`, $.clean())
@@ -58,7 +63,7 @@ gulp.task('watch', ['build'], () => {
 
 gulp.task('default', ['build']);
 
-gulp.task('ext', ['manifest', 'js', 'js-min', "js-config"], () => {
+gulp.task('ext', ['manifest', 'js', 'js-min', "js-config", "locales"], () => {
 	return mergeAll(target)
 });
 
@@ -87,19 +92,17 @@ gulp.task('js-min', () => {
 		])
 		.pipe(gulp.dest(`build/${target}/scripts`));
 });
-gulp.task("js-config", () => {
+gulp.task("locales", () => {
 	return gulp.src([
-			'src/config/*',
-			'src/config/**/*',
+			'src/config/*.json'
 		])
 		.pipe(gulp.dest(`build/${target}/config`));
 });
-/*gulp.task('locales', () => {
-	return gulp.src([
-			"src/scripts/locales/** /*"
-		])
-		.pipe(gulp.dest(`build/${target}/scripts/locales`));
-})*/
+gulp.task("js-config", () => {
+	return gulp.src('src/config/locales/*.yml')
+		.pipe(yaml())
+		.pipe(gulp.dest(`build/${target}/config/locales`));
+});
 
 gulp.task('styles', () => {
 	return gulp.src([
@@ -135,6 +138,11 @@ gulp.task("manifest", () => {
 			jsonSpace: " ".repeat(4),
 			endObj: manifest.dev
 		})))
+		.pipe(gulpif(production, $.mergeJson({
+			fileName: "manifest.json",
+			jsonSpace: " ".repeat(4),
+			endObj: manifest.production
+		})))
 		.pipe(gulpif(target === "firefox", $.mergeJson({
 			fileName: "manifest.json",
 			jsonSpace: " ".repeat(4),
@@ -151,7 +159,7 @@ gulp.task('dist', (cb) => {
 });
 
 gulp.task('zip', () => {
-	return pipe(`./build/${target}/**/*`, $.zip(`${target}.zip`), './dist')
+	return pipe(`./build/${target}/**/*`, $.zip(`${target}-${process.env.npm_package_version}.zip`), './dist')
 })
 
 // Helpers

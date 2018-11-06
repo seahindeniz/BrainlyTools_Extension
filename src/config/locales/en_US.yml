@@ -20,6 +20,7 @@ common:
     cannotShareUserInfoWithServer: An unexpected error occurred while trying to sending the user informations to the extension server. Please try again in 2 sec
     ongoingProcess: Some of the content is still processed. Do you still want to exit the page?
     areYouSure: Are you sure?
+    mayRequireWarning: This deletion process may require giving a warning so, do you wanna give a warning to owner of this content?
   moderating:
     moreOptions: More Options
     moderate: Moderate
@@ -94,18 +95,18 @@ popup:
       permission: Access permission
       privileges: Privileges
       # %{time} flag indicates the date suffix of first usage time of the extension.
-      # Suffix will needs to added in your language as well. Example: in English words will replaced as 'Started to use 5 days ago', in Turkish '5 gün önce kullanmaya başladı'
+      # Suffix will needs to added in your language as well. Example: in English words will replaced as 'Started to use 5 days ago', in Turkish '5 gun once kullanmaya basladi'
       firstUsageTimeAgoPreTitle: Started to use %{time}
       hasntUsed: User hasn't used the extension yet
       explainingColors:
         line1: Some users has colored border in their avatars and this colors shows that their access permission status of the extension.
-        # ! Important: You need to specify a color name inside the braces like this: in English <s>Red</s> or in Turkish <s>Kırmızı</s> or in Indonesian <s>Merah</s>
+        # ! Important: You need to specify a color name inside the braces like this: in English <s>Red</s> or in Turkish <s>Kirmizi</s> or in Indonesian <s>Merah</s>
         line2: "<s>Red</s> border means that shown user are banned from the extension."
         # ! Important: You need to specify a color name inside the braces like this: in English <s>Mustard</s> or in Turkish <s>Hardal</s> or in Indonesian <s>Moster</s>
         line3: "<s>Mustard</s> border means the user has permission to use the extension but hasn't started use it yet"
-        # ! Important: You need to specify a color name inside the braces like this: in English <s>Green</s> or in Turkish <s>Yeşil</s> or in Indonesian <s>Hijau</s>
+        # ! Important: You need to specify a color name inside the braces like this: in English <s>Green</s> or in Turkish <s>Yesil</s> or in Indonesian <s>Hijau</s>
         line4: "<s>Green</s> color means the user is an active authorized user."
-        # ! Important: You need to specify the "no border" word inside the braces like this: in English <s>No border</s> or in Turkish <s>Kenarlığı olmayan</s>
+        # ! Important: You need to specify the "no border" word inside the braces like this: in English <s>No border</s> or in Turkish <s>Kenarligi olmayan</s>
         line5: "<s>No border</s> means that user has some privileges assigned but not given permission to use the extension in their account and hasn't started to use the extension yet."
       privilegeList:
       - type: 0
@@ -210,7 +211,7 @@ messages:
     addAll: Add all
     removeAll: Remove all
     # %{n} flag indicates the number of people in the group.
-    # Replaced example in English: "12 users" in Turkish: "12 kullanıcı"
+    # Replaced example in English: "12 users" in Turkish: "12 kullanici"
     nUser: "%{n} users"
     # A placeholder text for message input https://image.ibb.co/fQk130/image.png
     writeSomething: Type your message here
@@ -249,12 +250,13 @@ userProfile:
     areYouSureDeleteSelectedFriends: Are you sure you want to remove selected user's from your friends list?
     areYouSureRemoveAllFriends: Are you sure you want to remove all your friends?
     youHaveNoFriends: Don't be sad because you have no friends to list :/ Sorry
+    cannotChangeBio: I couldn't able to change your bio :/ Sorry..
   previousNicks:
     text: Previous nicks
     title: Previous nicks of the user registered in the database
   userBio:
     title: Bio
-    description: User's bio text from the mobile app. If the user adds a personal bio in the mobile app of Brainly, then it’ll show up here.
+    description: Bio text from the mobile app of Brainly
   showAllFriends:
     text: Show all
     title: List your all friends

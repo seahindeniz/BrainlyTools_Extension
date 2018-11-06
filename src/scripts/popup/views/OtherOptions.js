@@ -3,6 +3,7 @@ import Storage from "../../helpers/extStorage";
 import Notification from "../components/Notification";
 import send2AllBrainlyTabs from "../helpers/send2AllBrainlyTabs";
 import Inject2body from "../../helpers/Inject2body";
+import Dropdown from "../helpers/Dropdown";
 
 const OtherOptions = (options, callback) => {
 	let $otherOptions = $(`
@@ -47,7 +48,7 @@ const OtherOptions = (options, callback) => {
 
 	callback($otherOptions);
 
-	let $dropdown = $(".dropdown", $otherOptions);
+	let $dropdown = Dropdown($(".dropdown", $otherOptions));
 	let $languagesContainer = $(".dropdown-menu > .dropdown-content", $dropdown);
 	let $dropdownText = $(".dropdown-trigger > button.button > span:not(.icon)", $dropdown);
 	let $extendMessageLayoutCheckbox = $("#extendMessagesLayout", $otherOptions);
@@ -76,12 +77,13 @@ const OtherOptions = (options, callback) => {
 		if (selectedLang) {
 			let selected = System.data.config.availableLanguages.find(lang => lang.key == selectedLang);
 
-			$dropdownText.html(selected.title.replace(/<.*>/, ""));
+			if (selected) {
+				$dropdownText.html(selected.title.replace(/<.*>/, ""));
+			}
 		}
 
 		System.data.config.availableLanguages.forEach(lang => {
-			let $lang = `
-			<a href="#" class="dropdown-item ${selectedLang == lang.key ? "is-active" : ""}" value="${lang.key}">${lang.title}</a>`;
+			let $lang = `<a href="#" class="dropdown-item${selectedLang && selectedLang == lang.key ? " is-active" : ""}" value="${lang.key}">${lang.title}</a>`;
 
 			if (System.data.Brainly.defaultConfig.locale.LANGUAGE == lang.key) {
 				$languagesContainer.prepend($lang);

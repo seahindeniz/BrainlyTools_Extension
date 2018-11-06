@@ -122,12 +122,13 @@ System.checkUserP(1, () => {
 				} else if (btn_index == 1 || btn_index == 2) {
 					setTimeout(() => {
 						if (confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
-							let reason = System.data.Brainly.deleteReasons.__withTitles.task[System.data.config.quickDeleteButtonsReasons.task[btn_index - 1]];
+							let reason = System.data.Brainly.deleteReasons.__withIds.task[System.data.config.quickDeleteButtonsReasons.task[btn_index - 1]];
 							let taskData = {
 								model_id: question_id,
 								reason_id: reason.category_id,
 								reason: reason.text
 							};
+							taskData.give_warning = System.canBeWarned(reason.id);
 							let $svg = $("svg", this);
 							let $spinner = $(`<div class="sg-spinner sg-spinner--xxsmall sg-spinner--light"></div>`);
 
@@ -168,8 +169,8 @@ System.checkUserP(1, () => {
 
 		System.data.config.quickDeleteButtonsReasons.task.forEach((reason, i) => {
 			data.push({
-				text: System.data.Brainly.deleteReasons.__withTitles.task[reason].title,
-				title: System.data.Brainly.deleteReasons.__withTitles.task[reason].text,
+				text: System.data.Brainly.deleteReasons.__withIds.task[reason].title,
+				title: System.data.Brainly.deleteReasons.__withIds.task[reason].text,
 				type: "peach",
 				icon: "x"
 			});
@@ -189,14 +190,16 @@ System.checkUserP(1, () => {
 		}
 	}
 	let observeForNewQuestionBoxes = feeds_parent => {
-		feeds_parent[0].classList.add("quickDelete");
+		if (feeds_parent && feeds_parent.length > 0) {
+			feeds_parent[0].classList.add("quickDelete");
 
-		WaitForElm('div.js-feed-item:not(.ext-buttons-added)', e => {
-			createQuestionRemoveButtons(e);
-		});
-		$(feeds_parent).observe('added', 'div.js-feed-item:not(.ext-buttons-added)', e => {
-			createQuestionRemoveButtons(e.addedNodes);
-		});
+			WaitForElm('div.js-feed-item:not(.ext-buttons-added)', e => {
+				createQuestionRemoveButtons(e);
+			});
+			$(feeds_parent).observe('added', 'div.js-feed-item:not(.ext-buttons-added)', e => {
+				createQuestionRemoveButtons(e.addedNodes);
+			});
+		}
 	};
 	let wait_for_feeds_parent = () => {
 		WaitForElm(selectors.feeds_parent, observeForNewQuestionBoxes)

@@ -138,8 +138,10 @@ const Announcements = (callback) => {
 				contentValue = editorNewAnnouncementContent.getEditorValue();
 			if (titleValue != "" || contentValue != "") {
 				$actionsContainer.removeClass("is-invisible");
+				window.isPageBusy = true;
 			} else {
 				$actionsContainer.addClass("is-invisible");
+				window.isPageBusy = false;
 			}
 		};
 		editorNewAnnouncementTitle.events.on('change', inputChangeHandler);

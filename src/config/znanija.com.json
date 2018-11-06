@@ -16,8 +16,8 @@
 		}]
 	},
 	"quickDeleteButtonsDefaultReasons": {
-		"task": ["СПАМ", "Неполное условие"],
-		"response": ["СПАМ", "Не тот ответ", "Оскорбление"],
-		"comment": ["новая"]
+		"task": [2, 3],
+		"response": [15, 60, 16],
+		"comment": [44]
 	}
 }

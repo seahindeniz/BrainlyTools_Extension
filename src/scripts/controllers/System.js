@@ -7,7 +7,7 @@ import cookie from "js-cookie";
 import { Logger } from "./ActionsOfServer";
 import { getUserByID } from "./ActionsOfBrainly";
 import Inject2body from "../helpers/Inject2body";
-import yaml from "js-yaml";
+//import yaml from "js-yaml";
 
 class _System {
 	constructor() {
@@ -232,6 +232,11 @@ class _System {
 
 		return _return;
 	}
+	checkBrainlyP(p, c) {
+		if (System.data.Brainly.userData.privileges.indexOf(p) >= 0) {
+			c && c();
+		}
+	}
 	checkUserP(p, c) {
 		if (System.data.Brainly.userData._hash.indexOf(0) > -1) {
 			c && c();
@@ -280,7 +285,9 @@ class _System {
 		});
 	}
 	prepareLangFile(language, callback) {
-		Inject2body(`/config/locales/${language}.yml`, localeData => {
+		let fileType = "json";
+
+		Inject2body(`/config/locales/${language}.${fileType}`, localeData => {
 			if (Object.prototype.toString.call(localeData) == "[object Error]") {
 				if (language != "en_US") {
 					this.prepareLangFile("en_US", callback);
@@ -289,10 +296,22 @@ class _System {
 				return false;
 			}
 
-			localeData = yaml.load(localeData);
+			/* if (fileType == "yml") {
+				localeData = yaml.load(localeData);
+			} */
 
 			callback && callback(localeData);
 		});
+	}
+	canBeWarned(reasonID) {
+		let isIt = false;
+		let preference = System.data.Brainly.deleteReasons.__preferences.find(pref => pref.reasonID == reasonID);
+
+		if (preference && preference.confirmation) {
+			isIt = confirm(`\n\n${System.data.locale.common.notificationMessages.mayRequireWarning}\n\n`);
+		}
+
+		return isIt;
 	}
 }
 export default _System;

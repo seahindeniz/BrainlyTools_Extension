@@ -1,6 +1,6 @@
 {
   "name": "brainly_tools",
-  "version": "6.0.0",
+  "version": "6.4.0",
   "description": "A toolbox for Brainly markets. It helps moderators for doing some quick actions and more..",
   "license": "SEE LICENSE IN LICENSE.md",
   "scripts": {
@@ -50,6 +50,7 @@
     "gulp-run-sequence": "*",
     "gulp-sass": "^2.2.0",
     "gulp-sourcemaps": "^1.6.0",
+    "gulp-yaml": "^2.0.2",
     "gulp-zip": "^2.0.3",
     "preprocessify": "^1.0.1",
     "uglifyify": "^5.0.1",
@@ -61,7 +62,6 @@
     "easyeditor": "^1.2.0",
     "js-cookie": "^2.2.0",
     "js-md5": "^0.7.3",
-    "js-yaml": "^3.12.0",
     "moment": "^2.22.2"
   }
 }

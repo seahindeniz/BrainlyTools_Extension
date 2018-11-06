@@ -1,10 +1,14 @@
 {
 	"short_name": "__MSG_btnTooltip__",
-	"version": "6.3.0",
+	"version": "gulp-fill-this",
 	"author": "Sahin Deniz - traBolic",
 	"icons": {
 		"16": "icons/icon16.png",
-		"128": "icons/icon128.png"
+		"48": "icons/icon48.png",
+		"64": "icons/icon64.png",
+		"128": "icons/icon128.png",
+		"256": "icons/icon256.png",
+		"512": "icons/icon512.png"
 	},
 	"name": "__MSG_appName__",
 	"manifest_version": 2,
@@ -19,8 +23,9 @@
 	},
 	"browser_action": {
 		"default_icon": {
-			"48": "icons/icon48.png",
-			"50": "icons/icon50.png"
+      "128": "icons/icon128.png",
+			"19": "icons/icon19.png",
+			"38": "icons/icon38.png"
 		},
 		"default_title": "__MSG_btnTooltip__",
 		"default_popup": "popup.html"
@@ -46,7 +51,7 @@
 		"matches": [
       "*://eodev.com/*",
       "*://brainly.com/*",
-      "*://zadane.pl/*",
+      "*://brainly.pl/*",
       "*://brainly.com.br/*",
       "*://brainly.co.id/*",
       "*://znanija.com/*",
@@ -67,7 +72,7 @@
 			"matches": [
         "*://eodev.com/*",
         "*://brainly.com/*",
-        "*://zadane.pl/*",
+        "*://brainly.pl/*",
         "*://brainly.com.br/*",
         "*://brainly.co.id/*",
         "*://znanija.com/*",

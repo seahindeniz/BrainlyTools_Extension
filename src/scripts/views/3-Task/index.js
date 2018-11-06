@@ -8,29 +8,28 @@ import Notification from "../../components/Notification"
 
 System.pageLoaded("Task inject OK!");
 
-	const selectors = {
-		articleQuestion: "article.brn-question",
-		taskModerateButtonContainer: "article.brn-question:not(.brn-question--deleted) .question-header > .sg-actions-list > .sg-actions-list__hole:last-child > .sg-actions-list",
-		taskModerateButton: ".question-header > .sg-actions-list > .sg-actions-list__hole:last-child > .sg-actions-list > .sg-actions-list__hole:first-child",
+const selectors = {
+	articleQuestion: "article.brn-question",
+	taskModerateButtonContainer: "article.brn-question:not(.brn-question--deleted) .question-header > .sg-actions-list > .sg-actions-list__hole:last-child > .sg-actions-list",
+	taskModerateButton: ".question-header > .sg-actions-list > .sg-actions-list__hole:last-child > .sg-actions-list > .sg-actions-list__hole:first-child",
 
-		responseParentContainer: ".js-answers-wrapper",
-		responseContainer: ".brn-answer",
-		responseModerateButtonContainer: "> .sg-content-box > .sg-actions-list > div:not(.js-best-answer-label-container)"
-	}
+	responseParentContainer: ".js-answers-wrapper",
+	responseContainer: ".brn-answer",
+	responseModerateButtonContainer: "> .sg-content-box > .sg-actions-list > div:not(.js-best-answer-label-container)"
+}
 System.checkUserP(2, () => {
 	/**
 	 * Prepare and add quick delete buttons to question box
 	 */
-	let taskDeleteButtons = Buttons('RemoveQuestion', [
-		{
-			text: System.data.Brainly.deleteReasons.__withTitles.task[System.data.config.quickDeleteButtonsReasons.task[0]].title,
-			title: System.data.Brainly.deleteReasons.__withTitles.task[System.data.config.quickDeleteButtonsReasons.task[0]].text,
+	let taskDeleteButtons = Buttons('RemoveQuestion', [{
+			text: System.data.Brainly.deleteReasons.__withIds.task[System.data.config.quickDeleteButtonsReasons.task[0]].title,
+			title: System.data.Brainly.deleteReasons.__withIds.task[System.data.config.quickDeleteButtonsReasons.task[0]].text,
 			type: "peach",
 			icon: "x"
 		},
 		{
-			text: System.data.Brainly.deleteReasons.__withTitles.task[System.data.config.quickDeleteButtonsReasons.task[1]].title,
-			title: System.data.Brainly.deleteReasons.__withTitles.task[System.data.config.quickDeleteButtonsReasons.task[1]].text,
+			text: System.data.Brainly.deleteReasons.__withIds.task[System.data.config.quickDeleteButtonsReasons.task[1]].title,
+			title: System.data.Brainly.deleteReasons.__withIds.task[System.data.config.quickDeleteButtonsReasons.task[1]].text,
 			type: "peach",
 			icon: "x"
 		}
@@ -54,14 +53,16 @@ System.checkUserP(2, () => {
 
 		if (question_id > 0) {
 			if (confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
-				let reason = System.data.Brainly.deleteReasons.__withTitles.task[System.data.config.quickDeleteButtonsReasons.task[btn_index]];
+				let reason = System.data.Brainly.deleteReasons.__withIds.task[System.data.config.quickDeleteButtonsReasons.task[btn_index]];
 				let taskData = {
 					model_id: question_id,
 					reason_id: reason.category_id,
 					reason: reason.text
 				};
+				taskData.give_warning = System.canBeWarned(reason.id);
 				let svg = $("svg", this);
 				let spinner = $(`<div class="sg-spinner sg-spinner--xxsmall sg-spinner--light"></div>`).insertBefore(svg);
+
 				svg.hide();
 				RemoveQuestion(taskData, res => {
 					if (res) {
@@ -75,6 +76,7 @@ System.checkUserP(2, () => {
 					} else {
 						Notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
 					}
+
 					spinner.remove();
 					svg.show();
 				});
@@ -90,22 +92,21 @@ System.checkUserP(45, () => {
 	/**
 	 * Prepare and add quick delete buttons to answer boxes
 	 */
-	let responseDeleteButtons = Buttons('RemoveQuestion', [
-		{
-			text: System.data.Brainly.deleteReasons.__withTitles.response[System.data.config.quickDeleteButtonsReasons.response[0]].title,
-			title: System.data.Brainly.deleteReasons.__withTitles.response[System.data.config.quickDeleteButtonsReasons.response[0]].text,
+	let responseDeleteButtons = Buttons('RemoveQuestion', [{
+			text: System.data.Brainly.deleteReasons.__withIds.response[System.data.config.quickDeleteButtonsReasons.response[0]].title,
+			title: System.data.Brainly.deleteReasons.__withIds.response[System.data.config.quickDeleteButtonsReasons.response[0]].text,
 			type: "peach",
 			icon: "x"
 		},
 		{
-			text: System.data.Brainly.deleteReasons.__withTitles.response[System.data.config.quickDeleteButtonsReasons.response[1]].title,
-			title: System.data.Brainly.deleteReasons.__withTitles.response[System.data.config.quickDeleteButtonsReasons.response[1]].text,
+			text: System.data.Brainly.deleteReasons.__withIds.response[System.data.config.quickDeleteButtonsReasons.response[1]].title,
+			title: System.data.Brainly.deleteReasons.__withIds.response[System.data.config.quickDeleteButtonsReasons.response[1]].text,
 			type: "peach",
 			icon: "x"
 		},
 		{
-			text: System.data.Brainly.deleteReasons.__withTitles.response[System.data.config.quickDeleteButtonsReasons.response[2]].title,
-			title: System.data.Brainly.deleteReasons.__withTitles.response[System.data.config.quickDeleteButtonsReasons.response[2]].text,
+			text: System.data.Brainly.deleteReasons.__withIds.response[System.data.config.quickDeleteButtonsReasons.response[2]].title,
+			title: System.data.Brainly.deleteReasons.__withIds.response[System.data.config.quickDeleteButtonsReasons.response[2]].text,
 			type: "peach",
 			icon: "x"
 		}
@@ -138,13 +139,15 @@ System.checkUserP(45, () => {
 
 		if (answer_id > 0) {
 			if (confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
-				let reason = System.data.Brainly.deleteReasons.__withTitles.response[System.data.config.quickDeleteButtonsReasons.response[btn_index]];
+				let reason = System.data.Brainly.deleteReasons.__withIds.response[System.data.config.quickDeleteButtonsReasons.response[btn_index]];
 				let responseData = {
 					model_id: answer_id,
 					reason_id: reason.category_id,
 					reason: reason.text
 				};
+				responseData.give_warning = System.canBeWarned(reason.id);
 				let svg = $("svg", this);
+
 				$(`<div class="sg-spinner sg-spinner--xxsmall sg-spinner--light"></div>`).insertBefore(svg);
 				svg.remove();
 				RemoveAnswer(responseData, res => {

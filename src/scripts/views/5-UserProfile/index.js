@@ -33,7 +33,7 @@ WaitForElm("#main-right", targetElm => {
 
 				renderFlags();
 				UserNoteBox(user).appendTo($userNoteContainer);
-				UserPreviousNicks(user).insertBefore("#main-left > div.personal_info > div.helped_info");
+				UserPreviousNicks(user).insertAfter("#main-left > div.personal_info > div.clear");
 			}
 		});
 		getUserByID(profileData.id, res => {
@@ -42,6 +42,9 @@ WaitForElm("#main-right", targetElm => {
 
 				renderFlags();
 				UserBio(res.data.description);
+
+				Console.log(res.data);
+				if (res.data) {}
 			}
 		});
 

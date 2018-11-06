@@ -19,6 +19,10 @@ a {
 	text-decoration: none;
 }
 
+.tag:not(body).is-delete {
+	margin-left: 0;
+}
+
 .notification-list {
 	position: fixed;
 	top: 2rem;

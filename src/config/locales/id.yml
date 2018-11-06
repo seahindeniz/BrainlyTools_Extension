@@ -2,6 +2,7 @@ common:
   extensionUser: Extension user
   selectAll: Pilih semua
   progressing: Progressing
+  done: selesai!
   allDone: All done!
   save: Save
   clearInputs: Hapus input teks
@@ -19,6 +20,7 @@ common:
     cannotShareUserInfoWithServer: Kesalahan tak terduga terjadi ketika mencoba mengirim informasi pengguna ke server ekstensi. Silakan coba lagi dalam 2 detik
     ongoingProcess: "Beberapa konten masih diproses. Apakah kamu ingin keluar dari halaman ini?"
     areYouSure: "Kamu yakin?"
+    mayRequireWarning: "Proses penghapusan ini mungkin perlu diberikan peringatan, apakah kamu ingin memberikan peringatan kepada pemilik konten?"
   moderating:
     moreOptions: Lebih Banyak Opsi
     moderate: Moderasi
@@ -93,18 +95,18 @@ popup:
       permission: Izin akses
       privileges: Privileges
       # %{time} flag indicates the date suffix of first usage time of the extension.
-      # Suffix will needs to added in your language as well. Example: in English words will replaced as 'Started to use 5 days ago', in Turkish '5 gün önce kullanmaya başladı'
+      # Suffix will needs to added in your language as well. Example: in English words will replaced as 'Started to use 5 days ago', in Turkish '5 gun once kullanmaya basladi'
       firstUsageTimeAgoPreTitle: "Mulai digunakan pada %{time}"
       hasntUsed: Pengguna belum menggunakan ekstensi
       explainingColors:
         line1: Beberapa pengguna memiliki warna pada border avatar mereka dan warna ini menunjukkan status izin penggunaan ekstensi mereka
-        # ! Important: You need to specify a color name inside the braces like this: in English <s>Red</s> or in Turkish <s>Kırmızı</s> or in Indonesian <s>Merah</s>
+        # ! Important: You need to specify a color name inside the braces like this: in English <s>Red</s> or in Turkish <s>Kirmizi</s> or in Indonesian <s>Merah</s>
         line2: "Border <s>Merah</s> berarti pengguna yang ditampilkan dilarang menggunakan ekstensi"
         # ! Important: You need to specify a color name inside the braces like this: in English <s>Mustard</s> or in Turkish <s>Hardal</s> or in Indonesian <s>Moster</s>
         line3: "Border <s>Mustard</s> berarti pengguna memiliki izin untuk menggunakan ekstensi tetapi belum mulai menggunakannya"
-        # ! Important: You need to specify a color name inside the braces like this: in English <s>Green</s> or in Turkish <s>Yeşil</s> or in Indonesian <s>Hijau</s>
+        # ! Important: You need to specify a color name inside the braces like this: in English <s>Green</s> or in Turkish <s>Yesil</s> or in Indonesian <s>Hijau</s>
         line4: "Border <s>Hijau</s> berarti pengguna ini adalah pengguna aktif resmi"
-        # ! Important: You need to specify the "no border" word inside the braces like this: in English <s>No border</s> or in Turkish <s>Kenarlığı olmayan</s>
+        # ! Important: You need to specify the "no border" word inside the braces like this: in English <s>No border</s> or in Turkish <s>Kenarligi olmayan</s>
         line5: "<s>Tidak ada border</s> berarti bahwa pengguna memiliki beberapa privilege yang ditetapkan tetapi tidak diberi izin untuk menggunakan ekstensi di akun mereka dan belum mulai menggunakan ekstensi."
       privilegeList:
       - type: 0
@@ -152,6 +154,14 @@ popup:
       # \n flag indicates the new line for clear reading
       # %{date} flag indicates the date when user readed the announcement. Example> Readed on 01.01.2018
       readedOn: "Dibaca pada:\n%{date}"
+    manageDeleteReasons:
+      text: Preferensi alasan penghapusan
+      withoutAsk: Berikan peringatan tanpa meminta konfirmasi
+      withAsk: Tampilkan dialog konfirmasi saat menghapus konten
+      findReason: Menemukan alasan
+      explaining:
+        line1: Kamu menemukan alasan penghapusan dengan mengetikkan nama alasannya
+        line2: "Setelah memilih satu dari hasilnya, kamu dapat mengeklik,  %{exclamation-circle} tombol untuk memberikan peringatan tanpa meminta konfirmasi dari moderator selama mereka menghapus konten. Tapi dalam beberapa kasus, hal ini dapat berubah dan moderator harus memutuskan apakah pemberian peringatan dibutuhkan atau tidak. Jadi kamu dapat mengeklik %{exclamation-triangle} untuk menampilkan dialog konfirmasi kepada moderators saat mereka menghapus sebuah konten."
 core:
   notificationMessages:
     cantFetchDeleteReasons: Kesalahan tak terduga terjadi selama mempersiapkan alasan penghapusan
@@ -201,7 +211,7 @@ messages:
     addAll: Tambahkan semua
     removeAll: Hapus semua
     # %{n} flag indicates the number of people in the group.
-    # Replaced example in English: "12 users" in Turkish: "12 kullanıcı"
+    # Replaced example in English: "12 users" in Turkish: "12 kullanici"
     nUser: "%{n} users"
     # A placeholder text for message input https://image.ibb.co/fQk130/image.png
     writeSomething: Tuliskan pesan kamu disini
@@ -240,12 +250,13 @@ userProfile:
     areYouSureDeleteSelectedFriends: "Apakah kamu yakin akan menghapus ingin menghapus pengguna yang dipilih dari daftar teman?"
     areYouSureRemoveAllFriends: "Apakah kamu yakin ingin menghapus semua daftar temanmu?"
     youHaveNoFriends: "Jangan sedih karena kamu tidak memiliki teman dalam daftar kamu.:/ Maaf"
+    cannotChangeBio: "Saya tidak dapat mengubah bio kamu :/ sorry guys"
   previousNicks:
     text: Nick sebelumnya
     title: Nick pengguna sebelumnya yang terdaftar di database
   userBio:
     title: Bio
-    description: "Teks biografi pengguna dari aplikasi seluler. Jika pengguna menambahkan biodata pribadi di aplikasi seluler Brainly, maka itu akan muncul di sini."
+    description: Teks bio dari aplikasi mobile Brainly
   showAllFriends:
     text: Tampilkan semua
     title: Daftar teman kamu

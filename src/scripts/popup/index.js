@@ -10,6 +10,14 @@ import _System from "../controllers/System";
 
 let System = new _System();
 window.System = System;
+window.isPageBusy = false;
+
+window.onbeforeunload = function() {
+	alert(1);
+	if (window.isPageBusy) {
+		return System.data.locale.common.notificationMessages.ongoingProcess;
+	}
+}
 
 $(() => {
 	var messageDone = () => {
@@ -23,7 +31,7 @@ $(() => {
 					if (!(res && res.user && res.user.user && res.user.user.id && res.user.user.id == res.user.user.id)) {
 						Body(renderError(`I'm unable to fetch your data from Brainly<br><br>Please go to Brainly's homepage or reload the page`));
 					}
-					if (!System.data.Brainly.deleteReasons.__withTitles) {
+					else if (!System.data.Brainly.deleteReasons.__withIds) {
 						Body(renderError("An error accoured while preparing the delete reasons and fetching from Brainly"));
 					} else {
 						Body(renderLayout(res));

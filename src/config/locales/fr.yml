@@ -2,6 +2,7 @@ common:
   extensionUser: Utilisateur de l'extension
   selectAll: Tout sélectionner
   progressing: En cours
+  done: Terminé !
   allDone: Terminé !
   save: Enregistrer
   clearInputs: Effacer les champs de texte
@@ -19,6 +20,7 @@ common:
     cannotShareUserInfoWithServer: Une erreur inattendue s'est produite pendant l'envoi des informations de l'utilisateur vers le serveur de l'extension. Ré essaye dans 2 secondes
     ongoingProcess: "Quelques un des contenus sont toujours en cours d'éxecution. Es-tu certains de vouloir quitter la page ? "
     areYouSure: "Es-tu sûr ?"
+    mayRequireWarning: "Ce processus de suppression nécessite de donner un avertissement, voulez-vous donner un avertissement au propriétaire de ce contenu ?"
   moderating:
     moreOptions: Plus d'options
     moderate: Modérer
@@ -93,18 +95,18 @@ popup:
       permission: Permission d'accès
       privileges: Privilèges
       # %{time} flag indicates the date suffix of first usage time of the extension.
-      # Suffix will needs to added in your language as well. Example: in English words will replaced as 'Started to use 5 days ago', in Turkish '5 gün önce kullanmaya başladı'
+      # Suffix will needs to added in your language as well. Example: in English words will replaced as 'Started to use 5 days ago', in Turkish '5 gun once kullanmaya basladi'
       firstUsageTimeAgoPreTitle: "Début d'utilisation %{time}"
       hasntUsed: L'utilisateur n'a pas encore utilisé l'extension
       explainingColors:
         line1: Quelques utilisateurs ont des bordures colorées sur leur avatar et ces couleurs indiquent leur permission d'accès à l'extension
-        # ! Important: You need to specify a color name inside the braces like this: in English <s>Red</s> or in Turkish <s>Kırmızı</s> or in Indonesian <s>Merah</s>
+        # ! Important: You need to specify a color name inside the braces like this: in English <s>Red</s> or in Turkish <s>Kirmizi</s> or in Indonesian <s>Merah</s>
         line2: "<s>Red</s> bordure signifie que l'utilisateur a été banni de l'extension:"
         # ! Important: You need to specify a color name inside the braces like this: in English <s>Mustard</s> or in Turkish <s>Hardal</s> or in Indonesian <s>Moster</s>
         line3: "<s>Mustard</s>bordure signifie que l'utilisateur a la permission d'utiliser l'extension mais ne l'a pas encore utilisé."
-        # ! Important: You need to specify a color name inside the braces like this: in English <s>Green</s> or in Turkish <s>Yeşil</s> or in Indonesian <s>Hijau</s>
+        # ! Important: You need to specify a color name inside the braces like this: in English <s>Green</s> or in Turkish <s>Yesil</s> or in Indonesian <s>Hijau</s>
         line4: "<s>Green</s>couleur signifie que l'utilisateur est actif et autorisé."
-        # ! Important: You need to specify the "no border" word inside the braces like this: in English <s>No border</s> or in Turkish <s>Kenarlığı olmayan</s>
+        # ! Important: You need to specify the "no border" word inside the braces like this: in English <s>No border</s> or in Turkish <s>Kenarligi olmayan</s>
         line5: "<s>No border</s> signifie que l'utilisateur a des privilèges assignés mais n'a pas encore l'autorisation d'utiliser l'extension."
       privilegeList:
       - type: 0
@@ -152,6 +154,14 @@ popup:
       # \n flag indicates the new line for clear reading
       # %{date} flag indicates the date when user readed the announcement. Example> Readed on 01.01.2018
       readedOn: "Lu sur : \n%{date}"
+    manageDeleteReasons:
+      text: Préférences des raisons de suppression
+      withoutAsk: Donner un avertissement dans demander de confirmation
+      withAsk: Montrer le message de confirmation quand on supprime un contenu
+      findReason: Trouver une raison
+      explaining:
+        line1: Vous pouvez trouver des raisons de suppression en écrivant le nom de cette raison.
+        line2: "Après en avoir sélectionné une depuis les résulats, vous pouvez cliquer sur le bouton %{exclamation-circle}pour donner un avertissement sans demander de confirmation des modérateurs quand ils suppriment un contenu. Mais dans certains cas, ceci peut changer et les modérateurs peuvent décidder s'ils donnent un avertissement ou non. Donc vous pouvez cliquer sur %{exclamation-triangle} pour afficher le message de confirmation aux modérateurs quand ils suppriment un contenu/"
 core:
   notificationMessages:
     cantFetchDeleteReasons: Une erreur inattendue s'est produit pendant la préparation des raisons de suppressions
@@ -201,7 +211,7 @@ messages:
     addAll: Tout ajouter
     removeAll: Tout retirer
     # %{n} flag indicates the number of people in the group.
-    # Replaced example in English: "12 users" in Turkish: "12 kullanıcı"
+    # Replaced example in English: "12 users" in Turkish: "12 kullanici"
     nUser: "%{n} utilisateurs"
     # A placeholder text for message input https://image.ibb.co/fQk130/image.png
     writeSomething: Entrez votre message ici
@@ -240,12 +250,13 @@ userProfile:
     areYouSureDeleteSelectedFriends: "Es-tu certains de vouloir retirer les utilisateurs sélectionnés de ta liste d'amis ? "
     areYouSureRemoveAllFriends: "Es-tu certains de vouloir enlever tous tes amis ? "
     youHaveNoFriends: "Ne sois pas triste car tu n'as pas d'amis dans ta liste :/"
+    cannotChangeBio: "Impossible de changer votre bio :/ Désolé ..."
   previousNicks:
     text: Pseudo précédent
     title: Précédent pseudo de l'utilisateur
   userBio:
     title: Bio
-    description: Bio de l'utilisateur sur l'application. Si l'utilisateur a ajouté  une bio sur l'application Brainly elle apparaîtra ici.
+    description: Bio de l'app Brainly
   showAllFriends:
     text: Tout montrer
     title: Liste de tout tes amis

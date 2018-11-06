@@ -12,6 +12,20 @@
 	}
 }
 
+.notification-brainlyToolsImg {
+	position: relative;
+	right: 5px;
+	font-size: 10px;
+}
+
+.flash-messages-container .notification-brainlyToolsImg {
+	top: -4px;
+}
+
+#flash-msg .notification-brainlyToolsImg {
+	padding: 3px 0;
+}
+
 .js-hidden {
 	display: none !important;
 }

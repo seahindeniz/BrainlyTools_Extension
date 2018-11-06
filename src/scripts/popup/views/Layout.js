@@ -4,6 +4,7 @@ import renderThemeColor from "./ThemeColor";
 import renderDeleteButtonOptions from "./DeleteButtonOptions";
 import renderOtherOptions from "./OtherOptions";
 import renderAnnouncements from "./Announcements";
+import renderManageDeleteReasons from "./ManageDeleteReasons";
 import renderUsers from "./Users";
 import { CreateShortLink } from "../../controllers/ActionsOfServer";
 import Notification from "../components/Notification"
@@ -85,6 +86,10 @@ const Layout = res => {
 
 	System.checkUserP([4, 5], () => {
 		$(`<h4 class="title is-4 has-text-centered">${System.data.locale.popup.extensionManagement.title}</h4>`).appendTo($section2);
+
+		renderManageDeleteReasons($manageDeleteReasonsLayout => {
+			$section2.append($manageDeleteReasonsLayout);
+		});
 
 		System.checkUserP(4, () => {
 			renderAnnouncements($announcementsLayout => {

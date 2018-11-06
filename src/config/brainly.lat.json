@@ -4,9 +4,9 @@
 	"Deleted_account": "Akun yang dihapus",
 	"special_ranks_starts": 8,
 	"chatango": {
-		"for": "brainly.co.id",
-		"id": "cid0020000160003917943",
-		"handle": "brainlycoid"
+		"for": "brainly.lat",
+		"id": "cid0020000202090320445",
+		"handle": "brainlylat"
 	},
 	"change_forum_link": {
 		"use_it": false,
@@ -16,8 +16,8 @@
 		}]
 	},
 	"quickDeleteButtonsDefaultReasons": {
-		"task": [1, 51],
-		"response": [58, 60, 63],
-		"comment": [3, 56, 57]
+		"task": [1, 3],
+		"response": [20, 42, 29],
+		"comment": [47, 46, 48]
 	}
 }

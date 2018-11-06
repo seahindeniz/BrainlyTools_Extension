@@ -20,8 +20,8 @@
 		}]
 	},
 	"quickDeleteButtonsDefaultReasons": {
-		"task": ["Ödev Dışı İçerik", "Argo Kullanımı"],
-		"response": ["Kopya/Eser Hırsızlığı", "Kural İhlali/Argo", "Eksik Cevap"],
-		"comment": ["Argo Kullanımı", "Ödev Dışı İçerik", "Reklam"]
+		"task": [68, 69],
+		"response": [77, 88, 113],
+		"comment": [101, 100, 104]
 	}
 }

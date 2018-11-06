@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [6.4.0] - 2018.11.
+## [6.4.0] - 2018.11.07
 ### Added
 - Extension logo has changed (https://ibb.co/iYWRA0)
 - Extension managers will now be able to assing "give warning" option to deletion reasons by default. With this way, if the moderator deletes a content by using the reason that has "give warning" flag, it will automatically gives a warning to content owner according to the definitions or showses and requires a additional confirmation from moderator before giving a warning in each delete. (https://ibb.co/iYA3Q0 https://ibb.co/gqXBCf)

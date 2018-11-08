@@ -35,6 +35,7 @@ let badge_update = opt => {
 	});
 };
 browserAction.disable();
+let popupOpened = false;
 
 const onRequest = function(request, sender, sendResponse) {
 	if (request.action == "i18n") {
@@ -129,10 +130,10 @@ const onRequest = function(request, sender, sendResponse) {
 	}
 	if (request.action === "changeBadgeColor") {
 		let color = [0, 0, 0, 0];
-		if (request.status === "loading") {
+		if (request.data === "loading") {
 			color = [254, 200, 60, 255]
 		}
-		if (request.status === "loaded") {
+		if (request.data === "loaded") {
 			color = [83, 207, 146, 255]
 			browserAction.enable();
 		}
@@ -173,6 +174,28 @@ const onRequest = function(request, sender, sendResponse) {
 		});
 
 		return true;
+	}
+	if (request.action === "openCaptchaPopup") {
+		let currentWindowID = null;
+		if (!popupOpened) {
+			popupOpened = true;
+			ext.windows.create({
+				url: request.data,
+				type: "popup",
+				width: 500,
+				height: 388
+			}, detail => {
+				currentWindowID = detail.id;
+			});
+			chrome.windows.onRemoved.addListener(windowId => {
+				if (windowId == currentWindowID) {
+					popupOpened = false;
+					sendResponse("true");
+				}
+			});
+
+			return true;
+		}
 	}
 
 }

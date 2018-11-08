@@ -160,7 +160,7 @@ popup:
       withAsk: Show confirmation dialog while deleting a content
       findReason: Find a reason
       explaining:
-        line1: You find delete reasons by typing the name of the reason.
+        line1: You can find delete reasons by typing the name of the reason
         line2: After selecting one from the results, you can click %{exclamation-circle} button to give warning without asking confirmation from moderators while they deleting a content. But in some cases, that may can change and moderators should decide if giving a warning is necessary or not. So you can click %{exclamation-triangle} to show confirmation dialog to moderators while they are deleting a content.
 core:
   notificationMessages:

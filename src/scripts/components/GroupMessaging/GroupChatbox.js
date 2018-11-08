@@ -1,6 +1,6 @@
 "use strict";
 
-import { sendMessage } from "../../controllers/ActionsOfBrainly";
+import { sendMessages } from "../../controllers/ActionsOfBrainly";
 import { MessageSended, UpdateMessageGroup } from "../../controllers/ActionsOfServer";
 import Progress from "../Progress";
 import autosize from "autosize";
@@ -166,7 +166,7 @@ const GroupChatbox = function(group) {
 			previousProgressBars.remove();
 		}
 
-		sendMessage(group.members, message, {
+		sendMessages(group.members, message, {
 			each: () => {
 				progress.update(++sendedMessagesCount);
 				progress.updateLabel(`${sendedMessagesCount} - ${membersLen}`);

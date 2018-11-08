@@ -13,7 +13,6 @@ window.System = System;
 window.isPageBusy = false;
 
 window.onbeforeunload = function() {
-	alert(1);
 	if (window.isPageBusy) {
 		return System.data.locale.common.notificationMessages.ongoingProcess;
 	}

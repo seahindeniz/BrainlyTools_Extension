@@ -161,20 +161,33 @@ class _System {
 		}
 		return result;
 	}
+	toBackground(action, data, callback) {
+		let messageData = {
+			action
+		};
+
+		if (typeof data == "function") {
+			callback = data;
+		} else if (data) {
+			messageData.data = data;
+		}
+
+		ext.runtime.sendMessage(System.data.meta.extension.id, messageData, callback);
+	}
 	shareGatheredData2Background(callback) {
-		ext.runtime.sendMessage(System.data.meta.extension.id, { action: "setMarketData", data: System.data }, res => {
+		this.toBackground("setMarketData", System.data, res => {
 			if (!res || res != "done") {
 				Console.error("I couldn't share the System data variable to background");
 			} else {
 				callback && callback();
 			}
-		})
+		});
 	}
 	enableExtensionIcon() {
-		ext.runtime.sendMessage(System.data.meta.extension.id, { action: "enableExtensionIcon" })
+		this.toBackground("enableExtensionIcon")
 	}
 	changeBadgeColor(status) {
-		ext.runtime.sendMessage(System.data.meta.extension.id, { action: "changeBadgeColor", status })
+		this.toBackground("changeBadgeColor", status)
 	}
 	createProfileLink(nick, id) {
 		if (!this.profileLinkRoute) {
@@ -274,7 +287,7 @@ class _System {
 		}
 	}
 	updateExtension() {
-		ext.runtime.sendMessage(System.data.meta.extension.id, { action: "updateExtension" }, status => {
+		this.toBackground("updateExtension", status => {
 			if (status == "update_available") {
 				console.log("update pending...");
 			} else if (status == "no_update") {

@@ -1,16 +1,21 @@
 "use strict";
 import ext from "../utils/ext";
 
+let prepareAjax = () => {
+	$(document).ajaxSend(function(xhr, s, settings) {
+		if (typeof settings.data === "string") {
+			settings.data = settings.data.replace(/(\&data\%5B\_Token\%5D\%5Block\%5D\=.+)/, "");
+		}
+	});
+
+	prepareAjax = null;
+}
+let holdRequests = [];
 const Request = {
 	Brainly(options) {
 		let that = this;
-		let { method, path, data, callback, async, onError, countErr = 0 } = options
-		$(document).ajaxSend(function(xhr, s, settings) {
-			if (typeof settings.data === "string") {
-				settings.data = settings.data.replace(/(\&data\%5B\_Token\%5D\%5Block\%5D\=.+)/, "");
-			}
-		});
-
+		let { method, path, data, callback, onError, countErr = 0, tryAgain } = options;
+		tryAgain && console.log("tryAgain:", countErr);
 		let reqData = {
 			method: method,
 			type: method,
@@ -20,34 +25,52 @@ const Request = {
 				"X-B-Token-Long": System.data.Brainly.tokenLong,
 				accept: "text/plain, */*; q=0.01"
 			},
-			async: async,
-			data,
-			success: callback
+			data
 		};
+
+		if (typeof callback == "function") {
+			reqData.success = callback;
+		} else if (typeof callback == "object") {
+			reqData.success = callback.success;
+		}
 
 		if (options.ajaxOptions) {
 			reqData = { ...reqData, ...options.ajaxOptions }
 		}
 
+		prepareAjax && prepareAjax();
 		$.ajax(reqData).fail(function(e) {
-			console.log(countErr, e);
-			if (++countErr < 3) {
-				setTimeout(() => that.Brainly(method, path, data, callback, async, onError, countErr), 500);
+			if (true || e.getResponseHeader("cf-chl-bypass") == "1") {
+				callback.forceStop && callback.forceStop();
+				holdRequests.push({ method, path, data, callback, onError, countErr, tryAgain: true });
+				System.toBackground("openCaptchaPopup", System.data.meta.location.origin, res => {
+					if (res == "true") {
+						holdRequests.forEach(holding => {
+							that.Brainly(holding);
+						});
+
+						holdRequests = [];
+						
+						callback.forceStop && callback.forceStop(true);
+					}
+				});
+			} else if (++countErr < 3) {
+				setTimeout(() => that.Brainly({ method, path, data, callback, onError, countErr, tryAgain: true }), 500);
 			} else {
-				if (typeof onError === "undefined") { //noinspection JSUnresolvedVariable
-					//Sistem.fn.alert(Sistem.locale.texts.errors.operation_error, "error");
-				} else if (typeof onError === "function") {
-					onError();
+				if (typeof onError === "function") {
+					onError(e);
+				}
+				if (typeof callback.error === "function") {
+					callback.error(e);
 				}
 				reqData.countErr = 0;
 			}
 		});
 	},
-	BrainlyAPI(method, path, data, callback, async, onError, countErr) {
+	BrainlyAPI(method, path, data, callback, onError, countErr) {
 		if (typeof data === "function") {
 			countErr = onError || 0;
-			onError = async;
-			async = callback;
+			onError = callback;
 			callback = data;
 			data = null;
 		}
@@ -57,7 +80,6 @@ const Request = {
 			method,
 			path: System.data.Brainly.apiURL + path,
 			callback,
-			async,
 			onError,
 			countErr,
 			ajaxOptions: {

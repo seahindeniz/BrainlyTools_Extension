@@ -14,8 +14,8 @@ export default ()=>{
 		System.checkUserP(7, () => {
 			renderTaskDeleter($seperator);
 		});
-		System.checkUserP(9, () => {
+		/*System.checkUserP(9, () => {
 			renderMessageSender($seperator);
-		});
+		});*/
 	}
 }

@@ -280,78 +280,81 @@ const ActionsOfBrainly = {
 			});
 		}
 	},
-	getMessageID(user_id, callback) {
-		Request.BrainlyAPI("POST", `/api_messages/check`, { user_id }, callback);
+	getMessageID(user_id, callback, onError) {
+		Request.BrainlyAPI("POST", `/api_messages/check`, { user_id }, callback, onError);
 	},
 	sendMessage(conversation_id, content, callbacks) {
-		let isRange = (typeof conversation_id == "string" && conversation_id.indexOf(":") >= 0);
-		if (typeof conversation_id == "object" || isRange) {
-			if (isRange) {
-				let range = conversation_id.split(":");
-				conversation_id = fillRange(...range);
+		let data = {
+			content,
+			conversation_id
+		};
+		//onError yerine function aç ve gelen isteğe göre conversation id oluştur. İstek conversation id hatası değilse on error devam ettir
+		Request.BrainlyAPI("POST", `/api_messages/send`, data, callbacks);
+	},
+	sendMessages(conversation_ids, content, callbacks, onError) {
+		let isRange = (typeof conversation_ids == "string" && conversation_ids.indexOf(":") >= 0);
+
+		if (isRange) {
+			let range = conversation_ids.split(":");
+			conversation_ids = fillRange(...range);
+		}
+
+		let openedRequests = 0;
+		let currentUserIndex = 0;
+		let membersLen = conversation_ids.length;
+		let sendedMessagesCounter = 0;
+
+		let onResponseHandler = res => {
+			openedRequests--;
+			sendedMessagesCounter++;
+
+			if (res && res.success) {
+				callbacks.each(sendedMessagesCounter, openedRequests);
 			}
 
-			let openedRequests = 0;
-			let currentUserIndex = 0;
-			let membersLen = conversation_id.length;
-			let sendedMessagesCounter = 0;
-
-			let onResponseHandler = res => {
-				openedRequests--;
-				sendedMessagesCounter++;
-				
-				if (res && res.success) {
-					callbacks.each(sendedMessagesCounter);
-				}
-
-				if (sendedMessagesCounter == membersLen) {
-					callbacks.done(conversation_id);
-				}
-			};
-			
-			let _loop_sendMessage = setInterval(() => {
-				if (currentUserIndex == membersLen) {
-					clearInterval(_loop_sendMessage);
-
-					return true;
-				}
-
-				if (openedRequests < 500) {
-					openedRequests++;
-					let user = conversation_id[currentUserIndex++];
-					
-					if (!(user.conversation_id || user.conversationID)) {
-						ActionsOfBrainly.getMessageID(user.id || user, res => {
-							if (res && res.success) {
-								if (typeof user == "number") {
-									user = { user_id: user }
-								}
-
-								user.conversation_id = res.data.conversation_id;
-
-								ActionsOfBrainly.sendMessage(user.conversation_id, content, onResponseHandler);
-							} else {
-								openedRequests--;
-								sendedMessagesCounter++;
-
-								callbacks.each(sendedMessagesCounter);
-							}
-						});
-					} else {
-						ActionsOfBrainly.sendMessage(user.conversation_id || user.conversationID, content, onResponseHandler);
-					}
-				}
-			});
-
-			return _loop_sendMessage;
-		} else {
-			let data = {
-				content,
-				conversation_id
-			};
-
-			Request.BrainlyAPI("POST", `/api_messages/send`, data, callbacks);
+			if (sendedMessagesCounter == membersLen) {
+				callbacks.done(conversation_ids);
+			}
+		};
+		onError = err => {
+			console.log(err);
 		}
+
+		let _loop_sendMessage = setInterval(() => {
+			if (currentUserIndex == membersLen) {
+				clearInterval(_loop_sendMessage);
+
+				return true;
+			}
+
+			//if (openedRequests < 500) {
+			openedRequests++;
+			let user = conversation_ids[currentUserIndex++];
+			if (!(user.conversation_id || user.conversationID)) {
+				ActionsOfBrainly.getMessageID(user.id || user, res => {
+					if (res && res.success) {
+						if (typeof user == "number") {
+							user = { user_id: user }
+						}
+
+						user.conversation_id = res.data.conversation_id;
+
+						ActionsOfBrainly.sendMessage(user.conversation_id, content, { success: onResponseHandler, error: onError, forceStop: callbacks.forceStop });
+					} else {
+						openedRequests--;
+						sendedMessagesCounter++;
+
+						callbacks.each(sendedMessagesCounter);
+					}
+				});
+			} else {
+				ActionsOfBrainly.sendMessage(user.conversation_id || user.conversationID, content, { success: onResponseHandler, error: onError, forceStop: callbacks.forceStop });
+			}
+			//}
+		});
+
+		return _loop_sendMessage;
+
 	},
 	sendMessageById(user_id, content, callback) {
 		this.getMessageID(user_id, res => {

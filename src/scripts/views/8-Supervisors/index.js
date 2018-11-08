@@ -2,7 +2,7 @@
 
 import WaitForElm from "../../helpers/WaitForElm";
 import WaitForFn from "../../helpers/WaitForFn";
-import { getAllModerators, sendMessage } from "../../controllers/ActionsOfBrainly";
+import { getAllModerators, sendMessages } from "../../controllers/ActionsOfBrainly";
 import Buttons from "../../components/Buttons";
 import Notification from "../../components/Notification";
 import Storage from "../../helpers/extStorage";
@@ -184,7 +184,7 @@ WaitForElm(".connectedSortable > li", usersLi => {
 							previousProgressBars.remove();
 						}
 
-						sendMessage(idList, message, {
+						sendMessages(idList, message, {
 							each: i => {
 								progress.update(i);
 								progress.updateLabel(`${i} - ${idListLen}`);

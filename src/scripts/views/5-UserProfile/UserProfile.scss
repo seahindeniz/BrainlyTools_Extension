@@ -21,6 +21,8 @@ div.userBio {
 
 	>.bio-content {
 		flex-grow: 1;
+		white-space: pre-wrap;
+		word-wrap: break-word;
 	}
 }
 

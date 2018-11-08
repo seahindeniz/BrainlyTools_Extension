@@ -19,7 +19,7 @@ const Layout = res => {
 				<div class="column">
 					<div class="box">
 						<figure class="avatar has-text-centered">
-							<img src="${System.data.Brainly.userData.user.fixedAvatar}" title="${System.data.Brainly.userData.user.nick} - ${System.data.Brainly.userData.user.id}">
+							<img src="${System.data.Brainly.userData.user.fixedAvatar}" title="${System.data.Brainly.userData.user.nick} - ${System.data.Brainly.userData.user.id}@${System.data.meta.marketName.split(".")[0]}">
 						</figure>
 						<section class="section-1">
 							<div id="linkShorter" class="column">

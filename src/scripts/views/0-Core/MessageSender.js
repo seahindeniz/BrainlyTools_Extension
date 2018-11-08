@@ -1,6 +1,6 @@
 "use strict";
 
-import { getUserByID, sendMessage } from "../../controllers/ActionsOfBrainly";
+import { getUserByID, sendMessages } from "../../controllers/ActionsOfBrainly";
 import Notification from "../../components/Notification";
 
 const isPosInt = str => /^\+?\d+$/.test(str);
@@ -53,6 +53,7 @@ const MessageSender = $seperator => {
 		let $sendButton = $(`input.js-send`, $messageSenderLi);
 		let $stopButton = $(`input.js-stop`, $messageSenderLi);
 		let isSending = false;
+		let $spinner;
 
 		window.onbeforeunload = function() {
 			if (isSending) {
@@ -108,14 +109,31 @@ const MessageSender = $seperator => {
 		$userId.on("input", userIdHandler);
 
 		/**
+		 * Stop sending process
+		 */
+		let forceStart = false;
+		const stopButtonHandler = (e) => {
+			if (typeof e == "boolean" && e == true) {
+				forceStart = true;
+				$sendButton.click();
+
+				return true;
+			}
+
+			clearInterval(_loop_sendMessage);
+			isSending = false;
+			$spinner.remove();
+		}
+		$stopButton.click(stopButtonHandler);
+
+		/**
 		 * Send process
 		 */
 		let _loop_sendMessage;
 		let lastMessage = "";
 		let currentId = 0;
-		let stopProcessing = false;
+		//let stopProcessing = false;
 		const sendButtonHandler = function() {
-			isSending = true;
 			let id = $userId.val();
 			let message = $messageInput.val().trim().replace(/ {2,}/g, " ");
 
@@ -130,20 +148,24 @@ const MessageSender = $seperator => {
 				Notification(System.data.locale.core.notificationMessages.cantSendEmptyMessage, "error");
 				$messageInput.focus();
 			} else if (
-				message != lastMessage ||
-				(message == lastMessage && stopProcessing) ||
-				(message == lastMessage && !stopProcessing && confirm(System.data.locale.core.notificationMessages.tryingToSendTheSameMessage))
+				forceStart === true || forceStart === false && (
+					message != lastMessage ||
+					(message == lastMessage && !isSending && confirm(System.data.locale.core.notificationMessages.tryingToSendTheSameMessage)))
 			) {
+				forceStart = false;
+				isSending = true;
 				$userIdContainer.removeClass("sg-actions-list__hole--grow");
 				$counter.show();
 				$stopButton.removeClass("js-hidden");
 
-				let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`).insertAfter(this);
+				$spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`).insertAfter(this);
 				lastMessage = message;
 
-				_loop_sendMessage = sendMessage(`${currentId}:1`, message, {
-					each: () => {
+				let notif = $("body > div.page-wrapper.js-page-wrapper > section > header > div.flash-messages-container.js-flash-messages.js-flash-messages-container > div > div > div");
+				_loop_sendMessage = sendMessages(`${currentId}:1`, message, {
+					each: (sendedMessagesCounter, openedRequests) => {
 						$counterLabel.text(currentId--);
+						notif.html(openedRequests);
 
 						let percent = 100 - (currentId * 100) / id;
 						$counter.attr("data-percent", percent.toFixed(1) + "%");
@@ -161,21 +183,13 @@ const MessageSender = $seperator => {
 							message,
 							members: [`0:${id}`]
 						});*/
-					}
+					},
+					forceStop: stopButtonHandler
 				});
 			}
 		}
 
 		$sendButton.click(sendButtonHandler);
-
-		/**
-		 * Stop sending process
-		 */
-		const stopButtonHandler = () => {
-			clearInterval(_loop_sendMessage);
-			stopProcessing = true;
-		}
-		$stopButton.click(stopButtonHandler);
 	}
 };
 

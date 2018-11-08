@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [6.4.1] - 2018.10.30
+### Changed/Fixed
+- Bio text container size fixed
+
+### Removed
+- Mass-messsage sender, sending message to all users of related market. It causes making too much send request to Brainly 
+
 ## [6.4.0] - 2018.11.07
 ### Added
 - Extension logo has changed (https://ibb.co/iYWRA0)

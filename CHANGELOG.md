@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [6.4.1] - 2018.10.30
+## [6.4.1] - 2018.11.09
 ### Changed/Fixed
 - Bio text container size fixed
 

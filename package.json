@@ -36,7 +36,7 @@
     "cookie-parser": "^1.4.3",
     "cross-env": "^3.2.4",
     "event-stream": "^3.3.4",
-    "gulp": "^3.9.0",
+    "gulp": "^4.0.0",
     "gulp-babel": "^8.0.0-beta.2",
     "gulp-bro": "^1.0.3",
     "gulp-clean": "^0.3.1",

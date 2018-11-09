@@ -7,7 +7,6 @@ import cookie from "js-cookie";
 import { Logger } from "./ActionsOfServer";
 import { getUserByID } from "./ActionsOfBrainly";
 import Inject2body from "../helpers/Inject2body";
-//import yaml from "js-yaml";
 
 class _System {
 	constructor() {

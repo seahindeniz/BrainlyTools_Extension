@@ -49,24 +49,6 @@ gulp.task('clean', () => {
 	return pipe(`./build/${target}`, $.clean())
 })
 
-gulp.task('build', (cb) => {
-	$.runSequence('clean', 'styles', 'views_styles', 'ext', cb)
-});
-
-gulp.task('watch', ['build'], () => {
-	$.livereload.listen();
-
-	gulp.watch(['./src/**/*']).on("change", () => {
-		$.runSequence('build', $.livereload.reload);
-	});
-});
-
-gulp.task('default', ['build']);
-
-gulp.task('ext', ['manifest', 'js', 'js-min', "js-config", "locales"], () => {
-	return mergeAll(target)
-});
-
 // -----------------
 // COMMON
 // -----------------
@@ -150,17 +132,74 @@ gulp.task("manifest", () => {
 		})))
 		.pipe(gulp.dest(`./build/${target}`))
 });
+gulp.task("mergeAll", (cb) => {
+	let toMerge = [{
+			src: './src/icons/**/*',
+			dest: `./build/${target}/icons`
+		},
+		{
+			src: './src/_locales/**/*',
+			dest: `./build/${target}/_locales`
+		},
+		{
+			src: `./src/images/${target}/**/*`,
+			dest: `./build/${target}/images`
+		},
+		{
+			src: './src/images/shared/**/*',
+			dest: `./build/${target}/images`
+		},
+		{
+			src: './src/**/*.html',
+			dest: `./build/${target}`
+		}
+	];
 
+	console.log(toMerge);
+	toMerge = toMerge.map(function(folder, i) {
+		let _gulp = gulp.src(folder.src)
+			.pipe(gulp.dest(folder.dest));
+		if (toMerge.length - 1 == i) {
+			//_gulp.on("end", cb);
+		}
+		return _gulp;
+	});
+	//mergeAll(target);
+	//cb();
+	return toMerge[toMerge.length - 1]
+})
+gulp.task('ext', gulp.series('manifest', "mergeAll", 'js', 'js-min', "js-config", "locales"));
+
+/* gulp.task('build', (cb) => {
+	$.runSequence('clean', 'styles', 'views_styles', 'ext', cb)
+}); */
+gulp.task(
+	'build',
+	gulp.series('clean', 'styles', 'views_styles', 'ext')
+);
+gulp.task("reloadExtension", callback => {
+	$.livereload.reload();
+	callback();
+});
+gulp.task("watchFiles", () => {
+	$.livereload.listen();
+
+	return gulp.watch('./src/**/*', gulp.series('build', "reloadExtension"));
+});
+
+gulp.task('watch', gulp.series('build', "watchFiles"));
+
+gulp.task('default', gulp.series('build'));
 // -----------------
 // DIST
 // -----------------
-gulp.task('dist', (cb) => {
+/*gulp.task('dist', (cb) => {
 	$.runSequence('build', 'zip', cb)
-});
-
+});*/
 gulp.task('zip', () => {
-	return pipe(`./build/${target}/**/*`, $.zip(`${target}-${process.env.npm_package_version}.zip`), './dist')
+	return pipe(`./build/${target}/**/*`, $.zip(`${target}-${process.env.npm_package_version}.zip`), '../dists')
 })
+gulp.task('dist', gulp.series('build', 'zip'));
 
 // Helpers
 function pipe(src, ...transforms) {

@@ -1,7 +1,7 @@
 import fs from "fs";
-import { task, src, dest, series, parallel, watch } from 'gulp';
-import browserify from 'browserify';
+import { task, src, dest, series, watch } from 'gulp';
 import babelify from 'babelify';
+import log from "fancy-log";
 
 const $ = require('gulp-load-plugins')();
 
@@ -48,20 +48,18 @@ task('clean', () => {
 // COMMON
 // -----------------
 task('js', () => {
-	return src([
+	return compileJSFiles(
+		[
 			'src/scripts/*.js',
 			'src/scripts/**/**/*.js',
+			'!src/scripts/**/**/_/*',
+			'!src/scripts/**/**/_/**/*',
 			'!src/scripts/utils/*.js',
 			"!src/scripts/locales/**/*.js",
 			"!src/scripts/lib/*.min.js"
-		])
-		.pipe($.bro({
-			transform: [
-				babelify.configure({ presets: ['latest'] }),
-				['uglifyify', { global: true }]
-			]
-		}))
-		.pipe(dest(`build/${target}/scripts`));
+		],
+		`build/${target}/scripts`
+	);
 });
 task("locales", () => {
 	return src('src/config/locales/*.yml')
@@ -70,30 +68,10 @@ task("locales", () => {
 });
 
 task('styles', () => {
-	return src([
-			'src/styles/**/*.scss',
-		])
-		.pipe($.plumber())
-		.pipe($.sourcemaps.init())
-		.pipe($.sass.sync({
-			outputStyle: 'compressed',
-			precision: 10,
-			includePaths: ['.']
-		}).on('error', $.sass.logError))
-		.pipe($.sourcemaps.write(`./`))
-		.pipe(dest(`build/${target}/styles`));
+	return compileStyleFiles('src/styles/**/*.scss', `build/${target}/styles`);
 });
 task('styles_views', () => {
-	return src('src/scripts/views/**/*.scss')
-		.pipe($.plumber())
-		.pipe($.sourcemaps.init())
-		.pipe($.sass.sync({
-			outputStyle: 'compressed',
-			precision: 10,
-			includePaths: ['.']
-		}).on('error', $.sass.logError))
-		.pipe($.sourcemaps.write(`./`))
-		.pipe(dest(`build/${target}/scripts/views`));
+	return compileStyleFiles('src/scripts/views/**/*.scss', `build/${target}/scripts/views`);
 });
 
 task("manifest", () => {
@@ -115,18 +93,7 @@ task("manifest", () => {
 		})))
 		.pipe(dest(`./build/${target}`))
 });
-/*task('js-min', () => {
-	return src([
-			"src/scripts/** /*.min.js"
-		])
-		.pipe(dest(`build/${target}/scripts`));
-});
-task("market-configs", () => {
-	return src([
-			'src/config/*.json'
-		])
-		.pipe(dest(`build/${target}/config`));
-});*/
+
 task("assets", (cb) => {
 	let assets = [{
 			src: './src/icons/**/*',
@@ -164,14 +131,11 @@ task("assets", (cb) => {
 	});
 
 	return assets[assets.length - 1]
-})
-task(
-	'ext',
-	series('manifest', 'js', "locales", "assets"));
+});
 
 task(
 	'build',
-	series('clean', 'styles', 'styles_views', 'ext')
+	series('clean', 'styles', 'styles_views', 'manifest', 'js', "locales", "assets")
 );
 task(
 	"reloadExtension",
@@ -180,15 +144,44 @@ task(
 		callback();
 	}
 );
+
 task(
 	"watchFiles",
 	() => {
 		$.livereload.listen();
 
-		return watch('./src/**/*', series('build', "reloadExtension"));
+		// değişikliklerde buildi tekrar başlatmak yerine, watch onchange yaparak değişikliği takip edip, src>pipe>dest yap
+		let watcherJSFiles = watch('./src/**/*.js');
+		let watcherStyleFiles = watch('src/styles/**/*.scss');
+		let watcherViewsStyleFiles = watch('src/scripts/views/**/*.scss');
+		let watcherAll = watch([
+			'./src/**/*',
+			'!./src/**/*.js'
+		], series('build', "reloadExtension"));
+
+		watcherJSFiles.on("change", function(e) {
+			let filePath = e.split("/");
+			let destPath = filePath.slice(1, -1).join("/");
+
+			compileJSFiles(e, `build/${target}/${destPath}`);
+			log(e, "file has replaced");
+		});
+		
+		watcherStyleFiles.on("change", function(e) {
+			let filePath = e.split("/");
+			let destPath = filePath.slice(1, -1).join("/");
+
+			compileJSFiles(e, `build/${target}/${destPath}`);
+			log(e, "file has replaced");
+		});
+
+		watcherAll.on("change", function(e) {
+			console.log("all watcher changed", e);
+		});
+
+		return watcherAll;
 	}
 );
-
 task(
 	'watch',
 	series('build', "watchFiles")
@@ -215,3 +208,30 @@ task(
 	'dist',
 	series('build', 'zip')
 );
+
+/**
+ * HELPERS
+ */
+function compileJSFiles(files, path) {
+	return src(files)
+		.pipe($.bro({
+			transform: [
+				babelify.configure({ presets: ['latest'] }),
+				['uglifyify', { global: true }]
+			]
+		}))
+		.pipe(dest(path, { overwrite: true }));;
+}
+
+function compileStyleFiles(files, path) {
+	return src(files)
+		.pipe($.plumber())
+		.pipe($.sourcemaps.init())
+		.pipe($.sass.sync({
+			outputStyle: 'compressed',
+			precision: 10,
+			includePaths: ['.']
+		}).on('error', $.sass.logError))
+		.pipe($.sourcemaps.write(`./`))
+		.pipe(dest(path, { overwrite: true }));;
+}

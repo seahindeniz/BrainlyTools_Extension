@@ -1,7 +1,7 @@
 "use strict";
 
 import renderModal from "./modal";
-import { RemoveQuestion } from "../../../controllers/ActionsOfBrainly";
+import { RemoveQuestion } from "../../../../controllers/ActionsOfBrainly";
 
 let isPageProcessing = false;
 window.onbeforeunload = function() {

@@ -1,7 +1,7 @@
 "use strict";
 
-import renderModerationPanelSeperator from "../../components/ModerationPanelSeperator";
-import renderUserFinder from "../../components/UserFinder";
+import renderModerationPanelSeperator from "../../../components/ModerationPanelSeperator";
+import renderUserFinder from "../../../components/UserFinder";
 import renderTaskDeleter from "./TaskDeleter"
 import renderMessageSender from "./MessageSender"
 

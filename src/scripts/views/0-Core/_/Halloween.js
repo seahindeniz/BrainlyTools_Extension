@@ -1,6 +1,6 @@
 "use strict";
 
-import Storage from "../../helpers/extStorage";
+import Storage from "../../../helpers/extStorage";
 
 export default () => {
 	Storage.getL("halloween2018", halloween => {

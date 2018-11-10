@@ -1,7 +1,7 @@
 "use strict";
 
-import { getUserByID, sendMessages } from "../../controllers/ActionsOfBrainly";
-import Notification from "../../components/Notification";
+import { getUserByID, sendMessages } from "../../../controllers/ActionsOfBrainly";
+import Notification from "../../../components/Notification";
 
 const isPosInt = str => /^\+?\d+$/.test(str);
 const MessageSender = $seperator => {

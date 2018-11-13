@@ -2,6 +2,7 @@ import fs from "fs";
 import { task, src, dest, series, watch } from 'gulp';
 import babelify from 'babelify';
 import log from "fancy-log";
+import colors from "colors";
 
 const $ = require('gulp-load-plugins')();
 
@@ -135,7 +136,7 @@ task("assets", (cb) => {
 
 task(
 	'build',
-	series('clean', 'styles', 'styles_views', 'manifest', 'js', "locales", "assets")
+	series('clean', "assets", 'styles', 'styles_views', 'js', "locales", 'manifest')
 );
 task(
 	"reloadExtension",
@@ -150,33 +151,47 @@ task(
 	() => {
 		$.livereload.listen();
 
-		// değişikliklerde buildi tekrar başlatmak yerine, watch onchange yaparak değişikliği takip edip, src>pipe>dest yap
-		let watcherJSFiles = watch('./src/**/*.js');
-		let watcherStyleFiles = watch('src/styles/**/*.scss');
-		let watcherViewsStyleFiles = watch('src/scripts/views/**/*.scss');
-		let watcherAll = watch([
-			'./src/**/*',
-			'!./src/**/*.js'
-		], series('build', "reloadExtension"));
+		let watcherJSFiles = watch('./src/**/*.js', series("reloadExtension"));
+		let watcherStyleFiles = watch(
+			[
+				'src/styles/**/*.scss',
+				'src/scripts/views/**/*.scss'
+			], series("reloadExtension"));
+		let watcherAll = watch(
+			[
+				'./src/**/*',
+				'!./src/**/*.js',
+				'!src/styles/**/*.scss',
+				'!src/scripts/views/**/*.scss'
+			],
+			series('build', "reloadExtension"));
 
-		watcherJSFiles.on("change", function(e) {
-			let filePath = e.split("/");
+		watcherJSFiles.on("change", function(path) {
+			let filePath = path.split("/");
 			let destPath = filePath.slice(1, -1).join("/");
+			let fileName = filePath.pop();
+			let destFullPath = `build/${target}/${destPath}/${fileName}`;
 
-			compileJSFiles(e, `build/${target}/${destPath}`);
-			log(e, "file has replaced");
+			compileJSFiles(path, `build/${target}/${destPath}`);
+
+			log.info(colors.green(path), "has replaced with", colors.magenta(destFullPath));
 		});
-		
-		watcherStyleFiles.on("change", function(e) {
-			let filePath = e.split("/");
+
+		watcherStyleFiles.on("change", function(path) {
+			let filePath = path.split("/");
 			let destPath = filePath.slice(1, -1).join("/");
+			let fileName = filePath.pop().split(".");
+			fileName.pop();
+			fileName = fileName.join(".");
+			let destFullPath = `build/${target}/${destPath}/${fileName}.css`;
 
-			compileJSFiles(e, `build/${target}/${destPath}`);
-			log(e, "file has replaced");
+			compileStyleFiles(path, `build/${target}/${destPath}`);
+
+			log.info(colors.green(path), "has replaced with", colors.magenta(destFullPath));
 		});
 
-		watcherAll.on("change", function(e) {
-			console.log("all watcher changed", e);
+		watcherAll.on("change", function(path) {
+			log.info(colors.green(path), "has changed, rebuilding");
 		});
 
 		return watcherAll;

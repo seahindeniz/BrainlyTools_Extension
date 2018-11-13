@@ -9,7 +9,7 @@ System.pageLoaded("User Content inject OK!");
 window.sitePassedParams && (window.sitePassedParams = JSON.parse(sitePassedParams));
 //Console.clear();
 
-if (System.checkRoute(4, "") || System.checkRoute(4, "tasks") || System.checkRoute(4, "responses")) {
+if (System.checkRoute(4, "") || System.checkRoute(4, "tasks") || System.checkRoute(4, "responses") || System.checkRoute(4, "comments_tr")) {
 	window.selectors = {
 		tableHeaderRow: "#content-old > div > div > table > thead > tr",
 		tableContentBody: "#content-old > div > div > table > tbody:first",
@@ -66,7 +66,7 @@ if (System.checkRoute(4, "") || System.checkRoute(4, "tasks") || System.checkRou
 			$contentSelectCheckboxes.prop("checked", this.checked);
 		});
 	});
-
+	
 	let prepareContentBoxes = taskId => {
 		let $taskLink = $(`a[href$="${taskId}"]`);
 		let $parentTr = $($taskLink).parents("tr");
@@ -122,12 +122,14 @@ if (System.checkRoute(4, "") || System.checkRoute(4, "tasks") || System.checkRou
 						}
 					}
 				}
+
 				let responseOwner = taskView.users_data_WithUID[response.user_id];
-				console.log(responseOwner)
 				let responseAttachments = attachmentPrepare(response.attachments);
+
 				if (responseOwner.id == sitePassedParams[0] && responseAttachments && System.checkRoute(4, "responses")) {
 					$parentTd.prepend(attachmentIcon);
 				}
+				
 				responseFields += `
 				<fieldset class="responseField">
 					<legend><a href="${System.createProfileLink(responseOwner.nick, responseOwner.id)}">${responseOwner.nick}</a></legend>
@@ -145,6 +147,7 @@ if (System.checkRoute(4, "") || System.checkRoute(4, "tasks") || System.checkRou
 			${responseFields}
 		</div>`).appendTo($parentTd);
 	};
+
 	$contentLinks.each(function() {
 		let taskId = this.href.split("/").pop();
 		if (taskId > 0) {
@@ -179,6 +182,11 @@ if (System.checkRoute(4, "") || System.checkRoute(4, "tasks") || System.checkRou
 	System.checkUserP([2, 6], () => {
 		if (System.checkRoute(4, "responses")) {
 			Inject2body(["/scripts/views/4-UserContent/responses.js"]);
+		}
+	});
+	System.checkUserP(45, () => {
+		if (System.checkRoute(4, "comments_tr")) {
+			Inject2body("/scripts/views/4-UserContent/comments.js");
 		}
 	});
 }

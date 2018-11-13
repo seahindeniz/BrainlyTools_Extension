@@ -3,6 +3,8 @@
 import Request from "./Request";
 import fillRange from "../helpers/fillRange";
 
+const coupon = () => btoa(`[object Object]${System.data.Brainly.userData.user.id}-${new Date().getTime()}-${Math.floor(1 + Math.random() * 99999999)}`);
+
 const ActionsOfBrainly = {
 	/**
 	 * Get actions details of a question
@@ -64,18 +66,31 @@ const ActionsOfBrainly = {
 	},
 	/**
 	 * Approve answer by id
-	 * @param {object} data - Post data
+	 * @param {number} model_id - answer id
 	 * @param {function} callback
 	 */
 	ApproveAnswer(model_id, callback) {
-		let coupon = btoa(`[object Object]${myData.id}-${new Date().getTime()}-${Math.floor(1 + Math.random() * 99999999)}`);
 		let data = {
 			model_type: 2,
 			model_id,
-			_coupon_: coupon
+			_coupon_: coupon()
 		}
 
 		Request.BrainlyAPI("POST", '/api_content_quality/confirm', data, callback);
+	},
+	/**
+	 * Unapprove answer by id
+	 * @param {number} model_id - answer id
+	 * @param {function} callback
+	 */
+	UnapproveAnswer(model_id, callback) {
+		let data = {
+			model_type: 2,
+			model_id,
+			_coupon_: coupon()
+		}
+
+		Request.BrainlyAPI("POST", '/api_content_quality/unconfirm', data, callback);
 	},
 	/**
 	 * Create a ticket for a question

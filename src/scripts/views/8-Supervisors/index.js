@@ -156,7 +156,7 @@ WaitForElm(".connectedSortable > li", usersLi => {
 					}
 
 					if (isSending) {
-						Notification(System.data.locale.supervisors.notificationMessages.ongoingProcess, "info");
+						Notification(System.data.locale.common.notificationMessages.ongoingProcessWait, "info");
 					} else if ($messageInput.val() == "") {
 						Notification(System.data.locale.supervisors.notificationMessages.emptyMessage, "info");
 						$messageInput.focus();

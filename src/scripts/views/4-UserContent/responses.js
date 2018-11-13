@@ -1,6 +1,6 @@
 "use strict";
 
-import { RemoveAnswer, ApproveAnswer } from "../../controllers/ActionsOfBrainly";
+import { RemoveAnswer, ApproveAnswer, UnapproveAnswer } from "../../controllers/ActionsOfBrainly";
 import DeleteSection from "../../components/DeleteSection";
 import Notification from "../../components/Notification";
 
@@ -30,11 +30,14 @@ $actions.appendTo($("td", $moderateActions));
 let $actionsList = $(".sg-actions-list", $actions);
 
 /**
- * Approving
+ * Approving and unapproving
  */
 System.checkUserP(6, () => {
 	let $btnApprove = $(`
 	<div class="sg-actions-list__hole">
+		<div class="sg-spinner-container">
+			<button class="sg-button-secondary sg-button-secondary--dark unapprove">${System.data.locale.common.moderating.unapprove}</button>
+		</div>
 		<div class="sg-spinner-container">
 			<button class="sg-button-secondary approve">${System.data.locale.common.moderating.approve}</button>
 		</div>
@@ -43,68 +46,143 @@ System.checkUserP(6, () => {
 	$btnApprove.appendTo($actionsList);
 
 	$("button.approve", $btnApprove).click(function() {
-		let $checkedContentSelectCheckboxes = $('tr:not(.approved) input[type="checkbox"]:checked:not([disabled])', $tableContentBody);
-		let $alreadyApproved = $('tr.approved input[type="checkbox"]:checked:not([disabled])', $tableContentBody);
-
-		if ($alreadyApproved.length > 0) {
-			$alreadyApproved.prop("checked", false);
-			Notification(System.data.locale.common.moderating.notificationMessages.someOfSelectedAnswersAreApproved, "info");
-		}
-
-		if ($checkedContentSelectCheckboxes.length == 0) {
-			Notification(System.data.locale.common.moderating.notificationMessages.selectAnUnapprovedAnswerForApproving, "info");
+		if (isPageProcessing) {
+			Notification(System.data.locale.common.notificationMessages.ongoingProcessWait, "error");
 		} else {
-			if (confirm(System.data.locale.common.moderating.notificationMessages.confirmApproving)) {
-				let $progressBarContainer = $("#approveProgress", $moderateActions);
+			let $checkedContentSelectCheckboxes = $('tr:not(.approved) input[type="checkbox"]:checked:not([disabled])', $tableContentBody);
+			let $alreadyApproved = $('tr.approved input[type="checkbox"]:checked:not([disabled])', $tableContentBody);
 
-				if ($progressBarContainer.length == 0) {
-					$progressBarContainer = $(`<div id="approveProgress" class="progress-container sg-content-box--spaced-top-large  sg-content-box--spaced-bottom-large"><progress class="progress is-info" value="0" max="${$checkedContentSelectCheckboxes.length}" data-label="${System.data.locale.common.progressing}"></progress></div>`);
+			if ($alreadyApproved.length > 0) {
+				$alreadyApproved.prop("checked", false);
+				Notification(System.data.locale.common.moderating.notificationMessages.someOfSelectedAnswersAreApproved, "info");
+			}
 
-					$progressBarContainer.appendTo($("td", $moderateActions));
-				}
+			if ($checkedContentSelectCheckboxes.length == 0) {
+				Notification(System.data.locale.common.moderating.notificationMessages.selectAnUnapprovedAnswerForApproving, "info");
+			} else {
+				if (confirm(System.data.locale.common.moderating.notificationMessages.confirmApproving)) {
+					let $progressBarContainer = $("#approveProgress", $moderateActions);
 
-				let $progressBar = $("progress", $progressBarContainer);
+					if ($progressBarContainer.length == 0) {
+						$progressBarContainer = $(`<div id="approveProgress" class="progress-container sg-content-box--spaced-top-large  sg-content-box--spaced-bottom-large"><progress class="progress is-info" value="0" max="${$checkedContentSelectCheckboxes.length}" data-label="${System.data.locale.common.progressing}"></progress></div>`);
 
-				$progressBarContainer.show();
-
-				isPageProcessing = true;
-				let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner"></div></div>`).insertAfter(this);
-				let counter = 0;
-
-				let updateCounter = () => {
-					counter++;
-
-					$progressBar.val(counter);
-
-					if (counter == $checkedContentSelectCheckboxes.length) {
-						$spinner.remove();
-						$progressBar.attr("data-label", System.data.locale.common.allDone)
-						$progressBar.attr("class", "progress is-success");
-						isPageProcessing = false;
+						$progressBarContainer.appendTo($("td", $moderateActions));
 					}
-				}
 
-				$checkedContentSelectCheckboxes.each(function() {
-					let $parentRow = $(this).parents("tr");
-					let rowNumber = ~~($(">td:eq(1)", $parentRow).text());
-					let responseId = $parentRow.data("responseid");
+					let $progressBar = $("progress", $progressBarContainer);
 
-					ApproveAnswer(responseId, res => {
-						if (!res) {
-							Notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
-							updateCounter();
-						} else {
-							if (!res.success) {
-								Notification("#" + rowNumber + " > " + (res.message || System.data.locale.userContent.notificationMessages.alreadyApproved), "error");
-								$parentRow.addClass("already");
-							}
-							$(`<span class="approved">🗸</span>`).insertBefore($("> td > a", $parentRow));
-							$parentRow.addClass("approved");
-							updateCounter();
+					$progressBarContainer.show();
+
+					isPageProcessing = true;
+					let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner"></div></div>`).insertAfter(this);
+					let counter = 0;
+
+					let updateCounter = () => {
+						counter++;
+
+						$progressBar.val(counter);
+
+						if (counter == $checkedContentSelectCheckboxes.length) {
+							$spinner.remove();
+							$progressBar.attr("data-label", System.data.locale.common.allDone)
+							$progressBar.attr("class", "progress is-success");
+							isPageProcessing = false;
 						}
-					});
-				});
+					}
 
+					$checkedContentSelectCheckboxes.each(function() {
+						let $parentRow = $(this).parents("tr");
+						let rowNumber = ~~($(">td:eq(1)", $parentRow).text());
+						let responseId = $parentRow.data("responseid");
+
+						ApproveAnswer(responseId, res => {
+							if (!res) {
+								Notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
+								updateCounter();
+							} else {
+								if (!res.success) {
+									Notification("#" + rowNumber + " > " + (res.message || System.data.locale.userContent.notificationMessages.alreadyApproved), "error");
+									$parentRow.addClass("already");
+								}
+								$(`<span class="approved">🗸</span>`).insertBefore($("> td > a", $parentRow));
+								$parentRow.addClass("approved");
+								updateCounter();
+							}
+						});
+					});
+
+				}
+			}
+		}
+	});
+	$("button.unapprove", $btnApprove).click(function() {
+		if (isPageProcessing) {
+			Notification(System.data.locale.common.notificationMessages.ongoingProcessWait, "error");
+		} else {
+			let $unapprovedContents = $('tr:not(.approved) input[type="checkbox"]:checked:not([disabled])', $tableContentBody);
+			let $approvedContents = $('tr.approved input[type="checkbox"]:checked:not([disabled])', $tableContentBody);
+
+			if ($unapprovedContents.length > 0) {
+				$unapprovedContents.prop("checked", false);
+				Notification(System.data.locale.common.moderating.notificationMessages.someOfSelectedAnswersAreUnapproved, "info");
+			}
+
+			if ($approvedContents.length == 0) {
+				Notification(System.data.locale.common.moderating.notificationMessages.selectAnApprovedAnswerForUnapproving, "info");
+			} else {
+				if (confirm(System.data.locale.common.moderating.notificationMessages.confirmUnapproving)) {
+					let $progressBarContainer = $("#approveProgress", $moderateActions);
+
+					if ($progressBarContainer.length == 0) {
+						$progressBarContainer = $(`<div id="approveProgress" class="progress-container sg-content-box--spaced-top-large  sg-content-box--spaced-bottom-large"><progress class="progress is-info" value="0" max="${$approvedContents.length}" data-label="${System.data.locale.common.progressing}"></progress></div>`);
+
+						$progressBarContainer.appendTo($("td", $moderateActions));
+					}
+
+					let $progressBar = $("progress", $progressBarContainer);
+
+					$progressBarContainer.show();
+
+					isPageProcessing = true;
+					let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner"></div></div>`).insertAfter(this);
+					let counter = 0;
+
+					let updateCounter = () => {
+						counter++;
+
+						$progressBar.val(counter);
+
+						if (counter == $approvedContents.length) {
+							$spinner.remove();
+							$progressBar.attr("data-label", System.data.locale.common.allDone)
+							$progressBar.attr("class", "progress is-success");
+							isPageProcessing = false;
+						}
+					}
+
+					$approvedContents.each(function() {
+						let $parentRow = $(this).parents("tr");
+						let rowNumber = ~~($(">td:eq(1)", $parentRow).text());
+						let responseId = $parentRow.data("responseid");
+
+						UnapproveAnswer(responseId, res => {
+							if (!res) {
+								Notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
+								updateCounter();
+							} else {
+								if (!res.success) {
+									Notification("#" + rowNumber + " > " + (res.message || System.data.locale.userContent.notificationMessages.alreadyUnapproved), "error");
+									//$parentRow.addClass("already");
+								}
+
+								$("span.approved",  $parentRow).remove();
+								$parentRow.removeClass("approved already");
+								updateCounter();
+							}
+						});
+					});
+
+				}
 			}
 		}
 	});
@@ -139,90 +217,94 @@ System.checkUserP(2, () => {
 	let $submit = $(".js-submit", $submitContainer);
 
 	$submit.click(function() {
-		let $checkedContentSelectCheckboxes = $('input[type="checkbox"]:checked:not([disabled])', $tableContentBody);
-		let $selectResponseWarn = $(".selectResponseWarn", $moderateActions);
-
-		if ($checkedContentSelectCheckboxes.length == 0) {
-			if ($selectResponseWarn.length == 0) {
-				$(`<div class="sg-bubble sg-bubble--top sg-bubble--row-start sg-bubble--peach sg-text--light selectResponseWarn">${System.data.locale.userContent.notificationMessages.selectAtLeasetOneAnswer}</div>`).prependTo($("td", $moderateActions));
-			} else {
-				$selectResponseWarn.fadeTo('fast', 0.5).fadeTo('fast', 1.0).fadeTo('fast', 0.5).fadeTo('fast', 1.0);
-			}
+		if (isPageProcessing) {
+			Notification(System.data.locale.common.notificationMessages.ongoingProcessWait, "error");
 		} else {
-			$selectResponseWarn.remove();
-			let $selectReasonWarn = $(".selectReasonWarn", $deleteSection);
+			let $checkedContentSelectCheckboxes = $('input[type="checkbox"]:checked:not([disabled])', $tableContentBody);
+			let $selectResponseWarn = $(".selectResponseWarn", $moderateActions);
 
-			if (!window.selectedCategory) {
-				if ($selectReasonWarn.length == 0) {
-					$(`<div class="sg-bubble sg-bubble--bottom sg-bubble--row-start sg-bubble--peach sg-text--light selectReasonWarn">${System.data.locale.common.moderating.selectReason}</div>`).insertBefore($categories)
+			if ($checkedContentSelectCheckboxes.length == 0) {
+				if ($selectResponseWarn.length == 0) {
+					$(`<div class="sg-bubble sg-bubble--top sg-bubble--row-start sg-bubble--peach sg-text--light selectResponseWarn">${System.data.locale.userContent.notificationMessages.selectAtLeasetOneAnswer}</div>`).prependTo($("td", $moderateActions));
 				} else {
-					$selectReasonWarn.fadeTo('fast', 0.5).fadeTo('fast', 1.0).fadeTo('fast', 0.5).fadeTo('fast', 1.0);
+					$selectResponseWarn.fadeTo('fast', 0.5).fadeTo('fast', 1.0).fadeTo('fast', 0.5).fadeTo('fast', 1.0);
 				}
 			} else {
-				if (confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
-					let $progressBarContainer = $("#deleteProgress", $moderateActions);
+				$selectResponseWarn.remove();
+				let $selectReasonWarn = $(".selectReasonWarn", $deleteSection);
 
-					if ($progressBarContainer.length == 0) {
-						$progressBarContainer = $(`<div id="deleteProgress" class="progress-container sg-content-box--spaced-top-large  sg-content-box--spaced-bottom-large"><progress class="progress is-info" value="0" max="${$checkedContentSelectCheckboxes.length}" data-label="${System.data.locale.common.progressing}"></progress></div>`);
-
-						$progressBarContainer.appendTo($("td", $moderateActions));
+				if (!window.selectedCategory) {
+					if ($selectReasonWarn.length == 0) {
+						$(`<div class="sg-bubble sg-bubble--bottom sg-bubble--row-start sg-bubble--peach sg-text--light selectReasonWarn">${System.data.locale.common.moderating.selectReason}</div>`).insertBefore($categories)
+					} else {
+						$selectReasonWarn.fadeTo('fast', 0.5).fadeTo('fast', 1.0).fadeTo('fast', 0.5).fadeTo('fast', 1.0);
 					}
+				} else {
+					if (confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
+						let $progressBarContainer = $("#deleteProgress", $moderateActions);
 
-					let $progressBar = $("progress", $progressBarContainer);
+						if ($progressBarContainer.length == 0) {
+							$progressBarContainer = $(`<div id="deleteProgress" class="progress-container sg-content-box--spaced-top-large  sg-content-box--spaced-bottom-large"><progress class="progress is-info" value="0" max="${$checkedContentSelectCheckboxes.length}" data-label="${System.data.locale.common.progressing}"></progress></div>`);
 
-					$progressBarContainer.show();
-
-					isPageProcessing = true;
-					let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner"></div></div>`).insertAfter(this);
-					let counter = 0;
-
-					let updateCounter = () => {
-						counter++;
-
-						$progressBar.val(counter);
-
-						if (counter == $checkedContentSelectCheckboxes.length) {
-							$spinner.remove();
-							$progressBar.attr("data-label", System.data.locale.common.allDone)
-							$progressBar.attr("class", "progress is-success");
-							isPageProcessing = false;
+							$progressBarContainer.appendTo($("td", $moderateActions));
 						}
-					}
 
-					let idList = [];
+						let $progressBar = $("progress", $progressBarContainer);
 
-					$checkedContentSelectCheckboxes.each(function(i) {
-						let $parentRow = $(this).parents("tr");
-						let rowNumber = ~~($(">td:eq(1)", $parentRow).text());
-						let responseId = $parentRow.data("responseid");
-						let responseData = {
-							model_id: responseId,
-							reason_id: window.selectedCategory.id,
-							reason: $textarea.val(),
-							give_warning: $give_warning.is(':checked'),
-							take_points: $take_points.is(':checked')
-						};
+						$progressBarContainer.show();
 
-						idList.push(responseId);
+						isPageProcessing = true;
+						let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner"></div></div>`).insertAfter(this);
+						let counter = 0;
 
-						RemoveAnswer(responseData, res => {
-							if (!res) {
-								Notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
-								updateCounter();
-							} else {
-								if (!res.success && res.message) {
-									Notification("#" + rowNumber + " > " + res.message, "error");
-									$parentRow.addClass("already");
-								}
+						let updateCounter = () => {
+							counter++;
 
-								$(this).attr("disabled", "disabled")
-								$parentRow.addClass("removed");
-								updateCounter();
+							$progressBar.val(counter);
+
+							if (counter == $checkedContentSelectCheckboxes.length) {
+								$spinner.remove();
+								$progressBar.attr("data-label", System.data.locale.common.allDone)
+								$progressBar.attr("class", "progress is-success");
+								isPageProcessing = false;
 							}
-						});
-					});
+						}
 
-					System.log(6, sitePassedParams[0], idList);
+						let idList = [];
+
+						$checkedContentSelectCheckboxes.each(function(i) {
+							let $parentRow = $(this).parents("tr");
+							let rowNumber = ~~($(">td:eq(1)", $parentRow).text());
+							let responseId = $parentRow.data("responseid");
+							let responseData = {
+								model_id: responseId,
+								reason_id: window.selectedCategory.id,
+								reason: $textarea.val(),
+								give_warning: $give_warning.is(':checked'),
+								take_points: $take_points.is(':checked')
+							};
+
+							idList.push(responseId);
+
+							RemoveAnswer(responseData, res => {
+								if (!res) {
+									Notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
+									updateCounter();
+								} else {
+									if (!res.success && res.message) {
+										Notification("#" + rowNumber + " > " + res.message, "error");
+										$parentRow.addClass("already");
+									}
+
+									$(this).attr("disabled", "disabled")
+									$parentRow.addClass("removed");
+									updateCounter();
+								}
+							});
+						});
+
+						System.log(6, sitePassedParams[0], idList);
+					}
 				}
 			}
 		}

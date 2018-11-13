@@ -299,7 +299,7 @@ setMetaData(() => {
 													])
 												}
 
-												if (System.checkRoute(2, "user_content") && !System.checkRoute(4, "comments_tr")) {
+												if (System.checkRoute(2, "user_content")) {
 													Inject2body([
 														"/scripts/views/4-UserContent/index.js",
 														System.data.Brainly.style_guide.css,

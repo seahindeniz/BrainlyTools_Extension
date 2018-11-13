@@ -11,14 +11,14 @@ import Storage from "../../helpers/extStorage";
 import themeColorChanger from "../../helpers/themeColorChanger";
 import messagesLayoutExtender from "../../helpers/messagesLayoutExtender";
 import Request from "../../controllers/Request";
-import renderExtraItemsForModerationPanel from "./ExtraItemsForModerationPanel"
+import renderExtraItemsForModerationPanel from "./_/ExtraItemsForModerationPanel"
 import renderAnnouncements from "../../components/Announcements"
 import renderChatPanel from "../../components/ChatPanel"
 import { Auth } from "../../controllers/ActionsOfServer"
 import { getAllFriends, getAllModerators } from "../../controllers/ActionsOfBrainly"
 import PrepareDeleteReasons from "../../controllers/PrepareDeleteReasons"
 import Notification from "../../components/Notification";
-import renderHalloween from "./Halloween"
+import renderHalloween from "./_/Halloween"
 
 let System = new _System();
 window.System = System;
@@ -299,7 +299,7 @@ setMetaData(() => {
 													])
 												}
 
-												if (System.checkRoute(2, "user_content") && !System.checkRoute(4, "comments_tr")) {
+												if (System.checkRoute(2, "user_content")) {
 													Inject2body([
 														"/scripts/views/4-UserContent/index.js",
 														System.data.Brainly.style_guide.css,

@@ -7,7 +7,6 @@ import cookie from "js-cookie";
 import { Logger } from "./ActionsOfServer";
 import { getUserByID } from "./ActionsOfBrainly";
 import Inject2body from "../helpers/Inject2body";
-//import yaml from "js-yaml";
 
 class _System {
 	constructor() {
@@ -33,8 +32,8 @@ class _System {
 				reasonSign: "Ω",
 				extensionServerURL: "https://sahin.in",
 				extensionServerAPIURL: "https://sahin.in/BrainlyTools",
-				/* extensionServerURL: "http://127.0.0.1:3001",
-				extensionServerAPIURL: "http://127.0.0.1:3001/BrainlyTools", */
+				extensionServerURL: "http://127.0.0.1:3001",
+				extensionServerAPIURL: "http://127.0.0.1:3001/BrainlyTools",
 				availableLanguages: [{
 						key: "en_US",
 						title: "English"

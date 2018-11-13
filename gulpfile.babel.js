@@ -1,14 +1,8 @@
 import fs from "fs";
-import gulp from 'gulp';
-import { merge } from 'event-stream'
-import browserify from 'browserify';
+import { task, src, dest, series, watch } from 'gulp';
 import babelify from 'babelify';
-import source from 'vinyl-source-stream';
-import buffer from 'vinyl-buffer';
-import preprocessify from 'preprocessify';
-import gulpif from "gulp-if";
-import bro from "gulp-bro";
-import yaml from "gulp-yaml";
+import log from "fancy-log";
+import colors from "colors";
 
 const $ = require('gulp-load-plugins')();
 
@@ -44,70 +38,208 @@ var manifest = {
 		}
 	}
 }
+
 // Tasks
-gulp.task('clean', () => {
-	return pipe(`./build/${target}`, $.clean())
+task('clean', () => {
+	return src(`./build/${target}`)
+		.pipe($.clean());
 })
-
-gulp.task('build', (cb) => {
-	$.runSequence('clean', 'styles', 'views_styles', 'ext', cb)
-});
-
-gulp.task('watch', ['build'], () => {
-	$.livereload.listen();
-
-	gulp.watch(['./src/**/*']).on("change", () => {
-		$.runSequence('build', $.livereload.reload);
-	});
-});
-
-gulp.task('default', ['build']);
-
-gulp.task('ext', ['manifest', 'js', 'js-min', "js-config", "locales"], () => {
-	return mergeAll(target)
-});
 
 // -----------------
 // COMMON
 // -----------------
-gulp.task('js', () => {
-	return gulp.src([
+task('js', () => {
+	return compileJSFiles(
+		[
 			'src/scripts/*.js',
 			'src/scripts/**/**/*.js',
+			'!src/scripts/**/**/_/*',
+			'!src/scripts/**/**/_/**/*',
 			'!src/scripts/utils/*.js',
 			"!src/scripts/locales/**/*.js",
 			"!src/scripts/lib/*.min.js"
-		])
-		.pipe(bro({
+		],
+		`build/${target}/scripts`
+	);
+});
+task("locales", () => {
+	return src('src/config/locales/*.yml')
+		.pipe($.yaml())
+		.pipe(dest(`build/${target}/config/locales`));
+});
+
+task('styles', () => {
+	return compileStyleFiles('src/styles/**/*.scss', `build/${target}/styles`);
+});
+task('styles_views', () => {
+	return compileStyleFiles('src/scripts/views/**/*.scss', `build/${target}/scripts/views`);
+});
+
+task("manifest", () => {
+	return src('./manifest.json')
+		.pipe($.if(!production, $.mergeJson({
+			fileName: "manifest.json",
+			jsonSpace: " ".repeat(4),
+			endObj: manifest.dev
+		})))
+		.pipe($.if(production, $.mergeJson({
+			fileName: "manifest.json",
+			jsonSpace: " ".repeat(4),
+			endObj: manifest.production
+		})))
+		.pipe($.if(target === "firefox", $.mergeJson({
+			fileName: "manifest.json",
+			jsonSpace: " ".repeat(4),
+			endObj: manifest.firefox
+		})))
+		.pipe(dest(`./build/${target}`))
+});
+
+task("assets", (cb) => {
+	let assets = [{
+			src: './src/icons/**/*',
+			dest: `./build/${target}/icons`
+		},
+		{
+			src: './src/_locales/**/*',
+			dest: `./build/${target}/_locales`
+		},
+		{
+			src: `./src/images/${target}/**/*`,
+			dest: `./build/${target}/images`
+		},
+		{
+			src: './src/images/shared/**/*',
+			dest: `./build/${target}/images`
+		},
+		{
+			src: './src/**/*.html',
+			dest: `./build/${target}`
+		},
+		{
+			src: "src/scripts/**/*.min.js",
+			dest: `build/${target}/scripts`
+		},
+		{
+			src: "src/config/*.json",
+			dest: `build/${target}/config`
+		}
+	];
+
+	assets = assets.map(function(asset) {
+		return src(asset.src)
+			.pipe(dest(asset.dest));
+	});
+
+	return assets[assets.length - 1]
+});
+
+task(
+	'build',
+	series('clean', "assets", 'styles', 'styles_views', 'js', "locales", 'manifest')
+);
+task(
+	"reloadExtension",
+	callback => {
+		$.livereload.reload();
+		callback();
+	}
+);
+
+task(
+	"watchFiles",
+	() => {
+		$.livereload.listen();
+
+		let watcherJSFiles = watch('./src/**/*.js', series("reloadExtension"));
+		let watcherStyleFiles = watch(
+			[
+				'src/styles/**/*.scss',
+				'src/scripts/views/**/*.scss'
+			], series("reloadExtension"));
+		let watcherAll = watch(
+			[
+				'./src/**/*',
+				'!./src/**/*.js',
+				'!src/styles/**/*.scss',
+				'!src/scripts/views/**/*.scss'
+			],
+			series('build', "reloadExtension"));
+
+		watcherJSFiles.on("change", function(path) {
+			let filePath = path.split("/");
+			let destPath = filePath.slice(1, -1).join("/");
+			let fileName = filePath.pop();
+			let destFullPath = `build/${target}/${destPath}/${fileName}`;
+
+			compileJSFiles(path, `build/${target}/${destPath}`);
+
+			log.info(colors.green(path), "has replaced with", colors.magenta(destFullPath));
+		});
+
+		watcherStyleFiles.on("change", function(path) {
+			let filePath = path.split("/");
+			let destPath = filePath.slice(1, -1).join("/");
+			let fileName = filePath.pop().split(".");
+			fileName.pop();
+			fileName = fileName.join(".");
+			let destFullPath = `build/${target}/${destPath}/${fileName}.css`;
+
+			compileStyleFiles(path, `build/${target}/${destPath}`);
+
+			log.info(colors.green(path), "has replaced with", colors.magenta(destFullPath));
+		});
+
+		watcherAll.on("change", function(path) {
+			log.info(colors.green(path), "has changed, rebuilding");
+		});
+
+		return watcherAll;
+	}
+);
+task(
+	'watch',
+	series('build', "watchFiles")
+);
+
+task(
+	'default',
+	series('build')
+);
+
+// -----------------
+// DIST
+// -----------------
+task(
+	'zip',
+	() => {
+		return src(`./build/${target}/**/*`)
+			.pipe($.zip(`${target}-${process.env.npm_package_version}.zip`))
+			.pipe(dest('../dists'))
+	}
+);
+
+task(
+	'dist',
+	series('build', 'zip')
+);
+
+/**
+ * HELPERS
+ */
+function compileJSFiles(files, path) {
+	return src(files)
+		.pipe($.bro({
 			transform: [
 				babelify.configure({ presets: ['latest'] }),
 				['uglifyify', { global: true }]
 			]
 		}))
-		.pipe(gulp.dest(`build/${target}/scripts`));
-});
-gulp.task('js-min', () => {
-	return gulp.src([
-			"src/scripts/**/*.min.js"
-		])
-		.pipe(gulp.dest(`build/${target}/scripts`));
-});
-gulp.task("locales", () => {
-	return gulp.src([
-			'src/config/*.json'
-		])
-		.pipe(gulp.dest(`build/${target}/config`));
-});
-gulp.task("js-config", () => {
-	return gulp.src('src/config/locales/*.yml')
-		.pipe(yaml())
-		.pipe(gulp.dest(`build/${target}/config/locales`));
-});
+		.pipe(dest(path, { overwrite: true }));;
+}
 
-gulp.task('styles', () => {
-	return gulp.src([
-			'src/styles/**/*.scss',
-		])
+function compileStyleFiles(files, path) {
+	return src(files)
 		.pipe($.plumber())
 		.pipe($.sourcemaps.init())
 		.pipe($.sass.sync({
@@ -116,102 +248,5 @@ gulp.task('styles', () => {
 			includePaths: ['.']
 		}).on('error', $.sass.logError))
 		.pipe($.sourcemaps.write(`./`))
-		.pipe(gulp.dest(`build/${target}/styles`));
-});
-gulp.task('views_styles', () => {
-	return gulp.src('src/scripts/views/**/*.scss')
-		.pipe($.plumber())
-		.pipe($.sourcemaps.init())
-		.pipe($.sass.sync({
-			outputStyle: 'compressed',
-			precision: 10,
-			includePaths: ['.']
-		}).on('error', $.sass.logError))
-		.pipe($.sourcemaps.write(`./`))
-		.pipe(gulp.dest(`build/${target}/scripts/views`));
-});
-
-gulp.task("manifest", () => {
-	return gulp.src('./manifest.json')
-		.pipe(gulpif(!production, $.mergeJson({
-			fileName: "manifest.json",
-			jsonSpace: " ".repeat(4),
-			endObj: manifest.dev
-		})))
-		.pipe(gulpif(production, $.mergeJson({
-			fileName: "manifest.json",
-			jsonSpace: " ".repeat(4),
-			endObj: manifest.production
-		})))
-		.pipe(gulpif(target === "firefox", $.mergeJson({
-			fileName: "manifest.json",
-			jsonSpace: " ".repeat(4),
-			endObj: manifest.firefox
-		})))
-		.pipe(gulp.dest(`./build/${target}`))
-});
-
-// -----------------
-// DIST
-// -----------------
-gulp.task('dist', (cb) => {
-	$.runSequence('build', 'zip', cb)
-});
-
-gulp.task('zip', () => {
-	return pipe(`./build/${target}/**/*`, $.zip(`${target}-${process.env.npm_package_version}.zip`), './dist')
-})
-
-// Helpers
-function pipe(src, ...transforms) {
-	return transforms.reduce((stream, transform) => {
-		const isDest = typeof transform === 'string'
-		return stream.pipe(isDest ? gulp.dest(transform) : transform)
-	}, gulp.src(src))
-}
-
-function mergeAll(dest) {
-	return merge(
-		pipe('./src/icons/**/*', `./build/${dest}/icons`),
-		pipe(['./src/_locales/**/*'], `./build/${dest}/_locales`),
-		pipe([`./src/images/${target}/**/*`], `./build/${dest}/images`),
-		pipe(['./src/images/shared/**/*'], `./build/${dest}/images`),
-		pipe(['./src/**/*.html'], `./build/${dest}`)
-	)
-}
-
-function buildJS(target) {
-	const files = [
-		'background.js',
-		'contentscript.js',
-		'options.js',
-		'popup.js',
-		'livereload.js'
-	]
-
-	let tasks = files.map(file => {
-		return browserify({
-				entries: 'src/scripts/' + file,
-				debug: true
-			})
-			.transform('babelify', { presets: ['es2015'] })
-			.transform(preprocessify, {
-				includeExtensions: ['.js'],
-				context: context
-			})
-			.bundle()
-			.pipe(source(file))
-			.pipe(buffer())
-			.pipe(gulpif(!production, $.sourcemaps.init({ loadMaps: true })))
-			.pipe(gulpif(!production, $.sourcemaps.write('./')))
-			.pipe(gulpif(production, $.uglify({
-				"mangle": false,
-				"output": {
-					"ascii_only": true
-				}
-			})))
-			.pipe(gulp.dest(`build/${target}/scripts`));
-	});
-
-	return merge.apply(null, tasks);
+		.pipe(dest(path, { overwrite: true }));;
 }

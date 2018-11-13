@@ -18,9 +18,10 @@ common:
     operationError: An error occurred during operation. Please try again
     somethingWentWrong: Oops, something went wrong
     cannotShareUserInfoWithServer: An unexpected error occurred while trying to sending the user informations to the extension server. Please try again in 2 sec
-    ongoingProcess: Some of the content is still processed. Do you still want to exit the page?
+    ongoingProcess: Some of the contents is are still prosessing. Do you still want to exit the page?
     areYouSure: Are you sure?
     mayRequireWarning: This deletion process may require giving a warning so, do you wanna give a warning to owner of this content?
+    ongoingProcessWait: Some of the contents is are still prosessing and you have to wait till it finished
   moderating:
     moreOptions: More Options
     moderate: Moderate
@@ -33,6 +34,9 @@ common:
       someOfSelectedAnswersAreApproved: Some of selected answers have already been approved, so you don't need to approve those answers again
       selectAnUnapprovedAnswerForApproving: You need select some unapproved answer(s) for start approving
       confirmApproving: Do you want approve this answer(s)?
+      someOfSelectedAnswersAreUnapproved: Some of selected answers isn't approved, so you don't need to unapprove those answers again
+      selectAnApprovedAnswerForUnapproving: You need select some approved answer(s) for start
+      confirmUnapproving: Do you want remove approvement from this answer(s)?
     takePoints:
       task:
         text: Take back respondents' points
@@ -48,6 +52,8 @@ common:
       title: Delete selected contents with a warning
     approve: Approve
     approved: Approved
+    unapprove: Unapprove
+    unapproved: Unapproved
   personalNote:
     placeholder: Add a personal note..
     title: You can add a personal private note here and that will relate to this user only
@@ -244,6 +250,7 @@ userContent:
     selectAtLeasetOneQuestion: Select at least one question
     selectAtLeasetOneAnswer: Select at least one answer
     alreadyApproved: This answer is already approved
+    alreadyUnapproved: This answer is already unapproved
 userProfile:
   notificationMessages:
     selectAtLeasetOneUser: You need to select at least one user
@@ -283,4 +290,3 @@ supervisors:
   notificationMessages:
     noUser: There is no users to send this message
     emptyMessage: You cannot send empty message
-    ongoingProcess: You've already started a sending process and you have to wait till it finished

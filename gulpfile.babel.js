@@ -95,7 +95,7 @@ task("manifest", () => {
 		.pipe(dest(`./build/${target}`))
 });
 
-task("assets", (cb) => {
+task("assets", () => {
 	let assets = [{
 			src: './src/icons/**/*',
 			dest: `./build/${target}/icons`

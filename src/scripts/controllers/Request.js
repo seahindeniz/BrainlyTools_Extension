@@ -15,7 +15,6 @@ const Request = {
 	Brainly(options) {
 		let that = this;
 		let { method, path, data, callback, onError, countErr = 0, tryAgain } = options;
-		tryAgain && console.log("tryAgain:", countErr);
 		let reqData = {
 			method: method,
 			type: method,
@@ -39,8 +38,13 @@ const Request = {
 		}
 
 		prepareAjax && prepareAjax();
-		$.ajax(reqData).fail(function(e) {
-			if (true || e.getResponseHeader("cf-chl-bypass") == "1") {
+
+		let ajaxR = $.ajax(reqData);
+
+		tryAgain && console.log("tryAgain:", countErr);
+		ajaxR.fail(function(e) {
+			console.log(e);
+			if (e.getResponseHeader("cf-chl-bypass") == "1") {
 				callback.forceStop && callback.forceStop();
 				holdRequests.push({ method, path, data, callback, onError, countErr, tryAgain: true });
 				System.toBackground("openCaptchaPopup", System.data.meta.location.origin, res => {
@@ -50,7 +54,7 @@ const Request = {
 						});
 
 						holdRequests = [];
-						
+
 						callback.forceStop && callback.forceStop(true);
 					}
 				});

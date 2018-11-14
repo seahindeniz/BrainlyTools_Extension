@@ -56,8 +56,10 @@ const ActionsOfBrainly = {
 	RemoveComment(data, callback) {
 		data = {
 			"model_type_id": 45,
-			"give_warning": false,
 			...data
+		}
+		if (!data.give_warning) {
+			data.give_warning = false
 		}
 
 		data.reason += " " + System.data.config.reasonSign;

@@ -249,6 +249,7 @@ userContent:
   notificationMessages:
     selectAtLeasetOneQuestion: Select at least one question
     selectAtLeasetOneAnswer: Select at least one answer
+    selectAtLeasetOneComment: Select at least one comment
     alreadyApproved: This answer is already approved
     alreadyUnapproved: This answer is already unapproved
 userProfile:

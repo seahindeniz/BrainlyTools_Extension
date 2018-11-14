@@ -32,8 +32,8 @@ class _System {
 				reasonSign: "Ω",
 				extensionServerURL: "https://sahin.in",
 				extensionServerAPIURL: "https://sahin.in/BrainlyTools",
-				extensionServerURL: "http://127.0.0.1:3001",
-				extensionServerAPIURL: "http://127.0.0.1:3001/BrainlyTools",
+				/* extensionServerURL: "http://127.0.0.1:3001",
+				extensionServerAPIURL: "http://127.0.0.1:3001/BrainlyTools", */
 				availableLanguages: [{
 						key: "en_US",
 						title: "English"
@@ -245,24 +245,35 @@ class _System {
 		return _return;
 	}
 	checkBrainlyP(p, c) {
+		let r = !1;
+
 		if (System.data.Brainly.userData.privileges.indexOf(p) >= 0) {
 			c && c();
+
+			r = !0;
 		}
+
+		return r;
 	}
 	checkUserP(p, c) {
+		let r = !1;
+
 		if (System.data.Brainly.userData._hash.indexOf(0) > -1) {
 			c && c();
+
+			r = !0;
 		} else {
 			if (typeof p == "number") {
-				System.data.Brainly.userData._hash.indexOf(p) > -1 && (c && c());
+				System.data.Brainly.userData._hash.indexOf(p) > -1 && (c && c(), r = !0);
 			} else {
-				let s = false;
 				p.forEach(n => {
-					System.data.Brainly.userData._hash.indexOf(n) > -1 && (s = true);
+					System.data.Brainly.userData._hash.indexOf(n) > -1 && (r = !0);
 				});
-				s && (c && c());
+				r && (c && c());
 			}
 		}
+
+		return r;
 		/*eval(function(p, a, c, k, e, d) {
 			e = function(c) { return c };
 			if (!''.replace(/^/, String)) {

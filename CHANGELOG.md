@@ -1,9 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+
 ## [6.4.1] - 2018.11.09
 ### Added
-- Ability to remove approvement from answers by selecting
+- Deleting **comments** from user contents page is now possible (https://ibb.co/bZXULL)
+- Ability to remove approvement from answers by selecting (https://ibb.co/e7dQuf)
+
+### Changed/Fixed
+- Stucking while deleting contents from user contents page
 
 ## [6.4.1] - 2018.11.09
 ### Changed/Fixed

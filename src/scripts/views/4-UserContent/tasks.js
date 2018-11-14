@@ -8,8 +8,8 @@ let selectors = window.selectors,
 	$moderateActions = window.$moderateActions;
 
 //WaitForElm('#content-old > div > div > table > tbody > tr:nth-child(1) > td', () => {
-let $contentRows = $(selectors.contentRows);
 let $tableContentBody = $(selectors.tableContentBody);
+let $contentRows = $(selectors.contentRows);
 let isPageProcessing = false;
 window.onbeforeunload = function() {
 	if (isPageProcessing) {
@@ -34,15 +34,16 @@ let $submit = $(".js-submit", $submitContainer);
 
 $submit.click(function() {
 	let $checkedContentSelectCheckboxes = $('input[type="checkbox"]:checked:not([disabled])', $tableContentBody);
-	let $selectTaskWarn = $(".selectTaskWarn", $moderateActions);
+	let $selectATask_warning = $(".selectATask_warning", $moderateActions);
+
 	if ($checkedContentSelectCheckboxes.length == 0) {
-		if ($selectTaskWarn.length == 0) {
-			$(`<div class="sg-bubble sg-bubble--top sg-bubble--row-start sg-bubble--peach sg-text--light selectTaskWarn">${System.data.locale.userContent.notificationMessages.selectAtLeasetOneQuestion}</div>`).prependTo($("td", $moderateActions));
+		if ($selectATask_warning.length == 0) {
+			$(`<div class="sg-bubble sg-bubble--top sg-bubble--row-start sg-bubble--peach sg-text--light selectATask_warning">${System.data.locale.userContent.notificationMessages.selectAtLeasetOneQuestion}</div>`).prependTo($("td", $moderateActions));
 		} else {
-			$selectTaskWarn.fadeTo('fast', 0.5).fadeTo('fast', 1.0).fadeTo('fast', 0.5).fadeTo('fast', 1.0);
+			$selectATask_warning.fadeTo('fast', 0.5).fadeTo('fast', 1.0).fadeTo('fast', 0.5).fadeTo('fast', 1.0);
 		}
 	} else {
-		$selectTaskWarn.remove();
+		$selectATask_warning.remove();
 		let $selectReasonWarn = $(".selectReasonWarn", $deleteSection);
 
 		if (!window.selectedCategory) {
@@ -99,18 +100,18 @@ $submit.click(function() {
 					idList.push(model_id);
 
 					RemoveQuestion(taskData, (res) => {
+						updateCounter();
+
 						if (!res) {
 							Notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
-							updateCounter();
 						} else {
 							if (!res.success && res.message) {
 								Notification("#" + rowNumber + " > " + res.message, "error");
 								$parentRow.addClass("already");
 							}
-							
+
 							$(this).attr("disabled", "disabled")
 							$parentRow.addClass("removed");
-							updateCounter();
 						}
 					});
 				});

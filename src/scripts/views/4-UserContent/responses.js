@@ -32,16 +32,20 @@ let $actionsList = $(".sg-actions-list", $actions);
 /**
  * Approving and unapproving
  */
-System.checkUserP(6, () => {
+if (System.checkUserP(6) && System.checkBrainlyP(146)) {
 	let $btnApprove = $(`
 	<div class="sg-actions-list__hole">
-		<div class="sg-spinner-container">
-			<button class="sg-button-secondary sg-button-secondary--dark unapprove">${System.data.locale.common.moderating.unapprove}</button>
-		</div>
 		<div class="sg-spinner-container">
 			<button class="sg-button-secondary approve">${System.data.locale.common.moderating.approve}</button>
 		</div>
 	</div>`);
+
+	if (System.checkBrainlyP(147)) {
+		$btnApprove.append(`
+		<div class="sg-spinner-container">
+			<button class="sg-button-secondary sg-button-secondary--dark unapprove">${System.data.locale.common.moderating.unapprove}</button>
+		</div>`);
+	}
 
 	$btnApprove.appendTo($actionsList);
 
@@ -96,9 +100,10 @@ System.checkUserP(6, () => {
 						let responseId = $parentRow.data("responseid");
 
 						ApproveAnswer(responseId, res => {
+							updateCounter();
+
 							if (!res) {
 								Notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
-								updateCounter();
 							} else {
 								if (!res.success) {
 									Notification("#" + rowNumber + " > " + (res.message || System.data.locale.userContent.notificationMessages.alreadyApproved), "error");
@@ -106,7 +111,6 @@ System.checkUserP(6, () => {
 								}
 								$(`<span class="approved">🗸</span>`).insertBefore($("> td > a", $parentRow));
 								$parentRow.addClass("approved");
-								updateCounter();
 							}
 						});
 					});
@@ -166,18 +170,18 @@ System.checkUserP(6, () => {
 						let responseId = $parentRow.data("responseid");
 
 						UnapproveAnswer(responseId, res => {
+							updateCounter();
+
 							if (!res) {
 								Notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
-								updateCounter();
 							} else {
 								if (!res.success) {
 									Notification("#" + rowNumber + " > " + (res.message || System.data.locale.userContent.notificationMessages.alreadyUnapproved), "error");
 									//$parentRow.addClass("already");
 								}
 
-								$("span.approved",  $parentRow).remove();
+								$("span.approved", $parentRow).remove();
 								$parentRow.removeClass("approved already");
-								updateCounter();
 							}
 						});
 					});
@@ -186,7 +190,7 @@ System.checkUserP(6, () => {
 			}
 		}
 	});
-});
+}
 
 /**
  * Answer delete panel
@@ -221,16 +225,16 @@ System.checkUserP(2, () => {
 			Notification(System.data.locale.common.notificationMessages.ongoingProcessWait, "error");
 		} else {
 			let $checkedContentSelectCheckboxes = $('input[type="checkbox"]:checked:not([disabled])', $tableContentBody);
-			let $selectResponseWarn = $(".selectResponseWarn", $moderateActions);
+			let $selectAResponse_warning = $(".selectAResponse_warning", $moderateActions);
 
 			if ($checkedContentSelectCheckboxes.length == 0) {
-				if ($selectResponseWarn.length == 0) {
-					$(`<div class="sg-bubble sg-bubble--top sg-bubble--row-start sg-bubble--peach sg-text--light selectResponseWarn">${System.data.locale.userContent.notificationMessages.selectAtLeasetOneAnswer}</div>`).prependTo($("td", $moderateActions));
+				if ($selectAResponse_warning.length == 0) {
+					$(`<div class="sg-bubble sg-bubble--top sg-bubble--row-start sg-bubble--peach sg-text--light selectAResponse_warning">${System.data.locale.userContent.notificationMessages.selectAtLeasetOneAnswer}</div>`).prependTo($("td", $moderateActions));
 				} else {
-					$selectResponseWarn.fadeTo('fast', 0.5).fadeTo('fast', 1.0).fadeTo('fast', 0.5).fadeTo('fast', 1.0);
+					$selectAResponse_warning.fadeTo('fast', 0.5).fadeTo('fast', 1.0).fadeTo('fast', 0.5).fadeTo('fast', 1.0);
 				}
 			} else {
-				$selectResponseWarn.remove();
+				$selectAResponse_warning.remove();
 				let $selectReasonWarn = $(".selectReasonWarn", $deleteSection);
 
 				if (!window.selectedCategory) {

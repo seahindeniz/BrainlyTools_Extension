@@ -2,6 +2,7 @@ import DeleteReasonCategoryList from "../DeleteReasonCategoryList";
 
 export default (Reason, type) => {
 	let categories = DeleteReasonCategoryList(Reason, type);
+	console.log("type:", type);
 	let $deleteSection = $(`
 	<div id="deleteSection">
 		<div class="sg-actions-list sg-content-box__actions--spaced-top sg-content-box__actions--spaced-bottom categories">${categories}</div>
@@ -11,34 +12,37 @@ export default (Reason, type) => {
 		<textarea class="sg-textarea sg-textarea--invalid sg-textarea--full-width"></textarea>
 
 		<div class="sg-content-box__actions">
-			<div class="sg-label sg-label--secondary" >
-				<div class="sg-label__icon" title="${System.data.locale.common.moderating.takePoints[type].title}">
-					<div class="sg-checkbox">
-						<input type="checkbox" class="sg-checkbox__element" id="take_points">
-						<label class="sg-checkbox__ghost" for="take_points">
-						<svg class="sg-icon sg-icon--adaptive sg-icon--x10">
-							<use xlink:href="#icon-check"></use>
-						</svg>
-						</label>
-					</div>
-				</div>
-				<label class="sg-label__text" for="take_points">${System.data.locale.common.moderating.takePoints[type].text}</label>
-			</div>
-			${type == "task"? `
-				<div class="sg-vertical-separator sg-vertical-separator--small"></div>
+			${type == "task" || type == "response"? `
 				<div class="sg-label sg-label--secondary" >
-					<div class="sg-label__icon" title="${System.data.locale.common.moderating.returnPoints.title}">
+					<div class="sg-label__icon" title="${System.data.locale.common.moderating.takePoints[type].title}">
 						<div class="sg-checkbox">
-							<input type="checkbox" class="sg-checkbox__element" id="return_points">
-							<label class="sg-checkbox__ghost" for="return_points">
+							<input type="checkbox" class="sg-checkbox__element" id="take_points">
+							<label class="sg-checkbox__ghost" for="take_points">
 							<svg class="sg-icon sg-icon--adaptive sg-icon--x10">
 								<use xlink:href="#icon-check"></use>
 							</svg>
 							</label>
 						</div>
 					</div>
-					<label class="sg-label__text" for="return_points">${System.data.locale.common.moderating.returnPoints.text}</label>
-				</div>`
+					<label class="sg-label__text" for="take_points">${System.data.locale.common.moderating.takePoints[type].text}</label>
+				</div>
+				${type == "task"? `
+					<div class="sg-vertical-separator sg-vertical-separator--small"></div>
+					<div class="sg-label sg-label--secondary" >
+						<div class="sg-label__icon" title="${System.data.locale.common.moderating.returnPoints.title}">
+							<div class="sg-checkbox">
+								<input type="checkbox" class="sg-checkbox__element" id="return_points">
+								<label class="sg-checkbox__ghost" for="return_points">
+								<svg class="sg-icon sg-icon--adaptive sg-icon--x10">
+									<use xlink:href="#icon-check"></use>
+								</svg>
+								</label>
+							</div>
+						</div>
+						<label class="sg-label__text" for="return_points">${System.data.locale.common.moderating.returnPoints.text}</label>
+					</div>`
+					:""
+				}`
 				:""
 			}
 			<div class="sg-vertical-separator sg-vertical-separator--small"></div>

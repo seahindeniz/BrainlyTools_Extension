@@ -13,8 +13,8 @@ if (System.checkRoute(4, "") || System.checkRoute(4, "tasks") || System.checkRou
 	window.selectors = {
 		tableHeaderRow: "#content-old > div > div > table > thead > tr",
 		tableContentBody: "#content-old > div > div > table > tbody:first",
-		contentRows: "#content-old > div > div > table > tbody > tr",
-		contentLinks: "#content-old > div > div > table > tbody > tr > td > a"
+		contentRows: "#content-old > div > div > table > tbody > tr:not(.moderateActions)",
+		contentLinks: "#content-old > div > div > table > tbody > tr:not(.moderateActions) > td > a"
 	}
 
 	let $tableHeaderRow = $(selectors.tableHeaderRow);
@@ -66,7 +66,7 @@ if (System.checkRoute(4, "") || System.checkRoute(4, "tasks") || System.checkRou
 			$contentSelectCheckboxes.prop("checked", this.checked);
 		});
 	});
-	
+
 	let prepareContentBoxes = taskId => {
 		let $taskLink = $(`a[href$="${taskId}"]`);
 		let $parentTr = $($taskLink).parents("tr");
@@ -129,7 +129,7 @@ if (System.checkRoute(4, "") || System.checkRoute(4, "tasks") || System.checkRou
 				if (responseOwner.id == sitePassedParams[0] && responseAttachments && System.checkRoute(4, "responses")) {
 					$parentTd.prepend(attachmentIcon);
 				}
-				
+
 				responseFields += `
 				<fieldset class="responseField">
 					<legend><a href="${System.createProfileLink(responseOwner.nick, responseOwner.id)}">${responseOwner.nick}</a></legend>
@@ -147,32 +147,37 @@ if (System.checkRoute(4, "") || System.checkRoute(4, "tasks") || System.checkRou
 			${responseFields}
 		</div>`).appendTo($parentTd);
 	};
-
+	let isCommentPage = System.checkRoute(4, "comments_tr");
 	$contentLinks.each(function() {
 		let taskId = this.href.split("/").pop();
+
 		if (taskId > 0) {
-
 			$(this).parents("tr").attr("data-taskId", taskId);
-			GetTaskContent(taskId, res => {
-				res.users_data_WithUID = {};
-				$.each(res.users_data, function() {
-					res.users_data_WithUID[this.id] = this;
-				});
-				taskContents[taskId] = res
-				prepareContentBoxes(taskId);
-			});
-		}
-	});
 
-	$contentLinks.click(function(e) {
-		if (!(e.ctrlKey || e.shiftKey)) {
-			e.preventDefault();
-			let $taskContent = $(this).next(".taskContent");
-			if ($taskContent.length > 0) {
-				$taskContent.toggle();
+			if (!isCommentPage) {
+				GetTaskContent(taskId, res => {
+					res.users_data_WithUID = {};
+					$.each(res.users_data, function() {
+						res.users_data_WithUID[this.id] = this;
+					});
+					taskContents[taskId] = res
+					prepareContentBoxes(taskId);
+				});
 			}
 		}
 	});
+
+	if (!isCommentPage) {
+		$contentLinks.click(function(e) {
+			if (!(e.ctrlKey || e.shiftKey)) {
+				e.preventDefault();
+				let $taskContent = $(this).next(".taskContent");
+				if ($taskContent.length > 0) {
+					$taskContent.toggle();
+				}
+			}
+		});
+	}
 
 	System.checkUserP(1, () => {
 		if (System.checkRoute(4, "") || System.checkRoute(4, "tasks")) {

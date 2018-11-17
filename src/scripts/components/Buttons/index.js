@@ -9,7 +9,7 @@ const buttons = {
 			</span>
 		</button>`,
 	RemoveQuestionNoIcon: `
-		<button class="sg-button-secondary sg-label--unstyled{type}"{title}>
+		<button class="sg-button-secondary sg-label--unstyled{type}{class}"{title}>
 			<label class="sg-label__text">{text}</label>
 		</button>`,
 	RemoveQuestionMore: `<button class="sg-button-secondary sg-button-secondary--small sg-button-secondary--alt"{title}>{text}</button>`,
@@ -35,6 +35,7 @@ export default (item_name, text, template) => {
 			.replace(/\{text\}/igm, btn.text)
 			.replace(/\{title\}/igm, (btn.title && `title="${btn.title}"` || ""))
 			.replace(/\{type\}/igm, btn.type && btn.type != "" ? " sg-button-secondary--" + btn.type : "")
+			.replace(/\{class\}/igm, btn.class && btn.class != "" ? " " + btn.class : "")
 
 		if (template) {
 			button = template

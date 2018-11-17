@@ -2,7 +2,9 @@
 
 import ext from "./utils/ext";
 import _System from "./controllers/System";
-import { storageS, storageL } from "./utils/storage";
+import Storage from "./utils/storage";
+import marketKeyFn from "./helpers/marketKey";
+import BrainlyNotificationSocket from "./controllers/BrainlyNotificationSocket";
 
 /*storageS.set({ color: "#f00" }, function () {
 });
@@ -42,72 +44,52 @@ const onRequest = function(request, sender, sendResponse) {
 		sendResponse(ext.i18n.getMessage(request.data));
 	}
 	if (request.action == "storageSet") {
-		storageS.get(request.marketKey, res => {
-			let data = {};
-			data[request.marketKey] = { ...res[request.marketKey], ...request.data };
-
-			storageS.set(data, res => {
-				sendResponse("true");
-			});
+		Storage.set({
+			...request,
+			callback: sendResponse
 		});
+
 		return true;
 	}
 	if (request.action == "storageGet") {
-		storageS.get(request.marketKey, res => {
-			let _res = {};
-			if (Object.prototype.toString.call(request.data) === "[object Array]") {
-				for (let i = 0, obj;
-					(obj = request.data[i]); i++) {
-					if (res[request.marketKey])
-						_res[obj] = res[request.marketKey][obj];
-				}
-			} else if (typeof request.data === "string") {
-				if (res[request.marketKey])
-					_res = res[request.marketKey][request.data];
-			}
-			sendResponse(_res);
+		Storage.get({
+			...request,
+			callback: sendResponse
 		});
+
 		return true;
 	}
 	if (request.action == "storageRemove") {
-		storageS.remove(request.data, res => {
-			sendResponse(res);
+		Storage.remove({
+			...request,
+			callback: sendResponse
 		});
+
 		return true;
 	}
 	if (request.action == "storageSetL") {
-		storageL.get(request.marketKey, res => {
-			let data = {};
-			data[request.marketKey] = { ...res[request.marketKey], ...request.data };
-
-			storageL.set(data, res => {
-				sendResponse("true");
-			});
+		Storage.set({
+			local: true,
+			...request,
+			callback: sendResponse
 		});
+
 		return true;
 	}
 	if (request.action == "storageGetL") {
-		storageL.get(request.marketKey, res => {
-			let _res = {};
-
-			if (Object.prototype.toString.call(request.data) === "[object Array]") {
-				for (let i = 0, obj;
-					(obj = request.data[i]); i++) {
-					if (res[request.marketKey])
-						_res[obj] = res[request.marketKey][obj];
-				}
-			} else if (typeof request.data === "string") {
-				if (res[request.marketKey]) {
-					_res = res[request.marketKey][request.data];
-				}
-			}
-			sendResponse(_res);
+		Storage.get({
+			local: true,
+			...request,
+			callback: sendResponse
 		});
+
 		return true;
 	}
 	if (request.action == "storageRemoveL") {
-		storageL.remove(request.data, res => {
-			sendResponse(res);
+		Storage.remove({
+			local: true,
+			...request,
+			callback: sendResponse
 		});
 		return true;
 	}
@@ -146,7 +128,7 @@ const onRequest = function(request, sender, sendResponse) {
 	if (request.action === "xmlHttpRequest") {
 		let ajaxData = {
 			method: request.method,
-			url: System.data.config.extensionServerAPIURL + request.path,
+			url: System.data.config.extension.serverAPIURL + request.path,
 			headers: request.headers,
 			success: res => {
 				sendResponse(res)
@@ -197,7 +179,29 @@ const onRequest = function(request, sender, sendResponse) {
 			return true;
 		}
 	}
-
+	if (request.action === "notifierInit") {
+		Storage.get({
+			marketKey: marketKeyFn(),
+			data: "notifier",
+			callback: isActive => {
+				console.log("notifierInit:", isActive);
+				BrainlyNotificationSocket(isActive);
+			}
+		});
+	}
+	if (request.action === "notifierChangeState") {
+		BrainlyNotificationSocket(request.data);
+		/* console.log(System.data.meta.marketName);
+		console.log(System.data.Brainly.defaultConfig.comet.AUTH_HASH);
+		console.log(request.data); */
+		/* Storage.set({
+			marketKey: System.data.meta.marketName,
+			data: { notifier: request.data },
+			callback: res => {
+				console.log("notifierChangeState:", res);
+			}
+		}); */
+	}
 }
 ext.runtime.onMessage.addListener(onRequest);
 ext.runtime.onMessageExternal.addListener(onRequest);

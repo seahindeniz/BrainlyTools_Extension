@@ -2,10 +2,11 @@
 
 import WaitForElm from "../../helpers/WaitForElm";
 import WaitForFn from "../../helpers/WaitForFn";
-import { RemoveQuestion, RemoveAnswer, RemoveComment } from "../../controllers/ActionsOfBrainly";
+import { RemoveQuestion, RemoveAnswer, RemoveComment, ConfirmComment } from "../../controllers/ActionsOfBrainly";
 import { GetModerateAllPages } from "../../controllers/ActionsOfServer";
 import Buttons from "../../components/Buttons";
 import Storage from "../../helpers/extStorage";
+import Notification from "../../components/Notification";
 
 System.pageLoaded("Arcive Mod page OK!");
 
@@ -41,6 +42,12 @@ System.checkUserP([1, 2, 45], () => {
 			prepareButtons[key] = Buttons('RemoveQuestionNoIcon', data, `<div class="sg-spinner-container">{button}</div>`);
 		}
 	});
+	prepareButtons.comment += Buttons('RemoveQuestionNoIcon', {
+		text: "✓",
+		class: "confirm",
+		title: System.data.locale.common.moderating.confirm,
+	}, `<div class="sg-spinner-container">{button}</div>`);
+	console.log(prepareButtons);
 	let createQuickDeleteButtons = nodes => {
 		if (nodes) {
 			for (let i = 0, node;
@@ -72,7 +79,29 @@ System.checkUserP([1, 2, 45], () => {
 		if (obj && obj.data && obj.data.model_id && obj.data.model_id >= 0) {
 			let contentType = obj.data.model_type_id == 1 ? "task" : obj.data.model_type_id == 2 ? "response" : "comment";
 
-			if (confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
+			if ($(this).is(".confirm")) {
+				if (confirm(System.data.locale.common.moderating.doYouWantToConfirmComment)) {
+					let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--small sg-spinner--light"></div></div>`).appendTo(this);
+					let $extActions = $(this).parents(".ext-action-buttons");
+
+					$extActions.addClass("is-deleting");
+					ConfirmComment(obj.data.model_id, res => {
+						$spinner.remove();
+
+						if (!res) {
+							Notification(System.data.locale.common.notificationMessages.operationError, "error");
+						} else {
+							if (!res.success) {
+								Notification(res.message || System.data.locale.common.notificationMessages.somethingWentWrong, "error");
+							} else {
+								$moderation_item.addClass("confirmed");
+								$extActions.removeClass("is-deleting");
+								$(this).remove();
+							}
+						}
+					});
+				}
+			} else if (confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
 				let reason = System.data.Brainly.deleteReasons.__withIds[contentType][System.data.config.quickDeleteButtonsReasons[contentType][btn_index]];
 				let data = {
 					model_id: obj.data.model_id,
@@ -80,9 +109,9 @@ System.checkUserP([1, 2, 45], () => {
 					reason: reason.text
 				};
 				data.give_warning = System.canBeWarned(reason.id);
-				let spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--small sg-spinner--light"></div></div>`).appendTo(this);
+				let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--small sg-spinner--light"></div></div>`).appendTo(this);
 				let $extActions = $(this).parents(".ext-action-buttons");
-				
+
 				$extActions.addClass("is-deleting");
 
 				let onRes = res => {
@@ -103,7 +132,7 @@ System.checkUserP([1, 2, 45], () => {
 					} else {
 						Zadanium.toplayer.createdObjects[Zadanium.toplayer.createdObjects.length - 1].data.toplayer.setMessage(System.data.locale.common.notificationMessages.somethingWentWrong, "failure")
 					}
-					spinner.remove();
+					$spinner.remove();
 				};
 
 				if (contentType == "task") {
@@ -332,4 +361,104 @@ GetModerateAllPages(res => {
 			}
 		});
 	}
+});
+
+/**
+ * Right/Left arrow actions for toplayers
+ */
+
+const nextObjFound = (nextObj, objContenerMod) => {
+	if (nextObj) {
+		//objZ.closeTicket();
+		objContenerMod.elements.close.click();
+		$('#toplayer, #toplayer > div.contener-center.mod').show();
+		//nextObj.openToplayer();
+		nextObj.elements.openToplayerButton.click();
+	}
+}
+let findNext = (k, action, objContenerMod) => {
+	let currentObj = Zadanium.moderation.all.createdObjects[k];
+
+	if (currentObj) {
+		if (currentObj.data.disabled) {;
+			findNext(action == "prev" ? --k : ++k, action, objContenerMod);
+		} else {
+			nextObjFound(currentObj, objContenerMod);
+		}
+	} else {
+		if (action == "next") {
+			let loaderMsg = $("#moderation-all > div.content > div.loader.calm > div.loadMore").text();
+
+			objContenerMod.elements.close.click();
+			$('#toplayer, #toplayer > div.contener-center.mod').show();
+
+			Zadanium.moderation.all.getContent();
+			WaitForFn(`Zadanium.moderation.all.createdObjects[${Zadanium.moderation.all.createdObjects.length + 1}]`, obj => {
+				if (obj) {
+					findNext(k, action, objContenerMod);
+				}
+			});
+
+			WaitForFn(
+				`
+					let msgText = $("#moderation-all > div.content > div.loader.calm > div.loadMore").text();
+					(msgText!= "" && msgText != "${loaderMsg}") || undefined
+				`,
+				obj => {
+					if (obj) {
+						objContenerMod.elements.close.click();
+					}
+				}
+			);
+		} else {
+			objContenerMod.elements.close.click();
+		}
+	}
+}
+WaitForElm("#toplayer", toplayer => {
+	let $toplayer = $(toplayer);
+
+	const switchModerate = function(e) {
+		if (e.target.classList.contains("moderation")) {
+			let action = "";
+
+			if (typeof e == "string") {
+				action = e;
+			} else {
+				let toplayerOffset = e.offsetX;
+				let arrowOffset = e.target.offsetWidth;
+
+				if (toplayerOffset > arrowOffset) {
+					action = "next";
+				} else if (toplayerOffset < 0) {
+					action = "prev"
+				}
+			}
+
+			if (action != "") {
+				let $contenerMod = $(".contener-center.mod", toplayer);
+				let objContenerMod = Zadanium.getObject($contenerMod.attr("objecthash"));
+				let $moderationToplayer = $(".moderation-toplayer:visible", toplayer);
+				let objZ = Zadanium.getObject($moderationToplayer.attr("objecthash"));
+				let taskId = objZ.data.task.id;
+
+				Zadanium.moderation.all.createdObjects.forEach((obj, i) => {
+					if (obj.data.task_id == taskId) {
+						findNext(action == "prev" ? i - 1 : i + 1, action, objContenerMod);
+					}
+				});
+			}
+		}
+	};
+
+	$toplayer.on('mouseup', 'div.contener.mod.moderation', switchModerate);
+	$("body").on("keyup", function(e) {
+		if ($toplayer.is(':visible') && !(/textarea|input/gi.exec(e.target.type))) {
+			if (e.keyCode === 65 || e.keyCode === 37) { // A
+				switchModerate("prev");
+			} else if (e.keyCode === 68 || e.keyCode === 39) { // D
+				switchModerate("next");
+			}
+		}
+	});
 });

@@ -5,8 +5,6 @@ TODO:
 	New:
 		Extension:
 			- Silim sebeplerini sunarken status: true/false gibi bir flag koyulmalı, böylece sunulması istenmeyen silim sebepleri listelenmez.
-			- Auth kontrollerini ilk seferde senkron, localstorage da varsa asenkron yap. Böylece kişiyi bekletme süresi azalır. Ayrıca asenkron yapıldığında gelen cevaba göre eklentinin kullanım izni yoksa/kaldırılmışsa, anında kullanıma kapansın veya sayfayı yenilesin.
-			- Eklenti kullanıcısı, doğrulama gibi özel izin gerektiren eylemlerde, brainly privilege'ı kontrol edilsin ve ona göre içerik gösterilsin.
 			- Chatango ile mesajlaşmada çoklu sohbet odaları seçme özelliği lazım. Belli kişilere özel bir yol çizilmeli ve kimlerin hangi odaya girebileceği gibi durumları kararlaştır
 			- Eklenti seçeneklerine, kişinin oluşturduğu kısa linkleri 30 adetle sınırlandıracak şekilde listele
 			- Eklenti yetkilerini düzenlerken, eklenti için yetki atanmış tüm kullanıcılara specific yetki atama işlemi
@@ -14,7 +12,6 @@ TODO:
 
 		Global:
 			- Eklenti seçeneklerine resim paylaşma özelliği ekle. Olursa eğer
-			- Gelen bildirimleri takip etmek için web socket oluştur ve bildirimleri tarayıcının notification panelinde göster
 			- Eklentiye özel silim sebebi tanımlama seçeneği. Bununla ilgili eklenti seçeneğine özel olarak alan oluştur ve yönetilebilsin
 			- Hızlı soru silim butonunu 3'e çıkartmayı incele, tasarıma uyarmı gibi..
 
@@ -52,6 +49,9 @@ TODO:
 			+ Silim sebeplerinde ön tanımlı give warning olayı eklenmeli
 			+ default silim sebeplerini, text ile seçmek yerine sebep id numarasına göre seçtir. Sunucuda id aynı kalabilir ama isim değişikliği olursa, eklenti çalışmayı durdurur.
 			+ Eklenti tanıtım dökümanı yerine, sahin.in içerisinde dil değişkenli bir sunum alanı oluştur
+			+ Auth kontrollerini ilk seferde senkron, localstorage da varsa asenkron yap. Böylece kişiyi bekletme süresi azalır. Ayrıca asenkron yapıldığında gelen cevaba göre eklentinin kullanım izni yoksa/kaldırılmışsa, anında kullanıma kapansın veya sayfayı yenilesin.
+			+ Eklenti kullanıcısı, doğrulama gibi özel izin gerektiren eylemlerde, brainly privilege'ı kontrol edilsin ve ona göre içerik gösterilsin.
+			+ Gelen bildirimleri takip etmek için web socket oluştur ve bildirimleri tarayıcının notification panelinde göster
 
 			#Issues
 			+ DB de kayıtlı olmayan birisi eklentiyi kullandığı zaman, checkintime eklenmiyor.
@@ -84,6 +84,7 @@ TODO:
 			+ Şikayet edilmiş içeriklerin kutularını iyileştir http://i.hizliresim.com/VPnGvv.png
 			+ Tablo ve liste seçenekleri
 			+ Şikayet edilmiş kutucukları, içerik tiplerine göre renklendir. Soruları turuncu, cevapları ve yorumları kırmızı renkte
+			+ Yorumlara onaylama butonu ekle
 		
 		Soru sayfası:
 			+ Hızlı silim butonları, soruya ve cevaplara

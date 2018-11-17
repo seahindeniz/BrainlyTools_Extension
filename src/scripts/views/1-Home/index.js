@@ -7,14 +7,13 @@ import { RemoveQuestion, OpenModerationTicket, CloseModerationTicket } from "../
 import Buttons from "../../components/Buttons";
 import Notification from "../../components/Notification";
 import extModeratePanel from "../../components/extModeratePanel";
-import Storage from "../../helpers/extStorage";
 
 System.pageLoaded("Root inject OK!");
 
 let selectors = {
-	feeds_parent: ".sg-layout__box.js-feed-stream",
-	feed_item: ".js-feed-item",
-	feeds_questionsBox_buttonList: ".sg-content-box > .sg-content-box__title .sg-actions-list > .sg-actions-list__hole:first-child",
+	feeds_parent: ".js-feed-stream",
+	feed_item: `div[data-test="feed-item"]`,
+	feeds_questionsBox_buttonList: ".sg-content-box > div.sg-content-box__title > .sg-actions-list > .sg-actions-list__hole:first-child",
 	questionLink: ".sg-content-box > .sg-content-box__content > a",
 
 	toplayerContainer: "body > div.page-wrapper.js-page-wrapper > section > div.js-toplayers-container",
@@ -179,6 +178,7 @@ System.checkUserP(1, () => {
 	}
 
 	let createQuestionRemoveButtons = nodes => {
+		//console.log("nodes:", nodes);
 		if (nodes) {
 			for (let i = 0, node;
 				(node = nodes[i]); i++) {
@@ -190,18 +190,20 @@ System.checkUserP(1, () => {
 		}
 	}
 	let observeForNewQuestionBoxes = feeds_parent => {
+		//console.log("feeds_parent:", feeds_parent);
 		if (feeds_parent && feeds_parent.length > 0) {
 			feeds_parent[0].classList.add("quickDelete");
 
-			WaitForElm('div.js-feed-item:not(.ext-buttons-added)', e => {
+			WaitForElm(selectors.feed_item + ':not(.ext-buttons-added)', e => {
 				createQuestionRemoveButtons(e);
 			});
-			$(feeds_parent).observe('added', 'div.js-feed-item:not(.ext-buttons-added)', e => {
+			$(feeds_parent).observe('added', selectors.feed_item + ':not(.ext-buttons-added)', e => {
 				createQuestionRemoveButtons(e.addedNodes);
 			});
 		}
 	};
 	let wait_for_feeds_parent = () => {
+		//console.log("observe found");
 		WaitForElm(selectors.feeds_parent, observeForNewQuestionBoxes)
 	}
 	WaitForFn('$().observe', wait_for_feeds_parent);

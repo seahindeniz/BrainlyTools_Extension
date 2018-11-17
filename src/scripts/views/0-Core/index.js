@@ -18,7 +18,7 @@ import { Auth } from "../../controllers/ActionsOfServer"
 import { getAllFriends, getAllModerators } from "../../controllers/ActionsOfBrainly"
 import PrepareDeleteReasons from "../../controllers/PrepareDeleteReasons"
 import Notification from "../../components/Notification";
-import renderHalloween from "./_/Halloween"
+import renderHalloween from "./_/Halloween";
 
 let System = new _System();
 window.System = System;
@@ -93,7 +93,12 @@ let processDefaultConfig = (callback) => {
 		}
 	})
 }
-let getDefaultConfig = callback => {
+
+/**
+ * Fetch and prepare __default_config
+ * @param {function} callback 
+ */
+let fetchDefaultConfig = callback => {
 	Request.get("/question/add", res => {
 		if (res && res != "") {
 			let matchConfig = (/(\{\s{1,}.*[\S\s]*\}\s{1,}\}\;)\s{1,}\<\/script/gmi).exec(res);
@@ -143,9 +148,13 @@ let getDefaultConfig = callback => {
 				});
 			}
 		}
-
 	});
 }
+
+/**
+ * Get and set [Routing, __default_config] from storage or fetching from Brainly
+ * @param {function} callback 
+ */
 let setBrainlyData = callback => {
 	let localRouting = localStorage.getObject("_Routing");
 	let __default_config = localStorage.getObject("__default_config");
@@ -156,16 +165,15 @@ let setBrainlyData = callback => {
 		if (document.head.innerHTML.match(/__default_config/gmi)) {
 			processDefaultConfig()
 		} else {
-			getDefaultConfig();
+			fetchDefaultConfig();
 		}
 	} else if (document.head.innerHTML.match(/__default_config/gmi)) {
 		processDefaultConfig(callback)
 	} else {
-		getDefaultConfig(callback);
+		fetchDefaultConfig(callback);
 	}
-
 }
-let getUserData = (callback, resetThemeColor) => {
+let fetchUserData = (callback) => {
 	var url = "/api/28/api_users/me";
 	var xhr = new XMLHttpRequest()
 	xhr.open('GET', url, true)
@@ -173,10 +181,6 @@ let getUserData = (callback, resetThemeColor) => {
 		var json = JSON.parse(xhr.responseText);
 		if (xhr.readyState == 4 && xhr.status == "200") {
 			if (json.success && json.success == true) {
-				/*if (resetThemeColor) {
-					json.data.themeColor = "#57b2f8";
-					themeColorChanger(json.data.themeColor);
-				}*/
 				//System.data.Brainly.userData = json.data;
 				Storage.set({ user: json.data }, function() {
 					callback && callback({ user: json.data });
@@ -195,9 +199,9 @@ let setUserData = (callback) => {
 			Storage.get(["user", "themeColor", "extendMessagesLayout"], res => {
 				if (res && res.user && res.user.user && res.user.user.id && res.user.user.id == obj[0].user.id) {
 					callback && callback(res);
-					getUserData();
+					fetchUserData();
 				} else {
-					getUserData(callback, true);
+					fetchUserData(callback, true);
 				}
 			});
 		} else {
@@ -217,7 +221,6 @@ let fetchFriends = callback => {
 		System.friends = res;
 
 		callback && callback();
-
 	});
 };
 let CheckForNewUpdate = () => {
@@ -237,6 +240,9 @@ setMetaData(() => {
 
 		setBrainlyData(() => {
 			Console.info("setBrainlyData OK!");
+
+			//let authHash = System.data.Brainly.defaultConfig.comet.AUTH_HASH || System.data.Brainly.defaultConfig.user.ME.auth.comet.authHash;
+			//Storage.set({ notifier: authHash });
 
 			Inject2body(`/config/${location.hostname}.json`, configData => {
 				System.data.config.marketConfig = configData;
@@ -258,6 +264,7 @@ setMetaData(() => {
 
 								Console.info("authProcess OK!");
 								CheckForNewUpdate();
+								System.toBackground("notifierInit", true);
 
 								if (System.data.Brainly.userData.extension.newUpdate) {
 									Notification(System.data.locale.core.notificationMessages.updateNeeded, "info", true);
@@ -287,7 +294,7 @@ setMetaData(() => {
 													Inject2body([
 														"/scripts/lib/jquery-observe-2.0.3.min.js",
 														"/scripts/views/1-Home/index.js",
-														"/scripts/views/1-Home/Home.css"
+														"/styles/pages/Home.css"
 													])
 												}
 
@@ -295,7 +302,7 @@ setMetaData(() => {
 													Inject2body([
 														"/scripts/lib/jquery-observe-2.0.3.min.js",
 														"/scripts/views/3-Task/index.js",
-														"/scripts/views/3-Task/Task.css"
+														"/styles/pages/Task.css"
 													])
 												}
 
@@ -303,7 +310,7 @@ setMetaData(() => {
 													Inject2body([
 														"/scripts/views/4-UserContent/index.js",
 														System.data.Brainly.style_guide.css,
-														"/scripts/views/4-UserContent/UserContent.css"
+														"/styles/pages/UserContent.css"
 													])
 												}
 
@@ -313,7 +320,7 @@ setMetaData(() => {
 														"/scripts/views/6-ArchiveMod/index.js",
 														System.data.Brainly.style_guide.css,
 														System.data.Brainly.style_guide.icons,
-														"/scripts/views/6-ArchiveMod/ArchiveMod.css"
+														"/styles/pages/ArchiveMod.css"
 													])
 												}
 											});
@@ -325,7 +332,7 @@ setMetaData(() => {
 														"/scripts/lib/jquery-observe-2.0.3.min.js",
 														"/scripts/lib/jquery-ui.min.js",
 														"/scripts/views/2-Messages/index.js",
-														"/scripts/views/2-Messages/Messages.css"
+														"/styles/pages/Messages.css"
 													]);
 												});
 											}
@@ -335,7 +342,7 @@ setMetaData(() => {
 													Inject2body([
 														"/scripts/views/5-UserProfile/index.js",
 														System.data.Brainly.style_guide.css,
-														"/scripts/views/5-UserProfile/UserProfile.css"
+														"/styles/pages/UserProfile.css"
 													]);
 												});
 											}
@@ -344,7 +351,7 @@ setMetaData(() => {
 												Inject2body([
 													"/scripts/views/7-UserWarnings/index.js",
 													System.data.Brainly.style_guide.css,
-													"/scripts/views/7-UserWarnings/UserWarnings.css"
+													"/styles/pages/UserWarnings.css"
 												]);
 											}
 
@@ -352,7 +359,7 @@ setMetaData(() => {
 												Inject2body([
 													"/scripts/views/8-Supervisors/index.js",
 													System.data.Brainly.style_guide.css,
-													"/scripts/views/8-Supervisors/Supervisors.css"
+													"/styles/pages/Supervisors.css"
 												]);
 											}
 										}

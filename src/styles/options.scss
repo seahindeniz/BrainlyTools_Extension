@@ -1,8 +1,8 @@
-@import "modules/reset";
-@import "modules/variables";
-@import "modules/grid";
-@import "modules/layout";
-@import "modules/utilities";
+@import "_/modules/reset";
+@import "_/modules/variables";
+@import "_/modules/grid";
+@import "_/modules/layout";
+@import "_/modules/utilities";
 
 .heading {
   margin: 1em auto;

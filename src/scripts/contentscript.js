@@ -1,7 +1,8 @@
+"use strict";
+
 require("./helpers/preExecuteScripts")();
 import ext from "./utils/ext";
 import Inject2body from "./helpers/Inject2body";
-//import WaitForElm from "./helpers/WaitForElm";
 import themeColorChanger from "./helpers/themeColorChanger";
 import messagesLayoutExtender from "./helpers/messagesLayoutExtender";
 import _System from "./controllers/System";
@@ -22,33 +23,30 @@ System.data.meta.extension = {
 	URL: ext.runtime.getURL("").replace(/\/$/, "")
 }
 window.System = System;
+
 System.changeBadgeColor("loading");
 
+Inject2body("/scripts/lib/prototypeOverrides.js");
+Inject2body(["/scripts/views/0-Core/index.js", "/styles/pages/Core.css"]);
 
-Inject2body("/scripts/helpers/prototypeOverrides.js");
-Inject2body(["/scripts/views/0-Core/index.js", "/scripts/views/0-Core/Core.css"]);
-
-/*
-
-*/
-var extractTags = () => {
-	var url = document.location.href;
+let extractTags = () => {
+	let url = document.location.href;
 	if (!url || !url.match(/^http/)) return;
 
-	var data = {
+	let data = {
 		title: "",
 		description: "",
 		url: document.location.href
 	}
 
-	var ogTitle = document.querySelector("meta[property='og:title']");
+	let ogTitle = document.querySelector("meta[property='og:title']");
 	if (ogTitle) {
 		data.title = ogTitle.getAttribute("content")
 	} else {
 		data.title = document.title
 	}
 
-	var descriptionTag = document.querySelector("meta[property='og:description']") || document.querySelector("meta[name='description']")
+	let descriptionTag = document.querySelector("meta[property='og:description']") || document.querySelector("meta[name='description']")
 	if (descriptionTag) {
 		data.description = descriptionTag.getAttribute("content")
 	}
@@ -79,6 +77,7 @@ function onRuntimeHandler(request, sender, sendResponse) {
 		messagesLayoutExtender(request.data);
 	}
 }
+
 ext.runtime.onMessage.addListener(onRuntimeHandler);
 
 window.addEventListener('metaGet', e => {

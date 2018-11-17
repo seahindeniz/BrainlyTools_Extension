@@ -2,10 +2,13 @@
 All notable changes to this project will be documented in this file.
 
 
-## [6.5.0] - 2018.11.14
+## [6.5.2] - 2018.11.17
 ### Added
 - Deleting **comments** from user contents page is now possible (https://ibb.co/bZXULL)
+- In the moderate all, you can now review reported contents by clicking left or right arrows on each side of panel or by pressing the A or D keys on your keyboard without closing and reopening the reported contents (https://ibb.co/bvKAZf)
 - Ability to remove approvement from answers by selecting (https://ibb.co/e7dQuf)
+- In moderate all, you can confirm reported comments by clicking the green button (https://ibb.co/bJfjN0)
+- Push notifications. You can now able to get browser notifications for a new message or new notification once you've enabled it. (https://ibb.co/dCiOLL) 
 
 ### Changed/Fixed
 - Stucking while deleting contents from user contents page

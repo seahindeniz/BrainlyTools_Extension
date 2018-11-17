@@ -1,16 +1,6 @@
 import ext from "../utils/ext";
-let marketKeyFn = () => {
-	let result = false;
+import marketKeyFn from "./marketKey";
 
-	if (System.data.meta.marketName == "")
-		console.error("Cannot get marketName");
-	else if (!((window.dataLayer && window.dataLayer.length > 0 && window.dataLayer[0].user.id) || System.data.Brainly.userData.user.id))
-		console.error("Cannot get user id");
-	else
-		result = System.data.meta.marketName + "_" + ((window.dataLayer && window.dataLayer.length > 0 && window.dataLayer[0].user.id) || System.data.Brainly.userData.user.id);
-
-	return result;
-};
 const Storage = {
 	set: (key, callback = () => {}) => {
 		let marketKey = marketKeyFn();

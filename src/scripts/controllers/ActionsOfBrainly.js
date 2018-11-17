@@ -67,6 +67,21 @@ const ActionsOfBrainly = {
 		Request.BrainlyAPI("POST", '/moderation_new/delete_comment_content', data, callback);
 	},
 	/**
+	 * Delete comment by id
+	 * @param {object} data - Post data
+	 * @param {function} callback
+	 */
+	ConfirmComment(model_id, callback) {
+		let data = {
+			model_id,
+			model_type_id: 45,
+			schema: "",
+			_coupon_: coupon()
+		}
+
+		Request.BrainlyAPI("POST", '/moderation_new/accept', data, callback);
+	},
+	/**
 	 * Approve answer by id
 	 * @param {number} model_id - answer id
 	 * @param {function} callback

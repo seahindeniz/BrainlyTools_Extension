@@ -28,7 +28,7 @@
 			"38": "icons/icon38.png"
 		},
 		"default_title": "__MSG_btnTooltip__",
-		"default_popup": "popup.html"
+		"default_popup": "popup/index.html"
 	},
 	"content_security_policy": "script-src 'self' https://cdnjs.cloudflare.com 'unsafe-eval'; object-src 'self' https://cdnjs.cloudflare.com",
 	"permissions": [

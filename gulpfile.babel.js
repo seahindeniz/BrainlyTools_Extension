@@ -4,15 +4,13 @@ import babelify from 'babelify';
 import log from "fancy-log";
 import colors from "colors";
 
+import extensionOptions from "./src/config/_/extension";
+
 const $ = require('gulp-load-plugins')();
 
 var production = process.env.NODE_ENV === "production";
 var target = process.env.TARGET || "chrome";
 var environment = process.env.NODE_ENV || "development";
-
-var generic = JSON.parse(fs.readFileSync(`./config/${environment}.json`));
-var specific = JSON.parse(fs.readFileSync(`./config/${target}.json`));
-var context = Object.assign({}, generic, specific);
 
 var manifest = {
 	dev: {
@@ -41,60 +39,13 @@ var manifest = {
 
 // Tasks
 task('clean', () => {
-	return src(`./build/${target}`)
+	return src(`./build/${target}`, { allowEmpty: true })
 		.pipe($.clean());
 })
 
 // -----------------
 // COMMON
 // -----------------
-task('js', () => {
-	return compileJSFiles(
-		[
-			'src/scripts/*.js',
-			'src/scripts/**/**/*.js',
-			'!src/scripts/**/**/_/*',
-			'!src/scripts/**/**/_/**/*',
-			'!src/scripts/utils/*.js',
-			"!src/scripts/locales/**/*.js",
-			"!src/scripts/lib/*.min.js"
-		],
-		`build/${target}/scripts`
-	);
-});
-task("locales", () => {
-	return src('src/config/locales/*.yml')
-		.pipe($.yaml())
-		.pipe(dest(`build/${target}/config/locales`));
-});
-
-task('styles', () => {
-	return compileStyleFiles('src/styles/**/*.scss', `build/${target}/styles`);
-});
-task('styles_views', () => {
-	return compileStyleFiles('src/scripts/views/**/*.scss', `build/${target}/scripts/views`);
-});
-
-task("manifest", () => {
-	return src('./manifest.json')
-		.pipe($.if(!production, $.mergeJson({
-			fileName: "manifest.json",
-			jsonSpace: " ".repeat(4),
-			endObj: manifest.dev
-		})))
-		.pipe($.if(production, $.mergeJson({
-			fileName: "manifest.json",
-			jsonSpace: " ".repeat(4),
-			endObj: manifest.production
-		})))
-		.pipe($.if(target === "firefox", $.mergeJson({
-			fileName: "manifest.json",
-			jsonSpace: " ".repeat(4),
-			endObj: manifest.firefox
-		})))
-		.pipe(dest(`./build/${target}`))
-});
-
 task("assets", () => {
 	let assets = [{
 			src: './src/icons/**/*',
@@ -134,9 +85,86 @@ task("assets", () => {
 	return assets[assets.length - 1]
 });
 
+task("extensionConfig", () => {
+	let mergeJsonData = {
+		fileName: "extension.json",
+		jsonSpace: " ".repeat(4),
+	};
+
+	if (production) {
+		mergeJsonData.endObj = extensionOptions.production;
+	} else {
+		mergeJsonData.endObj = extensionOptions.dev;
+	}
+
+	return src('./src/config/_/extension.json')
+		.pipe($.mergeJson(mergeJsonData))
+		.pipe(dest(`./src/config/_`))
+});
+
+task('styles', () => {
+	return compileStyleFiles([
+		'src/styles/**/*.scss',
+		'src/styles/**/**/*.scss',
+		'!src/styles/_/**/*.scss'
+	], `build/${target}/styles`);
+});
+
+task("locales", () => {
+	return src('src/locales/*.yml')
+		.pipe($.yaml())
+		.pipe(dest(`build/${target}/locales`));
+});
+
+task('popup', () => {
+	return compileJSFiles(
+		[
+			'src/popup/*.js'
+		],
+		`build/${target}/popup`
+	);
+});
+
+task('js', () => {
+	return compileJSFiles(
+		[
+			'src/scripts/*.js',
+			'src/scripts/**/**/*.js',
+
+			'!src/scripts/**/**/_/*',
+			'!src/scripts/**/**/_/**/*',
+			'!src/scripts/components/**/*.js',
+			'!src/scripts/controllers/**/*.js',
+			'!src/scripts/helpers/**/*.js',
+			'!src/scripts/utils/*.js',
+			"!src/scripts/lib/*.min.js"
+		],
+		`build/${target}/scripts`
+	);
+});
+
+task("manifest", () => {
+	let mergeJsonData = {
+		fileName: "manifest.json",
+		jsonSpace: " ".repeat(4),
+	};
+
+	if (target === "firefox") {
+		mergeJsonData.endObj = manifest.firefox
+	} else if (production) {
+		mergeJsonData.endObj = manifest.production
+	} else {
+		mergeJsonData.endObj = manifest.dev
+	}
+
+	return src('./manifest.json')
+		.pipe($.mergeJson(mergeJsonData))
+		.pipe(dest(`./build/${target}`))
+});
+
 task(
 	'build',
-	series('clean', "assets", 'styles', 'styles_views', 'js', "locales", 'manifest')
+	series('clean', "assets", "extensionConfig", 'styles', "locales", "popup", 'js', 'manifest')
 );
 task(
 	"reloadExtension",
@@ -161,6 +189,7 @@ task(
 			[
 				'./src/**/*',
 				'!./src/**/*.js',
+				'!./src/config/_/extension.json',
 				'!src/styles/**/*.scss',
 				'!src/scripts/views/**/*.scss'
 			],

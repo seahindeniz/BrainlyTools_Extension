@@ -75,8 +75,6 @@ $contentLinks.each(function() {
 let $deleteSection = DeleteSection(System.data.Brainly.deleteReasons.comment, "comment");
 let $categories = $(".categories", $deleteSection);
 let $textarea = $('textarea', $deleteSection);
-let $take_points = $('#take_points', $deleteSection);
-let $return_points = $('#return_points', $deleteSection);
 let $give_warning = $('#give_warning', $deleteSection);
 
 $deleteSection.appendTo($("td", $moderateActions));

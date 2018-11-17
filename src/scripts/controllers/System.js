@@ -1,12 +1,11 @@
 "use strict";
 
 import ext from "../utils/ext";
-import WaitForFn from "../helpers/WaitForFn";
-import Notification from "../components/Notification";
 import cookie from "js-cookie";
 import { Logger } from "./ActionsOfServer";
 import { getUserByID } from "./ActionsOfBrainly";
 import Inject2body from "../helpers/Inject2body";
+import extensionServer from "../../config/_/extension.json";
 
 class _System {
 	constructor() {
@@ -30,10 +29,7 @@ class _System {
 			locale: {},
 			config: {
 				reasonSign: "Ω",
-				extensionServerURL: "https://sahin.in",
-				extensionServerAPIURL: "https://sahin.in/BrainlyTools",
-				/* extensionServerURL: "http://127.0.0.1:3001",
-				extensionServerAPIURL: "http://127.0.0.1:3001/BrainlyTools", */
+				extension: extensionServer,
 				availableLanguages: [{
 						key: "en_US",
 						title: "English"
@@ -310,7 +306,7 @@ class _System {
 	prepareLangFile(language, callback) {
 		let fileType = "json";
 
-		Inject2body(`/config/locales/${language}.${fileType}`, localeData => {
+		Inject2body(`/locales/${language}.${fileType}`, localeData => {
 			if (Object.prototype.toString.call(localeData) == "[object Error]") {
 				if (language != "en_US") {
 					this.prepareLangFile("en_US", callback);

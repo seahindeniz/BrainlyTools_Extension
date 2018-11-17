@@ -15,7 +15,8 @@ const selectors = {
 	},
 	profileLink: ".sg-actions-list__hole:nth-child(2) a",
 	messagesContainer: "#private-messages-container",
-	conversationsHeader: "#private-messages-container > section.brn-messages__conversations > div.sg-content-box > div.sg-content-box__header"
+	conversationsHeader: "#private-messages-container > section.brn-messages__conversations > div.sg-content-box > div.sg-content-box__header",
+	textarea: "footer.brn-chatbox__footer textarea"
 }
 let profileLinkContainerFound = function(targetElm) {
 	//if (!$(this).parent().is('.mesaj_grubu')) {
@@ -58,3 +59,11 @@ System.checkUserP(8, () => {
 		renderGroupMessaging($conversationsHeader);
 	});
 });
+
+window.onbeforeunload = function() {
+	let $textarea = $(selectors.textarea);
+
+	if ($textarea.val() != "") {
+		return System.data.locale.messages.notificationMessages.unsendedMessage;
+	}
+}

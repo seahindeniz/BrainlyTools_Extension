@@ -43,7 +43,6 @@ const Request = {
 
 		tryAgain && console.log("tryAgain:", countErr);
 		ajaxR.fail(function(e) {
-			console.log(e);
 			if (e.getResponseHeader("cf-chl-bypass") == "1") {
 				callback.forceStop && callback.forceStop();
 				holdRequests.push({ method, path, data, callback, onError, countErr, tryAgain: true });
@@ -144,28 +143,6 @@ const Request = {
 		};
 
 		ext.runtime.sendMessage(System.data.meta.extension.id, messageData, callback);
-	},
-	_old_ExtensionServer(method, path, data, callback) {
-		if (typeof data !== "function") {
-			data = JSON.stringify(data);
-		} else {
-			callback = data;
-			data = null;
-		}
-
-		var xhr = new XMLHttpRequest();
-		xhr.open(method, extensionServerAPIURL + path, true);
-		xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-		if (System.data.Brainly.userData.extension && System.data.Brainly.userData.extension.secretKey) {
-			xhr.setRequestHeader('SecretKey', System.data.Brainly.userData.extension.secretKey);
-		}
-		xhr.onload = function() {
-			if (xhr && xhr.responseText && xhr.responseText != "") {
-				var results = JSON.parse(xhr.responseText);
-				callback(results);
-			}
-		}
-		xhr.send(data);
 	},
 	get(path, callback) {
 		let xhr = new XMLHttpRequest();

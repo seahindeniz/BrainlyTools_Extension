@@ -1,14 +1,10 @@
-import WaitForElm from "../../helpers/WaitForElm";
-import WaitForFn from "../../helpers/WaitForFn";
-import { passUser } from "../../controllers/ActionsOfServer";
-import { getUserByID } from "../../controllers/ActionsOfBrainly";
-import UserNoteBox from "../../components/UserNoteBox";
-import UserFlag from "../../components/UserFlag";
-import renderGroupMessaging from "../../components/GroupMessaging"
+import renderGroupMessaging from "./_/GroupMessaging";
+import createUserNoteBox from "./_/createUserNoteBox";
 
 System.pageLoaded("Messages inject OK!");
 
-const selectors = {
+window.isPageProcessing = false;
+window.selectors = {
 	profileLinkContainerSub: " div.sg-content-box__header > div.sg-actions-list",
 	get profileLinkContainer() {
 		return "section.brn-messages__chatbox:not(.js-group-chatbox)" + selectors.profileLinkContainerSub;
@@ -18,52 +14,22 @@ const selectors = {
 	conversationsHeader: "#private-messages-container > section.brn-messages__conversations > div.sg-content-box > div.sg-content-box__header",
 	textarea: "footer.brn-chatbox__footer textarea"
 }
-let profileLinkContainerFound = function(targetElm) {
-	//if (!$(this).parent().is('.mesaj_grubu')) {
-	if (targetElm) {
-		if ($(".userNoteBox", targetElm).length == 0) {
-			let link = $(selectors.profileLink, targetElm);
-			let id = link.attr('href').match(/\-(\d{1,})/)[1];
-			let u_name = link.attr('title');
-			if (link.length > 0) {
-				passUser(id, u_name, user => {
-					if (user) {
-						UserNoteBox(user).appendTo(targetElm);
-						if (user.probatus) {
-							getUserByID(id, res => {
-								if (res && res.success) {
-									UserFlag(res.data.gender, "tag").insertAfter("div.sg-content-box > div.sg-content-box__header > div.sg-actions-list > div.sg-actions-list__hole:nth-child(2)");
-								}
-							});
-						}
-					}
-				});
-			}
-		}
+
+Messages();
+
+function Messages() {
+	createUserNoteBox();
+
+	if (System.checkUserP(8)) {
+		new renderGroupMessaging();
 	}
-}
 
-let observeFound = () => {
-	$(selectors.messagesContainer).observe('added', '.brn-chatbox:not(.js-group-chatbox)', function() {
-		profileLinkContainerFound($(selectors.profileLinkContainerSub, this));
-	});
-}
+	window.onbeforeunload = function() {
+		let $textarea = $(selectors.textarea);
+		let value = $textarea.val() || "";
 
-WaitForElm(selectors.profileLinkContainer, (targetElm) => {
-	profileLinkContainerFound(targetElm);
-	WaitForFn('$().observe', observeFound);
-});
-
-System.checkUserP(8, () => {
-	WaitForElm(selectors.conversationsHeader, $conversationsHeader => {
-		renderGroupMessaging($conversationsHeader);
-	});
-});
-
-window.onbeforeunload = function() {
-	let $textarea = $(selectors.textarea);
-
-	if ($textarea.val() != "") {
-		return System.data.locale.messages.notificationMessages.unsendedMessage;
+		if (value.trim() != "" || window.isPageProcessing) {
+			return System.data.locale.messages.notificationMessages.unsendedMessage;
+		}
 	}
 }

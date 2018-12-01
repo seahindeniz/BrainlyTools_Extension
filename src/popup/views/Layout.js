@@ -7,7 +7,7 @@ import renderAnnouncements from "./Announcements";
 import renderManageDeleteReasons from "./ManageDeleteReasons";
 import renderUsers from "./Users";
 import { CreateShortLink } from "../../scripts/controllers/ActionsOfServer";
-import Notification from "../components/Notification"
+import notification from "../components/Notification"
 
 const Layout = res => {
 	System.data.Brainly.userData.user.fixedAvatar = System.data.Brainly.userData.user.avatars[100] || `https://${System.data.meta.marketName}/img/avatars/100-ON.png`;
@@ -72,9 +72,10 @@ const Layout = res => {
 	let $section1 = $("section.section-1", $layout);
 	let $section2 = $("section.section-2", $layout);
 
-	renderThemeColor(res.themeColor, $themeColorLayout => {
+	/* renderThemeColor(res.themeColor, $themeColorLayout => {
 		$("#themeColor .message-body", $layout).append($themeColorLayout);
-	});
+	}); */
+	$("#themeColor .message-body", $layout).append(renderThemeColor(res.themeColor));
 	System.checkUserP([1, 2, 45], () => {
 		renderDeleteButtonOptions(res.quickDeleteButtonsReasons, $deleteButtonOptionsLayout => {
 			$("#quickDeleteButtons", $layout).append($deleteButtonOptionsLayout);
@@ -98,9 +99,9 @@ const Layout = res => {
 		});
 
 		System.checkUserP(5, () => {
-			renderUsers($usersLayout => {
-				$section2.append($usersLayout);
-			});
+			let $usersLayout = renderUsers();
+			
+			$section2.append($usersLayout);
 		});
 	});
 
@@ -118,11 +119,11 @@ const Layout = res => {
 
 			CreateShortLink({ url }, res => {
 				if (!res) {
-					Notification("Server error", "danger");
+					notification("Server error", "danger");
 					that.removeClass("is-loading").removeAttr("disabled");
 				} else {
 					if (!res.success || !res.shortCode) {
-						Notification(res.message || "Unknown error", "danger");
+						notification(res.message || "Unknown error", "danger");
 						that.removeClass("is-loading");
 						!res.message && that.removeAttr("disabled");
 					} else {

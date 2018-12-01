@@ -1,5 +1,5 @@
 import makeToplayer from "../../components/Toplayer";
-import Notification from "../../components/Notification";
+import notification from "../../components/Notification";
 import { AnnouncementRead } from "../../controllers/ActionsOfServer";
 
 export default () => {
@@ -66,7 +66,7 @@ export default () => {
 				if (res && res.success) {
 					that.removeClass("sg-button-secondary--dark");
 				} else {
-					Notification(System.data.locale.common.notificationMessages.operationError, "error");
+					notification(System.data.locale.common.notificationMessages.operationError, "error");
 					that.removeClass("sg-button-secondary--disabled").removeAttr("disabled");
 				}
 			});

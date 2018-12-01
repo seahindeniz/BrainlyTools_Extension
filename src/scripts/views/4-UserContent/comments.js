@@ -1,7 +1,7 @@
 "use strict";
 
 import DeleteSection from "../../components/DeleteSection";
-import Notification from "../../components/Notification";
+import notification from "../../components/Notification";
 import { GetTaskContent, RemoveComment } from "../../controllers/ActionsOfBrainly";
 
 let selectors = window.selectors,
@@ -11,6 +11,7 @@ let $tableContentBody = $(selectors.tableContentBody);
 let $contentRows = $(selectors.contentRows);
 let $contentLinks = $(selectors.contentLinks);
 let isPageProcessing = false;
+
 window.onbeforeunload = function() {
 	if (isPageProcessing) {
 		return System.data.locale.common.notificationMessages.ongoingProcess;
@@ -40,14 +41,17 @@ let processComments = comments => {
 	});
 };
 
-$contentLinks.each(function() {
+$contentLinks.each(async function() {
 	let taskId = this.href.split("/").pop();
 
 	this.setAttribute("target", "_blank");
 
 	if (taskId > 0 && requestedTasks.indexOf(taskId) < 0) {
 		requestedTasks.push(taskId);
-		GetTaskContent(taskId, res => {
+
+		let res = await GetTaskContent(taskId);
+
+		if (res) {
 			let comments = []
 
 			if (res.data.task.comments.items && res.data.task.comments.items.length > 0) {
@@ -65,7 +69,7 @@ $contentLinks.each(function() {
 			if (comments.length > 0) {
 				processComments(comments);
 			}
-		});
+		}
 	}
 });
 
@@ -136,9 +140,8 @@ $submit.click(function() {
 				}
 
 				let idList = [];
-
-				$checkedContentSelectCheckboxes.each(function() {
-					let $parentRow = $(this).parents("tr");
+				let removeIt = async that => {
+					let $parentRow = $(that).parents("tr");
 					let rowNumber = ~~($(">td:eq(1)", $parentRow).text());
 					let model_id = $parentRow.data("commentid");
 					let commentData = {
@@ -149,22 +152,26 @@ $submit.click(function() {
 					};
 
 					idList.push(model_id);
+					
+					let res = await RemoveComment(commentData);
 
-					RemoveComment(commentData, (res) => {
-						updateCounter();
+					updateCounter();
 
-						if (!res) {
-							Notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
-						} else {
-							if (!res.success && res.message) {
-								Notification("#" + rowNumber + " > " + res.message, "error");
-								$parentRow.addClass("already");
-							}
-
-							$(this).attr("disabled", "disabled")
-							$parentRow.addClass("removed");
+					if (!res) {
+						notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
+					} else {
+						if (!res.success && res.message) {
+							notification("#" + rowNumber + " > " + res.message, "error");
+							$parentRow.addClass("already");
 						}
-					});
+
+						$(this).attr("disabled", "disabled");
+						$parentRow.addClass("removed");
+					}
+				};
+
+				$checkedContentSelectCheckboxes.each(function() {
+					removeIt(this);
 				});
 
 				System.log(7, sitePassedParams[0], idList);

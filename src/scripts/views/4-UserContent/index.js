@@ -1,8 +1,8 @@
 "use strict";
 
-import Inject2body from "../../helpers/Inject2body";
+import InjectToBody from "../../helpers/InjectToBody";
 import { attachmentIcon } from "../../components/Icons";
-import { RemoveQuestion, OpenModerationTicket, GetTaskContent } from "../../controllers/ActionsOfBrainly";
+import { GetTaskContent } from "../../controllers/ActionsOfBrainly";
 
 System.pageLoaded("User Content inject OK!");
 
@@ -23,7 +23,7 @@ if (System.checkRoute(4, "") || System.checkRoute(4, "tasks") || System.checkRou
 	let $contentLinks = $(selectors.contentLinks);
 	let taskContents = {};
 
-	System.checkUserP([1, 2, 6], () => {
+	if (System.checkUserP([1, 2, 6])) {
 		$tableHeaderRow.prepend(`<th style="width: 5%;"><b>${System.data.locale.userContent.select}</b></th>`);
 
 		$contentRows.each((i, el) => {
@@ -65,7 +65,7 @@ if (System.checkRoute(4, "") || System.checkRoute(4, "tasks") || System.checkRou
 		$("input#selectAll", window.$moderateActions).click(function() {
 			$contentSelectCheckboxes.prop("checked", this.checked);
 		});
-	});
+	}
 
 	let prepareContentBoxes = taskId => {
 		let $taskLink = $(`a[href$="${taskId}"]`);
@@ -137,6 +137,7 @@ if (System.checkRoute(4, "") || System.checkRoute(4, "tasks") || System.checkRou
 				</fieldset>`;
 			}
 		}
+
 		let $taskContent = $(`
 		<div class="taskContent">
 			<fieldset class="taskField">
@@ -145,24 +146,32 @@ if (System.checkRoute(4, "") || System.checkRoute(4, "tasks") || System.checkRou
 				${taskAttachments}
 			</fieldset>
 			${responseFields}
-		</div>`).appendTo($parentTd);
+		</div>`);
+
+		$taskContent.appendTo($parentTd);
 	};
 	let isCommentPage = System.checkRoute(4, "comments_tr");
-	$contentLinks.each(function() {
+
+	$contentLinks.each(async function() {
 		let taskId = this.href.split("/").pop();
 
 		if (taskId > 0) {
 			$(this).parents("tr").attr("data-taskId", taskId);
 
 			if (!isCommentPage) {
-				GetTaskContent(taskId, res => {
+				let res = await GetTaskContent(taskId);
+
+				if (res) {
 					res.users_data_WithUID = {};
-					$.each(res.users_data, function() {
-						res.users_data_WithUID[this.id] = this;
+
+					res.users_data.forEach(user => {
+						res.users_data_WithUID[user.id] = user;
 					});
-					taskContents[taskId] = res
+
+					taskContents[taskId] = res;
+
 					prepareContentBoxes(taskId);
-				});
+				}
 			}
 		}
 	});
@@ -179,19 +188,15 @@ if (System.checkRoute(4, "") || System.checkRoute(4, "tasks") || System.checkRou
 		});
 	}
 
-	System.checkUserP(1, () => {
-		if (System.checkRoute(4, "") || System.checkRoute(4, "tasks")) {
-			Inject2body("/scripts/views/4-UserContent/tasks.js");
-		}
-	});
-	System.checkUserP([2, 6], () => {
-		if (System.checkRoute(4, "responses")) {
-			Inject2body(["/scripts/views/4-UserContent/responses.js"]);
-		}
-	});
-	System.checkUserP(45, () => {
-		if (System.checkRoute(4, "comments_tr")) {
-			Inject2body("/scripts/views/4-UserContent/comments.js");
-		}
-	});
+	if (System.checkUserP(1) && System.checkRoute(4, "") || System.checkRoute(4, "tasks")) {
+		InjectToBody("/scripts/views/4-UserContent/tasks.js");
+	}
+
+	if (System.checkUserP([2, 6]) && System.checkRoute(4, "responses")) {
+		InjectToBody(["/scripts/views/4-UserContent/responses.js"]);
+	}
+
+	if (System.checkUserP(45) && System.checkRoute(4, "comments_tr")) {
+		InjectToBody("/scripts/views/4-UserContent/comments.js");
+	}
 }

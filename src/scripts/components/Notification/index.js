@@ -1,26 +1,40 @@
 /**
  * Trigger Brainly's create flash notification function
- * @param {string} message - Message content as HTML
+ * @param {string} message - Message content as HTML or Text
  * @param {string} type - typeof message > ["", "success", "info", "warning", "failure", "error"]
- * @param {boolean} permanent - Message content as HTML
+ * @param {boolean} permanent - To make it permanent
  */
 let makeFlash = (message, type = "", permanent = false) => {
-	if (!message || message == "")
+	if (!message || message == "") {
 		return false;
+	}
 
 	let extIcon = `<img src="${System.data.meta.extension.URL}/icons/icon24.png" alt="Brainly Tools" class="notification-brainlyToolsImg">`;
 
+	/**
+	 * Determine if notification was created on old UI. 
+	 * Old UI has the Zadanium object init.
+	 */
 	if (window.Zadanium) {
-		type === "error" && (type = "failure");
+		if (type === "error") {
+			type = "failure";
+		}
+
 		Zadanium.namespace('flash_msg').flash.setMsg(extIcon + message, type);
-		console.log($("#flash-msg > div.msg:last-child"));
 	} else if (window.Application) {
-		(type === "warning" || type == "failure") && (type = "error");
+		if (type === "warning" || type == "failure") {
+			type = "error";
+		}
+
 		Application.alert.flash.addMessage(extIcon + message, type)
 	} else {
-		//e = "show-message", n = {type: "error", message: "Test"}
-		(type === "warning" || type == "failure") && (type = "error");
-		type != "" && (type = " sg-flash__message--" + type)
+		if (type === "warning" || type == "failure") {
+			type = "error";
+		}
+
+		if (type != "") {
+			type = " sg-flash__message--" + type;
+		}
 
 		let flash = $(`
 		<div class="sg-flash">

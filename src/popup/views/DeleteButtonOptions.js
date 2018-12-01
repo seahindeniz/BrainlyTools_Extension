@@ -1,5 +1,5 @@
 import Storage from "../../scripts/helpers/extStorage";
-import Notification from "../components/Notification";
+import notification from "../components/Notification";
 
 const isPosInt = str => /^\+?\d+$/.test(str);
 
@@ -57,7 +57,7 @@ let DeleteButtonOptions = (quickDeleteButtonsReasons, callback) => {
 	});
 
 	$quickDeleteButtonsSelect.on("change", function() {
-		Notification("Button selections saved");
+		notification("Button selections saved");
 		let data = {};
 		$quickDeleteButtonsSelect.each((i, elm) => {
 			let reasonType = $(elm).parents(".board-item-content").data("type");

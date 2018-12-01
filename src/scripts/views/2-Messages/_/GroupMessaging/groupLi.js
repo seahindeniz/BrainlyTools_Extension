@@ -1,15 +1,16 @@
-const groupLi = group => {
+function groupLi(group) {
 	let groupLen = group.members.length;
 	let firstLetter = "G";
 	let lastMessage = group.lastMessage;
-	
+
 	if (!lastMessage && (group.messages && group.messages.length > 0)) {
 		lastMessage = group.messages[group.messages.length - 1];
 	}
-	
+
 	if (group.title && group.title != "") {
 		firstLetter = group.title.charAt(0).toLocaleUpperCase(System.data.Brainly.defaultConfig.user.ME.user.isoLocale)
 	}
+	
 	let $conversation = $(`
 	<li class="sg-list__element js-group-conversation${group.pinned?" pinned":""}" data-group-id="${group._id}">
 		<div class="js-conversation-content sg-media sg-media--clickable ">

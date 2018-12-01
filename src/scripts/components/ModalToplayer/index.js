@@ -1,5 +1,5 @@
 import makeToplayer from "../Toplayer"
-import Notification from "../../components/Notification";
+import notification from "../../components/Notification";
 
 class ModalToplayer {
 	constructor(heading, content, actions, addAfter = "", size) {
@@ -13,7 +13,7 @@ class ModalToplayer {
 		return this;
 	}
 	notification(message, type = "", permanent = false) {
-		let $notification = Notification(message, type, permanent);
+		let $notification = notification(message, type, permanent);
 		
 		if ($notification) {
 			let $closeIcon = $(".sg-toplayer__close", this.$);

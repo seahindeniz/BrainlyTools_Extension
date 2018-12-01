@@ -1,8 +1,10 @@
 import themeColorChanger from "./themeColorChanger";
 
-export default function () {
-	themeColorChanger("transparent");
-	
+function preExecuteScripts() {
+	let color = localStorage.getItem("themeColor");
+
+	themeColorChanger(color || "transparent");
+
 	let _loop_removeElement = setInterval(() => {
 		let elements = document.querySelectorAll(".brn-ads-box");
 		if (elements.length > 0) {
@@ -18,3 +20,5 @@ export default function () {
 		clearInterval(_loop_removeElement);
 	});
 }
+
+export default preExecuteScripts()

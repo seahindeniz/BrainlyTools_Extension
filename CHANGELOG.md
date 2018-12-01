@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 
 
+## [6.6.0] - 2018.12.01
+### Changed/Fixed
+- Theme color changing process is now faster
+- Structer optimized
+- Server optimized
+
 ## [6.5.2] - 2018.11.17
 ### Added
 - Deleting **comments** from user contents page is now possible (https://ibb.co/bZXULL)

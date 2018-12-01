@@ -1,6 +1,6 @@
 "use strict";
 
-require("./helpers/preExecuteScripts")();
+import "./helpers/preExecuteScripts";
 import ext from "./utils/ext";
 import Inject2body from "./helpers/Inject2body";
 import themeColorChanger from "./helpers/themeColorChanger";
@@ -62,6 +62,7 @@ function onRuntimeHandler(request, sender, sendResponse) {
 		sendResponse(manifest);
 	}
 	if (request.action === "changeColor") {
+		localStorage.setItem("themeColor",request.data)
 		themeColorChanger(request.data);
 	}
 	if (request.action === "shareGatheredData2Background") {

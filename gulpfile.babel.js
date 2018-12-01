@@ -8,9 +8,8 @@ import extensionOptions from "./src/config/_/extension";
 
 const $ = require('gulp-load-plugins')();
 
-var production = process.env.NODE_ENV === "production";
+var isProduction = process.env.NODE_ENV === "production";
 var target = process.env.TARGET || "chrome";
-var environment = process.env.NODE_ENV || "development";
 
 var manifest = {
 	dev: {
@@ -37,9 +36,11 @@ var manifest = {
 	}
 }
 
-// Tasks
+// Clean previous build
 task('clean', () => {
 	return src(`./build/${target}`, { allowEmpty: true })
+		.on('end', () => log('Waiting for 1 second before clean..'))
+		.pipe($.wait(1000))
 		.pipe($.clean());
 })
 
@@ -91,7 +92,7 @@ task("extensionConfig", () => {
 		jsonSpace: " ".repeat(4),
 	};
 
-	if (production) {
+	if (isProduction) {
 		mergeJsonData.endObj = extensionOptions.production;
 	} else {
 		mergeJsonData.endObj = extensionOptions.dev;
@@ -151,7 +152,7 @@ task("manifest", () => {
 
 	if (target === "firefox") {
 		mergeJsonData.endObj = manifest.firefox
-	} else if (production) {
+	} else if (isProduction) {
 		mergeJsonData.endObj = manifest.production
 	} else {
 		mergeJsonData.endObj = manifest.dev
@@ -179,7 +180,21 @@ task(
 	() => {
 		$.livereload.listen();
 
-		let watcherJSFiles = watch('./src/**/*.js', series("reloadExtension"));
+		let watcherJSFiles = watch([
+			'./src/scripts/views/*/*.js',
+			'./src/scripts/*.js',
+
+			'!./src/scripts/views/**/_/*.js',
+			'!./src/scripts/views/**/_/**/*.js',
+		], series("reloadExtension"));
+		let watcherImportedJSFiles = watch([
+			'./src/**/*.js',
+			'./src/scripts/views/**/_/*.js',
+			'./src/scripts/views/**/_/**/*.js',
+
+			'!./src/scripts/views/*/*.js',
+			'!./src/scripts/*.js'
+		], series('build', "reloadExtension"));
 		let watcherStyleFiles = watch(
 			[
 				'src/styles/**/*.scss',
@@ -195,6 +210,9 @@ task(
 			],
 			series('build', "reloadExtension"));
 
+		watcherImportedJSFiles.on("change", function(path) {
+			log.info(colors.green(path), "has changed, rebuilding");
+		});
 		watcherJSFiles.on("change", function(path) {
 			let filePath = path.split("/");
 			let destPath = filePath.slice(1, -1).join("/");
@@ -260,7 +278,16 @@ function compileJSFiles(files, path) {
 	return src(files)
 		.pipe($.bro({
 			transform: [
-				babelify.configure({ presets: ['latest'] }),
+				babelify.configure({
+					presets: [
+						'@babel/preset-env',
+						{
+							plugins: [
+								'@babel/plugin-transform-runtime'
+							]
+						}
+					]
+				}),
 				['uglifyify', { global: true }]
 			]
 		}))

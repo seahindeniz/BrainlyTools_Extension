@@ -1,7 +1,3 @@
-* {
-	box-sizing: unset;
-}
-
 .inputNote {
 	width: 90%;
 	padding: 0;
@@ -23,6 +19,7 @@ div.userBio {
 		flex-grow: 1;
 		white-space: pre-wrap;
 		word-wrap: break-word;
+		line-height: 18px;
 	}
 }
 

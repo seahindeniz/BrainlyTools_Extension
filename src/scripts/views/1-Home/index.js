@@ -1,222 +1,44 @@
 "use strict";
 
-import WaitForElm from "../../helpers/WaitForElm";
-import WaitForFn from "../../helpers/WaitForFn";
-import secondsToTime from "../../helpers/secondsToTime";
-import { RemoveQuestion, OpenModerationTicket, CloseModerationTicket } from "../../controllers/ActionsOfBrainly";
-import Buttons from "../../components/Buttons";
-import Notification from "../../components/Notification";
-import extModeratePanel from "../../components/extModeratePanel";
+import WaitForElement from "../../helpers/WaitForElement";
+import WaitForObject from "../../helpers/WaitForObject";
+import addTodaysActions from "./_/addTodaysActions";
+import startObservingForDeleteButtons from "./_/startObservingForDeleteButtons";
 
 System.pageLoaded("Root inject OK!");
 
-let selectors = {
+window.selectors = {
 	feeds_parent: ".js-feed-stream",
 	feed_item: `div[data-test="feed-item"]`,
 	feeds_questionsBox_buttonList: ".sg-content-box > div.sg-content-box__title > .sg-actions-list > .sg-actions-list__hole:first-child",
 	questionLink: ".sg-content-box > .sg-content-box__content > a",
 
-	toplayerContainer: "body > div.page-wrapper.js-page-wrapper > section > div.js-toplayers-container",
+	toplayerContainer: "body > div.page-wrapper.js-page-wrapper > section > div.js-react-add-question-modal",
 
 	userInfoBoxPoints: ".sg-layout__aside-content .game-box__element > .game-box__user-info > .game-box__progress-items"
 }
 
-/**
- *  Adding remove buttons inside of question boxes
- **/
-System.checkUserP(1, () => {
-	let ext_actions_buttons_click_handler = function() {
-		let btn_index = $(this).index();
-		let parent_feed = $(this).parents(selectors.feed_item);
-		let feedContentBox = $(">.sg-content-box", parent_feed)
-		let question_link = $(selectors.questionLink, parent_feed).attr("href");
+Home();
 
-		if (question_link != "") {
-			let question_id = Number(question_link.split("/").pop());
+async function Home() {
+	/**
+	 * Add mod actions count number into profile box at top of the page
+	 */
+	addTodaysActions();
 
-			if (question_id >= 0) {
-				if (btn_index == 0) {
-					OpenModerationTicket(question_id, res => {
-						if (!res) {
-							Notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
-						} else if (!res.success) {
-							res && Notification(res.message, "error");
-						} else {
-							let $toplayer = extModeratePanel(res);
-							let $closeIcon = $(".sg-toplayer__close", $toplayer);
-							let $counter = $(".js-counter", $toplayer);
-							let $categories = $(".categories", $toplayer);
-							/*let $categoryRadio = $('input[name="categories"]:checked', $toplayer);
-							let $reasons = $('div.reasons', $toplayer);
-							let $reasonSeperator = $('div.sg-horizontal-separator', $toplayer);*/
-							let $textarea = $('textarea', $toplayer);
-							let $take_points = $('#take_points', $toplayer);
-							let $return_points = $('#return_points', $toplayer);
-							let $give_warning = $('#give_warning', $toplayer);
-							let $submit = $('button.js-submit', $toplayer);
+	/**
+	 *  Adding remove buttons inside of question boxes
+	 **/
+	if (System.checkUserP(1)) {
+		let _$_observe = await WaitForObject("$().observe");
+		if (_$_observe) {
+			let feeds_parent = await WaitForElement(selectors.feeds_parent);
 
-							$toplayer.appendTo(selectors.toplayerContainer);
+			if (feeds_parent && feeds_parent.length > 0) {
+				feeds_parent[0].classList.add("quickDelete");
 
-							let closeModPanel = () => {
-								let svg = $("svg", $closeIcon);
-
-								$(`<div class="sg-spinner sg-spinner--xxsmall"></div>`).insertBefore(svg);
-								svg.remove();
-								$closeIcon.off("click");
-
-								CloseModerationTicket(question_id, res => {
-									let notifyType = "error"
-									if (res.success) {
-										notifyType = "info"
-									}
-									Notification(res.message, notifyType);
-									clearInterval(_loop_panelCounter);
-									$closeIcon.parents(".js-modal").remove();
-								});
-							}
-
-							let panelCounter = () => {
-								let time = secondsToTime(--res.data.ticket.time_left);
-								if (time.m == 0 && time.s == 0) {
-									clearInterval(_loop_panelCounter);
-									closeModPanel();
-								}
-
-								$counter.html((time.m <= 9 ? "0" + time.m : time.m) + ":" + (time.s <= 9 ? "0" + time.s : time.s));
-							}
-							panelCounter();
-							let _loop_panelCounter = setInterval(panelCounter, 1000);
-
-							$closeIcon.click(closeModPanel);
-
-							$submit.click(function() {
-								if (!window.selectedCategory) {
-									let $selectReasonWarn = $(".selectReasonWarn", $toplayer);
-									if ($selectReasonWarn.length == 0) {
-										$(`<div class="sg-bubble sg-bubble--bottom sg-bubble--row-start sg-bubble--peach sg-text--light selectReasonWarn">${System.data.locale.common.moderating.selectReason}</div>`).insertBefore($categories)
-									} else {
-										$selectReasonWarn.fadeTo('fast', 0.5).fadeTo('fast', 1.0).fadeTo('fast', 0.5).fadeTo('fast', 1.0);
-									}
-								} else {
-									$(`<div class="sg-spinner-container__overlay"><div class="sg-spinner"></div></div>`).insertAfter($submit);;
-									let taskData = {
-										model_id: res.data.task.id,
-										reason_id: window.selectedCategory.id,
-										reason: $textarea.val(),
-										give_warning: $give_warning.is(':checked'),
-										take_points: $take_points.is(':checked'),
-										return_points: $return_points.is(':checked')
-									};
-									RemoveQuestion(taskData, (res) => {
-										if (res && res.success) {
-											feedContentBox.addClass("sg-flash__message--error");
-											$closeIcon.parents(".js-modal").remove();
-											clearInterval(_loop_panelCounter);
-										}
-									});
-								}
-							});
-						}
-					});
-				} else if (btn_index == 1 || btn_index == 2) {
-					setTimeout(() => {
-						if (confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
-							let reason = System.data.Brainly.deleteReasons.__withIds.task[System.data.config.quickDeleteButtonsReasons.task[btn_index - 1]];
-							let taskData = {
-								model_id: question_id,
-								reason_id: reason.category_id,
-								reason: reason.text
-							};
-							taskData.give_warning = System.canBeWarned(reason.id);
-							let $svg = $("svg", this);
-							let $spinner = $(`<div class="sg-spinner sg-spinner--xxsmall sg-spinner--light"></div>`);
-
-							$spinner.insertBefore($svg);
-							$svg.hide();
-							RemoveQuestion(taskData, res => {
-								if (res) {
-									if (res.success) {
-										feedContentBox.addClass("sg-flash__message--error");
-									} else if (res.message) {
-										Notification(res.message, "error");
-									}
-								} else {
-									Notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
-								}
-
-								$spinner.remove();
-								$svg.show();
-							});
-						}
-					}, 10);
-				}
-			}
-		}
-	};
-	$("body").on("click", ".ext_actions button", ext_actions_buttons_click_handler);
-
-	let prepareButtons = "";
-
-	if (!System.data.config.quickDeleteButtonsReasons) {
-		Console.error("Quick delete reasons cannot be found");
-	} else {
-		let data = [{
-			text: System.data.locale.common.moderating.moreOptions,
-			type: "alt",
-			icon: "stream"
-		}];
-
-		System.data.config.quickDeleteButtonsReasons.task.forEach((reason, i) => {
-			data.push({
-				text: System.data.Brainly.deleteReasons.__withIds.task[reason].title,
-				title: System.data.Brainly.deleteReasons.__withIds.task[reason].text,
-				type: "peach",
-				icon: "x"
-			});
-		});
-		prepareButtons = Buttons('RemoveQuestion', data);
-	}
-
-	let createQuestionRemoveButtons = nodes => {
-		//console.log("nodes:", nodes);
-		if (nodes) {
-			for (let i = 0, node;
-				(node = nodes[i]); i++) {
-				node.classList.add("ext-buttons-added");
-				let $ext_actions = $(`<div class="ext_actions">${prepareButtons}</div>`);
-
-				$ext_actions.appendTo($(selectors.feeds_questionsBox_buttonList, node));
+				startObservingForDeleteButtons(feeds_parent);
 			}
 		}
 	}
-	let observeForNewQuestionBoxes = feeds_parent => {
-		//console.log("feeds_parent:", feeds_parent);
-		if (feeds_parent && feeds_parent.length > 0) {
-			feeds_parent[0].classList.add("quickDelete");
-
-			WaitForElm(selectors.feed_item + ':not(.ext-buttons-added)', e => {
-				createQuestionRemoveButtons(e);
-			});
-			$(feeds_parent).observe('added', selectors.feed_item + ':not(.ext-buttons-added)', e => {
-				createQuestionRemoveButtons(e.addedNodes);
-			});
-		}
-	};
-	let wait_for_feeds_parent = () => {
-		//console.log("observe found");
-		WaitForElm(selectors.feeds_parent, observeForNewQuestionBoxes)
-	}
-	WaitForFn('$().observe', wait_for_feeds_parent);
-	//WaitForElm(selectors.feed_item, createQuestionRemoveButtons)
-});
-
-/**
- * Mod actions count info in profile box
- */
-let $todaysActions = $(`
-<div style="margin: -4px 0 3px;">
-	<span class="sg-text sg-text--obscure sg-text--gray sg-text--capitalize">${System.data.locale.home.todaysActions}: </span>
-	<span class="sg-text sg-text--obscure sg-text--gray sg-text--emphasised">${System.data.Brainly.userData.user.mod_actions_count}</span>
-</div>`);
-
-WaitForElm(selectors.userInfoBoxPoints, infoBox => $todaysActions.insertBefore(infoBox));
+}

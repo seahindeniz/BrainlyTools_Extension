@@ -4,7 +4,7 @@ import ext from "../utils/ext";
 import cookie from "js-cookie";
 import { Logger } from "./ActionsOfServer";
 import { getUserByID } from "./ActionsOfBrainly";
-import Inject2body from "../helpers/Inject2body";
+import InjectToBody from "../helpers/InjectToBody";
 import extensionServer from "../../config/_/extension.json";
 
 class _System {
@@ -117,6 +117,16 @@ class _System {
 	init() {
 		console.log("System initalized");
 	}
+	/**
+	 * 
+	 * @param {number} milliseconds - Specify delay in milliseconds
+	 */
+	delay(milliseconds) {
+		return new Promise((resolve) => setTimeout(resolve, milliseconds));
+	}
+	/* log(){
+		console.log.apply()
+	} */
 	randomNumber(min, max) {
 		return Math.floor(Math.random() * (max - min + 1)) + min;
 	}
@@ -156,27 +166,39 @@ class _System {
 		}
 		return result;
 	}
-	toBackground(action, data, callback) {
-		let messageData = {
-			action
-		};
+	toBackground(action, data) {
+		return new Promise(async (resolve, reject) => {
+			let messageData = {
+				action
+			};
 
-		if (typeof data == "function") {
-			callback = data;
-		} else if (data) {
-			messageData.data = data;
-		}
+			if (typeof data == "function") {
+				callback = data;
+			} else if (data) {
+				messageData.data = data;
+			}
 
-		ext.runtime.sendMessage(System.data.meta.extension.id, messageData, callback);
+			ext.runtime.sendMessage(System.data.meta.extension.id, messageData, resolve);
+		});
 	}
-	shareGatheredData2Background(callback) {
-		this.toBackground("setMarketData", System.data, res => {
+	shareGatheredData2Background() {
+		return new Promise(async (resolve, reject) => {
+			console.log("System.data:", System.data);
+			let res = await this.toBackground("setMarketData", System.data);
+			console.log("res:", res);
+			if (!res || res != "done") {
+				reject("I couldn't share the System data variable to background");
+			} else {
+				resolve();
+			}
+		});
+		/* this.toBackground("setMarketData", System.data, res => {
 			if (!res || res != "done") {
 				Console.error("I couldn't share the System data variable to background");
 			} else {
 				callback && callback();
 			}
-		});
+		}); */
 	}
 	enableExtensionIcon() {
 		this.toBackground("enableExtensionIcon")
@@ -185,9 +207,15 @@ class _System {
 		this.toBackground("changeBadgeColor", status)
 	}
 	createProfileLink(nick, id) {
+		if (!nick && !id) {
+			nick = System.data.Brainly.userData.user.nick
+			id = System.data.Brainly.userData.user.id
+		}
+
 		if (!this.profileLinkRoute) {
 			this.profileLinkRoute = (System.data.Brainly.Routing.routes[System.data.Brainly.Routing.prefix + "user_profile"]).tokens.slice().pop().pop();
 		}
+
 		if (this.profileLinkRoute) {
 			return System.data.meta.location.origin + this.profileLinkRoute + "/" + nick + "-" + id;
 		} else
@@ -281,45 +309,51 @@ class _System {
 			return p
 		}('4.3.2.5.6.7(8)>-1&&(0&&0());', 9, 9, 'c||Brainly|data|System|userData|_hash|indexOf|p'.split('|'), 0, {}))*/
 	}
-	log(type, targetUser, data) {
+	async log(type, targetUser, data) {
 		if (typeof targetUser == "string" || typeof targetUser == "number" ||
 			!(targetUser.nick || targetUser._nick) || (targetUser.nick || targetUser._nick) == "" ||
 			!targetUser.id || targetUser.id == "" || !(~~targetUser.id > 0)) {
-			getUserByID(targetUser, res => {
-				Logger(type, { id: res.data.id, nick: res.data.nick }, data);
-			});
+			let user = await getUserByID(targetUser);
+
+			Logger(type, { id: user.data.id, nick: user.data.nick }, data);
 		} else {
 			Logger(type, { id: targetUser.id, nick: (targetUser.nick || targetUser._nick) }, data);
 		}
 	}
-	updateExtension() {
-		this.toBackground("updateExtension", status => {
-			if (status == "update_available") {
-				console.log("update pending...");
-			} else if (status == "no_update") {
-				console.log("no update found");
-			} else if (status == "throttled") {
-				console.log("Asking too frequently. It's throttled");
-			}
-		});
-	}
-	prepareLangFile(language, callback) {
-		let fileType = "json";
+	async updateExtension() {
+		let status = await this.toBackground("updateExtension", System.data);
 
-		Inject2body(`/locales/${language}.${fileType}`, localeData => {
+		if (status == "update_available") {
+			console.log("update pending...");
+		} else if (status == "no_update") {
+			console.log("no update found");
+		} else if (status == "throttled") {
+			console.log("Asking too frequently. It's throttled");
+		}
+	}
+	prepareLangFile(language, _resolve) {
+		return new Promise(async (resolve, reject) => {
+			let fileType = "json";
+			let localeData = await InjectToBody(`/locales/${language}.${fileType}`);
+
+			if (_resolve) {
+				resolve = _resolve;
+			}
+
 			if (Object.prototype.toString.call(localeData) == "[object Error]") {
 				if (language != "en_US") {
-					this.prepareLangFile("en_US", callback);
+					this.prepareLangFile("en_US", resolve);
+				} else {
+					reject("Cannot find the default language file for extension");
 				}
-
-				return false;
+			} else {
+				resolve(localeData);
 			}
 
 			/* if (fileType == "yml") {
 				localeData = yaml.load(localeData);
 			} */
 
-			callback && callback(localeData);
 		});
 	}
 	canBeWarned(reasonID) {

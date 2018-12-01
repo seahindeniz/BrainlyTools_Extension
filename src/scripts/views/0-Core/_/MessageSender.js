@@ -1,7 +1,7 @@
 "use strict";
 
 import { getUserByID, sendMessages } from "../../../controllers/ActionsOfBrainly";
-import Notification from "../../../components/Notification";
+import notification from "../../../components/Notification";
 
 const isPosInt = str => /^\+?\d+$/.test(str);
 const MessageSender = $seperator => {
@@ -90,18 +90,18 @@ const MessageSender = $seperator => {
 				this.classList.add("sg-input--valid");
 				clearTimeout(delayTimer);
 
-				delayTimer = setTimeout(() => {
-					getUserByID(value, res => {
-						if (!res || !res.success || !res.data) {
-							this.classList.add("userNotFound");
+				delayTimer = setTimeout(async () => {
+					let user = await getUserByID(value);
 
-							if (res.message) {
-								Notification(res.message, "error");
-							}
-						} else {
-							this.classList.add("userFound");
+					if (!user || !user.success || !user.data) {
+						this.classList.add("userNotFound");
+
+						if (user.message) {
+							notification(user.message, "error");
 						}
-					});
+					} else {
+						this.classList.add("userFound");
+					}
 				}, 1000);
 			}
 		};
@@ -142,10 +142,10 @@ const MessageSender = $seperator => {
 			}
 
 			if (!$userId.is(".sg-input--valid.userFound")) {
-				Notification(System.data.locale.core.notificationMessages.youNeedToEnterValidId, "error");
+				notification(System.data.locale.core.notificationMessages.youNeedToEnterValidId, "error");
 				$userId.focus();
 			} else if (!message || message == "") {
-				Notification(System.data.locale.core.notificationMessages.cantSendEmptyMessage, "error");
+				notification(System.data.locale.core.notificationMessages.cantSendEmptyMessage, "error");
 				$messageInput.focus();
 			} else if (
 				forceStart === true || forceStart === false && (

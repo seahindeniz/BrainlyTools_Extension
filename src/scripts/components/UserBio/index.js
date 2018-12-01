@@ -1,7 +1,7 @@
 "use strict";
 
 import { ChangeBio } from "../../controllers/ActionsOfBrainly";
-import Notification from "../../components/Notification";
+import notification from "../../components/Notification";
 
 export default description => {
 	let $userBio = $(`
@@ -19,20 +19,19 @@ export default description => {
 				this.innerText = "";
 			}
 		},
-		blur: function() {
+		blur: async function() {
 			if (bioVal.replace(/<br\s*[\/]?>/gi, "\n") != this.innerText) {
 				this.innerText = bioVal = this.innerText.trim();
 
-				ChangeBio(bioVal.replace(/\n/gm, "\\n"), res => {
-					console.log(res);
-					if (res.errors) {
-						Notification(System.data.locale.userProfile.notificationMessages.cannotChangeBio, "error");
-						return false;
-					}
+				let resBio = await ChangeBio(bioVal.replace(/\n/gm, "\\n"));
 
-					Notification(System.data.locale.popup.notificationMessages.updatedMessage, "success");
-				});
+				if (resBio.errors) {
+					notification(System.data.locale.userProfile.notificationMessages.cannotChangeBio, "error");
+				} else {
+					notification(System.data.locale.popup.notificationMessages.updatedMessage, "success");
+				}
 			}
+
 			if (bioVal == "") {
 				this.innerText = " -";
 			}

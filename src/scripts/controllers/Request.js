@@ -14,7 +14,7 @@ let holdRequests = [];
 const Request = {
 	Brainly(options) {
 		let that = this;
-		let { method, path, data, callback, onError, countErr = 0, tryAgain } = options;
+		let { method, path, data, callback, countErr = 0, tryAgain } = options;
 		let reqData = {
 			method: method,
 			type: method,
@@ -27,9 +27,7 @@ const Request = {
 			data
 		};
 
-		if (typeof callback == "function") {
-			reqData.success = callback;
-		} else if (typeof callback == "object") {
+		if (typeof callback == "object") {
 			reqData.success = callback.success;
 		}
 
@@ -69,22 +67,13 @@ const Request = {
 				reqData.countErr = 0;
 			}
 		});
+		return ajaxR;
 	},
-	BrainlyAPI(method, path, data, callback, onError, countErr) {
-		if (typeof data === "function") {
-			countErr = onError || 0;
-			onError = callback;
-			callback = data;
-			data = null;
-		}
-
-		callback = callback || function() {};
+	BrainlyAPI(method, path, data) {
+		//return new Promise((resolve, reject) => {
 		let requestData = {
 			method,
 			path: System.data.Brainly.apiURL + path,
-			callback,
-			onError,
-			countErr,
 			ajaxOptions: {
 				dataType: "json"
 			}
@@ -94,19 +83,44 @@ const Request = {
 			requestData.data = JSON.stringify(data);
 		}
 
-		this.Brainly(requestData);
+		return this.Brainly(requestData); //.then(resolve).catch(reject);
+		//});
 	},
-	BrainlySaltGet(path, data, callback, onError) {
+	get(path) {
+		return new Promise(function(resolve, reject) {
+			let xhr = new XMLHttpRequest();
+
+			xhr.open("GET", path, true);
+			xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
+
+			xhr.onload = function() {
+				if (xhr.readyState == 4 && (xhr.status == 201 || xhr.status == 200)) {
+					if (xhr && xhr.responseText) {
+						resolve(xhr.responseText)
+					} else {
+						resolve(null)
+					}
+				} else {
+					console.log(xhr.readyState, xhr.status);
+					resolve(null)
+				}
+			}
+			xhr.onerror = function() {
+				reject({
+					status: this.status,
+					statusText: xhr.statusText
+				});
+			};
+
+			xhr.send();
+		});
+	},
+	BrainlySaltGet(path, data) {
 		let that = this;
-		if (typeof data === "function") {
-			onError = callback;
-			callback = data;
-			data = null;
-		}
-		callback = typeof callback === "undefined" ? (function() {}) : callback;
 
 		var xhr = new XMLHttpRequest();
-		$.ajax({
+
+		return $.ajax({
 			method: "get",
 			url: System.data.meta.location.origin + path,
 			beforeSend: function(xhr) {
@@ -115,52 +129,38 @@ const Request = {
 			xhr: () => xhr,
 			success: (data, textStatus, jqXHR) => {
 				jqXHR.responseURL = xhr.responseURL;
-				callback && callback(data, textStatus, jqXHR);
+				//callback && callback(data, textStatus, jqXHR);
 			}
-		}).fail(onError);
+		});
 	},
-	ExtensionServer(method, path, data, callback) {
-		if (typeof data == "function") {
-			callback = data;
-			data = undefined;
-		} else if (typeof data != "undefined") {
-			data = JSON.stringify(data);
-		}
+	ExtensionServer(method, path, data) {
+		return new Promise((resolve, reject) => {
+			if (data) {
+				data = JSON.stringify(data);
+			}
 
-		let headers = {
-			"Content-type": "application/json; charset=utf-8"
-		};
-		if (System.data.Brainly.userData.extension && System.data.Brainly.userData.extension.secretKey) {
-			headers["SecretKey"] = System.data.Brainly.userData.extension.secretKey;
-		}
-
-		let messageData = {
-			action: "xmlHttpRequest",
-			method,
-			path,
-			headers,
-			data
-		};
-
-		ext.runtime.sendMessage(System.data.meta.extension.id, messageData, callback);
-	},
-	get(path, callback) {
-		let xhr = new XMLHttpRequest();
-		xhr.open("GET", path, true);
-		xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
-		xhr.onload = function() {
-			if (xhr.readyState == 4 && (xhr.status == 201 || xhr.status == 200)) {
-				if (xhr && xhr.responseText) {
-					callback(xhr.responseText)
-				} else {
-					callback(null)
+			let messageData = {
+				action: "xmlHttpRequest",
+				method,
+				path,
+				data,
+				headers: {
+					"Content-type": "application/json; charset=utf-8"
 				}
-			} else {
-				console.log(xhr.readyState, xhr.status);
-				callback(null)
+			};
+
+			if (System.data.Brainly.userData.extension && System.data.Brainly.userData.extension.secretKey) {
+				messageData.headers["SecretKey"] = System.data.Brainly.userData.extension.secretKey;
 			}
-		}
-		xhr.send(null);
+
+			ext.runtime.sendMessage(System.data.meta.extension.id, messageData, req => {
+				if (req.success) {
+					resolve(req.res)
+				} else if (req.error) {
+					resolve()
+				}
+			});
+		});
 	}
 }
 export default Request;

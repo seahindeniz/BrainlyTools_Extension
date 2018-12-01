@@ -2,14 +2,14 @@
 
 import ext from "../../scripts/utils/ext";
 import Storage from "../../scripts/helpers/extStorage";
-import Notification from "../components/Notification";
+import notification from "../components/Notification";
 import send2AllBrainlyTabs from "../helpers/send2AllBrainlyTabs";
 import Inject2body from "../../scripts/helpers/Inject2body";
 import bulmahead from "../../scripts/lib/bulmahead"
 import { UpdateDeleteReasonsPreferences } from "../../scripts/controllers/ActionsOfServer";
 import PrepareDeleteReasons from "../../scripts/controllers/PrepareDeleteReasons";
 
-const ManageDeleteReasons = callback => {
+const ManageDeleteReasons = async callback => {
 	let $manageDeleteReasons = $(`
 	<div id="manageDeleteReasons" class="column is-narrow">
 		<article class="message is-danger">
@@ -134,7 +134,7 @@ const ManageDeleteReasons = callback => {
 
 		UpdateDeleteReasonsPreferences(reasonData, res => {
 			if (!res || !res.success) {
-				Notification(System.data.locale.common.notificationMessages.somethingWentWrong, "danger");
+				notification(System.data.locale.common.notificationMessages.somethingWentWrong, "danger");
 			} else {
 				let message = System.data.locale.popup.notificationMessages.removedMessage
 				if (reasonData.confirmation == "remove") {
@@ -146,7 +146,7 @@ const ManageDeleteReasons = callback => {
 					message = System.data.locale.common.done;
 				}
 
-				Notification(message);
+				notification(message);
 			}
 		})
 	};
@@ -155,20 +155,21 @@ const ManageDeleteReasons = callback => {
 	/**
 	 * Prepare defined tags
 	 */
-	PrepareDeleteReasons(() => {
-		let preferences = System.data.Brainly.deleteReasons.__preferences;
-		if (preferences && preferences instanceof Array && preferences.length > 0) {
-			preferences.forEach(preference => {
-				let reason = System.data.Brainly.deleteReasons.__withIds.__all[preference.reasonID];
-				let categoryText = System.data.Brainly.deleteReasons.__withIds.__all[reason.category_id].text;
+	await PrepareDeleteReasons();
 
-				if (reason) {
-					let label = categoryText + " › " + reason.title;
-					addTag(reason.type, reason.title, label, reason, preference.confirmation);
-				}
-			});
-		}
-	});
+	let preferences = System.data.Brainly.deleteReasons.__preferences;
+
+	if (preferences && preferences instanceof Array && preferences.length > 0) {
+		preferences.forEach(preference => {
+			let reason = System.data.Brainly.deleteReasons.__withIds.__all[preference.reasonID];
+			let categoryText = System.data.Brainly.deleteReasons.__withIds.__all[reason.category_id].text;
+
+			if (reason) {
+				let label = categoryText + " › " + reason.title;
+				addTag(reason.type, reason.title, label, reason, preference.confirmation);
+			}
+		});
+	}
 };
 
 export default ManageDeleteReasons

@@ -1,6 +1,6 @@
 import ext from "../../scripts/utils/ext";
 import Storage from "../../scripts/helpers/extStorage";
-import Notification from "../components/Notification";
+import notification from "../components/Notification";
 import send2AllBrainlyTabs from "../helpers/send2AllBrainlyTabs";
 
 let ThemeColor = (color = "#57b2f8", callback) => {
@@ -67,11 +67,12 @@ let ThemeColor = (color = "#57b2f8", callback) => {
 		$colorValue.val(rainbowColors).change();
 	})
 	$("button.save", $themeColor).click(() => {
-		Notification("Color saved");
+		notification("Color saved");
 		Storage.set({ themeColor: $colorValue.val() });
 	});
 
-	callback($themeColor);
+	//callback($themeColor);
+	return $themeColor;
 }
 
 export default ThemeColor

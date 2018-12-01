@@ -2,15 +2,15 @@
 
 import { RemoveQuestion } from "../../controllers/ActionsOfBrainly";
 import DeleteSection from "../../components/DeleteSection";
-import Notification from "../../components/Notification";
+import notification from "../../components/Notification";
 
 let selectors = window.selectors,
 	$moderateActions = window.$moderateActions;
 
-//WaitForElm('#content-old > div > div > table > tbody > tr:nth-child(1) > td', () => {
 let $tableContentBody = $(selectors.tableContentBody);
 let $contentRows = $(selectors.contentRows);
 let isPageProcessing = false;
+
 window.onbeforeunload = function() {
 	if (isPageProcessing) {
 		return System.data.locale.common.notificationMessages.ongoingProcess;
@@ -83,9 +83,8 @@ $submit.click(function() {
 				}
 
 				let idList = [];
-
-				$checkedContentSelectCheckboxes.each(function() {
-					let $parentRow = $(this).parents("tr");
+				let removeIt = async that => {
+					let $parentRow = $(that).parents("tr");
 					let rowNumber = ~~($(">td:eq(1)", $parentRow).text());
 					let model_id = $parentRow.data("taskid");
 					let taskData = {
@@ -99,21 +98,25 @@ $submit.click(function() {
 
 					idList.push(model_id);
 
-					RemoveQuestion(taskData, (res) => {
-						updateCounter();
+					let res = await RemoveQuestion(taskData);
 
-						if (!res) {
-							Notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
-						} else {
-							if (!res.success && res.message) {
-								Notification("#" + rowNumber + " > " + res.message, "error");
-								$parentRow.addClass("already");
-							}
+					updateCounter();
 
-							$(this).attr("disabled", "disabled")
-							$parentRow.addClass("removed");
+					if (!res) {
+						notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
+					} else {
+						if (!res.success && res.message) {
+							notification("#" + rowNumber + " > " + res.message, "error");
+							$parentRow.addClass("already");
 						}
-					});
+
+						$(this).attr("disabled", "disabled");
+						$parentRow.addClass("removed");
+					}
+				};
+
+				$checkedContentSelectCheckboxes.each(function() {
+					removeIt(this);
 				});
 
 				System.log(5, sitePassedParams[0], idList);

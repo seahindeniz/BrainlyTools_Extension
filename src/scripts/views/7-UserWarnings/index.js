@@ -1,13 +1,17 @@
 "use strict";
 
-import WaitForElm from "../../helpers/WaitForElm";
+import WaitForElement from "../../helpers/WaitForElement";
 import { CancelWarning } from "../../controllers/ActionsOfBrainly";
 import Buttons from "../../components/Buttons";
-import Notification from "../../components/Notification";
+import notification from "../../components/Notification";
 
 System.pageLoaded("User's warnings page OK!");
 
-WaitForElm("#content-old > table > tbody > tr", row => {
+UserWarnings();
+
+async function UserWarnings() {
+	let row = await WaitForElement("#content-old > table > tbody > tr");
+
 	$(row).each((i, el) => {
 		$(el).append(`
 		<th style="width:10%">
@@ -53,6 +57,6 @@ WaitForElm("#content-old > table > tbody > tr", row => {
 
 		System.log(4, JSON.parse(sitePassedParams)[0], idList);
 
-		Notification(System.data.locale.userWarnings.notificationMessages.ifYouHavePrivileges, "info");
+		notification(System.data.locale.userWarnings.notificationMessages.ifYouHavePrivileges, "info");
 	});
-})
+}

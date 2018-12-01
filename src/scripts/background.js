@@ -43,7 +43,7 @@ const onRequest = function(request, sender, sendResponse) {
 	if (request.action == "i18n") {
 		sendResponse(ext.i18n.getMessage(request.data));
 	}
-	if (request.action == "storageSet") {
+	if (request.action == "storage_set") {
 		Storage.set({
 			...request,
 			callback: sendResponse
@@ -51,7 +51,8 @@ const onRequest = function(request, sender, sendResponse) {
 
 		return true;
 	}
-	if (request.action == "storageGet") {
+	if (request.action == "storage_get") {
+		console.log(request);
 		Storage.get({
 			...request,
 			callback: sendResponse
@@ -59,7 +60,7 @@ const onRequest = function(request, sender, sendResponse) {
 
 		return true;
 	}
-	if (request.action == "storageRemove") {
+	if (request.action == "storage_remove") {
 		Storage.remove({
 			...request,
 			callback: sendResponse
@@ -67,7 +68,7 @@ const onRequest = function(request, sender, sendResponse) {
 
 		return true;
 	}
-	if (request.action == "storageSetL") {
+	if (request.action == "storage_setL") {
 		Storage.set({
 			local: true,
 			...request,
@@ -76,7 +77,7 @@ const onRequest = function(request, sender, sendResponse) {
 
 		return true;
 	}
-	if (request.action == "storageGetL") {
+	if (request.action == "storage_getL") {
 		Storage.get({
 			local: true,
 			...request,
@@ -85,7 +86,7 @@ const onRequest = function(request, sender, sendResponse) {
 
 		return true;
 	}
-	if (request.action == "storageRemoveL") {
+	if (request.action == "storage_removeL") {
 		Storage.remove({
 			local: true,
 			...request,
@@ -131,7 +132,10 @@ const onRequest = function(request, sender, sendResponse) {
 			url: System.data.config.extension.serverAPIURL + request.path,
 			headers: request.headers,
 			success: res => {
-				sendResponse(res)
+				sendResponse({ success: true, res })
+			},
+			error: res => {
+				sendResponse({ error: true, res })
 			}
 		};
 
@@ -140,9 +144,7 @@ const onRequest = function(request, sender, sendResponse) {
 			ajaxData.dataType = "json";
 		}
 
-		$.ajax(ajaxData).fail(function(err) {
-			sendResponse(false, err);
-		});
+		$.ajax(ajaxData);
 
 		return true;
 	}

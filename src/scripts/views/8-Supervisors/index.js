@@ -1,24 +1,24 @@
 "use strict";
 
-import WaitForElm from "../../helpers/WaitForElm";
-import WaitForFn from "../../helpers/WaitForFn";
-import { getAllModerators, sendMessages } from "../../controllers/ActionsOfBrainly";
-import Buttons from "../../components/Buttons";
-import Notification from "../../components/Notification";
-import Storage from "../../helpers/extStorage";
+import WaitForElement from "../../helpers/WaitForElement";
+import { getAllModerators, sendMessageToBrainlyIds } from "../../controllers/ActionsOfBrainly";
+import notification from "../../components/Notification";
 import Progress from "../../components/Progress";
 
 System.pageLoaded("Supervisors page OK!");
 
-let currentColumn = 0;
-let sortIt = userLi => {
-	$(`.connectedSortable:eq(${currentColumn++})`).append(userLi);
-	if (currentColumn == 5) {
-		currentColumn = 0;
-	}
-}
+Supervisors();
 
-WaitForElm(".connectedSortable > li", usersLi => {
+async function Supervisors() {
+	let currentColumn = 0;
+	let sortIt = userLi => {
+		$(`.connectedSortable:eq(${currentColumn++})`).append(userLi);
+		if (currentColumn == 5) {
+			currentColumn = 0;
+		}
+	}
+
+	let usersLi = await WaitForElement(".connectedSortable > li");
 	let usersID = [];
 
 	usersLi.forEach(userLi => {
@@ -108,19 +108,19 @@ WaitForElm(".connectedSortable > li", usersLi => {
 
 			System.checkUserP(10, () => {
 				let $sendMessage = $(`
-				<div class="sendMessage">
-					<span class="sg-text sg-text--xsmall sg-text--link sg-text--bold sg-text--blue">${System.data.locale.supervisors.sendMessagesToMods}</span>
-					<div class="messageBox js-hidden">
-						<textarea class="sg-textarea sg-text--small sg-textarea--tall sg-textarea--full-width" placeholder="${System.data.locale.messages.groups.writeSomething}"></textarea>
+					<div class="sendMessage">
+						<span class="sg-text sg-text--xsmall sg-text--link sg-text--bold sg-text--blue">${System.data.locale.supervisors.sendMessagesToMods}</span>
+						<div class="messageBox js-hidden">
+							<textarea class="sg-textarea sg-text--small sg-textarea--tall sg-textarea--full-width" placeholder="${System.data.locale.messages.groups.writeSomething}"></textarea>
 
-						<div class="sg-spinner-container">
-							<button class="sg-button-secondary sg-button-secondary--small sg-button-secondary--alt js-listed" title="${System.data.locale.supervisors.sendMessagesToListedMods.title}">⇐ ${System.data.locale.supervisors.sendMessagesToListedMods.text}</button>
+							<div class="sg-spinner-container">
+								<button class="sg-button-secondary sg-button-secondary--small sg-button-secondary--alt js-listed" title="${System.data.locale.supervisors.sendMessagesToListedMods.title}">⇐ ${System.data.locale.supervisors.sendMessagesToListedMods.text}</button>
+							</div>
+							<div class="sg-spinner-container">
+								<button class="sg-button-secondary sg-button-secondary--small sg-button-secondary--dark js-all" title="${System.data.locale.supervisors.sendMessagesToAllMods.title}">${System.data.locale.supervisors.sendMessagesToAllMods.text}</button>
+							</div>
 						</div>
-						<div class="sg-spinner-container">
-							<button class="sg-button-secondary sg-button-secondary--small sg-button-secondary--dark js-all" title="${System.data.locale.supervisors.sendMessagesToAllMods.title}">${System.data.locale.supervisors.sendMessagesToAllMods.text}</button>
-						</div>
-					</div>
-				</div>`);
+					</div>`);
 				let $sendMessageContainer = $("> span", $sendMessage);
 				let $messageBox = $("> div.messageBox", $sendMessage);
 				let $messageInput = $("> div.messageBox > textarea", $sendMessage);
@@ -146,7 +146,7 @@ WaitForElm(".connectedSortable > li", usersLi => {
 				/**
 				 * Send message
 				 */
-				$sendButton.click(function() {
+				$sendButton.click(async function() {
 					let users = [];
 
 					if (this.classList.contains("js-listed")) {
@@ -156,12 +156,12 @@ WaitForElm(".connectedSortable > li", usersLi => {
 					}
 
 					if (isSending) {
-						Notification(System.data.locale.common.notificationMessages.ongoingProcessWait, "info");
+						notification(System.data.locale.common.notificationMessages.ongoingProcessWait, "info");
 					} else if ($messageInput.val() == "") {
-						Notification(System.data.locale.supervisors.notificationMessages.emptyMessage, "info");
+						notification(System.data.locale.supervisors.notificationMessages.emptyMessage, "info");
 						$messageInput.focus();
 					} else if (users.length == 0) {
-						Notification(System.data.locale.supervisors.notificationMessages.noUser, "info");
+						notification(System.data.locale.supervisors.notificationMessages.noUser, "info");
 						$rankSelect.focus();
 					} else {
 						isSending = true;
@@ -184,24 +184,23 @@ WaitForElm(".connectedSortable > li", usersLi => {
 							previousProgressBars.remove();
 						}
 
-						sendMessages(idList, message, {
-							each: i => {
-								progress.update(i);
-								progress.updateLabel(`${i} - ${idListLen}`);
-							},
-							done: () => {
-								isSending = false;
+						let doInEachSending = i => {
+							progress.update(i);
+							progress.updateLabel(`${i} - ${idListLen}`);
+						};
 
-								$spinner.remove();
-								$messageInput.val("");
-								$messageInput.prop("disabled", false);
-								$sendButton.removeClass("js-disabled");
-								progress.updateLabel(`(${idListLen}) - ${System.data.locale.common.allDone}`);
-							}
-						});
+						await sendMessageToBrainlyIds(idList, message, doInEachSending);
+
+						isSending = false;
+
+						$spinner.remove();
+						$messageInput.val("");
+						$messageInput.prop("disabled", false);
+						$sendButton.removeClass("js-disabled");
+						progress.updateLabel(`(${idListLen}) - ${System.data.locale.common.allDone}`);
 					}
 				});
 			});
 		}
 	});
-});
+}

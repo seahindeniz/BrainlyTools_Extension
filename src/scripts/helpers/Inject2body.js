@@ -1,4 +1,4 @@
-import WaitForFn from "./WaitForFn";
+import WaitForObject from "./WaitForObject";
 
 /**
  * Injects a script into DOM
@@ -6,7 +6,7 @@ import WaitForFn from "./WaitForFn";
  * @param {boolean} add_ext_id - If its needed, add the extension id into element props
  * @returns {boolean} - Check whether if file injected or not 
  **/
-let inject_it = function(file_paths, add_ext_id) {
+let inject_it = async function(file_paths, add_ext_id) {
 	let elm;
 	let injected;
 	let _return = true;
@@ -98,7 +98,9 @@ let inject_it = function(file_paths, add_ext_id) {
 
 						break;
 					case "css":
-						WaitForFn("document.head", head => {
+						let head = await WaitForObject("document.head");
+
+						if (head) {
 							injected = document.createElement('link');
 
 							injected.setAttribute('rel', 'stylesheet');
@@ -106,7 +108,7 @@ let inject_it = function(file_paths, add_ext_id) {
 							injected.setAttribute('href', file_path_fixed);
 
 							head && head.appendChild(injected);
-						});
+						}
 
 						break;
 				}

@@ -3,7 +3,7 @@
 import { GetAnnouncements, CreateAnnouncement, UpdateAnnouncement, RemoveAnnouncement } from "../../../scripts/controllers/ActionsOfServer";
 import { getUserByID } from "../../../scripts/controllers/ActionsOfBrainly";
 import announcementsNodes from "./announcementsNodes";
-import Notification from "../../components/Notification";
+import notification from "../../components/Notification";
 
 window.fetchedUsers = {};
 const refreshUserAvatar = (user, elm) => {
@@ -23,10 +23,12 @@ const refreshUsers = (elm) => {
 		if (window.fetchedUsers[brainlyID] && window.fetchedUsers[brainlyID].brainlyData) {
 			refreshUserAvatar(window.fetchedUsers[brainlyID].brainlyData, elm);
 		} else {
-			getUserByID(brainlyID, res => {
+			(async () => {
+				let res = await getUserByID(brainlyID);
+				
 				window.fetchedUsers[brainlyID].brainlyData = res.data;
 				refreshUserAvatar(res.data, elm);
-			});
+			})();
 		}
 	});
 };
@@ -165,9 +167,9 @@ const Announcements = (callback) => {
 				let titleValue = editorNewAnnouncementTitle.getEditorValue(),
 					contentValue = editorNewAnnouncementContent.getEditorValue();
 				if (!titleValue || titleValue == "") {
-					Notification("You must add an announcement title", "danger");
+					notification("You must add an announcement title", "danger");
 				} else if (!contentValue || contentValue == "") {
-					Notification("You must add an announcement text", "danger");
+					notification("You must add an announcement text", "danger");
 				} else {
 					let data = {
 						id: that.parents("article.media").attr("id"),
@@ -176,12 +178,12 @@ const Announcements = (callback) => {
 					};
 					CreateAnnouncement(data, res => {
 						if (!res) {
-							Notification(System.data.locale.common.notificationMessages.operationError, "danger");
+							notification(System.data.locale.common.notificationMessages.operationError, "danger");
 						} else {
 							if (!res.success) {
-								Notification((res.message || System.data.locale.common.notificationMessages.operationError), "danger");
+								notification((res.message || System.data.locale.common.notificationMessages.operationError), "danger");
 							} else {
-								Notification(System.data.locale.popup.notificationMessages.createdMessage);
+								notification(System.data.locale.popup.notificationMessages.createdMessage);
 
 								$announcementsBody.prepend(announcementsNodes(res.data));
 								refreshUsers($announcementsBody);
@@ -199,9 +201,9 @@ const Announcements = (callback) => {
 				let titleValue = editorUpdateAnnouncementTitle.getEditorValue(),
 					contentValue = editorUpdateAnnouncementContent.getEditorValue();
 				if (!titleValue || titleValue == "") {
-					Notification("You must add an announcement title", "danger");
+					notification("You must add an announcement title", "danger");
 				} else if (!contentValue || contentValue == "") {
-					Notification("You must add an announcement text", "danger");
+					notification("You must add an announcement text", "danger");
 				} else {
 					let data = {
 						id: that.parents("article.media").attr("id"),
@@ -212,12 +214,12 @@ const Announcements = (callback) => {
 
 					UpdateAnnouncement(data, res => {
 						if (!res) {
-							Notification(System.data.locale.common.notificationMessages.operationError, "danger");
+							notification(System.data.locale.common.notificationMessages.operationError, "danger");
 						} else {
 							if (!res.success) {
-								Notification((res.message || System.data.locale.common.notificationMessages.operationError), "danger");
+								notification((res.message || System.data.locale.common.notificationMessages.operationError), "danger");
 							} else {
-								Notification(System.data.locale.popup.notificationMessages.updatedMessage);
+								notification(System.data.locale.popup.notificationMessages.updatedMessage);
 							}
 						}
 					});
@@ -229,12 +231,12 @@ const Announcements = (callback) => {
 					let id = parentArticle.attr("id");
 					RemoveAnnouncement(id, res => {
 						if (!res) {
-							Notification(System.data.locale.common.notificationMessages.operationError, "danger");
+							notification(System.data.locale.common.notificationMessages.operationError, "danger");
 						} else {
 							if (!res.success) {
-								Notification((res.message || System.data.locale.common.notificationMessages.operationError), "danger");
+								notification((res.message || System.data.locale.common.notificationMessages.operationError), "danger");
 							} else {
-								Notification(System.data.locale.popup.notificationMessages.removedMessage);
+								notification(System.data.locale.popup.notificationMessages.removedMessage);
 								parentArticle.slideUp("normal", function() { this.remove(); });
 							}
 						}
@@ -277,12 +279,12 @@ const Announcements = (callback) => {
 
 				UpdateAnnouncement({ id: $article.attr("id"), publish: !status }, res => {
 					if (!res) {
-						Notification(System.data.locale.common.notificationMessages.operationError, "danger");
+						notification(System.data.locale.common.notificationMessages.operationError, "danger");
 					} else {
 						if (!res.success) {
-							Notification((res.message || System.data.locale.common.notificationMessages.operationError), "danger");
+							notification((res.message || System.data.locale.common.notificationMessages.operationError), "danger");
 						} else {
-							Notification(System.data.locale.popup.notificationMessages.updatedMessage);
+							notification(System.data.locale.popup.notificationMessages.updatedMessage);
 							$(this).attr({
 								"data-published": !status,
 								title: System.data.locale.popup.extensionManagement.announcements[!status ? "unpublish" : "publish"]

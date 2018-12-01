@@ -1,10 +1,15 @@
 "use strict";
 
-import WaitForElm from "./WaitForElm";
+import WaitForElement from "./WaitForElement";
 import MakeExpire from "./MakeExpire";
 
-export default color => {
+export default async color => {
 	let rainbow = false;
+	let localStoredColor = localStorage.getItem("themeColor");
+
+	if (color != localStoredColor) {
+		localStorage.setItem("themeColor", color);
+	}
 
 	if (color.indexOf(",") >= 0) {
 		rainbow = true;
@@ -35,38 +40,39 @@ export default color => {
 		fill: ${color};
 	}
 	`;
-	WaitForElm("head", head => {
-		if (head) {
-			head = head[0];
-			let $personalColors = document.getElementById("personalColors");
+	let head = await WaitForElement("head");
 
-			if ($personalColors) {
-				$personalColors.innerHTML = personalColors;
+	if (head) {
+		head = head[0];
+		let $personalColors = document.getElementById("personalColors");
+
+		if ($personalColors) {
+			$personalColors.innerHTML = personalColors;
+		} else {
+			//head.innerHTML += `<style id="personalColors">${personalColors}</style>`;
+			$personalColors = document.createElement('style');
+			$personalColors.type = 'text/css';
+			$personalColors.id = "personalColors"
+
+			//var styles = `<style id="personalColors">${personalColors}</style>`;
+
+			if ($personalColors.styleSheet) {
+				$personalColors.styleSheet.cssText = personalColors;
 			} else {
-				//head.innerHTML += `<style id="personalColors">${personalColors}</style>`;
-				$personalColors = document.createElement('style');
-				$personalColors.type = 'text/css';
-				$personalColors.id = "personalColors"
-
-				//var styles = `<style id="personalColors">${personalColors}</style>`;
-
-				if ($personalColors.styleSheet) {
-					$personalColors.styleSheet.cssText = personalColors;
-				} else {
-					$personalColors.appendChild(document.createTextNode(personalColors));
-				}
-
-				head.appendChild($personalColors);
-
+				$personalColors.appendChild(document.createTextNode(personalColors));
 			}
-			let _loop_personalColors_expire = MakeExpire(6);
-			let _loop_personalColors = setInterval(() => {
-				if (_loop_personalColors_expire < new Date().getTime()) {
-					clearInterval(_loop_personalColors);
-				}
 
-				$personalColors.parentNode && $personalColors.parentNode.appendChild($personalColors);
-			});
+			head.appendChild($personalColors);
+
 		}
-	});
+		
+		let _loop_personalColors_expire = MakeExpire(6);
+		let _loop_personalColors = setInterval(() => {
+			if (_loop_personalColors_expire < new Date().getTime()) {
+				clearInterval(_loop_personalColors);
+			}
+
+			$personalColors.parentNode && $personalColors.parentNode.appendChild($personalColors);
+		});
+	}
 }

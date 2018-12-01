@@ -1,375 +1,183 @@
 "use strict";
 
 window.performanceStartTiming = performance.now();
-
 import _System from "../../controllers/System";
-import ext from "../../utils/ext";
-import MakeExpire from "../../helpers/MakeExpire";
-import WaitForFn from "../../helpers/WaitForFn";
-import Inject2body from "../../helpers/Inject2body";
+import WaitForObject from "../../helpers/WaitForObject";
+import InjectToBody from "../../helpers/InjectToBody";
 import Storage from "../../helpers/extStorage";
+import storage from "../../helpers/_extStorage";
 import themeColorChanger from "../../helpers/themeColorChanger";
 import messagesLayoutExtender from "../../helpers/messagesLayoutExtender";
-import Request from "../../controllers/Request";
 import renderExtraItemsForModerationPanel from "./_/ExtraItemsForModerationPanel"
 import renderAnnouncements from "../../components/Announcements"
 import renderChatPanel from "../../components/ChatPanel"
-import { Auth } from "../../controllers/ActionsOfServer"
-import { getAllFriends, getAllModerators } from "../../controllers/ActionsOfBrainly"
+import { Auth } from "../../controllers/ActionsOfServer";
+import { getAllModerators } from "../../controllers/ActionsOfBrainly"
 import PrepareDeleteReasons from "../../controllers/PrepareDeleteReasons"
-import Notification from "../../components/Notification";
-import renderHalloween from "./_/Halloween";
+import notification from "../../components/Notification";
+import SetMetaData from "./_/SetMetaData";
+import SetUserData from "./_/SetUserData";
+import SetBrainlyData from "./_/SetBrainlyData";
+import fetchFriends from "./_/fetchFriends";
+import "../../helpers/preventConsolePreventer";
 
 let System = new _System();
 window.System = System;
 
 System.init();
 
-/**
- * Preventing the Console method preventer
- */
-window.Console = console;
-let _loopConsole_expire = MakeExpire();
-let _loopConsole = setInterval(() => {
-	if (_loopConsole_expire < new Date().getTime()) {
-		clearInterval(_loopConsole);
-	}
-	console = Console;
-});
+main();
 
-let setMetaData = callback => {
-	let extension_URL = new URL(document.currentScript.src);
-	System.data.meta = {
-		marketTitle: document.title,
-		extension: {
-			id: extension_URL.host,
-			URL: extension_URL.origin
-		}
-	}
-	/**
-	 * Get and prepare the meta data requested from contentscript.js 
-	 */
-	var evtMetaGet = new Event("metaGet", { "bubbles": true, "cancelable": false });
-	document.dispatchEvent(evtMetaGet);
-	window.addEventListener('message', e => {
-		if (e.data.action == "metaSet") {
-			window.System.data.meta = { ...window.System.data.meta, ...e.data.data }
-			callback && callback();
-		}
-		if (e.data.action == "shareGatheredData2Background") {
-			PrepareDeleteReasons(() => {
-				System.shareGatheredData2Background(() => {
-					var evtSharingDone = new Event("shareGatheredData2BackgroundDone", { "bubbles": true, "cancelable": false });
-					document.dispatchEvent(evtSharingDone);
-				});
-			});
-		}
-	});
-}
+async function main() {
+	await SetMetaData();
+	let resUserData = await SetUserData();
+	Console.info("SetUserData OK!");
 
-/*window.addEventListener('message', e => {
-	if (e.data.action == "shareGatheredData2Background") {
-		console.log("contentscript ile paylaş", e.data);
-		PrepareDeleteReasons(() => {
-			System.shareGatheredData2Background(() => {
-				console.log("background ile paylaşıldı");
-				ext.runtime.sendMessage(System.data.meta.extension.id, { action: "shareGatheredData2Background" }, res => {});
-			});
-		});
-	}
-});*/
-let processDefaultConfig = (callback) => {
-	WaitForFn("Routing", obj => {
-		if (obj && obj.b && obj.b.prefix && obj.d && obj.d.c) {
-			System.data.Brainly.defaultConfig = window.__default_config;
-			System.data.Brainly.defaultConfig.user.ME = JSON.parse(System.data.Brainly.defaultConfig.user.ME);
-			System.data.Brainly.Routing.prefix = obj.b.prefix;
-			System.data.Brainly.Routing.routes = obj.d.c;
-			localStorage.setObject("_Routing", System.data.Brainly.Routing);
-			localStorage.setObject("__default_config", System.data.Brainly.defaultConfig);
-			callback && callback();
-		} else {
-			Console.log("Routing error", obj);
-		}
-	})
-}
+	themeColorChanger(resUserData.themeColor || "#57b2f8");
+	messagesLayoutExtender(resUserData.extendMessagesLayout || false);
+	System.data.Brainly.userData = resUserData.user;
 
-/**
- * Fetch and prepare __default_config
- * @param {function} callback 
- */
-let fetchDefaultConfig = callback => {
-	Request.get("/question/add", res => {
-		if (res && res != "") {
-			let matchConfig = (/(\{\s{1,}.*[\S\s]*\}\s{1,}\}\;)\s{1,}\<\/script/gmi).exec(res);
-			let matchSecondConfig = (/\.config \= (.*)\;/gmi).exec(res);
-			let matchAuthJSFile = res.match(/(\/sf\/js\/bundle\/include_auth\_[a-z\_\-]{1,}\-[a-z0-9]{1,}\.min\.js)/gmi);
+	await SetBrainlyData();
+	Console.info("SetBrainlyData OK!");
 
-			if (!matchConfig || matchConfig.length < 2) {
-				Console.error("Config object not found");
-			} else if (!matchSecondConfig || matchSecondConfig.length < 2) {
-				Console.error("Second config object not found");
-			} else if (!matchAuthJSFile || matchAuthJSFile.length < 1) {
-				Console.error("Auth JS file not found");
-			} else {
-				System.data.Brainly.defaultConfig = new Function(`return ${matchConfig[matchConfig.length - 1]}`)();
-				System.data.Brainly.defaultConfig.user.ME = JSON.parse(System.data.Brainly.defaultConfig.user.ME);
-				System.data.Brainly.defaultConfig.config = JSON.parse(matchSecondConfig[matchSecondConfig.length - 1]);
-				System.data.Brainly.defaultConfig.config.data.ranksWithId = {};
-				System.data.Brainly.defaultConfig.config.data.ranksWithName = {};
-				for (let i = 0, rank;
-					(rank = System.data.Brainly.defaultConfig.config.data.ranks[i]); i++) {
-					System.data.Brainly.defaultConfig.config.data.ranksWithId[rank.id] = {
-						name: rank.name,
-						color: rank.color,
-						type: rank.type,
-					};
-					System.data.Brainly.defaultConfig.config.data.ranksWithName[rank.name] = {
-						name: rank.name,
-						color: rank.color,
-						type: rank.type,
-					};
-				}
-				window.defaultConfig = System.data.Brainly.defaultConfig;
-				localStorage.setObject("__default_config", System.data.Brainly.defaultConfig);
+	System.data.meta.storageKey = System.data.meta.marketName + "_" + ((window.dataLayer && window.dataLayer.length > 0 && window.dataLayer[0].user.id) || System.data.Brainly.userData.user.id);
 
-				Request.get(matchAuthJSFile[matchAuthJSFile.length - 1], res1 => {
-					let matchRoutes = res1.match(/(routes:.*scheme\:\"http\")/gmi);
-					if (!matchRoutes || matchRoutes.length < 1) {
-						Console.error("Routes not found", res1);
-					} else {
-						let _Routing = new Function(`return {${matchRoutes[matchRoutes.length - 1]}}`)();
-						System.data.Brainly.Routing.prefix = _Routing.prefix;
-						System.data.Brainly.Routing.routes = _Routing.routes;
+	let configData = await InjectToBody(`/config/${location.hostname}.json`);
+	System.data.config.marketConfig = configData;
 
-						localStorage.setObject("_Routing", System.data.Brainly.Routing);
-						callback && callback();
-					}
-				});
-			}
-		}
-	});
-}
+	let language = await storage("get", "language");
 
-/**
- * Get and set [Routing, __default_config] from storage or fetching from Brainly
- * @param {function} callback 
- */
-let setBrainlyData = callback => {
-	let localRouting = localStorage.getObject("_Routing");
-	let __default_config = localStorage.getObject("__default_config");
-	if (localRouting && __default_config) {
-		System.data.Brainly.Routing = localRouting;
-		window.defaultConfig = System.data.Brainly.defaultConfig = __default_config;
-		callback && callback();
-		if (document.head.innerHTML.match(/__default_config/gmi)) {
-			processDefaultConfig()
-		} else {
-			fetchDefaultConfig();
-		}
-	} else if (document.head.innerHTML.match(/__default_config/gmi)) {
-		processDefaultConfig(callback)
-	} else {
-		fetchDefaultConfig(callback);
-	}
-}
-let fetchUserData = (callback) => {
-	var url = "/api/28/api_users/me";
-	var xhr = new XMLHttpRequest()
-	xhr.open('GET', url, true)
-	xhr.onload = function() {
-		var json = JSON.parse(xhr.responseText);
-		if (xhr.readyState == 4 && xhr.status == "200") {
-			if (json.success && json.success == true) {
-				//System.data.Brainly.userData = json.data;
-				Storage.set({ user: json.data }, function() {
-					callback && callback({ user: json.data });
-				});
-			} else
-				Console.log("User has not signed in yet");
-		} else {
-			Console.error(json);
-		}
-	}
-	xhr.send(null);
-}
-let setUserData = (callback) => {
-	WaitForFn("window.dataLayer", obj => {
-		if (obj && obj[0] && obj[0].user && obj[0].user.isLoggedIn) {
-			Storage.get(["user", "themeColor", "extendMessagesLayout"], res => {
-				if (res && res.user && res.user.user && res.user.user.id && res.user.user.id == obj[0].user.id) {
-					callback && callback(res);
-					fetchUserData();
-				} else {
-					fetchUserData(callback, true);
-				}
-			});
-		} else {
-			Console.error("User data error. Maybe not logged in", obj);
-		}
-	});
-};
+	if (!language) {
+		language = System.data.Brainly.defaultConfig.locale.LANGUAGE;
 
-let fetchFriends = callback => {
-	getAllFriends(res => {
-		if (!res) {
-			Console.error("I couldn't fetch user's friends from Brainly");
+		if (!language) {
+			console.log("Language cannot be saved in storage. Probably a defaultConfig error");
 
 			return false;
 		}
 
-		System.friends = res;
+		Storage.set({ language });
+	}
 
-		callback && callback();
-	});
-};
-let CheckForNewUpdate = () => {
+	let localeData = await System.prepareLangFile(language);
+	System.data.locale = localeData;
+
+	Console.info("Locale inject OK!");
+
+	await System.shareGatheredData2Background();
+	console.log("Data shared with background services OK!");
+
+	let hash = await Auth();
+	Console.info("authProcess OK!");
+	System.data.Brainly.userData._hash = hash;
+
+	System.toBackground("notifierInit", true);
+
 	if (System.data.Brainly.userData.extension.newUpdate) {
+		notification(System.data.locale.core.notificationMessages.updateNeeded, "info", true);
 		System.updateExtension();
+	} else {
+		/**
+		 * Wait for the declaration of the jQuery object
+		 */
+		await WaitForObject("jQuery");
+		Console.info("Jquery OK!");
+
+		/*let _date = new Date();
+		if (_date.getMonth() == 9 && _date.getDate() == 31) {
+			renderHalloween();
+		}*/
+
+		renderExtraItemsForModerationPanel();
+		renderAnnouncements();
+		renderChatPanel();
+		initAfter_FriendsLoaded();
+		initAfter_DeleteReasonsLoaded();
+		//initAfter_FriendsLoaded_DeleteReasonsLoaded();
+
+		if (System.checkRoute(2, "view_user_warns")) {
+			InjectToBody([
+				"/scripts/views/7-UserWarnings/index.js",
+				System.data.Brainly.style_guide.css,
+				"/styles/pages/UserWarnings.css",
+				"/styles/pages/oldLayoutFixes.css"
+			]);
+		}
+
+		if (System.checkRoute(2, "supervisors")) {
+			InjectToBody([
+				"/scripts/views/8-Supervisors/index.js",
+				System.data.Brainly.style_guide.css,
+				"/styles/pages/Supervisors.css",
+				"/styles/pages/oldLayoutFixes.css"
+			]);
+		}
 	}
 }
 
-setMetaData(() => {
-	Console.info("MetaData OK!");
-	setUserData((resUserData) => {
-		Console.info("setUserData OK!");
+async function initAfter_FriendsLoaded() {
+	await fetchFriends();
+	Console.info("Fetching friends OK!");
 
-		themeColorChanger(resUserData.themeColor || "#57b2f8");
-		messagesLayoutExtender(resUserData.extendMessagesLayout || false);
-		System.data.Brainly.userData = resUserData.user;
+	if (System.checkRoute(1, "messages")) {
+		getAllModerators();
+		InjectToBody([
+			"/scripts/lib/jquery-observe-2.0.3.min.js",
+			"/scripts/lib/jquery-ui.min.js",
+			"/scripts/views/2-Messages/index.js",
+			"/styles/pages/Messages.css"
+		]);
+	}
 
-		setBrainlyData(() => {
-			Console.info("setBrainlyData OK!");
+	if (System.checkRoute(1, "user_profile") || (System.checkRoute(1, "users") && System.checkRoute(2, "view"))) {
+		InjectToBody([
+			"/scripts/views/5-UserProfile/index.js",
+			System.data.Brainly.style_guide.css,
+			"/styles/pages/UserProfile.css",
+			"/styles/pages/oldLayoutFixes.css"
+		]);
+	}
+}
 
-			//let authHash = System.data.Brainly.defaultConfig.comet.AUTH_HASH || System.data.Brainly.defaultConfig.user.ME.auth.comet.authHash;
-			//Storage.set({ notifier: authHash });
+async function initAfter_DeleteReasonsLoaded() {
+	await PrepareDeleteReasons();
+	Console.info("Delete reasons OK!");
 
-			Inject2body(`/config/${location.hostname}.json`, configData => {
-				System.data.config.marketConfig = configData;
+	if (System.checkRoute(1, "") || System.checkRoute(1, "task_subject_dynamic")) {
+		InjectToBody([
+			"/scripts/lib/jquery-observe-2.0.3.min.js",
+			"/scripts/views/1-Home/index.js",
+			"/styles/pages/Home.css"
+		])
+	}
 
-				Storage.get("language", language => {
-					if (!language) {
-						language = System.data.Brainly.defaultConfig.locale.LANGUAGE;
+	if (System.checkRoute(1, "task_view")) {
+		InjectToBody([
+			"/scripts/lib/jquery-observe-2.0.3.min.js",
+			"/scripts/views/3-Task/index.js",
+			"/styles/pages/Task.css"
+		])
+	}
 
-						Storage.set({ language });
-					}
+	if (System.checkRoute(2, "user_content")) {
+		InjectToBody([
+			"/scripts/views/4-UserContent/index.js",
+			System.data.Brainly.style_guide.css,
+			"/styles/pages/UserContent.css",
+			"/styles/pages/oldLayoutFixes.css"
+		])
+	}
 
-					System.prepareLangFile(language, localeData => {
-						System.data.locale = localeData;
+	if (System.checkRoute(2, "archive_mod")) {
+		InjectToBody([
+			"/scripts/lib/jquery-observe-2.0.3.min.js",
+			"/scripts/views/6-ArchiveMod/index.js",
+			System.data.Brainly.style_guide.css,
+			System.data.Brainly.style_guide.icons,
+			"/styles/pages/ArchiveMod.css",
+			"/styles/pages/oldLayoutFixes.css"
+		])
+	}
+}
 
-						Console.info("Locale inject OK!");
-						System.shareGatheredData2Background(() => {
-							Auth((hash) => {
-								System.data.Brainly.userData._hash = hash;
-
-								Console.info("authProcess OK!");
-								CheckForNewUpdate();
-								System.toBackground("notifierInit", true);
-
-								if (System.data.Brainly.userData.extension.newUpdate) {
-									Notification(System.data.locale.core.notificationMessages.updateNeeded, "info", true);
-								} else {
-									/**
-									 * Wait for the declaration of the jQuery object
-									 */
-									WaitForFn("jQuery", obj => {
-										if (!obj) {
-											Console.error("Jquery error");
-										} else {
-											Console.info("Jquery OK!");
-											System.changeBadgeColor("loaded");
-
-											/*let _date = new Date();
-											if (_date.getMonth() == 9 && _date.getDate() == 31) {
-												renderHalloween();
-											}*/
-
-											renderExtraItemsForModerationPanel();
-											renderAnnouncements();
-											renderChatPanel();
-											PrepareDeleteReasons(() => {
-												Console.info("Delete reasons OK!");
-
-												if (System.checkRoute(1, "") || System.checkRoute(1, "task_subject_dynamic")) {
-													Inject2body([
-														"/scripts/lib/jquery-observe-2.0.3.min.js",
-														"/scripts/views/1-Home/index.js",
-														"/styles/pages/Home.css"
-													])
-												}
-
-												if (System.checkRoute(1, "task_view")) {
-													Inject2body([
-														"/scripts/lib/jquery-observe-2.0.3.min.js",
-														"/scripts/views/3-Task/index.js",
-														"/styles/pages/Task.css"
-													])
-												}
-
-												if (System.checkRoute(2, "user_content")) {
-													Inject2body([
-														"/scripts/views/4-UserContent/index.js",
-														System.data.Brainly.style_guide.css,
-														"/styles/pages/UserContent.css"
-													])
-												}
-
-												if (System.checkRoute(2, "archive_mod")) {
-													Inject2body([
-														"/scripts/lib/jquery-observe-2.0.3.min.js",
-														"/scripts/views/6-ArchiveMod/index.js",
-														System.data.Brainly.style_guide.css,
-														System.data.Brainly.style_guide.icons,
-														"/styles/pages/ArchiveMod.css"
-													])
-												}
-											});
-
-											if (System.checkRoute(1, "messages")) {
-												getAllModerators();
-												fetchFriends(() => {
-													Inject2body([
-														"/scripts/lib/jquery-observe-2.0.3.min.js",
-														"/scripts/lib/jquery-ui.min.js",
-														"/scripts/views/2-Messages/index.js",
-														"/styles/pages/Messages.css"
-													]);
-												});
-											}
-
-											if (System.checkRoute(1, "user_profile") || (System.checkRoute(1, "users") && System.checkRoute(2, "view"))) {
-												fetchFriends(() => {
-													Inject2body([
-														"/scripts/views/5-UserProfile/index.js",
-														System.data.Brainly.style_guide.css,
-														"/styles/pages/UserProfile.css"
-													]);
-												});
-											}
-
-											if (System.checkRoute(2, "view_user_warns")) {
-												Inject2body([
-													"/scripts/views/7-UserWarnings/index.js",
-													System.data.Brainly.style_guide.css,
-													"/styles/pages/UserWarnings.css"
-												]);
-											}
-
-											if (System.checkRoute(2, "supervisors")) {
-												Inject2body([
-													"/scripts/views/8-Supervisors/index.js",
-													System.data.Brainly.style_guide.css,
-													"/styles/pages/Supervisors.css"
-												]);
-											}
-										}
-									});
-								}
-							});
-						});
-					});
-				});
-			});
-		});
-	});
-});
+function initAfter_FriendsLoaded_DeleteReasonsLoaded() {}

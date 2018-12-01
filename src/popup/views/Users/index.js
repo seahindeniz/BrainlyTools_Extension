@@ -1,67 +1,57 @@
 "use strict";
 
 import { GetUsers, PutUser } from "../../../scripts/controllers/ActionsOfServer";
-import { getUserByID } from "../../../scripts/controllers/ActionsOfBrainly";
-import Request from "../../../scripts/controllers/Request";
+import { getUserByID2 } from "../../../scripts/controllers/ActionsOfBrainly";
 import usersNodes from "./usersNodes";
-import Notification from "../../components/Notification";
+import notification from "../../components/Notification";
 
 window.fetchedUsers = {};
-const refreshUserAvatar = (user, elm) => {
-	let avatar = System.prepareAvatar(user);
 
-	if (avatar) {
-		$(`a[data-user-id="${user.id}"]`, elm).each((i, el) => {
-			let $img = $("img.avatar", el);
-			$img.attr("src", avatar);
-			el.href = System.createProfileLink(user.nick, user.id);
-			!el.title && (el.title = user.nick);
-		});
+function refreshUserAvatar(user, elm) {
+	if (user) {
+		let avatar = System.prepareAvatar(user);
+		if (avatar) {
+			$(`a[data-user-id="${user.id}"]`, elm).each((i, el) => {
+				let $img = $("img.avatar", el);
+				$img.attr("src", avatar);
+				el.href = System.createProfileLink(user.nick, user.id);
+				!el.title && (el.title = user.nick);
+			});
+		}
 	}
 };
-const refreshUsers = (elm) => {
+
+async function fetchUser(brainlyID, elm) {
+	let resUser = await getUserByID2(brainlyID);
+
+	if (resUser.success) {
+		window.fetchedUsers[brainlyID].brainlyData = resUser.data;
+
+		refreshUserAvatar(resUser.data, elm);
+	} else {
+		notification(brainlyID + ">" + (resUser.message || ""), "warning");
+	}
+}
+
+function refreshUsers(elm) {
 	Object.keys(window.fetchedUsers).forEach(brainlyID => {
 		if (window.fetchedUsers[brainlyID].brainlyData) {
 			refreshUserAvatar(window.fetchedUsers[brainlyID].brainlyData, elm);
 		} else {
-			getUserByID(brainlyID, res => {
-				window.fetchedUsers[brainlyID].brainlyData = res.data;
-				refreshUserAvatar(res.data, elm);
-			});
+			fetchUser(brainlyID, elm);
 		}
 	});
 };
 
-const Users = (callback) => {
-	let $usersLayout = $(`
-	<div id="users" class="column is-narrow">
-		<article class="message is-warning">
-			<div class="message-header" title="${System.data.locale.popup.extensionManagement.users.title}">
-				<p>${System.data.locale.popup.extensionManagement.users.text}</p>
-			</div>
-			<div class="message-body">
-				<article class="media">
-					<nav class="level">
-						<div class="level-left"></div>
-					</nav>
-				</article>
-				<p class="help">${System.data.locale.popup.extensionManagement.users.explainingColors.line1}</br></br>
-				${System.data.locale.popup.extensionManagement.users.explainingColors.line2.replace(/<s>(.*)<\/s>/, '<b style="color:#f00">$1</b>')}</br>
-				${System.data.locale.popup.extensionManagement.users.explainingColors.line3.replace(/<s>(.*)<\/s>/, '<b style="color:#fc0">$1</b>')}</br>
-				${System.data.locale.popup.extensionManagement.users.explainingColors.line4.replace(/<s>(.*)<\/s>/, '<b style="color:#0f0">$1</b>')}</br>
-				${System.data.locale.popup.extensionManagement.users.explainingColors.line5.replace(/<s>(.*)<\/s>/, '<b>$1</b>')}</p>
-			</div>
-		</article>
-	</div>`);
+async function prepareUsers($usersLayout) {
+	let resUsers = await GetUsers();
 
-	callback($usersLayout);
-
-	GetUsers(res => {
+	if (resUsers) {
 		let $usersListContainer = $(".message-body > article.media", $usersLayout);
 		let $level = $(".level > .level-left", $usersListContainer);
 
-		if (res.success && res.data) {
-			let $usersNodes = usersNodes(res.data);
+		if (resUsers.success && resUsers.data) {
+			let $usersNodes = usersNodes(resUsers.data);
 			$level.append($usersNodes);
 			refreshUsers($level);
 		}
@@ -192,7 +182,7 @@ const Users = (callback) => {
 		/**
 		 * User search input
 		 */
-		$idInput.on("input", function() {
+		$idInput.on("input", async function() {
 			if (!this.value && !(this.value.length > 0)) {
 				hideItems();
 			} else {
@@ -205,21 +195,21 @@ const Users = (callback) => {
 						if (window.fetchedUsers[id] && window.fetchedUsers[id].brainlyData) {
 							processUser(window.fetchedUsers[id].brainlyData);
 						} else {
-							Request.BrainlyAPI("GET", `/api_users/get/${id}`, (res) => {
-								if (res.success && res.data) {
-									window.fetchedUsers[id] = {
-										nick: res.data.nick,
-										brainlyID: res.data.id,
-										brainlyData: null
-									};
-									window.fetchedUsers[id].brainlyData = res.data;
+							let resUser = await getUserByID2(id);
+							
+							if (resUser.success && resUser.data) {
+								window.fetchedUsers[id] = {
+									nick: resUser.data.nick,
+									brainlyID: resUser.data.id,
+									brainlyData: null
+								};
+								window.fetchedUsers[id].brainlyData = resUser.data;
 
-									processUser(res.data);
-								} else {
-									Notification(System.data.locale.popup.notificationMessages.cannotFindUser, "danger");
-									hideItems();
-								}
-							});
+								processUser(resUser.data);
+							} else {
+								notification(System.data.locale.popup.notificationMessages.cannotFindUser, "danger");
+								hideItems();
+							}
 						}
 					}
 				}
@@ -229,7 +219,7 @@ const Users = (callback) => {
 		/**
 		 * Action buttons handling
 		 */
-		$addNewBox.on("click", ".media-right > a", function(e) {
+		$addNewBox.on("click", ".media-right > a", async function(e) {
 			e.preventDefault();
 
 			let that = $(this);
@@ -241,15 +231,15 @@ const Users = (callback) => {
 				let id = $idInput.val().replace(/.*\-/gi, "");
 
 				if (!id || id == "") {
-					Notification("I need an ID number so I can process", "danger");
+					notification("I need an ID number so I can process", "danger");
 				} else if (!(~~id > 0)) {
-					Notification("Unvalid ID number range", "danger");
+					notification("Unvalid ID number range", "danger");
 				} else {
 					let privileges = $("input:checked", $privilegesContainer).map((i, el) => ~~(el.id.replace("p-", ""))).get();
 					let user = window.fetchedUsers[id];
 
 					if (!user) {
-						Notification(System.data.locale.popup.notificationMessages.cannotFindUser, "danger");
+						notification(System.data.locale.popup.notificationMessages.cannotFindUser, "danger");
 					} else {
 						let approved = $permission.prop("checked");
 						let data = {
@@ -260,35 +250,61 @@ const Users = (callback) => {
 						};
 						//console.log(data);
 
-						PutUser(data, res => {
-							//console.log(res);
-							if (!res) {
-								Notification(System.data.locale.common.notificationMessages.operationError, "danger");
+						let resUser = await PutUser(data);
+
+						if (!resUser) {
+							notification(System.data.locale.common.notificationMessages.operationError, "danger");
+						} else {
+							if (!resUser.success) {
+								notification((resUser.message || System.data.locale.common.notificationMessages.operationError), "danger");
 							} else {
-								if (!res.success) {
-									Notification((res.message || System.data.locale.common.notificationMessages.operationError), "danger");
-								} else {
-									Notification(System.data.locale.common.allDone, "success");
+								notification(System.data.locale.common.allDone, "success");
 
-									$("#" + res.data._id, $level).parent().remove();
-									user._id = res.data._id;
-									user.approved = approved;
-									$level.prepend(usersNodes(user));
-									refreshUsers($level);
+								$("#" + resUser.data._id, $level).parent().remove();
+								user._id = resUser.data._id;
+								user.approved = approved;
+								$level.prepend(usersNodes(user));
+								refreshUsers($level);
 
-									$('html, body').animate({
-										scrollTop: $("#" + res.data._id).offset().top
-									}, 1000);
+								$('html, body').animate({
+									scrollTop: $("#" + resUser.data._id).offset().top
+								}, 1000);
 
-									hideItems(true);
-								}
+								hideItems(true);
 							}
-						});
+						}
 					}
 				}
 			}
 		});
-	});
+	}
+}
+
+function Users() {
+	let $usersLayout = $(`
+	<div id="users" class="column is-narrow">
+		<article class="message is-warning">
+			<div class="message-header" title="${System.data.locale.popup.extensionManagement.users.title}">
+				<p>${System.data.locale.popup.extensionManagement.users.text}</p>
+			</div>
+			<div class="message-body">
+				<article class="media">
+					<nav class="level">
+						<div class="level-left"></div>
+					</nav>
+				</article>
+				<p class="help">${System.data.locale.popup.extensionManagement.users.explainingColors.line1}</br></br>
+				${System.data.locale.popup.extensionManagement.users.explainingColors.line2.replace(/<s>(.*)<\/s>/, '<b style="color:#f00">$1</b>')}</br>
+				${System.data.locale.popup.extensionManagement.users.explainingColors.line3.replace(/<s>(.*)<\/s>/, '<b style="color:#fc0">$1</b>')}</br>
+				${System.data.locale.popup.extensionManagement.users.explainingColors.line4.replace(/<s>(.*)<\/s>/, '<b style="color:#0f0">$1</b>')}</br>
+				${System.data.locale.popup.extensionManagement.users.explainingColors.line5.replace(/<s>(.*)<\/s>/, '<b>$1</b>')}</p>
+			</div>
+		</article>
+	</div>`);
+
+	prepareUsers($usersLayout);
+
+	return $usersLayout;
 };
 
 export default Users

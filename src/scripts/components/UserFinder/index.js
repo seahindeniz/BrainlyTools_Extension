@@ -76,34 +76,34 @@ const UserFinder = $seperator => {
 		$userList.removeClass("js-hidden");
 
 		clearTimeout(delayTimer);
-		
+
 		if (!value || value == "") {
 			$userList.attr("data-placeholder", "");
 			$userList.addClass("js-hidden");
 		} else {
-			delayTimer = setTimeout(() => {
+			delayTimer = setTimeout(async () => {
 				if (isPosInt(value)) {
-					getUserByID(value, res => {
-						if (!res || !res.success || !res.data) {
-							$userList.attr("data-placeholder", System.data.locale.core.notificationMessages.userNotFound);
-						} else {
-							let ranks = [];
-							let avatar = System.prepareAvatar(res.data);
-							let buddyUrl = System.createBrainlyLink("profile", { nick: res.data.nick, id: res.data.id });
+					let user = await getUserByID(value);
 
-							res.data.ranks_ids.forEach(rankId => {
-								ranks.push(System.data.Brainly.defaultConfig.config.data.ranksWithId[rankId]);
-							});
+					if (!user || !user.success || !user.data) {
+						$userList.attr("data-placeholder", System.data.locale.core.notificationMessages.userNotFound);
+					} else {
+						let ranks = [];
+						let avatar = System.prepareAvatar(user.data);
+						let buddyUrl = System.createBrainlyLink("profile", { nick: user.data.nick, id: user.data.id });
 
-							userLi({
-								id: res.data.id,
-								nick: res.data.nick,
-								avatar,
-								buddyUrl,
-								ranks
-							});
-						}
-					});
+						user.data.ranks_ids.forEach(rankId => {
+							ranks.push(System.data.Brainly.defaultConfig.config.data.ranksWithId[rankId]);
+						});
+
+						userLi({
+							id: user.data.id,
+							nick: user.data.nick,
+							avatar,
+							buddyUrl,
+							ranks
+						});
+					}
 				}
 
 				findUser(value, res => {

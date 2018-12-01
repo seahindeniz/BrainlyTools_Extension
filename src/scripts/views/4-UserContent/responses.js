@@ -2,15 +2,15 @@
 
 import { RemoveAnswer, ApproveAnswer, UnapproveAnswer } from "../../controllers/ActionsOfBrainly";
 import DeleteSection from "../../components/DeleteSection";
-import Notification from "../../components/Notification";
+import notification from "../../components/Notification";
 
 let selectors = window.selectors,
 	$moderateActions = window.$moderateActions;
 
-//WaitForElm('#content-old > div > div > table > tbody > tr:nth-child(1) > td', () => {
 let $contentRows = $(selectors.contentRows);
 let $tableContentBody = $(selectors.tableContentBody);
 let isPageProcessing = false;
+
 window.onbeforeunload = function() {
 	if (isPageProcessing) {
 		return System.data.locale.common.notificationMessages.ongoingProcess;
@@ -51,18 +51,18 @@ if (System.checkUserP(6) && System.checkBrainlyP(146)) {
 
 	$("button.approve", $btnApprove).click(function() {
 		if (isPageProcessing) {
-			Notification(System.data.locale.common.notificationMessages.ongoingProcessWait, "error");
+			notification(System.data.locale.common.notificationMessages.ongoingProcessWait, "error");
 		} else {
 			let $checkedContentSelectCheckboxes = $('tr:not(.approved) input[type="checkbox"]:checked:not([disabled])', $tableContentBody);
 			let $alreadyApproved = $('tr.approved input[type="checkbox"]:checked:not([disabled])', $tableContentBody);
 
 			if ($alreadyApproved.length > 0) {
 				$alreadyApproved.prop("checked", false);
-				Notification(System.data.locale.common.moderating.notificationMessages.someOfSelectedAnswersAreApproved, "info");
+				notification(System.data.locale.common.moderating.notificationMessages.someOfSelectedAnswersAreApproved, "info");
 			}
 
 			if ($checkedContentSelectCheckboxes.length == 0) {
-				Notification(System.data.locale.common.moderating.notificationMessages.selectAnUnapprovedAnswerForApproving, "info");
+				notification(System.data.locale.common.moderating.notificationMessages.selectAnUnapprovedAnswerForApproving, "info");
 			} else {
 				if (confirm(System.data.locale.common.moderating.notificationMessages.confirmApproving)) {
 					let $progressBarContainer = $("#approveProgress", $moderateActions);
@@ -93,26 +93,28 @@ if (System.checkUserP(6) && System.checkBrainlyP(146)) {
 							isPageProcessing = false;
 						}
 					}
-
-					$checkedContentSelectCheckboxes.each(function() {
-						let $parentRow = $(this).parents("tr");
+					let approveIt = async function(that) {
+						let $parentRow = $(that).parents("tr");
 						let rowNumber = ~~($(">td:eq(1)", $parentRow).text());
 						let responseId = $parentRow.data("responseid");
+						let res = await ApproveAnswer(responseId);
 
-						ApproveAnswer(responseId, res => {
-							updateCounter();
+						updateCounter();
 
-							if (!res) {
-								Notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
-							} else {
-								if (!res.success) {
-									Notification("#" + rowNumber + " > " + (res.message || System.data.locale.userContent.notificationMessages.alreadyApproved), "error");
-									$parentRow.addClass("already");
-								}
-								$(`<span class="approved">🗸</span>`).insertBefore($("> td > a", $parentRow));
-								$parentRow.addClass("approved");
+						if (!res) {
+							notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
+						} else {
+							if (!res.success) {
+								notification("#" + rowNumber + " > " + (res.message || System.data.locale.userContent.notificationMessages.alreadyApproved), "error");
+								$parentRow.addClass("already");
 							}
-						});
+							$(`<span class="approved">🗸</span>`).insertBefore($("> td > a", $parentRow));
+							$parentRow.addClass("approved");
+						}
+					};
+
+					$checkedContentSelectCheckboxes.each(function() {
+						approveIt(this);
 					});
 
 				}
@@ -121,18 +123,18 @@ if (System.checkUserP(6) && System.checkBrainlyP(146)) {
 	});
 	$("button.unapprove", $btnApprove).click(function() {
 		if (isPageProcessing) {
-			Notification(System.data.locale.common.notificationMessages.ongoingProcessWait, "error");
+			notification(System.data.locale.common.notificationMessages.ongoingProcessWait, "error");
 		} else {
 			let $unapprovedContents = $('tr:not(.approved) input[type="checkbox"]:checked:not([disabled])', $tableContentBody);
 			let $approvedContents = $('tr.approved input[type="checkbox"]:checked:not([disabled])', $tableContentBody);
 
 			if ($unapprovedContents.length > 0) {
 				$unapprovedContents.prop("checked", false);
-				Notification(System.data.locale.common.moderating.notificationMessages.someOfSelectedAnswersAreUnapproved, "info");
+				notification(System.data.locale.common.moderating.notificationMessages.someOfSelectedAnswersAreUnapproved, "info");
 			}
 
 			if ($approvedContents.length == 0) {
-				Notification(System.data.locale.common.moderating.notificationMessages.selectAnApprovedAnswerForUnapproving, "info");
+				notification(System.data.locale.common.moderating.notificationMessages.selectAnApprovedAnswerForUnapproving, "info");
 			} else {
 				if (confirm(System.data.locale.common.moderating.notificationMessages.confirmUnapproving)) {
 					let $progressBarContainer = $("#approveProgress", $moderateActions);
@@ -163,27 +165,29 @@ if (System.checkUserP(6) && System.checkBrainlyP(146)) {
 							isPageProcessing = false;
 						}
 					}
-
-					$approvedContents.each(function() {
-						let $parentRow = $(this).parents("tr");
+					let unapproveIt = async that => {
+						let $parentRow = $(that).parents("tr");
 						let rowNumber = ~~($(">td:eq(1)", $parentRow).text());
 						let responseId = $parentRow.data("responseid");
 
-						UnapproveAnswer(responseId, res => {
-							updateCounter();
+						let res = await UnapproveAnswer(responseId);
+						updateCounter();
 
-							if (!res) {
-								Notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
-							} else {
-								if (!res.success) {
-									Notification("#" + rowNumber + " > " + (res.message || System.data.locale.userContent.notificationMessages.alreadyUnapproved), "error");
-									//$parentRow.addClass("already");
-								}
-
-								$("span.approved", $parentRow).remove();
-								$parentRow.removeClass("approved already");
+						if (!res) {
+							notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
+						} else {
+							if (!res.success) {
+								notification("#" + rowNumber + " > " + (res.message || System.data.locale.userContent.notificationMessages.alreadyUnapproved), "error");
+								//$parentRow.addClass("already");
 							}
-						});
+
+							$("span.approved", $parentRow).remove();
+							$parentRow.removeClass("approved already");
+						}
+					};
+
+					$approvedContents.each(function() {
+						unapproveIt(this);
 					});
 
 				}
@@ -222,7 +226,7 @@ System.checkUserP(2, () => {
 
 	$submit.click(function() {
 		if (isPageProcessing) {
-			Notification(System.data.locale.common.notificationMessages.ongoingProcessWait, "error");
+			notification(System.data.locale.common.notificationMessages.ongoingProcessWait, "error");
 		} else {
 			let $checkedContentSelectCheckboxes = $('input[type="checkbox"]:checked:not([disabled])', $tableContentBody);
 			let $selectAResponse_warning = $(".selectAResponse_warning", $moderateActions);
@@ -275,9 +279,8 @@ System.checkUserP(2, () => {
 						}
 
 						let idList = [];
-
-						$checkedContentSelectCheckboxes.each(function(i) {
-							let $parentRow = $(this).parents("tr");
+						let removeIt = async that => {
+							let $parentRow = $(that).parents("tr");
 							let rowNumber = ~~($(">td:eq(1)", $parentRow).text());
 							let responseId = $parentRow.data("responseid");
 							let responseData = {
@@ -289,22 +292,26 @@ System.checkUserP(2, () => {
 							};
 
 							idList.push(responseId);
+							
+							let res = await RemoveAnswer(responseData);
 
-							RemoveAnswer(responseData, res => {
-								if (!res) {
-									Notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
-									updateCounter();
-								} else {
-									if (!res.success && res.message) {
-										Notification("#" + rowNumber + " > " + res.message, "error");
-										$parentRow.addClass("already");
-									}
-
-									$(this).attr("disabled", "disabled")
-									$parentRow.addClass("removed");
-									updateCounter();
+							if (!res) {
+								notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
+								updateCounter();
+							} else {
+								if (!res.success && res.message) {
+									notification("#" + rowNumber + " > " + res.message, "error");
+									$parentRow.addClass("already");
 								}
-							});
+
+								$(this).attr("disabled", "disabled")
+								$parentRow.addClass("removed");
+								updateCounter();
+							}
+						};
+
+						$checkedContentSelectCheckboxes.each(function(i) {
+							removeIt(this);
 						});
 
 						System.log(6, sitePassedParams[0], idList);

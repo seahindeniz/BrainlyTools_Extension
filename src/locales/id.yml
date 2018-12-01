@@ -29,7 +29,7 @@ common:
   moderating:
     moreOptions: Lebih Banyak Opsi
     moderate: Moderasi
-    doYouWantToDelete: Tolong pilih alasan penghapusan
+    doYouWantToDelete: "Apakah kamu ingin menghapus konten ini?"
     selectReason: Pilih sebuah alasan
     editInPanel: Edit pada panel moderasi
     point: poin
@@ -48,7 +48,7 @@ common:
         title: "Menghapus poin yang diterima oleh responden, ketika mereka menjawab pertanyaan"
       response:
         text: Mengambil poin kembali
-        title: Mengambil kembali poin dari use
+        title: Mengambil kembali poin dari user
     returnPoints:
       text: Jangan kembalikan poin
       title: Mengembalikan point penanya
@@ -114,7 +114,7 @@ popup:
       privileges: Privileges
       # %{time} flag indicates the date suffix of first usage time of the extension.
       # Suffix will needs to added in your language as well. Example: in English words will replaced as 'Started to use 5 days ago', in Turkish '5 gun once kullanmaya basladi'
-      firstUsageTimeAgoPreTitle: "Mulai digunakan pada %{time}"
+      firstUsageTimeAgoPreTitle: "Mulai menggunakan pada %{time}"
       hasntUsed: Pengguna belum menggunakan ekstensi
       explainingColors:
         line1: Beberapa pengguna memiliki warna pada border avatar mereka dan warna ini menunjukkan status izin penggunaan ekstensi mereka
@@ -128,13 +128,13 @@ popup:
         line5: "<s>Tidak ada border</s> berarti bahwa pengguna memiliki beberapa privilege yang ditetapkan tetapi tidak diberi izin untuk menggunakan ekstensi di akun mereka dan belum mulai menggunakan ekstensi."
       privilegeList:
       - type: 0
-        title: Jawaban disetujui
-        description: "Di halaman konten pengguna, moderator dapat menyetujui jawabannya dengan memilih"
+        title: Ekstensi Admin
+        description: "Dapat menggunakan ekstensi tanpa batasan apapun. (Tidak perlu menetapkan privilige lainnya, ini akan menghapus semua pembatasan)"
       - type: 4
         title: Tombol hapus cepat
         description: "Di hompage, halaman pertanyaan dan arsip moderator, pengguna dapat menggunakan tombol penghapusan cepat untuk menghapus beberapa jawaban"
       - type: 5
-        title: Tombol hapus cepat
+        title: Managemen user
         description: "Di halaman pertanyaan dan arsip moderator, pengguna dapat menggunakan tombol penghapusan cepat untuk menghapus beberapa jawaban"
       - type: 1
         title: Tombol hapus cepat
@@ -143,8 +143,8 @@ popup:
         title: Pengaturan Pengumuman
         description: "Dapat membuat, mengedit menghapus atau mempublikasikan pengumuman ekstensi internal"
       - type: 45
-        title: User management
-        description: Dapat menambahkan atau mengedit ekstensi user dan memberikan mereka privileges atau izin untuk menggunakan ekstensi
+        title: Penghapusan cepat komentar
+        description: "Dihalaman pengguna, konten pengguna dan halaman Moderais semua, pengguna dapat menggunakan tombol penghapusan cepat untuk menghapus komentar."
       - type: 6
         title: Jawaban disetujui
         description: "Di halaman konten pengguna, moderator dapat menyetujui jawabannya dengan memilih"
@@ -187,7 +187,7 @@ core:
     userNotFound: Pengguna tidak ditemukan
     extensionServerError: Terjadi kesalahan yang tidak terduga saat menghubungkan ke server ekstensi. Silakan coba lagi dalam ~5 detik.
     ifErrorPersists: "Jika kesalahan ini berlanjut, hubungi Mahapatih dan jelaskan apa yang terjadi :)"
-    accessPermissionDenied: Kamu tidak memiliki wewenang untuk menggunakan ekstensi Brainly tools. Silahkan hubungi Mahapatih untuk mendapatkan izin atau hapus ekstensi ini dari browser kamu.
+    accessPermissionDenied: Kamu tidak memiliki wewenang untuk menggunakan ekstensi Brainly tools..<br>Silahkan hubungi Community Manager untuk mendapatkan izin atau hapus ekstensi ini dari browser kamu.
     updateNeeded: Ekstensi memiliki sebuah versi baru dan browser kamu perlu diupdate. Proses ini akan dilakukan secara otomatis dan kamu perlu untuk menyegarkan halaman dalam ~`10 detik
     warningBeforeDelete: "Proses ini akan dijalankan dan jumlah id pertanyaan di input akan dihapus setelah Anda mengkonfirmasi peringatan ini. \n\nApakah Anda tiga kali lipat yakin?"
     enterIdWarn: Kamu perlu untuk menambahkan setidaknya 1 nomor ID dari pertanyaan yang ingin kamu hapus
@@ -196,7 +196,7 @@ core:
     cantSendEmptyMessage: Kamu tidak dapat mengirim sebuah kosong
     tryingToSendTheSameMessage: "Kamu telah mencoba mengirim yang terakhir. Apakah kamu masih ingin mengirim?"
   TaskDeleter:
-    text: Hapus pertanyaan massal
+    text: Penghapusan pertanyaan massal
     questionsLinksOrIDs: Tautan pertanyaan atau ID
     # %{n} indicates the number of questions that will be deleted. Example> 8 questions
     questionsWillBeDeleted: "%{n} pertanyaan"

@@ -4,6 +4,7 @@ import renderModal from "./modal";
 import { RemoveQuestion } from "../../../../controllers/ActionsOfBrainly";
 
 let isPageProcessing = false;
+
 window.onbeforeunload = function() {
 	if (isPageProcessing) {
 		return System.data.locale.common.notificationMessages.ongoingProcess;
@@ -120,22 +121,24 @@ const TaskDeleter = $seperator => {
 								modal.notification(System.data.locale.core.notificationMessages.deleteProcessDone, "success");
 							}
 						}
+						let removeIt = async id => {
+							taskData.model_id = id;
+							let res = await RemoveQuestion(taskData);
+							//RemoveQuestion(taskData, (res) => {
+							if (!res) {
+								modal.notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
+							} else {
+								if (res.success) {
+									updateCounter();
+								} else if (res.message) {
+									modal.notification(res.message, "error");
+								}
+							}
+						}
 
 						System.log(5, System.data.Brainly.userData.user.id, idList);
 						idList.forEach(id => {
-							taskData.model_id = id;
-
-							RemoveQuestion(taskData, (res) => {
-								if (!res) {
-									modal.notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
-								} else {
-									if (res.success) {
-										updateCounter();
-									} else if (res.message) {
-										modal.notification(res.message, "error");
-									}
-								}
-							});
+							removeIt(id);
 						});
 					}
 				}

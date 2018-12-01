@@ -1,6 +1,6 @@
 import ext from "../../scripts/utils/ext";
 import Storage from "../../scripts/helpers/extStorage";
-import Notification from "../components/Notification";
+import notification from "../components/Notification";
 import send2AllBrainlyTabs from "../helpers/send2AllBrainlyTabs";
 import Inject2body from "../../scripts/helpers/Inject2body";
 import Dropdown from "../helpers/Dropdown";
@@ -70,7 +70,7 @@ const OtherOptions = (options, callback) => {
 		}
 	});
 	$extendMessageLayoutCheckbox.change(function() {
-		Notification(System.data.locale.popup.notificationMessages[this.checked ? "layoutExtended" : "switchedToNormal"]);
+		notification(System.data.locale.popup.notificationMessages[this.checked ? "layoutExtended" : "switchedToNormal"]);
 		Storage.set({ extendMessagesLayout: this.checked });
 		send2AllBrainlyTabs("extendMessagesLayout", this.checked);
 	});
@@ -85,7 +85,7 @@ const OtherOptions = (options, callback) => {
 		}
 	});
 	$notifierCheckbox.change(function() {
-		Notification(System.data.locale.popup.notificationMessages[this.checked ? "notifierOn" : "notifierOff"]);
+		notification(System.data.locale.popup.notificationMessages[this.checked ? "notifierOn" : "notifierOff"]);
 		//Storage.set({ notifier: this.checked });
 		//send2AllBrainlyTabs("notifier", this.checked);
 		System.toBackground("notifierChangeState", this.checked);
@@ -115,13 +115,13 @@ const OtherOptions = (options, callback) => {
 		});
 	});
 
-	$dropdown.change(function() {
-		System.prepareLangFile(this.value, localeData => {
-			System.data.locale = localeData;
-			Notification(System.data.locale.popup.notificationMessages.languageChanged, "success");
-			console.log(this.value);
-			Storage.set({ language: this.value });
-		});
+	$dropdown.change(async function() {
+		let localeData = await System.prepareLangFile(this.value);
+		System.data.locale = localeData;
+
+		notification(System.data.locale.popup.notificationMessages.languageChanged, "success");
+		console.log(this.value);
+		Storage.set({ language: this.value });
 	});
 };
 

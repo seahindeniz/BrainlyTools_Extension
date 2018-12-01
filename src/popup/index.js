@@ -1,11 +1,8 @@
 "use strict"
 
 import ext from "../scripts/utils/ext";
-//import { storageS, storageL } from "./utils/storage";
 import Storage from "../scripts/helpers/extStorage";
-import Body from "./views/Body";
-import renderLayout from "./views/Layout";
-import renderError from "./views/Error";
+import render from "./views/Body";
 import _System from "../scripts/controllers/System";
 
 let System = new _System();
@@ -21,27 +18,31 @@ window.onbeforeunload = function() {
 $(() => {
 	var messageDone = () => {
 		messageDone = () => {};
-		ext.runtime.sendMessage({ action: "getMarketData" }, function(res) {
+		ext.runtime.sendMessage({ action: "getMarketData" }, function(marketData) {
 			//console.log(res);
-			if (res) {
-				System.data = res;
-				Storage.get(["user", "themeColor", "quickDeleteButtonsReasons", "extendMessagesBody"], res => {
-					//console.log("storageUser: ", res);
-					if (!(res && res.user && res.user.user && res.user.user.id && res.user.user.id == res.user.user.id)) {
-						Body(renderError(`I'm unable to fetch your data from Brainly<br><br>Please go to Brainly's homepage or reload the page`));
-					}
-					else if (!System.data.Brainly.deleteReasons.__withIds) {
-						Body(renderError("An error accoured while preparing the delete reasons and fetching from Brainly"));
-					} else {
-						Body(renderLayout(res));
-					}
-				});
-			} else {
-				Body(renderError());
+			if (!marketData) {
+				render("status", { type: "danger", title: "Error 417", text: `I can't fetch market data` });
+
+				return false;
 			}
+
+			System.data = marketData;
+
+			Storage.get(["user", "themeColor", "quickDeleteButtonsReasons", "extendMessagesBody"], res => {
+				//console.log("storageUser: ", res);
+				if (!(res && res.user && res.user.user && res.user.user.id && res.user.user.id == res.user.user.id)) {
+					render("status", { type: "danger", title: "Error 417", text: `I'm unable to fetch your data from Brainly<br><br>Please go to Brainly's homepage or reload the page` });
+				} else if (!System.data.Brainly.deleteReasons.__withIds) {
+					render("status", { type: "danger", title: "Error 416", text: "An error accoured while preparing the delete reasons and fetching from Brainly" });
+				} else {
+					render("layout", res);
+				}
+			});
+
 		});
 	}
 
+	render("status", { type: "primary", title: `Please wait..` });
 	ext.tabs.query({}, function(tabs) {
 		for (var i = 0, tab; tab = tabs[i]; ++i) {
 			if (System.regexp_BrainlyMarkets.test(tab.url)) {

@@ -129,22 +129,22 @@ popup:
       privilegeList:
       - type: 0
         title: Eklenti yöneticisi
-        description: Eklentiyi hiç bir sınırlama olmadan kullanma yetkisi
+        description: "Eklentiyi hiç bir sınırlama olmadan kullanma yetkisi. (Farklı yetki seçmeye gerek kalmaz, tüm yetki sınırlarını kaldırır)"
       - type: 4
-        title: Hızlı soru silimi
-        description: "Anasayfada, soru sayfasında ve Tümünü Düzelt'te hızlı silim butonlarını kullanarak soru(ları) silme"
-      - type: 5
-        title: Hızlı cevap silimi
-        description: Soru sayfasında ve Tümünü Düzelt'te hızlı silim butonlarını kullanarak cevap(ları) silme
-      - type: 1
-        title: Hızlı yorum silimi
-        description: Soru sayfasında ve Tümünü Düzelt'te hızlı silim butonlarını kullanarak yorum(ları) silme
-      - type: 2
         title: Duyuru yönetimi
         description: "Eklenti duyuruları oluşturma, düzenleme, kaldırma ve yayınlama yetkisi"
-      - type: 45
+      - type: 5
         title: Kullanıcı yönetimi
         description: Eklenti kullanıcılarının erişim izni ve yetkilerini düzenleme yetkisi
+      - type: 1
+        title: Hızlı soru silimi
+        description: "Soru içeriği, kullanıcı içeriğini görüntüle, tümünü düzelt sayfalarında ve anasayfa da, hızlı silim butonlarını kullanarak soru(ları) silme"
+      - type: 2
+        title: Hızlı cevap silimi
+        description: "Soru içeriği, kullanıcı içeriğini görüntüle, tümünü düzelt sayfalarında ve anasayfa da, hızlı silim butonlarını kullanarak cevap(ları) silme"
+      - type: 45
+        title: Hızlı yorum silimi
+        description: "Soru içeriği, kullanıcı içerikleri ve tümünü düzelt sayfalarında hızlı silim butonlarını kullanarak yorum(ları) silme"
       - type: 6
         title: Hızlı cevap doğrulama
         description: "Kullanıcı bilgilerini gör sayfasında, kullanıcı cevaplarını seçerek doğrulama"
@@ -152,7 +152,7 @@ popup:
         title: Çoklu soru silimi
         description: "Kullanıcı, Moderatör Paneli'nde çoklu soru silim özelliğini kullanabilir"
       - type: 8
-        title: Grup mesaj gönderme
+        title: Grup mesajı kullanabilme
         description: "Mesajlar sayfasında, kullanıcı gruplar oluşturarak birden fazla kişiye özel mesaj gönderebilir"
       - type: 9
         title: Toplu özel mesaj gönderimi

@@ -129,7 +129,7 @@ popup:
       privilegeList:
       - type: 0
         title: Extension admin
-        description: Can able use the extension without any restriction
+        description: Can able use the extension without any restriction. (No need to assing any other priviliges, this will remove all restrictions)
       - type: 4
         title: Announcement management
         description: Can able to create, edit, remove or publish the internal extension announcements
@@ -144,7 +144,7 @@ popup:
         description: On the pages of questions, user contents, archive mod and homepage, user can use the quick delete buttons for deleting the answer(s)
       - type: 45
         title: Quick delete comments
-        description: On the pages of questions, user contents, archive mod and homepage, user can use the quick delete buttons for deleting the comment(s)
+        description: On the pages of questions, user contents and archive mod, user can use the quick delete buttons for deleting the comment(s)
       - type: 6
         title: Answer approvement
         description: In the user content page, user can approve the answer by selecting

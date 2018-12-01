@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.6.1] - 2018.12.02
+
+### Changed/Fixed
+
+- Group message sending
+
 ## [6.6.0] - 2018.12.01
 
 ### Changed/Fixed

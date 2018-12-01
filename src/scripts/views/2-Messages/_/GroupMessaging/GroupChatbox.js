@@ -200,7 +200,6 @@ class GroupChatbox {
 		ScrollToDown(this.$messagesContainer.get(0));
 	}
 	async SendMessage() {
-		console.log(this.group);
 		window.isPageProcessing = true;
 
 		let sendedMessagesCount = 0;
@@ -210,7 +209,7 @@ class GroupChatbox {
 
 		let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--small"></div></div>`).insertAfter(this.$sendButton);
 
-		let previousProgressBars = $(".progress-container", $progressHole);
+		let previousProgressBars = $(".progress-container", this.$progressHole);
 		let progress = new Progress({
 			type: "is-success",
 			label: System.data.locale.common.progressing,
@@ -218,7 +217,7 @@ class GroupChatbox {
 		});
 
 		this.$messageInput.prop("disabled", true);
-		progress.container.appendTo($progressHole);
+		progress.container.appendTo(this.$progressHole);
 
 		if (previousProgressBars.length > 0) {
 			previousProgressBars.remove();
@@ -232,7 +231,7 @@ class GroupChatbox {
 		let membersWithConversationIds = await sendMessageToBrainlyIds(this.group.members, message, doInEachSending);
 		console.log("membersWithConversationIds:", membersWithConversationIds);
 
-		this.CheckForImproperMember(membersWithConversationIds);
+		//this.CheckForImproperMember(membersWithConversationIds);
 
 		window.isPageProcessing = false;
 
@@ -270,6 +269,20 @@ class GroupChatbox {
 	CheckForImproperMember(members) {
 		// dönen listeyi kontrol et ve eğer içerisinde mesaj gönderilemeyen bir kullanıcı varsa, olası sebebini exception koduyla veya deleted olarak kullanıcıdan gruptan kaldırmasını iste.
 		// 500 kullanılmayan veya silinen hesaplar için. 504 engellenmiş hesaplar için
+		//new renderGroupModal(this.group, this.groupLi);
+		let improperMembers = [];
+
+		if (member && members.length > 0) {
+			members.forEach(member => {
+				if (member.exception) {
+					improperMembers.push(member);
+				}
+			});
+		}
+
+		if (improperMembers.length > 0) {
+
+		}
 	}
 }
 

@@ -12,13 +12,13 @@ import Buttons from "../../components/Buttons";
 System.pageLoaded("User Profile inject OK!");
 UserProfile();
 async function UserProfile() {
-	let targetElm = await WaitForElement("#main-right");
+	let mainRight = await WaitForElement("#main-right");
 
-	if (targetElm) {
+	if (mainRight) {
 		if (profileData && profileData.id && profileData.nick) {
 			let $userNoteContainer = $(`<div class="userNoteContainer"><h3 class="bold dark_grey" title="${System.data.locale.common.personalNote.title}">${System.data.locale.common.personalNote.placeholder}</h3></div>`);
 
-			$userNoteContainer.prependTo(targetElm);
+			$userNoteContainer.prependTo(mainRight);
 			let userGender = null,
 				serverData = null;
 			let renderFlags = () => {
@@ -174,7 +174,7 @@ async function UserProfile() {
 								<a href="${friend.buddyUrl}" title="${friend.nick}" class="person">
 								<img src="${System.prepareAvatar(friend)}" alt="${friend.nick}" title="${friend.nick}"></a>
 								<div class="bilgi">
-									<div class="nick">${friend.nick}</div> 
+									<div class="nick">${friend.nick}</div>
 									<div class="sg-checkbox">
 										<input type="checkbox" class="sg-checkbox__element" id="check-${friend.id}">
 										<label class="sg-checkbox__ghost" for="check-${friend.id}">

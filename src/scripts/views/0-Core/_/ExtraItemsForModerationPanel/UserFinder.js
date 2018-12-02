@@ -1,6 +1,6 @@
 "use strict";
 
-import { findUser, getUserByID } from "../../controllers/ActionsOfBrainly";
+import { findUser, getUserByID } from "../../../../controllers/ActionsOfBrainly";
 
 let $userList;
 
@@ -106,50 +106,49 @@ const UserFinder = $seperator => {
 					}
 				}
 
-				findUser(value, res => {
-					let $userContainers = $('td', res);
+				let resUserResult = await findUser(value);
+				let $userContainers = $('td', resUserResult);
 
-					if (!$userContainers || $userContainers.length == 0) {
-						$userList.attr("data-placeholder", System.data.locale.core.notificationMessages.userNotFound);
-					} else {
-						$userContainers.each(function(i, $userContainer) {
-							let avatar = $('.user-data > a > img', $userContainer).attr('src');
-							let $userLink = $('.user-data > div.user-nick > a.nick', $userContainer);
-							let nick = $userLink.text();
-							let buddyUrl = $userLink.attr('href');
-							let id = ~~(buddyUrl.replace(/.*\-/gi, ""))
-							let rankList = $('div.user-data > div.user-nick > a:nth-child(3), div.user-data > div.user-nick > span', $userContainer);
-							let ranks = "";
+				if (!$userContainers || $userContainers.length == 0) {
+					$userList.attr("data-placeholder", System.data.locale.core.notificationMessages.userNotFound);
+				} else {
+					$userContainers.each(function(i, $userContainer) {
+						let avatar = $('.user-data > a > img', $userContainer).attr('src');
+						let $userLink = $('.user-data > div.user-nick > a.nick', $userContainer);
+						let nick = $userLink.text();
+						let buddyUrl = $userLink.attr('href');
+						let id = ~~(buddyUrl.replace(/.*\-/gi, ""))
+						let rankList = $('div.user-data > div.user-nick > a:nth-child(3), div.user-data > div.user-nick > span', $userContainer);
+						let ranks = "";
 
-							if (rankList.length == 1) {
-								ranks = {
-									name: rankList.text(),
-									color: rankList.css("color")
-								};
-							} else if (rankList.length > 1) {
-								ranks = [];
-								rankList.each((i, rank) => {
-									ranks.push({
-										name: rank.innerText,
-										color: rank.style.color
-									});
+						if (rankList.length == 1) {
+							ranks = {
+								name: rankList.text(),
+								color: rankList.css("color")
+							};
+						} else if (rankList.length > 1) {
+							ranks = [];
+							rankList.each((i, rank) => {
+								ranks.push({
+									name: rank.innerText,
+									color: rank.style.color
 								});
-							}
-
-							if (avatar == '/img/') {
-								avatar = '/img/avatars/100-ON.png';
-							}
-
-							userLi({
-								id,
-								nick,
-								avatar,
-								buddyUrl,
-								ranks
 							});
+						}
+
+						if (avatar == '/img/') {
+							avatar = '/img/avatars/100-ON.png';
+						}
+
+						userLi({
+							id,
+							nick,
+							avatar,
+							buddyUrl,
+							ranks
 						});
-					}
-				});
+					});
+				}
 			}, 600);
 		}
 	});

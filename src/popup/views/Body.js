@@ -1,6 +1,6 @@
 import renderLayout from "./Layout";
 
-const Layout = (contentType, content) => {
+const Body = (contentType, content) => {
 	let $body = $("body");
 
 	if (contentType == "status") {
@@ -17,7 +17,7 @@ const Layout = (contentType, content) => {
 		</section>`)
 	} else if (contentType = "layout") {
 		let layout = renderLayout(content);
-		
+
 		$body.html(layout);
 
 		setInterval(() => {
@@ -41,4 +41,4 @@ const Layout = (contentType, content) => {
 	}
 }
 
-export default Layout
+export default Body

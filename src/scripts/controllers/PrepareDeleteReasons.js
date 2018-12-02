@@ -5,13 +5,13 @@ import notification from "../components/Notification";
 import { GetDeleteReasons } from "../controllers/ActionsOfServer"
 
 function prepareDeleteButtonSettings(resolve, reject) {
-	Storage.getL("quickDeleteButtonsReasons", quickDeleteButtonsReasons => {
+	Storage.get("quickDeleteButtonsReasons", quickDeleteButtonsReasons => {
 		if (quickDeleteButtonsReasons) {
 			System.data.config.quickDeleteButtonsReasons = quickDeleteButtonsReasons;
 			resolve();
 		} else {
 			try {
-				Storage.setL({
+				Storage.set({
 					quickDeleteButtonsReasons: System.data.config.marketConfig.quickDeleteButtonsDefaultReasons
 				}, () => {
 					System.data.config.quickDeleteButtonsReasons = System.data.config.marketConfig.quickDeleteButtonsDefaultReasons;

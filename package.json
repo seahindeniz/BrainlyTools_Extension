@@ -2,7 +2,7 @@
   "name": "brainly_tools",
   "version": "6.6.2",
   "description": "A toolbox for Brainly markets. It helps moderators for doing some quick actions and more..",
-  "license": "SEE LICENSE IN LICENSE.md",
+  "license": "SEE LICENSE IN LICENSE",
   "scripts": {
     "chrome-build": "cross-env NODE_ENV=production TARGET=chrome gulp",
     "opera-build": "cross-env NODE_ENV=production TARGET=opera gulp",

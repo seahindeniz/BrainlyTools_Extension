@@ -4,7 +4,7 @@ import WaitForElement from "../../helpers/WaitForElement";
 import WaitForObject from "../../helpers/WaitForObject";
 import { RemoveQuestion, RemoveAnswer, RemoveComment, ConfirmComment } from "../../controllers/ActionsOfBrainly";
 import Buttons from "../../components/Buttons";
-import notification from "../../components/Notification";
+import notification from "../../components/notification";
 
 import "./_/pagination";
 import layoutChanger from "./_/layoutChanger";

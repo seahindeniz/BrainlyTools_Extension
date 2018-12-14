@@ -2,7 +2,7 @@
 
 import { RemoveAnswer, ApproveAnswer, UnapproveAnswer } from "../../controllers/ActionsOfBrainly";
 import DeleteSection from "../../components/DeleteSection";
-import notification from "../../components/Notification";
+import notification from "../../components/notification";
 
 let selectors = window.selectors,
 	$moderateActions = window.$moderateActions;

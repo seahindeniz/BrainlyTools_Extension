@@ -1,7 +1,7 @@
 "use strict";
 
 import Storage from "../helpers/extStorage";
-import notification from "../components/Notification";
+import notification from "../components/notification";
 import { GetDeleteReasons } from "../controllers/ActionsOfServer"
 
 function prepareDeleteButtonSettings(resolve, reject) {
@@ -26,8 +26,8 @@ function prepareDeleteButtonSettings(resolve, reject) {
 
 function prepareDeleteReasonsWithGet() {
 	return new Promise(async (resolve, reject) => {
-		let res = await GetDeleteReasons();
-		let data = res.data;
+		let resDeleteReasons = await GetDeleteReasons();
+		let data = resDeleteReasons.data;
 
 		if (data.deleteReasons.empty) {
 			notification(System.data.locale.core.notificationMessages.cantFetchDeleteReasons, "error");

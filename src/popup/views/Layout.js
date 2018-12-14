@@ -1,5 +1,6 @@
 "use strict"
 
+import ext from "../../scripts/utils/ext";
 import renderThemeColor from "./ThemeColor";
 import renderDeleteButtonOptions from "./DeleteButtonOptions";
 import renderOtherOptions from "./OtherOptions";
@@ -7,20 +8,11 @@ import renderAnnouncements from "./Announcements";
 import renderManageDeleteReasons from "./ManageDeleteReasons";
 import renderUsers from "./Users";
 import { CreateShortLink } from "../../scripts/controllers/ActionsOfServer";
-import notification from "../components/Notification"
+import notification from "../components/notification"
 
 const Layout = res => {
 	System.data.Brainly.userData.user.fixedAvatar = System.data.Brainly.userData.user.avatars[100] || `https://${System.data.meta.marketName}/img/avatars/100-ON.png`;
 	let $layout = $(`
-	<div class="notification-list"></div>
-	<section class="hero is-success is-halfheight">
-		<div class="hero-body">
-			<div class="container">
-				<div class="column">
-					<div class="box">
-						<figure class="avatar has-text-centered">
-							<img src="${System.data.Brainly.userData.user.fixedAvatar}" title="${System.data.Brainly.userData.user.nick} - ${System.data.Brainly.userData.user.id}@${System.data.meta.marketName.split(".")[0]}">
-						</figure>
 						<section class="section-1">
 							<div id="linkShorter" class="column">
 								<div class="field is-grouped">
@@ -36,8 +28,7 @@ const Layout = res => {
 									</div>
 								</div>
 							</div>
-						
-							
+
 							<h4 class="title is-4 has-text-centered">${System.data.locale.popup.extensionOptions.title}</h4>
 
 							<div id="themeColor" class="column is-narrow">
@@ -59,16 +50,7 @@ const Layout = res => {
 							</div>
 						</section>
 						<section class="section-2"></section>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<footer class="footer">
-		<p class="title is-7 has-text-centered">
-			<a href="https://chrome.google.com/webstore/detail/${System.data.meta.extension.id}" class="has-text-grey" target="_blank">Brainly Tools v${System.data.meta.manifest.version}</a>
-		</p>
-	</footer>`);
+				`);
 	let $section1 = $("section.section-1", $layout);
 	let $section2 = $("section.section-2", $layout);
 
@@ -76,79 +58,82 @@ const Layout = res => {
 		$("#themeColor .message-body", $layout).append($themeColorLayout);
 	}); */
 	$("#themeColor .message-body", $layout).append(renderThemeColor(res.themeColor));
-	System.checkUserP([1, 2, 45], () => {
+
+	if (System.checkUserP([1, 2, 45])) {
 		renderDeleteButtonOptions(res.quickDeleteButtonsReasons, $deleteButtonOptionsLayout => {
 			$("#quickDeleteButtons", $layout).append($deleteButtonOptionsLayout);
 		});
-	});
+	}
 	renderOtherOptions(res, $otherOptionsLayout => {
 		$("#otherOptions .message-body", $layout).append($otherOptionsLayout);
 	});
 
-	System.checkUserP([4, 5], () => {
+	if (System.checkUserP([4, 5])) {
 		$(`<h4 class="title is-4 has-text-centered">${System.data.locale.popup.extensionManagement.title}</h4>`).appendTo($section2);
 
 		renderManageDeleteReasons($manageDeleteReasonsLayout => {
 			$section2.append($manageDeleteReasonsLayout);
 		});
 
-		System.checkUserP(4, () => {
-			renderAnnouncements($announcementsLayout => {
-				$section2.append($announcementsLayout);
-			});
-		});
+		if (System.checkUserP(4)) {
+			let $announcementsLayout = renderAnnouncements();
 
-		System.checkUserP(5, () => {
+			$section2.append($announcementsLayout);
+		}
+
+		if (System.checkUserP(5)) {
 			let $usersLayout = renderUsers();
-			
+
 			$section2.append($usersLayout);
-		});
-	});
+		}
+	}
 
 	let $shorterInputContainer = $("#linkShorter .js-input", $layout),
 		input = $("input.input", $shorterInputContainer);
 
 	input.click(() => input.select());
-	$("#linkShorter button", $layout).on("click", function() {
+
+	const LinkShortenerHandler = function() {
 		let that = $(this);
 
 		that.addClass("is-loading").attr("disabled", "true");
-		chrome.tabs.query({ active: true, currentWindow: true }, function callback(tabs) {
+		ext.tabs.query({ active: true, currentWindow: true }, async function callback(tabs) {
 			var currentTab = tabs[0];
 			let url = currentTab.url;
+			let resCreated = await CreateShortLink({ url });
 
-			CreateShortLink({ url }, res => {
-				if (!res) {
-					notification("Server error", "danger");
-					that.removeClass("is-loading").removeAttr("disabled");
+			if (!resCreated) {
+				notification("Server error", "danger");
+				that.removeClass("is-loading").removeAttr("disabled");
+			} else {
+				if (!resCreated.success || !resCreated.shortCode) {
+					notification(resCreated.message || "Unknown error", "danger");
+					that.removeClass("is-loading");
+					!resCreated.message && that.removeAttr("disabled");
 				} else {
-					if (!res.success || !res.shortCode) {
-						notification(res.message || "Unknown error", "danger");
-						that.removeClass("is-loading");
-						!res.message && that.removeAttr("disabled");
-					} else {
-						let shortLink = System.data.config.extension.serverURL + "/l/" + res.shortCode;
+					let shortLink = System.data.config.extension.serverURL + "/l/" + resCreated.shortCode;
 
-						input.val(shortLink);
+					input.val(shortLink);
 
-						$shorterInputContainer.removeClass("is-hidden");
-						that.removeClass("is-loading").removeAttr("disabled");
+					$shorterInputContainer.removeClass("is-hidden");
+					that.removeClass("is-loading").removeAttr("disabled");
 
-						const selected =
-							document.getSelection().rangeCount > 0 ?
-							document.getSelection().getRangeAt(0) :
-							false;
-						input.select();
-						document.execCommand('copy');
-						if (selected) {
-							document.getSelection().removeAllRanges();
-							document.getSelection().addRange(selected);
-						}
+					const selected =
+						document.getSelection().rangeCount > 0 ?
+						document.getSelection().getRangeAt(0) :
+						false;
+					input.select();
+					document.execCommand('copy');
+					if (selected) {
+						document.getSelection().removeAllRanges();
+						document.getSelection().addRange(selected);
 					}
 				}
-			});
+			}
 		});
-	});
+	}
+
+	$("#linkShorter button", $layout).on("click", LinkShortenerHandler);
 	return $layout;
 }
 

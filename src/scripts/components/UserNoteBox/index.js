@@ -1,4 +1,4 @@
-import { updateNote } from "../../controllers/ActionsOfServer";
+import { UpdateNote } from "../../controllers/ActionsOfServer";
 
 export default (user) => {
 	let $userNoteBox = $(`
@@ -10,23 +10,16 @@ export default (user) => {
 
 	let $input = $("textarea", $userNoteBox);
 
-	$input.change(function() {
+	$input.change(async function() {
 		let data = {
 			_id: user._id,
 			note: this.value
 		}
-		updateNote(data, res => {
-			if (res && res.success) {
-				$input.addClass("changed").delay(3000).queue(() => $input.removeClass("changed"));
-			}
-		});
-		/*Sistem.fn.postme("id=" + kisi.brainly_id + "&nick=" + kisi.nick + "&kisi_note=" + this.value, function (response) {
-			if (response.success) {
-				$inputNote.addClass("degisti").delay(3000).queue(function (a) {
-					$(this).removeClass("degisti");
-				});
-			}
-		});*/
+		let resUpdate = await UpdateNote(data);
+
+		if (resUpdate && resUpdate.success) {
+			$input.addClass("changed").delay(3000).queue(() => $input.removeClass("changed"));
+		}
 	});
 
 	return $userNoteBox

@@ -1,6 +1,6 @@
 "use strict";
 
-import notification from "../../../../components/Notification";
+import notification from "../../../../components/notification";
 import Modal from "../../../../components/ModalToplayer";
 import Dropdown from "../../../../components/Dropdown";
 import { getUserByID } from "../../../../controllers/ActionsOfBrainly";

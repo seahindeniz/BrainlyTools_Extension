@@ -1,3 +1,5 @@
+//import browser from "webextension-polyfill";
+
 const apis = [
   'alarms',
   'bookmarks',

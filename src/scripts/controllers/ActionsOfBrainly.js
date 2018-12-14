@@ -217,40 +217,52 @@ export function getAllFriends() {
 	});
 }
 
-export function RemoveFriend(idList, handler) {
-	if (typeof idList == "string" || typeof idList == "number") {
-		return Request.BrainlySaltGet(`/buddies_new/unbuddy/${idList}`)
-	} else {
-		let counter = 0;
+export function RemoveFriend(idList) {
+	return Request.BrainlySaltGet(`/buddies_new/unbuddy/${idList}`);
+}
+export function RemoveAllFriends(each) {
+	let idList = System.friends.map(friend => friend.id);
 
-		if (typeof idList == "boolean" && idList == true) {
-			idList = System.friends.map((friend) => {
-				return friend.id;
-			});
-		}
-		if (idList && idList instanceof Array && idList.length > 0) {
+	return RemoveFriends(idList);
+}
+/**
+ *
+ * @param {number[]|string[]} idList
+ * @param {function} each - Each callback
+ */
+export function RemoveFriends(idList, each) {
+	return new Promise(function(resolve, reject) {
+		if (!idList || (idList instanceof Array && idList.length == 0)) {
+			return reject("No friend found");
+		} else {
+			let count = 0;
 			let profileLink = System.createProfileLink();
-			idList.forEach(id => {
-				if (handler && typeof handler == "object") {
-					let requestPromise = Request.BrainlySaltGet(`/buddies_new/unbuddy/${id}`);
 
-					requestPromise.always((res, textStatus, jqXHR) => {
-						counter++;
+			idList.forEach((id) => {
+				let requestPromise = RemoveFriend(id);
 
-						if (handler && jqXHR && jqXHR.responseURL && (jqXHR.responseURL.indexOf("users/view") >= 0 || jqXHR.responseURL.indexOf(profileLink) >= 0)) {
-							handler.each && handler.each(counter, id);
-						}
+				requestPromise.always((_, __, jqXHR) => {
+					count++;
 
-						if (counter == idList.length) {
-							handler.success && handler.success();
-						}
-					});
-				} else {
-					Request.BrainlySaltGet(`/buddies_new/unbuddy/${id}`);
-				}
+					if (
+						each &&
+						jqXHR &&
+						jqXHR.responseURL &&
+						(
+							jqXHR.responseURL.indexOf("users/view") >= 0 ||
+							jqXHR.responseURL.indexOf(profileLink) >= 0
+						)
+					) {
+						each(count, id);
+					}
+
+					if (count == idList.length) {
+						resolve();
+					}
+				});
 			});
 		}
-	}
+	});
 }
 
 export function findUser(nick) {

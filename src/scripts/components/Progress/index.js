@@ -1,32 +1,35 @@
 class Progress {
 	constructor(options) {
 		// sg-content-box--spaced-top-large  sg-content-box--spaced-bottom-large
-		this.container = $(`
+		this.$container = $(`
 		<div class="progress-container">
-			<progress class="progress ${options.type}" value="0" max="${options.max}" data-label="${options.label}"></progress>
+			<progress class="progress ${options.type}" value="0" max="${options.max || 1}" data-label="${options.label}"></progress>
 		</div>`);
-		this.bar = $("progress", this.container);
+		this.$bar = $("progress", this.$container);
 
-		this.container.click(() => {
+		this.$container.click(() => {
 			this.forceClose();
 		});
 
 		return this;
 	}
+	setMax(n) {
+		this.$bar.attr("max", n);
+	}
 	update(n) {
-		this.bar.val(n);
+		this.$bar.val(n);
 		return this;
 	}
 	updateLabel(text) {
-		this.bar.attr("data-label", text);
+		this.$bar.attr("data-label", text);
 		return this;
 	}
 	close() {
 		setTimeout(() => this.forceClose(), 3000);
 	}
 	forceClose() {
-		if (this.bar.val() == ~~this.bar.attr("max")) {
-			this.container.remove();
+		if (this.$bar.val() == ~~this.$bar.attr("max")) {
+			this.$container.remove();
 		}
 	}
 }

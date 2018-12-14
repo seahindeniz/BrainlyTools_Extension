@@ -1,19 +1,17 @@
-import ext from "../../scripts/utils/ext";
+import ext from "../../scripts/utils/1.ext";
 
-export default (action, data, callback) => {
-	console.log((action, data, callback));
-	ext.tabs.query({}, function(tabs) {
-		for (var i = 0; i < tabs.length; ++i) {
-			if (System.regexp_BrainlyMarkets.test(tabs[i].url)) {
-				let tab = tabs[i];
-				var message = {
-					action,
-					url: tab.url,
-					data
-				};
-				
-				ext.tabs.sendMessage(tab.id, message, callback);
-			}
+export default async (action, data) => {
+	let tabs = await ext.tabs.query({});
+
+	tabs.forEach(tab => {
+		if (System.regexp_BrainlyMarkets.test(tab.url)) {
+			let message = {
+				action,
+				url: tab.url,
+				data
+			};
+
+			ext.tabs.sendMessage(tab.id, message);
 		}
 	});
 }

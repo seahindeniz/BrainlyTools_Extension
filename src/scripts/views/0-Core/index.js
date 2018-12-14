@@ -14,7 +14,7 @@ import renderChatPanel from "../../components/ChatPanel"
 import { Auth } from "../../controllers/ActionsOfServer";
 import { getAllModerators } from "../../controllers/ActionsOfBrainly"
 import PrepareDeleteReasons from "../../controllers/PrepareDeleteReasons"
-import notification from "../../components/Notification";
+import notification from "../../components/notification";
 import SetMetaData from "./_/SetMetaData";
 import SetUserData from "./_/SetUserData";
 import SetBrainlyData from "./_/SetBrainlyData";

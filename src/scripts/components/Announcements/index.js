@@ -1,5 +1,5 @@
 import makeToplayer from "../../components/Toplayer";
-import notification from "../../components/Notification";
+import notification from "../../components/notification";
 import { AnnouncementRead } from "../../controllers/ActionsOfServer";
 
 export default () => {
@@ -55,21 +55,21 @@ export default () => {
 			$overlay.toggleClass("js-closed");
 		});
 
-		$($announcementToplayer).on("click", ".js-read:not(.sg-button-secondary--disabled)", function() {
+		$($announcementToplayer).on("click", ".js-read:not(.sg-button-secondary--disabled)", async function() {
 			let that = $(this);
 			let $article = that.parents("article.announcement");
 			let id = $article.attr("id");
 
 			that.addClass("sg-button-secondary--disabled").attr("disabled", "true");
 
-			AnnouncementRead(id, res => {
-				if (res && res.success) {
-					that.removeClass("sg-button-secondary--dark");
-				} else {
-					notification(System.data.locale.common.notificationMessages.operationError, "error");
-					that.removeClass("sg-button-secondary--disabled").removeAttr("disabled");
-				}
-			});
+			let resReaded = await AnnouncementRead(id);
+
+			if (resReaded && resReaded.success) {
+				that.removeClass("sg-button-secondary--dark");
+			} else {
+				notification(System.data.locale.common.notificationMessages.operationError, "error");
+				that.removeClass("sg-button-secondary--disabled").removeAttr("disabled");
+			}
 		});
 		return $overlay;
 	} else return false;

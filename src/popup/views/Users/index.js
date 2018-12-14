@@ -3,7 +3,7 @@
 import { GetUsers, PutUser } from "../../../scripts/controllers/ActionsOfServer";
 import { getUserByID2 } from "../../../scripts/controllers/ActionsOfBrainly";
 import usersNodes from "./usersNodes";
-import notification from "../../components/Notification";
+import notification from "../../components/notification";
 
 window.fetchedUsers = {};
 
@@ -196,7 +196,7 @@ async function prepareUsers($usersLayout) {
 							processUser(window.fetchedUsers[id].brainlyData);
 						} else {
 							let resUser = await getUserByID2(id);
-							
+
 							if (resUser.success && resUser.data) {
 								window.fetchedUsers[id] = {
 									nick: resUser.data.nick,

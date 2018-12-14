@@ -2,7 +2,7 @@
 
 import WaitForElement from "../../helpers/WaitForElement";
 import { getAllModerators, sendMessageToBrainlyIds } from "../../controllers/ActionsOfBrainly";
-import notification from "../../components/Notification";
+import notification from "../../components/notification";
 import Progress from "../../components/Progress";
 
 System.pageLoaded("Supervisors page OK!");
@@ -178,7 +178,7 @@ async function Supervisors() {
 
 						$spinner.insertAfter(this);
 						$sendButton.addClass("js-disabled");
-						progress.container.prependTo("#content-old");
+						progress.$container.prependTo("#content-old");
 
 						if (previousProgressBars.length > 0) {
 							previousProgressBars.remove();

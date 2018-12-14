@@ -1,5 +1,5 @@
 import Storage from "../../scripts/helpers/extStorage";
-import notification from "../components/Notification";
+import notification from "../components/notification";
 
 const isPosInt = str => /^\+?\d+$/.test(str);
 
@@ -18,7 +18,14 @@ let DeleteButtonOptions = (quickDeleteButtonsReasons, callback) => {
 						let contentType = System.data.Brainly.deleteReasons.__withIds[reasonTypeKey];
 						let reason = contentType[reasonId];
 						let category = contentType.__categories[reason.category_id];
-						let buttonDefaultSelectedItem = (quickDeleteButtonsReasons && quickDeleteButtonsReasons[reasonTypeKey][i] && isPosInt(quickDeleteButtonsReasons[reasonTypeKey][i]) && quickDeleteButtonsReasons[reasonTypeKey][i]) || System.data.config.marketConfig.quickDeleteButtonsDefaultReasons[reasonTypeKey][i];
+						let buttonDefaultSelectedItem =
+							(
+								quickDeleteButtonsReasons &&
+								quickDeleteButtonsReasons[reasonTypeKey][i] &&
+								isPosInt(quickDeleteButtonsReasons[reasonTypeKey][i]) &&
+								quickDeleteButtonsReasons[reasonTypeKey][i]
+							) ||
+							System.data.config.marketConfig.quickDeleteButtonsDefaultReasons[reasonTypeKey][i];
 
 						options += `<option data-cat-id="${category.id}" data-reason-id="${reasonId}" title="${reason.text}"${buttonDefaultSelectedItem == reasonId ? " selected" : ""}>${ category.text == reason.title ? reason.title : category.text + " › " + reason.title }</option>`
 					}

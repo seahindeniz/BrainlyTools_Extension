@@ -1,5 +1,5 @@
 import makeToplayer from "../Toplayer"
-import notification from "../../components/Notification";
+import notification from "../../components/notification";
 
 class ModalToplayer {
 	constructor(heading, content, actions, addAfter = "", size) {

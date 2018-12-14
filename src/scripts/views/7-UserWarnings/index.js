@@ -3,7 +3,7 @@
 import WaitForElement from "../../helpers/WaitForElement";
 import { CancelWarning } from "../../controllers/ActionsOfBrainly";
 import Buttons from "../../components/Buttons";
-import notification from "../../components/Notification";
+import notification from "../../components/notification";
 
 System.pageLoaded("User's warnings page OK!");
 

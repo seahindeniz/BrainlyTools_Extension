@@ -1,12 +1,13 @@
 "use strict";
 
 import { GetAnnouncements, CreateAnnouncement, UpdateAnnouncement, RemoveAnnouncement } from "../../../scripts/controllers/ActionsOfServer";
-import { getUserByID } from "../../../scripts/controllers/ActionsOfBrainly";
+import { getUserByID2 } from "../../../scripts/controllers/ActionsOfBrainly";
 import announcementsNodes from "./announcementsNodes";
-import notification from "../../components/Notification";
+import notification from "../../components/notification";
 
 window.fetchedUsers = {};
-const refreshUserAvatar = (user, elm) => {
+
+function refreshUserAvatar(user, elm) {
 	let avatar = System.prepareAvatar(user);
 
 	if (avatar) {
@@ -17,46 +18,43 @@ const refreshUserAvatar = (user, elm) => {
 			!el.title && (el.title = user.nick);
 		});
 	}
-};
-const refreshUsers = (elm) => {
+}
+
+async function fetchUser(brainlyID, elm) {
+	let resUser = await getUserByID2(brainlyID);
+
+	if (resUser.success) {
+		window.fetchedUsers[brainlyID].brainlyData = resUser.data;
+
+		refreshUserAvatar(resUser.data, elm);
+	} else {
+		notification(brainlyID + ">" + (resUser.message || ""), "warning");
+	}
+}
+
+function refreshUsers(elm) {
 	Object.keys(window.fetchedUsers).forEach(brainlyID => {
 		if (window.fetchedUsers[brainlyID] && window.fetchedUsers[brainlyID].brainlyData) {
 			refreshUserAvatar(window.fetchedUsers[brainlyID].brainlyData, elm);
 		} else {
-			(async () => {
-				let res = await getUserByID(brainlyID);
-				
-				window.fetchedUsers[brainlyID].brainlyData = res.data;
-				refreshUserAvatar(res.data, elm);
-			})();
+			fetchUser(brainlyID, elm);
 		}
 	});
-};
+}
 
-const Announcements = (callback) => {
-	let $announcementLayout = $(`
-	<div id="announcements" class="column is-narrow">
-		<article class="message is-info">
-			<div class="message-header">
-				<p>${System.data.locale.popup.extensionManagement.announcements.text}</p>
-			</div>
-			<div class="message-body"></div>
-		</article>
-	</div>`);
+async function prepareAnnouncements($announcementLayout) {
 
-	callback($announcementLayout);
+	let resAnnouncements = await GetAnnouncements();
+	let $announcementsBody = $(".message-body", $announcementLayout);
 
-	GetAnnouncements(res => {
-		let $announcementsBody = $(".message-body", $announcementLayout);
+	if (resAnnouncements.success && resAnnouncements.data) {
+		let $announcementsNodes = announcementsNodes(resAnnouncements.data);
 
-		if (res.success && res.data) {
-			let $announcementsNodes = announcementsNodes(res.data);
+		$announcementsBody.append($announcementsNodes);
+		refreshUsers($announcementsBody);
+	}
 
-			$announcementsBody.append($announcementsNodes);
-			refreshUsers($announcementsBody);
-		}
-
-		let $addNewBox = $(`
+	let $addNewBox = $(`
 		<article class="media addNew">
 			<div class="media-content field-label has-text-centered">
 				<label class="label">${System.data.locale.popup.extensionManagement.announcements.addNewAnnouncement}</label>
@@ -84,171 +82,169 @@ const Announcements = (callback) => {
 				</a>
 			</div>
 		</article>`);
-		$announcementsBody.append($addNewBox);
+	$announcementsBody.append($addNewBox);
 
-		let createEditor = (elm) => {
-			let options = {
-				showPlaceholder: true,
-				useInputsPlaceholder: true,
-				addNewLineOnDBLClick: false,
-				"toolbarButtonSize": "small",
-				"toolbarSticky": false,
-				"buttons": ",,source,|,undo,redo,|,bold,strikethrough,underline,italic,|,superscript,subscript,|,ul,ol,|,align,outdent,indent,,font,fontsize,brush,paragraph,|,image,file,video,table,link,\n,cut,hr,eraser,copyformat,|,symbol,fullsize,selectall,print"
+	let createEditor = (elm) => {
+		let options = {
+			showPlaceholder: true,
+			useInputsPlaceholder: true,
+			addNewLineOnDBLClick: false,
+			"toolbarButtonSize": "small",
+			"toolbarSticky": false,
+			"buttons": ",,source,|,undo,redo,|,bold,strikethrough,underline,italic,|,superscript,subscript,|,ul,ol,|,align,outdent,indent,,font,fontsize,brush,paragraph,|,image,file,video,table,link,\n,cut,hr,eraser,copyformat,|,symbol,fullsize,selectall,print"
+		};
+
+		if (elm.is("input")) {
+			options = {
+				placeholder: System.data.locale.popup.extensionManagement.announcements.editorTitle,
+				"allowResizeY": false,
+				"preset": "inline",
+				"height": 20,
+				events: {
+					beforeEnter: () => false
+				},
+				"showCharsCounter": false,
+				"showWordsCounter": false,
+				"showXPathInStatusbar": false,
+				...options
 			};
-
-			if (elm.is("input")) {
-				options = {
-					placeholder: System.data.locale.popup.extensionManagement.announcements.editorTitle,
-					"allowResizeY": false,
-					"preset": "inline",
-					"height": 20,
-					events: {
-						beforeEnter: () => false
-					},
-					"showCharsCounter": false,
-					"showWordsCounter": false,
-					"showXPathInStatusbar": false,
-					...options
-				};
-			} else if (elm.is("textarea")) {
-				options = {
-					placeholder: System.data.locale.popup.extensionManagement.announcements.editorContent,
-					"enter": "BR",
-					"height": 300,
-					"uploader": {
-						"insertImageAsBase64URI": true
-					},
-					...options
-				};
-			}
-
-			return new Jodit(elm.get(0), options);
+		} else if (elm.is("textarea")) {
+			options = {
+				placeholder: System.data.locale.popup.extensionManagement.announcements.editorContent,
+				"enter": "BR",
+				"height": 300,
+				"uploader": {
+					"insertImageAsBase64URI": true
+				},
+				...options
+			};
 		}
-		/**
-		 * Prepare WYSIWYG for new announcement inputs
-		 */
-		let $announcementTitle = $(".addNew input.announcementTitle", $announcementsBody);
-		let $announcementContent = $(".addNew textarea.announcementContent", $announcementsBody);
-		let $actionsContainer = $(".addNew .media-right.is-invisible", $announcementsBody);
 
-		var editorUpdateAnnouncementTitle = null;
-		var editorUpdateAnnouncementContent = null;
-		var editorNewAnnouncementTitle = createEditor($announcementTitle);
-		var editorNewAnnouncementContent = createEditor($announcementContent);
-		let inputChangeHandler = function(e, b, c) {
+		return new Jodit(elm.get(0), options);
+	}
+	/**
+	 * Prepare WYSIWYG for new announcement inputs
+	 */
+	let $announcementTitle = $(".addNew input.announcementTitle", $announcementsBody);
+	let $announcementContent = $(".addNew textarea.announcementContent", $announcementsBody);
+	let $actionsContainer = $(".addNew .media-right.is-invisible", $announcementsBody);
+
+	var editorUpdateAnnouncementTitle = null;
+	var editorUpdateAnnouncementContent = null;
+	var editorNewAnnouncementTitle = createEditor($announcementTitle);
+	var editorNewAnnouncementContent = createEditor($announcementContent);
+	let inputChangeHandler = function(e, b, c) {
+		let titleValue = editorNewAnnouncementTitle.getEditorValue(),
+			contentValue = editorNewAnnouncementContent.getEditorValue();
+		if (titleValue != "" || contentValue != "") {
+			$actionsContainer.removeClass("is-invisible");
+			window.isPageBusy = true;
+		} else {
+			$actionsContainer.addClass("is-invisible");
+			window.isPageBusy = false;
+		}
+	};
+	editorNewAnnouncementTitle.events.on('change', inputChangeHandler);
+	editorNewAnnouncementContent.events.on('change', inputChangeHandler);
+
+	let clearEditorsValue = () => {
+		editorNewAnnouncementTitle.setElementValue("");
+		editorNewAnnouncementContent.setElementValue("");
+	}
+
+	/**
+	 * Action buttons handling
+	 */
+	$announcementsBody.on("click", ".media-right > a", async function(e) {
+		e.preventDefault();
+		let that = $(this);
+		if (that.is(".reset")) {
+			clearEditorsValue();
+		}
+		if (that.is(".submit")) {
 			let titleValue = editorNewAnnouncementTitle.getEditorValue(),
 				contentValue = editorNewAnnouncementContent.getEditorValue();
-			if (titleValue != "" || contentValue != "") {
-				$actionsContainer.removeClass("is-invisible");
-				window.isPageBusy = true;
+			if (!titleValue || titleValue == "") {
+				notification("You must add an announcement title", "danger");
+			} else if (!contentValue || contentValue == "") {
+				notification("You must add an announcement text", "danger");
 			} else {
-				$actionsContainer.addClass("is-invisible");
-				window.isPageBusy = false;
-			}
-		};
-		editorNewAnnouncementTitle.events.on('change', inputChangeHandler);
-		editorNewAnnouncementContent.events.on('change', inputChangeHandler);
+				let data = {
+					id: that.parents("article.media").attr("id"),
+					title: titleValue,
+					content: contentValue
+				};
+				let resCreated = await CreateAnnouncement(data);
 
-		let clearEditorsValue = () => {
-			editorNewAnnouncementTitle.setElementValue("");
-			editorNewAnnouncementContent.setElementValue("");
-		}
-
-		/**
-		 * Action buttons handling
-		 */
-		$announcementsBody.on("click", ".media-right > a", function(e) {
-			e.preventDefault();
-			let that = $(this);
-			if (that.is(".reset")) {
-				clearEditorsValue();
-			}
-			if (that.is(".submit")) {
-				let titleValue = editorNewAnnouncementTitle.getEditorValue(),
-					contentValue = editorNewAnnouncementContent.getEditorValue();
-				if (!titleValue || titleValue == "") {
-					notification("You must add an announcement title", "danger");
-				} else if (!contentValue || contentValue == "") {
-					notification("You must add an announcement text", "danger");
+				if (!resCreated) {
+					notification(System.data.locale.common.notificationMessages.operationError, "danger");
 				} else {
-					let data = {
-						id: that.parents("article.media").attr("id"),
-						title: titleValue,
-						content: contentValue
-					};
-					CreateAnnouncement(data, res => {
-						if (!res) {
-							notification(System.data.locale.common.notificationMessages.operationError, "danger");
-						} else {
-							if (!res.success) {
-								notification((res.message || System.data.locale.common.notificationMessages.operationError), "danger");
-							} else {
-								notification(System.data.locale.popup.notificationMessages.createdMessage);
+					if (!resCreated.success) {
+						notification((resCreated.message || System.data.locale.common.notificationMessages.operationError), "danger");
+					} else {
+						notification(System.data.locale.popup.notificationMessages.createdMessage);
 
-								$announcementsBody.prepend(announcementsNodes(res.data));
-								refreshUsers($announcementsBody);
+						$announcementsBody.prepend(announcementsNodes(resCreated.data));
+						refreshUsers($announcementsBody);
 
-								$('html, body').animate({
-									scrollTop: $("#" + res.data._id).offset().top
-								}, 1000);
+						$('html, body').animate({
+							scrollTop: $("#" + resCreated.data._id).offset().top
+						}, 1000);
 
-								clearEditorsValue();
-							}
-						}
-					});
+						clearEditorsValue();
+					}
 				}
-			} else if (that.is(".update")) {
-				let titleValue = editorUpdateAnnouncementTitle.getEditorValue(),
-					contentValue = editorUpdateAnnouncementContent.getEditorValue();
-				if (!titleValue || titleValue == "") {
-					notification("You must add an announcement title", "danger");
-				} else if (!contentValue || contentValue == "") {
-					notification("You must add an announcement text", "danger");
+			}
+		} else if (that.is(".update")) {
+			let titleValue = editorUpdateAnnouncementTitle.getEditorValue(),
+				contentValue = editorUpdateAnnouncementContent.getEditorValue();
+			if (!titleValue || titleValue == "") {
+				notification("You must add an announcement title", "danger");
+			} else if (!contentValue || contentValue == "") {
+				notification("You must add an announcement text", "danger");
+			} else {
+				let data = {
+					id: that.parents("article.media").attr("id"),
+					title: titleValue,
+					content: contentValue
+				};
+				//data.id = that.parents("article.media").attr("id");
+				let resUpdated = await UpdateAnnouncement(data);
+
+				if (!resUpdated) {
+					notification(System.data.locale.common.notificationMessages.operationError, "danger");
 				} else {
-					let data = {
-						id: that.parents("article.media").attr("id"),
-						title: titleValue,
-						content: contentValue
-					};
-					//data.id = that.parents("article.media").attr("id");
-
-					UpdateAnnouncement(data, res => {
-						if (!res) {
-							notification(System.data.locale.common.notificationMessages.operationError, "danger");
-						} else {
-							if (!res.success) {
-								notification((res.message || System.data.locale.common.notificationMessages.operationError), "danger");
-							} else {
-								notification(System.data.locale.popup.notificationMessages.updatedMessage);
-							}
-						}
-					});
-
+					if (!resUpdated.success) {
+						notification((resUpdated.message || System.data.locale.common.notificationMessages.operationError), "danger");
+					} else {
+						notification(System.data.locale.popup.notificationMessages.updatedMessage);
+					}
 				}
-			} else if (that.is(".remove")) {
-				if (confirm(System.data.locale.common.notificationMessages.areYouSure)) {
-					let parentArticle = that.parents("article.media");
-					let id = parentArticle.attr("id");
-					RemoveAnnouncement(id, res => {
-						if (!res) {
-							notification(System.data.locale.common.notificationMessages.operationError, "danger");
-						} else {
-							if (!res.success) {
-								notification((res.message || System.data.locale.common.notificationMessages.operationError), "danger");
-							} else {
-								notification(System.data.locale.popup.notificationMessages.removedMessage);
-								parentArticle.slideUp("normal", function() { this.remove(); });
-							}
-						}
-					});
+			}
+		} else if (that.is(".remove")) {
+			if (confirm(System.data.locale.common.notificationMessages.areYouSure)) {
+				let parentArticle = that.parents("article.media");
+				let id = parentArticle.attr("id");
+				let resRemoved = await RemoveAnnouncement(id);
+
+				if (!resRemoved) {
+					notification(System.data.locale.common.notificationMessages.operationError, "danger");
+				} else {
+					if (!resRemoved.success) {
+						notification((resRemoved.message || System.data.locale.common.notificationMessages.operationError), "danger");
+					} else {
+						notification(System.data.locale.popup.notificationMessages.removedMessage);
+						parentArticle.slideUp("normal", function() { this.remove(); });
+					}
 				}
-			} else if (that.is(".edit")) {
-				let $parentArticle = that.parents("article.media");
-				$parentArticle.toggleClass("is-editing");
-				let $editorContent = $(".media-content.editor", $parentArticle);
-				if ($editorContent.length == 0) {
-					let $announcementContainer = $(".media-content", $parentArticle);
-					let $editors = $(`
+			}
+		} else if (that.is(".edit")) {
+			let $parentArticle = that.parents("article.media");
+			$parentArticle.toggleClass("is-editing");
+			let $editorContent = $(".media-content.editor", $parentArticle);
+			if ($editorContent.length == 0) {
+				let $announcementContainer = $(".media-content", $parentArticle);
+				let $editors = $(`
 					<div class="media-content editor">
 						<div class="content">
 							<input class="input announcementTitle" type="text">
@@ -256,7 +252,7 @@ const Announcements = (callback) => {
 							<textarea class="announcementContent" name="editor"></textarea>
 						</div>
 					</div>
-					
+
 					<div class="media-right editing">
 						<a href="#" class="icon has-text-danger edit" title="${System.data.locale.popup.extensionManagement.announcements.cancelEdit}">
 							<i class="fas fa-lg fa-times-circle"></i>
@@ -265,38 +261,52 @@ const Announcements = (callback) => {
 							<i class="fas fa-check"></i>
 						</a>
 					</div>`).insertAfter($announcementContainer);
-					editorUpdateAnnouncementTitle = createEditor($("input.announcementTitle", $editors));
-					editorUpdateAnnouncementContent = createEditor($("textarea.announcementContent", $editors));
+				editorUpdateAnnouncementTitle = createEditor($("input.announcementTitle", $editors));
+				editorUpdateAnnouncementContent = createEditor($("textarea.announcementContent", $editors));
 
-					editorUpdateAnnouncementTitle.setElementValue($(".announcementTitle", $announcementContainer).html());
-					editorUpdateAnnouncementContent.setElementValue($(".announcementContent", $announcementContainer).html());
+				editorUpdateAnnouncementTitle.setElementValue($(".announcementTitle", $announcementContainer).html());
+				editorUpdateAnnouncementContent.setElementValue($(".announcementContent", $announcementContainer).html());
 
-				} else {}
+			} else {}
 
-			} else if (that.is(".publish")) {
-				let status = JSON.parse($(this).attr("data-published"));
-				let $article = that.parents("article.media");
+		} else if (that.is(".publish")) {
+			let status = JSON.parse($(this).attr("data-published"));
+			let $article = that.parents("article.media");
+			let resUpdated = await UpdateAnnouncement({ id: $article.attr("id"), publish: !status });
 
-				UpdateAnnouncement({ id: $article.attr("id"), publish: !status }, res => {
-					if (!res) {
-						notification(System.data.locale.common.notificationMessages.operationError, "danger");
-					} else {
-						if (!res.success) {
-							notification((res.message || System.data.locale.common.notificationMessages.operationError), "danger");
-						} else {
-							notification(System.data.locale.popup.notificationMessages.updatedMessage);
-							$(this).attr({
-								"data-published": !status,
-								title: System.data.locale.popup.extensionManagement.announcements[!status ? "unpublish" : "publish"]
-							});
-							$("[data-fa-i2svg]", this).toggleClass('fa-eye').toggleClass('fa-eye-slash');
-							$(".media-content > .content > [data-fa-i2svg]", $article).toggleClass('fa-eye').toggleClass('fa-eye-slash');
-						}
-					}
-				});
+			if (!resUpdated) {
+				notification(System.data.locale.common.notificationMessages.operationError, "danger");
+			} else {
+				if (!resUpdated.success) {
+					notification((resUpdated.message || System.data.locale.common.notificationMessages.operationError), "danger");
+				} else {
+					notification(System.data.locale.popup.notificationMessages.updatedMessage);
+					$(this).attr({
+						"data-published": !status,
+						title: System.data.locale.popup.extensionManagement.announcements[!status ? "unpublish" : "publish"]
+					});
+					$("[data-fa-i2svg]", this).toggleClass('fa-eye').toggleClass('fa-eye-slash');
+					$(".media-content > .content > [data-fa-i2svg]", $article).toggleClass('fa-eye').toggleClass('fa-eye-slash');
+				}
 			}
-		});
+		}
 	});
+}
+
+function Announcements() {
+	let $announcementLayout = $(`
+	<div id="announcements" class="column is-narrow">
+		<article class="message is-info">
+			<div class="message-header">
+				<p>${System.data.locale.popup.extensionManagement.announcements.text}</p>
+			</div>
+			<div class="message-body"></div>
+		</article>
+	</div>`);
+
+	prepareAnnouncements($announcementLayout);
+
+	return $announcementLayout;
 };
 
 export default Announcements

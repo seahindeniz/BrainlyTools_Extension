@@ -1,6 +1,6 @@
 import { RemoveQuestion } from "../../../controllers/ActionsOfBrainly";
 import Buttons from "../../../components/Buttons";
-import notification from "../../../components/Notification";
+import notification from "../../../components/notification";
 
 /**
  * Prepare and add quick delete buttons to question box

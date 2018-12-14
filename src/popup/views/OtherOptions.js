@@ -1,6 +1,6 @@
 import ext from "../../scripts/utils/ext";
 import Storage from "../../scripts/helpers/extStorage";
-import notification from "../components/Notification";
+import notification from "../components/notification";
 import send2AllBrainlyTabs from "../helpers/send2AllBrainlyTabs";
 import Inject2body from "../../scripts/helpers/Inject2body";
 import Dropdown from "../helpers/Dropdown";

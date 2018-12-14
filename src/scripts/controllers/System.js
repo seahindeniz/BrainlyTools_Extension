@@ -29,6 +29,10 @@ class _System {
 			locale: {},
 			config: {
 				reasonSign: "Ω",
+				MAX_FILE_SIZE_OF_EVIDENCE_IN_MB: 22,
+				get MAX_FILE_SIZE_OF_EVIDENCE() {
+					return System.data.config.MAX_FILE_SIZE_OF_EVIDENCE_IN_MB * 1024 * 1024;
+				},
 				extension: extensionServer,
 				availableLanguages: [{
 						key: "en_US",
@@ -118,7 +122,7 @@ class _System {
 		console.log("System initalized");
 	}
 	/**
-	 * 
+	 *
 	 * @param {number} milliseconds - Specify delay in milliseconds
 	 */
 	delay(milliseconds) {
@@ -128,7 +132,7 @@ class _System {
 		console.log.apply()
 	} */
 	randomNumber(min, max) {
-		return Math.floor(Math.random() * (max - min + 1)) + min;
+		return Math.floor((Math.random() * max) + min);
 	}
 	pageLoaded(loadMessage) {
 		Console.log(loadMessage);
@@ -184,6 +188,7 @@ class _System {
 	shareGatheredData2Background() {
 		return new Promise(async (resolve, reject) => {
 			console.log("System.data:", System.data);
+			console.log("hash:",System.data.Brainly.userData._hash);
 			let res = await this.toBackground("setMarketData", System.data);
 			console.log("res:", res);
 			if (!res || res != "done") {

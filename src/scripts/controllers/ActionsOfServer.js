@@ -1,5 +1,5 @@
 import Request from "./Request";
-import notification from "../components/Notification";
+import notification from "../components/notification";
 import md5 from "js-md5";
 import Storage from "../helpers/extStorage";
 
@@ -50,15 +50,8 @@ export function Auth() {
 	});
 }
 
-export function GetDeleteReasons(callback) {
-	return Request.ExtensionServer("GET", `/deleteReasons/${System.data.meta.marketName}`, res => {
-		if (res && res.success) {
-			callback(res.data);
-		}
-	});
-	/*$.get("admin/del_reasons/reasons/1", res => {
-		Console.log($("table tr[id]", `<div>${res}</div>`));
-	});*/
+export function GetDeleteReasons() {
+	return Request.ExtensionServer("GET", `/deleteReasons/${System.data.meta.marketName}`);
 }
 
 export function passUser(id, nick) {
@@ -88,38 +81,39 @@ export function PutUser(data) {
 	return Request.ExtensionServer("PUT", "/user", data);
 }
 
-export function updateNote(data, callback) {
-	Request.ExtensionServer("PUT", "/note", data, callback);
+export function UpdateNote(data) {
+	return Request.ExtensionServer("PUT", "/note", data);
 }
 
-export function GetAnnouncements(callback) {
-	Request.ExtensionServer("GET", "/announcements", callback);
+export function GetAnnouncements() {
+	return Request.ExtensionServer("GET", "/announcements");
 }
 
-export function CreateAnnouncement(data, callback) {
-	Request.ExtensionServer("POST", "/announcements", data, callback);
+export function CreateAnnouncement(data) {
+	return Request.ExtensionServer("POST", "/announcements", data);
 }
 
-export function UpdateAnnouncement(data, callback) {
-	Request.ExtensionServer("PUT", "/announcements", data, callback);
+export function UpdateAnnouncement(data) {
+	return Request.ExtensionServer("PUT", "/announcements", data);
 }
 
-export function RemoveAnnouncement(data, callback) {
+export function RemoveAnnouncement(data) {
 	if (typeof data == "string" || typeof data == "number") {
 		data = { id: data };
 	}
-	Request.ExtensionServer("DELETE", "/announcements", data, callback);
+	return Request.ExtensionServer("DELETE", "/announcements", data);
 }
 
-export function AnnouncementRead(data, callback) {
+export function AnnouncementRead(data) {
 	if (typeof data == "string" || typeof data == "number") {
 		data = { id: data };
 	}
-	Request.ExtensionServer("PUT", "/announcement", data, callback);
+
+	return Request.ExtensionServer("PUT", "/announcement", data);
 }
 
-export function CreateShortLink(data, callback) {
-	Request.ExtensionServer("POST", "/urlshortener", data, callback);
+export function CreateShortLink(data) {
+	return Request.ExtensionServer("POST", "/urlshortener", data);
 }
 
 export function Logger(type, targetUser, data) {
@@ -129,7 +123,7 @@ export function Logger(type, targetUser, data) {
 		data
 	}
 
-	Request.ExtensionServer("PUT", "/logger", logData);
+	return Request.ExtensionServer("PUT", "/logger", logData);
 }
 
 export function GetUsers() {
@@ -160,7 +154,11 @@ export function GetModerateAllPages() {
 	return Request.ExtensionServer("GET", `/moderateAllPages`);
 }
 
-export function UpdateDeleteReasonsPreferences(data, callback) {
-	Request.ExtensionServer("PUT", `/deleteReasonsPreferences`, data, callback);
+export function UpdateDeleteReasonsPreferences(data) {
+	return Request.ExtensionServer("PUT", `/deleteReasonsPreferences`, data);
+}
+
+export function AccountDeleteReport(data) {
+	return Request.ExtensionServerAjax("POST", "/accountDeleteReport", data);
 }
 //export default ActionsOfServer;

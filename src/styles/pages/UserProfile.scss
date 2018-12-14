@@ -30,6 +30,9 @@ img.userFlag {
 }
 
 .ranking {
+	>h2:not(:last-child) {
+		margin-right: 0.5em;
+	}
 
 	&>a,
 	div.userFlag .sg-badge {
@@ -139,6 +142,162 @@ img.userFlag {
 					}
 				}
 			}
+		}
+	}
+}
+
+#profile #profile-mod-panel div.evidences {
+	display: inline-block;
+	width: 98%;
+	padding: 10px 0;
+	margin: 30px auto 0;
+	-webkit-transition: color 2s, outline-color .7s ease-out, background-color .7s ease-out;
+	-moz-transition: color 2s, outline-color .7s ease-out, background-color .7s ease-out;
+	-o-transition: color 2s, outline-color .7s ease-out, background-color .7s ease-out;
+	transition: color 2s, outline-color .7s ease-out, background-color .7s ease-out;
+
+	div {
+		padding: 0;
+	}
+
+	>div {
+		width: 100%;
+		display: inline-block;
+		margin-top: 5px;
+
+
+		&.textarea {
+			text-align: center;
+		}
+
+		&.container>label {
+			font-size: 12px;
+			width: initial;
+			font-weight: bold;
+
+			>i {
+				font-size: 0.9em;
+				font-weight: normal;
+			}
+		}
+
+		>textarea {
+			/*width: 49%;
+	height: 58px;
+	position: absolute;
+	bottom: 58px;*/
+			width: 87.5%;
+			height: 45px;
+			min-height: 45px;
+			position: relative;
+			resize: vertical;
+		}
+
+	}
+
+	.evidence {
+		&:not(.previewing) {
+			&.previewable .sg-icon {
+				cursor: pointer;
+			}
+
+			.sg-actions-list {
+				display: -webkit-box !important;
+			}
+		}
+
+		&.previewing .sg-icon {
+			width: 100%;
+			max-width: unset;
+			height: 100%;
+			max-height: unset;
+		}
+
+		span.sg-text {
+			width: 100%;
+			height: 18px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: inline-block;
+			white-space: nowrap;
+		}
+	}
+
+	.addFile {
+
+		input {
+			visibility: hidden;
+			width: 0;
+			height: 0;
+			padding: 0;
+			border: 0;
+		}
+
+		label {
+			display: inline-flex;
+			width: unset;
+			padding: 0 18px;
+			float: unset;
+			line-height: inherit;
+		}
+	}
+
+	ul {
+		/*width: 49%;
+	clear: both;
+	overflow-x: auto;
+	float: right;
+	margin-top: 0;*/
+		width: 100%;
+
+		>li {
+			width: 60px;
+			height: 55px;
+			padding: 10px;
+			outline: 1px solid #eee;
+			text-align: center;
+			float: left;
+			margin: 0 4px 10px;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+
+			&.kanit {
+				>button {
+					position: relative;
+					margin: -15px 0 0 35px;
+					float: right;
+					top: 6px;
+					right: -10px;
+					z-index: 1;
+				}
+
+				>img,
+				>video {
+					height: 64%;
+				}
+
+				&.preview {
+					width: 100%;
+					height: 16em;
+
+					>img,
+					>video {
+						height: 150px;
+					}
+				}
+
+				>p {
+					width: 100%;
+					height: 15px;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					display: inline-block;
+					white-space: nowrap;
+				}
+			}
+
 		}
 	}
 }

@@ -5,11 +5,14 @@ let prepareAjax = () => {
 	$(document).ajaxSend(function(xhr, s, settings) {
 		if (typeof settings.data === "string") {
 			settings.data = settings.data.replace(/(\&data\%5B\_Token\%5D\%5Block\%5D\=.+)/, "");
+		} else if (settings.data instanceof FormData) {
+			settings.data.delete("data[_Token][lock]");
 		}
 	});
 
 	prepareAjax = null;
 }
+
 let holdRequests = [];
 const Request = {
 	Brainly(options) {
@@ -121,7 +124,7 @@ const Request = {
 		var xhr = new XMLHttpRequest();
 
 		return $.ajax({
-			method: "get",
+			method: "GET",
 			url: System.data.meta.location.origin + path,
 			beforeSend: function(xhr) {
 				xhr.setRequestHeader('X-Requested-With', { toString: function() { return ''; } });
@@ -161,6 +164,89 @@ const Request = {
 				}
 			});
 		});
+	},
+	ExtensionServerAjax2(method, path, data) {
+		var deferred = $.Deferred();
+
+		let ajaxData = {
+			url: System.data.config.extension.serverAPIURL + path,
+			data: data,
+			type: method,
+			/* success: deferred.resolve,
+			error: deferred.reject, */
+			xhr: function() {
+				let xhr = $.ajaxSettings.xhr();
+
+				xhr.onload = function(a, b, c) {
+					console.log(a, b, c, this);
+				};
+				/* xhr.onerror = deferred.reject;
+				xhr.onabort = deferred.reject; */
+				//xhr.upload.onprogress = deferred.notify;
+
+				return xhr;
+			}
+		}
+
+		if (System.data.Brainly.userData.extension && System.data.Brainly.userData.extension.secretKey) {
+			ajaxData.headers = { SecretKey: System.data.Brainly.userData.extension.secretKey };
+		}
+
+		if (data instanceof FormData) {
+			ajaxData.processData = false;
+			ajaxData.contentType = false;
+		} else {
+			ajaxData.data = JSON.stringify(data);
+			ajaxData.contentType = "application/json";
+		}
+
+		prepareAjax && prepareAjax();
+		$.ajax(ajaxData);
+		return deferred //.promise();
+	},
+	ExtensionServerAjax(method, path, data) {
+		var deferred = $.Deferred();
+		var xhr = new XMLHttpRequest();
+
+		xhr.open(method, System.data.config.extension.serverAPIURL + path);
+
+		if (data instanceof FormData) {
+			/* 	xhr.setRequestHeader("Content-Type", "multipart/form-data");
+				xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); */
+		} else {
+			data = JSON.stringify(data);
+			xhr.setRequestHeader("Content-Type", "application/json");
+		}
+
+		if (System.data.Brainly.userData.extension && System.data.Brainly.userData.extension.secretKey) {
+			xhr.setRequestHeader('SecretKey', System.data.Brainly.userData.extension.secretKey);
+		}
+
+		xhr.onload = function() {
+			if (this.status >= 200 && this.status < 300) {
+				let response = xhr.response;
+
+				if (xhr.getResponseHeader('content-type').indexOf("application/json") >= 0) {
+					response = JSON.parse(response);
+				}
+
+				deferred.resolve(response);
+			} else {
+				deferred.reject({
+					status: this.status,
+					statusText: xhr.statusText
+				});
+			}
+		};
+
+		xhr.upload.onprogress = deferred.notify;
+
+		xhr.onerror = deferred.reject;
+
+		xhr.send(data);
+
+		return deferred.promise();
+		//});
 	}
 }
 export default Request;

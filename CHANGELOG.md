@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.7.0] - 2018.12.10
+
+### Added
+
+- Moderator's can able to add evidences regarding to the account delete process
+ when they needs to delete an account. (<https://ibb.co/JWY35V1>)
+
+### Changed/Fixed
+
+- Performance improvements
+
 ## [6.6.1] - 2018.12.02
 
 ### Changed/Fixed

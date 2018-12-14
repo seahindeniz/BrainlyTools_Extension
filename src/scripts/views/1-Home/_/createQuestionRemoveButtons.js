@@ -1,7 +1,7 @@
 import secondsToTime from "../../../helpers/secondsToTime";
 import { RemoveQuestion, OpenModerationTicket, CloseModerationTicket } from "../../../controllers/ActionsOfBrainly";
 import Buttons from "../../../components/Buttons";
-import notification from "../../../components/Notification";
+import notification from "../../../components/notification";
 import extModeratePanel from "../../../components/extModeratePanel";
 
 const ext_actions_buttons_click_handler = async function() {

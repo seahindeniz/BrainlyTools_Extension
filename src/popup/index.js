@@ -1,9 +1,9 @@
 "use strict"
 
-import ext from "../scripts/utils/ext";
+import ext from "../scripts/utils/1.ext";
 import Storage from "../scripts/helpers/extStorage";
-import render from "./views/Body";
 import _System from "../scripts/controllers/System";
+import Popup from "./controllers/Popup";
 
 let System = new _System();
 window.System = System;
@@ -15,42 +15,60 @@ window.onbeforeunload = function() {
 	}
 }
 
-$(() => {
-	var messageDone = () => {
-		messageDone = () => {};
-		ext.runtime.sendMessage({ action: "getMarketData" }, function(marketData) {
-			//console.log(res);
-			if (!marketData) {
-				render("status", { type: "danger", title: "Error 417", text: `I can't fetch market data` });
+$(onBodyLoad);
 
-				return false;
-			}
+async function onBodyLoad() {
+	window.popup = new Popup();
 
-			System.data = marketData;
 
-			Storage.get(["user", "themeColor", "quickDeleteButtonsReasons", "extendMessagesBody"], res => {
-				//console.log("storageUser: ", res);
-				if (!(res && res.user && res.user.user && res.user.user.id && res.user.user.id == res.user.user.id)) {
-					render("status", { type: "danger", title: "Error 417", text: `I'm unable to fetch your data from Brainly<br><br>Please go to Brainly's homepage or reload the page` });
-				} else if (!System.data.Brainly.deleteReasons.__withIds) {
-					render("status", { type: "danger", title: "Error 416", text: "An error accoured while preparing the delete reasons and fetching from Brainly" });
-				} else {
-					render("layout", res);
-				}
+	let messageDone = async () => {
+		messageDone = $.noop;
+
+		let marketData = await ext.runtime.sendMessage({ action: "getMarketData" });
+		if (!marketData) {
+			return popup.RenderStatusMessage({
+				type: "danger",
+				title: "Error 417",
+				message: `I can't fetch market data`
 			});
+		}
 
+		System.data = marketData;
+		System.data.Brainly.userData.user.fixedAvatar = System.data.Brainly.userData.user.avatars[100] || `https://${System.data.meta.marketName}/img/avatars/100-ON.png`;
+
+		Storage.get(["user", "themeColor", "quickDeleteButtonsReasons", "extendMessagesBody", "extendMessagesLayout", "notifier", "language"], storageData => {
+			//console.log("storageData: ", storageData);
+			if (!(storageData && storageData.user && storageData.user.user && storageData.user.user.id && storageData.user.user.id == storageData.user.user.id)) {
+				popup.RenderStatusMessage({
+					type: "danger",
+					title: "Error 417",
+					message: `I'm unable to fetch your data from Brainly<br><br>Please go to Brainly's homepage or reload the page`
+				});
+			} else if (!System.data.Brainly.deleteReasons.__withIds) {
+				popup.RenderStatusMessage({
+					type: "danger",
+					title: "Error 416",
+					message: `An error accoured while preparing the delete reasons and fetching from Brainly`
+				});
+			} else {
+				popup.storageData = storageData;
+				popup.RenderMainUI();
+			}
 		});
 	}
 
-	render("status", { type: "primary", title: `Please wait..` });
-	ext.tabs.query({}, function(tabs) {
+	popup.RenderStatusMessage({ title: `Please wait..` });
+
+	let tabs = await ext.tabs.query({});
+
+	if (tabs && tabs.length > 0) {
 		for (var i = 0, tab; tab = tabs[i]; ++i) {
 			if (System.regexp_BrainlyMarkets.test(tab.url)) {
 				var message = { action: "shareGatheredData2Background", url: tab.url };
-				ext.tabs.sendMessage(tab.id, message, res => {
-					messageDone();
-				});
+
+				await ext.tabs.sendMessage(tab.id, message);
+				messageDone();
 			}
 		}
-	});
-});
+	}
+}

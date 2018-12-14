@@ -30,6 +30,20 @@ a {
 	z-index: 2;
 }
 
+html[is="popup"] {
+	article.media.addNew>.media-content>label.label {
+		height: 3em;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+	}
+
+	article.media.addNew.announcement {
+		display: none;
+	}
+}
+
 .hero {
 	&>.hero-body {
 		width: $bodyWidth;

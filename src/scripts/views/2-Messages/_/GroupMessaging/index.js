@@ -2,7 +2,7 @@ import WaitForElement from "../../../../helpers/WaitForElement";
 import groupLi from "./groupLi";
 import renderGroupModal from "./groupModal";
 import { GetMessageGroups, GetMessages, UpdateMessageGroup } from "../../../../controllers/ActionsOfServer";
-import notification from "../../../../components/Notification";
+import notification from "../../../../components/notification";
 import moment from "moment";
 import GroupChatbox from "./GroupChatbox";
 import renderGroupLi from "./groupLi";

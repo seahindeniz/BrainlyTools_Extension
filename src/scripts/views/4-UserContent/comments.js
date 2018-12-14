@@ -1,7 +1,7 @@
 "use strict";
 
 import DeleteSection from "../../components/DeleteSection";
-import notification from "../../components/Notification";
+import notification from "../../components/notification";
 import { GetTaskContent, RemoveComment } from "../../controllers/ActionsOfBrainly";
 
 let selectors = window.selectors,

@@ -1,6 +1,6 @@
 import ext from "../../scripts/utils/ext";
 import Storage from "../../scripts/helpers/extStorage";
-import notification from "../components/Notification";
+import notification from "../components/notification";
 import send2AllBrainlyTabs from "../helpers/send2AllBrainlyTabs";
 
 let ThemeColor = (color = "#57b2f8", callback) => {

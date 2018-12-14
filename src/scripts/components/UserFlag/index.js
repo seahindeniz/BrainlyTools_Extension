@@ -1,13 +1,13 @@
-export default (gender = 0, page) => {
+function UserFlag(elementType, gender = 0) {
 	let $userFlag = "";
 
-	if (page == "img") {
+	if (elementType == "img") {
 		let flags = [...System.data.config.userFlags[gender], ...System.data.config.userFlags[0]];
 		let rn = System.randomNumber(0, flags.length - 1);
 		let flag = System.data.config.userFlags.list[flags[rn]];
 
 		$userFlag = $(`<img src="${System.data.meta.extension.URL + flag.file}" class="userFlag" style="${flag.css}">`);
-	} else if (page == "tag") {
+	} else if (elementType == "tag") {
 		$userFlag = $(`
 		<div class="sg-actions-list__hole userFlag">
 			<div class="sg-badge sg-badge--lavender">
@@ -18,3 +18,5 @@ export default (gender = 0, page) => {
 
 	return $userFlag
 }
+
+export default UserFlag

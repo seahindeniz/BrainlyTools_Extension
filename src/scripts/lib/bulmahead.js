@@ -1,6 +1,13 @@
 import debounce from 'lodash/debounce'
-
-let bulmahead = (input, menuEl, api, onSelect, delay) => {
+/**
+ *
+ * @param {HTMLInputElement} input
+ * @param {HTMLElement} menuEl
+ * @param {Promise} api
+ * @param {function} onSelect
+ * @param {number} delay
+ */
+let bulmahead = (input, menuEl, api, onSelect, delay = 200) => {
 	menuEl.innerHTML = '<div class="dropdown-content"></div>'
 
 	let setValue = e => {
@@ -10,7 +17,7 @@ let bulmahead = (input, menuEl, api, onSelect, delay) => {
 		input.value = label
 		menuEl.style.display = 'none'
 		if (onSelect) {
-			onSelect.bind(e.target)()
+			onSelect(e.target.object)
 		}
 		return false
 	}
@@ -48,4 +55,3 @@ let bulmahead = (input, menuEl, api, onSelect, delay) => {
 }
 
 export default bulmahead
-window.bulmahead = bulmahead

@@ -209,7 +209,6 @@ class GroupChatbox {
 
 		let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--small"></div></div>`).insertAfter(this.$sendButton);
 
-		let previousProgressBars = $(".progress-container", this.$progressHole);
 		let progress = new Progress({
 			type: "is-success",
 			label: System.data.locale.common.progressing,
@@ -217,11 +216,7 @@ class GroupChatbox {
 		});
 
 		this.$messageInput.prop("disabled", true);
-		progress.container.appendTo(this.$progressHole);
-
-		if (previousProgressBars.length > 0) {
-			previousProgressBars.remove();
-		}
+		progress.$container.appendTo(this.$progressHole.html(""));
 
 		let doInEachSending = () => {
 			progress.update(++sendedMessagesCount);

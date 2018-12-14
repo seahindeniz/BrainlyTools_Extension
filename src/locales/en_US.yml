@@ -126,40 +126,56 @@ popup:
         line4: "<s>Green</s> color means the user is an active authorized user."
         # ! Important: You need to specify the "no border" word inside the braces like this: in English <s>No border</s> or in Turkish <s>Kenarligi olmayan</s>
         line5: "<s>No border</s> means that user has some privileges assigned but not given permission to use the extension in their account and hasn't started to use the extension yet."
+      privilegeListOrder:
+      - 0
+      - 4
+      - 5
+      - 11
+      - 1
+      - 2
+      - 45
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
       privilegeList:
-      - type: 0
-        title: Extension admin
-        description: Can able use the extension without any restriction. (No need to assing any other priviliges, this will remove all restrictions)
-      - type: 4
-        title: Announcement management
-        description: Can able to create, edit, remove or publish the internal extension announcements
-      - type: 5
-        title: User management
-        description: Can able to add or editing the extension users and give them privileges or permission to use the extension
-      - type: 1
-        title: Quick delete questions
-        description: On the pages of questions, user contents, archive mod and homepage, user can use the quick delete buttons for deleting the question(s)
-      - type: 2
-        title: Quick delete answers
-        description: On the pages of questions, user contents, archive mod and homepage, user can use the quick delete buttons for deleting the answer(s)
-      - type: 45
-        title: Quick delete comments
-        description: On the pages of questions, user contents and archive mod, user can use the quick delete buttons for deleting the comment(s)
-      - type: 6
-        title: Answer approvement
-        description: In the user content page, user can approve the answer by selecting
-      - type: 7
-        title: Mass-Question delete
-        description: In the moderation panel, user can use this function for deleting multiple questions
-      - type: 8
-        title: Group messages
-        description: In the messages page, user can send private messages to multiple users in a group at once
-      - type: 9
-        title: Mass-Message sender(Deprecated)
-        description: In the moderation panel, user can use this function for sending a private message to entire users of your market
-      - type: 10
-        title: Supervisors page, Message sender
-        description: In the supervisors page, user can send a private message to listed moderators or all moderators of your market
+        "0":
+          title: Extension admin
+          description: Can able use the extension without any restriction. (No need to assing any other priviliges, this will remove all restrictions)
+        "4":
+          title: Announcement management
+          description: Can able to create, edit, remove or publish the internal extension announcements
+        "5":
+          title: User management
+          description: Can able to add or editing the extension users and give them privileges or permission to use the extension
+        "1":
+          title: Quick delete questions
+          description: On the pages of questions, user contents, archive mod and homepage, user can use the quick delete buttons for deleting the question(s)
+        "2":
+          title: Quick delete answers
+          description: On the pages of questions, user contents, archive mod and homepage, user can use the quick delete buttons for deleting the answer(s)
+        "45":
+          title: Quick delete comments
+          description: On the pages of questions, user contents and archive mod, user can use the quick delete buttons for deleting the comment(s)
+        "6":
+          title: Answer approvement
+          description: In the user content page, user can approve the answer by selecting
+        "7":
+          title: Mass-Question delete
+          description: In the moderation panel, user can use this function for deleting multiple questions
+        "8":
+          title: Group messages
+          description: In the messages page, user can send private messages to multiple users in a group at once
+        "9":
+          title: Mass-Message sender(Deprecated)
+          description: In the moderation panel, user can use this function for sending a private message to entire users of your market
+        "10":
+          title: Supervisors page, Message sender
+          description: In the supervisors page, user can send a private message to listed moderators or all moderators of your market
+        "11":
+          title: Delete reasons preferences management
+          description: Can able to set warning level of delete reasons
     announcements:
       text: Announcements
       addNewAnnouncement: Add a new announcement
@@ -202,7 +218,7 @@ core:
     questionsWillBeDeleted: "%{n} questions"
     # %{n} indicates the number of deleted questions. Also "q." is short for "question" word. Example> 8 q. has been deleted
     nHasBeenDeleted: "%{n} q. has been deleted"
-    # Explanation text for id container of the Mass-Question deleter 
+    # Explanation text for id container of the Mass-Question deleter
     containerExplanation: "You need to put questions links or id's to container line by line. Example:"
   MessageSender:
     text: Mass-Message sender
@@ -218,7 +234,7 @@ home:
 messages:
   notificationMessages:
     unsendedMessage: You didn't send your message, do you still want to leave?
-  groups: 
+  groups:
     title: Groups
     createGroup: Create a group
     editGroup: Edit group
@@ -250,7 +266,7 @@ messages:
       youNeedToAddMembers: You need add at least one user in the group members list
       youHaventCreatedAGroupYet: You haven't created a group yet..
     userCategories:
-      findUsers: 
+      findUsers:
         text: Find users
         nickOrID: Nick or Profile ID
       friendsList: Friends list
@@ -273,6 +289,10 @@ userProfile:
     areYouSureRemoveAllFriends: Are you sure you want to remove all your friends?
     youHaveNoFriends: Don't be sad because you have no friends to list :/ Sorry
     cannotChangeBio: I couldn't able to change your bio :/ Sorry..
+    # %{file_name} represents the file name and %{file_size} represents the file size in megabytes.
+    # Example: The x.jpg file exceeds the size limit of 20MB
+    fileSizeExceeded: The %{file_name} file exceeds the size limit of %{file_size}
+    aShortcutFile: "You're trying to add a shortcut of a file and it's not considered as an actual file. It's kind of a garbage if you'll add it.\nYou may need to select the original file instead\nDo you still want to add this shortcut?"
   previousNicks:
     text: Previous nicks
     title: Previous nicks of the user registered in the database
@@ -288,6 +308,19 @@ userProfile:
   removeSelectedFriends:
     text: Unfriend
     title: You can remove the selected friends from your friend list
+  accountDelete:
+    evidences: Evidences
+    willBeReviewedByCommunityManager: will be reviewed by your Community Manager
+    addFiles: Add files
+    yourComment: Your comment
+    # Evidences will be compressed if there are more than one to upload.
+    # Example: Compressing the screenshot_1.png
+    compressingTheFile: Compressing the %{file_name}
+    compressingTheFiles: Compressing the files
+    # %{percentage_value} will be replaced with percentage value of upload process
+    # Example: Contents uploading 19%
+    uploading: Contents uploading %{percentage_value}
+    deletingContiunes: Deleting continues..
 userWarnings:
   notificationMessages:
     ifYouHavePrivileges: Warning(s) will be revoked if you have authority. Also I'll suggest you to wait like ~10 seconds once the process has started

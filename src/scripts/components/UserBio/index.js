@@ -1,7 +1,7 @@
 "use strict";
 
 import { ChangeBio } from "../../controllers/ActionsOfBrainly";
-import notification from "../../components/Notification";
+import notification from "../../components/notification";
 
 export default description => {
 	let $userBio = $(`

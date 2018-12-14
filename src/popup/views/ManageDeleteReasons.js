@@ -2,7 +2,7 @@
 
 import ext from "../../scripts/utils/ext";
 import Storage from "../../scripts/helpers/extStorage";
-import notification from "../components/Notification";
+import notification from "../components/notification";
 import send2AllBrainlyTabs from "../helpers/send2AllBrainlyTabs";
 import Inject2body from "../../scripts/helpers/Inject2body";
 import bulmahead from "../../scripts/lib/bulmahead"
@@ -118,7 +118,7 @@ const ManageDeleteReasons = async callback => {
 	/**
 	 * Tag click
 	 */
-	const tagClickHandler = function() {
+	const tagClickHandler = async function() {
 		let $parentControl = $(this).parents(".control");
 		let type = $parentControl.parent().data("type");
 		let reason = $parentControl.get(0).reason;
@@ -132,23 +132,23 @@ const ManageDeleteReasons = async callback => {
 			reasonData.confirmation = this.dataset.is == "warning";
 		}
 
-		UpdateDeleteReasonsPreferences(reasonData, res => {
-			if (!res || !res.success) {
-				notification(System.data.locale.common.notificationMessages.somethingWentWrong, "danger");
+		let resUpdate = await UpdateDeleteReasonsPreferences(reasonData);
+
+		if (!resUpdate || !resUpdate.success) {
+			notification(System.data.locale.common.notificationMessages.somethingWentWrong, "danger");
+		} else {
+			let message = System.data.locale.popup.notificationMessages.removedMessage
+			if (reasonData.confirmation == "remove") {
+				$parentControl.remove();
 			} else {
-				let message = System.data.locale.popup.notificationMessages.removedMessage
-				if (reasonData.confirmation == "remove") {
-					$parentControl.remove();
-				} else {
-					$("a.button.tag:not(.is-delete)", $parentControl).attr("class", "button tag");
-					this.classList.add("is-" + this.dataset.is);
+				$("a.button.tag:not(.is-delete)", $parentControl).attr("class", "button tag");
+				this.classList.add("is-" + this.dataset.is);
 
-					message = System.data.locale.common.done;
-				}
-
-				notification(message);
+				message = System.data.locale.common.done;
 			}
-		})
+
+			notification(message);
+		}
 	};
 	$(".field.is-grouped", $manageDeleteReasons).on("click", ".button.tag", tagClickHandler);
 

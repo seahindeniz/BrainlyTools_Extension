@@ -1,5 +1,5 @@
 import WaitForElement from "../../../helpers/WaitForElement";
-import Storage from "../../../helpers/extStorage";
+import storage from "../../../helpers/extStorage";
 
 async function layoutChanger() {
 	let layoutChangerParent = await WaitForElement("#moderation-all > div.top > div.sub-header.row > div.pull-right");
@@ -22,7 +22,7 @@ async function layoutChanger() {
 			$moderationItemParent.removeClass('listView');
 		}
 
-		Storage.set({ archive_mod_layout: isListView });
+		storage("set", { archive_mod_layout: isListView });
 	});
 
 	let currentCountsH1s = await WaitForElement("#moderation-all > div.top > div.header > h1");
@@ -33,7 +33,7 @@ async function layoutChanger() {
 		$("#moderation-all > div.top > div.sub-header.row > div.span5 > select.filters").val(filterVal).change();
 	});
 
-	Storage.get("archive_mod_layout", isTrue => {
+	storage("get", "archive_mod_layout", isTrue => {
 		if (isTrue) {
 			let $moderationItemParent = $(selectors.moderationItemParent);
 

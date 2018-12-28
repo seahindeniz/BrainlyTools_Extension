@@ -1,52 +1,59 @@
 import Request from "./Request";
 import notification from "../components/notification";
 import md5 from "js-md5";
-import Storage from "../helpers/extStorage";
+import storage from "../helpers/extStorage";
 
-export async function userAuth(resolve, reject) {
-	let data = {
-		clientID: System.data.meta.manifest.clientID,
-		clientVersion: System.data.meta.manifest.version,
-		isoLocale: System.data.Brainly.userData.user.iso_locale,
-		marketName: System.data.meta.marketName,
-		crypted: md5(System.data.Brainly.tokenLong),
-		user: {
-			id: System.data.Brainly.userData.user.id,
-			nick: System.data.Brainly.userData.user.nick
+function userAuth(reLogin = false) {
+	return new Promise(async (resolve, reject) => {
+		let data = {
+			clientID: System.data.meta.manifest.clientID,
+			clientVersion: System.data.meta.manifest.version,
+			isoLocale: System.data.Brainly.userData.user.iso_locale,
+			marketName: System.data.meta.marketName,
+			crypted: md5(System.data.Brainly.tokenLong),
+			user: {
+				id: System.data.Brainly.userData.user.id,
+				nick: System.data.Brainly.userData.user.nick
+			}
 		}
-	}
 
-	Storage.setL({ authData: null });
+		storage("setL", { authData: null });
 
-	let res = await Request.ExtensionServer("POST", "/auth", data);
+		let resAuth = await Request.ExtensionServer("POST", "/auth", data);
 
-	if (!res) {
-		notification(System.data.locale.core.notificationMessages.extensionServerError + "<br>" + System.data.locale.core.notificationMessages.ifErrorPersists, "error", true);
-		reject();
-	} else if (!res.data.probatus) {
-		notification(System.data.locale.core.notificationMessages.accessPermissionDenied, "error", true);
-		!resolve && location.reload(true);
-		reject();
-	} else {
-		System.data.Brainly.userData.extension = res.data;
+		if (!resAuth) {
+			notification(System.data.locale.core.notificationMessages.extensionServerError + "<br>" + System.data.locale.core.notificationMessages.ifErrorPersists, "error", true);
+			reject();
+		} else if (!resAuth.data.probatus) {
+			notification(System.data.locale.core.notificationMessages.accessPermissionDenied, "error", true);
+			reLogin && location.reload(true);
+			reject();
+		} else {
+			resAuth.data.hash = JSON.parse(atob(resAuth.data.hash));
 
-		Storage.setL({ authData: res.data });
-		resolve && resolve(JSON.parse(atob(res.data.hash)));
-	}
+			storage("setL", { authData: resAuth.data });
+			resolve(resAuth.data);
+		}
+	});
 }
 
 export function Auth() {
-	return new Promise((resolve, reject) => {
-		Storage.getL("authData", authData => {
-			if (authData && authData.hash) {
-				System.data.Brainly.userData.extension = authData;
+	return new Promise(async (resolve, reject) => {
+		try {
+			let authData = await storage("getL", "authData");
 
-				resolve(JSON.parse(atob(authData.hash)));
-				userAuth(null, reject);
-			} else {
-				userAuth(resolve, reject);
-			}
-		});
+			if (!authData || !authData.hash) {
+				authData = await userAuth();
+			} else { userAuth(true) }
+
+			System.data.Brainly.userData.extension = authData;
+			System.data.Brainly.userData._hash = authData.hash;
+
+			Console.info("Auth OK!");
+			resolve();
+		} catch (error) {
+			reject(error);
+		}
 	});
 }
 
@@ -54,27 +61,14 @@ export function GetDeleteReasons() {
 	return Request.ExtensionServer("GET", `/deleteReasons/${System.data.meta.marketName}`);
 }
 
-export function passUser(id, nick) {
-	return new Promise((resolve, reject) => {
+export function PassUser(id, nick) {
+	let promise = Request.ExtensionServer("PUT", "/user", { id, nick });
 
-		let data = {
-			id,
-			nick
-		}
-
-		let passPromise = Request.ExtensionServer("PUT", "/user", data);
-
-		passPromise.then(res => {
-			if (res && res.success) {
-				resolve(res.data);
-			}
-		})
-		passPromise.catch((why) => {
-			notification(System.data.locale.common.notificationMessages.cannotShareUserInfoWithServer, "error");
-			reject(why);
-		});
-
+	promise.catch(() => {
+		notification(System.data.locale.common.notificationMessages.cannotShareUserInfoWithServer, "error");
 	});
+
+	return promise;
 }
 
 export function PutUser(data) {
@@ -104,12 +98,8 @@ export function RemoveAnnouncement(data) {
 	return Request.ExtensionServer("DELETE", "/announcements", data);
 }
 
-export function AnnouncementRead(data) {
-	if (typeof data == "string" || typeof data == "number") {
-		data = { id: data };
-	}
-
-	return Request.ExtensionServer("PUT", "/announcement", data);
+export function AnnouncementRead(id) {
+	return Request.ExtensionServer("PUT", `/announcement/${id}`);
 }
 
 export function CreateShortLink(data) {
@@ -161,4 +151,11 @@ export function UpdateDeleteReasonsPreferences(data) {
 export function AccountDeleteReport(data) {
 	return Request.ExtensionServerAjax("POST", "/accountDeleteReport", data);
 }
-//export default ActionsOfServer;
+
+export function GetAccountDeleteReports() {
+	return Request.ExtensionServer("GET", `/accountDeleteReports`);
+}
+
+export function FindDeleteReport(filter, value) {
+	return Request.ExtensionServer("GET", `/accountDeleteReports/${filter}/${value}`);
+}

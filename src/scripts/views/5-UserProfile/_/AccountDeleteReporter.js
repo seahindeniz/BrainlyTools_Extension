@@ -2,6 +2,8 @@ import notification from "../../../components/notification";
 import { AccountDeleteReport } from "../../../controllers/ActionsOfServer";
 import JSZip from "jszip";
 import Progress from "../../../components/Progress";
+import FileIcon from "../../../helpers/FileIcon";
+import prettysize from "prettysize";
 
 class AccountDeleteReporter {
 	constructor() {
@@ -13,69 +15,56 @@ class AccountDeleteReporter {
 		this.Render();
 	}
 	Render() {
-		this.$evidences = $(`
-		<div class="evidences">
-			<div class="container">
-				<label for="addFileInput">${System.data.locale.userProfile.accountDelete.evidences} <i>(${System.data.locale.userProfile.accountDelete.willBeReviewedByCommunityManager})</i></label>
-				<div class="sg-content-box__content sg-content-box__content--spaced-top">
-					<div class="sg-content-box addFile">
-							<div class="sg-content-box__content sg-content-box__content--with-centered-text sg-content-box__content--spaced-top">
-								<label class="sg-button-secondary sg-button-secondary--dark-inverse" for="addFileInput">
-									<span class="sg-button-primary__icon">
-										<div class="sg-icon sg-icon--adaptive sg-icon--x14">
-											<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 32 32"><path fill="#333" d="M29.36 4.64a9 9 0 0 0-12.72 0L2.04 19.05a7 7 0 0 0 9.9 9.9l14.6-14.41a5 5 0 1 0-7.08-7.07L8.5 18.43a1 1 0 1 0 1.41 1.42L20.88 8.88a3 3 0 0 1 4.24 4.24L10.53 27.54a5 5 0 1 1-7.07-7.07L17.91 6.19a7 7 0 1 1 9.9 9.9L16.98 26.92a1 1 0 0 0 0 1.41 1 1 0 0 0 1.42 0l10.96-10.97a9 9 0 0 0 0-12.72z"/></svg>
-										</div>
-									</span>${System.data.locale.userProfile.accountDelete.addFiles}..</label>
-								<input type="file" id="addFileInput" multiple>
-							</div>
+		this.$deleteForm = $(`#DelUserAddForm`);
+		let $DeleteUserForm = $(`#DelUserAddForm > div.submit`);
+
+		if ($DeleteUserForm.length > 0) {
+			this.$evidences = $(`
+			<div class="evidences">
+				<div class="container">
+					<label for="addFileInput">${System.data.locale.userProfile.accountDelete.evidences} <i>(${System.data.locale.userProfile.accountDelete.willBeReviewedByCommunityManager})</i></label>
+					<div class="sg-content-box__content sg-content-box__content--spaced-top">
+						<div class="sg-content-box addFile">
+								<div class="sg-content-box__content sg-content-box__content--with-centered-text sg-content-box__content--spaced-top">
+									<label class="sg-button-secondary sg-button-secondary--dark-inverse" for="addFileInput">
+										<span class="sg-button-primary__icon">
+											<div class="sg-icon sg-icon--adaptive sg-icon--x14">
+												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 32 32"><path fill="#333" d="M29.36 4.64a9 9 0 0 0-12.72 0L2.04 19.05a7 7 0 0 0 9.9 9.9l14.6-14.41a5 5 0 1 0-7.08-7.07L8.5 18.43a1 1 0 1 0 1.41 1.42L20.88 8.88a3 3 0 0 1 4.24 4.24L10.53 27.54a5 5 0 1 1-7.07-7.07L17.91 6.19a7 7 0 1 1 9.9 9.9L16.98 26.92a1 1 0 0 0 0 1.41 1 1 0 0 0 1.42 0l10.96-10.97a9 9 0 0 0 0-12.72z"/></svg>
+											</div>
+										</span>${System.data.locale.userProfile.accountDelete.addFiles}..</label>
+									<input type="file" id="addFileInput" multiple>
+								</div>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="container textarea">
-				<label for="comment">${System.data.locale.userProfile.accountDelete.yourComment} <i>(${System.data.locale.userProfile.accountDelete.willBeReviewedByCommunityManager})</i></label>
-				<textarea name="comment" id="comment" style="margin-top: 3px;"></textarea>
-			</div>
-			<div class="container progress"></div>
-		</div>`);
+				<div class="container textarea">
+					<label for="comment">${System.data.locale.userProfile.accountDelete.yourComment} <i>(${System.data.locale.userProfile.accountDelete.willBeReviewedByCommunityManager})</i></label>
+					<textarea name="comment" id="comment" style="margin-top: 3px;"></textarea>
+				</div>
+				<div class="container progress"></div>
+			</div>`);
 
-		this.$comment = $("textarea#comment", this.$evidences);
-		this.$addFileButtonContainer = $("div.addFile", this.$evidences);
-		this.$addFile = $(`#addFileInput`, this.$evidences);
-		this.$progressHole = $(".container.progress", this.$evidences);
+			this.$comment = $("textarea#comment", this.$evidences);
+			this.$addFileButtonContainer = $("div.addFile", this.$evidences);
+			this.$addFile = $(`#addFileInput`, this.$evidences);
+			this.$progressHole = $(".container.progress", this.$evidences);
 
-		this.progress = new Progress({
-			type: "is-success",
-			label: "",
-			max: 100
-		});
+			this.progress = new Progress({
+				type: "is-success",
+				label: "",
+				max: 100
+			});
 
-		this.$evidences.insertBefore(`#DelUserAddForm > div.submit`);
-		this.BindEvents();
+			this.$evidences.insertBefore($DeleteUserForm);
+			this.BindEvents();
+		}
 	}
 	BindEvents() {
 		let that = this;
-		let $deleteForm = $(`#DelUserAddForm`);
 
-		$deleteForm.on('submit', async function(e) {
-			e.preventDefault();
-
-			that.progress.$container.appendTo(that.$progressHole.html(""));
-
-			let promise = that.PrepareForm_SendItToExtensionServer();
-			let onError = () => {
-				notification("I couldn't able report your delete request to community manager so I can't continue to delete. Sorry :/<br>If this error persist, ask for help from your extension manager", "error");
-			}
-
-			promise
-				.catch(onError)
-				.then(resAccountDeleteReport => {
-					if (!resAccountDeleteReport || !resAccountDeleteReport.success) {
-						return onError();
-					}
-
-					that.progress.updateLabel(System.data.locale.common.done);
-					that.submit();
-				});
+		this.$deleteForm.on('submit', function(event) {
+			event.preventDefault();
+			that.DeleteFormSubmited(this);
 		});
 
 		this.$addFile.on("change", function() {
@@ -84,10 +73,10 @@ class AccountDeleteReporter {
 		});
 
 		this.$evidences
-			.on("click", ".evidence.previewable:not(.previewing) .sg-actions-list > div.sg-actions-list__hole:nth-child(n+2)", function() {
-				let $parent = $(this).parents(".evidence");
+			.on("click", ".evidence:not(.previewing) .preview", function() {
+				let evidence = $(this).parents(".evidence");
 
-				that.ShowPreview($parent)
+				that.ShowPreview(evidence)
 			})
 			.on("click", ".evidence button", function() {
 				let $parent = $(this).parents(".evidence");
@@ -99,6 +88,27 @@ class AccountDeleteReporter {
 				}
 			});
 	}
+	async DeleteFormSubmited(form) {
+		this.progress.$container.appendTo(this.$progressHole.html(""));
+
+		let onError = (message) => {
+			notification(System.data.locale.userProfile.notificationMessages.unableToReportAccountDeleting + (message ? ("\n" + message) : ""), "error");
+		}
+
+		try {
+			let resAccountDeleteReport = await this.PrepareForm_SendItToExtensionServer();
+
+			if (!resAccountDeleteReport || !resAccountDeleteReport.success) {
+				return onError(resAccountDeleteReport.message);
+			}
+
+			this.progress.updateLabel(System.data.locale.common.done);
+			form.submit();
+		} catch (error) {
+			console.error(error);
+			onError();
+		}
+	}
 	ProcessFiles(files) {
 		if (files && files.length > 0) {
 			for (let i = 0, file;
@@ -109,8 +119,8 @@ class AccountDeleteReporter {
 		}
 	}
 	ProcessFile(file) {
-		if (file.size > System.data.config.MAX_FILE_SIZE_OF_EVIDENCE) {
-			notification(System.data.locale.userProfile.notificationMessages.fileSizeExceeded.replace("%{file_name}", file.name).replace("%{file_size}", `${System.data.config.MAX_FILE_SIZE_OF_EVIDENCE_IN_MB} MB`));
+		if (file.size > System.constants.config.MAX_FILE_SIZE_OF_EVIDENCE) {
+			notification(System.data.locale.userProfile.notificationMessages.fileSizeExceeded.replace("%{file_name}", file.name).replace("%{file_size}", `${System.constants.config.MAX_FILE_SIZE_OF_EVIDENCE_IN_MB} MB`));
 		} else {
 			let fileExtension = file.name.split('.').pop();
 			let isShortcut = /lnk|url|xnk/.test(fileExtension);
@@ -126,9 +136,7 @@ class AccountDeleteReporter {
 		}
 	}
 	RenderEvidence(file, evidenceId) {
-		let icon = this.RenderSVGIcon(file, evidenceId);
-
-		let $element = $(`
+		let $evidence = $(`
 		<div class="sg-content-box sg-content-box--full evidence" data-evidenceid="${evidenceId}">
 				<div class="sg-content-box__content sg-content-box__content--spaced-top-small">
 						<div class="sg-actions-list">
@@ -137,78 +145,23 @@ class AccountDeleteReporter {
 								</div>
 								<div class="sg-actions-list__hole sg-actions-list__hole--grow sg-text--to-right">
 									<span class="sg-text sg-text--small sg-text--gray sg-text--bold" title="${file.name}">${file.name.replace(/[\s|⠀]{2,}/gm," ").trim()}</span>
+									<i class="sg-text sg-text--xsmall sg-text--gray-secondary">${prettysize(file.size)} &nbsp;</i>
 								</div>
 								<div class="sg-actions-list__hole">
 									<div class="sg-icon sg-icon--x32">
-										<img class="sg-avatar__image" src="${icon}">
+										<img class="sg-avatar__image" src="">
 									</div>
 								</div>
 						</div>
 				</div>
 		</div>`);
 
-		$element.insertBefore(this.$addFileButtonContainer);
+		$evidence.insertBefore(this.$addFileButtonContainer);
 
-		return $element;
-	}
-	RenderSVGIcon(file, evidenceId) {
-		let fileType = file.type.split("/");
-		let iconFileType = "file";
+		let $iconImg = $(".sg-icon> img", $evidence);
+		new FileIcon(file, $iconImg);
 
-		if (fileType[0] == "image") {
-			iconFileType = "image";
-			this.ReadFile(iconFileType, file, evidenceId);
-		} else if (fileType[0] == "audio") {
-			iconFileType = "audio";
-		} else if (fileType[0] == "video") {
-			iconFileType = "video";
-			this.ReadFile(iconFileType, file, evidenceId);
-		} else if (fileType[1] == "pdf") {
-			iconFileType = "pdf";
-		}
-
-		iconFileType = `${System.data.meta.extension.URL}/images/fileIcons/${iconFileType}.svg`;
-
-		return iconFileType;
-	}
-	ReadFile(type, file, evidenceId) {
-		let reader = new FileReader();
-
-		reader.onprogress = event => {
-			if (event.lengthComputable) {
-				let percentLoaded = Math.round((event.loaded / event.total) * 100);
-
-				if (percentLoaded <= 100) {
-					let w = 100 - percentLoaded;
-					let $element = this.evidencePool[evidenceId].element;
-
-					$element.css("background", `-webkit-linear-gradient(left, rgba(0, 0, 0, 0.${w + 10}) ${percentLoaded}%, white ${w}%)`);
-				}
-			}
-		};
-		reader.onload = event => this.ReaderOnLoad({ base64File: event.target.result, type, evidenceId });
-
-		reader.readAsDataURL(file);
-	}
-	ReaderOnLoad({ base64File, type, evidenceId }) {
-		let $element = this.evidencePool[evidenceId].element;
-		let $img = $("img", $element);
-
-		if (!base64File) {
-			return false;
-		}
-
-		$element.addClass("previewable");
-
-		if (type == "image") {
-			$img
-				.attr("src", base64File);
-		} else if (type == "video") {
-			let $video = $(`<video class="sg-avatar__image" src="${base64File}"></video>`);
-			$video.insertAfter($img);
-
-			$img.remove();
-		}
+		return $evidence;
 	}
 	RemoveListItem($evidence) {
 		let evidenceId = $evidence.data("evidenceid");
@@ -218,12 +171,12 @@ class AccountDeleteReporter {
 	}
 	ShowPreview($evidence) {
 		$evidence.addClass("previewing");
-		$("video", $evidence).attr("controls", "true");
+		$("video, audio", $evidence).attr("controls", "true");
 		$("button svg", $evidence).html(this.svgPath.close);
 	}
 	ClosePreview($evidence) {
 		$evidence.removeClass("previewing");
-		$("video", $evidence).removeAttr("controls").trigger("pause");
+		$("video, audio", $evidence).removeAttr("controls").trigger("pause");
 		$("button svg", $evidence).html(this.svgPath.delete);
 	}
 	async PrepareForm_SendItToExtensionServer() {

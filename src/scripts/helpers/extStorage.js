@@ -1,53 +1,28 @@
 import ext from "../utils/ext";
-import marketKeyFn from "./marketKey";
 
-const Storage = {
-	set: (key, callback = () => {}) => {
-		let marketKey = marketKeyFn();
-		if (ext.storage)
-			ext.runtime.sendMessage({ action: "storage_set", marketKey, data: key }, callback);
-		else
-			ext.runtime.sendMessage(System.data.meta.extension.id, { action: "storage_set", marketKey, data: key }, callback);
-	},
-	get: (key, callback) => {
-		let marketKey = marketKeyFn();
-		//ext.runtime.sendMessage(System.data.meta.extension.id, { action: "storageGet", marketKey, data: key }, callback);
-		if (ext.storage)
-			ext.runtime.sendMessage({ action: "storage_get", marketKey, data: key }, callback);
-		else
-			ext.runtime.sendMessage(System.data.meta.extension.id, { action: "storage_get", marketKey, data: key }, callback);
-	},
-	remove: (key, callback) => {
-		let marketKey = marketKeyFn();
-		//ext.runtime.sendMessage(System.data.meta.extension.id, { action: "storageRemove", marketKey, data: key }, callback);
-		if (ext.storage)
-			ext.runtime.sendMessage({ action: "storage_remove", marketKey, data: key }, callback);
-		else
-			ext.runtime.sendMessage(System.data.meta.extension.id, { action: "storage_remove", marketKey, data: key }, callback);
-	},
-	setL: (key, callback = () => {}) => {
-		let marketKey = marketKeyFn();
-		//ext.runtime.sendMessage(System.data.meta.extension.id, { action: "storageSetL", marketKey, data: key }, callback);
-		if (ext.storage)
-			ext.runtime.sendMessage({ action: "storage_setL", marketKey, data: key }, callback);
-		else
-			ext.runtime.sendMessage(System.data.meta.extension.id, { action: "storage_setL", marketKey, data: key }, callback);
-	},
-	getL: (key, callback) => {
-		let marketKey = marketKeyFn();
-		//ext.runtime.sendMessage(System.data.meta.extension.id, { action: "storageGetL", marketKey, data: key }, callback);
-		if (ext.storage)
-			ext.runtime.sendMessage({ action: "storage_getL", marketKey, data: key }, callback);
-		else
-			ext.runtime.sendMessage(System.data.meta.extension.id, { action: "storage_getL", marketKey, data: key }, callback);
-	},
-	removeL: (key, callback) => {
-		let marketKey = marketKeyFn();
-		//ext.runtime.sendMessage(System.data.meta.extension.id, { action: "storageRemoveL", marketKey, data: key }, callback);
-		if (ext.storage)
-			ext.runtime.sendMessage({ action: "storage_removeL", marketKey, data: key }, callback);
-		else
-			ext.runtime.sendMessage(System.data.meta.extension.id, { action: "storage_removeL", marketKey, data: key }, callback);
+/**
+ *
+ * @param {string} method - Target of storage name. The get is sync memory, getL is local memory [get, getL, set, setL, remove, removeL]
+ * @param {string|string[]|{}} data
+ * @return {promise}
+ */
+export default function storage(method, data) {
+	const marketKey = window.System.data.meta.storageKey;
+	let action = "storage";
+	let messageData = {
+		marketKey,
+		action,
+		method,
+		data
 	}
+
+	if (method.slice(-1) == "L") {
+		messageData.method = method.slice(0, -1);
+		messageData.local = true;
+	}
+
+	if (ext.storage)
+		return ext.runtime.sendMessage(messageData);
+	else
+		return ext.runtime.sendMessage(System.data.meta.extension.id, messageData);
 }
-export default Storage;

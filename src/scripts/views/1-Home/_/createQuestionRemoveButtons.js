@@ -6,9 +6,9 @@ import extModeratePanel from "../../../components/extModeratePanel";
 
 const ext_actions_buttons_click_handler = async function() {
 	let btn_index = $(this).index();
-	let parent_feed = $(this).parents(selectors.feed_item);
-	let feedContentBox = $(">.sg-content-box", parent_feed)
-	let question_link = $(selectors.questionLink, parent_feed).attr("href");
+	let $parent_feed = $(this).parents(window.selectors.feed_item);
+	let $feedContentBox = $(">.sg-content-box > .sg-box", $parent_feed)
+	let question_link = $(window.selectors.questionLink, $parent_feed).attr("href");
 
 	if (question_link != "") {
 		let question_id = Number(question_link.split("/").pop());
@@ -35,7 +35,7 @@ const ext_actions_buttons_click_handler = async function() {
 					let $give_warning = $('#give_warning', $toplayer);
 					let $submit = $('button.js-submit', $toplayer);
 
-					$toplayer.appendTo(selectors.toplayerContainer);
+					$toplayer.appendTo(window.selectors.toplayerContainer);
 
 					let closeModPanel = async () => {
 						let svg = $("svg", $closeIcon);
@@ -92,7 +92,7 @@ const ext_actions_buttons_click_handler = async function() {
 							let removing = await RemoveQuestion(taskData);
 
 							if (removing && removing.success) {
-								feedContentBox.addClass("sg-flash__message--error");
+								$parent_feed.addClass("deleted");
 								$closeIcon.parents(".js-modal").remove();
 								clearInterval(_loop_panelCounter);
 							}
@@ -119,7 +119,7 @@ const ext_actions_buttons_click_handler = async function() {
 
 						if (removing) {
 							if (removing.success) {
-								feedContentBox.addClass("sg-flash__message--error");
+								$parent_feed.addClass("deleted");
 							} else if (removing.message) {
 								notification(removing.message, "error");
 							}
@@ -167,7 +167,7 @@ export default function createQuestionRemoveButtons(nodes) {
 			node.classList.add("ext-buttons-added");
 			let $ext_actions = $(`<div class="ext_actions">${prepareButtons}</div>`);
 
-			$ext_actions.appendTo($(selectors.feeds_questionsBox_buttonList, node));
+			$ext_actions.appendTo($(window.selectors.feeds_questionsBox_buttonList, node));
 		}
 	}
 }

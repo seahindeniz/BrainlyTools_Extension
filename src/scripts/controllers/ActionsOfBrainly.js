@@ -24,7 +24,7 @@ export function RemoveQuestion(data) {
 		"return_points": true,
 		...data
 	}
-	data.reason += " " + System.data.config.reasonSign;
+	data.reason += " " + System.constants.config.reasonSign;
 
 	return Request.BrainlyAPI("POST", '/moderation_new/delete_task_content', data);
 }
@@ -40,7 +40,7 @@ export function RemoveAnswer(data) {
 		schema: "moderation.response.delete.req",
 		...data
 	}
-	data.reason += " " + System.data.config.reasonSign;
+	data.reason += " " + System.constants.config.reasonSign;
 
 	return Request.BrainlyAPI("POST", '/moderation_new/delete_response_content', data);
 }
@@ -57,7 +57,7 @@ export function RemoveComment(data) {
 		data.give_warning = false
 	}
 
-	data.reason += " " + System.data.config.reasonSign;
+	data.reason += " " + System.constants.config.reasonSign;
 
 	return Request.BrainlyAPI("POST", '/moderation_new/delete_comment_content', data);
 }

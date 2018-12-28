@@ -26,7 +26,7 @@ function groupLi(group) {
 							<li class="sg-breadcrumb-list__element"><i>${System.data.locale.messages.groups.nUser.replace("%{n}", groupLen)}</i></li>
 						</ul>
 						<span class="js-pin">
-							${System.data.config.pinIcon.replace(/\{size\}/g, 22)}
+							${System.constants.config.pinIcon.replace(/\{size\}/g, 22)}
 						</span>
 					</div>
 				</div>

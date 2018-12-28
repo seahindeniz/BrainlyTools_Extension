@@ -1,10 +1,11 @@
-import ext from "../../scripts/utils/1.ext";
+import ext from "../../scripts/utils/ext";
+import CheckIfSameDomain from "../../scripts/helpers/CheckIfSameDomain";
 
 export default async (action, data) => {
 	let tabs = await ext.tabs.query({});
 
 	tabs.forEach(tab => {
-		if (System.regexp_BrainlyMarkets.test(tab.url)) {
+		if (CheckIfSameDomain(tab.url, System.data.meta.location.href)) {
 			let message = {
 				action,
 				url: tab.url,

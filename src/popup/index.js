@@ -1,9 +1,9 @@
 "use strict"
 
-import ext from "../scripts/utils/1.ext";
-import Storage from "../scripts/helpers/extStorage";
+import ext from "../scripts/utils/ext";
 import _System from "../scripts/controllers/System";
 import Popup from "./controllers/Popup";
+import CheckIfSameDomain from "../scripts/helpers/CheckIfSameDomain";
 
 let System = new _System();
 window.System = System;
@@ -16,59 +16,61 @@ window.onbeforeunload = function() {
 }
 
 $(onBodyLoad);
-
 async function onBodyLoad() {
 	window.popup = new Popup();
 
+	System.data.locale = await System.prepareLangFile(navigator.language);
 
-	let messageDone = async () => {
-		messageDone = $.noop;
+	popup.RenderStatusMessage({ title: `${System.data.locale.popup.notificationMessages.pleaseWait}..` });
 
-		let marketData = await ext.runtime.sendMessage({ action: "getMarketData" });
-		if (!marketData) {
-			return popup.RenderStatusMessage({
-				type: "danger",
-				title: "Error 417",
-				message: `I can't fetch market data`
-			});
-		}
-
-		System.data = marketData;
-		System.data.Brainly.userData.user.fixedAvatar = System.data.Brainly.userData.user.avatars[100] || `https://${System.data.meta.marketName}/img/avatars/100-ON.png`;
-
-		Storage.get(["user", "themeColor", "quickDeleteButtonsReasons", "extendMessagesBody", "extendMessagesLayout", "notifier", "language"], storageData => {
-			//console.log("storageData: ", storageData);
-			if (!(storageData && storageData.user && storageData.user.user && storageData.user.user.id && storageData.user.user.id == storageData.user.user.id)) {
-				popup.RenderStatusMessage({
-					type: "danger",
-					title: "Error 417",
-					message: `I'm unable to fetch your data from Brainly<br><br>Please go to Brainly's homepage or reload the page`
-				});
-			} else if (!System.data.Brainly.deleteReasons.__withIds) {
-				popup.RenderStatusMessage({
-					type: "danger",
-					title: "Error 416",
-					message: `An error accoured while preparing the delete reasons and fetching from Brainly`
-				});
-			} else {
-				popup.storageData = storageData;
-				popup.RenderMainUI();
-			}
-		});
-	}
-
-	popup.RenderStatusMessage({ title: `Please wait..` });
-
+	let isBrainlyPageFound = false;
 	let tabs = await ext.tabs.query({});
 
 	if (tabs && tabs.length > 0) {
-		for (var i = 0, tab; tab = tabs[i]; ++i) {
-			if (System.regexp_BrainlyMarkets.test(tab.url)) {
-				var message = { action: "shareGatheredData2Background", url: tab.url };
+		let activeBrainlyTab = tabs.find(tab => tab.active && System.constants.Brainly.regexp_BrainlyMarkets.test(tab.url));
+		let tab = tabs.reduce((selectedTab, currentTab) => {
+			let isCurrentTabBrainly = System.constants.Brainly.regexp_BrainlyMarkets.test(currentTab.url);
 
+			if (
+				isCurrentTabBrainly &&
+				(
+					!selectedTab ||
+					(
+						CheckIfSameDomain(selectedTab.url, currentTab.url) &&
+						selectedTab.id < currentTab.id
+					)
+				)
+			) {
+				return currentTab
+			}
+
+			return selectedTab;
+		}, activeBrainlyTab);
+
+		if (tab) {
+			isBrainlyPageFound = true;
+			var message = { action: "contentscript>Share System.data to background.js", url: tab.url };
+
+			try {
 				await ext.tabs.sendMessage(tab.id, message);
-				messageDone();
+			} catch (error) {
+				await ext.runtime.sendMessage({ action: "background>Inject content script anyway", data: tab.id });
+				ext.tabs.sendMessage(tab.id, message);
 			}
 		}
+	}
+
+	chrome.runtime.onMessage.addListener(function(request) {
+		if (request.action == "popup>Get System.data from background") {
+			popup.PrepareDataBeforeRendering();
+		}
+	});
+
+	if (!isBrainlyPageFound) {
+		popup.RenderStatusMessage({
+			type: "danger",
+			title: System.data.locale.popup.notificationMessages.errorN.replace("%{error_code}", 404),
+			message: System.data.locale.popup.notificationMessages.openABrainlyPage
+		});
 	}
 }

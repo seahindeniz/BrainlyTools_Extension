@@ -3,16 +3,19 @@
 import WaitForElement from "./WaitForElement";
 import MakeExpire from "./MakeExpire";
 
-export default async color => {
+const DEFAULT_THEME_COLOR = "#57b2f8";
+
+export default async (color, isPreview) => {
 	let rainbow = false;
 	let localStoredColor = localStorage.getItem("themeColor");
 
-	if (color != localStoredColor) {
+	if (color != localStoredColor && !isPreview) {
 		localStorage.setItem("themeColor", color);
 	}
 
 	if (color.indexOf(",") >= 0) {
-		rainbow = true;
+		rainbow = color;
+		color = DEFAULT_THEME_COLOR;
 	}
 
 	let personalColors = `
@@ -24,20 +27,29 @@ export default async color => {
 	#html .mint #tabs-doj #main_menu>li.active,
 	#html .mint #footer,
 	.sg-box--blue {
-		${!rainbow ? "background-color: " + color + ";" : "background-image: linear-gradient(to right, " + color + "); color: #fff;"}
+		${!rainbow ? `background-color: ${color} !important;` : `background-image: linear-gradient(to right, ${rainbow}) !important; color: #fff !important;`}
 	}
-	
+
+	.sg-menu-list__link,
 	.sg-link:not([class*="gray"]):not([class*="light"]):not([class*="mustard"]):not([class*="peach"]),
 	#html .mint #profile #main-left .personal_info .helped_subjects>li,
 	#html .mint #profile #main-left .personal_info .helped_subjects>li .bold,
 	#html .mint #profile #main-left .personal_info .helped_subjects>li .bold a,
-	#html .mint #profile #main-left .personal_info .helped_subjects>li .green{
-		color: ${color};
+	#html .mint #profile #main-left .personal_info .helped_subjects>li .green,
+	#html .mint .mod-profile-panel a,
+	#html .mint .mod-profile-panel .pseudolink,
+	#html .mint .mod-profile-panel .orange,
+	#html .mint .mod-profile-panel .onlylink,
+	div#content-old .editProfileContent .profileListEdit,
+	#main-panel .menu-right .menu-element#panel-notifications .notifications-container .notifications li.notification .main .content .nick,
+	#main-panel .menu-right .menu-element#panel-notifications .notifications-container .notification-wrapper .main .content .nick {
+		color: ${color} !important;
 	}
 
-	.sg-button-secondary--alt-inverse {
-		color: ${color};
-		fill: ${color};
+	.sg-button-secondary--alt-inverse,
+	.sg-sticker__front {
+		color: ${color} !important;
+		fill: ${color} !important;
 	}
 	`;
 	let head = await WaitForElement("head");
@@ -65,7 +77,7 @@ export default async color => {
 			head.appendChild($personalColors);
 
 		}
-		
+
 		let _loop_personalColors_expire = MakeExpire(6);
 		let _loop_personalColors = setInterval(() => {
 			if (_loop_personalColors_expire < new Date().getTime()) {

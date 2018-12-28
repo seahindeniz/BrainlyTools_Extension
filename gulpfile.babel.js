@@ -1,12 +1,16 @@
-import fs from "fs";
 import { task, src, dest, series, watch } from 'gulp';
 import babelify from 'babelify';
 import log from "fancy-log";
 import colors from "colors";
+import syncReq from "sync-request";
 
 import extensionOptions from "./src/config/_/extension";
 
 const $ = require('gulp-load-plugins')();
+
+const styleGuideManifest = JSON.parse(
+	syncReq("GET", "https://raw.githubusercontent.com/brainly/style-guide/master/package.json").getBody('utf8')
+);
 
 var isProduction = process.env.NODE_ENV === "production";
 var target = process.env.TARGET || "chrome";
@@ -30,7 +34,7 @@ var manifest = {
 	firefox: {
 		"applications": {
 			"gecko": {
-				"id": "my-app-id@mozilla.org"
+				"id": ""
 			}
 		}
 	}
@@ -44,9 +48,9 @@ task('clean', () => {
 		.pipe($.clean());
 })
 
-// -----------------
-// COMMON
-// -----------------
+/**
+ * COMMON
+ */
 task("assets", () => {
 	let assets = [{
 			src: './src/icons/**/*',
@@ -88,8 +92,7 @@ task("assets", () => {
 
 task("extensionConfig", () => {
 	let mergeJsonData = {
-		fileName: "extension.json",
-		jsonSpace: " ".repeat(4),
+		fileName: "extension.json"
 	};
 
 	if (isProduction) {
@@ -97,6 +100,8 @@ task("extensionConfig", () => {
 	} else {
 		mergeJsonData.endObj = extensionOptions.dev;
 	}
+
+	mergeJsonData.endObj.STYLE_GUIDE_VERSION = styleGuideManifest.version;
 
 	return src('./src/config/_/extension.json')
 		.pipe($.mergeJson(mergeJsonData))
@@ -146,8 +151,7 @@ task('js', () => {
 
 task("manifest", () => {
 	let mergeJsonData = {
-		fileName: "manifest.json",
-		jsonSpace: " ".repeat(4),
+		fileName: "manifest.json"
 	};
 
 	if (target === "firefox") {
@@ -169,9 +173,9 @@ task(
 );
 task(
 	"reloadExtension",
-	callback => {
+	next => {
 		$.livereload.reload();
-		callback();
+		next();
 	}
 );
 
@@ -180,14 +184,14 @@ task(
 	() => {
 		$.livereload.listen();
 
-		let watcherJSFiles = watch([
+		let watchJSFilesNeedsOnlyReload = watch([
 			'./src/scripts/views/*/*.js',
 			'./src/scripts/*.js',
 
 			'!./src/scripts/views/**/_/*.js',
 			'!./src/scripts/views/**/_/**/*.js',
 		], series("reloadExtension"));
-		let watcherImportedJSFiles = watch([
+		let watchJSFilesNeedsToReBuild = watch([
 			'./src/**/*.js',
 			'./src/scripts/views/**/_/*.js',
 			'./src/scripts/views/**/_/**/*.js',
@@ -195,12 +199,12 @@ task(
 			'!./src/scripts/views/*/*.js',
 			'!./src/scripts/*.js'
 		], series('build', "reloadExtension"));
-		let watcherStyleFiles = watch(
+		let watchSCSSFilesNeedsOnlyReload = watch(
 			[
 				'src/styles/**/*.scss',
 				'src/scripts/views/**/*.scss'
 			], series("reloadExtension"));
-		let watcherAll = watch(
+		let watchAllFilesNeedsToReBuild = watch(
 			[
 				'./src/**/*',
 				'!./src/**/*.js',
@@ -210,10 +214,10 @@ task(
 			],
 			series('build', "reloadExtension"));
 
-		watcherImportedJSFiles.on("change", function(path) {
+		watchJSFilesNeedsToReBuild.on("change", function(path) {
 			log.info(colors.green(path), "has changed, rebuilding");
 		});
-		watcherJSFiles.on("change", function(path) {
+		watchJSFilesNeedsOnlyReload.on("change", function(path) {
 			let filePath = path.split("/");
 			let destPath = filePath.slice(1, -1).join("/");
 			let fileName = filePath.pop();
@@ -224,7 +228,7 @@ task(
 			log.info(colors.green(path), "has replaced with", colors.magenta(destFullPath));
 		});
 
-		watcherStyleFiles.on("change", function(path) {
+		watchSCSSFilesNeedsOnlyReload.on("change", function(path) {
 			let filePath = path.split("/");
 			let destPath = filePath.slice(1, -1).join("/");
 			let fileName = filePath.pop().split(".");
@@ -237,11 +241,11 @@ task(
 			log.info(colors.green(path), "has replaced with", colors.magenta(destFullPath));
 		});
 
-		watcherAll.on("change", function(path) {
+		watchAllFilesNeedsToReBuild.on("change", function(path) {
 			log.info(colors.green(path), "has changed, rebuilding");
 		});
 
-		return watcherAll;
+		return watchAllFilesNeedsToReBuild;
 	}
 );
 task(
@@ -254,9 +258,9 @@ task(
 	series('build')
 );
 
-// -----------------
-// DIST
-// -----------------
+/**
+ * DIST
+ */
 task(
 	'zip',
 	() => {

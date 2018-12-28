@@ -5,6 +5,7 @@
 	"break_chained_methods": false,
 	"wrap_line_length": 0,
 	"end_with_newline": true,
+	"space_before_conditional": true,
 	"brace_style": "collapse,preserve-inline",
 	"unformatted": ["abbr", "area", "audio", "b", "bdi", "bdo", "br", "button", "canvas", "cite", "code", "data",
 		"datalist", "del", "dfn", "em", "embed", "i", "iframe", "img", "input", "ins", "kbd", "keygen", "label", "map",

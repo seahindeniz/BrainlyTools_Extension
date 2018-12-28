@@ -17,13 +17,13 @@
 	"default_locale": "en",
 	"background": {
 		"scripts": [
-      "scripts/lib/jquery-3.3.1.min.js",
-      "scripts/background.js"
-    ]
+			"scripts/lib/jquery-3.3.1.min.js",
+			"scripts/background.js"
+		]
 	},
 	"browser_action": {
 		"default_icon": {
-      "128": "icons/icon128.png",
+			"128": "icons/icon128.png",
 			"19": "icons/icon19.png",
 			"38": "icons/icon38.png"
 		},
@@ -31,63 +31,41 @@
 		"default_popup": "popup/index.html"
 	},
 	"options_ui": {
-			"page": "options/index.html",
-			"chrome_style": true
+		"page": "options/index.html",
+		"chrome_style": true
 	},
 	"content_security_policy": "script-src 'self' https://cdnjs.cloudflare.com 'unsafe-eval'; object-src 'self' https://cdnjs.cloudflare.com",
 	"permissions": [
-    "clipboardRead",
-    "clipboardWrite",
-    "contentSettings",
-    "contextMenus",
-    "cookies",
-    "notifications",
-    "tabs",
-    "storage",
-    "webRequest",
-    "webRequestBlocking",
-    "<all_urls>"
-  ],
+		"clipboardRead",
+		"clipboardWrite",
+		"contentSettings",
+		"contextMenus",
+		"cookies",
+		"notifications",
+		"tabs",
+		"storage",
+		"webRequest",
+		"webRequestBlocking",
+		"<all_urls>"
+	],
 	"web_accessible_resources": [
-    "*/*"
-  ],
+		"*/*"
+	],
 	"externally_connectable": {
 		"matches": [
-      "*://eodev.com/*",
-      "*://brainly.com/*",
-      "*://brainly.pl/*",
-      "*://brainly.com.br/*",
-      "*://brainly.co.id/*",
-      "*://znanija.com/*",
-      "*://brainly.lat/*",
-      "*://brainly.in/*",
-      "*://brainly.ph/*",
-      "*://nosdevoirs.fr/*",
-      "*://brainly.ro/*",
-      "*://cdnjs.cloudflare.com/*"
-    ],
+			"*://eodev.com/*",
+			"*://brainly.com/*",
+			"*://brainly.pl/*",
+			"*://brainly.com.br/*",
+			"*://brainly.co.id/*",
+			"*://znanija.com/*",
+			"*://brainly.lat/*",
+			"*://brainly.in/*",
+			"*://brainly.ph/*",
+			"*://nosdevoirs.fr/*",
+			"*://brainly.ro/*",
+			"*://cdnjs.cloudflare.com/*"
+		],
 		"accepts_tls_channel_id": false
-	},
-	"content_scripts": [
-		{
-			"run_at": "document_start",
-			"all_frames": true,
-			"matches": [
-        "*://eodev.com/*",
-        "*://brainly.com/*",
-        "*://brainly.pl/*",
-        "*://brainly.com.br/*",
-        "*://brainly.co.id/*",
-        "*://znanija.com/*",
-        "*://brainly.lat/*",
-        "*://brainly.in/*",
-        "*://brainly.ph/*",
-        "*://nosdevoirs.fr/*",
-        "*://brainly.ro/*"
-      ],
-			"js": [
-        "scripts/contentscript.js"
-      ]
-    }
-  ]
+	}
 }

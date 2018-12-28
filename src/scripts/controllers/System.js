@@ -4,36 +4,26 @@ import ext from "../utils/ext";
 import cookie from "js-cookie";
 import { Logger } from "./ActionsOfServer";
 import { getUserByID } from "./ActionsOfBrainly";
-import InjectToBody from "../helpers/InjectToBody";
-import extensionServer from "../../config/_/extension.json";
+import InjectToDOM from "../helpers/InjectToDOM";
+import extensionConfig from "../../config/_/extension.json";
 
 class _System {
 	constructor() {
-		this.data = {
+		this.constants = {
 			Brainly: {
-				apiURL: ((window.System && System.data.meta.location.origin) || document.location.origin) + "/api/28",
-				get nullAvatar() {
-					return `https://${System.data.meta.marketName}/img/avatars/100-ON.png`;
-				},
-				tokenLong: cookie.get("Zadanepl_cookie[Token][Long]"),
-				Routing: {
-					prefix: undefined,
-					routes: undefined
-				},
+				regexp_BrainlyMarkets: /:\/\/(?:www\.)?((?:eodev|znanija)\.com|nosdevoirs\.fr|brainly(?:(?:\.(?:com(?:\.br|[^.])|co\.(?:id)|lat|in|ph|ro|pl))))/i,
 				style_guide: {
-					css: "https://styleguide.brainly.co.id/142.0.0/style-guide.css" + "?treat=.ext_css",
+					css: `https://styleguide.brainly.co.id/${extensionConfig.STYLE_GUIDE_VERSION}/style-guide.css` + "?treat=.ext_css",
 					icons: "https://styleguide.brainly.com/images/icons-1b40deaa8d.js" + "?treat=.ext_js"
 				}
 			},
-			meta: {},
-			locale: {},
 			config: {
 				reasonSign: "Ω",
+				idExtractRegex: /.*-/,
 				MAX_FILE_SIZE_OF_EVIDENCE_IN_MB: 22,
 				get MAX_FILE_SIZE_OF_EVIDENCE() {
-					return System.data.config.MAX_FILE_SIZE_OF_EVIDENCE_IN_MB * 1024 * 1024;
+					return window.System.constants.config.MAX_FILE_SIZE_OF_EVIDENCE_IN_MB * 1024 * 1024;
 				},
-				extension: extensionServer,
 				availableLanguages: [{
 						key: "en_US",
 						title: "English"
@@ -111,15 +101,32 @@ class _System {
 					2: [3, 5, 6, 7]
 				}
 			}
+
+		}
+		this.data = {
+			Brainly: {
+				apiURL: ((window.System && System.data.meta.location.origin) || document.location.origin) + "/api/28",
+				get nullAvatar() {
+					return `https://${System.data.meta.marketName}/img/avatars/100-ON.png`;
+				},
+				tokenLong: cookie.get("Zadanepl_cookie[Token][Long]"),
+				Routing: {
+					prefix: undefined,
+					routes: undefined
+				}
+			},
+			meta: {},
+			locale: {},
+			config: {
+				extension: extensionConfig
+			}
 		}
 		this.routeMasks = {
 			profile: null,
 			task: null
 		};
-		this.regexp_BrainlyMarkets = /:\/\/(?:www\.)?((?:eodev|znanija)\.com|zadane\.pl|nosdevoirs\.fr|brainly(?:(?:\-thailand\.com)|(?:\.(?:com+(?:\.br|\.ng|)|co\.(?:id|za)|lat|in|my|ph|ro))))/i
-	}
-	init() {
-		console.log("System initalized");
+
+		console.log("System library initalized");
 	}
 	/**
 	 *
@@ -137,6 +144,7 @@ class _System {
 	pageLoaded(loadMessage) {
 		Console.log(loadMessage);
 		Console.log("Brainly Tools loaded in", Number((performance.now() - window.performanceStartTiming).toFixed(2)), "milliseconds");
+		document.documentElement.setAttribute("extension", System.data.meta.manifest.version);
 	}
 	checkRoute(index, str) {
 		let curr_path = System.data.meta.location.pathname.split("/"),
@@ -171,39 +179,24 @@ class _System {
 		return result;
 	}
 	toBackground(action, data) {
-		return new Promise(async (resolve, reject) => {
-			let messageData = {
-				action
-			};
+		let messageData = {
+			action,
+			data
+		};
 
-			if (typeof data == "function") {
-				callback = data;
-			} else if (data) {
-				messageData.data = data;
-			}
-
-			ext.runtime.sendMessage(System.data.meta.extension.id, messageData, resolve);
-		});
+		return ext.runtime.sendMessage(System.data.meta.extension.id, messageData);
 	}
-	shareGatheredData2Background() {
+	ShareSystemDataToBackground() {
 		return new Promise(async (resolve, reject) => {
-			console.log("System.data:", System.data);
-			console.log("hash:",System.data.Brainly.userData._hash);
 			let res = await this.toBackground("setMarketData", System.data);
-			console.log("res:", res);
-			if (!res || res != "done") {
-				reject("I couldn't share the System data variable to background");
+
+			if (!res) {
+				reject({ message: "I couldn't share the System data variable to background", res });
 			} else {
+				console.log("Data shared with background OK!");
 				resolve();
 			}
 		});
-		/* this.toBackground("setMarketData", System.data, res => {
-			if (!res || res != "done") {
-				Console.error("I couldn't share the System data variable to background");
-			} else {
-				callback && callback();
-			}
-		}); */
 	}
 	enableExtensionIcon() {
 		this.toBackground("enableExtensionIcon")
@@ -326,33 +319,37 @@ class _System {
 		}
 	}
 	async updateExtension() {
-		let status = await this.toBackground("updateExtension", System.data);
+		let status = await this.toBackground("updateExtension");
 
 		if (status == "update_available") {
-			console.log("update pending...");
+			console.warn("update pending...");
 		} else if (status == "no_update") {
-			console.log("no update found");
+			console.warn("no update found");
 		} else if (status == "throttled") {
-			console.log("Asking too frequently. It's throttled");
+			console.warn("Asking too frequently. It's throttled");
 		}
 	}
 	prepareLangFile(language, _resolve) {
 		return new Promise(async (resolve, reject) => {
-			let fileType = "json";
-			let localeData = await InjectToBody(`/locales/${language}.${fileType}`);
+			resolve = _resolve || resolve;
 
-			if (_resolve) {
-				resolve = _resolve;
+			if (language.match(/\ben[-_](?:us|au|ca|in|nz|gb|za)|en\b/i)) {
+				language = "en_US";
+			} else if (language.indexOf("-")) {
+				language = language.replace(/[-_].*/, "");
 			}
 
-			if (Object.prototype.toString.call(localeData) == "[object Error]") {
+			try {
+				let fileType = "json";
+				let localeData = await InjectToDOM(`/locales/${language}.${fileType}`);
+
+				resolve(localeData);
+			} catch (error) {
 				if (language != "en_US") {
 					this.prepareLangFile("en_US", resolve);
 				} else {
 					reject("Cannot find the default language file for extension");
 				}
-			} else {
-				resolve(localeData);
 			}
 
 			/* if (fileType == "yml") {
@@ -370,6 +367,12 @@ class _System {
 		}
 
 		return isIt;
+	}
+	ExtractId(value) {
+		let extractId = value.replace(System.constants.config.idExtractRegex, "");
+		let id = parseInt(extractId);
+
+		return id;
 	}
 }
 export default _System;

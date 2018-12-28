@@ -92,7 +92,7 @@ class GroupMessaging {
 		this.$conversationsList.off("scroll");
 		this.$conversationsList.attr("data-empty-message", __groups.notificationMessages.youHaventCreatedAGroupYet);
 		$(selectors.chatbox + ">*").remove();
-		$(selectors.tipText).html(__groups.pinTip.replace("%{pin}", System.data.config.pinIcon.replace(/\{size\}/g, 16)));
+		$(selectors.tipText).html(__groups.pinTip.replace("%{pin}", System.constants.config.pinIcon.replace(/\{size\}/g, 16)));
 
 		$(this.$conversationsList).on("click", ">li.js-group-conversation", async function(e) {
 			let groupId = this.dataset.groupId;

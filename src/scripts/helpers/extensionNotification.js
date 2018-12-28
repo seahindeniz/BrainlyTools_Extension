@@ -34,7 +34,7 @@ const notificationClosed = function(notificationId, byUser) {
 }
 
 ext.notifications.onClosed.addListener(notificationClosed);
-ext.notifications.onButtonClicked.addListener((notificationId, i) => {
+ext.notifications.onButtonClicked.addListener(async (notificationId, i) => {
 	let notification = findNotification(notificationId);
 	console.log("notification:", notification);
 
@@ -45,148 +45,145 @@ ext.notifications.onButtonClicked.addListener((notificationId, i) => {
 			/**
 			 * Check for if specified url.origin exist on opened tabs
 			 */
-			ext.tabs.query({
+			let tabs = await ext.tabs.query({
 				url: evt.fullPath + "*"
-			}, function(tabs) {
-				console.log(tabs);
-				/**
-				 * Check for if specified url.origin+path exist on tabs
-				 */
-				let findTargettedUrl = tabs.find(tab => tab.url == evt.fullPath);
+			});
+			console.log(tabs);
+			/**
+			 * Check for if specified url.origin+path exist on tabs
+			 */
+			let findTargettedUrl = tabs.find(tab => tab.url == evt.fullPath);
 
-				if (findTargettedUrl) {
-					/**
-					 * If exist, show it to user
-					 */
-					ext.tabs.update(findTargettedUrl.id, {
-						active: true
-					});
-					ext.windows.update(findTargettedUrl.windowId, {
+			if (findTargettedUrl) {
+				/**
+				 * If exist, show it to user
+				 */
+				ext.tabs.update(findTargettedUrl.id, {
+					active: true
+				});
+				ext.windows.update(findTargettedUrl.windowId, {
+					focused: true
+				});
+			} else {
+				/**
+				 * If it's not exist, create a new tab and show it to user
+				 */
+				ext.tabs.create({
+					url: evt.fullPath
+				}, tab => {
+					ext.windows.update(tab.windowId, {
 						focused: true
 					});
-				} else {
-					/**
-					 * If it's not exist, create a new tab and show it to user
-					 */
-					ext.tabs.create({
-						url: evt.fullPath
-					}, tab => {
-						ext.windows.update(tab.windowId, {
-							focused: true
-						});
-					});
-				}
-				ext.notifications.clear(notificationId);
-			});
+				});
+			}
+			ext.notifications.clear(notificationId);
 		} else {
 			/**
 			 * Check for if specified url.origin exist on opened tabs
 			 */
-			ext.tabs.query({
+			let tabs = await ext.tabs.query({
 				url: evt.origin + "*"
-			}, function(tabs) {
-				console.log(tabs);
+			});
+			console.log(tabs);
+			/**
+			 * Check for if specified url.origin+path exist on tabs
+			 */
+			let findTargettedUrl = tabs.find(tab => tab.url == (evt.origin + evt.path));
+
+			if (findTargettedUrl) {
 				/**
-				 * Check for if specified url.origin+path exist on tabs
+				 * If exist, show it to user
 				 */
-				let findTargettedUrl = tabs.find(tab => tab.url == (evt.origin + evt.path));
+				ext.tabs.update(findTargettedUrl.id, {
+					active: true
+				});
+				ext.windows.update(findTargettedUrl.windowId, {
+					focused: true
+				});
+			} else if (tabs.length > 0) {
+				/**
+				 * If exist, open url the with origin+path and show it to user
+				 */
+				let tab = tabs[0];
 
-				if (findTargettedUrl) {
-					/**
-					 * If exist, show it to user
-					 */
-					ext.tabs.update(findTargettedUrl.id, {
-						active: true
-					});
-					ext.windows.update(findTargettedUrl.windowId, {
-						focused: true
-					});
-				} else if (tabs.length > 0) {
-					/**
-					 * If exist, open url the with origin+path and show it to user
-					 */
-					let tab = tabs[0];
-
-					ext.tabs.update(tab.id, {
-						active: true,
-						url: evt.origin + evt.path
-					});
+				ext.tabs.update(tab.id, {
+					active: true,
+					url: evt.origin + evt.path
+				});
+				ext.windows.update(tab.windowId, {
+					focused: true
+				});
+			} else {
+				/**
+				 * If it's not exist, create a new tab and show it to user
+				 */
+				ext.tabs.create({
+					url: evt.origin + evt.path
+				}, tab => {
 					ext.windows.update(tab.windowId, {
 						focused: true
 					});
-				} else {
-					/**
-					 * If it's not exist, create a new tab and show it to user
-					 */
-					ext.tabs.create({
-						url: evt.origin + evt.path
-					}, tab => {
-						ext.windows.update(tab.windowId, {
-							focused: true
-						});
-					});
-				}
-				ext.notifications.clear(notificationId);
-			});
+				});
+			}
+			ext.notifications.clear(notificationId);
 		}
 	}
 });
-const createNotify = (opt, options) => {
+const createNotify = async (opt, options) => {
 	console.log(options);
-	ext.notifications.create(options, (notificationId) => {
-		let createdNotificationOwner = createdNotifications[opt.id];
+	let notificationId = await ext.notifications.create(options);
+	let createdNotificationOwner = createdNotifications[opt.id];
 
-		/**
-		 * Refactor data for storing in the createdNotifications
-		 */
-		let notificationData = {
-			nick: opt.nick,
-			time: opt.time,
-			title: opt.title,
-			message: opt.message
-		}
-		let notification = {
-			notificationId,
-			iconUrl: opt.iconUrl,
-			data: [notificationData]
-		}
+	/**
+	 * Refactor data for storing in the createdNotifications
+	 */
+	let notificationData = {
+		nick: opt.nick,
+		time: opt.time,
+		title: opt.title,
+		message: opt.message
+	}
+	let notification = {
+		notificationId,
+		iconUrl: opt.iconUrl,
+		data: [notificationData]
+	}
 
-		if (opt.buttons) {
-			notification.buttons = opt.buttons
-		}
+	if (opt.buttons) {
+		notification.buttons = opt.buttons
+	}
 
-		if (opt.buttons_evt) {
-			notification.buttons_evt = opt.buttons_evt
-		}
+	if (opt.buttons_evt) {
+		notification.buttons_evt = opt.buttons_evt
+	}
 
-		if (!createdNotificationOwner) {
-			createdNotifications[opt.id] = {
-				[opt.type]: notification
-			};
+	if (!createdNotificationOwner) {
+		createdNotifications[opt.id] = {
+			[opt.type]: notification
+		};
+	} else {
+		let createdNotificationType = createdNotificationOwner[opt.type];
+
+		if (!createdNotificationType) {
+			createdNotificationOwner[opt.type] = notification;
 		} else {
-			let createdNotificationType = createdNotificationOwner[opt.type];
+			createdNotificationType.notificationId = notificationId;
 
-			if (!createdNotificationType) {
-				createdNotificationOwner[opt.type] = notification;
-			} else {
-				createdNotificationType.notificationId = notificationId;
+			if (createdNotificationType.data.length > 5) {
+				//let temp = [...createdNotificationType.data].reverse();
+				let temp = createdNotificationType.data.slice().reverse();
+				createdNotificationType.data = [];
 
-				if (createdNotificationType.data.length > 5) {
-					//let temp = [...createdNotificationType.data].reverse();
-					let temp = createdNotificationType.data.slice().reverse();
-					createdNotificationType.data = [];
-
-					for (let i = 0; i < 3; i++) {
-						let data = temp[i];
-						createdNotificationType.data.unshift(data);
-					}
+				for (let i = 0; i < 3; i++) {
+					let data = temp[i];
+					createdNotificationType.data.unshift(data);
 				}
-
-				createdNotificationType.data.push(notificationData);
 			}
+
+			createdNotificationType.data.push(notificationData);
 		}
-		console.log(createdNotifications);
-	});
+	}
+	console.log(createdNotifications);
 }
 let previousNotifications = opt => {
 	let notificationsList = [];
@@ -203,7 +200,7 @@ let previousNotifications = opt => {
 
 	return notificationsList;
 }
-export default opt => {
+export default async (opt) => {
 	let notificationsList = previousNotifications(opt);
 	let options;
 
@@ -260,22 +257,21 @@ export default opt => {
 	if (!opt.buttons_evt) {
 		createNotify(opt, options);
 	} else {
-		ext.tabs.query({
+		let tabs = await ext.tabs.query({
 			url: (opt.buttons_evt[0].fullPath || opt.buttons_evt[0].origin + opt.buttons_evt[0].path),
 			active: true
-		}, tabs => {
-			console.log(tabs);
-			if (!tabs || tabs.length == 0) {
-				createNotify(opt, options);
-			} else {
-				tabs.forEach(tab => {
-					ext.windows.get(tab.windowId, Window => {
-						if (!Window.focused) {
-							createNotify(opt, options);
-						}
-					});
-				});
-			}
 		});
+		console.log(tabs);
+		if (!tabs || tabs.length == 0) {
+			createNotify(opt, options);
+		} else {
+			tabs.forEach(async (tab) => {
+				let Window = await ext.windows.get(tab.windowId);
+
+				if (!Window.focused) {
+					createNotify(opt, options);
+				}
+			});
+		}
 	}
 }

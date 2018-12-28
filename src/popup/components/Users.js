@@ -21,7 +21,7 @@ class Users {
 					</article>
 					<article class="media addNew">
 						<div class="media-content field-label has-text-centered">
-							<label class="label">${System.data.locale.popup.extensionManagement.users.addNewOrEditUser}</label>
+							<label class="label" for="addNewOrEdit">${System.data.locale.popup.extensionManagement.users.addNewOrEditUser}</label>
 						</div>
 					</article>
 					<article class="media addNew user">
@@ -42,7 +42,7 @@ class Users {
 							<div class="content">
 								<div class="field">
 									<div class="control is-expanded has-icons-left">
-										<input class="input" type="text" placeholder="${System.data.locale.common.profileID}">
+										<input id="addNewOrEdit" class="input id" type="text" placeholder="${System.data.locale.common.profileID}">
 										<span class="icon is-left">
 											<i class="fas fa-user"></i>
 										</span>
@@ -70,7 +70,7 @@ class Users {
 							</a>
 						</div>
 					</article>
-					<p class="help">${System.data.locale.popup.extensionManagement.users.explainingColors.line1}</br></br>
+					<p class="help">${System.data.locale.popup.extensionManagement.users.explainingColors.line1}</br>
 					${System.data.locale.popup.extensionManagement.users.explainingColors.line2.replace(/<s>(.*)<\/s>/, '<b style="color:#f00">$1</b>')}</br>
 					${System.data.locale.popup.extensionManagement.users.explainingColors.line3.replace(/<s>(.*)<\/s>/, '<b style="color:#fc0">$1</b>')}</br>
 					${System.data.locale.popup.extensionManagement.users.explainingColors.line4.replace(/<s>(.*)<\/s>/, '<b style="color:#0f0">$1</b>')}</br>
@@ -79,9 +79,19 @@ class Users {
 			</article>
 		</div>`);
 
-		this.$level = $(".level > .level-left", this.$layout);
+		this.$avatarContainer = $(".media-left", this.$layout);
 		this.$privilegesContainer = $(".control.privileges", this.$layout);
-		this.$idInput = $('input[type="text"]', $addNewBox);
+		this.$permissionContainer = $(".media-content .permission", this.$layout);
+
+		this.$link = $("a", this.$avatarContainer);
+		this.$idInput = $('input.id', this.$layout);
+		this.$nick = $(".nick", this.$avatarContainer);
+		this.$actions = $(".media-right", this.$layout);
+		this.$resetButton = $(".media-right > .reset", this.$layout);
+		this.$submitButton = $(".media-right > .submit", this.$layout);
+		this.$avatar = $("img.avatar", this.$avatarContainer);
+		this.$level = $(".level > .level-left", this.$layout);
+		this.$permission = $("input", this.$permissionContainer);
 
 		this.PrepareUsers();
 		this.RenderPrivilegesList();
@@ -108,40 +118,42 @@ class Users {
 			}
 		}
 	}
-	RenderUserNode(user) {
+	RenderUserNode(serverData) {
 		let time = "";
 		let userStatus = "";
 
-		if (user.approved) {
+		window.popup.ReserveAUser(serverData.brainlyID, { serverData });
+
+		if (serverData.approved) {
 			userStatus += " approved";
 		}
 
-		if (!user.checkInTime) {
+		if (!serverData.checkInTime) {
 			time = System.data.locale.popup.extensionManagement.users.hasntUsed;
 		} else {
-			let timeLong = moment(user.checkInTime).fromNow();
+			let timeLong = moment(serverData.checkInTime).fromNow();
 			time = System.data.locale.popup.extensionManagement.users.firstUsageTimeAgoPreTitle.replace("%{time}", timeLong);
 
-			if (user.approved) {
+			if (serverData.approved) {
 				userStatus += " active";
 			} else {
 				userStatus += " banned";
 			}
 		}
 
-		window.popup.ReserveAUser(user.brainlyID, user);
-
 		let $node = $(`
 		<div class="level-item is-inline-block has-text-centered">
-			<a data-user-id="${user.brainlyID}" id="${user._id}" title="${time}" target="_blank">
+			<a data-user-id="${serverData.brainlyID}" id="${serverData._id}" title="${time}" target="_blank">
 				<figure class="image is-48x48${userStatus}">
 					<img class="avatar is-rounded" src="https://${System.data.meta.marketName}/img/avatars/100-ON.png">
 				</figure>
-				<p class="nick">${user.nick}</p>
+				<p class="nick">${serverData.nick}</p>
 			</a>
 		</div>`);
 
 		this.$level.append($node);
+
+		return $node;
 	}
 	RenderPrivilegesList() {
 		System.data.locale.popup.extensionManagement.users.privilegeListOrder.forEach(key => {
@@ -149,10 +161,12 @@ class Users {
 
 			this.$privilegesContainer.append(`
 			<div class="field" title="${privilege.description}">
-				<input class="is-checkradio is-block is-info" id="p-${privilege.type}" type="checkbox">
+				<input class="is-checkradio is-block is-info" id="p-${key}" type="checkbox">
 				<label for="p-${key}">${privilege.title}</label>
 			</div>`);
 		});
+
+		this.$privilegeInputs = $('input[type="checkbox"]', this.$privilegesContainer);
 	}
 	BindEvents() {
 		let that = this;
@@ -164,6 +178,119 @@ class Users {
 
 			that.$idInput.val(id).trigger("input").focus();
 		});
+
+		this.$idInput.on("input", this.UserSearch.bind(this));
+		this.$resetButton.click(event => (event.preventDefault(), this.HideEditingForm(true)));
+		this.$submitButton.click(event => (event.preventDefault(), this.SubmitForm()));
+	}
+	async UserSearch() {
+		let id = this.GetIdFromInput();
+
+		if (id == 0) {
+			this.HideEditingForm();
+		} else {
+			try {
+				let user = await window.popup.GetStoredUser(id);
+
+				this.FillEditingForm(user);
+			} catch (error) {
+				notification(System.data.locale.popup.notificationMessages.cannotFindUser, "danger");
+				this.HideEditingForm();
+			}
+		}
+	}
+	GetIdFromInput() {
+		let value = this.$idInput.val();
+
+		return System.ExtractId(value);
+	}
+	HideEditingForm(clearInput) {
+		this.$link.attr("href", "");
+		this.$nick.text("");
+		this.$avatar.attr("src", "");
+		this.$avatarContainer.addClass("is-invisible");
+		this.$actions.addClass("is-invisible");
+		this.$permissionContainer.addClass("is-hidden");
+		this.$privilegesContainer.addClass("is-hidden");
+
+		if (clearInput) {
+			this.$idInput.val("");
+		}
+	}
+	async FillEditingForm(user) {
+		console.log(user);
+		let avatar = System.prepareAvatar(user.brainlyData);
+		let profileLink = System.createProfileLink(user.brainlyData.nick, user.brainlyData.id);
+
+		this.$nick.text(user.brainlyData.nick);
+		this.$avatar.attr("src", avatar);
+		this.$link.attr("href", profileLink);
+		this.$actions.removeClass("is-invisible");
+		this.$privilegeInputs.prop("checked", false);
+		this.$avatarContainer.removeClass("is-invisible");
+
+		if (user.serverData) {
+			this.$permission.prop("checked", user.serverData.approved);
+
+			if (user.serverData.privileges && user.serverData.privileges.length > 0) {
+				user.serverData.privileges.forEach(type => $("#p-" + type, this.$privilegesContainer).prop("checked", true));
+			}
+		}
+
+		this.$permissionContainer.removeClass("is-hidden");
+		this.$privilegesContainer.removeClass("is-hidden");
+	}
+	async SubmitForm() {
+		let id = this.GetIdFromInput();
+
+		if (isNaN(id)) {
+			notification(System.data.locale.popup.notificationMessages.idNumberRequired, "danger");
+		} else if (id <= 0) {
+			notification(System.data.locale.popup.notificationMessages.invalidId, "danger");
+		} else {
+			try {
+				let user = await window.popup.GetStoredUser(id);
+
+				this.SaveUser(user);
+			} catch (error) {
+				console.error(error);
+				notification(System.data.locale.popup.notificationMessages.cannotFindUser, "danger");
+			}
+		}
+	}
+	async SaveUser(user) {
+		try {
+			let privileges = $("input:checked", this.$privilegesContainer).map((i, input) => ~~(input.id.replace("p-", ""))).get();
+			let approved = this.$permission.prop("checked");
+			let resUser = await PutUser({
+				id: user.brainlyData.id,
+				nick: user.brainlyData.nick,
+				privileges,
+				approved
+			});
+
+			if (!resUser.success) {
+				throw resUser.message;
+			}
+
+			notification(System.data.locale.common.allDone, "success");
+
+			$("#" + resUser.data._id, this.$level).parent().remove();
+
+			console.log(resUser.data);
+			let $node = this.RenderUserNode(resUser.data);
+			window.popup.refreshUsersInformations();
+
+			$('html, body').animate({
+				scrollTop: $node.offset().top
+			}, 1000);
+
+			this.HideEditingForm(true);
+		} catch (error) {
+			console.error(error);
+			notification(typeof error == "string" && error || System.data.locale.common.notificationMessages.operationError, "danger");
+		}
+
 	}
 }
 

@@ -1,4 +1,4 @@
-import Storage from "../../scripts/helpers/extStorage";
+import storage from "../../scripts/helpers/extStorage";
 import notification from "../components/notification";
 
 const isPosInt = str => /^\+?\d+$/.test(str);
@@ -134,7 +134,7 @@ class QuickDeleteButtonsOptions {
 			reasonIdStore[reasonType].push(reasonId);
 		});
 
-		Storage.set({ quickDeleteButtonsReasons: reasonIdStore });
+		storage("set", { quickDeleteButtonsReasons: reasonIdStore });
 	}
 }
 

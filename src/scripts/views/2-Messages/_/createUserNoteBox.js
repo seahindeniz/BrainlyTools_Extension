@@ -1,6 +1,6 @@
 import WaitForElement from "../../../helpers/WaitForElement";
 import WaitForObject from "../../../helpers/WaitForObject";
-import { passUser } from "../../../controllers/ActionsOfServer";
+import { PassUser } from "../../../controllers/ActionsOfServer";
 import { getUserByID } from "../../../controllers/ActionsOfBrainly";
 import UserNoteBox from "../../../components/UserNoteBox";
 import UserFlag from "../../../components/UserFlag";
@@ -14,7 +14,7 @@ async function profileLinkContainerFound(targetElm) {
 			let u_name = link.attr('title');
 
 			if (link.length > 0) {
-				let passedUser = await passUser(id, u_name);
+				let passedUser = await PassUser(id, u_name);
 
 				if (passedUser) {
 					let $notebox = UserNoteBox(passedUser);

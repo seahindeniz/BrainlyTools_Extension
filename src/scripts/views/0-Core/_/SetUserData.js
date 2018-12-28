@@ -1,29 +1,20 @@
 import WaitForObject from "../../../helpers/WaitForObject";
-import Storage from "../../../helpers/extStorage";
+import storage from "../../../helpers/extStorage";
 
-const fetchUserData = (reject, resolve) => {
-	var url = "/api/28/api_users/me";
-	var xhr = new XMLHttpRequest();
+async function fetchUserData() {
+	let response = await fetch("/api/28/api_users/me");
+	let data = await response.json();
 
-	xhr.open('GET', url, true)
-	xhr.onload = function() {
-		var json = JSON.parse(xhr.responseText);
-		if (xhr.readyState == 4 && xhr.status == "200") {
-			if (json.success && json.success == true) {
-				//System.data.Brainly.userData = json.data;
-				Storage.set({ user: json.data }, function() {
-					resolve && resolve({ user: json.data });
-				});
-			} else {
-				Console.warn("You need to sign in");
-				reject();
-			}
-		} else {
-			Console.error(json);
-			reject();
-		}
-	}
-	xhr.send(null);
+	return data;
+}
+
+async function PrepareUserData() {
+	let user = await fetchUserData();
+	let storageData = { user: user.data };
+
+	await storage("set", storageData);
+
+	return storageData;
 }
 
 export default function SetUserData() {
@@ -32,15 +23,18 @@ export default function SetUserData() {
 		let _dataLayer = await WaitForObject("window.dataLayer");
 
 		if (_dataLayer && _dataLayer[0] && _dataLayer[0].user && _dataLayer[0].user.isLoggedIn) {
-			Storage.get(["user", "themeColor", "extendMessagesLayout"], res => {
-				if (res && res.user && res.user.user && res.user.user.id && res.user.user.id == _dataLayer[0].user.id) {
-					//callback && callback(res);
-					resolve(res);
-					fetchUserData(reject);
-				} else {
-					fetchUserData(reject, resolve);
-				}
-			});
+			System.data.meta.storageKey = System.data.meta.marketName + "_" + ((window.dataLayer && window.dataLayer.length > 0 && window.dataLayer[0].user.id));
+
+			let res = await storage("get", ["user", "themeColor", "extendMessagesLayout"]);
+
+			if (!(res && res.user && res.user.user && res.user.user.id && res.user.user.id == _dataLayer[0].user.id)) {
+				res = await PrepareUserData();
+			}
+
+			System.data.Brainly.userData = res.user;
+
+			resolve(res);
+			Console.info("SetUserData OK!");
 		} else {
 			Console.error("User data error. Maybe not logged in", _dataLayer);
 			reject();

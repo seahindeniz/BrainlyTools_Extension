@@ -4,6 +4,7 @@ import { UpdateDeleteReasonsPreferences } from "../../scripts/controllers/Action
 
 class DeleteReasonsPreferences {
 	constructor() {
+		this.selectedReasons = [];
 		return this.Render();
 	}
 	Render() {
@@ -85,9 +86,10 @@ class DeleteReasonsPreferences {
 					$.each(reasons, (reasonKey, reason) => {
 						if (
 							reasonKey.indexOf("__") < 0 &&
-							(new RegExp(value, "i")).test(reasonKey)
+							(new RegExp(value, "i")).test(reasonKey) &&
+							this.selectedReasons.indexOf(reason.id) < 0
 						) {
-							let typeT = type == "task" ? "Q" : type == "response" ? "A" : "C";
+							let typeT = System.data.locale.popup.extensionOptions.quickDeleteButtons[type]; //type == "task" ? "Q" : type == "response" ? "A" : "C";
 							let categoryName = System.data.Brainly.deleteReasons.__withIds[type].__categories[reason.category_id].text;
 
 							reasonList.push({
@@ -110,6 +112,7 @@ class DeleteReasonsPreferences {
 		this.$input.val("");
 	}
 	AddReasonToList(type, value, label, reason, confirmation = null) {
+		this.selectedReasons.push(reason.id);
 		$(`
 		<div class="control">
 			<div class="tags has-addons">

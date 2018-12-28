@@ -10,12 +10,12 @@ const MetaGet = function() {
 				reject(null);
 			} else if (e.data.action == "metaSet") {
 				resolve(e.data.data)
-			} else if (e.data.action == "shareGatheredData2Background") {
-				await PrepareDeleteReasons();
-				System.shareGatheredData2Background(() => {
-					var evtSharingDone = new Event("shareGatheredData2BackgroundDone", { "bubbles": true, "cancelable": false });
-					document.dispatchEvent(evtSharingDone);
-				});
+			} else if (e.data.action == "DOM>Share System.data to background.js") {
+				await PrepareDeleteReasons(true);
+				await System.ShareSystemDataToBackground();
+
+				var evtSharingDone = new Event("contentscript>Share System.data to background.js:DONE", { "bubbles": true, "cancelable": false });
+				document.dispatchEvent(evtSharingDone);
 			}
 		});
 	})

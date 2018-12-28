@@ -1,6 +1,6 @@
 import WaitForElement from "../../helpers/WaitForElement";
 import { getUserByID } from "../../controllers/ActionsOfBrainly";
-import { passUser } from "../../controllers/ActionsOfServer";
+import { PassUser } from "../../controllers/ActionsOfServer";
 import UserNoteBox from "../../components/UserNoteBox";
 import UserPreviousNicks from "../../components/UserPreviousNicks";
 import UserBio from "../../components/UserBio";
@@ -27,7 +27,7 @@ async function UserProfile() {
 }
 
 async function userInfosFromExtensionServer(mainRight) {
-	let user = await passUser(profileData.id, profileData.nick);
+	let user = await PassUser(profileData.id, profileData.nick);
 	let $userNoteContainer = $(`<div class="userNoteContainer"><h3 class="bold dark_grey" title="${System.data.locale.common.personalNote.title}">${System.data.locale.common.personalNote.placeholder}</h3></div>`);
 
 	if (user) {

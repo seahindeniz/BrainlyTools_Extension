@@ -1,6 +1,6 @@
 "use strict";
 
-import InjectToBody from "../../helpers/InjectToBody";
+import InjectToDOM from "../../helpers/InjectToDOM";
 import { attachmentIcon } from "../../components/Icons";
 import { GetTaskContent } from "../../controllers/ActionsOfBrainly";
 
@@ -189,14 +189,14 @@ if (System.checkRoute(4, "") || System.checkRoute(4, "tasks") || System.checkRou
 	}
 
 	if (System.checkUserP(1) && System.checkRoute(4, "") || System.checkRoute(4, "tasks")) {
-		InjectToBody("/scripts/views/4-UserContent/tasks.js");
+		InjectToDOM("/scripts/views/4-UserContent/tasks.js");
 	}
 
 	if (System.checkUserP([2, 6]) && System.checkRoute(4, "responses")) {
-		InjectToBody(["/scripts/views/4-UserContent/responses.js"]);
+		InjectToDOM(["/scripts/views/4-UserContent/responses.js"]);
 	}
 
 	if (System.checkUserP(45) && System.checkRoute(4, "comments_tr")) {
-		InjectToBody("/scripts/views/4-UserContent/comments.js");
+		InjectToDOM("/scripts/views/4-UserContent/comments.js");
 	}
 }

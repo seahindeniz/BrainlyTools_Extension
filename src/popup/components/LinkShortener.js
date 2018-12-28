@@ -1,4 +1,4 @@
-import ext from "../../scripts/utils/1.ext";
+import ext from "../../scripts/utils/ext";
 import { CreateShortLink } from "../../scripts/controllers/ActionsOfServer";
 
 class LinkShortener {

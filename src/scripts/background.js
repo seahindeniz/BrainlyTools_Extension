@@ -2,280 +2,236 @@
 
 import ext from "./utils/ext";
 import _System from "./controllers/System";
-import Storage from "./utils/storage";
+import storage from "./utils/storage";
 import marketKeyFn from "./helpers/marketKey";
 import BrainlyNotificationSocket from "./controllers/BrainlyNotificationSocket";
 
-/*storageS.set({ color: "#f00" }, function () {
-});
-storageS.get('color', function (res) {
-	console.log('color',res)
-});
-storageS.remove('color');
-storageS.get('color', function (res) {
-	console.log('color',res)
-});
-*/
+const BROWSER_ACTION = ext.browserAction;
+const RED_BADGE_COLOR = [255, 121, 107, 255];
 const __c = `font-size: 14px;color: #57b2f8;font-family:century gothic;`;
-//let marketData = null;
-const manifest = chrome.runtime.getManifest();
-let browserAction = ext.browserAction;
 
-let System = new _System();
-window.System = System;
+class Background {
+	constructor() {
+		this.popupOpened = null;
+		this.blockedDomains = /mc.yandex.ru|hotjar.com|google(-analytics|tagmanager|adservices|tagservices).com|kissmetrics.com|doubleclick.net|ravenjs.com/i;
 
-System.init();
+		this.manifest = ext.runtime.getManifest();
 
-let badge_update = opt => {
-	browserAction.setBadgeText({
-		//tabId: opt.id,
-		text: opt.text
-	});
-	browserAction.setBadgeBackgroundColor({
-		//tabId: opt.id,
-		color: opt.color
-	});
-};
-browserAction.disable();
-let popupOpened = false;
+		BROWSER_ACTION.disable();
 
-const onRequest = function(request, sender, sendResponse) {
-	if (request.action == "i18n") {
-		sendResponse(ext.i18n.getMessage(request.data));
+		this.InitSystem();
+		this.BindListeners();
 	}
-	if (request.action == "storage_set") {
-		Storage.set({
-			...request,
-			callback: sendResponse
-		});
+	InitSystem() {
+		window.System = new _System();
+	}
+	BindListeners() {
+		ext.runtime.onMessage.addListener(this.MessageRequestHandler.bind(this));
+		ext.runtime.onMessageExternal.addListener(this.MessageRequestHandler.bind(this));
+		chrome.windows.onRemoved.addListener(this.RemovedWindowHandler.bind(this));
+		//ext.tabs.onCreated.addListener(tabCreated);
+		ext.tabs.onUpdated.addListener(this.TabUpdatedHandler.bind(this));
+		ext.tabs.onRemoved.addListener(this.TabRemovedHandler.bind(this));
+		ext.tabs.onActivated.addListener(this.TabActivatedHandler.bind(this));
+		//ext.tabs.getSelected(null, tabCreated);
 
-		return true;
+		ext.webRequest.onBeforeRequest.addListener(({ url }) => ({ cancel: this.blockedDomains.test(url) }), { urls: ["<all_urls>"] }, ["blocking"]);
 	}
-	if (request.action == "storage_get") {
-		console.log(request);
-		Storage.get({
-			...request,
-			callback: sendResponse
-		});
-
-		return true;
-	}
-	if (request.action == "storage_remove") {
-		Storage.remove({
-			...request,
-			callback: sendResponse
-		});
-
-		return true;
-	}
-	if (request.action == "storage_setL") {
-		Storage.set({
-			local: true,
-			...request,
-			callback: sendResponse
-		});
-
-		return true;
-	}
-	if (request.action == "storage_getL") {
-		Storage.get({
-			local: true,
-			...request,
-			callback: sendResponse
-		});
-
-		return true;
-	}
-	if (request.action == "storage_removeL") {
-		Storage.remove({
-			local: true,
-			...request,
-			callback: sendResponse
-		});
-		return true;
-	}
-	if (request.action === "setMarketData") {
-		if (request.data) {
-			System.data = request.data;
-			sendResponse("done");
-		} else {
-			sendResponse();
-		}
-	}
-	if (request.action === "getMarketData") {
-		setTimeout(() => {
-			sendResponse(System.data);
-		}, 500);
-		return true;
-	}
-	if (request.action === "enableExtensionIcon") {
-		browserAction.enable(sender.tab.id);
-	}
-	if (request.action === "changeBadgeColor") {
-		let color = [0, 0, 0, 0];
-		if (request.data === "loading") {
-			color = [254, 200, 60, 255]
-		}
-		if (request.data === "loaded") {
-			color = [83, 207, 146, 255]
-			browserAction.enable();
-		}
-		badge_update({
-			id: sender.tab.id,
-			text: " ",
-			color: color
-		});
-	}
-	if (request.action === "xmlHttpRequest") {
-		let ajaxData = {
-			method: request.method,
-			url: System.data.config.extension.serverAPIURL + request.path,
-			headers: request.headers,
-			success: res => {
-				sendResponse({ success: true, res })
-			},
-			error: res => {
-				sendResponse({ error: true, res })
-			}
-		};
-
-		if (request.data) {
-			ajaxData.data = request.data;
-			ajaxData.dataType = "json";
-		}
-
-		$.ajax(ajaxData);
-
-		return true;
-	}
-	if (request.action === "updateExtension") {
-		ext.runtime.requestUpdateCheck(function(status) {
-			sendResponse(status);
-
-			if (status == "update_available") {
-				ext.runtime.reload();
-			}
-		});
-
-		return true;
-	}
-	if (request.action === "openCaptchaPopup") {
-		let currentWindowID = null;
-		if (!popupOpened) {
-			popupOpened = true;
-			ext.windows.create({
-				url: request.data,
-				type: "popup",
-				width: 500,
-				height: 388
-			}, detail => {
-				currentWindowID = detail.id;
+	async MessageRequestHandler(request, sender) {
+		if (request.action == "storage") {
+			return storage[request.method]({
+				...request
 			});
-			chrome.windows.onRemoved.addListener(windowId => {
-				if (windowId == currentWindowID) {
-					popupOpened = false;
-					sendResponse("true");
-				}
+		}
+		if (request.action === "setMarketData") {
+			try {
+				System.data = request.data;
+
+				return true;
+			} catch (error) {
+				return error;
+			}
+		}
+		if (request.action === "getMarketData") {
+			//await System.delay(500);
+
+			return new Promise(resolve => { resolve(System.data) });
+		}
+		if (request.action === "enableExtensionIcon") {
+			BROWSER_ACTION.enable(sender.tab.id);
+
+			return true;
+		}
+		if (request.action === "changeBadgeColor") {
+			let color = [0, 0, 0, 0];
+
+			if (request.data === "loading") {
+				color = [254, 200, 60, 255]
+			}
+
+			if (request.data === "loaded") {
+				color = [83, 207, 146, 255];
+
+				BROWSER_ACTION.enable();
+			}
+
+			this.UpdateBadge({
+				id: sender.tab.id,
+				text: " ",
+				color
 			});
 
 			return true;
 		}
-	}
-	if (request.action === "notifierInit") {
-		Storage.get({
-			marketKey: marketKeyFn(),
-			data: "notifier",
-			callback: isActive => {
-				console.log("notifierInit:", isActive);
-				BrainlyNotificationSocket(isActive);
+		if (request.action === "xmlHttpRequest") {
+			let ajaxData = {
+				method: request.method,
+				url: System.data.config.extension.serverAPIURL + request.path,
+				headers: request.headers
+			};
+
+			if (request.data) {
+				ajaxData.data = request.data;
+				ajaxData.dataType = "json";
 			}
+
+			return $.ajax(ajaxData);
+		}
+		if (request.action === "updateExtension") {
+			return this.CheckUpdate();
+		}
+		if (request.action === "openCaptchaPopup") {
+			if (!this.popupOpened) {
+				this.CreateWindow({
+					url: request.data,
+					type: "popup",
+					width: 500,
+					height: 388
+				});
+
+				return true;
+			}
+		}
+		if (request.action === "notifierInit") {
+			let isActive = await storage.get({
+				marketKey: marketKeyFn(),
+				data: "notifier"
+			});
+
+			BrainlyNotificationSocket(isActive);
+		}
+		if (request.action === "notifierChangeState") {
+			BrainlyNotificationSocket(request.data);
+		}
+		if (request.action === "background>Inject content script anyway") {
+			console.log("contenscript injection started");
+			this.InjectContentScript(request.data, true);
+
+			return Promise.resolve(true);
+		}
+	}
+	UpdateBadge(options) {
+		BROWSER_ACTION.setBadgeText({
+			text: options.text
 		});
-	}
-	if (request.action === "notifierChangeState") {
-		BrainlyNotificationSocket(request.data);
-		/* console.log(System.data.meta.marketName);
-		console.log(System.data.Brainly.defaultConfig.comet.AUTH_HASH);
-		console.log(request.data); */
-		/* Storage.set({
-			marketKey: System.data.meta.marketName,
-			data: { notifier: request.data },
-			callback: res => {
-				console.log("notifierChangeState:", res);
-			}
-		}); */
-	}
-}
-ext.runtime.onMessage.addListener(onRequest);
-ext.runtime.onMessageExternal.addListener(onRequest);
 
-let brainlyURI_regexp = /:\/\/(?:www\.)?((?:eodev|znanija)\.com|zadane\.pl|nosdevoirs\.fr|brainly(?:(?:\-thailand\.com)|(?:\.(?:com+(?:\.br|\.ng|)|co\.(?:id|za)|lat|in|my|ph|ro))))/i;
-let blockedDomains = /mc.yandex.ru|hotjar.com|google(-analytics|tagmanager|eadservices).com|kissmetrics.com|doubleclick.net|ravenjs.com/i;
-
-let blockRequest = req => {
-	return {
-		cancel: blockedDomains.test(req.url)
-	};
-};
-let blocking_init = () => {
-	if (ext.webRequest.onBeforeRequest.hasListener(blockRequest)) {
-		ext.webRequest.onBeforeRequest.removeListener(blockRequest);
-	}
-	ext.webRequest.onBeforeRequest.addListener(blockRequest, {
-		urls: ["<all_urls>"]
-	}, ["blocking"]);
-};
-let get_brainly_from_tabs = (tabs, callback) => {
-	let result = null;
-	let len = tabs.length;
-	if (len > 0) {
-		for (let i = 0, tab;
-			(tab = tabs[i]); i++) {
-			if (tab.url) {
-				let url = new URL(tab.url);
-				let match_it = brainlyURI_regexp.test(url.host);
-				match_it && (result = tab, callback && callback(tab));
-			}
-		}
-	} else if (!len && typeof tabs === "object") {
-		if (tabs.url) {
-			let url = new URL(tabs.url);
-			let match_it = brainlyURI_regexp.test(url.origin);
-			match_it && (result = tabs, callback && callback(tabs));
+		if (options.color) {
+			BROWSER_ACTION.setBadgeBackgroundColor({
+				color: options.color
+			});
 		}
 	}
-	return result;
-};
-let redBadgeColor = [255, 121, 107, 255];
-let tabCreated = tabs => {
-	get_brainly_from_tabs(tabs, tab => {
-		console.log(tab);
-		blocking_init();
-		chrome.browserAction.getBadgeBackgroundColor({ tabId: tab.id }, (badgeColor) => {
-			if (badgeColor.every((v, i) => v !== redBadgeColor[i])) {
-				badge_update({
-					id: tab.id,
+	async CheckUpdate() {
+		let status = await ext.runtime.requestUpdateCheck();
+
+		if (status == "update_available") {
+			ext.runtime.reload();
+		}
+
+		return status;
+	}
+	async CreateWindow(data) {
+		let detail = await ext.windows.create(data);
+		this.popupOpened = detail.id;
+	}
+	RemovedWindowHandler(windowId) {
+		if (windowId == this.popupOpened) {
+			this.popupOpened = null;
+		}
+	}
+	TabUpdatedHandler(tabId, changeInfo, tab) {
+		if (changeInfo.status == "loading") {
+			this.ManipulateTab(tab);
+		}
+	}
+	async TabActivatedHandler(activeInfo) {
+		let tab = await ext.tabs.get(activeInfo.tabId);
+
+		this.ManipulateTab(tab);
+	}
+	async TabRemovedHandler(tabId) {
+		let tabs = await ext.tabs.query({});
+		let brailnyTabs = tabs.filter(tab => System.constants.Brainly.regexp_BrainlyMarkets.test(tab.url));
+
+		if (brailnyTabs.length == 0) {
+			this.UpdateBadge({
+				text: "",
+				color: ""
+			});
+			BROWSER_ACTION.disable();
+		}
+	}
+	async ManipulateTab(tab) {
+		if (tab.url && this.IsBrainlyTab(tab.url)) {
+			let tabId = tab.id;
+
+			this.InjectContentScript(tabId);
+			let badgeColor = await ext.browserAction.getBadgeBackgroundColor({ tabId });
+
+			if (badgeColor.every((v, i) => v !== RED_BADGE_COLOR[i])) {
+				this.UpdateBadge({
 					text: " ",
-					color: [255, 121, 107, 255]
+					color: RED_BADGE_COLOR
 				});
 			}
-		});
-		console.info(`%c${manifest.short_name} > Initilazing`, __c);
-	});
-};
-/*ext.tabs.query({
-	active: true,
-	currentWindow: true
-}, function () {
-	console.log(this);
-});*/
-//ext.tabs.onCreated.addListener(tabCreated);
-ext.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-	//console.log("this:", tabId, changeInfo, tab);
-	if (changeInfo.status == "loading")
-		tabCreated(tab);
-});
-ext.tabs.onActivated.addListener(activeInfo => {
-	ext.tabs.get(activeInfo.tabId, tabCreated);
-});
+		}
+	}
+	IsBrainlyTab(_url) {
+		let url = new URL(_url);
+		let itIs = System.constants.Brainly.regexp_BrainlyMarkets.test(url.origin);
 
-//ext.tabs.getSelected(null, tabCreated);
+		return itIs;
+	}
+	async InjectContentScript(tabId, forceInject) {
+		if (!forceInject) {
+			await this.CheckThePageWhetherInjected(tabId);
+		}
+
+		await chrome.tabs.executeScript(tabId, {
+			file: "scripts/contentscript.js",
+			runAt: "document_start",
+			allFrames: true
+		});
+
+		console.info("Content script injected OK!");
+		console.info(`%c${this.manifest.short_name}: Initilazing > ${tabId}`, __c);
+	}
+	CheckThePageWhetherInjected(tabId) {
+		return new Promise(async (resolve) => {
+			/**
+			 * Scenarios:
+			 * If contentscript hasn't injected to specified tab, sending a message will return {message: "Could not establish connection. Receiving end does not exist."}
+			 * ...this means page is can be injected so the promise can be resolved.
+			 *
+			 * If contentscript is already injected, that means no need to inject again. Therefore we don't have to wait for success return from contentscript.
+			 */
+			try {
+				await ext.tabs.sendMessage(tabId, { action: "contentscript>Check if content script injected" });
+			} catch (_) {
+				resolve()
+			}
+		});
+	}
+}
+
+new Background();

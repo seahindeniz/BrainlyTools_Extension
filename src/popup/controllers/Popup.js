@@ -1,12 +1,14 @@
+import ext from "../../scripts/utils/ext";
 import LinkShortener from "../components/LinkShortener";
 import ThemeColorChanger from "../components/ThemeColorChanger";
 import QuickDeleteButtonsOptions from "../components/QuickDeleteButtonsOptions";
 import OtherOptions from "../components/OtherOptions";
+import AccountDeleteReports from "../components/AccountDeleteReports";
 import DeleteReasonsPreferences from "../components/DeleteReasonsPreferences";
 import Announcements from "../components/Announcements";
 import Users from "../components/Users";
 import { getUserByID2 } from "../../scripts/controllers/ActionsOfBrainly";
-import notification from "../components/notification";
+import storage from "../../scripts/helpers/extStorage";
 
 class Popup {
 	constructor() {
@@ -19,15 +21,49 @@ class Popup {
 
 		this.Run_BindEventsForCommonUse();
 	}
+	async PrepareDataBeforeRendering() {
+		let marketData = await ext.runtime.sendMessage({ action: "getMarketData" });
+
+		if (!marketData) {
+			return this.RenderStatusMessage({
+				type: "danger",
+				title: System.data.locale.popup.notificationMessages.errorN.replace("%{error_code}", 417),
+				message: System.data.locale.popup.notificationMessages.iCantFechMarketData
+			});
+		}
+
+		System.data = marketData;
+		let storageData = await storage("get", ["user", "themeColor", "quickDeleteButtonsReasons", "extendMessagesBody", "extendMessagesLayout", "notifier", "language"]);
+		//console.log("storageData: ", storageData);
+		if (!(storageData && storageData.user && storageData.user.user && storageData.user.user.id && storageData.user.user.id == storageData.user.user.id)) {
+			this.RenderStatusMessage({
+				type: "danger",
+				title: System.data.locale.popup.notificationMessages.errorN.replace("%{error_code}", 417),
+				message: System.data.locale.popup.notificationMessages.uncorrectDate
+			});
+		} else if (!System.data.Brainly.deleteReasons.__withIds) {
+			this.RenderStatusMessage({
+				type: "danger",
+				title: System.data.locale.popup.notificationMessages.errorN.replace("%{error_code}", 416),
+				message: System.data.locale.popup.notificationMessages.preparingUnsuccessful
+			});
+		} else {
+			this.storageData = storageData;
+
+			this.RenderMainUI();
+		}
+	}
 	Run_BindEventsForCommonUse() {
 		setInterval(() => {
-			$("[data-time]", this.$body).each((i, elm) => {
-				elm = $(elm);
-				let time = $(elm).data("time");
-				let timeLong = moment(time).fromNow(),
-					timeShort = moment(time).fromNow(true);
-				elm.attr("title", timeLong);
-				elm.text(timeShort);
+			$("[data-time]", this.$body).each((i, element) => {
+				let $element = $(element);
+				let time = $($element).data("time");
+				let dateLLL = window.moment(time).format('LLL');
+				let timeAgoLong = window.moment(time).fromNow();
+				let timeAgoShort = window.moment(time).fromNow(true);
+
+				$element.attr("title", `${timeAgoLong}\n${dateLLL}`);
+				$element.text(timeAgoShort);
 			});
 		}, 1000);
 
@@ -44,11 +80,12 @@ class Popup {
 		this.$container.html(`<h1 class="title">${title}</h1><h2 class="subtitle">${message}</h2>`);
 	}
 	RenderMainUI() {
+		let avatar = System.prepareAvatar(System.data.Brainly.userData.user);
 		let $layout = $(`
 		<div class="column">
 			<div class="box">
 				<figure class="avatar has-text-centered">
-					<img src="${System.data.Brainly.userData.user.fixedAvatar}" title="${System.data.Brainly.userData.user.nick} - ${System.data.Brainly.userData.user.id}@${System.data.meta.marketName}">
+					<img src="${avatar}" title="${System.data.Brainly.userData.user.nick} - ${System.data.Brainly.userData.user.id}@${System.data.meta.marketName}">
 				</figure>
 			</div>
 		</div>`);
@@ -68,7 +105,7 @@ class Popup {
 		this.RenderFooterInformation();
 	}
 	RenderFooterInformation() {
-		this.$footer.html(`<p class="title is-7 has-text-centered"><a href="https://chrome.google.com/webstore/detail/${System.data.meta.extension.id}" class="has-text-grey" target="_blank">Brainly Tools v${System.data.meta.manifest.version}</a></p>`);
+		this.$footer.html(`<p class="title is-7 has-text-centered"><a href="https://chrome.google.com/webstore/detail/${System.data.meta.extension.id}" class="has-text-grey" target="_blank">${System.data.meta.manifest.short_name} v${System.data.meta.manifest.version}</a></p>`);
 	}
 	PrepareSectionsAndContents() {
 		this.sections = [
@@ -81,6 +118,7 @@ class Popup {
 			],
 			[
 				this.RenderTitle(System.data.locale.popup.extensionManagement.title),
+				this.RenderAccountDeleteReports(),
 				this.RenderDeleteReasonsPreferences(),
 				this.RenderAnnouncements(),
 				this.RenderUsers(),
@@ -134,6 +172,13 @@ class Popup {
 
 		return $otherOptions;
 	}
+	RenderAccountDeleteReports() {
+		if (System.checkUserP(12)) {
+			let $accountDeleteReports = new AccountDeleteReports();
+
+			return $accountDeleteReports;
+		}
+	}
 	RenderDeleteReasonsPreferences() {
 		if (System.checkUserP(11)) {
 			let $deleteReasonsPreferences = new DeleteReasonsPreferences();
@@ -157,19 +202,19 @@ class Popup {
 	}
 	ReserveAUser(brainlyID, data) {
 		if (!this.fetchedUsers[brainlyID]) {
-			if (!data) {
-				this.fetchedUsers[brainlyID] = null;
-			} else {
-				this.fetchedUsers[brainlyID] = data;
-				this.fetchedUsers[brainlyID].brainlyData = null;
-			}
+			data = data || {};
+		} else {
+			data = { ...this.fetchedUsers[brainlyID], ...data }
 		}
+
+		this.fetchedUsers[brainlyID] = data;
+
+		return this.fetchedUsers[brainlyID];
 	}
 	refreshUsersInformations() {
 		Object.keys(this.fetchedUsers).forEach(async brainlyID => {
 			let user = await this.GetStoredUser(brainlyID);
 			let avatar = System.prepareAvatar(user.brainlyData);
-			console.log(user.brainlyData, avatar);
 
 			if (avatar) {
 				$(`a[data-user-id="${user.brainlyData.id}"]`, this.$layoutBox).each((i, element) => {
@@ -195,17 +240,11 @@ class Popup {
 
 				if (!resUser || !resUser.success) {
 					let message = `${brainlyID} > ${(resUser.message || "error")}`;
-					notification(message, "warning");
+
 					return reject(message);
 				}
 
-				if (user) {
-					user.brainlyData = resUser.data;
-				} else {
-					user = {
-						brainlyData: resUser.data
-					}
-				}
+				user = this.ReserveAUser(brainlyID, { brainlyData: resUser.data });
 			}
 
 			resolve(user);

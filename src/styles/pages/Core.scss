@@ -12,6 +12,10 @@
 	}
 }
 
+.brn-moderation-panel__list {
+	overflow-x: auto !important;
+}
+
 .notification-brainlyToolsImg {
 	position: relative;
 	right: 9px;
@@ -197,8 +201,6 @@ blockquote {
 			overflow-x: hidden;
 			max-height: 230px;
 			padding: 0 3px;
-
-
 		}
 	}
 

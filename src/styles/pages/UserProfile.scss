@@ -196,8 +196,12 @@ img.userFlag {
 	}
 
 	.evidence {
+		img {
+			object-fit: contain;
+		}
+
 		&:not(.previewing) {
-			&.previewable .sg-icon {
+			.preview {
 				cursor: pointer;
 			}
 
@@ -211,6 +215,10 @@ img.userFlag {
 			max-width: unset;
 			height: 100%;
 			max-height: unset;
+
+			video {
+				width: 264px;
+			}
 		}
 
 		span.sg-text {

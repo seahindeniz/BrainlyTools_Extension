@@ -2,7 +2,7 @@
 
 import "./helpers/preExecuteScripts";
 import ext from "./utils/ext";
-import Inject2body from "./helpers/Inject2body";
+import InjectToDOM from "./helpers/InjectToDOM";
 import themeColorChanger from "./helpers/themeColorChanger";
 import messagesLayoutExtender from "./helpers/messagesLayoutExtender";
 import _System from "./controllers/System";
@@ -24,62 +24,48 @@ System.data.meta.extension = {
 }
 window.System = System;
 
-System.changeBadgeColor("loading");
+let html = document.documentElement;
 
-Inject2body("/scripts/lib/prototypeOverrides.js");
-Inject2body(["/scripts/views/0-Core/index.js", "/styles/pages/Core.css"]);
-
-let extractTags = () => {
-	let url = document.location.href;
-	if (!url || !url.match(/^http/)) return;
-
-	let data = {
-		title: "",
-		description: "",
-		url: document.location.href
-	}
-
-	let ogTitle = document.querySelector("meta[property='og:title']");
-	if (ogTitle) {
-		data.title = ogTitle.getAttribute("content")
-	} else {
-		data.title = document.title
-	}
-
-	let descriptionTag = document.querySelector("meta[property='og:description']") || document.querySelector("meta[name='description']")
-	if (descriptionTag) {
-		data.description = descriptionTag.getAttribute("content")
-	}
-
-	return data;
+if (!html.getAttribute("extension")) {
+	System.changeBadgeColor("loading");
+	InjectToDOM("/scripts/lib/prototypeOverrides.js");
+	InjectToDOM(["/scripts/views/0-Core/index.js", "/styles/pages/Core.css"]);
+} else {
+	System.changeBadgeColor("loaded");
 }
 
-function onRuntimeHandler(request, sender, sendResponse) {
-	if (request.action === 'process-page') {
-		sendResponse(extractTags())
-	}
+function MessageHandler(request) {
 	if (request.action == "manifest") {
-		sendResponse(manifest);
+		return manifest;
 	}
-	if (request.action === "changeColor") {
-		localStorage.setItem("themeColor",request.data)
-		themeColorChanger(request.data);
+	if (request.action === "previewColor") {
+		themeColorChanger(request.data, true);
 	}
-	if (request.action === "shareGatheredData2Background") {
+	if (request.action === "changeColors") {
+		localStorage.setItem("themeColor", request.data);
+	}
+	if (request.action === "contentscript>Share System.data to background.js") {
 		window.postMessage({
-			action: "shareGatheredData2Background"
+			action: "DOM>Share System.data to background.js"
 		}, request.url);
 
-		window.addEventListener('shareGatheredData2BackgroundDone', e => {
-			//sendResponse("sharingDone");
-		});
 	}
 	if (request.action === "extendMessagesLayout") {
 		messagesLayoutExtender(request.data);
 	}
+
+	if (request.action == "contentscript>Check if content script injected") {
+		html = document.documentElement;
+
+		return Promise.resolve(html.getAttribute("extension"));
+	}
 }
 
-ext.runtime.onMessage.addListener(onRuntimeHandler);
+ext.runtime.onMessage.addListener(MessageHandler);
+
+window.addEventListener('contentscript>Share System.data to background.js:DONE', () => {
+	ext.runtime.sendMessage({ action: "popup>Get System.data from background" });
+});
 
 window.addEventListener('metaGet', e => {
 	window.postMessage({

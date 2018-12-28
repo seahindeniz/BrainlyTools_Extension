@@ -8,12 +8,11 @@ import startObservingForDeleteButtons from "./_/startObservingForDeleteButtons";
 System.pageLoaded("Root inject OK!");
 
 window.selectors = {
+	...window.selectors,
 	feeds_parent: ".js-feed-stream",
 	feed_item: `div[data-test="feed-item"]`,
-	feeds_questionsBox_buttonList: ".sg-content-box > div.sg-content-box__title > .sg-actions-list > .sg-actions-list__hole:first-child",
-	questionLink: ".sg-content-box > .sg-content-box__content > a",
-
-	toplayerContainer: "body > div.page-wrapper.js-page-wrapper > section > div.js-react-add-question-modal",
+	feeds_questionsBox_buttonList: `> div.sg-content-box`,
+	questionLink: `.sg-content-box a[data-test="feed-item-link"]`,
 
 	userInfoBoxPoints: ".sg-layout__aside-content .game-box__element > .game-box__user-info > .game-box__progress-items"
 }

@@ -148,7 +148,7 @@ class NotifierSocket {
 	}
 }
 const BrainlyNotificationSocket = isActive => {
-	if (isActive) {
+	if (typeof isActive == "undefined" || isActive) {
 		let marketName = System.data.meta.marketName;
 		let authHash = System.data.Brainly.defaultConfig.comet.AUTH_HASH || System.data.Brainly.defaultConfig.user.ME.auth.comet.authHash;
 		let activeSession = activeSessions[marketName];

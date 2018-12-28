@@ -1,4 +1,4 @@
-import Storage from "../../scripts/helpers/extStorage";
+import storage from "../../scripts/helpers/extStorage";
 import notification from "../components/notification";
 import send2AllBrainlyTabs from "../helpers/send2AllBrainlyTabs";
 import Dropdown from "../helpers/Dropdown";
@@ -99,14 +99,14 @@ class OtherOptions {
 		let selectedLanguage = this.storageData.language;
 
 		if (selectedLanguage) {
-			let selected = System.data.config.availableLanguages.find(lang => lang.key == selectedLanguage);
+			let selected = System.constants.config.availableLanguages.find(lang => lang.key == selectedLanguage);
 
 			if (selected) {
 				this.$dropdownText.html(selected.title.replace(/<.*>/, ""));
 			}
 		}
 
-		System.data.config.availableLanguages.forEach(language => {
+		System.constants.config.availableLanguages.forEach(language => {
 			let $option = `<a href="#" class="dropdown-item${selectedLanguage && selectedLanguage == language.key ? " is-active" : ""}" value="${language.key}">${language.title}</a>`;
 
 			if (System.data.Brainly.defaultConfig.locale.LANGUAGE == language.key) {
@@ -132,12 +132,12 @@ class OtherOptions {
 		});
 	}
 	ExtendMessagesLayout(isChecked) {
-		Storage.set({ extendMessagesLayout: isChecked });
+		storage("set",{ extendMessagesLayout: isChecked });
 		send2AllBrainlyTabs("extendMessagesLayout", isChecked);
 		notification(System.data.locale.popup.notificationMessages[isChecked ? "layoutExtended" : "switchedToNormal"]);
 	}
 	NotifierChangeState(isChecked) {
-		Storage.set({ notifier: isChecked });
+		storage("set",{ notifier: isChecked });
 		System.toBackground("notifierChangeState", isChecked);
 		notification(System.data.locale.popup.notificationMessages[isChecked ? "notifierOn" : "notifierOff"]);
 	}
@@ -145,7 +145,7 @@ class OtherOptions {
 		let localeData = await System.prepareLangFile(language);
 		System.data.locale = localeData;
 
-		Storage.set({ language });
+		storage("set",{ language });
 		notification(System.data.locale.popup.notificationMessages.languageChanged, "success");
 	}
 }

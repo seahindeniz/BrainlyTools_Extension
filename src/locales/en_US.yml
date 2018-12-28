@@ -9,6 +9,9 @@ common:
   delete: Delete !
   edit: Edit
   profileID: Profile ID
+  nick: Nick
+  moderator: Moderator
+  date: Date
   show: Show
   halloween:
     # On October 31 it's Halloween and I prepared a little suprise for extension users so bare with me :)
@@ -76,6 +79,16 @@ popup:
     switchedToNormal: Switched back to normal
     notifierOn: Notifier actived
     notifierOff: Notifier closed
+    idNumberRequired: You need to enter an ID number
+    invalidId: Unvalid ID number
+    pleaseWait: Please wait
+    openABrainlyPage: You need to open a Brainly page in your browser
+    # %{error_code} flag indicates the error code. Example> Error 404
+    errorN: Error %{error_code}
+    iCantFechMarketData: I can't fetch market data
+    uncorrectDate: I'm unable to fetch your data from Brainly<br><br>Please go to Brainly's homepage or reload the page
+    preparingUnsuccessful: An error accoured while preparing the delete reasons and fetching from Brainly
+    noEvidenceFound: Moderator didn't add any evidence nor comment
   createShortLinkButton:
     text: Shorten URL
     title: Create a short link for this web page
@@ -196,6 +209,13 @@ popup:
       explaining:
         line1: You can find delete reasons by typing the name of the reason
         line2: After selecting one from the results, you can click %{exclamation-circle} button to give warning without asking confirmation from moderators while they deleting a content. But in some cases, that may can change and moderators should decide if giving a warning is necessary or not. So you can click %{exclamation-triangle} to show confirmation dialog to moderators while they are deleting a content.
+    accountDeleteReports:
+      text: Account delete reports
+      listAllUsers: Search on all users
+      onModerators: On moderators
+      onDeletedAccounts: On deleted accounts
+      download: Download
+      play: Play
 core:
   notificationMessages:
     cantFetchDeleteReasons: An unexpected error occurred while trying to prepare delete reasons
@@ -293,6 +313,7 @@ userProfile:
     # Example: The x.jpg file exceeds the size limit of 20MB
     fileSizeExceeded: The %{file_name} file exceeds the size limit of %{file_size}
     aShortcutFile: "You're trying to add a shortcut of a file and it's not considered as an actual file. It's kind of a garbage if you'll add it.\nYou may need to select the original file instead\nDo you still want to add this shortcut?"
+    unableToReportAccountDeleting: I couldn't able report your delete request to community manager so I can't continue to delete. Sorry :/<br>If this error persist, ask for help from your extension manager
   previousNicks:
     text: Previous nicks
     title: Previous nicks of the user registered in the database

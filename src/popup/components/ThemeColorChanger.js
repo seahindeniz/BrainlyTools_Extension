@@ -1,11 +1,11 @@
-import Storage from "../../scripts/helpers/extStorage";
+import storage from "../../scripts/helpers/extStorage";
 import notification from "../components/notification";
 import send2AllBrainlyTabs from "../helpers/send2AllBrainlyTabs";
 
-const DEFAULT_COLOR = "#57b2f8";
+const DEFAULT_THEME_COLOR = "#57b2f8";
 
 class ThemeColorChanger {
-	constructor(color = DEFAULT_COLOR) {
+	constructor(color = DEFAULT_THEME_COLOR) {
 		this.color = color;
 
 		return this.Render();
@@ -71,15 +71,15 @@ class ThemeColorChanger {
 		return this.$layout;
 	}
 	BindEvents() {
-		this.$colorPicker.on("change input", event => this.ColorInputHandler(event.target.value));
+		this.$colorPicker.on("input", event => this.ColorInputHandler(event.target.value));
 		this.$colorValue.on("input change", event => this.ColorInputHandler(event.target.value));
 		this.$saveButton.click(this.SaveToStorage.bind(this));
 
-		this.$rainbow.on("change", function() {
+		this.$rainbow.on("change", () => {
 			let colors = "#ff796b, #ecb444, #fec83c, #53cf92, #57b2f8, #7a8adb, #ffb3ae";
 
-			if (!this.checked) {
-				colors = DEFAULT_COLOR;
+			if (!this.$rainbow.is(":checked")) {
+				colors = DEFAULT_THEME_COLOR;
 			}
 
 			this.$colorValue.val(colors).change();
@@ -95,11 +95,14 @@ class ThemeColorChanger {
 		this.ChangeColor(color);
 	}
 	ChangeColor(color) {
-		send2AllBrainlyTabs("changeColor", color);
+		send2AllBrainlyTabs("previewColor", color);
 	}
 	SaveToStorage() {
+		let color = this.$colorValue.val();
+
 		notification("Color saved");
-		Storage.set({ themeColor: this.$colorValue.val() });
+		send2AllBrainlyTabs("changeColors", color);
+		storage("set", { themeColor: color });
 	}
 }
 

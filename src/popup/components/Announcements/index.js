@@ -1,4 +1,4 @@
-import ext from "../../../scripts/utils/1.ext";
+import ext from "../../../scripts/utils/ext";
 import { GetAnnouncements, CreateAnnouncement } from "../../../scripts/controllers/ActionsOfServer";
 import Announcement from "./Announcement";
 import TextEditor from "../TextEditor";
@@ -13,6 +13,7 @@ class Announcements {
 		return this.RenderUI();
 	}
 	RenderUI() {
+		let avatar = System.prepareAvatar(System.data.Brainly.userData.user);
 		this.$layout = $(`
 		<div id="announcements" class="column is-narrow">
 			<article class="message is-info">
@@ -28,7 +29,7 @@ class Announcements {
 					<article class="media addNew announcement">
 						<figure class="media-left">
 							<p class="image is-32x32">
-								<img src="${System.data.Brainly.userData.user.fixedAvatar}">
+								<img src="${avatar}">
 						</p>
 						</figure>
 						<div class="media-content">
@@ -74,7 +75,6 @@ class Announcements {
 		let resAnnouncements = await GetAnnouncements();
 
 		if (resAnnouncements.success && resAnnouncements.data) {
-			console.log("resAnnouncements:", resAnnouncements);
 			this.RenderAnnouncementNodes(resAnnouncements.data);
 			window.popup.refreshUsersInformations();
 		}
@@ -97,7 +97,6 @@ class Announcements {
 	}
 	BindEvents() {
 		if ($("html").attr("is") == "popup") {
-			console.log(this.$addNewTitle);
 			this.$addNewTitle.click(() => {
 				ext.runtime.openOptionsPage();
 			});

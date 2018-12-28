@@ -90,7 +90,8 @@ const Request = {
 		//});
 	},
 	get(path) {
-		return new Promise(function(resolve, reject) {
+		// fetch api kullanmayı dene aşağıda
+		return new Promise((resolve, reject) => {
 			let xhr = new XMLHttpRequest();
 
 			xhr.open("GET", path, true);
@@ -136,34 +137,33 @@ const Request = {
 			}
 		});
 	},
+	/**
+	 *
+	 * @param {string} method
+	 * @param {string} path
+	 * @param {{}} data
+	 * @returns {Promise}
+	 */
 	ExtensionServer(method, path, data) {
-		return new Promise((resolve, reject) => {
-			if (data) {
-				data = JSON.stringify(data);
+		if (data) {
+			data = JSON.stringify(data);
+		}
+
+		let messageData = {
+			action: "xmlHttpRequest",
+			method,
+			path,
+			data,
+			headers: {
+				"Content-type": "application/json; charset=utf-8"
 			}
+		};
 
-			let messageData = {
-				action: "xmlHttpRequest",
-				method,
-				path,
-				data,
-				headers: {
-					"Content-type": "application/json; charset=utf-8"
-				}
-			};
+		if (System.data.Brainly.userData.extension && System.data.Brainly.userData.extension.secretKey) {
+			messageData.headers["SecretKey"] = System.data.Brainly.userData.extension.secretKey;
+		}
 
-			if (System.data.Brainly.userData.extension && System.data.Brainly.userData.extension.secretKey) {
-				messageData.headers["SecretKey"] = System.data.Brainly.userData.extension.secretKey;
-			}
-
-			ext.runtime.sendMessage(System.data.meta.extension.id, messageData, req => {
-				if (req.success) {
-					resolve(req.res)
-				} else if (req.error) {
-					resolve()
-				}
-			});
-		});
+		return ext.runtime.sendMessage(System.data.meta.extension.id, messageData);
 	},
 	ExtensionServerAjax2(method, path, data) {
 		var deferred = $.Deferred();

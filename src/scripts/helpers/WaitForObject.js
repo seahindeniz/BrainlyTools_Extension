@@ -9,7 +9,7 @@ import MakeExpire from "./MakeExpire";
 export default function WaitForObject(expression, expireTime, noError = false) {
 	if (typeof expireTime == "boolean") {
 		noError = expireTime;
-		expireTime = 30;
+		expireTime = undefined;
 	}
 
 	return new Promise((resolve, reject) => {

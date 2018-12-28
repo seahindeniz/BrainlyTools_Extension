@@ -57,7 +57,7 @@ const userLi = ({ id, nick, avatar, buddyUrl, ranks }) => {
 const UserFinder = $seperator => {
 	let $userFinder = $(`
 	<li class="sg-menu-list__element userFinder" style="display: table; width: 100%;">
-		<label class="sg-text sg-text--blue">${System.data.locale.messages.groups.userCategories.findUsers.text}:
+		<label class="sg-menu-list__link">${System.data.locale.messages.groups.userCategories.findUsers.text}:
 			<input type="search" class="sg-input sg-input--small" placeholder="${System.data.locale.messages.groups.userCategories.findUsers.nickOrID}"/>
 		</label>
 		<div class="userList js-hidden" data-placeholder=""></div>
@@ -117,7 +117,7 @@ const UserFinder = $seperator => {
 						let $userLink = $('.user-data > div.user-nick > a.nick', $userContainer);
 						let nick = $userLink.text();
 						let buddyUrl = $userLink.attr('href');
-						let id = ~~(buddyUrl.replace(/.*\-/gi, ""))
+						let id = ~~(buddyUrl.replace(System.constants.config.idExtractRegex, ""))
 						let rankList = $('div.user-data > div.user-nick > a:nth-child(3), div.user-data > div.user-nick > span', $userContainer);
 						let ranks = "";
 

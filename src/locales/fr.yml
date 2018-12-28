@@ -9,6 +9,9 @@ common:
   delete: Supprimer !
   edit: Editer
   profileID: ID du profil
+  nick: Pseudo
+  moderator: Modérateur
+  date: Date
   show: Montrer
   halloween:
     # On October 31 it's Halloween and I prepared a little suprise for extension users so bare with me :)
@@ -76,6 +79,16 @@ popup:
     switchedToNormal: Retour à la normale
     notifierOn: Notifications activées
     notifierOff: Notifications désactivées
+    idNumberRequired: Vous devez entrer un identifiant
+    invalidId: identifiant invalide
+    pleaseWait: Patientez s'il vous plaît
+    openABrainlyPage: Vous devez ouvrir une page Nosdevoirs dans votre naviguateur
+    # %{error_code} flag indicates the error code. Example> Error 404
+    errorN: "Erreur %{error_code}"
+    iCantFechMarketData: Je ne trouve pas les données
+    uncorrectDate: Je ne suis pas en mesure de récupérer les données depuis Brainly <br><br> Merci de retourner sur la page d'accueil ou de recharger la page
+    preparingUnsuccessful: Une erreur s'est produite dans la préparation des raisons de suppression
+    noEvidenceFound: le modérateur n'a ajouté aucune preuve ou commentaire
   createShortLinkButton:
     text: URL court
     title: Créer un lien court pour cette page web
@@ -126,40 +139,56 @@ popup:
         line4: "<s>Green</s>couleur signifie que l'utilisateur est actif et autorisé."
         # ! Important: You need to specify the "no border" word inside the braces like this: in English <s>No border</s> or in Turkish <s>Kenarligi olmayan</s>
         line5: "<s>No border</s> signifie que l'utilisateur a des privilèges assignés mais n'a pas encore l'autorisation d'utiliser l'extension."
+      privilegeListOrder:
+      - 0
+      - 4
+      - 5
+      - 11
+      - 1
+      - 2
+      - 45
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
       privilegeList:
-      - type: 0
-        title: Extension admin
-        description: Peut utiliser l'extension sans restriction
-      - type: 4
-        title: Gestion des annonces
-        description: "Peut créer, éditer, enlever et publier les annonces internes dans l'extension"
-      - type: 5
-        title: Suppression rapide des réponses
-        description: Peut ajouter ou éditer les utilisateurs de l'extension et leurs attribuer des privilèges ou permission  d'utiliser l'extension
-      - type: 1
-        title: Suppression rapide des questions
-        description: "Sur la page des questions, contenus de l'utilisateur, Tout modérer et sur la page d'accueil l'utilisateur peut utiliser les boutons de suppression rapide pour supprimer les questions"
-      - type: 2
-        title: Suppression rapide des réponses
-        description: "Sur la page des questions, contenus de l'utilisateur, Tout modérer et sur la page d'accueil l'utilisateur peut utiliser les boutons de suppression rapide pour supprimer les réponses"
-      - type: 45
-        title: Suppression rapide des commentaires
-        description: "Sur la page des questions, contenus de l'utilisateur, Tout modérer et sur la page d'accueil l'utilisateur peut utiliser les boutons de suppression rapide pour supprimer les commentaires"
-      - type: 6
-        title: Approbation des réponses
-        description: "Dans la page des contenus de l'utilisateur, l'utilisateur peut approuver les réponses sélectionnées"
-      - type: 7
-        title: Suppression de masse des questions
-        description: Dans le panneau de modération l'utilisateur peut utiliser cette fonctionnalité pour supprimer plusieurs questions à la fois
-      - type: 8
-        title: Messages de groupe
-        description: "Dans la messagerie, l'utilisateur peut envoyer des messages privés à de multiples utilisateurs d'un groupe en une fois."
-      - type: 9
-        title: Messagerie de masse (ne pas utiliser)
-        description: "Dans le panneau de modération, l'utilisateur peut utiliser cette fonction pour envoyer des messages privés à tous les utilisateurs du site."
-      - type: 10
-        title: "Page de supervision, expéditeur du message"
-        description: "Dans la page de supervision, l'utilisateur peut envoyer des messages privés aux modérateurs listés ou à tous les modérateurs du site."
+        "0":
+          title: Extension admin
+          description: "Peut utiliser l'extension sans restriction (Inutile d'assigner d'autres privièges, cela supprimera toutes les restrictions)"
+        "4":
+          title: Gestion des annonces
+          description: "Peut créer, éditer, enlever et publier les annonces internes dans l'extension"
+        "5":
+          title: Gestion des utilisateurs
+          description: Peut ajouter ou éditer les utilisateurs de l'extension et leurs attribuer des privilèges ou permission  d'utiliser l'extension
+        "1":
+          title: Suppression rapide des questions
+          description: "Sur la page des questions, contenus de l'utilisateur, Tout modérer et sur la page d'accueil l'utilisateur peut utiliser les boutons de suppression rapide pour supprimer les questions"
+        "2":
+          title: Suppression rapide des réponses
+          description: "Sur la page des questions, contenus de l'utilisateur, Tout modérer et sur la page d'accueil l'utilisateur peut utiliser les boutons de suppression rapide pour supprimer les réponses"
+        "45":
+          title: Suppression rapide des commentaires
+          description: "Sur la page des questions, les contenus d'un utilisateur, l'utilisateur peut utiliser les boutons de suppressions rapides pour supprimer les commentaire(s)."
+        "6":
+          title: Approbation des réponses
+          description: "Dans la page des contenus de l'utilisateur, l'utilisateur peut approuver les réponses sélectionnées"
+        "7":
+          title: Suppression de masse des questions
+          description: Dans le panneau de modération l'utilisateur peut utiliser cette fonctionnalité pour supprimer plusieurs questions à la fois
+        "8":
+          title: Messages de groupe
+          description: "Dans la messagerie, l'utilisateur peut envoyer des messages privés à de multiples utilisateurs d'un groupe en une fois."
+        "9":
+          title: Messagerie de masse (ne pas utiliser)
+          description: "Dans le panneau de modération, l'utilisateur peut utiliser cette fonction pour envoyer des messages privés à tous les utilisateurs du site."
+        "10":
+          title: "Page de supervision, expéditeur du message"
+          description: "Dans la page de supervision, l'utilisateur peut envoyer des messages privés aux modérateurs listés ou à tous les modérateurs du site."
+        "11":
+          title: Préférence des raisons de suppression
+          description: Impossible de définir un niveau d'avertissement pour les raisons de suppression
     announcements:
       text: Annonces
       addNewAnnouncement: Ajouter une nouvelle annonce
@@ -180,6 +209,13 @@ popup:
       explaining:
         line1: Vous pouvez trouver des raisons de suppression en écrivant le nom de cette raison.
         line2: "Après en avoir sélectionné une depuis les résulats, vous pouvez cliquer sur le bouton %{exclamation-circle}pour donner un avertissement sans demander de confirmation des modérateurs quand ils suppriment un contenu. Mais dans certains cas, ceci peut changer et les modérateurs peuvent décidder s'ils donnent un avertissement ou non. Donc vous pouvez cliquer sur %{exclamation-triangle} pour afficher le message de confirmation aux modérateurs quand ils suppriment un contenu/"
+    accountDeleteReports:
+      text: Rapport de suppression de comptes
+      listAllUsers: Rechercher parmi tous les utilisateurs
+      onModerators: sur les modérateurs
+      onDeletedAccounts: sur les comptes supprimés
+      download: Télécharger
+      play: Démarrer
 core:
   notificationMessages:
     cantFetchDeleteReasons: Une erreur inattendue s'est produit pendant la préparation des raisons de suppressions
@@ -202,7 +238,7 @@ core:
     questionsWillBeDeleted: "%{n} questions"
     # %{n} indicates the number of deleted questions. Also "q." is short for "question" word. Example> 8 q. has been deleted
     nHasBeenDeleted: "%{n}q. a été supprimé"
-    # Explanation text for id container of the Mass-Question deleter 
+    # Explanation text for id container of the Mass-Question deleter
     containerExplanation: "Vous devez ajouter les liens des questions ou leurs IDs dans le champ ligne par ligne. Exemple : "
   MessageSender:
     text: Messagerie de masse
@@ -218,7 +254,7 @@ home:
 messages:
   notificationMessages:
     unsendedMessage: "Votre message n'a pas été envoyé, voulez-vous toujours quitter ?"
-  groups: 
+  groups:
     title: Groupes
     createGroup: Créer un groupe
     editGroup: Editer le groupe
@@ -250,7 +286,7 @@ messages:
       youNeedToAddMembers: Vous devez ajouter au moins un utilisateur dans le groupe
       youHaventCreatedAGroupYet: Vous n'avez pas encore créé de groupe
     userCategories:
-      findUsers: 
+      findUsers:
         text: Trouver un utilisateur
         nickOrID: Pseudo ou ID du profil
       friendsList: Liste d'amis
@@ -273,6 +309,11 @@ userProfile:
     areYouSureRemoveAllFriends: "Es-tu certains de vouloir enlever tous tes amis ? "
     youHaveNoFriends: "Ne sois pas triste car tu n'as pas d'amis dans ta liste :/"
     cannotChangeBio: "Impossible de changer votre bio :/ Désolé ..."
+    # %{file_name} represents the file name and %{file_size} represents the file size in megabytes.
+    # Example: The x.jpg file exceeds the size limit of 20MB
+    fileSizeExceeded: "Le fichier %{file_name} excède la taille maximale de %{file_size}"
+    aShortcutFile: "Vous essayer d'ajouter un raccourci d'un fichier mais celui-ci n'est pas considéré comme un fichier. Cela va être le bazarre si vous l'ajouter\nVous devriez sélectionner le fichier d'origine à la place\nVoulez-vous toujours ajouter ce raccourci ?"
+    unableToReportAccountDeleting: "Je ne suis pas en mesure de rapporter votre demande de suppression au community manager donc je ne peux pas effectuer la suppression. Désolé :/ <br> Si cette erreur persiste signalez la"
   previousNicks:
     text: Pseudo précédent
     title: Précédent pseudo de l'utilisateur
@@ -288,6 +329,19 @@ userProfile:
   removeSelectedFriends:
     text: Enlever des amis
     title: Tu peux supprimer les amis sélectionnés de ta liste d'amis
+  accountDelete:
+    evidences: Preuves
+    willBeReviewedByCommunityManager: sera vu par votre community manager
+    addFiles: ajouter des fichiers
+    yourComment: votre commentaire
+    # Evidences will be compressed if there are more than one to upload.
+    # Example: Compressing the screenshot_1.png
+    compressingTheFile: "compression de %{file_name}"
+    compressingTheFiles: compression des fichiers
+    # %{percentage_value} will be replaced with percentage value of upload process
+    # Example: Contents uploading 19%
+    uploading: "contenu ajouté %{percentage_value}"
+    deletingContiunes: Poursuite des suppressions
 userWarnings:
   notificationMessages:
     ifYouHavePrivileges: Les avertissements seront révoqués si tu en as les droits. Merci de patienter 10 secondes.

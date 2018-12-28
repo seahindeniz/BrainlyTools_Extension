@@ -1,9 +1,5 @@
 TODO:
 	Issues:
-		- Badge yeşil olup, hiç bir brainly sayfası açık değilse, eklenti kitleniyor
-		- Grup oluşturma tarihine göre conversation id güncellemesi yap. Çünkü conversation idler kullanılmadığında siliniyor.
-		- Eklenti yetkilerinde 45 kaymış
-		- SetUserData.js fetch için kontrol edilecek
 	New:
 		Extension:
 			- Silim sebeplerini sunarken status: true/false gibi bir flag koyulmalı, böylece sunulması istenmeyen silim sebepleri listelenmez.
@@ -12,6 +8,7 @@ TODO:
 			- Eklenti yetkilerini düzenlerken, eklenti için yetki atanmış tüm kullanıcılara specific yetki atama işlemi
 			- Hesap silme yetkisi olmayan kullanıcılar için istekte bulunabilme ve silme yetkisi olanlar için, gelen istekleri görebilme alanı oluştur.
 			- Eklenti seçeneklerine feedback alanı oluştur. Gelen istekleri takip edebil.
+			- cleaner içerisinde silinen sorular için, soru sahiplerinin hesaplarının verdiği cevapları kontrol ettir. Spam cevap verebilme ihtimaline karşı.
 
 		Global:
 			- Eklenti seçeneklerine resim paylaşma özelliği ekle. Olursa eğer
@@ -23,17 +20,15 @@ TODO:
 		Tümünü düzelt:
 			- Düzenle panelinde sağ sol okları ve A, D ve yön tuşlarıyla hareket etme, esc tuşuyla panel kapatma
 			- Liste görünümünde soru içeriklerinin altına, cevapları da ekleme
-		
+
 		Soru sayfası:
 			- Ek bir hesap ile kendi cevaplarını doğrulama servisi
 			- Cevap, yorum yazarken yasaklı kelimelerde kontrol
-			- Kişi avatarına "kişi eklenti kullanıcısı" etiketi
 
 		Mesajlar:
 			- Mesajlaşmada yasaklı kelime kontrolü
 
 		Profil sayfası:
-			- Hesap silimi yapıldığında topluluk yöneticisine otomatik e-posta gönder
 
 		Kullanıcı bilgilerini gör sayfası:
 
@@ -43,7 +38,7 @@ TODO:
 		Extension:
 			+ Sunucuya yapılan her isteği logla
 			+ Eklentinin sürüm kontrolü yapılsın ve eğer yeni sürüm varsa eklenti kendini güncelleyebilsin. Böyle bir seçenek olmazsa şayet, kullanıcının eklentiyi kullanmasını kısıtlasın.
-			+ Silim sebepleri sunucu tarafından güncellenmeli. Brainly silim sebeplerini karmaşık bir biçimde sunuyor. Bu yüzden eklenti sunucusunda işlev yazılıp, her gün güncelleme yapacak şekilde kodlanmalı. Eklenti ise her sayfa yenilendiğinde bu verileri asenkron bir biçimde arkaplanda çekmeli ve işlemeli. 
+			+ Silim sebepleri sunucu tarafından güncellenmeli. Brainly silim sebeplerini karmaşık bir biçimde sunuyor. Bu yüzden eklenti sunucusunda işlev yazılıp, her gün güncelleme yapacak şekilde kodlanmalı. Eklenti ise her sayfa yenilendiğinde bu verileri asenkron bir biçimde arkaplanda çekmeli ve işlemeli.
 			+ Reklamlar kaldırmak için ekleme yap ve eklenti seçeneklerine ekle
 			+ Eklenti nin simgesine badge renkleri ekle. BeforeStart: Red, SystemInit: Yellow, SystemLoad: Green
 			+ sahin.in isteklerini web sayfası üzerinden yapmak yerine eklenti üzerinden yaparak işlem hızını arttır.
@@ -65,8 +60,13 @@ TODO:
 			+ Duyuru düzenlemede sorun var. Title hatası aldım
 			+ Kullanıcı bilgileri gör altında cevap sahibi ek eklememişse bile cevaplarda ek varmış gibi görünüyor. Bu durum cevap sahibine yönelik tanımlansın
 			+ Marketler arasında geçiş yapınca eklenti kitleniyor
-			+ Kullanıcı bilgileri gör ve hızlı silim butonlarında silinen içerik önceden silinmişse, içeriğin durumuna göre işleme devam etsin. 
-	
+			+ Kullanıcı bilgileri gör ve hızlı silim butonlarında silinen içerik önceden silinmişse, içeriğin durumuna göre işleme devam etsin.
+			+ Eklenti yetkilerinde 45 kaymış
+			+ Kullanıcıya atanan yetkiden sonra kullanıcı quick delete buttonslarda değişiklik yaparsa ve sonrasında yeni bir yetki atanırsa, eksik olan quickDeleteButtons keyi, sorun yaratıyor. Döngü halinde popup içinde listeleme yaparken, key var yok kontrolü yaptır.
+			+ delete preferences de hatalar var. Düzgün çalışmıyor
+			+ Badge yeşil olup, hiç bir brainly sayfası açık değilse, eklenti kitleniyor
+			+ Grup oluşturma tarihine göre conversation id güncellemesi yap. Çünkü conversation idler kullanılmadığında siliniyor.
+
 		Global:
 			+ Kenar moderatör paneline id bazlı kişi arama/sorgulama
 			+ Silim butonlarının sebeplerini seçebilmek için eklenti seçenekleri butonu ve optionslarını hazırla
@@ -91,7 +91,7 @@ TODO:
 			+ Tablo ve liste seçenekleri
 			+ Şikayet edilmiş kutucukları, içerik tiplerine göre renklendir. Soruları turuncu, cevapları ve yorumları kırmızı renkte
 			+ Yorumlara onaylama butonu ekle
-		
+
 		Soru sayfası:
 			+ Hızlı silim butonları, soruya ve cevaplara
 
@@ -106,6 +106,7 @@ TODO:
 			+ Previos nicks
 			+ Kişi avatarına ve  kullanıcı adına "kişi eklenti kullanıcısı" etiketi
 			+ Tüm arkadaşları göster, sil
+			+ Hesap silimi yapıldığında topluluk yöneticisine otomatik e-posta gönder
 
 		Kullanıcı bilgilerini gör sayfası:
 			+ Soru/Cevap içeriğini genişlet/göster butonu. Sağ, aşağı yönlü ok simgesi. Bu içerikler, sayfa onload olduktan sonra kullanıcı içeriği görüntülemeden önce fetch edilecek. Maksat, içerikleri kullanıcıyı bekletmeden göstermek. Butona bastığında, display:block edilecek ama fetchden sonra gösterilecek. Malum, fetch isteği tamamlanmadan, kullanıcı içeriği göster butonuna basabilir.

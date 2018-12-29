@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.7.1] - 2018.12.29
+
+### Changed/Fixed
+
+- Can't able to filter or send message to moderators under the Supervisor's page
+
 ## [6.7.0] - 2018.12.28
 
 ### Added

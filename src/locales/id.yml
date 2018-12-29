@@ -313,7 +313,7 @@ userProfile:
     # Example: The x.jpg file exceeds the size limit of 20MB
     fileSizeExceeded: "File %{file_name} melebihi batas ukuran %{file_size}"
     aShortcutFile: "Kamu mencoba menambahkan sebuah pintasan pada file dan itu tidak dianggap sebagai file yang aktual. Ini semacam sampah jika kamu menambahkannya.\nKamu mungkin butuh menambahkan file asli sebagai gantinya. Apakah kamu masih ingin menambahkan pintasan ini?"
-    unableToReportAccountDeleting: "I couldn't able report your delete request to community manager so I can't continue to delete. Sorry :/<br>If this error persist, ask for help from your extension manager"
+    unableToReportAccountDeleting: "Kami tidak dapat melaporkan  permintaanmu untuk penghapusan akun ke Community Manager jadi kami tidak dapat melanjutkan penghapusan. Maaf :/<br> Jika kesalahan ini terus berlanjut, mintalah bantuan ke Community Manager."
   previousNicks:
     text: Nick sebelumnya
     title: Nick pengguna sebelumnya yang terdaftar di database
@@ -347,3 +347,15 @@ userWarnings:
     ifYouHavePrivileges: Peringatan akan dihapus jika kamu memiliki wewenang. Kami juga menyarankan kamu untuk menunggu sekitar ~10 menit setelah proses dimulai
   cancelWarnings: Cancel peringatan
 supervisors:
+  notificationMessages:
+    noUser: Tidak ada user untuk dikirimi pesan ini
+    emptyMessage: Kamu tidak dapat mengirim pesan kosong
+  allRanks: Semua ranking
+  tableLayout: Layout Tabel
+  sendMessagesToMods: Mengirim pesan ke moderator
+  sendMessagesToListedMods:
+    text: Terdaftar sebagai moderator
+    title: Kirim pesan hanya kepada moderator yang terdaftar
+  sendMessagesToAllMods:
+    text: Untuk semua moderator
+    title: Mengirim sebuah pesan ke semua moderator

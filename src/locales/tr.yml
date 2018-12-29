@@ -347,3 +347,15 @@ userWarnings:
     ifYouHavePrivileges: "Yetkin varsa, seçtiğin uyarı(lar) geri alınır. Ayrıca işlem başladıktan sonra ~10 saniye kadar sayfayı terk etmemeni öneririm"
   cancelWarnings: Uyarıları geri al
 supervisors:
+  notificationMessages:
+    noUser: Bu mesajı gönderebileceğin bir kullanıcı yok
+    emptyMessage: Boş mesaj gönderemezsin
+  allRanks: Tüm rütbeler
+  tableLayout: Tablo görünümü
+  sendMessagesToMods: Modlara mesaj gönder
+  sendMessagesToListedMods:
+    text: listelenenlere
+    title: Sadece listelenen moderatörlere gönder
+  sendMessagesToAllMods:
+    text: tüm modlara
+    title: Tüm moderatörlere gönder

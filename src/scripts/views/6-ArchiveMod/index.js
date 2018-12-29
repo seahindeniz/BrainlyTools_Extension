@@ -32,7 +32,7 @@ async function ArciveMod() {
 			response: true,
 			comment: true
 		};
-		
+
 		$.each(System.data.config.quickDeleteButtonsReasons, (key, reasons) => {
 			if (prepareButtons[key]) {
 				let data = [];
@@ -83,7 +83,7 @@ async function ArciveMod() {
 			let obj = Zadanium.getObject($moderation_item.attr("objecthash"));
 
 			let $itemContent = $("> div.content ", $moderation_item);
-			
+
 			if (obj && obj.data && obj.data.model_id && obj.data.model_id >= 0) {
 				let contentType = obj.data.model_type_id == 1 ? "task" : obj.data.model_type_id == 2 ? "response" : "comment";
 
@@ -300,7 +300,7 @@ async function ArciveMod() {
 
 		if (currentObj) {
 			if (currentObj.data.disabled) {;
-				findNext(action == "prev" ? --k : ++k, action, objContenerMod);
+				findNext(action == "previousReport" ? --k : ++k, action, objContenerMod);
 			} else {
 				nextObjFound(currentObj, objContenerMod);
 			}
@@ -337,7 +337,7 @@ async function ArciveMod() {
 	let $toplayer = $(toplayer);
 
 	const switchModerate = function(e) {
-		if (e.target.classList.contains("moderation")) {
+		if (typeof e == "string" || e.target.classList.contains("moderation")) {
 			let action = "";
 
 			if (typeof e == "string") {
@@ -349,33 +349,46 @@ async function ArciveMod() {
 				if (toplayerOffset > arrowOffset) {
 					action = "next";
 				} else if (toplayerOffset < 0) {
-					action = "prev"
+					action = "previousReport"
 				}
 			}
 
 			if (action != "") {
 				let $contenerMod = $(".contener-center.mod", toplayer);
 				let objContenerMod = Zadanium.getObject($contenerMod.attr("objecthash"));
-				let $moderationToplayer = $(".moderation-toplayer:visible", toplayer);
-				let objZ = Zadanium.getObject($moderationToplayer.attr("objecthash"));
-				let taskId = objZ.data.task.id;
 
-				Zadanium.moderation.all.createdObjects.forEach((obj, i) => {
-					if (obj.data.task_id == taskId) {
-						findNext(action == "prev" ? i - 1 : i + 1, action, objContenerMod);
-					}
-				});
+				if (action == "closePanel") {
+					objContenerMod.elements.close.click();
+				} else {
+					let $moderationToplayer = $(".moderation-toplayer:visible", toplayer);
+					let objZ = Zadanium.getObject($moderationToplayer.attr("objecthash"));
+					let taskId = objZ.data.task.id;
+
+					Zadanium.moderation.all.createdObjects.forEach((obj, i) => {
+						if (obj.data.task_id == taskId) {
+							findNext(action == "previousReport" ? i - 1 : i + 1, action, objContenerMod);
+						}
+					});
+				}
 			}
 		}
 	};
 
 	$toplayer.on('mouseup', 'div.contener.mod.moderation', switchModerate);
 	$("body").on("keyup", function(e) {
-		if ($toplayer.is(':visible') && !(/textarea|input/gi.exec(e.target.type))) {
+		console.log(e.keyCode);
+		if (
+			$toplayer.is(':visible') &&
+			!(
+				/textarea|input/gi.exec(e.target.type)
+			)
+		) {
 			if (e.keyCode === 65 || e.keyCode === 37) { // A
-				switchModerate("prev");
+				switchModerate("previousReport");
 			} else if (e.keyCode === 68 || e.keyCode === 39) { // D
 				switchModerate("next");
+			} else if (e.keyCode === 27) { // ESC
+				switchModerate("closePanel");
 			}
 		}
 	});

@@ -48,28 +48,31 @@ td {
 	}
 }
 
+ul.connectedSortable,
 ul.connectedSortable {
-	background-color: #fff;
+	background-color: #fff !important;
+}
+
+ul.connectedSortable {
 
 	>li {
 		text-align: center;
-		padding: 0;
-		height: 88px;
-		border: $rank-border;
+		padding: 0 !important;
+		height: 110px;
+		border: $rank-border !important;
 
 		>a {
 			margin-top: 5px;
 			width: 100%;
-			height: 100%;
+			height: 90px;
 			display: block;
 		}
 
 		>.ranks {
 			font-size: 11px;
-			height: 0;
+			height: 15px;
 			width: 120px;
 			position: relative;
-			top: -5px;
 			right: 1px;
 			overflow: hidden;
 		}

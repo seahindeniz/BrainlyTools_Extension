@@ -347,3 +347,15 @@ userWarnings:
     ifYouHavePrivileges: Les avertissements seront révoqués si tu en as les droits. Merci de patienter 10 secondes.
   cancelWarnings: Annuler les avertissements
 supervisors:
+  notificationMessages:
+    noUser: Il n'y a aucun utilisateur à qui envoyer ce message
+    emptyMessage: Vous ne pouvez pas envoyer un message vide
+  allRanks: Tous les rangs
+  tableLayout: Disposition du tableau
+  sendMessagesToMods: Envoyer un message aux modérateurs
+  sendMessagesToListedMods:
+    text: Aux modérateurs listés
+    title: Envoyer un message seulement aux modérateurs listés
+  sendMessagesToAllMods:
+    text: à tous les modérateurs
+    title: Envoyer un message à tous les modérateurs

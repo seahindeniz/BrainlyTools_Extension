@@ -54,26 +54,21 @@ class FileIcon {
 
 		if (this.iconFileType == "image") {
 			this.$img
+				.addClass("preview")
 				.attr({
 					title: System.data.locale.common.show,
 					src: source
-				})
-				.addClass("preview");
+				});
 		} else if (this.iconFileType == "video") {
 			let $video = $(`<video class="sg-avatar__image preview" src="${source}" title="${System.data.locale.popup.extensionManagement.accountDeleteReports.play}"></video>`);
-			$video.insertAfter(this.$img);
 
+			$video.insertAfter(this.$img);
 			this.$img.remove();
 		} else if (this.iconFileType == "audio") {
-
 			let $video = $(`<video class="sg-avatar__image preview" poster="${this.icon}" src="${source}" title="${System.data.locale.popup.extensionManagement.accountDeleteReports.play}"></video>`);
-			$video.insertAfter(this.$img);
 
+			$video.insertAfter(this.$img);
 			this.$img.remove();
-			/* let $video = $(`<audio class="preview" src="${source}" title="${System.data.locale.popup.extensionManagement.accountDeleteReports.play}"></audio>`);
-			$video.insertAfter(this.$img);
-
-			this.$img.addClass("preview"); */
 		}
 	}
 	ReaderOnProgress(event) {

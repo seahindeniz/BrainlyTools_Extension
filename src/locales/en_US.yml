@@ -347,3 +347,16 @@ userWarnings:
     ifYouHavePrivileges: Warning(s) will be revoked if you have authority. Also I'll suggest you to wait like ~10 seconds once the process has started
   cancelWarnings: Cancel Warnings
 supervisors:
+  notificationMessages:
+    noUser: There is no users to send this message
+    emptyMessage: You cannot send empty message
+  allRanks: All Ranks
+  tableLayout: Table Layout
+  sendMessagesToMods: Send message to mods
+  sendMessagesToListedMods:
+    text: to listed mods
+    title: Send a message to only listed moderators
+  sendMessagesToAllMods:
+    text: to all mods
+    title: Send a message to all moderators
+

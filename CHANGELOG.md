@@ -4,9 +4,18 @@ All notable changes to this project will be documented in this file.
 
 ## [6.7.1] - 2018.12.29
 
+### Added
+
+- You can now press ESC key on your keyboard to exit cancel ticket and closing
+ the moderation panel in the Moderate All
+
 ### Changed/Fixed
 
 - Can't able to filter or send message to moderators under the Supervisor's page
+- Welcoming message has been removed from the homepage (<https://ibb.co/1mkgk8z>)
+ This change removes the "ASK YOUR QUESTION" buttons as well. If you want to ask
+ question on the homepage, you can still use the "ASK YOUR QUESTION" button
+ below the "Brainliest users" section (<https://ibb.co/5YNyvNx>)
 
 ## [6.7.0] - 2018.12.28
 

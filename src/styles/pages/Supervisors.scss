@@ -12,14 +12,13 @@ td {
 }
 
 .actionBox {
-	width: 190px;
+	width: 15rem;
 	margin: 21px 0 5px;
 	float: right;
-	outline: 1px solid #ccc;
-	padding: 19px 3px;
+	padding: 0 4px;
 
 	>*:not(:last-child) {
-		margin-bottom: 10px;
+		margin-bottom: 1em;
 	}
 
 	.ranks>select {
@@ -40,10 +39,11 @@ td {
 			resize: both;
 			background-color: #fff;
 			height: 60px;
-			width: 99%;
-			min-width: 182px;
-			min-height: 60px;
-			padding: 0 3px;
+			width: 98%;
+			min-width: 239px;
+			min-height: 73px;
+			padding: 5px 0;
+			margin: 1em 0;
 		}
 	}
 }

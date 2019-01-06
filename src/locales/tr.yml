@@ -92,6 +92,13 @@ popup:
   createShortLinkButton:
     text: URL Kısalt
     title: Görüntülenen web sitenin URL adresi için kısa link oluşturur
+  shortenedLinks:
+    text: Kısaltılmış Linkler
+    originalURL: Orjinal Link
+    created: Oluşturulduğu Zaman
+    shortURL: Kısa Link
+    allClicks: Ziyaret sayısı
+    searchURL: Link Ara
   extensionOptions:
     title: Eklenti Seçenekleri
     themeColor:

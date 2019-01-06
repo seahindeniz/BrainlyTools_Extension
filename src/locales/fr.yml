@@ -92,6 +92,13 @@ popup:
   createShortLinkButton:
     text: URL court
     title: Créer un lien court pour cette page web
+  shortenedLinks:
+    text: Liens raccourcis
+    originalURL: URL d'origine
+    created: Créé
+    shortURL: Lien court
+    allClicks: Tous les cliques
+    searchURL: Rechercher une URL
   extensionOptions:
     title: Options de l'extension
     themeColor:
@@ -202,13 +209,13 @@ popup:
       # %{date} flag indicates the date when user readed the announcement. Example> Readed on 01.01.2018
       readedOn: "Lu sur : \n%{date}"
     DeleteReasonsPreferences:
-      text: Préférences des raisons de suppression
-      withoutAsk: Donner un avertissement dans demander de confirmation
-      withAsk: Montrer le message de confirmation quand on supprime un contenu
+      text: Paramétrage des raisons de suppression
+      withoutAsk: Donner un avertissement sans demander la confirmation
+      withAsk: Montrer le message de confirmation pendant la suppression d'un contenu
       findReason: Trouver une raison
       explaining:
-        line1: Vous pouvez trouver des raisons de suppression en écrivant le nom de cette raison.
-        line2: "Après en avoir sélectionné une depuis les résulats, vous pouvez cliquer sur le bouton %{exclamation-circle}pour donner un avertissement sans demander de confirmation des modérateurs quand ils suppriment un contenu. Mais dans certains cas, ceci peut changer et les modérateurs peuvent décidder s'ils donnent un avertissement ou non. Donc vous pouvez cliquer sur %{exclamation-triangle} pour afficher le message de confirmation aux modérateurs quand ils suppriment un contenu/"
+        line1: Vous pouvez trouver des raisons de suppression en tapant le nom de la raison.
+        line2: "Après en avoir sélectionner une parmi les résultats, vous pouvez cliquer sur le bouton %{exclamation-circle} pour donner un avertissement sans demander la confirmation au modérateur pendant la suppression. Mais dans certains cas, cela peut changer et le modérateur peuvent décider s'il veut ou non donner un avertissement. Vous pouvez cliquer sur %{exclamation-triangle} pour afficher la boîte de dialogue aux modérateurs pendant la suppression."
     accountDeleteReports:
       text: Rapport de suppression de comptes
       listAllUsers: Rechercher parmi tous les utilisateurs

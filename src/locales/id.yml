@@ -92,6 +92,13 @@ popup:
   createShortLinkButton:
     text: Shorten URL
     title: Buat sebuah tautan pendek untuk halaman web ini
+  shortenedLinks:
+    text: Tautan singkat
+    originalURL: URL asli
+    created: Dibuat
+    shortURL: URL pendek
+    allClicks: Klik semua
+    searchURL: Pencarian URL
   extensionOptions:
     title: Opsi Ekstensi
     themeColor:
@@ -203,12 +210,12 @@ popup:
       readedOn: "Dibaca pada:\n%{date}"
     DeleteReasonsPreferences:
       text: Preferensi alasan penghapusan
-      withoutAsk: Berikan peringatan tanpa meminta konfirmasi
-      withAsk: Tampilkan dialog konfirmasi saat menghapus konten
-      findReason: Menemukan alasan
+      withoutAsk: Berikan peringatan tanpa meminta mengkonfirmasi
+      withAsk: Menampilkan dialog konfirmasi saat menghapus konten
+      findReason: Menemukan alasannya
       explaining:
         line1: Kamu dapat menemukan alasan penghapusan dengan mengetikkan nama alasannya
-        line2: "Setelah memilih satu dari hasilnya, kamu dapat mengeklik,  %{exclamation-circle} tombol untuk memberikan peringatan tanpa meminta konfirmasi dari moderator selama mereka menghapus konten. Tapi dalam beberapa kasus, hal ini dapat berubah dan moderator harus memutuskan apakah pemberian peringatan dibutuhkan atau tidak. Jadi kamu dapat mengeklik %{exclamation-triangle} untuk menampilkan dialog konfirmasi kepada moderators saat mereka menghapus sebuah konten."
+        line2: "Setelah memilih satu dari hasil, kamu dapat mengeklik %{exclamation-circle} tombol akan memberikan peringatan tanpa meminta konfirmasi dari moderator selama mereka menghapus sebuah konten. Namun dalam beberapa kasus, hal ini mungkin akan berubah dan moderator harus memutuskan apakah perlu memberikan peringatan atau tidak. . Jadi kamu dapat mengeklik %{exclamation-triangle} untuk menampilkan dialog konfirmasi kepada moderator saat mereka menghapus suatu konten."
     accountDeleteReports:
       text: Laporan penghapusan akun
       listAllUsers: Mencari pada semua pengguna

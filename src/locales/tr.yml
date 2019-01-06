@@ -201,7 +201,7 @@ popup:
       # \n flag indicates the new line for clear reading
       # %{date} flag indicates the date when user readed the announcement. Example> Readed on 01.01.2018
       readedOn: "Okunduğu zaman:\n%{date}"
-    manageDeleteReasons:
+    DeleteReasonsPreferences:
       text: Silim sebebi tercihleri
       withoutAsk: Onay beklemeden uyarı verdir
       withAsk: Uyarı verilmesi için moderatörden onay al

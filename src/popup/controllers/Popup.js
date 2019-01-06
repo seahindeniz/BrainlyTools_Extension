@@ -1,5 +1,6 @@
 import ext from "../../scripts/utils/ext";
 import LinkShortener from "../components/LinkShortener";
+import ShortenedLinks from "../components/ShortenedLinks";
 import ThemeColorChanger from "../components/ThemeColorChanger";
 import QuickDeleteButtonsOptions from "../components/QuickDeleteButtonsOptions";
 import OtherOptions from "../components/OtherOptions";
@@ -111,6 +112,9 @@ class Popup {
 		this.sections = [
 			[
 				this.RenderLinkShortener(),
+				this.RenderShortenedLinks()
+			],
+			[
 				this.RenderTitle(System.data.locale.popup.extensionOptions.title),
 				this.RenderThemeColorChanger(),
 				this.RenderQuickDeleteButtonsOptions(),
@@ -150,6 +154,10 @@ class Popup {
 
 		return $linkShortener;
 	}
+	RenderShortenedLinks(){
+		let $shortenedLinks = new ShortenedLinks();
+
+		return $shortenedLinks;}
 	RenderTitle(title) {
 		let $title = $(`<h4 class="title is-4 has-text-centered">${title}</h4>`);
 

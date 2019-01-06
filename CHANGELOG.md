@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.8.0] - 2018.01.06
+
+### Added
+
+- You can see the list of shortened links that you've created before (<https://ibb.co/YZ3g242>)
+
+### Changed/Fixed
+
+- Theme color styling has changed to animated background color to get more
+ beautiful display
+- [FIX] Moderate all pagination has issue with adding page numbers
+- [FIX] Can't able to add personal note
+
 ## [6.7.1] - 2018.12.29
 
 ### Added

@@ -39,7 +39,7 @@ class LinkShortener {
 
 		let currentTab = await this.GetActiveTab();
 		let shortCode = await this.CreateLink(currentTab.url);
-		let shortLink = System.data.config.extension.serverURL + "/l/" + shortCode;
+		let shortLink = `${System.data.config.extension.shortenedLinkURL}/${shortCode}`;
 
 		this.$input.val(shortLink);
 

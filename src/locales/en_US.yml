@@ -92,6 +92,13 @@ popup:
   createShortLinkButton:
     text: Shorten URL
     title: Create a short link for this web page
+  shortenedLinks:
+    text: Shortened Links
+    originalURL: Original URL
+    created: Created
+    shortURL: Short URL
+    allClicks: All Clicks
+    searchURL: Search URL
   extensionOptions:
     title: Extension Options
     themeColor:
@@ -201,7 +208,7 @@ popup:
       # \n flag indicates the new line for clear reading
       # %{date} flag indicates the date when user readed the announcement. Example> Readed on 01.01.2018
       readedOn: "Readed on:\n%{date}"
-    manageDeleteReasons:
+    DeleteReasonsPreferences:
       text: Delete reasons preferences
       withoutAsk: Give warning without asking confirmation
       withAsk: Show confirmation dialog while deleting a content

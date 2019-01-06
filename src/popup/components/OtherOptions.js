@@ -18,9 +18,6 @@ class OtherOptions {
 				</div>
 				<div class="message-body">
 					<div class="field is-horizontal">
-						<div class="field-label has-text-centered">
-							<label class="label">${""/*System.data.locale.*/}</label>
-						</div>
 						<div class="field-body">
 							<!-- Messages layout extender -->
 							<div class="field">

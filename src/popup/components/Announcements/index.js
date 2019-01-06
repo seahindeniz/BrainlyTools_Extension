@@ -72,11 +72,13 @@ class Announcements {
 		this.editors.content = new TextEditor($announcementContent);
 	}
 	async PrepareAnnouncements() {
-		let resAnnouncements = await GetAnnouncements();
+		if ($("html").attr("is") != "popup") {
+			let resAnnouncements = await GetAnnouncements();
 
-		if (resAnnouncements.success && resAnnouncements.data) {
-			this.RenderAnnouncementNodes(resAnnouncements.data);
-			window.popup.refreshUsersInformations();
+			if (resAnnouncements.success && resAnnouncements.data) {
+				this.RenderAnnouncementNodes(resAnnouncements.data);
+				window.popup.refreshUsersInformations();
+			}
 		}
 	}
 	RenderAnnouncementNodes(announcementsData) {
@@ -97,25 +99,25 @@ class Announcements {
 	}
 	BindEvents() {
 		if ($("html").attr("is") == "popup") {
-			this.$addNewTitle.click(() => {
+			this.$layout.click(() => {
 				ext.runtime.openOptionsPage();
 			});
+		} else {
+			this.editors.title.onChange = this.EditorOnChange.bind(this);
+			this.editors.content.onChange = this.EditorOnChange.bind(this);
+
+			this.$resetButton.click(event => {
+				event.preventDefault();
+				this.ClearEditors();
+			});
+			this.$submitButton.click(event => {
+				event.preventDefault();
+				let title = this.editors.title.editor.getEditorValue();
+				let content = this.editors.content.editor.getEditorValue();
+
+				this.CreateAnnouncement(title, content);
+			});
 		}
-
-		this.editors.title.onChange = this.EditorOnChange.bind(this);
-		this.editors.content.onChange = this.EditorOnChange.bind(this);
-
-		this.$resetButton.click(event => {
-			event.preventDefault();
-			this.ClearEditors();
-		});
-		this.$submitButton.click(event => {
-			event.preventDefault();
-			let title = this.editors.title.editor.getEditorValue();
-			let content = this.editors.content.editor.getEditorValue();
-
-			this.CreateAnnouncement(title, content);
-		});
 	}
 	EditorOnChange(value) {
 		if (value != "") {

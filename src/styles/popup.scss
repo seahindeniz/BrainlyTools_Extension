@@ -3,12 +3,23 @@
 @import 'bulma-switch';
 
 $bodyWidth: 42rem;
+$bodyWidthExtended: 98.5vw;
 
 html,
 body {
 	font-family: 'Open Sans', serif;
 	font-size: 14px;
 	font-weight: 300;
+}
+
+.button {
+	background-image: none !important;
+	text-shadow: none !important;
+	box-shadow: none !important;
+}
+
+select {
+	background: initial !important;
 }
 
 .footer {
@@ -60,11 +71,20 @@ html[is="popup"] {
 	article.media.addNew.announcement {
 		display: none;
 	}
+
+	.hero>.hero-body {
+		width: $bodyWidth;
+	}
+}
+
+html[is="options"] {
+	.hero>.hero-body {
+		width: $bodyWidthExtended;
+	}
 }
 
 .hero {
 	&>.hero-body {
-		width: $bodyWidth;
 
 		&>.container {
 			&>.column {
@@ -116,6 +136,10 @@ html[is="popup"] {
 
 						&>.column {
 							padding: 0 .75rem;
+
+							&:not(.is-narrow) {
+								padding-bottom: 1em;
+							}
 						}
 
 						.board-item {
@@ -234,6 +258,7 @@ html[is="popup"] {
 						#quickDeleteButtons .select select {
 							width: ($bodyWidth - 15);
 							max-width: ($bodyWidth - 15);
+							background-image: none;
 						}
 
 						.delete {
@@ -342,6 +367,11 @@ html[is="popup"] {
 
 				input {
 					font-weight: 300;
+
+					&#colorPicker {
+						height: 4em;
+						cursor: pointer;
+					}
 				}
 
 				p {

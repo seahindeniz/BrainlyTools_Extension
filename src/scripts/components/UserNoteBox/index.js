@@ -1,6 +1,7 @@
 import { UpdateNote } from "../../controllers/ActionsOfServer";
 
 export default (user) => {
+	console.log(user);
 	let $userNoteBox = $(`
 	<div class="sg-actions-list__hole userNoteBox">
 		<div class="sg-header-secondary">

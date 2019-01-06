@@ -201,7 +201,7 @@ popup:
       # \n flag indicates the new line for clear reading
       # %{date} flag indicates the date when user readed the announcement. Example> Readed on 01.01.2018
       readedOn: "Lu sur : \n%{date}"
-    manageDeleteReasons:
+    DeleteReasonsPreferences:
       text: Préférences des raisons de suppression
       withoutAsk: Donner un avertissement dans demander de confirmation
       withAsk: Montrer le message de confirmation quand on supprime un contenu

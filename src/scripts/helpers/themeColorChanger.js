@@ -2,56 +2,91 @@
 
 import WaitForElement from "./WaitForElement";
 import MakeExpire from "./MakeExpire";
+import Color from "color";
 
 const DEFAULT_THEME_COLOR = "#57b2f8";
 
-export default async (color, isPreview) => {
+export default async (primaryColor, isPreview) => {
+	let background;
 	let rainbow = false;
+	let fontColor = "#fff";
+	let easeSpeed = 4.5;
 	let localStoredColor = localStorage.getItem("themeColor");
 
-	if (color != localStoredColor && !isPreview) {
-		localStorage.setItem("themeColor", color);
+	if (primaryColor != localStoredColor && !isPreview) {
+		localStorage.setItem("themeColor", primaryColor);
 	}
 
-	if (color.indexOf(",") >= 0) {
-		rainbow = color;
-		color = DEFAULT_THEME_COLOR;
+	if (primaryColor.indexOf(",") >= 0) {
+		rainbow = primaryColor;
+		primaryColor = DEFAULT_THEME_COLOR;
+	}
+
+	if (!rainbow) {
+		primaryColor = Color(primaryColor);
+		let secondaryColor = primaryColor.lighten(0.4);
+
+		if (primaryColor.isLight()) {
+			if (primaryColor.hex().toLowerCase() != DEFAULT_THEME_COLOR.toLowerCase()) {
+				fontColor = "#000";
+			}
+
+			secondaryColor = primaryColor.darken(0.2);
+		}
+
+		background = `background: linear-gradient(180deg, ${primaryColor},${secondaryColor}); color: ${fontColor} !important;`;
+	} else {
+		easeSpeed = 6;
+		background = `background: linear-gradient(180deg, ${rainbow}); color: #fff !important;`;
 	}
 
 	let personalColors = `
-	.sg-header__container,
-	.sg-button-primary--alt,
-	.sg-button-secondary--alt,
-	.mint-tabs__tab--active,
-	#html .mint .mint-header,
-	#html .mint #tabs-doj #main_menu>li.active,
-	#html .mint #footer,
-	.sg-box--blue {
-		${!rainbow ? `background-color: ${color} !important;` : `background-image: linear-gradient(to right, ${rainbow}) !important; color: #fff !important;`}
-	}
+@keyframes BackgroundAnimation {
+  0% {
+    background-position: 51% 0%
+  }
+  50% {
+    background-position: 50% 100%
+  }
+  100% {
+    background-position: 51% 0%
+  }
+}
+.sg-header__container,
+.sg-button-primary--alt,
+.sg-button-secondary--alt,
+.mint-tabs__tab--active,
+#html .mint .mint-header,
+#html .mint #tabs-doj #main_menu>li.active,
+#html .mint #footer,
+.sg-box--blue {
+	${background}
+	background-size: 1% 1000%;
+	animation: BackgroundAnimation ${easeSpeed}s ease infinite;
+}
 
-	.sg-menu-list__link,
-	.sg-link:not([class*="gray"]):not([class*="light"]):not([class*="mustard"]):not([class*="peach"]),
-	#html .mint #profile #main-left .personal_info .helped_subjects>li,
-	#html .mint #profile #main-left .personal_info .helped_subjects>li .bold,
-	#html .mint #profile #main-left .personal_info .helped_subjects>li .bold a,
-	#html .mint #profile #main-left .personal_info .helped_subjects>li .green,
-	#html .mint .mod-profile-panel a,
-	#html .mint .mod-profile-panel .pseudolink,
-	#html .mint .mod-profile-panel .orange,
-	#html .mint .mod-profile-panel .onlylink,
-	div#content-old .editProfileContent .profileListEdit,
-	#main-panel .menu-right .menu-element#panel-notifications .notifications-container .notifications li.notification .main .content .nick,
-	#main-panel .menu-right .menu-element#panel-notifications .notifications-container .notification-wrapper .main .content .nick {
-		color: ${color} !important;
-	}
+.sg-menu-list__link,
+.sg-link:not([class*="gray"]):not([class*="light"]):not([class*="mustard"]):not([class*="peach"]),
+#html .mint #profile #main-left .personal_info .helped_subjects>li,
+#html .mint #profile #main-left .personal_info .helped_subjects>li .bold,
+#html .mint #profile #main-left .personal_info .helped_subjects>li .bold a,
+#html .mint #profile #main-left .personal_info .helped_subjects>li .green,
+#html .mint .mod-profile-panel a,
+#html .mint .mod-profile-panel .pseudolink,
+#html .mint .mod-profile-panel .orange,
+#html .mint .mod-profile-panel .onlylink,
+div#content-old .editProfileContent .profileListEdit,
+#main-panel .menu-right .menu-element#panel-notifications .notifications-container .notifications li.notification .main .content .nick,
+#main-panel .menu-right .menu-element#panel-notifications .notifications-container .notification-wrapper .main .content .nick {
+	color: ${primaryColor} !important;
+}
 
-	.sg-button-secondary--alt-inverse,
-	.sg-sticker__front {
-		color: ${color} !important;
-		fill: ${color} !important;
-	}
-	`;
+.sg-button-secondary--alt-inverse,
+.sg-sticker__front {
+	color: ${primaryColor} !important;
+	fill: ${primaryColor} !important;
+}
+`;
 	let head = await WaitForElement("head");
 
 	if (head) {

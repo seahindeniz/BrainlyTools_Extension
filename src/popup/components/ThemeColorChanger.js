@@ -30,21 +30,21 @@ class ThemeColorChanger {
 									</label>
 								</div>
 							</div>
-							<div class="field is-expanded">
-								<div class="field has-addons">
-									<datalist id="flatColors">
-										<option value="#1abc9c">Turquoise</option><option value="#2ecc71">Emerland</option><option value="#3498db">Peterriver</option><option value="#9b59b6">Amethyst</option><option value="#34495e">Wetasphalt</option><option value="#16a085">Greensea</option><option value="#27ae60">Nephritis</option><option value="#2980b9">Belizehole</option><option value="#8e44ad">Wisteria</option><option value="#2c3e50">Midnightblue</option><option value="#f1c40f">Sunflower</option><option value="#e67e22">Carrot</option><option value="#e74c3c">Alizarin</option><option value="#ecf0f1">Clouds</option><option value="#95a5a6">Concrete</option><option value="#f39c12">Orange</option><option value="#d35400">Pumpkin</option><option value="#c0392b">Pomegranate</option><option value="#bdc3c7">Silver</option><option value="#7f8c8d">Asbestos</option>
-									</datalist>
-									<p class="control is-expanded">
-										<input id="colorPicker" list="flatColors" class="input" type="color" placeholder="Text input" value="${this.color}">
-									</p>
-									<p class="control">
-										<input id="colorValue" list="flatColors" class="input" type="text" placeholder="${System.data.locale.popup.extensionOptions.themeColor.pickAColor}"
-										${this.color && ' value="' + this.color + '"'}>
-									</p>
-								</div>
-								<p class="help">${System.data.locale.popup.extensionOptions.themeColor.colorFormatInfo}</p>
+							<div class="field">
+								<datalist id="flatColors">
+									<option value="#1abc9c">Turquoise</option><option value="#2ecc71">Emerland</option><option value="#3498db">Peterriver</option><option value="#9b59b6">Amethyst</option><option value="#34495e">Wetasphalt</option><option value="#16a085">Greensea</option><option value="#27ae60">Nephritis</option><option value="#2980b9">Belizehole</option><option value="#8e44ad">Wisteria</option><option value="#2c3e50">Midnightblue</option><option value="#f1c40f">Sunflower</option><option value="#e67e22">Carrot</option><option value="#e74c3c">Alizarin</option><option value="#ecf0f1">Clouds</option><option value="#95a5a6">Concrete</option><option value="#f39c12">Orange</option><option value="#d35400">Pumpkin</option><option value="#c0392b">Pomegranate</option><option value="#bdc3c7">Silver</option><option value="#7f8c8d">Asbestos</option>
+								</datalist>
+								<p class="control is-expanded">
+									<input id="colorPicker" list="flatColors" class="input" type="color" placeholder="Text input" value="${this.color}">
+								</p>
 							</div>
+							<div class="field">
+								<p class="control">
+									<input id="colorValue" list="flatColors" class="input" type="text" placeholder="${System.data.locale.popup.extensionOptions.themeColor.pickAColor}"
+									${this.color && ' value="' + this.color + '"'}>
+								</p>
+							</div>
+							<p class="help">${System.data.locale.popup.extensionOptions.themeColor.colorFormatInfo}</p>
 						</div>
 					</div>
 					<div class="field is-horizontal">
@@ -76,7 +76,7 @@ class ThemeColorChanger {
 		this.$saveButton.click(this.SaveToStorage.bind(this));
 
 		this.$rainbow.on("change", () => {
-			let colors = "#ff796b, #ecb444, #fec83c, #53cf92, #57b2f8, #7a8adb, #ffb3ae";
+			let colors = System.constants.config.RAINBOW_COLORS;
 
 			if (!this.$rainbow.is(":checked")) {
 				colors = DEFAULT_THEME_COLOR;

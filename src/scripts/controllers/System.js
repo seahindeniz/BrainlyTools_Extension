@@ -24,6 +24,7 @@ class _System {
 				get MAX_FILE_SIZE_OF_EVIDENCE() {
 					return window.System.constants.config.MAX_FILE_SIZE_OF_EVIDENCE_IN_MB * 1024 * 1024;
 				},
+				RAINBOW_COLORS: "#F15A5A,#F0C419,#4EBA6F,#2D95BF,#955BA5",
 				availableLanguages: [{
 						key: "en_US",
 						title: "English"

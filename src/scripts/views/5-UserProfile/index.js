@@ -27,18 +27,22 @@ async function UserProfile() {
 }
 
 async function userInfosFromExtensionServer(mainRight) {
-	let user = await PassUser(profileData.id, profileData.nick);
-	let $userNoteContainer = $(`<div class="userNoteContainer"><h3 class="bold dark_grey" title="${System.data.locale.common.personalNote.title}">${System.data.locale.common.personalNote.placeholder}</h3></div>`);
+	let resUser = await PassUser(profileData.id, profileData.nick);
 
-	if (user) {
-		probatus = user.probatus;
+	if (resUser.success) {
+		let user = resUser.data;
+		let $userNoteContainer = $(`<div class="userNoteContainer"><h3 class="bold dark_grey" title="${System.data.locale.common.personalNote.title}">${System.data.locale.common.personalNote.placeholder}</h3></div>`);
 
-		RenderFlags(probatus, gender);
-		UserPreviousNicks(user).insertAfter("#main-left > div.personal_info > div.clear");
-		$userNoteContainer
-			.append(UserNoteBox(user))
-			.prependTo(mainRight);
+		if (user) {
+			probatus = user.probatus;
 
+			RenderFlags(probatus, gender);
+			UserPreviousNicks(user).insertAfter("#main-left > div.personal_info > div.clear");
+			$userNoteContainer
+				.append(UserNoteBox(user))
+				.prependTo(mainRight);
+
+		}
 	}
 }
 

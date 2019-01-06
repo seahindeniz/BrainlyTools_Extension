@@ -159,3 +159,11 @@ export function GetAccountDeleteReports() {
 export function FindDeleteReport(filter, value) {
 	return Request.ExtensionServer("GET", `/accountDeleteReports/${filter}/${value}`);
 }
+
+export function GetShortenedLinks() {
+	return Request.ExtensionServer("GET", `/urlshortener`);
+}
+
+export function FindShortenedLink(value) {
+	return Request.ExtensionServer("GET", `/urlshortener/${value}`);
+}

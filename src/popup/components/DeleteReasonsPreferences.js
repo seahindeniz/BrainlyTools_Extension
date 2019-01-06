@@ -9,13 +9,13 @@ class DeleteReasonsPreferences {
 	}
 	Render() {
 		this.$layout = $(`
-		<div id="manageDeleteReasons" class="column is-narrow">
+		<div id="DeleteReasonsPreferences" class="column is-narrow">
 			<article class="message is-danger">
 				<div class="message-header">
-					<p>${System.data.locale.popup.extensionManagement.manageDeleteReasons.text}</p>
+					<p>${System.data.locale.popup.extensionManagement.DeleteReasonsPreferences.text}</p>
 				</div>
 				<div class="message-body">
-					<div class="field is-horizontal">
+					<div class="field">
 						<div class="field-label has-text-centered">
 							<label class="label">${System.data.locale.popup.extensionOptions.quickDeleteButtons.task}</label>
 							<div class="field is-grouped is-grouped-multiline" data-type="task"></div>
@@ -33,7 +33,7 @@ class DeleteReasonsPreferences {
 								<div class="control is-expanded">
 									<div class="dropdown">
 										<div class="dropdown-trigger">
-											<input id="prova" class="input" type="text" placeholder="${System.data.locale.popup.extensionManagement.manageDeleteReasons.findReason}" aria-haspopup="true" aria-controls="prova-menu">
+											<input id="prova" class="input" type="text" placeholder="${System.data.locale.popup.extensionManagement.DeleteReasonsPreferences.findReason}" aria-haspopup="true" aria-controls="prova-menu">
 										</div>
 										<div class="dropdown-menu" id="prova-menu" role="menu" />
 									</div>
@@ -41,8 +41,8 @@ class DeleteReasonsPreferences {
 							</div>
 						</div>
 					</div>
-					<p class="help">${ System.data.locale.popup.extensionManagement.manageDeleteReasons.explaining.line1 }</br></br>
-					${System.data.locale.popup.extensionManagement.manageDeleteReasons.explaining.line2
+					<p class="help">${ System.data.locale.popup.extensionManagement.DeleteReasonsPreferences.explaining.line1 }</br></br>
+					${System.data.locale.popup.extensionManagement.DeleteReasonsPreferences.explaining.line2
 					.replace(/\%\{exclamation-circle\}/, '<span class="icon is-small"><i class="fas fa-exclamation-circle"></i></span>')
 					.replace(/\%\{exclamation-triangle\}/, '<span class="icon is-small"><i class="fas fa-exclamation-triangle"></i></span>')}</p>
 				</div>
@@ -117,12 +117,12 @@ class DeleteReasonsPreferences {
 		<div class="control">
 			<div class="tags has-addons">
 				<a class="tag" data-value="${value}">${label}</a>
-				<a class="button tag${confirmation === false?" is-danger":""}" data-is="danger" title="${System.data.locale.popup.extensionManagement.manageDeleteReasons.withoutAsk}">
+				<a class="button tag${confirmation === false?" is-danger":""}" data-is="danger" title="${System.data.locale.popup.extensionManagement.DeleteReasonsPreferences.withoutAsk}">
 					<span class="icon is-small">
 						<i class="fas fa-exclamation-circle"></i>
 					</span>
 				</a>
-				<a class="button tag${confirmation === true?" is-warning":""}" data-is="warning" title="${System.data.locale.popup.extensionManagement.manageDeleteReasons.withAsk}">
+				<a class="button tag${confirmation === true?" is-warning":""}" data-is="warning" title="${System.data.locale.popup.extensionManagement.DeleteReasonsPreferences.withAsk}">
 					<span class="icon is-small">
 						<i class="fas fa-exclamation-triangle"></i>
 					</span>

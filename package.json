@@ -24,13 +24,13 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://gitlab.com/seahindeniz/BrainlyTools_Extension"
+		"url": "https://github.com/seahindeniz/BrainlyTools_Extension"
 	},
-	"author": "Sahin D. <seahindeniz@gmail.com> (https://gitlab.com/seahindeniz)",
+	"author": "Sahin D. <seahindeniz@gmail.com> (https://github.com/seahindeniz)",
 	"bugs": {
-		"url": "https://gitlab.com/seahindeniz/BrainlyTools_Extension/issues"
+		"url": "https://github.com/seahindeniz/BrainlyTools_Extension/issues"
 	},
-	"homepage": "https://gitlab.com/seahindeniz/BrainlyTools_Extension",
+	"homepage": "https://github.com/seahindeniz/BrainlyTools_Extension",
 	"devDependencies": {
 		"@babel/core": "^7.2.2",
 		"@babel/plugin-transform-runtime": "^7.2.0",

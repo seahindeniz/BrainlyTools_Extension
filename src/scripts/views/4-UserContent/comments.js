@@ -152,7 +152,7 @@ $submit.click(function() {
 					};
 
 					idList.push(model_id);
-					
+
 					let res = await RemoveComment(commentData);
 
 					updateCounter();

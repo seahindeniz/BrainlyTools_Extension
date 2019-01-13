@@ -8,9 +8,10 @@ import InjectToDOM from "../../helpers/InjectToDOM";
 import storage from "../../helpers/extStorage";
 import themeColorChanger from "../../helpers/themeColorChanger";
 import messagesLayoutExtender from "../../helpers/messagesLayoutExtender";
-import renderExtraItemsForModerationPanel from "./_/ExtraItemsForModerationPanel"
-import renderAnnouncements from "./_/Announcements"
-import renderChatPanel from "../../components/ChatPanel"
+import renderExtraItemsForModerationPanel from "./_/ExtraItemsForModerationPanel";
+import renderAnnouncements from "./_/Announcements";
+import renderChatPanel from "./_/ChatPanel";
+import RenderMenuButtonFixer from "./_/MenuButtonFixer";
 import { Auth } from "../../controllers/ActionsOfServer";
 import { getAllModerators } from "../../controllers/ActionsOfBrainly"
 import PrepareDeleteReasons from "../../controllers/PrepareDeleteReasons"
@@ -100,16 +101,17 @@ class Core {
 		if (_date.getMonth() == 9 && _date.getDate() == 31) {
 			renderHalloween();
 		}*/
-		await InjectToDOM("/scripts/lib/snowstorm.min.js");
+		/* await InjectToDOM("/scripts/lib/snowstorm.min.js");
 		await WaitForObject("snowStorm");
 		snowStorm.snowColor = '#57b2f8';
 		snowStorm.flakesMaxActive = 32;
-		snowStorm.excludeMobile = false;
+		snowStorm.excludeMobile = false; */
 	}
 	LoadComponentsForAllPages() {
 		renderExtraItemsForModerationPanel();
 		renderAnnouncements();
 		renderChatPanel();
+		RenderMenuButtonFixer();
 	}
 	InjectFilesToPage() {
 		if (System.checkRoute(2, "view_user_warns")) {

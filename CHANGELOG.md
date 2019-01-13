@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.8.2] - 2018.01.12
+
+### Changed/Fixed
+
+- Some issues fixed
+
 ## [6.8.0] - 2018.01.06
 
 ### Added

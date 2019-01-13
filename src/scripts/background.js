@@ -142,11 +142,13 @@ class Background {
 		}
 	}
 	async CheckUpdate() {
+		console.log("update started");
 		let status = await ext.runtime.requestUpdateCheck();
 
 		if (status == "update_available") {
 			ext.runtime.reload();
 		}
+		chrome.storage.local.clear();
 
 		return status;
 	}

@@ -150,6 +150,7 @@ class _System {
 	checkRoute(index, str) {
 		let curr_path = System.data.meta.location.pathname.split("/"),
 			result = false;
+
 		if (curr_path.length >= 2) {
 			if (typeof str == "undefined") {
 				Console.log("str is undefined, check please");
@@ -158,8 +159,10 @@ class _System {
 				result = true;
 			} else {
 				let route = System.data.Brainly.Routing.routes[str] || System.data.Brainly.Routing.routes[System.data.Brainly.Routing.prefix + str];
+
 				if (route) {
 					let tokens = route.tokens;
+
 					if (!tokens)
 						Console.error("Route tokens not found");
 					else {

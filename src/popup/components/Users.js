@@ -1,5 +1,4 @@
 import { GetUsers, PutUser } from "../../scripts/controllers/ActionsOfServer";
-import { getUserByID2 } from "../../scripts/controllers/ActionsOfBrainly";
 import notification from "./notification";
 
 class Users {
@@ -218,7 +217,6 @@ class Users {
 		}
 	}
 	async FillEditingForm(user) {
-		console.log(user);
 		let avatar = System.prepareAvatar(user.brainlyData);
 		let profileLink = System.createProfileLink(user.brainlyData.nick, user.brainlyData.id);
 
@@ -226,8 +224,11 @@ class Users {
 		this.$avatar.attr("src", avatar);
 		this.$link.attr("href", profileLink);
 		this.$actions.removeClass("is-invisible");
+		this.$permission.prop("checked", false)
 		this.$privilegeInputs.prop("checked", false);
 		this.$avatarContainer.removeClass("is-invisible");
+		this.$permissionContainer.removeClass("is-hidden");
+		this.$privilegesContainer.removeClass("is-hidden");
 
 		if (user.serverData) {
 			this.$permission.prop("checked", user.serverData.approved);
@@ -236,9 +237,6 @@ class Users {
 				user.serverData.privileges.forEach(type => $("#p-" + type, this.$privilegesContainer).prop("checked", true));
 			}
 		}
-
-		this.$permissionContainer.removeClass("is-hidden");
-		this.$privilegesContainer.removeClass("is-hidden");
 	}
 	async SubmitForm() {
 		let id = this.GetIdFromInput();

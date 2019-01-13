@@ -63,19 +63,25 @@ class DeleteReasonsPreferences {
 		if (preferences instanceof Array && preferences.length > 0) {
 			preferences.forEach(preference => {
 				let reason = System.data.Brainly.deleteReasons.__withIds.__all[preference.reasonID];
-				let categoryText = System.data.Brainly.deleteReasons.__withIds.__all[reason.category_id].text;
 
 				if (reason) {
+					let category = System.data.Brainly.deleteReasons.__withIds.__all[reason.category_id];
+					let categoryText = category.text;
 					let label = categoryText + " › " + reason.title;
 
 					this.AddReasonToList(reason.type, reason.title, label, reason, preference.confirmation);
+				} else {
+					UpdateDeleteReasonsPreferences({
+						id: preference.reasonID,
+						confirmation: "remove"
+					})
 				}
 			});
 		}
 	}
 	BindEvents() {
 		bulmahead(this.$input.get(0), this.$menu.get(0), this.SearchDeleteReason.bind(this), this.ReasonSelected.bind(this));
-		$(".field.is-grouped", this.$layout).on("click", ".button.tag", this.ReasonTagChangeState);
+		$(".field.is-grouped", this.$layout).on("click", ".button.tag", this.ChangeStateOfPreference);
 	}
 	SearchDeleteReason(value) {
 		return new Promise(resolve => {
@@ -131,17 +137,18 @@ class DeleteReasonsPreferences {
 			</div>
 		</div>`).appendTo($(`.field[data-type="${type}"]`, this.$layout)).prop("reason", reason);
 	}
-	async ReasonTagChangeState() {
+	async ChangeStateOfPreference() {
 		let $parentControl = $(this).parents(".control");
 		let type = $parentControl.parent().data("type");
 		let reason = $parentControl.get(0).reason;
 
 		let reasonData = {
-			id: reason.id,
-			confirmation: "remove"
+			id: reason.id
 		}
 
-		if (!this.classList.contains("is-delete")) {
+		if (this.classList.contains("is-delete")) {
+			reasonData.confirmation = "remove";
+		} else {
 			reasonData.confirmation = this.dataset.is == "warning";
 		}
 

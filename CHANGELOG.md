@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.9.0] - 2018.01.17
+
+### Added
+
+- Brainly.in market initilized
+
 ## [6.8.2] - 2018.01.12
 
 ### Changed/Fixed

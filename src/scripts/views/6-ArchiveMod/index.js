@@ -49,11 +49,15 @@ async function ArciveMod() {
 			}
 		});
 
-		prepareButtons.comment += Buttons('RemoveQuestionNoIcon', {
+		let confirmButton =  Buttons('RemoveQuestionNoIcon', {
 			text: "✓",
 			class: "confirm",
 			title: System.data.locale.common.moderating.confirm,
 		}, `<div class="sg-spinner-container">{button}</div>`);
+
+		prepareButtons.task += confirmButton;
+		prepareButtons.response += confirmButton;
+		prepareButtons.comment += confirmButton;
 
 		let createQuickDeleteButtons = nodes => {
 			if (nodes) {

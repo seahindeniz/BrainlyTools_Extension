@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [6.11.0] - 2018.01.21
+## [6.11.0] - 2019.01.21
 
 ### Added
 
@@ -15,19 +15,19 @@ All notable changes to this project will be documented in this file.
 - Can't able to confirm reported comments
 - Dependency updated
 
-## [6.9.0] - 2018.01.17
+## [6.9.0] - 2019.01.17
 
 ### Added
 
 - Brainly.in market initilized
 
-## [6.8.2] - 2018.01.12
+## [6.8.2] - 2019.01.12
 
 ### Changed/Fixed
 
 - Some issues fixed
 
-## [6.8.0] - 2018.01.06
+## [6.8.0] - 2019.01.06
 
 ### Added
 

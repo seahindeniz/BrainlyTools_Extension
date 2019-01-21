@@ -44,7 +44,7 @@ common:
       someOfSelectedAnswersAreUnapproved: Some of selected answers isn't approved, so you don't need to unapprove those answers again
       selectAnApprovedAnswerForUnapproving: You need select some approved answer(s) for start
       confirmUnapproving: Do you want to remove approvement from this answer(s)?
-      doYouWantToConfirmComment: Do you want to confirm this comment?
+      doYouWantToConfirmThisContent: Do you want to confirm this content?
     takePoints:
       task:
         text: Take back respondents' points

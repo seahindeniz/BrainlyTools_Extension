@@ -62,16 +62,32 @@ export function RemoveComment(data) {
 	return Request.BrainlyAPI("POST", '/moderation_new/delete_comment_content', data);
 }
 /**
- * Delete comment by id
- * @param {object} data - Post data
+ * Confirm comment by id
+ * @param {number} model_id
+ */
+export function ConfirmQuestion(model_id) {
+	return ConfirmContent(model_id, 1);
+}
+/**
+ * Confirm comment by id
+ * @param {number} model_id
+ */
+export function ConfirmAnswer(model_id) {
+	return ConfirmContent(model_id, 2);
+}
+/**
+ * Confirm comment by id
+ * @param {number} model_id
  */
 export function ConfirmComment(model_id) {
+	return ConfirmContent(model_id, 45);
+}
+export function ConfirmContent(model_id, model_type_id) {
 	let data = {
 		model_id,
-		model_type_id: 45,
-		schema: "",
-		_coupon_: coupon()
-	}
+		model_type_id,
+		schema: "moderation.content.ok"
+	};
 
 	return Request.BrainlyAPI("POST", '/moderation_new/accept', data);
 }

@@ -44,7 +44,7 @@ common:
       someOfSelectedAnswersAreUnapproved: "Beberapa jawaban yang dipilih belum disetujui, sehingga kamu tidak perlu untuk membatalkan persetujuan untuk jawaban itu lagi"
       selectAnApprovedAnswerForUnapproving: Kamu perlu memilih beberapa jawaban yang disetujui untuk memulai
       confirmUnapproving: "Apakah kamu ingin menghapus persetujuan dari jawaban ini?"
-      doYouWantToConfirmComment: "Apakah kamu ingin menyetujui komentar ini?"
+      doYouWantToConfirmThisContent: "Apakah Anda ingin mengkonfirmasi konten ini?"
     takePoints:
       task:
         text: Ambil kembali poin responden

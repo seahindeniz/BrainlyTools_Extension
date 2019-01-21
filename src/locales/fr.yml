@@ -44,7 +44,7 @@ common:
       someOfSelectedAnswersAreUnapproved: Quelques une des réponses sélectionnées ne sont pas approuvées vous n'avez pas besoin de les désapprouver à nouveau.
       selectAnApprovedAnswerForUnapproving: Vous devez sélectionner quelques réponses approuvées pour commencer.
       confirmUnapproving: "Voulez-vous enlever l'approbation de toutes ces questions ?"
-      doYouWantToConfirmComment: "Voulez-vous confirmer ce commentaire ?"
+      doYouWantToConfirmThisContent: "Voulez-vous confirmer ce contenu?"
     takePoints:
       task:
         text: Reprendre les points

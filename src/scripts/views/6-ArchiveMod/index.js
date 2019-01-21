@@ -2,7 +2,7 @@
 
 import WaitForElement from "../../helpers/WaitForElement";
 import WaitForObject from "../../helpers/WaitForObject";
-import { RemoveQuestion, RemoveAnswer, RemoveComment, ConfirmComment } from "../../controllers/ActionsOfBrainly";
+import { RemoveQuestion, RemoveAnswer, RemoveComment, ConfirmQuestion, ConfirmAnswer, ConfirmComment } from "../../controllers/ActionsOfBrainly";
 import Buttons from "../../components/Buttons";
 import notification from "../../components/notification";
 
@@ -49,7 +49,7 @@ async function ArciveMod() {
 			}
 		});
 
-		let confirmButton =  Buttons('RemoveQuestionNoIcon', {
+		let confirmButton = Buttons('RemoveQuestionNoIcon', {
 			text: "✓",
 			class: "confirm",
 			title: System.data.locale.common.moderating.confirm,
@@ -92,12 +92,26 @@ async function ArciveMod() {
 				let contentType = obj.data.model_type_id == 1 ? "task" : obj.data.model_type_id == 2 ? "response" : "comment";
 
 				if ($(this).is(".confirm")) {
-					if (confirm(System.data.locale.common.moderating.doYouWantToConfirmComment)) {
+					if (confirm(System.data.locale.common.moderating.notificationMessages.doYouWantToConfirmThisContent)) {
+						let res;
 						let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--small sg-spinner--light"></div></div>`).appendTo(this);
 						let $extActions = $(this).parents(".ext-action-buttons");
 
 						$extActions.addClass("is-deleting");
-						let res = await ConfirmComment(obj.data.model_id);
+
+						if (contentType == "task") {
+							res = await ConfirmQuestion(obj.data.model_id);
+
+							System.log(19, obj.data.user, [obj.data.model_id]);
+						} else if (contentType == "response") {
+							res = await ConfirmAnswer(obj.data.model_id);
+
+							System.log(20, obj.data.user, [obj.data.model_id]);
+						} else if (contentType == "comment") {
+							res = await ConfirmComment(obj.data.model_id);
+
+							System.log(21, obj.data.user, [obj.data.model_id]);
+						}
 
 						$spinner.remove();
 

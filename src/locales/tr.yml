@@ -44,7 +44,7 @@ common:
       someOfSelectedAnswersAreUnapproved: Seçilen bazı içerikler doğrulanmamış. O yüzden doğrulama kaldırma işlemine gerek kalmıyor
       selectAnApprovedAnswerForUnapproving: İşleme başlamadan önce doğrulanmış cevap(lar) seçmelisin
       confirmUnapproving: "Seçilen cevap(lar)dan doğrulamayı kaldırmak istediğine emin misin?"
-      doYouWantToConfirmComment: "Yorumu onaylamak istiyor musun?"
+      doYouWantToConfirmThisContent: "İçeriği onaylamak istiyor musun?"
     takePoints:
       task:
         text: Cevap verenlerin puanlarını al

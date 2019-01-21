@@ -184,7 +184,7 @@ class Background {
 		}
 	}
 	async ManipulateTab(tab) {
-		if (tab.url && this.IsBrainlyTab(tab.url)) {
+		if (tab.url && this.IsBrainly(tab.url)) {
 			let tabId = tab.id;
 
 			this.InjectContentScript(tabId);
@@ -198,11 +198,11 @@ class Background {
 			}
 		}
 	}
-	IsBrainlyTab(_url) {
+	IsBrainly(_url) {
 		let url = new URL(_url);
-		let itIs = System.constants.Brainly.regexp_BrainlyMarkets.test(url.origin);
+		let index = System.constants.Brainly.brainlyMarkets.indexOf(url.hostname);
 
-		return itIs;
+		return index >= 0;
 	}
 	async InjectContentScript(tabId, forceInject) {
 		if (!forceInject) {

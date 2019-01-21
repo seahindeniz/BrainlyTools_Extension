@@ -12,6 +12,19 @@ class _System {
 		this.constants = {
 			Brainly: {
 				regexp_BrainlyMarkets: /:\/\/(?:www\.)?((?:eodev|znanija)\.com|nosdevoirs\.fr|brainly(?:(?:\.(?:com(?:\.br|[^.])|co\.(?:id)|lat|in|ph|ro|pl))))/i,
+				brainlyMarkets:[
+					"brainly.com",
+					"eodev.com",
+					"brainly.pl",
+					"brainly.com.br",
+					"brainly.co.id",
+					"znanija.com",
+					"brainly.lat",
+					"brainly.in",
+					"brainly.ph",
+					"nosdevoirs.fr",
+					"brainly.ro",
+				],
 				style_guide: {
 					css: `https://styleguide.brainly.co.id/${extensionConfig.STYLE_GUIDE_VERSION}/style-guide.css` + "?treat=.ext_css",
 					icons: "https://styleguide.brainly.com/images/icons-1b40deaa8d.js" + "?treat=.ext_js"

@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed/Fixed
 
+- Moderate all pagination
 - Can't able to confirm reported comments
 - Dependency updated
 

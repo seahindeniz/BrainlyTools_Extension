@@ -12,7 +12,7 @@ class _System {
 		this.constants = {
 			Brainly: {
 				regexp_BrainlyMarkets: /:\/\/(?:www\.)?((?:eodev|znanija)\.com|nosdevoirs\.fr|brainly(?:(?:\.(?:com(?:\.br|[^.])|co\.(?:id)|lat|in|ph|ro|pl))))/i,
-				brainlyMarkets:[
+				brainlyMarkets: [
 					"brainly.com",
 					"eodev.com",
 					"brainly.pl",

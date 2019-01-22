@@ -69,8 +69,10 @@ async function ArciveMod() {
 					let obj = Zadanium.getObject(node.getAttribute("objecthash"));
 					let $footer = $(selectors.moderationItemFooter, node);
 
+					$("span.alert-error", node).text(obj.data.user.nick)
+
 					if (System.checkUserP(obj.data.model_type_id)) {
-						$("> div", $footer).hide();
+						$("> div", $footer).remove();
 						let itemType = obj.data.model_type_id == 1 ? "task" : obj.data.model_type_id == 2 ? "response" : "comment";
 						let $extActionButtons = $(`<div class="ext-action-buttons sg-content-box__content--with-centered-text">${prepareButtons[itemType]}</div>`);
 
@@ -81,7 +83,7 @@ async function ArciveMod() {
 			}
 		}
 		let quickDeleteButtonsHandler = async function() {
-			let btn_index = $(this).index();
+			let btn_index = $(this).parent().index();
 			let $moderation_item = $(this).parents(".moderation-item");
 
 			let obj = Zadanium.getObject($moderation_item.attr("objecthash"));
@@ -128,7 +130,8 @@ async function ArciveMod() {
 						}
 					}
 				} else if (confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
-					let reason = System.data.Brainly.deleteReasons.__withIds[contentType][System.data.config.quickDeleteButtonsReasons[contentType][btn_index]];
+					let reasonID = System.data.config.quickDeleteButtonsReasons[contentType][btn_index];
+					let reason = System.data.Brainly.deleteReasons.__withIds[contentType][reasonID];
 					let data = {
 						model_id: obj.data.model_id,
 						reason_id: reason.category_id,

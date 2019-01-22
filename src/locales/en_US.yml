@@ -24,7 +24,7 @@ common:
     cannotShareUserInfoWithServer: An unexpected error occurred while trying to sending the user informations to the extension server. Please try again in 2 sec
     ongoingProcess: Some of the contents is are still prosessing. Do you still want to exit the page?
     areYouSure: Are you sure?
-    mayRequireWarning: This deletion process may require giving a warning so, do you wanna give a warning to owner of this content?
+    mayRequireWarning: "It seems to be appropriate to alert the owner of the content you're trying to delete\nSo do you wanna give a warning to owner of this content?"
     ongoingProcessWait: Some of the contents is are still prosessing and you have to wait till it finished
       # %{userName} flag indicates the user name of sender. Example> John01 send you a new message
     xSendYouANewMessage: "%{userName} send you a new message"

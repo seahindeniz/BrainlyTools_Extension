@@ -24,7 +24,7 @@ common:
     cannotShareUserInfoWithServer: Kullanıcı bilgilerini eklenti sunucusuna iletirken beklenmedik bir hata oluştu. 2 saniye sonra tekrar deneyin
     ongoingProcess: "Bazı içerikler halen işleniyor. Sayfadan ayrılmak istediğine emin misin?"
     areYouSure: "Emin misin?"
-    mayRequireWarning: "Silmeye çalıştığın içeriğe uyarı verilebilir gibi görünüyor.\\nUyarı verilsin mi?"
+    mayRequireWarning: "Silmeye çalıştığın içeriğin sahibine uyarı verilmesi uygun gibi görünüyor.\nİçeriği ekleyen kişiye uyarı verilsin mi?"
     ongoingProcessWait: Bazı içerikler halen işleniyor ve sonlanana kadar beklemek zorundasın
       # %{userName} flag indicates the user name of sender. Example> John01 send you a new message
     xSendYouANewMessage: "%{userName} kişisi mesaj gönderdi"

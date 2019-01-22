@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.11.1] - 2019.01.22
+
+### Changed/Fixed
+
+- Quick delete buttons didn't a give warning while deleting content from
+ moderate all
+
 ## [6.11.0] - 2019.01.21
 
 ### Added

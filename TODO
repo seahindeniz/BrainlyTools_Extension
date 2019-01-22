@@ -53,6 +53,7 @@ Done:
 		+ Silim sebeplerini /:market parametresi ile json tipinde veri çekimi sağla ve sunucudan not modified  karşılığı alınabilsin.
 		+ Düzenle panelinde sağ sol okları ve A, D ve yön tuşlarıyla hareket etme, esc tuşuyla panel kapatma
 		+ Eklenti seçeneklerine, kişinin oluşturduğu kısa linkleri 30 adetle sınırlandıracak şekilde listele
+		+ TD ve kullanıcı bilgilerinde uyarı vermiyor
 
 		#Issues
 		+ DB de kayıtlı olmayan birisi eklentiyi kullandığı zaman, checkintime eklenmiyor.

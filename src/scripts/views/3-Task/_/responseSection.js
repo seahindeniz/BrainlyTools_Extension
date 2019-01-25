@@ -53,6 +53,7 @@ export default async function responseSection() {
 		let btn_index = $(this).parent().index();
 		let parentResponseContainer = $(this).parents(selectors.responseContainer);
 		let answer_id = Number(parentResponseContainer.data("answer-id"));
+		let taskId = $(".js-main-question.brn-question").data("question-id");
 
 		if (answer_id > 0) {
 			if (confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
@@ -69,6 +70,7 @@ export default async function responseSection() {
 				svg.remove();
 
 				let res = await RemoveAnswer(responseData);
+				await CloseModerationTicket(taskId);
 
 				if (res && res.success) {
 					parentResponseContainer.addClass("brn-question--deleted");

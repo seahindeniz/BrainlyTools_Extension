@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.12.0] - 2019.01.25
+
+### Added
+
+- User profile link added into reported content box in moderate all (<https://ibb.co/ns6mscv>)
+
+### Changed/Fixed
+
+- User content quick deleting stucking solved
+- Ticket issue solved (Still in testing stage)
+
 ## [6.11.1] - 2019.01.22
 
 ### Changed/Fixed

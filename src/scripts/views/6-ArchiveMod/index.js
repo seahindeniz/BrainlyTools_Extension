@@ -2,7 +2,7 @@
 
 import WaitForElement from "../../helpers/WaitForElement";
 import WaitForObject from "../../helpers/WaitForObject";
-import { RemoveQuestion, RemoveAnswer, RemoveComment, ConfirmQuestion, ConfirmAnswer, ConfirmComment } from "../../controllers/ActionsOfBrainly";
+import { RemoveQuestion, RemoveAnswer, RemoveComment, ConfirmQuestion, ConfirmAnswer, ConfirmComment, CloseModerationTicket } from "../../controllers/ActionsOfBrainly";
 import Buttons from "../../components/Buttons";
 import notification from "../../components/notification";
 
@@ -68,8 +68,9 @@ async function ArciveMod() {
 					//node.setAttribute("data-type", itemType == "Q" ? "task" : itemType == "A" ? "response" : "comment");
 					let obj = Zadanium.getObject(node.getAttribute("objecthash"));
 					let $footer = $(selectors.moderationItemFooter, node);
+					let profileLink = System.createProfileLink(obj.data.user.nick, obj.data.user.id);
 
-					$("span.alert-error", node).text(obj.data.user.nick)
+					$("span.alert-error", node).html(`<a href="${profileLink}" target="_blank">${obj.data.user.nick}</a>`)
 
 					if (System.checkUserP(obj.data.model_type_id)) {
 						$("> div", $footer).remove();
@@ -143,18 +144,13 @@ async function ArciveMod() {
 
 					$extActions.addClass("is-deleting");
 
-					let onRes = res => {
+					let onRes = (res) => {
+						CloseModerationTicket(obj.data.task_id);
+
 						if (res) {
 							if (res.success) {
 								$moderation_item.addClass("removed");
 								$(this).parent().remove();
-								if (contentType == "task") {
-									$(selectors.panelCloseIcon).click();
-								} else if (contentType == "response") {
-									$moderation.classList.add("removed");
-									$("button.resign", $moderation).click();
-									$("> div.header > div.actions", $moderation).remove();
-								}
 							} else if (res.message) {
 								Zadanium.toplayer.createdObjects[Zadanium.toplayer.createdObjects.length - 1].data.toplayer.setMessage(res.message, "failure")
 							}
@@ -234,8 +230,11 @@ async function ArciveMod() {
 									reason: reason.text
 								};
 								let spinner = $(`<div class="sg-spinner sg-spinner--xxsmall sg-spinner--light"></div>`).appendTo(this);
+								let obj = Zadanium.getObject($($toplayer).attr("objecthash"));
 
-								let onRes = res => {
+								let onRes = (res) => {
+									CloseModerationTicket(obj.data.task_id);
+
 									if (res) {
 										if (res.success) {
 											if (contentType == "task") {
@@ -253,8 +252,6 @@ async function ArciveMod() {
 									}
 									spinner.remove();
 								};
-
-								let obj = Zadanium.getObject($($toplayer).attr("objecthash"));
 
 								if (contentType == "task") {
 									let user = Zadanium.users.getUserObject(obj.data.task.user.id);

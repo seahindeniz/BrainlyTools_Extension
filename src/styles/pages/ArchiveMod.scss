@@ -34,6 +34,12 @@ button {
 			&>.content {
 				height: 14rem;
 
+				&[style] {
+					.ext-action-buttons {
+						display: none;
+					}
+				}
+
 				.confirm label {
 					font-size: 1.5em;
 				}

@@ -111,23 +111,26 @@ class Popup {
 	PrepareSectionsAndContents() {
 		this.sections = [
 			[
-				this.RenderLinkShortener(),
-				this.RenderShortenedLinks()
+				new LinkShortener(),
+				new ShortenedLinks()
 			],
 			[
 				this.RenderTitle(System.data.locale.popup.extensionOptions.title),
-				this.RenderThemeColorChanger(),
+				new ThemeColorChanger(this.storageData.themeColor),
 				this.RenderQuickDeleteButtonsOptions(),
-				this.RenderOtherOptions()
+				new OtherOptions(this.storageData)
 			],
 			[
-				this.RenderTitle(System.data.locale.popup.extensionManagement.title),
 				this.RenderAccountDeleteReports(),
 				this.RenderDeleteReasonsPreferences(),
 				this.RenderAnnouncements(),
 				this.RenderUsers(),
 			]
 		];
+
+		if (this.sections[2].filter(Boolean).length > 0) {
+			this.sections[2].unshift(this.RenderTitle(System.data.locale.popup.extensionManagement.title));
+		}
 
 		if ($("html").attr("is") == "options") {
 			this.sections[0].splice(0, 1);
@@ -137,9 +140,11 @@ class Popup {
 		this.sections.forEach(contents => {
 			let $section = this.RenderSection();
 
-			contents.forEach($content => {
-				$section.append($content)
-			});
+			if (contents.filter(Boolean).length > 0) {
+				contents.forEach($content => {
+					$section.append($content)
+				});
+			}
 		});
 	}
 	RenderSection() {
@@ -149,24 +154,10 @@ class Popup {
 
 		return $section;
 	}
-	RenderLinkShortener() {
-		let $linkShortener = new LinkShortener();
-
-		return $linkShortener;
-	}
-	RenderShortenedLinks(){
-		let $shortenedLinks = new ShortenedLinks();
-
-		return $shortenedLinks;}
 	RenderTitle(title) {
 		let $title = $(`<h4 class="title is-4 has-text-centered">${title}</h4>`);
 
 		return $title;
-	}
-	RenderThemeColorChanger() {
-		let $themeColorChanger = new ThemeColorChanger(this.storageData.themeColor);
-
-		return $themeColorChanger;
 	}
 	RenderQuickDeleteButtonsOptions() {
 		if (System.checkUserP([1, 2, 45])) {
@@ -174,11 +165,6 @@ class Popup {
 
 			return $quickDeleteButtonsOptions;
 		}
-	}
-	RenderOtherOptions() {
-		let $otherOptions = new OtherOptions(this.storageData);
-
-		return $otherOptions;
 	}
 	RenderAccountDeleteReports() {
 		if (System.checkUserP(12)) {

@@ -1,7 +1,7 @@
 {
-	"serverURL": "https://sahin.in",
-	"serverAPIURL": "https://sahin.in/BrainlyTools",
-	"shortenedLinkURL": "http://sahin.in/l",
-	"STYLE_GUIDE_VERSION": "142.9.0",
-	"uploadedFilesURL": "http://sahin.in/files/uploaded/"
+	"serverURL": "http://127.0.0.1:3001",
+	"serverAPIURL": "http://127.0.0.1:3001/BrainlyTools",
+	"shortenedLinkURL": "http://127.0.0.1:3001/l",
+	"STYLE_GUIDE_VERSION": "142.10.1",
+	"uploadedFilesURL": "http://127.0.0.1:3001/files/uploaded/"
 }

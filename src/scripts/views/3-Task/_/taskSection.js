@@ -1,4 +1,4 @@
-import { RemoveQuestion } from "../../../controllers/ActionsOfBrainly";
+import { RemoveQuestion, CloseModerationTicket } from "../../../controllers/ActionsOfBrainly";
 import Buttons from "../../../components/Buttons";
 import notification from "../../../components/notification";
 
@@ -51,6 +51,8 @@ export default function taskSection() {
 				svg.hide();
 
 				let res = await RemoveQuestion(taskData);
+
+				CloseModerationTicket(question_id);
 
 				if (res) {
 					if (res.success) {

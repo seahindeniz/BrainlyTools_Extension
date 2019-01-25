@@ -1,6 +1,6 @@
 "use strict";
 
-import { RemoveAnswer, ApproveAnswer, UnapproveAnswer } from "../../controllers/ActionsOfBrainly";
+import { RemoveAnswer, ApproveAnswer, UnapproveAnswer, CloseModerationTicket } from "../../controllers/ActionsOfBrainly";
 import DeleteSection from "../../components/DeleteSection";
 import notification from "../../components/notification";
 
@@ -282,6 +282,7 @@ System.checkUserP(2, () => {
 						let removeIt = async that => {
 							let $parentRow = $(that).parents("tr");
 							let rowNumber = ~~($(">td:eq(1)", $parentRow).text());
+							let taskId = $parentRow.data("taskid");
 							let responseId = $parentRow.data("responseid");
 							let responseData = {
 								model_id: responseId,
@@ -292,13 +293,11 @@ System.checkUserP(2, () => {
 							};
 
 							idList.push(responseId);
-							
-							let res = await RemoveAnswer(responseData);
 
-							if (!res) {
-								notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
-								updateCounter();
-							} else {
+							try {
+								let res = await RemoveAnswer(responseData);
+								await CloseModerationTicket(taskId);
+
 								if (!res.success && res.message) {
 									notification("#" + rowNumber + " > " + res.message, "error");
 									$parentRow.addClass("already");
@@ -306,6 +305,9 @@ System.checkUserP(2, () => {
 
 								$(this).attr("disabled", "disabled")
 								$parentRow.addClass("removed");
+								updateCounter();
+							} catch (error) {
+								notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
 								updateCounter();
 							}
 						};

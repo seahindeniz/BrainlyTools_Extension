@@ -100,6 +100,8 @@ $submit.click(function() {
 
 					let res = await RemoveQuestion(taskData);
 
+					CloseModerationTicket(model_id);
+
 					updateCounter();
 
 					if (!res) {

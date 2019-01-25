@@ -91,6 +91,8 @@ const ext_actions_buttons_click_handler = async function() {
 							};
 							let removing = await RemoveQuestion(taskData);
 
+							CloseModerationTicket(ticket.data.task.id);
+
 							if (removing && removing.success) {
 								$parent_feed.addClass("deleted");
 								$closeIcon.parents(".js-modal").remove();
@@ -116,6 +118,8 @@ const ext_actions_buttons_click_handler = async function() {
 						$svg.hide();
 
 						let removing = await RemoveQuestion(taskData);
+
+						CloseModerationTicket(question_id);
 
 						if (removing) {
 							if (removing.success) {

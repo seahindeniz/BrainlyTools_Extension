@@ -1,7 +1,7 @@
 "use strict";
 
 import renderModal from "./modal";
-import { RemoveQuestion } from "../../../../../controllers/ActionsOfBrainly";
+import { RemoveQuestion, CloseModerationTicket } from "../../../../../controllers/ActionsOfBrainly";
 
 let isPageProcessing = false;
 
@@ -124,7 +124,9 @@ const TaskDeleter = $seperator => {
 						let removeIt = async id => {
 							taskData.model_id = id;
 							let res = await RemoveQuestion(taskData);
-							//RemoveQuestion(taskData, (res) => {
+
+							CloseModerationTicket(id);
+
 							if (!res) {
 								modal.notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
 							} else {

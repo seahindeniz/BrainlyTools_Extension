@@ -10,79 +10,83 @@ let prepareAjax = () => {
 		}
 	});
 
-	prepareAjax = null;
+	prepareAjax = $.noop;
 }
 
 let holdRequests = [];
 const Request = {
-	Brainly(options) {
-		let that = this;
-		let { method, path, data, callback, countErr = 0, tryAgain } = options;
-		let reqData = {
-			method: method,
-			type: method,
-			url: path,
-			headers: {
-				"Content-Type": "application/json",
-				"X-B-Token-Long": System.data.Brainly.tokenLong,
-				accept: "text/plain, */*; q=0.01"
-			},
-			data
-		};
+	Brainly(options, _resolve, _reject) {
+		return new Promise((resolve, reject) => {
+			let that = this;
+			let { method, path, data, callback, countErr = 0 } = options;
+			let xhr = new XMLHttpRequest();
 
-		if (typeof callback == "object") {
-			reqData.success = callback.success;
-		}
-
-		if (options.ajaxOptions) {
-			reqData = { ...reqData, ...options.ajaxOptions }
-		}
-
-		prepareAjax && prepareAjax();
-
-		let ajaxR = $.ajax(reqData);
-
-		tryAgain && console.log("tryAgain:", countErr);
-		ajaxR.fail(function(e) {
-			if (e.getResponseHeader("cf-chl-bypass") == "1") {
-				callback.forceStop && callback.forceStop();
-				holdRequests.push({ method, path, data, callback, onError, countErr, tryAgain: true });
-				System.toBackground("openCaptchaPopup", System.data.meta.location.origin, res => {
-					if (res == "true") {
-						holdRequests.forEach(holding => {
-							that.Brainly(holding);
-						});
-
-						holdRequests = [];
-
-						callback.forceStop && callback.forceStop(true);
-					}
-				});
-			} else if (++countErr < 3) {
-				setTimeout(() => that.Brainly({ method, path, data, callback, onError, countErr, tryAgain: true }), 500);
-			} else {
-				if (typeof onError === "function") {
-					onError(e);
-				}
-				if (typeof callback.error === "function") {
-					callback.error(e);
-				}
-				reqData.countErr = 0;
+			if (_resolve && _reject) {
+				resolve = _resolve;
+				reject = _reject;
 			}
+
+			xhr.open(method, path, true);
+			xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
+			xhr.setRequestHeader('Content-Type', 'application/json');
+			xhr.setRequestHeader('X-B-Token-Long', System.data.Brainly.tokenLong);
+
+			xhr.onload = function(e) {
+				console.log("onload:", e, xhr);
+				if (xhr.readyState == 4 && (xhr.status == 201 || xhr.status == 200)) {
+					if (xhr && xhr.responseText) {
+						resolve(JSON.parse(xhr.responseText))
+					} else {
+						resolve(null)
+					}
+				} else {
+					if (xhr.getResponseHeader("cf-chl-bypass") == "1") {
+						callback.forceStop && callback.forceStop();
+						holdRequests.push({ method, path, data, callback, countErr });
+						System.toBackground("openCaptchaPopup", System.data.meta.location.origin, res => {
+							if (res == "true") {
+								holdRequests.forEach(holding => {
+									that.Brainly(holding);
+								});
+
+								holdRequests = [];
+
+								callback.forceStop && callback.forceStop(true);
+							}
+						});
+					} else if (++countErr < 3) {
+						setTimeout(() => that.Brainly({ ...options, countErr }, resolve, reject), 500);
+					} else {
+						if (callback && typeof callback.error === "function") {
+							callback.error(xhr);
+						}
+
+						reject(xhr);
+						options.countErr = 0;
+					}
+				}
+			}
+			xhr.onerror = function(e) {
+				console.log("onerror:", e);
+				reject({
+					status: this.status,
+					statusText: xhr.statusText
+				});
+			};
+			xhr.send(data);
 		});
-		return ajaxR;
 	},
 	BrainlyAPI(method, path, data) {
 		//return new Promise((resolve, reject) => {
 		let requestData = {
 			method,
-			path: System.data.Brainly.apiURL + path,
-			ajaxOptions: {
-				dataType: "json"
-			}
+			path: System.data.Brainly.apiURL + path
 		};
 
 		if (data) {
+			if (data.model_id) {
+				//data.model_id = 9999999
+			}
 			requestData.data = JSON.stringify(data);
 		}
 

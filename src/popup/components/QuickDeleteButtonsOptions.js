@@ -34,7 +34,7 @@ class QuickDeleteButtonsOptions {
 			let reasonTypeKeyCode =
 				reasonTypeKey == "task" ? 1 :
 				reasonTypeKey == "response" ? 2 :
-				reasonTypeKey == "comment" ? 3 :
+				reasonTypeKey == "comment" ? 45 :
 				null;
 
 			if (System.checkUserP(reasonTypeKeyCode)) {

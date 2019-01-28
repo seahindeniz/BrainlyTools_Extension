@@ -1,4 +1,4 @@
-# ->Brainly Tools for Brainly markets<-
+# <center>Brainly Tools for Brainly markets</center>
 
 <strong>A toolbox for Brainly markets. It helps moderators for doing some quick
 actions and more..</strong>

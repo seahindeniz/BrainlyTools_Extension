@@ -2,6 +2,7 @@ TODO:
 Issues:
 New:
 	Extension:
+		- Moderatörlerin şüphelendikleri kullanıcıları inceleyebilecekleri bir bölüm. (Bir kullanıcı kopya cevap vermiş daha sonra da kopya cevap vermeye devam edeceğine eminiz. Bu kullanıcıyı takip edebildiğimiz bir bölüm.)
 		- Silim sebeplerini sunarken status: true/false gibi bir flag koyulmalı, böylece sunulması istenmeyen silim sebepleri listelenmez.
 		- Chatango ile mesajlaşmada çoklu sohbet odaları seçme özelliği lazım. Belli kişilere özel bir yol çizilmeli ve kimlerin hangi odaya girebileceği gibi durumları kararlaştır
 		- Eklenti yetkilerini düzenlerken, eklenti için yetki atanmış tüm kullanıcılara specific yetki atama işlemi

@@ -1,4 +1,4 @@
-<h1><center>Brainly Tools for Brainly markets</center></h1>
+<h1 align="center">Brainly Tools for Brainly markets</h1>
 
 <strong>A toolbox for Brainly markets. It helps moderators for doing some quick
 actions and more..</strong>

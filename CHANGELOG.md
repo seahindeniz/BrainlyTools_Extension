@@ -8,7 +8,7 @@ All notable changes to this project will be documented in this file.
 
 - Rank deleter. Additional rank deleter is for deleting rank by selecting it.
  This is handy when you want to remove specific rank from a user without deleting
- all other ranks.
+ all other ranks. (<https://ibb.co/mzg3ZdW>)
 
 ### Changed/Fixed
 

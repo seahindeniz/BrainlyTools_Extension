@@ -13,6 +13,7 @@ common:
   moderator: Moderator
   date: Tanggal
   show: Tampilkan
+  remove: Menghapus
   halloween:
     # On October 31 it's Halloween and I prepared a little suprise for extension users so bare with me :)
     imSorry: Mohon maaf jika kamu sedikit takut!
@@ -21,6 +22,7 @@ common:
   notificationMessages:
     operationError: Terjadi kesalahan selama proses operasi. Silahkan mencoba kembali
     somethingWentWrong: "Oops, terjadi kesalahan"
+    somethingWentWrongPleaseRefresh: "Sesuatu terjadi, tolong segarkan halaman ini"
     cannotShareUserInfoWithServer: Kesalahan tak terduga terjadi ketika mencoba mengirim informasi pengguna ke server ekstensi. Silakan coba lagi dalam 2 detik
     ongoingProcess: "Beberapa konten masih diproses. Apakah kamu ingin keluar dari halaman ini?"
     areYouSure: "Kamu yakin?"
@@ -44,7 +46,7 @@ common:
       someOfSelectedAnswersAreUnapproved: "Beberapa jawaban yang dipilih belum disetujui, sehingga kamu tidak perlu untuk membatalkan persetujuan untuk jawaban itu lagi"
       selectAnApprovedAnswerForUnapproving: Kamu perlu memilih beberapa jawaban yang disetujui untuk memulai
       confirmUnapproving: "Apakah kamu ingin menghapus persetujuan dari jawaban ini?"
-      doYouWantToConfirmThisContent: "Apakah Anda ingin mengkonfirmasi konten ini?"
+      doYouWantToConfirmThisContent: "Apakah kamu ingin mengkonfirmasi konten ini?"
     takePoints:
       task:
         text: Ambil kembali poin responden
@@ -321,6 +323,7 @@ userProfile:
     fileSizeExceeded: "File %{file_name} melebihi batas ukuran %{file_size}"
     aShortcutFile: "Kamu mencoba menambahkan sebuah pintasan pada file dan itu tidak dianggap sebagai file yang aktual. Ini semacam sampah jika kamu menambahkannya.\nKamu mungkin butuh menambahkan file asli sebagai gantinya. Apakah kamu masih ingin menambahkan pintasan ini?"
     unableToReportAccountDeleting: "Kami tidak dapat melaporkan  permintaanmu untuk penghapusan akun ke Community Manager jadi kami tidak dapat melanjutkan penghapusan. Maaf :/<br> Jika kesalahan ini terus berlanjut, mintalah bantuan ke Community Manager."
+    afterSavingCompletedIgnoreNotifications: "Setelah selesai menyimpan,<br> abaikan notifikasi ketika kamu menyegarkan atau meninggalkan halaman"
   previousNicks:
     text: Nick sebelumnya
     title: Nick pengguna sebelumnya yang terdaftar di database
@@ -349,6 +352,14 @@ userProfile:
     # Example: Contents uploading 19%
     uploading: "Mengunggah konten %{percentage_value}"
     deletingContiunes: Penghapusan beranjut..
+  rankManager:
+    title: Mengelola peringkat khusus
+    removeAllRanks: Hapus semua peringkat khusus
+    allRanksRemoved: Semua peringkat khusus telah dihapus
+    updatingRanks: Memperbarui peringkat
+    # %{rank_name} represents the rank name.
+    # Example translation: Apprentice Moderator has assigned
+    xHasAssigned: "%{rank_name} telah ditugaskan"
 userWarnings:
   notificationMessages:
     ifYouHavePrivileges: Peringatan akan dihapus jika kamu memiliki wewenang. Kami juga menyarankan kamu untuk menunggu sekitar ~10 menit setelah proses dimulai

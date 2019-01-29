@@ -28,36 +28,36 @@ async function ArciveMod() {
 		 *  Adding remove buttons inside of question boxes
 		 **/
 		let prepareButtons = {
-			task: true,
-			response: true,
-			comment: true
+			task: "",
+			response: "",
+			comment: ""
 		};
-
-		$.each(System.data.config.quickDeleteButtonsReasons, (key, reasons) => {
-			if (prepareButtons[key]) {
-				let data = [];
-
-				reasons.forEach((reason, i) => {
-					data.push({
-						text: i + 1,
-						title: System.data.Brainly.deleteReasons.__withIds[key][reason].title + ":\n" + System.data.Brainly.deleteReasons.__withIds[key][reason].text,
-						type: "peach " + key
-					});
-				});
-
-				prepareButtons[key] = Buttons('RemoveQuestionNoIcon', data, `<div class="sg-spinner-container">{button}</div>`);
-			}
-		});
-
 		let confirmButton = Buttons('RemoveQuestionNoIcon', {
 			text: "✓",
 			class: "confirm",
 			title: System.data.locale.common.moderating.confirm,
 		}, `<div class="sg-spinner-container">{button}</div>`);
 
-		prepareButtons.task += confirmButton;
-		prepareButtons.response += confirmButton;
-		prepareButtons.comment += confirmButton;
+		$.each(System.data.config.quickDeleteButtonsReasons, (reasonType, reasonIds) => {
+			if (prepareButtons[reasonType] === "") {
+				let data = [];
+				let reasons = System.data.Brainly.deleteReasons.__withIds[reasonType];
+
+				reasonIds.forEach((reasonId, i) => {
+					let reason = reasons[reasonId];
+
+					if (reason) {
+						data.push({
+							text: i + 1,
+							title: reason.title + ":\n" + reason.text,
+							type: "peach " + reasonType
+						});
+					}
+				});
+
+				prepareButtons[reasonType] = Buttons('RemoveQuestionNoIcon', data, `<div class="sg-spinner-container">{button}</div>`) + confirmButton;
+			}
+		});
 
 		let createQuickDeleteButtons = nodes => {
 			if (nodes) {
@@ -117,6 +117,7 @@ async function ArciveMod() {
 						}
 
 						$spinner.remove();
+						$extActions.removeClass("is-deleting");
 
 						if (!res) {
 							notification(System.data.locale.common.notificationMessages.operationError, "error");
@@ -125,7 +126,6 @@ async function ArciveMod() {
 								notification(res.message || System.data.locale.common.notificationMessages.somethingWentWrong, "error");
 							} else {
 								$moderation_item.addClass("confirmed");
-								$extActions.removeClass("is-deleting");
 								$(this).remove();
 							}
 						}
@@ -136,28 +136,30 @@ async function ArciveMod() {
 					let data = {
 						model_id: obj.data.model_id,
 						reason_id: reason.category_id,
-						reason: reason.text
+						reason: reason.text,
+						give_warning: System.canBeWarned(reason.id)
 					};
-					data.give_warning = System.canBeWarned(reason.id);
 					let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--small sg-spinner--light"></div></div>`).appendTo(this);
 					let $extActions = $(this).parents(".ext-action-buttons");
 
 					$extActions.addClass("is-deleting");
 
-					let onRes = (res) => {
+					let onRes = res => {
 						CloseModerationTicket(obj.data.task_id);
+
+						$spinner.remove();
+						$extActions.removeClass("is-deleting");
 
 						if (res) {
 							if (res.success) {
 								$moderation_item.addClass("removed");
 								$(this).parent().remove();
 							} else if (res.message) {
-								Zadanium.toplayer.createdObjects[Zadanium.toplayer.createdObjects.length - 1].data.toplayer.setMessage(res.message, "failure")
+								notification(res.message, "error");
 							}
 						} else {
-							Zadanium.toplayer.createdObjects[Zadanium.toplayer.createdObjects.length - 1].data.toplayer.setMessage(System.data.locale.common.notificationMessages.somethingWentWrong, "failure")
+							notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
 						}
-						$spinner.remove();
 					};
 
 					if (contentType == "task") {
@@ -177,7 +179,6 @@ async function ArciveMod() {
 						onRes(res);
 					}
 				}
-
 			}
 		};
 		$("body").on("click", ".ext-action-buttons button", quickDeleteButtonsHandler);
@@ -231,6 +232,14 @@ async function ArciveMod() {
 								};
 								let spinner = $(`<div class="sg-spinner sg-spinner--xxsmall sg-spinner--light"></div>`).appendTo(this);
 								let obj = Zadanium.getObject($($toplayer).attr("objecthash"));
+								let toplayer = Zadanium.toplayer.createdObjects[Zadanium.toplayer.createdObjects.length - 1].data.toplayer;
+								let notify = message => {
+									if (toplayer) {
+										toplayer.setMessage(message, "failure");
+									} else {
+										notification(message, "error");
+									}
+								}
 
 								let onRes = (res) => {
 									CloseModerationTicket(obj.data.task_id);
@@ -245,10 +254,10 @@ async function ArciveMod() {
 												$("> div.header > div.actions", $moderation).remove();
 											}
 										} else if (res.message) {
-											Zadanium.toplayer.createdObjects[Zadanium.toplayer.createdObjects.length - 1].data.toplayer.setMessage(res.message, "failure")
+											notify(res.message)
 										}
 									} else {
-										Zadanium.toplayer.createdObjects[Zadanium.toplayer.createdObjects.length - 1].data.toplayer.setMessage(System.data.locale.common.notificationMessages.somethingWentWrong, "failure")
+										notify(System.data.locale.common.notificationMessages.somethingWentWrong)
 									}
 									spinner.remove();
 								};

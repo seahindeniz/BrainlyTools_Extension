@@ -27,8 +27,11 @@ class Progress {
 	close() {
 		setTimeout(() => this.forceClose(), 3000);
 	}
-	forceClose() {
-		if (this.$bar.val() == ~~this.$bar.attr("max")) {
+	/**
+	 * @param {boolean} ignoreValue
+	 */
+	forceClose(ignoreValue) {
+		if (ignoreValue || this.$bar.val() == ~~this.$bar.attr("max")) {
 			this.$container.remove();
 		}
 	}

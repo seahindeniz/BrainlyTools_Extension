@@ -221,6 +221,10 @@ class _System {
 	changeBadgeColor(status) {
 		this.toBackground("changeBadgeColor", status)
 	}
+	/**
+	 * @param {string} nick
+	 * @param {number|string} id
+	 */
 	createProfileLink(nick, id) {
 		if (!nick && !id) {
 			nick = System.data.Brainly.userData.user.nick

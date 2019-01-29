@@ -90,7 +90,6 @@ export default $createGroupToplayer => {
 				}
 
 				let resResults = await findUser(value);
-				resResults = resResults.replace(/ onerror=\"imgError.*\);\"/gmi, "");
 
 				let $userContainers = $('td', resResults);
 

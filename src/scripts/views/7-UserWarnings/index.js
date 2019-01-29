@@ -7,7 +7,9 @@ import notification from "../../components/notification";
 
 System.pageLoaded("User's warnings page OK!");
 
-UserWarnings();
+if (JSON.parse(window.sitePassedParams)[0] != myData.id) {
+	UserWarnings();
+}
 
 async function UserWarnings() {
 	let row = await WaitForElement("#content-old > table > tbody > tr");
@@ -47,10 +49,19 @@ async function UserWarnings() {
 
 		$checkedBoxes.each((i, el) => {
 			let parentRow = $(el).parents("tr");
-			let undoLink = $('a[href^="/moderators/cancel_warning"]', parentRow);
-			let warningID = undoLink.attr("href").split("/").pop();
+			let $undoLink = $('a[href^="/moderators/cancel_warning"]', parentRow);
 
-			idList.push(warningID);
+			console.log($undoLink);
+			if ($undoLink.length > 0) {
+				let href = $undoLink.attr("href");
+
+				console.log(href);
+				if (href) {
+					let warningID = href.split("/").pop();
+
+					idList.push(warningID);
+				}
+			}
 		});
 
 		CancelWarning(idList);

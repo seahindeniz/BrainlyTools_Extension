@@ -13,6 +13,7 @@ common:
   moderator: Modérateur
   date: Date
   show: Montrer
+  remove: Supprimer
   halloween:
     # On October 31 it's Halloween and I prepared a little suprise for extension users so bare with me :)
     imSorry: Je suis désolé de vous avoir effrayé !
@@ -21,10 +22,11 @@ common:
   notificationMessages:
     operationError: Une erreur s'est produite pendant l'opération. Réessaye.
     somethingWentWrong: "Oops, quelque chose n'a pas fonctionné"
+    somethingWentWrongPleaseRefresh: "Une erreur inattendue s'est produite, rechargez la page"
     cannotShareUserInfoWithServer: Une erreur inattendue s'est produite pendant l'envoi des informations de l'utilisateur vers le serveur de l'extension. Ré essaye dans 2 secondes
     ongoingProcess: "Quelques un des contenus sont toujours en cours d'éxecution. Es-tu certains de vouloir quitter la page ? "
     areYouSure: "Es-tu sûr ?"
-    mayRequireWarning: "Ce processus de suppression nécessite de donner un avertissement, voulez-vous donner un avertissement au propriétaire de ce contenu ?"
+    mayRequireWarning: "Il semblerait approprié de donner un avertissement à l'auteur du contenu que vous voulez supprimer\nVoulez-vous donner un avertissement à l'auteur de ce contenu ?"
     ongoingProcessWait: "Quelques un des contenus sont toujours en cours d'éxecution. Es-tu certains de vouloir quitter la page ? "
       # %{userName} flag indicates the user name of sender. Example> John01 send you a new message
     xSendYouANewMessage: "%{userName} t'a envoyé un message"
@@ -44,7 +46,7 @@ common:
       someOfSelectedAnswersAreUnapproved: Quelques une des réponses sélectionnées ne sont pas approuvées vous n'avez pas besoin de les désapprouver à nouveau.
       selectAnApprovedAnswerForUnapproving: Vous devez sélectionner quelques réponses approuvées pour commencer.
       confirmUnapproving: "Voulez-vous enlever l'approbation de toutes ces questions ?"
-      doYouWantToConfirmThisContent: "Voulez-vous confirmer ce contenu?"
+      doYouWantToConfirmThisContent: "Voulez-vous approuver ce contenu ?"
     takePoints:
       task:
         text: Reprendre les points
@@ -321,6 +323,7 @@ userProfile:
     fileSizeExceeded: "Le fichier %{file_name} excède la taille maximale de %{file_size}"
     aShortcutFile: "Vous essayer d'ajouter un raccourci d'un fichier mais celui-ci n'est pas considéré comme un fichier. Cela va être le bazarre si vous l'ajouter\nVous devriez sélectionner le fichier d'origine à la place\nVoulez-vous toujours ajouter ce raccourci ?"
     unableToReportAccountDeleting: "Je ne suis pas en mesure de rapporter votre demande de suppression au community manager donc je ne peux pas effectuer la suppression. Désolé :/ <br> Si cette erreur persiste signalez la"
+    afterSavingCompletedIgnoreNotifications: "Une fois fois la sauvegarde effectué, <br> ignorez les notifications quand vous rechargez ou quittez la page"
   previousNicks:
     text: Pseudo précédent
     title: Précédent pseudo de l'utilisateur
@@ -349,6 +352,14 @@ userProfile:
     # Example: Contents uploading 19%
     uploading: "contenu ajouté %{percentage_value}"
     deletingContiunes: Poursuite des suppressions
+  rankManager:
+    title: Gérer les rangs spéciaux
+    removeAllRanks: Supprimer tous les rangs spéciaux
+    allRanksRemoved: Tous les rangs spéciaux ont été supprimés
+    updatingRanks: Mise à jour des rangs
+    # %{rank_name} represents the rank name.
+    # Example translation: Apprentice Moderator has assigned
+    xHasAssigned: "%{rank_name} a été assigné"
 userWarnings:
   notificationMessages:
     ifYouHavePrivileges: Les avertissements seront révoqués si tu en as les droits. Merci de patienter 10 secondes.

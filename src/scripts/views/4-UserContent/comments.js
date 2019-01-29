@@ -2,7 +2,7 @@
 
 import DeleteSection from "../../components/DeleteSection";
 import notification from "../../components/notification";
-import { GetTaskContent, RemoveComment } from "../../controllers/ActionsOfBrainly";
+import { GetTaskContent, RemoveComment, CloseModerationTicket } from "../../controllers/ActionsOfBrainly";
 
 let selectors = window.selectors,
 	$moderateActions = window.$moderateActions;
@@ -142,6 +142,7 @@ $submit.click(function() {
 				let idList = [];
 				let removeIt = async that => {
 					let $parentRow = $(that).parents("tr");
+					let taskId = $parentRow.data("taskid");
 					let rowNumber = ~~($(">td:eq(1)", $parentRow).text());
 					let model_id = $parentRow.data("commentid");
 					let commentData = {
@@ -155,6 +156,7 @@ $submit.click(function() {
 
 					let res = await RemoveComment(commentData);
 
+					CloseModerationTicket(taskId);
 					updateCounter();
 
 					if (!res) {

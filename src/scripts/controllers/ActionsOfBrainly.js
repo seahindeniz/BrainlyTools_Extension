@@ -515,3 +515,49 @@ export function ChangeBio(content) {
 		})
 	});
 }
+
+export function RemoveAllRanks(user_id, { key = "", fields = "", lock = "" }) {
+	let form = new FormData();
+
+	//form.append("_method", "POST");
+	form.append("data[uid]", user_id);
+	form.append("data[_Token][key]", key);
+	form.append("data[_Token][fields]", fields);
+	form.append("data[_Token][lock]", lock);
+
+	return Request.BrainlyFormPost("/ranks/delete_user_special_ranks", form);
+}
+export function GetPHPTokens(path) {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let HTML = await Request.BrainlySaltGet(path);
+			let tokens = {
+				key: /\[key]" value="(.*)" i/i,
+				lock: /\[lock]" value="(.*)" i/i,
+				fields: /\[fields]" value="(.*)" id="TokenF/i
+			}
+
+			$.each(tokens, (i, token) => {
+				let tokenMatch = HTML.match(token);
+
+				tokens[i] = tokenMatch ? tokenMatch[1] : "";
+			});
+
+			resolve(tokens);
+		} catch (error) {
+			reject(error);
+		}
+	});
+}
+export async function AddRank(user_id, rank_id) {
+	let { key = "", fields = "", lock = "" } = await GetPHPTokens(`/ranks/choose_special_rank_for_user/${user_id}`);
+	let form = new FormData();
+
+	//form.append("_method", "POST");
+	form.append("data[Rank][type]", rank_id);
+	form.append("data[_Token][key]", key);
+	form.append("data[_Token][fields]", fields);
+	form.append("data[_Token][lock]", lock);
+
+	return Request.BrainlyFormPost(`/ranks/add_special_rank_to_user/${user_id}`, form);
+}

@@ -17,7 +17,6 @@ let holdRequests = [];
 const Request = {
 	Brainly(options, _resolve, _reject) {
 		return new Promise((resolve, reject) => {
-			let that = this;
 			let { method, path, data, callback, countErr = 0 } = options;
 			let xhr = new XMLHttpRequest();
 
@@ -31,13 +30,12 @@ const Request = {
 			xhr.setRequestHeader('Content-Type', 'application/json');
 			xhr.setRequestHeader('X-B-Token-Long', System.data.Brainly.tokenLong);
 
-			xhr.onload = function(e) {
-				console.log("onload:", e, xhr);
-				if (xhr.readyState == 4 && (xhr.status == 201 || xhr.status == 200)) {
+			xhr.onload = () => {
+				if (xhr.status >= 200 && xhr.status < 300) {
 					if (xhr && xhr.responseText) {
-						resolve(JSON.parse(xhr.responseText))
+						resolve(JSON.parse(xhr.responseText));
 					} else {
-						resolve(null)
+						resolve(null);
 					}
 				} else {
 					if (xhr.getResponseHeader("cf-chl-bypass") == "1") {
@@ -46,7 +44,7 @@ const Request = {
 						System.toBackground("openCaptchaPopup", System.data.meta.location.origin, res => {
 							if (res == "true") {
 								holdRequests.forEach(holding => {
-									that.Brainly(holding);
+									this.Brainly(holding);
 								});
 
 								holdRequests = [];
@@ -55,7 +53,7 @@ const Request = {
 							}
 						});
 					} else if (++countErr < 3) {
-						setTimeout(() => that.Brainly({ ...options, countErr }, resolve, reject), 500);
+						setTimeout(() => this.Brainly({ ...options, countErr }, resolve, reject), 500);
 					} else {
 						if (callback && typeof callback.error === "function") {
 							callback.error(xhr);
@@ -66,10 +64,10 @@ const Request = {
 					}
 				}
 			}
-			xhr.onerror = function(e) {
+			xhr.onerror = (e) => {
 				console.log("onerror:", e);
 				reject({
-					status: this.status,
+					status: xhr.status,
 					statusText: xhr.statusText
 				});
 			};
@@ -93,38 +91,27 @@ const Request = {
 		return this.Brainly(requestData); //.then(resolve).catch(reject);
 		//});
 	},
-	get(path) {
-		// fetch api kullanmayı dene aşağıda
-		return new Promise((resolve, reject) => {
-			let xhr = new XMLHttpRequest();
+	async get(path, json = false) {
+		let data;
+		let response = await fetch(path);
 
-			xhr.open("GET", path, true);
-			xhr.setRequestHeader('x-requested-with', 'XMLHttpRequest');
+		if (json)
+			data = response.json();
+		else
+			data = await response.text();
 
-			xhr.onload = function() {
-				if (xhr.readyState == 4 && (xhr.status == 201 || xhr.status == 200)) {
-					if (xhr && xhr.responseText) {
-						resolve(xhr.responseText)
-					} else {
-						resolve(null)
-					}
-				} else {
-					console.log(xhr.readyState, xhr.status);
-					resolve(null)
-				}
-			}
-			xhr.onerror = function() {
-				reject({
-					status: this.status,
-					statusText: xhr.statusText
-				});
-			};
+		if (typeof data == "string")
+			data = data.replace(/onerror="imgError\(this, (?:'|\&\#039\;){1,}\);"/gmi, "");
 
-			xhr.send();
-		});
+		return data;
 	},
-	BrainlySaltGet(path, data) {
-		let that = this;
+	async BrainlySaltGet(path) {
+		let response = await fetch(System.data.meta.location.origin + path);
+		let data = await response.text();
+
+		return data;
+
+		/* let that = this;
 
 		var xhr = new XMLHttpRequest();
 
@@ -139,6 +126,39 @@ const Request = {
 				jqXHR.responseURL = xhr.responseURL;
 				//callback && callback(data, textStatus, jqXHR);
 			}
+		}); */
+	},
+	/**
+	 *
+	 * @param {string} path
+	 * @param {FormData} data
+	 * @returns {XMLHttpRequest}
+	 */
+	async BrainlyFormPost(path, data) {
+		return new Promise((resolve, reject) => {
+			var XHR = new XMLHttpRequest();
+			let ajaxData = {
+				type: "POST",
+				method: "POST",
+				url: System.data.meta.location.origin + path,
+				data,
+				xhr: () => XHR,
+				beforeSend: function(xhr) {
+					xhr.setRequestHeader('X-Requested-With', { toString: function() { return ''; } });
+				},
+				success: () => {
+					//jqXHR.responseURL = XHR.responseURL;
+					resolve(XHR);
+				},
+				error: reject
+			};
+
+			if (data instanceof FormData) {
+				ajaxData.processData = false;
+				ajaxData.contentType = false;
+			}
+
+			$.ajax(ajaxData);
 		});
 	},
 	/**

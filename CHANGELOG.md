@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.13.0] - 2019.01.27
+
+### Added
+
+- Rank deleter. Additional rank deleter is for deleting rank by selecting it.
+ This is handy when you want to remove specific rank from a user without deleting
+ all other ranks.
+
+### Changed/Fixed
+
+- Issue while deleting comments and stucking because of it has already a ticket
+ that opened by other moderator for that content. You will now be notified by
+ this problem (<https://ibb.co/bLzFnyp>)
+
 ## [6.12.0] - 2019.01.25
 
 ### Added

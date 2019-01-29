@@ -12,7 +12,7 @@ let makeFlash = (message, type = "", permanent = false) => {
 	let extIcon = `<img src="${System.data.meta.extension.URL}/icons/icon24.png" alt="Brainly Tools" class="notification-brainlyToolsImg">`;
 
 	/**
-	 * Determine if notification was created on old UI. 
+	 * Determine if notification was created on old UI.
 	 * Old UI has the Zadanium object init.
 	 */
 	if (window.Zadanium) {

@@ -1,6 +1,6 @@
 "use strict";
 
-import { RemoveQuestion } from "../../controllers/ActionsOfBrainly";
+import { RemoveQuestion, CloseModerationTicket } from "../../controllers/ActionsOfBrainly";
 import DeleteSection from "../../components/DeleteSection";
 import notification from "../../components/notification";
 

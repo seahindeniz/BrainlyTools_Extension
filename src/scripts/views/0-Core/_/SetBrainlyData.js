@@ -13,6 +13,11 @@ export default async function SetBrainlyData() {
 	if (!routing || !defaultConfig) {
 		defaultConfig = await GetDefaultConfig();
 		routing = await GetRoutingData();
+	} else {
+		(async () => {
+			await GetDefaultConfig();
+			GetRoutingData();
+		})();
 	}
 
 	if (!routing.prefix) {
@@ -95,11 +100,13 @@ function ProcessDefaultConfigData(first, second) {
 			name: rank.name,
 			color: rank.color,
 			type: rank.type,
+			description: rank.description
 		};
 		System.data.Brainly.defaultConfig.config.data.ranksWithName[rank.name] = {
 			name: rank.name,
 			color: rank.color,
 			type: rank.type,
+			description: rank.description
 		};
 	});
 

@@ -14,18 +14,18 @@ async function profileLinkContainerFound(targetElm) {
 			let u_name = link.attr('title');
 
 			if (link.length > 0) {
-				let passedUser = await PassUser(id, u_name);
+				let resExtUser = await PassUser(id, u_name);
 
-				if (passedUser) {
-					let $notebox = UserNoteBox(passedUser);
+				if (resExtUser && resExtUser.success && resExtUser.data) {
+					let $notebox = UserNoteBox(resExtUser.data);
 
 					$notebox.appendTo(targetElm);
 
-					if (passedUser.probatus) {
-						let user = await getUserByID(id);
+					if (resExtUser.probatus) {
+						let resBrainlyUser = await getUserByID(id);
 
-						if (user && user.success) {
-							UserFlag(user.data.gender, "tag").insertAfter("div.sg-content-box > div.sg-content-box__header > div.sg-actions-list > div.sg-actions-list__hole:nth-child(2)");
+						if (resBrainlyUser && resBrainlyUser.success) {
+							UserFlag(resBrainlyUser.data.gender, "tag").insertAfter("div.sg-content-box > div.sg-content-box__header > div.sg-actions-list > div.sg-actions-list__hole:nth-child(2)");
 						}
 					}
 				}

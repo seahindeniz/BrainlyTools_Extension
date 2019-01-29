@@ -7,6 +7,7 @@ import UserBio from "../../components/UserBio";
 import FriendsManager from "./_/FriendsManager";
 import RenderFlags from "./_/RenderFlags";
 import AccountDeleteReporter from "./_/AccountDeleteReporter";
+import RankManager from "./_/RankManager";
 
 System.pageLoaded("User Profile inject OK!");
 
@@ -54,5 +55,6 @@ async function userInfosFromBrainlyServer() {
 
 		RenderFlags(probatus, gender);
 		UserBio(res.data.description);
+		new RankManager(res.data);
 	}
 }

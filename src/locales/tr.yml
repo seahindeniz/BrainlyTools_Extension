@@ -13,6 +13,7 @@ common:
   moderator: Moderatör
   date: Tarih
   show: Göster
+  remove: Kaldır
   halloween:
     # On October 31 it's Halloween and I prepared a little suprise for extension users so bare with me :)
     imSorry: Üzgünüm eğer korkuttuysam!
@@ -21,6 +22,7 @@ common:
   notificationMessages:
     operationError: İşlem sırasında bir hata oluştu. Tekrar deneyin
     somethingWentWrong: "Oops, bir hata oluştu"
+    somethingWentWrongPleaseRefresh: "Bir sorun oluştu, lütfen sayfayı yeniler misin?"
     cannotShareUserInfoWithServer: Kullanıcı bilgilerini eklenti sunucusuna iletirken beklenmedik bir hata oluştu. 2 saniye sonra tekrar deneyin
     ongoingProcess: "Bazı içerikler halen işleniyor. Sayfadan ayrılmak istediğine emin misin?"
     areYouSure: "Emin misin?"
@@ -321,6 +323,7 @@ userProfile:
     fileSizeExceeded: "%{file_name}dosyası %{file_size}olan dosya limitini aşıyor"
     aShortcutFile: "Bir dosyanın kısayolunu yüklemeye çalışıyorsun ve bu dosya eklemek istediğin dosya olmayabilir. Eklersende bir anlamı olmayacaktır.\nKısayolun hedefi olan orjinal dosyayı eklemeni öneririm.\nYine de bu kısayol dosyasını eklemek istiyor musun?"
     unableToReportAccountDeleting: "Hesap silimini Topluluk Yöneticisine bildiremediğim için silim işlemine devam edemiyorum. Üzgünüm :/<br>Eğer bu hata devam ederse, eklenti yöneticine bildir lütfen"
+    afterSavingCompletedIgnoreNotifications: "Sıralamalar kaydedildikten sonra,<br>bu sayfadan çıktığında veya yenilediğinde karşılacağın bildirimleri, göz ardı edebilirsin"
   previousNicks:
     text: Önceki kullanıcı adları
     title: "Kişinin, eklentiye kayıt edilmiş olan önceki kullanıcı adları"
@@ -349,6 +352,14 @@ userProfile:
     # Example: Contents uploading 19%
     uploading: "İçerikler yükleniyor %{percentage_value}"
     deletingContiunes: Devam ediyor..
+  rankManager:
+    title: Özel sıralamaları yönet
+    removeAllRanks: Tüm özel sıralamaları kaldır
+    allRanksRemoved: Tüm özel sıralamalar kaldırıldı
+    updatingRanks: Sıralamalar güncelleniyor
+    # %{rank_name} represents the rank name.
+    # Example translation: Apprentice Moderator has assigned
+    xHasAssigned: "%{rank_name} eklendi"
 userWarnings:
   notificationMessages:
     ifYouHavePrivileges: "Yetkin varsa, seçtiğin uyarı(lar) geri alınır. Ayrıca işlem başladıktan sonra ~10 saniye kadar sayfayı terk etmemeni öneririm"

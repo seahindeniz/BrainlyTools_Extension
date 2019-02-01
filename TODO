@@ -3,11 +3,12 @@ Issues:
 New:
 	Extension:
 		- Silim sebeplerini sunarken status: true/false gibi bir flag koyulmalı, böylece sunulması istenmeyen silim sebepleri listelenmez.
-		- Chatango ile mesajlaşmada çoklu sohbet odaları seçme özelliği lazım. Belli kişilere özel bir yol çizilmeli ve kimlerin hangi odaya girebileceği gibi durumları kararlaştır
 		- Eklenti yetkilerini düzenlerken, eklenti için yetki atanmış tüm kullanıcılara specific yetki atama işlemi
 		- Hesap silme yetkisi olmayan kullanıcılar için istekte bulunabilme ve silme yetkisi olanlar için, gelen istekleri görebilme alanı oluştur.
 		- Eklenti seçeneklerine feedback alanı oluştur. Gelen istekleri takip edebil.
 		- cleaner içerisinde silinen sorular için, soru sahiplerinin hesaplarının verdiği cevapları kontrol ettir. Spam cevap verebilme ihtimaline karşı.
+		- TD, kullanıcı bilgilerini gör, hızlı silim butonlarının yetkilerini parçala. Tek bir arada olması, kontrol edilemez hale geliyor. Var olan yetki, hızlı silim butonlarında kalsın
+		- Eklenti kullanıcı yönetimine, toplu yetki yönetimi ekle
 
 	Global:
 		- Eklenti seçeneklerine resim paylaşma özelliği ekle. Olursa eğer
@@ -33,6 +34,19 @@ New:
 	Uyarılar sayfası:
 		- Kendi uyarılarını geri alma işlemi
 Done:
+	Issues:
+		+ DB de kayıtlı olmayan birisi eklentiyi kullandığı zaman, checkintime eklenmiyor.
+		+ db de kayıtlı olmayan birisini, bir kullanıcı ilettiği zaman, ekleyen kişi olarak loglanmıyor.
+		+ Duyuru düzenlemede sorun var. Title hatası aldım
+		+ Kullanıcı bilgileri gör altında cevap sahibi ek eklememişse bile cevaplarda ek varmış gibi görünüyor. Bu durum cevap sahibine yönelik tanımlansın
+		+ Marketler arasında geçiş yapınca eklenti kitleniyor
+		+ Kullanıcı bilgileri gör ve hızlı silim butonlarında silinen içerik önceden silinmişse, içeriğin durumuna göre işleme devam etsin.
+		+ Eklenti yetkilerinde 45 kaymış
+		+ Kullanıcıya atanan yetkiden sonra kullanıcı quick delete buttonslarda değişiklik yaparsa ve sonrasında yeni bir yetki atanırsa, eksik olan quickDeleteButtons keyi, sorun yaratıyor. Döngü halinde popup içinde listeleme yaparken, key var yok kontrolü yaptır.
+		+ delete preferences de hatalar var. Düzgün çalışmıyor
+		+ Badge yeşil olup, hiç bir brainly sayfası açık değilse, eklenti kitleniyor
+		+ Grup oluşturma tarihine göre conversation id güncellemesi yap. Çünkü conversation idler kullanılmadığında siliniyor.
+
 	Extension:
 		+ Sunucuya yapılan her isteği logla
 		+ Eklentinin sürüm kontrolü yapılsın ve eğer yeni sürüm varsa eklenti kendini güncelleyebilsin. Böyle bir seçenek olmazsa şayet, kullanıcının eklentiyi kullanmasını kısıtlasın.
@@ -55,19 +69,6 @@ Done:
 		+ Eklenti seçeneklerine, kişinin oluşturduğu kısa linkleri 30 adetle sınırlandıracak şekilde listele
 		+ TD ve kullanıcı bilgilerinde uyarı vermiyor
 
-		#Issues
-		+ DB de kayıtlı olmayan birisi eklentiyi kullandığı zaman, checkintime eklenmiyor.
-		+ db de kayıtlı olmayan birisini, bir kullanıcı ilettiği zaman, ekleyen kişi olarak loglanmıyor.
-		+ Duyuru düzenlemede sorun var. Title hatası aldım
-		+ Kullanıcı bilgileri gör altında cevap sahibi ek eklememişse bile cevaplarda ek varmış gibi görünüyor. Bu durum cevap sahibine yönelik tanımlansın
-		+ Marketler arasında geçiş yapınca eklenti kitleniyor
-		+ Kullanıcı bilgileri gör ve hızlı silim butonlarında silinen içerik önceden silinmişse, içeriğin durumuna göre işleme devam etsin.
-		+ Eklenti yetkilerinde 45 kaymış
-		+ Kullanıcıya atanan yetkiden sonra kullanıcı quick delete buttonslarda değişiklik yaparsa ve sonrasında yeni bir yetki atanırsa, eksik olan quickDeleteButtons keyi, sorun yaratıyor. Döngü halinde popup içinde listeleme yaparken, key var yok kontrolü yaptır.
-		+ delete preferences de hatalar var. Düzgün çalışmıyor
-		+ Badge yeşil olup, hiç bir brainly sayfası açık değilse, eklenti kitleniyor
-		+ Grup oluşturma tarihine göre conversation id güncellemesi yap. Çünkü conversation idler kullanılmadığında siliniyor.
-
 	Global:
 		+ Kenar moderatör paneline id bazlı kişi arama/sorgulama
 		+ Silim butonlarının sebeplerini seçebilmek için eklenti seçenekleri butonu ve optionslarını hazırla
@@ -76,7 +77,6 @@ Done:
 		+ Eklenti duyuruları kutusu
 		+ Eklenti seçeneklerine, link shorter ekle
 		+ Eklenti kullanıcılarını yönetmek için alan oluştur
-		+ Chatango ile market içi mesajlaşma
 		+ ID listesi ile, ödev silimi yapılma özelliği.
 		+ Kenar moderatör paneline nick bazlı kişi arama/sorgulama
 
@@ -123,3 +123,9 @@ Done:
 	Supervisors sayfası:
 		+ Moderatör kutularının görünümlerini değiştirme ve filtreleme
 		+ Moderatörlere çoklu mesaj gönderme
+Canceled:
+	Extension:
+		x Chatango ile mesajlaşmada çoklu sohbet odaları seçme özelliği lazım. Belli kişilere özel bir yol çizilmeli ve kimlerin hangi odaya girebileceği gibi durumları kararlaştır
+
+	Global:
+		x Chatango ile market içi mesajlaşma

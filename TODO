@@ -3,12 +3,8 @@ Issues:
 New:
 	Extension:
 		- Silim sebeplerini sunarken status: true/false gibi bir flag koyulmalı, böylece sunulması istenmeyen silim sebepleri listelenmez.
-		- Eklenti yetkilerini düzenlerken, eklenti için yetki atanmış tüm kullanıcılara specific yetki atama işlemi
 		- Hesap silme yetkisi olmayan kullanıcılar için istekte bulunabilme ve silme yetkisi olanlar için, gelen istekleri görebilme alanı oluştur.
-		- Eklenti seçeneklerine feedback alanı oluştur. Gelen istekleri takip edebil.
 		- cleaner içerisinde silinen sorular için, soru sahiplerinin hesaplarının verdiği cevapları kontrol ettir. Spam cevap verebilme ihtimaline karşı.
-		- TD, kullanıcı bilgilerini gör, hızlı silim butonlarının yetkilerini parçala. Tek bir arada olması, kontrol edilemez hale geliyor. Var olan yetki, hızlı silim butonlarında kalsın
-		- Eklenti kullanıcı yönetimine, toplu yetki yönetimi ekle
 
 	Global:
 		- Eklenti seçeneklerine resim paylaşma özelliği ekle. Olursa eğer
@@ -18,21 +14,16 @@ New:
 	Anasayfa:
 
 	Tümünü düzelt:
-		- Liste görünümünde soru içeriklerinin altına, cevapları da ekleme
 
 	Soru sayfası:
-		- Ek bir hesap ile kendi cevaplarını doğrulama servisi
-		- Cevap, yorum yazarken yasaklı kelimelerde kontrol
 
 	Mesajlar:
-		- Mesajlaşmada yasaklı kelime kontrolü
 
 	Profil sayfası:
 
 	Kullanıcı bilgilerini gör sayfası:
 
 	Uyarılar sayfası:
-		- Kendi uyarılarını geri alma işlemi
 Done:
 	Issues:
 		+ DB de kayıtlı olmayan birisi eklentiyi kullandığı zaman, checkintime eklenmiyor.
@@ -46,6 +37,8 @@ Done:
 		+ delete preferences de hatalar var. Düzgün çalışmıyor
 		+ Badge yeşil olup, hiç bir brainly sayfası açık değilse, eklenti kitleniyor
 		+ Grup oluşturma tarihine göre conversation id güncellemesi yap. Çünkü conversation idler kullanılmadığında siliniyor.
+		+ TD ve kullanıcı bilgilerinde uyarı vermiyor
+		+ TD, kullanıcı bilgilerini gör, hızlı silim butonlarının yetkilerini parçala. Tek bir arada olması, kontrol edilemez hale geliyor. Var olan yetki, hızlı silim butonlarında kalsın
 
 	Extension:
 		+ Sunucuya yapılan her isteği logla
@@ -67,7 +60,8 @@ Done:
 		+ Silim sebeplerini /:market parametresi ile json tipinde veri çekimi sağla ve sunucudan not modified  karşılığı alınabilsin.
 		+ Düzenle panelinde sağ sol okları ve A, D ve yön tuşlarıyla hareket etme, esc tuşuyla panel kapatma
 		+ Eklenti seçeneklerine, kişinin oluşturduğu kısa linkleri 30 adetle sınırlandıracak şekilde listele
-		+ TD ve kullanıcı bilgilerinde uyarı vermiyor
+		+ Eklenti yetkilerini düzenlerken, eklenti için yetki atanmış tüm kullanıcılara specific yetki atama işlemi
+		+ Eklenti kullanıcı yönetimine, toplu yetki yönetimi ekle
 
 	Global:
 		+ Kenar moderatör paneline id bazlı kişi arama/sorgulama
@@ -126,6 +120,20 @@ Done:
 Canceled:
 	Extension:
 		x Chatango ile mesajlaşmada çoklu sohbet odaları seçme özelliği lazım. Belli kişilere özel bir yol çizilmeli ve kimlerin hangi odaya girebileceği gibi durumları kararlaştır
+		x Eklenti seçeneklerine feedback alanı oluştur. Gelen istekleri takip edebil. > Github üzerinde issue açılabilir
 
 	Global:
 		x Chatango ile market içi mesajlaşma
+
+	Tümünü düzelt:
+		x Liste görünümünde soru içeriklerinin altına, cevapları da ekleme > Cevapların görülmesi isteniyorsa, panel açılabilir
+
+	Uyarılar sayfası:
+		x Kendi uyarılarını geri alma işlemi
+
+	Soru sayfası:
+		x Ek bir hesap ile kendi cevaplarını doğrulama servisi
+		x Cevap, yorum yazarken yasaklı kelimelerde kontrol
+
+	Mesajlar:
+		x Mesajlaşmada yasaklı kelime kontrolü

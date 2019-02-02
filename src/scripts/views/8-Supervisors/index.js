@@ -7,7 +7,8 @@ import Progress from "../../components/Progress";
 
 System.pageLoaded("Supervisors page OK!");
 
-Supervisors();
+if (System.checkUserP(10))
+	Supervisors();
 
 async function Supervisors() {
 	let currentColumn = 0;

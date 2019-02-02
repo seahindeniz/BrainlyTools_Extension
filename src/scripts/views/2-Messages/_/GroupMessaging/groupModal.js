@@ -85,9 +85,7 @@ class GroupModal {
 					<ul class="sg-list sg-list--spaced-elements"></ul>
 				</div>
 			</div>`,
-			``,
-			"",
-			"limited-width");
+			``, { size: "limited-width" });
 		//}
 		let $createGroupToplayer = this.createGroupToplayer.$;
 		this.$toplayerContainer = $(`<div class="js-toplayers-container"></div>`);

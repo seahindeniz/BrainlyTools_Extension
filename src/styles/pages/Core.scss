@@ -68,6 +68,12 @@ div.counter {
 	}
 }
 
+.js-user-list {
+	input[type="number"]{
+		width: 7em;
+	}
+}
+
 /* div.counter:not([style*="display: none"])>.userId~ {
 	width: 200px
 } */

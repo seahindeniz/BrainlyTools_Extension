@@ -14,6 +14,7 @@ common:
   date: Tanggal
   show: Tampilkan
   remove: Menghapus
+  select: Pilih
   halloween:
     # On October 31 it's Halloween and I prepared a little suprise for extension users so bare with me :)
     imSorry: Mohon maaf jika kamu sedikit takut!
@@ -27,7 +28,8 @@ common:
     ongoingProcess: "Beberapa konten masih diproses. Apakah kamu ingin keluar dari halaman ini?"
     areYouSure: "Kamu yakin?"
     mayRequireWarning: "Proses penghapusan ini mungkin perlu diberikan peringatan, apakah kamu ingin memberikan peringatan kepada pemilik konten?"
-    ongoingProcessWait: Beberapa konten masih dalam proses dan kamu perlu menunggu sampai ini selesai
+    ongoingProcessWait:
+      Beberapa konten masih dalam proses dan kamu perlu menunggu sampai ini selesai
       # %{userName} flag indicates the user name of sender. Example> John01 send you a new message
     xSendYouANewMessage: "%{userName} mengirimi kamu pesan baru"
     newNotification: Notifikasi baru
@@ -91,6 +93,12 @@ popup:
     uncorrectDate: Saya tidak dapat mengambil data dari Brainly<br><br>Silahkan menuju halaman utama Brainly atau dengan memuat ulang halaman
     preparingUnsuccessful: Terjadi kesalahan selama mempersiapkan alasan penghapusan dan mengambil dari Brainly
     noEvidenceFound: Moderator tidak menambahkan bukti atau komentar
+    doYouWannaGiveThisPrivilege: Apakah kamu ingin memberikan privilege kepada seluruh pengguna ekstensi
+    doYouWannaRevokeThisPrivilege: Apakah kamu ingin menghapus privilege dari semua pengguna ekstensi
+    # %{user_amount} flag indicates the amount of users. Example>  Privilege has given to 20 users
+    privilegeHasGiven: "Privilege telah diberikan kepada pengguna %{user_amount}"
+    # %{user_amount} flag indicates the amount of users. Example>  Privilege has revoked from 20 users
+    privilegeHasRevoked: "Privilege telah dihapus dari pengguna %{user_amount}"
   createShortLinkButton:
     text: Shorten URL
     title: Buat sebuah tautan pendek untuk halaman web ini
@@ -108,7 +116,7 @@ popup:
       setYourColor: Atur warna mu
       rainbow: Pelangi
       pickAColor: Pilih warna
-      colorFormatInfo: 'Kamu dapat mengatur warna tema dengan kode warna Hex. Maksud saya, kamu perlu untuk mengatur  #FF0000 untuk warna merah'
+      colorFormatInfo: "Kamu dapat mengatur warna tema dengan kode warna Hex. Maksud saya, kamu perlu untuk mengatur  #FF0000 untuk warna merah"
     quickDeleteButtons:
       text: Tombol hapus cepat
       title: Kamu dapat mengatur alasan penghapusan di tombol cepat
@@ -131,6 +139,9 @@ popup:
     users:
       text: Users
       title: Kamu dapat mengatur izin  dan privileges pengguna ekstensi
+      changeUserPrivileges: Mengubah privilege semua pengguna
+      revoke: Hapus
+      give: Memberikan
       addNewOrEditUser: Tambahkan pengguna baru atau edit ekstension pengguna
       permission: Izin akses
       privileges: Privileges
@@ -149,18 +160,22 @@ popup:
         # ! Important: You need to specify the "no border" word inside the braces like this: in English <s>No border</s> or in Turkish <s>Kenarligi olmayan</s>
         line5: "<s>Tidak ada border</s> berarti bahwa pengguna memiliki beberapa privilege yang ditetapkan tetapi tidak diberi izin untuk menggunakan ekstensi di akun mereka dan belum mulai menggunakan ekstensi."
       privilegeListOrder:
-      - 0
-      - 4
-      - 5
-      - 11
-      - 1
-      - 2
-      - 45
-      - 6
-      - 7
-      - 8
-      - 9
-      - 10
+        - 0
+        - 4
+        - 5
+        - 11
+        - 1
+        - 2
+        - 45
+        - 14
+        - 15
+        - 16
+        - 6
+        - 8
+        - 10
+        - 7
+        - 13
+        - 9
       privilegeList:
         "0":
           title: Ekstensi Admin
@@ -173,7 +188,7 @@ popup:
           description: Dapat menambahkan atau mengedit ekstensi user dan memberikan mereka privileges atau izin untuk menggunakan ekstensi
         "1":
           title: Tombol hapus cepat
-          description: "Pada halaman pertanyaan, konten pengguna, arsip moderator dan halaman utama, pengguna bisa menggunakan tombol penghapusan cepat untuk menghapus pertanyaan."
+          description: "Pada halaman pertanyaan, konten pengguna, arsip moderator dan halaman utama, pengguna bisa menggunakan tombol penghapusan cepat untuk menghapus jawaban"
         "2":
           title: Tombol hapus cepat
           description: "Pada halaman pertanyaan, konten pengguna, arsip moderator dan halaman utama, pengguna bisa menggunakan tombol penghapusan cepat untuk menghapus jawaban"
@@ -198,6 +213,21 @@ popup:
         "11":
           title: Manajemen preferensi alasan penghapusan
           description: Dapat mengatur tingkat peringatan dari alasan penghapusan
+        "12":
+          title: Laporan penghapusan akun
+          description: "Pada ops ekstensi, pengguna dapat melihat laporan akun yang dihapus"
+        "13":
+          title: Mengubah poin
+          description: "Di panel moderasi, pengguna dapat mengganti poin pengguna berdasarkan ID"
+        "14":
+          title: Memilih pertanyaan yang dihapus
+          description: "Pada halaman konten pengguna, pengguana dapat memilih fungsi penghapusan untuk menghapus pertanyaan yang dipilih."
+        "15":
+          title: Memilih jawabn yang dihapus
+          description: "Pada halaman konten pengguna, pengguana dapat memilih fungsi penghapusan untuk menghapus pertanyaan yang dipilih."
+        "16":
+          title: Memilih komentar yang dihapus
+          description: "Dihalaman pengguna, konten pengguna dan halaman Moderais semua, pengguna dapat menggunakan tombol penghapusan cepat untuk menghapus komentar."
     announcements:
       text: Pengumuman
       addNewAnnouncement: Tambahkan sebuah pengumuman
@@ -258,6 +288,11 @@ core:
     text: Pengumuman
     title: "Ketika kamu telah membaca pengumuman, kamu perlu untuk menandainya sebagai telah dibaca"
     markAsRead: Tandai telah dibaca
+  pointChanger:
+    text: Mengubah poin
+    nUsers: "%{n} users"
+    enterOrPasteUID: Masukkan dan paste profile ID pengguna
+    youNeedToEnterOrPaste: Kamu harus memasukkan ID pengguna atau kamu dapat menempelkan daftar ID pengguna yang disalin ke dalam input
 home:
   todaysActions: Aksi hari ini
 messages:
@@ -304,7 +339,6 @@ messages:
         selectRank: Pilih rank
       allModerators: Semua moderator
 userContent:
-  select: Pilih
   notificationMessages:
     selectAtLeasetOneQuestion: Pilih setidaknya satu pertanyaan
     selectAtLeasetOneAnswer: Pilih setidaknya satu jawaban
@@ -377,3 +411,13 @@ supervisors:
   sendMessagesToAllMods:
     text: Untuk semua moderator
     title: Mengirim sebuah pesan ke semua moderator
+uploader:
+  notificationMessages:
+    # %{file_name} represents the file name.
+    # Example translation: screenshot.jpg is already exists
+    alreadyExist: "%{file_name} telah ada"
+    # %{file_name} represents the file name.
+    # Example translation: File name cannot contain backslash. Please rename the screenshot.jpg
+    fileNameCannotContainBackslash: "Nama file tidak boleh mengandung garis miring terbalik. Silakan ganti nama %{file_name}"
+  text: Mngunggah banyak file
+  selectFiles: Memilih file

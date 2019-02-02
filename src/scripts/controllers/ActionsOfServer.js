@@ -167,3 +167,11 @@ export function GetShortenedLinks() {
 export function FindShortenedLink(value) {
 	return Request.ExtensionServer("GET", `/urlshortener/${value}`);
 }
+
+export function GivePrivilege(privilege) {
+	return Request.ExtensionServerAjax("PUT", "/users/give", { privilege });
+}
+
+export function RevokePrivilege(privilege) {
+	return Request.ExtensionServerAjax("PUT", "/users/revoke", { privilege });
+}

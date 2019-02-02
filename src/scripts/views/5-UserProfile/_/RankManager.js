@@ -144,7 +144,7 @@ class RankManager {
 
 				if ($selectedRanks.length == 0) {
 					this.progress.update(2);
-					this.progress.updateLabel(System.data.locale.common.allDone);
+					this.SavingCompleted();
 				} else {
 					this.progress.setMax($selectedRanks.length + 2);
 					await System.delay(500);
@@ -162,14 +162,17 @@ class RankManager {
 
 						if ($selectedRanks.length == i + 1) {
 							await System.delay(500);
-							this.HideSpinner();
-							this.progress.updateLabel(System.data.locale.common.allDone);
-							notification(System.data.locale.userProfile.notificationMessages.afterSavingCompletedIgnoreNotifications, "success");
+							this.SavingCompleted();
 						}
 					});
 				}
 			}
 		}
+	}
+	SavingCompleted() {
+		this.HideSpinner();
+		this.progress.updateLabel(System.data.locale.common.allDone);
+		notification(System.data.locale.userProfile.notificationMessages.afterSavingCompletedIgnoreNotifications, "success");
 	}
 	ShowSpinner() {
 		this.$spinner.appendTo(this.$saveButtonContainer);

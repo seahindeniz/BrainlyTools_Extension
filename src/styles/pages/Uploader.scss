@@ -1,0 +1,25 @@
+body {
+	font-size: 11px !important;
+	line-height: 16px !important
+}
+
+div#main-right {
+	width: 274px !important;
+}
+
+.js-progress {
+	>.sg-content-box {
+		padding: 3px 0 10px;
+		margin-bottom: 1em;
+		border-radius: 5px;
+		cursor: default;
+
+		.file-name {
+			width: 11rem;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: inline-block;
+			white-space: nowrap;
+		}
+	}
+}

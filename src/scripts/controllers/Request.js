@@ -134,9 +134,27 @@ const Request = {
 	 * @param {FormData} data
 	 * @returns {XMLHttpRequest}
 	 */
-	async BrainlyFormPost(path, data) {
+	async BrainlyFormPost(path, data, { onProgress, abort }) {
 		return new Promise((resolve, reject) => {
-			var XHR = new XMLHttpRequest();
+			let XHR = new XMLHttpRequest();
+			let progress = function(event) {
+				if (event.lengthComputable) {
+					let percent = 0;
+					let position = event.loaded || event.position;
+					let total = event.total;
+
+					if (event.lengthComputable) {
+						percent = position / total * 100;
+					}
+					onProgress && onProgress(percent);
+				}
+			}
+
+			if (onProgress) {
+				XHR.upload.addEventListener("progress", progress, false);
+				XHR.addEventListener("progress", progress, false);
+			}
+
 			let ajaxData = {
 				type: "POST",
 				method: "POST",
@@ -146,10 +164,7 @@ const Request = {
 				beforeSend: function(xhr) {
 					xhr.setRequestHeader('X-Requested-With', { toString: function() { return ''; } });
 				},
-				success: () => {
-					//jqXHR.responseURL = XHR.responseURL;
-					resolve(XHR);
-				},
+				success: () => resolve(XHR),
 				error: reject
 			};
 

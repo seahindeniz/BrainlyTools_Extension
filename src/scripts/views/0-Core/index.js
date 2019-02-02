@@ -110,7 +110,7 @@ class Core {
 	LoadComponentsForAllPages() {
 		renderExtraItemsForModerationPanel();
 		renderAnnouncements();
-		renderChatPanel();
+		//renderChatPanel();
 		RenderMenuButtonFixer();
 	}
 	InjectFilesToPage() {
@@ -129,6 +129,14 @@ class Core {
 				System.constants.Brainly.style_guide.css,
 				"/styles/pages/Supervisors.css",
 				"/styles/pages/oldLayoutFixes.css"
+			]);
+		}
+
+		if (System.checkRoute(2, "uploader")) {
+			InjectToDOM([
+				"/scripts/views/9-Uploader/index.js",
+				System.constants.Brainly.style_guide.css,
+				"/styles/pages/Uploader.css"
 			]);
 		}
 	}

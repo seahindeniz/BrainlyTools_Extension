@@ -2,11 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.14.0] - 2019.02.02
+
+### Added
+
+- Multiple file uploader(For admins of Brainly) (<https://ibb.co/C8r07rs>)
+- Mass-Point changer (<https://ibb.co/sWPjMv8>)
+- Bulk user privilege changer(For extension managers) (<https://ibb.co/x3CNWLQ>)
+
+### Changed/Fixed
+
+- Quick delete buttons ans selective content deletion privileges has been seperated.
+ (Concerns only extension managers) (<https://ibb.co/vDMDhbX>)
+- Chatango service isn't useful anymore, so I removed :)
+- Stucking while deleting comments on user content page
+
 ## [6.13.0] - 2019.01.29
 
 ### Added
 
-- Rank deleter. Additional rank deleter is for deleting rank by selecting it.
+- Rank changer. Additional rank changer is for deleting rank by selecting it.
  This is handy when you want to remove specific rank from a user without deleting
  all other ranks. (<https://ibb.co/mzg3ZdW>)
 

@@ -12,13 +12,14 @@ export default () => {
 	if ($seperator && $seperator.length > 0) {
 		renderUserFinder($seperator);
 
-		if (System.checkUserP(7)) {
-			renderTaskDeleter($seperator);
-		}
+		if ($seperator.parents(".brn-moderation-panel__list").length > 0) {
+			if (System.checkUserP(7)) {
+				renderTaskDeleter($seperator);
+			}
 
-		if (true || System.checkUserP(0)) {
-			/* console.log(new PointChanger());
-			$seperator.before(new PointChanger()); */
+			if (System.checkUserP(13)) {
+				$seperator.before(new PointChanger());
+			}
 		}
 
 		/*System.checkUserP(9, () => {

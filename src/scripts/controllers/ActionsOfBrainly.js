@@ -180,9 +180,9 @@ export function CloseModerationTicket(taskId) {
  * @param {number|number[]} id - User id
  */
 export function getUserByID(id) {
-	if (id instanceof Array) {
+	if (id instanceof Array && id.length > 1) {
 		return Request.BrainlyAPI("GET", `/api_users/get_by_id?id[]=${id.join("&id[]=")}`);
-	} else {
+	} else if (id != "") {
 		return Request.BrainlyAPI("GET", `/api_user_profiles/get_by_id/${~~id}`);
 	}
 }
@@ -516,18 +516,18 @@ export function ChangeBio(content) {
 	});
 }
 
-export function RemoveAllRanks(user_id, { key = "", fields = "", lock = "" }) {
-	let form = new FormData();
-
-	//form.append("_method", "POST");
-	form.append("data[uid]", user_id);
-	form.append("data[_Token][key]", key);
-	form.append("data[_Token][fields]", fields);
-	form.append("data[_Token][lock]", lock);
-
-	return Request.BrainlyFormPost("/ranks/delete_user_special_ranks", form);
+export function RemoveAllRanks(user_id, tokens) {
+	return FormPost(
+		"/ranks/delete_user_special_ranks",
+		[{
+			key: "data[uid]",
+			value: user_id
+		}], {
+			tokens
+		}
+	);
 }
-export function GetPHPTokens(path) {
+export function GetPHPTokens(path, parentSelector) {
 	return new Promise(async (resolve, reject) => {
 		try {
 			let HTML = await Request.BrainlySaltGet(path);
@@ -535,6 +535,10 @@ export function GetPHPTokens(path) {
 				key: /\[key]" value="(.*)" i/i,
 				lock: /\[lock]" value="(.*)" i/i,
 				fields: /\[fields]" value="(.*)" id="TokenF/i
+			}
+
+			if (parentSelector) {
+				HTML = $(parentSelector, HTML).html();
 			}
 
 			$.each(tokens, (i, token) => {
@@ -550,14 +554,65 @@ export function GetPHPTokens(path) {
 	});
 }
 export async function AddRank(user_id, rank_id) {
-	let { key = "", fields = "", lock = "" } = await GetPHPTokens(`/ranks/choose_special_rank_for_user/${user_id}`);
+	return FormPost(
+		`/ranks/add_special_rank_to_user/${user_id}`,
+		[{
+			key: "data[Rank][type]",
+			value: rank_id
+		}], {
+			tokenURL: `/ranks/choose_special_rank_for_user/${user_id}`
+		}
+	);
+}
+export async function AddPoint(user_id, point) {
+	return FormPost(
+		`/admin/users/change_points/${user_id}`,
+		[{
+			key: "data[ChangePoints][diff]",
+			value: point
+		}], {
+			tokenURL: System.createProfileLink("a", user_id, true),
+			tokenFormSelector: "#ChangePointsAddForm"
+		}
+	);
+}
+export async function FormPost(path, data = [], { tokens, tokenURL, tokenFormSelector, onProgress, abort }) {
 	let form = new FormData();
 
+	if (tokenURL) {
+		tokens = await GetPHPTokens(tokenURL, tokenFormSelector)
+	}
+
+	let { key = "", fields = "", lock = "" } = tokens;
+
 	//form.append("_method", "POST");
-	form.append("data[Rank][type]", rank_id);
 	form.append("data[_Token][key]", key);
 	form.append("data[_Token][fields]", fields);
 	form.append("data[_Token][lock]", lock);
 
-	return Request.BrainlyFormPost(`/ranks/add_special_rank_to_user/${user_id}`, form);
+	if (data.length > 0) {
+		data.forEach(element => {
+			form.append(element.key, element.value);
+		});
+	}
+
+	return Request.BrainlyFormPost(path, form, { onProgress, abort });
+}
+
+export async function UploadFile(file, onProgress) {
+	return FormPost(
+		`/admin/uploader/add`,
+		[{
+			key: "data[Uploader][file]",
+			value: file
+		}], {
+			tokenURL: "/admin/uploader/index",
+			onProgress,
+			abort: true
+		}
+	);
+}
+
+export async function GetComments(model_id, type, amount) {
+	return Request.BrainlyAPI("GET", `/api_comments/index/${model_id}/${type}/${amount}`);
 }

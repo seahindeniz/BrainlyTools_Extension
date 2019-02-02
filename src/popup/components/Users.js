@@ -1,4 +1,4 @@
-import { GetUsers, PutUser } from "../../scripts/controllers/ActionsOfServer";
+import { GetUsers, PutUser, GivePrivilege, RevokePrivilege } from "../../scripts/controllers/ActionsOfServer";
 import notification from "./notification";
 
 class Users {
@@ -18,6 +18,37 @@ class Users {
 							<div class="level-left"></div>
 						</nav>
 					</article>
+					<article class="media addNew">
+						<div class="media-content field-label has-text-centered">
+							<label class="label" for="changeUserPrivileges">${System.data.locale.popup.extensionManagement.users.changeUserPrivileges}</label>
+						</div>
+					</article>
+					<article class="media addNew changeUserPrivileges">
+						<div class="media-content">
+							<div class="content">
+								<div class="field is-grouped">
+									<div class="control is-expanded">
+										<div class="select">
+											<select class="privileges">
+												<option>${System.data.locale.common.select}</option>
+											</select>
+										</div>
+									</div>
+									<p class="control">
+										<a class="button is-success give">
+											${System.data.locale.popup.extensionManagement.users.give}
+										</a>
+									</p>
+									<p class="control">
+										<a class="button is-danger revoke">
+											${System.data.locale.popup.extensionManagement.users.revoke}
+										</a>
+									</p>
+								</div>
+							</div>
+						</div>
+					</article>
+
 					<article class="media addNew">
 						<div class="media-content field-label has-text-centered">
 							<label class="label" for="addNewOrEdit">${System.data.locale.popup.extensionManagement.users.addNewOrEditUser}</label>
@@ -79,6 +110,7 @@ class Users {
 		</div>`);
 
 		this.$avatarContainer = $(".media-left", this.$layout);
+		this.$privilegesSelect = $("select.privileges", this.$layout);
 		this.$privilegesContainer = $(".control.privileges", this.$layout);
 		this.$permissionContainer = $(".media-content .permission", this.$layout);
 
@@ -86,11 +118,13 @@ class Users {
 		this.$idInput = $('input.id', this.$layout);
 		this.$nick = $(".nick", this.$avatarContainer);
 		this.$actions = $(".media-right", this.$layout);
-		this.$resetButton = $(".media-right > .reset", this.$layout);
-		this.$submitButton = $(".media-right > .submit", this.$layout);
 		this.$avatar = $("img.avatar", this.$avatarContainer);
 		this.$level = $(".level > .level-left", this.$layout);
 		this.$permission = $("input", this.$permissionContainer);
+		this.$resetButton = $(".media-right > .reset", this.$layout);
+		this.$submitButton = $(".media-right > .submit", this.$layout);
+		this.$giveButton = $(".changeUserPrivileges .button.give", this.$layout);
+		this.$revokeButton = $(".changeUserPrivileges .button.revoke", this.$layout);
 
 		this.PrepareUsers();
 		this.RenderPrivilegesList();
@@ -108,6 +142,9 @@ class Users {
 	}
 	RenderUserNodes(usersData) {
 		if (typeof usersData === 'object') {
+			this.$level.html("");
+			this.HideEditingForm(true);
+
 			if (usersData instanceof Array) {
 				if (usersData.length > 0) {
 					usersData.forEach(this.RenderUserNode.bind(this));
@@ -158,6 +195,10 @@ class Users {
 		System.data.locale.popup.extensionManagement.users.privilegeListOrder.forEach(key => {
 			let privilege = System.data.locale.popup.extensionManagement.users.privilegeList[key];
 
+			if (!key == 0) {
+				this.$privilegesSelect.append(`<option value="${key}" title="${privilege.description}">${privilege.title}</option>`);
+			}
+
 			this.$privilegesContainer.append(`
 			<div class="field" title="${privilege.description}">
 				<input class="is-checkradio is-block is-info" id="p-${key}" type="checkbox">
@@ -181,6 +222,8 @@ class Users {
 		this.$idInput.on("input", this.UserSearch.bind(this));
 		this.$resetButton.click(event => (event.preventDefault(), this.HideEditingForm(true)));
 		this.$submitButton.click(event => (event.preventDefault(), this.SubmitForm()));
+		this.$giveButton.click(this.GivePrivilege.bind(this));
+		this.$revokeButton.click(this.RevokePrivilege.bind(this));
 	}
 	async UserSearch() {
 		let id = this.GetIdFromInput();
@@ -275,7 +318,6 @@ class Users {
 
 			$("#" + resUser.data._id, this.$level).parent().remove();
 
-			console.log(resUser.data);
 			let $node = this.RenderUserNode(resUser.data);
 			window.popup.refreshUsersInformations();
 
@@ -289,6 +331,32 @@ class Users {
 			notification(typeof error == "string" && error || System.data.locale.common.notificationMessages.operationError, "danger");
 		}
 
+	}
+	async GivePrivilege() {
+		if (confirm(System.data.locale.popup.notificationMessages.doYouWannaGiveThisPrivilege)) {
+			let value = this.$privilegesSelect.val();
+			let privilege = Number(value);
+
+			if (privilege > 0) {
+				let res = await GivePrivilege(privilege);
+
+				this.PrepareUsers();
+				notification(System.data.locale.popup.notificationMessages.privilegeHasGiven.replace("%{user_amount}", res.data.affected), "success");
+			}
+		}
+	}
+	async RevokePrivilege() {
+		if (confirm(System.data.locale.popup.notificationMessages.doYouWannaRevokeThisPrivilege)) {
+			let value = this.$privilegesSelect.val();
+			let privilege = Number(value);
+
+			if (privilege > 0) {
+				let res = await RevokePrivilege(privilege);
+
+				this.PrepareUsers();
+				notification(System.data.locale.popup.notificationMessages.privilegeHasRevoked.replace("%{user_amount}", res.data.affected), "success");
+			}
+		}
 	}
 }
 

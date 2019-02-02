@@ -4,6 +4,8 @@ import Modal from "../../../../../components/ModalToplayer";
 import DeleteSection from "../../../../../components/DeleteSection";
 
 export default () => {
+	let questionsWillBeDeleted = System.data.locale.core.TaskDeleter.questionsWillBeDeleted.replace("%{n}", `<span>0</span>`);
+	let nHasBeenDeleted = System.data.locale.core.TaskDeleter.nHasBeenDeleted.replace("%{n}", `<b>0</b>`);
 	let modal = new Modal(
 		`<div class="sg-actions-list sg-actions-list--space-between">
 			<div class="sg-actions-list__hole">
@@ -14,16 +16,16 @@ export default () => {
 		</div>`,
 		`<div class="sg-content-box">
 			<div class="sg-content-box__actions">
-			<div class="sg-textarea sg-textarea--full-width back" style="color: transparent;"></div>
-			<div class="sg-textarea js-id-input" contenteditable="true" style="position: absolute; background: transparent; width: 92%;" placeholder="${System.data.locale.core.TaskDeleter.questionsLinksOrIDs}"></div>
+				<div class="sg-textarea sg-textarea--full-width back" style="color: transparent;"></div>
+				<div class="sg-textarea js-id-input" contenteditable="true" style="position: absolute; background: transparent; width: 92%;" placeholder="${System.data.locale.core.TaskDeleter.questionsLinksOrIDs}"></div>
 			</div>
 			<div class="sg-content-box__actions">
 				<div class="sg-actions-list sg-actions-list--no-wrap">
 					<div class="sg-actions-list__hole">
-						<p class="sg-text">${System.data.locale.core.TaskDeleter.questionsWillBeDeleted.replace("%{n}", `<span>0</span>`)}</p>
+						<p class="sg-text">${questionsWillBeDeleted}</p>
 					</div>
 					<div class="sg-actions-list__hole sg-actions-list__hole--to-right js-hidden">
-						<p class="sg-text">${System.data.locale.core.TaskDeleter.nHasBeenDeleted.replace("%{n}", `<b>0</b>`)}</p>
+						<p class="sg-text">${nHasBeenDeleted}</p>
 					</div>
 				</div>
 			</div>
@@ -41,7 +43,7 @@ export default () => {
 
 	let $toplayerContainer = $("body > div.page-wrapper.js-page-wrapper > section > div.js-toplayers-container");
 
-	if($toplayerContainer.length == 0){
+	if ($toplayerContainer.length == 0) {
 		$toplayerContainer = $(`<div class="js-toplayers-container"></div>`).appendTo("body");
 	}
 

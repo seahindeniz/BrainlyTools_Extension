@@ -32,7 +32,7 @@ class _System {
 			},
 			config: {
 				reasonSign: "Ω",
-				idExtractRegex: /.*-/,
+				idExtractRegex: /.*-/g,
 				MAX_FILE_SIZE_OF_EVIDENCE_IN_MB: 22,
 				get MAX_FILE_SIZE_OF_EVIDENCE() {
 					return window.System.constants.config.MAX_FILE_SIZE_OF_EVIDENCE_IN_MB * 1024 * 1024;
@@ -224,8 +224,11 @@ class _System {
 	/**
 	 * @param {string} nick
 	 * @param {number|string} id
+	 * @param {boolean} noOrigin
 	 */
-	createProfileLink(nick, id) {
+	createProfileLink(nick, id, noOrigin) {
+		let origin = "";
+
 		if (!nick && !id) {
 			nick = System.data.Brainly.userData.user.nick
 			id = System.data.Brainly.userData.user.id
@@ -235,8 +238,12 @@ class _System {
 			this.profileLinkRoute = (System.data.Brainly.Routing.routes[System.data.Brainly.Routing.prefix + "user_profile"]).tokens.slice().pop().pop();
 		}
 
+		if (!noOrigin) {
+			origin = System.data.meta.location.origin;
+		}
+
 		if (this.profileLinkRoute) {
-			return System.data.meta.location.origin + this.profileLinkRoute + "/" + nick + "-" + id;
+			return origin + this.profileLinkRoute + "/" + nick + "-" + id;
 		} else
 			return "";
 	}
@@ -394,6 +401,12 @@ class _System {
 		let id = parseInt(extractId);
 
 		return id;
+	}
+	ExtractIds(list) {
+		return list
+			.split(/\r\n|\n/g)
+			.filter(Boolean)
+			.map(System.ExtractId);
 	}
 }
 export default _System;

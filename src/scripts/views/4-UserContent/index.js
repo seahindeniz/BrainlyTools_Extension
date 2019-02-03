@@ -2,7 +2,7 @@
 
 import InjectToDOM from "../../helpers/InjectToDOM";
 import { attachmentIcon } from "../../components/Icons";
-import { GetTaskContent } from "../../controllers/ActionsOfBrainly";
+import { GetQuestionContent } from "../../controllers/ActionsOfBrainly";
 
 System.pageLoaded("User Content inject OK!");
 
@@ -159,7 +159,7 @@ if (System.checkRoute(4, "") || System.checkRoute(4, "tasks") || System.checkRou
 			$(this).parents("tr").attr("data-taskId", taskId);
 
 			if (!isCommentPage) {
-				let res = await GetTaskContent(taskId);
+				let res = await GetQuestionContent(taskId);
 
 				if (res) {
 					res.users_data_WithUID = {};

@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.14.1] - 2019.02.03
+
+### Changed/Fixed
+
+- Stucking while deleting comments on user content page
+
 ## [6.14.0] - 2019.02.03
 
 ### Added

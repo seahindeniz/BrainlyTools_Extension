@@ -1,8 +1,9 @@
 "use strict";
 
+import moment from "moment-timezone";
 import DeleteSection from "../../components/DeleteSection";
 import notification from "../../components/notification";
-import { GetTaskContent, RemoveComment, CloseModerationTicket, GetComments } from "../../controllers/ActionsOfBrainly";
+import { GetQuestionContent, RemoveComment, CloseModerationTicket, GetComments } from "../../controllers/ActionsOfBrainly";
 
 let selectors = window.selectors;
 let $moderateActions = window.$moderateActions;
@@ -18,7 +19,7 @@ window.onbeforeunload = function() {
 
 class Comments {
 	constructor() {
-		this.taskContents = {};
+		this.questionContents = {};
 		this.userId = ~~window.sitePassedParams[0];
 		this.questionLink = document.querySelectorAll(selectors.contentLinks);
 
@@ -37,54 +38,116 @@ class Comments {
 		links.forEach(link => {
 			let URL = link.href;
 			let parsedURL = URL.split("/");
-			let id = ~~parsedURL.pop();
+			let questionId = ~~parsedURL.pop();
 
-			if (!this.taskContents[id]) {
-				this.taskContents[id] = {
+			if (!this.questionContents[questionId]) {
+				this.questionContents[questionId] = {
 					elements: [link]
 				};
 			} else {
-				this.taskContents[id].elements.push(link);
+				this.questionContents[questionId].elements.push(link);
 			}
 		});
 	}
 	GetContents() {
-		let idList = Object.keys(this.taskContents);
-
-		idList.forEach((id) => {
-			this.GetContent(id);
+		$.each(this.questionContents, questionId => {
+			this.GetContent(questionId);
 		});
+		/* let idList = Object.keys(this.taskContents);
+
+		idList.forEach((id) => {}); */
 	}
-	async GetContent(id) {
-		let res = await GetTaskContent(id);
-		this.taskContents[id].content = res;
+	async GetContent(questionId) {
+		let res = await GetQuestionContent(questionId);
+		this.questionContents[questionId].content = res;
 
-		this.AttachComments(id);
+		this.AttachComments(questionId);
 	}
-	async AttachComments(id) {
-		let userComments = await this.GetUserComments(id);
+	async AttachComments(questionId) {
+		try {
+			let userComments = await this.GetUserComments(questionId);
 
-		this.taskContents[id].elements.forEach(element => {
-			let text = element.innerText;
-			text = text.slice(0, -3);
-			let date = $(element).parent().nextAll(":last").text();
-			let timestamp = new Date(date).getTime();
-			let comment = userComments.find(c => {
-				if (c.content.indexOf(text) >= 0) {
-					let cTimestamp = new Date(c.created).getTime();
-
-					return timestamp == cTimestamp
-				} else {
-					return false;
-				}
+			userComments.forEach(comment => {
+				this.AttachComment(questionId, comment);
 			});
+			//this.taskContents[id].elements.forEach(this.AttachComment.bind(this));
+		} catch (error) {
+			console.error(error)
+		}
+	}
+	AttachComment(questionId, comment) {
+		this.questionContents[questionId].elements.forEach(element => {
+			let cellText = element.innerText;
+			cellText = cellText.slice(0, -3);
+			let date = $(element).parent().nextAll(":last").text();
 
-			if (comment)
-				$(element).parents("tr").attr("data-commentId", comment.id)
+			if (date) {
+				date = moment(date + System.data.Brainly.defaultConfig.locale.OFFSET).tz(System.data.Brainly.defaultConfig.locale.TIMEZONE);
+
+				if (date.format() == comment.created) {
+					let fetchedText = comment.content.replace(/ {2,}/g, " ");
+
+					if (fetchedText.startsWith(cellText)) {
+						element.comment = comment;
+						$(element).parents("tr").attr("data-commentId", comment.id);
+					}
+				}
+			}
 		});
 	}
-	async GetUserComments(id) {
-		let content = this.taskContents[id].content;
+	AttachComment2(element) {
+		let cellText = element.innerText;
+		cellText = cellText.slice(0, -3);
+
+		let date = $(element).parent().nextAll(":last").text();
+		date = moment(date + System.data.Brainly.defaultConfig.locale.OFFSET).tz(System.data.Brainly.defaultConfig.locale.TIMEZONE);
+		//let timestamp = new Date(date).getTime();
+		let comment = this.userComments.find(c => {
+			if (date.format() == c.created) {
+				let fetchedText = c.content.replace(/ {2,}/g, " ");
+				console.log(fetchedText);
+				console.log(cellText);
+				console.warn(fetchedText.startsWith(cellText));
+
+				return fetchedText.startsWith(cellText);
+			}
+			/* if (c.content.startsWith(text)) {
+				console.log(c.content, text, date.format() == c.created);
+				//let time = moment(c.created).tz(System.data.Brainly.defaultConfig.locale.TIMEZONE)
+				//let cTimestamp = time.getTime();
+				//console.log(date, date.format());
+				//	console.log(time, time.format(), c.created);
+				//	console.log(date.format() == time.format());
+
+				return date.format() == c.created
+			} */
+		});
+		/*
+		let date = $(element).parent().nextAll(":last").text();
+		let timestamp = new Date(date + System.data.Brainly.defaultConfig.locale.OFFSET).getTime();
+		let comment = this.userComments.find(c => {
+			if (c.content == "fast")
+				console.log(text, c.content);
+			if (c.content.startsWith(text)) {
+				let time = new Date(c.created);
+				let cTimestamp = time.getTime();
+				console.log(timestamp, cTimestamp, timestamp == cTimestamp);
+
+				return timestamp == cTimestamp
+			}
+		}); */
+
+		if (comment) {
+			element.comment = comment;
+			$(element).parents("tr").attr("data-commentId", comment.id);
+			//console.dir(element);
+		} else {
+			console.log(element, comment);
+
+		}
+	}
+	async GetUserComments(questionId) {
+		let content = this.questionContents[questionId].content;
 		let userComments = [];
 		let comments = [];
 
@@ -117,15 +180,17 @@ class Comments {
 			});
 		}
 
-		return comments;
+		return Promise.resolve(userComments);
 	}
 	GetResponsesComments(responses) {
-		return new Promise((resolve) => {
+		return new Promise((resolve, reject) => {
 			try {
 				let comments = [];
 
-				responses.forEach(async (response, i) => {
-					if (response.comments.count > 0) {
+				let _loop_responses = async (i) => {
+					let response = responses[i];
+
+					if (response && response.comments.count > 0) {
 						let responseComments = response.comments.items;
 
 						if (response.comments.count > 5) {
@@ -135,13 +200,18 @@ class Comments {
 
 						comments = [...comments, ...responseComments];
 
-						if (responses.length - 1 == i) {
-							resolve(comments);
-						}
 					}
-				});
 
+					if (responses.length - 1 == i) {
+						resolve(comments);
+					} else {
+						_loop_responses(++i)
+					}
+
+				}
+				_loop_responses(0);
 			} catch (error) {
+				console.error(error);
 				reject(error);
 			}
 		})

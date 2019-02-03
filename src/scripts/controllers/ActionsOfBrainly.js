@@ -9,7 +9,7 @@ const coupon = () => btoa(`[object Object]${System.data.Brainly.userData.user.id
  * Get actions details of a question
  * @param {number|string} taskId - Id number of a question
  */
-export function GetTaskContent(taskId) {
+export function GetQuestionContent(taskId) {
 	return Request.BrainlyAPI("GET", '/api_tasks/main_view/' + taskId);
 }
 /**

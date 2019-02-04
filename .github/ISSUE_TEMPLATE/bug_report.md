@@ -23,5 +23,9 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
+**Market informations**
+Your nick: [e.g. traBolic ]
+Your market domain: [e.g. eodev.com, brainly.com, brainly.in, brainly.co.id,,, ]
+
 **Additional context**
 Add any other context about the problem here.

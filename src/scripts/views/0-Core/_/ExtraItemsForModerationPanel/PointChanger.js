@@ -1,3 +1,4 @@
+import notification from "../../../../components/notification";
 import ModalToplayer from "../../../../components/ModalToplayer";
 import { getUserByID, AddPoint } from "../../../../controllers/ActionsOfBrainly";
 
@@ -69,10 +70,10 @@ class PointChanger {
 			size: "medium"
 		});
 		this.$modal = this.modal.$;
-		this.$close = $(".sg-toplayer__close", this.$modal);
+		this.$idInput = $(".id input", this.$modal);
 		this.$addButton = $(".id button", this.$modal);
-		this.$idInput = $(".id .sg-input", this.$modal);
 		this.$userList = $(".js-user-list", this.$modal);
+		this.$close = $(".sg-toplayer__close", this.$modal);
 		this.$idInputContainer = $(".sg-content-box.id", this.$modal);
 		this.$amountOfUsers = $(".sg-content-box__actions .sg-actions-list > .sg-actions-list__hole > .sg-text > span", this.$modal);
 	}
@@ -84,8 +85,11 @@ class PointChanger {
 		}
 	}
 	BindEvent() {
+		let that = this;
+
 		this.$close.click(this.CloseModal.bind(this));
 		this.$pointChangerLi.on("click", "span", this.OpenModal.bind(this));
+
 		this.$addButton.click(() => {
 			let id = this.GetID()
 
@@ -93,29 +97,39 @@ class PointChanger {
 				this.FindID(id);
 			}
 		});
+
 		this.$userList.on("click", `button.js-add-point`, async function() {
 			let $userNode = $(this).parents(".js-node");
 			let $pointInput = $(`input[type="number"]`, $userNode);
-			let $pointsLabel = $(".js-points", $userNode);
-			let diffPoint = $pointInput.val();
-			let user = $userNode.prop("userData");
+			let diffPoint = Number($pointInput.val());
 
-			let $spinner = $(spinner).insertAfter(this);
+			if (diffPoint) {
+				let user = $userNode.prop("userData");
+				let $spinner = $(spinner).insertAfter(this);
+				let $pointsLabel = $(".js-points", $userNode);
 
-			await AddPoint(user.id, diffPoint);
+				this.classList.add("sg-button-secondary--disabled");
+				await AddPoint(user.id, diffPoint);
+				that.modal.notification(System.data.locale.core.notificationMessages.pointsAdded, "success");
+				this.classList.remove("sg-button-secondary--disabled");
 
-			$pointsLabel.text((user.points + Number(diffPoint)) + " + ");
-			$pointInput.val("");
-			$spinner.remove();
+				user.points += diffPoint;
+
+				$spinner.remove();
+				$pointsLabel.text(user.points + " + ");
+			}
+
+			$pointInput.val("").trigger("input");
 		});
+
 		this.$userList.on("input", `input[type="number"]`, function() {
 			let value = this.value;
 
-			if (value == "") {
-				this.classList.remove("sg-input--valid", "sg-input--invalid");
-			} else if (value < 0) {
+			this.classList.remove("sg-input--valid", "sg-input--invalid");
+
+			if (value < 0) {
 				this.classList.add("sg-input--invalid");
-			} else {
+			} else if (value > 0) {
 				this.classList.add("sg-input--valid");
 			}
 		})
@@ -171,13 +185,21 @@ class PointChanger {
 	async FindID(id) {
 		let res = await getUserByID(id);
 
-		if (res && res.success) {
-			if (res.data instanceof Array) {
-				res.data.forEach(this.AddUser.bind(this));
+		if (res) {
+			if (!res.success) {
+				this.modal.notification(res.message || System.data.locale.common.notificationMessages.somethingWentWrong, "error");
 			} else {
-				this.AddUser(res.data);
+				if (res.data instanceof Array) {
+					res.data.forEach(this.AddUser.bind(this));
+				} else {
+					this.AddUser(res.data);
+					this.ClearIdInput();
+				}
 			}
 		}
+	}
+	ClearIdInput() {
+		this.$idInput.val("");
 	}
 	AddUser(user) {
 		let avatar = System.prepareAvatar(user);
@@ -201,9 +223,9 @@ class PointChanger {
 					</div>
 					<div class="sg-actions-list__hole">
 						<span class="sg-text sg-text--small sg-text--gray sg-text--bold js-points">${user.points} + </span>
-						<input type="number" class="sg-input sg-input--small" placeholder="Pts..">
+						<input type="number" class="sg-input sg-input--small" placeholder="${System.data.locale.common.shortPoints}..">
 						<div class="sg-spinner-container">
-							<button class="sg-button-secondary sg-button-secondary--small js-add-point">
+							<button class="sg-button-secondary sg-button-secondary--small js-add-point" title="${System.data.locale.core.pointChanger.addPoint}">
 								<div class="sg-icon sg-icon--adaptive sg-icon--x14">
 									<svg class="sg-icon__svg">
 										<use xlink:href="#icon-check"></use>
@@ -216,12 +238,14 @@ class PointChanger {
 		</div>`);
 
 		this.users.push(user.id);
-		this.ChangeAmountOfUser(+1);
+		this.ChangeAmountOfUser(1);
 		$node.prop("userData", user);
 		$node.insertBefore(this.$idInputContainer);
 	}
 	ChangeAmountOfUser(amount) {
 		let currentAmount = this.$amountOfUsers.text();
+		console.log(this.$amountOfUsers.text());
+		console.log(Number(currentAmount));
 
 		this.$amountOfUsers.text(Number(currentAmount) + amount);
 	}

@@ -2,7 +2,7 @@ import makeToplayer from "../Toplayer"
 import notification from "../../components/notification";
 
 class ModalToplayer {
-	constructor(heading, content, actions, { addAfter = "", size = "medium" }) {
+	constructor({heading, content, actions,  addAfter = "", size = "medium" }) {
 		this.$ = $(`
 		<div class="js-modal">
 			<div class="sg-overlay"></div>

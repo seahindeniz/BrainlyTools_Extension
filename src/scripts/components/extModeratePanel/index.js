@@ -7,7 +7,7 @@ import DeleteSection from "../DeleteSection";
 const createPanel = res => {
 	let questionOwner = res.users_data.find(user => user.id == res.data.task.user.id);
 	let ownerProfileLink = System.createBrainlyLink("profile", { nick: questionOwner.nick, id: questionOwner.id });
-	
+
 	let avatar = `<div class="sg-avatar__image sg-avatar__image--icon"><svg class="sg-icon sg-icon--gray sg-icon--x32"><use xlink:href="#icon-profile"></use></svg></div>`;
 	if (questionOwner.avatar) {
 		avatar = `<img class="sg-avatar__image" src="${System.prepareAvatar(questionOwner)}">`;
@@ -37,9 +37,8 @@ const createPanel = res => {
 		</div>`
 	});
 
-	
-	let toplayer = new Modal(
-		`<div class="sg-actions-list sg-actions-list--space-between">
+	let toplayer = new Modal({
+			heading: `<div class="sg-actions-list sg-actions-list--space-between">
 			<div class="sg-actions-list__hole">
 				<div class="sg-label sg-label--small sg-label--secondary">
 					<div class="sg-text sg-text--peach">${System.data.locale.common.moderating.editInPanel}</div>
@@ -57,7 +56,7 @@ const createPanel = res => {
 			</div>
 		</div>`,
 
-		`<div class="sg-content-box">
+			content: `<div class="sg-content-box">
 			<div class="question-header sg-content-box__title sg-content-box__title--spaced-bottom">
 				<div class="sg-actions-list sg-actions-list--space-between sg-actions-list--no-wrap">
 					<div class="sg-actions-list__hole">
@@ -104,30 +103,32 @@ const createPanel = res => {
 			<div class="sg-actions-list">${attachments}</div>
 		</div>`,
 
-		`<div class="sg-spinner-container">
+			actions: `<div class="sg-spinner-container">
 			<button class="sg-button-primary sg-button-primary--peach js-submit">${System.data.locale.common.moderating.confirm}</button>
-		</div>`/*,
+		</div>`
+		}
+		/*,
 
-		`<section class="js-react-taskline">
-			<div class="sg-layout__box">
-				<div class="sg-content-box">
-					<div class="sg-content-box">
-						<div class="sg-content-box sg-content-box--spaced-bottom">
-							<div class="sg-content-box__content">
-								<div class="sg-text sg-text--emphasised">10.09.2018</div>
-							</div>
-							<div class="sg-content-box sg-content-box--spaced">
-								<div class="sg-content-box__content">
-									<div><span class="sg-text sg-text--emphasised">23:52</span> <span class="sg-text"><a class="sg-link" href="/profil/traBolic-3546725">traBolic</a> sudah melaporkan tanggapan pengguna <a class="sg-link" href="/profil/Ghinatera-6362519">Ghinatera</a></span> <span class="sg-link sg-link--small">tampilkan</span> </div>
-									<div><span class="sg-text sg-text--emphasised">23:49</span> <span class="sg-text"><a class="sg-link" href="/profil/Ghinatera-6362519">Ghinatera</a> sudah menjawab pertanyaanmu</span> </div>
-									<div><span class="sg-text sg-text--emphasised">23:49</span> <span class="sg-text"><a class="sg-link" href="/profil/traBolic-3546725">traBolic</a> sudah menambah pertanyaan</span> </div>
+				`<section class="js-react-taskline">
+					<div class="sg-layout__box">
+						<div class="sg-content-box">
+							<div class="sg-content-box">
+								<div class="sg-content-box sg-content-box--spaced-bottom">
+									<div class="sg-content-box__content">
+										<div class="sg-text sg-text--emphasised">10.09.2018</div>
+									</div>
+									<div class="sg-content-box sg-content-box--spaced">
+										<div class="sg-content-box__content">
+											<div><span class="sg-text sg-text--emphasised">23:52</span> <span class="sg-text"><a class="sg-link" href="/profil/traBolic-3546725">traBolic</a> sudah melaporkan tanggapan pengguna <a class="sg-link" href="/profil/Ghinatera-6362519">Ghinatera</a></span> <span class="sg-link sg-link--small">tampilkan</span> </div>
+											<div><span class="sg-text sg-text--emphasised">23:49</span> <span class="sg-text"><a class="sg-link" href="/profil/Ghinatera-6362519">Ghinatera</a> sudah menjawab pertanyaanmu</span> </div>
+											<div><span class="sg-text sg-text--emphasised">23:49</span> <span class="sg-text"><a class="sg-link" href="/profil/traBolic-3546725">traBolic</a> sudah menambah pertanyaan</span> </div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			</div>
-		</section>`*/
+				</section>`*/
 	);
 
 	let $toplayer = toplayer.$;
@@ -138,12 +139,12 @@ const createPanel = res => {
 
 	DeleteSection(res.data.delete_reasons.task, "task").appendTo($toplayerContentBox);
 
-	if(!((brMatch && brMatch.length > 6) || $taskContentH1.text().length > 255)){
+	if (!((brMatch && brMatch.length > 6) || $taskContentH1.text().length > 255)) {
 		taskContent.removeClass("js-shrink")
 	}
 
 	let taskContentShowMore = $(".taskContent > span", $toplayer);
-	taskContentShowMore.click(function(){
+	taskContentShowMore.click(function() {
 		taskContent.removeClass("js-shrink")
 	});
 

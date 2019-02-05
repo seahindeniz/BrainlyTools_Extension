@@ -25,15 +25,15 @@ class PointChanger {
 	}
 	RenderModal() {
 		let nUsers = System.data.locale.core.pointChanger.nUsers.replace("%{n}", `<span>0</span>`);
-		this.modal = new ModalToplayer(
-			`<div class="sg-actions-list sg-actions-list--space-between">
+		this.modal = new ModalToplayer({
+			heading: `<div class="sg-actions-list sg-actions-list--space-between">
 				<div class="sg-actions-list__hole">
 					<div class="sg-label sg-label--small sg-label--secondary">
 						<div class="sg-text sg-text--peach">${System.data.locale.core.pointChanger.text}</div>
 					</div>
 				</div>
 			</div>`,
-			`<div class="sg-content-box">
+			content: `<div class="sg-content-box">
 				<div class="sg-content-box__content sg-content-box__content--spaced-top js-user-list">
 
 					<div class="sg-content-box id">
@@ -66,9 +66,8 @@ class PointChanger {
 					<blockquote class="sg-text sg-text--small">${System.data.locale.core.pointChanger.youNeedToEnterOrPaste}</blockquote>
 				</div>
 			</div>`,
-			``, {
-				size: "medium"
-			});
+			size: "medium"
+		});
 		this.$modal = this.modal.$;
 		this.$close = $(".sg-toplayer__close", this.$modal);
 		this.$addButton = $(".id button", this.$modal);

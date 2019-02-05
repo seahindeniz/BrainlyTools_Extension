@@ -6,15 +6,15 @@ import DeleteSection from "../../../../../components/DeleteSection";
 export default () => {
 	let questionsWillBeDeleted = System.data.locale.core.TaskDeleter.questionsWillBeDeleted.replace("%{n}", `<span>0</span>`);
 	let nHasBeenDeleted = System.data.locale.core.TaskDeleter.nHasBeenDeleted.replace("%{n}", `<b>0</b>`);
-	let modal = new Modal(
-		`<div class="sg-actions-list sg-actions-list--space-between">
+	let modal = new Modal({
+		heading: `<div class="sg-actions-list sg-actions-list--space-between">
 			<div class="sg-actions-list__hole">
 				<div class="sg-label sg-label--small sg-label--secondary">
 					<div class="sg-text sg-text--peach">${System.data.locale.core.TaskDeleter.text}</div>
 				</div>
 			</div>
 		</div>`,
-		`<div class="sg-content-box">
+		content: `<div class="sg-content-box">
 			<div class="sg-content-box__actions">
 				<div class="sg-textarea sg-textarea--full-width back" style="color: transparent;"></div>
 				<div class="sg-textarea js-id-input" contenteditable="true" style="position: absolute; background: transparent; width: 92%;" placeholder="${System.data.locale.core.TaskDeleter.questionsLinksOrIDs}"></div>
@@ -34,10 +34,10 @@ export default () => {
 			</div>
 			<div class="sg-content-box__actions deleteSection"></div>
 		</div>`,
-		`<div class="sg-spinner-container">
+		actions: `<div class="sg-spinner-container">
 			<button class="sg-button-primary sg-button-primary--peach js-submit">${System.data.locale.common.moderating.confirm}</button>
 		</div>`
-	);
+	});
 
 	DeleteSection(System.data.Brainly.deleteReasons.task, "task").appendTo($(".deleteSection", modal.$));
 

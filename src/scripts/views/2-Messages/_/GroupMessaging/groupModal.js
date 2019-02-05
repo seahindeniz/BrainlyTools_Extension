@@ -17,6 +17,7 @@ class GroupModal {
 		this.groupLi = groupLi;
 
 		this.CreateModal();
+		this.BindEvents();
 
 		return new Promise((resolve, reject) => {
 			this.resolve = resolve;
@@ -25,8 +26,8 @@ class GroupModal {
 	}
 	async CreateModal() {
 		//if (true) {
-		this.createGroupToplayer = new Modal( {
-			heading:	`<div class="sg-actions-list sg-actions-list--no-wrap">
+		this.createGroupToplayer = new Modal({
+			heading: `<div class="sg-actions-list sg-actions-list--no-wrap">
 				<div class="sg-actions-list__hole">
 					<h2 class="sg-header-secondary">${this.locale[this.group?"editGroup":"createGroup"]}</h2>
 				</div>
@@ -36,7 +37,7 @@ class GroupModal {
 					</div>
 				</div>
 			</div>`,
-			content:	`<div class="sg-actions-list sg-actions-list--space-between group-header sg-content-box__content--spaced-bottom">
+			content: `<div class="sg-actions-list sg-actions-list--space-between group-header sg-content-box__content--spaced-bottom">
 				<div class="sg-actions-list__hole">
 					<div class="sg-actions-list sg-actions-list--space-between sg-actions-list--no-wrap">
 						<div class="sg-actions-list__hole">
@@ -85,7 +86,8 @@ class GroupModal {
 					<ul class="sg-list sg-list--spaced-elements"></ul>
 				</div>
 			</div>`,
-			size: "limited-width" });
+			size: "limited-width"
+		});
 		//}
 		let $createGroupToplayer = this.createGroupToplayer.$;
 		this.$toplayerContainer = $(`<div class="js-toplayers-container"></div>`);
@@ -163,8 +165,6 @@ class GroupModal {
 				});
 			}
 		}
-
-		this.BindEvents();
 	}
 	BindEvents() {
 		let that = this;
@@ -226,7 +226,7 @@ class GroupModal {
 			let value = this.value && this.value.trim();
 
 			if (value && value.length > 0) {
-				firstLetter = value.charAt(0).toLocaleUpperCase(System.data.Brainly.defaultConfig.user.ME.user.isoLocale);
+				firstLetter = value.charAt(0).toLocaleUpperCase(System.data.Brainly.defaultConfig.user.ME.user.isoLocale.replace("_", "-"));
 			}
 
 			$firstLetter.text(firstLetter);

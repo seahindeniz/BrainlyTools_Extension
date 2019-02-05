@@ -8,9 +8,9 @@ function groupLi(group) {
 	}
 
 	if (group.title && group.title != "") {
-		firstLetter = group.title.charAt(0).toLocaleUpperCase(System.data.Brainly.defaultConfig.user.ME.user.isoLocale)
+		firstLetter = group.title.charAt(0).toLocaleUpperCase(System.data.Brainly.defaultConfig.user.ME.user.isoLocale.replace("_", "-"))
 	}
-	
+
 	let $conversation = $(`
 	<li class="sg-list__element js-group-conversation${group.pinned?" pinned":""}" data-group-id="${group._id}">
 		<div class="js-conversation-content sg-media sg-media--clickable ">

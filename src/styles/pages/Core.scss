@@ -69,7 +69,7 @@ div.counter {
 }
 
 .js-user-list {
-	input[type="number"]{
+	input[type="number"] {
 		width: 7em;
 	}
 }
@@ -433,4 +433,12 @@ body.mint {
 			width: 67%;
 		}
 	}
+}
+
+.reportedCommentsPanel {
+	width: 15.8em;
+}
+
+.mint .reportedCommentsPanel {
+	width: 23em;
 }

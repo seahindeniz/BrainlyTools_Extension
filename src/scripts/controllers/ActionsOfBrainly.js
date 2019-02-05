@@ -616,3 +616,17 @@ export async function UploadFile(file, onProgress) {
 export async function GetComments(model_id, type, amount) {
 	return Request.BrainlyAPI("GET", `/api_comments/index/${model_id}/${type}/${amount}`);
 }
+
+export async function GetReportedComments(last_id) {
+	let data = {
+		subject_id: 0,
+		category_id: 998,
+		schema: "moderation.index"
+	}
+
+	if (last_id) {
+		data.last_id = last_id;
+	}
+
+	return Request.BrainlyAPI("POST", `/moderation_new/get_comments_content`, data);
+}

@@ -33,7 +33,7 @@ const MessageSender = $seperator => {
 						<input type="button" class="sg-button-secondary sg-button-secondary--small sg-button-secondary--alt js-send" value="${System.data.locale.messages.groups.send}">
 					</div>
 					<div class="sg-actions-list__hole">
-						<input type="button" class="sg-button-secondary sg-button-secondary--small sg-button-secondary--peach js-hidden js-stop" value="${System.data.locale.core.MessageSender.stop}">
+						<input type="button" class="sg-button-secondary sg-button-secondary--small sg-button-secondary--peach js-hidden js-stop" value="${System.data.locale.common.stop}">
 					</div>
 				</div>
 			</div>

@@ -146,7 +146,8 @@ class _System {
 	 *
 	 * @param {number} milliseconds - Specify delay in milliseconds
 	 */
-	delay(milliseconds) {
+	delay(milliseconds = System.randomNumber(1000, 4000)) {
+
 		return new Promise((resolve) => setTimeout(resolve, milliseconds));
 	}
 	/* log(){

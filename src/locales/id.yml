@@ -15,6 +15,10 @@ common:
   show: Tampilkan
   remove: Menghapus
   select: Pilih
+  start: Dimulai
+  stop: Berhenti
+  # Short for points
+  shortPoints: Poin
   halloween:
     # On October 31 it's Halloween and I prepared a little suprise for extension users so bare with me :)
     imSorry: Mohon maaf jika kamu sedikit takut!
@@ -270,6 +274,8 @@ core:
     youNeedToEnterValidId: Kamu perlu unruk menginput nomor ID yang valid
     cantSendEmptyMessage: Kamu tidak dapat mengirim sebuah kosong
     tryingToSendTheSameMessage: "Kamu telah mencoba mengirim yang terakhir. Apakah kamu masih ingin mengirim?"
+    alreadyStarted: Proses telah dimulai
+    pointsAdded: Poin ditambahkan
   TaskDeleter:
     text: Penghapusan pertanyaan massal
     questionsLinksOrIDs: Tautan pertanyaan atau ID
@@ -283,7 +289,6 @@ core:
     text: Pengiriman pesan massal
     lastRegisteredUserId: "Masukkan ID user yang terakhir "
     information: "Dengan Fungsi ini kamu dapat mengirim pesan ke pengguna dengan menghitung mundur dari nomor id yang diberikan. Setelah kamu memulai proses dan jika ingin mengirim pesan ke nomor id, kamu harus menunggu dan jangan menutup halaman ini (ini termasuk komputer Anda juga) sampai proses selesai."
-    stop: Hentikan
   announcements:
     text: Pengumuman
     title: "Ketika kamu telah membaca pengumuman, kamu perlu untuk menandainya sebagai telah dibaca"
@@ -293,6 +298,15 @@ core:
     nUsers: "%{n} users"
     enterOrPasteUID: Masukkan dan paste profile ID pengguna
     youNeedToEnterOrPaste: Kamu harus memasukkan ID pengguna atau kamu dapat menempelkan daftar ID pengguna yang disalin ke dalam input
+    addPoint: Poin ditambahkan
+  reportedCommentsDeleter:
+    text: Menghapus komentar yang dilaporkan
+    description: "Kamu dapat menghapus semua komentar yang dilaporkan di Panal Moderasi Semua dengan satu klik. Kamu hanya perlu memulai dan membiarkan tab ini terbuka, itu saja."
+    deleting: Dihapus
+    stopped: Terhenti
+    numberOfPending: Tertunda
+    deleted: Dihapus
+    selectAReason: Pilih sebuah alasan
 home:
   todaysActions: Aksi hari ini
 messages:

@@ -15,6 +15,10 @@ common:
   show: Göster
   remove: Kaldır
   select: Seç
+  start: Başlat
+  stop: Durdur
+  # Short for points
+  shortPoints: Puan
   halloween:
     # On October 31 it's Halloween and I prepared a little suprise for extension users so bare with me :)
     imSorry: Üzgünüm eğer korkuttuysam!
@@ -270,6 +274,8 @@ core:
     youNeedToEnterValidId: Geçerli bir id numarası girmelisin
     cantSendEmptyMessage: Boş mesaj gönderemezsin
     tryingToSendTheSameMessage: "Son mesajı tekrar göndermeye çalışıyorsun. Göndermek istediğine emin misin?"
+    alreadyStarted: İşlem zaten başlatıldı
+    pointsAdded: Puanlar eklendi
   TaskDeleter:
     text: Çoklu soru silici
     questionsLinksOrIDs: Soru linki veya id numarası
@@ -283,7 +289,6 @@ core:
     text: Toplu özel mesaj gönder
     lastRegisteredUserId: Kayıtlı son kullanıcı id'sini gir
     information: "Bu özellik, girdiğin kullanıcı id'sinden geriye doğru sayarak yazdığın özel mesajı gönderir. İşleme başladığın anda ve eğer mesajların gönderilmesini halen istiyorsan, işlem sonlanana kadar sayfayı kapatmadan beklemelisin(aynı şekilde bilgisayarını da kapatmamalısın)."
-    stop: Durdur
   announcements:
     text: Duyurular
     title: Duyuruyu okuduktan sonra "okundu" olarak işaretlemeniz gerekiyor
@@ -293,6 +298,15 @@ core:
     nUsers: "%{n} kullanıcı"
     enterOrPasteUID: Kullanıcı id'si girin veya yapıştırın
     youNeedToEnterOrPaste: Kullanıcı id'si ni girebilir veya daha önce kopyaladığın kullanıcı id'lerini kutucuğa yapıştırabilirsin
+    addPoint: Puan ekle
+  reportedCommentsDeleter:
+    text: TD > Toplu yorum silici
+    description: "Tümünü düzelt içerisinde şikayet edilmiş olan tüm yorumları bir tıkla silebilirsin. Yapman gereken sadece işlemi başlatıp, ardından tarayıcı sekmesini açık tutmak."
+    deleting: Siliniyor
+    stopped: Durduruldu
+    numberOfPending: Bekleyen
+    deleted: Silindi
+    selectAReason: Silim sebebi seç
 home:
   todaysActions: Eylem sayısı
 messages:

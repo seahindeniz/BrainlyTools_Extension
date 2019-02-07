@@ -435,10 +435,14 @@ body.mint {
 	}
 }
 
-.reportedCommentsPanel {
+.reportedCommentsPanel,
+.reportedAnswersConfirmerPanel {
 	width: 15.8em;
 }
 
-.mint .reportedCommentsPanel {
-	width: 23em;
+.mint {
+	.reportedCommentsPanel,
+	.reportedAnswersConfirmerPanel {
+		width: 23em;
+	}
 }

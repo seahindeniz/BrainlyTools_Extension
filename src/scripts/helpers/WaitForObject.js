@@ -6,7 +6,7 @@ import MakeExpire from "./MakeExpire";
  * @param {number=} expireTime - Set number of expire in seconds
  * @param {boolean=} noError - Do something when elements are found
  **/
-export default function WaitForObject(expression, expireTime, noError = false) {
+export default function WaitForObject(expression, { expireTime, noError = false } = {}) {
 	if (typeof expireTime == "boolean") {
 		noError = expireTime;
 		expireTime = undefined;

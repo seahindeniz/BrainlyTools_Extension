@@ -135,8 +135,9 @@ class RankManager {
 			this.progress.$container.appendTo(this.$progressHole);
 
 			let removeAllRanksXHR = await RemoveAllRanks(window.profileData.id, formData);
+			let redirectedUserID = System.ExtractId(removeAllRanksXHR.responseURL);
 
-			if (removeAllRanksXHR.responseURL != System.createProfileLink(profileData.nick, profileData.id)) {
+			if (redirectedUserID != profileData.id) {
 				notification(System.data.locale.common.notificationMessages.somethingWentWrongPleaseRefresh, "error");
 			} else {
 				this.progress.update(1);

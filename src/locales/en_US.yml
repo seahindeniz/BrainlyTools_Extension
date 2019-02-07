@@ -180,6 +180,8 @@ popup:
         - 7
         - 13
         - 9
+        - 17
+        - 18
       privilegeList:
         "0":
           title: Extension admin
@@ -232,6 +234,12 @@ popup:
         "16":
           title: Selective comment deletion
           description: On the user contents page, user can use the selective deletion function to delete selected comments
+        "17":
+          title: Reported comments deleter
+          description: User can use this function to delete all the reported comments from Moderate All
+        "18":
+          title: Reported answers confirmer
+          description: User can use this function to confirm reported answers from Moderate All by filtering
     announcements:
       text: Announcements
       addNewAnnouncement: Add a new announcement
@@ -307,6 +315,10 @@ core:
     numberOfPending: Pending
     deleted: Deleted
     selectAReason: Select a reason
+  reportedAnswersConfirmer:
+    text: Reported answers confirmer
+    description: You can confirm reported answers in Moderate All by filtering. You just need to select and add informations related the answers and click start and keep this tab open that's all.
+
 home:
   todaysActions: Today's actions
 messages:

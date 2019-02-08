@@ -1,18 +1,17 @@
 "use strict";
 
-import { ChangeBio } from "../../controllers/ActionsOfBrainly";
 import notification from "../../components/notification";
+import { ChangeBio } from "../../controllers/ActionsOfBrainly";
 
-export default description => {
+export default (bioText = "") => {
 	let $userBio = $(`
 	<div class="userBio" title="${System.data.locale.userProfile.userBio.description}">
 		<b>${System.data.locale.userProfile.userBio.title}:</b>
-		<pre class="sg-text sg-text--xsmall bio-content"${myData.id ==profileData.id ? " contenteditable":""}>${description || " -"}</pre>
+		<pre class="sg-text sg-text--xsmall bio-content"${myData.id ==profileData.id ? " contenteditable":""}>${bioText || " -"}</pre>
 	</div>`);
 
 	let $bioContent = $(".bio-content[contenteditable]", $userBio);
 
-	let bioVal = description || ""
 	$bioContent.on({
 		mousedown: function() {
 			if (this.innerText == "-" || this.innerText == " -") {
@@ -20,10 +19,10 @@ export default description => {
 			}
 		},
 		blur: async function() {
-			if (bioVal.replace(/<br\s*[\/]?>/gi, "\n") != this.innerText) {
-				this.innerText = bioVal = this.innerText.trim();
+			if (bioText.replace(/<br\s*[\/]?>/gi, "\n") != this.innerText) {
+				this.innerText = bioText = this.innerText.trim();
 
-				let resBio = await ChangeBio(bioVal.replace(/\n/gm, "\\n"));
+				let resBio = await ChangeBio(bioText.replace(/\n/gm, "\\n"));
 
 				if (resBio.errors) {
 					notification(System.data.locale.userProfile.notificationMessages.cannotChangeBio, "error");
@@ -32,7 +31,7 @@ export default description => {
 				}
 			}
 
-			if (bioVal == "") {
+			if (bioText == "") {
 				this.innerText = " -";
 			}
 		},

@@ -30,9 +30,11 @@ async function UserProfile() {
 async function userInfosFromExtensionServer(mainRight) {
 	let resUser = await PassUser(profileData.id, profileData.nick);
 
-	if (resUser.success) {
+	if (!resUser.success) {
+		console.warn("User can't passed to extension server");
+	}else{
 		let user = resUser.data;
-		let $userNoteContainer = $(`<div class="userNoteContainer"><h3 class="bold dark_grey" title="${System.data.locale.common.personalNote.title}">${System.data.locale.common.personalNote.placeholder}</h3></div>`);
+		let $userNoteContainer = $(`<div class="userNoteContainer"><h3 class="bold dark_grey" title="${System.data.locale.common.personalNote.title}">${System.data.locale.common.personalNote.text}</h3></div>`);
 
 		if (user) {
 			probatus = user.probatus;
@@ -49,12 +51,15 @@ async function userInfosFromExtensionServer(mainRight) {
 
 async function userInfosFromBrainlyServer() {
 	let res = await getUserByID(profileData.id);
+	let data = res.data;
 
-	if (res && res.success && res.data) {
-		gender = res.data.gender;
+	if (!res || !res.success || !data) {
+		console.error("Data is not correct: ", res);
+	} else {
+		gender = data.gender;
 
 		RenderFlags(probatus, gender);
-		UserBio(res.data.description);
-		new RankManager(res.data);
+		UserBio(data.description);
+		new RankManager(data);
 	}
 }

@@ -41,14 +41,15 @@ class Core {
 
 		await SetBrainlyData();
 
-		this.SetMarketConfig();
-		this.PrepareLanguageData();
+		await this.SetMarketConfig();
+		await this.PrepareLanguageData();
 
 		await System.ShareSystemDataToBackground();
 
 		await Auth();
 		await this.CheckForNewUpdate();
-		this.AuthDone();
+
+		System.toBackground("notifierInit", true);
 
 		await WaitForObject("jQuery");
 		Console.info("Jquery OK!");
@@ -65,6 +66,8 @@ class Core {
 	}
 	async SetMarketConfig() {
 		System.data.config.marketConfig = await InjectToDOM(`/config/${location.hostname}.json`);
+
+		return Promise.resolve();
 	}
 	async PrepareLanguageData() {
 		let language = await storage("get", "language");
@@ -81,6 +84,8 @@ class Core {
 
 		System.data.locale = await System.prepareLangFile(language);
 		Console.info("Locale inject OK!");
+
+		return Promise.resolve();
 	}
 	CheckForNewUpdate() {
 		return new Promise((resolve, reject) => {
@@ -92,9 +97,6 @@ class Core {
 				resolve();
 			}
 		});
-	}
-	AuthDone() {
-		System.toBackground("notifierInit", true);
 	}
 	async RenderEventCelebrating() {
 		/*let _date = new Date();

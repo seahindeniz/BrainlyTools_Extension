@@ -4,7 +4,7 @@ export default (user) => {
 	let $userNoteBox = $(`
 	<div class="sg-actions-list__hole userNoteBox">
 		<div class="sg-header-secondary">
-			<textarea class="sg-textarea inputNote" placeholder="${System.data.locale.common.personalNote.placeholder}" title="${System.data.locale.common.personalNote.title}" maxlength="1000">${user.note || ""}</textarea>
+			<textarea class="sg-textarea inputNote" placeholder="${System.data.locale.common.personalNote.writeSomething}.." title="${System.data.locale.common.personalNote.title}" maxlength="1000">${user.note || ""}</textarea>
 		</div>
 	</div>`);
 

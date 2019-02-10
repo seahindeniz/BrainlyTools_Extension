@@ -93,7 +93,11 @@ const Request = {
 	},
 	async get(path, json = false) {
 		let data;
-		let response = await fetch(path);
+		let response = await fetch(path, {
+			headers: {
+				"x-requested-with": "XMLHttpRequest"
+			}
+		});
 
 		if (json)
 			data = response.json();

@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.15.0] - 2019.02.10
+
+### Added
+
+- [ADD#2] Reported comments deleter
+
+### Changed
+
+- [FIX#4] Mass Point Changer (Partially)
+- [FIX#7] Mass-Question deleter issue
+- [FIX#6] Group message sender, can't able to create group
+- [FIX#15] Bio Section of Brainly's Profile Not visible
+- [FIX#19] More Options tools not opening
+
 ## [6.14.1] - 2019.02.03
 
 ### Changed

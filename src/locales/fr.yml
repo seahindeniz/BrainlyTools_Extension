@@ -15,6 +15,10 @@ common:
   show: Montrer
   remove: Supprimer
   select: Sélectionner
+  start: Débuter
+  stop: Stopper
+  # Short for points
+  shortPoints: Pts
   halloween:
     # On October 31 it's Halloween and I prepared a little suprise for extension users so bare with me :)
     imSorry: Je suis désolé de vous avoir effrayé !
@@ -270,6 +274,8 @@ core:
     youNeedToEnterValidId: Vous devez entrer un ID valide
     cantSendEmptyMessage: Vous ne pouvez pas envoyer un message vide
     tryingToSendTheSameMessage: "Vous essayez d'envoyer le dernier message une autre fois. Voulez-vous continuer ?"
+    alreadyStarted: Le processus a déjà commencé
+    pointsAdded: Les points ont été ajoutés
   TaskDeleter:
     text: Suppression massive de questions
     questionsLinksOrIDs: Liens des questions ou IDs
@@ -283,7 +289,6 @@ core:
     text: Messagerie de masse
     lastRegisteredUserId: Entrer l'ID du dernier utilisateur enregistré
     information: Cette fonction peut envoyer votre message aux utilisateurs en comptant en arrière à partir de l'ID donné. Une fois que vous avez démarré le processus vous devez attendre et ne pas fermer cette page (ne pas éteindre votre ordinateur) jusqu'à la fin du processus.
-    stop: Stop
   announcements:
     text: Annonces
     title: Une fois que tu as lu l'annonce tu dois la marquer comme lu
@@ -293,6 +298,15 @@ core:
     nUsers: "%{n} utilisateurs"
     enterOrPasteUID: Entrer ou coller l'ID du profil
     youNeedToEnterOrPaste: Vous devez entrer un ID d'utilisateur valide
+    addPoint: Ajouter des points
+  reportedCommentsDeleter:
+    text: Les commentaires signalés ont été supprimés
+    description: Vous pouvez supprimer tous les commentaires signalés dans le Tout Modérer en un clic. Vous avez juste à débuter le processus et ne pas fermer cet onglet.
+    deleting: Suppression
+    stopped: Stopper
+    numberOfPending: En attente
+    deleted: Supprimé
+    selectAReason: Sélectionner une raison
 home:
   todaysActions: Actions du jour
 messages:

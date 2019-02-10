@@ -28,8 +28,11 @@ let html = document.documentElement;
 
 if (!html.getAttribute("extension")) {
 	System.changeBadgeColor("loading");
-	InjectToDOM("/scripts/lib/prototypeOverrides.js");
-	InjectToDOM(["/scripts/views/0-Core/index.js", "/styles/pages/Core.css"]);
+	InjectToDOM([
+		"/scripts/lib/prototypeOverrides.js",
+		"/scripts/views/0-Core/index.js",
+		"/styles/pages/Core.css"
+	]);
 } else {
 	System.changeBadgeColor("loaded");
 }

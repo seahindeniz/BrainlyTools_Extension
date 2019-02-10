@@ -1,8 +1,8 @@
 "use strict";
 
 import WaitForElement from "./WaitForElement";
-import MakeExpire from "./MakeExpire";
 import Color from "color";
+import TimedLoop from "./TimedLoop";
 
 const DEFAULT_THEME_COLOR = "#57b2f8";
 
@@ -42,14 +42,8 @@ export default async (primaryColor, isPreview) => {
 
 	let personalColors = `
 @keyframes BackgroundAnimation {
-  0% {
-    background-position: 51% 0%
-  }
   50% {
-    background-position: 50% 100%
-  }
-  100% {
-    background-position: 51% 0%
+    background-position: 0% 100%
   }
 }
 .sg-header__container,
@@ -61,8 +55,10 @@ export default async (primaryColor, isPreview) => {
 #html .mint #footer,
 .sg-box--blue {
 	${background}
-	background-size: 1% 1000%;
+	background-size: 1% 10000%;
 	animation: BackgroundAnimation ${easeSpeed}s ease infinite;
+	transform: translateZ(0);
+	will-change: background-position;
 }
 
 .sg-menu-list__link,
@@ -113,12 +109,7 @@ div#content-old .editProfileContent .profileListEdit,
 
 		}
 
-		let _loop_personalColors_expire = MakeExpire(6);
-		let _loop_personalColors = setInterval(() => {
-			if (_loop_personalColors_expire < new Date().getTime()) {
-				clearInterval(_loop_personalColors);
-			}
-
+		TimedLoop(() => {
 			$personalColors.parentNode && $personalColors.parentNode.appendChild($personalColors);
 		});
 	}

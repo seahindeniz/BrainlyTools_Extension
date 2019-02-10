@@ -1,6 +1,6 @@
 {
 	"name": "brainly_tools",
-	"version": "6.14.1",
+	"version": "6.15.0",
 	"description": "A toolbox for Brainly markets. It helps moderators for doing some quick actions and more..",
 	"license": "SEE LICENSE IN LICENSE.md",
 	"scripts": {
@@ -68,6 +68,6 @@
 		"moment-timezone": "^0.5.23",
 		"prettysize": "^2.0.0",
 		"throttle-debounce": "^2.1.0",
-		"webextension-polyfill": "^0.3.1"
+		"webextension-polyfill": "^0.4.0"
 	}
 }

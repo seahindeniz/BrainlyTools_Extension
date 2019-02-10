@@ -1,6 +1,7 @@
 import WaitForObject from "./WaitForObject";
+import TimedLoop from "./TimedLoop";
 
-function injectIt(path, attachExtensionId) {
+function injectIt(path, { attachExtensionId, makeItLastElement } = {}) {
 	return new Promise(async (resolve, reject) => {
 		let fileName = path.split(".");
 
@@ -62,11 +63,21 @@ function injectIt(path, attachExtensionId) {
 					if (fileExtension == "css") {
 						let head = await WaitForObject("document.head");
 
-						head && head.prepend(link);
+						head && head.append(link);
+
+						if (makeItLastElement && head)
+							TimedLoop(() => {
+								head && head.append(link);
+							});
 					} else {
 						let html = document.documentElement;
 
 						html && html.appendChild(link);
+
+						if (makeItLastElement && html)
+							TimedLoop(() => {
+								html && html.appendChild(link);
+							});
 					}
 
 					resolve(link);
@@ -83,20 +94,20 @@ function injectIt(path, attachExtensionId) {
 /**
  * Injects a script into DOM
  * @param {string|string[]} filePath - Path of inject file
- * @param {boolean} attachExtensionId - To adding an attribute contains the id key of the extension
+ * @param {object} options - To adding an attribute contains the id key of the extension
  * @returns {Promise} - Check whether if file injected or not
  **/
-export default function InjectToDOM(filePath, attachExtensionId) {
+export default function InjectToDOM(filePath, options) {
 	let result = new Error("File path is required");
 
 	if (filePath && filePath.length > 0) {
 		if (typeof filePath == "string") {
-			result = injectIt(filePath, attachExtensionId);
+			result = injectIt(filePath, options);
 		} else {
 			result = [];
 
 			filePath.forEach(path => {
-				result.push(injectIt(path, attachExtensionId));
+				result.push(injectIt(path, options));
 			});
 		}
 	}

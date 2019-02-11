@@ -16,7 +16,7 @@ class ModalToplayer {
 		let $notification = notification(message, type, permanent);
 
 		if ($notification) {
-			let $closeIcon = $(".sg-toplayer__close", this.$);
+			let $closeIcon = $(".sg-toplayer--modal > .sg-toplayer__close", this.$);
 
 			$notification.css("z-index", 2);
 			$notification.insertBefore($closeIcon);

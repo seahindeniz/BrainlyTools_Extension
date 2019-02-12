@@ -12,6 +12,7 @@ export default async (primaryColor, isPreview) => {
 	let fontColor = "#fff";
 	let easeSpeed = 4.5;
 	let localStoredColor = localStorage.getItem("themeColor");
+	let animation = "";
 
 	if (primaryColor != localStoredColor && !isPreview) {
 		localStorage.setItem("themeColor", primaryColor);
@@ -38,6 +39,11 @@ export default async (primaryColor, isPreview) => {
 	} else {
 		easeSpeed = 6;
 		background = `background: linear-gradient(180deg, ${rainbow}); color: #fff !important;`;
+		animation = `
+		animation: BackgroundAnimation ${easeSpeed}s ease infinite;
+		transform: translateZ(0);
+		will-change: background-position;
+		background-size: 1% 10000%;`;
 	}
 
 	let personalColors = `
@@ -55,10 +61,7 @@ export default async (primaryColor, isPreview) => {
 #html .mint #footer,
 .sg-box--blue {
 	${background}
-	background-size: 1% 10000%;
-	animation: BackgroundAnimation ${easeSpeed}s ease infinite;
-	transform: translateZ(0);
-	will-change: background-position;
+	${animation}
 }
 
 .sg-menu-list__link,
@@ -111,6 +114,6 @@ div#content-old .editProfileContent .profileListEdit,
 
 		TimedLoop(() => {
 			$personalColors.parentNode && $personalColors.parentNode.appendChild($personalColors);
-		});
+		},10);
 	}
 }

@@ -1,7 +1,8 @@
-import { RemoveAnswer } from "../../../controllers/ActionsOfBrainly";
+import { RemoveAnswer, CloseModerationTicket } from "../../../controllers/ActionsOfBrainly";
 import Buttons from "../../../components/Buttons";
 import WaitForObject from "../../../helpers/WaitForObject";
 import WaitForElement from "../../../helpers/WaitForElement";
+import notification from "../../../components/notification";
 
 /**
  * Prepare and add quick delete buttons to answer boxes
@@ -72,7 +73,9 @@ export default async function responseSection() {
 				let res = await RemoveAnswer(responseData);
 				await CloseModerationTicket(taskId);
 
-				if (res && res.success) {
+				if (!res || !res.success) {
+					notification((res && res.message) || System.data.locale.common.notificationMessages.somethingWentWrong, "error");
+				} else {
 					parentResponseContainer.addClass("brn-question--deleted");
 					$(selectors.responseModerateButtonContainer, parentResponseContainer).remove();
 					$responseModerateButtons.remove();

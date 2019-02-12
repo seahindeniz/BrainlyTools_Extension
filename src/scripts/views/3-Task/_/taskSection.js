@@ -54,16 +54,12 @@ export default function taskSection() {
 
 				CloseModerationTicket(question_id);
 
-				if (res) {
-					if (res.success) {
-						parentArticle.addClass("brn-question--deleted");
-						$(selectors.taskModerateButton).remove();
-						$taskModerateButtons.remove();
-					} else if (res.message) {
-						notification(res.message, "error");
-					}
+				if (!res || !res.success) {
+					notification((res && res.message) || System.data.locale.common.notificationMessages.somethingWentWrong, "error");
 				} else {
-					notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
+					parentArticle.addClass("brn-question--deleted");
+					$(selectors.taskModerateButton).remove();
+					$taskModerateButtons.remove();
 				}
 
 				spinner.remove();

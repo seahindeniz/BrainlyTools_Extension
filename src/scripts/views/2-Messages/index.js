@@ -28,7 +28,7 @@ function Messages() {
 		let $textarea = $(selectors.textarea);
 		let value = $textarea.val() || "";
 
-		if (value.trim() != "" || window.isPageProcessing) {
+		if (value.trim() != "") {
 			return System.data.locale.messages.notificationMessages.unsendedMessage;
 		}
 	}

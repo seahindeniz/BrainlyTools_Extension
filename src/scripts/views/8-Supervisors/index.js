@@ -126,15 +126,7 @@ async function Supervisors() {
 				let $messageBox = $("> div.messageBox", $sendMessage);
 				let $messageInput = $("> div.messageBox > textarea", $sendMessage);
 				let $sendButton = $("> div.messageBox > div > button", $sendMessage);
-				let isSending = false;
 
-				$sendMessage.appendTo($actionBox);
-
-				window.onbeforeunload = function() {
-					if (isSending) {
-						return System.data.locale.common.notificationMessages.ongoingProcess;
-					}
-				}
 				/**
 				 * Message box visibility
 				 */
@@ -156,7 +148,7 @@ async function Supervisors() {
 						users = System.allModerators.list
 					}
 
-					if (isSending) {
+					if (window.isPageProcessing) {
 						notification(System.data.locale.common.notificationMessages.ongoingProcessWait, "info");
 					} else if ($messageInput.val() == "") {
 						notification(System.data.locale.supervisors.notificationMessages.emptyMessage, "info");
@@ -165,7 +157,7 @@ async function Supervisors() {
 						notification(System.data.locale.supervisors.notificationMessages.noUser, "info");
 						$rankSelect.focus();
 					} else {
-						isSending = true;
+						window.isPageProcessing = true;
 						let message = $messageInput.val();
 						let idList = users.map(user => user.id);
 						let idListLen = idList.length;
@@ -192,7 +184,7 @@ async function Supervisors() {
 
 						await sendMessageToBrainlyIds(idList, message, doInEachSending);
 
-						isSending = false;
+						window.isPageProcessing = false;
 
 						$spinner.remove();
 						$messageInput.val("");

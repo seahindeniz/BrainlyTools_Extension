@@ -9,13 +9,6 @@ let selectors = window.selectors,
 
 let $tableContentBody = $(selectors.tableContentBody);
 let $contentRows = $(selectors.contentRows);
-let isPageProcessing = false;
-
-window.onbeforeunload = function() {
-	if (isPageProcessing) {
-		return System.data.locale.common.notificationMessages.ongoingProcess;
-	}
-}
 
 let $deleteSection = DeleteSection(System.data.Brainly.deleteReasons.task, "task");
 let $categories = $(".categories", $deleteSection);
@@ -67,7 +60,7 @@ $submit.click(function() {
 
 				$progressBarContainer.show();
 
-				isPageProcessing = true;
+				window.isPageProcessing = true;
 				let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner"></div></div>`).insertAfter($submit);
 				let counter = 0;
 
@@ -78,7 +71,7 @@ $submit.click(function() {
 						$spinner.remove();
 						$progressBar.attr("data-label", System.data.locale.common.allDone)
 						$progressBar.attr("class", "progress is-success");
-						isPageProcessing = false;
+						window.isPageProcessing = false;
 					}
 				}
 
@@ -105,7 +98,7 @@ $submit.click(function() {
 					updateCounter();
 
 					if (!res) {
-						notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
+						notification(res.message || System.data.locale.common.notificationMessages.somethingWentWrong, "error");
 					} else {
 						if (!res.success && res.message) {
 							notification("#" + rowNumber + " > " + res.message, "error");

@@ -9,13 +9,6 @@ let selectors = window.selectors;
 let $moderateActions = window.$moderateActions;
 
 let $tableContentBody = $(selectors.tableContentBody);
-let isPageProcessing = false;
-
-window.onbeforeunload = function() {
-	if (isPageProcessing) {
-		return System.data.locale.common.notificationMessages.ongoingProcess;
-	}
-}
 
 class Comments {
 	constructor() {
@@ -266,7 +259,7 @@ class Comments {
 
 						$progressBarContainer.show();
 
-						isPageProcessing = true;
+						window.isPageProcessing = true;
 						let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner"></div></div>`).insertAfter(this.$submit);
 						let counter = 0;
 
@@ -277,7 +270,7 @@ class Comments {
 								$spinner.remove();
 								$progressBar.attr("data-label", System.data.locale.common.allDone)
 								$progressBar.attr("class", "progress is-success");
-								isPageProcessing = false;
+								window.isPageProcessing = false;
 							}
 						}
 

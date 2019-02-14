@@ -10,7 +10,7 @@ import themeColorChanger from "../../helpers/themeColorChanger";
 import messagesLayoutExtender from "../../helpers/messagesLayoutExtender";
 import renderExtraItemsForModerationPanel from "./_/ExtraItemsForModerationPanel";
 import renderAnnouncements from "./_/Announcements";
-import renderChatPanel from "./_/ChatPanel";
+//import renderChatPanel from "./_/ChatPanel";
 import RenderMenuButtonFixer from "./_/MenuButtonFixer";
 import { Auth } from "../../controllers/ActionsOfServer";
 import { getAllModerators } from "../../controllers/ActionsOfBrainly"
@@ -27,6 +27,18 @@ window.System = System;
 
 window.selectors = {
 	toplayerContainer: "body > div.js-page-wrapper"
+}
+
+window.onbeforeunload = function() {
+	if (window.isPageProcessing) {
+		let message = System.data.locale.common.notificationMessages.ongoingProcess;
+
+		if (typeof window.isPageProcessing == "string") {
+			message = window.isPageProcessing;
+		}
+
+		return message;
+	}
 }
 
 class Core {

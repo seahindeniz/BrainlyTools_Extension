@@ -9,13 +9,7 @@ let selectors = window.selectors,
 
 let $contentRows = $(selectors.contentRows);
 let $tableContentBody = $(selectors.tableContentBody);
-let isPageProcessing = false;
 
-window.onbeforeunload = function() {
-	if (isPageProcessing) {
-		return System.data.locale.common.notificationMessages.ongoingProcess;
-	}
-}
 /**
  * Action buttons
  */
@@ -50,7 +44,7 @@ if (System.checkUserP(6) && System.checkBrainlyP(146)) {
 	$btnApprove.appendTo($actionsList);
 
 	$("button.approve", $btnApprove).click(function() {
-		if (isPageProcessing) {
+		if (window.isPageProcessing) {
 			notification(System.data.locale.common.notificationMessages.ongoingProcessWait, "error");
 		} else {
 			let $checkedContentSelectCheckboxes = $('tr:not(.approved) input[type="checkbox"]:checked:not([disabled])', $tableContentBody);
@@ -77,7 +71,7 @@ if (System.checkUserP(6) && System.checkBrainlyP(146)) {
 
 					$progressBarContainer.show();
 
-					isPageProcessing = true;
+					window.isPageProcessing = true;
 					let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner"></div></div>`).insertAfter(this);
 					let counter = 0;
 
@@ -90,7 +84,7 @@ if (System.checkUserP(6) && System.checkBrainlyP(146)) {
 							$spinner.remove();
 							$progressBar.attr("data-label", System.data.locale.common.allDone)
 							$progressBar.attr("class", "progress is-success");
-							isPageProcessing = false;
+							window.isPageProcessing = false;
 						}
 					}
 					let approveIt = async function(that) {
@@ -122,7 +116,7 @@ if (System.checkUserP(6) && System.checkBrainlyP(146)) {
 		}
 	});
 	$("button.unapprove", $btnApprove).click(function() {
-		if (isPageProcessing) {
+		if (window.isPageProcessing) {
 			notification(System.data.locale.common.notificationMessages.ongoingProcessWait, "error");
 		} else {
 			let $unapprovedContents = $('tr:not(.approved) input[type="checkbox"]:checked:not([disabled])', $tableContentBody);
@@ -149,7 +143,7 @@ if (System.checkUserP(6) && System.checkBrainlyP(146)) {
 
 					$progressBarContainer.show();
 
-					isPageProcessing = true;
+					window.isPageProcessing = true;
 					let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner"></div></div>`).insertAfter(this);
 					let counter = 0;
 
@@ -162,7 +156,7 @@ if (System.checkUserP(6) && System.checkBrainlyP(146)) {
 							$spinner.remove();
 							$progressBar.attr("data-label", System.data.locale.common.allDone)
 							$progressBar.attr("class", "progress is-success");
-							isPageProcessing = false;
+							window.isPageProcessing = false;
 						}
 					}
 					let unapproveIt = async that => {
@@ -225,7 +219,7 @@ System.checkUserP(2, () => {
 	let $submit = $(".js-submit", $submitContainer);
 
 	$submit.click(function() {
-		if (isPageProcessing) {
+		if (window.isPageProcessing) {
 			notification(System.data.locale.common.notificationMessages.ongoingProcessWait, "error");
 		} else {
 			let $checkedContentSelectCheckboxes = $('input[type="checkbox"]:checked:not([disabled])', $tableContentBody);
@@ -261,7 +255,7 @@ System.checkUserP(2, () => {
 
 						$progressBarContainer.show();
 
-						isPageProcessing = true;
+						window.isPageProcessing = true;
 						let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner"></div></div>`).insertAfter(this);
 						let counter = 0;
 
@@ -274,7 +268,7 @@ System.checkUserP(2, () => {
 								$spinner.remove();
 								$progressBar.attr("data-label", System.data.locale.common.allDone)
 								$progressBar.attr("class", "progress is-success");
-								isPageProcessing = false;
+								window.isPageProcessing = false;
 							}
 						}
 

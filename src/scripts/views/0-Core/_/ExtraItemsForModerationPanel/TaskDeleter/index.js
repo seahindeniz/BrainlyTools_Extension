@@ -3,14 +3,6 @@
 import renderModal from "./modal";
 import { RemoveQuestion, CloseModerationTicket } from "../../../../../controllers/ActionsOfBrainly";
 
-let isPageProcessing = false;
-
-window.onbeforeunload = function() {
-	if (isPageProcessing) {
-		return System.data.locale.common.notificationMessages.ongoingProcess;
-	}
-}
-
 const TaskDeleter = $seperator => {
 	let $taskDeleterLink;
 
@@ -104,7 +96,7 @@ const TaskDeleter = $seperator => {
 						take_points: $take_points.is(':checked'),
 						return_points: $return_points.is(':checked')
 					};
-					isPageProcessing = true;
+					window.isPageProcessing = true;
 					let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner"></div></div>`).insertAfter($confirmButton);
 					let counter = 0;
 
@@ -115,7 +107,7 @@ const TaskDeleter = $seperator => {
 
 						if (counter == idList.length) {
 							$spinner.remove();
-							isPageProcessing = false;
+							window.isPageProcessing = false;
 							modal.notification(System.data.locale.core.notificationMessages.deleteProcessDone, "success");
 						}
 					}

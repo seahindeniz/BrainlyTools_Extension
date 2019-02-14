@@ -52,14 +52,7 @@ const MessageSender = $seperator => {
 		let $messageInput = $(".message", $messageSenderLi);
 		let $sendButton = $(`input.js-send`, $messageSenderLi);
 		let $stopButton = $(`input.js-stop`, $messageSenderLi);
-		let isSending = false;
 		let $spinner;
-
-		window.onbeforeunload = function() {
-			if (isSending) {
-				return System.data.locale.common.notificationMessages.ongoingProcess;
-			}
-		}
 
 		/**
 		 * Show message sender box
@@ -121,7 +114,7 @@ const MessageSender = $seperator => {
 			}
 
 			clearInterval(_loop_sendMessage);
-			isSending = false;
+			window.isPageProcessing = false;
 			$spinner.remove();
 		}
 		$stopButton.click(stopButtonHandler);
@@ -150,10 +143,10 @@ const MessageSender = $seperator => {
 			} else if (
 				forceStart === true || forceStart === false && (
 					message != lastMessage ||
-					(message == lastMessage && !isSending && confirm(System.data.locale.core.notificationMessages.tryingToSendTheSameMessage)))
+					(message == lastMessage && !window.isPageProcessing && confirm(System.data.locale.core.notificationMessages.tryingToSendTheSameMessage)))
 			) {
 				forceStart = false;
-				isSending = true;
+				window.isPageProcessing = true;
 				$userIdContainer.removeClass("sg-actions-list__hole--grow");
 				$counter.show();
 				$stopButton.removeClass("js-hidden");
@@ -173,7 +166,7 @@ const MessageSender = $seperator => {
 					},
 					done: idList => {
 						console.log(idList);
-						isSending = false;
+						window.isPageProcessing = false;
 
 						$spinner.remove();
 						$messageInput.prop("disabled", false);

@@ -5,7 +5,7 @@ import renderUserFinder from "./UserFinder";
 import renderTaskDeleter from "./TaskDeleter"
 import PointChanger from "./PointChanger"
 import ReportedCommentsDeleter from "./ReportedCommentsDeleter";
-import ReportedAnswersConfirmer from "./ReportedAnswersConfirmer2";
+import ReportedContentsConfirmer from "./ReportedContentsConfirmer";
 //import renderMessageSender from "./MessageSender"
 import WaitForObject from "../../../../helpers/WaitForObject";
 
@@ -13,29 +13,38 @@ export default async () => {
 	let $seperator = renderModerationPanelSeperator();
 
 	if ($seperator && $seperator.length > 0) {
-		renderUserFinder($seperator);
+		LoadItems($seperator);
+		await WaitForObject("window.System.data.Brainly.deleteReasons.__withTitles.comment", { noError: true });
+		LoadItemsAfterDeleteReasonsLoaded($seperator);
+	}
+}
 
-		/* if (System.checkUserP(9)) {
-			renderMessageSender($seperator);
-		} */
+function IsCurrentPageNotLegacy($seperator) {
+	return $seperator.parents(".brn-moderation-panel__list").length > 0
+}
 
-		if ($seperator.parents(".brn-moderation-panel__list").length > 0) {
-			if (System.checkUserP(7)) {
-				renderTaskDeleter($seperator);
-			}
+function LoadItems($seperator) {
+	renderUserFinder($seperator);
+	/* if (System.checkUserP(9)) {
+		renderMessageSender($seperator);
+	} */
+	if (IsCurrentPageNotLegacy($seperator)) {
+		if (System.checkUserP(7)) {
+			renderTaskDeleter($seperator);
+		}
 
-			if (System.checkUserP(13)) {
-				$seperator.before(new PointChanger());
-			}
+		if (System.checkUserP(13)) {
+			$seperator.before(new PointChanger());
 		}
 
 		if (System.checkUserP(18)) {
-			$seperator.before(new ReportedAnswersConfirmer());
+			$seperator.before(new ReportedContentsConfirmer());
 		}
+	}
+}
 
-		await WaitForObject("window.System.data.Brainly.deleteReasons.__withTitles.comment", { noError: true });
-		if (System.checkUserP(17)) {
-			$seperator.before(new ReportedCommentsDeleter());
-		}
+function LoadItemsAfterDeleteReasonsLoaded($seperator) {
+	if (System.checkUserP(17)) {
+		$seperator.before(new ReportedCommentsDeleter());
 	}
 }

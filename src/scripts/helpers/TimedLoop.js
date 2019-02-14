@@ -1,5 +1,9 @@
 import MakeExpire from "./MakeExpire";
 
+/**
+ * @param {function} func
+ * @param {number} expireTime - in seconds
+ */
 function TimedLoop(func, expireTime) {
 	let _loop_personalColors_expire = MakeExpire(expireTime);
 	let _loop_personalColors = setInterval(() => {
@@ -7,7 +11,7 @@ function TimedLoop(func, expireTime) {
 			clearInterval(_loop_personalColors);
 		}
 
-		func && func();
+		func();
 	});
 }
 

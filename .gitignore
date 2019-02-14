@@ -7,4 +7,3 @@ dist
 build/*
 !build/.gitkeep
 privilege_list.md
-Brainly_endpoints_list.json

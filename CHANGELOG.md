@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.16.0] - 2019.02.14
+
+### Added
+
+- [ADD#12] Reported contents confirmer. This feature is for confirming the reported
+ contents from the Moderate all by filtering and it helps those who has been a
+ victim of spam reporting. (<https://ibb.co/GV98fqr> <https://ibb.co/zWdJfCx>)
+
+### Changed
+
+- [FIX#21] Unexpected Error claiming, "You are not authorized for this"
+
 ## [6.15.0] - 2019.02.10
 
 ### Added

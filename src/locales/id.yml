@@ -71,8 +71,9 @@ common:
     unapprove: Tidak disetujui
     unapproved: Tidak disetujui
   personalNote:
-    placeholder: Tambahkan catatan pribadi
+    text: Catatan pribadi
     title: Kamu dapat menambahkan catatan pribadi disini dan ini itu hanya akan berhubungan dengan user ini saja
+    writeSomething: Menuliskan sesuatu
 popup:
   notificationMessages:
     shortLinkSuccessMessage: Short link telah dibuat dan ditambahkan ke clipboard (CTRL + C)
@@ -180,6 +181,8 @@ popup:
         - 7
         - 13
         - 9
+        - 17
+        - 18
       privilegeList:
         "0":
           title: Ekstensi Admin
@@ -232,6 +235,12 @@ popup:
         "16":
           title: Memilih komentar yang dihapus
           description: "Dihalaman pengguna, konten pengguna dan halaman Moderais semua, pengguna dapat menggunakan tombol penghapusan cepat untuk menghapus komentar."
+        "17":
+          title: Penghapusan komentar yang dilaporkan
+          description: Pengguna dapat menggunakan fungsi ini untuk menghapus semua komentar yang dilaporkan dari moderasi Semua
+        "18":
+          title: Berdasarkan konten yang dikonfirmasi
+          description: Pengguna dapat menggunakan fungsi ini untuk mengkonfirmasi jawaban yang dilaporkan dari Moderasi Semua dengan memfilter
     announcements:
       text: Pengumuman
       addNewAnnouncement: Tambahkan sebuah pengumuman
@@ -276,6 +285,9 @@ core:
     tryingToSendTheSameMessage: "Kamu telah mencoba mengirim yang terakhir. Apakah kamu masih ingin mengirim?"
     alreadyStarted: Proses telah dimulai
     pointsAdded: Poin ditambahkan
+    thisConditionAlreadyAdded: Kondisi ini telah ditambahkan
+    thisConditionAlreadyAddedInCommonConditions: Kondisi ini telah ditambahkan ke kondisi umum
+    conditionsDoesntMatchAnything: Kondisinya tidak sesuai dengan lainnya
   TaskDeleter:
     text: Penghapusan pertanyaan massal
     questionsLinksOrIDs: Tautan pertanyaan atau ID
@@ -307,6 +319,42 @@ core:
     numberOfPending: Tertunda
     deleted: Dihapus
     selectAReason: Pilih sebuah alasan
+  reportedContentsConfirmer:
+    text: Konten yang dilaporkan terkonfirmasi
+    addConditionBlock: Tambahkan blok kondisi
+    selectAFilter: Pilih sebuah filter
+    reportReasonText: Teks alasan pelaporan
+    fetchedReports: Jumlah laporan yang diambil dari Moderate all
+    # %{number_of_matched_reports} indicates the number of matched reports.
+    # Example> Matched 35
+    matched: "Cocok %{number_of_matched_reports}"
+    # %{number_of_confirmed_reports} indicates the number of confirmed reports.
+    # Example> Confirmed 78
+    confirmed: "Terkonfirmasi %{number_of_confirmed_reports}"
+    regexp: Ekspresi Regular
+    confirmAll: Mengkonfirmasi semua
+    informationText1: "Kamu dapat mengkonfirmasi konten yang dilaporkan dari Moderasi Semua dengan memfilter. Kamu hanya perlu untuk memilih dan manambahkan kondisi yang terkait dengan konten dan mengeklik mulai dan biarkan tab tetap terbuka, itu saja"
+    informationText2: Kamu dapat menggunakan bagian kondisi umum kemudian diaplikasikan pada kondisi spesifik untuk semua kondisi unik
+    informationText3: Tetapi menambahkan semua kondisi ke bagian umum tidak akan memberikan kesesuaian dengan laporan manapun. Kamu perlu untuk menggunakan kondisi unik agar sesuai.
+    informationText4: "Setelah kamu telah mengatur kondisi, tolong periksa laporan yang cocok dan pastikan sebelum mengkonfirmasi"
+    commonConditions:
+      text: Kondisi umum
+      title: Kondisi yang akan kamu tambahkan ke bagian ini akan diterapkan bersama semua ketentuan tambahan
+      title2:
+    profileId:
+      REPORTER: ID Pelapor
+      REPORTEE: ID yang dilaporkan
+    conditionN:
+      # %{amount_of_conditions} indicates the amount of added condition.
+      # Example> Unique condition 4
+      text: "Kondisi unik %{amount_of_conditions}"
+      title: Kondisi unik ini akan dibatasi dari kondisi unik yang lain
+    filters:
+      byContentType: berdasarkan type konten
+      byReporter: berdasarkan pelapor
+      byReportee: berdasarkan pelapor
+      byDateRange: Berdasarkan rentang tanggal
+      byReportReason: berdasarkan alasan (pesan)
 home:
   todaysActions: Aksi hari ini
 messages:

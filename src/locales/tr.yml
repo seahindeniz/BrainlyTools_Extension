@@ -71,8 +71,9 @@ common:
     unapprove: Doğrulamayı kaldır
     unapproved: Doğrulanmamış
   personalNote:
-    placeholder: Not yaz..
+    text: Kişisel not
     title: "Buraya, bu kullanıcıyla alakalı bir not ekleyebilirsin ve bu alan sadece sana özeldir"
+    writeSomething: Bir şeyler yaz
 popup:
   notificationMessages:
     shortLinkSuccessMessage: Kısa link oluşturuldu ve panoya kopyalandı(CTRL + C)
@@ -180,6 +181,8 @@ popup:
         - 7
         - 13
         - 9
+        - 17
+        - 18
       privilegeList:
         "0":
           title: Eklenti yöneticisi
@@ -232,6 +235,12 @@ popup:
         "16":
           title: Seçmeli yorum silimi
           description: "Kullanıcı, kullanıcı bilgileri gör sayfasında yorumları seçerek silim yapabilir"
+        "17":
+          title: TD > Toplu yorum silici
+          description: Kullanıcı bu fonksiyonu kullanarak Tümünü düzelt'ten tüm yorumları silebilir
+        "18":
+          title: Şikayet edilmiş içerik onaylayıcı
+          description: Kullanıcı bu fonksiyonu kullanarak Tümünü düzelt'ten şikayet edilmiş içerikleri filtreleyerek onaylayabilir
     announcements:
       text: Duyurular
       addNewAnnouncement: Yeni duyuru ekle
@@ -276,6 +285,9 @@ core:
     tryingToSendTheSameMessage: "Son mesajı tekrar göndermeye çalışıyorsun. Göndermek istediğine emin misin?"
     alreadyStarted: İşlem zaten başlatıldı
     pointsAdded: Puanlar eklendi
+    thisConditionAlreadyAdded: Koşul zaten eklenmiş
+    thisConditionAlreadyAddedInCommonConditions: Ortak koşullar'da zaten bulunuyor
+    conditionsDoesntMatchAnything: Koşul herhangi bir şeyle eşleşmiyor
   TaskDeleter:
     text: Çoklu soru silici
     questionsLinksOrIDs: Soru linki veya id numarası
@@ -307,6 +319,42 @@ core:
     numberOfPending: Bekleyen
     deleted: Silindi
     selectAReason: Silim sebebi seç
+  reportedContentsConfirmer:
+    text: Şikayet edilmiş içerik onaylayıcı
+    addConditionBlock: Koşul bloğu ekle
+    selectAFilter: Filtre seç
+    reportReasonText: Şikayet sebebi
+    fetchedReports: Tümünü düzelt'ten çekilen şikayet edilmiş içerik sayısı
+    # %{number_of_matched_reports} indicates the number of matched reports.
+    # Example> Matched 35
+    matched: "%{number_of_matched_reports} eşleşme"
+    # %{number_of_confirmed_reports} indicates the number of confirmed reports.
+    # Example> Confirmed 78
+    confirmed: "Onaylanan %{number_of_confirmed_reports}"
+    regexp: Koşullu ifade
+    confirmAll: Tümünü onayla
+    informationText1: Tümünü düzelt'ten şikayet edilmiş içerikeri filtreleyerek onaylayabilirsin. Yapman gereken sadece içeriklerle alakalı koşulları seçmek ve başlata basmak ve işlem sırasında sekmeyi kapatmamak.
+    informationText2: Ortak koşullar bölümünü kullanarak benzersiz koşullarla beraber kullanmak üzere koşul tanımlayabilirsin
+    informationText3: "Fakat koşulların tamamını ortak koşullar bloğuna eklersen, hiç bir şikayetle eşleşmeyecektir. Eşleşme yapabilmek için benzersiz koşul bloğu kullanmalısın."
+    informationText4: Koşulları seçtikten sonra lütfen eşleşen şikayet raporlarını kontrol et ve onaylamadan önce doğru olduğundan emin ol
+    commonConditions:
+      text: Ortak koşullar
+      title: "Bu bölüme ekleyeceğin koşullar, diğer tüm koşullara ortak olarak atanacaktır"
+      title2:
+    profileId:
+      REPORTER: Şikayet edenin id'si
+      REPORTEE: Şikayet edilenin id'si
+    conditionN:
+      # %{amount_of_conditions} indicates the amount of added condition.
+      # Example> Unique condition 4
+      text: "Benzersiz koşul %{amount_of_conditions}"
+      title: "Bu benzersiz koşul bölümü, diğer benzersiz koşullardan bağımsızdır"
+    filters:
+      byContentType: içerik tipine göre
+      byReporter: şikayet edene göre
+      byReportee: şikayet edilene göre
+      byDateRange: tarih aralığına göre
+      byReportReason: şikayet sebebine(mesajına) göre
 home:
   todaysActions: Eylem sayısı
 messages:

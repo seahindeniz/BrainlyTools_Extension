@@ -71,8 +71,9 @@ common:
     unapprove: Unapprove
     unapproved: Unapproved
   personalNote:
-    placeholder: Add a personal note..
+    text: Personal note
     title: You can add a personal private note here and that will relate to this user only
+    writeSomething: Write something
 popup:
   notificationMessages:
     shortLinkSuccessMessage: Short link has been created and copied to clipboard(CTRL + C)
@@ -236,10 +237,10 @@ popup:
           description: On the user contents page, user can use the selective deletion function to delete selected comments
         "17":
           title: Reported comments deleter
-          description: User can use this function to delete all the reported comments from Moderate All
+          description: User can use this function to delete all the reported comments from Moderate all
         "18":
-          title: Reported answers confirmer
-          description: User can use this function to confirm reported answers from Moderate All by filtering
+          title: Reported contents confirmer
+          description: User can use this function to confirm reported contents from Moderate all by filtering
     announcements:
       text: Announcements
       addNewAnnouncement: Add a new announcement
@@ -284,6 +285,9 @@ core:
     tryingToSendTheSameMessage: You're trying to send the last message again. Do you still want to send?
     alreadyStarted: Process has already started
     pointsAdded: Points added
+    thisConditionAlreadyAdded: This condition already added
+    thisConditionAlreadyAddedInCommonConditions: This condition already added in the Common conditions
+    conditionsDoesntMatchAnything: Conditions doesn't match with anything
   TaskDeleter:
     text: Mass-Question deleter
     questionsLinksOrIDs: Question links or id's
@@ -315,10 +319,42 @@ core:
     numberOfPending: Pending
     deleted: Deleted
     selectAReason: Select a reason
-  reportedAnswersConfirmer:
-    text: Reported answers confirmer
-    description: You can confirm reported answers in Moderate All by filtering. You just need to select and add informations related the answers and click start and keep this tab open that's all.
-
+  reportedContentsConfirmer:
+    text: Reported contents confirmer
+    addConditionBlock: Add condition block
+    selectAFilter: Select a filter
+    reportReasonText: Report reason text
+    fetchedReports: Count of fetched reports from Moderate all
+    # %{number_of_matched_reports} indicates the number of matched reports.
+    # Example> Matched 35
+    matched: Matched %{number_of_matched_reports}
+    # %{number_of_confirmed_reports} indicates the number of confirmed reports.
+    # Example> Confirmed 78
+    confirmed: Confirmed %{number_of_confirmed_reports}
+    regexp: Regular Expression
+    confirmAll: Confirm All
+    informationText1: You can confirm reported contents from Moderate All by filtering. You just need to select and add conditions related the content and click start and keep this tab open that's all.
+    informationText2: You can use common conditions section to apply specific conditions to all unique conditions.
+    informationText3: But adding all conditions to common section, will not match with any reports. You need to use the unique conditions to match.
+    informationText4: Once you have set conditions, please check the matched reports and ensure before confirming.
+    commonConditions:
+      text: Common conditions
+      title: Conditions that you will be adding to this section will be applied with all extra conditions
+      title2:
+    profileId:
+      REPORTER: Reporter id
+      REPORTEE: Reportee id
+    conditionN:
+      # %{amount_of_conditions} indicates the amount of added condition.
+      # Example> Unique condition 4
+      text: Unique condition %{amount_of_conditions}
+      title: This unique condition will be restricted from other unique conditions
+    filters:
+      byContentType: by content type
+      byReporter: by reporter
+      byReportee: by reportee
+      byDateRange: by date range
+      byReportReason: by reason(message)
 home:
   todaysActions: Today's actions
 messages:

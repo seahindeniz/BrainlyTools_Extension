@@ -71,8 +71,9 @@ common:
     unapprove: Désapprouver
     unapproved: Désapprouvé
   personalNote:
-    placeholder: Ajouter une note personnelle
+    text: Note personnelle
     title: Tu peux ajouter une note personnelle ici et qui sera reliée à cet utilisateur seulement
+    writeSomething: Ecrivez quelque chose
 popup:
   notificationMessages:
     shortLinkSuccessMessage: Un lien court a été créé et copier dans le presse-papier (CTRL+C)
@@ -180,6 +181,8 @@ popup:
         - 7
         - 13
         - 9
+        - 17
+        - 18
       privilegeList:
         "0":
           title: Extension admin
@@ -232,6 +235,12 @@ popup:
         "16":
           title: Suppression des commentaires sélectionnés
           description: "Sur la page des contenus d'un utilisateur, l'utilisateur a la possibilité de supprimer les questions commentaires"
+        "17":
+          title: Les commentaires signalés ont été supprimés
+          description: L'utilisateur peut utiliser cette fonction pour supprimer tous commentaires signalés dans le Tout modérer
+        "18":
+          title: Approuver les contenus signalés
+          description: L'utilisateur peut utiliser cette fonction pour supprimer tous commentaires signalés dans le Tout modérer en utilisant des filtres
     announcements:
       text: Annonces
       addNewAnnouncement: Ajouter une nouvelle annonce
@@ -276,6 +285,9 @@ core:
     tryingToSendTheSameMessage: "Vous essayez d'envoyer le dernier message une autre fois. Voulez-vous continuer ?"
     alreadyStarted: Le processus a déjà commencé
     pointsAdded: Les points ont été ajoutés
+    thisConditionAlreadyAdded: La condition a déjà été ajoutée
+    thisConditionAlreadyAddedInCommonConditions: La condition a déjà été ajoutée dans les conditions communes
+    conditionsDoesntMatchAnything: Les conditions ne correspondent à aucun signalemlent
   TaskDeleter:
     text: Suppression massive de questions
     questionsLinksOrIDs: Liens des questions ou IDs
@@ -307,6 +319,42 @@ core:
     numberOfPending: En attente
     deleted: Supprimé
     selectAReason: Sélectionner une raison
+  reportedContentsConfirmer:
+    text: Approuver les contenus signalés
+    addConditionBlock: Ajouter un bloc de condition
+    selectAFilter: Sélectionner un filtre
+    reportReasonText: Raison de signalement
+    fetchedReports: Nombre de signalement correspondant à votre requête
+    # %{number_of_matched_reports} indicates the number of matched reports.
+    # Example> Matched 35
+    matched: "Résultat : %{number_of_matched_reports}"
+    # %{number_of_confirmed_reports} indicates the number of confirmed reports.
+    # Example> Confirmed 78
+    confirmed: "Approuvé : %{number_of_confirmed_reports}"
+    regexp: Expression
+    confirmAll: Tout approuver
+    informationText1: Vous pouvez approuver les contenus signalés depuis le Tout modérer en appliquant des filtres. Vous avez simplement à sélectionner et ajouter les conditions relatives aux contenus et cliquer sur démarrer et ne pas fermer cet onglet
+    informationText2: "Vous pouvons appliquer des conditions communes ou appliquer des conditions spécifiques "
+    informationText3: "Mais ajouter toutes les conditions ne vous donnera aucun résultat. "
+    informationText4: "Une fois que vous avez défini les conditions, merci de regarder les résultats avant de confirmer"
+    commonConditions:
+      text: Conditions communes
+      title: Les conditions que vous ajouterez dans cette section seront appliquées en plus des conditions annexes
+      title2:
+    profileId:
+      REPORTER: ID de la personne ayant signalé
+      REPORTEE: ID de la personne ayant été signalé
+    conditionN:
+      # %{amount_of_conditions} indicates the amount of added condition.
+      # Example> Unique condition 4
+      text: "Condition unique %{amount_of_conditions}"
+      title: La condition unique sera limité par les autres conditions uniques
+    filters:
+      byContentType: par type de contenu
+      byReporter: par utilisateur ayant signalé
+      byReportee: par utilisateur ayant été sigalé
+      byDateRange: par date
+      byReportReason: par raison (message)
 home:
   todaysActions: Actions du jour
 messages:

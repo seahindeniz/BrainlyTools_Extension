@@ -1,0 +1,73 @@
+<div class="sg-content-box">
+	<div class="sg-content-box__content sg-content-box__content--spaced-top js-condition-sections">
+		<div class="sg-content-box addConditionContainer">
+			<div class="sg-content-box__content sg-content-box__content--with-centered-text sg-content-box__content--spaced-top">
+				<div class="sg-actions-list sg-actions-list--no-wrap">
+					<div class="sg-actions-list__hole sg-actions-list__hole--grow">
+						<button class="sg-button-secondary sg-button-secondary--alt sg-button-secondary--full-width">
+							<span class="sg-button-primary__icon">
+								<div class="sg-icon sg-icon--adaptive sg-icon--x16">
+									<svg class="sg-icon__svg">
+										<use xlink:href="#icon-plus"></use>
+									</svg>
+								</div>
+							</span>
+							${System.data.locale.core.reportedContentsConfirmer.addConditionBlock}
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="sg-content-box__actions sg-content-box__content--spaced-bottom-large">
+		<div class="sg-actions-list sg-actions-list--space-between">
+			<div class="sg-actions-list__hole" title="${System.data.locale.core.reportedContentsConfirmer.fetchedReports}">
+				<div class="sg-label sg-label--small sg-label--secondary">
+					<div class="sg-label__icon">
+						<div class="sg-icon sg-icon--gray-secondary sg-icon--x14">
+							<svg class="sg-icon__svg">
+								<use xlink:href="#icon-answer"></use>
+							</svg>
+						</div>
+					</div>
+					<div class="sg-text sg-text--small sg-text--gray-secondary sg-text--bold">
+						<b class="js-fetched-reports-count">0</b>/<b class="js-total-reports-count">#</b>
+					</div>
+					<div class="sg-spinner-container">
+						<div style="width: 25px;"></div>
+						<div class="sg-spinner-container__overlay">
+							<div class="sg-spinner sg-spinner--xxsmall"> </div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="sg-actions-list__hole" title="${System.data.locale.core.reportedContentsConfirmer.fetchedReports}">
+				<button class="sg-button-secondary js-confirm-all js-hidden">${System.data.locale.core.reportedContentsConfirmer.confirmAll}</button>
+				<button class="sg-button-secondary sg-button-secondary--peach js-stop-confirming js-hidden">${System.data.locale.common.stop}</button>
+			</div>
+			<div class="sg-actions-list__hole js-affected-reports-count js-hidden">
+				<div class="sg-label sg-label--small sg-label--secondary">
+					<div class="sg-label__icon">
+						<div class="sg-icon sg-icon--gray-secondary sg-icon--x14">
+							<svg class="sg-icon__svg">
+								<use xlink:href="#icon-pencil"></use>
+							</svg>
+						</div>
+					</div>
+					<div class="sg-text sg-text--small sg-text--gray-secondary sg-text--bold">2d: 00h</div>
+				</div>
+			</div>
+			<div class="sg-actions-list__hole js-hidden">
+				<button class="sg-button-secondary sg-button-secondary--small sg-button-secondary--alt-inverse">start</button>
+			</div>
+		</div>
+	</div>
+	<div class="sg-content-box__content">
+		<blockquote class="sg-text sg-text--small">
+			${System.data.locale.core.reportedContentsConfirmer.informationText1}<br><br>
+			${System.data.locale.core.reportedContentsConfirmer.informationText2}<br><br>
+			${System.data.locale.core.reportedContentsConfirmer.informationText3}<br><br>
+			${System.data.locale.core.reportedContentsConfirmer.informationText4}
+		</blockquote>
+	</div>
+</div>

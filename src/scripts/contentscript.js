@@ -30,6 +30,7 @@ if (!html.getAttribute("extension")) {
 	System.changeBadgeColor("loading");
 	InjectToDOM([
 		"/scripts/lib/prototypeOverrides.js",
+		"/scripts/lib/regex-colorizer.js",
 		"/scripts/views/0-Core/index.js",
 		"/styles/pages/Core.css"
 	]);

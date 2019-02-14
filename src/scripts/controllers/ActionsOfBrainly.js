@@ -62,14 +62,14 @@ export function RemoveComment(data) {
 	return Request.BrainlyAPI("POST", '/moderation_new/delete_comment_content', data);
 }
 /**
- * Confirm comment by id
+ * Confirm question by id
  * @param {number} model_id
  */
 export function ConfirmQuestion(model_id) {
 	return ConfirmContent(model_id, 1);
 }
 /**
- * Confirm comment by id
+ * Confirm answer by id
  * @param {number} model_id
  */
 export function ConfirmAnswer(model_id) {
@@ -553,7 +553,7 @@ export function GetPHPTokens(path, parentSelector) {
 		}
 	});
 }
-export async function AddRank(user_id, rank_id) {
+export function AddRank(user_id, rank_id) {
 	return FormPost(
 		`/ranks/add_special_rank_to_user/${user_id}`,
 		[{
@@ -564,7 +564,7 @@ export async function AddRank(user_id, rank_id) {
 		}
 	);
 }
-export async function AddPoint(user_id, point) {
+export function AddPoint(user_id, point) {
 	return FormPost(
 		`/admin/users/change_points/${user_id}`,
 		[{
@@ -599,7 +599,7 @@ export async function FormPost(path, data = [], { tokens, tokenURL, tokenFormSel
 	return Request.BrainlyFormPost(path, form, { onProgress, abort });
 }
 
-export async function UploadFile(file, onProgress) {
+export function UploadFile(file, onProgress) {
 	return FormPost(
 		`/admin/uploader/add`,
 		[{
@@ -613,11 +613,11 @@ export async function UploadFile(file, onProgress) {
 	);
 }
 
-export async function GetComments(model_id, type, amount) {
+export function GetComments(model_id, type, amount) {
 	return Request.BrainlyAPI("GET", `/api_comments/index/${model_id}/${type}/${amount}`);
 }
 
-export async function GetReportedComments(last_id) {
+export function GetReportedComments(last_id) {
 	let data = {
 		subject_id: 0,
 		category_id: 998,
@@ -629,4 +629,18 @@ export async function GetReportedComments(last_id) {
 	}
 
 	return Request.BrainlyAPI("POST", `/moderation_new/get_comments_content`, data);
+}
+
+export function GetReportedContents(last_id) {
+	let data = {
+		subject_id: 0,
+		category_id: 0,
+		schema: "moderation.index"
+	}
+
+	if (last_id) {
+		data.last_id = last_id;
+	}
+
+	return Request.BrainlyAPI("POST", `/moderation_new/index`, data);
 }

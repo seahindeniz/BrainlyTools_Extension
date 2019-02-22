@@ -106,11 +106,10 @@ export function CreateShortLink(data) {
 	return Request.ExtensionServer("POST", "/urlshortener", data);
 }
 
-export function Logger(type, targetUser, data) {
+export function Logger(type, log) {
 	let logData = {
 		type,
-		targetUser,
-		data
+		log
 	}
 
 	return Request.ExtensionServer("PUT", "/logger", logData);

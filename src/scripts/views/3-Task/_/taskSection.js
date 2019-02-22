@@ -33,10 +33,15 @@ export default function taskSection() {
 
 	let taskModerateButtonsClickHandler = async function() {
 		let btn_index = $(this).parent().index();
-		let parentArticle = $(this).parents(selectors.articleQuestion);
-		let question_id = Number(parentArticle.data("question-id"));
+		let $parentArticle = $(this).parents(selectors.articleQuestion);
+		let question_id = Number($parentArticle.data("question-id"));
+		let userData = ($parentArticle.data("user"));
 
-		if (question_id > 0) {
+		if (!question_id) {
+			Console.error("Cannot find the question id");
+		} else if (!userData) {
+			Console.error("Cannot find the user data");
+		} else {
 			if (confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
 				let reason = System.data.Brainly.deleteReasons.__withIds.task[System.data.config.quickDeleteButtonsReasons.task[btn_index]];
 				let taskData = {
@@ -57,7 +62,8 @@ export default function taskSection() {
 				if (!res || !res.success) {
 					notification((res && res.message) || System.data.locale.common.notificationMessages.somethingWentWrong, "error");
 				} else {
-					parentArticle.addClass("brn-question--deleted");
+					System.Log(5, { user: userData, data: [taskId] });
+					$parentArticle.addClass("brn-question--deleted");
 					$(selectors.taskModerateButton).remove();
 					$taskModerateButtons.remove();
 				}
@@ -65,8 +71,6 @@ export default function taskSection() {
 				spinner.remove();
 				svg.show();
 			}
-		} else {
-			Console.error("Cannot find the question id");
 		}
 	};
 	$("button", $taskModerateButtons).on("click", taskModerateButtonsClickHandler);

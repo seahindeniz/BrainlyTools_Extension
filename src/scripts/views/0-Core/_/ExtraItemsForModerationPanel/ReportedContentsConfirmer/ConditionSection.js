@@ -365,6 +365,7 @@ class ConditionSection {
 
 		this.ShowConfirmedText();
 		this.Confirm();
+		this.Log();
 	}
 	StopConfirming() {
 		this.confirmingStarted = false;
@@ -430,6 +431,15 @@ class ConditionSection {
 	}
 	IncreaseConfirmedCount() {
 		this.$confirmedCount.text(++this.confirmedCount);
+	}
+	Log() {
+		if (this.filteredReports.length) {
+			let idList = this.filteredReports.map(report => {
+				return `${report.model_id}:${report.model_type_id}`
+			});
+
+			System.log(23, { data: idList });
+		}
 	}
 }
 

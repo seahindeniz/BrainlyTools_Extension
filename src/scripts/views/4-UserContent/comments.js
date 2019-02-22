@@ -311,7 +311,7 @@ class Comments {
 							removeIt(this);
 						});
 
-						System.log(7, this.userId, idList);
+						System.log(7, { user: { id: this.userId }, data: idList });
 					}
 				}
 			}

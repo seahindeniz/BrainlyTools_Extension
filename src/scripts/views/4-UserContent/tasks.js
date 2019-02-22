@@ -114,7 +114,7 @@ $submit.click(function() {
 					removeIt(this);
 				});
 
-				System.log(5, sitePassedParams[0], idList);
+				System.log(5, { user: { id: sitePassedParams[0] }, data: idList });
 			}
 		}
 	}

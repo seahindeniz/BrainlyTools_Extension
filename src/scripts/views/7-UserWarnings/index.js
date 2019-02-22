@@ -66,7 +66,7 @@ async function UserWarnings() {
 
 		CancelWarning(idList);
 
-		System.log(4, JSON.parse(sitePassedParams)[0], idList);
+		System.log(4, { user: { id: JSON.parse(sitePassedParams)[0] }, data: idList });
 
 		notification(System.data.locale.userWarnings.notificationMessages.ifYouHavePrivileges, "info");
 	});

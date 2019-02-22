@@ -105,15 +105,15 @@ async function ArciveMod() {
 						if (contentType == "task") {
 							res = await ConfirmQuestion(obj.data.model_id);
 
-							System.log(19, obj.data.user, [obj.data.model_id]);
+							System.log(19, { user: obj.data.user, data: [obj.data.model_id] });
 						} else if (contentType == "response") {
 							res = await ConfirmAnswer(obj.data.model_id);
 
-							System.log(20, obj.data.user, [obj.data.model_id]);
+							System.log(20, { user: obj.data.user, data: [obj.data.model_id] });
 						} else if (contentType == "comment") {
 							res = await ConfirmComment(obj.data.model_id);
 
-							System.log(21, obj.data.user, [obj.data.model_id]);
+							System.log(21, { user: obj.data.user, data: [obj.data.model_id] });
 						}
 
 						$spinner.remove();
@@ -165,17 +165,17 @@ async function ArciveMod() {
 					if (contentType == "task") {
 						let res = await RemoveQuestion(data);
 
-						System.log(5, obj.data.user, [data.model_id]);
+						System.log(5, { user: obj.data.user, data: [data.model_id] });
 						onRes(res);
 					} else if (contentType == "response") {
 						let res = await RemoveAnswer(data);
 
-						System.log(6, obj.data.user, [data.model_id]);
+						System.log(6, { user: obj.data.user, data: [data.model_id] });
 						onRes(res);
 					} else if (contentType == "comment") {
 						let res = await RemoveComment(data);
 
-						System.log(7, obj.data.user, [data.model_id]);
+						System.log(7, { user: obj.data.user, data: [data.model_id] });
 						onRes(res);
 					}
 				}
@@ -212,7 +212,7 @@ async function ArciveMod() {
 				let contentType = $moderation.getAttribute("class").replace(/\w{1,}\-|[0-9.]| {1,}\w{1,}|\-| {1,}/g, "");
 				let contentType_id = contentType == "task" ? 1 : contentType == "response" ? 2 : 45;
 
-				System.checkUserP(contentType_id, () => {
+				if (System.checkUserP(contentType_id)) {
 					let contentID = $moderation.getAttribute("class").replace(/[^0-9.]/g, "");
 					let $actions = $("> div.header > div.actions", $moderation);
 					let $quickDeleteButtons = $(`<div class="actions pull-right quickDeleteButtons">${prepareQuickDeleteButtons[contentType]}</div>`);
@@ -268,7 +268,7 @@ async function ArciveMod() {
 									let res = await RemoveQuestion(data);
 
 									onRes(res);
-									System.log(5, user.data, [contentID]);
+									System.log(5, { user: user.data, data: [contentID] });
 								} else if (contentType == "response") {
 									let response = obj.data.responses.find(res => {
 										return res.id == contentID;
@@ -278,13 +278,13 @@ async function ArciveMod() {
 									let res = await RemoveAnswer(data);
 
 									onRes(res);
-									System.log(6, user.data, [contentID]);
+									System.log(6, { user: user.data, data: [contentID] });
 								}
 							}
 
 						}
 					});
-				});
+				}
 			});
 		}
 
@@ -326,7 +326,8 @@ async function ArciveMod() {
 		let currentObj = Zadanium.moderation.all.createdObjects[k];
 
 		if (currentObj) {
-			if (currentObj.data.disabled) {;
+			if (currentObj.data.disabled) {
+				;
 				findNext(action == "previousReport" ? --k : ++k, action, objContenerMod);
 			} else {
 				nextObjFound(currentObj, objContenerMod);

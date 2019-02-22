@@ -156,6 +156,7 @@ class ReportedCommentsDeleter {
 			this.$start.addClass("sg-button-secondary--disabled").prop("disabled", true);
 			this.$status.text(`${System.data.locale.core.reportedCommentsDeleter.deleting}..`);
 
+			System.log(23);
 			await this.LoadReportedComments(this.last_id);
 
 			this.DeleteStoredReports();

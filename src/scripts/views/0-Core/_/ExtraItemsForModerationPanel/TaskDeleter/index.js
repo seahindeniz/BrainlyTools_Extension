@@ -42,16 +42,17 @@ const TaskDeleter = $seperator => {
 					});
 					$textareaBack.html(this.innerHTML);
 
-					let idList = this.innerText.match(/\d{1,}/gm);
+					//let idList = this.innerText.match(/\d{1,}/gm);
+					let idList = System.ExtractIds(this.innerText);
 					if (idList && idList.length > 0) {
 						idList = Array.from(new Set(idList));
 
 						$questionsWillBeDeleted.text(idList.length);
 
 						let temp = this.innerHTML;
-						console.log(temp);
+
 						idList.forEach(id => {
-							temp = temp.replace(new RegExp(`\\b${id}\\b`), `<span style="background: #fec83c">${id}</span>`)
+							temp = temp.replace(new RegExp(`((?:\\b|pt)+${id}\\b)`), `<span style="background: #fec83c">$1</span>`);
 						});
 						$textareaBack.html(temp);
 					}
@@ -128,7 +129,7 @@ const TaskDeleter = $seperator => {
 						}
 					}
 
-					System.log(5, System.data.Brainly.userData.user.id, idList);
+					System.log(5, { user: System.data.Brainly.userData.user, data: idList });
 					idList.forEach(id => {
 						removeIt(id);
 					});

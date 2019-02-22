@@ -24,7 +24,7 @@ export function RemoveQuestion(data) {
 		"return_points": true,
 		...data
 	}
-	data.reason += " " + System.constants.config.reasonSign;
+	data.reason += ` ${System.constants.config.reasonSign}`;
 
 	return Request.BrainlyAPI("POST", '/moderation_new/delete_task_content', data);
 }
@@ -40,7 +40,7 @@ export function RemoveAnswer(data) {
 		schema: "moderation.response.delete.req",
 		...data
 	}
-	data.reason += " " + System.constants.config.reasonSign;
+	data.reason += ` ${System.constants.config.reasonSign}`;
 
 	return Request.BrainlyAPI("POST", '/moderation_new/delete_response_content', data);
 }
@@ -53,11 +53,12 @@ export function RemoveComment(data) {
 		"model_type_id": 45,
 		...data
 	}
+
 	if (!data.give_warning) {
 		data.give_warning = false
 	}
 
-	data.reason += " " + System.constants.config.reasonSign;
+	data.reason += ` ${System.constants.config.reasonSign}`;
 
 	return Request.BrainlyAPI("POST", '/moderation_new/delete_comment_content', data);
 }
@@ -282,79 +283,72 @@ export function RemoveFriends(idList, each) {
 }
 
 export function findUser(nick) {
-	/*Request.Brainly({
-		method: "GET",
-		path: `/users/search/${nick}`,
-		callback,
-		onError
-	});*/
-
 	return Request.get(`/users/search/${nick}`);
 }
 
-export async function getAllModerators(idList, handlers) {
-	if (Object.prototype.toString.call(idList) == "[object Object]") {
-		handlers = idList;
-		idList = null;
-	}
-
-	let prepareUsers = async _idList => {
-		let userRes = await getUserByID(_idList);
-
-		if (userRes && userRes.success) {
-			System.allModerators = {
-				list: userRes.data,
-				withNicks: {},
-				withID: {},
-				withRanks: {}
-			};
-
-			if (userRes.data && userRes.data.length > 0) {
-				userRes.data.forEach(user => {
-					System.allModerators.withNicks[user.nick] = user;
-					System.allModerators.withID[user.nick] = user;
-
-					if (typeof handlers == "object" && handlers.each) {
-						handlers.each(user);
-					}
-
-					if (user.ranks_ids && user.ranks_ids.length > 0) {
-						user.ranks_ids.forEach(rank => {
-							let currentRank = System.allModerators.withRanks[rank];
-
-							if (!currentRank) {
-								currentRank = System.allModerators.withRanks[rank] = []
-							}
-
-							currentRank.push(user);
-						});
-					}
-				});
-			}
-
-			if (typeof handlers == "object" && handlers.done) {
-				handlers.done();
-			}
+export function getAllModerators(idList, handlers) {
+	return new Promise(async (resolve, reject) => {
+		if (Object.prototype.toString.call(idList) == "[object Object]") {
+			handlers = idList;
+			idList = null;
 		}
-	}
 
-	if (idList) {
-		prepareUsers(idList);
-	} else {
-		let res = await Request.get(`/moderators/supervisors/${System.data.Brainly.userData.user.id}`);
+		let prepareUsers = async _idList => {
+			let userRes = await getUserByID(_idList);
 
-		if (res) {
-			idList = res.match(/\=\d{1,}/gim);
+			if (userRes && userRes.success) {
+				System.allModerators = {
+					list: userRes.data,
+					withNicks: {},
+					withID: {},
+					withRanks: {}
+				};
 
-			if (idList && idList.length > 0) {
-				if (typeof idList[0] == "string") {
-					idList = idList.map(id => ~~(id.replace(/\D/gim, "")));
+				if (userRes.data && userRes.data.length > 0) {
+					userRes.data.forEach(user => {
+						System.allModerators.withNicks[user.nick] = user;
+						System.allModerators.withID[user.id] = user;
+
+						if (typeof handlers == "object" && handlers.each) {
+							handlers.each(user);
+						}
+
+						if (user.ranks_ids && user.ranks_ids.length > 0) {
+							user.ranks_ids.forEach(rank => {
+								let currentRank = System.allModerators.withRanks[rank];
+
+								if (!currentRank) {
+									currentRank = System.allModerators.withRanks[rank] = []
+								}
+
+								currentRank.push(user);
+							});
+						}
+					});
 				}
 
-				prepareUsers(idList);
+				resolve();
 			}
 		}
-	}
+
+		if (idList) {
+			prepareUsers(idList);
+		} else {
+			let res = await Request.get(`/moderators/supervisors/${System.data.Brainly.userData.user.id}`);
+
+			if (res) {
+				idList = res.match(/\=\d{1,}/gim);
+
+				if (idList && idList.length > 0) {
+					if (typeof idList[0] == "string") {
+						idList = idList.map(id => ~~(id.replace(/\D/gim, "")));
+					}
+
+					prepareUsers(idList);
+				}
+			}
+		}
+	});
 }
 
 export function getMessageID(user_id) {

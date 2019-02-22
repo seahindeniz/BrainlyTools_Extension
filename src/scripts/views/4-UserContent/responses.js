@@ -193,7 +193,7 @@ if (System.checkUserP(6) && System.checkBrainlyP(146)) {
 /**
  * Answer delete panel
  */
-System.checkUserP(2, () => {
+if (System.checkUserP(15)) {
 	let $btnDeleteSection = $(`
 	<div class="sg-actions-list__hole">
 		<button class="sg-button-secondary sg-button-secondary--peach deleteSection">${System.data.locale.common.moderating.moderate}</button>
@@ -310,10 +310,10 @@ System.checkUserP(2, () => {
 							removeIt(this);
 						});
 
-						System.log(6, sitePassedParams[0], idList);
+						System.log(6, { user: { id: sitePassedParams[0] }, data: idList });
 					}
 				}
 			}
 		}
 	});
-});
+}

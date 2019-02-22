@@ -1,19 +1,8 @@
 {
-	"account_using_for_approve": "",
-	"reserve": "Tiket",
-	"Deleted_account": "Akun yang dihapus",
-	"special_ranks_starts": 8,
 	"chatango": {
 		"for": "znanija.com",
 		"id": "cid0020000199944039762",
 		"handle": "znanijacom"
-	},
-	"change_forum_link": {
-		"use_it": false,
-		"links": [{
-			"title": "",
-			"link": ""
-		}]
 	},
 	"quickDeleteButtonsDefaultReasons": {
 		"task": [2, 3],

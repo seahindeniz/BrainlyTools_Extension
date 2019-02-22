@@ -98,8 +98,7 @@ export default $createGroupToplayer => {
 					let $userLink = $('.user-data > div.user-nick > a.nick', $userContainer);
 					let nick = $userLink.text();
 					let buddyUrl = $userLink.attr('href');
-					//let kisi_id = url.match(/\-(\d{1,})/)[1];
-					let id = ~~(buddyUrl.replace(System.constants.config.idExtractRegex, ""))
+					let id = System.ExtractId(buddyUrl);
 					let rankList = $('div.user-data > div.user-nick > a:nth-child(3), div.user-data > div.user-nick > span', $userContainer);
 					let ranks = "";
 

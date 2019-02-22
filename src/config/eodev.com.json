@@ -1,23 +1,8 @@
 {
-	"account_using_for_approve": "kendisi",
-	"archive_page": "arsiv",
-	"reserve": "rezerv",
-	"Deleted_account": "Silinmiş hesap",
-	"special_ranks_starts": 12,
 	"chatango": {
 		"for": "eodev.com",
 		"id": "cid0020000160003733978",
 		"handle": "eodevcom"
-	},
-	"change_forum_link": {
-		"use_it": true,
-		"links": [{
-			"title": "Slack",
-			"link": "https://eodev-mod.slack.com/"
-		}, {
-			"title": "Hangouts",
-			"link": "https://hangouts.google.com/"
-		}]
 	},
 	"quickDeleteButtonsDefaultReasons": {
 		"task": [68, 69],

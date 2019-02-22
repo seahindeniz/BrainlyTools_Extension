@@ -110,7 +110,6 @@ if (System.checkUserP(6) && System.checkBrainlyP(146)) {
 					$checkedContentSelectCheckboxes.each(function() {
 						approveIt(this);
 					});
-
 				}
 			}
 		}

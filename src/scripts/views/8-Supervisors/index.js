@@ -1,14 +1,13 @@
 "use strict";
 
-import WaitForElement from "../../helpers/WaitForElement";
-import { getAllModerators, sendMessageToBrainlyIds } from "../../controllers/ActionsOfBrainly";
 import notification from "../../components/notification";
 import Progress from "../../components/Progress";
+import { getAllModerators, sendMessageToBrainlyIds } from "../../controllers/ActionsOfBrainly";
+import WaitForElement from "../../helpers/WaitForElement";
 
 System.pageLoaded("Supervisors page OK!");
 
-if (System.checkUserP(10))
-	Supervisors();
+Supervisors();
 
 async function Supervisors() {
 	let currentColumn = 0;
@@ -27,7 +26,7 @@ async function Supervisors() {
 		sortIt(userLi);
 	});
 
-	getAllModerators(usersID, {
+	await getAllModerators(usersID, {
 		each: user => {
 			let avatar = System.prepareAvatar(user);
 			let buddyLink = System.createBrainlyLink("profile", { nick: user.nick, id: user.id });
@@ -52,148 +51,148 @@ async function Supervisors() {
 				${user.nick}
 			</a>
 			<div class="ranks">${ranks.join('<br>')}</div>`);
-		},
-		done: () => {
-			let optionsOfRanks = System.data.Brainly.defaultConfig.config.data.ranks.map(rank => {
-				return `<option value="${rank.id}"${rank.color?` style="color:#${rank.color};"`:""}>${rank.name}</option>`;
-			});
-			let $actionBox = $(`
-			<div class="actionBox">
-				<div class="ranks">
-					<select multiple>
-						<option selected value="all">${System.data.locale.supervisors.allRanks}</option>
-						${optionsOfRanks}
-					</select>
-				</div>
-				<div class="tableLayout js-hidden">
-					<span class="sg-text sg-text--xsmall sg-text--link sg-text--bold sg-text--mint">${System.data.locale.supervisors.tableLayout}</span>
-				</div>
-			</div>`).insertAfter("#mod_sup");
-
-			let $rankSelect = $(".ranks > select", $actionBox);
-			let $tableLayout = $(".tableLayout > span", $actionBox);
-			let listedUsers = System.allModerators.list;
-
-			/**
-			 * Rank select
-			 */
-			let rankSelectHandler = function() {
-				let selectedRankIds = [...this.selectedOptions].map(option => option.value);
-				currentColumn = 0;
-				listedUsers = System.allModerators.list.filter(user => {
-					if (selectedRankIds.indexOf("all") >= 0 || selectedRankIds.some(v => user.ranks_ids.includes(~~v))) {
-						user.$li.removeClass("js-hidden");
-						sortIt(user.$li);
-
-						return true;
-					} else {
-						user.$li.addClass("js-hidden");
-
-						return false;
-					}
-				});
-			};
-
-			$rankSelect.change(rankSelectHandler);
-
-			/**
-			 * Table layout
-			 */
-			let tableLayoutHandler = () => {};
-
-			$tableLayout.click(tableLayoutHandler);
-
-			/**
-			 * Message sender
-			 */
-
-			System.checkUserP(10, () => {
-				let $sendMessage = $(`
-					<div class="sendMessage">
-						<span class="sg-text sg-text--xsmall sg-text--link sg-text--bold sg-text--blue">${System.data.locale.supervisors.sendMessagesToMods}</span>
-						<div class="messageBox js-hidden">
-							<textarea class="sg-textarea sg-text--small sg-textarea--tall sg-textarea--full-width" placeholder="${System.data.locale.messages.groups.writeSomething}"></textarea>
-
-							<div class="sg-spinner-container">
-								<button class="sg-button-secondary sg-button-secondary--small sg-button-secondary--alt js-listed" title="${System.data.locale.supervisors.sendMessagesToListedMods.title}">⇐ ${System.data.locale.supervisors.sendMessagesToListedMods.text}</button>
-							</div>
-							<div class="sg-spinner-container">
-								<button class="sg-button-secondary sg-button-secondary--small sg-button-secondary--dark js-all" title="${System.data.locale.supervisors.sendMessagesToAllMods.title}">${System.data.locale.supervisors.sendMessagesToAllMods.text}</button>
-							</div>
-						</div>
-					</div>`);
-				let $sendMessageContainer = $("> span", $sendMessage);
-				let $messageBox = $("> div.messageBox", $sendMessage);
-				let $messageInput = $("> div.messageBox > textarea", $sendMessage);
-				let $sendButton = $("> div.messageBox > div > button", $sendMessage);
-
-				/**
-				 * Message box visibility
-				 */
-				let sendMessageContainerHandler = () => {
-					$messageBox.toggleClass("js-hidden");
-				};
-
-				$sendMessageContainer.click(sendMessageContainerHandler);
-
-				/**
-				 * Send message
-				 */
-				$sendButton.click(async function() {
-					let users = [];
-
-					if (this.classList.contains("js-listed")) {
-						users = listedUsers;
-					} else if (this.classList.contains("js-all")) {
-						users = System.allModerators.list
-					}
-
-					if (window.isPageProcessing) {
-						notification(System.data.locale.common.notificationMessages.ongoingProcessWait, "info");
-					} else if ($messageInput.val() == "") {
-						notification(System.data.locale.supervisors.notificationMessages.emptyMessage, "info");
-						$messageInput.focus();
-					} else if (users.length == 0) {
-						notification(System.data.locale.supervisors.notificationMessages.noUser, "info");
-						$rankSelect.focus();
-					} else {
-						window.isPageProcessing = true;
-						let message = $messageInput.val();
-						let idList = users.map(user => user.id);
-						let idListLen = idList.length;
-						let previousProgressBars = $("#content-old > .progress-container");
-						let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--small sg-spinner--light"></div></div>`);
-						let progress = new Progress({
-							type: "is-success",
-							label: System.data.locale.common.progressing,
-							max: idListLen
-						});
-
-						$spinner.insertAfter(this);
-						$sendButton.addClass("js-disabled");
-						progress.$container.prependTo("#content-old");
-
-						if (previousProgressBars.length > 0) {
-							previousProgressBars.remove();
-						}
-
-						let doInEachSending = i => {
-							progress.update(i);
-							progress.updateLabel(`${i} - ${idListLen}`);
-						};
-
-						await sendMessageToBrainlyIds(idList, message, doInEachSending);
-
-						window.isPageProcessing = false;
-
-						$spinner.remove();
-						$messageInput.val("");
-						$messageInput.prop("disabled", false);
-						$sendButton.removeClass("js-disabled");
-						progress.updateLabel(`(${idListLen}) - ${System.data.locale.common.allDone}`);
-					}
-				});
-			});
 		}
 	});
+
+	let optionsOfRanks = System.data.Brainly.defaultConfig.config.data.ranks.map(rank => {
+		return `<option value="${rank.id}"${rank.color?` style="color:#${rank.color};"`:""}>${rank.name}</option>`;
+	});
+	let $actionBox = $(`
+	<div class="actionBox">
+		<div class="ranks">
+			<select multiple>
+				<option selected value="all">${System.data.locale.supervisors.allRanks}</option>
+				${optionsOfRanks}
+			</select>
+		</div>
+		<div class="tableLayout js-hidden">
+			<span class="sg-text sg-text--xsmall sg-text--link sg-text--bold sg-text--mint">${System.data.locale.supervisors.tableLayout}</span>
+		</div>
+	</div>`).insertAfter("#mod_sup");
+
+	let $rankSelect = $(".ranks > select", $actionBox);
+	let $tableLayout = $(".tableLayout > span", $actionBox);
+	let listedUsers = System.allModerators.list;
+
+	/**
+	 * Rank select
+	 */
+	let rankSelectHandler = function() {
+		let selectedRankIds = [...this.selectedOptions].map(option => option.value);
+		currentColumn = 0;
+		listedUsers = System.allModerators.list.filter(user => {
+			if (selectedRankIds.indexOf("all") >= 0 || selectedRankIds.some(v => user.ranks_ids.includes(~~v))) {
+				user.$li.removeClass("js-hidden");
+				sortIt(user.$li);
+
+				return true;
+			} else {
+				user.$li.addClass("js-hidden");
+
+				return false;
+			}
+		});
+	};
+
+	$rankSelect.change(rankSelectHandler);
+
+	/**
+	 * Table layout
+	 */
+	let tableLayoutHandler = () => {};
+
+	$tableLayout.click(tableLayoutHandler);
+
+	/**
+	 * Message sender
+	 */
+
+	if (System.checkUserP(10)) {
+		let $sendMessage = $(`
+		<div class="sendMessage">
+			<span class="sg-text sg-text--xsmall sg-text--link sg-text--bold sg-text--blue">${System.data.locale.supervisors.sendMessagesToMods}</span>
+			<div class="messageBox js-hidden">
+				<textarea class="sg-textarea sg-text--small sg-textarea--tall sg-textarea--full-width" placeholder="${System.data.locale.messages.groups.writeSomething}"></textarea>
+
+				<div class="sg-spinner-container">
+					<button class="sg-button-secondary sg-button-secondary--small sg-button-secondary--alt js-listed" title="${System.data.locale.supervisors.sendMessagesToListedMods.title}">⇐ ${System.data.locale.supervisors.sendMessagesToListedMods.text}</button>
+				</div>
+				<div class="sg-spinner-container">
+					<button class="sg-button-secondary sg-button-secondary--small sg-button-secondary--dark js-all" title="${System.data.locale.supervisors.sendMessagesToAllMods.title}">${System.data.locale.supervisors.sendMessagesToAllMods.text}</button>
+				</div>
+			</div>
+		</div>`);
+		let $sendMessageContainer = $("> span", $sendMessage);
+		let $messageBox = $("> div.messageBox", $sendMessage);
+		let $messageInput = $("> div.messageBox > textarea", $sendMessage);
+		let $sendButton = $("> div.messageBox > div > button", $sendMessage);
+
+		$sendMessage.appendTo($actionBox);
+		/**
+		 * Message box visibility
+		 */
+		let sendMessageContainerHandler = () => {
+			$messageBox.toggleClass("js-hidden");
+		};
+
+		$sendMessageContainer.click(sendMessageContainerHandler);
+
+		/**
+		 * Send message
+		 */
+		$sendButton.click(async function() {
+			let users = [];
+
+			if (this.classList.contains("js-listed")) {
+				users = listedUsers;
+			} else if (this.classList.contains("js-all")) {
+				users = System.allModerators.list
+			}
+
+			if (window.isPageProcessing) {
+				notification(System.data.locale.common.notificationMessages.ongoingProcessWait, "info");
+			} else if ($messageInput.val() == "") {
+				notification(System.data.locale.supervisors.notificationMessages.emptyMessage, "info");
+				$messageInput.focus();
+			} else if (users.length == 0) {
+				notification(System.data.locale.supervisors.notificationMessages.noUser, "info");
+				$rankSelect.focus();
+			} else {
+				window.isPageProcessing = true;
+				let message = $messageInput.val();
+				let idList = users.map(user => user.id);
+				let idListLen = idList.length;
+				let previousProgressBars = $("#content-old > .progress-container");
+				let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--small sg-spinner--light"></div></div>`);
+				let progress = new Progress({
+					type: "is-success",
+					label: System.data.locale.common.progressing,
+					max: idListLen
+				});
+
+				$spinner.insertAfter(this);
+				$sendButton.addClass("js-disabled");
+				progress.$container.prependTo("#content-old");
+
+				if (previousProgressBars.length > 0) {
+					previousProgressBars.remove();
+				}
+
+				let doInEachSending = i => {
+					progress.update(i);
+					progress.updateLabel(`${i} - ${idListLen}`);
+				};
+
+				await sendMessageToBrainlyIds(idList, message, doInEachSending);
+
+				window.isPageProcessing = false;
+
+				$spinner.remove();
+				$messageInput.val("");
+				$messageInput.prop("disabled", false);
+				$sendButton.removeClass("js-disabled");
+				progress.updateLabel(`(${idListLen}) - ${System.data.locale.common.allDone}`);
+			}
+		});
+	}
 }

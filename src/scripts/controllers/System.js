@@ -32,7 +32,7 @@ class _System {
 			},
 			config: {
 				reasonSign: "Ω",
-				idExtractRegex: /.*-/g,
+				idExtractRegex: /((?:.*[-|\/|pt])(?=\d))|(?:[\/|\?].*)/g,
 				MAX_FILE_SIZE_OF_EVIDENCE_IN_MB: 22,
 				get MAX_FILE_SIZE_OF_EVIDENCE() {
 					return window.System.constants.config.MAX_FILE_SIZE_OF_EVIDENCE_IN_MB * 1024 * 1024;
@@ -147,8 +147,7 @@ class _System {
 	 * @param {number} milliseconds - Specify delay in milliseconds
 	 */
 	delay(milliseconds = System.randomNumber(1000, 4000)) {
-
-		return new Promise((resolve) => setTimeout(resolve, milliseconds));
+		return new Promise(resolve => setTimeout(resolve, milliseconds));
 	}
 	/* log(){
 		console.log.apply()
@@ -336,16 +335,26 @@ class _System {
 			return p
 		}('4.3.2.5.6.7(8)>-1&&(0&&0());', 9, 9, 'c||Brainly|data|System|userData|_hash|indexOf|p'.split('|'), 0, {}))*/
 	}
-	async log(type, targetUser, data) {
-		if (typeof targetUser == "string" || typeof targetUser == "number" ||
-			!(targetUser.nick || targetUser._nick) || (targetUser.nick || targetUser._nick) == "" ||
-			!targetUser.id || targetUser.id == "" || !(~~targetUser.id > 0)) {
-			let user = await getUserByID(targetUser);
+	async log(type, log) {
+		if (
+			log &&
+			log.user &&
+			(
+				!(
+					log.user.nick ||
+					log.user._nick
+				) ||
 
-			Logger(type, { id: user.data.id, nick: user.data.nick }, data);
-		} else {
-			Logger(type, { id: targetUser.id, nick: (targetUser.nick || targetUser._nick) }, data);
+				!log.user.id ||
+				~~log.user.id != 0
+			)
+		) {
+			let user = await getUserByID(log.user.id);
+			log.user.nick = user.data.nick;
+			log.user.id = user.data.id;
 		}
+
+		Logger(type, log);
 	}
 	async updateExtension() {
 		let status = await this.toBackground("updateExtension");
@@ -397,15 +406,26 @@ class _System {
 
 		return isIt;
 	}
+	/**
+	 * @param {string} value
+	 * @returns {number}
+	 */
 	ExtractId(value) {
 		let extractId = value.replace(System.constants.config.idExtractRegex, "");
-		let id = parseInt(extractId);
+		let id = ~~extractId;
 
 		return id;
 	}
+	/**
+	 * @param {string|[]} list
+	 * @returns {[]}
+	 */
 	ExtractIds(list) {
+		if (typeof list == "string") {
+			list = list.split(/\r\n|\n/g);
+		}
+
 		return list
-			.split(/\r\n|\n/g)
 			.filter(Boolean)
 			.map(System.ExtractId);
 	}

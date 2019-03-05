@@ -262,12 +262,13 @@ All notable changes to this project will be documented in this file.
  attachment in to their response. This feature makes some confusion about who
  added this attachment, so in this update you can see only the related user
  answer attachment icon only. There is no need to show an icon for other user's attachments.
-- Normal users can't able to click this
- (<http://i.imgur.com/fRwLKqr.png>) text before, now its clickable.
- (Normal user's that don't have any special privilige in the extension can also
- use the extension with access permission with out being a moderator. This will
- not be any security risks for Brainly and users questions/answers/comments at
- all, because they don't have moderator privilege to make actions.)
+- Non-privileged extension users can't able to click [this](http://i.imgur.com/fRwLKqr.png)
+ text before to switch the reported content between question&answer and comments,
+ now its clickable. (Btw. moderator or non-moderator user's who has not any
+ special privilige in the extension can also use the extension with just access
+ permission can be given by the extension manager. This will
+ not be any security risks for Brainly and moderating system at all, because
+ they don't have privilege to make actions.)
 - Under the "User content view" page, if listed contents are already deleted or
  approved by another user while extension user starts to delete or approve the
  content, extension will inform you about this and pass this process without

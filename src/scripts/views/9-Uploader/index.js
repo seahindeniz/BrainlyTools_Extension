@@ -12,7 +12,7 @@ class FileUpload {
 	}
 	async Upload() {
 		let res = await UploadFile(this.file, this.OnProgress.bind(this));
-		//let res = await System.delay(System.randomNumber(1, 3) * 1000);
+		//let res = await System.Delay(System.randomNumber(1, 3) * 1000);
 
 		this.$box.slideUp("normal", () => this.$box.remove());
 		return res;

@@ -62,7 +62,7 @@ export default function taskSection() {
 				if (!res || !res.success) {
 					notification((res && res.message) || System.data.locale.common.notificationMessages.somethingWentWrong, "error");
 				} else {
-					System.Log(5, { user: userData, data: [question_id] });
+					System.log(5, { user: userData, data: [question_id] });
 					$parentArticle.addClass("brn-question--deleted");
 					$(selectors.taskModerateButton).remove();
 					$taskModerateButtons.remove();

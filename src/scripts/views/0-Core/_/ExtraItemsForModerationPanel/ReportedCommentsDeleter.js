@@ -12,8 +12,6 @@ class ReportedCommentsDeleter {
 		this.deleteProcessInterval = null;
 
 		this.Init();
-
-		return this.$reportedCommentsDeleterLi;
 	}
 	Init() {
 		this.RenderLi();
@@ -21,7 +19,7 @@ class ReportedCommentsDeleter {
 		this.BindEvent();
 	}
 	RenderLi() {
-		this.$reportedCommentsDeleterLi = $(`
+		this.$li = $(`
 		<li class="sg-menu-list__element" style="display: table; width: 100%; padding-right: 1em;">
 			<span class="sg-text sg-text--link sg-text--blue sg-text--small">${System.data.locale.core.reportedCommentsDeleter.text}</span>
 		</li>`);
@@ -113,7 +111,7 @@ class ReportedCommentsDeleter {
 		});
 	}
 	BindEvent() {
-		this.$reportedCommentsDeleterLi.on("click", "span", this.TogglePanel.bind(this));
+		this.$li.on("click", "span", this.TogglePanel.bind(this));
 		this.$stop.click(this.Stop.bind(this));
 		this.$start.click(this.StartDeleting.bind(this));
 	}
@@ -121,7 +119,7 @@ class ReportedCommentsDeleter {
 		if (this.$panel.is(":visible")) {
 			this.$panel.appendTo("</ div>");
 		} else {
-			this.$panel.appendTo(this.$reportedCommentsDeleterLi);
+			this.$panel.appendTo(this.$li);
 		}
 	}
 	Stop() {
@@ -221,7 +219,7 @@ class ReportedCommentsDeleter {
 		};
 
 		await RemoveComment(data);
-		//await System.delay();
+		//await System.Delay();
 		this.ContentDeleted();
 	}
 	ContentDeleted() {

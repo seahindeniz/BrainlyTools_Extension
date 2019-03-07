@@ -395,7 +395,7 @@ class ConditionSection {
 				} else {
 					try {
 						let resConfirm = await ConfirmContent(report.model_id, report.model_type_id);
-						//await System.delay();	let resConfirm = { "protocol": "28", "impl": "5.1", "schema": "moderation/responses/moderation.success.res", "success": true, "message": "Le contenu a été accepté", "data": null, "validated": false };
+						//await System.Delay();	let resConfirm = { "protocol": "28", "impl": "5.1", "schema": "moderation/responses/moderation.success.res", "success": true, "message": "Le contenu a été accepté", "data": null, "validated": false };
 
 						if (resConfirm && resConfirm.success) {
 							this.main.confirmedReports.push(reportString);

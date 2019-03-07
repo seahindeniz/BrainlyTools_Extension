@@ -47,7 +47,7 @@ class GroupMessaging {
 	}
 	async RefreshTimeElements(keepRefreshing = false) {
 		if (keepRefreshing) {
-			await System.delay(1000);
+			await System.Delay(1000);
 			this.RefreshTimeElements(true);
 		}
 

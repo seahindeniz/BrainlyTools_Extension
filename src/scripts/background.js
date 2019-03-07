@@ -53,7 +53,7 @@ class Background {
 			}
 		}
 		if (request.action === "getMarketData") {
-			//await System.delay(500);
+			//await System.Delay(500);
 
 			return new Promise(resolve => { resolve(System.data) });
 		}

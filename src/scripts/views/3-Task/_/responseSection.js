@@ -82,7 +82,7 @@ export default async function responseSection() {
 				if (!res || !res.success) {
 					notification((res && res.message) || System.data.locale.common.notificationMessages.somethingWentWrong, "error");
 				} else {
-					System.Log(6, { user: userData, data: [answer_id] });
+					System.log(6, { user: userData, data: [answer_id] });
 					parentResponseContainer.addClass("brn-question--deleted");
 					$(selectors.responseModerateButtonContainer, parentResponseContainer).remove();
 					$responseModerateButtons.remove();

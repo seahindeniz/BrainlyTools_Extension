@@ -3,6 +3,27 @@ import notification from "./notification";
 
 class Users {
 	constructor() {
+		this.pListOrder = [
+			0,
+			4,
+			5,
+			11,
+			17,
+			18,
+			10,
+			7,
+			13,
+			9,
+			"",
+			1,
+			2,
+			45,
+			14,
+			15,
+			16,
+			6,
+			8
+		];
 		return this.Render();
 	}
 	Render() {
@@ -192,18 +213,29 @@ class Users {
 		return $node;
 	}
 	RenderPrivilegesList() {
-		System.data.locale.popup.extensionManagement.users.privilegeListOrder.forEach(key => {
-			let privilege = System.data.locale.popup.extensionManagement.users.privilegeList[key];
+		this.pListOrder.forEach(key => {
+			let element;
 
-			if (!key == 0) {
-				this.$privilegesSelect.append(`<option value="${key}" title="${privilege.description}">${privilege.title}</option>`);
+			if (typeof key == "string") {
+				element = `<div class="is-divider" style="margin: 1em 0;"${key ? ` data-content="${key}"` : ""}></div>`;
+			} else {
+				let privilege = System.data.locale.popup.extensionManagement.users.privilegeList[key];
+
+				if (privilege) {
+					if (!key == 0) {
+						this.$privilegesSelect.append(`<option value="${key}" title="${privilege.description}">${privilege.title}</option>`);
+					}
+
+					element = `
+					<div class="field" title="${privilege.description}">
+						<input class="is-checkradio is-block is-info" id="p-${key}" type="checkbox">
+						<label for="p-${key}">${privilege.title}</label>
+					</div>`;
+				}
 			}
 
-			this.$privilegesContainer.append(`
-			<div class="field" title="${privilege.description}">
-				<input class="is-checkradio is-block is-info" id="p-${key}" type="checkbox">
-				<label for="p-${key}">${privilege.title}</label>
-			</div>`);
+			if (element)
+				this.$privilegesContainer.append(element);
 		});
 
 		this.$privilegeInputs = $('input[type="checkbox"]', this.$privilegesContainer);

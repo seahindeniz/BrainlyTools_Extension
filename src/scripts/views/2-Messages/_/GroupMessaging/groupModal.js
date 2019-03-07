@@ -1,7 +1,7 @@
 "use strict";
 
 import notification from "../../../../components/notification";
-import Modal from "../../../../components/ModalToplayer";
+import Modal from "../../../../components/Toplayer/Modal";
 import Dropdown from "../../../../components/Dropdown";
 import { getUserByID } from "../../../../controllers/ActionsOfBrainly";
 import { CreateMessageGroup, UpdateMessageGroup } from "../../../../controllers/ActionsOfServer";
@@ -27,7 +27,7 @@ class GroupModal {
 	async CreateModal() {
 		//if (true) {
 		this.createGroupToplayer = new Modal({
-			heading: `<div class="sg-actions-list sg-actions-list--no-wrap">
+			header: `<div class="sg-actions-list sg-actions-list--no-wrap">
 				<div class="sg-actions-list__hole">
 					<h2 class="sg-header-secondary">${this.locale[this.group?"editGroup":"createGroup"]}</h2>
 				</div>
@@ -89,7 +89,7 @@ class GroupModal {
 			size: "limited-width"
 		});
 		//}
-		let $createGroupToplayer = this.createGroupToplayer.$;
+		let $createGroupToplayer = this.createGroupToplayer.$modal;
 		this.$toplayerContainer = $(`<div class="js-toplayers-container"></div>`);
 
 		this.$toplayerContainer.insertBefore("footer.js-page-footer");
@@ -452,7 +452,7 @@ class GroupModal {
 		/**
 		 * Adding a delayer for avoiding from having no icon animation because of the confirm dialog
 		 */
-		await System.delay(50);
+		await System.Delay(50);
 
 		if (
 			forceClose == true ||

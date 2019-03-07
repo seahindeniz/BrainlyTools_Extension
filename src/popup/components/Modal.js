@@ -39,7 +39,7 @@ class Modal {
 			.appendTo(this.$parent)
 			.prop("controls", false);
 
-		await System.delay(200);
+		await System.Delay(200);
 
 		this.$modal.remove();
 	}

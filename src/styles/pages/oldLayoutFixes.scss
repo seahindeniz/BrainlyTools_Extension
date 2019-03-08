@@ -1,7 +1,17 @@
 * {
 	box-sizing: unset !important;
 }
-body{
+
+body {
 	font-size: 11px !important;
-	line-height: 16px !important
+	line-height: 16px !important;
+}
+
+.sg-spinner-container__overlay {
+	z-index: 1;
+}
+
+.sg-bubble {
+	display: inline-block;
+	font-size: 14px;
 }

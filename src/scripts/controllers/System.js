@@ -146,7 +146,7 @@ class _System {
 	 *
 	 * @param {number} milliseconds - Specify delay in milliseconds
 	 */
-	delay(milliseconds = System.randomNumber(1000, 4000)) {
+	Delay(milliseconds = System.randomNumber(1000, 4000)) {
 		return new Promise(resolve => setTimeout(resolve, milliseconds));
 	}
 	/* log(){
@@ -247,7 +247,7 @@ class _System {
 		} else
 			return "";
 	}
-	prepareAvatar(user) {
+	prepareAvatar(user, { returnIcon } = {}) {
 		let avatar = "";
 
 		if (user) {
@@ -262,7 +262,17 @@ class _System {
 			}
 		}
 
-		avatar = avatar || System.data.Brainly.nullAvatar;
+		if (avatar && returnIcon) {
+			avatar = `<img class="sg-avatar__image sg-avatar__image--icon" src="${avatar}">`;
+		} else if (!avatar) {
+			avatar = returnIcon ?
+				`<div class="sg-icon sg-icon--gray-secondary sg-icon--x32">
+					<svg class="sg-icon__svg">
+						<use xlink:href="#icon-profile"></use>
+					</svg>
+				</div>` :
+				System.data.Brainly.nullAvatar
+		}
 
 		return avatar;
 	}
@@ -373,9 +383,7 @@ class _System {
 
 			if (language.match(/\ben[-_](?:us|au|ca|in|nz|gb|za)|en\b/i)) {
 				language = "en_US";
-			} else if (language.indexOf("-")) {
-				language = language.replace(/[-_].*/, "");
-			}
+			} //else if (language.indexOf("-")) { language = language.replace(/[-_].*/, ""); }
 
 			try {
 				let fileType = "json";
@@ -412,9 +420,11 @@ class _System {
 	 */
 	ExtractId(value) {
 		let extractId = value.replace(System.constants.config.idExtractRegex, "");
-		let id = ~~extractId;
+		// Number because returns 0 if is not contains number
+		let id = Number(extractId);
 
-		return id;
+		if (id)
+			return id;
 	}
 	/**
 	 * @param {string|[]} list
@@ -427,7 +437,8 @@ class _System {
 
 		return list
 			.filter(Boolean)
-			.map(System.ExtractId);
+			.map(System.ExtractId)
+			.filter(Boolean);
 	}
 }
 export default _System;

@@ -1,92 +1,162 @@
 import DeleteReasonCategoryList from "../DeleteReasonCategoryList";
 
-export default (Reason, type) => {
-	let categories = DeleteReasonCategoryList(Reason, type);
-	let $deleteSection = $(`
-	<div id="deleteSection">
-		<div class="sg-actions-list sg-content-box__actions--spaced-top sg-content-box__actions--spaced-bottom categories">${categories}</div>
-		<div class="sg-horizontal-separator js-hidden"></div>
-		<div class="sg-actions-list sg-content-box__actions--spaced-top sg-content-box__actions--spaced-bottom reasons"></div>
+class DeleteSection {
+	constructor(reasons, type) {
+		this.type = type;
+		this.selectedReason;
+		this.reasons = reasons;
 
-		<textarea class="sg-textarea sg-textarea--invalid sg-textarea--full-width"></textarea>
-
-		<div class="sg-content-box__actions">
-			${type == "task" || type == "response"? `
-				<div class="sg-label sg-label--secondary" >
-					<div class="sg-label__icon" title="${System.data.locale.common.moderating.takePoints[type].title}">
-						<div class="sg-checkbox">
-							<input type="checkbox" class="sg-checkbox__element" id="take_points">
-							<label class="sg-checkbox__ghost" for="take_points">
-							<svg class="sg-icon sg-icon--adaptive sg-icon--x10">
-								<use xlink:href="#icon-check"></use>
-							</svg>
-							</label>
-						</div>
-					</div>
-					<label class="sg-label__text" for="take_points">${System.data.locale.common.moderating.takePoints[type].text}</label>
-				</div>
-				${type == "task"? `
-					<div class="sg-vertical-separator sg-vertical-separator--small"></div>
+		this.Render();
+		this.RenderReasons();
+		this.RenderReasonWarning();
+		this.BindEvents();
+	}
+	Render() {
+		this.$ = $(`
+		<div class="sg-content-box sg-content-box--spaced-top-xxlarge sg-content-box--spaced-bottom sg-content-box--full">
+			<div class="sg-content-box__actions">
+				<div class="sg-horizontal-separator"></div>
+				<div class="sg-actions-list sg-content-box__actions--spaced-top sg-content-box__actions--spaced-bottom reasons"></div>
+				<div class="sg-horizontal-separator js-hidden"></div>
+				<div class="sg-actions-list sg-content-box__actions--spaced-top sg-content-box__actions--spaced-bottom sub-reasons"></div>
+			</div>
+			<div class="sg-content-box__actions">
+				<textarea class="sg-textarea sg-textarea--invalid sg-textarea--full-width"></textarea>
+			</div>
+			<div class="sg-content-box__actions">
+				${this.type == "task" || this.type == "response"? `
 					<div class="sg-label sg-label--secondary" >
-						<div class="sg-label__icon" title="${System.data.locale.common.moderating.returnPoints.title}">
+						<div class="sg-label__icon" title="${System.data.locale.common.moderating.takePoints[this.type].title}">
 							<div class="sg-checkbox">
-								<input type="checkbox" class="sg-checkbox__element" id="return_points">
-								<label class="sg-checkbox__ghost" for="return_points">
+								<input type="checkbox" class="sg-checkbox__element" id="take_points">
+								<label class="sg-checkbox__ghost" for="take_points">
 								<svg class="sg-icon sg-icon--adaptive sg-icon--x10">
 									<use xlink:href="#icon-check"></use>
 								</svg>
 								</label>
 							</div>
 						</div>
-						<label class="sg-label__text" for="return_points">${System.data.locale.common.moderating.returnPoints.text}</label>
-					</div>`
-					:""
-				}`
-				:""
-			}
-			<div class="sg-vertical-separator sg-vertical-separator--small"></div>
-			<div class="sg-label sg-label--secondary" >
-				<div class="sg-label__icon" title="${System.data.locale.common.moderating.giveWarning.title}">
-					<div class="sg-checkbox">
-						<input type="checkbox" class="sg-checkbox__element" id="give_warning">
-						<label class="sg-checkbox__ghost" for="give_warning">
-						<svg class="sg-icon sg-icon--adaptive sg-icon--x10">
-							<use xlink:href="#icon-check"></use>
-						</svg>
-						</label>
+						<label class="sg-label__text" for="take_points">${System.data.locale.common.moderating.takePoints[this.type].text}</label>
 					</div>
+					<div class="sg-vertical-separator sg-vertical-separator--small"></div>
+					${this.type == "task"? `
+						<div class="sg-label sg-label--secondary" >
+							<div class="sg-label__icon" title="${System.data.locale.common.moderating.returnPoints.title}">
+								<div class="sg-checkbox">
+									<input type="checkbox" class="sg-checkbox__element" id="return_points">
+									<label class="sg-checkbox__ghost" for="return_points">
+									<svg class="sg-icon sg-icon--adaptive sg-icon--x10">
+										<use xlink:href="#icon-check"></use>
+									</svg>
+									</label>
+								</div>
+							</div>
+							<label class="sg-label__text" for="return_points">${System.data.locale.common.moderating.returnPoints.text}</label>
+						</div>
+						<div class="sg-vertical-separator sg-vertical-separator--small"></div>`
+						:""
+					}`
+					:""
+				}
+				<div class="sg-label sg-label--secondary" >
+					<div class="sg-label__icon" title="${System.data.locale.common.moderating.giveWarning.title}">
+						<div class="sg-checkbox">
+							<input type="checkbox" class="sg-checkbox__element" id="give_warning">
+							<label class="sg-checkbox__ghost" for="give_warning">
+							<svg class="sg-icon sg-icon--adaptive sg-icon--x10">
+								<use xlink:href="#icon-check"></use>
+							</svg>
+							</label>
+						</div>
+					</div>
+					<label class="sg-label__text" for="give_warning">${System.data.locale.common.moderating.giveWarning.text}</label>
 				</div>
-				<label class="sg-label__text" for="give_warning">${System.data.locale.common.moderating.giveWarning.text}</label>
 			</div>
-		</div>
-	</div>`);
+		</div>`);
 
-	let $categoryRadio = $('.categories input', $deleteSection);
-	let $reasonSeperator = $('div.sg-horizontal-separator', $deleteSection);
-	let $reasons = $('div.reasons', $deleteSection);
-	let $textarea = $('textarea', $deleteSection);
-	window.selectedCategory = null;
+		this.$textarea = $('textarea', this.$);
+		this.$takePoints = $('#take_points', this.$);
+		this.$giveWarning = $('#give_warning', this.$);
+		this.$returnPoints = $('#return_points', this.$);
+		this.$reasonsContainer = $('.reasons', this.$);
+		this.$subReasonsContainer = $('.sub-reasons', this.$);
+		this.$firstHorizontalSeparator = $(".sg-horizontal-separator:first", this.$);
+	}
+	RenderReasons() {
+		this.$reasons = $(DeleteReasonCategoryList(this.reasons, this.type));
+		this.$reasonsRadios = $('input', this.$reasons);
 
-	$categoryRadio.change(function() {
-		$(".selectReasonWarn", $deleteSection).remove();
+		this.$reasons.appendTo(this.$reasonsContainer);
+	}
+	RenderReasonWarning() {
+		this.$selectReasonWarning = $(`<div class="sg-bubble sg-bubble--bottom sg-bubble--row-start sg-bubble--peach sg-text--light">${System.data.locale.common.moderating.selectReason}</div>`);
+	}
+	BindEvents() {
+		let that = this;
+
+		this.$reasonsRadios.change(function() {
+			let id = System.ExtractId(this.id);
+			that.selectedReason = that.reasons.find(reason => reason.id == id);
+
+			that.UpdateTextarea("");
+			that.HideReasonWarning();
+			that.RenderSubReasons(id);
+			that.ShowSubReasonSeperator();
+		});
+
+		this.$subReasonsContainer.on("change", "input", function() {
+			let id = System.ExtractId(this.id);
+			let subReason = that.selectedReason.subcategories.find(reason => reason.id == id);
+
+			that.UpdateTextarea(subReason.text);
+		});
+	}
+	/**
+	 * @param {string} text
+	 */
+	UpdateTextarea(text) {
+		this.$textarea.val(text);
+	}
+	RenderSubReasons() {
+		this.$subReasons = $(DeleteReasonCategoryList(this.selectedReason.subcategories, "sub-reasons"));
+
+		this.$subReasonsContainer.html("");
+		this.$subReasonsContainer.append(this.$subReasons);
+	}
+	ShowSubReasonSeperator() {
+		let $reasonSeperator = $('div.sg-horizontal-separator', this.$);
+
 		$reasonSeperator.removeClass("js-hidden");
-		$textarea.val("");
+	}
+	ShowReasonWarning() {
+		if (this.$selectReasonWarning.parents("body").length == 0) {
+			this.$selectReasonWarning.insertAfter(this.$firstHorizontalSeparator);
+		} else {
+			this.$selectReasonWarning
+				.fadeTo('fast', 0.5)
+				.fadeTo('fast', 1)
+				.fadeTo('fast', 0.5)
+				.fadeTo('fast', 1);
+		}
 
-		let selectedCategoryId = this.id.replace(/^\D+/g, "");
-		window.selectedCategory = Reason.find((cat) => {
-			return cat.id == selectedCategoryId;
-		});
-
-		let reasons = DeleteReasonCategoryList(window.selectedCategory.subcategories, "sub-reasons");
-		$reasons.html(reasons);
-	});
-	$reasons.on("change", "input", function() {
-		let selectedReasonId = this.id.replace(/^\D+/g, "");
-		let reason = window.selectedCategory.subcategories.find((cat) => {
-			return cat.id == selectedReasonId;
-		});
-
-		$textarea.val(reason.text);
-	});
-	return $deleteSection;
+		this.$selectReasonWarning.focus();
+	}
+	async HideReasonWarning() {
+		await this.$selectReasonWarning.slideUp('fast').promise();
+		this.$selectReasonWarning.appendTo("<div />").show()
+	}
+	get reasonText() {
+		return this.$textarea.val();
+	}
+	get takePoints() {
+		return this.$takePoints.is(':checked');
+	}
+	get giveWarning() {
+		return this.$giveWarning.is(':checked');
+	}
+	get returnPoints() {
+		return this.$returnPoints.is(':checked');
+	}
 }
+
+export default DeleteSection

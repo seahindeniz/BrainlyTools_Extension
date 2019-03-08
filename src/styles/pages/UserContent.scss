@@ -6,20 +6,24 @@ textarea {
 }
 
 .sg-bubble {
-	display: inline-block;
+	/* margin: 0.5em 0; */
+
+	&--top {
+		top: 0.5em;
+	}
 }
 
 label.sg-label__text {
 	margin-top: 5px;
 }
 
-#content-old table a {
+#content-old table td>a {
 	color: #f04;
 	cursor: pointer;
 	font-weight: bold;
 }
 
-tr {
+tbody tr {
 	&>th:nth-last-child(5)~th {
 		&:nth-child(1) {
 			width: 4% !important;
@@ -38,8 +42,12 @@ tr {
 		}
 	}
 
-	&:nth-child(even) {
+	&:nth-child(odd) {
 		background: #f2eee7;
+	}
+
+	&:nth-child(even) {
+		background: #dddddd;
 	}
 
 	&.moderateActions {
@@ -56,41 +64,99 @@ tr {
 		}
 	}
 
-	&.removed {
-		color: white;
-
-		&:not(.already) {
-			background: #ff8073 !important;
+	&.removed,
+	&.approved,
+	&.unapproved {
+		td:nth-child(3) {
+			padding: 0 3px;
 		}
 
-		&.already {
-			background: #b7f !important;
+		&.removed {
+
+			&:not(.already) {
+
+				td:nth-child(1),
+				td:nth-child(2) {
+					background: #ff8073 !important;
+				}
+			}
+
+			&.already {
+
+				td:nth-child(1),
+				td:nth-child(2) {
+					background: #b7f !important;
+				}
+			}
+
+			td:nth-child(1),
+			td:nth-child(2) {
+				color: white;
+
+				a {
+					color: #fff !important;
+				}
+
+				.sg-checkbox label {
+					background-color: #ccc !important;
+					border-color: #ccc !important;
+				}
+			}
 		}
 
-		a {
-			color: #fff !important;
+		&.approved {
+			&:not(.already) {
+
+				td:nth-child(1),
+				td:nth-child(2) {
+					background: #6ed6a0 !important;
+				}
+			}
+
+			&.already {
+
+				td:nth-child(1),
+				td:nth-child(2) {
+					background: #ffbe32 !important;
+				}
+			}
+
+			td:nth-child(1),
+			td:nth-child(2) {
+				color: #000;
+
+				a {
+					color: #000 !important;
+				}
+			}
 		}
 
-		.sg-checkbox label {
-			background-color: #ccc !important;
-			border-color: #ccc !important;
-		}
-	}
+		&.unapproved {
+			&:not(.already) {
 
-	&.approved {
-		background: #6ed6a0 !important;
-		color: #000;
+				td:nth-child(1),
+				td:nth-child(2) {
+					background: #323c45 !important;
+					color: #fff;
 
-		&:not(.already) {
-			background: #6ed6a0 !important;
-		}
+					a {
+						color: #fff !important;
+					}
+				}
+			}
 
-		&.already {
-			background: #ffbe32 !important;
-		}
+			&.already {
 
-		a {
-			color: #000 !important;
+				td:nth-child(1),
+				td:nth-child(2) {
+					background: #ffbe32 !important;
+					color: #000;
+
+					a {
+						color: #000 !important;
+					}
+				}
+			}
 		}
 	}
 
@@ -141,7 +207,7 @@ tr {
 		&>div>table>tbody>tr {
 			&>td {
 				&>button {
-					background-color: #5bb8ff;
+					/* background-color: #5bb8ff;
 					background-image: -webkit-linear-gradient(top, #5bb8ff, #0189b5);
 					padding: 0px 6px;
 					font-size: 11px;
@@ -149,7 +215,7 @@ tr {
 
 					&:hover {
 						background-position: 0 -20px;
-					}
+					} */
 
 					&>b {
 						transform: rotate(0deg);

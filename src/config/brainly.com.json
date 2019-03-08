@@ -5,7 +5,7 @@
 		"handle": "brainlycom"
 	},
 	"quickDeleteButtonsDefaultReasons": {
-		"task": [6, 66],
+		"task": [6, 66, 52],
 		"response": [2, 7, 21],
 		"comment": [3, 23, 71]
 	}

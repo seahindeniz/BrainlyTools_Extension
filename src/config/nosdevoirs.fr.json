@@ -5,7 +5,7 @@
 		"handle": "nosdevoirsfr"
 	},
 	"quickDeleteButtonsDefaultReasons": {
-		"task": [21, 82],
+		"task": [21, 82, 59],
 		"response": [65, 37, 23],
 		"comment": [51, 60, 49]
 	}

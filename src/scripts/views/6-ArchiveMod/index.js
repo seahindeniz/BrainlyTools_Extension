@@ -1,13 +1,12 @@
 "use strict";
 
-import WaitForElement from "../../helpers/WaitForElement";
-import WaitForObject from "../../helpers/WaitForObject";
-import { RemoveQuestion, RemoveAnswer, RemoveComment, ConfirmQuestion, ConfirmAnswer, ConfirmComment, CloseModerationTicket } from "../../controllers/ActionsOfBrainly";
 import Buttons from "../../components/Buttons";
 import notification from "../../components/notification";
-
-import "./_/pagination";
+import { CloseModerationTicket, ConfirmAnswer, ConfirmComment, ConfirmQuestion, RemoveAnswer, RemoveComment, RemoveQuestion } from "../../controllers/ActionsOfBrainly";
+import WaitForElement from "../../helpers/WaitForElement";
+import WaitForObject from "../../helpers/WaitForObject";
 import layoutChanger from "./_/layoutChanger";
+import "./_/pagination";
 
 window.selectors = {
 	moderationItemParent: "#moderation-all > div.content",

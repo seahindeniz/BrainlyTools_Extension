@@ -148,10 +148,10 @@ class RankManager {
 					this.SavingCompleted();
 				} else {
 					this.progress.setMax($selectedRanks.length + 2);
-					await System.delay(500);
+					await System.Delay(500);
 					this.progress.update(2);
 					this.progress.updateLabel(System.data.locale.userProfile.rankManager.updatingRanks);
-					await System.delay(500);
+					await System.Delay(500);
 
 					$selectedRanks.each(async (i, rankCheckbox) => {
 						let rankId = rankCheckbox.id.replace("p-", "");
@@ -162,7 +162,7 @@ class RankManager {
 						this.progress.updateLabel(System.data.locale.userProfile.rankManager.xHasAssigned.replace("%{rank_name}", rank.name));
 
 						if ($selectedRanks.length == i + 1) {
-							await System.delay(500);
+							await System.Delay(500);
 							this.SavingCompleted();
 						}
 					});

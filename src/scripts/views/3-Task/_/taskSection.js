@@ -1,24 +1,25 @@
 import { RemoveQuestion, CloseModerationTicket } from "../../../controllers/ActionsOfBrainly";
 import Buttons from "../../../components/Buttons";
 import notification from "../../../components/notification";
+import QuickDeleteButton from "../../1-Home/_/QuickDeleteButton";
 
 /**
  * Prepare and add quick delete buttons to question box
  */
 export default function taskSection() {
-	let taskDeleteButtons = Buttons('RemoveQuestion', [{
-			text: System.data.Brainly.deleteReasons.__withIds.task[System.data.config.quickDeleteButtonsReasons.task[0]].title,
-			title: System.data.Brainly.deleteReasons.__withIds.task[System.data.config.quickDeleteButtonsReasons.task[0]].text,
+	let buttonData = [];
+
+	System.data.config.quickDeleteButtonsReasons.task.forEach(id => {
+		let reason = System.data.Brainly.deleteReasons.__withIds.task[id];
+
+		buttonData.push({
+			text: reason.title,
+			title: reason.text,
 			type: "peach",
 			icon: "x"
-		},
-		{
-			text: System.data.Brainly.deleteReasons.__withIds.task[System.data.config.quickDeleteButtonsReasons.task[1]].title,
-			title: System.data.Brainly.deleteReasons.__withIds.task[System.data.config.quickDeleteButtonsReasons.task[1]].text,
-			type: "peach",
-			icon: "x"
-		}
-	], `<li class="sg-list__element  sg-actions-list--to-right">{button}</li>`);
+		});
+	});
+	let taskDeleteButtons = Buttons('RemoveQuestion', buttonData, `<li class="sg-list__element  sg-actions-list--to-right">{button}</li>`);
 
 	let $taskModerateButtons = $(`
 	<div class="sg-actions-list sg-actions-list--to-right sg-actions-list--no-wrap">
@@ -75,3 +76,19 @@ export default function taskSection() {
 	};
 	$("button", $taskModerateButtons).on("click", taskModerateButtonsClickHandler);
 }
+/* export default function() {
+	let $buttonContainer = $(`
+	<div class="sg-actions-list" style="width: 2em;position: absolute;right: 0;">
+		<div class="sg-actions-list__hole sg-actions-list__hole--no-spacing ext_actions"></div>
+	</div>
+	`);
+	let $buttonHole = $(".sg-actions-list__hole", $buttonContainer);
+
+	$buttonContainer.insertAfter(selectors.taskModerateButtonContainer);
+	System.data.config.quickDeleteButtonsReasons.task.forEach(id => {
+		let $button = new QuickDeleteButton(id, this);
+
+		$button.appendTo($buttonHole);
+	});
+}
+ */

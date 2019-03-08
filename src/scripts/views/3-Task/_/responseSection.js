@@ -8,25 +8,20 @@ import notification from "../../../components/notification";
  * Prepare and add quick delete buttons to answer boxes
  */
 export default async function responseSection() {
-	let responseDeleteButtons = Buttons('RemoveQuestion', [{
-			text: System.data.Brainly.deleteReasons.__withIds.response[System.data.config.quickDeleteButtonsReasons.response[0]].title,
-			title: System.data.Brainly.deleteReasons.__withIds.response[System.data.config.quickDeleteButtonsReasons.response[0]].text,
+	let buttonData = [];
+
+	System.data.config.quickDeleteButtonsReasons.response.forEach(id => {
+		let reason = System.data.Brainly.deleteReasons.__withIds.response[id];
+
+		buttonData.push({
+			text: reason.title,
+			title: reason.text,
 			type: "peach",
 			icon: "x"
-		},
-		{
-			text: System.data.Brainly.deleteReasons.__withIds.response[System.data.config.quickDeleteButtonsReasons.response[1]].title,
-			title: System.data.Brainly.deleteReasons.__withIds.response[System.data.config.quickDeleteButtonsReasons.response[1]].text,
-			type: "peach",
-			icon: "x"
-		},
-		{
-			text: System.data.Brainly.deleteReasons.__withIds.response[System.data.config.quickDeleteButtonsReasons.response[2]].title,
-			title: System.data.Brainly.deleteReasons.__withIds.response[System.data.config.quickDeleteButtonsReasons.response[2]].text,
-			type: "peach",
-			icon: "x"
-		}
-	], `<li class="sg-list__element  sg-actions-list--to-right">{button}</li>`);
+		});
+	});
+
+	let responseDeleteButtons = Buttons('RemoveQuestion', buttonData, `<li class="sg-list__element  sg-actions-list--to-right">{button}</li>`);
 
 	let $responseModerateButtons = $(`
 	<div class="sg-actions-list sg-actions-list--to-right sg-actions-list--no-wrap">

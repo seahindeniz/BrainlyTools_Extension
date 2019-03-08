@@ -11,7 +11,7 @@ let notifyHandlers = {
 			type: "message",
 			id: sender.id,
 			nick: sender.nick,
-			title: this.market.data.locale.common.notificationMessages.xSendYouANewMessage.replace("%{userName}", sender.nick),
+			title: this.market.data.locale.common.notificationMessages.xSendYouANewMessage.replace("%{userName}", ` ${sender.nick} `),
 			message: arg.data.content,
 			iconUrl: System.prepareAvatar(sender),
 			buttons: [{

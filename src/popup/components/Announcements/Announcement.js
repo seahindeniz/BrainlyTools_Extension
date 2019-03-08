@@ -75,7 +75,7 @@ class Announcement {
 			readed_by.forEach(reading => {
 				let user = this.data.readers.find(user => user._id == reading.user_id);
 				let time = window.moment(reading.time).format('LLLL');
-				let readedOn = System.data.locale.popup.extensionManagement.announcements.readedOn.replace("%{date}", time);
+				let readedOn = System.data.locale.popup.extensionManagement.announcements.readedOn.replace(" %{date} ", time);
 
 				window.popup.ReserveAUser(user.brainlyID);
 

@@ -48,7 +48,7 @@ class ConditionSection {
 		this.RenderSectionCard();
 	}
 	RenderFooter() {
-		let confirmedText = System.data.locale.core.reportedContentsConfirmer.confirmed.replace("%{number_of_confirmed_reports}", "<b>0</b>");
+		let confirmedText = System.data.locale.core.reportedContentsConfirmer.confirmed.replace("%{number_of_confirmed_reports}", " <b>0</b> ");
 		this.$footer = $(templateFooter.template({ matchedText: this.ReplaceMatchedTextString(), confirmedText }));
 
 		this.$matchedButton = $("button", this.$footer);

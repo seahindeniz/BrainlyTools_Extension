@@ -417,7 +417,7 @@ class GroupModal {
 
 			this.resolve(groupData);
 			this.CloseModal(true);
-			notification(this.locale.notificationMessages.groupCreated.replace("%{groupName}", groupData.title), "success");
+			notification(this.locale.notificationMessages.groupCreated.replace("%{groupName}", ` ${groupData.title} `), "success");
 		}
 	}
 	async UpdateGroup(groupData) {
@@ -433,7 +433,7 @@ class GroupModal {
 
 			this.$groupName.prop("defaultValue", groupData.title);
 
-			this.createGroupToplayer.notification(this.locale.notificationMessages.groupUpdated.replace("%{groupName}", groupData.title), "success");
+			this.createGroupToplayer.notification(this.locale.notificationMessages.groupUpdated.replace("%{groupName}", ` ${groupData.title} `), "success");
 		}
 
 		this.$spinnerSaveButton.remove();

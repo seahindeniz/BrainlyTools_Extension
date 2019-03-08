@@ -69,7 +69,7 @@ async function onBodyLoad() {
 	if (!isBrainlyPageFound) {
 		popup.RenderStatusMessage({
 			type: "danger",
-			title: System.data.locale.popup.notificationMessages.errorN.replace("%{error_code}", 404),
+			title: System.data.locale.popup.notificationMessages.errorN.replace("%{error_code}", ` 404 `),
 			message: System.data.locale.popup.notificationMessages.openABrainlyPage
 		});
 	}

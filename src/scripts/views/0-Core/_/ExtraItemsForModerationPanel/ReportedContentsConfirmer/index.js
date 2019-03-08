@@ -154,7 +154,7 @@ class ReportedContentsConfirmer {
 	}
 	AddUniqeCondition() {
 		let title = System.data.locale.core.reportedContentsConfirmer.conditionN.title;
-		let text = System.data.locale.core.reportedContentsConfirmer.conditionN.text.replace("%{amount_of_conditions}", ++this.conditionCount);
+		let text = System.data.locale.core.reportedContentsConfirmer.conditionN.text.replace("%{amount_of_conditions}", ` ${++this.conditionCount} `);
 
 		this.ShowElement(this.commonConditionSection.$section);
 		this.AddConditionSection(text, title);

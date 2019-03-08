@@ -300,7 +300,7 @@ export default class UserContentRow {
 
 			if (!resApprove.success && !resApprove.message) {
 				this.element.classList.add("already");
-				let message = System.data.locale.userContent.notificationMessages.xIsAlreayApproved.replace("%{row_id}", `#${rowNumber} `);
+				let message = System.data.locale.userContent.notificationMessages.xIsAlreayApproved.replace("%{row_id}", ` #${rowNumber} `);
 				notification(`${message}`, "info");
 			}
 		}

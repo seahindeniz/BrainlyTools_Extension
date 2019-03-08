@@ -27,9 +27,9 @@ class MassQuestionDeleter {
 		</li>`);
 	}
 	RenderModal() {
-		let nQuestions = System.data.locale.core.TaskDeleter.nQuestions.replace("%{n}", `<span>0</span>`);
-		let nQuestionsToDeleted = System.data.locale.core.TaskDeleter.nQuestionsToDeleted.replace("%{n}", `<span>0</span>`);
-		let nHasBeenDeleted = System.data.locale.core.TaskDeleter.nHasBeenDeleted.replace("%{n}", `<b>0</b>`);
+		let nQuestions = System.data.locale.core.TaskDeleter.nQuestions.replace("%{n}", ` <span>0</span> `);
+		let nQuestionsToDeleted = System.data.locale.core.TaskDeleter.nQuestionsToDeleted.replace("%{n}", ` <span>0</span> `);
+		let nHasBeenDeleted = System.data.locale.core.TaskDeleter.nHasBeenDeleted.replace("%{n}", ` <b>0</b> `);
 		this.modal = new Modal({
 			header: `
 			<div class="sg-actions-list sg-actions-list--space-between">
@@ -260,7 +260,7 @@ class MassQuestionDeleter {
 				(
 					resRemove.message ?
 					`#${id} > ${resRemove.message}` :
-					System.data.locale.core.notificationMessages.errorOccuredWhileDeletingTheQuestion.replace("%{question_id}", id)
+					System.data.locale.core.notificationMessages.errorOccuredWhileDeletingTheQuestion.replace("%{question_id}", ` #${id} `)
 				),
 				"error"
 			);

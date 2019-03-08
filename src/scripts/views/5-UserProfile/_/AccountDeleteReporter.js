@@ -220,7 +220,7 @@ class AccountDeleteReporter {
 				}
 
 				this.progress.update(percent);
-				this.progress.updateLabel(System.data.locale.userProfile.accountDelete.uploading.replace("%{percentage_value}", Math.ceil(percent)));
+				this.progress.updateLabel(System.data.locale.userProfile.accountDelete.uploading.replace("%{percentage_value}", ` ${Math.ceil(percent)} `));
 			});
 
 			return xhrPromise;
@@ -254,7 +254,7 @@ class AccountDeleteReporter {
 					this.progress.update(metadata.percent);
 
 					if (metadata.currentFile) {
-						this.progress.updateLabel(System.data.locale.userProfile.accountDelete.compressingTheFile.replace("%{file_name}", metadata.currentFile));
+						this.progress.updateLabel(System.data.locale.userProfile.accountDelete.compressingTheFile.replace("%{file_name}", ` ${metadata.currentFile} `));
 					}
 				}).then(function(content) {
 					resolve(content);

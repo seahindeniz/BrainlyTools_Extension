@@ -189,7 +189,7 @@ class Users {
 			time = System.data.locale.popup.extensionManagement.users.hasntUsed;
 		} else {
 			let timeLong = moment(serverData.checkInTime).fromNow();
-			time = System.data.locale.popup.extensionManagement.users.firstUsageTimeAgoPreTitle.replace("%{time}", timeLong);
+			time = System.data.locale.popup.extensionManagement.users.firstUsageTimeAgoPreTitle.replace("%{time}", ` ${timeLong} `);
 
 			if (serverData.approved) {
 				userStatus += " active";
@@ -373,7 +373,7 @@ class Users {
 				let res = await GivePrivilege(privilege);
 
 				this.PrepareUsers();
-				notification(System.data.locale.popup.notificationMessages.privilegeHasGiven.replace("%{user_amount}", res.data.affected), "success");
+				notification(System.data.locale.popup.notificationMessages.privilegeHasGiven.replace("%{user_amount}", ` ${res.data.affected} `), "success");
 			}
 		}
 	}
@@ -386,7 +386,7 @@ class Users {
 				let res = await RevokePrivilege(privilege);
 
 				this.PrepareUsers();
-				notification(System.data.locale.popup.notificationMessages.privilegeHasRevoked.replace("%{user_amount}", res.data.affected), "success");
+				notification(System.data.locale.popup.notificationMessages.privilegeHasRevoked.replace("%{user_amount}", ` ${res.data.affected} `), "success");
 			}
 		}
 	}

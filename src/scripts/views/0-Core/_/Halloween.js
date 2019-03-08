@@ -6,7 +6,7 @@ export default async () => {
 	let halloween = await storage("getL", "halloween2018");
 	if (!halloween) {
 		let finishScaring = () => {
-			alert(System.data.locale.common.halloween.happyHalloween.replace("%{userNick}", System.data.Brainly.userData.user.nick));
+			alert(System.data.locale.common.halloween.happyHalloween.replace("%{userNick}", ` ${System.data.Brainly.userData.user.nick} `));
 
 			alert(`\n\n${System.data.locale.common.halloween.imSorry} :P\n\n\n`);
 

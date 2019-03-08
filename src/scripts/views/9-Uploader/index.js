@@ -124,9 +124,9 @@ class Uploader {
 	}
 	async ProcessFile(file) {
 		if (this.IsExist(file)) {
-			notification(System.data.locale.uploader.notificationMessages.alreadyExist.replace("%{file_name}", file.name), "error");
+			notification(System.data.locale.uploader.notificationMessages.alreadyExist.replace("%{file_name}", ` ${file.name} `), "error");
 		} else if (file.name.indexOf("\\") >= 0) {
-			notification(System.data.locale.uploader.notificationMessages.fileNameCannotContainBackslash.replace("%{file_name}", file.name), "error");
+			notification(System.data.locale.uploader.notificationMessages.fileNameCannotContainBackslash.replace("%{file_name}", ` ${file.name} `), "error");
 		} else {
 			let $box = this.AddProgressBox(file);
 			let uploader = new FileUpload(file, $box);

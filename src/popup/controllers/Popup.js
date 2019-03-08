@@ -28,7 +28,7 @@ class Popup {
 		if (!marketData) {
 			return this.RenderStatusMessage({
 				type: "danger",
-				title: System.data.locale.popup.notificationMessages.errorN.replace("%{error_code}", 417),
+				title: System.data.locale.popup.notificationMessages.errorN.replace("%{error_code}", ` 417 `),
 				message: System.data.locale.popup.notificationMessages.iCantFechMarketData
 			});
 		}
@@ -39,13 +39,13 @@ class Popup {
 		if (!(storageData && storageData.user && storageData.user.user && storageData.user.user.id && storageData.user.user.id == storageData.user.user.id)) {
 			this.RenderStatusMessage({
 				type: "danger",
-				title: System.data.locale.popup.notificationMessages.errorN.replace("%{error_code}", 417),
+				title: System.data.locale.popup.notificationMessages.errorN.replace("%{error_code}", ` 417 `),
 				message: System.data.locale.popup.notificationMessages.uncorrectDate
 			});
 		} else if (!System.data.Brainly.deleteReasons.__withIds) {
 			this.RenderStatusMessage({
 				type: "danger",
-				title: System.data.locale.popup.notificationMessages.errorN.replace("%{error_code}", 416),
+				title: System.data.locale.popup.notificationMessages.errorN.replace("%{error_code}", ` 416 `),
 				message: System.data.locale.popup.notificationMessages.preparingUnsuccessful
 			});
 		} else {

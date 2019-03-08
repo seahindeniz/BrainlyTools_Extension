@@ -159,7 +159,7 @@ class RankManager {
 						await AddRank(window.profileData.id, rankId);
 
 						this.progress.update(i + 3);
-						this.progress.updateLabel(System.data.locale.userProfile.rankManager.xHasAssigned.replace("%{rank_name}", rank.name));
+						this.progress.updateLabel(System.data.locale.userProfile.rankManager.xHasAssigned.replace("%{rank_name}", ` ${rank.name} `));
 
 						if ($selectedRanks.length == i + 1) {
 							await System.Delay(500);

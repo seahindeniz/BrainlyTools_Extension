@@ -1,24 +1,21 @@
-import notification from "../../../../components/notification";
-import ModalToplayer from "../../../../components/ModalToplayer";
-import { getUserByID, AddPoint } from "../../../../controllers/ActionsOfBrainly";
+import ModalToplayer from "../../../../components/Toplayer/Modal";
+import { AddPoint, getUserByID } from "../../../../controllers/ActionsOfBrainly";
 
 const spinner = `<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`;
 
 class PointChanger {
 	constructor() {
-		this.users = []
-		this.Init();
+		this.users = [];
 
-		return this.$pointChangerLi;
+		this.Init();
 	}
 	Init() {
 		this.RenderLi();
 		this.RenderModal();
-		this.RenderToplayerContainer();
 		this.BindEvent();
 	}
 	RenderLi() {
-		this.$pointChangerLi = $(`
+		this.$li = $(`
 		<li class="sg-menu-list__element" style="display: table; width: 100%;">
 			<span class="sg-text sg-text--link sg-text--blue sg-text--small">${System.data.locale.core.pointChanger.text}</span>
 		</li>`);
@@ -27,7 +24,7 @@ class PointChanger {
 	RenderModal() {
 		let nUsers = System.data.locale.core.pointChanger.nUsers.replace("%{n}", `<span>0</span>`);
 		this.modal = new ModalToplayer({
-			heading: `<div class="sg-actions-list sg-actions-list--space-between">
+			header: `<div class="sg-actions-list sg-actions-list--space-between">
 				<div class="sg-actions-list__hole">
 					<div class="sg-label sg-label--small sg-label--secondary">
 						<div class="sg-text sg-text--peach">${System.data.locale.core.pointChanger.text}</div>
@@ -52,6 +49,15 @@ class PointChanger {
 										</div>
 									</button>
 								</div>
+								<div class="sg-actions-list__hole">
+									<button class="sg-button-secondary js-hidden">
+										<div class="sg-icon sg-icon--adaptive sg-icon--x22">
+											<svg class="sg-icon__svg">
+												<use xlink:href="#icon-check"></use>
+											</svg>
+										</div>
+									</button>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -69,26 +75,20 @@ class PointChanger {
 			</div>`,
 			size: "medium"
 		});
-		this.$modal = this.modal.$;
-		this.$idInput = $(".id input", this.$modal);
-		this.$addButton = $(".id button", this.$modal);
-		this.$userList = $(".js-user-list", this.$modal);
-		this.$close = $(".sg-toplayer__close", this.$modal);
-		this.$idInputContainer = $(".sg-content-box.id", this.$modal);
-		this.$amountOfUsers = $(".sg-content-box__actions .sg-actions-list > .sg-actions-list__hole > .sg-text > span", this.$modal);
-	}
-	RenderToplayerContainer() {
-		this.$toplayerContainer = $("body > div.page-wrapper.js-page-wrapper > section > div.js-toplayers-container");
-
-		if (this.$toplayerContainer.length == 0) {
-			this.$toplayerContainer = $(`<div class="js-toplayers-container"></div>`).appendTo("body");
-		}
+		this.$idInput = $(".id input", this.modal.$modal);
+		this.$userList = $(".js-user-list", this.modal.$modal);
+		this.$close = $(".sg-toplayer__close", this.modal.$modal);
+		this.$idInputContainer = $(".sg-content-box.id", this.modal.$modal);
+		this.$addButton = $(".id .sg-actions-list__hole:eq(1) button", this.modal.$modal);
+		this.$addPointToAllButton = $(".id .sg-actions-list__hole:eq(2) button", this.modal.$modal);
+		this.$amountOfUsers = $(".sg-content-box__actions .sg-actions-list > .sg-actions-list__hole > .sg-text > span", this.modal.$modal);
 	}
 	BindEvent() {
 		let that = this;
 
-		this.$close.click(this.CloseModal.bind(this));
-		this.$pointChangerLi.on("click", "span", this.OpenModal.bind(this));
+		this.$close.click(this.modal.Close.bind(this.modal));
+		this.$li.on("click", "span", this.modal.Open.bind(this.modal));
+		this.$addPointToAllButton.click(this.AddPointToAll.bind(this));
 
 		this.$addButton.click(() => {
 			let id = this.GetID()
@@ -154,11 +154,10 @@ class PointChanger {
 			}
 		});
 	}
-	CloseModal() {
-		this.$modal.appendTo("</ div>");
-	}
-	OpenModal() {
-		this.$modal.appendTo(this.$toplayerContainer);
+	AddPointToAll() {
+		let $buttons = $(`button.js-add-point`, this.$userList);
+
+		$buttons.click();
 	}
 	GetID() {
 		let value = this.$idInput.val();
@@ -241,6 +240,7 @@ class PointChanger {
 		this.ChangeAmountOfUser(1);
 		$node.prop("userData", user);
 		$node.insertBefore(this.$idInputContainer);
+		this.$addPointToAllButton.removeClass("js-hidden");
 	}
 	ChangeAmountOfUser(amount) {
 		let currentAmount = this.$amountOfUsers.text();

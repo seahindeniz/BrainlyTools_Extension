@@ -1,4 +1,5 @@
 {
+	"URL": "/endpoints/legacy",
 	"actions": {
 		"hello.world": {
 			"url": "/api/28/hello/world"

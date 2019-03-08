@@ -114,6 +114,6 @@ div#content-old .editProfileContent .profileListEdit,
 
 		TimedLoop(() => {
 			$personalColors.parentNode && $personalColors.parentNode.appendChild($personalColors);
-		},10);
+		}, { expireTime: 10 });
 	}
 }

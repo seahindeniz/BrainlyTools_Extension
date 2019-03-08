@@ -7,28 +7,32 @@ div.js-feed>div>div.sg-layout>div.sg-layout__container>div.sg-layout__content>di
 	position: absolute;
 	top: 0;
 	right: 0;
-	width: 42px;
-	padding: 0px 5px 7px;
-	border-radius: 5px;
-	box-shadow: 0px 0px 10px 0px #c5c5c5;
+	width: 5em;
 
-	button {
-		padding: 0 9px;
-		float: right;
-		margin-top: 7px;
+	/* padding: 0px 5px 7px; */
+	/* border-radius: 5px; */
+	/* box-shadow: 0px 0px 10px 0px #c5c5c5; */
+	>.sg-actions-list__hole {
+		width: 2em;
 
-		label.sg-label__text {
-			display: none;
-			margin-right: 10px;
-		}
+		button {
+			padding: 0 9px;
+			float: right;
+			margin-top: 7px;
 
-		span.sg-button-primary__icon {
-			margin: 0;
-		}
+			label.sg-label__text {
+				display: none;
+				margin-right: 10px;
+			}
 
-		&:hover {
-			label {
-				display: block;
+			span.sg-button-primary__icon {
+				margin: 0;
+			}
+
+			&:hover {
+				label {
+					display: block;
+				}
 			}
 		}
 	}
@@ -46,8 +50,8 @@ div.js-feed>div>div.sg-layout>div.sg-layout__container>div.sg-layout__content>di
 	&:hover:not(.deleted)>.sg-content-box {
 		position: relative;
 
-		>.ext_actions {
-			display: block;
+		.ext_actions {
+			display: flex;
 		}
 	}
 }

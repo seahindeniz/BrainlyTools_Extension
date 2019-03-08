@@ -1,4 +1,4 @@
-import makeToplayer from "../../../components/Toplayer";
+import Toplayer from "../../../components/Toplayer";
 import notification from "../../../components/notification";
 import { AnnouncementRead } from "../../../controllers/ActionsOfServer";
 
@@ -9,13 +9,15 @@ export default () => {
 		return false;
 
 	let $overlay = $(`<div class="announcementOverlay"></div>`);
-	let $announcementToplayer = makeToplayer(null,
-		`<h2 class="sg-header-secondary" title="${System.data.locale.core.announcements.title}">${System.data.locale.core.announcements.text}</h2>`);
+	let announcementToplayer = new Toplayer({
+		size: null,
+		header: `<h2 class="sg-header-secondary" title="${System.data.locale.core.announcements.title}">${System.data.locale.core.announcements.text}</h2>`
+	});
 
-	$announcementToplayer.appendTo($overlay);
+	announcementToplayer.$toplayer.appendTo($overlay);
 	$overlay.appendTo(window.selectors.toplayerContainer);
 
-	let $announcementContainer = $("div.sg-toplayer__wrapper > div.sg-content-box > div.sg-content-box__content:not(:first-child)", $announcementToplayer);
+	let $announcementContainer = $("div.sg-toplayer__wrapper > div.sg-content-box > div.sg-content-box__content:not(:first-child)", announcementToplayer.$toplayer);
 
 	announcements.reverse().forEach(announcement => {
 		let time = new Date(announcement.time).toLocaleDateString(System.data.Brainly.defaultConfig.locale.LANGUAGE, {
@@ -54,13 +56,13 @@ export default () => {
 			</article>`);
 	});
 
-	let $closeIcon = $(".sg-toplayer__close", $announcementToplayer);
+	let $closeIcon = $(".sg-toplayer__close", announcementToplayer.$toplayer);
 
 	$closeIcon.click(() => {
 		$overlay.toggleClass("js-closed");
 	});
 
-	$($announcementToplayer).on("click", ".js-read:not(.sg-button-secondary--disabled)", async function() {
+	$(announcementToplayer.$toplayer).on("click", ".js-read:not(.sg-button-secondary--disabled)", async function() {
 		let that = $(this);
 		let $article = that.parents("article.announcement");
 		let id = $article.attr("id");

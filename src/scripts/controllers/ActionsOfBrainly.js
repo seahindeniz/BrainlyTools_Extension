@@ -7,10 +7,12 @@ const coupon = () => btoa(`[object Object]${System.data.Brainly.userData.user.id
 
 /**
  * Get actions details of a question
- * @param {number|string} taskId - Id number of a question
+ * @param {number|string} questionId - Id number of a question
  */
-export function GetQuestionContent(taskId) {
-	return Request.BrainlyAPI("GET", '/api_tasks/main_view/' + taskId);
+export function GetQuestionContent(questionId) {
+	if (!(questionId > 0)) return Promise.reject("Unvalid question id");
+
+	return Request.BrainlyAPI("GET", `/api_tasks/main_view/${questionId}`);
 }
 /**
  * Delete question by id
@@ -157,10 +159,10 @@ export function OpenModerationTicket(taskId, withTaskDetails = false) {
 
 /**
  * Get actions details of a question
- * @param {number|string} taskId - Id number of a question
+ * @param {number|string} questionId - Id number of a question
  */
-export function TaskActions(taskId) {
-	return Request.BrainlyAPI("GET", '/api_task_lines/big/' + taskId);
+export function TaskActions(questionId) {
+	return Request.BrainlyAPI("GET", `/api_task_lines/big/${questionId}`);
 }
 /**
  * Close a opened ticket for a question
@@ -637,4 +639,18 @@ export function GetReportedContents(last_id) {
 	}
 
 	return Request.BrainlyAPI("POST", `/moderation_new/index`, data);
+}
+
+export function GetCorrectedContents(last_id) {
+	let data = {
+		subject_id: 0,
+		category_id: 999,
+		schema: "moderation.index"
+	}
+
+	if (last_id) {
+		data.last_id = last_id;
+	}
+
+	return Request.BrainlyAPI("POST", `/moderation_new/get_wrong_content`, data);
 }

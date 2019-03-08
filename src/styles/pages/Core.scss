@@ -246,10 +246,6 @@ img.userFlag {
 	width: 50px;
 }
 
-.sg-toplayer .sg-content-box>div:empty {
-	display: none;
-}
-
 .progress-container {
 	.progress {
 		border: none;
@@ -453,9 +449,39 @@ body.mint {
 		width: 23em;
 	}
 }
-.no-select{
+
+.no-select {
 	user-select: none;
 }
+
+.js-inputs {
+	.toDelete {
+		background: #fec83c;
+	}
+
+	.deleted {
+		background: #9ce8c2;
+	}
+
+	.error {
+		background: #ff7968;
+	}
+}
+
+.sg-textarea {
+	&--resizable {
+		resize: auto;
+
+		&-vertical {
+			resize: vertical;
+		}
+
+		&-horizontal {
+			resize: horizontal;
+		}
+	}
+}
+
 .sg-box,
 .sg-button-secondary {
 	&--margin-spaced {
@@ -615,4 +641,8 @@ body.mint {
 	u {
 		@extend %extend_1;
 	}
+}
+
+.sg-box__image {
+	object-fit: contain;
 }

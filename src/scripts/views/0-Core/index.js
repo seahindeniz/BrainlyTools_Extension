@@ -132,6 +132,7 @@ class Core {
 			InjectToDOM([
 				"/scripts/views/7-UserWarnings/index.js",
 				System.constants.Brainly.style_guide.css,
+				System.constants.Brainly.style_guide.icons,
 				"/styles/pages/UserWarnings.css",
 				"/styles/pages/oldLayoutFixes.css"
 			]);
@@ -141,6 +142,7 @@ class Core {
 			InjectToDOM([
 				"/scripts/views/8-Supervisors/index.js",
 				System.constants.Brainly.style_guide.css,
+				System.constants.Brainly.style_guide.icons,
 				"/styles/pages/Supervisors.css",
 				"/styles/pages/oldLayoutFixes.css"
 			]);
@@ -150,6 +152,7 @@ class Core {
 			InjectToDOM([
 				"/scripts/views/9-Uploader/index.js",
 				System.constants.Brainly.style_guide.css,
+				System.constants.Brainly.style_guide.icons,
 				"/styles/pages/Uploader.css"
 			]);
 		}
@@ -178,6 +181,7 @@ class Core {
 			InjectToDOM([
 				"/scripts/views/5-UserProfile/index.js",
 				System.constants.Brainly.style_guide.css,
+				System.constants.Brainly.style_guide.icons,
 				"/styles/pages/UserProfile.css",
 				"/styles/pages/oldLayoutFixes.css"
 			]);
@@ -207,6 +211,7 @@ class Core {
 			InjectToDOM([
 				"/scripts/views/4-UserContent/index.js",
 				System.constants.Brainly.style_guide.css,
+				System.constants.Brainly.style_guide.icons,
 				"/styles/pages/UserContent.css",
 				"/styles/pages/oldLayoutFixes.css"
 			])

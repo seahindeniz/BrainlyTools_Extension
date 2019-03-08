@@ -1,7 +1,7 @@
 import template from "backtick-template";
 import ConditionSection from "./ConditionSection";
 import templateModalContent from "./templates/ModalContent.html";
-import ModalToplayer from "../../../../../components/ModalToplayer";
+import ModalToplayer from "../../../../../components/Toplayer/Modal";
 import { GetReportedContents } from "../../../../../controllers/ActionsOfBrainly";
 
 const spinner = `<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`;
@@ -16,24 +16,21 @@ class ReportedContentsConfirmer {
 		this.commonConditionSection;
 
 		this.Init();
-
-		return this.$reportedContentsConfirmerLi;
 	}
 	Init() {
 		this.RenderLi();
 		this.RenderModal();
-		this.RenderToplayerContainer();
 		this.BindEvents();
 	}
 	RenderLi() {
-		this.$reportedContentsConfirmerLi = $(`
+		this.$li = $(`
 		<li class="sg-menu-list__element" style="display: table; width: 100%; padding-right: 1em;">
 			<span class="sg-text sg-text--link sg-text--blue sg-text--small">${System.data.locale.core.reportedContentsConfirmer.text}</span>
 		</li>`);
 	}
 	RenderModal() {
 		this.modal = new ModalToplayer({
-			heading: `<div class="sg-actions-list sg-actions-list--space-between">
+			header: `<div class="sg-actions-list sg-actions-list--space-between">
 				<div class="sg-actions-list__hole">
 					<div class="sg-label sg-label--small sg-label--secondary">
 						<div class="sg-text sg-text--peach">${System.data.locale.core.reportedContentsConfirmer.text}</div>
@@ -43,7 +40,7 @@ class ReportedContentsConfirmer {
 			content: template(templateModalContent),
 			size: "large"
 		});
-		this.$modal = this.modal.$;
+		this.$modal = this.modal.$modal;
 		this.$idInput = $(".id input", this.$modal);
 		this.$close = $(".sg-toplayer__close", this.$modal);
 		this.$confirmAllButton = $(".js-confirm-all", this.$modal);
@@ -54,7 +51,6 @@ class ReportedContentsConfirmer {
 		this.$conditionSectionsContainer = $(".js-condition-sections", this.$modal);
 		this.$addUniqueConditionSectionButtonContainer = $(".addConditionContainer", this.$modal);
 		this.$addUniqueConditionSectionButton = $("button", this.$addUniqueConditionSectionButtonContainer);
-		this.$amountOfUsers = $(".sg-content-box__actions .sg-actions-list > .sg-actions-list__hole > .sg-text > span", this.$modal);
 
 		this.RenderCommonConditionSection();
 	}
@@ -75,16 +71,9 @@ class ReportedContentsConfirmer {
 
 		return conditionSection;
 	}
-	RenderToplayerContainer() {
-		this.$toplayerContainer = $("body > div.page-wrapper.js-page-wrapper > section > div.js-toplayers-container");
-
-		if (this.$toplayerContainer.length == 0) {
-			this.$toplayerContainer = $(`<div class="js-toplayers-container"></div>`).appendTo("body");
-		}
-	}
 	BindEvents() {
-		this.$close.click(this.CloseModal.bind(this));
-		this.$reportedContentsConfirmerLi.on("click", "span", this.OpenModal.bind(this));
+		this.$close.click(this.modal.Close.bind(this.modal));
+		this.$li.on("click", "span", this.OpenModal.bind(this));
 
 		this.$addUniqueConditionSectionButton.click(this.AddUniqeCondition.bind(this));
 		this.$confirmAllButton.click(this.StartConfirming.bind(this));
@@ -92,11 +81,8 @@ class ReportedContentsConfirmer {
 		/* this.$stop.click(this.Stop.bind(this));
 		this.$start.click(this.Start.bind(this)); */
 	}
-	CloseModal() {
-		this.$modal.appendTo("</ div>");
-	}
 	OpenModal() {
-		this.$modal.appendTo(this.$toplayerContainer);
+		this.modal.Open();
 
 		if (!this.IsFetchStartedBefore) {
 			this.FetchReportedContents();
@@ -198,7 +184,7 @@ class ReportedContentsConfirmer {
 	ToggleConfirmButton() {
 		this.matchedSections = this.SectionsHasMatchedReports();
 
-		if (this.matchedSections.length>0 && this.totalReports == this.reports.length) {
+		if (this.matchedSections.length > 0 && this.totalReports == this.reports.length) {
 			this.ShowConfirmButton();
 			this.HideStopButton();
 		} else {

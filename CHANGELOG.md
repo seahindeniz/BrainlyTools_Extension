@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.17.0] - 2019.03.09
+
+### Added
+
+- Extension is available for Brainly.com.br and Brainly.lat communities
+
+### Changed
+
+- Usert content page enhanced. Question preview and attachment sections and status
+ icons are updated. (<https://ibb.co/DGf0PWK>)
+- [FIX#23] Selective approval gives Selective deletion too
+- [FIX#24] Not able to see *Message option* in supervision page
+- [FIX#25] Quick Buttons modification in panel
+- [PRE-FIX#29] Mass point changer editing
+- [FIX#30] 3rd quick delete button
+- [FIX#31] İçerik silimi sırasında uyarı verilmiyor
+
 ## [6.16.0] - 2019.02.14
 
 ### Added
@@ -85,7 +102,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- Brainly.com market initilized
+- Brainly.com market initialized
 - Quick confirm button for reported questions and answers in Moderate All
 
 ### Changed
@@ -98,7 +115,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- Brainly.in market initilized
+- Brainly.in market initialized
 
 ## [6.8.2] - 2019.01.12
 

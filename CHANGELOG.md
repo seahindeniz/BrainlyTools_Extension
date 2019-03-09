@@ -11,7 +11,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Usert content page enhanced. Question preview and attachment sections and status
- icons are updated. (<https://ibb.co/DGf0PWK>)
+ icons are updated. (<https://ibb.co/znTJmMF>)
 - [FIX#23] Selective approval gives Selective deletion too
 - [FIX#24] Not able to see *Message option* in supervision page
 - [FIX#25] Quick Buttons modification in panel

@@ -16,8 +16,14 @@ export default class ContentViewer_Content {
 	}
 	CheckLatex() {
 		if (this.contentData.content) {
-			this.contentData.content = this.contentData.content.replace(/\[tex\](.*?)\[\/tex\]/gi, (_, latex) => {
-				return `<img src="${System.data.Brainly.defaultConfig.config.data.config.serviceLatexUrlHttps}%5C${window.encodeURIComponent(latex)}" title="${latex}" align="absmiddle" class="latex-formula sg-box__image">`
+			this.contentData.content = this.contentData.content.replace(/(?:\r\n|\n)/g, "").replace(/\[tex\](.*?)\[\/tex\]/gi, (_, latex) => {
+				let latexURI = window.encodeURIComponent(latex);
+
+				if (!latex.startsWith("\\")) {
+					latexURI = `%5C${latexURI}`;
+				}
+
+				return `<img src="${System.data.Brainly.defaultConfig.config.data.config.serviceLatexUrlHttps}${latexURI}" title="${latex}" align="absmiddle" class="latex-formula sg-box__image">`
 			});
 		}
 	}

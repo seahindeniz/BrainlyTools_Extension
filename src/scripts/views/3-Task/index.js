@@ -14,9 +14,11 @@ window.selectors = {
 	responseContainer: ".brn-answer",
 	responseModerateButtonContainer: "> .sg-content-box > .sg-actions-list > div:not(.js-best-answer-label-container)"
 }
-if (System.checkUserP(2)) {
-	taskSection();
-}
-if (System.checkUserP(45)) {
-	responseSection();
+if (System.checkBrainlyP(102)) {
+	if (System.checkUserP(1)) {
+		taskSection();
+	}
+	if (System.checkUserP(2)) {
+		responseSection();
+	}
 }

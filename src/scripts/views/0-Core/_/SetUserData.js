@@ -29,6 +29,8 @@ export default function SetUserData() {
 
 			if (!(res && res.user && res.user.user && res.user.user.id && res.user.user.id == _dataLayer[0].user.id)) {
 				res = await PrepareUserData();
+			} else {
+				PrepareUserData();
 			}
 
 			System.data.Brainly.userData = res.user;

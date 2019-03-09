@@ -28,7 +28,7 @@ async function Home() {
 	/**
 	 *  Adding remove buttons inside of question boxes
 	 **/
-	if (System.checkUserP(1)) {
+	if (System.checkUserP(1) && System.checkBrainlyP(102)) {
 		let _$_observe = await WaitForObject("$().observe");
 		if (_$_observe) {
 			let feeds_parent = await WaitForElement(selectors.feeds_parent);

@@ -7,7 +7,7 @@ import notification from "../../components/notification";
 
 System.pageLoaded("User's warnings page OK!");
 
-if (JSON.parse(window.sitePassedParams)[0] != myData.id) {
+if (window.sitePassedParams[0] != myData.id) {
 	UserWarnings();
 }
 

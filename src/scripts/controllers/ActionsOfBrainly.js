@@ -210,7 +210,7 @@ export function CancelWarning(data) {
 	let userID = null;
 
 	if (window.sitePassedParams) {
-		userID = JSON.parse(sitePassedParams)[0];
+		userID = sitePassedParams[0];
 	}
 
 	if (typeof data === "string" || typeof data == "number") {

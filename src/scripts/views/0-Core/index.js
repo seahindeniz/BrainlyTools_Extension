@@ -126,6 +126,8 @@ class Core {
 		renderAnnouncements();
 		//renderChatPanel();
 		RenderMenuButtonFixer();
+
+		window.sitePassedParams && typeof window.sitePassedParams == "string" && (window.sitePassedParams = JSON.parse(sitePassedParams));
 	}
 	InjectFilesToPage() {
 		if (System.checkRoute(2, "view_user_warns")) {

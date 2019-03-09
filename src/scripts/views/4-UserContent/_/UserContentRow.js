@@ -220,11 +220,15 @@ export default class UserContentRow {
 			this.$viewer.insertAfter(this.$questionLink);
 		}
 	}
-	Deleted() {
+	Deleted(already) {
 		this.deleted = true;
 
 		this.checkbox.Disable();
 		this.element.classList.add("removed");
+		this.element.classList.remove("already");
+
+		if (already)
+			this.element.classList.add("already");
 	}
 	IsNotApproved() {
 		/* if (this.approved || (this.contents.answers[this.answerID].source.approved && this.contents.answers[this.answerID].source.approved.date)) {

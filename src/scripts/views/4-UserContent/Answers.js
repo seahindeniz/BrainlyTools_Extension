@@ -9,12 +9,6 @@ class Answers extends UserContent {
 		if (System.checkUserP([15, 6])) {
 			this.RenderButtonContainer();
 
-			if (System.checkUserP(15)) {
-				this.RenderModerateButton();
-				this.RenderDeleteSection("response");
-				this.BindModerateEvents();
-			}
-
 			if (System.checkUserP(6)) {
 				if (System.checkBrainlyP(146)) {
 					this.RenderApproveButton();
@@ -24,6 +18,12 @@ class Answers extends UserContent {
 					this.RenderUnapproveButton();
 					this.BindUnapprovementEvents();
 				}
+			}
+
+			if (System.checkUserP(15)) {
+				this.RenderModerateButton();
+				this.RenderDeleteSection("response");
+				this.BindModerateEvents();
 			}
 		}
 	}
@@ -86,10 +86,12 @@ class Answers extends UserContent {
 		}
 	}
 	async Row_DeleteAnswer(row) {
-		if (row.IsNotDeleted()) {
+		if (row.deleted) {
+			row.Deleted(true)
+		} else {
 			let postData = {
 				...this.postData,
-				model_id: row.element.questionID
+				model_id: row.answerID
 			}
 
 			row.checkbox.ShowSpinner();

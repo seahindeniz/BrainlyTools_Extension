@@ -94,7 +94,7 @@ async function ArciveMod() {
 				let contentType = obj.data.model_type_id == 1 ? "task" : obj.data.model_type_id == 2 ? "response" : "comment";
 
 				if ($(this).is(".confirm")) {
-					if (confirm(System.data.locale.common.moderating.notificationMessages.doYouWantToConfirmThisContent)) {
+					if (confirm(System.data.locale.userContent.notificationMessages.doYouWantToConfirmThisContent)) {
 						let res;
 						let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--small sg-spinner--light"></div></div>`).appendTo(this);
 						let $extActions = $(this).parents(".ext-action-buttons");

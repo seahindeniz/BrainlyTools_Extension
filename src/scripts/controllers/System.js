@@ -408,8 +408,12 @@ class _System {
 		let isIt = false;
 		let preference = System.data.Brainly.deleteReasons.__preferences.find(pref => pref.reasonID == reasonID);
 
-		if (preference && preference.confirmation) {
-			isIt = confirm(`\n\n${System.data.locale.common.notificationMessages.mayRequireWarning}\n\n`);
+		if (preference && preference.confirmation != null) {
+			if (preference.confirmation) {
+				isIt = confirm(`\n\n${System.data.locale.common.notificationMessages.mayRequireWarning}\n\n`);
+			} else {
+				isIt = true;
+			}
 		}
 
 		return isIt;

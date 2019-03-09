@@ -49,13 +49,14 @@ export default async function responseSection() {
 		let btn_index = $(this).parent().index();
 		let parentResponseContainer = $(this).parents(selectors.responseContainer);
 		let answer_id = Number(parentResponseContainer.data("answer-id"));
-		let $userData = $("div[data-z]", parentResponseContainer);
-		let userData = ($userData.data("z"));
-		let taskId = $(".js-main-question.brn-question").data("question-id");
+		let questionData = $(".js-main-question").data("z");
+		let answer = questionData.responses.find(response => response.id == answer_id);
+		let usersData = $(".js-users-data").data("z");
+		let user = usersData[answer.userId];
 
 		if (!answer_id) {
 			Console.error("Cannot find the answer id");
-		} else if (!userData) {
+		} else if (!user) {
 			Console.error("Cannot find the user data");
 		} else {
 			if (confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
@@ -72,12 +73,12 @@ export default async function responseSection() {
 				svg.remove();
 
 				let res = await RemoveAnswer(responseData);
-				await CloseModerationTicket(taskId);
+				await CloseModerationTicket(questionData.id);
 
 				if (!res || !res.success) {
 					notification((res && res.message) || System.data.locale.common.notificationMessages.somethingWentWrong, "error");
 				} else {
-					System.log(6, { user: userData, data: [answer_id] });
+					System.log(6, { user, data: [answer_id] });
 					parentResponseContainer.addClass("brn-question--deleted");
 					$(selectors.responseModerateButtonContainer, parentResponseContainer).remove();
 					$responseModerateButtons.remove();

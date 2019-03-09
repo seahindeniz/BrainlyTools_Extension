@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.17.1] - 2019.03.09
+
+### Changed
+
+- [FIX#32] Confirm button isn't working
+- [FIX#33] Selective Deletion of answers doesn't work
+
 ## [6.17.0] - 2019.03.09
 
 ### Added

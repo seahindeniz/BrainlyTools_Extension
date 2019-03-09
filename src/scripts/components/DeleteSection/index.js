@@ -89,7 +89,7 @@ class DeleteSection {
 		this.$reasons.appendTo(this.$reasonsContainer);
 	}
 	RenderReasonWarning() {
-		this.$selectReasonWarning = $(`<div class="sg-bubble sg-bubble--bottom sg-bubble--row-start sg-bubble--peach sg-text--light">${System.data.locale.common.moderating.selectReason}</div>`);
+		this.$selectReasonWarning = $(`<div class="sg-bubble sg-bubble--bottom sg-bubble--row-start sg-bubble--peach sg-text--white">${System.data.locale.common.moderating.selectReason}</div>`);
 	}
 	BindEvents() {
 		let that = this;

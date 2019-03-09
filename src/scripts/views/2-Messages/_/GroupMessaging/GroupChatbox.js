@@ -174,10 +174,10 @@ class GroupChatbox {
 			</div>
 			<div class="sg-media__wrapper">
 				<div class="sg-media__content sg-media__content--small">
-					<div class="sg-text sg-text--obscure sg-text--gray-secondary sg-text--emphasised">
+					<div class="sg-text sg-text--xsmall sg-text--gray-secondary sg-text--emphasised">
 						<ul class="sg-breadcrumb-list sg-breadcrumb-list--adaptive sg-breadcrumb-list--short">
 							<li class="sg-breadcrumb-list__element">
-								<a class="sg-text sg-text--obscure sg-text--gray-secondary sg-text--emphasised" href="${profileLink}">
+								<a class="sg-text sg-text--xsmall sg-text--gray-secondary sg-text--emphasised" href="${profileLink}">
 									${user.nick}
 								</a>
 							</li>
@@ -190,7 +190,7 @@ class GroupChatbox {
 				<div class="sg-media__content brn-container--4of5">
 					<div class="sg-content-box sg-content-box--spaced-top-xxsmall">
 						<div class="sg-box sg-box--blue sg-box--no-min-height sg-box--no-border-small">
-							<span class="sg-text sg-text--break-words sg-text--light">${message}</span>
+							<span class="sg-text sg-text--break-words sg-text--white">${message}</span>
 						</div>
 					</div>
 				</div>

@@ -40,7 +40,7 @@ let makeFlash = (message, type = "", permanent = false) => {
 		<div class="sg-flash">
 			<div class="sg-flash__message${type} js-flash-message">
 				${extIcon}
-				<div class="sg-text sg-text--to-center sg-text--emphasised sg-text--small sg-text--light">${message}</div>
+				<div class="sg-text sg-text--to-center sg-text--emphasised sg-text--small sg-text--white">${message}</div>
 			</div>
 		</div>`);
 

@@ -67,7 +67,7 @@ class ModeratingPanel {
 								<use xlink:href="#icon-counter"></use>
 							</svg>
 						</div>
-						<div class="sg-text sg-text--obscure sg-text--gray-secondary sg-text--emphasised js-counter">---</div>
+						<div class="sg-text sg-text--xsmall sg-text--gray-secondary sg-text--emphasised js-counter">---</div>
 					</div>
 				</div>
 			</div>`,

@@ -19,7 +19,7 @@ function groupLi(group) {
 			</div>
 			<div class="sg-media__wrapper">
 				<div class="sg-media__content sg-media__content--small">
-					<div class="sg-text sg-text--obscure sg-text--gray-secondary sg-text--emphasised">
+					<div class="sg-text sg-text--xsmall sg-text--gray-secondary sg-text--emphasised">
 						<ul class="sg-breadcrumb-list sg-breadcrumb-list--adaptive sg-breadcrumb-list--short">
 							<li class="sg-breadcrumb-list__element" style="color:${group.color};">${group.title || ""}</li>
 							<li class="sg-breadcrumb-list__element"><time class="js-time" datetime="${group.lastMessage ? group.lastMessage.time : ""}"></time></li>

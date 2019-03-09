@@ -10,7 +10,7 @@ export default (user, isGroupMember) => {
 			<div class="sg-media__wrapper">
 				<div class="sg-media__content js-message-content"><h2 class="sg-text sg-text--small sg-text--gray">${user.nick}</h2></div>
 				<div class="sg-media__content sg-media__content--small">
-					<div class="sg-text sg-text--obscure sg-text--gray-secondary">
+					<div class="sg-text sg-text--xsmall sg-text--gray-secondary">
 						<ul class="sg-breadcrumb-list sg-breadcrumb-list--adaptive sg-breadcrumb-list--short"></ul>
 					</div>
 				</div>

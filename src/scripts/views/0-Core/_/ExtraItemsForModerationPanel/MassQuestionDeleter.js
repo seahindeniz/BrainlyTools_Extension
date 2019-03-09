@@ -99,7 +99,7 @@ class MassQuestionDeleter {
 		this.deleteSection.$.appendTo($(".deleteSection", this.$modal));
 	}
 	RenderTextareaWarning() {
-		this.$textareaWarning = $(`<div class="sg-bubble sg-bubble--top sg-bubble--row-start sg-bubble--peach sg-text--light enterIdWarn">${System.data.locale.core.notificationMessages.enterIdWarn}</div>`);
+		this.$textareaWarning = $(`<div class="sg-bubble sg-bubble--top sg-bubble--row-start sg-bubble--peach sg-text--white enterIdWarn">${System.data.locale.core.notificationMessages.enterIdWarn}</div>`);
 	}
 	BindEvents() {
 		this.$li.on("click", "span", this.OpenModal.bind(this));

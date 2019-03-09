@@ -22,7 +22,7 @@ common:
   halloween:
     # On October 31 it's Halloween and I prepared a little suprise for extension users so bare with me :)
     imSorry: Mohon maaf jika kamu sedikit takut!
-    # %{userNick} flag indicates the user nick > Example: Happy Halloween John!!
+    # %{userNick} variable indicates the user nick > Example: Happy Halloween John!!
     happyHalloween: "Happy Halloween %{userNick}!!"
   notificationMessages:
     operationError: Terjadi kesalahan selama proses operasi. Silahkan mencoba kembali
@@ -34,25 +34,19 @@ common:
     mayRequireWarning: "Proses penghapusan ini mungkin perlu diberikan peringatan, apakah kamu ingin memberikan peringatan kepada pemilik konten?"
     ongoingProcessWait:
       Beberapa konten masih dalam proses dan kamu perlu menunggu sampai ini selesai
-      # %{userName} flag indicates the user name of sender. Example> John01 send you a new message
+      # %{userName} variable indicates the user name of sender. Example> John01 send you a new message
     xSendYouANewMessage: "%{userName} mengirimi kamu pesan baru"
     newNotification: Notifikasi baru
+    operationCompleted: Pengerjaan selesai
   moderating:
     moreOptions: Lebih Banyak Opsi
     moderate: Moderasi
-    doYouWantToDelete: "Apakah kamu ingin menghapus konten ini?"
+    doYouWantToDelete: "Apakah kamu ingin menghapus?"
     selectReason: Pilih sebuah alasan
     editInPanel: Edit pada panel moderasi
     point: poin
     confirm: Konfirmasi
     notificationMessages:
-      someOfSelectedAnswersAreApproved: "Beberapa dari jawaban yang dipilih telah disetujui, sehingga kamu tidak perlu untuk menyetujui jawaban iini lagi."
-      selectAnUnapprovedAnswerForApproving: Kamu perlu memilih beberapa jawaban yang belum disetujui untuk memulai menyetujui
-      confirmApproving: "Apakah kamu ingin menyetujui jawaban ini?"
-      someOfSelectedAnswersAreUnapproved: "Beberapa jawaban yang dipilih belum disetujui, sehingga kamu tidak perlu untuk membatalkan persetujuan untuk jawaban itu lagi"
-      selectAnApprovedAnswerForUnapproving: Kamu perlu memilih beberapa jawaban yang disetujui untuk memulai
-      confirmUnapproving: "Apakah kamu ingin menghapus persetujuan dari jawaban ini?"
-      doYouWantToConfirmThisContent: "Apakah kamu ingin mengkonfirmasi konten ini?"
     takePoints:
       task:
         text: Ambil kembali poin responden
@@ -92,7 +86,7 @@ popup:
     invalidId: Nomor ID tidak valid
     pleaseWait: Harap menunggu
     openABrainlyPage: Kamu perlu untuk membuka halaman Brainly dari browser kamu.
-    # %{error_code} flag indicates the error code. Example> Error 404
+    # %{error_code} variable indicates the error code. Example> Error 404
     errorN: "Error %{error_code}"
     iCantFechMarketData: Saya tidak dapat mengambil data pasar
     uncorrectDate: Saya tidak dapat mengambil data dari Brainly<br><br>Silahkan menuju halaman utama Brainly atau dengan memuat ulang halaman
@@ -100,9 +94,9 @@ popup:
     noEvidenceFound: Moderator tidak menambahkan bukti atau komentar
     doYouWannaGiveThisPrivilege: Apakah kamu ingin memberikan privilege kepada seluruh pengguna ekstensi
     doYouWannaRevokeThisPrivilege: Apakah kamu ingin menghapus privilege dari semua pengguna ekstensi
-    # %{user_amount} flag indicates the amount of users. Example>  Privilege has given to 20 users
+    # %{user_amount} variable indicates the amount of users. Example>  Privilege has given to 20 users
     privilegeHasGiven: "Privilege telah diberikan kepada pengguna %{user_amount}"
-    # %{user_amount} flag indicates the amount of users. Example>  Privilege has revoked from 20 users
+    # %{user_amount} variable indicates the amount of users. Example>  Privilege has revoked from 20 users
     privilegeHasRevoked: "Privilege telah dihapus dari pengguna %{user_amount}"
   createShortLinkButton:
     text: Shorten URL
@@ -150,7 +144,7 @@ popup:
       addNewOrEditUser: Tambahkan pengguna baru atau edit ekstension pengguna
       permission: Izin akses
       privileges: Privileges
-      # %{time} flag indicates the date suffix of first usage time of the extension.
+      # %{time} variable indicates the date suffix of first usage time of the extension.
       # Suffix will needs to added in your language as well. Example: in English words will replaced as 'Started to use 5 days ago', in Turkish '5 gun once kullanmaya basladi'
       firstUsageTimeAgoPreTitle: "Mulai menggunakan pada %{time}"
       hasntUsed: Pengguna belum menggunakan ekstensi
@@ -164,25 +158,6 @@ popup:
         line4: "Border <s>Hijau</s> berarti pengguna ini adalah pengguna aktif resmi"
         # ! Important: You need to specify the "no border" word inside the braces like this: in English <s>No border</s> or in Turkish <s>Kenarligi olmayan</s>
         line5: "<s>Tidak ada border</s> berarti bahwa pengguna memiliki beberapa privilege yang ditetapkan tetapi tidak diberi izin untuk menggunakan ekstensi di akun mereka dan belum mulai menggunakan ekstensi."
-      privilegeListOrder:
-        - 0
-        - 4
-        - 5
-        - 11
-        - 1
-        - 2
-        - 45
-        - 14
-        - 15
-        - 16
-        - 6
-        - 8
-        - 10
-        - 7
-        - 13
-        - 9
-        - 17
-        - 18
       privilegeList:
         "0":
           title: Ekstensi Admin
@@ -202,9 +177,6 @@ popup:
         "45":
           title: Penghapusan cepat komentar
           description: "Dihalaman pengguna, konten pengguna dan halaman Moderais semua, pengguna dapat menggunakan tombol penghapusan cepat untuk menghapus komentar."
-        "6":
-          title: Jawaban disetujui
-          description: "Di halaman konten pengguna, moderator dapat menyetujui jawabannya dengan memilih"
         "7":
           title: Hapus pertanyaan massal
           description: "Dalam panel moderasi, pengguna dapat menggunakan fungsi untuk menghapus beberapa pertanyaan"
@@ -226,6 +198,9 @@ popup:
         "13":
           title: Mengubah poin
           description: "Di panel moderasi, pengguna dapat mengganti poin pengguna berdasarkan ID"
+        "6":
+          title: Pemilihan jawaban untuk disetujui
+          description: "Di halaman konten pengguna, moderator dapat menyetujui jawabannya dengan memilih"
         "14":
           title: Memilih pertanyaan yang dihapus
           description: "Pada halaman konten pengguna, pengguana dapat memilih fungsi penghapusan untuk menghapus pertanyaan yang dipilih."
@@ -250,8 +225,8 @@ popup:
       update: Memperbarui
       publish: Publish
       unpublish: Unpublish
-      # \n flag indicates the new line for clear reading
-      # %{date} flag indicates the date when user readed the announcement. Example> Readed on 01.01.2018
+      # \n variable indicates the new line for clear reading
+      # %{date} variable indicates the date when user readed the announcement. Example> Readed on 01.01.2018
       readedOn: "Dibaca pada:\n%{date}"
     DeleteReasonsPreferences:
       text: Preferensi alasan penghapusan
@@ -279,7 +254,6 @@ core:
     updateNeeded: Ekstensi memiliki sebuah versi baru dan browser kamu perlu diupdate. Proses ini akan dilakukan secara otomatis dan kamu perlu untuk menyegarkan halaman dalam ~`10 detik
     warningBeforeDelete: "Proses ini akan dijalankan dan jumlah id pertanyaan di input akan dihapus setelah Anda mengkonfirmasi peringatan ini. \n\nApakah Anda tiga kali lipat yakin?"
     enterIdWarn: Kamu perlu untuk menambahkan setidaknya 1 nomor ID dari pertanyaan yang ingin kamu hapus
-    deleteProcessDone: Pertanyaan berhasil dihapus
     youNeedToEnterValidId: Kamu perlu unruk menginput nomor ID yang valid
     cantSendEmptyMessage: Kamu tidak dapat mengirim sebuah kosong
     tryingToSendTheSameMessage: "Kamu telah mencoba mengirim yang terakhir. Apakah kamu masih ingin mengirim?"
@@ -288,11 +262,16 @@ core:
     thisConditionAlreadyAdded: Kondisi ini telah ditambahkan
     thisConditionAlreadyAddedInCommonConditions: Kondisi ini telah ditambahkan ke kondisi umum
     conditionsDoesntMatchAnything: Kondisinya tidak sesuai dengan lainnya
+      # %{question_id} variable indicates the question id.
+      # Example> An error occured while deleting the #356985
+    errorOccuredWhileDeletingTheQuestion: "Terjadi kesalahan saat menghapus %{question_id}"
   TaskDeleter:
     text: Penghapusan pertanyaan massal
     questionsLinksOrIDs: Tautan pertanyaan atau ID
     # %{n} indicates the number of questions that will be deleted. Example> 8 questions
-    questionsWillBeDeleted: "%{n} pertanyaan"
+    nQuestions: "%{n} pertanyaan"
+    # %{n} indicates the number of questions that will be deleted. Example> 8 questions
+    nQuestionsToDeleted: "%{n} pertanyaan untuk dihapus"
     # %{n} indicates the number of deleted questions. Also "q." is short for "question" word. Example> 8 q. has been deleted
     nHasBeenDeleted: "%{n} pertanyaan telah dihapus"
     # Explanation text for id container of the Mass-Question deleter
@@ -372,17 +351,17 @@ messages:
     selectGroupType: Pilih jenis grup
     addAll: Tambahkan semua
     removeAll: Hapus semua
-    # %{n} flag indicates the number of people in the group.
+    # %{n} variable indicates the number of people in the group.
     # Replaced example in English: "12 users" in Turkish: "12 kullanici"
     nUser: "%{n} users"
     # A placeholder text for message input https://image.ibb.co/fQk130/image.png
     writeSomething: Tuliskan pesan kamu disini
     send: Dikirim
-    # %{pin} flag indicates the pin icon for pinning the groups
+    # %{pin} variable indicates the pin icon for pinning the groups
     pinTip: "Kamu dapat  menyematkan grup dengan meng-klik icon %{pin} ."
     notificationMessages:
       unsavedChanges: "Kamu memiliki beberapa perubahan tidak disimpan. Apakah kamu tetap ingin menutup?"
-      # %{groupName} flag indicates the new group name. Example notification> My friends successfully created
+      # %{groupName} variable indicates the new group name. Example notification> My friends successfully created
       groupCreated: "%{groupName} sukses dibuat"
       groupUpdated: "%{groupName} updated"
       cantCreate: "Saya tidak dapat membuat grup ini karena ada hal yang salah. Bisakah kamu memeriksa rinciannya?"
@@ -402,11 +381,20 @@ messages:
       allModerators: Semua moderator
 userContent:
   notificationMessages:
-    selectAtLeasetOneQuestion: Pilih setidaknya satu pertanyaan
-    selectAtLeasetOneAnswer: Pilih setidaknya satu jawaban
-    selectAtLeasetOneComment: Pilihsetidaknya satu komentar
+    selectAtLeasetOneContent: Pilih setidaknya satu konten
     alreadyApproved: Jawaban ini telah disetujui
     alreadyUnapproved: Jawaban ini telah dibatalkan untuk disetujui
+    someOfSelectedAnswersAreApproved: "Beberapa dari jawaban yang dipilih telah disetujui, sehingga kamu tidak perlu untuk menyetujui jawaban iini lagi."
+    selectAnUnapprovedAnswerForApproving: Kamu perlu memilih beberapa jawaban yang belum disetujui untuk memulai menyetujui
+    confirmApproving: "Apakah kamu ingin menyetujui jawaban ini?"
+    someOfSelectedAnswersAreUnapproved: "Beberapa jawaban yang dipilih belum disetujui, sehingga kamu tidak perlu untuk membatalkan persetujuan untuk jawaban itu lagi"
+    selectAnApprovedAnswerForUnapproving: Kamu perlu memilih beberapa jawaban yang disetujui untuk memulai
+    confirmUnapproving: "Apakah kamu ingin menghapus persetujuan dari jawaban ini?"
+    doYouWantToConfirmThisContent: "Apakah kamu ingin mengkonfirmasi konten ini?"
+    # %{row_id} variable indicates the row number of user content table. Example notification> #19  is already approved
+    xIsAlreayApproved: "%{row_id} telah disetujui"
+    # %{row_id} variable indicates the row number of user content table. Example notification> #19  is already approved
+    xIsAlreayUnapproved: "%{row_id} telah batal disetujui"
 userProfile:
   notificationMessages:
     selectAtLeasetOneUser: Kamu perlu memilih setidaknya satu pengguna
@@ -483,3 +471,7 @@ uploader:
     fileNameCannotContainBackslash: "Nama file tidak boleh mengandung garis miring terbalik. Silakan ganti nama %{file_name}"
   text: Mngunggah banyak file
   selectFiles: Memilih file
+moderateAll:
+  notificationMessages:
+  wrongContentConfirmer:
+    text: Mengkonfirmasi semua konten yang telah dikoreksi

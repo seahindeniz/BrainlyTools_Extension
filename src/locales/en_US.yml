@@ -22,7 +22,7 @@ common:
   halloween:
     # On October 31 it's Halloween and I prepared a little suprise for extension users so bare with me :)
     imSorry: I'm sorry if you were a little bit scared!
-    # %{userNick} flag indicates the user nick > Example: Happy Halloween John!!
+    # %{userNick} variable indicates the user nick > Example: Happy Halloween John!!
     happyHalloween: Happy Halloween %{userNick}!!
   notificationMessages:
     operationError: An error occurred during operation. Please try again
@@ -34,25 +34,19 @@ common:
     mayRequireWarning: "It seems to be appropriate to alert the owner of the content you're trying to delete\nSo do you wanna give a warning to owner of this content?"
     ongoingProcessWait:
       Some of the contents is are still prosessing and you have to wait till it finished
-      # %{userName} flag indicates the user name of sender. Example> John01 send you a new message
+      # %{userName} variable indicates the user name of sender. Example> John01 send you a new message
     xSendYouANewMessage: "%{userName} send you a new message"
     newNotification: New notification
+    operationCompleted: Operation completed
   moderating:
     moreOptions: More Options
     moderate: Moderate
-    doYouWantToDelete: Do you want to delete this content?
+    doYouWantToDelete: Do you want to delete?
     selectReason: Please select a reason
     editInPanel: Edit in moderation panel
     point: point
     confirm: Confirm
     notificationMessages:
-      someOfSelectedAnswersAreApproved: Some of selected answers have already been approved, so you don't need to approve those answers again
-      selectAnUnapprovedAnswerForApproving: You need select some unapproved answer(s) for start approving
-      confirmApproving: Do you want approve this answer(s)?
-      someOfSelectedAnswersAreUnapproved: Some of selected answers isn't approved, so you don't need to unapprove those answers again
-      selectAnApprovedAnswerForUnapproving: You need select some approved answer(s) for start
-      confirmUnapproving: Do you want to remove approvement from this answer(s)?
-      doYouWantToConfirmThisContent: Do you want to confirm this content?
     takePoints:
       task:
         text: Take back respondents' points
@@ -92,7 +86,7 @@ popup:
     invalidId: Unvalid ID number
     pleaseWait: Please wait
     openABrainlyPage: You need to open a Brainly page in your browser
-    # %{error_code} flag indicates the error code. Example> Error 404
+    # %{error_code} variable indicates the error code. Example> Error 404
     errorN: Error %{error_code}
     iCantFechMarketData: I can't fetch market data
     uncorrectDate: I'm unable to fetch your data from Brainly<br><br>Please go to Brainly's homepage or reload the page
@@ -100,9 +94,9 @@ popup:
     noEvidenceFound: Moderator didn't add any evidence nor comment
     doYouWannaGiveThisPrivilege: Do you wanna give this privilege to all extension users?
     doYouWannaRevokeThisPrivilege: Do you wanna revoke this privilege from all extension users?
-    # %{user_amount} flag indicates the amount of users. Example>  Privilege has given to 20 users
+    # %{user_amount} variable indicates the amount of users. Example>  Privilege has given to 20 users
     privilegeHasGiven: Privilege has given to %{user_amount} users
-    # %{user_amount} flag indicates the amount of users. Example>  Privilege has revoked from 20 users
+    # %{user_amount} variable indicates the amount of users. Example>  Privilege has revoked from 20 users
     privilegeHasRevoked: Privilege has revoked from %{user_amount} users
   createShortLinkButton:
     text: Shorten URL
@@ -150,7 +144,7 @@ popup:
       addNewOrEditUser: Add a new or edit extension user
       permission: Access permission
       privileges: Privileges
-      # %{time} flag indicates the date suffix of first usage time of the extension.
+      # %{time} variable indicates the date suffix of first usage time of the extension.
       # Suffix will needs to added in your language as well. Example: in English words will replaced as 'Started to use 5 days ago', in Turkish '5 gun once kullanmaya basladi'
       firstUsageTimeAgoPreTitle: Started to use %{time}
       hasntUsed: User hasn't used the extension yet
@@ -164,25 +158,6 @@ popup:
         line4: "<s>Green</s> color means the user is an active authorized user."
         # ! Important: You need to specify the "no border" word inside the braces like this: in English <s>No border</s> or in Turkish <s>Kenarligi olmayan</s>
         line5: "<s>No border</s> means that user has some privileges assigned but not given permission to use the extension in their account and hasn't started to use the extension yet."
-      privilegeListOrder:
-        - 0
-        - 4
-        - 5
-        - 11
-        - 1
-        - 2
-        - 45
-        - 14
-        - 15
-        - 16
-        - 6
-        - 8
-        - 10
-        - 7
-        - 13
-        - 9
-        - 17
-        - 18
       privilegeList:
         "0":
           title: Extension admin
@@ -202,9 +177,6 @@ popup:
         "45":
           title: Quick delete comments
           description: On the pages of questions and archive mod, user can use the quick delete buttons for deleting the comment(s)
-        "6":
-          title: Answer approvement
-          description: In the user content page, user can approve the answer by selecting
         "7":
           title: Mass-Question delete
           description: In the moderation panel, user can use this function for deleting multiple questions
@@ -226,6 +198,9 @@ popup:
         "13":
           title: Mass-Point changer
           description: In the moderation panel, user can able to change user's points by their id's
+        "6":
+          title: Selective answer approvement
+          description: On the user contents page, user can approve or unapprove the answers by selecting
         "14":
           title: Selective question deletion
           description: On the user contents page, user can use the selective deletion function to delete selected questions
@@ -250,8 +225,8 @@ popup:
       update: Update
       publish: Publish
       unpublish: Unpublish
-      # \n flag indicates the new line for clear reading
-      # %{date} flag indicates the date when user readed the announcement. Example> Readed on 01.01.2018
+      # \n variable indicates the new line for clear reading
+      # %{date} variable indicates the date when user readed the announcement. Example> Readed on 01.01.2018
       readedOn: "Readed on:\n%{date}"
     DeleteReasonsPreferences:
       text: Delete reasons preferences
@@ -279,7 +254,6 @@ core:
     updateNeeded: Extension has a new version and browser need's to be updated. This will be done automatically and you need to refresh the page in ~10 seconds
     warningBeforeDelete: "This process will be executed and the numbers of questions id's in the input will be deleted once you confirmed this warning. \n\n Are you triple times sure?"
     enterIdWarn: You need to add at least 1 id number of question that you want to delete
-    deleteProcessDone: Questions are successfully deleted
     youNeedToEnterValidId: You need to enter a valid id number
     cantSendEmptyMessage: You can't send an empty message
     tryingToSendTheSameMessage: You're trying to send the last message again. Do you still want to send?
@@ -288,11 +262,16 @@ core:
     thisConditionAlreadyAdded: This condition already added
     thisConditionAlreadyAddedInCommonConditions: This condition already added in the Common conditions
     conditionsDoesntMatchAnything: Conditions doesn't match with anything
+      # %{question_id} variable indicates the question id.
+      # Example> An error occured while deleting the #356985
+    errorOccuredWhileDeletingTheQuestion: "An error occured while deleting the %{question_id}"
   TaskDeleter:
     text: Mass-Question deleter
     questionsLinksOrIDs: Question links or id's
     # %{n} indicates the number of questions that will be deleted. Example> 8 questions
-    questionsWillBeDeleted: "%{n} questions"
+    nQuestions: "%{n} questions"
+    # %{n} indicates the number of questions that will be deleted. Example> 8 questions
+    nQuestionsToDeleted: "%{n} questions to delete"
     # %{n} indicates the number of deleted questions. Also "q." is short for "question" word. Example> 8 q. has been deleted
     nHasBeenDeleted: "%{n} q. has been deleted"
     # Explanation text for id container of the Mass-Question deleter
@@ -372,17 +351,17 @@ messages:
     selectGroupType: Select a group type
     addAll: Add all
     removeAll: Remove all
-    # %{n} flag indicates the number of people in the group.
+    # %{n} variable indicates the number of people in the group.
     # Replaced example in English: "12 users" in Turkish: "12 kullanici"
     nUser: "%{n} users"
     # A placeholder text for message input https://image.ibb.co/fQk130/image.png
     writeSomething: Type your message here
     send: Send
-    # %{pin} flag indicates the pin icon for pinning the groups
+    # %{pin} variable indicates the pin icon for pinning the groups
     pinTip: You can pin your groups by clicking the %{pin} icon.
     notificationMessages:
       unsavedChanges: You have some unsaved changes. Do you still want to close?
-      # %{groupName} flag indicates the new group name. Example notification> My friends successfully created
+      # %{groupName} variable indicates the new group name. Example notification> My friends successfully created
       groupCreated: "%{groupName} successfully created"
       groupUpdated: "%{groupName} updated"
       cantCreate: I can't create this group because something must be wrong. Could you please check your details?
@@ -402,11 +381,20 @@ messages:
       allModerators: All moderators
 userContent:
   notificationMessages:
-    selectAtLeasetOneQuestion: Select at least one question
-    selectAtLeasetOneAnswer: Select at least one answer
-    selectAtLeasetOneComment: Select at least one comment
+    selectAtLeasetOneContent: Select at least one content
     alreadyApproved: This answer is already approved
     alreadyUnapproved: This answer is already unapproved
+    someOfSelectedAnswersAreApproved: Some of selected answers have already been approved, so you don't need to approve those answers again
+    selectAnUnapprovedAnswerForApproving: You need select some unapproved answer(s) for start approving
+    confirmApproving: Do you want approve this answer(s)?
+    someOfSelectedAnswersAreUnapproved: Some of selected answers isn't approved, so you don't need to unapprove those answers again
+    selectAnApprovedAnswerForUnapproving: You need select some approved answer(s) for start
+    confirmUnapproving: Do you want to remove approvement from this answer(s)?
+    doYouWantToConfirmThisContent: Do you want to confirm this content?
+    # %{row_id} variable indicates the row number of user content table. Example notification> #19  is already approved
+    xIsAlreayApproved: "%{row_id} is already approved"
+    # %{row_id} variable indicates the row number of user content table. Example notification> #19  is already approved
+    xIsAlreayUnapproved: "%{row_id} is already unapproved"
 userProfile:
   notificationMessages:
     selectAtLeasetOneUser: You need to select at least one user
@@ -483,3 +471,7 @@ uploader:
     fileNameCannotContainBackslash: File name cannot contain backslash. Please rename the %{file_name}
   text: Upload multiple files
   selectFiles: Select files
+moderateAll:
+  notificationMessages:
+  wrongContentConfirmer:
+    text: Confirm all corrected contents

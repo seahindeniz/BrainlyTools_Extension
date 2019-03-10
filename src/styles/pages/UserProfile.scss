@@ -221,7 +221,7 @@ img.userFlag {
 				}
 			}
 
-			&.previewing .sg-icon {
+			&.previewing .preview {
 				width: 100%;
 				max-width: unset;
 				height: 100%;
@@ -230,6 +230,7 @@ img.userFlag {
 				video {
 					width: 264px;
 				}
+
 			}
 
 			span.sg-text {

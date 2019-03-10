@@ -20,7 +20,7 @@ class Progress {
 		this.$bar.val(n);
 		return this;
 	}
-	updateLabel(text) {
+	UpdateLabel(text) {
 		this.$bar.attr("data-label", text);
 		return this;
 	}

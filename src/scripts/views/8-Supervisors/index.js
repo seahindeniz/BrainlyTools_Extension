@@ -180,7 +180,7 @@ async function Supervisors() {
 
 				let doInEachSending = i => {
 					progress.update(i);
-					progress.updateLabel(`${i} - ${idListLen}`);
+					progress.UpdateLabel(`${i} - ${idListLen}`);
 				};
 
 				await sendMessageToBrainlyIds(idList, message, doInEachSending);
@@ -191,7 +191,7 @@ async function Supervisors() {
 				$messageInput.val("");
 				$messageInput.prop("disabled", false);
 				$sendButton.removeClass("js-disabled");
-				progress.updateLabel(`(${idListLen}) - ${System.data.locale.common.allDone}`);
+				progress.UpdateLabel(`(${idListLen}) - ${System.data.locale.common.allDone}`);
 			}
 		});
 	}

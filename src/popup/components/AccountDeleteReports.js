@@ -103,7 +103,7 @@ class AccountDeleteReports {
 			that.FindUser(this.value);
 		}))
 
-		this.$reportsTBody.on("click", ".preview", function(e) {
+		this.$reportsTBody.on("click", "figure img, figure video", function(e) {
 			e.preventDefault();
 			new Modal(this);
 		});

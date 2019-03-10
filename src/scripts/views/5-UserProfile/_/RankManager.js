@@ -141,7 +141,7 @@ class RankManager {
 				notification(System.data.locale.common.notificationMessages.somethingWentWrongPleaseRefresh, "error");
 			} else {
 				this.progress.update(1);
-				this.progress.updateLabel(System.data.locale.userProfile.rankManager.allRanksDeleted);
+				this.progress.UpdateLabel(System.data.locale.userProfile.rankManager.allRanksDeleted);
 
 				if ($selectedRanks.length == 0) {
 					this.progress.update(2);
@@ -150,7 +150,7 @@ class RankManager {
 					this.progress.setMax($selectedRanks.length + 2);
 					await System.Delay(500);
 					this.progress.update(2);
-					this.progress.updateLabel(System.data.locale.userProfile.rankManager.updatingRanks);
+					this.progress.UpdateLabel(System.data.locale.userProfile.rankManager.updatingRanks);
 					await System.Delay(500);
 
 					$selectedRanks.each(async (i, rankCheckbox) => {
@@ -159,7 +159,7 @@ class RankManager {
 						await AddRank(window.profileData.id, rankId);
 
 						this.progress.update(i + 3);
-						this.progress.updateLabel(System.data.locale.userProfile.rankManager.xHasAssigned.replace("%{rank_name}", ` ${rank.name} `));
+						this.progress.UpdateLabel(System.data.locale.userProfile.rankManager.xHasAssigned.replace("%{rank_name}", ` ${rank.name} `));
 
 						if ($selectedRanks.length == i + 1) {
 							await System.Delay(500);
@@ -172,7 +172,7 @@ class RankManager {
 	}
 	SavingCompleted() {
 		this.HideSpinner();
-		this.progress.updateLabel(System.data.locale.common.allDone);
+		this.progress.UpdateLabel(System.data.locale.common.allDone);
 		notification(System.data.locale.userProfile.notificationMessages.afterSavingCompletedIgnoreNotifications, "success");
 	}
 	ShowSpinner() {

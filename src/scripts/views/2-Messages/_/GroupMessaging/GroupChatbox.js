@@ -220,7 +220,7 @@ class GroupChatbox {
 
 		let doInEachSending = () => {
 			progress.update(++sendedMessagesCount);
-			progress.updateLabel(`${sendedMessagesCount} - ${membersLen}`);
+			progress.UpdateLabel(`${sendedMessagesCount} - ${membersLen}`);
 		};
 
 		let membersWithConversationIds = await sendMessageToBrainlyIds(this.group.members, message, doInEachSending);
@@ -231,7 +231,7 @@ class GroupChatbox {
 		window.isPageProcessing = false;
 
 		$spinner.remove();
-		progress.updateLabel(`(${membersLen}) - ${System.data.locale.common.allDone}`);
+		progress.UpdateLabel(`(${membersLen}) - ${System.data.locale.common.allDone}`);
 
 		autosize.update(
 			this.$messageInput

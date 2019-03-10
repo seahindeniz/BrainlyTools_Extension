@@ -71,7 +71,7 @@ function FriendsManager() {
 				await RemoveFriends(idList, doInEachUnfriending);
 			}
 
-			progress.updateLabel(System.data.locale.common.allDone).close();
+			progress.UpdateLabel(System.data.locale.common.allDone).close();
 		};
 
 		$removeSelected.click(() => {

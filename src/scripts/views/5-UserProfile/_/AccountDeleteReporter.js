@@ -110,8 +110,7 @@ class AccountDeleteReporter {
 				}
 
 				this.progress.UpdateLabel(System.data.locale.common.done);
-				console.log("Gönder");
-				//form.submit();
+				form.submit();
 			} catch (error) {
 				console.error(error);
 				notification(System.data.locale.userProfile.notificationMessages.unableToReportAccountDeleting, "error");

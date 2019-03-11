@@ -26,7 +26,7 @@ class _System {
 					"brainly.ro",
 				],
 				style_guide: {
-					css: `https://styleguide.brainly.co.id/${extensionConfig.STYLE_GUIDE_VERSION}/style-guide.css` + "?treat=.ext_css",
+					css: `https://styleguide.brainly.com/${extensionConfig.STYLE_GUIDE_VERSION}/style-guide.css` + "?treat=.ext_css",
 					icons: "https://styleguide.brainly.com/images/icons-1b40deaa8d.js" + "?treat=.ext_js"
 				}
 			},
@@ -60,7 +60,6 @@ class _System {
 					list: [{
 							file: `/images/hats/hat_0.svg`,
 							css: "top: -8px;left: 15px;transform: rotate(-28deg);"
-
 						},
 						{
 							file: `/images/hats/hat_1.svg`,
@@ -71,12 +70,10 @@ class _System {
 						{
 							file: `/images/hats/hat_2.svg`,
 							css: "top: -6px; transform: rotate(-26deg); "
-
 						},
 						{
 							file: `/images/hats/hat_3.svg`,
 							css: "width: 44px;top: -9px;left: 21px;"
-
 						},
 						{
 							file: `/images/hats/hat_4.svg`,
@@ -87,27 +84,22 @@ class _System {
 						{
 							file: `/images/hats/hat_5.svg`,
 							css: ""
-
 						},
 						{
 							file: `/images/hats/hat_6.svg`,
 							css: "top: -6px;left: 40px;width: 65px;transform: rotate(-7deg);"
-
 						},
 						{
 							file: `/images/hats/hat_7.svg`,
 							css: "top: -2px; left:33px;width: 50px;transform: rotate(26deg);"
-
 						},
 						{
 							file: `/images/hats/hat_8.svg`,
 							css: "top: -12px; left: 16px; width: 70px; transform: rotate(5deg);"
-
 						},
 						{
 							file: `/images/hats/hat_9.png`,
 							css: "top: -25px; left: 30px; width: 70px; transform: rotate(-6deg);"
-
 						},
 					],
 					0: [0, 8, 9],

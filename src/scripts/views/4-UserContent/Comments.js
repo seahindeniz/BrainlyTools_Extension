@@ -8,6 +8,7 @@ class Comments extends UserContent {
 
 	}
 	InitComments() {
+		this.RenderSelectAllCheckbox();
 		this.RenderDeleteSection("comment");
 		this.ShowDeleteSection();
 		this.GetQuestions();

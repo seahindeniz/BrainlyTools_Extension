@@ -121,6 +121,20 @@ export function UnapproveAnswer(model_id) {
 	return Request.BrainlyAPI("POST", '/api_content_quality/unconfirm', data);
 }
 /**
+ * Delete answer by id
+ * @param {object} data - Post data
+ */
+export function ReportForCorrection(data) {
+	data = {
+		model_type_id: 2,
+		schema: "",
+		...data
+	}
+	data.reason += ` ${System.constants.config.reasonSign}`;
+
+	return Request.BrainlyAPI("POST", '/moderation_new/wrong_report', data);
+}
+/**
  * Create a ticket for a question
  * @param {number|string} taskId - Id number of a question
  * @param {boolean} withTaskDetails - If you want to get the actions list of a question then pass "true"

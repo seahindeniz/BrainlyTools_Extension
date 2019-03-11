@@ -88,6 +88,7 @@ export default class UserContentRow {
 		this.contents.question = content;
 
 		content.$.appendTo(this.$contentContainer);
+
 		this.RenderAttachmentsIcon(content.source);
 
 		/* let question = this.content.res.data.task;
@@ -122,6 +123,7 @@ export default class UserContentRow {
 			this.AttachAnswerID(answer);
 			this.RenderBestIcon(answer);
 			this.RenderApproveIcon(answer);
+			this.RenderAttachmentsIcon(answer);
 		}
 
 		/* let user = this.content.res.users_data.find(user => user.id == answer.user_id);
@@ -165,12 +167,16 @@ export default class UserContentRow {
 	}
 	RenderBestIcon(answer) {
 		if (answer.best) {
-			this.RenderIcon("mustard", "excellent");
+			let $icon = this.RenderIcon("mustard", "excellent");
+
+			$icon.attr("title", System.data.locale.userContent.bestAnswer);
 		}
 	}
 	RenderApproveIcon(answer) {
 		if ((this.approved || (answer.approved && answer.approved.date)) && !this.$approveIcon) {
-			this.$approveIcon = this.RenderIcon("mint", "verified");
+			this.$approveIcon = this.RenderIcon("mint", "check");
+
+			this.$approveIcon.attr("title", System.data.locale.userContent.approvedAnswer);
 		}
 	}
 	HideApproveIcon() {
@@ -180,7 +186,23 @@ export default class UserContentRow {
 	}
 	RenderAttachmentsIcon(content) {
 		if (content.attachments && content.attachments.length > 0) {
-			this.RenderIcon("dark", "attachment");
+			let iconColor = "dark";
+
+			if (content.task_id) {
+				iconColor = "alt";
+			}
+
+			let $icon = this.RenderIcon(iconColor, "attachment");
+
+			$icon.attr("title", System.data.locale.userContent.questionHasAttachment);
+
+			if (this.main.caller == "Answers") {
+				if (content.task_id) {
+					$icon.attr("title", System.data.locale.userContent.answerHasAttachment);
+				} else {
+					$icon.addClass("seperator");
+				}
+			}
 		}
 	}
 	RenderIcon(color, name) {
@@ -225,6 +247,15 @@ export default class UserContentRow {
 
 		this.checkbox.Disable();
 		this.element.classList.add("removed");
+		this.element.classList.remove("already");
+
+		if (already)
+			this.element.classList.add("already");
+	}
+	Reported(already) {
+		this.reported = true;
+
+		this.element.classList.add("reported");
 		this.element.classList.remove("already");
 
 		if (already)
@@ -332,6 +363,25 @@ export default class UserContentRow {
 				this.element.classList.add("already");
 				let message = System.data.locale.userContent.notificationMessages.xIsAlreayUnapproved.replace("%{row_id}", `#${rowNumber} `);
 				notification(`${message}`, "info");
+			}
+		}
+	}
+	CorrectReportResponse(resReport) {
+		let rowNumber = this.RowNumber();
+
+		this.checkbox.HideSpinner();
+
+		if (!resReport) {
+			notification(`#${rowNumber} > ${System.data.locale.common.notificationMessages.somethingWentWrong}`, "error");
+		} else if (!resReport.success && resReport.code == 3) {
+			this.Deleted();
+			notification(`#${rowNumber} > ${resReport.message}`, "error");
+		} else {
+			this.Reported();
+
+			if (!resReport.success && resReport.message) {
+				this.element.classList.add("already");
+				notification(`#${rowNumber} > ${resReport.message}`, "info");
 			}
 		}
 	}

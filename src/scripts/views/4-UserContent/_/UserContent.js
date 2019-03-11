@@ -33,7 +33,6 @@ class UserContent {
 		this.LookupContents();
 		this.RenderSelectLabel();
 		this.RenderModerationSection();
-		this.RenderSelectAllCheckbox();
 		this.RenderSelectContentWarning();
 		this.BindPageCloseEvent();
 
@@ -104,8 +103,7 @@ class UserContent {
 		})
 	}
 	RenderSelectContentWarning() {
-		this.$selectContentWarning = $(`
-		<div class="sg-bubble sg-bubble--top sg-bubble--row-start sg-bubble--peach sg-text--white">${System.data.locale.userContent.notificationMessages.selectAtLeasetOneContent}</div>`);
+		this.$selectContentWarning = $(`<div class="sg-bubble sg-bubble--top sg-bubble--row-start sg-bubble--peach sg-text--white">${System.data.locale.userContent.notificationMessages.selectAtLeasetOneContent}</div>`);
 	}
 	BindPageCloseEvent() {
 		window.onbeforeunload = () => {
@@ -139,6 +137,33 @@ class UserContent {
 	HideDeleteSection() {
 		this.HideElement(this.deleteSection.$);
 		this.HideElement(this.$deleteButton);
+	}
+	RenderReportForCorrectionSection() {
+		this.$correctionReasonContainer = $(`
+		<div class="sg-content-box sg-content-box--spaced-top-xxlarge sg-content-box--spaced-bottom sg-content-box--full">
+			<div class="sg-content-box__actions">
+				<textarea class="sg-textarea sg-textarea--invalid sg-textarea--full-width" placeholder="${System.data.locale.userContent.askForCorrection.placeholder}"></textarea>
+			</div>
+			<div class="sg-content-box__actions">
+				<button class="sg-button-secondary sg-button-secondary--alt">${System.data.locale.userContent.askForCorrection.ask}</button>
+			</div>
+		</div>`);
+
+		this.$correctionReason = $("textarea", this.$correctionReasonContainer);
+		this.$reportButton = $("button", this.$correctionReasonContainer);
+	}
+	ToggleReportForCorrectionSection() {
+		if (this.$correctionReasonContainer.is(":visible")) {
+			this.HideReportForCorrectionSection();
+		} else {
+			this.ShowReportForCorrectionSection();
+		}
+	}
+	HideReportForCorrectionSection() {
+		this.HideElement(this.$correctionReasonContainer);
+	}
+	ShowReportForCorrectionSection() {
+		this.$correctionReasonContainer.appendTo(this.$moderateActions);
 	}
 	/**
 	 * @param {jQuery} $element

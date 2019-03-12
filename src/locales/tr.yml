@@ -391,10 +391,20 @@ userContent:
     selectAnApprovedAnswerForUnapproving: İşleme başlamadan önce doğrulanmış cevap(lar) seçmelisin
     confirmUnapproving: "Seçilen cevap(lar)dan doğrulamayı kaldırmak istediğine emin misin?"
     doYouWantToConfirmThisContent: "İçeriği onaylamak istiyor musun?"
-    # %{row_id} variable indicates the row number of user content table. Example notification> #19  is already approved
+    # %{row_id} variable indicates the row number of user content table. Example notification> #19 has already approved
     xIsAlreayApproved: "%{row_id} zaten doğrulanmış"
-    # %{row_id} variable indicates the row number of user content table. Example notification> #19  is already approved
+    # %{row_id} variable indicates the row number of user content table. Example notification> #13 has already unapproved
     xIsAlreayUnapproved: "%{row_id} doğrulaması zaten kaldırılmış"
+    # Check the link for more information https://ibb.co/3FXF5XP
+    confirmReporting: "Seçili cevabı/cevapları hatalı olarak bildirmek istiyor musun?"
+  questionHasAttachment: Soruda dosya ek(ler)i var
+  answerHasAttachment: Cevapta dosya ek(ler)i mevcut
+  approvedAnswer: Onaylanmış cevap
+  bestAnswer: En iyi cevap
+  askForCorrection:
+    text: Hatalı olarak bildir
+    placeholder: Kullanıcı için ek bilgiler yazınız
+    ask: Bildir
 userProfile:
   notificationMessages:
     selectAtLeasetOneUser: En az bir kullanıcı seçmelisin
@@ -407,6 +417,7 @@ userProfile:
     fileSizeExceeded: "%{file_name}dosyası %{file_size}olan dosya limitini aşıyor"
     aShortcutFile: "Bir dosyanın kısayolunu yüklemeye çalışıyorsun ve bu dosya eklemek istediğin dosya olmayabilir. Eklersende bir anlamı olmayacaktır.\nKısayolun hedefi olan orjinal dosyayı eklemeni öneririm.\nYine de bu kısayol dosyasını eklemek istiyor musun?"
     unableToReportAccountDeleting: "Hesap silimini Topluluk Yöneticisine bildiremediğim için silim işlemine devam edemiyorum. Üzgünüm :/<br>Eğer bu hata devam ederse, eklenti yöneticine bildir lütfen"
+    confirmNoEvidenceOrComment: "Kanıt veya yorum eklemedin.\nHalen silmek istiyor musun?"
     afterSavingCompletedIgnoreNotifications: "Sıralamalar kaydedildikten sonra,<br>bu sayfadan çıktığında veya yenilediğinde karşılacağın bildirimleri, göz ardı edebilirsin"
   previousNicks:
     text: Önceki kullanıcı adları

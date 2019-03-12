@@ -391,10 +391,20 @@ userContent:
     selectAnApprovedAnswerForUnapproving: Kamu perlu memilih beberapa jawaban yang disetujui untuk memulai
     confirmUnapproving: "Apakah kamu ingin menghapus persetujuan dari jawaban ini?"
     doYouWantToConfirmThisContent: "Apakah kamu ingin mengkonfirmasi konten ini?"
-    # %{row_id} variable indicates the row number of user content table. Example notification> #19  is already approved
-    xIsAlreayApproved: "%{row_id} telah disetujui"
-    # %{row_id} variable indicates the row number of user content table. Example notification> #19  is already approved
+    # %{row_id} variable indicates the row number of user content table. Example notification> #19 has already approved
+    xIsAlreayApproved: "%{row_id}  telah disetujui"
+    # %{row_id} variable indicates the row number of user content table. Example notification> #13 has already unapproved
     xIsAlreayUnapproved: "%{row_id} telah batal disetujui"
+    # Check the link for more information https://ibb.co/3FXF5XP
+    confirmReporting: "Aapakah kamu ingin melaporkan jawaban ini untuk dikoreksi?"
+  questionHasAttachment: Pertanyaan memiliki lampiran
+  answerHasAttachment: Jawaban memiliki lampiran
+  approvedAnswer: Jawaban disetujui
+  bestAnswer: Jawaban terbaik
+  askForCorrection:
+    text: Meminta koreksi
+    placeholder: Menuliskan informasi tambahan untuk pengguna
+    ask: meminta
 userProfile:
   notificationMessages:
     selectAtLeasetOneUser: Kamu perlu memilih setidaknya satu pengguna
@@ -407,6 +417,7 @@ userProfile:
     fileSizeExceeded: "File %{file_name} melebihi batas ukuran %{file_size}"
     aShortcutFile: "Kamu mencoba menambahkan sebuah pintasan pada file dan itu tidak dianggap sebagai file yang aktual. Ini semacam sampah jika kamu menambahkannya.\nKamu mungkin butuh menambahkan file asli sebagai gantinya. Apakah kamu masih ingin menambahkan pintasan ini?"
     unableToReportAccountDeleting: "Kami tidak dapat melaporkan  permintaanmu untuk penghapusan akun ke Community Manager jadi kami tidak dapat melanjutkan penghapusan. Maaf :/<br> Jika kesalahan ini terus berlanjut, mintalah bantuan ke Community Manager."
+    confirmNoEvidenceOrComment: "Kamu tidak menambahkan bukti atau komentar apa pun.\nApakah kamu masih ingin menghapus akun ini?"
     afterSavingCompletedIgnoreNotifications: "Setelah selesai menyimpan,<br> abaikan notifikasi ketika kamu menyegarkan atau meninggalkan halaman"
   previousNicks:
     text: Nick sebelumnya

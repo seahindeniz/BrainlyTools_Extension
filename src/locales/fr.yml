@@ -391,10 +391,20 @@ userContent:
     selectAnApprovedAnswerForUnapproving: Vous devez sélectionner quelques réponses approuvées pour commencer.
     confirmUnapproving: "Voulez-vous enlever l'approbation de toutes ces questions ?"
     doYouWantToConfirmThisContent: "Voulez-vous approuver ce contenu ?"
-    # %{row_id} variable indicates the row number of user content table. Example notification> #19  is already approved
-    xIsAlreayApproved: "%{row_id} est déjà approuvée"
-    # %{row_id} variable indicates the row number of user content table. Example notification> #19  is already approved
-    xIsAlreayUnapproved: "%{row_id} est déjà désapprouvée"
+    # %{row_id} variable indicates the row number of user content table. Example notification> #19 has already approved
+    xIsAlreayApproved: "%{row_id} sont déjà approuvé"
+    # %{row_id} variable indicates the row number of user content table. Example notification> #13 has already unapproved
+    xIsAlreayUnapproved: "%{row_id} ont déjà été approuvé"
+    # Check the link for more information https://ibb.co/3FXF5XP
+    confirmReporting: "Voulez-vous demander la correction de cette/ces réponse(s) ?"
+  questionHasAttachment: La question a une/des pièce(s) jointe(s)
+  answerHasAttachment: La réponse a une/des pièce(s) jointe(s)
+  approvedAnswer: Réponse approuvée
+  bestAnswer: Meilleure réponse
+  askForCorrection:
+    text: Demander la correction
+    placeholder: Ecrire des informations additionnelles pour les utilisateurs
+    ask: Demander
 userProfile:
   notificationMessages:
     selectAtLeasetOneUser: Tu dois sélectionner au moins un utilisateur
@@ -407,6 +417,7 @@ userProfile:
     fileSizeExceeded: "Le fichier %{file_name} excède la taille maximale de %{file_size}"
     aShortcutFile: "Vous essayer d'ajouter un raccourci d'un fichier mais celui-ci n'est pas considéré comme un fichier. Cela va être le bazarre si vous l'ajouter\nVous devriez sélectionner le fichier d'origine à la place\nVoulez-vous toujours ajouter ce raccourci ?"
     unableToReportAccountDeleting: "Je ne suis pas en mesure de rapporter votre demande de suppression au community manager donc je ne peux pas effectuer la suppression. Désolé :/ <br> Si cette erreur persiste signalez la"
+    confirmNoEvidenceOrComment: "Vous n'avez ajouter aucune preuve ou commentaire. \nVoulez-vous toujours supprimer ce compte ?"
     afterSavingCompletedIgnoreNotifications: "Une fois fois la sauvegarde effectué, <br> ignorez les notifications quand vous rechargez ou quittez la page"
   previousNicks:
     text: Pseudo précédent

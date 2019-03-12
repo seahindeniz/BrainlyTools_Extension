@@ -391,10 +391,20 @@ userContent:
     selectAnApprovedAnswerForUnapproving: You need select some approved answer(s) for start
     confirmUnapproving: Do you want to remove approvement from this answer(s)?
     doYouWantToConfirmThisContent: Do you want to confirm this content?
-    # %{row_id} variable indicates the row number of user content table. Example notification> #19  is already approved
-    xIsAlreayApproved: "%{row_id} is already approved"
-    # %{row_id} variable indicates the row number of user content table. Example notification> #19  is already approved
-    xIsAlreayUnapproved: "%{row_id} is already unapproved"
+    # %{row_id} variable indicates the row number of user content table. Example notification> #19 has already approved
+    xIsAlreayApproved: "%{row_id} has already approved"
+    # %{row_id} variable indicates the row number of user content table. Example notification> #13 has already unapproved
+    xIsAlreayUnapproved: "%{row_id} has already unapproved"
+    # Check the link for more information https://ibb.co/3FXF5XP
+    confirmReporting: Do you want to report this answer(s) for correction?
+  questionHasAttachment: Question has attachment(s)
+  answerHasAttachment: Answer has attachment(s)
+  approvedAnswer: Approved answer
+  bestAnswer: Best answer
+  askForCorrection:
+    text: Ask for correction
+    placeholder: Write additional information for users
+    ask: Ask
 userProfile:
   notificationMessages:
     selectAtLeasetOneUser: You need to select at least one user
@@ -407,6 +417,7 @@ userProfile:
     fileSizeExceeded: The %{file_name} file exceeds the size limit of %{file_size}
     aShortcutFile: "You're trying to add a shortcut of a file and it's not considered as an actual file. It's kind of a garbage if you'll add it.\nYou may need to select the original file instead\nDo you still want to add this shortcut?"
     unableToReportAccountDeleting: I couldn't able report your delete request to community manager so I can't continue to delete. Sorry :/<br>If this error persist, ask for help from your extension manager
+    confirmNoEvidenceOrComment: "You didn't add any evidence or comment.\nDo you still want to delete this account?"
     afterSavingCompletedIgnoreNotifications: After saving completed,<br>just ignore the notifications when you refresh or exit this page
   previousNicks:
     text: Previous nicks

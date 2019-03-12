@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.18.0] - 2019.03.12
+
+### Added
+
+- [#34] Selective ask for correction
+
+### Changed
+
+- Account delete reporter has an issue while trying to delete an account
+- Extension permissions downgraded
+- [FIX#35] Delete reasons are not updated
+- [FIX#36] Attachment symbol errors
+
 ## [6.17.1] - 2019.03.09
 
 ### Changed

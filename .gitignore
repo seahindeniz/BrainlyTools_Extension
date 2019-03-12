@@ -1,5 +1,6 @@
-node_modules
 dists
 build/*
+node_modules
+ep_list.json
 !build/.gitkeep
 privilege_list.yml

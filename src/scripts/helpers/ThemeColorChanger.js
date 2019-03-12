@@ -1,0 +1,176 @@
+import Color from "color";
+import WaitForElement from "./WaitForElement";
+import TimedLoop from "./TimedLoop";
+
+const COLOR_STORE_KEY = "themeColor";
+const DEFAULT_THEME_COLOR = "#57b2f8";
+const STYLE_ELEMENT_ID = "PersonalColors";
+
+class ThemeColorChanger {
+	constructor(primaryColor, isPreview = false) {
+		this.primaryColor = String(primaryColor || "transparent");
+		this.isPreview = isPreview;
+		this.storedColor = window.localStorage.getItem(COLOR_STORE_KEY);
+		this.colors = [];
+		this.fontColor = "#fff";
+
+		this.Init();
+	}
+	async Init() {
+		this.StoreColor();
+
+		let head = await WaitForElement("head");
+		this.head = head[0];
+
+		this.PrepareStyleElement();
+		TimedLoop(this.RenderStyleElement.bind(this), { expireTime: 3 });
+		this.RenderStyles();
+	}
+	StoreColor() {
+		if (
+			!this.isPreview &&
+			(
+				!this.storedColor ||
+				(
+					this.storedColor.toLowerCase() != this.primaryColor.toLowerCase()
+				)
+			)
+		) {
+			window.localStorage.setItem(COLOR_STORE_KEY, this.primaryColor);
+		}
+	}
+	PrepareStyleElement() {
+		this.styleElement = document.getElementById(STYLE_ELEMENT_ID);
+
+		if (!this.styleElement) {
+			this.styleElement = document.createElement('style');
+			this.styleElement.type = 'text/css';
+			this.styleElement.id = STYLE_ELEMENT_ID;
+		}
+	}
+	RenderStyleElement() {
+		this.head.appendChild(this.styleElement);
+	}
+	RenderStyles() {
+		this.PrepareColors();
+		this.PrepareBackgrounStyle();
+		this.PrepareStyles();
+		this.ChangeStyles();
+	}
+	PrepareColors() {
+		if (this.IsMulticolor()) {
+			this.colors = this.primaryColor.split(",").map(color => color.toLowerCase());
+		} else {
+			//this.PrepareMultiColor();
+			this.colors = [this.primaryColor];
+			this.SetFontColor();
+		}
+	}
+	IsMulticolor() {
+		return this.primaryColor.indexOf(",") >= 0
+	}
+	SetFontColor() {
+		let color;
+
+		try {
+			color = Color(this.primaryColor);
+		} catch (error) {
+			color = Color(DEFAULT_THEME_COLOR);
+		}
+
+		if (
+			color.isLight() &&
+			this.primaryColor.toLowerCase() != DEFAULT_THEME_COLOR.toLowerCase()
+		) {
+			this.fontColor = "#000";
+		}
+	}
+	PrepareMultiColor() {
+		let secondaryColor = Color(this.primaryColor);
+
+		if (!secondaryColor.isLight()) {
+			secondaryColor = secondaryColor.lighten(.3);
+		} else {
+			if (secondaryColor.hex().toLowerCase() != DEFAULT_THEME_COLOR.toLowerCase()) {
+				this.fontColor = "#000";
+			}
+
+			secondaryColor = secondaryColor.darken(.2);
+		}
+
+		this.colors = [
+			this.primaryColor,
+			secondaryColor.hex().toLowerCase()
+		];
+	}
+	PrepareBackgrounStyle() {
+		this.backgroundStyle = `color: ${this.fontColor} !important;`
+
+		if (this.colors.length < 2) {
+			this.backgroundStyle += `background: ${this.colors};`
+		} else {
+			this.backgroundStyle += `background: linear-gradient(180deg, ${this.colors});`;
+
+			if (this.colors.length > 2) {
+				this.backgroundStyle += `
+				animation: BackgroundAnimation 6s ease infinite;
+				transform: translateZ(0);
+				will-change: background-position;
+				background-size: 1% 10000%;
+				`;
+			}
+		}
+	}
+	PrepareStyles() {
+		this.styles = `
+		@keyframes BackgroundAnimation {
+			50% {
+				background-position: 0% 100%
+			}
+		}
+
+		.sg-box--blue,
+		.sg-header__container,
+		.sg-button-primary--alt,
+		.sg-button-secondary--alt,
+		.mint-tabs__tab--active,
+		#html .mint .mint-header,
+		#html .mint #tabs-doj #main_menu>li.active,
+		#html .mint #footer{
+			${this.backgroundStyle}
+		}
+
+		.sg-menu-list__link,
+		.sg-link:not([class*="gray"]):not([class*="light"]):not([class*="mustard"]):not([class*="peach"]),
+		#html .mint #profile #main-left .personal_info .helped_subjects>li,
+		#html .mint #profile #main-left .personal_info .helped_subjects>li .bold,
+		#html .mint #profile #main-left .personal_info .helped_subjects>li .bold a,
+		#html .mint #profile #main-left .personal_info .helped_subjects>li .green,
+		#html .mint .mod-profile-panel a,
+		#html .mint .mod-profile-panel .pseudolink,
+		#html .mint .mod-profile-panel .orange,
+		#html .mint .mod-profile-panel .onlylink,
+		div#content-old .editProfileContent .profileListEdit,
+		#main-panel .menu-right .menu-element#panel-notifications .notifications-container .notifications li.notification .main .content .nick,
+		#main-panel .menu-right .menu-element#panel-notifications .notifications-container .notification-wrapper .main .content .nick {
+			color: ${this.primaryColor} !important;
+		}
+
+		.sg-button-secondary--alt-inverse,
+		.sg-sticker__front {
+			color: ${this.primaryColor} !important;
+			fill: ${this.primaryColor} !important;
+		}
+		`
+	}
+	ChangeStyles() {
+		this.styleElement.innerHTML = this.styles;
+	}
+	UpdateColor(color) {
+		this.primaryColor = color;
+
+		this.RenderStyles();
+	}
+}
+
+export default ThemeColorChanger

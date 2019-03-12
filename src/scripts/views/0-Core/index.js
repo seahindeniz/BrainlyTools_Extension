@@ -6,7 +6,6 @@ import _System from "../../controllers/System";
 import WaitForObject from "../../helpers/WaitForObject";
 import InjectToDOM from "../../helpers/InjectToDOM";
 import storage from "../../helpers/extStorage";
-import themeColorChanger from "../../helpers/themeColorChanger";
 import messagesLayoutExtender from "../../helpers/messagesLayoutExtender";
 import renderExtraItemsForModerationPanel from "./_/ExtraItemsForModerationPanel";
 import renderAnnouncements from "./_/Announcements";
@@ -73,8 +72,8 @@ class Core {
 		this.InjectFilesToPageAfter_DeleteReasonsLoaded();
 	}
 	UserDataLoaded() {
-		themeColorChanger(this.userData.themeColor || "#57b2f8");
-		messagesLayoutExtender(this.userData.extendMessagesLayout || false);
+		window.postMessage({ action: "changeColors", data: this.userData.themeColor || "#57b2f8" }, "*");
+		messagesLayoutExtender(this.userData.extendMessagesLayout || true);
 	}
 	async SetMarketConfig() {
 		System.data.config.marketConfig = await InjectToDOM(`/config/${location.hostname}.json`);

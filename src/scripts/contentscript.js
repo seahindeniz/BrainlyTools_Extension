@@ -3,7 +3,7 @@
 import "./helpers/preExecuteScripts";
 import ext from "./utils/ext";
 import InjectToDOM from "./helpers/InjectToDOM";
-import themeColorChanger from "./helpers/themeColorChanger";
+import ThemeColorChanger from "./helpers/ThemeColorChanger";
 import messagesLayoutExtender from "./helpers/messagesLayoutExtender";
 import _System from "./controllers/System";
 
@@ -43,10 +43,15 @@ function MessageHandler(request) {
 		return manifest;
 	}
 	if (request.action === "previewColor") {
-		themeColorChanger(request.data, true);
+		if (window.coloring) {
+			window.coloring.UpdateColor(request.data);
+		} else {
+			window.coloring = new ThemeColorChanger(request.data, true);
+		}
 	}
 	if (request.action === "changeColors") {
 		localStorage.setItem("themeColor", request.data);
+		MessageHandler({ action: "previewColor", data: request.data });
 	}
 	if (request.action === "contentscript>Share System.data to background.js") {
 		window.postMessage({
@@ -77,4 +82,10 @@ window.addEventListener('metaGet', e => {
 			data: System.data.meta
 		},
 		e.target.URL);
+});
+window.addEventListener("message", event => {
+	if (event.source != window)
+		return;
+
+	MessageHandler(event.data);
 });

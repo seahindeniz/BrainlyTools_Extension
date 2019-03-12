@@ -1,24 +1,18 @@
-import themeColorChanger from "./themeColorChanger";
+import ThemeColorChanger from "./ThemeColorChanger";
 
 function preExecuteScripts() {
-	let color = localStorage.getItem("themeColor");
+	let color = window.localStorage.getItem("themeColor");
 
-	themeColorChanger(color || "transparent");
+	window.coloring = new ThemeColorChanger(color);
 
 	let _loop_removeElement = setInterval(() => {
-		let elements = document.querySelectorAll(".brn-ads-box");
-		if (elements.length > 0) {
-			if (elements && elements.length > 0) {
-				elements.forEach(element => {
-					element.remove();
-				});
-			}
-		}
+		let elements = document.querySelectorAll(".brn-ads-box, div.js-feed>div>div.sg-layout>div.sg-layout__container>div.sg-layout__content>div>div.sg-layout__box");
+
+		if (elements && elements.length > 0)
+			elements.forEach(element => element.remove());
 	});
 
-	window.addEventListener("load", function load(event) {
-		clearInterval(_loop_removeElement);
-	});
+	window.addEventListener("load", () => clearInterval(_loop_removeElement));
 }
 
 export default preExecuteScripts()

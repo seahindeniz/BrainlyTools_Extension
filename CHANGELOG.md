@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- [#34] Selective ask for correction
+- [#34] Selective ask for correction (<https://ibb.co/7bSjPX4>)
 
 ### Changed
 

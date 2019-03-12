@@ -1,9 +1,5 @@
 node_modules
-temp
-.tmp
-dist
-.sass-cache
-.DS_Store
+dists
 build/*
 !build/.gitkeep
-privilege_list.md
+privilege_list.yml

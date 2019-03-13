@@ -1,4 +1,4 @@
-import ModalToplayer from "../../../../components/Toplayer/Modal";
+import Modal from "../../../../components/Modal";
 import { AddPoint, getUserByID } from "../../../../controllers/ActionsOfBrainly";
 
 const spinner = `<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`;
@@ -23,7 +23,7 @@ class PointChanger {
 	}
 	RenderModal() {
 		let nUsers = System.data.locale.core.pointChanger.nUsers.replace("%{n}", ` <span>0</span> `);
-		this.modal = new ModalToplayer({
+		this.modal = new Modal({
 			header: `<div class="sg-actions-list sg-actions-list--space-between">
 				<div class="sg-actions-list__hole">
 					<div class="sg-label sg-label--small sg-label--secondary">

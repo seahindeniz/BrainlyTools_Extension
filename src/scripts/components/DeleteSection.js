@@ -1,4 +1,4 @@
-import DeleteReasonCategoryList from "../DeleteReasonCategoryList";
+import DeleteReasonCategoryList from "./DeleteReasonCategoryList";
 
 class DeleteSection {
 	constructor(reasons, type) {

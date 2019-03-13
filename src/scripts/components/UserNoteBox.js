@@ -1,4 +1,4 @@
-import { UpdateNote } from "../../controllers/ActionsOfServer";
+import { UpdateNote } from "../controllers/ActionsOfServer";
 
 export default (user) => {
 	let $userNoteBox = $(`

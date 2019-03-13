@@ -1,5 +1,5 @@
 import DeleteSection from "../../../../components/DeleteSection";
-import Modal from "../../../../components/Toplayer/Modal";
+import Modal from "../../../../components/Modal";
 import { RemoveQuestion } from "../../../../controllers/ActionsOfBrainly";
 import debounce from "debounce"
 

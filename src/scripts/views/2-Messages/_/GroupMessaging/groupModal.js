@@ -1,7 +1,7 @@
 "use strict";
 
 import notification from "../../../../components/notification";
-import Modal from "../../../../components/Toplayer/Modal";
+import Modal from "../../../../components/Modal";
 import Dropdown from "../../../../components/Dropdown";
 import { getUserByID } from "../../../../controllers/ActionsOfBrainly";
 import { CreateMessageGroup, UpdateMessageGroup } from "../../../../controllers/ActionsOfServer";

@@ -1,7 +1,7 @@
 import template from "backtick-template";
 import ConditionSection from "./ConditionSection";
 import templateModalContent from "./templates/ModalContent.html";
-import ModalToplayer from "../../../../../components/Toplayer/Modal";
+import Modal from "../../../../../components/Modal";
 import { GetReportedContents } from "../../../../../controllers/ActionsOfBrainly";
 
 const spinner = `<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`;
@@ -29,7 +29,7 @@ class ReportedContentsConfirmer {
 		</li>`);
 	}
 	RenderModal() {
-		this.modal = new ModalToplayer({
+		this.modal = new Modal({
 			header: `<div class="sg-actions-list sg-actions-list--space-between">
 				<div class="sg-actions-list__hole">
 					<div class="sg-label sg-label--small sg-label--secondary">

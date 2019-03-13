@@ -1,7 +1,7 @@
-import Toplayer from ".";
-import notification from "../notification";
+import Toplayer from "./Toplayer";
+import notification from "./notification";
 
-class ModalToplayer extends Toplayer {
+class Modal extends Toplayer {
 	constructor(options) {
 		super(options);
 
@@ -32,4 +32,4 @@ class ModalToplayer extends Toplayer {
 		}
 	}
 }
-export default ModalToplayer;
+export default Modal;

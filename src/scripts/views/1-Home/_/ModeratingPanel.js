@@ -1,5 +1,5 @@
 import DeleteSection from "../../../components/DeleteSection";
-import Modal from "../../../components/Toplayer/Modal";
+import Modal from "../../../components/Modal";
 import notification from "../../../components/notification";
 import { CloseModerationTicket, OpenModerationTicket, RemoveQuestion } from "../../../controllers/ActionsOfBrainly";
 import secondsToTime from "../../../helpers/secondsToTime";

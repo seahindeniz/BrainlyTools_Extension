@@ -89,29 +89,28 @@ section.brn-messages__chatbox>div.sg-content-box>div.sg-content-box__header {
 		&.userNoteBox {
 			width: 100%;
 			display: inline-block;
-		}
 
-		textarea.inputNote {
-			width: 100%;
-			resize: none;
-			position: relative;
-			z-index: 2;
-			height: 32px;
-			margin-top: 3px;
-			overflow: hidden;
+			textarea.inputNote {
+				resize: none;
+				position: relative;
+				z-index: 2;
+				height: 32px;
+				margin-top: 3px;
+				overflow: hidden;
 
-			&:focus {
-				height: 15em;
-				overflow: auto;
-				color: #000;
-			}
+				&:focus {
+					height: 15em;
+					overflow: auto;
+					color: #000;
+				}
 
-			&:not(:focus) {
-				padding: 0;
-			}
+				&:not(:focus) {
+					padding: 0;
+				}
 
-			&.changed {
-				border: 3px solid #a7e6c6;
+				&.changed {
+					border: 3px solid #a7e6c6;
+				}
 			}
 		}
 	}

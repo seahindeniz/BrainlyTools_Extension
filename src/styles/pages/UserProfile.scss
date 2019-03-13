@@ -3,27 +3,11 @@
 	padding: 0;
 }
 
-div.previousNicks,
-div.userBio {
-	padding: 14px 0 10px;
-	border-bottom: 1px solid #e1e3e5;
-	font-size: 1.1em;
-	margin-top: 0.5em;
-	display: flex;
-
-	>b {
-		margin-right: 3px;
-	}
-
-	>.bio-content {
-		flex-grow: 1;
-		white-space: pre-wrap;
-		word-wrap: break-word;
-		line-height: 18px;
-	}
-}
-
-img.userFlag {
+img.userHat {
+	position: absolute;
+	transform: rotate(-25deg);
+	pointer-events: none;
+	z-index: 1;
 	top: -7px;
 	left: 20px;
 	width: 50px;

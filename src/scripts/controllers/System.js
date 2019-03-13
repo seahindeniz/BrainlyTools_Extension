@@ -56,56 +56,6 @@ class _System {
 					}
 				],
 				pinIcon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" class="sg-icon sg-icon--gray sg-icon--x{size}"><path d="M18.266 4.3l-9.192 9.192 5.237 5.237c.357-1.2.484-2.486.28-3.68l5.657-5.657c.86.01 1.8-.2 2.638-.473L18.266 4.3z" fill="#c0392b"></path><path d="M9.074 13.483L3.417 19.14 2.7 21.26l7.07-7.07-.707-.707z" fill="#bdc3c7"></path><path d="M9.78 14.2L2.7 21.26l2.12-.707 5.657-5.657-.707-.707z" fill="#7f8c8d"></path><path d="M15.062 1.086c-.282.85-.484 1.778-.473 2.638L8.932 9.38c-1.195-.205-2.483-.08-3.68.278l4.53 4.53 9.192-9.192-3.91-3.91z" fill="#e74c3c"></path></svg>`,
-				userFlags: {
-					list: [{
-							file: `/images/hats/hat_0.svg`,
-							css: "top: -8px;left: 15px;transform: rotate(-28deg);"
-						},
-						{
-							file: `/images/hats/hat_1.svg`,
-							css: {
-								img: "top: -10px;left: 37px;transform: rotate(-7deg);"
-							}
-						},
-						{
-							file: `/images/hats/hat_2.svg`,
-							css: "top: -6px; transform: rotate(-26deg); "
-						},
-						{
-							file: `/images/hats/hat_3.svg`,
-							css: "width: 44px;top: -9px;left: 21px;"
-						},
-						{
-							file: `/images/hats/hat_4.svg`,
-							css: {
-								img: "top: -8px;left: 75px;transform: rotate(25deg);"
-							}
-						},
-						{
-							file: `/images/hats/hat_5.svg`,
-							css: ""
-						},
-						{
-							file: `/images/hats/hat_6.svg`,
-							css: "top: -6px;left: 40px;width: 65px;transform: rotate(-7deg);"
-						},
-						{
-							file: `/images/hats/hat_7.svg`,
-							css: "top: -2px; left:33px;width: 50px;transform: rotate(26deg);"
-						},
-						{
-							file: `/images/hats/hat_8.svg`,
-							css: "top: -12px; left: 16px; width: 70px; transform: rotate(5deg);"
-						},
-						{
-							file: `/images/hats/hat_9.png`,
-							css: "top: -25px; left: 30px; width: 70px; transform: rotate(-6deg);"
-						},
-					],
-					0: [0, 8, 9],
-					1: [1, 2, 4],
-					2: [3, 5, 6, 7]
-				}
 			}
 
 		}
@@ -139,7 +89,7 @@ class _System {
 	 * @param {number} milliseconds - Specify delay in milliseconds
 	 */
 	Delay(milliseconds = System.randomNumber(1000, 4000)) {
-		return new Promise(resolve => setTimeout(resolve, milliseconds));
+		return new Promise(resolve => setTimeout(() => resolve(milliseconds), milliseconds));
 	}
 	/* log(){
 		console.log.apply()

@@ -1,9 +1,9 @@
+import UserNoteBox from "../../../components/UserNoteBox";
+import UserTag from "../../../components/UserTag";
+import { getUserByID } from "../../../controllers/ActionsOfBrainly";
+import { PassUser } from "../../../controllers/ActionsOfServer";
 import WaitForElement from "../../../helpers/WaitForElement";
 import WaitForObject from "../../../helpers/WaitForObject";
-import { PassUser } from "../../../controllers/ActionsOfServer";
-import { getUserByID } from "../../../controllers/ActionsOfBrainly";
-import UserNoteBox from "../../../components/UserNoteBox";
-import UserFlag from "../../../components/UserFlag";
 
 async function profileLinkContainerFound(targetElm) {
 	//if (!$(this).parent().is('.mesaj_grubu')) {
@@ -21,11 +21,13 @@ async function profileLinkContainerFound(targetElm) {
 
 					$notebox.appendTo(targetElm);
 
-					if (resExtUser.probatus) {
+					if (resExtUser.data.probatus) {
 						let resBrainlyUser = await getUserByID(id);
 
 						if (resBrainlyUser && resBrainlyUser.success) {
-							UserFlag(resBrainlyUser.data.gender, "tag").insertAfter("div.sg-content-box > div.sg-content-box__header > div.sg-actions-list > div.sg-actions-list__hole:nth-child(2)");
+							let $tag = UserTag()
+
+							$tag.insertAfter("div.sg-content-box > div.sg-content-box__header > div.sg-actions-list > div.sg-actions-list__hole:nth-child(2)");
 						}
 					}
 				}

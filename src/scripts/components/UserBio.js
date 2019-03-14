@@ -26,7 +26,7 @@ class UserBio {
 		 */
 		this.bioContent = this.$bioContent.get(0);
 
-		this.$bioContent.prop("contenteditable", true || this.editable);
+		this.$bioContent.prop("contenteditable", this.editable);
 	}
 	BindEvents() {
 		this.$bioContent.on({

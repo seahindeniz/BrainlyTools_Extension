@@ -7,7 +7,7 @@ assignees: seahindeniz
 
 ---
 
-**Describe the bug**
+**Describe the issue/bug**
 A clear and concise description of what the bug is.
 
 **To Reproduce**

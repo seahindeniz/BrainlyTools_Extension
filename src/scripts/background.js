@@ -85,6 +85,7 @@ class Background {
 		}
 		if (request.action === "xmlHttpRequest") {
 			let ajaxData = {
+				type: request.method,
 				method: request.method,
 				url: System.data.config.extension.serverAPIURL + request.path,
 				headers: request.headers
@@ -93,6 +94,7 @@ class Background {
 			if (request.data) {
 				ajaxData.data = request.data;
 				ajaxData.dataType = "json";
+				ajaxData.contentType = "application/json; charset=utf-8";
 			}
 
 			return $.ajax(ajaxData);

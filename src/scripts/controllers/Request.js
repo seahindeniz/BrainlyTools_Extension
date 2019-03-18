@@ -197,13 +197,12 @@ const Request = {
 			method,
 			path,
 			data,
-			headers: {
-				"Content-type": "application/json; charset=utf-8"
-			}
 		};
 
 		if (System.data.Brainly.userData.extension && System.data.Brainly.userData.extension.secretKey) {
-			messageData.headers["SecretKey"] = System.data.Brainly.userData.extension.secretKey;
+			messageData.headers = {
+				SecretKey: System.data.Brainly.userData.extension.secretKey
+			};
 		}
 
 		return ext.runtime.sendMessage(System.data.meta.extension.id, messageData);

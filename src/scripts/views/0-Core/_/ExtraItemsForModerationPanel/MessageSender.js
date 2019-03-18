@@ -1,6 +1,6 @@
 "use strict";
 
-import { getUserByID, sendMessages } from "../../../../controllers/ActionsOfBrainly";
+import { GetUserByID, sendMessages } from "../../../../controllers/ActionsOfBrainly";
 import notification from "../../../../components/notification";
 
 const isPosInt = str => /^\+?\d+$/.test(str);
@@ -84,7 +84,7 @@ const MessageSender = $seperator => {
 				clearTimeout(delayTimer);
 
 				delayTimer = setTimeout(async () => {
-					let user = await getUserByID(value);
+					let user = await GetUserByID(value);
 
 					if (!user || !user.success || !user.data) {
 						this.classList.add("userNotFound");

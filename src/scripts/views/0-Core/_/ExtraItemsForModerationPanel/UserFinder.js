@@ -1,6 +1,6 @@
 "use strict";
 
-import { findUser, getUserByID } from "../../../../controllers/ActionsOfBrainly";
+import { findUser, GetUserByID } from "../../../../controllers/ActionsOfBrainly";
 
 let $userList;
 
@@ -83,7 +83,7 @@ const UserFinder = $seperator => {
 		} else {
 			delayTimer = setTimeout(async () => {
 				if (isPosInt(value)) {
-					let user = await getUserByID(value);
+					let user = await GetUserByID(value);
 
 					if (!user || !user.success || !user.data) {
 						$userList.attr("data-placeholder", System.data.locale.core.notificationMessages.userNotFound);

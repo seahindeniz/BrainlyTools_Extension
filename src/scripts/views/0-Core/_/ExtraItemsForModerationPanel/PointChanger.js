@@ -1,5 +1,5 @@
 import Modal from "../../../../components/Modal";
-import { AddPoint, getUserByID } from "../../../../controllers/ActionsOfBrainly";
+import { AddPoint, GetUserByID } from "../../../../controllers/ActionsOfBrainly";
 
 const spinner = `<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`;
 
@@ -182,7 +182,7 @@ class PointChanger {
 		}, []);
 	}
 	async FindID(id) {
-		let res = await getUserByID(id);
+		let res = await GetUserByID(id);
 
 		if (res) {
 			if (!res.success) {

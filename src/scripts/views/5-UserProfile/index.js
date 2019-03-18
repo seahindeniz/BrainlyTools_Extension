@@ -2,7 +2,7 @@ import UserBio from "../../components/UserBio";
 import UserHat from "../../components/UserHat";
 import UserNoteBox from "../../components/UserNoteBox";
 import UserTag from "../../components/UserTag";
-import { getUserByID } from "../../controllers/ActionsOfBrainly";
+import { GetUserByID } from "../../controllers/ActionsOfBrainly";
 import { PassUser } from "../../controllers/ActionsOfServer";
 import WaitForElement from "../../helpers/WaitForElement";
 import AccountDeleteReporter from "./_/AccountDeleteReporter";
@@ -21,7 +21,7 @@ class UserProfile {
 			this.profileData = await this.GetProfilData();
 
 			this.extensionPromise = PassUser(this.profileData.id, this.profileData.nick);
-			this.brainlyPromise = getUserByID(this.profileData.id);
+			this.brainlyPromise = GetUserByID(this.profileData.id);
 
 			new AccountDeleteReporter();
 			this.RenderFriendsManager();

@@ -1,6 +1,6 @@
 import UserNoteBox from "../../../components/UserNoteBox";
 import UserTag from "../../../components/UserTag";
-import { getUserByID } from "../../../controllers/ActionsOfBrainly";
+import { GetUserByID } from "../../../controllers/ActionsOfBrainly";
 import { PassUser } from "../../../controllers/ActionsOfServer";
 import WaitForElement from "../../../helpers/WaitForElement";
 import WaitForObject from "../../../helpers/WaitForObject";
@@ -22,7 +22,7 @@ async function profileLinkContainerFound(targetElm) {
 					$notebox.appendTo(targetElm);
 
 					if (resExtUser.data.probatus) {
-						let resBrainlyUser = await getUserByID(id);
+						let resBrainlyUser = await GetUserByID(id);
 
 						if (resBrainlyUser && resBrainlyUser.success) {
 							let $tag = UserTag()

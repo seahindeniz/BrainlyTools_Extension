@@ -1,11 +1,12 @@
 "use strict";
 
-import ext from "../utils/ext";
 import cookie from "js-cookie";
-import { Logger } from "./ActionsOfServer";
-import { getUserByID } from "./ActionsOfBrainly";
-import InjectToDOM from "../helpers/InjectToDOM";
 import extensionConfig from "../../config/_/extension.json";
+import storage from "../helpers/extStorage";
+import InjectToDOM from "../helpers/InjectToDOM";
+import ext from "../utils/ext";
+import { GetUserByID } from "./ActionsOfBrainly";
+import { Logger } from "./ActionsOfServer";
 
 class _System {
 	constructor() {
@@ -28,7 +29,8 @@ class _System {
 				style_guide: {
 					css: `https://styleguide.brainly.com/${extensionConfig.STYLE_GUIDE_VERSION}/style-guide.css` + "?treat=.ext_css",
 					icons: "https://styleguide.brainly.com/images/icons-1b40deaa8d.js" + "?treat=.ext_js"
-				}
+				},
+				githubHighlight: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css",
 			},
 			config: {
 				reasonSign: "Ω",
@@ -301,7 +303,7 @@ class _System {
 				~~log.user.id != 0
 			)
 		) {
-			let user = await getUserByID(log.user.id);
+			let user = await GetUserByID(log.user.id);
 			log.user.nick = user.data.nick;
 			log.user.id = user.data.id;
 		}
@@ -385,6 +387,12 @@ class _System {
 			.filter(Boolean)
 			.map(System.ExtractId)
 			.filter(Boolean);
+	}
+	SetUserData(data) {
+		storage("setL", { authData: data });
+
+		System.data.Brainly.userData.extension = data;
+		System.data.Brainly.userData._hash = data.hash;
 	}
 }
 export default _System;

@@ -8,7 +8,7 @@ import AccountDeleteReports from "../components/AccountDeleteReports";
 import DeleteReasonsPreferences from "../components/DeleteReasonsPreferences";
 import Announcements from "../components/Announcements";
 import Users from "../components/Users";
-import { getUserByID2 } from "../../scripts/controllers/ActionsOfBrainly";
+import { GetUserByID2 } from "../../scripts/controllers/ActionsOfBrainly";
 import storage from "../../scripts/helpers/extStorage";
 
 class Popup {
@@ -230,7 +230,7 @@ class Popup {
 			let user = this.fetchedUsers[brainlyID];
 
 			if (!user || user && !user.brainlyData) {
-				let resUser = await getUserByID2(brainlyID);
+				let resUser = await GetUserByID2(brainlyID);
 
 				if (!resUser || !resUser.success) {
 					let message = `${brainlyID} > ${(resUser.message || "error")}`;

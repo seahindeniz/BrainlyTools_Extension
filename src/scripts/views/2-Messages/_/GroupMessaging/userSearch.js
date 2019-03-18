@@ -1,6 +1,6 @@
 "use strict";
 
-import { findUser, getUserByID } from "../../../../controllers/ActionsOfBrainly";
+import { findUser, GetUserByID } from "../../../../controllers/ActionsOfBrainly";
 import userLi from "./userLi";
 
 const isPosInt = str => /^\+?\d+$/.test(str);
@@ -66,7 +66,7 @@ export default $createGroupToplayer => {
 				value = this.value = value.trim();
 
 				if (isPosInt(value)) {
-					let user = await getUserByID(value);
+					let user = await GetUserByID(value);
 
 					if (user.success && user.data) {
 						let ranks = [];

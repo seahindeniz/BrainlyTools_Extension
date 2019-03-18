@@ -194,26 +194,26 @@ export function CloseModerationTicket(taskId) {
 
 /**
  * Get user profile data by user id
- * @param {number|number[]} id - User id
+ * @param {number} id - User id
  */
-export function getUserByID(id) {
-	if (id instanceof Array && id.length > 1) {
-		return Request.BrainlyAPI("GET", `/api_users/get_by_id?id[]=${id.join("&id[]=")}`);
-	} else if (id != "") {
-		return Request.BrainlyAPI("GET", `/api_user_profiles/get_by_id/${~~id}`);
-	}
+export function GetUserByID(id) {
+	return Request.BrainlyAPI("GET", `/api_user_profiles/get_by_id/${~~id}`);
 }
 
 /**
- * Get user profile data by user id. Difference between getUserByID and getUserByID2 is getUserByID serving bio text and returns false for deleted accounts. But getUserByID2 returns true for deleted accounts but not bio text. Therefore, should be two different method to get user details.
- * @param {number|number[]} id - User id
+ * Get users profile data by user ids
+ * @param {number[]} ids - User id numbers
  */
-export function getUserByID2(id) {
-	if (id instanceof Array) {
-		return getUserByID(id);
-	} else {
-		return Request.BrainlyAPI("GET", `/api_users/get/${~~id}`);
-	}
+export function getUsersByID(ids) {
+	return Request.BrainlyAPI("GET", `/api_users/get_by_id?id[]=${ids.join("&id[]=")}`);
+}
+
+/**
+ * Get user profile data by user id. Difference between GetUserByID and GetUserByID2 is GetUserByID serving bio text and returns false for deleted accounts. But GetUserByID2 returns true for deleted accounts but not bio text. Therefore, should be two different method to get user details.
+ * @param {number} id - User id
+ */
+export function GetUserByID2(id) {
+	return Request.BrainlyAPI("GET", `/api_users/get/${~~id}`);
 }
 
 /**
@@ -310,7 +310,7 @@ export function getAllModerators(idList, handlers) {
 		}
 
 		let prepareUsers = async _idList => {
-			let userRes = await getUserByID(_idList);
+			let userRes = await GetUserByID(_idList);
 
 			if (userRes && userRes.success) {
 				System.allModerators = {

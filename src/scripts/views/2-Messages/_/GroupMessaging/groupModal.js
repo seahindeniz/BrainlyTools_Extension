@@ -3,7 +3,7 @@
 import notification from "../../../../components/notification";
 import Modal from "../../../../components/Modal";
 import Dropdown from "../../../../components/Dropdown";
-import { getUserByID } from "../../../../controllers/ActionsOfBrainly";
+import { getUsersByID } from "../../../../controllers/ActionsOfBrainly";
 import { CreateMessageGroup, UpdateMessageGroup } from "../../../../controllers/ActionsOfServer";
 import userSearch from "./userSearch";
 import rankSelector from "./rankSelector";
@@ -139,7 +139,7 @@ class GroupModal {
 			let idList = this.group.members.map(member => ~~member.brainlyID);
 
 			this.$groupName.trigger("input");
-			let user = await getUserByID(idList);
+			let user = await getUsersByID(idList);
 
 			if (user && user.success && user.data.length > 0) {
 				user.data.forEach(({ id, nick, avatar, ranks_ids }) => {
@@ -460,7 +460,7 @@ class GroupModal {
 				(
 					this.$groupName.val() == this.$groupName.prop("defaultValue") && $newUsers.length == 0
 				) ||
-				confirm(this.locale.notificationMessages.unsavedChanges)
+				confirm(System.data.locale.common.notificationMessages.unsavedChanges)
 			)
 		) {
 			this.reject();

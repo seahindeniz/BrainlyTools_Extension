@@ -94,7 +94,7 @@ function injectIt(path, { attachExtensionId, makeItLastElement } = {}) {
 /**
  * Injects a script into DOM
  * @param {string|string[]} filePath - Path of inject file
- * @param {object} options - To adding an attribute contains the id key of the extension
+ * @param {{ attachExtensionId:string, makeItLastElement:boolean }} options - To adding an attribute contains the id key of the extension
  * @returns {Promise} - Check whether if file injected or not
  **/
 export default function InjectToDOM(filePath, options) {

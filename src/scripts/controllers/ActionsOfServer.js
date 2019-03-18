@@ -31,7 +31,6 @@ function userAuth(reLogin = false) {
 		} else {
 			resAuth.data.hash = JSON.parse(atob(resAuth.data.hash));
 
-			storage("setL", { authData: resAuth.data });
 			resolve(resAuth.data);
 		}
 	});
@@ -44,10 +43,11 @@ export function Auth() {
 
 			if (!authData || !authData.hash) {
 				authData = await userAuth();
-			} else { userAuth(true) }
+			} else {
+				userAuth(true).then(System.SetUserData);
+			}
 
-			System.data.Brainly.userData.extension = authData;
-			System.data.Brainly.userData._hash = authData.hash;
+			System.SetUserData(authData);
 
 			Console.info("Auth OK!");
 			resolve();
@@ -173,4 +173,16 @@ export function GivePrivilege(privilege) {
 
 export function RevokePrivilege(privilege) {
 	return Request.ExtensionServerAjax("PUT", "/users/revoke", { privilege });
+}
+
+export function UpdateNoticeBoard(content) {
+	return Request.ExtensionServer("PUT", "/noticeBoard", { content });
+}
+
+export function GetNoticeBoardContent() {
+	return Request.ExtensionServer("GET", "/noticeBoard");
+}
+
+export function ReadNoticeBoard() {
+	return Request.ExtensionServer("PUT", "/noticeBoard/read");
 }

@@ -68,5 +68,9 @@ class Toplayer {
 		$(`<div class="sg-spinner sg-spinner--xxsmall"></div>`).insertBefore($svg);
 		$svg.remove();
 	}
+	ChangeSize(size){
+		this.$toplayer.removeClass("sg-toplayer--small sg-toplayer--medium sg-toplayer--large sg-toplayer--fill sg-toplayer--full");
+		this.$toplayer.addClass(`sg-toplayer--${size}`);
+	}
 }
 export default Toplayer

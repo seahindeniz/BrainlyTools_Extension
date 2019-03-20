@@ -58,7 +58,7 @@ export function Auth() {
 }
 
 export function GetDeleteReasons() {
-	return Request.ExtensionServer("GET", `/deleteReasons/${System.data.meta.marketName}`);
+	return Request.ExtensionServer("GET", `/deleteReasons`);
 }
 
 export function PassUser(id, nick) {
@@ -145,6 +145,10 @@ export function GetModerateAllPages() {
 
 export function UpdateDeleteReasonsPreferences(data) {
 	return Request.ExtensionServer("PUT", `/deleteReasonsPreferences`, data);
+}
+
+export function RemoveDeleteReasonPreference(id) {
+	return Request.ExtensionServer("DELETE", `/deleteReasonsPreferences/${id}`);
 }
 
 export function AccountDeleteReport(data) {

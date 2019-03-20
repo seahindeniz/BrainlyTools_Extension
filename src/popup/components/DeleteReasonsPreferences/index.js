@@ -1,11 +1,12 @@
-import notification from "../components/notification";
-import bulmahead from "../../scripts/lib/bulmahead"
-import { UpdateDeleteReasonsPreferences } from "../../scripts/controllers/ActionsOfServer";
+import bulmahead from "../../../scripts/lib/bulmahead";
+import Preference from "./Preference";
 
 class DeleteReasonsPreferences {
 	constructor() {
 		this.selectedReasons = [];
-		return this.Render();
+
+		this.Render();
+		this.BindEvents();
 	}
 	Render() {
 		this.$layout = $(`
@@ -53,9 +54,6 @@ class DeleteReasonsPreferences {
 		this.$menu = $("#prova-menu", this.$layout);
 
 		this.InitStoredPreferences();
-		this.BindEvents();
-
-		return this.$layout;
 	}
 	async InitStoredPreferences() {
 		let preferences = System.data.Brainly.deleteReasons.__preferences;
@@ -69,19 +67,19 @@ class DeleteReasonsPreferences {
 					let categoryText = category.text;
 					let label = categoryText + " › " + reason.title;
 
-					this.AddReasonToList(reason.type, reason.title, label, reason, preference.confirmation);
+					let deleteReasonsPreference = new Preference(reason, label, preference.confirmation);
+
+					deleteReasonsPreference.$.appendTo($(`.field[data-type="${reason.type}"]`, this.$layout));
+					this.selectedReasons.push(reason.id);
+					console.log(deleteReasonsPreference);
 				} else {
-					UpdateDeleteReasonsPreferences({
-						id: preference.reasonID,
-						confirmation: "remove"
-					})
+					RemoveDeleteReasonPreference(preference.reasonID)
 				}
 			});
 		}
 	}
 	BindEvents() {
 		bulmahead(this.$input.get(0), this.$menu.get(0), this.SearchDeleteReason.bind(this), this.ReasonSelected.bind(this));
-		$(".field.is-grouped", this.$layout).on("click", ".button.tag", this.ChangeStateOfPreference);
 	}
 	SearchDeleteReason(value) {
 		return new Promise(resolve => {
@@ -114,62 +112,10 @@ class DeleteReasonsPreferences {
 		})
 	}
 	ReasonSelected(data) {
-		this.AddReasonToList(data.type, data.value, data.label, data.reason);
+		let deleteReasonsPreference = new Preference(data.reason, data.label);
+
+		deleteReasonsPreference.$.appendTo($(`.field[data-type="${data.type}"]`, this.$layout));
 		this.$input.val("");
-	}
-	AddReasonToList(type, value, label, reason, confirmation = null) {
-		this.selectedReasons.push(reason.id);
-		$(`
-		<div class="control">
-			<div class="tags has-addons">
-				<a class="tag" data-value="${value}">${label}</a>
-				<a class="button tag${confirmation === false?" is-danger":""}" data-is="danger" title="${System.data.locale.popup.extensionManagement.DeleteReasonsPreferences.withoutAsk}">
-					<span class="icon is-small">
-						<i class="fas fa-exclamation-circle"></i>
-					</span>
-				</a>
-				<a class="button tag${confirmation === true?" is-warning":""}" data-is="warning" title="${System.data.locale.popup.extensionManagement.DeleteReasonsPreferences.withAsk}">
-					<span class="icon is-small">
-						<i class="fas fa-exclamation-triangle"></i>
-					</span>
-				</a>
-				<a class="button tag is-delete is-info" title="${System.data.locale.common.delete}"></a>
-			</div>
-		</div>`).appendTo($(`.field[data-type="${type}"]`, this.$layout)).prop("reason", reason);
-	}
-	async ChangeStateOfPreference() {
-		let $parentControl = $(this).parents(".control");
-		let type = $parentControl.parent().data("type");
-		let reason = $parentControl.get(0).reason;
-
-		let reasonData = {
-			id: reason.id
-		}
-
-		if (this.classList.contains("is-delete")) {
-			reasonData.confirmation = "remove";
-		} else {
-			reasonData.confirmation = this.dataset.is == "warning";
-		}
-
-		let resUpdate = await UpdateDeleteReasonsPreferences(reasonData);
-
-		if (!resUpdate || !resUpdate.success) {
-			notification(System.data.locale.common.notificationMessages.somethingWentWrong, "danger");
-		} else {
-			let message = System.data.locale.popup.notificationMessages.removedMessage;
-
-			if (reasonData.confirmation == "remove") {
-				$parentControl.remove();
-			} else {
-				$("a.button.tag:not(.is-delete)", $parentControl).attr("class", "button tag");
-				this.classList.add("is-" + this.dataset.is);
-
-				message = System.data.locale.common.done;
-			}
-
-			notification(message);
-		}
 	}
 }
 

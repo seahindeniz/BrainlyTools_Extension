@@ -46,6 +46,7 @@ class ThemeColorChanger {
 			this.styleElement = document.createElement('style');
 			this.styleElement.type = 'text/css';
 			this.styleElement.id = STYLE_ELEMENT_ID;
+			this.styleElement.dataset.IsFromExtension = true;
 		}
 	}
 	RenderStyleElement() {

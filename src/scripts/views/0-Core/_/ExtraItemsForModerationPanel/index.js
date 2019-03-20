@@ -1,73 +1,66 @@
 "use strict";
 
-import renderModerationPanelSeperator from "../../../../components/ModerationPanelSeperator";
 //import renderMessageSender from "./MessageSender"
 import WaitForObject from "../../../../helpers/WaitForObject";
 import MassQuestionDeleter from "./MassQuestionDeleter";
+import NoticeBoard from "./NoticeBoard";
 import PointChanger from "./PointChanger";
 import ReportedCommentsDeleter from "./ReportedCommentsDeleter";
 import ReportedContentsConfirmer from "./ReportedContentsConfirmer";
 import renderUserFinder from "./UserFinder";
-import NoticeBoard from "./NoticeBoard";
-let $seperator;
 
-export default async () => {
-	$seperator = renderModerationPanelSeperator();
-
-	if ($seperator && $seperator.length > 0) {
-		LoadItems();
-		await WaitForObject("window.System.data.Brainly.deleteReasons.__withTitles.comment", { noError: true });
-		LoadItemsAfterDeleteReasonsLoaded();
+class ExtraItems {
+	constructor() {
+		this.RenderList();
+		this.RenderToplayerContainer();
+		this.RenderComponents();
+		this.RenderComponentsAfterDeleteReasonsLoaded();
 	}
-}
+	RenderList() {
+		this.$ul = $(`<ul class="sg-menu-list sg-menu-list--small sg-content-box--spaced-bottom"></ul>`);
 
-function IsCurrentPageNotLegacy() {
-	return $seperator.parents(".brn-moderation-panel__list").length > 0
-}
-
-function RenderItem($element) {
-	$seperator.before($element);
-}
-
-function LoadItems() {
-	RenderToplayerContainer();
-	renderUserFinder($seperator);
-
-	if (System.checkUserP(20) || System.data.Brainly.userData.extension.noticeBoard !== null) {
-		RenderItem(new NoticeBoard().$li);
+		this.$ul.prependTo(".brn-moderation-panel__list, #moderate-functions");
 	}
-	/* if (System.checkUserP(9)) {
-		renderMessageSender($seperator);
-	} */
-	if (IsCurrentPageNotLegacy()) {
+	RenderToplayerContainer() {
+		let $toplayerContainer = $("body div.js-toplayers-container");
+
+		if ($toplayerContainer.length == 0) {
+			$toplayerContainer = $(`<div class="js-toplayers-container"></div>`);
+
+			$toplayerContainer.appendTo("body");
+		}
+	}
+	RenderComponents() {
+		this.RenderComponent(renderUserFinder());
+
+		if (System.checkUserP(20) || System.data.Brainly.userData.extension.noticeBoard !== null) {
+			this.RenderComponent(new NoticeBoard().$li);
+		}
+		/* if (System.checkUserP(9)) {
+			renderMessageSender($seperator);
+		} */
 		if (System.checkUserP(13) && System.checkBrainlyP(41)) {
-			RenderItem(new PointChanger().$li);
+			this.RenderComponent(new PointChanger().$li);
 		}
 
 		if (System.checkUserP(18)) {
-			RenderItem(new ReportedContentsConfirmer().$li);
+			this.RenderComponent(new ReportedContentsConfirmer().$li);
 		}
 	}
-}
+	async RenderComponentsAfterDeleteReasonsLoaded() {
+		await WaitForObject("window.System.data.Brainly.deleteReasons.__withTitles.comment", { noError: true });
 
-function RenderToplayerContainer() {
-	let $toplayerContainer = $("body div.js-toplayers-container");
+		if (System.checkUserP(17)) {
+			this.RenderComponent(new ReportedCommentsDeleter().$li);
+		}
 
-	if ($toplayerContainer.length == 0) {
-		$toplayerContainer = $(`<div class="js-toplayers-container"></div>`);
-
-		$toplayerContainer.appendTo("body");
-	}
-}
-
-function LoadItemsAfterDeleteReasonsLoaded() {
-	if (System.checkUserP(17)) {
-		RenderItem(new ReportedCommentsDeleter().$li);
-	}
-
-	if (IsCurrentPageNotLegacy()) {
 		if (System.checkUserP(7)) {
-			RenderItem(new MassQuestionDeleter().$li);
+			this.RenderComponent(new MassQuestionDeleter().$li);
 		}
 	}
+	RenderComponent($element) {
+		$element.appendTo(this.$ul);
+	}
 }
+
+export default ExtraItems

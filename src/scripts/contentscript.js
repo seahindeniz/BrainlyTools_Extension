@@ -31,9 +31,9 @@ if (!html.getAttribute("extension")) {
 	InjectToDOM([
 		"/scripts/lib/prototypeOverrides.js",
 		"/scripts/lib/regex-colorizer.js",
-		"/scripts/views/0-Core/index.js",
-		"/styles/pages/Core.css"
+		"/scripts/views/0-Core/index.js"
 	]);
+	InjectToDOM("/styles/pages/Core.css", { makeItLastElement: true })
 } else {
 	System.changeBadgeColor("loaded");
 }

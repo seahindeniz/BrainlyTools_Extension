@@ -1,5 +1,12 @@
-* {
+/* * {
 	box-sizing: unset !important;
+} */
+.container_24 {
+	width: 990px;
+
+	.grid_24 {
+		width: 100%;
+	}
 }
 
 body {
@@ -15,4 +22,3 @@ body {
 	display: inline-block;
 	font-size: 14px;
 }
-

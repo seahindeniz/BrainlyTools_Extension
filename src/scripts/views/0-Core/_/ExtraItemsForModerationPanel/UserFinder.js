@@ -54,7 +54,7 @@ const userLi = ({ id, nick, avatar, buddyUrl, ranks }) => {
 	$userBox.appendTo($userList);
 }
 
-const UserFinder = $seperator => {
+const UserFinder = () => {
 	let $userFinder = $(`
 	<li class="sg-menu-list__element userFinder" style="display: table; width: 100%;">
 		<label class="sg-menu-list__link">${System.data.locale.messages.groups.userCategories.findUsers.text}:
@@ -62,8 +62,6 @@ const UserFinder = $seperator => {
 		</label>
 		<div class="userList js-hidden" data-placeholder=""></div>
 	</li>`);
-
-	$userFinder.insertBefore($seperator);
 
 	$userList = $(".userList", $userFinder);
 	let delayTimer;
@@ -153,6 +151,7 @@ const UserFinder = $seperator => {
 		}
 	});
 
+	return $userFinder;
 };
 
 export default UserFinder

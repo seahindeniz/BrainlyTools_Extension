@@ -7,7 +7,7 @@ import WaitForObject from "../../helpers/WaitForObject";
 import InjectToDOM from "../../helpers/InjectToDOM";
 import storage from "../../helpers/extStorage";
 import messagesLayoutExtender from "../../helpers/messagesLayoutExtender";
-import renderExtraItemsForModerationPanel from "./_/ExtraItemsForModerationPanel";
+import ExtraItemsForModerationPanel from "./_/ExtraItemsForModerationPanel";
 import renderAnnouncements from "./_/Announcements";
 //import renderChatPanel from "./_/ChatPanel";
 import RenderMenuButtonFixer from "./_/MenuButtonFixer";
@@ -121,7 +121,7 @@ class Core {
 		snowStorm.excludeMobile = false; */
 	}
 	LoadComponentsForAllPages() {
-		renderExtraItemsForModerationPanel();
+		new ExtraItemsForModerationPanel();
 		renderAnnouncements();
 		//renderChatPanel();
 		RenderMenuButtonFixer();

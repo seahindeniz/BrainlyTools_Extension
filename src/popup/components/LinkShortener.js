@@ -3,7 +3,8 @@ import { CreateShortLink } from "../../scripts/controllers/ActionsOfServer";
 
 class LinkShortener {
 	constructor() {
-		return this.Render();
+		this.Render();
+		this.BindEvents();
 	}
 	Render() {
 		this.$layout = $(`
@@ -25,10 +26,6 @@ class LinkShortener {
 		this.$shorterInputContainer = $(".js-input", this.$layout);
 		this.$input = $("input.input", this.$shorterInputContainer);
 		this.$button = $("button.button", this.$layout);
-
-		this.BindEvents();
-
-		return this.$layout;
 	}
 	BindEvents() {
 		this.$input.click(this.$input.select);

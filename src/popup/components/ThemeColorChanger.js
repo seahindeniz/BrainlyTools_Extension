@@ -8,7 +8,8 @@ class ThemeColorChanger {
 	constructor(color = DEFAULT_THEME_COLOR) {
 		this.color = color;
 
-		return this.Render();
+		this.Render();
+		this.BindEvents();
 	}
 	Render() {
 		this.$layout = $(`
@@ -65,10 +66,6 @@ class ThemeColorChanger {
 		this.$colorValue = $("#colorValue", this.$layout);
 		this.$saveButton = $("button.save", this.$layout);
 		this.$colorPicker = $("#colorPicker", this.$layout);
-
-		this.BindEvents();
-
-		return this.$layout;
 	}
 	BindEvents() {
 		this.$colorPicker.on("input", event => this.ColorInputHandler(event.target.value));

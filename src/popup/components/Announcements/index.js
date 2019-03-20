@@ -10,7 +10,11 @@ class Announcements {
 			title: null,
 			content: null
 		};
-		return this.RenderUI();
+
+		this.RenderUI();
+		this.RenderTextEditorForAddNewAnnouncement();
+		this.PrepareAnnouncements();
+		this.BindEvents();
 	}
 	RenderUI() {
 		let avatar = System.prepareAvatar(System.data.Brainly.userData.user);
@@ -57,12 +61,6 @@ class Announcements {
 		this.$submitButton = $(".media-right > a.submit", this.$layout);
 		this.$actionsContainer = $(".addNew .media-right.is-invisible", this.$announcementsBody);
 		this.$addNewTitle = $(".addNew:not(.announcement) > .media-content>label.label", this.$layout);
-
-		this.RenderTextEditorForAddNewAnnouncement();
-		this.PrepareAnnouncements();
-		this.BindEvents();
-
-		return this.$layout;
 	}
 	RenderTextEditorForAddNewAnnouncement() {
 		let $announcementTitle = $(".addNew input.announcementTitle", this.$announcementsBody);

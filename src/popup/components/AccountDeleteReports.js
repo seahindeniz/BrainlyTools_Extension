@@ -9,7 +9,9 @@ class AccountDeleteReports {
 		this.reports = [];
 		this.storedReports = [];
 
-		return this.Render();
+		this.Render();
+		this.FetchReports();
+		this.BindEvents();
 	}
 	Render() {
 		this.$layout = $(`
@@ -55,11 +57,6 @@ class AccountDeleteReports {
 		this.$searchInput = $("input", this.$layout);
 		this.$filterSelect = $("select", this.$layout);
 		this.$reportsTBody = $("table.reports > tbody", this.$layout);
-
-		this.FetchReports();
-		this.BindEvents();
-
-		return this.$layout;
 	}
 	async FetchReports() {
 		let resReports = await GetAccountDeleteReports();

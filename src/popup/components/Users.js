@@ -26,7 +26,11 @@ class Users {
 			6,
 			8
 		];
-		return this.Render();
+
+		this.Render();
+		this.PrepareUsers();
+		this.RenderPrivilegesList();
+		this.BindEvents();
 	}
 	Render() {
 		this.$layout = $(`
@@ -148,12 +152,6 @@ class Users {
 		this.$submitButton = $(".media-right > .submit", this.$layout);
 		this.$giveButton = $(".changeUserPrivileges .button.give", this.$layout);
 		this.$revokeButton = $(".changeUserPrivileges .button.revoke", this.$layout);
-
-		this.PrepareUsers();
-		this.RenderPrivilegesList();
-		this.BindEvents();
-
-		return this.$layout;
 	}
 	async PrepareUsers() {
 		let resUsers = await GetUsers();

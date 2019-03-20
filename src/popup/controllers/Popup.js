@@ -111,14 +111,14 @@ class Popup {
 	PrepareSectionsAndContents() {
 		this.sections = [
 			[
-				new LinkShortener(),
-				new ShortenedLinks()
+				new LinkShortener().$layout,
+				new ShortenedLinks().$layout
 			],
 			[
 				this.RenderTitle(System.data.locale.popup.extensionOptions.title),
-				new ThemeColorChanger(this.storageData.themeColor),
+				new ThemeColorChanger(this.storageData.themeColor).$layout,
 				this.RenderQuickDeleteButtonsOptions(),
-				new OtherOptions(this.storageData)
+				new OtherOptions(this.storageData).$layout
 			],
 			[
 				this.RenderAccountDeleteReports(),
@@ -161,37 +161,37 @@ class Popup {
 	}
 	RenderQuickDeleteButtonsOptions() {
 		if (System.checkUserP([1, 2, 45])) {
-			let $quickDeleteButtonsOptions = new QuickDeleteButtonsOptions(this.storageData.quickDeleteButtonsReasons);
+			let quickDeleteButtonsOptions = new QuickDeleteButtonsOptions(this.storageData.quickDeleteButtonsReasons);
 
-			return $quickDeleteButtonsOptions;
+			return quickDeleteButtonsOptions.$layout;
 		}
 	}
 	RenderAccountDeleteReports() {
 		if (System.checkUserP(12)) {
-			let $accountDeleteReports = new AccountDeleteReports();
+			let accountDeleteReports = new AccountDeleteReports();
 
-			return $accountDeleteReports;
+			return accountDeleteReports.$layout;
 		}
 	}
 	RenderDeleteReasonsPreferences() {
 		if (System.checkUserP(11)) {
-			let $deleteReasonsPreferences = new DeleteReasonsPreferences();
+			let deleteReasonsPreferences = new DeleteReasonsPreferences();
 
-			return $deleteReasonsPreferences;
+			return deleteReasonsPreferences.$layout;
 		}
 	}
 	RenderAnnouncements() {
 		if (System.checkUserP(4)) {
-			let $announcements = new Announcements();
+			let announcements = new Announcements();
 
-			return $announcements;
+			return announcements.$layout;
 		}
 	}
 	RenderUsers() {
 		if (System.checkUserP(5)) {
-			let $users = new Users();
+			let users = new Users();
 
-			return $users;
+			return users.$layout;
 		}
 	}
 	ReserveAUser(brainlyID, data) {

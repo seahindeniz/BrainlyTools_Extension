@@ -7,7 +7,9 @@ class OtherOptions {
 	constructor(storageData) {
 		this.storageData = storageData;
 
-		return this.Render();
+		this.Render();
+		this.SetInputsValues();
+		this.BindEvents();
 	}
 	Render() {
 		this.$layout = $(`
@@ -78,11 +80,6 @@ class OtherOptions {
 		this.$languageDropdown = Dropdown($(".dropdown", this.$layout));
 		this.$languagesContainer = $(".dropdown-menu > .dropdown-content", this.$languageDropdown);
 		this.$dropdownText = $(".dropdown-trigger > button.button > span:not(.icon)", this.$languageDropdown);
-
-		this.SetInputsValues();
-		this.BindEvents();
-
-		return this.$layout;
 	}
 	SetInputsValues() {
 		if (typeof this.storageData.extendMessagesLayout == "boolean") {

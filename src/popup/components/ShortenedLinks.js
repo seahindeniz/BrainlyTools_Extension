@@ -4,7 +4,10 @@ import { debounce } from 'throttle-debounce';
 
 class AccountDeleteReports {
 	constructor() {
-		return this.Render();
+		this.Render();
+		this.FetchShortenedLinks();
+		this.BindEvents();
+
 	}
 	Render() {
 		this.$layout = $(`
@@ -39,11 +42,6 @@ class AccountDeleteReports {
 
 		this.$searchInput = $("input", this.$layout);
 		this.$linksTBody = $("table.links > tbody", this.$layout);
-
-		this.FetchShortenedLinks();
-		this.BindEvents();
-
-		return this.$layout;
 	}
 	async FetchShortenedLinks() {
 		if ($("html").attr("is") != "popup") {

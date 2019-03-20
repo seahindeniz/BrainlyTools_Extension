@@ -71,7 +71,6 @@ class DeleteReasonsPreferences {
 
 					deleteReasonsPreference.$.appendTo($(`.field[data-type="${reason.type}"]`, this.$layout));
 					this.selectedReasons.push(reason.id);
-					console.log(deleteReasonsPreference);
 				} else {
 					RemoveDeleteReasonPreference(preference.reasonID)
 				}

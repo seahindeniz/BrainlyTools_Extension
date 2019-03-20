@@ -7,7 +7,8 @@ class QuickDeleteButtonsOptions {
 	constructor(quickDeleteButtonsReasons) {
 		this.quickDeleteButtonsReasons = quickDeleteButtonsReasons;
 
-		return this.Render();
+		this.Render();
+		this.RenderCategories();
 	}
 	Render() {
 		this.$layout = $(`
@@ -21,10 +22,6 @@ class QuickDeleteButtonsOptions {
 		</div>`);
 
 		this.$container = $("> .message > .message-body", this.$layout);
-
-		this.RenderCategories();
-
-		return this.$layout;
 	}
 	RenderCategories() {
 		let reasonTypes = Object.keys(System.data.Brainly.deleteReasons.__withIds);

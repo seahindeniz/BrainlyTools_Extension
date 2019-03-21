@@ -6,6 +6,7 @@ import InjectToDOM from "./helpers/InjectToDOM";
 import ThemeColorChanger from "./helpers/ThemeColorChanger";
 import messagesLayoutExtender from "./helpers/messagesLayoutExtender";
 import _System from "./controllers/System";
+import WaitForObject from "./helpers/WaitForObject";
 
 let manifest = ext.runtime.getManifest();
 manifest.URL = ext.extension.getURL("");
@@ -34,6 +35,17 @@ if (!html.getAttribute("extension")) {
 		"/scripts/views/0-Core/index.js"
 	]);
 	InjectToDOM("/styles/pages/Core.css", { makeItLastElement: true })
+
+	WaitForObject(`document.body.classList.contains("mint")`).then(isContains => {
+		console.log("mint kontrol", isContains);
+		if (isContains) {
+			InjectToDOM([
+				System.constants.Brainly.style_guide.css,
+				System.constants.Brainly.style_guide.icons
+			]);
+			InjectToDOM("/styles/pages/oldLayoutFixes.css", { makeItLastElement: true })
+		}
+	});
 } else {
 	System.changeBadgeColor("loaded");
 }

@@ -28,10 +28,14 @@ button {
 	.content {
 		.moderation-item {
 
-			height: 17.5em;
+			width: 16.8em;
+			height: 18em;
 			overflow: hidden;
 
-			&>.content {
+			>.header{
+				height: 26px;
+			}
+			>.content {
 				height: 14rem;
 
 				.confirm label {
@@ -58,7 +62,7 @@ button {
 			width: 98%;
 
 			.header {
-				height: 25px;
+				height: 26px;
 			}
 
 			.content {

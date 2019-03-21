@@ -22,3 +22,20 @@ body {
 	display: inline-block;
 	font-size: 14px;
 }
+
+form.pretty fieldset legend {
+	height: unset;
+}
+
+#moderate-functions-panel .panel {
+
+	.covering-text,
+	.content-scroll {
+		min-height: 160px;
+	}
+
+	.content-scroll {
+		overflow-y: auto !important;
+	}
+
+}

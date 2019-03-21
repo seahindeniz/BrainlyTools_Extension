@@ -73,6 +73,7 @@ Done:
 		+ Eklenti kullanıcılarını yönetmek için alan oluştur
 		+ ID listesi ile, ödev silimi yapılma özelliği.
 		+ Kenar moderatör paneline nick bazlı kişi arama/sorgulama
+		+ Eklenti kullanıcısı olan moderatörlerin okuyabileceği "kurallar" alanı oluştur. Bu article her değiştiğinde, readed_by alanını sıfırla ve kullanıcı readed_by içerisinde değilse, linkin köşesinde yeni mesaj varmış gibi kırmızı nokta ile badge ekle.
 
 	Anasayfa:
 		+ Hızlı silim butonlarının eylemlerini aktifleştir

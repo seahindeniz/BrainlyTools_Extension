@@ -9,12 +9,19 @@ import ReportedCommentsDeleter from "./ReportedCommentsDeleter";
 import ReportedContentsConfirmer from "./ReportedContentsConfirmer";
 import renderUserFinder from "./UserFinder";
 
-class ExtraItems {
+class ModerationPanel {
 	constructor() {
+		this.$statictic = $("#moderate-functions-panel > div.statistics");
+		this.$panel = $(".brn-moderation-panel__list");
+		this.$oldPanel = $("#moderate-functions-panel > div.panel > div.content-scroll");
+		this.$oldPanelCoveringText = $("#moderate-functions-panel > div.panel > div.covering-text");
+
 		this.RenderList();
 		this.RenderToplayerContainer();
 		this.RenderComponents();
 		this.RenderComponentsAfterDeleteReasonsLoaded();
+		this.BindEvents();
+		this.FixOldPanelsHeight();
 	}
 	RenderList() {
 		this.$ul = $(`<ul class="sg-menu-list sg-menu-list--small sg-content-box--spaced-bottom"></ul>`);
@@ -61,6 +68,20 @@ class ExtraItems {
 	RenderComponent($element) {
 		$element.appendTo(this.$ul);
 	}
+	BindEvents() {
+		window.onresize = this.FixOldPanelsHeight.bind(this)
+	}
+	FixOldPanelsHeight() {
+		let height = window.innerHeight - 216;
+		let oldPanelHeight = window.innerHeight - 110;
+
+		if (this.$statictic.is(":visible"))
+			oldPanelHeight -= 160;
+
+		this.$panel.css("cssText", `height: ${height}px`);
+		this.$oldPanel.css("cssText", `height: ${oldPanelHeight}px !important`);
+		this.$oldPanelCoveringText.css("cssText", `height: ${oldPanelHeight}px !important`);
+	}
 }
 
-export default ExtraItems
+export default ModerationPanel

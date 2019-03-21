@@ -19,7 +19,17 @@ $baseline: 1.5rem;
 }
 
 .brn-moderation-panel__list {
+	min-height: 160px;
 	overflow-x: auto !important;
+}
+
+@media(max-height: 375px) {
+	.brn-moderation-panel {
+		position: absolute;
+		.brn-moderation-panel__list{
+			height: unset !important;
+		}
+	}
 }
 
 .notification-brainlyToolsImg {

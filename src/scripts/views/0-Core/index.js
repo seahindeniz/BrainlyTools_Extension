@@ -7,7 +7,7 @@ import WaitForObject from "../../helpers/WaitForObject";
 import InjectToDOM from "../../helpers/InjectToDOM";
 import storage from "../../helpers/extStorage";
 import messagesLayoutExtender from "../../helpers/messagesLayoutExtender";
-import ExtraItemsForModerationPanel from "./_/ExtraItemsForModerationPanel";
+import ModerationPanel from "./_/ModerationPanel";
 import renderAnnouncements from "./_/Announcements";
 //import renderChatPanel from "./_/ChatPanel";
 import RenderMenuButtonFixer from "./_/MenuButtonFixer";
@@ -121,7 +121,7 @@ class Core {
 		snowStorm.excludeMobile = false; */
 	}
 	LoadComponentsForAllPages() {
-		new ExtraItemsForModerationPanel();
+		new ModerationPanel();
 		renderAnnouncements();
 		//renderChatPanel();
 		RenderMenuButtonFixer();
@@ -132,28 +132,20 @@ class Core {
 		if (System.checkRoute(2, "view_user_warns")) {
 			InjectToDOM([
 				"/scripts/views/7-UserWarnings/index.js",
-				System.constants.Brainly.style_guide.css,
-				System.constants.Brainly.style_guide.icons,
-				"/styles/pages/UserWarnings.css",
-				"/styles/pages/oldLayoutFixes.css"
+				"/styles/pages/UserWarnings.css"
 			]);
 		}
 
 		if (System.checkRoute(2, "supervisors")) {
 			InjectToDOM([
 				"/scripts/views/8-Supervisors/index.js",
-				System.constants.Brainly.style_guide.css,
-				System.constants.Brainly.style_guide.icons,
-				"/styles/pages/Supervisors.css",
-				"/styles/pages/oldLayoutFixes.css"
+				"/styles/pages/Supervisors.css"
 			]);
 		}
 
 		if (System.checkRoute(2, "uploader")) {
 			InjectToDOM([
 				"/scripts/views/9-Uploader/index.js",
-				System.constants.Brainly.style_guide.css,
-				System.constants.Brainly.style_guide.icons,
 				"/styles/pages/Uploader.css"
 			]);
 		}
@@ -181,10 +173,7 @@ class Core {
 		) {
 			InjectToDOM([
 				"/scripts/views/5-UserProfile/index.js",
-				System.constants.Brainly.style_guide.css,
-				System.constants.Brainly.style_guide.icons,
-				"/styles/pages/UserProfile.css",
-				"/styles/pages/oldLayoutFixes.css"
+				"/styles/pages/UserProfile.css"
 			]);
 		}
 	}
@@ -211,10 +200,7 @@ class Core {
 		if (System.checkRoute(2, "user_content")) {
 			InjectToDOM([
 				"/scripts/views/4-UserContent/index.js",
-				System.constants.Brainly.style_guide.css,
-				System.constants.Brainly.style_guide.icons,
-				"/styles/pages/UserContent.css",
-				"/styles/pages/oldLayoutFixes.css"
+				"/styles/pages/UserContent.css"
 			])
 		}
 
@@ -222,10 +208,7 @@ class Core {
 			InjectToDOM([
 				"/scripts/lib/jquery-observe-2.0.3.min.js",
 				"/scripts/views/6-ArchiveMod/index.js",
-				System.constants.Brainly.style_guide.css,
-				System.constants.Brainly.style_guide.icons,
-				"/styles/pages/ArchiveMod.css",
-				"/styles/pages/oldLayoutFixes.css"
+				"/styles/pages/ArchiveMod.css"
 			])
 		}
 	}

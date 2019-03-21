@@ -12,7 +12,7 @@ import renderAnnouncements from "./_/Announcements";
 //import renderChatPanel from "./_/ChatPanel";
 import RenderMenuButtonFixer from "./_/MenuButtonFixer";
 import { Auth } from "../../controllers/ActionsOfServer";
-import { getAllModerators } from "../../controllers/ActionsOfBrainly"
+import { GetAllModerators } from "../../controllers/ActionsOfBrainly"
 import PrepareDeleteReasons from "../../controllers/PrepareDeleteReasons"
 import notification from "../../components/notification";
 import SetMetaData from "./_/SetMetaData";
@@ -126,6 +126,7 @@ class Core {
 		//renderChatPanel();
 		RenderMenuButtonFixer();
 
+		document.documentElement.setAttribute("extension", System.data.meta.manifest.version);
 		window.sitePassedParams && typeof window.sitePassedParams == "string" && (window.sitePassedParams = JSON.parse(sitePassedParams));
 	}
 	InjectFilesToPage() {
@@ -155,7 +156,7 @@ class Core {
 		Console.info("Fetching friends OK!");
 
 		if (System.checkRoute(1, "messages")) {
-			getAllModerators();
+			GetAllModerators();
 			InjectToDOM([
 				"/scripts/lib/jquery-observe-2.0.3.min.js",
 				"/scripts/lib/jquery-ui.min.js",

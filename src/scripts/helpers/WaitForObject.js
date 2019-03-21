@@ -3,15 +3,11 @@ import MakeExpire from "./MakeExpire";
 /**
  * A function that checks that the object in the parameter are defined
  * @param {string} expression - Element selector string
- * @param {number=} expireTime - Set number of expire in seconds
- * @param {boolean=} noError - Do something when elements are found
+ * @typedef {number} expireTime - Set number of expire in seconds
+ * @typedef {boolean} noError - Do something when elements are found
+ * @param {{expireTime: expireTime, noError: noError}} param1
  **/
 export default function WaitForObject(expression, { expireTime, noError = false } = {}) {
-	if (typeof expireTime == "boolean") {
-		noError = expireTime;
-		expireTime = undefined;
-	}
-
 	return new Promise((resolve, reject) => {
 		let obj,
 			_loop_expireTime = MakeExpire(expireTime);

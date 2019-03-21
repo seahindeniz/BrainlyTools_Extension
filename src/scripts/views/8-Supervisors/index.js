@@ -2,7 +2,7 @@
 
 import notification from "../../components/notification";
 import Progress from "../../components/Progress";
-import { getAllModerators, sendMessageToBrainlyIds } from "../../controllers/ActionsOfBrainly";
+import { GetAllModerators, sendMessageToBrainlyIds } from "../../controllers/ActionsOfBrainly";
 import WaitForElement from "../../helpers/WaitForElement";
 
 System.pageLoaded("Supervisors page OK!");
@@ -26,7 +26,7 @@ async function Supervisors() {
 		sortIt(userLi);
 	});
 
-	await getAllModerators(usersID, {
+	await GetAllModerators(usersID, {
 		each: user => {
 			let avatar = System.prepareAvatar(user);
 			let buddyLink = System.createBrainlyLink("profile", { nick: user.nick, id: user.id });

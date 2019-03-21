@@ -244,8 +244,6 @@ class PointChanger {
 	}
 	ChangeAmountOfUser(amount) {
 		let currentAmount = this.$amountOfUsers.text();
-		console.log(this.$amountOfUsers.text());
-		console.log(Number(currentAmount));
 
 		this.$amountOfUsers.text(Number(currentAmount) + amount);
 	}

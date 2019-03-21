@@ -4,7 +4,7 @@ import MarkdownIt from "markdown-it";
 import MarkdownItContainer from "markdown-it-container";
 import emojione from "emojione"
 import { UpdateNoticeBoard, ReadNoticeBoard, GetNoticeBoardContent } from "../../../../controllers/ActionsOfServer";
-import { getUsersByID } from "../../../../controllers/ActionsOfBrainly";
+import { GetUsersByID } from "../../../../controllers/ActionsOfBrainly";
 
 emojione.emojiSize = "64";
 
@@ -160,7 +160,7 @@ class NoticeBoard {
 		if (idList.length > 0) {
 			idList.forEach(id => this.RenderUserAvatar({ id }));
 
-			let resUsers = await getUsersByID(idList);
+			let resUsers = await GetUsersByID(idList);
 
 			if (resUsers && resUsers.success && resUsers.data.length > 0)
 				resUsers.data.forEach(this.RenderUserAvatar.bind(this));

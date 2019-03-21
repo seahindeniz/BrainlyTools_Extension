@@ -102,7 +102,6 @@ class _System {
 	pageLoaded(loadMessage) {
 		Console.log(loadMessage);
 		Console.log("Brainly Tools loaded in", Number((performance.now() - window.performanceStartTiming).toFixed(2)), "milliseconds");
-		document.documentElement.setAttribute("extension", System.data.meta.manifest.version);
 	}
 	checkRoute(index, str) {
 		let curr_path = System.data.meta.location.pathname.split("/"),

@@ -204,7 +204,7 @@ export function GetUserByID(id) {
  * Get users profile data by user ids
  * @param {number[]} ids - User id numbers
  */
-export function getUsersByID(ids) {
+export function GetUsersByID(ids) {
 	return Request.BrainlyAPI("GET", `/api_users/get_by_id?id[]=${ids.join("&id[]=")}`);
 }
 
@@ -302,7 +302,7 @@ export function findUser(nick) {
 	return Request.get(`/users/search/${nick}`);
 }
 
-export function getAllModerators(idList, handlers) {
+export function GetAllModerators(idList, handlers) {
 	return new Promise(async (resolve, reject) => {
 		if (Object.prototype.toString.call(idList) == "[object Object]") {
 			handlers = idList;
@@ -310,7 +310,7 @@ export function getAllModerators(idList, handlers) {
 		}
 
 		let prepareUsers = async _idList => {
-			let userRes = await GetUserByID(_idList);
+			let userRes = await GetUsersByID(_idList);
 
 			if (userRes && userRes.success) {
 				System.allModerators = {

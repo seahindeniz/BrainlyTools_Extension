@@ -1,17 +1,17 @@
 import WaitForElement from "../../../helpers/WaitForElement";
 
 /**
- * Mod actions count number into profile box at top of the page
+ * This function will add numbers of actions of moderator into profile box
  */
-export default async function addTodaysActions() {
+async function TodaysActions() {
+	let infoBox = await WaitForElement(selectors.userInfoBoxPoints);
 	let $todaysActions = $(`
 	<div style="margin: -4px 0 3px;">
 		<span class="sg-text sg-text--xsmall sg-text--gray sg-text--capitalize">${System.data.locale.home.todaysActions}: </span>
 		<span class="sg-text sg-text--xsmall sg-text--gray sg-text--emphasised">${System.data.Brainly.userData.user.mod_actions_count}</span>
 	</div>`);
-	let infoBox = await WaitForElement(selectors.userInfoBoxPoints);
 
-	if (infoBox) {
-		$todaysActions.insertBefore(infoBox)
-	}
+	$todaysActions.insertBefore(infoBox);
 }
+
+export default TodaysActions

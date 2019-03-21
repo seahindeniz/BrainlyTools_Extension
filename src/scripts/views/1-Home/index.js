@@ -2,7 +2,7 @@
 
 import WaitForElement from "../../helpers/WaitForElement";
 import WaitForObject from "../../helpers/WaitForObject";
-import addTodaysActions from "./_/addTodaysActions";
+import TodaysActions from "./_/TodaysActions";
 import startObservingForDeleteButtons from "./_/startObservingForDeleteButtons";
 
 System.pageLoaded("Root inject OK!");
@@ -14,7 +14,7 @@ window.selectors = {
 	feeds_questionsBox_buttonList: `> div.sg-content-box`,
 	questionLink: `.sg-content-box a[data-test="feed-item-link"]`,
 
-	userInfoBoxPoints: ".sg-layout__aside-content .game-box__element > .game-box__user-info > .game-box__progress-items"
+	userInfoBoxPoints: "div.game-box__element > div.game-box__user-info > div.game-box__progress-items"
 }
 
 Home();
@@ -23,7 +23,7 @@ async function Home() {
 	/**
 	 * Add mod actions count number into profile box at top of the page
 	 */
-	addTodaysActions();
+	TodaysActions();
 
 	/**
 	 *  Adding remove buttons inside of question boxes

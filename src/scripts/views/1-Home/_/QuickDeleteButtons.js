@@ -71,9 +71,9 @@ class QuickDeleteButtons {
 
 		$buttonContainer.appendTo(this.$container);
 		System.data.config.quickDeleteButtonsReasons.task.forEach(id => {
-			let $button = new QuickDeleteButton(id, this);
+			let button = new QuickDeleteButton(id, this);
 
-			$button.appendTo($buttonContainer);
+			button.$.appendTo($buttonContainer);
 		});
 	}
 	BindEvents() {

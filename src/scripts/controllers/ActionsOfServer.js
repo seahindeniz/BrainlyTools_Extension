@@ -58,7 +58,7 @@ export function Auth() {
 }
 
 export function GetDeleteReasons() {
-	return Request.ExtensionServer("GET", `/deleteReasons`);
+	return Request.ExtensionServer("GET", `/deleteReasons/${System.data.meta.marketName}`);
 }
 
 export function PassUser(id, nick) {

@@ -11,11 +11,12 @@ class QuickDeleteButton {
 		this.main = main;
 		this.reason = System.data.Brainly.deleteReasons.__withIds.task[reasonId];
 
+		if (!this.reason)
+			throw `Reason couldn't find ${reasonId}`;
+
 		this.RenderSpinner();
 		this.Render();
 		this.BindEvent();
-
-		return this.$button;
 	}
 	RenderSpinner() {
 		this.$spinnerContainer = $(`<div class="sg-spinner-container"></div>`);
@@ -28,12 +29,12 @@ class QuickDeleteButton {
 			type: "peach",
 			icon: "x"
 		})
-		this.$button = $(button);
+		this.$ = $(button);
 
-		this.$button.appendTo(this.$spinnerContainer)
+		this.$.appendTo(this.$spinnerContainer)
 	}
 	BindEvent() {
-		this.$button.click(this.ConfirmDeleteQuestion.bind(this));
+		this.$.click(this.ConfirmDeleteQuestion.bind(this));
 	}
 	async ConfirmDeleteQuestion() {
 		this.ShowSpinner();

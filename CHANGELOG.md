@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- [#28] Notice board
+- [#28] Notice board (<https://ibb.co/6DKVh5s>)
 - Moderation panel height fixer. Normally, the height size of the Brainly's
  moderation panel is not good for both desktop and mobile devices
 

@@ -37,29 +37,30 @@ class NoticeBoard {
 		this.$li = $(`
 		<li class="sg-menu-list__element" style="display: table; width: 100%;">
 			<div class="sg-spinner-container">
-				<div class="sg-actions-list sg-bubble--full">
-					<div class="sg-actions-list__hole sg-actions-list__hole--spaced-xsmall">
-						<span class="sg-text sg-text--link sg-text--blue sg-text--small">${System.data.locale.core.noticeBoard.text}</span>
+				<div class="sg-overlayed-box">
+					<div class="sg-actions-list sg-bubble--full">
+						<div class="sg-actions-list__hole sg-actions-list__hole--spaced-xsmall">
+							<span class="sg-text sg-text--link sg-text--blue sg-text--small">${System.data.locale.core.noticeBoard.text}</span>
+						</div>
 					</div>
 				</div>
 			</div>
 		</li>`);
 
-		this.$liActionList = $(".sg-actions-list", this.$li);
+		this.$overlayedBox = $(".sg-overlayed-box", this.$li);
 	}
 	RenderBadge() {
-		this.$badgeHole = $(`
-		<div class="sg-actions-list__hole">
-			<div class="sg-badge sg-badge--peach sg-badge--rounded">
-				<div class="sg-text sg-text--xsmall sg-text--white sg-text--bold">!</div>
-			</div>
+		this.$badge = $(`
+		<div class="sg-overlayed-box__overlay">
+			<div class="brn-progress-tracking__icon-dot"></div>
 		</div>`);
 
-		this.$badgeNumber = $("> .sg-badge > .sg-text", this.$badgeHole);
-
 		if (System.data.Brainly.userData.extension.noticeBoard === true) {
-			this.$badgeHole.appendTo(this.$liActionList);
+			this.ShowBadge();
 		}
+	}
+	ShowBadge() {
+		this.$badge.appendTo(this.$overlayedBox);
 	}
 	RenderModal() {
 		this.modal = new Modal({
@@ -243,7 +244,7 @@ class NoticeBoard {
 			this.readTimeout = setTimeout(this.ReadNoticeBoard.bind(this), 2500);
 	}
 	ShowLiSpinner() {
-		this.$spinner.insertAfter(this.$liActionList);
+		this.$spinner.insertAfter(this.$overlayedBox);
 	}
 	async GetContent() {
 		let resContent = await GetNoticeBoardContent();
@@ -286,7 +287,7 @@ class NoticeBoard {
 
 		ReadNoticeBoard();
 		System.SetUserData(data);
-		this.HideElement(this.$badgeHole);
+		this.HideElement(this.$badge);
 	}
 	RenderEditButton() {
 		this.$buttonContainer = $(`
@@ -392,8 +393,10 @@ class NoticeBoard {
 					this.noticeContent = noticeContent;
 
 					this.$editSectionContent.prop("defaultValue", noticeContent);
+					this.ShowBadge();
 					this.ChangeLastUpdate()
 					this.CloseEditSection();
+					System.data.Brainly.userData.extension.noticeBoard = true;
 				}
 			}
 

@@ -1,6 +1,6 @@
 {
 	"name": "brainly_tools",
-	"version": "6.18.0",
+	"version": "6.19.0",
 	"description": "A toolbox for exclusive users of Brainly. It enhances the Brainly and it helps them to do fast and quick actions and much more..",
 	"license": "SEE LICENSE IN LICENSE.md",
 	"scripts": {
@@ -8,8 +8,8 @@
 		"watch": "cross-env TARGET=chrome gulp watch",
 		"dist": "cross-env NODE_ENV=production cross-env TARGET=chrome gulp dist"
 	},
-	"scripts_Comments": {
-		"*": "This commands will be commented until it has cross-browser support",
+	"//scripts": {
+		"//": "This commands will be commented until it has cross-browser support",
 		"chrome-build": "cross-env NODE_ENV=production TARGET=chrome gulp",
 		"opera-build": "cross-env NODE_ENV=production TARGET=opera gulp",
 		"firefox-build": "cross-env NODE_ENV=production TARGET=firefox gulp",
@@ -32,11 +32,11 @@
 	},
 	"homepage": "https://github.com/seahindeniz/BrainlyTools_Extension",
 	"devDependencies": {
-		"@babel/core": "^7.3.4",
-		"@babel/plugin-transform-runtime": "^7.3.4",
-		"@babel/preset-env": "^7.3.4",
-		"@babel/register": "^7.0.0",
-		"@babel/runtime": "^7.3.4",
+		"@babel/core": "^7.4.0",
+		"@babel/plugin-transform-runtime": "^7.4.0",
+		"@babel/preset-env": "^7.4.2",
+		"@babel/register": "^7.4.0",
+		"@babel/runtime": "^7.4.2",
 		"babel-plugin-inline-import": "^3.0.0",
 		"babel-plugin-transform-html-import-to-string": "0.0.1",
 		"babelify": "^10.0.0",
@@ -57,7 +57,7 @@
 		"gulp-wait": "0.0.2",
 		"gulp-yaml": "^2.0.3",
 		"gulp-zip": "^4.2.0",
-		"sync-request": "^6.0.0",
+		"sync-request": "^6.1.0",
 		"uglifyify": "^5.0.1"
 	},
 	"dependencies": {
@@ -65,9 +65,21 @@
 		"color": "^3.1.0",
 		"debounce": "^1.2.0",
 		"easyeditor": "^1.2.0",
+		"emojione": "^4.5.0",
 		"js-cookie": "^2.2.0",
 		"js-md5": "^0.7.3",
 		"jszip": "^3.2.0",
+		"markdown-it": "^8.4.2",
+		"markdown-it-abbr": "^1.0.4",
+		"markdown-it-anchor": "^5.0.2",
+		"markdown-it-container": "^2.0.0",
+		"markdown-it-emoji": "^1.4.0",
+		"markdown-it-highlightjs": "^3.0.0",
+		"markdown-it-sub": "^1.0.0",
+		"markdown-it-sup": "^1.0.0",
+		"markdown-it-table-of-contents": "^0.4.3",
+		"markdown-it-task-lists": "^2.1.1",
+		"markdown-it-toc-done-right": "^3.0.1",
 		"moment": "^2.24.0",
 		"moment-timezone": "^0.5.23",
 		"prettysize": "^2.0.0",

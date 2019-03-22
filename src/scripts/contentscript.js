@@ -37,7 +37,7 @@ if (!html.getAttribute("extension")) {
 	InjectToDOM("/styles/pages/Core.css", { makeItLastElement: true })
 
 	WaitForObject(`document.body.classList.contains("mint")`, { noError: true }).then(isContains => {
-		if (isContains) {
+		if (isContains && !document.body.attributes.itemtype) {
 			InjectToDOM([
 				System.constants.Brainly.style_guide.css,
 				System.constants.Brainly.style_guide.icons

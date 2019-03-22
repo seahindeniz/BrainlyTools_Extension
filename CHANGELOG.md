@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- Styling issue while adding answer on Question page
+- [FIX] Styling and other issues related to v6.19.0
 
 ## [6.19.0] - 2019.03.22
 

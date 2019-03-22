@@ -27,15 +27,31 @@ form.pretty fieldset legend {
 	height: unset;
 }
 
-#moderate-functions-panel .panel {
-
-	.covering-text,
-	.content-scroll {
-		min-height: 160px;
+#moderate-functions-panel {
+	.statistics {
+		.content-scroll {
+			min-height: 156px;
+		}
 	}
 
-	.content-scroll {
-		overflow-y: auto !important;
-	}
+	.panel {
 
+		.covering-text,
+		.content-scroll {
+			min-height: 200px;
+		}
+
+		.content-scroll {
+			overflow-y: auto !important;
+		}
+	}
+}
+
+#main-panel .menu-right #panel-messages>a .count,
+#main-panel .menu-right .menu-element#panel-notifications>a .count {
+	width: unset;
+	height: unset;
+	min-width: 18px;
+	font-size: 11px;
+	padding: 0px 4px 0 3px;
 }

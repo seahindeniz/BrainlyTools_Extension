@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.19.1] - 2019.03.22
+
+### Changed
+
+- Styling issue while adding answer on Question page
+
 ## [6.19.0] - 2019.03.22
 
 ### Added

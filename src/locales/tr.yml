@@ -19,6 +19,7 @@ common:
   stop: Durdur
   # Short for points
   shortPoints: Puan
+  writeSomething: Bir şeyler yaz
   halloween:
     # On October 31 it's Halloween and I prepared a little suprise for extension users so bare with me :)
     imSorry: Üzgünüm eğer korkuttuysam!
@@ -38,6 +39,7 @@ common:
     xSendYouANewMessage: "%{userName} kişisi mesaj gönderdi"
     newNotification: Yeni bildirim
     operationCompleted: İşlem tamamlandı
+    unsavedChanges: "Kaydetmediğin değişikliklerin var. Halen kapatmak istiyor musun?"
   moderating:
     moreOptions: Daha fazla
     moderate: Düzenle
@@ -67,7 +69,6 @@ common:
   personalNote:
     text: Kişisel not
     title: "Buraya, bu kullanıcıyla alakalı bir not ekleyebilirsin ve bu alan sadece sana özeldir"
-    writeSomething: Bir şeyler yaz
 popup:
   notificationMessages:
     shortLinkSuccessMessage: Kısa link oluşturuldu ve panoya kopyalandı(CTRL + C)
@@ -168,6 +169,9 @@ popup:
         "5":
           title: Kullanıcı yönetimi
           description: Eklenti kullanıcılarının erişim izni ve yetkilerini düzenleme yetkisi
+        "20":
+          title: Duyuru panosu yönetimi
+          description: Duyuru panosunu düzenleyebilme
         "1":
           title: Hızlı soru silimi
           description: "Soru içeriği, tümünü düzelt sayfalarında ve anasayfa da, hızlı silim butonlarını kullanarak soru(ları) silme"
@@ -207,6 +211,9 @@ popup:
         "15":
           title: Seçmeli cevap silimi
           description: "Kullanıcı, kullanıcı bilgileri gör sayfasında cevapları seçerek silim yapabilir"
+        "19":
+          title: Seçmeli hatalı olara bildir
+          description: "Kullanıcı, kullanıcı bilgileri gör sayfasında cevapları seçerek cevap sahibine hatalı olarak bildirebilir"
         "16":
           title: Seçmeli yorum silimi
           description: "Kullanıcı, kullanıcı bilgileri gör sayfasında yorumları seçerek silim yapabilir"
@@ -262,9 +269,12 @@ core:
     thisConditionAlreadyAdded: Koşul zaten eklenmiş
     thisConditionAlreadyAddedInCommonConditions: Ortak koşullar'da zaten bulunuyor
     conditionsDoesntMatchAnything: Koşul herhangi bir şeyle eşleşmiyor
-      # %{question_id} variable indicates the question id.
-      # Example> An error occured while deleting the #356985
+    # %{question_id} variable indicates the question id.
+    # Example> An error occured while deleting the #356985
     errorOccuredWhileDeletingTheQuestion: "%{question_id}id'li soruyu silerken hata oluştu"
+    doYouWantToContinue: "Devam etmek istiyor musun?"
+    couldntAbleToGetNoticeBoardContent: Duyuru panosunun içeriğini sunucudan alamadım
+    changesMayNotBeSaved: Yaptığınız değişiklikler kaydedilmemiş olabilir
   TaskDeleter:
     text: Çoklu soru silici
     questionsLinksOrIDs: Soru linki veya id numarası
@@ -334,6 +344,12 @@ core:
       byReportee: şikayet edilene göre
       byDateRange: tarih aralığına göre
       byReportReason: şikayet sebebine(mesajına) göre
+  noticeBoard:
+    text: Duyuru panosu
+    # Example result; Last changes: March 17, 2019, 3:37 PM  https://ibb.co/0FPtSLS
+    lastChanges: Son değişiklik
+    # More information: https://ibb.co/2Ys4pt9
+    readBy: Okuyanlar
 home:
   todaysActions: Eylem sayısı
 messages:
@@ -360,7 +376,6 @@ messages:
     # %{pin} variable indicates the pin icon for pinning the groups
     pinTip: "%{pin}ikonuna tıklayarak gruplarını sabitleyebilirsin"
     notificationMessages:
-      unsavedChanges: "Kaydetmediğin değişikliklerin var. Halen kapatmak istiyor musun?"
       # %{groupName} variable indicates the new group name. Example notification> My friends successfully created
       groupCreated: "%{groupName} başarıyla oluşturuldu "
       groupUpdated: "%{groupName} güncellendi"

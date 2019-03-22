@@ -19,6 +19,7 @@ common:
   stop: Stopper
   # Short for points
   shortPoints: Pts
+  writeSomething: Ecrivez quelque chose
   halloween:
     # On October 31 it's Halloween and I prepared a little suprise for extension users so bare with me :)
     imSorry: Je suis désolé de vous avoir effrayé !
@@ -38,6 +39,7 @@ common:
     xSendYouANewMessage: "%{userName} t'a envoyé un message"
     newNotification: Nouvelle notification
     operationCompleted: Opération effectuée
+    unsavedChanges: "Vous avez des modifications non sauvegardées. Voulez-vous toujours quitter ?"
   moderating:
     moreOptions: Plus d'options
     moderate: Modérer
@@ -67,7 +69,6 @@ common:
   personalNote:
     text: Note personnelle
     title: Tu peux ajouter une note personnelle ici et qui sera reliée à cet utilisateur seulement
-    writeSomething: Ecrivez quelque chose
 popup:
   notificationMessages:
     shortLinkSuccessMessage: Un lien court a été créé et copier dans le presse-papier (CTRL+C)
@@ -168,6 +169,9 @@ popup:
         "5":
           title: Gestion des utilisateurs
           description: Peut ajouter ou éditer les utilisateurs de l'extension et leurs attribuer des privilèges ou permission  d'utiliser l'extension
+        "20":
+          title: Gérer le tableau d'information
+          description: Peut modifier le tableau d'information
         "1":
           title: Suppression rapide des questions
           description: "Sur la page des questions, tout modérer et sur la page d'accueil, l'utilisateur peut utiliser les boutons de suppression rapide pour supprimer les question(s)"
@@ -207,6 +211,9 @@ popup:
         "15":
           title: Suppression des réponses sélectionnées
           description: "Sur la page des contenus d'un utilisateur, l'utilisateur a la possibilité de supprimer les réponses sélectionnées"
+        "19":
+          title: Demander de correction sélective
+          description: "Sur la page des contenus d'un utilisateur, l'utilisateur peut utiliser la demande sélective pour demander la correction de réponses"
         "16":
           title: Suppression des commentaires sélectionnés
           description: "Sur la page des contenus d'un utilisateur, l'utilisateur a la possibilité de supprimer les questions commentaires"
@@ -262,9 +269,12 @@ core:
     thisConditionAlreadyAdded: La condition a déjà été ajoutée
     thisConditionAlreadyAddedInCommonConditions: La condition a déjà été ajoutée dans les conditions communes
     conditionsDoesntMatchAnything: Les conditions ne correspondent à aucun signalemlent
-      # %{question_id} variable indicates the question id.
-      # Example> An error occured while deleting the #356985
+    # %{question_id} variable indicates the question id.
+    # Example> An error occured while deleting the #356985
     errorOccuredWhileDeletingTheQuestion: "Une erreur s'est produite pendant la suppression de %{question_id}"
+    doYouWantToContinue: "Voulez-vous continuer ?"
+    couldntAbleToGetNoticeBoardContent: Je ne suis pas en mesure de d'obtenir le contenu du tableau d'information
+    changesMayNotBeSaved: Les changements effectués peuvent ne pas avoir été sauvegardés
   TaskDeleter:
     text: Suppression massive de questions
     questionsLinksOrIDs: Liens des questions ou IDs
@@ -334,6 +344,12 @@ core:
       byReportee: par utilisateur ayant été sigalé
       byDateRange: par date
       byReportReason: par raison (message)
+  noticeBoard:
+    text: Tableau d'information
+    # Example result; Last changes: March 17, 2019, 3:37 PM  https://ibb.co/0FPtSLS
+    lastChanges: Dernier changements
+    # More information: https://ibb.co/2Ys4pt9
+    readBy: Lu par
 home:
   todaysActions: Actions du jour
 messages:
@@ -360,7 +376,6 @@ messages:
     # %{pin} variable indicates the pin icon for pinning the groups
     pinTip: "Vous pouvez épingler vos groupes en cliquant sur l'icône %{pin}"
     notificationMessages:
-      unsavedChanges: "Vous avez des modifications non sauvegardées. Voulez-vous toujours quitter ?"
       # %{groupName} variable indicates the new group name. Example notification> My friends successfully created
       groupCreated: "%{groupName} Créé avec succès"
       groupUpdated: "%{groupName}mis à jour"

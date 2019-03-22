@@ -19,6 +19,7 @@ common:
   stop: Stop
   # Short for points
   shortPoints: Pts
+  writeSomething: Write something
   halloween:
     # On October 31 it's Halloween and I prepared a little suprise for extension users so bare with me :)
     imSorry: I'm sorry if you were a little bit scared!
@@ -38,6 +39,7 @@ common:
     xSendYouANewMessage: "%{userName} send you a new message"
     newNotification: New notification
     operationCompleted: Operation completed
+    unsavedChanges: You have some unsaved changes. Do you still want to close?
   moderating:
     moreOptions: More Options
     moderate: Moderate
@@ -67,7 +69,6 @@ common:
   personalNote:
     text: Personal note
     title: You can add a personal private note here and that will relate to this user only
-    writeSomething: Write something
 popup:
   notificationMessages:
     shortLinkSuccessMessage: Short link has been created and copied to clipboard(CTRL + C)
@@ -168,6 +169,9 @@ popup:
         "5":
           title: User management
           description: Can able to add or editing the extension users and give them privileges or permission to use the extension
+        "20":
+          title: Notice board management
+          description: Can able to edit notice board content
         "1":
           title: Quick delete questions
           description: On the pages of questions, archive mod and homepage, user can use the quick delete buttons for deleting the question(s)
@@ -207,6 +211,9 @@ popup:
         "15":
           title: Selective answer deletion
           description: On the user contents page, user can use the selective deletion function to delete selected answers
+        "19":
+          title: Selective ask for correction
+          description: On the user contents page, user can use the selective ask for correction to report answers
         "16":
           title: Selective comment deletion
           description: On the user contents page, user can use the selective deletion function to delete selected comments
@@ -262,9 +269,12 @@ core:
     thisConditionAlreadyAdded: This condition already added
     thisConditionAlreadyAddedInCommonConditions: This condition already added in the Common conditions
     conditionsDoesntMatchAnything: Conditions doesn't match with anything
-      # %{question_id} variable indicates the question id.
-      # Example> An error occured while deleting the #356985
+    # %{question_id} variable indicates the question id.
+    # Example> An error occured while deleting the #356985
     errorOccuredWhileDeletingTheQuestion: "An error occured while deleting the %{question_id}"
+    doYouWantToContinue: Do you want to continue?
+    couldntAbleToGetNoticeBoardContent: I couldn't able to get content of notice board
+    changesMayNotBeSaved: Changes you made may not be saved
   TaskDeleter:
     text: Mass-Question deleter
     questionsLinksOrIDs: Question links or id's
@@ -285,7 +295,7 @@ core:
     title: Once you've read the announcement you need to mark it as readed
     markAsRead: Mark as read
   pointChanger:
-    text: Mass-Point Changer
+    text: Mass-Point changer
     nUsers: "%{n} users"
     enterOrPasteUID: Enter or paste user profile ID
     youNeedToEnterOrPaste: You need to enter user id or you can paste copied list of user ids into input
@@ -334,6 +344,12 @@ core:
       byReportee: by reportee
       byDateRange: by date range
       byReportReason: by reason(message)
+  noticeBoard:
+    text: Notice Board
+    # Example result; Last changes: March 17, 2019, 3:37 PM  https://ibb.co/0FPtSLS
+    lastChanges: Last changes
+    # More information: https://ibb.co/2Ys4pt9
+    readBy: Read by
 home:
   todaysActions: Today's actions
 messages:
@@ -360,7 +376,6 @@ messages:
     # %{pin} variable indicates the pin icon for pinning the groups
     pinTip: You can pin your groups by clicking the %{pin} icon.
     notificationMessages:
-      unsavedChanges: You have some unsaved changes. Do you still want to close?
       # %{groupName} variable indicates the new group name. Example notification> My friends successfully created
       groupCreated: "%{groupName} successfully created"
       groupUpdated: "%{groupName} updated"

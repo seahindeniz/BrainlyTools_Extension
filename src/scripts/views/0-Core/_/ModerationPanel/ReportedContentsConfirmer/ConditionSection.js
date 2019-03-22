@@ -124,7 +124,7 @@ class ConditionSection {
 		this.$addFilterButton.click(this.AddCondition.bind(this));
 		this.$close && this.$close.click(this.RemoveSection.bind(this));
 		this.$regexpButton.click(this.ToggleDarkButton);
-		this.$conditionsContainer.on("dblclick", ">.sg-box", function() {
+		this.$conditionsContainer.on("click", ".sg-box", function() {
 			this.remove();
 			that.FilterReports();
 		});

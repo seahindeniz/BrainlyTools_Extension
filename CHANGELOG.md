@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.19.2] - 2019.03.24
+
+### Changed
+
+- Brainly.com > Default delete reasons
+
 ## [6.19.1] - 2019.03.22
 
 ### Changed

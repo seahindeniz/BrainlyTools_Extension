@@ -1,5 +1,5 @@
 import Modal from "../../../../components/Modal";
-import { AddPoint, GetUserByID } from "../../../../controllers/ActionsOfBrainly";
+import { AddPoint, GetUserByID, GetUsersByID } from "../../../../controllers/ActionsOfBrainly";
 
 const spinner = `<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`;
 
@@ -79,7 +79,7 @@ class PointChanger {
 		this.$userList = $(".js-user-list", this.modal.$modal);
 		this.$close = $(".sg-toplayer__close", this.modal.$modal);
 		this.$idInputContainer = $(".sg-content-box.id", this.modal.$modal);
-		this.$addButton = $(".id .sg-actions-list__hole:eq(1) button", this.modal.$modal);
+		this.$addUserButton = $(".id .sg-actions-list__hole:eq(1) button", this.modal.$modal);
 		this.$addPointToAllButton = $(".id .sg-actions-list__hole:eq(2) button", this.modal.$modal);
 		this.$amountOfUsers = $(".sg-content-box__actions .sg-actions-list > .sg-actions-list__hole > .sg-text > span", this.modal.$modal);
 	}
@@ -90,7 +90,7 @@ class PointChanger {
 		this.$li.on("click", "span", this.modal.Open.bind(this.modal));
 		this.$addPointToAllButton.click(this.AddPointToAll.bind(this));
 
-		this.$addButton.click(() => {
+		this.$addUserButton.click(() => {
 			let id = this.GetID()
 
 			if (this.IsNotFetched(id)) {
@@ -110,8 +110,8 @@ class PointChanger {
 
 				this.classList.add("sg-button-secondary--disabled");
 				await AddPoint(user.id, diffPoint);
-				that.modal.notification(System.data.locale.core.notificationMessages.pointsAdded, "success");
 				this.classList.remove("sg-button-secondary--disabled");
+				that.modal.notification(System.data.locale.core.notificationMessages.pointsAdded, "success");
 
 				user.points += diffPoint;
 
@@ -149,7 +149,7 @@ class PointChanger {
 				if (idList.length == 1) {
 					this.FindID(idList[0]);
 				} else if (idList.length > 1) {
-					this.FindID(idList);
+					this.FindIDs(idList);
 				}
 			}
 		});
@@ -170,9 +170,15 @@ class PointChanger {
 			}
 		}
 	}
+	/**
+	 * @param {number} id
+	 */
 	IsNotFetched(id) {
 		return !this.users.includes(id)
 	}
+	/**
+	 * @param {number[]} idList
+	 */
 	FilterFetchedUsers(idList) {
 		return idList.reduce((acc, id) => {
 			if (this.IsNotFetched(id))
@@ -181,20 +187,26 @@ class PointChanger {
 			return acc;
 		}, []);
 	}
+	/**
+	 * @param {number[]} idList
+	 */
+	async FindIDs(idList) {
+		let res = await GetUsersByID(idList);
+
+		if (!res || !res.success) {
+			this.modal.notification(res.message || System.data.locale.common.notificationMessages.somethingWentWrong, "error");
+		} else {
+			res.data.forEach(this.AddUser.bind(this));
+		}
+	}
 	async FindID(id) {
 		let res = await GetUserByID(id);
 
-		if (res) {
-			if (!res.success) {
-				this.modal.notification(res.message || System.data.locale.common.notificationMessages.somethingWentWrong, "error");
-			} else {
-				if (res.data instanceof Array) {
-					res.data.forEach(this.AddUser.bind(this));
-				} else {
-					this.AddUser(res.data);
-					this.ClearIdInput();
-				}
-			}
+		if (res || !res.success) {
+			this.modal.notification(res.message || System.data.locale.common.notificationMessages.somethingWentWrong, "error");
+		} else {
+			this.AddUser(res.data);
+			this.ClearIdInput();
 		}
 	}
 	ClearIdInput() {

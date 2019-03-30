@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.20.0] - 2019.03.30
+
+### Added
+
+- Mass-Message sender reinstated [SS-1], [SS-2], [SS-3]
+- Quick preview of user privileges (restricted) [SS-4]
+- Quick assign extension permission button (restricted) [SS-5]
+- Mass-Point changer: Sequential navigation on the points inputs by pressing the
+ tab key
+- [#42] Mass point changer changes
+
+### Changed
+
+- [FIX#41] Mass-Point changer "User not found" issue
+
+[#42]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/42
+[FIX#41]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/41
+[SS-1]: https://ibb.co/S71qcxQ
+[SS-2]: https://ibb.co/3vbBp8r
+[SS-3]: https://ibb.co/NT5Dy4G
+[SS-4]: https://ibb.co/Xb1BLBN
+[SS-5]: https://ibb.co/w0KVNMT
+
 ## [6.19.2] - 2019.03.24
 
 ### Changed

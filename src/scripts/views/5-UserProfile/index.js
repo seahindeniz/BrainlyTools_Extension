@@ -115,9 +115,10 @@ class UserProfile {
 		await Promise.all([this.extensionPromise, this.brainlyPromise]);
 
 		if (this.extensionUser && this.brainlyUser) {
+			this.RenderExtensionUserTag();
+
 			if (this.extensionUser.probatus) {
 				this.RenderUserHat();
-				this.RenderExtensionUserTag();
 			}
 		}
 	}
@@ -127,14 +128,9 @@ class UserProfile {
 		$img.prependTo("#main-left > div.personal_info");
 	}
 	RenderExtensionUserTag() {
-		let $tag = UserTag();
-		let $ranking = $("#main-left span.ranking");
+		let tag = new UserTag(this.profileData.id, this.extensionUser);
 
-		$ranking
-			.append($tag)
-			.css("width", "100%")
-			.children("h2")
-			.css("float", "left");
+		tag.$.insertAfter("#main-left span.ranking");
 	}
 }
 

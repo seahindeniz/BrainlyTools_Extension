@@ -2,6 +2,7 @@
 
 import cookie from "js-cookie";
 import extensionConfig from "../../config/_/extension.json";
+import "../helpers/ArrayLast";
 import storage from "../helpers/extStorage";
 import InjectToDOM from "../helpers/InjectToDOM";
 import ext from "../utils/ext";
@@ -87,15 +88,14 @@ class _System {
 		console.log("System library initalized");
 	}
 	/**
-	 *
 	 * @param {number} milliseconds - Specify delay in milliseconds
 	 */
 	Delay(milliseconds = System.randomNumber(1000, 4000)) {
 		return new Promise(resolve => setTimeout(() => resolve(milliseconds), milliseconds));
 	}
-	/* log(){
-		console.log.apply()
-	} */
+	TestDelay(){
+		return this.Delay(System.randomNumber(100, 500))
+	}
 	randomNumber(min, max) {
 		return Math.floor((Math.random() * max) + min);
 	}
@@ -172,14 +172,18 @@ class _System {
 	createProfileLink(nick, id, noOrigin) {
 		let origin = "";
 
+		if (typeof nick == "object") {
+			id = nick.id;
+			nick = nick.nick;
+		}
+
 		if (!nick && !id) {
 			nick = System.data.Brainly.userData.user.nick
 			id = System.data.Brainly.userData.user.id
 		}
 
-		if (!this.profileLinkRoute) {
-			this.profileLinkRoute = (System.data.Brainly.Routing.routes[System.data.Brainly.Routing.prefix + "user_profile"]).tokens.slice().pop().pop();
-		}
+		if (!this.profileLinkRoute)
+			this.profileLinkRoute = (System.data.Brainly.Routing.routes[System.data.Brainly.Routing.prefix + "user_profile"]).tokens.last().last();
 
 		if (!noOrigin) {
 			origin = System.data.meta.location.origin;
@@ -221,9 +225,10 @@ class _System {
 	}
 	createBrainlyLink(type, data) {
 		let _return = "";
+
 		if (type === "profile") {
 			if (!this.routeMasks.profile)
-				this.routeMasks.profile = (System.data.Brainly.Routing.routes[System.data.Brainly.Routing.prefix + "user_profile"]).tokens.slice().pop().pop();
+				this.routeMasks.profile = (System.data.Brainly.Routing.routes[System.data.Brainly.Routing.prefix + "user_profile"]).tokens.last().last();
 
 			if (this.routeMasks.profile) {
 				/* console.log(System.data.meta.location.origin);
@@ -236,7 +241,7 @@ class _System {
 		}
 		if (type === "task") {
 			if (!this.routeMasks.task) {
-				this.routeMasks.task = (System.data.Brainly.Routing.routes[System.data.Brainly.Routing.prefix + "task_view"]).tokens.slice().pop().pop();
+				this.routeMasks.task = (System.data.Brainly.Routing.routes[System.data.Brainly.Routing.prefix + "task_view"]).tokens.last().last();
 			}
 
 			if (this.routeMasks.task)
@@ -392,6 +397,9 @@ class _System {
 
 		System.data.Brainly.userData.extension = data;
 		System.data.Brainly.userData._hash = data.hash;
+	}
+	OpenExtensionOptions(params) {
+		this.toBackground("OpenExtensionOptions", params)
 	}
 }
 export default _System;

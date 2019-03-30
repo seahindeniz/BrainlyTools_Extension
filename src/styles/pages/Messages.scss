@@ -78,6 +78,19 @@ section.brn-messages__chatbox>div.sg-content-box>div.sg-content-box__header {
 	align-items: start;
 	margin-bottom: 10px;
 
+	.userTag {
+		height: 20px;
+		display: flex;
+
+		.sg-bubble {
+			z-index: 3;
+			top: -13px;
+			margin-left: 6px;
+			width: max-content;
+			height: fit-content;
+		}
+	}
+
 	.sg-actions-list .sg-actions-list__hole {
 		float: left;
 		clear: both;
@@ -85,6 +98,7 @@ section.brn-messages__chatbox>div.sg-content-box>div.sg-content-box__header {
 		&.sg-actions-list__hole--to-right {
 			float: right;
 		}
+
 
 		&.userNoteBox {
 			width: 100%;

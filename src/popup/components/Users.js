@@ -4,27 +4,33 @@ import notification from "./notification";
 class Users {
 	constructor() {
 		this.pListOrder = [
+			System.data.locale.popup.extensionManagement.users.important,
 			0,
 			/* 4, */
 			5,
-			20,
-			11,
+			7,
 			17,
 			18,
-			10,
-			7,
 			13,
-			/* 9, */
-			"",
+			9,
+			null,
+			System.data.locale.popup.extensionManagement.users.moderate,
+			21,
+			20,
+			11,
+			10,
+			14,
+			15,
+			6,
+			null,
+			System.data.locale.popup.extensionManagement.users.lessHarmless,
+			12,
+			8,
 			1,
 			2,
 			45,
-			14,
-			15,
-			19,
 			16,
-			6,
-			8
+			19
 		];
 
 		this.Render();
@@ -150,6 +156,7 @@ class Users {
 		this.$permission = $("input", this.$permissionContainer);
 		this.$resetButton = $(".media-right > .reset", this.$layout);
 		this.$submitButton = $(".media-right > .submit", this.$layout);
+		this.$headerP = $("> article > .message-header > p", this.$layout);
 		this.$giveButton = $(".changeUserPrivileges .button.give", this.$layout);
 		this.$revokeButton = $(".changeUserPrivileges .button.revoke", this.$layout);
 	}
@@ -159,6 +166,7 @@ class Users {
 		if (resUsers.success && resUsers.data) {
 			this.RenderUserNodes(resUsers.data);
 			window.popup.refreshUsersInformations();
+			this.FocusOnUser();
 		}
 	}
 	RenderUserNodes(usersData) {
@@ -218,6 +226,8 @@ class Users {
 
 			if (typeof key == "string") {
 				element = `<div class="is-divider" style="margin: 1em 0;"${key ? ` data-content="${key}"` : ""}></div>`;
+			} else if (key === null) {
+				element = `<br />`;
 			} else {
 				let privilege = System.data.locale.popup.extensionManagement.users.privilegeList[key];
 
@@ -388,6 +398,14 @@ class Users {
 				this.PrepareUsers();
 				notification(System.data.locale.popup.notificationMessages.privilegeHasRevoked.replace("%{user_amount}", ` ${res.data.affected} `), "success");
 			}
+		}
+	}
+	FocusOnUser() {
+		let id = window.popup.parameters.editUser;
+
+		if (id) {
+			this.$headerP.click();
+			this.$idInput.val(id).trigger("input").focus();
 		}
 	}
 }

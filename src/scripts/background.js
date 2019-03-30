@@ -13,6 +13,7 @@ const __c = `font-size: 14px;color: #57b2f8;font-family:century gothic;`;
 class Background {
 	constructor() {
 		this.popupOpened = null;
+		this.optionsPassedParameters = {};
 		this.blockedDomains = /mc.yandex.ru|hotjar.com|google(-analytics|tagmanager|adservices|tagservices).com|kissmetrics.com|doubleclick.net|ravenjs.com/i;
 
 		this.manifest = ext.runtime.getManifest();
@@ -126,10 +127,20 @@ class Background {
 			BrainlyNotificationSocket(request.data);
 		}
 		if (request.action === "background>Inject content script anyway") {
-			console.log("contenscript injection started");
 			this.InjectContentScript(request.data, true);
 
 			return Promise.resolve(true);
+		}
+		if (request.action === "OpenExtensionOptions") {
+			ext.runtime.openOptionsPage();
+
+			this.optionsPassedParameters = {
+				...this.optionsPassedParameters,
+				...request.data
+			}
+		}
+		if (request.action === "INeedParameters") {
+			return Promise.resolve(this.optionsPassedParameters);
 		}
 	}
 	UpdateBadge(options) {

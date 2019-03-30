@@ -19,6 +19,37 @@ img.userHat {
 	}
 }
 
+#profile #main-left .personal_info .header {
+	display: inline-block;
+	overflow: unset;
+}
+
+#main-left span.ranking {
+	display: inline-grid;
+}
+
+#profile #main-left .personal_info .header .info .info_top {
+	overflow: unset;
+	display: inline-block;
+}
+
+.userTag {
+	float: right;
+	clear: both;
+	height: 0;
+	position: relative;
+	top: 20px;
+
+	.sg-bubble {
+		z-index: 1;
+		top: -13px;
+		position: absolute;
+		left: 100%;
+		width: max-content;
+	}
+}
+
+
 #profile-friends {
 	display: inline-block;
 

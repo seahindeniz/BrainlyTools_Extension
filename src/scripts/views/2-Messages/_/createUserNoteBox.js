@@ -6,7 +6,6 @@ import WaitForElement from "../../../helpers/WaitForElement";
 import WaitForObject from "../../../helpers/WaitForObject";
 
 async function profileLinkContainerFound(targetElm) {
-	//if (!$(this).parent().is('.mesaj_grubu')) {
 	if (targetElm) {
 		if ($(".userNoteBox", targetElm).length == 0) {
 			let link = $(selectors.profileLink, targetElm);
@@ -25,9 +24,9 @@ async function profileLinkContainerFound(targetElm) {
 						let resBrainlyUser = await GetUserByID(id);
 
 						if (resBrainlyUser && resBrainlyUser.success) {
-							let $tag = UserTag()
+							let tag = new UserTag(id, resExtUser.data)
 
-							$tag.insertAfter("div.sg-content-box > div.sg-content-box__header > div.sg-actions-list > div.sg-actions-list__hole:nth-child(2)");
+							tag.$.insertAfter("div.sg-content-box > div.sg-content-box__header > div.sg-actions-list > div.sg-actions-list__hole:nth-child(2)");
 						}
 					}
 				}

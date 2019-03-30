@@ -4,6 +4,7 @@
 import WaitForObject from "../../../../helpers/WaitForObject";
 import MassQuestionDeleter from "./MassQuestionDeleter";
 import NoticeBoard from "./NoticeBoard";
+import MassMessageSender from "./MassMessageSender";
 import PointChanger from "./PointChanger";
 import ReportedCommentsDeleter from "./ReportedCommentsDeleter";
 import ReportedContentsConfirmer from "./ReportedContentsConfirmer";
@@ -40,35 +41,37 @@ class ModerationPanel {
 		}
 	}
 	RenderComponents() {
-		this.RenderComponent(renderUserFinder());
+		this.RenderComponent({ $li: renderUserFinder() });
 
 		if (System.checkUserP(20) || System.data.Brainly.userData.extension.noticeBoard !== null) {
-			this.RenderComponent(new NoticeBoard().$li);
+			this.RenderComponent(new NoticeBoard());
 		}
-		/* if (System.checkUserP(9)) {
-			renderMessageSender($seperator);
-		} */
+
+		if (System.checkUserP(9)) {
+			this.RenderComponent(new MassMessageSender());
+		}
+
 		if (System.checkUserP(13) && System.checkBrainlyP(41)) {
-			this.RenderComponent(new PointChanger().$li);
+			this.RenderComponent(new PointChanger());
 		}
 
 		if (System.checkUserP(18)) {
-			this.RenderComponent(new ReportedContentsConfirmer().$li);
+			this.RenderComponent(new ReportedContentsConfirmer());
 		}
 	}
 	async RenderComponentsAfterDeleteReasonsLoaded() {
 		await WaitForObject("window.System.data.Brainly.deleteReasons.__withTitles.comment", { noError: true });
 
 		if (System.checkUserP(17)) {
-			this.RenderComponent(new ReportedCommentsDeleter().$li);
+			this.RenderComponent(new ReportedCommentsDeleter());
 		}
 
 		if (System.checkUserP(7)) {
-			this.RenderComponent(new MassQuestionDeleter().$li);
+			this.RenderComponent(new MassQuestionDeleter());
 		}
 	}
-	RenderComponent($element) {
-		$element.appendTo(this.$ul);
+	RenderComponent(instance) {
+		instance.$li.appendTo(this.$ul);
 	}
 	RenderResizeTrackingElement() {
 		this.$resizeOverlay = $(`

@@ -157,10 +157,10 @@ class MassQuestionDeleter {
 		let temp = this.$textarea.html();
 
 		idList.forEach(id => {
-			let status = "toDelete";
+			let status = "toProcess";
 
 			if (this.deletedQuestions[id])
-				status = this.deletedQuestions[id].isDeleted ? "deleted" : "error";
+				status = this.deletedQuestions[id].isDeleted ? "success" : "error";
 			else
 				this.questionsToDelete.push(id);
 
@@ -273,8 +273,8 @@ class MassQuestionDeleter {
 	MarkQuestionID(id, isDeleted) {
 		let $id = $(`span:contains("${id}")`);
 
-		$id.removeClass("toDelete");
-		$id.addClass(isDeleted ? "deleted" : "error");
+		$id.removeClass("toProcess");
+		$id.addClass(isDeleted ? "success" : "error");
 		this.deletedQuestions[id] = { isDeleted };
 	}
 	UpdateCounter() {

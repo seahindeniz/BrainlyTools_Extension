@@ -1,0 +1,67 @@
+<div class="sg-content-box">
+	<div class="sg-content-box__content sg-content-box__content--spaced-top">
+		<div class="sg-content-box">
+			<div class="sg-content-box__content sg-content-box__content--with-centered-text sg-content-box__content--spaced-top">
+				<div class="sg-actions-list sg-actions-list--no-wrap">
+					<div class="sg-actions-list__hole sg-actions-list__hole--grow">
+						<div class="sg-spinner-container sg-content-box--full">
+							<textarea class="sg-textarea sg-textarea--full-width sg-textarea--resizable-vertical" placeholder="${System.data.locale.messages.groups.writeSomething}"></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="sg-content-box__content sg-content-box__content--spaced-bottom-large">
+		<div class="sg-actions-list sg-actions-list--no-wrap sg-actions-list--to-right">
+			<div class="sg-actions-list__hole">
+				<p class="sg-text sg-text--xsmall sg-text--gray sg-text--bold"><span class="sg-text--mint">0</span>/${MAX_MESSAGE_LENGTH}</p>
+			</div>
+		</div>
+	</div>
+	<div class="sg-content-box__actions sg-content-box__actions--spaced-bottom-large">
+		<div class="sg-content-box sg-content-box--full">
+			<div class="sg-content-box__content">
+				<h2 class="sg-text sg-text--gray sg-text--bold">${System.data.locale.core.MessageSender.target}:</h2>
+			</div>
+			<div class="sg-content-box__actions">
+				<div class="sg-actions-list sg-actions-list--no-wrap">
+					<div class="sg-actions-list__hole">
+						<div class="sg-label sg-label--secondary">
+							<div class="sg-label__icon">
+								<div class="sg-radio">
+									<input type="radio" class="sg-radio__element" name="target" id="allUsers">
+									<label class="sg-radio__ghost" for="allUsers"></label>
+								</div>
+							</div>
+							<label class="sg-label__text" for="allUsers">${System.data.locale.core.MessageSender.allUsers}</label>
+						</div>
+					</div>
+					<div class="sg-actions-list__hole">
+						<div class="sg-label sg-label--secondary">
+							<div class="sg-label__icon">
+								<div class="sg-radio">
+									<input type="radio" class="sg-radio__element" name="target" id="moderators">
+									<label class="sg-radio__ghost" for="moderators"></label>
+								</div>
+							</div>
+							<label class="sg-label__text" for="moderators">${System.data.locale.core.MessageSender.moderators}</label>
+						</div>
+					</div>
+					<div class="sg-actions-list__hole">
+						<div class="sg-label sg-label--secondary">
+							<div class="sg-label__icon">
+								<div class="sg-radio">
+									<input type="radio" class="sg-radio__element" name="target" id="idList">
+									<label class="sg-radio__ghost" for="idList"></label>
+								</div>
+							</div>
+							<label class="sg-label__text" for="idList">${System.data.locale.core.MessageSender.listOfIds}</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="sg-content-box__content"></div>
+		</div>
+	</div>
+</div>

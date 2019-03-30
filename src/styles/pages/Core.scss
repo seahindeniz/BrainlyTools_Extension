@@ -70,6 +70,7 @@ $baseline: 1.5rem;
 	display: block;
 	color: #9fa6b5;
 	font-weight: bold;
+	cursor: text;
 }
 
 .userList:empty:before {
@@ -105,17 +106,16 @@ div.counter {
 	width: 200px
 } */
 
-.userId {
-	input {
-		&.userFound {
-			border-color: #a7e6c7;
-		}
+.sg-input, .sg-textarea {
+	&.success {
+		border-color: #a7e6c7;
+	}
 
-		&.userNotFound {
-			border-color: #ffc1bb;
-		}
+	&.error {
+		border-color: #ffc1bb;
 	}
 }
+
 
 .sg-disabled {
 	cursor: default;
@@ -454,6 +454,18 @@ body.mint {
 	width: 15.8em;
 }
 
+.userTag .sg-bubble--column-start {
+
+	&::after,
+	&::before {
+		top: 11px !important;
+	}
+}
+
+.sg-textarea--xxtall {
+	height: 15.5rem;
+}
+
 .mint {
 
 	.reportedCommentsPanel,
@@ -467,16 +479,20 @@ body.mint {
 }
 
 .js-inputs {
-	.toDelete {
+	.toProcess {
 		background: #fec83c;
 	}
 
-	.deleted {
+	.success {
 		background: #9ce8c2;
 	}
 
 	.error {
 		background: #ff7968;
+	}
+
+	.notFound {
+		background: #c3d1dd;
 	}
 }
 

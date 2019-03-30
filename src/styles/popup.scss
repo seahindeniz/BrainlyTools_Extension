@@ -4,7 +4,6 @@
 @import 'bulma-divider';
 
 $bodyWidth: 42rem;
-$bodyWidthExtended: 98.5vw;
 
 html,
 body {
@@ -75,12 +74,6 @@ html[is="popup"] {
 
 	.hero>.hero-body {
 		width: $bodyWidth;
-	}
-}
-
-html[is="options"] {
-	.hero>.hero-body {
-		width: $bodyWidthExtended;
 	}
 }
 

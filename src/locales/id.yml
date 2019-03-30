@@ -17,9 +17,11 @@ common:
   select: Pilih
   start: Dimulai
   stop: Berhenti
+  continue: Lanjutkan
   # Short for points
   shortPoints: Poin
   writeSomething: Menuliskan sesuatu
+  userHasNoPrivilege: Pengguna tidak memiliki privilege
   halloween:
     # On October 31 it's Halloween and I prepared a little suprise for extension users so bare with me :)
     imSorry: Mohon maaf jika kamu sedikit takut!
@@ -149,6 +151,12 @@ popup:
       # Suffix will needs to added in your language as well. Example: in English words will replaced as 'Started to use 5 days ago', in Turkish '5 gun once kullanmaya basladi'
       firstUsageTimeAgoPreTitle: "Mulai menggunakan pada %{time}"
       hasntUsed: Pengguna belum menggunakan ekstensi
+      # Please see this before translating: https://ibb.co/6wJ7sWC
+      important: Penting
+      # Please see this before translating: https://ibb.co/6wJ7sWC
+      moderate: Moderasi
+      # Please see this before translating: https://ibb.co/6wJ7sWC
+      lessHarmless: sedikit merugikan
       explainingColors:
         line1: Beberapa pengguna memiliki warna pada border avatar mereka dan warna ini menunjukkan status izin penggunaan ekstensi mereka
         # ! Important: You need to specify a color name inside the braces like this: in English <s>Red</s> or in Turkish <s>Kirmizi</s> or in Indonesian <s>Merah</s>
@@ -188,7 +196,7 @@ popup:
           title: Pesan grup
           description: "Di halaman pesan, user dapat mengirim pesan pribadi ke banyak pengguna dalam satu grup sekaligus"
         "9":
-          title: Pengiriman pesan massal (selesai)
+          title: Pengiriman pesan massal
           description: "Pada panel moderasi, user dapat menggunakan fungsi ini untuk mengirim pesan pribadi ke seluruh pengguna di pasar Indonesia"
         "10":
           title: "Halaman supervisor, pengirim pesan"
@@ -223,6 +231,9 @@ popup:
         "18":
           title: Berdasarkan konten yang dikonfirmasi
           description: Pengguna dapat menggunakan fungsi ini untuk mengkonfirmasi jawaban yang dilaporkan dari Moderasi Semua dengan memfilter
+        "21":
+          title: Meninjau privilege pengguna
+          description: Pengguna dapat meninjau privilege pengguna ekstensi lainnya tanpa membuat perubahan apa pun
     announcements:
       text: Pengumuman
       addNewAnnouncement: Tambahkan sebuah pengumuman
@@ -251,6 +262,7 @@ popup:
       download: Unduh
       play: Play
 core:
+  assignExtensionPermission: Memberikan izin penggunaan ekstensi
   notificationMessages:
     cantFetchDeleteReasons: Kesalahan tak terduga terjadi selama mempersiapkan alasan penghapusan
     searching: Mencari...
@@ -262,7 +274,6 @@ core:
     warningBeforeDelete: "Proses ini akan dijalankan dan jumlah id pertanyaan di input akan dihapus setelah Anda mengkonfirmasi peringatan ini. \n\nApakah Anda tiga kali lipat yakin?"
     enterIdWarn: Kamu perlu untuk menambahkan setidaknya 1 nomor ID dari pertanyaan yang ingin kamu hapus
     youNeedToEnterValidId: Kamu perlu unruk menginput nomor ID yang valid
-    cantSendEmptyMessage: Kamu tidak dapat mengirim sebuah kosong
     tryingToSendTheSameMessage: "Kamu telah mencoba mengirim yang terakhir. Apakah kamu masih ingin mengirim?"
     alreadyStarted: Proses telah dimulai
     pointsAdded: Poin ditambahkan
@@ -290,6 +301,20 @@ core:
     text: Pengiriman pesan massal
     lastRegisteredUserId: "Masukkan ID user yang terakhir "
     information: "Dengan Fungsi ini kamu dapat mengirim pesan ke pengguna dengan menghitung mundur dari nomor id yang diberikan. Setelah kamu memulai proses dan jika ingin mengirim pesan ke nomor id, kamu harus menunggu dan jangan menutup halaman ini (ini termasuk komputer Anda juga) sampai proses selesai."
+    target: Target
+    # More information: https://ibb.co/S71qcxQ
+    allUsers: Semua pengguna
+    # More information: https://ibb.co/3vbBp8r
+    moderators: Moderator
+    # More information: https://ibb.co/NT5Dy4G
+    listOfIds: Daftar ID
+    startOver: Mulai lagi dari awal
+    # More information: https://ibb.co/S71qcxQ
+    sent: Dikirim
+    # More information: https://ibb.co/S71qcxQ
+    usersNotFound: Pengguna tidak ditemukan
+    # More information: https://ibb.co/S71qcxQ
+    errors: Error
   announcements:
     text: Pengumuman
     title: "Ketika kamu telah membaca pengumuman, kamu perlu untuk menandainya sebagai telah dibaca"
@@ -298,7 +323,12 @@ core:
     text: Mengubah poin
     nUsers: "%{n} users"
     enterOrPasteUID: Masukkan dan paste profile ID pengguna
+    # More information: https://ibb.co/GWqLCPC
     youNeedToEnterOrPaste: Kamu harus memasukkan ID pengguna atau kamu dapat menempelkan daftar ID pengguna yang disalin ke dalam input
+    # More information: https://ibb.co/GWqLCPC
+    pastingExample: Contoh daftar ID pengguna
+    # More information: https://ibb.co/GWqLCPC
+    pastingExample2: Kamu juga dapat menentukan poin dalam daftar sebelum mengcopy paste
     addPoint: Poin ditambahkan
   reportedCommentsDeleter:
     text: Menghapus komentar yang dilaporkan
@@ -385,6 +415,8 @@ messages:
       doYouWantToRemoveMembers: "Apakah kamu ingin menghapus semua anggota?"
       youNeedToAddMembers: Kamu perlu menambahkan setidaknya satu pengguna dalam daftar anggota grup
       youHaventCreatedAGroupYet: Kamu belum membuat grup
+      wrongMessageLength: "Pesan anda harus terdiri dari 1 dan %{max_value} panjang karakter"
+      messageContainsSwear: Ups! Sepertinya pesan anda mengandung kata umpatan. Anda tidak dapat mengirimkannya!
     userCategories:
       findUsers:
         text: Temukan pengguna

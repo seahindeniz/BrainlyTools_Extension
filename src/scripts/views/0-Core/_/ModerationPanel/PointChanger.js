@@ -39,7 +39,6 @@ class PointChanger {
 						<div class="sg-content-box__content sg-content-box__content--with-centered-text sg-content-box__content--spaced-top">
 							<div class="sg-actions-list sg-actions-list--no-wrap">
 								<div class="sg-actions-list__hole sg-actions-list__hole--grow">
-									<input type="text" class="sg-input sg-input--full-width js-hidden" placeholder="${System.data.locale.common.profileID}">
 									<textarea class="sg-textarea sg-textarea--full-width sg-textarea--resizable-vertical" placeholder="${System.data.locale.common.profileID}"></textarea>
 								</div>
 								<div class="sg-actions-list__hole">
@@ -74,7 +73,7 @@ class PointChanger {
 				<div class="sg-content-box__content">
 					<blockquote class="sg-text sg-text--small">
 						${System.data.locale.core.pointChanger.youNeedToEnterOrPaste}<br>
-						${System.data.locale.core.pointChanger.pastingExample}<br>
+						${System.data.locale.core.pointChanger.pastingExample}:<br>
 						${System.createProfileLink(System.data.Brainly.userData.user.nick,System.data.Brainly.userData.user.id)}<br>
 						${System.createProfileLink("Sakura", 314651)}<br>
 						1234567<br>
@@ -91,7 +90,6 @@ class PointChanger {
 		});
 		this.$idInput = $(".id textarea", this.modal.$modal);
 		this.$userList = $(".js-user-list", this.modal.$modal);
-		this.$close = $(".sg-toplayer__close", this.modal.$modal);
 		this.$idInputContainer = $(".sg-content-box.id", this.modal.$modal);
 		this.$addUserButton = $(".id .sg-actions-list__hole:eq(1) button", this.modal.$modal);
 		this.$addPointToAllButton = $(".id .sg-actions-list__hole:eq(2) button", this.modal.$modal);
@@ -100,7 +98,7 @@ class PointChanger {
 	BindEvent() {
 		let that = this;
 
-		this.$close.click(this.modal.Close.bind(this.modal));
+		this.modal.$close.click(this.modal.Close.bind(this.modal));
 		this.$li.on("click", "span", this.modal.Open.bind(this.modal));
 		this.$addPointToAllButton.click(this.AddPointToAll.bind(this));
 		this.$idInput.on("paste", this.IdInputPasteEvtHandle.bind(this));

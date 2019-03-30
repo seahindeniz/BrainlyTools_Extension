@@ -24,10 +24,12 @@ export default async function SetBrainlyData() {
 		routing.prefix = routing.b.prefix;
 		routing.routes = routing.d.c;
 	}
+
 	System.data.Brainly.Routing = routing;
 	System.data.Brainly.defaultConfig = defaultConfig;
 
 	Console.info("SetBrainlyData OK!");
+
 	return true;
 }
 

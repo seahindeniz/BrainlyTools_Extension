@@ -13,6 +13,7 @@ function preExecuteScripts() {
 	});
 
 	window.addEventListener("load", () => clearInterval(_loop_removeElement));
+	setTimeout(() => clearInterval(_loop_removeElement), 10000);
 }
 
 export default preExecuteScripts()

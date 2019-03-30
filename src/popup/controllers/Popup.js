@@ -15,12 +15,41 @@ class Popup {
 	constructor() {
 		this.$body = $("body");
 		this.$hero = $("> section.hero", this.$body);
-		this.$container = $("> div.hero-body > div.container", this.$hero);
+		this.$heroBody = $("> div.hero-body", this.$hero);
+		this.$container = $("> div.container", this.$heroBody);
 		this.$footer = $("footer.footer", this.$body);
 		this.storageData = {};
 		this.fetchedUsers = {};
 
-		this.Run_BindEventsForCommonUse();
+		this.GetParametersFromBackground();
+		this.RefreshTimeElements();
+		this.BindEvents();
+
+		setInterval(this.RefreshTimeElements.bind(this), 1000);
+	}
+	async GetParametersFromBackground() {
+		this.parameters = await ext.runtime.sendMessage({ action: "INeedParameters" });
+	}
+	RefreshTimeElements() {
+		$("[data-time]", this.$body).each((i, element) => {
+			let $element = $(element);
+			let time = $($element).data("time");
+			let dateLLL = window.moment(time).format('LLL');
+			let timeAgoLong = window.moment(time).fromNow();
+			let timeAgoShort = window.moment(time).fromNow(true);
+
+			$element.attr("title", `${timeAgoLong}\n${dateLLL}`);
+			$element.text(timeAgoShort);
+		});
+	}
+	BindEvents() {
+		$(".box > .title", this.$container).on("click", function() {
+			$(this).parent().toggleClass("is-active");
+		});
+
+		this.$container.on("click", ".message-header > p", function() {
+			$(this).parents("article").toggleClass("is-active");
+		});
 	}
 	async PrepareDataBeforeRendering() {
 		let marketData = await ext.runtime.sendMessage({ action: "getMarketData" });
@@ -54,28 +83,6 @@ class Popup {
 			this.RenderMainUI();
 		}
 	}
-	Run_BindEventsForCommonUse() {
-		setInterval(() => {
-			$("[data-time]", this.$body).each((i, element) => {
-				let $element = $(element);
-				let time = $($element).data("time");
-				let dateLLL = window.moment(time).format('LLL');
-				let timeAgoLong = window.moment(time).fromNow();
-				let timeAgoShort = window.moment(time).fromNow(true);
-
-				$element.attr("title", `${timeAgoLong}\n${dateLLL}`);
-				$element.text(timeAgoShort);
-			});
-		}, 1000);
-
-		$(".box > .title", this.$container).on("click", function() {
-			$(this).parent().toggleClass("is-active");
-		});
-
-		this.$container.on("click", ".message-header > p", function() {
-			$(this).parents("article").toggleClass("is-active");
-		});
-	}
 	RenderStatusMessage({ type = "light", title = "", message = "" }) {
 		this.$hero.attr("class", `hero is-medium is-bold is-${type}`);
 		this.$container.html(`<h1 class="title">${title}</h1><h2 class="subtitle">${message}</h2>`);
@@ -100,6 +107,9 @@ class Popup {
 		this.PrepareSectionsAndContents();
 		this.RenderSections();
 		this.ShowFooter();
+
+		if ($("html").is("options"))
+			this.$heroBody.css("width", window.outerWidth * .6);
 	}
 	ShowFooter() {
 		this.$footer.removeClass("is-hidden");

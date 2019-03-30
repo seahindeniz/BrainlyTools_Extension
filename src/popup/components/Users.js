@@ -47,8 +47,8 @@ class Users {
 				</div>
 				<div class="message-body">
 					<article class="media">
-						<nav class="level">
-							<div class="level-left"></div>
+						<nav class="level is-block">
+							<div class="level-left is-block"></div>
 						</nav>
 					</article>
 					<article class="media addNew">

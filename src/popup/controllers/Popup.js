@@ -108,7 +108,7 @@ class Popup {
 		this.RenderSections();
 		this.ShowFooter();
 
-		if ($("html").is("options"))
+		if (document.documentElement.attributes.is.textContent == "options")
 			this.$heroBody.css("width", window.outerWidth * .6);
 	}
 	ShowFooter() {

@@ -10,6 +10,7 @@ class UserTag {
 			this.RenderAssignPermission();
 		} else {
 			this.RenderExtensionUser();
+
 			if (this.user.privileges) {
 				this.RenderPrivilegeList();
 				this.RenderPrivileges();

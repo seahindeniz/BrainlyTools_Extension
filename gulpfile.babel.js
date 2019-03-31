@@ -207,6 +207,7 @@ task(
 		let watchAllFilesNeedsToReBuild = watch(
 			[
 				'./src/**/*',
+
 				'!./src/**/*.js',
 				'!./src/config/_/extension.json',
 				'!src/styles/**/*.scss',

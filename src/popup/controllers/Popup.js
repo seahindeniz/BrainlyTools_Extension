@@ -20,15 +20,12 @@ class Popup {
 		this.$footer = $("footer.footer", this.$body);
 		this.storageData = {};
 		this.fetchedUsers = {};
+		this.parameters = {};
 
-		this.GetParametersFromBackground();
 		this.RefreshTimeElements();
 		this.BindEvents();
 
 		setInterval(this.RefreshTimeElements.bind(this), 1000);
-	}
-	async GetParametersFromBackground() {
-		this.parameters = await ext.runtime.sendMessage({ action: "INeedParameters" });
 	}
 	RefreshTimeElements() {
 		$("[data-time]", this.$body).each((i, element) => {
@@ -51,8 +48,8 @@ class Popup {
 			$(this).parents("article").toggleClass("is-active");
 		});
 	}
-	async PrepareDataBeforeRendering() {
-		let marketData = await ext.runtime.sendMessage({ action: "getMarketData" });
+	async PrepareDataBeforeRendering(marketName) {
+		let marketData = await ext.runtime.sendMessage({ action: "getMarketData", marketName });
 
 		if (!marketData) {
 			return this.RenderStatusMessage({
@@ -64,7 +61,7 @@ class Popup {
 
 		System.data = marketData;
 		let storageData = await storage("get", ["user", "themeColor", "quickDeleteButtonsReasons", "extendMessagesBody", "extendMessagesLayout", "notifier", "language"]);
-		//console.log("storageData: ", storageData);
+
 		if (!(storageData && storageData.user && storageData.user.user && storageData.user.user.id && storageData.user.user.id == storageData.user.user.id)) {
 			this.RenderStatusMessage({
 				type: "danger",
@@ -80,12 +77,23 @@ class Popup {
 		} else {
 			this.storageData = storageData;
 
+			this.GetParametersFromBackground();
 			this.RenderMainUI();
 		}
 	}
 	RenderStatusMessage({ type = "light", title = "", message = "" }) {
 		this.$hero.attr("class", `hero is-medium is-bold is-${type}`);
 		this.$container.html(`<h1 class="title">${title}</h1><h2 class="subtitle">${message}</h2>`);
+	}
+	async GetParametersFromBackground() {
+		let parameters = await System.toBackground("INeedParameters");
+
+		if (parameters) {
+			this.parameters = {
+				...this.parameters,
+				...parameters
+			}
+		}
 	}
 	RenderMainUI() {
 		let avatar = System.prepareAvatar(System.data.Brainly.userData.user);

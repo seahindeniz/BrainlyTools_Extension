@@ -38,7 +38,7 @@ ext.notifications.onButtonClicked.addListener(async (notificationId, i) => {
 	let notification = findNotification(notificationId);
 	console.log("notification:", notification);
 
-	if (notification.buttons && notification.buttons[i] && notification.buttons_evt[i] && (notification.buttons_evt[i].fullPath || notification.buttons_evt[i].origin)) {
+	if (notification && notification.buttons && notification.buttons[i] && notification.buttons_evt[i] && (notification.buttons_evt[i].fullPath || notification.buttons_evt[i].origin)) {
 		let evt = notification.buttons_evt[i];
 
 		if (evt.fullPath) {
@@ -130,60 +130,67 @@ ext.notifications.onButtonClicked.addListener(async (notificationId, i) => {
 	}
 });
 const createNotify = async (opt, options) => {
-	console.log(options);
-	let notificationId = await ext.notifications.create(options);
-	let createdNotificationOwner = createdNotifications[opt.id];
+	try {
+		console.log("createNotifyoptions:", options);
+		console.log(chrome.notifications.create(options));
+		console.log(ext.notifications.create(options));
+		let notificationId = await ext.notifications.create(options);
+		console.log("notificationId:", notificationId);
+		let createdNotificationOwner = createdNotifications[opt.id];
 
-	/**
-	 * Refactor data for storing in the createdNotifications
-	 */
-	let notificationData = {
-		nick: opt.nick,
-		time: opt.time,
-		title: opt.title,
-		message: opt.message
-	}
-	let notification = {
-		notificationId,
-		iconUrl: opt.iconUrl,
-		data: [notificationData]
-	}
-
-	if (opt.buttons) {
-		notification.buttons = opt.buttons
-	}
-
-	if (opt.buttons_evt) {
-		notification.buttons_evt = opt.buttons_evt
-	}
-
-	if (!createdNotificationOwner) {
-		createdNotifications[opt.id] = {
-			[opt.type]: notification
-		};
-	} else {
-		let createdNotificationType = createdNotificationOwner[opt.type];
-
-		if (!createdNotificationType) {
-			createdNotificationOwner[opt.type] = notification;
-		} else {
-			createdNotificationType.notificationId = notificationId;
-
-			if (createdNotificationType.data.length > 5) {
-				//let temp = [...createdNotificationType.data].reverse();
-				let temp = createdNotificationType.data.slice().reverse();
-				createdNotificationType.data = [];
-
-				for (let i = 0; i < 3; i++) {
-					let data = temp[i];
-					createdNotificationType.data.unshift(data);
-				}
-			}
-
-			createdNotificationType.data.push(notificationData);
+		/**
+		 * Refactor data for storing in the createdNotifications
+		 */
+		let notificationData = {
+			nick: opt.nick,
+			time: opt.time,
+			title: opt.title,
+			message: opt.message
 		}
+		let notification = {
+			notificationId,
+			iconUrl: opt.iconUrl,
+			data: [notificationData]
+		}
+
+		if (opt.buttons) {
+			notification.buttons = opt.buttons
+		}
+
+		if (opt.buttons_evt) {
+			notification.buttons_evt = opt.buttons_evt
+		}
+
+		if (!createdNotificationOwner) {
+			createdNotifications[opt.id] = {
+				[opt.type]: notification
+			};
+		} else {
+			let createdNotificationType = createdNotificationOwner[opt.type];
+
+			if (!createdNotificationType) {
+				createdNotificationOwner[opt.type] = notification;
+			} else {
+				createdNotificationType.notificationId = notificationId;
+
+				if (createdNotificationType.data.length > 5) {
+					//let temp = [...createdNotificationType.data].reverse();
+					let temp = createdNotificationType.data.slice().reverse();
+					createdNotificationType.data = [];
+
+					for (let i = 0; i < 3; i++) {
+						let data = temp[i];
+						createdNotificationType.data.unshift(data);
+					}
+				}
+
+				createdNotificationType.data.push(notificationData);
+			}
+		}
+		console.log(createdNotifications);
+	} catch (error) {
+		console.error(error);
 	}
-	console.log(createdNotifications);
 }
 let previousNotifications = opt => {
 	let notificationsList = [];
@@ -261,7 +268,7 @@ export default async (opt) => {
 			url: (opt.buttons_evt[0].fullPath || opt.buttons_evt[0].origin + opt.buttons_evt[0].path),
 			active: true
 		});
-		console.log(tabs);
+		console.log("tabs:", tabs);
 		if (!tabs || tabs.length == 0) {
 			createNotify(opt, options);
 		} else {

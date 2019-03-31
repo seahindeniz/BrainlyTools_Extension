@@ -2,7 +2,7 @@
 
 import cookie from "js-cookie";
 import extensionConfig from "../../config/_/extension.json";
-import "../helpers/ArrayLast";
+import ArrayLast from "../helpers/ArrayLast";
 import storage from "../helpers/extStorage";
 import InjectToDOM from "../helpers/InjectToDOM";
 import ext from "../utils/ext";
@@ -66,7 +66,7 @@ class _System {
 			Brainly: {
 				apiURL: ((window.System && System.data.meta.location.origin) || document.location.origin) + "/api/28",
 				get nullAvatar() {
-					return `https://${System.data.meta.marketName}/img/avatars/100-ON.png`;
+					return `/img/avatars/100-ON.png`;
 				},
 				tokenLong: cookie.get("Zadanepl_cookie[Token][Long]"),
 				Routing: {
@@ -93,7 +93,7 @@ class _System {
 	Delay(milliseconds = System.randomNumber(1000, 4000)) {
 		return new Promise(resolve => setTimeout(() => resolve(milliseconds), milliseconds));
 	}
-	TestDelay(){
+	TestDelay() {
 		return this.Delay(System.randomNumber(100, 500))
 	}
 	randomNumber(min, max) {
@@ -141,10 +141,15 @@ class _System {
 	toBackground(action, data) {
 		let messageData = {
 			action,
+			marketName: System.data.meta.marketName,
 			data
 		};
 
-		return ext.runtime.sendMessage(System.data.meta.extension.id, messageData);
+		if (System.data.meta.extension && System.data.meta.extension.id) {
+			return ext.runtime.sendMessage(System.data.meta.extension.id, messageData);
+		} else {
+			return ext.runtime.sendMessage(messageData);
+		}
 	}
 	ShareSystemDataToBackground() {
 		return new Promise(async (resolve, reject) => {
@@ -183,7 +188,7 @@ class _System {
 		}
 
 		if (!this.profileLinkRoute)
-			this.profileLinkRoute = (System.data.Brainly.Routing.routes[System.data.Brainly.Routing.prefix + "user_profile"]).tokens.last().last();
+			this.profileLinkRoute = ArrayLast(ArrayLast(System.data.Brainly.Routing.routes[System.data.Brainly.Routing.prefix + "user_profile"].tokens));
 
 		if (!noOrigin) {
 			origin = System.data.meta.location.origin;
@@ -194,7 +199,7 @@ class _System {
 		} else
 			return "";
 	}
-	prepareAvatar(user, { returnIcon } = {}) {
+	prepareAvatar(user, { returnIcon, noOrigin, replaceOrigin } = {}) {
 		let avatar = "";
 
 		if (user) {
@@ -209,16 +214,25 @@ class _System {
 			}
 		}
 
+		console.log(replaceOrigin);
 		if (avatar && returnIcon) {
 			avatar = `<img class="sg-avatar__image sg-avatar__image--icon" src="${avatar}">`;
 		} else if (!avatar) {
-			avatar = returnIcon ?
+			if (returnIcon)
+				avatar =
 				`<div class="sg-icon sg-icon--gray-secondary sg-icon--x32">
 					<svg class="sg-icon__svg">
 						<use xlink:href="#icon-profile"></use>
 					</svg>
-				</div>` :
-				System.data.Brainly.nullAvatar
+				</div>`
+			else {
+				if (replaceOrigin)
+					avatar = `https://${replaceOrigin}`;
+				else if (!noOrigin)
+					avatar = `https://${System.data.meta.marketName}`;
+
+				avatar += System.data.Brainly.nullAvatar
+			}
 		}
 
 		return avatar;
@@ -228,7 +242,7 @@ class _System {
 
 		if (type === "profile") {
 			if (!this.routeMasks.profile)
-				this.routeMasks.profile = (System.data.Brainly.Routing.routes[System.data.Brainly.Routing.prefix + "user_profile"]).tokens.last().last();
+				this.routeMasks.profile = ArrayLast(ArrayLast(System.data.Brainly.Routing.routes[System.data.Brainly.Routing.prefix + "user_profile"].tokens));
 
 			if (this.routeMasks.profile) {
 				/* console.log(System.data.meta.location.origin);
@@ -241,7 +255,7 @@ class _System {
 		}
 		if (type === "task") {
 			if (!this.routeMasks.task) {
-				this.routeMasks.task = (System.data.Brainly.Routing.routes[System.data.Brainly.Routing.prefix + "task_view"]).tokens.last().last();
+				this.routeMasks.task = ArrayLast(ArrayLast(System.data.Brainly.Routing.routes[System.data.Brainly.Routing.prefix + "task_view"].tokens));
 			}
 
 			if (this.routeMasks.task)

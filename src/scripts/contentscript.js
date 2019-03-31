@@ -84,7 +84,7 @@ function MessageHandler(request) {
 ext.runtime.onMessage.addListener(MessageHandler);
 
 window.addEventListener('contentscript>Share System.data to background.js:DONE', () => {
-	ext.runtime.sendMessage({ action: "popup>Get System.data from background" });
+	System.toBackground("popup>Get System.data from background")
 });
 
 window.addEventListener('metaGet', e => {

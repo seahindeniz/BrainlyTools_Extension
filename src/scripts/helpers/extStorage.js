@@ -1,4 +1,4 @@
-import ext from "../utils/ext";
+//import ext from "../utils/ext";
 
 /**
  *
@@ -11,7 +11,7 @@ export default function storage(method, data) {
 	let action = "storage";
 	let messageData = {
 		marketKey,
-		action,
+		//action,
 		method,
 		data
 	}
@@ -21,8 +21,9 @@ export default function storage(method, data) {
 		messageData.local = true;
 	}
 
-	if (ext.storage)
+	return System.toBackground(action, messageData);
+	/* if (ext.storage)
 		return ext.runtime.sendMessage(messageData);
 	else
-		return ext.runtime.sendMessage(System.data.meta.extension.id, messageData);
+		return ext.runtime.sendMessage(System.data.meta.extension.id, messageData); */
 }

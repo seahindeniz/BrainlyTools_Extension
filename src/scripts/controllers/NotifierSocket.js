@@ -11,14 +11,14 @@ let notifyHandlers = {
 			type: "message",
 			id: sender.id,
 			nick: sender.nick,
-			title: this.market.data.locale.common.notificationMessages.xSendYouANewMessage.replace("%{userName}", ` ${sender.nick} `),
+			title: this.market.locale.common.notificationMessages.xSendYouANewMessage.replace("%{userName}", ` ${sender.nick} `),
 			message: arg.data.content,
-			iconUrl: System.prepareAvatar(sender),
+			iconUrl: System.prepareAvatar(sender, {replaceOrigin: this.market.meta.marketName}),
 			buttons: [{
-				title: this.market.data.locale.common.show
+				title: this.market.locale.common.show
 			}],
 			buttons_evt: [{
-				origin: this.market.data.meta.location.origin + "/messages",
+				origin: this.market.meta.location.origin + "/messages",
 				path: "/" + arg.data.conversation_id
 			}]
 		};
@@ -29,18 +29,18 @@ let notifyHandlers = {
 	"notify.receive": function(arg) {
 		let notificationData = {
 			type: "notify",
-			id: this.market.data.Brainly.userData.user.id,
-			title: this.market.data.locale.common.notificationMessages.newNotification,
+			id: this.market.Brainly.userData.user.id,
+			title: this.market.locale.common.notificationMessages.newNotification,
 			message: arg.message.replace(/<span="quote">(.*)<\/span>/gim, "\n$1\n").replace(/<.*?>(.*?)<\/.*?>/gim, "$1"),
-			iconUrl: System.prepareAvatar(arg.person)
+			iconUrl: System.prepareAvatar(arg.person, {replaceOrigin: this.market.meta.marketName})
 		};
 		if (arg.url != "javascript:void(0)") {
 
 			notificationData.buttons = [{
-				title: this.market.data.locale.common.show
+				title: this.market.locale.common.show
 			}];
 			notificationData.buttons_evt = [{
-				fullPath: this.market.data.meta.location.origin + arg.url
+				fullPath: this.market.meta.location.origin + arg.url
 			}];
 		}
 
@@ -49,13 +49,12 @@ let notifyHandlers = {
 }
 
 class NotifierSocket {
-	constructor(authHash, config) {
-		this.authHash = authHash;
-		this.config = config;
+	constructor(market) {
+		this.authHash = market.Brainly.defaultConfig.comet.AUTH_HASH || market.Brainly.defaultConfig.user.ME.auth.comet.authHash;
+		this.config = market.Brainly.defaultConfig.config.data.config;
 		this.ws = null;
-		this.market = {
-			data: System.data
-		}
+		this.market = market;
+		console.log("NotifierSocket:", this.market);
 
 		this.openSocket();
 	}
@@ -103,8 +102,8 @@ class NotifierSocket {
 	}
 	messageHandlers(i, data) {
 		if (i == 1) {
-			let authHash = this.market.data.Brainly.defaultConfig.comet.AUTH_HASH || this.market.data.Brainly.defaultConfig.user.ME.auth.comet.authHash;
-			let user = this.market.data.Brainly.userData.user;
+			let authHash = this.market.Brainly.defaultConfig.comet.AUTH_HASH || this.market.Brainly.defaultConfig.user.ME.auth.comet.authHash;
+			let user = this.market.Brainly.userData.user;
 
 			return {
 				name: "auth",
@@ -168,4 +167,4 @@ const BrainlyNotificationSocket = isActive => {
 	}
 };
 
-export default BrainlyNotificationSocket;
+export default NotifierSocket;

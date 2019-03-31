@@ -3,8 +3,7 @@
 import ext from "./utils/ext";
 import _System from "./controllers/System";
 import storage from "./utils/storage";
-import marketKeyFn from "./helpers/marketKey";
-import BrainlyNotificationSocket from "./controllers/BrainlyNotificationSocket";
+import NotifierSocket from "./controllers/NotifierSocket";
 
 const BROWSER_ACTION = ext.browserAction;
 const RED_BADGE_COLOR = [255, 121, 107, 255];
@@ -12,6 +11,8 @@ const __c = `font-size: 14px;color: #57b2f8;font-family:century gothic;`;
 
 class Background {
 	constructor() {
+		this.markets = {};
+		this.activeSessions = {};
 		this.popupOpened = null;
 		this.optionsPassedParameters = {};
 		this.blockedDomains = /mc.yandex.ru|hotjar.com|google(-analytics|tagmanager|adservices|tagservices).com|kissmetrics.com|doubleclick.net|ravenjs.com/i;
@@ -39,109 +40,111 @@ class Background {
 		ext.webRequest.onBeforeRequest.addListener(({ url }) => ({ cancel: this.blockedDomains.test(url) }), { urls: ["<all_urls>"] }, ["blocking"]);
 	}
 	async MessageRequestHandler(request, sender) {
-		if (request.action == "storage") {
-			return storage[request.method]({
-				...request
-			});
-		}
-		if (request.action === "setMarketData") {
-			try {
-				System.data = request.data;
+		//console.log("bg:", request);
+		if (request.marketName) {
+			let market = this.markets[request.marketName];
+
+			if (request.action === "setMarketData") {
+				try {
+					this.InitMarket(request.data);
+
+					return true;
+				} catch (error) {
+					return error;
+				}
+			}
+			if (request.action === "getMarketData") {
+				return Promise.resolve(market);
+			}
+			if (request.action == "storage") {
+				return storage[request.data.method]({ ...request.data });
+			}
+			if (request.action === "enableExtensionIcon") {
+				BROWSER_ACTION.enable(sender.tab.id);
 
 				return true;
-			} catch (error) {
-				return error;
 			}
-		}
-		if (request.action === "getMarketData") {
-			//await System.Delay(500);
+			if (request.action === "changeBadgeColor") {
+				let color = [0, 0, 0, 0];
 
-			return new Promise(resolve => { resolve(System.data) });
-		}
-		if (request.action === "enableExtensionIcon") {
-			BROWSER_ACTION.enable(sender.tab.id);
+				if (request.data === "loading") {
+					color = [254, 200, 60, 255]
+				}
 
-			return true;
-		}
-		if (request.action === "changeBadgeColor") {
-			let color = [0, 0, 0, 0];
+				if (request.data === "loaded") {
+					color = [83, 207, 146, 255];
 
-			if (request.data === "loading") {
-				color = [254, 200, 60, 255]
-			}
+					BROWSER_ACTION.enable();
+				}
 
-			if (request.data === "loaded") {
-				color = [83, 207, 146, 255];
-
-				BROWSER_ACTION.enable();
-			}
-
-			this.UpdateBadge({
-				id: sender.tab.id,
-				text: " ",
-				color
-			});
-
-			return true;
-		}
-		if (request.action === "xmlHttpRequest") {
-			let ajaxData = {
-				type: request.method,
-				method: request.method,
-				url: System.data.config.extension.serverAPIURL + request.path,
-				headers: request.headers
-			};
-
-			if (request.data) {
-				ajaxData.data = request.data;
-				ajaxData.dataType = "json";
-				ajaxData.contentType = "application/json; charset=utf-8";
-			}
-
-			return $.ajax(ajaxData);
-		}
-		if (request.action === "updateExtension") {
-			return this.CheckUpdate();
-		}
-		if (request.action === "openCaptchaPopup") {
-			if (!this.popupOpened) {
-				this.CreateWindow({
-					url: request.data,
-					type: "popup",
-					width: 500,
-					height: 388
+				this.UpdateBadge({
+					id: sender.tab.id,
+					text: " ",
+					color
 				});
 
 				return true;
 			}
-		}
-		if (request.action === "notifierInit") {
-			let isActive = await storage.get({
-				marketKey: marketKeyFn(),
-				data: "notifier"
-			});
+			if (request.action === "xmlHttpRequest") {
+				let ajaxData = {
+					type: request.data.method,
+					method: request.data.method,
+					url: market.config.extension.serverAPIURL + request.data.path,
+					headers: request.data.headers
+				};
 
-			BrainlyNotificationSocket(isActive);
-		}
-		if (request.action === "notifierChangeState") {
-			BrainlyNotificationSocket(request.data);
-		}
-		if (request.action === "background>Inject content script anyway") {
-			this.InjectContentScript(request.data, true);
+				if (request.data.data) {
+					ajaxData.data = request.data.data;
+					ajaxData.dataType = "json";
+					ajaxData.contentType = "application/json; charset=utf-8";
+				}
 
-			return Promise.resolve(true);
-		}
-		if (request.action === "OpenExtensionOptions") {
-			ext.runtime.openOptionsPage();
+				return $.ajax(ajaxData);
+			}
+			if (request.action === "updateExtension") {
+				return this.CheckUpdate();
+			}
+			if (request.action === "openCaptchaPopup") {
+				if (!this.popupOpened) {
+					this.CreateWindow({
+						url: request.data,
+						type: "popup",
+						width: 500,
+						height: 388
+					});
 
-			this.optionsPassedParameters = {
-				...this.optionsPassedParameters,
-				...request.data
+					return true;
+				}
+			}
+			if (request.action === "notifierInit") {
+				this.BrainlyNotificationSocket(market, request.data);
+			}
+			if (request.action === "notifierChangeState") {
+				this.BrainlyNotificationSocket(request.data);
+			}
+			if (request.action === "background>Inject content script anyway") {
+				this.InjectContentScript(request.data, true);
+
+				return Promise.resolve(true);
+			}
+			if (request.action === "OpenExtensionOptions") {
+
+				ext.runtime.openOptionsPage();
+
+				this.optionsPassedParameters[request.marketName] = {
+					...this.optionsPassedParameters[request.marketName],
+					...request.data
+				};
+			}
+			if (request.action === "INeedParameters") {
+				return Promise.resolve(this.optionsPassedParameters[request.marketName]);
 			}
 		}
-		if (request.action === "INeedParameters") {
-			return Promise.resolve(this.optionsPassedParameters);
-		}
+	}
+	InitMarket(data) {
+		let name = data.meta.marketName;
+
+		this.markets[name] = data;
 	}
 	UpdateBadge(options) {
 		BROWSER_ACTION.setBadgeText({
@@ -246,6 +249,18 @@ class Background {
 				resolve()
 			}
 		});
+	}
+	BrainlyNotificationSocket(market, isActive) {
+		if (false)
+			if (isActive === null || isActive) {
+				let activeSession = this.activeSessions[market.meta.marketName];
+				let config = market.Brainly.defaultConfig;
+				let authHash = config.comet.AUTH_HASH || config.user.ME.auth.comet.authHash;
+
+				if (!activeSession || activeSession.authHash != authHash) {
+					this.activeSessions[market.meta.marketName] = new NotifierSocket(market);
+				}
+			}
 	}
 }
 

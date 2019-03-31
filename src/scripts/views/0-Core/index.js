@@ -60,7 +60,7 @@ class Core {
 		await Auth();
 		await this.CheckForNewUpdate();
 
-		System.toBackground("notifierInit", true);
+		this.InitNotifier();
 
 		await WaitForObject("jQuery");
 		Console.info("Jquery OK!");
@@ -108,6 +108,11 @@ class Core {
 				resolve();
 			}
 		});
+	}
+	async InitNotifier() {
+		let notifier = await storage("get", "notifier");
+
+		System.toBackground("notifierInit", notifier);
 	}
 	async RenderEventCelebrating() {
 		/*let _date = new Date();

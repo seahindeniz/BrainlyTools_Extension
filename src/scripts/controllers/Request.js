@@ -193,7 +193,6 @@ const Request = {
 		}
 
 		let messageData = {
-			action: "xmlHttpRequest",
 			method,
 			path,
 			data,
@@ -205,7 +204,7 @@ const Request = {
 			};
 		}
 
-		return ext.runtime.sendMessage(System.data.meta.extension.id, messageData);
+		return System.toBackground("xmlHttpRequest", messageData);
 	},
 	ExtensionServerAjax2(method, path, data) {
 		var deferred = $.Deferred();

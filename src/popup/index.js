@@ -54,7 +54,7 @@ async function onBodyLoad() {
 			try {
 				await ext.tabs.sendMessage(tab.id, message);
 			} catch (error) {
-				await ext.runtime.sendMessage({ action: "background>Inject content script anyway", data: tab.id });
+				await System.toBackground("background>Inject content script anyway", tab.id)
 				ext.tabs.sendMessage(tab.id, message);
 			}
 		}
@@ -62,7 +62,7 @@ async function onBodyLoad() {
 
 	chrome.runtime.onMessage.addListener(function(request) {
 		if (request.action == "popup>Get System.data from background") {
-			popup.PrepareDataBeforeRendering();
+			popup.PrepareDataBeforeRendering(request.marketName);
 		}
 	});
 

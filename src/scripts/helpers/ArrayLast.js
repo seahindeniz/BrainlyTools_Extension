@@ -1,5 +1,5 @@
-function ArrayLast() {
-	Array.prototype.last = function() { return this[this.length - 1]; }
+function ArrayLast(arr) {
+	return arr[arr.length - 1];
 }
 
-export default ArrayLast()
+export default ArrayLast

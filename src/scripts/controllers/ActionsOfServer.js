@@ -6,9 +6,9 @@ import storage from "../helpers/extStorage";
 function userAuth(reLogin = false) {
 	return new Promise(async (resolve, reject) => {
 		let data = {
-			clientID: System.data.meta.manifest.clientID,
+			//clientID: System.data.meta.manifest.clientID,
 			clientVersion: System.data.meta.manifest.version,
-			isoLocale: System.data.Brainly.userData.user.iso_locale,
+			//isoLocale: System.data.Brainly.userData.user.iso_locale,
 			marketName: System.data.meta.marketName,
 			crypted: md5(System.data.Brainly.tokenLong),
 			user: {
@@ -22,12 +22,14 @@ function userAuth(reLogin = false) {
 		let resAuth = await Request.ExtensionServer("POST", "/auth", data);
 
 		if (!resAuth) {
+			System.changeBadgeColor("error");
 			notification(System.data.locale.core.notificationMessages.extensionServerError + "<br>" + System.data.locale.core.notificationMessages.ifErrorPersists, "error", true);
 			reject();
 		} else if (!resAuth.data.probatus) {
+			System.changeBadgeColor("error");
 			notification(System.data.locale.core.notificationMessages.accessPermissionDenied, "error", true);
 			reLogin && location.reload(true);
-			reject();
+			reject(System.data.locale.core.notificationMessages.accessPermissionDenied.replace(/<br.*?>/gi, "\n"));
 		} else {
 			resAuth.data.hash = JSON.parse(atob(resAuth.data.hash));
 
@@ -43,11 +45,12 @@ export function Auth() {
 
 			if (!authData || !authData.hash) {
 				authData = await userAuth();
-			} else {
-				userAuth(true).then(System.SetUserData);
-			}
 
-			System.SetUserData(authData);
+				System.SetUserData(authData);
+			} else {
+				System.SetUserDataToSystem(authData);
+				userAuth(true).then(System.SetUserData.bind(System))
+			}
 
 			Console.info("Auth OK!");
 			resolve();
@@ -61,8 +64,8 @@ export function GetDeleteReasons() {
 	return Request.ExtensionServer("GET", `/deleteReasons/${System.data.meta.marketName}`);
 }
 
-export function PassUser(id, nick) {
-	let promise = Request.ExtensionServer("PUT", "/user", { id, nick });
+export function GetUser(id, nick) {
+	let promise = Request.ExtensionServer("GET", `/user/${id}/${nick}`);
 
 	promise.catch(() => {
 		notification(System.data.locale.common.notificationMessages.cannotShareUserInfoWithServer, "error");

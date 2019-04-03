@@ -77,6 +77,10 @@ class Background {
 					BROWSER_ACTION.enable();
 				}
 
+				if (request.data === "error") {
+					color = RED_BADGE_COLOR;
+				}
+
 				this.UpdateBadge({
 					id: sender.tab.id,
 					text: " ",

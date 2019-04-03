@@ -139,9 +139,14 @@ class Background {
 					...this.optionsPassedParameters[request.marketName],
 					...request.data
 				};
+
+				return Promise.resolve(true);
 			}
 			if (request.action === "INeedParameters") {
-				return Promise.resolve(this.optionsPassedParameters[request.marketName]);
+				let promise = Promise.resolve(this.optionsPassedParameters[request.marketName]);
+				this.optionsPassedParameters[request.marketName] = {};
+
+				return promise;
 			}
 		}
 	}

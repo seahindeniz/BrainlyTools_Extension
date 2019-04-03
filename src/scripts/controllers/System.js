@@ -214,7 +214,6 @@ class _System {
 			}
 		}
 
-		console.log(replaceOrigin);
 		if (avatar && returnIcon) {
 			avatar = `<img class="sg-avatar__image sg-avatar__image--icon" src="${avatar}">`;
 		} else if (!avatar) {
@@ -409,6 +408,9 @@ class _System {
 	SetUserData(data) {
 		storage("setL", { authData: data });
 
+		this.SetUserDataToSystem(data);
+	}
+	SetUserDataToSystem(data) {
 		System.data.Brainly.userData.extension = data;
 		System.data.Brainly.userData._hash = data.hash;
 	}

@@ -53,33 +53,38 @@ class QuickDeleteButtonsOptions {
 	}
 	RenderDropdowns(reasonTypeKey, $fieldContent) {
 		let selectedReasons = this.GetSelectedReasons(reasonTypeKey);
+		let defaultReasons = System.data.config.marketConfig.quickDeleteButtonsDefaultReasons[reasonTypeKey];
 
 		if (
 			selectedReasons &&
 			selectedReasons.length > 0 &&
 			isPosInt(selectedReasons[0])
 		) {
-			selectedReasons.forEach(selectedReason => {
+			defaultReasons.forEach((defaultReason, i) => {
+				let selectedReason = selectedReasons[i] || defaultReason;
 				let $dropdownContainer = $(`
-			<div class="control title is-6 has-text-centered">
-				<div class="select">
-					<select>
-						<option disabled>Select a reason</option>
-					</select>
-				</div>
-			</div>`);
+				<div class="control title is-6 has-text-centered">
+					<div class="select">
+						<select>
+							<option disabled>Select a reason</option>
+						</select>
+					</div>
+				</div>`);
 
 				let $dropdown = $("> div.select > select", $dropdownContainer);
 
 				this.RenderDropdownItems(reasonTypeKey, selectedReason, $dropdown);
 
 				$fieldContent.append($dropdownContainer);
-				$dropdown.on("change", this.DropdownChangeHandler);
+				$dropdown.on("change", this.DropdownChangeHandler.bind(this));
 			});
 		}
 	}
 	GetSelectedReasons(reasonTypeKey) {
-		let selectedReasons = this.quickDeleteButtonsReasons[reasonTypeKey];
+		let selectedReasons;
+
+		if (this.quickDeleteButtonsReasons)
+			selectedReasons = this.quickDeleteButtonsReasons[reasonTypeKey];
 
 		if (!selectedReasons) {
 			selectedReasons = System.data.config.quickDeleteButtonsReasons[reasonTypeKey];

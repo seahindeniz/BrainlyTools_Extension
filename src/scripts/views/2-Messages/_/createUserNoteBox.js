@@ -1,19 +1,19 @@
 import UserNoteBox from "../../../components/UserNoteBox";
 import UserTag from "../../../components/UserTag";
 import { GetUserByID } from "../../../controllers/ActionsOfBrainly";
-import { PassUser } from "../../../controllers/ActionsOfServer";
+import { GetUser } from "../../../controllers/ActionsOfServer";
 import WaitForElement from "../../../helpers/WaitForElement";
 import WaitForObject from "../../../helpers/WaitForObject";
 
 async function profileLinkContainerFound(targetElm) {
 	if (targetElm) {
 		if ($(".userNoteBox", targetElm).length == 0) {
-			let link = $(selectors.profileLink, targetElm);
-			let id = link.attr('href').match(/\-(\d{1,})/)[1];
-			let u_name = link.attr('title');
+			let $link = $(selectors.profileLink, targetElm);
 
-			if (link.length > 0) {
-				let resExtUser = await PassUser(id, u_name);
+			if ($link.length > 0) {
+				let id = System.ExtractId($link.attr('href'));
+				let nick = $link.attr('title');
+				let resExtUser = await GetUser(id, nick);
 
 				if (resExtUser && resExtUser.success && resExtUser.data) {
 					let $notebox = UserNoteBox(resExtUser.data);

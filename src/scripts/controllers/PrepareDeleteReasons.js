@@ -79,7 +79,7 @@ async function PrepareDeleteButtonSettings() {
 
 		if (!quickDeleteButtonsReasons) {
 			quickDeleteButtonsReasons = System.data.config.marketConfig.quickDeleteButtonsDefaultReasons;
-			await storage("set", { quickDeleteButtonsReasons });
+			//await storage("set", { quickDeleteButtonsReasons });
 		}
 
 		System.data.config.quickDeleteButtonsReasons = quickDeleteButtonsReasons;

@@ -11,7 +11,7 @@ import WaitForObject from "./helpers/WaitForObject";
 let manifest = ext.runtime.getManifest();
 manifest.URL = ext.extension.getURL("");
 manifest.id = ext.runtime.id;
-manifest.clientID = Math.random().toString(36).slice(2);
+//manifest.clientID = Math.random().toString(36).slice(2);
 
 let System = new _System();
 System.data.meta.marketName = location.hostname;

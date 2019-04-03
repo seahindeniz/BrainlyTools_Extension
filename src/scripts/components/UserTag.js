@@ -7,7 +7,8 @@ class UserTag {
 		this.Render();
 
 		if (!this.user.probatus) {
-			this.RenderAssignPermission();
+			if (System.checkUserP(5))
+				this.RenderAssignPermission();
 		} else {
 			this.RenderExtensionUser();
 

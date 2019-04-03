@@ -169,36 +169,6 @@ class _System {
 	changeBadgeColor(status) {
 		this.toBackground("changeBadgeColor", status)
 	}
-	/**
-	 * @param {string} nick
-	 * @param {number|string} id
-	 * @param {boolean} noOrigin
-	 */
-	createProfileLink(nick, id, noOrigin) {
-		let origin = "";
-
-		if (typeof nick == "object") {
-			id = nick.id;
-			nick = nick.nick;
-		}
-
-		if (!nick && !id) {
-			nick = System.data.Brainly.userData.user.nick
-			id = System.data.Brainly.userData.user.id
-		}
-
-		if (!this.profileLinkRoute)
-			this.profileLinkRoute = ArrayLast(ArrayLast(System.data.Brainly.Routing.routes[System.data.Brainly.Routing.prefix + "user_profile"].tokens));
-
-		if (!noOrigin) {
-			origin = System.data.meta.location.origin;
-		}
-
-		if (this.profileLinkRoute) {
-			return origin + this.profileLinkRoute + "/" + nick + "-" + id;
-		} else
-			return "";
-	}
 	prepareAvatar(user, { returnIcon, noOrigin, replaceOrigin } = {}) {
 		let avatar = "";
 
@@ -235,6 +205,36 @@ class _System {
 		}
 
 		return avatar;
+	}
+	/**
+	 * @param {string} nick
+	 * @param {number|string} id
+	 * @param {boolean} noOrigin
+	 */
+	createProfileLink(nick, id, noOrigin) {
+		let origin = "";
+
+		if (Object.prototype.toString.call(nick) == "[object Object]") {
+			id = nick.id;
+			nick = nick.nick;
+		}
+
+		if (!nick && !id) {
+			nick = System.data.Brainly.userData.user.nick
+			id = System.data.Brainly.userData.user.id
+		}
+
+		if (!this.profileLinkRoute)
+			this.profileLinkRoute = ArrayLast(ArrayLast(System.data.Brainly.Routing.routes[System.data.Brainly.Routing.prefix + "user_profile"].tokens));
+
+		if (!noOrigin) {
+			origin = System.data.meta.location.origin;
+		}
+
+		if (this.profileLinkRoute) {
+			return origin + this.profileLinkRoute + "/" + nick + "-" + id;
+		} else
+			return "";
 	}
 	createBrainlyLink(type, data) {
 		let _return = "";

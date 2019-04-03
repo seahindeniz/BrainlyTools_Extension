@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.21.1] - 2019.04.03
+
+### Changed
+
+- [FIX#44] "Assign Extension Privileges" Option Visibility
+
+[FIX#44]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/44
+
 ## [6.21.0] - 2019.04.03
 
 ### Added

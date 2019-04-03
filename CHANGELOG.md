@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.21.0] - 2019.04.03
+
+### Added
+
+- Extension is available on Brainly.ph
+
 ## [6.20.0] - 2019.03.30
 
 ### Added

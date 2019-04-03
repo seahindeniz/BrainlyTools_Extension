@@ -115,13 +115,10 @@ class Popup {
 		this.PrepareSectionsAndContents();
 		this.RenderSections();
 		this.ShowFooter();
+		this.ResizePanel();
 
 		if (document.documentElement.attributes.is.textContent == "options")
 			this.$heroBody.css("width", window.outerWidth * .6);
-	}
-	ShowFooter() {
-		this.$footer.removeClass("is-hidden");
-		this.RenderFooterInformation();
 	}
 	RenderFooterInformation() {
 		this.$footer.html(`<p class="title is-7 has-text-centered"><a href="https://chrome.google.com/webstore/detail/${System.data.meta.extension.id}" class="has-text-grey" target="_blank">${System.data.meta.manifest.short_name} v${System.data.meta.manifest.version}</a></p>`);
@@ -212,6 +209,25 @@ class Popup {
 			return users.$layout;
 		}
 	}
+	GetStoredUser(brainlyID) {
+		return new Promise(async (resolve, reject) => {
+			let user = this.fetchedUsers[brainlyID];
+
+			if (!user || user && !user.brainlyData) {
+				let resUser = await GetUserByID2(brainlyID);
+
+				if (!resUser || !resUser.success) {
+					let message = `${brainlyID} > ${(resUser.message || "error")}`;
+
+					return reject(message);
+				}
+
+				user = this.ReserveAUser(brainlyID, { brainlyData: resUser.data });
+			}
+
+			resolve(user);
+		});
+	}
 	ReserveAUser(brainlyID, data) {
 		if (!this.fetchedUsers[brainlyID]) {
 			data = data || {};
@@ -222,6 +238,21 @@ class Popup {
 		this.fetchedUsers[brainlyID] = data;
 
 		return this.fetchedUsers[brainlyID];
+	}
+	ShowFooter() {
+		this.$footer.removeClass("is-hidden");
+		this.RenderFooterInformation();
+	}
+	async ResizePanel() {
+		if ($("html").attr("is") == "popup") {
+			//let info = await ext.windows.getCurrent();
+			let activeTab = await ext.tabs.query({ active: true, currentWindow: true });
+
+			if (activeTab && activeTab.length > 0) {
+				let info = activeTab[0];
+				document.body.style.height = `${info.height - 10}px`;
+			}
+		}
 	}
 	refreshUsersInformations() {
 		Object.keys(this.fetchedUsers).forEach(async brainlyID => {
@@ -241,25 +272,6 @@ class Popup {
 					}
 				});
 			}
-		});
-	}
-	GetStoredUser(brainlyID) {
-		return new Promise(async (resolve, reject) => {
-			let user = this.fetchedUsers[brainlyID];
-
-			if (!user || user && !user.brainlyData) {
-				let resUser = await GetUserByID2(brainlyID);
-
-				if (!resUser || !resUser.success) {
-					let message = `${brainlyID} > ${(resUser.message || "error")}`;
-
-					return reject(message);
-				}
-
-				user = this.ReserveAUser(brainlyID, { brainlyData: resUser.data });
-			}
-
-			resolve(user);
 		});
 	}
 }

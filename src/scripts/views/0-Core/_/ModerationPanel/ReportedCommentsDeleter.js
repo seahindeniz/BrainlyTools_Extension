@@ -8,7 +8,7 @@ class ReportedCommentsDeleter {
 		this.reports = []
 		this.started = false;
 		this.deletedReportsCount = 0;
-		this.openedDeleteRequests = 0;
+		this.activeConnections = 0;
 		this.deleteProcessInterval = null;
 
 		this.Init();
@@ -16,7 +16,7 @@ class ReportedCommentsDeleter {
 	Init() {
 		this.RenderLi();
 		this.RenderPanel();
-		this.BindEvent();
+		this.BindEvents();
 	}
 	RenderLi() {
 		this.$li = $(`
@@ -110,9 +110,9 @@ class ReportedCommentsDeleter {
 			}
 		});
 	}
-	BindEvent() {
+	BindEvents() {
 		this.$li.on("click", "span", this.TogglePanel.bind(this));
-		this.$stop.click(this.Stop.bind(this));
+		this.$stop.click(this.ManuelStop.bind(this));
 		this.$start.click(this.StartDeleting.bind(this));
 	}
 	TogglePanel() {
@@ -122,11 +122,16 @@ class ReportedCommentsDeleter {
 			this.$panel.appendTo(this.$li);
 		}
 	}
+	ManuelStop() {
+		this.Stop();
+		this.$start.text(System.data.locale.common.continue);
+	}
 	Stop() {
 		this.StopDeleting();
 		this.StopFetching();
 	}
 	StopDeleting() {
+		clearInterval(this.resetCounterInterval);
 		clearInterval(this.deleteProcessInterval);
 
 		this.deleteProcessInterval = null;
@@ -192,21 +197,26 @@ class ReportedCommentsDeleter {
 	}
 	DeleteStoredReports() {
 		this.deleteProcessInterval = setInterval(this.DeleteStoredReport.bind(this));
+		this.resetCounterInterval = setInterval(() => {
+			this.activeConnections = 0;
+		}, 1000);
 	}
 	DeleteStoredReport() {
 		if (this.reports.length == 0) {
 			this.Stop();
-		} else if (this.openedDeleteRequests < 5) {
-			this.openedDeleteRequests++;
+			this.HideStartButton();
+		} else if (this.activeConnections < 6) {
+			this.activeConnections++;
 			let report = this.GrabReport();
 
 			this.DeleteReport(report);
 		}
 	}
+	HideStartButton() {
+		this.$start.appendTo("<div />");
+	}
 	GrabReport() {
-		let report = this.reports[0];
-
-		this.reports.splice(0, 1);
+		let report = this.reports.shift();
 
 		return report;
 	}
@@ -223,7 +233,6 @@ class ReportedCommentsDeleter {
 		this.ContentDeleted();
 	}
 	ContentDeleted() {
-		this.openedDeleteRequests--;
 		this.$pending.text(this.reports.length);
 		this.$deleted.text(++this.deletedReportsCount);
 	}

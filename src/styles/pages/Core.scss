@@ -106,7 +106,8 @@ div.counter {
 	width: 200px
 } */
 
-.sg-input, .sg-textarea {
+.sg-input,
+.sg-textarea {
 	&.success {
 		border-color: #a7e6c7;
 	}

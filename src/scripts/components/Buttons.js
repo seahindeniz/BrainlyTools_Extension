@@ -14,18 +14,9 @@ const buttons = {
 		</button>`,
 	RemoveQuestionMore: `<button class="sg-button-secondary sg-button-secondary--small sg-button-secondary--alt"{title}>{text}</button>`,
 	ActionButtonNoIcon: `<button class="sg-button-secondary sg-label--unstyled{type}"{title}><label class="sg-label__text">{text}</label></button>`,
-	//contentDetails: 
+	//contentDetails:
 }
-/*
-Usage example
-Buttons('RemoveQuestion', [
-	{
-		icon: "stream",
-		text: "Default",
-		type: "peach"
-	}
-]);
-*/
+
 export default (item_name, text, template) => {
 	let button_list = "";
 
@@ -42,7 +33,7 @@ export default (item_name, text, template) => {
 				.replace(/\{button\}/igm, button)
 				.replace(/\{class\}/igm, btn.templateClass ? " " + btn.templateClass : "")
 		}
-		
+
 		return button + "\n";
 	}
 

@@ -31,7 +31,7 @@ class OtherOptions {
 							</div>
 
 							<!-- Browser notifications -->
-							<div class="field">
+							<div class="field is-hidden">
 								<div class="control">
 									<label class="checkbox" title="${System.data.locale.popup.extensionOptions.otherOptions.notifier.title}">
 										<input id="notifier" type="checkbox"${this.storageData.notifier ? " checked" : ""}> ${System.data.locale.popup.extensionOptions.otherOptions.notifier.text}

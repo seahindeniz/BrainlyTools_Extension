@@ -251,48 +251,43 @@ export function getAllFriends() {
 }
 
 export function RemoveFriend(idList) {
-	return Request.BrainlySaltGet(`/buddies_new/unbuddy/${idList}`);
+	return Request.BrainlySaltFetch(`/buddies_new/unbuddy/${idList}`);
 }
 export function RemoveAllFriends(each) {
 	let idList = System.friends.map(friend => friend.id);
 
-	return RemoveFriends(idList);
+	return RemoveFriends(idList, each);
 }
 /**
- *
  * @param {number[]|string[]} idList
  * @param {function} each - Each callback
  */
 export function RemoveFriends(idList, each) {
-	return new Promise(function(resolve, reject) {
+	return new Promise((resolve, reject) => {
 		if (!idList || (idList instanceof Array && idList.length == 0)) {
 			return reject("No friend found");
 		} else {
 			let count = 0;
 			let profileLink = System.createProfileLink();
 
-			idList.forEach((id) => {
-				let requestPromise = RemoveFriend(id);
+			idList.forEach(async (id) => {
+				let requestPromise = await RemoveFriend(id);
+				count++;
 
-				requestPromise.always((_, __, jqXHR) => {
-					count++;
+				if (
+					each &&
+					requestPromise &&
+					requestPromise.url &&
+					(
+						requestPromise.url.indexOf("/users/view") >= 0 ||
+						requestPromise.url.indexOf(profileLink) >= 0
+					)
+				) {
+					each(count, id);
+				}
 
-					if (
-						each &&
-						jqXHR &&
-						jqXHR.responseURL &&
-						(
-							jqXHR.responseURL.indexOf("users/view") >= 0 ||
-							jqXHR.responseURL.indexOf(profileLink) >= 0
-						)
-					) {
-						each(count, id);
-					}
-
-					if (count == idList.length) {
-						resolve();
-					}
-				});
+				if (count == idList.length)
+					resolve();
 			});
 		}
 	});

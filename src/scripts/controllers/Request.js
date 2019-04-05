@@ -110,7 +110,7 @@ const Request = {
 		return data;
 	},
 	async BrainlySaltGet(path) {
-		let response = await fetch(System.data.meta.location.origin + path);
+		let response = await this.BrainlySaltFetch(path);
 		let data = await response.text();
 
 		return data;
@@ -131,6 +131,11 @@ const Request = {
 				//callback && callback(data, textStatus, jqXHR);
 			}
 		}); */
+	},
+	async BrainlySaltFetch(path) {
+		let response = fetch(System.data.meta.location.origin + path);
+
+		return response;
 	},
 	/**
 	 *

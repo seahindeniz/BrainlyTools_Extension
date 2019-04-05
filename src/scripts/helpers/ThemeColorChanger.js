@@ -2,6 +2,7 @@ import Color from "color";
 import WaitForElement from "./WaitForElement";
 import TimedLoop from "./TimedLoop";
 
+const MAX_LUMINOSITY = 0.52
 const COLOR_STORE_KEY = "themeColor";
 const DEFAULT_THEME_COLOR = "#57b2f8";
 const STYLE_ELEMENT_ID = "PersonalColors";
@@ -12,7 +13,8 @@ class ThemeColorChanger {
 		this.isPreview = isPreview;
 		this.storedColor = window.localStorage.getItem(COLOR_STORE_KEY);
 		this.colors = [];
-		this.fontColor = "#fff";
+		this.fontColor = "#333";
+		this.fixedPrimaryColor = this.primaryColor;
 
 		this.Init();
 	}
@@ -60,6 +62,7 @@ class ThemeColorChanger {
 	}
 	PrepareColors() {
 		if (this.IsMulticolor()) {
+			this.fontColor = "#fff";
 			this.colors = this.primaryColor.split(",").map(color => color.toLowerCase());
 		} else {
 			//this.PrepareMultiColor();
@@ -79,21 +82,29 @@ class ThemeColorChanger {
 			color = Color(DEFAULT_THEME_COLOR);
 		}
 
-		if (
-			color.isLight() &&
-			this.primaryColor.toLowerCase() != DEFAULT_THEME_COLOR.toLowerCase()
-		) {
-			this.fontColor = "#000";
+		if (this.IsDark(color)) {
+			this.fontColor = "#fff";
 		}
+
+		if (!this.IsDark(color, 0.6)) {
+			this.fixedPrimaryColor = color.hsl().lightness(75);
+		}
+	}
+	IsDark(color, limit) {
+		if (typeof color == "string") {
+			color = Color(color);
+		}
+
+		return color.luminosity() < (limit || MAX_LUMINOSITY);
 	}
 	PrepareMultiColor() {
 		let secondaryColor = Color(this.primaryColor);
 
-		if (!secondaryColor.isLight()) {
+		if (!this.IsDark(secondaryColor)) {
 			secondaryColor = secondaryColor.lighten(.3);
 		} else {
 			if (secondaryColor.hex().toLowerCase() != DEFAULT_THEME_COLOR.toLowerCase()) {
-				this.fontColor = "#000";
+				this.fontColor = "#fff";
 			}
 
 			secondaryColor = secondaryColor.darken(.2);
@@ -108,7 +119,7 @@ class ThemeColorChanger {
 		this.backgroundStyle = `color: ${this.fontColor} !important;`
 
 		if (this.colors.length < 2) {
-			this.backgroundStyle += `background: ${this.colors};`
+			this.backgroundStyle += `background: ${this.colors} !important;`
 		} else {
 			this.backgroundStyle += `background: linear-gradient(180deg, ${this.colors});`;
 
@@ -154,7 +165,11 @@ class ThemeColorChanger {
 		div#content-old .editProfileContent .profileListEdit,
 		#main-panel .menu-right .menu-element#panel-notifications .notifications-container .notifications li.notification .main .content .nick,
 		#main-panel .menu-right .menu-element#panel-notifications .notifications-container .notification-wrapper .main .content .nick {
-			color: ${this.primaryColor} !important;
+			color: ${this.fixedPrimaryColor} !important;
+		}
+
+		#html .mint #tabs-doj #main_menu>li.active a{
+			color: ${this.fontColor} !important;
 		}
 
 		.sg-button-secondary--alt-inverse,
@@ -168,7 +183,9 @@ class ThemeColorChanger {
 		this.styleElement.innerHTML = this.styles;
 	}
 	UpdateColor(color) {
+		this.fontColor = "#333";
 		this.primaryColor = color;
+		this.fixedPrimaryColor = color;
 
 		this.RenderStyles();
 	}

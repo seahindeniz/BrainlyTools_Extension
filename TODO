@@ -9,7 +9,6 @@ New:
 	Global:
 		- Eklenti seçeneklerine resim paylaşma özelliği ekle. Olursa eğer
 		- Eklentiye özel silim sebebi tanımlama seçeneği. Bununla ilgili eklenti seçeneğine özel olarak alan oluştur ve yönetilebilsin
-		- Hızlı soru silim butonunu 3'e çıkartmayı incele, tasarıma uyar mı gibisinden..
 
 	Anasayfa:
 
@@ -74,6 +73,7 @@ Done:
 		+ ID listesi ile, ödev silimi yapılma özelliği.
 		+ Kenar moderatör paneline nick bazlı kişi arama/sorgulama
 		+ Eklenti kullanıcısı olan moderatörlerin okuyabileceği "kurallar" alanı oluştur. Bu article her değiştiğinde, readed_by alanını sıfırla ve kullanıcı readed_by içerisinde değilse, linkin köşesinde yeni mesaj varmış gibi kırmızı nokta ile badge ekle.
+		+ Hızlı soru silim butonunu 3'e çıkartmayı incele, tasarıma uyar mı gibisinden..
 
 	Anasayfa:
 		+ Hızlı silim butonlarının eylemlerini aktifleştir
@@ -103,6 +103,7 @@ Done:
 		+ Kişi avatarına ve  kullanıcı adına "kişi eklenti kullanıcısı" etiketi
 		+ Tüm arkadaşları göster, sil
 		+ Hesap silimi yapıldığında topluluk yöneticisine otomatik e-posta gönder
+		+ Eklenti kullanıcısı etiketine 3 kere tıkladığında kullanıcıya tanımlanmış yetkileri gösteren bir alan ekle
 
 	Kullanıcı bilgilerini gör sayfası:
 		+ Soru/Cevap içeriğini genişlet/göster butonu. Sağ, aşağı yönlü ok simgesi. Bu içerikler, sayfa onload olduktan sonra kullanıcı içeriği görüntülemeden önce fetch edilecek. Maksat, içerikleri kullanıcıyı bekletmeden göstermek. Butona bastığında, display:block edilecek ama fetchden sonra gösterilecek. Malum, fetch isteği tamamlanmadan, kullanıcı içeriği göster butonuna basabilir.

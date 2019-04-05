@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.21.2] - 2019.04.05
+
+### Changed
+
+- [FIX#45] Problems in mass comment deleter
+- [FIX#46] Colour Difference Issue
+- [FIX#47] arkadaş listesi hk.
+
+[FIX#45]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/45
+[FIX#46]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/46
+[FIX#47]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/47
+
 ## [6.21.1] - 2019.04.03
 
 ### Changed

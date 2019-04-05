@@ -25,7 +25,7 @@ class ReportedContentsConfirmer {
 	RenderLi() {
 		this.$li = $(`
 		<li class="sg-menu-list__element" style="display: table; width: 100%; padding-right: 1em;">
-			<span class="sg-text sg-text--link sg-text--blue sg-text--small">${System.data.locale.core.reportedContentsConfirmer.text}</span>
+			<span class="sg-menu-list__link sg-text--link">${System.data.locale.core.reportedContentsConfirmer.text}</span>
 		</li>`);
 	}
 	RenderModal() {

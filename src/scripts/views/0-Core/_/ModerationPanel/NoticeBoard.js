@@ -40,7 +40,7 @@ class NoticeBoard {
 				<div class="sg-overlayed-box">
 					<div class="sg-actions-list sg-bubble--full">
 						<div class="sg-actions-list__hole sg-actions-list__hole--spaced-xsmall">
-							<span class="sg-text sg-text--link sg-text--blue sg-text--small">${System.data.locale.core.noticeBoard.text}</span>
+							<span class="sg-text sg-menu-list__link sg-text--link">${System.data.locale.core.noticeBoard.text}</span>
 						</div>
 					</div>
 				</div>
@@ -208,11 +208,8 @@ class NoticeBoard {
 		if (this.$editSection && this.$editSection.is(":visible")) {
 			return this.CloseEditSection();
 		}
-		let kopru = a => {
-			console.log(a);
-			return a;
-		}
-		if (kopru(this.IsEditorValSame())) {
+
+		if (this.IsEditorValSame()) {
 			this.modal.Close();
 			clearTimeout(this.readTimeout);
 		}
@@ -408,8 +405,7 @@ class NoticeBoard {
 	ShowButtonSpinner() {
 		this.$spinner.insertAfter(this.$saveButton);
 	}
-	UpdateContent(event) {
-		console.log(event);
+	UpdateContent() {
 		let result = this.md.render(this.$editSectionContent.val() || this.templateString);
 
 		this.$md.html(result);

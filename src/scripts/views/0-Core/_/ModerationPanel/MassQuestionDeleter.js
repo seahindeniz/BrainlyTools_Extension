@@ -23,7 +23,7 @@ class MassQuestionDeleter {
 	RenderLi() {
 		this.$li = $(`
 		<li class="sg-menu-list__element" style="display: table; width: 100%;">
-			<span class="sg-text sg-text--link sg-text--blue sg-text--small">${System.data.locale.core.TaskDeleter.text}</span>
+			<span class="sg-menu-list__link sg-text--link">${System.data.locale.core.TaskDeleter.text}</span>
 		</li>`);
 	}
 	RenderModal() {

@@ -24,7 +24,6 @@ class ModerationPanel {
 		this.RenderComponentsAfterDeleteReasonsLoaded();
 		this.RenderResizeTrackingElement();
 		this.BindEvents();
-		this.FixOldPanelsHeight();
 	}
 	RenderList() {
 		this.$ul = $(`<ul class="sg-menu-list sg-menu-list--small sg-content-box--spaced-bottom"></ul>`);
@@ -85,6 +84,7 @@ class ModerationPanel {
 	BindEvents() {
 		this.$newpanelButton.click(this.DelayedHeightFix.bind(this));
 		this.$oldPanelCoveringText.click(this.DelayedHeightFix.bind(this));
+		window.addEventListener("load", this.FixPanelsHeight.bind(this));
 		window.addEventListener('scroll', this.FixPanelsHeight.bind(this))
 
 		if ("ResizeObserver" in window) {

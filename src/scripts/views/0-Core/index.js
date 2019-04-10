@@ -217,6 +217,14 @@ class Core {
 				"/styles/pages/ArchiveMod.css"
 			])
 		}
+
+		if (System.checkRoute(1, "app") && System.checkRoute(2, "ask")) {
+			InjectToDOM([
+				"/scripts/lib/jquery-observe-2.0.3.min.js",
+				"/scripts/views/10-QuestionSearch/index.js",
+				"/styles/pages/QuestionSearch.css"
+			])
+		}
 	}
 }
 new Core();

@@ -1,0 +1,46 @@
+.quickDelete {
+	.deleted.sg-content-box {
+		background-color: #ffc8c0;
+	}
+
+	.sg-content-box:hover:not(.deleted) {
+		position: relative;
+
+		.ext_actions {
+			display: flex;
+		}
+	}
+}
+
+.ext_actions {
+	display: none;
+	position: absolute;
+	top: -29px;
+	right: -30px;
+	width: 5em;
+
+	>.sg-actions-list__hole {
+		width: 2em;
+
+		button {
+			padding: 0 9px;
+			float: right;
+			margin-top: 7px;
+
+			label.sg-label__text {
+				display: none;
+				margin-right: 10px;
+			}
+
+			span.sg-button-primary__icon {
+				margin: 0;
+			}
+
+			&:hover {
+				label {
+					display: block;
+				}
+			}
+		}
+	}
+}

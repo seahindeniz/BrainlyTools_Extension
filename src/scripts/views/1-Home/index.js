@@ -11,7 +11,7 @@ window.selectors = {
 	...window.selectors,
 	feeds_parent: ".js-feed-stream",
 	feed_item: `div[data-test="feed-item"]`,
-	feeds_questionsBox_buttonList: `> div.sg-content-box`,
+	questionsBox_buttonList: `> div.sg-content-box`,
 	questionLink: `.sg-content-box a[data-test="feed-item-link"]`,
 
 	userInfoBoxPoints: "div.game-box__element > div.game-box__user-info > div.game-box__progress-items"

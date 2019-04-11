@@ -7,7 +7,7 @@ class UserTag {
 		this.Render();
 
 		if (!this.user.probatus) {
-			if (System.checkUserP(5))
+			if (System.checkUserP([5, 22]))
 				this.RenderAssignPermission();
 		} else {
 			this.RenderExtensionUser();
@@ -75,7 +75,7 @@ class UserTag {
 		}
 	}
 	BindEvents() {
-		if (System.checkUserP(5))
+		if (System.checkUserP([5, 22, 23, 24, 25]))
 			this.$badge.click(this.EditUser.bind(this)).addClass("sg-media--clickable");
 	}
 	ShowPrivilegeList() {

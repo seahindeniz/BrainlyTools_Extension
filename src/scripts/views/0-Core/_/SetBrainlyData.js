@@ -53,7 +53,7 @@ function FetchDefaultConfig() {
 
 		//console.log("res:", res);
 		if (sourcePageHTML && sourcePageHTML != "") {
-			let matchConfig = (/(\{\s{1,}.*[\S\s]*\}\s{1,}\}\;)\s{1,}\<\/script/gmi).exec(sourcePageHTML);
+			let matchConfig = (/__default_config = (.*[\S\s]*?};)/gmi).exec(sourcePageHTML);
 			let matchSecondConfig = (/\.config \= (.*)\;/gmi).exec(sourcePageHTML);
 			let matchAuthJSFile = sourcePageHTML.match(/(\/sf\/js\/bundle\/include_auth\_[a-z\_\-]{1,}\-[a-z0-9]{1,}\.min\.js)/gmi);
 			RoutesFetchURL = matchAuthJSFile[matchAuthJSFile.length - 1];

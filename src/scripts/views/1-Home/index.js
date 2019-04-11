@@ -4,6 +4,7 @@ import WaitForElement from "../../helpers/WaitForElement";
 import WaitForObject from "../../helpers/WaitForObject";
 import TodaysActions from "./_/TodaysActions";
 import startObservingForDeleteButtons from "./_/startObservingForDeleteButtons";
+import TimedLoop from "../../helpers/TimedLoop";
 
 System.pageLoaded("Root inject OK!");
 
@@ -23,13 +24,14 @@ async function Home() {
 	/**
 	 * Add mod actions count number into profile box at top of the page
 	 */
-	TodaysActions();
+	TimedLoop(TodaysActions, { expireTime: 5 });
 
 	/**
 	 *  Adding remove buttons inside of question boxes
 	 **/
 	if (System.checkUserP(1) && System.checkBrainlyP(102)) {
 		let _$_observe = await WaitForObject("$().observe");
+
 		if (_$_observe) {
 			let feeds_parent = await WaitForElement(selectors.feeds_parent);
 

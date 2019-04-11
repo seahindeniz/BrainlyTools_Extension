@@ -12,12 +12,17 @@ class QuickDeleteButtons {
 		this.Init();
 	}
 	async Init() {
+		this.RenderContainer();
+
 		this.questionId = await this.FindQuestionId();
 
-		this.RenderContainer();
+		this.ShowContainer();
 		this.RenderMoreOptionsButton();
 		this.RenderButtons();
 		this.BindEvents();
+	}
+	RenderContainer() {
+		this.$container = $(`<div class="sg-actions-list sg-actions-list--to-top ext_actions"></div>`);
 	}
 	/**
 	 * @returns {number}
@@ -48,9 +53,11 @@ class QuickDeleteButtons {
 			}
 		});
 	}
-	RenderContainer() {
-		this.$container = $(`<div class="sg-actions-list sg-actions-list--to-top ext_actions"></div>`);
-		let $feedContentBox = $(window.selectors.feeds_questionsBox_buttonList, this.target);
+	ShowContainer() {
+		let $feedContentBox = $(this.target);
+
+		if (window.selectors.questionsBox_buttonList)
+			$feedContentBox = $(window.selectors.questionsBox_buttonList, this.target);
 
 		this.$container.appendTo($feedContentBox);
 	}

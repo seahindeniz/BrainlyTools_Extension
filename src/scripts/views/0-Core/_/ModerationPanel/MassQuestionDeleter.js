@@ -47,7 +47,7 @@ class MassQuestionDeleter {
 						<div class="sg-textarea sg-textarea--full-width sg-textarea--resizable-vertical" contenteditable="true" style="position: absolute; background: transparent;" placeholder="${System.data.locale.core.TaskDeleter.questionsLinksOrIDs}"></div>
 					</div>
 				</div>
-				<div class="sg-content-box__actions js-labels">
+				<div class="sg-content-box__actions sg-content-box__content--spaced-top-small js-labels">
 					<div class="sg-actions-list sg-actions-list--no-wrap">
 						<div class="sg-actions-list__hole">
 							<div class="sg-content-box">
@@ -64,7 +64,7 @@ class MassQuestionDeleter {
 						</div>
 					</div>
 				</div>
-				<div class="sg-content-box__content">
+				<div class="sg-content-box__content sg-content-box__content--spaced-top-large">
 					<blockquote class="sg-text sg-text--small">${System.data.locale.core.TaskDeleter.containerExplanation}<br>${System.createBrainlyLink("task", { id: 1234567 })}<br>${System.createBrainlyLink("task", { id: 2345678 })}<br>1234567<br>2345678</blockquote>
 				</div>
 				<div class="sg-content-box__actions deleteSection"></div>

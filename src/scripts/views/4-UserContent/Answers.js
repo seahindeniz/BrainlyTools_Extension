@@ -38,7 +38,7 @@ class Answers extends UserContent {
 	}
 	RenderButtonContainer() {
 		this.$buttonContainer = $(`
-		<div class="sg-content-box__content">
+		<div class="sg-content-box__content sg-content-box__content--spaced-bottom">
 			<div class="sg-actions-list"></div>
 		</div>`);
 

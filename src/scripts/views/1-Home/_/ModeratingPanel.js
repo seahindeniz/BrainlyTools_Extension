@@ -116,7 +116,7 @@ class ModeratingPanel {
 					<span class="sg-link sg-link--small sg-link--underlined">Show more..</span>
 				</div>
 			</div>
-			<div class="sg-content-box sg-content-box--spaced-top-large sg-content-box--spaced-bottom">
+			<div class="sg-content-box sg-content-box--spaced-top-large sg-content-box--spaced-bottom sg-content-box--spaced-bottom-xxlarge">
 				<div class="sg-actions-list attachments"></div>
 			</div>`,
 

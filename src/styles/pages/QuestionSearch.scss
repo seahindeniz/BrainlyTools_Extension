@@ -1,13 +1,19 @@
 .quickDelete {
-	.deleted.sg-content-box {
-		background-color: #ffc8c0;
-	}
+	.sg-content-box {
+		&.deleted {
+			background-color: #ffc8c0;
+		}
 
-	.sg-content-box:hover:not(.deleted) {
-		position: relative;
+		&.warning {
+			background-color: #fedd8e;
+		}
 
-		.ext_actions {
-			display: flex;
+		&:hover:not(.deleted) {
+			position: relative;
+
+			.ext_actions {
+				display: flex;
+			}
 		}
 	}
 }

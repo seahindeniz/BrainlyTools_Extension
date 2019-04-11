@@ -13,7 +13,7 @@ class DeleteSection {
 	}
 	Render() {
 		this.$ = $(`
-		<div class="sg-content-box sg-content-box--spaced-top-xxlarge sg-content-box--spaced-bottom sg-content-box--full">
+		<div class="sg-content-box sg-content-box--spaced-top-large sg-content-box--spaced-bottom sg-content-box--full">
 			<div class="sg-content-box__actions">
 				<div class="sg-horizontal-separator"></div>
 				<div class="sg-actions-list sg-content-box__actions--spaced-top sg-content-box__actions--spaced-bottom reasons"></div>
@@ -21,7 +21,7 @@ class DeleteSection {
 				<div class="sg-actions-list sg-content-box__actions--spaced-top sg-content-box__actions--spaced-bottom sub-reasons"></div>
 			</div>
 			<div class="sg-content-box__actions">
-				<textarea class="sg-textarea sg-textarea--invalid sg-textarea--full-width"></textarea>
+				<textarea class="sg-textarea sg-text--small sg-textarea--invalid sg-textarea--full-width"></textarea>
 			</div>
 			<div class="sg-content-box__actions">
 				${this.type == "task" || this.type == "response"? `
@@ -98,7 +98,6 @@ class DeleteSection {
 			let id = System.ExtractId(this.id);
 			that.selectedReason = that.reasons.find(reason => reason.id == id);
 
-			that.UpdateTextarea("");
 			that.HideReasonWarning();
 			that.RenderSubReasons(id);
 			that.ShowSubReasonSeperator();

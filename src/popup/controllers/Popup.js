@@ -10,6 +10,7 @@ import Announcements from "../components/Announcements";
 import Users from "../components/Users";
 import { GetUserByID2 } from "../../scripts/controllers/ActionsOfBrainly";
 import storage from "../../scripts/helpers/extStorage";
+import TimedLoop from "../../scripts/helpers/TimedLoop";
 
 class Popup {
 	constructor() {
@@ -116,9 +117,7 @@ class Popup {
 		this.RenderSections();
 		this.ShowFooter();
 		this.ResizePanel();
-
-		if (document.documentElement.attributes.is.textContent == "options")
-			this.$heroBody.css("width", window.outerWidth * .6);
+		TimedLoop(this.ResizePanel.bind(this), { expireTime: 5 });
 	}
 	RenderFooterInformation() {
 		this.$footer.html(`<p class="title is-7 has-text-centered"><a href="https://chrome.google.com/webstore/detail/${System.data.meta.extension.id}" class="has-text-grey" target="_blank">${System.data.meta.manifest.short_name} v${System.data.meta.manifest.version}</a></p>`);
@@ -203,7 +202,7 @@ class Popup {
 		}
 	}
 	RenderUsers() {
-		if (System.checkUserP(5)) {
+		if (System.checkUserP([5, 22, 23, 24, 25])) {
 			let users = new Users();
 
 			return users.$layout;
@@ -244,13 +243,21 @@ class Popup {
 		this.RenderFooterInformation();
 	}
 	async ResizePanel() {
+		if ($("html").attr("is") == "options")
+			this.$heroBody.css("width", window.outerWidth * .6);
+
 		if ($("html").attr("is") == "popup") {
 			//let info = await ext.windows.getCurrent();
 			let activeTab = await ext.tabs.query({ active: true, currentWindow: true });
 
 			if (activeTab && activeTab.length > 0) {
 				let info = activeTab[0];
-				document.body.style.height = `${info.height - 10}px`;
+				let height = info.height - 10;
+
+				if (height > 600)
+					height = 600;
+
+				document.body.style.height = `${height}px`;
 			}
 		}
 	}

@@ -3,39 +3,74 @@ import notification from "./notification";
 
 class Users {
 	constructor() {
-		this.pListOrder = [
-			System.data.locale.popup.extensionManagement.users.important,
-			0,
-			/* 4, */
-			5,
-			7,
-			17,
-			18,
-			13,
-			9,
-			null,
-			System.data.locale.popup.extensionManagement.users.moderate,
-			21,
-			20,
-			11,
-			10,
-			14,
-			15,
-			6,
-			null,
-			System.data.locale.popup.extensionManagement.users.lessHarmless,
-			12,
-			8,
-			1,
-			2,
-			45,
-			16,
-			19
-		];
+		this.privilegeListOrder = {
+			important: {
+				title: System.data.locale.popup.extensionManagement.users.important,
+				privileges: [
+					0,
+					/* 4, */
+					[
+						5,
+						22,
+						23,
+						24,
+						25
+					],
+					7,
+					17,
+					18,
+					13,
+					9
+				]
+			},
+			lessImportant: {
+				title: System.data.locale.popup.extensionManagement.users.lessImportant,
+				privileges: [
+					21,
+					20,
+					11,
+					10,
+					14,
+					15,
+					6
+				]
+			},
+			harmless: {
+				title: System.data.locale.popup.extensionManagement.users.harmless,
+				privileges: [
+					12,
+					8,
+					1,
+					2,
+					45,
+					16,
+					19
+				]
+			}
+		};
 
 		this.Render();
+
+		if (System.checkUserP(0))
+			this.RenderEditAllUsersPrivilegesSection();
+
+		this.RenderEditUserSection();
+
+		if (System.checkUserP([5, 22]))
+			this.RenderPermissionContainer();
+
+		if (System.checkUserP([5, 23, 24, 25])) {
+			this.RenderPrivilegesContainer();
+
+			if (System.checkUserP([5, 23]))
+				this.RenderPrivilegeGroup("important");
+			if (System.checkUserP([5, 24]))
+				this.RenderPrivilegeGroup("lessImportant");
+			if (System.checkUserP([5, 25]))
+				this.RenderPrivilegeGroup("harmless");
+		}
+
 		this.PrepareUsers();
-		this.RenderPrivilegesList();
 		this.BindEvents();
 	}
 	Render() {
@@ -45,120 +80,128 @@ class Users {
 				<div class="message-header" title="${System.data.locale.popup.extensionManagement.users.title}">
 					<p>${System.data.locale.popup.extensionManagement.users.text}</p>
 				</div>
-				<div class="message-body">
-					<article class="media">
-						<nav class="level is-block">
-							<div class="level-left is-block"></div>
-						</nav>
-					</article>
-					<article class="media addNew">
-						<div class="media-content field-label has-text-centered">
-							<label class="label" for="changeUserPrivileges">${System.data.locale.popup.extensionManagement.users.changeUserPrivileges}</label>
-						</div>
-					</article>
-					<article class="media addNew changeUserPrivileges">
-						<div class="media-content">
-							<div class="content">
-								<div class="field is-grouped">
-									<div class="control is-expanded">
-										<div class="select">
-											<select class="privileges">
-												<option>${System.data.locale.common.select}</option>
-											</select>
-										</div>
-									</div>
-									<p class="control">
-										<a class="button is-success give">
-											${System.data.locale.popup.extensionManagement.users.give}
-										</a>
-									</p>
-									<p class="control">
-										<a class="button is-danger revoke">
-											${System.data.locale.popup.extensionManagement.users.revoke}
-										</a>
-									</p>
-								</div>
-							</div>
-						</div>
-					</article>
-
-					<article class="media addNew">
-						<div class="media-content field-label has-text-centered">
-							<label class="label" for="addNewOrEdit">${System.data.locale.popup.extensionManagement.users.addNewOrEditUser}</label>
-						</div>
-					</article>
-					<article class="media addNew user">
-						<div class="media-left is-invisible has-text-centered">
-							<!--<p class="image is-48x48">
-								<img class="avatar is-rounded" src="https://${System.data.meta.marketName}/img/avatars/100-ON.png">
-							</p>-->
-							<a target="_blank">
-								<figure class="image is-48x48">
-									<img class="avatar is-rounded" src="https://${System.data.meta.marketName}/img/avatars/100-ON.png">
-								</figure>
-								<div>
-									<p class="nick"></p>
-								</div>
-							</a>
-						</div>
-						<div class="media-content">
-							<div class="content">
-								<div class="field">
-									<div class="control is-expanded has-icons-left">
-										<input id="addNewOrEdit" class="input id" type="text" placeholder="${System.data.locale.common.profileID}">
-										<span class="icon is-left">
-											<i class="fas fa-user"></i>
-										</span>
-									</div>
-									<br>
-									<div class="control permission is-hidden">
-										<div class="field">
-											<input id="switchPermission" type="checkbox" class="switch is-rtls" checked="checked">
-											<label for="switchPermission">${System.data.locale.popup.extensionManagement.users.permission}</label>
-										</div>
-									</div>
-									<br>
-									<div class="control privileges is-hidden">
-										<label class="label">${System.data.locale.popup.extensionManagement.users.privileges}</label>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="media-right is-invisible">
-							<a href="#" class="icon has-text-success submit" title="${System.data.locale.common.save}">
-								<i class="fas fa-check"></i>
-							</a><br>
-							<a href="#" class="icon has-text-danger reset" title="${System.data.locale.common.clearInputs}">
-								<i class="fas fa-undo"></i>
-							</a>
-						</div>
-					</article>
-					<p class="help">${System.data.locale.popup.extensionManagement.users.explainingColors.line1}</br>
-					${System.data.locale.popup.extensionManagement.users.explainingColors.line2.replace(/<s>(.*)<\/s>/, '<b style="color:#f00">$1</b>')}</br>
-					${System.data.locale.popup.extensionManagement.users.explainingColors.line3.replace(/<s>(.*)<\/s>/, '<b style="color:#fc0">$1</b>')}</br>
-					${System.data.locale.popup.extensionManagement.users.explainingColors.line4.replace(/<s>(.*)<\/s>/, '<b style="color:#0f0">$1</b>')}</br>
-					${System.data.locale.popup.extensionManagement.users.explainingColors.line5.replace(/<s>(.*)<\/s>/, '<b>$1</b>')}</p>
+        <div class="message-body">
+          <div>
+            <article class="media">
+              <nav class="level is-block">
+                <div class="level-left is-block"></div>
+              </nav>
+            </article>
+          </div>
+          <p class="help">${System.data.locale.popup.extensionManagement.users.explainingColors.line1}</br>
+          ${System.data.locale.popup.extensionManagement.users.explainingColors.line2.replace(/<s>(.*)<\/s>/, '<b style="color:#f00">$1</b>')}</br>
+          ${System.data.locale.popup.extensionManagement.users.explainingColors.line3.replace(/<s>(.*)<\/s>/, '<b style="color:#fc0">$1</b>')}</br>
+          ${System.data.locale.popup.extensionManagement.users.explainingColors.line4.replace(/<s>(.*)<\/s>/, '<b style="color:#0f0">$1</b>')}</br>
+          ${System.data.locale.popup.extensionManagement.users.explainingColors.line5.replace(/<s>(.*)<\/s>/, '<b>$1</b>')}</p>
 				</div>
 			</article>
 		</div>`);
 
-		this.$avatarContainer = $(".media-left", this.$layout);
-		this.$privilegesSelect = $("select.privileges", this.$layout);
-		this.$privilegesContainer = $(".control.privileges", this.$layout);
-		this.$permissionContainer = $(".media-content .permission", this.$layout);
-
-		this.$link = $("a", this.$avatarContainer);
-		this.$idInput = $('input.id', this.$layout);
-		this.$nick = $(".nick", this.$avatarContainer);
-		this.$actions = $(".media-right", this.$layout);
-		this.$avatar = $("img.avatar", this.$avatarContainer);
 		this.$level = $(".level > .level-left", this.$layout);
-		this.$permission = $("input", this.$permissionContainer);
-		this.$resetButton = $(".media-right > .reset", this.$layout);
-		this.$submitButton = $(".media-right > .submit", this.$layout);
 		this.$headerP = $("> article > .message-header > p", this.$layout);
-		this.$giveButton = $(".changeUserPrivileges .button.give", this.$layout);
-		this.$revokeButton = $(".changeUserPrivileges .button.revoke", this.$layout);
+		this.$editSectionContainer = $("> article > .message-body > div", this.$layout);
+	}
+	RenderEditAllUsersPrivilegesSection() {
+		this.$editAllUsersPrivilegesSection = $(`
+      <div class="columns">
+        <div class="column">
+          <div class="columns">
+            <div class="column">
+              <div class="media-content has-text-centered">
+                <label class="label" for="changeUserPrivileges">${System.data.locale.popup.extensionManagement.users.changeUserPrivileges}</label>
+              </div>
+            </div>
+          </div>
+          <div class="columns">
+            <div class="column">
+              <div class="media-content">
+                <div class="content">
+                  <div class="field is-grouped">
+                    <div class="control is-expanded">
+                      <div class="select">
+                        <select class="privileges" id="changeUserPrivileges">
+                          <option>${System.data.locale.common.select}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <p class="control">
+                      <a class="button is-success">
+                        ${System.data.locale.popup.extensionManagement.users.give}
+                      </a>
+                    </p>
+                    <p class="control">
+                      <a class="button is-danger">
+                        ${System.data.locale.popup.extensionManagement.users.revoke}
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>`);
+
+		this.$privilegesSelect = $("select", this.$editAllUsersPrivilegesSection);
+		this.$giveButton = $(".button.is-success", this.$editAllUsersPrivilegesSection);
+		this.$revokeButton = $(".button.is-danger", this.$editAllUsersPrivilegesSection);
+
+		this.$editAllUsersPrivilegesSection.appendTo(this.$editSectionContainer);
+	}
+	RenderEditUserSection() {
+		this.$editUserSectionContainer = $(`
+    <div>
+      <article class="media addNew">
+        <div class="media-content field-label has-text-centered">
+          <label class="label" for="addNewOrEdit">${System.data.locale.popup.extensionManagement.users.addNewOrEditUser}</label>
+        </div>
+      </article>
+      <article class="media addNew user">
+        <div class="media-left is-invisible has-text-centered">
+          <a target="_blank">
+            <figure class="image is-48x48">
+              <img class="avatar is-rounded" src="https://${System.data.meta.marketName}/img/avatars/100-ON.png">
+            </figure>
+            <div>
+              <p class="nick"></p>
+            </div>
+          </a>
+        </div>
+        <div class="media-content">
+          <div class="content">
+            <div class="field">
+              <div class="control is-expanded has-icons-left">
+                <input id="addNewOrEdit" class="input id" type="text" placeholder="${System.data.locale.common.profileID}">
+                <span class="icon is-left">
+                  <i class="fas fa-user"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="media-right is-invisible">
+          <a href="#" class="icon has-text-success" title="${System.data.locale.common.save}">
+            <i class="fas fa-check"></i>
+          </a>
+          <br>
+          <a href="#" class="icon has-text-danger" title="${System.data.locale.common.clearInputs}">
+            <i class="fas fa-undo"></i>
+          </a>
+        </div>
+      </article>
+    </div>`);
+
+		this.$settingsContainer = $(".media-content > .content > .field", this.$editUserSectionContainer);
+		this.$idInput = $('input', this.$editUserSectionContainer);
+		this.$avatarContainer = $(".media-left", this.$editUserSectionContainer);
+		this.$link = $("a", this.$avatarContainer);
+		this.$nick = $(".nick", this.$link);
+		this.$avatar = $("img.avatar", this.$link);
+		this.$actions = $(".media-right", this.$editUserSectionContainer);
+		this.$resetButton = $(".has-text-danger", this.$actions);
+		this.$submitButton = $(".has-text-success", this.$actions);
+
+		this.$editUserSectionContainer.appendTo(this.$editSectionContainer);
 	}
 	async PrepareUsers() {
 		let resUsers = await GetUsers();
@@ -220,35 +263,86 @@ class Users {
 
 		return $node;
 	}
-	RenderPrivilegesList() {
-		this.pListOrder.forEach(key => {
-			let element;
+	RenderPermissionContainer() {
+		this.$permissionContainer = $(`
+    <div class="control permission marginTop20 is-hidden">
+      <div class="field">
+        <input id="switchPermission" type="checkbox" class="switch is-rtls" checked="checked">
+        <label for="switchPermission">${System.data.locale.popup.extensionManagement.users.permission}</label>
+      </div>
+    </div>`);
 
-			if (typeof key == "string") {
-				element = `<div class="is-divider" style="margin: 1em 0;"${key ? ` data-content="${key}"` : ""}></div>`;
-			} else if (key === null) {
-				element = `<br />`;
-			} else {
-				let privilege = System.data.locale.popup.extensionManagement.users.privilegeList[key];
+		this.$permission = $("input", this.$permissionContainer);
 
-				if (privilege) {
-					if (!key == 0) {
-						this.$privilegesSelect.append(`<option value="${key}" title="${privilege.description}">${privilege.title}</option>`);
-					}
+		this.$permissionContainer.appendTo(this.$settingsContainer);
+	}
+	RenderPrivilegesContainer() {
+		this.$privilegesContainer = $(`
+    <div class="control privileges marginTop20 is-hidden">
+      <label class="label">${System.data.locale.popup.extensionManagement.users.privileges}</label>
+    </div>`);
 
-					element = `
-					<div class="field" title="${privilege.description}">
-						<input class="is-checkradio is-block is-info" id="p-${key}" type="checkbox">
-						<label for="p-${key}">${privilege.title}</label>
-					</div>`;
+		this.$privilegesContainer.appendTo(this.$settingsContainer);
+	}
+	RenderPrivilegeGroup(groupKey) {
+		let group = this.privilegeListOrder[groupKey];
+
+		if (group) {
+			this.RenderDivider(group.title);
+			this.RenderPrivileges(group.privileges);
+		}
+	}
+	RenderDivider(title) {
+		let $divider = $(`<div class="is-divider"${title ? ` data-content="${title}"` : ""}></div>`);
+
+		this.$privilegesContainer.append($divider);
+	}
+	RenderPrivileges(privileges) {
+		if (privileges && privileges.length > 0)
+			privileges.forEach(key => {
+				if (key instanceof Array)
+					this.RenderSubPrivilegeGroup(key);
+				else
+					this.RenderPrivilege(key);
+			});
+	}
+	RenderSubPrivilegeGroup(group) {
+		let mainKey = group.shift();
+		let $field = this.RenderPrivilege(mainKey, { isGroupLead: true });
+
+		group.forEach(key => this.RenderPrivilege(key, { isGroupElement: true, $field }));
+	}
+	RenderPrivilege(key, { isGroupLead, isGroupElement, $field } = {}) {
+		if (key != 0 || key == 0 && System.checkUserP(0)) {
+			let privilege = System.data.locale.popup.extensionManagement.users.privilegeList[key];
+
+			if (privilege) {
+				if (!key == 0 && this.$privilegesSelect) {
+					this.$privilegesSelect.append(`<option value="${key}" title="${privilege.description}">${privilege.title}</option>`);
 				}
+
+				let $element = $(`
+        <div class="field${isGroupElement ? " marginLeft20" : ""}" title="${privilege.description}">
+          <input class="is-checkradio is-block is-info" id="p-${key}" type="checkbox">
+          <label for="p-${key}">${isGroupElement ? `<span class="content is-small">&gt;</span> ` : ""}${privilege.title}</label>
+        </div>`);
+
+				if (isGroupLead) {
+					let $field = $(`<div class="field" title="${privilege.description}"></div>`);
+
+					$element.appendTo($field);
+
+					$element = $field;
+				}
+
+				if ($field)
+					$field.append($element);
+				else
+					this.$privilegesContainer.append($element);
+
+				return $element;
 			}
-
-			if (element)
-				this.$privilegesContainer.append(element);
-		});
-
-		this.$privilegeInputs = $('input[type="checkbox"]', this.$privilegesContainer);
+		}
 	}
 	BindEvents() {
 		let that = this;
@@ -264,8 +358,12 @@ class Users {
 		this.$idInput.on("input", this.UserSearch.bind(this));
 		this.$resetButton.click(event => (event.preventDefault(), this.HideEditingForm(true)));
 		this.$submitButton.click(event => (event.preventDefault(), this.SubmitForm()));
-		this.$giveButton.click(this.GivePrivilege.bind(this));
-		this.$revokeButton.click(this.RevokePrivilege.bind(this));
+
+		if (this.$giveButton)
+			this.$giveButton.click(this.GivePrivilege.bind(this));
+
+		if (this.$revokeButton)
+			this.$revokeButton.click(this.RevokePrivilege.bind(this));
 	}
 	async UserSearch() {
 		let id = this.GetIdFromInput();
@@ -294,8 +392,12 @@ class Users {
 		this.$avatar.attr("src", "");
 		this.$avatarContainer.addClass("is-invisible");
 		this.$actions.addClass("is-invisible");
-		this.$permissionContainer.addClass("is-hidden");
-		this.$privilegesContainer.addClass("is-hidden");
+
+		if (this.$permissionContainer)
+			this.$permissionContainer.addClass("is-hidden");
+
+		if (this.$privilegesContainer)
+			this.$privilegesContainer.addClass("is-hidden");
 
 		if (clearInput) {
 			this.$idInput.val("");
@@ -304,6 +406,7 @@ class Users {
 	async FillEditingForm(user) {
 		let avatar = System.prepareAvatar(user.brainlyData);
 		let profileLink = System.createProfileLink(user.brainlyData.nick, user.brainlyData.id);
+		this.$privilegeInputs = $('input[type="checkbox"]', this.$privilegesContainer);
 
 		this.$nick.text(user.brainlyData.nick);
 		this.$avatar.attr("src", avatar);
@@ -312,8 +415,12 @@ class Users {
 		this.$permission.prop("checked", false)
 		this.$privilegeInputs.prop("checked", false);
 		this.$avatarContainer.removeClass("is-invisible");
-		this.$permissionContainer.removeClass("is-hidden");
-		this.$privilegesContainer.removeClass("is-hidden");
+
+		if (this.$permissionContainer)
+			this.$permissionContainer.removeClass("is-hidden");
+
+		if (this.$privilegesContainer)
+			this.$privilegesContainer.removeClass("is-hidden");
 
 		if (user.serverData) {
 			this.$permission.prop("checked", user.serverData.approved);

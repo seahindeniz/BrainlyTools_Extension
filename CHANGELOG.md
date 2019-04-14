@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [6.22.0] - 2019.04.0
+## [6.22.0] - 2019.04.14
 
 ### Added
 

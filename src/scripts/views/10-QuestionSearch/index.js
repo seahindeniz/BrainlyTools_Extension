@@ -73,7 +73,8 @@ class QuestionSearch {
 		else {
 			questionBox.$ = $question;
 
-			questionBox.ShowSelectbox();
+      questionBox.RenderQuestionOwner();
+      questionBox.ShowSelectbox();
 			questionBox.ShowQuickDeleteButtons();
 		}
 	}

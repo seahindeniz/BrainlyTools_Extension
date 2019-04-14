@@ -151,12 +151,12 @@ popup:
       # Suffix will needs to added in your language as well. Example: in English words will replaced as 'Started to use 5 days ago', in Turkish '5 gun once kullanmaya basladi'
       firstUsageTimeAgoPreTitle: "Début d'utilisation %{time}"
       hasntUsed: L'utilisateur n'a pas encore utilisé l'extension
-      # Please see this before translating: https://ibb.co/6wJ7sWC
+      # Please see this before translating: https://ibb.co/nR6jKmD
       important: Important
-      # Please see this before translating: https://ibb.co/6wJ7sWC
-      moderate: Modérer
-      # Please see this before translating: https://ibb.co/6wJ7sWC
-      lessHarmless: Autres
+      # Please see this before translating: https://ibb.co/nR6jKmD
+      lessImportant: Moins important
+      # Please see this before translating: https://ibb.co/nR6jKmD
+      harmless: Autres
       explainingColors:
         line1: Quelques utilisateurs ont des bordures colorées sur leur avatar et ces couleurs indiquent leur permission d'accès à l'extension
         # ! Important: You need to specify a color name inside the braces like this: in English <s>Red</s> or in Turkish <s>Kirmizi</s> or in Indonesian <s>Merah</s>
@@ -215,7 +215,7 @@ popup:
           description: "Sur la page des contenus d'un utilisateur, l'utilisateur peut approuver ou désapprouver les réponses en les sélectionnant"
         "14":
           title: Suppression des questions sélectionnées
-          description: "Sur la page des contenus d'un utilisateur, l'utilisateur a la possibilité de supprimer les questions sélectionnées"
+          description: "Sur la page des contenus d'un utilisateurs et la page de recherche de question, l'utilisateur peut supprimer des questions en les sélectionnant"
         "15":
           title: Suppression des réponses sélectionnées
           description: "Sur la page des contenus d'un utilisateur, l'utilisateur a la possibilité de supprimer les réponses sélectionnées"
@@ -234,6 +234,18 @@ popup:
         "21":
           title: Voir les privilèges de l'utilisateur
           description: L'utilisateur peut voir les privilèges des autres utilisateurs utilisateurs sans faire de modifications
+        "22":
+          title: Peut changer les permissions d'accès
+          description: L'utilisateur peut gérer les permissions d'utilisateurs de l'extension
+        "23":
+          title: Peut changer les privilèges importants
+          description: L'utilisateur peut assigner/révoquer les privilèges importants aux autres utilisateurs
+        "24":
+          title: Peut changer les privilèges moins important
+          description: L'utilisateur peut assigner/révoquer les privilèges moins importants aux autres utilisateurs
+        "25":
+          title: Peut changer les autres privilèges
+          description: L'utilisateur peut assigner/révoquer les autres privilèges  aux autres utilisateurs
     announcements:
       text: Annonces
       addNewAnnouncement: Ajouter une nouvelle annonce

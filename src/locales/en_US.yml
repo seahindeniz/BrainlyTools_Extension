@@ -151,12 +151,12 @@ popup:
       # Suffix will needs to added in your language as well. Example: in English words will replaced as 'Started to use 5 days ago', in Turkish '5 gun once kullanmaya basladi'
       firstUsageTimeAgoPreTitle: Started to use %{time}
       hasntUsed: User hasn't used the extension yet
-      # Please see this before translating: https://ibb.co/6wJ7sWC
+      # Please see this before translating: https://ibb.co/nR6jKmD
       important: Important
-      # Please see this before translating: https://ibb.co/6wJ7sWC
-      moderate: Moderate
-      # Please see this before translating: https://ibb.co/6wJ7sWC
-      lessHarmless: Less harmless
+      # Please see this before translating: https://ibb.co/nR6jKmD
+      lessImportant: Less important
+      # Please see this before translating: https://ibb.co/nR6jKmD
+      harmless: Harmless
       explainingColors:
         line1: Some users has colored border in their avatars and this colors shows that their access permission status of the extension.
         # ! Important: You need to specify a color name inside the braces like this: in English <s>Red</s> or in Turkish <s>Kirmizi</s> or in Indonesian <s>Merah</s>
@@ -215,7 +215,7 @@ popup:
           description: On the user contents page, user can approve or unapprove the answers by selecting
         "14":
           title: Selective question deletion
-          description: On the user contents page, user can use the selective deletion function to delete selected questions
+          description: On the user contents and question searching page, user can use the selective deletion function to delete selected questions
         "15":
           title: Selective answer deletion
           description: On the user contents page, user can use the selective deletion function to delete selected answers
@@ -234,6 +234,18 @@ popup:
         "21":
           title: Review user privileges
           description: User can review other extension users privileges without making any changes
+        "22":
+          title: Can change access permission
+          description: User can manage permissions to use the extension
+        "23":
+          title: Can change important privilege
+          description: User can assign/revoke important privileges to other extension users
+        "24":
+          title: Can change less important privilege
+          description: User can assign/revoke less important privileges to extension users
+        "25":
+          title: Can change harmless privilege
+          description: User can assign/revoke harmless privileges to other extension users
     announcements:
       text: Announcements
       addNewAnnouncement: Add a new announcement

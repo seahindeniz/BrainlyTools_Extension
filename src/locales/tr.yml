@@ -151,12 +151,12 @@ popup:
       # Suffix will needs to added in your language as well. Example: in English words will replaced as 'Started to use 5 days ago', in Turkish '5 gun once kullanmaya basladi'
       firstUsageTimeAgoPreTitle: "%{time} kullanmaya başladı"
       hasntUsed: Kullanıcı henüz eklentiyi kullanmadı
-      # Please see this before translating: https://ibb.co/6wJ7sWC
+      # Please see this before translating: https://ibb.co/nR6jKmD
       important: Önemli
-      # Please see this before translating: https://ibb.co/6wJ7sWC
-      moderate: Ortalama
-      # Please see this before translating: https://ibb.co/6wJ7sWC
-      lessHarmless: Zararsız
+      # Please see this before translating: https://ibb.co/nR6jKmD
+      lessImportant: Az önemli
+      # Please see this before translating: https://ibb.co/nR6jKmD
+      harmless: Zararsız
       explainingColors:
         line1: "Bazı kullanıcıların avatarlarında renkli kenarlık var ve bu kenarlıklar, kullanıcıların eklenti kullanım durumlarını gösterir."
         # ! Important: You need to specify a color name inside the braces like this: in English <s>Red</s> or in Turkish <s>Kirmizi</s> or in Indonesian <s>Merah</s>
@@ -215,7 +215,7 @@ popup:
           description: "Kullanıcı bilgilerini gör sayfasında, kullanıcı cevaplarını seçerek doğrulama"
         "14":
           title: Seçmeli soru silimi
-          description: "Kullanıcı, kullanıcı bilgileri gör sayfasında soruları seçerek silim yapabilir"
+          description: "Kullanıcı, kullanıcı bilgileri gör ve soru arama sayfasında soruları seçerek silim yapabilir"
         "15":
           title: Seçmeli cevap silimi
           description: "Kullanıcı, kullanıcı bilgileri gör sayfasında cevapları seçerek silim yapabilir"
@@ -234,6 +234,18 @@ popup:
         "21":
           title: Kullanıcının yetkilerini görebilme
           description: "Kullanıcı, diğer eklenti kullanıcılarının sahip olduğu yetkileri düzenlemeden, sadece görüntüleyebilir"
+        "22":
+          title: Erişim iznini değiştirebilme
+          description: Kullanıcı eklentiyi kullanma yetkisini değiştirebilir
+        "23":
+          title: Önemli yetkileri değiştirebilme
+          description: "Kullanıcı, diğer kullanıcılara önemli yetkileri atayabilir veya kaldırabilir"
+        "24":
+          title: Az önemli yetkileri değiştirebilme
+          description: "Kullanıcı, diğer kullanıcılara az önemli yetkileri atayabilir veya kaldırabilir"
+        "25":
+          title: Zararsız yetkileri değiştirebilme
+          description: "Kullanıcı, diğer kullanıcılara zararsız yetkileri atayabilir veya kaldırabilir"
     announcements:
       text: Duyurular
       addNewAnnouncement: Yeni duyuru ekle

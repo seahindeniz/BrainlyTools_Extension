@@ -151,12 +151,12 @@ popup:
       # Suffix will needs to added in your language as well. Example: in English words will replaced as 'Started to use 5 days ago', in Turkish '5 gun once kullanmaya basladi'
       firstUsageTimeAgoPreTitle: "Mulai menggunakan pada %{time}"
       hasntUsed: Pengguna belum menggunakan ekstensi
-      # Please see this before translating: https://ibb.co/6wJ7sWC
+      # Please see this before translating: https://ibb.co/nR6jKmD
       important: Penting
-      # Please see this before translating: https://ibb.co/6wJ7sWC
-      moderate: Moderasi
-      # Please see this before translating: https://ibb.co/6wJ7sWC
-      lessHarmless: sedikit merugikan
+      # Please see this before translating: https://ibb.co/nR6jKmD
+      lessImportant: Kurang penting
+      # Please see this before translating: https://ibb.co/nR6jKmD
+      harmless: Tidak berbahaya
       explainingColors:
         line1: Beberapa pengguna memiliki warna pada border avatar mereka dan warna ini menunjukkan status izin penggunaan ekstensi mereka
         # ! Important: You need to specify a color name inside the braces like this: in English <s>Red</s> or in Turkish <s>Kirmizi</s> or in Indonesian <s>Merah</s>
@@ -234,6 +234,18 @@ popup:
         "21":
           title: Meninjau privilege pengguna
           description: Pengguna dapat meninjau privilege pengguna ekstensi lainnya tanpa membuat perubahan apa pun
+        "22":
+          title: Dapat mengubah izin akses
+          description: Pengguna dapat mengatur izin untuk menggunakan ekstensi
+        "23":
+          title: Dapat mengubah privilege yang penting
+          description: Pengguna dapat menetapkan atau membatalkan privilege yang penting untuk pengguna ekstensi lainnya
+        "24":
+          title: Dapat mengubah privilege yang kurang penting
+          description: Pengguna dapat menetapkan atau membatalkan privilege yang tidak penting untuk pengguna ekstensi lainnya
+        "25":
+          title: Dapat mengubah privilege yang tidak berbahaya
+          description: Pengguna dapat menetapkan atau membatalkan privilege yang tidak berbahaya untuk pengguna ekstensi lainnya
     announcements:
       text: Pengumuman
       addNewAnnouncement: Tambahkan sebuah pengumuman

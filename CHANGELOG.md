@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.22.0] - 2019.04.0
+
+### Added
+
+- Selective deletion on question search (<https://ibb.co/ws9xgyt>)
+- [#49] Quick delete buttons on question search (<https://ibb.co/ws9xgyt>)
+
+[#49]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/49
+
 ## [6.21.2] - 2019.04.05
 
 ### Changed

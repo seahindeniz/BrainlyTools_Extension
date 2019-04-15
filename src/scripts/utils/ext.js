@@ -24,10 +24,10 @@ const apis = [
   'windows',
 ]
 
-function Extension () {
+function Extension() {
   const _this = this
 
-  apis.forEach(function (api) {
+  apis.forEach(function(api) {
 
     _this[api] = null
 

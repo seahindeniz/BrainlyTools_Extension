@@ -11,317 +11,317 @@ import templateModalContent from "./templates/ModalContent.html";
 const MAX_MESSAGE_LENGTH = 512;
 
 class MassMessageSender {
-	constructor() {
-		this.SendMessages = new SendMessageToBrainlyIds({
-			EachBefore: this.BeforeSending.bind(this),
-			Each: this.MessageSend.bind(this),
-			Done: this.SendingDone.bind(this)
-		});
+  constructor() {
+    this.SendMessages = new SendMessageToBrainlyIds({
+      EachBefore: this.BeforeSending.bind(this),
+      Each: this.MessageSend.bind(this),
+      Done: this.SendingDone.bind(this)
+    });
 
-		this.Init();
-	}
-	Init() {
-		this.RenderLi();
-		this.RenderModal();
-		this.RenderSpinner();
-		this.RenderAllUsersSection();
-		this.RenderModeratorsSection();
-		this.RenderIdListSection();
-		this.RenderResultsSection();
-		this.RenderSendButton();
-		this.RenderContinueButton();
-		this.RenderStopButton();
-		this.BindEvents();
-	}
-	RenderLi() {
-		this.$li = $(`
+    this.Init();
+  }
+  Init() {
+    this.RenderLi();
+    this.RenderModal();
+    this.RenderSpinner();
+    this.RenderAllUsersSection();
+    this.RenderModeratorsSection();
+    this.RenderIdListSection();
+    this.RenderResultsSection();
+    this.RenderSendButton();
+    this.RenderContinueButton();
+    this.RenderStopButton();
+    this.BindEvents();
+  }
+  RenderLi() {
+    this.$li = $(`
 		<li class="sg-menu-list__element" style="display: table; width: 100%;">
 			<span class="sg-menu-list__link sg-text--link">${System.data.locale.core.MessageSender.text}</span>
 		</li>`);
 
-	}
-	RenderModal() {
-		this.modal = new Modal({
-			header: `
+  }
+  RenderModal() {
+    this.modal = new Modal({
+      header: `
 			<div class="sg-actions-list sg-actions-list--space-between">
 				<div class="sg-actions-list__hole">
 					<div class="sg-text sg-text--peach">${System.data.locale.core.MessageSender.text}</div>
 				</div>
 			</div>`,
-			content: template(templateModalContent, { MAX_MESSAGE_LENGTH }),
-			actions: `<div class="sg-actions-list"></div>`,
-			size: "large"
-		});
+      content: template(templateModalContent, { MAX_MESSAGE_LENGTH }),
+      actions: `<div class="sg-actions-list"></div>`,
+      size: "large"
+    });
 
-		this.$message = $("textarea", this.modal.$modal);
-		this.$messageSpinner = this.$message.parent();
-		this.$targetRadios = $(`input[name="target"]`, this.modal.$modal);
-		this.$targetRadiosContainer = $(`> .sg-content-box > .sg-content-box__actions .sg-content-box__actions > .sg-actions-list`, this.modal.$content);
-		this.$buttonContainer = $(".sg-actions-list", this.modal.$actions);
-		this.$targetsSection = $("> .sg-content-box > .sg-content-box__actions", this.modal.$content);
-		this.$targetContainer = $(`> .sg-content-box > .sg-content-box__content:eq(1)`, this.$targetsSection);
-		this.$characterCount = $("> .sg-content-box > .sg-content-box__content > .sg-actions-list > .sg-actions-list__hole > .sg-text > span", this.modal.$content);
-	}
-	RenderSpinner() {
-		this.$spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner"></div></div>`);
-	}
-	RenderAllUsersSection() {
-		this.AllUsersSection = new AllUsersSection(this);
-	}
-	RenderModeratorsSection() {
-		this.ModeratorsSection = new ModeratorsSection(this);
-	}
-	RenderIdListSection() {
-		this.IdListSection = new IdListSection(this);
-	}
-	RenderResultsSection() {
-		this.ResultsSection = new ResultsSection(this);
-	}
-	RenderSendButton() {
-		this.$sendButtonContainer = $(`
+    this.$message = $("textarea", this.modal.$modal);
+    this.$messageSpinner = this.$message.parent();
+    this.$targetRadios = $(`input[name="target"]`, this.modal.$modal);
+    this.$targetRadiosContainer = $(`> .sg-content-box > .sg-content-box__actions .sg-content-box__actions > .sg-actions-list`, this.modal.$content);
+    this.$buttonContainer = $(".sg-actions-list", this.modal.$actions);
+    this.$targetsSection = $("> .sg-content-box > .sg-content-box__actions", this.modal.$content);
+    this.$targetContainer = $(`> .sg-content-box > .sg-content-box__content:eq(1)`, this.$targetsSection);
+    this.$characterCount = $("> .sg-content-box > .sg-content-box__content > .sg-actions-list > .sg-actions-list__hole > .sg-text > span", this.modal.$content);
+  }
+  RenderSpinner() {
+    this.$spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner"></div></div>`);
+  }
+  RenderAllUsersSection() {
+    this.AllUsersSection = new AllUsersSection(this);
+  }
+  RenderModeratorsSection() {
+    this.ModeratorsSection = new ModeratorsSection(this);
+  }
+  RenderIdListSection() {
+    this.IdListSection = new IdListSection(this);
+  }
+  RenderResultsSection() {
+    this.ResultsSection = new ResultsSection(this);
+  }
+  RenderSendButton() {
+    this.$sendButtonContainer = $(`
 		<div class="sg-actions-list__hole">
 			<button class="sg-button-primary">${System.data.locale.messages.groups.send}</button>
 		</div>`);
 
-		this.$sendButton = $("button", this.$sendButtonContainer);
-	}
-	RenderContinueButton() {
-		this.$continueButtonContainer = $(`
+    this.$sendButton = $("button", this.$sendButtonContainer);
+  }
+  RenderContinueButton() {
+    this.$continueButtonContainer = $(`
 		<div class="sg-actions-list__hole">
 			<button class="sg-button-primary sg-button-primary--alt">${System.data.locale.common.continue}</button>
 		</div>`);
 
-		this.$continueButton = $("button", this.$continueButtonContainer);
-	}
-	RenderStopButton() {
-		this.$stopButtonContainer = $(`
+    this.$continueButton = $("button", this.$continueButtonContainer);
+  }
+  RenderStopButton() {
+    this.$stopButtonContainer = $(`
 		<div class="sg-actions-list__hole">
 			<button class="sg-button-primary sg-button-primary--peach">${System.data.locale.common.stop}</button>
 		</div>`);
 
-		this.$stopButton = $("button", this.$stopButtonContainer);
-	}
-	BindEvents() {
-		this.$li.on("click", "span", this.OpenModal.bind(this));
-		this.modal.$close.click(this.modal.Close.bind(this.modal));
-		this.$message.on({
-			keydown: this.LimitMessage.bind(this),
-			input: this.UpdateCharCount.bind(this)
-		});
-		this.$targetRadios.change(this.SwitchTarget.bind(this));
-		this.$sendButton.click(this.StartSending.bind(this));
-		this.$stopButton.click(this.StopSending.bind(this));
-		this.$continueButton.click(this.ContinueSending.bind(this));
-	}
-	OpenModal() {
-		this.modal.Open();
-		this.ModeratorsSection.RenderModerators();
-	}
-	/**
-	 * @param {JQuery.KeyDownEvent} event
-	 */
-	LimitMessage(event) {
-		let len = event.target.value.length;
+    this.$stopButton = $("button", this.$stopButtonContainer);
+  }
+  BindEvents() {
+    this.$li.on("click", "span", this.OpenModal.bind(this));
+    this.modal.$close.click(this.modal.Close.bind(this.modal));
+    this.$message.on({
+      keydown: this.LimitMessage.bind(this),
+      input: this.UpdateCharCount.bind(this)
+    });
+    this.$targetRadios.change(this.SwitchTarget.bind(this));
+    this.$sendButton.click(this.StartSending.bind(this));
+    this.$stopButton.click(this.StopSending.bind(this));
+    this.$continueButton.click(this.ContinueSending.bind(this));
+  }
+  OpenModal() {
+    this.modal.Open();
+    this.ModeratorsSection.RenderModerators();
+  }
+  /**
+   * @param {JQuery.KeyDownEvent} event
+   */
+  LimitMessage(event) {
+    let len = event.target.value.length;
 
-		if (
-			len >= MAX_MESSAGE_LENGTH &&
-			IsKeyAlphaNumeric(event)
-		)
-			event.preventDefault();
-	}
-	/**
-	 * @param {JQuery.KeyPressEvent} event
-	 */
-	UpdateCharCount(event) {
-		let len = event.target.value.length;
+    if (
+      len >= MAX_MESSAGE_LENGTH &&
+      IsKeyAlphaNumeric(event)
+    )
+      event.preventDefault();
+  }
+  /**
+   * @param {JQuery.KeyPressEvent} event
+   */
+  UpdateCharCount(event) {
+    let len = event.target.value.length;
 
-		this.$characterCount.text(len);
-		this.$message.removeClass("error");
+    this.$characterCount.text(len);
+    this.$message.removeClass("error");
 
-		if (len > MAX_MESSAGE_LENGTH)
-			this.$characterCount.removeClass("sg-text--mint").addClass("sg-text--peach-dark");
-		else
-			this.$characterCount.removeClass("sg-text--peach-dark").addClass("sg-text--mint");
-	}
-	/**
-	 * @param {JQuery.ChangeEvent} event
-	 */
-	SwitchTarget(event) {
-		this.ShowSendButton();
-		this.HideModeratorsSection();
-		this.HideIdInputSection();
-		this.HideAllUsersSection();
-		this.ModeratorsSection.ClearUserList();
+    if (len > MAX_MESSAGE_LENGTH)
+      this.$characterCount.removeClass("sg-text--mint").addClass("sg-text--peach-dark");
+    else
+      this.$characterCount.removeClass("sg-text--peach-dark").addClass("sg-text--mint");
+  }
+  /**
+   * @param {JQuery.ChangeEvent} event
+   */
+  SwitchTarget(event) {
+    this.ShowSendButton();
+    this.HideModeratorsSection();
+    this.HideIdInputSection();
+    this.HideAllUsersSection();
+    this.ModeratorsSection.ClearUserList();
 
-		if (event.target.id == "allUsers")
-			this.ShowAllUsersSection();
-		else if (event.target.id == "moderators")
-			this.ShowModeratorsSection();
-		else if (event.target.id == "idList")
-			this.ShowIdInputSection();
-	}
-	ShowSendButton() {
-		this.HideStopButton();
-		this.$sendButtonContainer.appendTo(this.$buttonContainer);
-	}
-	HideSendButton() {
-		this.HideElement(this.$sendButtonContainer);
-		this.$sendButton.text(System.data.locale.core.MessageSender.startOver);
-	}
-	ShowContinueButton() {
-		this.$continueButtonContainer.appendTo(this.$buttonContainer);
-	}
-	HideContinueButton() {
-		this.HideElement(this.$continueButtonContainer);
-	}
-	ShowStopButton() {
-		this.HideSendButton();
-		this.$stopButtonContainer.appendTo(this.$buttonContainer);
-	}
-	HideStopButton() {
-		this.HideElement(this.$stopButtonContainer);
-	}
-	ShowAllUsersSection() {
-		this.SelectedSection = this.AllUsersSection;
+    if (event.target.id == "allUsers")
+      this.ShowAllUsersSection();
+    else if (event.target.id == "moderators")
+      this.ShowModeratorsSection();
+    else if (event.target.id == "idList")
+      this.ShowIdInputSection();
+  }
+  ShowSendButton() {
+    this.HideStopButton();
+    this.$sendButtonContainer.appendTo(this.$buttonContainer);
+  }
+  HideSendButton() {
+    this.HideElement(this.$sendButtonContainer);
+    this.$sendButton.text(System.data.locale.core.MessageSender.startOver);
+  }
+  ShowContinueButton() {
+    this.$continueButtonContainer.appendTo(this.$buttonContainer);
+  }
+  HideContinueButton() {
+    this.HideElement(this.$continueButtonContainer);
+  }
+  ShowStopButton() {
+    this.HideSendButton();
+    this.$stopButtonContainer.appendTo(this.$buttonContainer);
+  }
+  HideStopButton() {
+    this.HideElement(this.$stopButtonContainer);
+  }
+  ShowAllUsersSection() {
+    this.SelectedSection = this.AllUsersSection;
 
-		this.AllUsersSection.$.appendTo(this.$targetContainer);
-	}
-	HideAllUsersSection() {
-		this.HideElement(this.AllUsersSection.$);
-	}
-	ShowModeratorsSection() {
-		this.SelectedSection = this.ModeratorsSection;
+    this.AllUsersSection.$.appendTo(this.$targetContainer);
+  }
+  HideAllUsersSection() {
+    this.HideElement(this.AllUsersSection.$);
+  }
+  ShowModeratorsSection() {
+    this.SelectedSection = this.ModeratorsSection;
 
-		this.ModeratorsSection.ChangeRank();
-		this.ModeratorsSection.$.appendTo(this.$targetContainer);
-	}
-	HideModeratorsSection() {
-		this.HideElement(this.ModeratorsSection.$);
-	}
-	HideElement($element) {
-		$element.appendTo("<div />");
-	}
-	ShowIdInputSection() {
-		this.SelectedSection = this.IdListSection;
+    this.ModeratorsSection.ChangeRank();
+    this.ModeratorsSection.$.appendTo(this.$targetContainer);
+  }
+  HideModeratorsSection() {
+    this.HideElement(this.ModeratorsSection.$);
+  }
+  HideElement($element) {
+    $element.appendTo("<div />");
+  }
+  ShowIdInputSection() {
+    this.SelectedSection = this.IdListSection;
 
-		this.IdListSection.$.appendTo(this.$targetContainer);
-	}
-	HideIdInputSection() {
-		this.HideElement(this.IdListSection.$);
-	}
-	StartSending() {
-		let message = this.message;
-		let idList = this.SelectedSection.idList;
+    this.IdListSection.$.appendTo(this.$targetContainer);
+  }
+  HideIdInputSection() {
+    this.HideElement(this.IdListSection.$);
+  }
+  StartSending() {
+    let message = this.message;
+    let idList = this.SelectedSection.idList;
 
-		if (!message || message.length > MAX_MESSAGE_LENGTH)
-			this.ShowWrongMessageLengthError();
-		else if (!idList || idList.length == 0)
-			this.SelectedSection.ShowEmptyIdListError();
-		else {
-			window.isPageProcessing = true;
+    if (!message || message.length > MAX_MESSAGE_LENGTH)
+      this.ShowWrongMessageLengthError();
+    else if (!idList || idList.length == 0)
+      this.SelectedSection.ShowEmptyIdListError();
+    else {
+      window.isPageProcessing = true;
 
-			this.ShowSpinner();
-			this.ShowStopButton();
-			this.HideSendButton();
-			this.HideContinueButton();
-			this.ShowResultsSection();
-			this.ResultsSection.ResetValues();
-			this.SendMessages.Start(idList, message);
-		}
-	}
-	get message() {
-		return this.$message.val().trim();
-	}
-	ShowWrongMessageLengthError() {
-		this.modal.notification(System.data.locale.messages.groups.notificationMessages.wrongMessageLength.replace("%{max_value}", MAX_MESSAGE_LENGTH), "error");
-		this.$message.addClass("error").focus();
-	}
-	ShowSpinner() {
-		this.SelectedSection.ShowSpinner();
-		this.$spinner.appendTo(this.$messageSpinner);
-	}
-	HideSpinner() {
-		this.HideElement(this.$spinner);
-		this.SelectedSection.HideSpinner();
-	}
-	ShowResultsSection() {
-		this.ResultsSection.$.insertAfter(this.$targetsSection);
-	}
-	HideResultsSection() {
-		this.HideElement(this.ResultsSection.$);
-	}
-	async StopSending(isDone) {
-		window.isPageProcessing = false;
+      this.ShowSpinner();
+      this.ShowStopButton();
+      this.HideSendButton();
+      this.HideContinueButton();
+      this.ShowResultsSection();
+      this.ResultsSection.ResetValues();
+      this.SendMessages.Start(idList, message);
+    }
+  }
+  get message() {
+    return this.$message.val().trim();
+  }
+  ShowWrongMessageLengthError() {
+    this.modal.notification(System.data.locale.messages.groups.notificationMessages.wrongMessageLength.replace("%{max_value}", MAX_MESSAGE_LENGTH), "error");
+    this.$message.addClass("error").focus();
+  }
+  ShowSpinner() {
+    this.SelectedSection.ShowSpinner();
+    this.$spinner.appendTo(this.$messageSpinner);
+  }
+  HideSpinner() {
+    this.HideElement(this.$spinner);
+    this.SelectedSection.HideSpinner();
+  }
+  ShowResultsSection() {
+    this.ResultsSection.$.insertAfter(this.$targetsSection);
+  }
+  HideResultsSection() {
+    this.HideElement(this.ResultsSection.$);
+  }
+  async StopSending(isDone) {
+    window.isPageProcessing = false;
 
-		this.SetStoppedSection();
-		this.HideSpinner();
-		this.SendMessages.Stop();
+    this.SetStoppedSection();
+    this.HideSpinner();
+    this.SendMessages.Stop();
 
-		if (isDone === true) {
-			this.$sendButton.text(System.data.locale.messages.groups.send);
-		}
+    if (isDone === true) {
+      this.$sendButton.text(System.data.locale.messages.groups.send);
+    }
 
-		await System.Delay(300);
-		this.ShowSendButton();
+    await System.Delay(300);
+    this.ShowSendButton();
 
-		if (isDone !== true) {
-			this.ShowContinueButton();
-		}
-	}
-	SetStoppedSection() {
-		this.StoppedSection = $(":checked", this.$targetRadiosContainer);
-	}
-	async ContinueSending() {
-		this.SendMessages.content = this.message;
+    if (isDone !== true) {
+      this.ShowContinueButton();
+    }
+  }
+  SetStoppedSection() {
+    this.StoppedSection = $(":checked", this.$targetRadiosContainer);
+  }
+  async ContinueSending() {
+    this.SendMessages.content = this.message;
 
-		this.SwitchTarget({ target: { id: this.StoppedSection.prop("checked", true).attr("id") } });
-		await System.Delay(10);
-		this.ShowSpinner();
-		this.ShowStopButton();
-		this.HideSendButton();
-		this.HideContinueButton();
-		this.SendMessages.StartSending();
-	}
-	BeforeSending(user) {
-		this.SelectedSection.BeforeSending(user);
-	}
-	MessageSend(user) {
-		this.CheckErrorStatus(user);
-		this.UpdateResultsNumbers(user);
-		this.SelectedSection.MessageSend(user);
-	}
-	CheckErrorStatus(user) {
-		if (user.validation_errors) {
-			this.StopSending();
+    this.SwitchTarget({ target: { id: this.StoppedSection.prop("checked", true).attr("id") } });
+    await System.Delay(10);
+    this.ShowSpinner();
+    this.ShowStopButton();
+    this.HideSendButton();
+    this.HideContinueButton();
+    this.SendMessages.StartSending();
+  }
+  BeforeSending(user) {
+    this.SelectedSection.BeforeSending(user);
+  }
+  MessageSend(user) {
+    this.CheckErrorStatus(user);
+    this.UpdateResultsNumbers(user);
+    this.SelectedSection.MessageSend(user);
+  }
+  CheckErrorStatus(user) {
+    if (user.validation_errors) {
+      this.StopSending();
 
-			if (user.validation_errors) {
-				let error = user.validation_errors.content;
-				let errorMessage = System.data.locale.common.notificationMessages.somethingWentWrong;
+      if (user.validation_errors) {
+        let error = user.validation_errors.content;
+        let errorMessage = System.data.locale.common.notificationMessages.somethingWentWrong;
 
-				if (error.vulgarism) {
-					errorMessage = System.data.locale.messages.groups.notificationMessages.messageContainsSwear;
-				} else if (error.length) {
-					errorMessage = this.ShowWrongMessageLengthError();
-				}
+        if (error.vulgarism) {
+          errorMessage = System.data.locale.messages.groups.notificationMessages.messageContainsSwear;
+        } else if (error.length) {
+          errorMessage = this.ShowWrongMessageLengthError();
+        }
 
-				this.modal.notification(errorMessage, "error");
-			}
-		}
-	}
-	UpdateResultsNumbers(user) {
-		if (!user.exception_type) {
-			this.ResultsSection.IncreaseSent();
-		} else if (user.exception_type == 500) {
-			this.ResultsSection.IncreaseUsersNotFound();
-		} else {
-			this.ResultsSection.IncreaseErrors();
-		}
-	}
-	SendingDone() {
-		this.StopSending(true);
-		this.HideContinueButton();
-		console.log("All send!");
-	}
+        this.modal.notification(errorMessage, "error");
+      }
+    }
+  }
+  UpdateResultsNumbers(user) {
+    if (!user.exception_type) {
+      this.ResultsSection.IncreaseSent();
+    } else if (user.exception_type == 500) {
+      this.ResultsSection.IncreaseUsersNotFound();
+    } else {
+      this.ResultsSection.IncreaseErrors();
+    }
+  }
+  SendingDone() {
+    this.StopSending(true);
+    this.HideContinueButton();
+    console.log("All send!");
+  }
 }
 
 export default MassMessageSender

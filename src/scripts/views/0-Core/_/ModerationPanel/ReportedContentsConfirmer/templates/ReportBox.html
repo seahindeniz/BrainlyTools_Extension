@@ -1,60 +1,60 @@
 <div class="sg-content-box sg-content-box--spaced-bottom-large">
-	<div class="sg-box sg-box--no-border sg-box--full sg-box--small-padding sg-box--gray-secondary-lightest">
-		<div class="sg-box__hole">
-			<div class="sg-actions-list sg-actions-list--to-top sg-actions-list--no-wrap">
-				<div class="sg-actions-list__hole sg-actions-list__hole--grow">
-					<div class="sg-content-box">
-						<div class="sg-content-box__title">
-							<div class="sg-actions-list sg-actions-list--no-wrap sg-actions-list--space-between">
-								<div class="sg-actions-list__hole">
-									<div class="sg-content-box__content">
-										<ul class="sg-breadcrumb-list sg-breadcrumb-list--short">
-											<li class="sg-breadcrumb-list__element">
-												<span class="sg-text sg-text--small sg-text--gray sg-text--bold">
-													<a href="${System.createBrainlyLink('task', { id: task_id })}" target="_blank" class="sg-text sg-text--small sg-text--link sg-text--bold sg-text--peach">${task_id}</a>
-												</span>
-											</li>
-											<li class="sg-breadcrumb-list__element">
-												<a href="${System.createProfileLink(reportee.nick, reportee.id)}" target="_blank" class="sg-text sg-text--small sg-text--link sg-text--bold sg-text--blue">${reportee.nick}</a>
-											</li>
-										</ul>
-									</div>
-								</div>
-								<div class="sg-actions-list__hole">
-									<div class="sg-content-box__content">
-										<div class="sg-actions-list">
-											<div class="sg-actions-list__hole">
-												<div class="sg-label sg-label--small sg-label--secondary">
-													<div class="sg-label__icon">
-														<div class="sg-icon sg-icon--peach sg-icon--x14">
-															<svg class="sg-icon__svg">
-																<use xlink:href="#icon-report_flag"></use>
-															</svg>
-														</div>
-													</div>
-													<a href="${System.createProfileLink(reporter.nick, reporter.id)}" target="_blank" class="sg-text sg-text--small sg-text--link sg-text--bold sg-text--mint">${reporter.nick}</a>
-												</div>
-											</div>
-											<div class="sg-actions-list__hole">
-												<span class="sg-text sg-text--small sg-text--gray sg-text--bold">${report.created_fixed}</span>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="sg-content-box__content sg-content-box__content--full">
-							<div class="sg-actions-list sg-actions-list--to-top sg-actions-list--no-wrap">
-								<div class="sg-actions-list__hole sg-actions-list__hole--hide-overflow">
-									<p class="sg-text sg-text--break-words">
-										<span>${content_short}</span>
-									</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+  <div class="sg-box sg-box--no-border sg-box--full sg-box--small-padding sg-box--gray-secondary-lightest">
+    <div class="sg-box__hole">
+      <div class="sg-actions-list sg-actions-list--to-top sg-actions-list--no-wrap">
+        <div class="sg-actions-list__hole sg-actions-list__hole--grow">
+          <div class="sg-content-box">
+            <div class="sg-content-box__title">
+              <div class="sg-actions-list sg-actions-list--no-wrap sg-actions-list--space-between">
+                <div class="sg-actions-list__hole">
+                  <div class="sg-content-box__content">
+                    <ul class="sg-breadcrumb-list sg-breadcrumb-list--short">
+                      <li class="sg-breadcrumb-list__element">
+                        <span class="sg-text sg-text--small sg-text--gray sg-text--bold">
+                          <a href="${System.createBrainlyLink('task', { id: task_id })}" target="_blank" class="sg-text sg-text--small sg-text--link sg-text--bold sg-text--peach">${task_id}</a>
+                        </span>
+                      </li>
+                      <li class="sg-breadcrumb-list__element">
+                        <a href="${System.createProfileLink(reportee.nick, reportee.id)}" target="_blank" class="sg-text sg-text--small sg-text--link sg-text--bold sg-text--blue">${reportee.nick}</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="sg-actions-list__hole">
+                  <div class="sg-content-box__content">
+                    <div class="sg-actions-list">
+                      <div class="sg-actions-list__hole">
+                        <div class="sg-label sg-label--small sg-label--secondary">
+                          <div class="sg-label__icon">
+                            <div class="sg-icon sg-icon--peach sg-icon--x14">
+                              <svg class="sg-icon__svg">
+                                <use xlink:href="#icon-report_flag"></use>
+                              </svg>
+                            </div>
+                          </div>
+                          <a href="${System.createProfileLink(reporter.nick, reporter.id)}" target="_blank" class="sg-text sg-text--small sg-text--link sg-text--bold sg-text--mint">${reporter.nick}</a>
+                        </div>
+                      </div>
+                      <div class="sg-actions-list__hole">
+                        <span class="sg-text sg-text--small sg-text--gray sg-text--bold">${report.created_fixed}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="sg-content-box__content sg-content-box__content--full">
+              <div class="sg-actions-list sg-actions-list--to-top sg-actions-list--no-wrap">
+                <div class="sg-actions-list__hole sg-actions-list__hole--hide-overflow">
+                  <p class="sg-text sg-text--break-words">
+                    <span>${content_short}</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

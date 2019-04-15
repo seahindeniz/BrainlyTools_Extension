@@ -4,9 +4,9 @@
  * @return {number} - Example > 1542651095725
  */
 export default function MakeExpire(expireTime = 30) {
-	/*let date = new Date();
-	return date.setSeconds(date.getSeconds() + expireTime);*/
-	return Date.now() + (expireTime * 1000)
+  /*let date = new Date();
+  return date.setSeconds(date.getSeconds() + expireTime);*/
+  return Date.now() + (expireTime * 1000)
 };
 
 //export default MakeExpire;

@@ -10,67 +10,67 @@ window.System = System;
 window.isPageBusy = false;
 
 window.onbeforeunload = function() {
-	if (window.isPageBusy) {
-		return System.data.locale.common.notificationMessages.ongoingProcess;
-	}
+  if (window.isPageBusy) {
+    return System.data.locale.common.notificationMessages.ongoingProcess;
+  }
 }
 
 $(onBodyLoad);
 async function onBodyLoad() {
-	window.popup = new Popup();
+  window.popup = new Popup();
 
-	System.data.locale = await System.prepareLangFile(navigator.language);
+  System.data.locale = await System.prepareLangFile(navigator.language);
 
-	popup.RenderStatusMessage({ title: `${System.data.locale.popup.notificationMessages.pleaseWait}..` });
+  popup.RenderStatusMessage({ title: `${System.data.locale.popup.notificationMessages.pleaseWait}..` });
 
-	let isBrainlyPageFound = false;
-	let tabs = await ext.tabs.query({});
+  let isBrainlyPageFound = false;
+  let tabs = await ext.tabs.query({});
 
-	if (tabs && tabs.length > 0) {
-		let activeBrainlyTab = tabs.find(tab => tab.active && System.constants.Brainly.regexp_BrainlyMarkets.test(tab.url));
-		let tab = tabs.reduce((selectedTab, currentTab) => {
-			let isCurrentTabBrainly = System.constants.Brainly.regexp_BrainlyMarkets.test(currentTab.url);
+  if (tabs && tabs.length > 0) {
+    let activeBrainlyTab = tabs.find(tab => tab.active && System.constants.Brainly.regexp_BrainlyMarkets.test(tab.url));
+    let tab = tabs.reduce((selectedTab, currentTab) => {
+      let isCurrentTabBrainly = System.constants.Brainly.regexp_BrainlyMarkets.test(currentTab.url);
 
-			if (
-				isCurrentTabBrainly &&
-				(
-					!selectedTab ||
-					(
-						CheckIfSameDomain(selectedTab.url, currentTab.url) &&
-						selectedTab.id < currentTab.id
-					)
-				)
-			) {
-				return currentTab
-			}
+      if (
+        isCurrentTabBrainly &&
+        (
+          !selectedTab ||
+          (
+            CheckIfSameDomain(selectedTab.url, currentTab.url) &&
+            selectedTab.id < currentTab.id
+          )
+        )
+      ) {
+        return currentTab
+      }
 
-			return selectedTab;
-		}, activeBrainlyTab);
+      return selectedTab;
+    }, activeBrainlyTab);
 
-		if (tab) {
-			isBrainlyPageFound = true;
-			var message = { action: "contentscript>Share System.data to background.js", url: tab.url };
+    if (tab) {
+      isBrainlyPageFound = true;
+      var message = { action: "contentscript>Share System.data to background.js", url: tab.url };
 
-			try {
-				await ext.tabs.sendMessage(tab.id, message);
-			} catch (error) {
-				await System.toBackground("background>Inject content script anyway", tab.id)
-				ext.tabs.sendMessage(tab.id, message);
-			}
-		}
-	}
+      try {
+        await ext.tabs.sendMessage(tab.id, message);
+      } catch (error) {
+        await System.toBackground("background>Inject content script anyway", tab.id)
+        ext.tabs.sendMessage(tab.id, message);
+      }
+    }
+  }
 
-	chrome.runtime.onMessage.addListener(function(request) {
-		if (request.action == "popup>Get System.data from background") {
-			popup.PrepareDataBeforeRendering(request.marketName);
-		}
-	});
+  chrome.runtime.onMessage.addListener(function(request) {
+    if (request.action == "popup>Get System.data from background") {
+      popup.PrepareDataBeforeRendering(request.marketName);
+    }
+  });
 
-	if (!isBrainlyPageFound) {
-		popup.RenderStatusMessage({
-			type: "danger",
-			title: System.data.locale.popup.notificationMessages.errorN.replace("%{error_code}", ` 404 `),
-			message: System.data.locale.popup.notificationMessages.openABrainlyPage
-		});
-	}
+  if (!isBrainlyPageFound) {
+    popup.RenderStatusMessage({
+      type: "danger",
+      title: System.data.locale.popup.notificationMessages.errorN.replace("%{error_code}", ` 404 `),
+      message: System.data.locale.popup.notificationMessages.openABrainlyPage
+    });
+  }
 }

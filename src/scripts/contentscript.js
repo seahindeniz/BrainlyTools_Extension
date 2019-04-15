@@ -20,83 +20,83 @@ System.data.meta.manifest = manifest;
 
 System.data.meta.marketTitle = document.title;
 System.data.meta.extension = {
-	id: ext.runtime.id,
-	URL: ext.runtime.getURL("").replace(/\/$/, "")
+  id: ext.runtime.id,
+  URL: ext.runtime.getURL("").replace(/\/$/, "")
 }
 window.System = System;
 
 let html = document.documentElement;
 
 if (!html.getAttribute("extension")) {
-	System.changeBadgeColor("loading");
-	InjectToDOM([
-		"/scripts/lib/prototypeOverrides.js",
-		"/scripts/lib/regex-colorizer.js",
-		"/scripts/views/0-Core/index.js"
-	]);
-	InjectToDOM("/styles/pages/Core.css", { makeItLastElement: true })
+  System.changeBadgeColor("loading");
+  InjectToDOM([
+    "/scripts/lib/prototypeOverrides.js",
+    "/scripts/lib/regex-colorizer.js",
+    "/scripts/views/0-Core/index.js"
+  ]);
+  InjectToDOM("/styles/pages/Core.css", { makeItLastElement: true })
 
-	WaitForObject(`document.body.classList.contains("mint")`, { noError: true }).then(isContains => {
-		if (isContains && !document.body.attributes.itemtype) {
-			InjectToDOM([
-				System.constants.Brainly.style_guide.css,
-				System.constants.Brainly.style_guide.icons
-			]);
-			InjectToDOM("/styles/pages/oldLayoutFixes.css", { makeItLastElement: true })
-		}
-	});
+  WaitForObject(`document.body.classList.contains("mint")`, { noError: true }).then(isContains => {
+    if (isContains && !document.body.attributes.itemtype) {
+      InjectToDOM([
+        System.constants.Brainly.style_guide.css,
+        System.constants.Brainly.style_guide.icons
+      ]);
+      InjectToDOM("/styles/pages/oldLayoutFixes.css", { makeItLastElement: true })
+    }
+  });
 } else {
-	System.changeBadgeColor("loaded");
+  System.changeBadgeColor("loaded");
 }
 
 function MessageHandler(request) {
-	if (request.action == "manifest") {
-		return manifest;
-	}
-	if (request.action === "previewColor") {
-		if (window.coloring) {
-			window.coloring.UpdateColor(request.data);
-		} else {
-			window.coloring = new ThemeColorChanger(request.data, true);
-		}
-	}
-	if (request.action === "changeColors") {
-		localStorage.setItem("themeColor", request.data);
-		MessageHandler({ action: "previewColor", data: request.data });
-	}
-	if (request.action === "contentscript>Share System.data to background.js") {
-		window.postMessage({
-			action: "DOM>Share System.data to background.js"
-		}, request.url);
+  if (request.action == "manifest") {
+    return manifest;
+  }
+  if (request.action === "previewColor") {
+    if (window.coloring) {
+      window.coloring.UpdateColor(request.data);
+    } else {
+      window.coloring = new ThemeColorChanger(request.data, true);
+    }
+  }
+  if (request.action === "changeColors") {
+    localStorage.setItem("themeColor", request.data);
+    MessageHandler({ action: "previewColor", data: request.data });
+  }
+  if (request.action === "contentscript>Share System.data to background.js") {
+    window.postMessage({
+      action: "DOM>Share System.data to background.js"
+    }, request.url);
 
-	}
-	if (request.action === "extendMessagesLayout") {
-		messagesLayoutExtender(request.data);
-	}
+  }
+  if (request.action === "extendMessagesLayout") {
+    messagesLayoutExtender(request.data);
+  }
 
-	if (request.action == "contentscript>Check if content script injected") {
-		html = document.documentElement;
+  if (request.action == "contentscript>Check if content script injected") {
+    html = document.documentElement;
 
-		return Promise.resolve(html.getAttribute("extension"));
-	}
+    return Promise.resolve(html.getAttribute("extension"));
+  }
 }
 
 ext.runtime.onMessage.addListener(MessageHandler);
 
 window.addEventListener('contentscript>Share System.data to background.js:DONE', () => {
-	System.toBackground("popup>Get System.data from background")
+  System.toBackground("popup>Get System.data from background")
 });
 
 window.addEventListener('metaGet', e => {
-	window.postMessage({
-			action: 'metaSet',
-			data: System.data.meta
-		},
-		e.target.URL);
+  window.postMessage({
+      action: 'metaSet',
+      data: System.data.meta
+    },
+    e.target.URL);
 });
 window.addEventListener("message", event => {
-	if (event.source != window)
-		return;
+  if (event.source != window)
+    return;
 
-	MessageHandler(event.data);
+  MessageHandler(event.data);
 });

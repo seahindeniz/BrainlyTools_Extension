@@ -10,8 +10,8 @@ import ScrollToDown from "../../../../helpers/ScrollToDown";
 let locale__groups = System.data.locale.messages.groups;
 
 class GroupChatbox {
-	constructor() {
-		this.$chatbox = $(`
+  constructor() {
+    this.$chatbox = $(`
 		<div class="sg-content-box__header js-hidden">
 			<div class="sg-actions-list">
 				<div class="sg-actions-list__hole sg-hide-for-medium-up">
@@ -73,98 +73,98 @@ class GroupChatbox {
 			</footer>
 		</div>`);
 
-		this.$messagesContainer = $(".js-group-chat", this.$chatbox);
-		this.$messageInput = $("footer.brn-chatbox__footer textarea", this.$chatbox);
-		this.$sendButton = $("footer.brn-chatbox__footer button", this.$chatbox);
-		this.$progressHole = $(".sg-actions-list > .sg-actions-list__hole.progress", this.$chatbox);
+    this.$messagesContainer = $(".js-group-chat", this.$chatbox);
+    this.$messageInput = $("footer.brn-chatbox__footer textarea", this.$chatbox);
+    this.$sendButton = $("footer.brn-chatbox__footer button", this.$chatbox);
+    this.$progressHole = $(".sg-actions-list > .sg-actions-list__hole.progress", this.$chatbox);
 
-		autosize(this.$messageInput);
-		this.$messageInput.show();
+    autosize(this.$messageInput);
+    this.$messageInput.show();
 
-		this.BindEvents();
-	}
-	BindEvents() {
-		let $editGroup = $("button.js-edit-group", this.$chatbox);
-		let $deleteGroup = $("button.js-delete-group", this.$chatbox);
+    this.BindEvents();
+  }
+  BindEvents() {
+    let $editGroup = $("button.js-edit-group", this.$chatbox);
+    let $deleteGroup = $("button.js-delete-group", this.$chatbox);
 
-		$editGroup.click(() => {
-			new renderGroupModal(this.group, this.groupLi);
-		});
+    $editGroup.click(() => {
+      new renderGroupModal(this.group, this.groupLi);
+    });
 
-		$deleteGroup.click(() => {
-			this.DeleteGroup();
-		});
+    $deleteGroup.click(() => {
+      this.DeleteGroup();
+    });
 
-		this.$messageInput.on({
-			"keydown": e => {
-				if (e.keyCode == 13) {
-					if (!e.shiftKey) {
-						e.preventDefault();
-					}
-				}
-			},
-			"keyup": e => {
-				if (e.keyCode == 13) {
-					if (!e.shiftKey) {
-						e.preventDefault();
+    this.$messageInput.on({
+      "keydown": e => {
+        if (e.keyCode == 13) {
+          if (!e.shiftKey) {
+            e.preventDefault();
+          }
+        }
+      },
+      "keyup": e => {
+        if (e.keyCode == 13) {
+          if (!e.shiftKey) {
+            e.preventDefault();
 
-						if (!window.isPageProcessing) {
-							this.SendMessage();
-						}
-					}
-				}
-			}
-		});
-		this.$sendButton.click(this.SendMessage.bind(this));
-	}
-	InitGroup(group, groupLi) {
-		this.group = group;
-		this.groupLi = groupLi;
+            if (!window.isPageProcessing) {
+              this.SendMessage();
+            }
+          }
+        }
+      }
+    });
+    this.$sendButton.click(this.SendMessage.bind(this));
+  }
+  InitGroup(group, groupLi) {
+    this.group = group;
+    this.groupLi = groupLi;
 
-		this.HideChatbox();
-		this.PrepareChatbox();
-	}
-	PrepareChatbox() {
-		let $title = $(".js-groupTitle", this.$chatbox);
+    this.HideChatbox();
+    this.PrepareChatbox();
+  }
+  PrepareChatbox() {
+    let $title = $(".js-groupTitle", this.$chatbox);
 
-		$title.html(this.group.title);
+    $title.html(this.group.title);
 
-		this.RefreshChatbox();
-		this.ShowChatbox();
-		this.PrepareMessageMedia(this.group.messages);
-	}
-	HideChatbox() {
-		this.$chatbox.addClass("js-hidden");
-	}
-	ShowChatbox() {
-		this.$chatbox.removeClass("js-hidden");
-	}
-	RefreshChatbox() {
-		this.$messagesContainer.html("");
-		this.$progressHole.html("");
-	}
-	PrepareMessageMedia(message) {
-		if (message) {
-			if (message instanceof Array) {
-				if (message.length > 0) {
-					message.forEach(this.RenderMessageMedia.bind(this));
-				}
-			} else {
-				this.RenderMessageMedia(message)
-			}
-		}
-	}
-	RenderMessageMedia(data) {
-		let user = System.data.Brainly.userData.user;
-		let avatar = System.prepareAvatar(user);
-		let profileLink = System.createProfileLink(user.nick, user.id);
-		let message = data.message;
+    this.RefreshChatbox();
+    this.ShowChatbox();
+    this.PrepareMessageMedia(this.group.messages);
+  }
+  HideChatbox() {
+    this.$chatbox.addClass("js-hidden");
+  }
+  ShowChatbox() {
+    this.$chatbox.removeClass("js-hidden");
+  }
+  RefreshChatbox() {
+    this.$messagesContainer.html("");
+    this.$progressHole.html("");
+  }
+  PrepareMessageMedia(message) {
+    if (message) {
+      if (message instanceof Array) {
+        if (message.length > 0) {
+          message.forEach(this.RenderMessageMedia.bind(this));
+        }
+      } else {
+        this.RenderMessageMedia(message)
+      }
+    }
+  }
+  RenderMessageMedia(data) {
+    let user = System.data.Brainly.userData.user;
+    let avatar = System.prepareAvatar(user);
+    let profileLink = System.createProfileLink(user.nick, user.id);
+    let message = data.message;
 
-		if (message && message != "") {
-			message.replace(/\r\n|\n/gm, "<br>");
-		}
+    if (message && message != "") {
+      message.replace(/\r\n|\n/gm, "<br>");
+    }
 
-		this.$messagesContainer.append(`
+    this.$messagesContainer.append(`
 		<article class="sg-media message sg-media--to-right">
 			<div class="sg-media__aside">
 				<div class="sg-avatar sg-avatar--xsmall  ">
@@ -197,88 +197,88 @@ class GroupChatbox {
 			</div>
 		</article>`);
 
-		ScrollToDown(this.$messagesContainer.get(0));
-	}
-	async SendMessage() {
-		window.isPageProcessing = true;
+    ScrollToDown(this.$messagesContainer.get(0));
+  }
+  async SendMessage() {
+    window.isPageProcessing = true;
 
-		let sendedMessagesCount = 0;
-		let message = this.$messageInput.val();
-		let membersLen = this.group.members.length;
-		let $groupLiMessateContent = $(".js-message-content", this.groupLi);
+    let sendedMessagesCount = 0;
+    let message = this.$messageInput.val();
+    let membersLen = this.group.members.length;
+    let $groupLiMessateContent = $(".js-message-content", this.groupLi);
 
-		let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--small"></div></div>`).insertAfter(this.$sendButton);
+    let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--small"></div></div>`).insertAfter(this.$sendButton);
 
-		let progress = new Progress({
-			type: "is-success",
-			label: System.data.locale.common.progressing,
-			max: membersLen
-		});
+    let progress = new Progress({
+      type: "is-success",
+      label: System.data.locale.common.progressing,
+      max: membersLen
+    });
 
-		this.$messageInput.prop("disabled", true);
-		progress.$container.appendTo(this.$progressHole.html(""));
+    this.$messageInput.prop("disabled", true);
+    progress.$container.appendTo(this.$progressHole.html(""));
 
-		let doInEachSending = () => {
-			progress.update(++sendedMessagesCount);
-			progress.UpdateLabel(`${sendedMessagesCount} - ${membersLen}`);
-		};
+    let doInEachSending = () => {
+      progress.update(++sendedMessagesCount);
+      progress.UpdateLabel(`${sendedMessagesCount} - ${membersLen}`);
+    };
 
-		let membersWithConversationIds = await sendMessageToBrainlyIds(this.group.members, message, doInEachSending);
-		console.log("membersWithConversationIds:", membersWithConversationIds);
+    let membersWithConversationIds = await sendMessageToBrainlyIds(this.group.members, message, doInEachSending);
+    console.log("membersWithConversationIds:", membersWithConversationIds);
 
-		//this.CheckForImproperMember(membersWithConversationIds);
+    //this.CheckForImproperMember(membersWithConversationIds);
 
-		window.isPageProcessing = false;
+    window.isPageProcessing = false;
 
-		$spinner.remove();
-		progress.UpdateLabel(`(${membersLen}) - ${System.data.locale.common.allDone}`);
+    $spinner.remove();
+    progress.UpdateLabel(`(${membersLen}) - ${System.data.locale.common.allDone}`);
 
-		autosize.update(
-			this.$messageInput
-			.val("")
-			.prop("disabled", false)
-		);
+    autosize.update(
+      this.$messageInput
+      .val("")
+      .prop("disabled", false)
+    );
 
-		this.RenderMessageMedia({ message, time: new Date().toISOString() });
+    this.RenderMessageMedia({ message, time: new Date().toISOString() });
 
-		$groupLiMessateContent
-			.text(message.substring(0, 60))
-			.attr("title", message);
+    $groupLiMessateContent
+      .text(message.substring(0, 60))
+      .attr("title", message);
 
-		MessageSended({
-			_id: this.group._id,
-			message,
-			members: membersWithConversationIds
-		});
-	}
-	async DeleteGroup() {
-		if (confirm(System.data.locale.common.notificationMessages.areYouSure)) {
-			let resUpdated = await UpdateMessageGroup(this.group._id, { remove: true });
+    MessageSended({
+      _id: this.group._id,
+      message,
+      members: membersWithConversationIds
+    });
+  }
+  async DeleteGroup() {
+    if (confirm(System.data.locale.common.notificationMessages.areYouSure)) {
+      let resUpdated = await UpdateMessageGroup(this.group._id, { remove: true });
 
-			if (resUpdated && resUpdated.success) {
-				this.HideChatbox()
-				this.groupLi.remove();
-			}
-		}
-	}
-	CheckForImproperMember(members) {
-		// dönen listeyi kontrol et ve eğer içerisinde mesaj gönderilemeyen bir kullanıcı varsa, olası sebebini exception koduyla veya deleted olarak kullanıcıdan gruptan kaldırmasını iste.
-		// 500 kullanılmayan veya silinen hesaplar için. 504 engellenmiş hesaplar için
-		//new renderGroupModal(this.group, this.groupLi);
-		let improperMembers = [];
+      if (resUpdated && resUpdated.success) {
+        this.HideChatbox()
+        this.groupLi.remove();
+      }
+    }
+  }
+  CheckForImproperMember(members) {
+    // dönen listeyi kontrol et ve eğer içerisinde mesaj gönderilemeyen bir kullanıcı varsa, olası sebebini exception koduyla veya deleted olarak kullanıcıdan gruptan kaldırmasını iste.
+    // 500 kullanılmayan veya silinen hesaplar için. 504 engellenmiş hesaplar için
+    //new renderGroupModal(this.group, this.groupLi);
+    let improperMembers = [];
 
-		if (member && members.length > 0) {
-			members.forEach(member => {
-				if (member.exception) {
-					improperMembers.push(member);
-				}
-			});
-		}
+    if (member && members.length > 0) {
+      members.forEach(member => {
+        if (member.exception) {
+          improperMembers.push(member);
+        }
+      });
+    }
 
-		if (improperMembers.length > 0) {
+    if (improperMembers.length > 0) {
 
-		}
-	}
+    }
+  }
 }
 
 export default GroupChatbox

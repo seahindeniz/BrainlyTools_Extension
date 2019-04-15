@@ -1,18 +1,18 @@
 import DeleteReasonCategoryList from "./DeleteReasonCategoryList";
 
 class DeleteSection {
-	constructor(reasons, type) {
-		this.type = type;
-		this.selectedReason;
-		this.reasons = reasons;
+  constructor(reasons, type) {
+    this.type = type;
+    this.selectedReason;
+    this.reasons = reasons;
 
-		this.Render();
-		this.RenderReasons();
-		this.RenderReasonWarning();
-		this.BindEvents();
-	}
-	Render() {
-		this.$ = $(`
+    this.Render();
+    this.RenderReasons();
+    this.RenderReasonWarning();
+    this.BindEvents();
+  }
+  Render() {
+    this.$ = $(`
 		<div class="sg-content-box sg-content-box--spaced-top-large sg-content-box--spaced-bottom sg-content-box--full">
 			<div class="sg-content-box__actions">
 				<div class="sg-horizontal-separator"></div>
@@ -74,88 +74,88 @@ class DeleteSection {
 			</div>
 		</div>`);
 
-		this.$textarea = $('textarea', this.$);
-		this.$takePoints = $('#take_points', this.$);
-		this.$giveWarning = $('#give_warning', this.$);
-		this.$returnPoints = $('#return_points', this.$);
-		this.$reasonsContainer = $('.reasons', this.$);
-		this.$subReasonsContainer = $('.sub-reasons', this.$);
-		this.$firstHorizontalSeparator = $(".sg-horizontal-separator:first", this.$);
-	}
-	RenderReasons() {
-		this.$reasons = $(DeleteReasonCategoryList(this.reasons, this.type));
-		this.$reasonsRadios = $('input', this.$reasons);
+    this.$textarea = $('textarea', this.$);
+    this.$takePoints = $('#take_points', this.$);
+    this.$giveWarning = $('#give_warning', this.$);
+    this.$returnPoints = $('#return_points', this.$);
+    this.$reasonsContainer = $('.reasons', this.$);
+    this.$subReasonsContainer = $('.sub-reasons', this.$);
+    this.$firstHorizontalSeparator = $(".sg-horizontal-separator:first", this.$);
+  }
+  RenderReasons() {
+    this.$reasons = $(DeleteReasonCategoryList(this.reasons, this.type));
+    this.$reasonsRadios = $('input', this.$reasons);
 
-		this.$reasons.appendTo(this.$reasonsContainer);
-	}
-	RenderReasonWarning() {
-		this.$selectReasonWarning = $(`<div class="sg-bubble sg-bubble--bottom sg-bubble--row-start sg-bubble--peach sg-text--white">${System.data.locale.common.moderating.selectReason}</div>`);
-	}
-	BindEvents() {
-		let that = this;
+    this.$reasons.appendTo(this.$reasonsContainer);
+  }
+  RenderReasonWarning() {
+    this.$selectReasonWarning = $(`<div class="sg-bubble sg-bubble--bottom sg-bubble--row-start sg-bubble--peach sg-text--white">${System.data.locale.common.moderating.selectReason}</div>`);
+  }
+  BindEvents() {
+    let that = this;
 
-		this.$reasonsRadios.change(function() {
-			let id = System.ExtractId(this.id);
-			that.selectedReason = that.reasons.find(reason => reason.id == id);
+    this.$reasonsRadios.change(function() {
+      let id = System.ExtractId(this.id);
+      that.selectedReason = that.reasons.find(reason => reason.id == id);
 
-			that.HideReasonWarning();
-			that.RenderSubReasons(id);
-			that.ShowSubReasonSeperator();
-		});
+      that.HideReasonWarning();
+      that.RenderSubReasons(id);
+      that.ShowSubReasonSeperator();
+    });
 
-		this.$subReasonsContainer.on("change", "input", function() {
-			let id = System.ExtractId(this.id);
-			let subReason = that.selectedReason.subcategories.find(reason => reason.id == id);
+    this.$subReasonsContainer.on("change", "input", function() {
+      let id = System.ExtractId(this.id);
+      let subReason = that.selectedReason.subcategories.find(reason => reason.id == id);
 
-			that.UpdateTextarea(subReason.text);
-		});
-	}
-	/**
-	 * @param {string} text
-	 */
-	UpdateTextarea(text) {
-		this.$textarea.val(text);
-	}
-	RenderSubReasons() {
-		this.$subReasons = $(DeleteReasonCategoryList(this.selectedReason.subcategories, "sub-reasons"));
+      that.UpdateTextarea(subReason.text);
+    });
+  }
+  /**
+   * @param {string} text
+   */
+  UpdateTextarea(text) {
+    this.$textarea.val(text);
+  }
+  RenderSubReasons() {
+    this.$subReasons = $(DeleteReasonCategoryList(this.selectedReason.subcategories, "sub-reasons"));
 
-		this.$subReasonsContainer.html("");
-		this.$subReasonsContainer.append(this.$subReasons);
-	}
-	ShowSubReasonSeperator() {
-		let $reasonSeperator = $('div.sg-horizontal-separator', this.$);
+    this.$subReasonsContainer.html("");
+    this.$subReasonsContainer.append(this.$subReasons);
+  }
+  ShowSubReasonSeperator() {
+    let $reasonSeperator = $('div.sg-horizontal-separator', this.$);
 
-		$reasonSeperator.removeClass("js-hidden");
-	}
-	ShowReasonWarning() {
-		if (this.$selectReasonWarning.parents("body").length == 0) {
-			this.$selectReasonWarning.insertAfter(this.$firstHorizontalSeparator);
-		} else {
-			this.$selectReasonWarning
-				.fadeTo('fast', 0.5)
-				.fadeTo('fast', 1)
-				.fadeTo('fast', 0.5)
-				.fadeTo('fast', 1);
-		}
+    $reasonSeperator.removeClass("js-hidden");
+  }
+  ShowReasonWarning() {
+    if (this.$selectReasonWarning.parents("body").length == 0) {
+      this.$selectReasonWarning.insertAfter(this.$firstHorizontalSeparator);
+    } else {
+      this.$selectReasonWarning
+        .fadeTo('fast', 0.5)
+        .fadeTo('fast', 1)
+        .fadeTo('fast', 0.5)
+        .fadeTo('fast', 1);
+    }
 
-		this.$selectReasonWarning.focus();
-	}
-	async HideReasonWarning() {
-		await this.$selectReasonWarning.slideUp('fast').promise();
-		this.$selectReasonWarning.appendTo("<div />").show()
-	}
-	get reasonText() {
-		return this.$textarea.val();
-	}
-	get takePoints() {
-		return this.$takePoints.is(':checked');
-	}
-	get giveWarning() {
-		return this.$giveWarning.is(':checked');
-	}
-	get returnPoints() {
-		return this.$returnPoints.is(':checked');
-	}
+    this.$selectReasonWarning.focus();
+  }
+  async HideReasonWarning() {
+    await this.$selectReasonWarning.slideUp('fast').promise();
+    this.$selectReasonWarning.appendTo("<div />").show()
+  }
+  get reasonText() {
+    return this.$textarea.val();
+  }
+  get takePoints() {
+    return this.$takePoints.is(':checked');
+  }
+  get giveWarning() {
+    return this.$giveWarning.is(':checked');
+  }
+  get returnPoints() {
+    return this.$returnPoints.is(':checked');
+  }
 }
 
 export default DeleteSection

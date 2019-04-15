@@ -1,5 +1,5 @@
 export default (categories, type) => {
-	return categories.map(category => `
+  return categories.map(category => `
 	<div class="sg-actions-list__hole sg-actions-list__hole--no-spacing">
 		<div class="sg-label sg-label--secondary">
 			<div class="sg-label__icon">

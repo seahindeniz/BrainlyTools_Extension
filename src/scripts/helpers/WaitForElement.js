@@ -7,31 +7,31 @@ import MakeExpire from "./MakeExpire";
  * @param {boolean=} noError - Set it true to avoid errors when specified element wasn't found
  **/
 export default function WaitForElement(query, atLeast = 1, noError = false) {
-	if (typeof atLeast == "boolean") {
-		noError = atLeast;
-		atLeast = 1;
-	}
+  if (typeof atLeast == "boolean") {
+    noError = atLeast;
+    atLeast = 1;
+  }
 
-	return new Promise((resolve, reject) => {
-		let elements,
-			_loop_expireTime = MakeExpire();
+  return new Promise((resolve, reject) => {
+    let elements,
+      _loop_expireTime = MakeExpire();
 
-		let _loop = setInterval(() => {
-			if (_loop_expireTime < Date.now()) {
-				clearInterval(_loop);
-				if (!noError) {
-					reject("Can't find anything with: " + query);
-				}
+    let _loop = setInterval(() => {
+      if (_loop_expireTime < Date.now()) {
+        clearInterval(_loop);
+        if (!noError) {
+          reject("Can't find anything with: " + query);
+        }
 
-				return false;
-			}
+        return false;
+      }
 
-			elements = document.querySelectorAll(query);
+      elements = document.querySelectorAll(query);
 
-			if (elements.length >= atLeast) {
-				clearInterval(_loop);
-				resolve(elements);
-			}
-		});
-	});
+      if (elements.length >= atLeast) {
+        clearInterval(_loop);
+        resolve(elements);
+      }
+    });
+  });
 }

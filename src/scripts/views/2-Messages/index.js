@@ -5,31 +5,31 @@ System.pageLoaded("Messages inject OK!");
 
 window.isPageProcessing = false;
 window.selectors = {
-	profileLinkContainerSub: " div.sg-content-box__header > div.sg-actions-list",
-	get profileLinkContainer() {
-		return "section.brn-messages__chatbox:not(.js-group-chatbox)" + selectors.profileLinkContainerSub;
-	},
-	profileLink: ".sg-actions-list__hole:nth-child(2) a",
-	messagesContainer: "#private-messages-container",
-	conversationsHeader: "#private-messages-container > section.brn-messages__conversations > div.sg-content-box > div.sg-content-box__header",
-	textarea: "footer.brn-chatbox__footer textarea"
+  profileLinkContainerSub: " div.sg-content-box__header > div.sg-actions-list",
+  get profileLinkContainer() {
+    return "section.brn-messages__chatbox:not(.js-group-chatbox)" + selectors.profileLinkContainerSub;
+  },
+  profileLink: ".sg-actions-list__hole:nth-child(2) a",
+  messagesContainer: "#private-messages-container",
+  conversationsHeader: "#private-messages-container > section.brn-messages__conversations > div.sg-content-box > div.sg-content-box__header",
+  textarea: "footer.brn-chatbox__footer textarea"
 }
 
 Messages();
 
 function Messages() {
-	createUserNoteBox();
+  createUserNoteBox();
 
-	if (System.checkUserP(8)) {
-		new renderGroupMessaging();
-	}
+  if (System.checkUserP(8)) {
+    new renderGroupMessaging();
+  }
 
-	window.onbeforeunload = function() {
-		let $textarea = $(selectors.textarea);
-		let value = $textarea.val() || "";
+  window.onbeforeunload = function() {
+    let $textarea = $(selectors.textarea);
+    let value = $textarea.val() || "";
 
-		if (value.trim() != "") {
-			return System.data.locale.messages.notificationMessages.unsendedMessage;
-		}
-	}
+    if (value.trim() != "") {
+      return System.data.locale.messages.notificationMessages.unsendedMessage;
+    }
+  }
 }

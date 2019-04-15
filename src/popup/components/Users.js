@@ -2,79 +2,79 @@ import { GetUsers, PutUser, GivePrivilege, RevokePrivilege } from "../../scripts
 import notification from "./notification";
 
 class Users {
-	constructor() {
-		this.privilegeListOrder = {
-			important: {
-				title: System.data.locale.popup.extensionManagement.users.important,
-				privileges: [
-					0,
-					/* 4, */
-					[
-						5,
-						22,
-						23,
-						24,
-						25
-					],
-					7,
-					17,
-					18,
-					13,
-					9
-				]
-			},
-			lessImportant: {
-				title: System.data.locale.popup.extensionManagement.users.lessImportant,
-				privileges: [
-					21,
-					20,
-					11,
-					10,
-					14,
-					15,
-					6
-				]
-			},
-			harmless: {
-				title: System.data.locale.popup.extensionManagement.users.harmless,
-				privileges: [
-					12,
-					8,
-					1,
-					2,
-					45,
-					16,
-					19
-				]
-			}
-		};
+  constructor() {
+    this.privilegeListOrder = {
+      important: {
+        title: System.data.locale.popup.extensionManagement.users.important,
+        privileges: [
+          0,
+          /* 4, */
+          [
+            5,
+            22,
+            23,
+            24,
+            25
+          ],
+          7,
+          17,
+          18,
+          13,
+          9
+        ]
+      },
+      lessImportant: {
+        title: System.data.locale.popup.extensionManagement.users.lessImportant,
+        privileges: [
+          21,
+          20,
+          11,
+          10,
+          14,
+          15,
+          6
+        ]
+      },
+      harmless: {
+        title: System.data.locale.popup.extensionManagement.users.harmless,
+        privileges: [
+          12,
+          8,
+          1,
+          2,
+          45,
+          16,
+          19
+        ]
+      }
+    };
 
-		this.Render();
+    this.Render();
 
-		if (System.checkUserP(0))
-			this.RenderEditAllUsersPrivilegesSection();
+    if (System.checkUserP(0))
+      this.RenderEditAllUsersPrivilegesSection();
 
-		this.RenderEditUserSection();
+    this.RenderEditUserSection();
 
-		if (System.checkUserP([5, 22]))
-			this.RenderPermissionContainer();
+    if (System.checkUserP([5, 22]))
+      this.RenderPermissionContainer();
 
-		if (System.checkUserP([5, 23, 24, 25])) {
-			this.RenderPrivilegesContainer();
+    if (System.checkUserP([5, 23, 24, 25])) {
+      this.RenderPrivilegesContainer();
 
-			if (System.checkUserP([5, 23]))
-				this.RenderPrivilegeGroup("important");
-			if (System.checkUserP([5, 24]))
-				this.RenderPrivilegeGroup("lessImportant");
-			if (System.checkUserP([5, 25]))
-				this.RenderPrivilegeGroup("harmless");
-		}
+      if (System.checkUserP([5, 23]))
+        this.RenderPrivilegeGroup("important");
+      if (System.checkUserP([5, 24]))
+        this.RenderPrivilegeGroup("lessImportant");
+      if (System.checkUserP([5, 25]))
+        this.RenderPrivilegeGroup("harmless");
+    }
 
-		this.PrepareUsers();
-		this.BindEvents();
-	}
-	Render() {
-		this.$layout = $(`
+    this.PrepareUsers();
+    this.BindEvents();
+  }
+  Render() {
+    this.$layout = $(`
 		<div id="users" class="column is-narrow">
 			<article class="message is-warning">
 				<div class="message-header" title="${System.data.locale.popup.extensionManagement.users.title}">
@@ -97,12 +97,12 @@ class Users {
 			</article>
 		</div>`);
 
-		this.$level = $(".level > .level-left", this.$layout);
-		this.$headerP = $("> article > .message-header > p", this.$layout);
-		this.$editSectionContainer = $("> article > .message-body > div", this.$layout);
-	}
-	RenderEditAllUsersPrivilegesSection() {
-		this.$editAllUsersPrivilegesSection = $(`
+    this.$level = $(".level > .level-left", this.$layout);
+    this.$headerP = $("> article > .message-header > p", this.$layout);
+    this.$editSectionContainer = $("> article > .message-body > div", this.$layout);
+  }
+  RenderEditAllUsersPrivilegesSection() {
+    this.$editAllUsersPrivilegesSection = $(`
       <div class="columns">
         <div class="column">
           <div class="columns">
@@ -142,14 +142,14 @@ class Users {
         </div>
       </div>`);
 
-		this.$privilegesSelect = $("select", this.$editAllUsersPrivilegesSection);
-		this.$giveButton = $(".button.is-success", this.$editAllUsersPrivilegesSection);
-		this.$revokeButton = $(".button.is-danger", this.$editAllUsersPrivilegesSection);
+    this.$privilegesSelect = $("select", this.$editAllUsersPrivilegesSection);
+    this.$giveButton = $(".button.is-success", this.$editAllUsersPrivilegesSection);
+    this.$revokeButton = $(".button.is-danger", this.$editAllUsersPrivilegesSection);
 
-		this.$editAllUsersPrivilegesSection.appendTo(this.$editSectionContainer);
-	}
-	RenderEditUserSection() {
-		this.$editUserSectionContainer = $(`
+    this.$editAllUsersPrivilegesSection.appendTo(this.$editSectionContainer);
+  }
+  RenderEditUserSection() {
+    this.$editUserSectionContainer = $(`
     <div>
       <article class="media addNew">
         <div class="media-content field-label has-text-centered">
@@ -191,65 +191,65 @@ class Users {
       </article>
     </div>`);
 
-		this.$settingsContainer = $(".media-content > .content > .field", this.$editUserSectionContainer);
-		this.$idInput = $('input', this.$editUserSectionContainer);
-		this.$avatarContainer = $(".media-left", this.$editUserSectionContainer);
-		this.$link = $("a", this.$avatarContainer);
-		this.$nick = $(".nick", this.$link);
-		this.$avatar = $("img.avatar", this.$link);
-		this.$actions = $(".media-right", this.$editUserSectionContainer);
-		this.$resetButton = $(".has-text-danger", this.$actions);
-		this.$submitButton = $(".has-text-success", this.$actions);
+    this.$settingsContainer = $(".media-content > .content > .field", this.$editUserSectionContainer);
+    this.$idInput = $('input', this.$editUserSectionContainer);
+    this.$avatarContainer = $(".media-left", this.$editUserSectionContainer);
+    this.$link = $("a", this.$avatarContainer);
+    this.$nick = $(".nick", this.$link);
+    this.$avatar = $("img.avatar", this.$link);
+    this.$actions = $(".media-right", this.$editUserSectionContainer);
+    this.$resetButton = $(".has-text-danger", this.$actions);
+    this.$submitButton = $(".has-text-success", this.$actions);
 
-		this.$editUserSectionContainer.appendTo(this.$editSectionContainer);
-	}
-	async PrepareUsers() {
-		let resUsers = await GetUsers();
+    this.$editUserSectionContainer.appendTo(this.$editSectionContainer);
+  }
+  async PrepareUsers() {
+    let resUsers = await GetUsers();
 
-		if (resUsers.success && resUsers.data) {
-			this.RenderUserNodes(resUsers.data);
-			window.popup.refreshUsersInformations();
-			this.FocusOnUser();
-		}
-	}
-	RenderUserNodes(usersData) {
-		if (typeof usersData === 'object') {
-			this.$level.html("");
-			this.HideEditingForm(true);
+    if (resUsers.success && resUsers.data) {
+      this.RenderUserNodes(resUsers.data);
+      window.popup.refreshUsersInformations();
+      this.FocusOnUser();
+    }
+  }
+  RenderUserNodes(usersData) {
+    if (typeof usersData === 'object') {
+      this.$level.html("");
+      this.HideEditingForm(true);
 
-			if (usersData instanceof Array) {
-				if (usersData.length > 0) {
-					usersData.forEach(this.RenderUserNode.bind(this));
-				}
-			} else {
-				this.RenderUserNode(usersData);
-			}
-		}
-	}
-	RenderUserNode(serverData) {
-		let time = "";
-		let userStatus = "";
+      if (usersData instanceof Array) {
+        if (usersData.length > 0) {
+          usersData.forEach(this.RenderUserNode.bind(this));
+        }
+      } else {
+        this.RenderUserNode(usersData);
+      }
+    }
+  }
+  RenderUserNode(serverData) {
+    let time = "";
+    let userStatus = "";
 
-		window.popup.ReserveAUser(serverData.brainlyID, { serverData });
+    window.popup.ReserveAUser(serverData.brainlyID, { serverData });
 
-		if (serverData.approved) {
-			userStatus += " approved";
-		}
+    if (serverData.approved) {
+      userStatus += " approved";
+    }
 
-		if (!serverData.checkInTime) {
-			time = System.data.locale.popup.extensionManagement.users.hasntUsed;
-		} else {
-			let timeLong = moment(serverData.checkInTime).fromNow();
-			time = System.data.locale.popup.extensionManagement.users.firstUsageTimeAgoPreTitle.replace("%{time}", ` ${timeLong} `);
+    if (!serverData.checkInTime) {
+      time = System.data.locale.popup.extensionManagement.users.hasntUsed;
+    } else {
+      let timeLong = moment(serverData.checkInTime).fromNow();
+      time = System.data.locale.popup.extensionManagement.users.firstUsageTimeAgoPreTitle.replace("%{time}", ` ${timeLong} `);
 
-			if (serverData.approved) {
-				userStatus += " active";
-			} else {
-				userStatus += " banned";
-			}
-		}
+      if (serverData.approved) {
+        userStatus += " active";
+      } else {
+        userStatus += " banned";
+      }
+    }
 
-		let $node = $(`
+    let $node = $(`
 		<div class="level-item is-inline-block has-text-centered">
 			<a data-user-id="${serverData.brainlyID}" id="${serverData._id}" title="${time}" target="_blank">
 				<figure class="image is-48x48${userStatus}">
@@ -259,12 +259,12 @@ class Users {
 			</a>
 		</div>`);
 
-		this.$level.append($node);
+    this.$level.append($node);
 
-		return $node;
-	}
-	RenderPermissionContainer() {
-		this.$permissionContainer = $(`
+    return $node;
+  }
+  RenderPermissionContainer() {
+    this.$permissionContainer = $(`
     <div class="control permission marginTop20 is-hidden">
       <div class="field">
         <input id="switchPermission" type="checkbox" class="switch is-rtls" checked="checked">
@@ -272,249 +272,249 @@ class Users {
       </div>
     </div>`);
 
-		this.$permission = $("input", this.$permissionContainer);
+    this.$permission = $("input", this.$permissionContainer);
 
-		this.$permissionContainer.appendTo(this.$settingsContainer);
-	}
-	RenderPrivilegesContainer() {
-		this.$privilegesContainer = $(`
+    this.$permissionContainer.appendTo(this.$settingsContainer);
+  }
+  RenderPrivilegesContainer() {
+    this.$privilegesContainer = $(`
     <div class="control privileges marginTop20 is-hidden">
       <label class="label">${System.data.locale.popup.extensionManagement.users.privileges}</label>
     </div>`);
 
-		this.$privilegesContainer.appendTo(this.$settingsContainer);
-	}
-	RenderPrivilegeGroup(groupKey) {
-		let group = this.privilegeListOrder[groupKey];
+    this.$privilegesContainer.appendTo(this.$settingsContainer);
+  }
+  RenderPrivilegeGroup(groupKey) {
+    let group = this.privilegeListOrder[groupKey];
 
-		if (group) {
-			this.RenderDivider(group.title);
-			this.RenderPrivileges(group.privileges);
-		}
-	}
-	RenderDivider(title) {
-		let $divider = $(`<div class="is-divider"${title ? ` data-content="${title}"` : ""}></div>`);
+    if (group) {
+      this.RenderDivider(group.title);
+      this.RenderPrivileges(group.privileges);
+    }
+  }
+  RenderDivider(title) {
+    let $divider = $(`<div class="is-divider"${title ? ` data-content="${title}"` : ""}></div>`);
 
-		this.$privilegesContainer.append($divider);
-	}
-	RenderPrivileges(privileges) {
-		if (privileges && privileges.length > 0)
-			privileges.forEach(key => {
-				if (key instanceof Array)
-					this.RenderSubPrivilegeGroup(key);
-				else
-					this.RenderPrivilege(key);
-			});
-	}
-	RenderSubPrivilegeGroup(group) {
-		let mainKey = group.shift();
-		let $field = this.RenderPrivilege(mainKey, { isGroupLead: true });
+    this.$privilegesContainer.append($divider);
+  }
+  RenderPrivileges(privileges) {
+    if (privileges && privileges.length > 0)
+      privileges.forEach(key => {
+        if (key instanceof Array)
+          this.RenderSubPrivilegeGroup(key);
+        else
+          this.RenderPrivilege(key);
+      });
+  }
+  RenderSubPrivilegeGroup(group) {
+    let mainKey = group.shift();
+    let $field = this.RenderPrivilege(mainKey, { isGroupLead: true });
 
-		group.forEach(key => this.RenderPrivilege(key, { isGroupElement: true, $field }));
-	}
-	RenderPrivilege(key, { isGroupLead, isGroupElement, $field } = {}) {
-		if (key != 0 || key == 0 && System.checkUserP(0)) {
-			let privilege = System.data.locale.popup.extensionManagement.users.privilegeList[key];
+    group.forEach(key => this.RenderPrivilege(key, { isGroupElement: true, $field }));
+  }
+  RenderPrivilege(key, { isGroupLead, isGroupElement, $field } = {}) {
+    if (key != 0 || key == 0 && System.checkUserP(0)) {
+      let privilege = System.data.locale.popup.extensionManagement.users.privilegeList[key];
 
-			if (privilege) {
-				if (!key == 0 && this.$privilegesSelect) {
-					this.$privilegesSelect.append(`<option value="${key}" title="${privilege.description}">${privilege.title}</option>`);
-				}
+      if (privilege) {
+        if (!key == 0 && this.$privilegesSelect) {
+          this.$privilegesSelect.append(`<option value="${key}" title="${privilege.description}">${privilege.title}</option>`);
+        }
 
-				let $element = $(`
+        let $element = $(`
         <div class="field${isGroupElement ? " marginLeft20" : ""}" title="${privilege.description}">
           <input class="is-checkradio is-block is-info" id="p-${key}" type="checkbox">
           <label for="p-${key}">${isGroupElement ? `<span class="content is-small">&gt;</span> ` : ""}${privilege.title}</label>
         </div>`);
 
-				if (isGroupLead) {
-					let $field = $(`<div class="field" title="${privilege.description}"></div>`);
+        if (isGroupLead) {
+          let $field = $(`<div class="field" title="${privilege.description}"></div>`);
 
-					$element.appendTo($field);
+          $element.appendTo($field);
 
-					$element = $field;
-				}
+          $element = $field;
+        }
 
-				if ($field)
-					$field.append($element);
-				else
-					this.$privilegesContainer.append($element);
+        if ($field)
+          $field.append($element);
+        else
+          this.$privilegesContainer.append($element);
 
-				return $element;
-			}
-		}
-	}
-	BindEvents() {
-		let that = this;
+        return $element;
+      }
+    }
+  }
+  BindEvents() {
+    let that = this;
 
-		this.$level.on("click", ".level-item > a", function(e) {
-			e.preventDefault();
+    this.$level.on("click", ".level-item > a", function(e) {
+      e.preventDefault();
 
-			let id = this.dataset["userId"];
+      let id = this.dataset["userId"];
 
-			that.$idInput.val(id).trigger("input").focus();
-		});
+      that.$idInput.val(id).trigger("input").focus();
+    });
 
-		this.$idInput.on("input", this.UserSearch.bind(this));
-		this.$resetButton.click(event => (event.preventDefault(), this.HideEditingForm(true)));
-		this.$submitButton.click(event => (event.preventDefault(), this.SubmitForm()));
+    this.$idInput.on("input", this.UserSearch.bind(this));
+    this.$resetButton.click(event => (event.preventDefault(), this.HideEditingForm(true)));
+    this.$submitButton.click(event => (event.preventDefault(), this.SubmitForm()));
 
-		if (this.$giveButton)
-			this.$giveButton.click(this.GivePrivilege.bind(this));
+    if (this.$giveButton)
+      this.$giveButton.click(this.GivePrivilege.bind(this));
 
-		if (this.$revokeButton)
-			this.$revokeButton.click(this.RevokePrivilege.bind(this));
-	}
-	async UserSearch() {
-		let id = this.GetIdFromInput();
+    if (this.$revokeButton)
+      this.$revokeButton.click(this.RevokePrivilege.bind(this));
+  }
+  async UserSearch() {
+    let id = this.GetIdFromInput();
 
-		if (id == 0) {
-			this.HideEditingForm();
-		} else {
-			try {
-				let user = await window.popup.GetStoredUser(id);
+    if (id == 0) {
+      this.HideEditingForm();
+    } else {
+      try {
+        let user = await window.popup.GetStoredUser(id);
 
-				this.FillEditingForm(user);
-			} catch (error) {
-				notification(System.data.locale.popup.notificationMessages.cannotFindUser, "danger");
-				this.HideEditingForm();
-			}
-		}
-	}
-	GetIdFromInput() {
-		let value = this.$idInput.val();
+        this.FillEditingForm(user);
+      } catch (error) {
+        notification(System.data.locale.popup.notificationMessages.cannotFindUser, "danger");
+        this.HideEditingForm();
+      }
+    }
+  }
+  GetIdFromInput() {
+    let value = this.$idInput.val();
 
-		return System.ExtractId(value);
-	}
-	HideEditingForm(clearInput) {
-		this.$link.attr("href", "");
-		this.$nick.text("");
-		this.$avatar.attr("src", "");
-		this.$avatarContainer.addClass("is-invisible");
-		this.$actions.addClass("is-invisible");
+    return System.ExtractId(value);
+  }
+  HideEditingForm(clearInput) {
+    this.$link.attr("href", "");
+    this.$nick.text("");
+    this.$avatar.attr("src", "");
+    this.$avatarContainer.addClass("is-invisible");
+    this.$actions.addClass("is-invisible");
 
-		if (this.$permissionContainer)
-			this.$permissionContainer.addClass("is-hidden");
+    if (this.$permissionContainer)
+      this.$permissionContainer.addClass("is-hidden");
 
-		if (this.$privilegesContainer)
-			this.$privilegesContainer.addClass("is-hidden");
+    if (this.$privilegesContainer)
+      this.$privilegesContainer.addClass("is-hidden");
 
-		if (clearInput) {
-			this.$idInput.val("");
-		}
-	}
-	async FillEditingForm(user) {
-		let avatar = System.prepareAvatar(user.brainlyData);
-		let profileLink = System.createProfileLink(user.brainlyData.nick, user.brainlyData.id);
-		this.$privilegeInputs = $('input[type="checkbox"]', this.$privilegesContainer);
+    if (clearInput) {
+      this.$idInput.val("");
+    }
+  }
+  async FillEditingForm(user) {
+    let avatar = System.prepareAvatar(user.brainlyData);
+    let profileLink = System.createProfileLink(user.brainlyData.nick, user.brainlyData.id);
+    this.$privilegeInputs = $('input[type="checkbox"]', this.$privilegesContainer);
 
-		this.$nick.text(user.brainlyData.nick);
-		this.$avatar.attr("src", avatar);
-		this.$link.attr("href", profileLink);
-		this.$actions.removeClass("is-invisible");
-		this.$permission.prop("checked", false)
-		this.$privilegeInputs.prop("checked", false);
-		this.$avatarContainer.removeClass("is-invisible");
+    this.$nick.text(user.brainlyData.nick);
+    this.$avatar.attr("src", avatar);
+    this.$link.attr("href", profileLink);
+    this.$actions.removeClass("is-invisible");
+    this.$permission.prop("checked", false)
+    this.$privilegeInputs.prop("checked", false);
+    this.$avatarContainer.removeClass("is-invisible");
 
-		if (this.$permissionContainer)
-			this.$permissionContainer.removeClass("is-hidden");
+    if (this.$permissionContainer)
+      this.$permissionContainer.removeClass("is-hidden");
 
-		if (this.$privilegesContainer)
-			this.$privilegesContainer.removeClass("is-hidden");
+    if (this.$privilegesContainer)
+      this.$privilegesContainer.removeClass("is-hidden");
 
-		if (user.serverData) {
-			this.$permission.prop("checked", user.serverData.approved);
+    if (user.serverData) {
+      this.$permission.prop("checked", user.serverData.approved);
 
-			if (user.serverData.privileges && user.serverData.privileges.length > 0) {
-				user.serverData.privileges.forEach(type => $("#p-" + type, this.$privilegesContainer).prop("checked", true));
-			}
-		}
-	}
-	async SubmitForm() {
-		let id = this.GetIdFromInput();
+      if (user.serverData.privileges && user.serverData.privileges.length > 0) {
+        user.serverData.privileges.forEach(type => $("#p-" + type, this.$privilegesContainer).prop("checked", true));
+      }
+    }
+  }
+  async SubmitForm() {
+    let id = this.GetIdFromInput();
 
-		if (isNaN(id)) {
-			notification(System.data.locale.popup.notificationMessages.idNumberRequired, "danger");
-		} else if (id <= 0) {
-			notification(System.data.locale.popup.notificationMessages.invalidId, "danger");
-		} else {
-			try {
-				let user = await window.popup.GetStoredUser(id);
+    if (isNaN(id)) {
+      notification(System.data.locale.popup.notificationMessages.idNumberRequired, "danger");
+    } else if (id <= 0) {
+      notification(System.data.locale.popup.notificationMessages.invalidId, "danger");
+    } else {
+      try {
+        let user = await window.popup.GetStoredUser(id);
 
-				this.SaveUser(user);
-			} catch (error) {
-				console.error(error);
-				notification(System.data.locale.popup.notificationMessages.cannotFindUser, "danger");
-			}
-		}
-	}
-	async SaveUser(user) {
-		try {
-			let privileges = $("input:checked", this.$privilegesContainer).map((i, input) => ~~(input.id.replace("p-", ""))).get();
-			let approved = this.$permission.prop("checked");
-			let resUser = await PutUser({
-				id: user.brainlyData.id,
-				nick: user.brainlyData.nick,
-				privileges,
-				approved
-			});
+        this.SaveUser(user);
+      } catch (error) {
+        console.error(error);
+        notification(System.data.locale.popup.notificationMessages.cannotFindUser, "danger");
+      }
+    }
+  }
+  async SaveUser(user) {
+    try {
+      let privileges = $("input:checked", this.$privilegesContainer).map((i, input) => ~~(input.id.replace("p-", ""))).get();
+      let approved = this.$permission.prop("checked");
+      let resUser = await PutUser({
+        id: user.brainlyData.id,
+        nick: user.brainlyData.nick,
+        privileges,
+        approved
+      });
 
-			if (!resUser.success) {
-				throw resUser.message;
-			}
+      if (!resUser.success) {
+        throw resUser.message;
+      }
 
-			notification(System.data.locale.common.allDone, "success");
+      notification(System.data.locale.common.allDone, "success");
 
-			$("#" + resUser.data._id, this.$level).parent().remove();
+      $("#" + resUser.data._id, this.$level).parent().remove();
 
-			let $node = this.RenderUserNode(resUser.data);
-			window.popup.refreshUsersInformations();
+      let $node = this.RenderUserNode(resUser.data);
+      window.popup.refreshUsersInformations();
 
-			$('html, body').animate({
-				scrollTop: $node.offset().top
-			}, 1000);
+      $('html, body').animate({
+        scrollTop: $node.offset().top
+      }, 1000);
 
-			this.HideEditingForm(true);
-		} catch (error) {
-			console.error(error);
-			notification(typeof error == "string" && error || System.data.locale.common.notificationMessages.operationError, "danger");
-		}
+      this.HideEditingForm(true);
+    } catch (error) {
+      console.error(error);
+      notification(typeof error == "string" && error || System.data.locale.common.notificationMessages.operationError, "danger");
+    }
 
-	}
-	async GivePrivilege() {
-		if (confirm(System.data.locale.popup.notificationMessages.doYouWannaGiveThisPrivilege)) {
-			let value = this.$privilegesSelect.val();
-			let privilege = Number(value);
+  }
+  async GivePrivilege() {
+    if (confirm(System.data.locale.popup.notificationMessages.doYouWannaGiveThisPrivilege)) {
+      let value = this.$privilegesSelect.val();
+      let privilege = Number(value);
 
-			if (privilege > 0) {
-				let res = await GivePrivilege(privilege);
+      if (privilege > 0) {
+        let res = await GivePrivilege(privilege);
 
-				this.PrepareUsers();
-				notification(System.data.locale.popup.notificationMessages.privilegeHasGiven.replace("%{user_amount}", ` ${res.data.affected} `), "success");
-			}
-		}
-	}
-	async RevokePrivilege() {
-		if (confirm(System.data.locale.popup.notificationMessages.doYouWannaRevokeThisPrivilege)) {
-			let value = this.$privilegesSelect.val();
-			let privilege = Number(value);
+        this.PrepareUsers();
+        notification(System.data.locale.popup.notificationMessages.privilegeHasGiven.replace("%{user_amount}", ` ${res.data.affected} `), "success");
+      }
+    }
+  }
+  async RevokePrivilege() {
+    if (confirm(System.data.locale.popup.notificationMessages.doYouWannaRevokeThisPrivilege)) {
+      let value = this.$privilegesSelect.val();
+      let privilege = Number(value);
 
-			if (privilege > 0) {
-				let res = await RevokePrivilege(privilege);
+      if (privilege > 0) {
+        let res = await RevokePrivilege(privilege);
 
-				this.PrepareUsers();
-				notification(System.data.locale.popup.notificationMessages.privilegeHasRevoked.replace("%{user_amount}", ` ${res.data.affected} `), "success");
-			}
-		}
-	}
-	FocusOnUser() {
-		let id = window.popup.parameters.editUser;
+        this.PrepareUsers();
+        notification(System.data.locale.popup.notificationMessages.privilegeHasRevoked.replace("%{user_amount}", ` ${res.data.affected} `), "success");
+      }
+    }
+  }
+  FocusOnUser() {
+    let id = window.popup.parameters.editUser;
 
-		if (id) {
-			this.$headerP.click();
-			this.$idInput.val(id).trigger("input").focus();
-		}
-	}
+    if (id) {
+      this.$headerP.click();
+      this.$idInput.val(id).trigger("input").focus();
+    }
+  }
 }
 
 export default Users

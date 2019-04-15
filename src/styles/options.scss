@@ -9,7 +9,7 @@
   padding-bottom: 1em;
   border-bottom: 1px solid #eee;
 
-  h1 + .lead {
+  h1+.lead {
     margin-top: 0.2em;
   }
 }
@@ -20,19 +20,19 @@
 
 .option {
   margin: 1em auto;
+
   h5 {
     margin-bottom: 1em;
   }
 
-  .radio-group  {
+  .radio-group {
     label {
       display: block;
-    }  
+    }
+
     input[type="radio"] {
       display: inline-block;
       margin: 3px 5px;
     }
   }
 }
-
-

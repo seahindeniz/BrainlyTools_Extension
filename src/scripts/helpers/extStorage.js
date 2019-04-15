@@ -7,23 +7,23 @@
  * @return {promise}
  */
 export default function storage(method, data) {
-	const marketKey = window.System.data.meta.storageKey;
-	let action = "storage";
-	let messageData = {
-		marketKey,
-		//action,
-		method,
-		data
-	}
+  const marketKey = window.System.data.meta.storageKey;
+  let action = "storage";
+  let messageData = {
+    marketKey,
+    //action,
+    method,
+    data
+  }
 
-	if (method.slice(-1) == "L") {
-		messageData.method = method.slice(0, -1);
-		messageData.local = true;
-	}
+  if (method.slice(-1) == "L") {
+    messageData.method = method.slice(0, -1);
+    messageData.local = true;
+  }
 
-	return System.toBackground(action, messageData);
-	/* if (ext.storage)
-		return ext.runtime.sendMessage(messageData);
-	else
-		return ext.runtime.sendMessage(System.data.meta.extension.id, messageData); */
+  return System.toBackground(action, messageData);
+  /* if (ext.storage)
+  	return ext.runtime.sendMessage(messageData);
+  else
+  	return ext.runtime.sendMessage(System.data.meta.extension.id, messageData); */
 }

@@ -1,10 +1,10 @@
 class Results {
-	constructor() {
-		this.Render();
-		this.ResetValues();
-	}
-	Render() {
-		this.$ = $(`
+  constructor() {
+    this.Render();
+    this.ResetValues();
+  }
+  Render() {
+    this.$ = $(`
 		<div class="sg-content-box__actions sg-content-box__actions--spaced-top-xlarge sg-content-box__actions--spaced-bottom-large">
 			<div class="sg-content-box sg-content-box--full">
 				<div class="sg-content-box__actions">
@@ -24,28 +24,28 @@ class Results {
 			</div>
 		</div>`);
 
-		this.$sent = $("li:eq(0) span", this.$);
-		this.$errors = $("li:eq(1) span", this.$);
-		this.$usersNotFound = $("li:eq(2) span", this.$);
-	}
-	ResetValues() {
-		this.sent = 0;
-		this.errors = 0;
-		this.usersNotFound = 0;
+    this.$sent = $("li:eq(0) span", this.$);
+    this.$errors = $("li:eq(1) span", this.$);
+    this.$usersNotFound = $("li:eq(2) span", this.$);
+  }
+  ResetValues() {
+    this.sent = 0;
+    this.errors = 0;
+    this.usersNotFound = 0;
 
-		this.$sent.text(0);
-		this.$errors.text(0);
-		this.$usersNotFound.text(0);
-	}
-	IncreaseSent() {
-		this.$sent.text(++this.sent);
-	}
-	IncreaseErrors() {
-		this.$errors.text(++this.errors);
-	}
-	IncreaseUsersNotFound() {
-		this.$usersNotFound.text(++this.usersNotFound);
-	}
+    this.$sent.text(0);
+    this.$errors.text(0);
+    this.$usersNotFound.text(0);
+  }
+  IncreaseSent() {
+    this.$sent.text(++this.sent);
+  }
+  IncreaseErrors() {
+    this.$errors.text(++this.errors);
+  }
+  IncreaseUsersNotFound() {
+    this.$usersNotFound.text(++this.usersNotFound);
+  }
 }
 
 export default Results

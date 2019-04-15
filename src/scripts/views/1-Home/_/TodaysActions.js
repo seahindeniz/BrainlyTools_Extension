@@ -1,12 +1,12 @@
 function TodaysActions() {
-	if (System.data.Brainly.userData.user.mod_actions_count >= 0) {
-		let $userInfo = $("div.game-box__element > div.game-box__user-info");
-		let $progressItems = $("> .game-box__progress-items", $userInfo);
+  if (System.data.Brainly.userData.user.mod_actions_count >= 0) {
+    let $userInfo = $("div.game-box__element > div.game-box__user-info");
+    let $progressItems = $("> .game-box__progress-items", $userInfo);
 
-		if (!$userInfo.is(".todaysActions")) {
-			$userInfo.addClass("todaysActions");
+    if (!$userInfo.is(".todaysActions")) {
+      $userInfo.addClass("todaysActions");
 
-			let todaysActions = `
+      let todaysActions = `
       <div style="margin: -4px 0 3px;">
         <a href="/moderation_new/view_moderator/${System.data.Brainly.userData.user.id}" target="_blank">
           <span class="sg-text sg-text--xsmall sg-text--gray sg-text--capitalize">${System.data.locale.home.todaysActions}: </span>
@@ -14,9 +14,9 @@ function TodaysActions() {
         </a>
       </div>`;
 
-			$progressItems.before(todaysActions);
-		}
-	}
+      $progressItems.before(todaysActions);
+    }
+  }
 }
 
 export default TodaysActions

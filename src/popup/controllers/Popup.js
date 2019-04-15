@@ -13,92 +13,92 @@ import storage from "../../scripts/helpers/extStorage";
 import TimedLoop from "../../scripts/helpers/TimedLoop";
 
 class Popup {
-	constructor() {
-		this.$body = $("body");
-		this.$hero = $("> section.hero", this.$body);
-		this.$heroBody = $("> div.hero-body", this.$hero);
-		this.$container = $("> div.container", this.$heroBody);
-		this.$footer = $("footer.footer", this.$body);
-		this.storageData = {};
-		this.fetchedUsers = {};
-		this.parameters = {};
+  constructor() {
+    this.$body = $("body");
+    this.$hero = $("> section.hero", this.$body);
+    this.$heroBody = $("> div.hero-body", this.$hero);
+    this.$container = $("> div.container", this.$heroBody);
+    this.$footer = $("footer.footer", this.$body);
+    this.storageData = {};
+    this.fetchedUsers = {};
+    this.parameters = {};
 
-		this.RefreshTimeElements();
-		this.BindEvents();
+    this.RefreshTimeElements();
+    this.BindEvents();
 
-		setInterval(this.RefreshTimeElements.bind(this), 1000);
-	}
-	RefreshTimeElements() {
-		$("[data-time]", this.$body).each((i, element) => {
-			let $element = $(element);
-			let time = $($element).data("time");
-			let dateLLL = window.moment(time).format('LLL');
-			let timeAgoLong = window.moment(time).fromNow();
-			let timeAgoShort = window.moment(time).fromNow(true);
+    setInterval(this.RefreshTimeElements.bind(this), 1000);
+  }
+  RefreshTimeElements() {
+    $("[data-time]", this.$body).each((i, element) => {
+      let $element = $(element);
+      let time = $($element).data("time");
+      let dateLLL = window.moment(time).format('LLL');
+      let timeAgoLong = window.moment(time).fromNow();
+      let timeAgoShort = window.moment(time).fromNow(true);
 
-			$element.attr("title", `${timeAgoLong}\n${dateLLL}`);
-			$element.text(timeAgoShort);
-		});
-	}
-	BindEvents() {
-		$(".box > .title", this.$container).on("click", function() {
-			$(this).parent().toggleClass("is-active");
-		});
+      $element.attr("title", `${timeAgoLong}\n${dateLLL}`);
+      $element.text(timeAgoShort);
+    });
+  }
+  BindEvents() {
+    $(".box > .title", this.$container).on("click", function() {
+      $(this).parent().toggleClass("is-active");
+    });
 
-		this.$container.on("click", ".message-header > p", function() {
-			$(this).parents("article").toggleClass("is-active");
-		});
-	}
-	async PrepareDataBeforeRendering(marketName) {
-		let marketData = await ext.runtime.sendMessage({ action: "getMarketData", marketName });
+    this.$container.on("click", ".message-header > p", function() {
+      $(this).parents("article").toggleClass("is-active");
+    });
+  }
+  async PrepareDataBeforeRendering(marketName) {
+    let marketData = await ext.runtime.sendMessage({ action: "getMarketData", marketName });
 
-		if (!marketData) {
-			return this.RenderStatusMessage({
-				type: "danger",
-				title: System.data.locale.popup.notificationMessages.errorN.replace("%{error_code}", ` 417 `),
-				message: System.data.locale.popup.notificationMessages.iCantFechMarketData
-			});
-		}
+    if (!marketData) {
+      return this.RenderStatusMessage({
+        type: "danger",
+        title: System.data.locale.popup.notificationMessages.errorN.replace("%{error_code}", ` 417 `),
+        message: System.data.locale.popup.notificationMessages.iCantFechMarketData
+      });
+    }
 
-		System.data = marketData;
-		let storageData = await storage("get", ["user", "themeColor", "quickDeleteButtonsReasons", "extendMessagesBody", "extendMessagesLayout", "notifier", "language"]);
+    System.data = marketData;
+    let storageData = await storage("get", ["user", "themeColor", "quickDeleteButtonsReasons", "extendMessagesBody", "extendMessagesLayout", "notifier", "language"]);
 
-		if (!(storageData && storageData.user && storageData.user.user && storageData.user.user.id && storageData.user.user.id == storageData.user.user.id)) {
-			this.RenderStatusMessage({
-				type: "danger",
-				title: System.data.locale.popup.notificationMessages.errorN.replace("%{error_code}", ` 417 `),
-				message: System.data.locale.popup.notificationMessages.uncorrectDate
-			});
-		} else if (!System.data.Brainly.deleteReasons.__withIds) {
-			this.RenderStatusMessage({
-				type: "danger",
-				title: System.data.locale.popup.notificationMessages.errorN.replace("%{error_code}", ` 416 `),
-				message: System.data.locale.popup.notificationMessages.preparingUnsuccessful
-			});
-		} else {
-			this.storageData = storageData;
+    if (!(storageData && storageData.user && storageData.user.user && storageData.user.user.id && storageData.user.user.id == storageData.user.user.id)) {
+      this.RenderStatusMessage({
+        type: "danger",
+        title: System.data.locale.popup.notificationMessages.errorN.replace("%{error_code}", ` 417 `),
+        message: System.data.locale.popup.notificationMessages.uncorrectDate
+      });
+    } else if (!System.data.Brainly.deleteReasons.__withIds) {
+      this.RenderStatusMessage({
+        type: "danger",
+        title: System.data.locale.popup.notificationMessages.errorN.replace("%{error_code}", ` 416 `),
+        message: System.data.locale.popup.notificationMessages.preparingUnsuccessful
+      });
+    } else {
+      this.storageData = storageData;
 
-			this.GetParametersFromBackground();
-			this.RenderMainUI();
-		}
-	}
-	RenderStatusMessage({ type = "light", title = "", message = "" }) {
-		this.$hero.attr("class", `hero is-medium is-bold is-${type}`);
-		this.$container.html(`<h1 class="title">${title}</h1><h2 class="subtitle">${message}</h2>`);
-	}
-	async GetParametersFromBackground() {
-		let parameters = await System.toBackground("INeedParameters");
+      this.GetParametersFromBackground();
+      this.RenderMainUI();
+    }
+  }
+  RenderStatusMessage({ type = "light", title = "", message = "" }) {
+    this.$hero.attr("class", `hero is-medium is-bold is-${type}`);
+    this.$container.html(`<h1 class="title">${title}</h1><h2 class="subtitle">${message}</h2>`);
+  }
+  async GetParametersFromBackground() {
+    let parameters = await System.toBackground("INeedParameters");
 
-		if (parameters) {
-			this.parameters = {
-				...this.parameters,
-				...parameters
-			}
-		}
-	}
-	RenderMainUI() {
-		let avatar = System.prepareAvatar(System.data.Brainly.userData.user);
-		let $layout = $(`
+    if (parameters) {
+      this.parameters = {
+        ...this.parameters,
+        ...parameters
+      }
+    }
+  }
+  RenderMainUI() {
+    let avatar = System.prepareAvatar(System.data.Brainly.userData.user);
+    let $layout = $(`
 		<div class="column">
 			<div class="box">
 				<figure class="avatar has-text-centered">
@@ -106,181 +106,181 @@ class Popup {
 				</figure>
 			</div>
 		</div>`);
-		this.$layoutBox = $(">div.box", $layout);
+    this.$layoutBox = $(">div.box", $layout);
 
-		this.$container
-			.html("")
-			.append($layout);
-		this.$hero.attr("class", `hero is-success is-halfheight`);
+    this.$container
+      .html("")
+      .append($layout);
+    this.$hero.attr("class", `hero is-success is-halfheight`);
 
-		this.PrepareSectionsAndContents();
-		this.RenderSections();
-		this.ShowFooter();
-		this.ResizePanel();
-		TimedLoop(this.ResizePanel.bind(this), { expireTime: 5 });
-	}
-	RenderFooterInformation() {
-		this.$footer.html(`<p class="title is-7 has-text-centered"><a href="https://chrome.google.com/webstore/detail/${System.data.meta.extension.id}" class="has-text-grey" target="_blank">${System.data.meta.manifest.short_name} v${System.data.meta.manifest.version}</a></p>`);
-	}
-	PrepareSectionsAndContents() {
-		this.sections = [
-			[
-				new LinkShortener().$layout,
-				new ShortenedLinks().$layout
-			],
-			[
-				this.RenderTitle(System.data.locale.popup.extensionOptions.title),
-				new ThemeColorChanger(this.storageData.themeColor).$layout,
-				this.RenderQuickDeleteButtonsOptions(),
-				new OtherOptions(this.storageData).$layout
-			],
-			[
-				this.RenderAccountDeleteReports(),
-				this.RenderDeleteReasonsPreferences(),
-				this.RenderAnnouncements(),
-				this.RenderUsers(),
-			]
-		];
+    this.PrepareSectionsAndContents();
+    this.RenderSections();
+    this.ShowFooter();
+    this.ResizePanel();
+    TimedLoop(this.ResizePanel.bind(this), { expireTime: 5 });
+  }
+  RenderFooterInformation() {
+    this.$footer.html(`<p class="title is-7 has-text-centered"><a href="https://chrome.google.com/webstore/detail/${System.data.meta.extension.id}" class="has-text-grey" target="_blank">${System.data.meta.manifest.short_name} v${System.data.meta.manifest.version}</a></p>`);
+  }
+  PrepareSectionsAndContents() {
+    this.sections = [
+      [
+        new LinkShortener().$layout,
+        new ShortenedLinks().$layout
+      ],
+      [
+        this.RenderTitle(System.data.locale.popup.extensionOptions.title),
+        new ThemeColorChanger(this.storageData.themeColor).$layout,
+        this.RenderQuickDeleteButtonsOptions(),
+        new OtherOptions(this.storageData).$layout
+      ],
+      [
+        this.RenderAccountDeleteReports(),
+        this.RenderDeleteReasonsPreferences(),
+        this.RenderAnnouncements(),
+        this.RenderUsers(),
+      ]
+    ];
 
-		if (this.sections[2].filter(Boolean).length > 0) {
-			this.sections[2].unshift(this.RenderTitle(System.data.locale.popup.extensionManagement.title));
-		}
+    if (this.sections[2].filter(Boolean).length > 0) {
+      this.sections[2].unshift(this.RenderTitle(System.data.locale.popup.extensionManagement.title));
+    }
 
-		if ($("html").attr("is") == "options") {
-			this.sections[0].splice(0, 1);
-		}
-	}
-	RenderSections() {
-		this.sections.forEach(contents => {
-			let $section = this.RenderSection();
+    if ($("html").attr("is") == "options") {
+      this.sections[0].splice(0, 1);
+    }
+  }
+  RenderSections() {
+    this.sections.forEach(contents => {
+      let $section = this.RenderSection();
 
-			if (contents.filter(Boolean).length > 0) {
-				contents.forEach($content => {
-					$section.append($content)
-				});
-			}
-		});
-	}
-	RenderSection() {
-		let $section = $(`<section></section>`);
+      if (contents.filter(Boolean).length > 0) {
+        contents.forEach($content => {
+          $section.append($content)
+        });
+      }
+    });
+  }
+  RenderSection() {
+    let $section = $(`<section></section>`);
 
-		this.$layoutBox.append($section);
+    this.$layoutBox.append($section);
 
-		return $section;
-	}
-	RenderTitle(title) {
-		let $title = $(`<h4 class="title is-4 has-text-centered">${title}</h4>`);
+    return $section;
+  }
+  RenderTitle(title) {
+    let $title = $(`<h4 class="title is-4 has-text-centered">${title}</h4>`);
 
-		return $title;
-	}
-	RenderQuickDeleteButtonsOptions() {
-		if (System.checkUserP([1, 2, 45])) {
-			let quickDeleteButtonsOptions = new QuickDeleteButtonsOptions(this.storageData.quickDeleteButtonsReasons);
+    return $title;
+  }
+  RenderQuickDeleteButtonsOptions() {
+    if (System.checkUserP([1, 2, 45])) {
+      let quickDeleteButtonsOptions = new QuickDeleteButtonsOptions(this.storageData.quickDeleteButtonsReasons);
 
-			return quickDeleteButtonsOptions.$layout;
-		}
-	}
-	RenderAccountDeleteReports() {
-		if (System.checkUserP(12)) {
-			let accountDeleteReports = new AccountDeleteReports();
+      return quickDeleteButtonsOptions.$layout;
+    }
+  }
+  RenderAccountDeleteReports() {
+    if (System.checkUserP(12)) {
+      let accountDeleteReports = new AccountDeleteReports();
 
-			return accountDeleteReports.$layout;
-		}
-	}
-	RenderDeleteReasonsPreferences() {
-		if (System.checkUserP(11)) {
-			let deleteReasonsPreferences = new DeleteReasonsPreferences();
+      return accountDeleteReports.$layout;
+    }
+  }
+  RenderDeleteReasonsPreferences() {
+    if (System.checkUserP(11)) {
+      let deleteReasonsPreferences = new DeleteReasonsPreferences();
 
-			return deleteReasonsPreferences.$layout;
-		}
-	}
-	RenderAnnouncements() {
-		if (System.checkUserP(4)) {
-			let announcements = new Announcements();
+      return deleteReasonsPreferences.$layout;
+    }
+  }
+  RenderAnnouncements() {
+    if (System.checkUserP(4)) {
+      let announcements = new Announcements();
 
-			return announcements.$layout;
-		}
-	}
-	RenderUsers() {
-		if (System.checkUserP([5, 22, 23, 24, 25])) {
-			let users = new Users();
+      return announcements.$layout;
+    }
+  }
+  RenderUsers() {
+    if (System.checkUserP([5, 22, 23, 24, 25])) {
+      let users = new Users();
 
-			return users.$layout;
-		}
-	}
-	GetStoredUser(brainlyID) {
-		return new Promise(async (resolve, reject) => {
-			let user = this.fetchedUsers[brainlyID];
+      return users.$layout;
+    }
+  }
+  GetStoredUser(brainlyID) {
+    return new Promise(async (resolve, reject) => {
+      let user = this.fetchedUsers[brainlyID];
 
-			if (!user || user && !user.brainlyData) {
-				let resUser = await GetUserByID2(brainlyID);
+      if (!user || user && !user.brainlyData) {
+        let resUser = await GetUserByID2(brainlyID);
 
-				if (!resUser || !resUser.success) {
-					let message = `${brainlyID} > ${(resUser.message || "error")}`;
+        if (!resUser || !resUser.success) {
+          let message = `${brainlyID} > ${(resUser.message || "error")}`;
 
-					return reject(message);
-				}
+          return reject(message);
+        }
 
-				user = this.ReserveAUser(brainlyID, { brainlyData: resUser.data });
-			}
+        user = this.ReserveAUser(brainlyID, { brainlyData: resUser.data });
+      }
 
-			resolve(user);
-		});
-	}
-	ReserveAUser(brainlyID, data) {
-		if (!this.fetchedUsers[brainlyID]) {
-			data = data || {};
-		} else {
-			data = { ...this.fetchedUsers[brainlyID], ...data }
-		}
+      resolve(user);
+    });
+  }
+  ReserveAUser(brainlyID, data) {
+    if (!this.fetchedUsers[brainlyID]) {
+      data = data || {};
+    } else {
+      data = { ...this.fetchedUsers[brainlyID], ...data }
+    }
 
-		this.fetchedUsers[brainlyID] = data;
+    this.fetchedUsers[brainlyID] = data;
 
-		return this.fetchedUsers[brainlyID];
-	}
-	ShowFooter() {
-		this.$footer.removeClass("is-hidden");
-		this.RenderFooterInformation();
-	}
-	async ResizePanel() {
-		if ($("html").attr("is") == "options")
-			this.$heroBody.css("width", window.outerWidth * .6);
+    return this.fetchedUsers[brainlyID];
+  }
+  ShowFooter() {
+    this.$footer.removeClass("is-hidden");
+    this.RenderFooterInformation();
+  }
+  async ResizePanel() {
+    if ($("html").attr("is") == "options")
+      this.$heroBody.css("width", window.outerWidth * .6);
 
-		if ($("html").attr("is") == "popup") {
-			//let info = await ext.windows.getCurrent();
-			let activeTab = await ext.tabs.query({ active: true, currentWindow: true });
+    if ($("html").attr("is") == "popup") {
+      //let info = await ext.windows.getCurrent();
+      let activeTab = await ext.tabs.query({ active: true, currentWindow: true });
 
-			if (activeTab && activeTab.length > 0) {
-				let info = activeTab[0];
-				let height = info.height - 10;
+      if (activeTab && activeTab.length > 0) {
+        let info = activeTab[0];
+        let height = info.height - 10;
 
-				if (height > 600)
-					height = 600;
+        if (height > 600)
+          height = 600;
 
-				document.body.style.height = `${height}px`;
-			}
-		}
-	}
-	refreshUsersInformations() {
-		Object.keys(this.fetchedUsers).forEach(async brainlyID => {
-			let user = await this.GetStoredUser(brainlyID);
-			let avatar = System.prepareAvatar(user.brainlyData);
+        document.body.style.height = `${height}px`;
+      }
+    }
+  }
+  refreshUsersInformations() {
+    Object.keys(this.fetchedUsers).forEach(async brainlyID => {
+      let user = await this.GetStoredUser(brainlyID);
+      let avatar = System.prepareAvatar(user.brainlyData);
 
-			if (avatar) {
-				$(`a[data-user-id="${user.brainlyData.id}"]`, this.$layoutBox).each((i, element) => {
-					let $img = $("img.avatar", element);
+      if (avatar) {
+        $(`a[data-user-id="${user.brainlyData.id}"]`, this.$layoutBox).each((i, element) => {
+          let $img = $("img.avatar", element);
 
-					$img.attr("src", avatar);
+          $img.attr("src", avatar);
 
-					element.href = System.createProfileLink(user.brainlyData.nick, user.brainlyData.id);
+          element.href = System.createProfileLink(user.brainlyData.nick, user.brainlyData.id);
 
-					if (!element.title) {
-						element.title = user.brainlyData.nick;
-					}
-				});
-			}
-		});
-	}
+          if (!element.title) {
+            element.title = user.brainlyData.nick;
+          }
+        });
+      }
+    });
+  }
 }
 
 export default Popup

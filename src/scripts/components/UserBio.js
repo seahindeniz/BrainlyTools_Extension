@@ -2,15 +2,15 @@ import { ChangeBio } from "../controllers/ActionsOfBrainly";
 import notification from "./notification";
 
 class UserBio {
-	constructor(bio = "", editable = false) {
-		this.bio = bio;
-		this.editable = editable;
+  constructor(bio = "", editable = false) {
+    this.bio = bio;
+    this.editable = editable;
 
-		this.Render();
-		this.BindEvents();
-	}
-	Render() {
-		this.$ = $(`
+    this.Render();
+    this.BindEvents();
+  }
+  Render() {
+    this.$ = $(`
 		<div class="sg-actions-list sg-actions-list--no-wrap sg-actions-list--to-top">
 			<div class="sg-actions-list__hole" title="${System.data.locale.userProfile.userBio.description}">
 				<span class="sg-text sg-text--small sg-text--bold">${System.data.locale.userProfile.userBio.title}: </span>
@@ -20,63 +20,63 @@ class UserBio {
 			</div>
 		</div>`);
 
-		this.$bioContent = $("p", this.$);
-		/**
-		 * @type {HTMLParagraphElement}
-		 */
-		this.bioContent = this.$bioContent.get(0);
+    this.$bioContent = $("p", this.$);
+    /**
+     * @type {HTMLParagraphElement}
+     */
+    this.bioContent = this.$bioContent.get(0);
 
-		this.$bioContent.prop("contenteditable", this.editable);
-	}
-	BindEvents() {
-		this.$bioContent.on({
-			mousedown: this.RemovePlaceholder.bind(this),
-			paste: this.PaseHandler.bind(this),
-			blur: this.UpdateIfChanged.bind(this)
-		});
-	}
-	RemovePlaceholder() {
-		if (!this.bio) {
-			this.$bioContent.text("");
-		}
-	}
-	AddPlaceholder() {
-		if (this.bioContent.innerText.trim() == "") {
-			this.bioContent.innerText = " -";
-		}
-	}
-	PaseHandler(event) {
-		event.preventDefault();
+    this.$bioContent.prop("contenteditable", this.editable);
+  }
+  BindEvents() {
+    this.$bioContent.on({
+      mousedown: this.RemovePlaceholder.bind(this),
+      paste: this.PaseHandler.bind(this),
+      blur: this.UpdateIfChanged.bind(this)
+    });
+  }
+  RemovePlaceholder() {
+    if (!this.bio) {
+      this.$bioContent.text("");
+    }
+  }
+  AddPlaceholder() {
+    if (this.bioContent.innerText.trim() == "") {
+      this.bioContent.innerText = " -";
+    }
+  }
+  PaseHandler(event) {
+    event.preventDefault();
 
-		let text = (event.originalEvent || event).clipboardData.getData("text/plain");
+    let text = (event.originalEvent || event).clipboardData.getData("text/plain");
 
-		document.execCommand("insertText", false, text);
-	}
-	async UpdateIfChanged() {
-		if (this.bioContent.innerText != this.bio.replace(/\s{0,}<br\s*[\/]?>/gi, "\n")) {
-			this.Update();
-		}
+    document.execCommand("insertText", false, text);
+  }
+  async UpdateIfChanged() {
+    if (this.bioContent.innerText != this.bio.replace(/\s{0,}<br\s*[\/]?>/gi, "\n")) {
+      this.Update();
+    }
 
-		this.AddPlaceholder();
-	}
-	async Update() {
-		let oldBio = this.bio;
-		let newBio = this.bioContent.innerText.trim();
+    this.AddPlaceholder();
+  }
+  async Update() {
+    let oldBio = this.bio;
+    let newBio = this.bioContent.innerText.trim();
 
-		let resBio = await ChangeBio(newBio.replace(/(?:\r\n|\n)/gm, "\\n"));
+    let resBio = await ChangeBio(newBio.replace(/(?:\r\n|\n)/gm, "\\n"));
 
-		if (resBio.errors) {
-			this.bioContent.innerText = oldBio;
+    if (resBio.errors) {
+      this.bioContent.innerText = oldBio;
 
-			notification(System.data.locale.userProfile.notificationMessages.cannotChangeBio, "error");
-		} else {
-			this.bio = newBio;
+      notification(System.data.locale.userProfile.notificationMessages.cannotChangeBio, "error");
+    } else {
+      this.bio = newBio;
 
-			notification(System.data.locale.popup.notificationMessages.updatedMessage, "success");
-		}
+      notification(System.data.locale.popup.notificationMessages.updatedMessage, "success");
+    }
 
-		this.AddPlaceholder();
-	}
+    this.AddPlaceholder();
+  }
 }
 
 export default UserBio

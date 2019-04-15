@@ -3,26 +3,26 @@ import notification from "../notification";
 import TextEditor from "../TextEditor";
 
 class Announcement {
-	constructor(data) {
-		this.data = data;
-		this.editors = {
-			title: null,
-			content: null
-		};
+  constructor(data) {
+    this.data = data;
+    this.editors = {
+      title: null,
+      content: null
+    };
 
-		window.popup.ReserveAUser(data.user.brainlyID);
+    window.popup.ReserveAUser(data.user.brainlyID);
 
-		this.Render();
-		this.BindEvents();
+    this.Render();
+    this.BindEvents();
 
-		return this.$node;
-	}
-	Render() {
-		let timeLong = window.moment(this.data.time).fromNow();
-		let timeShort = window.moment(this.data.time).fromNow(true);
-		let profileLink = System.createProfileLink(this.data.user.nick, this.data.user.brainlyID);
+    return this.$node;
+  }
+  Render() {
+    let timeLong = window.moment(this.data.time).fromNow();
+    let timeShort = window.moment(this.data.time).fromNow(true);
+    let profileLink = System.createProfileLink(this.data.user.nick, this.data.user.brainlyID);
 
-		this.$node = $(`
+    this.$node = $(`
 		<article class="media">
 			<figure class="media-left">
 				<p class="image is-32x32">
@@ -57,59 +57,59 @@ class Announcement {
 			</div>
 		</article>`);
 
-		this.$editButton = $("a.edit", this.$node);
-		this.$removeButton = $("a.remove", this.$node);
-		this.$publishButton = $("a.publish", this.$node);
-		this.$announcementTitle = $("span.announcementTitle", this.$node);
-		this.$announcementContent = $("div.announcementContent", this.$node);
+    this.$editButton = $("a.edit", this.$node);
+    this.$removeButton = $("a.remove", this.$node);
+    this.$publishButton = $("a.publish", this.$node);
+    this.$announcementTitle = $("span.announcementTitle", this.$node);
+    this.$announcementContent = $("div.announcementContent", this.$node);
 
-		this.RenderUsersWhoReadsThisAnnouncement();
+    this.RenderUsersWhoReadsThisAnnouncement();
 
-		return this.$node;
-	}
-	RenderUsersWhoReadsThisAnnouncement() {
-		let $container = $(".readers", this.$node);
-		let readed_by = this.data.readed_by;
+    return this.$node;
+  }
+  RenderUsersWhoReadsThisAnnouncement() {
+    let $container = $(".readers", this.$node);
+    let readed_by = this.data.readed_by;
 
-		if (readed_by instanceof Array && readed_by.length > 0) {
-			readed_by.forEach(reading => {
-				let user = this.data.readers.find(user => user._id == reading.user_id);
-				let time = window.moment(reading.time).format('LLLL');
-				let readedOn = System.data.locale.popup.extensionManagement.announcements.readedOn.replace(" %{date} ", time);
+    if (readed_by instanceof Array && readed_by.length > 0) {
+      readed_by.forEach(reading => {
+        let user = this.data.readers.find(user => user._id == reading.user_id);
+        let time = window.moment(reading.time).format('LLLL');
+        let readedOn = System.data.locale.popup.extensionManagement.announcements.readedOn.replace(" %{date} ", time);
 
-				window.popup.ReserveAUser(user.brainlyID);
+        window.popup.ReserveAUser(user.brainlyID);
 
-				$container.append(`
+        $container.append(`
 				<a class="level-item is-inline-block" data-user-id="${user.brainlyID}" title="${user.nick}\n${readedOn}" target="_blank">
 					<figure class="image is-24x24">
 						<img class="avatar is-rounded" src="https://${System.data.meta.marketName}/img/avatars/100-ON.png">
 					</figure>
 				</a>`);
-			});
-		}
-	}
-	BindEvents() {
+      });
+    }
+  }
+  BindEvents() {
 
-		this.$editButton.click(this.Edit.bind(this));
-		this.$removeButton.click(this.Remove.bind(this));
-		this.$publishButton.click(this.Publish.bind(this));
-	}
-	Edit(event) {
-		if (event) {
-			event.preventDefault();
-		}
+    this.$editButton.click(this.Edit.bind(this));
+    this.$removeButton.click(this.Remove.bind(this));
+    this.$publishButton.click(this.Publish.bind(this));
+  }
+  Edit(event) {
+    if (event) {
+      event.preventDefault();
+    }
 
-		let $editorContent = $(".media-content.editor", this.$node);
+    let $editorContent = $(".media-content.editor", this.$node);
 
-		this.$node.toggleClass("is-editing");
+    this.$node.toggleClass("is-editing");
 
-		if ($editorContent.length == 0) {
-			this.CreateEditor();
-		}
-	}
-	CreateEditor() {
-		let $announcementContainer = $(".media-content", this.$node);
-		let $inputArea = $(`
+    if ($editorContent.length == 0) {
+      this.CreateEditor();
+    }
+  }
+  CreateEditor() {
+    let $announcementContainer = $(".media-content", this.$node);
+    let $inputArea = $(`
 		<div class="media-content editor">
 			<div class="content">
 				<input class="input announcementTitle" type="text">
@@ -127,90 +127,90 @@ class Announcement {
 			</a>
 		</div>`).insertAfter($announcementContainer);
 
-		let $closeButton = $("a.close", $inputArea);
-		let $updateButton = $("a.update", $inputArea);
-		let $titleInput = $("input.announcementTitle", $inputArea);
-		let $contentInput = $("textarea.announcementContent", $inputArea);
+    let $closeButton = $("a.close", $inputArea);
+    let $updateButton = $("a.update", $inputArea);
+    let $titleInput = $("input.announcementTitle", $inputArea);
+    let $contentInput = $("textarea.announcementContent", $inputArea);
 
-		$closeButton.click(this.Edit.bind(this));
-		$updateButton.click(this.Update.bind(this));
+    $closeButton.click(this.Edit.bind(this));
+    $updateButton.click(this.Update.bind(this));
 
-		this.editors.title = new TextEditor($titleInput, this.data.title);
-		this.editors.content = new TextEditor($contentInput, this.data.content);
-	}
-	async Remove(event) {
-		event.preventDefault();
+    this.editors.title = new TextEditor($titleInput, this.data.title);
+    this.editors.content = new TextEditor($contentInput, this.data.content);
+  }
+  async Remove(event) {
+    event.preventDefault();
 
-		if (confirm(System.data.locale.common.notificationMessages.areYouSure)) {
-			let resRemoved = await RemoveAnnouncement(this.data._id);
+    if (confirm(System.data.locale.common.notificationMessages.areYouSure)) {
+      let resRemoved = await RemoveAnnouncement(this.data._id);
 
-			if (!resRemoved) {
-				notification(System.data.locale.common.notificationMessages.operationError, "danger");
-			} else {
-				if (!resRemoved.success) {
-					notification((resRemoved.message || System.data.locale.common.notificationMessages.operationError), "danger");
-				} else {
-					notification(System.data.locale.popup.notificationMessages.removedMessage);
-					this.$node.slideUp("normal", () => this.$node.remove());
-				}
-			}
-		}
-	}
-	async Publish(event) {
-		event.preventDefault();
+      if (!resRemoved) {
+        notification(System.data.locale.common.notificationMessages.operationError, "danger");
+      } else {
+        if (!resRemoved.success) {
+          notification((resRemoved.message || System.data.locale.common.notificationMessages.operationError), "danger");
+        } else {
+          notification(System.data.locale.popup.notificationMessages.removedMessage);
+          this.$node.slideUp("normal", () => this.$node.remove());
+        }
+      }
+    }
+  }
+  async Publish(event) {
+    event.preventDefault();
 
-		let status = this.data.published;
-		let resUpdated = await UpdateAnnouncement({ id: this.data._id, publish: !status });
+    let status = this.data.published;
+    let resUpdated = await UpdateAnnouncement({ id: this.data._id, publish: !status });
 
-		if (!resUpdated) {
-			notification(System.data.locale.common.notificationMessages.operationError, "danger");
-		} else {
-			if (!resUpdated.success) {
-				notification((resUpdated.message || System.data.locale.common.notificationMessages.operationError), "danger");
-			} else {
-				this.data.published = !status;
+    if (!resUpdated) {
+      notification(System.data.locale.common.notificationMessages.operationError, "danger");
+    } else {
+      if (!resUpdated.success) {
+        notification((resUpdated.message || System.data.locale.common.notificationMessages.operationError), "danger");
+      } else {
+        this.data.published = !status;
 
-				notification(System.data.locale.popup.notificationMessages.updatedMessage);
-				this.$publishButton.attr({
-					title: System.data.locale.popup.extensionManagement.announcements[!status ? "unpublish" : "publish"]
-				});
-				$("[data-fa-i2svg]", this.$publishButton).toggleClass('fa-eye').toggleClass('fa-eye-slash');
-				$(".media-content > .content > [data-fa-i2svg]", this.$node).toggleClass('fa-eye').toggleClass('fa-eye-slash');
-			}
-		}
-	}
-	async Update(event) {
-		event.preventDefault();
+        notification(System.data.locale.popup.notificationMessages.updatedMessage);
+        this.$publishButton.attr({
+          title: System.data.locale.popup.extensionManagement.announcements[!status ? "unpublish" : "publish"]
+        });
+        $("[data-fa-i2svg]", this.$publishButton).toggleClass('fa-eye').toggleClass('fa-eye-slash');
+        $(".media-content > .content > [data-fa-i2svg]", this.$node).toggleClass('fa-eye').toggleClass('fa-eye-slash');
+      }
+    }
+  }
+  async Update(event) {
+    event.preventDefault();
 
-		let titleValue = this.editors.title.editor.getEditorValue();
-		let contentValue = this.editors.content.editor.getEditorValue();
+    let titleValue = this.editors.title.editor.getEditorValue();
+    let contentValue = this.editors.content.editor.getEditorValue();
 
-		if (!titleValue || titleValue == "") {
-			notification("You must add an announcement title", "danger");
-		} else if (!contentValue || contentValue == "") {
-			notification("You must add an announcement text", "danger");
-		} else {
-			let data = {
-				id: this.data._id,
-				title: titleValue,
-				content: contentValue
-			};
-			//data.id = that.parents("article.media").attr("id");
-			let resUpdated = await UpdateAnnouncement(data);
+    if (!titleValue || titleValue == "") {
+      notification("You must add an announcement title", "danger");
+    } else if (!contentValue || contentValue == "") {
+      notification("You must add an announcement text", "danger");
+    } else {
+      let data = {
+        id: this.data._id,
+        title: titleValue,
+        content: contentValue
+      };
+      //data.id = that.parents("article.media").attr("id");
+      let resUpdated = await UpdateAnnouncement(data);
 
-			if (!resUpdated || !resUpdated.success) {
-				notification((resUpdated.message || System.data.locale.common.notificationMessages.operationError), "danger");
-			} else {
-				this.data.title = titleValue;
-				this.data.content = contentValue;
+      if (!resUpdated || !resUpdated.success) {
+        notification((resUpdated.message || System.data.locale.common.notificationMessages.operationError), "danger");
+      } else {
+        this.data.title = titleValue;
+        this.data.content = contentValue;
 
-				this.Edit();
-				this.$announcementTitle.html(titleValue);
-				this.$announcementContent.html(contentValue);
-				notification(System.data.locale.popup.notificationMessages.updatedMessage);
-			}
-		}
-	}
+        this.Edit();
+        this.$announcementTitle.html(titleValue);
+        this.$announcementContent.html(contentValue);
+        notification(System.data.locale.popup.notificationMessages.updatedMessage);
+      }
+    }
+  }
 }
 
 export default Announcement;

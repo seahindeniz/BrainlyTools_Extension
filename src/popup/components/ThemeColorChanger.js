@@ -5,14 +5,14 @@ import send2AllBrainlyTabs from "../helpers/send2AllBrainlyTabs";
 const DEFAULT_THEME_COLOR = "#57b2f8";
 
 class ThemeColorChanger {
-	constructor(color = DEFAULT_THEME_COLOR) {
-		this.color = color;
+  constructor(color = DEFAULT_THEME_COLOR) {
+    this.color = color;
 
-		this.Render();
-		this.BindEvents();
-	}
-	Render() {
-		this.$layout = $(`
+    this.Render();
+    this.BindEvents();
+  }
+  Render() {
+    this.$layout = $(`
 		<div id="themeColor" class="column is-narrow">
 			<article class="message is-info">
 				<div class="message-header">
@@ -62,45 +62,45 @@ class ThemeColorChanger {
 			</article>
 		</div>`);
 
-		this.$rainbow = $("#rainbow", this.$layout);
-		this.$colorValue = $("#colorValue", this.$layout);
-		this.$saveButton = $("button.save", this.$layout);
-		this.$colorPicker = $("#colorPicker", this.$layout);
-	}
-	BindEvents() {
-		this.$colorPicker.on("input", event => this.ColorInputHandler(event.target.value));
-		this.$colorValue.on("input change", event => this.ColorInputHandler(event.target.value));
-		this.$saveButton.click(this.SaveToStorage.bind(this));
+    this.$rainbow = $("#rainbow", this.$layout);
+    this.$colorValue = $("#colorValue", this.$layout);
+    this.$saveButton = $("button.save", this.$layout);
+    this.$colorPicker = $("#colorPicker", this.$layout);
+  }
+  BindEvents() {
+    this.$colorPicker.on("input", event => this.ColorInputHandler(event.target.value));
+    this.$colorValue.on("input change", event => this.ColorInputHandler(event.target.value));
+    this.$saveButton.click(this.SaveToStorage.bind(this));
 
-		this.$rainbow.on("change", () => {
-			let colors = System.constants.config.RAINBOW_COLORS;
+    this.$rainbow.on("change", () => {
+      let colors = System.constants.config.RAINBOW_COLORS;
 
-			if (!this.$rainbow.is(":checked")) {
-				colors = DEFAULT_THEME_COLOR;
-			}
+      if (!this.$rainbow.is(":checked")) {
+        colors = DEFAULT_THEME_COLOR;
+      }
 
-			this.$colorValue.val(colors).change();
-		})
-	}
-	ColorInputHandler(color) {
-		this.$colorValue.val(color);
+      this.$colorValue.val(colors).change();
+    })
+  }
+  ColorInputHandler(color) {
+    this.$colorValue.val(color);
 
-		if (color.indexOf(",") == 0) {
-			this.$colorPicker.val(color);
-		}
+    if (color.indexOf(",") == 0) {
+      this.$colorPicker.val(color);
+    }
 
-		this.ChangeColor(color);
-	}
-	ChangeColor(color) {
-		send2AllBrainlyTabs("previewColor", color);
-	}
-	SaveToStorage() {
-		let color = this.$colorValue.val();
+    this.ChangeColor(color);
+  }
+  ChangeColor(color) {
+    send2AllBrainlyTabs("previewColor", color);
+  }
+  SaveToStorage() {
+    let color = this.$colorValue.val();
 
-		notification("Color saved");
-		send2AllBrainlyTabs("changeColors", color);
-		storage("set", { themeColor: color });
-	}
+    notification("Color saved");
+    send2AllBrainlyTabs("changeColors", color);
+    storage("set", { themeColor: color });
+  }
 }
 
 export default ThemeColorChanger

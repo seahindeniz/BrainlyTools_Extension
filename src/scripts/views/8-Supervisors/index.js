@@ -10,40 +10,40 @@ System.pageLoaded("Supervisors page OK!");
 Supervisors();
 
 async function Supervisors() {
-	let currentColumn = 0;
-	let sortIt = userLi => {
-		$(`.connectedSortable:eq(${currentColumn++})`).append(userLi);
-		if (currentColumn == 5) {
-			currentColumn = 0;
-		}
-	}
+  let currentColumn = 0;
+  let sortIt = userLi => {
+    $(`.connectedSortable:eq(${currentColumn++})`).append(userLi);
+    if (currentColumn == 5) {
+      currentColumn = 0;
+    }
+  }
 
-	let usersLi = await WaitForElement(".connectedSortable > li");
-	let usersID = [];
+  let usersLi = await WaitForElement(".connectedSortable > li");
+  let usersID = [];
 
-	usersLi.forEach(userLi => {
-		usersID.push(userLi.id);
-		sortIt(userLi);
-	});
+  usersLi.forEach(userLi => {
+    usersID.push(userLi.id);
+    sortIt(userLi);
+  });
 
-	await GetAllModerators(usersID, {
-		each: user => {
-			let avatar = System.prepareAvatar(user);
-			let buddyLink = System.createBrainlyLink("profile", { nick: user.nick, id: user.id });
-			let $userLi = $(`.connectedSortable li[id="${user.id}"]`);
-			let ranks = [];
+  await GetAllModerators(usersID, {
+    each: user => {
+      let avatar = System.prepareAvatar(user);
+      let buddyLink = System.createBrainlyLink("profile", { nick: user.nick, id: user.id });
+      let $userLi = $(`.connectedSortable li[id="${user.id}"]`);
+      let ranks = [];
 
-			if (user.ranks_ids && user.ranks_ids.length > 0) {
-				user.ranks_ids.forEach(rankId => {
-					let current_rank = System.data.Brainly.defaultConfig.config.data.ranksWithId[rankId];
-					if (current_rank || rankId == 12) {
-						ranks.push(`<span class="" style="color:#${(current_rank.color || "000")};">${current_rank.name}</span>`);
-					}
-				});
-			}
+      if (user.ranks_ids && user.ranks_ids.length > 0) {
+        user.ranks_ids.forEach(rankId => {
+          let current_rank = System.data.Brainly.defaultConfig.config.data.ranksWithId[rankId];
+          if (current_rank || rankId == 12) {
+            ranks.push(`<span class="" style="color:#${(current_rank.color || "000")};">${current_rank.name}</span>`);
+          }
+        });
+      }
 
-			user.$li = $userLi;
-			$userLi.html(`
+      user.$li = $userLi;
+      $userLi.html(`
 			<a href="${buddyLink}">
 				<div>
 					<img src="${avatar}" width="65" height="65">
@@ -51,13 +51,13 @@ async function Supervisors() {
 				${user.nick}
 			</a>
 			<div class="ranks">${ranks.join('<br>')}</div>`);
-		}
-	});
+    }
+  });
 
-	let optionsOfRanks = System.data.Brainly.defaultConfig.config.data.ranks.map(rank => {
-		return `<option value="${rank.id}"${rank.color?` style="color:#${rank.color};"`:""}>${rank.name}</option>`;
-	});
-	let $actionBox = $(`
+  let optionsOfRanks = System.data.Brainly.defaultConfig.config.data.ranks.map(rank => {
+    return `<option value="${rank.id}"${rank.color?` style="color:#${rank.color};"`:""}>${rank.name}</option>`;
+  });
+  let $actionBox = $(`
 	<div class="actionBox">
 		<div class="ranks">
 			<select multiple>
@@ -70,45 +70,45 @@ async function Supervisors() {
 		</div>
 	</div>`).insertAfter("#mod_sup");
 
-	let $rankSelect = $(".ranks > select", $actionBox);
-	let $tableLayout = $(".tableLayout > span", $actionBox);
-	let listedUsers = System.allModerators.list;
+  let $rankSelect = $(".ranks > select", $actionBox);
+  let $tableLayout = $(".tableLayout > span", $actionBox);
+  let listedUsers = System.allModerators.list;
 
-	/**
-	 * Rank select
-	 */
-	let rankSelectHandler = function() {
-		let selectedRankIds = [...this.selectedOptions].map(option => option.value);
-		currentColumn = 0;
-		listedUsers = System.allModerators.list.filter(user => {
-			if (selectedRankIds.indexOf("all") >= 0 || selectedRankIds.some(v => user.ranks_ids.includes(~~v))) {
-				user.$li.removeClass("js-hidden");
-				sortIt(user.$li);
+  /**
+   * Rank select
+   */
+  let rankSelectHandler = function() {
+    let selectedRankIds = [...this.selectedOptions].map(option => option.value);
+    currentColumn = 0;
+    listedUsers = System.allModerators.list.filter(user => {
+      if (selectedRankIds.indexOf("all") >= 0 || selectedRankIds.some(v => user.ranks_ids.includes(~~v))) {
+        user.$li.removeClass("js-hidden");
+        sortIt(user.$li);
 
-				return true;
-			} else {
-				user.$li.addClass("js-hidden");
+        return true;
+      } else {
+        user.$li.addClass("js-hidden");
 
-				return false;
-			}
-		});
-	};
+        return false;
+      }
+    });
+  };
 
-	$rankSelect.change(rankSelectHandler);
+  $rankSelect.change(rankSelectHandler);
 
-	/**
-	 * Table layout
-	 */
-	let tableLayoutHandler = () => {};
+  /**
+   * Table layout
+   */
+  let tableLayoutHandler = () => {};
 
-	$tableLayout.click(tableLayoutHandler);
+  $tableLayout.click(tableLayoutHandler);
 
-	/**
-	 * Message sender
-	 */
+  /**
+   * Message sender
+   */
 
-	if (System.checkUserP(10)) {
-		let $sendMessage = $(`
+  if (System.checkUserP(10)) {
+    let $sendMessage = $(`
 		<div class="sendMessage">
 			<span class="sg-text sg-text--xsmall sg-text--link sg-text--bold sg-text--blue">${System.data.locale.supervisors.sendMessagesToMods}</span>
 			<div class="messageBox js-hidden">
@@ -122,77 +122,77 @@ async function Supervisors() {
 				</div>
 			</div>
 		</div>`);
-		let $sendMessageContainer = $("> span", $sendMessage);
-		let $messageBox = $("> div.messageBox", $sendMessage);
-		let $messageInput = $("> div.messageBox > textarea", $sendMessage);
-		let $sendButton = $("> div.messageBox > div > button", $sendMessage);
+    let $sendMessageContainer = $("> span", $sendMessage);
+    let $messageBox = $("> div.messageBox", $sendMessage);
+    let $messageInput = $("> div.messageBox > textarea", $sendMessage);
+    let $sendButton = $("> div.messageBox > div > button", $sendMessage);
 
-		$sendMessage.appendTo($actionBox);
-		/**
-		 * Message box visibility
-		 */
-		let sendMessageContainerHandler = () => {
-			$messageBox.toggleClass("js-hidden");
-		};
+    $sendMessage.appendTo($actionBox);
+    /**
+     * Message box visibility
+     */
+    let sendMessageContainerHandler = () => {
+      $messageBox.toggleClass("js-hidden");
+    };
 
-		$sendMessageContainer.click(sendMessageContainerHandler);
+    $sendMessageContainer.click(sendMessageContainerHandler);
 
-		/**
-		 * Send message
-		 */
-		$sendButton.click(async function() {
-			let users = [];
+    /**
+     * Send message
+     */
+    $sendButton.click(async function() {
+      let users = [];
 
-			if (this.classList.contains("js-listed")) {
-				users = listedUsers;
-			} else if (this.classList.contains("js-all")) {
-				users = System.allModerators.list
-			}
+      if (this.classList.contains("js-listed")) {
+        users = listedUsers;
+      } else if (this.classList.contains("js-all")) {
+        users = System.allModerators.list
+      }
 
-			if (window.isPageProcessing) {
-				notification(System.data.locale.common.notificationMessages.ongoingProcessWait, "info");
-			} else if ($messageInput.val() == "") {
-				notification(System.data.locale.supervisors.notificationMessages.emptyMessage, "info");
-				$messageInput.focus();
-			} else if (users.length == 0) {
-				notification(System.data.locale.supervisors.notificationMessages.noUser, "info");
-				$rankSelect.focus();
-			} else {
-				window.isPageProcessing = true;
-				let message = $messageInput.val();
-				let idList = users.map(user => user.id);
-				let idListLen = idList.length;
-				let previousProgressBars = $("#content-old > .progress-container");
-				let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--small sg-spinner--light"></div></div>`);
-				let progress = new Progress({
-					type: "is-success",
-					label: System.data.locale.common.progressing,
-					max: idListLen
-				});
+      if (window.isPageProcessing) {
+        notification(System.data.locale.common.notificationMessages.ongoingProcessWait, "info");
+      } else if ($messageInput.val() == "") {
+        notification(System.data.locale.supervisors.notificationMessages.emptyMessage, "info");
+        $messageInput.focus();
+      } else if (users.length == 0) {
+        notification(System.data.locale.supervisors.notificationMessages.noUser, "info");
+        $rankSelect.focus();
+      } else {
+        window.isPageProcessing = true;
+        let message = $messageInput.val();
+        let idList = users.map(user => user.id);
+        let idListLen = idList.length;
+        let previousProgressBars = $("#content-old > .progress-container");
+        let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--small sg-spinner--light"></div></div>`);
+        let progress = new Progress({
+          type: "is-success",
+          label: System.data.locale.common.progressing,
+          max: idListLen
+        });
 
-				$spinner.insertAfter(this);
-				$sendButton.addClass("js-disabled");
-				progress.$container.prependTo("#content-old");
+        $spinner.insertAfter(this);
+        $sendButton.addClass("js-disabled");
+        progress.$container.prependTo("#content-old");
 
-				if (previousProgressBars.length > 0) {
-					previousProgressBars.remove();
-				}
+        if (previousProgressBars.length > 0) {
+          previousProgressBars.remove();
+        }
 
-				let doInEachSending = i => {
-					progress.update(i);
-					progress.UpdateLabel(`${i} - ${idListLen}`);
-				};
+        let doInEachSending = i => {
+          progress.update(i);
+          progress.UpdateLabel(`${i} - ${idListLen}`);
+        };
 
-				await sendMessageToBrainlyIds(idList, message, doInEachSending);
+        await sendMessageToBrainlyIds(idList, message, doInEachSending);
 
-				window.isPageProcessing = false;
+        window.isPageProcessing = false;
 
-				$spinner.remove();
-				$messageInput.val("");
-				$messageInput.prop("disabled", false);
-				$sendButton.removeClass("js-disabled");
-				progress.UpdateLabel(`(${idListLen}) - ${System.data.locale.common.allDone}`);
-			}
-		});
-	}
+        $spinner.remove();
+        $messageInput.val("");
+        $messageInput.prop("disabled", false);
+        $sendButton.removeClass("js-disabled");
+        progress.UpdateLabel(`(${idListLen}) - ${System.data.locale.common.allDone}`);
+      }
+    });
+  }
 }

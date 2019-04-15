@@ -3,32 +3,32 @@ import notification from "../../../components/notification";
 import { AnnouncementRead } from "../../../controllers/ActionsOfServer";
 
 export default () => {
-	let announcements = System.data.Brainly.userData.extension.announcements;
+  let announcements = System.data.Brainly.userData.extension.announcements;
 
-	if (!announcements || announcements.length == 0)
-		return false;
+  if (!announcements || announcements.length == 0)
+    return false;
 
-	let $overlay = $(`<div class="announcementOverlay"></div>`);
-	let announcementToplayer = new Toplayer({
-		size: null,
-		header: `<h2 class="sg-header-secondary" title="${System.data.locale.core.announcements.title}">${System.data.locale.core.announcements.text}</h2>`
-	});
+  let $overlay = $(`<div class="announcementOverlay"></div>`);
+  let announcementToplayer = new Toplayer({
+    size: null,
+    header: `<h2 class="sg-header-secondary" title="${System.data.locale.core.announcements.title}">${System.data.locale.core.announcements.text}</h2>`
+  });
 
-	announcementToplayer.$toplayer.appendTo($overlay);
-	$overlay.appendTo(window.selectors.toplayerContainer);
+  announcementToplayer.$toplayer.appendTo($overlay);
+  $overlay.appendTo(window.selectors.toplayerContainer);
 
-	let $announcementContainer = $("div.sg-toplayer__wrapper > div.sg-content-box > div.sg-content-box__content:not(:first-child)", announcementToplayer.$toplayer);
+  let $announcementContainer = $("div.sg-toplayer__wrapper > div.sg-content-box > div.sg-content-box__content:not(:first-child)", announcementToplayer.$toplayer);
 
-	announcements.reverse().forEach(announcement => {
-		let time = new Date(announcement.time).toLocaleDateString(System.data.Brainly.defaultConfig.locale.LANGUAGE, {
-			weekday: "long",
-			year: "numeric",
-			month: "long",
-			day: "numeric",
-			hour: "numeric",
-			minute: "numeric"
-		});
-		$announcementContainer.append(`
+  announcements.reverse().forEach(announcement => {
+    let time = new Date(announcement.time).toLocaleDateString(System.data.Brainly.defaultConfig.locale.LANGUAGE, {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric"
+    });
+    $announcementContainer.append(`
 			<article class="announcement" id="${announcement._id}">
 				<div class="sg-content-box sg-content-box--spaced">
 					<div class="sg-content-box__title">
@@ -54,30 +54,30 @@ export default () => {
 				</div>
 				<div class="sg-horizontal-separator sg-horizontal-separator--spaced"></div>
 			</article>`);
-	});
+  });
 
-	let $closeIcon = $(".sg-toplayer__close", announcementToplayer.$toplayer);
+  let $closeIcon = $(".sg-toplayer__close", announcementToplayer.$toplayer);
 
-	$closeIcon.click(() => {
-		$overlay.toggleClass("js-closed");
-	});
+  $closeIcon.click(() => {
+    $overlay.toggleClass("js-closed");
+  });
 
-	$(announcementToplayer.$toplayer).on("click", ".js-read:not(.sg-button-secondary--disabled)", async function() {
-		let that = $(this);
-		let $article = that.parents("article.announcement");
-		let id = $article.attr("id");
+  $(announcementToplayer.$toplayer).on("click", ".js-read:not(.sg-button-secondary--disabled)", async function() {
+    let that = $(this);
+    let $article = that.parents("article.announcement");
+    let id = $article.attr("id");
 
-		that.addClass("sg-button-secondary--disabled").attr("disabled", "true");
+    that.addClass("sg-button-secondary--disabled").attr("disabled", "true");
 
-		let resReaded = await AnnouncementRead(id);
+    let resReaded = await AnnouncementRead(id);
 
-		if (resReaded && resReaded.success) {
-			that.removeClass("sg-button-secondary--dark");
-		} else {
-			notification(System.data.locale.common.notificationMessages.operationError, "error");
-			that.removeClass("sg-button-secondary--disabled").removeAttr("disabled");
-		}
-	});
+    if (resReaded && resReaded.success) {
+      that.removeClass("sg-button-secondary--dark");
+    } else {
+      notification(System.data.locale.common.notificationMessages.operationError, "error");
+      that.removeClass("sg-button-secondary--disabled").removeAttr("disabled");
+    }
+  });
 
-	return $overlay;
+  return $overlay;
 }

@@ -1,8 +1,8 @@
 import md5 from "js-md5";
 
 class ContentType {
-	constructor($target) {
-		this.$ = $(`
+  constructor($target) {
+    this.$ = $(`
 		<div class="sg-select sg-select--full-width">
 			<div class="sg-select__icon"></div>
 			<select class="sg-select__element">
@@ -12,30 +12,30 @@ class ContentType {
 			</select>
 		</div>`);
 
-		this.$.appendTo($target);
-	}
-	Data() {
-		let $selectedFilter = $(`option:selected:not([value=""])`, this.$);
-		let type = "CONTENT_TYPE";
-		let value = this.CheckValue($selectedFilter.val());
+    this.$.appendTo($target);
+  }
+  Data() {
+    let $selectedFilter = $(`option:selected:not([value=""])`, this.$);
+    let type = "CONTENT_TYPE";
+    let value = this.CheckValue($selectedFilter.val());
 
-		return $selectedFilter.length > 0 && {
-			type,
-			value,
-			hash: md5(type + "" + value),
-			text: $selectedFilter.text(),
-			class: "sg-box--peach sg-text--white"
-		}
-	}
-	CheckValue(value) {
-		this.$.removeClass("sg-select--invalid");
+    return $selectedFilter.length > 0 && {
+      type,
+      value,
+      hash: md5(type + "" + value),
+      text: $selectedFilter.text(),
+      class: "sg-box--peach sg-text--white"
+    }
+  }
+  CheckValue(value) {
+    this.$.removeClass("sg-select--invalid");
 
-		if (!value) {
-			this.$.addClass("sg-select--invalid");
-		}
+    if (!value) {
+      this.$.addClass("sg-select--invalid");
+    }
 
-		return value;
-	}
+    return value;
+  }
 }
 
 export default ContentType

@@ -4,15 +4,15 @@ import send2AllBrainlyTabs from "../helpers/send2AllBrainlyTabs";
 import Dropdown from "../helpers/Dropdown";
 
 class OtherOptions {
-	constructor(storageData) {
-		this.storageData = storageData;
+  constructor(storageData) {
+    this.storageData = storageData;
 
-		this.Render();
-		this.SetInputsValues();
-		this.BindEvents();
-	}
-	Render() {
-		this.$layout = $(`
+    this.Render();
+    this.SetInputsValues();
+    this.BindEvents();
+  }
+  Render() {
+    this.$layout = $(`
 		<div id="otherOptions" class="column is-narrow">
 			<article class="is-dark">
 				<div class="message-header">
@@ -72,76 +72,76 @@ class OtherOptions {
 			</article>
 		</div>`);
 
-		this.$container = $("> .message > .message-body", this.$layout);
+    this.$container = $("> .message > .message-body", this.$layout);
 
-		this.$extendMessageLayoutCheckbox = $("#extendMessagesLayout", this.$layout);
-		this.$notifierCheckbox = $("#notifier", this.$layout);
+    this.$extendMessageLayoutCheckbox = $("#extendMessagesLayout", this.$layout);
+    this.$notifierCheckbox = $("#notifier", this.$layout);
 
-		this.$languageDropdown = Dropdown($(".dropdown", this.$layout));
-		this.$languagesContainer = $(".dropdown-menu > .dropdown-content", this.$languageDropdown);
-		this.$dropdownText = $(".dropdown-trigger > button.button > span:not(.icon)", this.$languageDropdown);
-	}
-	SetInputsValues() {
-		if (typeof this.storageData.extendMessagesLayout == "boolean") {
-			this.$extendMessageLayoutCheckbox.prop("checked", this.storageData.extendMessagesLayout);
-		}
+    this.$languageDropdown = Dropdown($(".dropdown", this.$layout));
+    this.$languagesContainer = $(".dropdown-menu > .dropdown-content", this.$languageDropdown);
+    this.$dropdownText = $(".dropdown-trigger > button.button > span:not(.icon)", this.$languageDropdown);
+  }
+  SetInputsValues() {
+    if (typeof this.storageData.extendMessagesLayout == "boolean") {
+      this.$extendMessageLayoutCheckbox.prop("checked", this.storageData.extendMessagesLayout);
+    }
 
-		if (typeof this.storageData.notifier == "boolean") {
-			this.$notifierCheckbox.prop("checked", this.storageData.notifier);
-		}
+    if (typeof this.storageData.notifier == "boolean") {
+      this.$notifierCheckbox.prop("checked", this.storageData.notifier);
+    }
 
-		let selectedLanguage = this.storageData.language;
+    let selectedLanguage = this.storageData.language;
 
-		if (selectedLanguage) {
-			let selected = System.constants.config.availableLanguages.find(lang => lang.key == selectedLanguage);
+    if (selectedLanguage) {
+      let selected = System.constants.config.availableLanguages.find(lang => lang.key == selectedLanguage);
 
-			if (selected) {
-				this.$dropdownText.html(selected.title.replace(/<.*>/, ""));
-			}
-		}
+      if (selected) {
+        this.$dropdownText.html(selected.title.replace(/<.*>/, ""));
+      }
+    }
 
-		System.constants.config.availableLanguages.forEach(language => {
-			let $option = `<a href="#" class="dropdown-item${selectedLanguage && selectedLanguage == language.key ? " is-active" : ""}" value="${language.key}">${language.title}</a>`;
+    System.constants.config.availableLanguages.forEach(language => {
+      let $option = `<a href="#" class="dropdown-item${selectedLanguage && selectedLanguage == language.key ? " is-active" : ""}" value="${language.key}">${language.title}</a>`;
 
-			if (System.data.Brainly.defaultConfig.locale.LANGUAGE == language.key) {
-				this.$languagesContainer.prepend($option);
-			} else {
-				this.$languagesContainer.append($option);
-			}
-		});
-	}
-	BindEvents() {
-		let that = this;
+      if (System.data.Brainly.defaultConfig.locale.LANGUAGE == language.key) {
+        this.$languagesContainer.prepend($option);
+      } else {
+        this.$languagesContainer.append($option);
+      }
+    });
+  }
+  BindEvents() {
+    let that = this;
 
-		this.$extendMessageLayoutCheckbox.change(function() {
-			that.ExtendMessagesLayout(this.checked);
-		});
+    this.$extendMessageLayoutCheckbox.change(function() {
+      that.ExtendMessagesLayout(this.checked);
+    });
 
-		this.$notifierCheckbox.change(function() {
-			that.NotifierChangeState(this.checked);
-		});
+    this.$notifierCheckbox.change(function() {
+      that.NotifierChangeState(this.checked);
+    });
 
-		this.$languageDropdown.change(function() {
-			that.SetLanguage(this.value);
-		});
-	}
-	ExtendMessagesLayout(isChecked) {
-		storage("set",{ extendMessagesLayout: isChecked });
-		send2AllBrainlyTabs("extendMessagesLayout", isChecked);
-		notification(System.data.locale.popup.notificationMessages[isChecked ? "layoutExtended" : "switchedToNormal"]);
-	}
-	NotifierChangeState(isChecked) {
-		storage("set",{ notifier: isChecked });
-		System.toBackground("notifierChangeState", isChecked);
-		notification(System.data.locale.popup.notificationMessages[isChecked ? "notifierOn" : "notifierOff"]);
-	}
-	async SetLanguage(language) {
-		let localeData = await System.prepareLangFile(language);
-		System.data.locale = localeData;
+    this.$languageDropdown.change(function() {
+      that.SetLanguage(this.value);
+    });
+  }
+  ExtendMessagesLayout(isChecked) {
+    storage("set", { extendMessagesLayout: isChecked });
+    send2AllBrainlyTabs("extendMessagesLayout", isChecked);
+    notification(System.data.locale.popup.notificationMessages[isChecked ? "layoutExtended" : "switchedToNormal"]);
+  }
+  NotifierChangeState(isChecked) {
+    storage("set", { notifier: isChecked });
+    System.toBackground("notifierChangeState", isChecked);
+    notification(System.data.locale.popup.notificationMessages[isChecked ? "notifierOn" : "notifierOff"]);
+  }
+  async SetLanguage(language) {
+    let localeData = await System.prepareLangFile(language);
+    System.data.locale = localeData;
 
-		storage("set",{ language });
-		notification(System.data.locale.popup.notificationMessages.languageChanged, "success");
-	}
+    storage("set", { language });
+    notification(System.data.locale.popup.notificationMessages.languageChanged, "success");
+  }
 }
 
 export default OtherOptions

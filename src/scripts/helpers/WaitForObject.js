@@ -8,28 +8,28 @@ import MakeExpire from "./MakeExpire";
  * @param {{expireTime: expireTime, noError: noError}} param1
  **/
 export default function WaitForObject(expression, { expireTime, noError = false } = {}) {
-	return new Promise((resolve, reject) => {
-		let obj,
-			_loop_expireTime = MakeExpire(expireTime);
+  return new Promise((resolve, reject) => {
+    let obj,
+      _loop_expireTime = MakeExpire(expireTime);
 
-		let _loop = setInterval(() => {
-			if (_loop_expireTime < Date.now()) {
-				clearInterval(_loop);
-				if (!noError) {
-					reject("The '", expression, "' object cannot be found");
-				}
+    let _loop = setInterval(() => {
+      if (_loop_expireTime < Date.now()) {
+        clearInterval(_loop);
+        if (!noError) {
+          reject("The '", expression, "' object cannot be found");
+        }
 
-				return false;
-			}
+        return false;
+      }
 
-			try {
-				obj = eval(expression);
+      try {
+        obj = eval(expression);
 
-				if (typeof obj !== "undefined") {
-					clearInterval(_loop);
-					resolve(obj);
-				}
-			} catch (_) {}
-		});
-	});
+        if (typeof obj !== "undefined") {
+          clearInterval(_loop);
+          resolve(obj);
+        }
+      } catch (_) {}
+    });
+  });
 }

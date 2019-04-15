@@ -8,133 +8,133 @@ const DEFAULT_THEME_COLOR = "#57b2f8";
 const STYLE_ELEMENT_ID = "PersonalColors";
 
 class ThemeColorChanger {
-	constructor(primaryColor, isPreview = false) {
-		this.primaryColor = String(primaryColor || "transparent");
-		this.isPreview = isPreview;
-		this.storedColor = window.localStorage.getItem(COLOR_STORE_KEY);
-		this.colors = [];
-		this.fontColor = "#333";
-		this.fixedPrimaryColor = this.primaryColor;
+  constructor(primaryColor, isPreview = false) {
+    this.primaryColor = String(primaryColor || "transparent");
+    this.isPreview = isPreview;
+    this.storedColor = window.localStorage.getItem(COLOR_STORE_KEY);
+    this.colors = [];
+    this.fontColor = "#333";
+    this.fixedPrimaryColor = this.primaryColor;
 
-		this.Init();
-	}
-	async Init() {
-		this.StoreColor();
+    this.Init();
+  }
+  async Init() {
+    this.StoreColor();
 
-		let head = await WaitForElement("head");
-		this.head = head[0];
+    let head = await WaitForElement("head");
+    this.head = head[0];
 
-		this.PrepareStyleElement();
-		TimedLoop(this.RenderStyleElement.bind(this), { expireTime: 3 });
-		this.RenderStyles();
-	}
-	StoreColor() {
-		if (
-			!this.isPreview &&
-			(
-				!this.storedColor ||
-				(
-					this.storedColor.toLowerCase() != this.primaryColor.toLowerCase()
-				)
-			)
-		) {
-			window.localStorage.setItem(COLOR_STORE_KEY, this.primaryColor);
-		}
-	}
-	PrepareStyleElement() {
-		this.styleElement = document.getElementById(STYLE_ELEMENT_ID);
+    this.PrepareStyleElement();
+    TimedLoop(this.RenderStyleElement.bind(this), { expireTime: 3 });
+    this.RenderStyles();
+  }
+  StoreColor() {
+    if (
+      !this.isPreview &&
+      (
+        !this.storedColor ||
+        (
+          this.storedColor.toLowerCase() != this.primaryColor.toLowerCase()
+        )
+      )
+    ) {
+      window.localStorage.setItem(COLOR_STORE_KEY, this.primaryColor);
+    }
+  }
+  PrepareStyleElement() {
+    this.styleElement = document.getElementById(STYLE_ELEMENT_ID);
 
-		if (!this.styleElement) {
-			this.styleElement = document.createElement('style');
-			this.styleElement.type = 'text/css';
-			this.styleElement.id = STYLE_ELEMENT_ID;
-			this.styleElement.dataset.IsFromExtension = true;
-		}
-	}
-	RenderStyleElement() {
-		this.head.appendChild(this.styleElement);
-	}
-	RenderStyles() {
-		this.PrepareColors();
-		this.PrepareBackgrounStyle();
-		this.PrepareStyles();
-		this.ChangeStyles();
-	}
-	PrepareColors() {
-		if (this.IsMulticolor()) {
-			this.fontColor = "#fff";
-			this.colors = this.primaryColor.split(",").map(color => color.toLowerCase());
-		} else {
-			//this.PrepareMultiColor();
-			this.colors = [this.primaryColor];
-			this.SetFontColor();
-		}
-	}
-	IsMulticolor() {
-		return this.primaryColor.indexOf(",") >= 0
-	}
-	SetFontColor() {
-		let color;
+    if (!this.styleElement) {
+      this.styleElement = document.createElement('style');
+      this.styleElement.type = 'text/css';
+      this.styleElement.id = STYLE_ELEMENT_ID;
+      this.styleElement.dataset.IsFromExtension = true;
+    }
+  }
+  RenderStyleElement() {
+    this.head.appendChild(this.styleElement);
+  }
+  RenderStyles() {
+    this.PrepareColors();
+    this.PrepareBackgrounStyle();
+    this.PrepareStyles();
+    this.ChangeStyles();
+  }
+  PrepareColors() {
+    if (this.IsMulticolor()) {
+      this.fontColor = "#fff";
+      this.colors = this.primaryColor.split(",").map(color => color.toLowerCase());
+    } else {
+      //this.PrepareMultiColor();
+      this.colors = [this.primaryColor];
+      this.SetFontColor();
+    }
+  }
+  IsMulticolor() {
+    return this.primaryColor.indexOf(",") >= 0
+  }
+  SetFontColor() {
+    let color;
 
-		try {
-			color = Color(this.primaryColor);
-		} catch (error) {
-			color = Color(DEFAULT_THEME_COLOR);
-		}
+    try {
+      color = Color(this.primaryColor);
+    } catch (error) {
+      color = Color(DEFAULT_THEME_COLOR);
+    }
 
-		if (this.IsDark(color)) {
-			this.fontColor = "#fff";
-		}
+    if (this.IsDark(color)) {
+      this.fontColor = "#fff";
+    }
 
-		if (!this.IsDark(color, 0.6)) {
-			this.fixedPrimaryColor = color.hsl().lightness(75);
-		}
-	}
-	IsDark(color, limit) {
-		if (typeof color == "string") {
-			color = Color(color);
-		}
+    if (!this.IsDark(color, 0.6)) {
+      this.fixedPrimaryColor = color.hsl().lightness(75);
+    }
+  }
+  IsDark(color, limit) {
+    if (typeof color == "string") {
+      color = Color(color);
+    }
 
-		return color.luminosity() < (limit || MAX_LUMINOSITY);
-	}
-	PrepareMultiColor() {
-		let secondaryColor = Color(this.primaryColor);
+    return color.luminosity() < (limit || MAX_LUMINOSITY);
+  }
+  PrepareMultiColor() {
+    let secondaryColor = Color(this.primaryColor);
 
-		if (!this.IsDark(secondaryColor)) {
-			secondaryColor = secondaryColor.lighten(.3);
-		} else {
-			if (secondaryColor.hex().toLowerCase() != DEFAULT_THEME_COLOR.toLowerCase()) {
-				this.fontColor = "#fff";
-			}
+    if (!this.IsDark(secondaryColor)) {
+      secondaryColor = secondaryColor.lighten(.3);
+    } else {
+      if (secondaryColor.hex().toLowerCase() != DEFAULT_THEME_COLOR.toLowerCase()) {
+        this.fontColor = "#fff";
+      }
 
-			secondaryColor = secondaryColor.darken(.2);
-		}
+      secondaryColor = secondaryColor.darken(.2);
+    }
 
-		this.colors = [
-			this.primaryColor,
-			secondaryColor.hex().toLowerCase()
-		];
-	}
-	PrepareBackgrounStyle() {
-		this.backgroundStyle = `color: ${this.fontColor} !important;`
+    this.colors = [
+      this.primaryColor,
+      secondaryColor.hex().toLowerCase()
+    ];
+  }
+  PrepareBackgrounStyle() {
+    this.backgroundStyle = `color: ${this.fontColor} !important;`
 
-		if (this.colors.length < 2) {
-			this.backgroundStyle += `background: ${this.colors} !important;`
-		} else {
-			this.backgroundStyle += `background: linear-gradient(180deg, ${this.colors});`;
+    if (this.colors.length < 2) {
+      this.backgroundStyle += `background: ${this.colors} !important;`
+    } else {
+      this.backgroundStyle += `background: linear-gradient(180deg, ${this.colors});`;
 
-			if (this.colors.length > 2) {
-				this.backgroundStyle += `
+      if (this.colors.length > 2) {
+        this.backgroundStyle += `
 				animation: BackgroundAnimation 6s ease infinite;
 				transform: translateZ(0);
 				will-change: background-position;
 				background-size: 1% 10000%;
 				`;
-			}
-		}
-	}
-	PrepareStyles() {
-		this.styles = `
+      }
+    }
+  }
+  PrepareStyles() {
+    this.styles = `
 		@keyframes BackgroundAnimation {
 			50% {
 				background-position: 0% 100%
@@ -178,17 +178,17 @@ class ThemeColorChanger {
 			fill: ${this.primaryColor} !important;
 		}
 		`
-	}
-	ChangeStyles() {
-		this.styleElement.innerHTML = this.styles;
-	}
-	UpdateColor(color) {
-		this.fontColor = "#333";
-		this.primaryColor = color;
-		this.fixedPrimaryColor = color;
+  }
+  ChangeStyles() {
+    this.styleElement.innerHTML = this.styles;
+  }
+  UpdateColor(color) {
+    this.fontColor = "#333";
+    this.primaryColor = color;
+    this.fixedPrimaryColor = color;
 
-		this.RenderStyles();
-	}
+    this.RenderStyles();
+  }
 }
 
 export default ThemeColorChanger

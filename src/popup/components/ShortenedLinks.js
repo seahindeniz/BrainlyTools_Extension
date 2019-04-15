@@ -3,14 +3,14 @@ import { GetShortenedLinks, FindShortenedLink } from "../../scripts/controllers/
 import { debounce } from 'throttle-debounce';
 
 class AccountDeleteReports {
-	constructor() {
-		this.Render();
-		this.FetchShortenedLinks();
-		this.BindEvents();
+  constructor() {
+    this.Render();
+    this.FetchShortenedLinks();
+    this.BindEvents();
 
-	}
-	Render() {
-		this.$layout = $(`
+  }
+  Render() {
+    this.$layout = $(`
 		<div id="shortenedLinks" class="column is-narrow">
 			<article class="message is-black">
 				<div class="message-header">
@@ -40,69 +40,69 @@ class AccountDeleteReports {
 			</article>
 		</div>`);
 
-		this.$searchInput = $("input", this.$layout);
-		this.$linksTBody = $("table.links > tbody", this.$layout);
-	}
-	async FetchShortenedLinks() {
-		if ($("html").attr("is") != "popup") {
-			let resLinks = await GetShortenedLinks();
+    this.$searchInput = $("input", this.$layout);
+    this.$linksTBody = $("table.links > tbody", this.$layout);
+  }
+  async FetchShortenedLinks() {
+    if ($("html").attr("is") != "popup") {
+      let resLinks = await GetShortenedLinks();
 
-			this.RenderLinks(resLinks);
-		}
-	}
-	RenderLinks(links) {
-		if (
-			links &&
-			(
-				(
-					links.data && links.data.length > 0
-				) ||
-				(
-					links instanceof Array && links.length > 0
-				)
-			)
-		) {
-			this.$linksTBody.html("");
-			links.data.forEach(this.RenderLink.bind(this));
-		}
-	}
-	RenderLink(link) {
-		let shortURL = `${System.data.config.extension.shortenedLinkURL}/${link.shortCode}`;
-		let $link = $(`
+      this.RenderLinks(resLinks);
+    }
+  }
+  RenderLinks(links) {
+    if (
+      links &&
+      (
+        (
+          links.data && links.data.length > 0
+        ) ||
+        (
+          links instanceof Array && links.length > 0
+        )
+      )
+    ) {
+      this.$linksTBody.html("");
+      links.data.forEach(this.RenderLink.bind(this));
+    }
+  }
+  RenderLink(link) {
+    let shortURL = `${System.data.config.extension.shortenedLinkURL}/${link.shortCode}`;
+    let $link = $(`
 		<tr id="${link._id}">
 			<td><a href="${link.originalURL}" target="_blank">${link.originalURL}</a></td>
 			<td data-time="${link.time}"></td>
 			<td><a href="${shortURL}" title="${shortURL}" target="_blank">${link.shortCode}</a></td>
 		</tr>`);
 
-		$link.appendTo(this.$linksTBody);
-	}
-	BindEvents() {
-		if ($("html").attr("is") == "popup") {
-			this.$layout.on("click", function() {
-				ext.runtime.openOptionsPage();
-			});
-		} else {
-			let that = this;
+    $link.appendTo(this.$linksTBody);
+  }
+  BindEvents() {
+    if ($("html").attr("is") == "popup") {
+      this.$layout.on("click", function() {
+        ext.runtime.openOptionsPage();
+      });
+    } else {
+      let that = this;
 
-			this.$searchInput.on("input", debounce(500, function(e) {
-				that.FindLink(this.value);
-			}))
+      this.$searchInput.on("input", debounce(500, function(e) {
+        that.FindLink(this.value);
+      }))
 
-			this.$linksTBody.on("click", ">tr[id]", function() {
-				this.classList.toggle("is-selected");
-			});
-		}
-	}
-	async FindLink(value) {
-		if (!value || value == "") {
-			this.FetchShortenedLinks();
-		} else {
-			let resLinks = await FindShortenedLink(value);
+      this.$linksTBody.on("click", ">tr[id]", function() {
+        this.classList.toggle("is-selected");
+      });
+    }
+  }
+  async FindLink(value) {
+    if (!value || value == "") {
+      this.FetchShortenedLinks();
+    } else {
+      let resLinks = await FindShortenedLink(value);
 
-			this.RenderLinks(resLinks);
-		}
-	}
+      this.RenderLinks(resLinks);
+    }
+  }
 }
 
 export default AccountDeleteReports

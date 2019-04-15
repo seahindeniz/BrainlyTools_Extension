@@ -1,12 +1,12 @@
 {
-	"chatango": {
-		"for": "nosdevoirs.fr",
-		"id": "cid0020000199927160327",
-		"handle": "nosdevoirsfr"
-	},
-	"quickDeleteButtonsDefaultReasons": {
-		"task": [21, 82, 59],
-		"response": [65, 37, 23],
-		"comment": [51, 60, 49]
-	}
+  "chatango": {
+    "for": "nosdevoirs.fr",
+    "id": "cid0020000199927160327",
+    "handle": "nosdevoirsfr"
+  },
+  "quickDeleteButtonsDefaultReasons": {
+    "task": [21, 82, 59],
+    "response": [65, 37, 23],
+    "comment": [51, 60, 49]
+  }
 }

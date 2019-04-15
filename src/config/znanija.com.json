@@ -1,12 +1,12 @@
 {
-	"chatango": {
-		"for": "znanija.com",
-		"id": "cid0020000199944039762",
-		"handle": "znanijacom"
-	},
-	"quickDeleteButtonsDefaultReasons": {
-		"task": [2, 3, 4],
-		"response": [15, 60, 16],
-		"comment": [44]
-	}
+  "chatango": {
+    "for": "znanija.com",
+    "id": "cid0020000199944039762",
+    "handle": "znanijacom"
+  },
+  "quickDeleteButtonsDefaultReasons": {
+    "task": [2, 3, 4],
+    "response": [15, 60, 16],
+    "comment": [44]
+  }
 }

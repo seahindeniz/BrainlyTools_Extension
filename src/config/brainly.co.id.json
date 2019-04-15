@@ -1,12 +1,12 @@
 {
-	"chatango": {
-		"for": "brainly.co.id",
-		"id": "cid0020000160003917943",
-		"handle": "brainlycoid"
-	},
-	"quickDeleteButtonsDefaultReasons": {
-		"task": [51, 49, 55],
-		"response": [58, 60, 63],
-		"comment": [3, 56, 57]
-	}
+  "chatango": {
+    "for": "brainly.co.id",
+    "id": "cid0020000160003917943",
+    "handle": "brainlycoid"
+  },
+  "quickDeleteButtonsDefaultReasons": {
+    "task": [51, 49, 55],
+    "response": [58, 60, 63],
+    "comment": [3, 56, 57]
+  }
 }

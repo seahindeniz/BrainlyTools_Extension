@@ -1,5 +1,5 @@
 export default (user, isGroupMember) => {
-	let $conversation = $(`
+  let $conversation = $(`
 	<li class="sg-list__element js-conversation${isGroupMember ? "" : " new-user"}" data-user-id="${user.id}">
 		<div class="js-conversation-content sg-media sg-media--clickable ">
 			<div class="sg-media__aside">
@@ -18,29 +18,29 @@ export default (user, isGroupMember) => {
 		</div>
 	</li>`);
 
-	let $rankList = $("ul.sg-breadcrumb-list", $conversation);
-	let addRank = rank => {
-		let color = "#000";
-		if (rank.color) {
-			color = rank.color;
+  let $rankList = $("ul.sg-breadcrumb-list", $conversation);
+  let addRank = rank => {
+    let color = "#000";
+    if (rank.color) {
+      color = rank.color;
 
-			if (color.indexOf("rgb") < 0) {
-				color = "#" + rank.color;
-			}
-		}
+      if (color.indexOf("rgb") < 0) {
+        color = "#" + rank.color;
+      }
+    }
 
-		$rankList.append(`<li class="sg-breadcrumb-list__element" style="color:${color};">${rank.name}</li>`);
-	}
+    $rankList.append(`<li class="sg-breadcrumb-list__element" style="color:${color};">${rank.name}</li>`);
+  }
 
-	if (user.ranks != "") {
-		if (user.ranks instanceof Array) {
-			user.ranks.forEach(rank => {
-				addRank(rank);
-			});
-		} else if (typeof user.ranks == "object") {
-			addRank(user.ranks);
-		}
-	}
+  if (user.ranks != "") {
+    if (user.ranks instanceof Array) {
+      user.ranks.forEach(rank => {
+        addRank(rank);
+      });
+    } else if (typeof user.ranks == "object") {
+      addRank(user.ranks);
+    }
+  }
 
-	return $conversation
+  return $conversation
 }

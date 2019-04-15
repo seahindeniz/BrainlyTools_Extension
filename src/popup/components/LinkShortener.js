@@ -2,12 +2,12 @@ import ext from "../../scripts/utils/ext";
 import { CreateShortLink } from "../../scripts/controllers/ActionsOfServer";
 
 class LinkShortener {
-	constructor() {
-		this.Render();
-		this.BindEvents();
-	}
-	Render() {
-		this.$layout = $(`
+  constructor() {
+    this.Render();
+    this.BindEvents();
+  }
+  Render() {
+    this.$layout = $(`
 		<div id="linkShorter" class="column">
 			<div class="field is-grouped">
 				<div class="control">
@@ -23,72 +23,72 @@ class LinkShortener {
 			</div>
 		</div>`);
 
-		this.$shorterInputContainer = $(".js-input", this.$layout);
-		this.$input = $("input.input", this.$shorterInputContainer);
-		this.$button = $("button.button", this.$layout);
-	}
-	BindEvents() {
-		this.$input.click(this.$input.select);
-		this.$button.on("click", this.LinkShortenerHandler.bind(this));
-	}
-	async LinkShortenerHandler() {
-		this.$button.addClass("is-loading").attr("disabled", "true");
+    this.$shorterInputContainer = $(".js-input", this.$layout);
+    this.$input = $("input.input", this.$shorterInputContainer);
+    this.$button = $("button.button", this.$layout);
+  }
+  BindEvents() {
+    this.$input.click(this.$input.select);
+    this.$button.on("click", this.LinkShortenerHandler.bind(this));
+  }
+  async LinkShortenerHandler() {
+    this.$button.addClass("is-loading").attr("disabled", "true");
 
-		let currentTab = await this.GetActiveTab();
-		let shortCode = await this.CreateLink(currentTab.url);
-		let shortLink = `${System.data.config.extension.shortenedLinkURL}/${shortCode}`;
+    let currentTab = await this.GetActiveTab();
+    let shortCode = await this.CreateLink(currentTab.url);
+    let shortLink = `${System.data.config.extension.shortenedLinkURL}/${shortCode}`;
 
-		this.$input.val(shortLink);
+    this.$input.val(shortLink);
 
-		this.$shorterInputContainer.removeClass("is-hidden");
-		this.$button.removeClass("is-loading").removeAttr("disabled");
-		this.CopyInputTextToClipboard();
-	}
-	GetActiveTab() {
-		return new Promise(async (resolve, reject) => {
-			try {
-				let tabs = await ext.tabs.query({ active: true, currentWindow: true });
+    this.$shorterInputContainer.removeClass("is-hidden");
+    this.$button.removeClass("is-loading").removeAttr("disabled");
+    this.CopyInputTextToClipboard();
+  }
+  GetActiveTab() {
+    return new Promise(async (resolve, reject) => {
+      try {
+        let tabs = await ext.tabs.query({ active: true, currentWindow: true });
 
-				resolve(tabs[0]);
-			} catch (error) {
-				reject(error);
-			}
-		});
-	}
-	CreateLink(url) {
-		return new Promise(async (resolve, reject) => {
-			let resCreated = await CreateShortLink({ url });
+        resolve(tabs[0]);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+  CreateLink(url) {
+    return new Promise(async (resolve, reject) => {
+      let resCreated = await CreateShortLink({ url });
 
-			if (!resCreated) {
-				notification("Server error", "danger");
-				this.$button.removeClass("is-loading").removeAttr("disabled");
-				reject();
-			} else {
-				if (!resCreated.success || !resCreated.shortCode) {
-					notification(resCreated.message || "Unknown error", "danger");
-					this.$button.removeClass("is-loading");
-					!resCreated.message && this.$button.removeAttr("disabled");
-					reject();
-				} else {
-					resolve(resCreated.shortCode);
-				}
-			}
-		})
-	}
-	CopyInputTextToClipboard() {
-		const selected =
-			document.getSelection().rangeCount > 0 ?
-			document.getSelection().getRangeAt(0) :
-			false;
+      if (!resCreated) {
+        notification("Server error", "danger");
+        this.$button.removeClass("is-loading").removeAttr("disabled");
+        reject();
+      } else {
+        if (!resCreated.success || !resCreated.shortCode) {
+          notification(resCreated.message || "Unknown error", "danger");
+          this.$button.removeClass("is-loading");
+          !resCreated.message && this.$button.removeAttr("disabled");
+          reject();
+        } else {
+          resolve(resCreated.shortCode);
+        }
+      }
+    })
+  }
+  CopyInputTextToClipboard() {
+    const selected =
+      document.getSelection().rangeCount > 0 ?
+      document.getSelection().getRangeAt(0) :
+      false;
 
-		this.$input.select();
-		document.execCommand('copy');
+    this.$input.select();
+    document.execCommand('copy');
 
-		if (selected) {
-			document.getSelection().removeAllRanges();
-			document.getSelection().addRange(selected);
-		}
-	}
+    if (selected) {
+      document.getSelection().removeAllRanges();
+      document.getSelection().addRange(selected);
+    }
+  }
 }
 
 export default LinkShortener

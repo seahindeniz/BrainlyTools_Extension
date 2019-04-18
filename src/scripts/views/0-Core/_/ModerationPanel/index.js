@@ -2,7 +2,7 @@
 
 //import renderMessageSender from "./MessageSender"
 import WaitForObject from "../../../../helpers/WaitForObject";
-import MassQuestionDeleter from "./MassQuestionDeleter";
+import MassContentDeleter from "./MassContentDeleter";
 import NoticeBoard from "./NoticeBoard";
 import MassMessageSender from "./MassMessageSender";
 import PointChanger from "./PointChanger";
@@ -66,7 +66,7 @@ class ModerationPanel {
     }
 
     if (System.checkUserP(7)) {
-      this.RenderComponent(new MassQuestionDeleter());
+      this.RenderComponent(new MassContentDeleter());
     }
   }
   RenderComponent(instance) {

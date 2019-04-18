@@ -50,7 +50,7 @@ class ModerateSection {
     this.$.insertAfter(this.$paginationContainer);
   }
   RenderDeleteSection() {
-    this.deleteSection = new DeleteSection(System.data.Brainly.deleteReasons.task, "task");
+    this.deleteSection = new DeleteSection("task");
 
     this.deleteSection.$.appendTo(this.$deleteSectionContainer);
   }
@@ -69,9 +69,7 @@ class ModerateSection {
 
     if (idList.length == 0) {
       notification(System.data.locale.userContent.notificationMessages.selectAtLeasetOneContent, "error")
-    } else if (!this.deleteSection.selectedReason) {
-      this.deleteSection.ShowReasonWarning();
-    } else {
+    } else if (this.deleteSection.selectedReason) {
       if (confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
         this.postData = {
           reason_id: this.deleteSection.selectedReason.id,

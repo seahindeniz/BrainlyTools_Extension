@@ -114,7 +114,7 @@ class UserContent {
     }
   }
   RenderDeleteSection(type) {
-    this.deleteSection = new DeleteSection(System.data.Brainly.deleteReasons[type], type);
+    this.deleteSection = new DeleteSection(type);
 
     this.RenderDeleteButton();
   }

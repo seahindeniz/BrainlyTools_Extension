@@ -177,7 +177,7 @@ class ModeratingPanel {
     }
   }
   RenderDeleteSection() {
-    this.deleteSection = new DeleteSection(this.ticket.data.delete_reasons.task, "task");
+    this.deleteSection = new DeleteSection("task", this.ticket.data.delete_reasons.task);
     let $toplayerContentBox = $(".sg-toplayer__wrapper > .sg-content-box > div:nth-child(2)", this.modal.$modal);
 
     this.deleteSection.$.appendTo($toplayerContentBox);
@@ -222,7 +222,7 @@ class ModeratingPanel {
     this.$taskContent.removeClass("js-shrink")
   }
   async DeleteQuestion() {
-    if (this.IsDeleteReasonSelected()) {
+    if (this.deleteSection.selectedReason) {
       let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner"></div></div>`).insertAfter(this.$deleteQuestionButton);
       let taskData = {
         model_id: this.ticket.data.task.id,
@@ -244,15 +244,6 @@ class ModeratingPanel {
         this.ClosePanel(true);
       }
     }
-  }
-  IsDeleteReasonSelected() {
-    if (!this.deleteSection.selectedReason) {
-      this.deleteSection.ShowReasonWarning();
-    } else {
-      this.deleteSection.HideReasonWarning();
-    }
-
-    return !!this.deleteSection.selectedReason;
   }
 }
 

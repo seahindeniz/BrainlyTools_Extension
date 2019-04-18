@@ -1,13 +1,13 @@
+import debounce from "debounce";
 import DeleteSection from "../../../../components/DeleteSection";
 import Modal from "../../../../components/Modal";
-import { RemoveQuestion } from "../../../../controllers/ActionsOfBrainly";
-import debounce from "debounce"
+import { RemoveAnswer, RemoveComment, RemoveQuestion } from "../../../../controllers/ActionsOfBrainly";
 
-class MassQuestionDeleter {
+class MassContentDeleter {
   constructor() {
-    this.deletedQuestions = {};
-    this.questionsToDelete = [];
-    this.deletedQuestionCount = 0;
+    this.deletedContents = {};
+    this.contentsToDelete = [];
+    this.deletedContentCount = 0;
 
     this.Init();
   }
@@ -23,19 +23,19 @@ class MassQuestionDeleter {
   RenderLi() {
     this.$li = $(`
 		<li class="sg-menu-list__element" style="display: table; width: 100%;">
-			<span class="sg-menu-list__link sg-text--link">${System.data.locale.core.TaskDeleter.text}</span>
+			<span class="sg-menu-list__link sg-text--link">${System.data.locale.core.MassContentDeleter.text}</span>
 		</li>`);
   }
   RenderModal() {
-    let nQuestions = System.data.locale.core.TaskDeleter.nQuestions.replace("%{n}", ` <span>0</span> `);
-    let nQuestionsToDeleted = System.data.locale.core.TaskDeleter.nQuestionsToDeleted.replace("%{n}", ` <span>0</span> `);
-    let nHasBeenDeleted = System.data.locale.core.TaskDeleter.nHasBeenDeleted.replace("%{n}", ` <b>0</b> `);
+    let nIds = System.data.locale.core.MassContentDeleter.nIds.replace("%{n}", ` <span>0</span> `);
+    let nIdsToDeleted = System.data.locale.core.MassContentDeleter.nIdsToDeleted.replace("%{n}", ` <span>0</span> `);
+    let nHasBeenDeleted = System.data.locale.core.MassContentDeleter.nHasBeenDeleted.replace("%{n}", ` <b>0</b> `);
     this.modal = new Modal({
       header: `
 			<div class="sg-actions-list sg-actions-list--space-between">
 				<div class="sg-actions-list__hole">
 					<div class="sg-label sg-label--small sg-label--secondary">
-						<div class="sg-text sg-text--peach">${System.data.locale.core.TaskDeleter.text}</div>
+						<div class="sg-text sg-text--peach">${System.data.locale.core.MassContentDeleter.text}</div>
 					</div>
 				</div>
 			</div>`,
@@ -44,7 +44,7 @@ class MassQuestionDeleter {
 				<div class="sg-spinner-container sg-content-box--full js-inputs">
 					<div class="sg-content-box__actions">
 						<div class="sg-textarea sg-textarea--full-width back" style="color: transparent;"></div>
-						<div class="sg-textarea sg-textarea--full-width sg-textarea--resizable-vertical" contenteditable="true" style="position: absolute; background: transparent;" placeholder="${System.data.locale.core.TaskDeleter.questionsLinksOrIDs}"></div>
+						<div class="sg-textarea sg-textarea--full-width sg-textarea--resizable-vertical" contenteditable="true" style="position: absolute; background: transparent;" placeholder="${System.data.locale.core.MassContentDeleter.contentLinksOrIDs}"></div>
 					</div>
 				</div>
 				<div class="sg-content-box__actions sg-content-box__content--spaced-top-small js-labels">
@@ -52,10 +52,10 @@ class MassQuestionDeleter {
 						<div class="sg-actions-list__hole">
 							<div class="sg-content-box">
                 <div class="sg-content-box__content">
-									<p class="sg-text">${nQuestions}</p>
+									<p class="sg-text">${nIds}</p>
 								</div>
                 <div class="sg-content-box__content">
-									<p class="sg-text">${nQuestionsToDeleted}</p>
+									<p class="sg-text">${nIdsToDeleted}</p>
 								</div>
               </div>
 						</div>
@@ -65,7 +65,7 @@ class MassQuestionDeleter {
 					</div>
 				</div>
 				<div class="sg-content-box__content sg-content-box__content--spaced-top-large">
-					<blockquote class="sg-text sg-text--small">${System.data.locale.core.TaskDeleter.containerExplanation}<br>${System.createBrainlyLink("task", { id: 1234567 })}<br>${System.createBrainlyLink("task", { id: 2345678 })}<br>1234567<br>2345678</blockquote>
+					<blockquote class="sg-text sg-text--small">${System.data.locale.core.MassContentDeleter.containerExplanation}<br>${System.createBrainlyLink("task", { id: 1234567 })}<br>${System.createBrainlyLink("task", { id: 2345678 })}<br>1234567<br>2345678<br>xy1234567<br>xy2345678</blockquote>
 				</div>
 				<div class="sg-content-box__actions deleteSection"></div>
 			</div>`,
@@ -80,8 +80,8 @@ class MassQuestionDeleter {
     this.$textareaBack = $(".sg-textarea.back", this.$textareaSpinnerContainer);
     this.$textarea = $(".sg-textarea:not(.back)", this.$textareaSpinnerContainer);
     this.$nHasBeenDeleted = $(".js-labels .sg-text > b", this.$modal);
-    this.$questionsCount = $(".js-labels .sg-content-box__content:eq(0) .sg-text > span", this.$modal);
-    this.$nQuestionsToDelete = $(".js-labels .sg-content-box__content:eq(1) .sg-text > span", this.$modal);
+    this.$contentsCount = $(".js-labels .sg-content-box__content:eq(0) .sg-text > span", this.$modal);
+    this.$nIdsToDelete = $(".js-labels .sg-content-box__content:eq(1) .sg-text > span", this.$modal);
 
   }
   RenderButtonSpinner() {
@@ -94,7 +94,7 @@ class MassQuestionDeleter {
     return $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner"></div></div>`);
   }
   RenderDeleteSection() {
-    this.deleteSection = new DeleteSection(System.data.Brainly.deleteReasons.task, "task");
+    this.deleteSection = new DeleteSection();
 
     this.deleteSection.$.appendTo($(".deleteSection", this.$modal));
   }
@@ -150,24 +150,24 @@ class MassQuestionDeleter {
   }
   UpdateTextareaBackContent() {
     let idList = this.ParseIDs();
-    this.questionsToDelete = [];
+    this.contentsToDelete = [];
 
-    this.$questionsCount.text(idList.length);
+    this.$contentsCount.text(idList.length);
 
     let temp = this.$textarea.html();
 
     idList.forEach(id => {
       let status = "toProcess";
 
-      if (this.deletedQuestions[id])
-        status = this.deletedQuestions[id].isDeleted ? "success" : "error";
+      if (this.deletedContents[id])
+        status = this.deletedContents[id].isDeleted ? "success" : "error";
       else
-        this.questionsToDelete.push(id);
+        this.contentsToDelete.push(id);
 
       temp = temp.replace(new RegExp(`((?:\\b|pt)+${id}\\b)`), `<span class="${status}">$1</span>`);
     });
 
-    this.$nQuestionsToDelete.text(this.questionsToDelete.length);
+    this.$nIdsToDelete.text(this.contentsToDelete.length);
     this.$textareaBack.html(temp);
     this.HideTextareaWarning();
     this.HideTextareaSpinner();
@@ -195,24 +195,21 @@ class MassQuestionDeleter {
 
     this.openedConnections = 0;
     window.isPageProcessing = true;
-    let questionsToDelete = [...this.questionsToDelete];
+    let contentsToDelete = [...this.contentsToDelete];
 
     this.PrepareData();
     this.ShowButtonSpinner();
     this.ShowTextareaSpinner();
     this.ShowHasBeenDeletedLabel();
-    this.DeleteQuestions(questionsToDelete);
-    this._loop_deleter = setInterval(() => this.DeleteQuestions(questionsToDelete), 1000);
-    System.log(5, { user: System.data.Brainly.userData.user, data: this.questionsToDelete });
+    this.DeleteContents(contentsToDelete);
+    this._loop_deleter = setInterval(() => this.DeleteContents(contentsToDelete), 1000);
+    System.log(5, { user: System.data.Brainly.userData.user, data: this.contentsToDelete });
   }
   IsDataClear() {
-    if (!this.questionsToDelete || this.questionsToDelete.length == 0) {
+    if (!this.contentsToDelete || this.contentsToDelete.length == 0) {
       this.ShowTextareaWarning();
-    } else if (!this.deleteSection.selectedReason) {
-      this.deleteSection.ShowReasonWarning();
-    } else {
+    } else if (this.deleteSection.selectedReason) {
       this.HideTextareaWarning();
-      this.deleteSection.HideReasonWarning();
 
       if (confirm(System.data.locale.core.notificationMessages.warningBeforeDelete)) {
         return true;
@@ -220,13 +217,17 @@ class MassQuestionDeleter {
     }
   }
   PrepareData() {
-    this.questionData = {
+    this.contentData = {
       reason_id: this.deleteSection.selectedReason.id,
       reason: this.deleteSection.reasonText,
       give_warning: this.deleteSection.giveWarning,
-      take_points: this.deleteSection.takePoints,
-      return_points: this.deleteSection.returnPoints
     };
+
+    if (this.deleteSection.type == "task")
+      this.contentData.take_points = this.deleteSection.takePoints;
+
+    if (this.deleteSection.type == "task" && this.deleteSection.type == "response")
+      this.contentData.return_points = this.deleteSection.returnPoints;
   }
   ShowHasBeenDeletedLabel() {
     this.$nHasBeenDeleted.parents(".sg-actions-list__hole.js-hidden").removeClass("js-hidden");
@@ -237,30 +238,39 @@ class MassQuestionDeleter {
   HideButtonSpinner() {
     this.HideElement(this.$buttonSpinner);
   }
-  DeleteQuestions(questionIDs) {
-    if (!questionIDs || questionIDs.length == 0) {
+  DeleteContents(contentIDs) {
+    if (!contentIDs || contentIDs.length == 0) {
       return clearInterval(this._loop_deleter);
     }
 
-    for (let i = 0, questionID; i < 5 && (questionID = questionIDs.shift()); i++) {
-      this.DeleteQuestion(questionID);
+    for (let i = 0, contentID; i < 5 && (contentID = contentIDs.shift()); i++) {
+      this.DeleteContent(contentID);
     }
   }
-  async DeleteQuestion(id) {
-    this.questionData.model_id = id;
-    let resRemove = await RemoveQuestion(this.questionData);
+  async DeleteContent(id) {
+    let resRemove;
+    this.contentData.model_id = id;
+
+    if (this.deleteSection.type == "task")
+      resRemove = await RemoveQuestion(this.contentData);
+
+    if (this.deleteSection.type == "response")
+      resRemove = await RemoveAnswer(this.contentData);
+
+    if (this.deleteSection.type == "comment")
+      resRemove = await RemoveComment(this.contentData);
 
     /* await System.Delay();
-    let resRemove = { success: false, message: "question cannot be deleted :/" }; */
+    let resRemove = { success: false, message: "content cannot be deleted :/" }; */
 
-    this.MarkQuestionID(id, !!resRemove.success);
+    this.MarkContentID(id, !!resRemove.success);
 
     if (!resRemove || !resRemove.success) {
       this.modal.notification(
         (
           resRemove.message ?
           `#${id} > ${resRemove.message}` :
-          System.data.locale.core.notificationMessages.errorOccuredWhileDeletingTheQuestion.replace("%{question_id}", ` #${id} `)
+          System.data.locale.core.notificationMessages.errorOccuredWhileDeletingTheN.replace("%{content_id}", ` #${id} `)
         ),
         "error"
       );
@@ -270,18 +280,18 @@ class MassQuestionDeleter {
 
     this.UpdateProcessStatus();
   }
-  MarkQuestionID(id, isDeleted) {
+  MarkContentID(id, isDeleted) {
     let $id = $(`span:contains("${id}")`);
 
     $id.removeClass("toProcess");
     $id.addClass(isDeleted ? "success" : "error");
-    this.deletedQuestions[id] = { isDeleted };
+    this.deletedContents[id] = { isDeleted };
   }
   UpdateCounter() {
-    this.$nHasBeenDeleted.text(++this.deletedQuestionCount);
+    this.$nHasBeenDeleted.text(++this.deletedContentCount);
   }
   UpdateProcessStatus() {
-    if (this.questionsToDelete.length == ++this.openedConnections) {
+    if (this.contentsToDelete.length == ++this.openedConnections) {
       window.isPageProcessing = false;
 
       this.HideButtonSpinner();
@@ -309,4 +319,4 @@ class MassQuestionDeleter {
   }
 }
 
-export default MassQuestionDeleter
+export default MassContentDeleter

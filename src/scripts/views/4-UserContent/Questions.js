@@ -19,9 +19,7 @@ class Questions extends UserContent {
 
     if (rows.length == 0) {
       this.ShowSelectContentWarning();
-    } else if (!this.deleteSection.selectedReason) {
-      this.deleteSection.ShowReasonWarning();
-    } else {
+    } else if (this.deleteSection.selectedReason) {
       this.HideSelectContentWarning();
       await System.Delay(50);
 

@@ -35,7 +35,7 @@ class _System {
       },
       config: {
         reasonSign: "Ω",
-        idExtractRegex: /((?:.*[-|\/|pt])(?=\d))|(?:[\/|\?].*)/g,
+        idExtractRegex: /((?:.*[-|\/|a-z])(?=\d))|(?:[\/|\?].*)/g,
         MAX_FILE_SIZE_OF_EVIDENCE_IN_MB: 22,
         get MAX_FILE_SIZE_OF_EVIDENCE() {
           return window.System.constants.config.MAX_FILE_SIZE_OF_EVIDENCE_IN_MB * 1024 * 1024;

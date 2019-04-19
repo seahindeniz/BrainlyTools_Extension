@@ -65,7 +65,7 @@ class MassContentDeleter {
 					</div>
 				</div>
 				<div class="sg-content-box__content sg-content-box__content--spaced-top-large">
-					<blockquote class="sg-text sg-text--small">${System.data.locale.core.MassContentDeleter.containerExplanation}<br>${System.createBrainlyLink("task", { id: 1234567 })}<br>${System.createBrainlyLink("task", { id: 2345678 })}<br>1234567<br>2345678<br>xy1234567<br>xy2345678</blockquote>
+					<blockquote class="sg-text sg-text--small">${System.data.locale.core.MassContentDeleter.containerExplanation}<br>${System.createBrainlyLink("task", { id: 1234567 })}<br>${System.createBrainlyLink("task", { id: 2345678 })}<br>1234567<br>53453<br>xy545645<br>xy423423</blockquote>
 				</div>
 				<div class="sg-content-box__actions deleteSection"></div>
 			</div>`,
@@ -164,7 +164,7 @@ class MassContentDeleter {
       else
         this.contentsToDelete.push(id);
 
-      temp = temp.replace(new RegExp(`((?:\\b|pt)+${id}\\b)`), `<span class="${status}">$1</span>`);
+      temp = temp.replace(new RegExp(`((?:\\b|[a-z]{1,})+${id}\\b)`), `<span class="${status}">$1</span>`);
     });
 
     this.$nIdsToDelete.text(this.contentsToDelete.length);

@@ -9,15 +9,18 @@ window.selectors = {
   questionLink: "> div > a"
 }
 
-class QuestionSearch {
+export class QuestionSearch {
   constructor() {
     this.questionBoxs = {};
 
     this.Init();
+
+    if (System.checkUserP([14, 26]))
+      this.moderateSection = new ModerateSection(this);
   }
   async Init() {
     try {
-      if (System.checkUserP([1, 14]) && System.checkBrainlyP(102)) {
+      if (System.checkUserP([1, 14, 26]) && System.checkBrainlyP(102)) {
         let _$_observe = await WaitForObject("$().observe");
 
         if (_$_observe) {
@@ -53,29 +56,32 @@ class QuestionSearch {
       this.element = element;
 
       element.classList.add("quickDelete");
-
-      if (System.checkUserP(14))
-        this.moderateSection = new ModerateSection(this);
+      this.moderateSection.Show();
 
       $questions.each((i, $question) => this.InitQuestionBox($question));
     }
   }
-  InitQuestionBox($question) {
-    let $seeAnswerLink = $(".sg-content-box__actions > .sg-actions-list a", $question);
+  /**
+   * @param {HTMLElement} question
+   */
+  InitQuestionBox(question) {
+    let $seeAnswerLink = $(".sg-content-box__actions > .sg-actions-list a", question);
     let id = System.ExtractId($seeAnswerLink.attr("href"));
     /**
      * @type {QuestionBox}
      */
     let questionBox = this.questionBoxs[id];
 
-    if (!questionBox)
-      this.questionBoxs[id] = new QuestionBox($question, id);
-    else {
-      questionBox.$ = $question;
+    if (!questionBox) {
+      questionBox = this.questionBoxs[id] = new QuestionBox(this, question, id);
+      questionBox.$checkBox.change();
+    } else {
+      questionBox.$ = $(question);
 
       questionBox.RenderQuestionOwner();
       questionBox.ShowSelectbox();
       questionBox.ShowQuickDeleteButtons();
+      questionBox.CheckIsDeleted();
     }
   }
 }

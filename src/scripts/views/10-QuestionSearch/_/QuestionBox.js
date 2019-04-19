@@ -2,7 +2,13 @@ import QuickDeleteButtons from "../../1-Home/_/QuickDeleteButtons";
 import { GetQuestionContent } from "../../../controllers/ActionsOfBrainly";
 
 class QuestionBox {
-  constructor(box, id) {
+  /**
+   * @param {import("../index").QuestionSearch} main
+   * @param {HTMLElement} box
+   * @param {number} id
+   */
+  constructor(main, box, id) {
+    this.main = main;
     this.$ = $(box);
     this.id = id;
 
@@ -11,10 +17,11 @@ class QuestionBox {
     if (System.checkUserP(1))
       this.quickDeleteButtons = new QuickDeleteButtons(this.$);
 
-    if (System.checkUserP(14)) {
+    if (System.checkUserP([14, 26])) {
       this.RenderSelectBox();
       this.ShowSelectbox();
       this.RenderSpinner();
+      this.BindEvents();
     }
   }
   async GetQuestion() {
@@ -122,7 +129,7 @@ class QuestionBox {
     }
   }
   RenderSelectBox() {
-    this.$selectBox = $(`
+    this.$checkBoxContainer = $(`
     <div class="sg-actions-list__hole">
       <div class="sg-spinner-container">
         <div class="sg-label sg-label--secondary">
@@ -143,14 +150,15 @@ class QuestionBox {
       </div>
     </div>`);
 
-    this.$checkBox = $("input", this.$selectBox);
-    this.$spinnerContainer = $(".sg-spinner-container", this.$selectBox);
+    this.$checkBox = $("input", this.$checkBoxContainer);
+    this.$checkBoxGhost = $(".sg-checkbox__ghost", this.$checkBoxContainer);
+    this.$spinnerContainer = $(".sg-spinner-container", this.$checkBoxContainer);
   }
   ShowSelectbox() {
-    if (System.checkUserP(14)) {
+    if (System.checkUserP([14, 26])) {
       let $seeAnswerLinkContainer = $(".sg-content-box__actions > .sg-actions-list", this.$);
 
-      this.$selectBox.prependTo($seeAnswerLinkContainer);
+      this.$checkBoxContainer.prependTo($seeAnswerLinkContainer);
     }
   }
   RenderSpinner() {
@@ -158,6 +166,12 @@ class QuestionBox {
     <div class="sg-spinner-container__overlay">
       <div class="sg-spinner sg-spinner--small"></div>
     </div>`);
+  }
+  BindEvents() {
+    this.$checkBox.change(this.CheckBoxChanged.bind(this));
+  }
+  CheckBoxChanged() {
+    this.main.moderateSection.UpdateDeleteNButtonNumber();
   }
   ShowSpinner() {
     this.$spinner.appendTo(this.$spinnerContainer);
@@ -171,6 +185,14 @@ class QuestionBox {
 
       this.quickDeleteButtons.ShowContainer();
     }
+  }
+  CheckIsDeleted() {
+    if (this.deleted)
+      this.Deleted();
+  }
+  Deleted() {
+    this.$.addClass("deleted");
+    this.$checkBoxGhost.removeClass("sg-button-secondary--disabled");
   }
 }
 

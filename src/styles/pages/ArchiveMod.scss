@@ -1,141 +1,148 @@
 $arrow-pos: -0.4em;
 
+.js-pagination {
+  button {
+    margin: .5em 0 .5em 1.6em;
+  }
+}
+
 button {
-	label.sg-label__text {
-		margin: 0 auto;
-	}
+  label.sg-label__text {
+    margin: 0 auto;
+  }
 
-	span.sg-button-primary__icon {
-		margin: 0;
-	}
+  span.sg-button-primary__icon {
+    margin: 0;
+  }
 
-	&.task {
-		background-color: #FBC02D;
-	}
+  &.task {
+    background-color: #FBC02D;
+  }
 }
 
 .ext-action-buttons {
-	&.is-deleting {
-		pointer-events: none;
-	}
+  &.is-deleting {
+    pointer-events: none;
+  }
 }
 
 #moderation-all {
-	&>div.top>div.header>h1>span {
-		cursor: pointer;
-	}
+  &>div.top>div.header>h1>span {
+    cursor: pointer;
+  }
 
-	.content {
-		.moderation-item {
+  .content {
+    .moderation-item {
 
-			width: 16.8em;
-			height: 18em;
-			overflow: hidden;
+      width: 16.8em;
+      height: 18em;
+      overflow: hidden;
 
-			>.header{
-				height: 26px;
-			}
-			>.content {
-				height: 14rem;
+      >.header {
+        height: 26px;
+      }
 
-				.confirm label {
-					font-size: 1.5em;
-				}
+      >.content {
+        height: 14rem;
 
-				&>.body {
-					overflow: hidden;
-					height: 11em;
-				}
+        .confirm label {
+          font-size: 1.5em;
+        }
 
-				&>.footer {
-					padding-bottom: 0;
+        &>.body {
+          overflow: hidden;
+          height: 11em;
+        }
 
-					&>.row:last-child {
-						margin-bottom: 0 !important;
-					}
-				}
-			}
-		}
+        &>.footer {
+          padding-bottom: 0;
 
-		&.listView .moderation-item {
-			height: 89px;
-			width: 98%;
+          &>.row:last-child {
+            margin-bottom: 0 !important;
+          }
+        }
+      }
+    }
 
-			.header {
-				height: 26px;
-			}
+    &.listView .moderation-item {
+      height: 89px;
+      width: 98%;
 
-			.content {
-				height: 60px;
+      .header {
+        height: 26px;
+      }
 
-				.footer {
-					width: 19rem;
-					top: -1.85rem;
-					right: 4em;
-					border: 0;
+      .content {
+        height: 60px;
 
-					.zadane-green {
-						margin: 3px 20px 0 0;
-					}
+        .footer {
+          width: 19rem;
+          top: -1.85rem;
+          right: 4em;
+          border: 0;
 
-					.ext-action-buttons {
-						text-align: right;
+          .zadane-green {
+            margin: 3px 20px 0 0;
+          }
 
-						.sg-button-secondary {
-							padding: 0 14px;
-							height: 1.5rem;
-							border-radius: 5px;
-							font-size: .75rem;
-						}
-					}
-				}
-			}
-		}
-	}
+          .ext-action-buttons {
+            text-align: right;
 
-	.confirmed {
-		&>.content {
-			background-color: #aea !important;
-		}
-	}
+            .sg-button-secondary {
+              padding: 0 14px;
+              height: 1.5rem;
+              border-radius: 5px;
+              font-size: .75rem;
+            }
+          }
+        }
+      }
+    }
+  }
 
-	.removed {
-		&>.content {
-			background-color: #eaa !important;
-		}
+  .confirmed {
+    &>.content {
+      background-color: #aea !important;
+    }
+  }
 
-		div.content>div.footer {
-			min-height: 0 !important;
-			padding: 0 !important;
-			height: 0;
-			border: 0;
-		}
-	}
+  .removed {
+    &>.content {
+      background-color: #eaa !important;
+    }
+
+    div.content>div.footer {
+      min-height: 0 !important;
+      padding: 0 !important;
+      height: 0;
+      border: 0;
+    }
+  }
 }
 
 .quickDeleteButtons {
-	clear: both;
-	margin-top: 1em;
+  clear: both;
+  margin-top: 1em;
 }
 
 #toplayer>div.contener-center.mod>div.contener.mod.moderation {
 
-	&:before,
-	&:after {
-		cursor: pointer;
-		position: absolute;
-		top: 35%;
-		font-size: 20em;
-		color: #0075ff;
-	}
+  &:before,
+  &:after {
+    cursor: pointer;
+    position: absolute;
+    top: 35%;
+    font-size: 20em;
+    color: #0075ff;
+  }
 
-	&:before {
-		content: "‹";
-		left: $arrow-pos;
-	}
+  &:before {
+    content: "‹";
+    left: $arrow-pos;
+  }
 
-	&:after {
-		content: "›";
-		right: $arrow-pos;
-	}
+  &:after {
+    content: "›";
+    right: $arrow-pos;
+  }
 }

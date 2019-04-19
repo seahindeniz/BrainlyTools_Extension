@@ -6,7 +6,7 @@ import { CloseModerationTicket, ConfirmAnswer, ConfirmComment, ConfirmQuestion, 
 import WaitForElement from "../../helpers/WaitForElement";
 import WaitForObject from "../../helpers/WaitForObject";
 import layoutChanger from "./_/layoutChanger";
-import "./_/pagination";
+import Pagination from "./_/Pagination";
 
 window.selectors = {
   moderationItemParent: "#moderation-all > div.content",
@@ -21,6 +21,7 @@ ArciveMod();
 
 async function ArciveMod() {
   layoutChanger();
+  new Pagination();
 
   if (System.checkUserP([1, 2, 45])) {
     /**
@@ -403,7 +404,6 @@ async function ArciveMod() {
 
   $toplayer.on('mouseup', 'div.contener.mod.moderation', switchModerate);
   $("body").on("keyup", function(e) {
-    console.log(e.keyCode);
     if (
       $toplayer.is(':visible') &&
       !(

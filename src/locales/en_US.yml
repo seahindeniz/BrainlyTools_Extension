@@ -7,6 +7,9 @@ common:
   save: Save
   clearInputs: Clear text inputs
   delete: Delete !
+  # %{number_of_contents} variable indicates the number of selected contents.\n
+  # Example: Delete (25)
+  deleteN: Delete %{number_of_contents}
   edit: Edit
   profileID: Profile ID
   nick: Nick
@@ -46,6 +49,7 @@ common:
     moreOptions: More Options
     moderate: Moderate
     doYouWantToDelete: Do you want to delete?
+    selectContentType: Please select a content type
     selectReason: Please select a reason
     editInPanel: Edit in moderation panel
     point: point
@@ -59,8 +63,8 @@ common:
         text: Take points back
         title: Take points back from user
     returnPoints:
-      text: Return asker's points
-      title: Refund asker's points
+      text: Don't give the points back
+      title: Don't give the points back to owner
     giveWarning:
       text: Give a warning
       title: Delete selected contents with a warning
@@ -246,6 +250,9 @@ popup:
         "25":
           title: Can change harmless privilege
           description: User can assign/revoke harmless privileges to other extension users
+        "26":
+          title: Selective question deletion(Multiple pages)
+          description: On the question searching page, user can use the selective deletion function to delete selected questions from multiple pages at once
     announcements:
       text: Announcements
       addNewAnnouncement: Add a new announcement
@@ -292,23 +299,23 @@ core:
     thisConditionAlreadyAdded: This condition already added
     thisConditionAlreadyAddedInCommonConditions: This condition already added in the Common conditions
     conditionsDoesntMatchAnything: Conditions doesn't match with anything
-    # %{question_id} variable indicates the question id.
+    # %{content_id} variable indicates the content id.
     # Example> An error occured while deleting the #356985
-    errorOccuredWhileDeletingTheQuestion: "An error occured while deleting the %{question_id}"
+    errorOccuredWhileDeletingTheN: "An error occured while deleting the %{content_id}"
     doYouWantToContinue: Do you want to continue?
     couldntAbleToGetNoticeBoardContent: I couldn't able to get content of notice board
     changesMayNotBeSaved: Changes you made may not be saved
-  TaskDeleter:
-    text: Mass-Question deleter
-    questionsLinksOrIDs: Question links or id's
-    # %{n} indicates the number of questions that will be deleted. Example> 8 questions
-    nQuestions: "%{n} questions"
-    # %{n} indicates the number of questions that will be deleted. Example> 8 questions
-    nQuestionsToDeleted: "%{n} questions to delete"
-    # %{n} indicates the number of deleted questions. Also "q." is short for "question" word. Example> 8 q. has been deleted
-    nHasBeenDeleted: "%{n} q. has been deleted"
+  MassContentDeleter:
+    text: Mass-Content deleter
+    contentLinksOrIDs: Content links or id's..
+    # %{n} indicates the number of ids that will be deleted. Example> 8 ids
+    nIds: "%{n} ids"
+    # %{n} indicates the number of ids that will be deleted. Example> 8 ids
+    nIdsToDeleted: "%{n} ids to delete"
+    # %{n} indicates the number of deleted ids. Example> 8 ids has been deleted
+    nHasBeenDeleted: "%{n} ids has been deleted"
     # Explanation text for id container of the Mass-Question deleter
-    containerExplanation: "You need to put questions links or id's to container line by line. Example:"
+    containerExplanation: "You need to put content links or id's to container line by line. Example:"
   MessageSender:
     text: Mass-Message sender
     lastRegisteredUserId: Enter last registered user id

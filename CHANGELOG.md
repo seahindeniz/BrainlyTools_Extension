@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.22.1] - 2019.04.21
+
+### Changed
+
+- Mass-Question deleter changed into Mass-Content deleter (<https://ibb.co/6t7Y6cT>)
+- New styling for the pagination buttons of the Moderate all (<https://ibb.co/0rMYHJx>)
+- [#53] Selective deletion on search page misbehaving
+
+[#53]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/53
+
 ## [6.22.0] - 2019.04.14
 
 ### Added

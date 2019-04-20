@@ -7,6 +7,9 @@ common:
   save: Kaydet
   clearInputs: Metin girişlerini temizle
   delete: Sil !
+  # %{number_of_contents} variable indicates the number of selected contents.\n
+  # Example: Delete (25)
+  deleteN: "Sil %{number_of_contents}"
   edit: Düzenle
   profileID: Profil ID
   nick: Nick
@@ -46,6 +49,7 @@ common:
     moreOptions: Daha fazla
     moderate: Düzenle
     doYouWantToDelete: "Silmek istiyor musun?"
+    selectContentType: İçerik tipini belirtmelisin
     selectReason: Silim sebebi seçmelisin
     editInPanel: Moderatör panelinde düzenle
     point: puan
@@ -59,8 +63,8 @@ common:
         text: Kazandığı puanları geri al
         title: Kişinin sorudan kazandığı puanları geri al
     returnPoints:
-      text: Puanı iade et
-      title: Soru sahibine puanını iade et
+      text: Puanları geri iade et-me
+      title: Puanları sahibine geri iade etmemek
     giveWarning:
       text: Uyarı ver
       title: Uyarı vererek sil
@@ -246,6 +250,9 @@ popup:
         "25":
           title: Zararsız yetkileri değiştirebilme
           description: "Kullanıcı, diğer kullanıcılara zararsız yetkileri atayabilir veya kaldırabilir"
+        "26":
+          title: Seçmeli soru silimi(Sayfalar arası)
+          description: "Kullanıcı, soru arama sayfasında sayfalar arasında geçiş yaparak, seçtiği soruları silebilir"
     announcements:
       text: Duyurular
       addNewAnnouncement: Yeni duyuru ekle
@@ -292,23 +299,23 @@ core:
     thisConditionAlreadyAdded: Koşul zaten eklenmiş
     thisConditionAlreadyAddedInCommonConditions: Ortak koşullar'da zaten bulunuyor
     conditionsDoesntMatchAnything: Koşul herhangi bir şeyle eşleşmiyor
-    # %{question_id} variable indicates the question id.
+    # %{content_id} variable indicates the content id.
     # Example> An error occured while deleting the #356985
-    errorOccuredWhileDeletingTheQuestion: "%{question_id}id'li soruyu silerken hata oluştu"
+    errorOccuredWhileDeletingTheN: "%{content_id} id'li soruyu silerken hata oluştu"
     doYouWantToContinue: "Devam etmek istiyor musun?"
     couldntAbleToGetNoticeBoardContent: Duyuru panosunun içeriğini sunucudan alamadım
     changesMayNotBeSaved: Yaptığınız değişiklikler kaydedilmemiş olabilir
-  TaskDeleter:
-    text: Çoklu soru silici
-    questionsLinksOrIDs: Soru linki veya id numarası
-    # %{n} indicates the number of questions that will be deleted. Example> 8 questions
-    nQuestions: "%{n}soru silinecek"
-    # %{n} indicates the number of questions that will be deleted. Example> 8 questions
-    nQuestionsToDeleted: "%{n} soru silindi"
-    # %{n} indicates the number of deleted questions. Also "q." is short for "question" word. Example> 8 q. has been deleted
-    nHasBeenDeleted: "%{n} soru silindi"
+  MassContentDeleter:
+    text: Çoklu içerik silici
+    contentLinksOrIDs: İçerik linki veya id numarası..
+    # %{n} indicates the number of ids that will be deleted. Example> 8 ids
+    nIds: "%{n} id"
+    # %{n} indicates the number of ids that will be deleted. Example> 8 ids
+    nIdsToDeleted: "%{n}içerik silinecek"
+    # %{n} indicates the number of deleted ids. Example> 8 ids has been deleted
+    nHasBeenDeleted: "%{n} içerik silindi"
     # Explanation text for id container of the Mass-Question deleter
-    containerExplanation: "Soru linklerini satırlar halinde yukarıdaki alana girmelisin. Örneğin:"
+    containerExplanation: "İçerik linklerini satırlar halinde yukarıdaki alana girmelisin. Örneğin:"
   MessageSender:
     text: Toplu özel mesaj gönder
     lastRegisteredUserId: Kayıtlı son kullanıcı id'sini gir

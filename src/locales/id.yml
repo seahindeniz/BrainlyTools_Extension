@@ -7,6 +7,9 @@ common:
   save: Save
   clearInputs: Hapus input teks
   delete: Hapus !
+  # %{number_of_contents} variable indicates the number of selected contents.\n
+  # Example: Delete (25)
+  deleteN: "Hapus %{number_of_contents}"
   edit: Edit
   profileID: Profile ID
   nick: Nick
@@ -46,6 +49,7 @@ common:
     moreOptions: Lebih Banyak Opsi
     moderate: Moderasi
     doYouWantToDelete: "Apakah kamu ingin menghapus?"
+    selectContentType: Silahkan pilih sebuah jenis konten
     selectReason: Pilih sebuah alasan
     editInPanel: Edit pada panel moderasi
     point: poin
@@ -59,8 +63,8 @@ common:
         text: Mengambil poin kembali
         title: Mengambil kembali poin dari user
     returnPoints:
-      text: Jangan kembalikan poin
-      title: Mengembalikan point penanya
+      text: Jangan mengembalikan poin
+      title: Jangan mengembalikan poin ke penanya
     giveWarning:
       text: Beri peringatan
       title: Menghapus konten yang dipilih dengan peringatan
@@ -246,6 +250,9 @@ popup:
         "25":
           title: Dapat mengubah privilege yang tidak berbahaya
           description: Pengguna dapat menetapkan atau membatalkan privilege yang tidak berbahaya untuk pengguna ekstensi lainnya
+        "26":
+          title: Penghapusan pertanyaan terpilih (beberapa halaman)
+          description: "Pada halaman pencarian pertanyaan, pengguna dapat menggunakan fungsi pemilihan penghapusan untuk menghapus pertanyaan yang dipilih dari beberapa halaman sekaligus"
     announcements:
       text: Pengumuman
       addNewAnnouncement: Tambahkan sebuah pengumuman
@@ -292,23 +299,23 @@ core:
     thisConditionAlreadyAdded: Kondisi ini telah ditambahkan
     thisConditionAlreadyAddedInCommonConditions: Kondisi ini telah ditambahkan ke kondisi umum
     conditionsDoesntMatchAnything: Kondisinya tidak sesuai dengan lainnya
-    # %{question_id} variable indicates the question id.
+    # %{content_id} variable indicates the content id.
     # Example> An error occured while deleting the #356985
-    errorOccuredWhileDeletingTheQuestion: "Terjadi kesalahan saat menghapus %{question_id}"
+    errorOccuredWhileDeletingTheN: "Terjadi error saat penghapusan %{content_id}"
     doYouWantToContinue: "Apakah kamu ingin melanjutkan?"
     couldntAbleToGetNoticeBoardContent: Saya tidak bisa mendapatkan konten pada papan pengumuman
     changesMayNotBeSaved: Perubahan yang kamu buat mungkin tidak tersimpan
-  TaskDeleter:
-    text: Penghapusan pertanyaan massal
-    questionsLinksOrIDs: Tautan pertanyaan atau ID
-    # %{n} indicates the number of questions that will be deleted. Example> 8 questions
-    nQuestions: "%{n} pertanyaan"
-    # %{n} indicates the number of questions that will be deleted. Example> 8 questions
-    nQuestionsToDeleted: "%{n} pertanyaan untuk dihapus"
-    # %{n} indicates the number of deleted questions. Also "q." is short for "question" word. Example> 8 q. has been deleted
-    nHasBeenDeleted: "%{n} pertanyaan telah dihapus"
+  MassContentDeleter:
+    text: Penghapusan konten massal
+    contentLinksOrIDs: Link konten atau id
+    # %{n} indicates the number of ids that will be deleted. Example> 8 ids
+    nIds: "%{n} id"
+    # %{n} indicates the number of ids that will be deleted. Example> 8 ids
+    nIdsToDeleted: "%{n} id untuk dihapus"
+    # %{n} indicates the number of deleted ids. Example> 8 ids has been deleted
+    nHasBeenDeleted: "%{n} id telah dihapus"
     # Explanation text for id container of the Mass-Question deleter
-    containerExplanation: "Kamu perlu menempatkan tautan pertanyaan atau id ke wadah baris demi baris. Contoh:"
+    containerExplanation: "Kamu perlu untuk meletakkan link konten atau id ke baris per baris. Contohnya:"
   MessageSender:
     text: Pengiriman pesan massal
     lastRegisteredUserId: "Masukkan ID user yang terakhir "

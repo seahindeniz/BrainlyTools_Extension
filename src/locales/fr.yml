@@ -7,6 +7,9 @@ common:
   save: Enregistrer
   clearInputs: Effacer les champs de texte
   delete: Supprimer !
+  # %{number_of_contents} variable indicates the number of selected contents.\n
+  # Example: Delete (25)
+  deleteN: "Supprimer %{number_of_contents}"
   edit: Editer
   profileID: ID du profil
   nick: Pseudo
@@ -46,6 +49,7 @@ common:
     moreOptions: Plus d'options
     moderate: Modérer
     doYouWantToDelete: "Voulez-vous supprimer ?"
+    selectContentType: Merci de sélectionner un type de contenu
     selectReason: Merci de sélectionner une raison
     editInPanel: Editer dans le panneau de modération
     point: Point
@@ -59,8 +63,8 @@ common:
         text: Reprendre les points
         title: Reprendre les points
     returnPoints:
-      text: Rendre les points
-      title: Rendre les points
+      text: Ne pas redonner les points
+      title: Ne pas redonner les points au propriétaire
     giveWarning:
       text: Donner un avertissement
       title: Supprimer les contenus sélectionnés avec un avertissement
@@ -246,6 +250,9 @@ popup:
         "25":
           title: Peut changer les autres privilèges
           description: L'utilisateur peut assigner/révoquer les autres privilèges  aux autres utilisateurs
+        "26":
+          title: Suppression des questions sélectionnées (pages multiple)
+          description: "Sur la page de recherche de question, l'utilisateur peut sélectionner de questions sur de multiple pages pour les supprimer "
     announcements:
       text: Annonces
       addNewAnnouncement: Ajouter une nouvelle annonce
@@ -257,7 +264,7 @@ popup:
       unpublish: Non publié
       # \n variable indicates the new line for clear reading
       # %{date} variable indicates the date when user readed the announcement. Example> Readed on 01.01.2018
-      readedOn: "Lu sur : \n%{date}"
+      readedOn: "Lu le : \n%{date}"
     DeleteReasonsPreferences:
       text: Paramétrage des raisons de suppression
       withoutAsk: Donner un avertissement sans demander la confirmation
@@ -292,23 +299,23 @@ core:
     thisConditionAlreadyAdded: La condition a déjà été ajoutée
     thisConditionAlreadyAddedInCommonConditions: La condition a déjà été ajoutée dans les conditions communes
     conditionsDoesntMatchAnything: Les conditions ne correspondent à aucun signalemlent
-    # %{question_id} variable indicates the question id.
+    # %{content_id} variable indicates the content id.
     # Example> An error occured while deleting the #356985
-    errorOccuredWhileDeletingTheQuestion: "Une erreur s'est produite pendant la suppression de %{question_id}"
+    errorOccuredWhileDeletingTheN: "Une erreur est survenue lors de la suppression de %{content_id}"
     doYouWantToContinue: "Voulez-vous continuer ?"
     couldntAbleToGetNoticeBoardContent: Je ne suis pas en mesure de d'obtenir le contenu du tableau d'information
     changesMayNotBeSaved: Les changements effectués peuvent ne pas avoir été sauvegardés
-  TaskDeleter:
-    text: Suppression massive de questions
-    questionsLinksOrIDs: Liens des questions ou IDs
-    # %{n} indicates the number of questions that will be deleted. Example> 8 questions
-    nQuestions: "%{n} questions"
-    # %{n} indicates the number of questions that will be deleted. Example> 8 questions
-    nQuestionsToDeleted: "%{n} à supprimer"
-    # %{n} indicates the number of deleted questions. Also "q." is short for "question" word. Example> 8 q. has been deleted
-    nHasBeenDeleted: "%{n}q. a été supprimé"
+  MassContentDeleter:
+    text: Suppression de masse des contenus
+    contentLinksOrIDs: Lien du contenu ou IDs
+    # %{n} indicates the number of ids that will be deleted. Example> 8 ids
+    nIds: "%{n} IDs"
+    # %{n} indicates the number of ids that will be deleted. Example> 8 ids
+    nIdsToDeleted: "%{n} IDs à supprimer"
+    # %{n} indicates the number of deleted ids. Example> 8 ids has been deleted
+    nHasBeenDeleted: "%{n} IDs ont été supprimés"
     # Explanation text for id container of the Mass-Question deleter
-    containerExplanation: "Vous devez ajouter les liens des questions ou leurs IDs dans le champ ligne par ligne. Exemple : "
+    containerExplanation: "Vous devez entrer les liens ou IDs ligne par ligne. Exemple ;"
   MessageSender:
     text: Messagerie de masse
     lastRegisteredUserId: Entrer l'ID du dernier utilisateur enregistré
@@ -343,7 +350,7 @@ core:
     pastingExample2: Vous pouvez également spécifier le nombre de points dans la liste avant de copier-coller
     addPoint: Ajouter des points
   reportedCommentsDeleter:
-    text: Les commentaires signalés ont été supprimés
+    text: Suppression des commentaires signalés
     description: Vous pouvez supprimer tous les commentaires signalés dans le Tout Modérer en un clic. Vous avez juste à débuter le processus et ne pas fermer cet onglet.
     deleting: Suppression
     stopped: Stopper

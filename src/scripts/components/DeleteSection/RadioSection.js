@@ -22,10 +22,17 @@ class RadioSection {
     this.$ = $(`
     <div class="sg-content-box__actions">
       <div class="sg-horizontal-separator"></div>
-      <div class="sg-actions-list sg-content-box__actions--spaced-top sg-content-box__actions--spaced-bottom"></div>
+      <div class="sg-actions-list sg-content-box__actions--spaced-top sg-content-box__actions--spaced-bottom sg-actions-list--no-wrap sg-actions-list--to-top">
+        <div class="sg-actions-list__hole sg-actions-list__hole--no-shrink">
+          <span class="sg-text sg-text--small">${System.data.locale.core.MassContentDeleter.select[this.name]}:</span>
+        </div>
+        <div class="sg-actions-list__hole sg-actions-list__hole--no-spacing">
+          <div class="sg-actions-list"></div>
+        </div>
+      </div>
     </div>`);
 
-    this.$list = $("> .sg-actions-list", this.$);
+    this.$list = $("> .sg-actions-list > .sg-actions-list__hole:eq(1) > .sg-actions-list", this.$);
   }
   RenderWarning() {
     this.$warning = $(`<div class="sg-bubble sg-bubble--top sg-bubble--row-start sg-bubble--peach sg-text--white" style="z-index: 1;">${this.warning}</div>`);

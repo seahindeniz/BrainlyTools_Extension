@@ -248,20 +248,19 @@ class MassContentDeleter {
     }
   }
   async DeleteContent(id) {
-    let resRemove;
+    let Method;
     this.contentData.model_id = id;
 
     if (this.deleteSection.type == "task")
-      resRemove = await RemoveQuestion(this.contentData);
+      Method = RemoveQuestion;
 
     if (this.deleteSection.type == "response")
-      resRemove = await RemoveAnswer(this.contentData);
+      Method = RemoveAnswer;
 
     if (this.deleteSection.type == "comment")
-      resRemove = await RemoveComment(this.contentData);
+      Method = RemoveComment;
 
-    /* await System.Delay();
-    let resRemove = { success: false, message: "content cannot be deleted :/" }; */
+    let resRemove = await Method(this.contentData);
 
     this.MarkContentID(id, !!resRemove.success);
 

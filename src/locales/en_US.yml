@@ -316,6 +316,10 @@ core:
     nHasBeenDeleted: "%{n} ids has been deleted"
     # Explanation text for id container of the Mass-Question deleter
     containerExplanation: "You need to put content links or id's to container line by line. Example:"
+    select:
+      contentType: Content type
+      reason: Reason
+      subReason: Sub reason
   MessageSender:
     text: Mass-Message sender
     lastRegisteredUserId: Enter last registered user id
@@ -358,7 +362,7 @@ core:
     deleted: Deleted
     selectAReason: Select a reason
   reportedContentsConfirmer:
-    text: Reported contents confirmer
+    text: Mass-Moderate reported contents
     addConditionBlock: Add condition block
     selectAFilter: Select a filter
     reportReasonText: Report reason text
@@ -389,8 +393,14 @@ core:
       title: This unique condition will be restricted from other unique conditions
     filters:
       byContentType: by content type
-      byReporter: by reporter
-      byReportee: by reportee
+      # Reporter is the person that who was reported the question or answer
+      byReporter:
+        text: by reporter
+        title: Reporter means, the person that who was reported the question or answer
+      # Reportee is the person that who is the owner of the reported question or answer
+      byReportee:
+        text: by reportee
+        title: Reportee means, the person that who is the owner of the reported question or answer
       byDateRange: by date range
       byReportReason: by reason(message)
   noticeBoard:

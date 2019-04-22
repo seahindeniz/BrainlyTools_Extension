@@ -316,6 +316,10 @@ core:
     nHasBeenDeleted: "%{n} id telah dihapus"
     # Explanation text for id container of the Mass-Question deleter
     containerExplanation: "Kamu perlu untuk meletakkan link konten atau id ke baris per baris. Contohnya:"
+    select:
+      contentType: Tipe konten
+      reason: Alasan
+      subReason: Sub alasan
   MessageSender:
     text: Pengiriman pesan massal
     lastRegisteredUserId: "Masukkan ID user yang terakhir "
@@ -358,7 +362,7 @@ core:
     deleted: Dihapus
     selectAReason: Pilih sebuah alasan
   reportedContentsConfirmer:
-    text: Konten yang dilaporkan terkonfirmasi
+    text: ""
     addConditionBlock: Tambahkan blok kondisi
     selectAFilter: Pilih sebuah filter
     reportReasonText: Teks alasan pelaporan
@@ -389,8 +393,14 @@ core:
       title: Kondisi unik ini akan dibatasi dari kondisi unik yang lain
     filters:
       byContentType: berdasarkan type konten
-      byReporter: berdasarkan pelapor
-      byReportee: berdasarkan pelapor
+      # Reporter is the person that who was reported the question or answer
+      byReporter:
+        text: berdasarkan pelapor
+        title: Reporter berarti orang yang melaporkan pertanyaan atau jawaban
+      # Reportee is the person that who is the owner of the reported question or answer
+      byReportee:
+        text: berdasarkan pelapor
+        title: Reportee merupakan orang yang memiliki pertanyaan atau jawaban yang dilaporkan
       byDateRange: Berdasarkan rentang tanggal
       byReportReason: berdasarkan alasan (pesan)
   noticeBoard:

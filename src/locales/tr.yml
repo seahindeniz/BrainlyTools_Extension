@@ -316,6 +316,10 @@ core:
     nHasBeenDeleted: "%{n} içerik silindi"
     # Explanation text for id container of the Mass-Question deleter
     containerExplanation: "İçerik linklerini satırlar halinde yukarıdaki alana girmelisin. Örneğin:"
+    select:
+      contentType: İçerik tipi
+      reason: Sebep
+      subReason: Alt sebep
   MessageSender:
     text: Toplu özel mesaj gönder
     lastRegisteredUserId: Kayıtlı son kullanıcı id'sini gir
@@ -358,7 +362,7 @@ core:
     deleted: Silindi
     selectAReason: Silim sebebi seç
   reportedContentsConfirmer:
-    text: Şikayet edilmiş içerik onaylayıcı
+    text: Şikayet edilmiş içerik düzenleyici
     addConditionBlock: Koşul bloğu ekle
     selectAFilter: Filtre seç
     reportReasonText: Şikayet sebebi
@@ -389,8 +393,14 @@ core:
       title: "Bu benzersiz koşul bölümü, diğer benzersiz koşullardan bağımsızdır"
     filters:
       byContentType: içerik tipine göre
-      byReporter: şikayet edene göre
-      byReportee: şikayet edilene göre
+      # Reporter is the person that who was reported the question or answer
+      byReporter:
+        text: şikayet edene göre
+        title: Şikayet eden; soruyu veya cevabı şikayet etmiş kişi anlamına gelir
+      # Reportee is the person that who is the owner of the reported question or answer
+      byReportee:
+        text: şikayet edilene göre
+        title: Şikayet edilen; sorusu veya cevabı şikayet edilmiş kişi anlamına gelir
       byDateRange: tarih aralığına göre
       byReportReason: şikayet sebebine(mesajına) göre
   noticeBoard:

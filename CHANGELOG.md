@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.22.2] - 2019.04.22
+
+### Changed
+
+- Some informative text added into the Mass-Content deleter (<https://ibb.co/1zBJ6mh>)
+- Reported contents confirmer has deprecated for enhancement
+
 ## [6.22.1] - 2019.04.21
 
 ### Changed

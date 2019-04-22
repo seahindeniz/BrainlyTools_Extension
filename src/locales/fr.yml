@@ -316,6 +316,10 @@ core:
     nHasBeenDeleted: "%{n} IDs ont été supprimés"
     # Explanation text for id container of the Mass-Question deleter
     containerExplanation: "Vous devez entrer les liens ou IDs ligne par ligne. Exemple ;"
+    select:
+      contentType: Type de contenu
+      reason: Raison
+      subReason: Catégorie
   MessageSender:
     text: Messagerie de masse
     lastRegisteredUserId: Entrer l'ID du dernier utilisateur enregistré
@@ -358,7 +362,7 @@ core:
     deleted: Supprimé
     selectAReason: Sélectionner une raison
   reportedContentsConfirmer:
-    text: Approuver les contenus signalés
+    text: Modération de masse des contenus signalés
     addConditionBlock: Ajouter un bloc de condition
     selectAFilter: Sélectionner un filtre
     reportReasonText: Raison de signalement
@@ -389,8 +393,14 @@ core:
       title: La condition unique sera limité par les autres conditions uniques
     filters:
       byContentType: par type de contenu
-      byReporter: par utilisateur ayant signalé
-      byReportee: par utilisateur ayant été sigalé
+      # Reporter is the person that who was reported the question or answer
+      byReporter:
+        text: par utilisateur ayant signalé
+        title: Rapporteur signifie la personne qui a signalée la question ou réponse
+      # Reportee is the person that who is the owner of the reported question or answer
+      byReportee:
+        text: par utilisateur ayant été sigalé
+        title: Signalé signifie l'auteur de la question ou réponse
       byDateRange: par date
       byReportReason: par raison (message)
   noticeBoard:

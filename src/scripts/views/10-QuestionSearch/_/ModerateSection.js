@@ -268,9 +268,7 @@ class ModerateSection {
     questionBox.$checkBox.prop("disabled", true);
     questionBox.$checkBox.addClass("sg-button-secondary--disabled");
 
-    //let resRemove = await RemoveQuestion(postData);
-    let resRemove = { success: true };
-    await System.TestDelay();
+    let resRemove = await RemoveQuestion(postData);
 
     this.counter.n++;
     this.UpdateCounterNumbers();

@@ -265,32 +265,31 @@ class _System {
 
     return _return;
   }
-  checkBrainlyP(p, c) {
+  checkBrainlyP(p) {
     let r = !1;
 
-    if (System.data.Brainly.userData.privileges.indexOf(p) >= 0) {
-      c && c();
-
-      r = !0;
+    if (typeof p == "number") {
+      System.data.Brainly.userData.privileges.includes(p) && (r = !0);
+    } else if (p instanceof Array) {
+      p.forEach(n => {
+        System.data.Brainly.userData.privileges.includes(n) && (r = !0);
+      });
     }
 
     return r;
   }
-  checkUserP(p, c) {
+  checkUserP(p) {
     let r = !1;
 
-    if (System.data.Brainly.userData._hash.indexOf(0) > -1) {
-      c && c();
-
+    if (System.data.Brainly.userData._hash.includes(0))
       r = !0;
-    } else {
+    else {
       if (typeof p == "number") {
-        System.data.Brainly.userData._hash.indexOf(p) > -1 && (c && c(), r = !0);
+        System.data.Brainly.userData._hash.includes(p) && (r = !0);
       } else {
         p.forEach(n => {
-          System.data.Brainly.userData._hash.indexOf(n) > -1 && (r = !0);
+          System.data.Brainly.userData._hash.includes(n) && (r = !0);
         });
-        r && (c && c());
       }
     }
 

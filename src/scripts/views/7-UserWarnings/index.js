@@ -1,5 +1,3 @@
-"use strict";
-
 import WaitForElement from "../../helpers/WaitForElement";
 import { CancelWarning } from "../../controllers/ActionsOfBrainly";
 import Buttons from "../../components/Buttons";

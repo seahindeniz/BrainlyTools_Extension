@@ -23,7 +23,7 @@ class AccountDeleteReporter {
       this.$evidences = $(`
 			<div class="evidences">
 				<div class="container">
-					<label for="addFileInput">${System.data.locale.userProfile.accountDelete.evidences} <i>(${System.data.locale.userProfile.accountDelete.willBeReviewedByCommunityManager})</i></label>
+					<label for="addFileInput">${System.data.locale.userProfile.accountDelete.evidences}:</label>
 					<div class="sg-content-box__content sg-content-box__content--spaced-top">
 						<div class="sg-content-box addFile">
 							<div class="sg-content-box__content sg-content-box__content--with-centered-text sg-content-box__content--spaced-top">
@@ -41,7 +41,7 @@ class AccountDeleteReporter {
 					</div>
 				</div>
 				<div class="container sg-text--to-center">
-					<label for="comment">${System.data.locale.userProfile.accountDelete.yourComment} <i>(${System.data.locale.userProfile.accountDelete.willBeReviewedByCommunityManager})</i></label>
+					<label for="comment">${System.data.locale.userProfile.accountDelete.yourComment}:</label>
 					<textarea name="comment" id="comment" style="margin-top: 3px;"></textarea>
 				</div>
 			</div>`);

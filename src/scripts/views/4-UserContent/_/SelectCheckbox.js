@@ -18,7 +18,7 @@ export default class SelectCheckbox extends HTMLInputElement {
     this.$cell = $(`
 		<td>
 			<div class="sg-spinner-container">
-				<div class="sg-checkbox" style="width: 20px; height: 20px;">
+				<div class="sg-checkbox" style="width: 16px; height: 16px;">
 					<label class="sg-checkbox__ghost" for="${this.id}">
 						<svg class="sg-icon sg-icon--adaptive sg-icon--x10">
 							<use xlink:href="#icon-check"></use>

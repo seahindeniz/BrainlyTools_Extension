@@ -31,7 +31,6 @@ class UserContent {
 
     $(this.table).prop("that", this);
     this.LookupContents();
-    this.RenderSelectLabel();
     this.RenderModerationSection();
     this.RenderSelectContentWarning();
     this.BindPageCloseEvent();
@@ -72,21 +71,21 @@ class UserContent {
   }
   RenderSelectAllCheckbox() {
     this.$selectAllContainer = $(`
-		<div class="sg-content-box__content sg-content-box__content--spaced-top-large sg-content-box__content--spaced-bottom-large">
-			<div class="sg-label sg-label--secondary">
-				<div class="sg-label__icon">
-					<div class="sg-checkbox">
-						<input type="checkbox" class="sg-checkbox__element" id="selectAll">
-						<label class="sg-checkbox__ghost" for="selectAll">
-							<svg class="sg-icon sg-icon--adaptive sg-icon--x10">
-								<use xlink:href="#icon-check"></use>
-							</svg>
-						</label>
-					</div>
-				</div>
-				<label class="sg-label__text" for="selectAll">${System.data.locale.common.selectAll}</label>
-			</div>
-		</div>`);
+    <div class="sg-content-box__content sg-content-box__content--spaced-top-large sg-content-box__content--spaced-bottom-large">
+      <div class="sg-label sg-label--secondary">
+        <div class="sg-label__icon">
+          <div class="sg-checkbox">
+            <input type="checkbox" class="sg-checkbox__element" id="selectAll">
+            <label class="sg-checkbox__ghost" for="selectAll">
+              <svg class="sg-icon sg-icon--adaptive sg-icon--x10">
+                <use xlink:href="#icon-check"></use>
+              </svg>
+            </label>
+          </div>
+        </div>
+        <label class="sg-label__text" for="selectAll">${System.data.locale.common.selectAll}</label>
+      </div>
+    </div>`);
 
     this.$selectAll = $("input", this.$selectAllContainer);
 
@@ -207,6 +206,19 @@ class UserContent {
         )
       )
     ));
+  }
+  RenderCheckboxes() {
+    if (!this.$selectAllContainer) {
+      this.RenderSelectLabel();
+      this.RenderSelectAllCheckbox();
+      this.RenderRowsSelectCheckbox();
+    }
+  }
+  RenderRowsSelectCheckbox() {
+    this.rows.forEach(this.RenderRowSelectCheckbox.bind(this));
+  }
+  RenderRowSelectCheckbox(row) {
+    row.RenderCheckbox();
   }
 }
 

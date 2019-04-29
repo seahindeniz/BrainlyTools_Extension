@@ -3,7 +3,7 @@ import notification from "../../../components/notification";
 import ContentViewer_Content from "./ContentViewer_Content";
 import SelectCheckbox from "./SelectCheckbox";
 import UserContent from "./UserContent";
-import { GetQuestionContent } from "../../../controllers/ActionsOfBrainly";
+import Methods from "../../../controllers/Req/Brainly/Methods";
 
 export default class UserContentRow {
   /**
@@ -25,7 +25,6 @@ export default class UserContentRow {
     $(element).prop("that", this);
 
     this.AttachID();
-    this.RenderCheckbox();
     this.FetchContentWithPromise();
     this.RenderAfterResolve();
     this.RenderContentViewer();
@@ -36,13 +35,6 @@ export default class UserContentRow {
     let URL = this.$questionLink.attr("href");
     this.element.questionID = System.ExtractId(URL);
   }
-  RenderCheckbox() {
-    this.checkbox = new SelectCheckbox(this.element, this.id);
-
-    this.isBusy = true;
-    this.checkbox.ShowSpinner();
-    //this.main.checkboxes.elements.push(checkbox);
-  }
   async FetchContentWithPromise(refreshContent) {
     if (refreshContent || !this.resPromise) {
       /* this.content = this.main.questions[this.element.questionID] = new Content(this.element.questionID);
@@ -51,7 +43,7 @@ export default class UserContentRow {
         if (!this.main.questions[this.element.questionID])
           this.main.questions[this.element.questionID] = {};
 
-        this.main.questions[this.element.questionID].resPromise = this.resPromise = GetQuestionContent(this.element.questionID);
+        this.main.questions[this.element.questionID].resPromise = this.resPromise = new Methods().QuestionContent(this.element.questionID);
       } else {
         this.resPromise = this.main.questions[this.element.questionID].resPromise;
       }
@@ -67,7 +59,7 @@ export default class UserContentRow {
 
     if (this.main.caller == "Questions" || this.main.caller == "Answers") {
       this.isBusy = false;
-      this.checkbox.HideSpinner();
+      this.checkbox && this.checkbox.HideSpinner();
     }
   }
   async SetContentAfterResolve() {
@@ -221,9 +213,16 @@ export default class UserContentRow {
 
     return $icon;
   }
+  RenderCheckbox() {
+    this.checkbox = new SelectCheckbox(this.element, this.id);
+
+    this.isBusy = true;
+    this.checkbox.ShowSpinner();
+    //this.main.checkboxes.elements.push(checkbox);
+    this.checkbox.onchange = this.main.HideSelectContentWarning.bind(this.main);
+  }
   BindEvents() {
     this.$questionLink.click(this.ToggleContentViewer.bind(this));
-    this.checkbox.onchange = this.main.HideSelectContentWarning.bind(this.main);
   }
   /**
    * @param {Event} event

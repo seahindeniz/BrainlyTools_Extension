@@ -7,11 +7,12 @@ class Answers extends UserContent {
     super("Answers");
   }
   InitAnswers() {
-    if (System.checkUserP([6, 19, 15])) {
-      this.RenderSelectAllCheckbox();
-      this.RenderButtonContainer();
+    if (System.checkUserP([6, 15, 19])) {
 
-      if (System.checkUserP(6)) {
+      if (System.checkUserP(6) && System.checkBrainlyP([146, 147])) {
+        this.RenderCheckboxes();
+        this.RenderButtonContainer();
+
         if (System.checkBrainlyP(146)) {
           this.RenderApproveButton();
           this.BindApprovementEvents();
@@ -24,12 +25,16 @@ class Answers extends UserContent {
       }
 
       if (System.checkUserP(19) && System.checkBrainlyP(48)) {
+        this.RenderCheckboxes();
+        this.RenderButtonContainer();
         this.RenderCorrectionButton();
         this.RenderReportForCorrectionSection();
         this.BindCorrectionEvents();
       }
 
       if (System.checkUserP(15)) {
+        this.RenderCheckboxes();
+        this.RenderButtonContainer();
         this.RenderModerateButton();
         this.RenderDeleteSection("response");
         this.BindModerateEvents();
@@ -37,14 +42,16 @@ class Answers extends UserContent {
     }
   }
   RenderButtonContainer() {
-    this.$buttonContainer = $(`
+    if (!this.$buttonContainer) {
+      this.$buttonContainer = $(`
 		<div class="sg-content-box__content sg-content-box__content--spaced-bottom">
 			<div class="sg-actions-list"></div>
 		</div>`);
 
-    this.$buttonList = $(".sg-actions-list", this.$buttonContainer);
+      this.$buttonList = $(".sg-actions-list", this.$buttonContainer);
 
-    this.$buttonContainer.appendTo(this.$moderateHeader);
+      this.$buttonContainer.appendTo(this.$moderateHeader);
+    }
   }
   RenderButtonHole() {
     return $(`<div class="sg-actions-list__hole"></div>`).appendTo(this.$buttonList);;

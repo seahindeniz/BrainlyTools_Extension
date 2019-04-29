@@ -37,6 +37,8 @@ label.sg-label__text {
 }
 
 tbody tr {
+  height: 32px;
+
   &>th:nth-last-child(5)~th {
     &:nth-child(1) {
       width: 4% !important;

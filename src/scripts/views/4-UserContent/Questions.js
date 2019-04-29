@@ -6,7 +6,7 @@ class Questions extends UserContent {
     super("Questions");
   }
   InitQuestions() {
-    this.RenderSelectAllCheckbox();
+    this.RenderCheckboxes();
     this.RenderDeleteSection("task");
     this.ShowDeleteSection();
     this.BindEvents();

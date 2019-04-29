@@ -5,7 +5,7 @@ import InjectToDOM from "../../helpers/InjectToDOM";
     InjectToDOM("/scripts/views/4-UserContent/Questions.js");
   }
 
-  if (System.checkUserP([15, 6]) && System.checkRoute(4, "responses")) {
+  if (System.checkUserP([6, 15, 19]) && System.checkRoute(4, "responses")) {
     InjectToDOM(["/scripts/views/4-UserContent/Answers.js"]);
   }
 

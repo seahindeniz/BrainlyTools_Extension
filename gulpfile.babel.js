@@ -284,6 +284,7 @@ function compileJSFiles(files, path) {
 		.pipe($.bro({
 			transform: [
 				babelify.configure({
+          sourceMaps: false,
 					presets: [
 						'@babel/preset-env',
 						{
@@ -295,12 +296,12 @@ function compileJSFiles(files, path) {
 											".html"
 										]
 									}
-								]
+                ]
 							]
 						}
 					]
 				}),
-				['uglifyify', { global: true }]
+				['uglifyify', { global: true, sourceMap: false }]
 			]
 		}))
 		.pipe(dest(path, { overwrite: true }));;

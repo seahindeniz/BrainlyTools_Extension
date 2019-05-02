@@ -1,6 +1,6 @@
-import { ApproveAnswer, RemoveAnswer, ReportForCorrection, UnapproveAnswer } from "../../controllers/ActionsOfBrainly";
 import UserContent from "./_/UserContent";
 import UserContentRow from "./_/UserContentRow";
+import Action from "../../controllers/Req/Brainly/Action";
 
 class Answers extends UserContent {
   constructor() {
@@ -105,7 +105,7 @@ class Answers extends UserContent {
     if (row.IsApproved()) {
       row.Approved(true);
     } else {
-      let resApprove = await ApproveAnswer(row.answerID);
+      let resApprove = await new Action().ApproveAnswer(row.answerID);
 
       row.CheckApproveResponse(resApprove);
     }
@@ -133,7 +133,7 @@ class Answers extends UserContent {
    */
   async Row_UnapproveAnswer(row) {
     if (row.IsApproved()) {
-      let resUnapprove = await UnapproveAnswer(row.answerID);
+      let resUnapprove = await new Action().UnapproveAnswer(row.answerID);
 
       row.CheckUnapproveResponse(resUnapprove);
     } else {
@@ -177,8 +177,7 @@ class Answers extends UserContent {
       row.checkbox.ShowSpinner();
 
       postData.model_id = row.answerID;
-      console.log(postData);
-      let resReport = await ReportForCorrection(postData);
+      let resReport = await new Action().ReportForCorrection(postData);
 
       row.CorrectReportResponse(resReport);
     }
@@ -220,7 +219,7 @@ class Answers extends UserContent {
       row.checkbox.ShowSpinner();
 
       postData.model_id = row.answerID;
-      let resRemove = await RemoveAnswer(postData);
+      let resRemove = await new Action().RemoveAnswer(postData);
 
       row.CheckDeleteResponse(resRemove);
     }

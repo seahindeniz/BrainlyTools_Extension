@@ -1,7 +1,7 @@
 import DeleteSection from "../../../components/DeleteSection";
 import Modal from "../../../components/Modal";
 import notification from "../../../components/notification";
-import { CloseModerationTicket, OpenModerationTicket, RemoveQuestion } from "../../../controllers/ActionsOfBrainly";
+import Action from "../../../controllers/Req/Brainly/Action";
 import secondsToTime from "../../../helpers/secondsToTime";
 import QuickDeleteButtons from "./QuickDeleteButtons";
 
@@ -30,7 +30,7 @@ class ModeratingPanel {
   }
   OpenTicket() {
     return new Promise(async (resolve, reject) => {
-      let resTicket = await OpenModerationTicket(this.main.questionId);
+      let resTicket = await new Action().OpenModerationTicket(this.main.questionId);
 
       if (!resTicket) {
         notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
@@ -210,7 +210,7 @@ class ModeratingPanel {
     this.modal.$close.off("click");
 
     if (ignoreTicket !== true) {
-      let closedTicket = await CloseModerationTicket(this.main.questionId);
+      let closedTicket = await new Action().CloseModerationTicket(this.main.questionId);
 
       notification(closedTicket.message, closedTicket.success ? "info" : "error");
     }
@@ -233,7 +233,7 @@ class ModeratingPanel {
         return_points: this.deleteSection.returnPoints
       };
 
-      let resRemove = await RemoveQuestion(taskData);
+      let resRemove = await new Action().RemoveQuestion(taskData);
 
       if (!resRemove || !resRemove.success) {
         $spinner.remove();

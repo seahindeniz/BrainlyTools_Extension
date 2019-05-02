@@ -1,5 +1,5 @@
-import { GetUserByID } from "../../../../../../controllers/ActionsOfBrainly";
 import moment from "moment";
+import Action from "../../../../../../controllers/Req/Brainly/Action";
 
 const ERROR = "sg-box--peach";
 const USER_NOT_FOUND = "sg-box--dark";
@@ -128,7 +128,7 @@ class AllUsers {
     return /^\+?\d+$/.test(value);
   }
   async VerifyUserId(id) {
-    let user = await GetUserByID(id);
+    let user = await new Action().GetUserProfile(id);
     let state = "success";
 
     if (!user || !user.success || !user.data) {

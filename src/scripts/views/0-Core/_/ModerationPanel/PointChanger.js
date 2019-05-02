@@ -1,5 +1,5 @@
 import Modal from "../../../../components/Modal";
-import { AddPoint, GetUserByID, GetUsersByID } from "../../../../controllers/ActionsOfBrainly";
+import Action from "../../../../controllers/Req/Brainly/Action";
 
 const spinner = `<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`;
 
@@ -74,13 +74,13 @@ class PointChanger {
 					<blockquote class="sg-text sg-text--small">
 						${System.data.locale.core.pointChanger.youNeedToEnterOrPaste}<br>
 						${System.data.locale.core.pointChanger.pastingExample}:<br>
-						${System.createProfileLink(System.data.Brainly.userData.user.nick,System.data.Brainly.userData.user.id)}<br>
-						${System.createProfileLink("Sakura", 314651)}<br>
+						${System.createProfileLink(System.data.Brainly.userData.user)}<br>
+						${System.createProfileLink(314651, "Sakura")}<br>
 						1234567<br>
 						2345678<br><br>
 						${System.data.locale.core.pointChanger.pastingExample2}<br>
-						${System.createProfileLink(System.data.Brainly.userData.user.nick,System.data.Brainly.userData.user.id)} +1000<br>
-						${System.createProfileLink("Sakura", 314651)} -200<br>
+						${System.createProfileLink(System.data.Brainly.userData.user)} +1000<br>
+						${System.createProfileLink(314651, "Sakura")} -200<br>
 						1234567 -95<br>
 						2345678 +645<br>
 					</blockquote>
@@ -120,7 +120,7 @@ class PointChanger {
         let $pointsLabel = $(".js-points", $userNode);
 
         this.classList.add("sg-button-secondary--disabled");
-        await AddPoint(user.id, diffPoint);
+        await new Action().AddPoint(user.id, diffPoint);
         this.classList.remove("sg-button-secondary--disabled");
         that.modal.notification(System.data.locale.core.notificationMessages.pointsAdded, "success");
 
@@ -234,7 +234,7 @@ class PointChanger {
     idList = this.FilterFetchedUsers(idList);
 
     if (idList.length > 0) {
-      let res = await GetUsersByID(idList);
+      let res = await new Action().GetUsers(idList);
 
       if (!res || !res.success) {
         this.modal.notification(res.message || System.data.locale.common.notificationMessages.somethingWentWrong, "error");
@@ -245,7 +245,7 @@ class PointChanger {
     }
   }
   async FindID(id) {
-    let res = await GetUserByID(id);
+    let res = await new Action().GetUserProfile(id);
 
     if (!res || !res.success) {
       this.modal.notification(res.message || System.data.locale.common.notificationMessages.somethingWentWrong, "error");
@@ -259,7 +259,7 @@ class PointChanger {
   }
   AddUser(user) {
     let avatar = System.prepareAvatar(user);
-    let profileLink = System.createProfileLink(user.nick, user.id);
+    let profileLink = System.createProfileLink(user);
     let $lastAddedUser = $(".js-node:last", this.$userList);
     let preDefinedPoints = this.usersWithPoints[user.id];
     let $node = $(`

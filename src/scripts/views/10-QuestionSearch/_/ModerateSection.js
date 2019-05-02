@@ -1,6 +1,6 @@
 import DeleteSection from "../../../components/DeleteSection";
 import notification from "../../../components/notification";
-import { RemoveQuestion } from "../../../controllers/ActionsOfBrainly";
+import Action from "../../../controllers/Req/Brainly/Action";
 
 class ModerateSection {
   /**
@@ -268,7 +268,7 @@ class ModerateSection {
     questionBox.$checkBox.prop("disabled", true);
     questionBox.$checkBox.addClass("sg-button-secondary--disabled");
 
-    let resRemove = await RemoveQuestion(postData);
+    let resRemove = await new Action().RemoveQuestion(postData);
 
     this.counter.n++;
     this.UpdateCounterNumbers();

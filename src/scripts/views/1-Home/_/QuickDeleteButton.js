@@ -1,6 +1,6 @@
 import Buttons from "../../../components/Buttons";
-import { CloseModerationTicket, RemoveQuestion } from "../../../controllers/ActionsOfBrainly";
 import QuickDeleteButtons from "./QuickDeleteButtons";
+import Action from "../../../controllers/Req/Brainly/Action";
 
 class QuickDeleteButton {
   /**
@@ -52,9 +52,9 @@ class QuickDeleteButton {
     };
     taskData.give_warning = System.canBeWarned(this.reason.id);
 
-    let resRemove = await RemoveQuestion(taskData);
+    let resRemove = await new Action().RemoveQuestion(taskData);
 
-    CloseModerationTicket(this.main.questionId);
+    new Action().CloseModerationTicket(this.main.questionId);
 
     if (!resRemove || !resRemove.success) {
       notification(resRemove.message || System.data.locale.common.notificationMessages.somethingWentWrong, "error");

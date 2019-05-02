@@ -6,8 +6,8 @@ import ArrayLast from "../helpers/ArrayLast";
 import storage from "../helpers/extStorage";
 import InjectToDOM from "../helpers/InjectToDOM";
 import ext from "../utils/ext";
-import { GetUserByID } from "./ActionsOfBrainly";
 import { Logger } from "./ActionsOfServer";
+import Action from "./Req/Brainly/Action";
 
 class _System {
   constructor() {
@@ -207,16 +207,16 @@ class _System {
     return avatar;
   }
   /**
-   * @param {string} nick
    * @param {number|string} id
+   * @param {string} nick
    * @param {boolean} noOrigin
    */
-  createProfileLink(nick, id, noOrigin) {
+  createProfileLink(id, nick = "a", noOrigin) {
     let origin = "";
 
-    if (Object.prototype.toString.call(nick) == "[object Object]") {
-      id = nick.id;
-      nick = nick.nick;
+    if (Object.prototype.toString.call(id) == "[object Object]") {
+      nick = id.nick;
+      id = id.id;
     }
 
     if (!nick && !id) {
@@ -319,7 +319,7 @@ class _System {
         ~~log.user.id != 0
       )
     ) {
-      let user = await GetUserByID(log.user.id);
+      let user = await new Action().GetUserProfile(log.user.id);
       log.user.nick = user.data.nick;
       log.user.id = user.data.id;
     }
@@ -415,6 +415,60 @@ class _System {
   }
   OpenExtensionOptions(params) {
     this.toBackground("OpenExtensionOptions", params)
+  }
+  /**
+   *
+   * @param {number[]|string} users
+   * @param {{each: function, done?: function}} handlers
+   */
+  async StoreUsers(users, handlers) {
+    if (typeof users == "string")
+      users = this.ParseUsers(users);
+
+    if (users.length > 0) {
+      let resUsers = await new Action().GetUsers(users);
+      System.allModerators = {
+        list: resUsers.data,
+        withNicks: {},
+        withID: {},
+        withRanks: {}
+      };
+
+      if (resUsers.data && resUsers.data.length > 0) {
+        resUsers.data.forEach(user => {
+          System.allModerators.withNicks[user.nick] = user;
+          System.allModerators.withID[user.id] = user;
+
+          if (handlers && handlers.each)
+            handlers.each(user);
+
+          if (user.ranks_ids && user.ranks_ids.length > 0) {
+            user.ranks_ids.forEach(rank => {
+              let currentRank = System.allModerators.withRanks[rank];
+
+              if (!currentRank) {
+                currentRank = System.allModerators.withRanks[rank] = []
+              }
+
+              currentRank.push(user);
+            });
+          }
+        });
+      }
+
+      handlers.done && handlers.done(System.allModerators);
+    }
+  }
+  /**
+   * @param {string} html
+   */
+  ParseUsers(html) {
+    let ids = html.match(/\=\d{1,}/gim) || [];
+
+    if (ids.length > 0 && typeof ids[0] == "string")
+      ids.map(id => ~~(id.replace(/\D/gim, "")));
+
+    return ids;
   }
 }
 export default _System;

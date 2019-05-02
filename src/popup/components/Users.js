@@ -406,7 +406,7 @@ class Users {
   }
   async FillEditingForm(user) {
     let avatar = System.prepareAvatar(user.brainlyData);
-    let profileLink = System.createProfileLink(user.brainlyData.nick, user.brainlyData.id);
+    let profileLink = System.createProfileLink(user.brainlyData);
     this.$privilegeInputs = $('input[type="checkbox"]', this.$privilegesContainer);
 
     this.$nick.text(user.brainlyData.nick);

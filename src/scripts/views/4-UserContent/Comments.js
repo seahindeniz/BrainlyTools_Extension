@@ -1,6 +1,6 @@
 import moment from "moment-timezone";
-import { GetComments, RemoveComment } from "../../controllers/ActionsOfBrainly";
 import UserContent from "./_/UserContent";
+import Action from "../../controllers/Req/Brainly/Action";
 
 class Comments extends UserContent {
   constructor() {
@@ -77,7 +77,7 @@ class Comments extends UserContent {
       allComments = content.comments.items;
 
       if (content.comments.count > 5) {
-        let resComments = await GetComments(content.id, type, content.comments.count);
+        let resComments = await new Action().GetComments(content.id, type, content.comments.count);
 
         if (resComments && resComments.success)
           allComments = resComments.data.comments.items
@@ -165,7 +165,7 @@ class Comments extends UserContent {
 
       row.checkbox.ShowSpinner();
 
-      let resRemove = await RemoveComment(postData);
+      let resRemove = await new Action().RemoveComment(postData);
       /* await System.Delay();
       let resRemove = { success: false, message: "Önceden silinmiş" }; */
 

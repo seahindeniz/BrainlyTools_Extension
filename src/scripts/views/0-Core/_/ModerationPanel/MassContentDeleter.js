@@ -1,7 +1,7 @@
 import debounce from "debounce";
 import DeleteSection from "../../../../components/DeleteSection";
 import Modal from "../../../../components/Modal";
-import { RemoveAnswer, RemoveComment, RemoveQuestion } from "../../../../controllers/ActionsOfBrainly";
+import Action from "../../../../controllers/Req/Brainly/Action";
 
 class MassContentDeleter {
   constructor() {
@@ -250,17 +250,18 @@ class MassContentDeleter {
   async DeleteContent(id) {
     let Method;
     this.contentData.model_id = id;
+    let action = new Action();
 
     if (this.deleteSection.type == "task")
-      Method = RemoveQuestion;
+      Method = "RemoveQuestion";
 
     if (this.deleteSection.type == "response")
-      Method = RemoveAnswer;
+      Method = "RemoveAnswer";
 
     if (this.deleteSection.type == "comment")
-      Method = RemoveComment;
+      Method = "RemoveComment";
 
-    let resRemove = await Method(this.contentData);
+    let resRemove = await action[Method](this.contentData);
 
     this.MarkContentID(id, !!resRemove.success);
 

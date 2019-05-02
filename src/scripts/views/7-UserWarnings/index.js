@@ -1,7 +1,7 @@
 import WaitForElement from "../../helpers/WaitForElement";
-import { CancelWarning } from "../../controllers/ActionsOfBrainly";
 import Buttons from "../../components/Buttons";
 import notification from "../../components/notification";
+import Action from "../../controllers/Req/Brainly/Action";
 
 System.pageLoaded("User's warnings page OK!");
 
@@ -42,8 +42,9 @@ async function UserWarnings() {
   $buttonContainer.insertAfter("#content-old > table.threadList");
 
   $("button", $buttonContainer).click(() => {
-    let $checkedBoxes = $('input[type="checkbox"]:not(#select-0):checked', row);
     let idList = [];
+    let userID = window.sitePassedParams[0];
+    let $checkedBoxes = $('input[type="checkbox"]:not(#select-0):checked', row);
 
     $checkedBoxes.each((i, el) => {
       let parentRow = $(el).parents("tr");
@@ -62,9 +63,9 @@ async function UserWarnings() {
       }
     });
 
-    CancelWarning(idList);
+    new Action().CancelWarnings(userID, idList);
 
-    System.log(4, { user: { id: JSON.parse(sitePassedParams)[0] }, data: idList });
+    System.log(4, { user: { id: userID }, data: idList });
 
     notification(System.data.locale.userWarnings.notificationMessages.ifYouHavePrivileges, "info");
   });

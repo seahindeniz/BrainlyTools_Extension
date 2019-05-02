@@ -1,7 +1,5 @@
-"use strict";
-
-import { findUser, GetUserByID } from "../../../../controllers/ActionsOfBrainly";
 import userLi from "./userLi";
+import Action from "../../../../controllers/Req/Brainly/Action";
 
 const isPosInt = str => /^\+?\d+$/.test(str);
 const idSearch = n => {
@@ -66,7 +64,7 @@ export default $createGroupToplayer => {
         value = this.value = value.trim();
 
         if (isPosInt(value)) {
-          let user = await GetUserByID(value);
+          let user = await new Action().GetUserProfile(value);
 
           if (user.success && user.data) {
             let ranks = [];
@@ -89,7 +87,7 @@ export default $createGroupToplayer => {
           }
         }
 
-        let resResults = await findUser(value);
+        let resResults = await new Action().FindUser(value);
 
         let $userContainers = $('td', resResults);
 

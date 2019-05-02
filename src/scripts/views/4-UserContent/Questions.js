@@ -1,5 +1,5 @@
-import { RemoveQuestion } from "../../controllers/ActionsOfBrainly";
 import UserContent from "./_/UserContent";
+import Action from "../../controllers/Req/Brainly/Action";
 
 class Questions extends UserContent {
   constructor() {
@@ -47,7 +47,7 @@ class Questions extends UserContent {
 
       row.checkbox.ShowSpinner();
 
-      let resRemove = await RemoveQuestion(postData);
+      let resRemove = await new Action().RemoveQuestion(postData);
 
       row.CheckDeleteResponse(resRemove);
     }

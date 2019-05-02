@@ -1,7 +1,7 @@
 import prettysize from "prettysize";
 import WaitForElement from "../../helpers/WaitForElement";
-import { UploadFile } from "../../controllers/ActionsOfBrainly";
 import notification from "../../components/notification";
+import Action from "../../controllers/Req/Brainly/Action";
 
 System.pageLoaded("Supervisors page OK!");
 
@@ -11,13 +11,15 @@ class FileUpload {
     this.$box = $box;
   }
   async Upload() {
-    let res = await UploadFile(this.file, this.OnProgress.bind(this));
+    let res = await new Action().UploadFile(this.file, this.OnProgress.bind(this));
     //let res = await System.Delay(System.randomNumber(1, 3) * 1000);
 
     this.$box.slideUp("normal", () => this.$box.remove());
     return res;
   }
-  OnProgress(percent) {
+  OnProgress(progressEvent) {
+    let percent = Action.CalculateProgressPercent(progressEvent);
+
     this.$box.css("background", `linear-gradient(to right, #b9e2fe ${percent}%, #fff ${percent}%)`)
   }
 }

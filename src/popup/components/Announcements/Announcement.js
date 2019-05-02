@@ -20,7 +20,7 @@ class Announcement {
   Render() {
     let timeLong = window.moment(this.data.time).fromNow();
     let timeShort = window.moment(this.data.time).fromNow(true);
-    let profileLink = System.createProfileLink(this.data.user.nick, this.data.user.brainlyID);
+    let profileLink = System.createProfileLink(this.data.user.brainlyID, this.data.user.nick);
 
     this.$node = $(`
 		<article class="media">

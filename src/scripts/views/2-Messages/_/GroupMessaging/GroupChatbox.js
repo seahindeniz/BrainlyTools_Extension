@@ -1,16 +1,15 @@
-"use strict";
-
-import { sendMessageToBrainlyIds } from "../../../../controllers/ActionsOfBrainly";
-import { MessageSended, UpdateMessageGroup } from "../../../../controllers/ActionsOfServer";
-import Progress from "../../../../components/Progress";
 import autosize from "autosize";
-import renderGroupModal from "./groupModal";
+import Progress from "../../../../components/Progress";
+import { MessageSended, UpdateMessageGroup } from "../../../../controllers/ActionsOfServer";
+import SendMessageToBrainlyIds from "../../../../controllers/Req/Brainly/Action/SendMessageToBrainlyIds";
 import ScrollToDown from "../../../../helpers/ScrollToDown";
+import renderGroupModal from "./groupModal";
 
 let locale__groups = System.data.locale.messages.groups;
 
 class GroupChatbox {
   constructor() {
+    this.SendMessage = new SendMessageToBrainlyIds();
     this.$chatbox = $(`
 		<div class="sg-content-box__header js-hidden">
 			<div class="sg-actions-list">
@@ -109,13 +108,13 @@ class GroupChatbox {
             e.preventDefault();
 
             if (!window.isPageProcessing) {
-              this.SendMessage();
+              this.Send();
             }
           }
         }
       }
     });
-    this.$sendButton.click(this.SendMessage.bind(this));
+    this.$sendButton.click(this.Send.bind(this));
   }
   InitGroup(group, groupLi) {
     this.group = group;
@@ -157,7 +156,7 @@ class GroupChatbox {
   RenderMessageMedia(data) {
     let user = System.data.Brainly.userData.user;
     let avatar = System.prepareAvatar(user);
-    let profileLink = System.createProfileLink(user.nick, user.id);
+    let profileLink = System.createProfileLink(user);
     let message = data.message;
 
     if (message && message != "") {
@@ -199,7 +198,7 @@ class GroupChatbox {
 
     ScrollToDown(this.$messagesContainer.get(0));
   }
-  async SendMessage() {
+  async Send() {
     window.isPageProcessing = true;
 
     let sendedMessagesCount = 0;
@@ -223,7 +222,9 @@ class GroupChatbox {
       progress.UpdateLabel(`${sendedMessagesCount} - ${membersLen}`);
     };
 
-    let membersWithConversationIds = await sendMessageToBrainlyIds(this.group.members, message, doInEachSending);
+    SendMessages.handlers.Each = doInEachSending;
+    SendMessages.Start(this.group.members, message);
+    let membersWithConversationIds = await SendMessages.Promise();
     console.log("membersWithConversationIds:", membersWithConversationIds);
 
     //this.CheckForImproperMember(membersWithConversationIds);

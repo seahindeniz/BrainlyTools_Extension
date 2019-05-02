@@ -2,7 +2,7 @@
 
 import Buttons from "../../components/Buttons";
 import notification from "../../components/notification";
-import { CloseModerationTicket, ConfirmAnswer, ConfirmComment, ConfirmQuestion, RemoveAnswer, RemoveComment, RemoveQuestion } from "../../controllers/ActionsOfBrainly";
+import Action from "../../controllers/Req/Brainly/Action";
 import WaitForElement from "../../helpers/WaitForElement";
 import WaitForObject from "../../helpers/WaitForObject";
 import layoutChanger from "./_/layoutChanger";
@@ -68,7 +68,7 @@ async function ArciveMod() {
           //node.setAttribute("data-type", itemType == "Q" ? "task" : itemType == "A" ? "response" : "comment");
           let obj = Zadanium.getObject(node.getAttribute("objecthash"));
           let $footer = $(selectors.moderationItemFooter, node);
-          let profileLink = System.createProfileLink(obj.data.user.nick, obj.data.user.id);
+          let profileLink = System.createProfileLink(obj.data.user);
 
           $("span.alert-error", node).html(`<a href="${profileLink}" target="_blank">${obj.data.user.nick}</a>`)
 
@@ -103,15 +103,15 @@ async function ArciveMod() {
             $extActions.addClass("is-deleting");
 
             if (contentType == "task") {
-              res = await ConfirmQuestion(obj.data.model_id);
+              res = await new Action().ConfirmQuestion(obj.data.model_id);
 
               System.log(19, { user: obj.data.user, data: [obj.data.model_id] });
             } else if (contentType == "response") {
-              res = await ConfirmAnswer(obj.data.model_id);
+              res = await new Action().ConfirmAnswer(obj.data.model_id);
 
               System.log(20, { user: obj.data.user, data: [obj.data.model_id] });
             } else if (contentType == "comment") {
-              res = await ConfirmComment(obj.data.model_id);
+              res = await new Action().ConfirmComment(obj.data.model_id);
 
               System.log(21, { user: obj.data.user, data: [obj.data.model_id] });
             }
@@ -145,7 +145,7 @@ async function ArciveMod() {
           $extActions.addClass("is-deleting");
 
           let onRes = res => {
-            CloseModerationTicket(obj.data.task_id);
+            new Action().CloseModerationTicket(obj.data.task_id);
 
             $spinner.remove();
             $extActions.removeClass("is-deleting");
@@ -163,17 +163,17 @@ async function ArciveMod() {
           };
 
           if (contentType == "task") {
-            let res = await RemoveQuestion(data);
+            let res = await new Action().RemoveQuestion(data);
 
             System.log(5, { user: obj.data.user, data: [data.model_id] });
             onRes(res);
           } else if (contentType == "response") {
-            let res = await RemoveAnswer(data);
+            let res = await new Action().RemoveAnswer(data);
 
             System.log(6, { user: obj.data.user, data: [data.model_id] });
             onRes(res);
           } else if (contentType == "comment") {
-            let res = await RemoveComment(data);
+            let res = await new Action().RemoveComment(data);
 
             System.log(7, { user: obj.data.user, data: [data.model_id] });
             onRes(res);
@@ -242,7 +242,7 @@ async function ArciveMod() {
                 }
 
                 let onRes = (res) => {
-                  CloseModerationTicket(obj.data.task_id);
+                  new Action().CloseModerationTicket(obj.data.task_id);
 
                   if (res) {
                     if (res.success) {
@@ -265,7 +265,7 @@ async function ArciveMod() {
                 if (contentType == "task") {
                   let user = Zadanium.users.getUserObject(obj.data.task.user.id);
 
-                  let res = await RemoveQuestion(data);
+                  let res = await new Action().RemoveQuestion(data);
 
                   onRes(res);
                   System.log(5, { user: user.data, data: [contentID] });
@@ -275,7 +275,7 @@ async function ArciveMod() {
                   });
                   let user = Zadanium.users.getUserObject(response.user_id);
 
-                  let res = await RemoveAnswer(data);
+                  let res = await new Action().RemoveAnswer(data);
 
                   onRes(res);
                   System.log(6, { user: user.data, data: [contentID] });

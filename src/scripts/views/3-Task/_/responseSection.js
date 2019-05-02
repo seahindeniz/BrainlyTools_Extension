@@ -1,8 +1,8 @@
 import Buttons from "../../../components/Buttons";
 import notification from "../../../components/notification";
-import { CloseModerationTicket, RemoveAnswer } from "../../../controllers/ActionsOfBrainly";
 import WaitForElement from "../../../helpers/WaitForElement";
 import WaitForObject from "../../../helpers/WaitForObject";
+import Action from "../../../controllers/Req/Brainly/Action";
 
 /**
  * Prepare and add quick delete buttons to answer boxes
@@ -72,8 +72,8 @@ export default async function responseSection() {
         $(`<div class="sg-spinner sg-spinner--xxsmall sg-spinner--light"></div>`).insertBefore(svg);
         svg.remove();
 
-        let res = await RemoveAnswer(responseData);
-        await CloseModerationTicket(questionData.id);
+        let res = await new Action().RemoveAnswer(responseData);
+        await new Action().CloseModerationTicket(questionData.id);
 
         if (!res || !res.success) {
           notification((res && res.message) || System.data.locale.common.notificationMessages.somethingWentWrong, "error");

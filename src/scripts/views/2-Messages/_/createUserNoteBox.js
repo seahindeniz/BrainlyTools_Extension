@@ -1,9 +1,9 @@
 import UserNoteBox from "../../../components/UserNoteBox";
 import UserTag from "../../../components/UserTag";
-import { GetUserByID } from "../../../controllers/ActionsOfBrainly";
 import { GetUser } from "../../../controllers/ActionsOfServer";
 import WaitForElement from "../../../helpers/WaitForElement";
 import WaitForObject from "../../../helpers/WaitForObject";
+import Action from "../../../controllers/Req/Brainly/Action";
 
 async function profileLinkContainerFound(targetElm) {
   if (targetElm) {
@@ -21,7 +21,7 @@ async function profileLinkContainerFound(targetElm) {
           $notebox.appendTo(targetElm);
 
           if (resExtUser.data.probatus) {
-            let resBrainlyUser = await GetUserByID(id);
+            let resBrainlyUser = await new Action().GetUserProfile(id);
 
             if (resBrainlyUser && resBrainlyUser.success) {
               let tag = new UserTag(id, resExtUser.data)

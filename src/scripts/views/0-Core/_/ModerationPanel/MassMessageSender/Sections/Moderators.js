@@ -1,4 +1,4 @@
-import { GetAllModerators } from "../../../../../../controllers/ActionsOfBrainly";
+import Action from "../../../../../../controllers/Req/Brainly/Action";
 
 const ERROR = "sg-box--peach";
 const USER_NOT_FOUND = "sg-box--dark";
@@ -160,7 +160,7 @@ class RankSection {
   async RenderModerators() {
     $(this.$userSection).html("");
     this.ShowUserSectionSpinner();
-    await GetAllModerators({
+    await new Action().GetAllModerators({
       each: this.RenderUser.bind(this)
     });
     this.HideUserSectionSpinner();

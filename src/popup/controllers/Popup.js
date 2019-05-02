@@ -8,9 +8,9 @@ import AccountDeleteReports from "../components/AccountDeleteReports";
 import DeleteReasonsPreferences from "../components/DeleteReasonsPreferences";
 import Announcements from "../components/Announcements";
 import Users from "../components/Users";
-import { GetUserByID2 } from "../../scripts/controllers/ActionsOfBrainly";
 import storage from "../../scripts/helpers/extStorage";
 import TimedLoop from "../../scripts/helpers/TimedLoop";
+import Action from "../../scripts/controllers/Req/Brainly/Action";
 
 class Popup {
   constructor() {
@@ -213,7 +213,7 @@ class Popup {
       let user = this.fetchedUsers[brainlyID];
 
       if (!user || user && !user.brainlyData) {
-        let resUser = await GetUserByID2(brainlyID);
+        let resUser = await new Action().GetUser(brainlyID);
 
         if (!resUser || !resUser.success) {
           let message = `${brainlyID} > ${(resUser.message || "error")}`;
@@ -272,7 +272,7 @@ class Popup {
 
           $img.attr("src", avatar);
 
-          element.href = System.createProfileLink(user.brainlyData.nick, user.brainlyData.id);
+          element.href = System.createProfileLink(user.brainlyData);
 
           if (!element.title) {
             element.title = user.brainlyData.nick;

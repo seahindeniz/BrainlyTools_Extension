@@ -1,5 +1,5 @@
-import { ConfirmContent, GetCorrectedContents } from "../../../controllers/ActionsOfBrainly";
 import WaitForElement from "../../../helpers/WaitForElement";
+import Action from "../../../controllers/Req/Brainly/Action";
 
 class WrongContentConfirmer {
   constructor() {
@@ -64,7 +64,7 @@ class WrongContentConfirmer {
   }
   async StartFetching() {
     if (this.started) {
-      let resContents = await GetCorrectedContents(this.last_id);
+      let resContents = await new Action().GetCorrectedContents(this.last_id);
       console.log(resContents);
 
       if (resContents && resContents.success && resContents.data.items && resContents.data.items.length > 0) {
@@ -91,7 +91,7 @@ class WrongContentConfirmer {
         if (!content) {
           this.confirmingStopped = true;
         } else {
-          let resConfirm = await ConfirmContent(content.model_id, content.model_type_id);
+          let resConfirm = await new Action().ConfirmContent(content.model_id, content.model_type_id);
           console.log(resConfirm);
           this.ConfirmContent();
         }

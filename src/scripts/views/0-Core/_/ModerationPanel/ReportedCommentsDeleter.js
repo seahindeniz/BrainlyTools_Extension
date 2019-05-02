@@ -1,5 +1,5 @@
 import notification from "../../../../components/notification";
-import { GetReportedComments, RemoveComment } from "../../../../controllers/ActionsOfBrainly";
+import Action from "../../../../controllers/Req/Brainly/Action";
 
 const spinner = `<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`;
 
@@ -168,7 +168,7 @@ class ReportedCommentsDeleter {
     }
   }
   async LoadReportedComments(last_id) {
-    let resReports = await GetReportedComments(last_id);
+    let resReports = await new Action().GetReportedComments(last_id);
 
     this.CheckData(resReports);
 
@@ -228,7 +228,7 @@ class ReportedCommentsDeleter {
       give_warning: this.$giveWarning.is(":checked")
     };
 
-    await RemoveComment(data);
+    await new Action().RemoveComment(data);
     //await System.Delay();
     this.ContentDeleted();
   }

@@ -2,24 +2,24 @@
 
 window.performanceStartTiming = performance.now();
 
+import notification from "../../components/notification";
+import { Auth } from "../../controllers/ActionsOfServer";
+import PrepareDeleteReasons from "../../controllers/PrepareDeleteReasons";
+import Action from "../../controllers/Req/Brainly/Action";
 import _System from "../../controllers/System";
-import WaitForObject from "../../helpers/WaitForObject";
-import InjectToDOM from "../../helpers/InjectToDOM";
 import storage from "../../helpers/extStorage";
+import InjectToDOM from "../../helpers/InjectToDOM";
 import messagesLayoutExtender from "../../helpers/messagesLayoutExtender";
-import ModerationPanel from "./_/ModerationPanel";
+import "../../helpers/preventConsolePreventer";
+import WaitForObject from "../../helpers/WaitForObject";
 import renderAnnouncements from "./_/Announcements";
+import fetchFriends from "./_/fetchFriends";
 //import renderChatPanel from "./_/ChatPanel";
 import RenderMenuButtonFixer from "./_/MenuButtonFixer";
-import { Auth } from "../../controllers/ActionsOfServer";
-import { GetAllModerators } from "../../controllers/ActionsOfBrainly"
-import PrepareDeleteReasons from "../../controllers/PrepareDeleteReasons"
-import notification from "../../components/notification";
+import ModerationPanel from "./_/ModerationPanel";
+import SetBrainlyData from "./_/SetBrainlyData";
 import SetMetaData from "./_/SetMetaData";
 import SetUserData from "./_/SetUserData";
-import SetBrainlyData from "./_/SetBrainlyData";
-import fetchFriends from "./_/fetchFriends";
-import "../../helpers/preventConsolePreventer";
 
 let System = new _System();
 window.System = System;
@@ -161,7 +161,7 @@ class Core {
     Console.info("Fetching friends OK!");
 
     if (System.checkRoute(1, "messages")) {
-      GetAllModerators();
+      new Action().GetAllModerators();
       InjectToDOM([
         "/scripts/lib/jquery-observe-2.0.3.min.js",
         "/scripts/lib/jquery-ui.min.js",

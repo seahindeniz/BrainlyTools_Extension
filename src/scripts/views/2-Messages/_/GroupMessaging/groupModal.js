@@ -3,12 +3,12 @@
 import notification from "../../../../components/notification";
 import Modal from "../../../../components/Modal";
 import Dropdown from "../../../../components/Dropdown";
-import { GetUsersByID } from "../../../../controllers/ActionsOfBrainly";
 import { CreateMessageGroup, UpdateMessageGroup } from "../../../../controllers/ActionsOfServer";
 import userSearch from "./userSearch";
 import rankSelector from "./rankSelector";
 import userLi from "./userLi";
 import renderGroupLi from "./groupLi";
+import Action from "../../../../controllers/Req/Brainly/Action";
 
 class GroupModal {
   constructor(group, groupLi) {
@@ -139,7 +139,7 @@ class GroupModal {
       let idList = this.group.members.map(member => ~~member.brainlyID);
 
       this.$groupName.trigger("input");
-      let user = await GetUsersByID(idList);
+      let user = await new Action().GetUsers(idList);
 
       if (user && user.success && user.data.length > 0) {
         user.data.forEach(({ id, nick, avatar, ranks_ids }) => {

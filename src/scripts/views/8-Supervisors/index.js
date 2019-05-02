@@ -1,13 +1,13 @@
-"use strict";
-
 import notification from "../../components/notification";
 import Progress from "../../components/Progress";
-import { GetAllModerators, sendMessageToBrainlyIds } from "../../controllers/ActionsOfBrainly";
+import SendMessageToBrainlyIds from "../../controllers/Req/Brainly/Action/SendMessageToBrainlyIds";
 import WaitForElement from "../../helpers/WaitForElement";
 
 System.pageLoaded("Supervisors page OK!");
 
 Supervisors();
+
+const SendMessages = new SendMessageToBrainlyIds();
 
 async function Supervisors() {
   let currentColumn = 0;
@@ -26,7 +26,7 @@ async function Supervisors() {
     sortIt(userLi);
   });
 
-  await GetAllModerators(usersID, {
+  await System.StoreUsers(usersID, {
     each: user => {
       let avatar = System.prepareAvatar(user);
       let buddyLink = System.createBrainlyLink("profile", { nick: user.nick, id: user.id });
@@ -183,7 +183,9 @@ async function Supervisors() {
           progress.UpdateLabel(`${i} - ${idListLen}`);
         };
 
-        await sendMessageToBrainlyIds(idList, message, doInEachSending);
+        SendMessages.handlers.Each = doInEachSending;
+        SendMessages.Start(idList, message);
+        await SendMessages.Promise();
 
         window.isPageProcessing = false;
 

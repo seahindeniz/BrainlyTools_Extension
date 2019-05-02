@@ -1,7 +1,7 @@
 import notification from "../../../components/notification";
-import WaitForElement from "../../../helpers/WaitForElement";
-import { RemoveAllRanks, AddRank } from "../../../controllers/ActionsOfBrainly";
 import Progress from "../../../components/Progress";
+import Action from "../../../controllers/Req/Brainly/Action";
+import WaitForElement from "../../../helpers/WaitForElement";
 
 class RankManager {
   constructor(user) {
@@ -123,7 +123,7 @@ class RankManager {
   }
   async SaveSelectedRank() {
     let $selectedRanks = $(`input[type="checkbox"]:checked:not(:disabled)`, this.$rankContainer);
-    let formData = {
+    let tokens = {
       key: $(`input[name="data[_Token][key]"]`, this.deleteAllRanksLi).val(),
       fields: $(`input[name="data[_Token][fields]"]`, this.deleteAllRanksLi).val(),
       lock: $(`input[name="data[_Token][lock]"]`, this.deleteAllRanksLi).val()
@@ -134,8 +134,8 @@ class RankManager {
     if (confirm(System.data.locale.common.notificationMessages.areYouSure)) {
       this.progress.$container.appendTo(this.$progressHole);
 
-      let removeAllRanksXHR = await RemoveAllRanks(window.profileData.id, formData);
-      let redirectedUserID = System.ExtractId(removeAllRanksXHR.responseURL);
+      let removeAllRanksXHR = await new Action().RemoveAllRanks(window.profileData.id, tokens);
+      let redirectedUserID = System.ExtractId(removeAllRanksXHR.url);
 
       if (redirectedUserID != profileData.id) {
         notification(System.data.locale.common.notificationMessages.somethingWentWrongPleaseRefresh, "error");
@@ -156,7 +156,7 @@ class RankManager {
           $selectedRanks.each(async (i, rankCheckbox) => {
             let rankId = rankCheckbox.id.replace("p-", "");
             let rank = System.data.Brainly.defaultConfig.config.data.ranksWithId[rankId];
-            await AddRank(window.profileData.id, rankId);
+            await new Action().AddRank(window.profileData.id, rankId);
 
             this.progress.update(i + 3);
             this.progress.UpdateLabel(System.data.locale.userProfile.rankManager.xHasAssigned.replace("%{rank_name}", ` ${rank.name} `));

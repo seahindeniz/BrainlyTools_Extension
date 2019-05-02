@@ -1,6 +1,4 @@
-"use strict";
-
-import { findUser, GetUserByID } from "../../../../controllers/ActionsOfBrainly";
+import Action from "../../../../controllers/Req/Brainly/Action";
 
 let $userList;
 
@@ -81,7 +79,7 @@ const UserFinder = () => {
     } else {
       delayTimer = setTimeout(async () => {
         if (isPosInt(value)) {
-          let user = await GetUserByID(value);
+          let user = await new Action().GetUserProfile(value);
 
           if (!user || !user.success || !user.data) {
             $userList.attr("data-placeholder", System.data.locale.core.notificationMessages.userNotFound);
@@ -104,7 +102,7 @@ const UserFinder = () => {
           }
         }
 
-        let resUserResult = await findUser(value);
+        let resUserResult = await new Action().FindUser(value);
         let $userContainers = $('td', resUserResult);
 
         if (!$userContainers || $userContainers.length == 0) {

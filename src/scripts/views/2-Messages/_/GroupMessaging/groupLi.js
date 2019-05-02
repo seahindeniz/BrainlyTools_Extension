@@ -22,10 +22,8 @@ function groupLi(group) {
 					<div class="sg-text sg-text--xsmall sg-text--gray-secondary sg-text--emphasised">
 						<ul class="sg-breadcrumb-list sg-breadcrumb-list--adaptive sg-breadcrumb-list--short">
 							<li class="sg-breadcrumb-list__element" style="color:${group.color};">${group.title || ""}</li>
-							<li class="sg-breadcrumb-list__element"><time class="js-time" datetime="${group.lastMessage ? group.lastMessage.time : ""}"></time></li>
-							<li class="sg-breadcrumb-list__element"><i>${System.data.locale.messages.groups.nUser.replace("%{n}", `
-    $ { groupLen }
-    `)}</i></li>
+							${group.lastMessage ? `<li class="sg-breadcrumb-list__element"><time class="js-time" datetime="${group.lastMessage.time}"></time></li>` : ""}
+							<li class="sg-breadcrumb-list__element"><i>${System.data.locale.messages.groups.nUser.replace("%{n}", groupLen)}</i></li>
 						</ul>
 						<span class="js-pin">
 							${System.constants.config.pinIcon.replace(/\{size\}/g, 22)}

@@ -1,5 +1,5 @@
-import { ChangeBio } from "../controllers/ActionsOfBrainly";
 import notification from "./notification";
+import Action from "../controllers/Req/Brainly/Action";
 
 class UserBio {
   constructor(bio = "", editable = false) {
@@ -63,7 +63,7 @@ class UserBio {
     let oldBio = this.bio;
     let newBio = this.bioContent.innerText.trim();
 
-    let resBio = await ChangeBio(newBio.replace(/(?:\r\n|\n)/gm, "\\n"));
+    let resBio = await new Action().ChangeBio(newBio.replace(/(?:\r\n|\n)/gm, "\\n"));
 
     if (resBio.errors) {
       this.bioContent.innerText = oldBio;

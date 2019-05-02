@@ -82,7 +82,7 @@ class AccountDeleteReports {
     }
   }
   RenderReport(report) {
-    let targetUserProfileLink = System.createProfileLink(report.target.user.nick, report.target.user.brainlyID);
+    let targetUserProfileLink = System.createProfileLink(report.target.user.brainlyID, report.target.user.nick);
     let $report = $(`
 		<tr id="${report._id}">
 			<td><a href="${targetUserProfileLink}" target="_blank">${report.target.user.brainlyID}</a></td>

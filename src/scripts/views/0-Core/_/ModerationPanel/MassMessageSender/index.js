@@ -1,6 +1,6 @@
 import template from "backtick-template";
 import Modal from "../../../../../components/Modal";
-import { SendMessageToBrainlyIds } from "../../../../../controllers/ActionsOfBrainly";
+import SendMessageToBrainlyIds from "../../../../../controllers/Req/Brainly/Action/SendMessageToBrainlyIds";
 import IsKeyAlphaNumeric from "../../../../../helpers/IsKeyAlphaNumeric";
 import AllUsersSection from "./Sections/AllUsers";
 import IdListSection from "./Sections/IdList";

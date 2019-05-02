@@ -55,7 +55,7 @@ class ModerationPanel {
     }
 
     if (System.checkUserP(18)) {
-      this.RenderComponent(new ReportedContentsConfirmer());
+      //this.RenderComponent(new ReportedContentsConfirmer());
     }
   }
   async RenderComponentsAfterDeleteReasonsLoaded() {

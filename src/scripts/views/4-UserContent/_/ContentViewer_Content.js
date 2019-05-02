@@ -7,7 +7,7 @@ export default class ContentViewer_Content {
     this.contentData = {
       content: source.content,
       user,
-      userProfileLink: System.createProfileLink(user.nick, user.id),
+      userProfileLink: System.createProfileLink(user),
       avatar: System.prepareAvatar(user.avatars, { returnIcon: true })
     }
 

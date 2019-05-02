@@ -4,7 +4,7 @@ import MarkdownIt from "markdown-it";
 import MarkdownItContainer from "markdown-it-container";
 import emojione from "emojione"
 import { UpdateNoticeBoard, ReadNoticeBoard, GetNoticeBoardContent } from "../../../../controllers/ActionsOfServer";
-import { GetUsersByID } from "../../../../controllers/ActionsOfBrainly";
+import Action from "../../../../controllers/Req/Brainly/Action";
 
 emojione.emojiSize = "64";
 
@@ -162,7 +162,7 @@ class NoticeBoard {
     if (idList.length > 0) {
       idList.forEach(id => this.RenderUserAvatar({ id }));
 
-      let resUsers = await GetUsersByID(idList);
+      let resUsers = await new Action().GetUsers(idList);
 
       if (resUsers && resUsers.success && resUsers.data.length > 0)
         resUsers.data.forEach(this.RenderUserAvatar.bind(this));
@@ -190,7 +190,7 @@ class NoticeBoard {
         let avatar = System.prepareAvatar(user);
         let $avatar = this.users[user.id].element;
         let $image = $("> .sg-avatar__image", $avatar);
-        let profileLink = System.createProfileLink(user.nick, user.id);
+        let profileLink = System.createProfileLink(user);
 
         $avatar.attr("title", user.nick);
         $image.removeClass("sg-avatar__image--icon");

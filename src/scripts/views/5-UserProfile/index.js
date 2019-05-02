@@ -2,8 +2,8 @@ import UserBio from "../../components/UserBio";
 import UserHat from "../../components/UserHat";
 import UserNoteBox from "../../components/UserNoteBox";
 import UserTag from "../../components/UserTag";
-import { GetUserByID } from "../../controllers/ActionsOfBrainly";
 import { GetUser } from "../../controllers/ActionsOfServer";
+import Action from "../../controllers/Req/Brainly/Action";
 import WaitForElement from "../../helpers/WaitForElement";
 import AccountDeleteReporter from "./_/AccountDeleteReporter";
 import FriendsManager from "./_/FriendsManager";
@@ -21,7 +21,7 @@ class UserProfile {
       this.profileData = await this.GetProfilData();
 
       this.extensionPromise = GetUser(this.profileData.id, this.profileData.nick);
-      this.brainlyPromise = GetUserByID(this.profileData.id);
+      this.brainlyPromise = new Action().GetUserProfile(this.profileData.id);
 
       new AccountDeleteReporter();
       this.RenderFriendsManager();

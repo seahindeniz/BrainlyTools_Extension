@@ -1,6 +1,6 @@
 import Buttons from "../../../components/Buttons";
 import notification from "../../../components/notification";
-import { CloseModerationTicket, RemoveQuestion } from "../../../controllers/ActionsOfBrainly";
+import Action from "../../../controllers/Req/Brainly/Action";
 
 /**
  * Prepare and add quick delete buttons to question box
@@ -55,9 +55,9 @@ export default function taskSection() {
 
         svg.hide();
 
-        let res = await RemoveQuestion(taskData);
+        let res = await new Action().RemoveQuestion(taskData);
 
-        CloseModerationTicket(question_id);
+        new Action().CloseModerationTicket(question_id);
 
         if (!res || !res.success) {
           notification((res && res.message) || System.data.locale.common.notificationMessages.somethingWentWrong, "error");

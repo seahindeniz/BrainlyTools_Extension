@@ -229,7 +229,7 @@ class AccountDeleteReporter {
     this.formData.append("comment", comment);
     this.formData.append("id", profileData.id);
     this.formData.append("nick", profileData.nick);
-    this.formData.append("url", System.createProfileLink(profileData.nick, profileData.id));
+    this.formData.append("url", System.createProfileLink(profileData));
 
     if (fileDetails)
       this.formData.append("file", fileDetails.file, fileDetails.name);

@@ -1,5 +1,5 @@
 import QuickDeleteButtons from "../../1-Home/_/QuickDeleteButtons";
-import { GetQuestionContent } from "../../../controllers/ActionsOfBrainly";
+import Action from "../../../controllers/Req/Brainly/Action";
 
 class QuestionBox {
   /**
@@ -25,7 +25,7 @@ class QuestionBox {
     }
   }
   async GetQuestion() {
-    this.question = await GetQuestionContent(this.id);
+    this.question = await new Action().QuestionContent(this.id);;
 
     this.RenderQuestionOwner();
   }
@@ -71,7 +71,7 @@ class QuestionBox {
   }
   PrepareAvatarContentBox() {
     let avatar = this.PrepareAvatar();
-    let profileLink = System.createProfileLink(this.user.nick, this.user.id);
+    let profileLink = System.createProfileLink(this.user);
     this.$iconContentBox = $(`
     <div class="sg-content-box">
       <div class="sg-content-box__title">

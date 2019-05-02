@@ -1,7 +1,7 @@
 import notification from "../../../components/notification";
 import Progress from "../../../components/Progress";
 import Buttons from "../../../components/Buttons";
-import { RemoveFriends, RemoveAllFriends } from "../../../controllers/ActionsOfBrainly";
+import Action from "../../../controllers/Req/Brainly/Action";
 
 function FriendsManager() {
   let $profile_friends = $('#profile-friends');
@@ -65,11 +65,10 @@ function FriendsManager() {
         progress.update(count);
       }
 
-      if (typeof idList == "boolean") {
-        await RemoveAllFriends(doInEachUnfriending);
-      } else {
-        await RemoveFriends(idList, doInEachUnfriending);
-      }
+      if (typeof idList == "boolean")
+        await new Action().RemoveAllFriends(doInEachUnfriending);
+      else
+        await new Action().RemoveFriends(idList, doInEachUnfriending);
 
       progress.UpdateLabel(System.data.locale.common.allDone).close();
     };

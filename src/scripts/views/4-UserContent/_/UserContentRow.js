@@ -3,7 +3,7 @@ import notification from "../../../components/notification";
 import ContentViewer_Content from "./ContentViewer_Content";
 import SelectCheckbox from "./SelectCheckbox";
 import UserContent from "./UserContent";
-import Methods from "../../../controllers/Req/Brainly/Methods";
+import Action from "../../../controllers/Req/Brainly/Action";
 
 export default class UserContentRow {
   /**
@@ -43,7 +43,7 @@ export default class UserContentRow {
         if (!this.main.questions[this.element.questionID])
           this.main.questions[this.element.questionID] = {};
 
-        this.main.questions[this.element.questionID].resPromise = this.resPromise = new Methods().QuestionContent(this.element.questionID);
+        this.main.questions[this.element.questionID].resPromise = this.resPromise = new Action().QuestionContent(this.element.questionID);
       } else {
         this.resPromise = this.main.questions[this.element.questionID].resPromise;
       }

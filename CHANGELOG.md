@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.22.3] - 2019.05.02
+
+### Changed
+
+- Some code lines has been changed and fixed
+
 ## [6.22.2] - 2019.04.22
 
 ### Changed

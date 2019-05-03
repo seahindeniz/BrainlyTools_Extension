@@ -1,10 +1,10 @@
 /**
- * Trigger Brainly's create flash notification function
+ * Brainly's flash notification function
  * @param {string} message - Message content as HTML or Text
  * @param {string} type - typeof message > ["", "success", "info", "warning", "failure", "error"]
  * @param {boolean} permanent - To make it permanent
  */
-let makeFlash = (message, type = "", permanent = false) => {
+function notification(message, type = "", permanent = false) {
   if (!message || message == "") {
     return false;
   }
@@ -55,4 +55,4 @@ let makeFlash = (message, type = "", permanent = false) => {
   }
 }
 
-export default makeFlash
+export default notification

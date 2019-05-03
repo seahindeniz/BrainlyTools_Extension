@@ -19,7 +19,7 @@ class IdListSection {
 			<div class="sg-spinner-container sg-content-box--full js-inputs">
 				<div class="sg-content-box__actions">
 					<div class="sg-textarea sg-textarea--full-width" style="color: transparent;"></div>
-					<div class="sg-textarea sg-textarea--full-width sg-textarea--resizable-vertical" contenteditable="true" style="position: absolute; background: transparent;" placeholder="${System.data.locale.core.MassContentDeleter.questionsLinksOrIDs}"></div>
+					<div class="sg-textarea sg-textarea--full-width sg-textarea--resizable-vertical" contenteditable="true" style="position: absolute; background: transparent;" placeholder="${System.data.locale.core.pointChanger.enterOrPasteUID}"></div>
 				</div>
 			</div>
 			<div class="sg-content-box__content">

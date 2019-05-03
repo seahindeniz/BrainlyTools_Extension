@@ -34,7 +34,11 @@ export default class Request {
 
     return this;
   }
-  Path(path) {
+  /**
+   * Add a path
+   * @param {string} path
+   */
+  P(path) {
     if (path)
       this.path += `/${path}`;
 
@@ -104,8 +108,6 @@ export default class Request {
     }
   }
   async HandleResponse(res) {
-    console.log("res:", res);
-
     if (res.ok || res.status >= 200 && (res.status < 300 || res.status == 304)) {
       let body = null;
 
@@ -131,8 +133,6 @@ export default class Request {
     }
   }
   async HandleError(error) {
-    console.error("err:", error);
-
     if (
       (
         (
@@ -176,6 +176,22 @@ export default class Request {
   POST(data, queryString) {
     this.method = "POST";
 
+    return this._Post(data, queryString)
+  }
+  /**
+   * @param {{}} data
+   * @param {{}} queryString
+   */
+  PUT(data, queryString) {
+    this.method = "PUT";
+
+    return this._Post(data, queryString)
+  }
+  /**
+   * @param {{}} data
+   * @param {{}} queryString
+   */
+  _Post(data, queryString) {
     if (data)
       this.data = data;
 
@@ -229,5 +245,10 @@ export default class Request {
 
       return percent;
     }
+  }
+  SKey() {
+    this.headers.SecretKey = System.data.Brainly.userData.extension.secretKey;
+
+    return this;
   }
 }

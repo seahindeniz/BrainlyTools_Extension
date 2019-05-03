@@ -1,6 +1,6 @@
-import Toplayer from "../../../components/Toplayer";
 import notification from "../../../components/notification";
-import { AnnouncementRead } from "../../../controllers/ActionsOfServer";
+import Toplayer from "../../../components/Toplayer";
+import ServerReq from "../../../controllers/Req/Server";
 
 export default () => {
   let announcements = System.data.Brainly.userData.extension.announcements;
@@ -69,7 +69,7 @@ export default () => {
 
     that.addClass("sg-button-secondary--disabled").attr("disabled", "true");
 
-    let resReaded = await AnnouncementRead(id);
+    let resReaded = await new ServerReq().AnnouncementRead(id);
 
     if (resReaded && resReaded.success) {
       that.removeClass("sg-button-secondary--dark");

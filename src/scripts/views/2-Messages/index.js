@@ -1,5 +1,6 @@
-import renderGroupMessaging from "./_/GroupMessaging";
+import ServerReq from "../../controllers/Req/Server";
 import createUserNoteBox from "./_/createUserNoteBox";
+import renderGroupMessaging from "./_/GroupMessaging";
 
 System.pageLoaded("Messages inject OK!");
 
@@ -21,6 +22,7 @@ function Messages() {
   createUserNoteBox();
 
   if (System.checkUserP(8)) {
+    new ServerReq().GetAllModerators();
     new renderGroupMessaging();
   }
 

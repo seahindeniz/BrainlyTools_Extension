@@ -1,5 +1,5 @@
+import ServerReq from "../../../scripts/controllers/Req/Server";
 import notification from "../notification";
-import { UpdateDeleteReasonsPreferences, RemoveDeleteReasonPreference } from "../../../scripts/controllers/ActionsOfServer";
 
 class Preference {
   constructor(reason, label, confirmation) {
@@ -54,7 +54,7 @@ class Preference {
     this.$askConfirmationButton.click(this.AskConfirmation.bind(this));
   }
   async Delete() {
-    let resRemove = await RemoveDeleteReasonPreference(this.reason.id);
+    let resRemove = await new ServerReq().RemoveDeleteReasonPreference(this.reason.id);
 
     await this.CheckResponse(resRemove);
     this.$.remove();
@@ -90,7 +90,7 @@ class Preference {
       confirmation
     };
 
-    let resUpdate = await UpdateDeleteReasonsPreferences(data);
+    let resUpdate = await new ServerReq().UpdateDeleteReasonsPreferences(data);
 
     return this.CheckResponse(resUpdate);
 

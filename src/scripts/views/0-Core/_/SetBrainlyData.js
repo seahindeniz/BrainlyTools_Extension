@@ -1,4 +1,4 @@
-import Request from "../../../controllers/Request";
+import Action from "../../../controllers/Req/Brainly/Action";
 import WaitForObject from "../../../helpers/WaitForObject";
 
 let RoutesFetchURL;
@@ -49,7 +49,7 @@ async function GetDefaultConfig() {
 
 function FetchDefaultConfig() {
   return new Promise(async (resolve, reject) => {
-    let sourcePageHTML = await Request.get("/question/add");
+    let sourcePageHTML = await new Action().GetQuestionAddPage();
 
     //console.log("res:", res);
     if (sourcePageHTML && sourcePageHTML != "") {
@@ -131,7 +131,9 @@ async function GetRoutingData() {
 }
 
 async function FetchRouting() {
-  let resJS = await Request.get(RoutesFetchURL);
+  let action = new Action();
+  action.path = RoutesFetchURL;
+  let resJS = await action.GET();
 
   if (resJS) {
     let matchRoutes = resJS.match(/(routes:.*scheme\:\"http\")/gmi);

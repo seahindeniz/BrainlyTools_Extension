@@ -1,10 +1,10 @@
-import Modal from "../../../../components/Modal";
-import notification from "../../../../components/notification";
+import emojione from "emojione";
 import MarkdownIt from "markdown-it";
 import MarkdownItContainer from "markdown-it-container";
-import emojione from "emojione"
-import { UpdateNoticeBoard, ReadNoticeBoard, GetNoticeBoardContent } from "../../../../controllers/ActionsOfServer";
+import Modal from "../../../../components/Modal";
+import notification from "../../../../components/notification";
 import Action from "../../../../controllers/Req/Brainly/Action";
+import ServerReq from "../../../../controllers/Req/Server";
 
 emojione.emojiSize = "64";
 
@@ -245,7 +245,7 @@ class NoticeBoard {
     this.$spinner.insertAfter(this.$overlayedBox);
   }
   async GetContent() {
-    let resContent = await GetNoticeBoardContent();
+    let resContent = await new ServerReq().GetNoticeBoardContent();
 
     if (resContent.success) {
       return Promise.resolve(resContent.data);
@@ -283,7 +283,7 @@ class NoticeBoard {
     let data = System.data.Brainly.userData.extension;
     data.noticeBoard = false;
 
-    ReadNoticeBoard();
+    new ServerReq().ReadNoticeBoard();
     System.SetUserData(data);
     this.HideElement(this.$badge);
   }
@@ -383,7 +383,7 @@ class NoticeBoard {
       if (confirm(System.data.locale.core.notificationMessages.doYouWantToContinue)) {
         let noticeContent = this.$editSectionContent.val();
 
-        let resUpdate = await UpdateNoticeBoard(noticeContent);
+        let resUpdate = await new ServerReq().UpdateNoticeBoard(noticeContent);
 
         if (!resUpdate || !resUpdate.success) {
           this.modal.notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");

@@ -1,11 +1,10 @@
+import moment from "moment";
+import notification from "../../../../components/notification";
+import ServerReq from "../../../../controllers/Req/Server";
 import WaitForElement from "../../../../helpers/WaitForElement";
+import GroupChatbox from "./GroupChatbox";
 import groupLi from "./groupLi";
 import renderGroupModal from "./groupModal";
-import { GetMessageGroups, GetMessages, UpdateMessageGroup } from "../../../../controllers/ActionsOfServer";
-import notification from "../../../../components/notification";
-import moment from "moment";
-import GroupChatbox from "./GroupChatbox";
-import renderGroupLi from "./groupLi";
 
 const __groups = System.data.locale.messages.groups;
 
@@ -73,7 +72,7 @@ class GroupMessaging {
 
       try {
         let groupData = await new renderGroupModal();
-        let $groupLi = renderGroupLi(groupData);
+        let $groupLi = groupLi(groupData);
 
         $groupLi.insertBefore(window.selectors.groupLiNotPinnedFirst);
         this.groupChatbox.InitGroup(groupData, $groupLi);
@@ -109,7 +108,7 @@ class GroupMessaging {
     this.LoadMessageGroups();
   }
   async LoadMessageGroups() {
-    let groups = await GetMessageGroups();
+    let groups = await new ServerReq().GetMessageGroups();
 
     if (groups && groups.success && groups.data && groups.data.length > 0) {
       groups.data.reverse();
@@ -126,7 +125,7 @@ class GroupMessaging {
     }
   }
   async GroupMessages(group_id, groupLi) {
-    let resMessages = await GetMessages(group_id);
+    let resMessages = await new ServerReq().GetMessages(group_id);
 
     if (!resMessages || !resMessages.success || !resMessages.data)
       return notification(__groups.notificationMessages.cantFecthGroupData, "error");
@@ -136,7 +135,7 @@ class GroupMessaging {
   async PinConversationListItem(group_id, element) {
     let isPinned = !(element.classList.contains("pinned"));
 
-    let resUpdatedGroup = await UpdateMessageGroup(group_id, {
+    let resUpdatedGroup = await new ServerReq().UpdateMessageGroup(group_id, {
       pinned: isPinned
     });
 

@@ -1,8 +1,6 @@
-"use strict";
-
-import storage from "../helpers/extStorage";
 import notification from "../components/notification";
-import { GetDeleteReasons } from "../controllers/ActionsOfServer";
+import storage from "../helpers/extStorage";
+import ServerReq from "./Req/Server";
 
 export default function prepareDeleteReasons(reload = false) {
   return new Promise(async (resolve, reject) => {
@@ -28,7 +26,7 @@ export default function prepareDeleteReasons(reload = false) {
 }
 
 async function GetAndPrepareDeleteReasons() {
-  let resDeleteReasons = await GetDeleteReasons();
+  let resDeleteReasons = await new ServerReq().GetDeleteReasons();
   let data = resDeleteReasons.data;
 
   if (data.deleteReasons.empty) {

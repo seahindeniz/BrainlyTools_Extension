@@ -1,4 +1,4 @@
-import { UpdateAnnouncement, RemoveAnnouncement } from "../../../scripts/controllers/ActionsOfServer";
+import ServerReq from "../../../scripts/controllers/Req/Server";
 import notification from "../notification";
 import TextEditor from "../TextEditor";
 
@@ -142,7 +142,7 @@ class Announcement {
     event.preventDefault();
 
     if (confirm(System.data.locale.common.notificationMessages.areYouSure)) {
-      let resRemoved = await RemoveAnnouncement(this.data._id);
+      let resRemoved = await new ServerReq().RemoveAnnouncement(this.data._id);
 
       if (!resRemoved) {
         notification(System.data.locale.common.notificationMessages.operationError, "danger");
@@ -160,7 +160,7 @@ class Announcement {
     event.preventDefault();
 
     let status = this.data.published;
-    let resUpdated = await UpdateAnnouncement({ id: this.data._id, publish: !status });
+    let resUpdated = await new ServerReq().UpdateAnnouncement({ id: this.data._id, publish: !status });
 
     if (!resUpdated) {
       notification(System.data.locale.common.notificationMessages.operationError, "danger");
@@ -196,7 +196,7 @@ class Announcement {
         content: contentValue
       };
       //data.id = that.parents("article.media").attr("id");
-      let resUpdated = await UpdateAnnouncement(data);
+      let resUpdated = await new ServerReq().UpdateAnnouncement(data);
 
       if (!resUpdated || !resUpdated.success) {
         notification((resUpdated.message || System.data.locale.common.notificationMessages.operationError), "danger");

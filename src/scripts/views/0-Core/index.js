@@ -3,9 +3,8 @@
 window.performanceStartTiming = performance.now();
 
 import notification from "../../components/notification";
-import { Auth } from "../../controllers/ActionsOfServer";
 import PrepareDeleteReasons from "../../controllers/PrepareDeleteReasons";
-import Action from "../../controllers/Req/Brainly/Action";
+import ServerReq from "../../controllers/Req/Server";
 import _System from "../../controllers/System";
 import storage from "../../helpers/extStorage";
 import InjectToDOM from "../../helpers/InjectToDOM";
@@ -57,7 +56,7 @@ class Core {
 
     await System.ShareSystemDataToBackground();
 
-    await Auth();
+    await new ServerReq().SetAuthData();
     await this.CheckForNewUpdate();
 
     this.InitNotifier();
@@ -161,7 +160,6 @@ class Core {
     Console.info("Fetching friends OK!");
 
     if (System.checkRoute(1, "messages")) {
-      new Action().GetAllModerators();
       InjectToDOM([
         "/scripts/lib/jquery-observe-2.0.3.min.js",
         "/scripts/lib/jquery-ui.min.js",

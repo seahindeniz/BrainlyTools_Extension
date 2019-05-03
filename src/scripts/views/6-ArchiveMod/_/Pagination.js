@@ -1,5 +1,5 @@
-import { GetModerateAllPages } from "../../../controllers/ActionsOfServer";
 import WaitForElement from "../../../helpers/WaitForElement";
+import ServerReq from "../../../controllers/Req/Server";
 
 class Pagination {
   constructor() {
@@ -18,7 +18,7 @@ class Pagination {
     this.$numberList = $("> .sg-content-box__actions", this.$);
   }
   async GetModerateAllPages() {
-    this.resPagination = await GetModerateAllPages();
+    this.resPagination = await new ServerReq().GetModerateAllPages();
     this.loadMoreButton = await WaitForElement("#moderation-all > div.content > div.loader.calm");
     this.$filtersList = $("#moderation-all > div.top > div.sub-header.row > div.span5 > select.filters");
 

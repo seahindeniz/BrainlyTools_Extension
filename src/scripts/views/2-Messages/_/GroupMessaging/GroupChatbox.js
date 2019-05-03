@@ -1,7 +1,7 @@
 import autosize from "autosize";
 import Progress from "../../../../components/Progress";
-import { MessageSended, UpdateMessageGroup } from "../../../../controllers/ActionsOfServer";
 import SendMessageToBrainlyIds from "../../../../controllers/Req/Brainly/Action/SendMessageToBrainlyIds";
+import ServerReq from "../../../../controllers/Req/Server";
 import ScrollToDown from "../../../../helpers/ScrollToDown";
 import renderGroupModal from "./groupModal";
 
@@ -246,7 +246,7 @@ class GroupChatbox {
       .text(message.substring(0, 60))
       .attr("title", message);
 
-    MessageSended({
+      new ServerReq().MessageSended({
       _id: this.group._id,
       message,
       members: membersWithConversationIds
@@ -254,7 +254,7 @@ class GroupChatbox {
   }
   async DeleteGroup() {
     if (confirm(System.data.locale.common.notificationMessages.areYouSure)) {
-      let resUpdated = await UpdateMessageGroup(this.group._id, { remove: true });
+      let resUpdated = await new ServerReq().UpdateMessageGroup(this.group._id, { remove: true });
 
       if (resUpdated && resUpdated.success) {
         this.HideChatbox()

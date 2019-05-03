@@ -12,7 +12,7 @@ export default class Action extends Brainly {
     if (~~id == 0)
       return Promise.reject("Unvalid id");
 
-    return this.Legacy().api_tasks().main_view().Path(id).GET();
+    return this.Legacy().api_tasks().main_view().P(id).GET();
   }
   /**
    * @param {{model_id: number, reason: string, reason_id: number, give_warning: boolean, take_points: boolean, return_points:boolean}} data
@@ -118,7 +118,7 @@ export default class Action extends Brainly {
     let data = {
       model_type: 2,
       model_id,
-      _coupon_: coupon()
+      _coupon_: this.GenerateCoupon()
     }
 
     return this.Legacy().api_content_quality().confirm().POST(data);
@@ -165,7 +165,7 @@ export default class Action extends Brainly {
    * @param {number} id
    */
   ActionsHistory(id) {
-    return this.Legacy().api_task_lines().big().Path(id).GET();
+    return this.Legacy().api_task_lines().big().P(id).GET();
   }
   /**
    * Close moderation ticket of a question
@@ -185,7 +185,7 @@ export default class Action extends Brainly {
    * @param {number} id - User id
    */
   GetUserProfile(id) {
-    return this.Legacy().api_user_profiles().get_by_id().Path(id).GET();
+    return this.Legacy().api_user_profiles().get_by_id().P(id).GET();
   }
   /**
    * Get user data by id.
@@ -194,7 +194,7 @@ export default class Action extends Brainly {
    * @param {number} id - User id
    */
   GetUser(id) {
-    return this.Legacy().api_users().get().Path(~~id).GET();
+    return this.Legacy().api_users().get().P(~~id).GET();
   }
   /**
    * Get users data by ids
@@ -212,7 +212,7 @@ export default class Action extends Brainly {
     if (warningId instanceof Array)
       return this.CancelWarnings(userId, warningId);
 
-    return this.moderators().cancel_warning().Path(userId).Path(warningId).GET();
+    return this.moderators().cancel_warning().P(userId).P(warningId).GET();
   }
   /**
    * Cancel user warnings by ids
@@ -230,7 +230,7 @@ export default class Action extends Brainly {
     return this.JSON().X_Req_With().buddies_new().ajax_panel_get_buddies().GET();
   }
   RemoveFriend(id) {
-    return this.buddies_new().unbuddy().Path(id).GET();
+    return this.buddies_new().unbuddy().P(id).GET();
   }
   /**
    * @param {number[]} ids
@@ -277,11 +277,11 @@ export default class Action extends Brainly {
     if (!nick)
       return Promise.reject("Empty nick");
 
-    return this.X_Req_With().users().search().Path(nick).GET();
+    return this.X_Req_With().users().search().P(nick).GET();
   }
   GetAllModerators(handlers) {
     return new Promise(async (resolve, reject) => {
-      let resSupervisors = await this.moderators().supervisors().Path(System.data.Brainly.userData.user.id).GET();
+      let resSupervisors = await this.moderators().supervisors().P(System.data.Brainly.userData.user.id).GET();
 
       if (!resSupervisors)
         return reject("Can't fetch users from supervisors page");
@@ -314,17 +314,18 @@ export default class Action extends Brainly {
   }
   ChangeBio(text) {
     let data = {
-      __args: {
+      args: {
         input: {
           description: text
         }
       },
-      user: {
-        id: true
-      }
+      find: {
+        user: ["id"]
+      },
+      operationName: "updateUserDescription"
     };
 
-    return this.GQL().Mutation("updateUserDescription", data).POST();
+    return this.GQL().Mutation(data).POST();
   }
   /**
    * @param {string} sourceURL
@@ -381,7 +382,7 @@ export default class Action extends Brainly {
     let data = await this.SetFormTokens(`/ranks/choose_special_rank_for_user/${user_id}`);
     data["data[Rank][type]"] = rank_id;
 
-    return this.ranks().add_special_rank_to_user().Path(user_id).Form().Salt().POST(data);
+    return this.ranks().add_special_rank_to_user().P(user_id).Form().Salt().POST(data);
   }
   /**
    * @param {number} user_id
@@ -391,7 +392,7 @@ export default class Action extends Brainly {
     let data = await this.SetFormTokens(System.createProfileLink(user_id), "#ChangePointsAddForm");
     data["data[ChangePoints][diff]"] = point;
 
-    return this.admin().users().change_points().Path(user_id).Form().POST(data);
+    return this.admin().users().change_points().P(user_id).Form().POST(data);
   }
   /**
    * @param {number} model_id
@@ -399,7 +400,7 @@ export default class Action extends Brainly {
    * @param {number} amount
    */
   GetComments(model_id, type, amount) {
-    return this.Legacy().api_comments().index().Path(model_id).Path(type).Path(amount).GET();
+    return this.Legacy().api_comments().index().P(model_id).P(type).P(amount).GET();
   }
   GetReportedContents(last_id) {
     let data = {
@@ -442,5 +443,8 @@ export default class Action extends Brainly {
     data["data[Uploader][file]"] = file;
 
     return this.Axios({ onUploadProgress }).admin().uploader().add().File().POST(data);
+  }
+  GetQuestionAddPage() {
+    return this.X_Req_With().question().add().GET();
   }
 }

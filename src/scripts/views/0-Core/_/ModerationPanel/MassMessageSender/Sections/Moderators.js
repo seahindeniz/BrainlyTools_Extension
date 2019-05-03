@@ -1,4 +1,4 @@
-import Action from "../../../../../../controllers/Req/Brainly/Action";
+import ServerReq from "../../../../../../controllers/Req/Server";
 
 const ERROR = "sg-box--peach";
 const USER_NOT_FOUND = "sg-box--dark";
@@ -160,7 +160,7 @@ class RankSection {
   async RenderModerators() {
     $(this.$userSection).html("");
     this.ShowUserSectionSpinner();
-    await new Action().GetAllModerators({
+    await new ServerReq().GetAllModerators({
       each: this.RenderUser.bind(this)
     });
     this.HideUserSectionSpinner();

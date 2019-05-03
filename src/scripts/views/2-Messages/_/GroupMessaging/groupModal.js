@@ -1,14 +1,12 @@
-"use strict";
-
-import notification from "../../../../components/notification";
-import Modal from "../../../../components/Modal";
 import Dropdown from "../../../../components/Dropdown";
-import { CreateMessageGroup, UpdateMessageGroup } from "../../../../controllers/ActionsOfServer";
-import userSearch from "./userSearch";
+import Modal from "../../../../components/Modal";
+import notification from "../../../../components/notification";
+import Action from "../../../../controllers/Req/Brainly/Action";
+import ServerReq from "../../../../controllers/Req/Server";
+import renderGroupLi from "./groupLi";
 import rankSelector from "./rankSelector";
 import userLi from "./userLi";
-import renderGroupLi from "./groupLi";
-import Action from "../../../../controllers/Req/Brainly/Action";
+import userSearch from "./userSearch";
 
 class GroupModal {
   constructor(group, groupLi) {
@@ -402,7 +400,7 @@ class GroupModal {
   }
   async CreateGroup(groupData) {
 
-    let resCreatedGroup = await CreateMessageGroup(groupData);
+    let resCreatedGroup = await new ServerReq().CreateMessageGroup(groupData);
 
     if (!resCreatedGroup || !resCreatedGroup.success) {
       this.$spinnerSaveButton.remove();
@@ -421,7 +419,7 @@ class GroupModal {
     }
   }
   async UpdateGroup(groupData) {
-    let resUpdatedGroup = await UpdateMessageGroup(this.group._id, groupData);
+    let resUpdatedGroup = await new ServerReq().UpdateMessageGroup(this.group._id, groupData);
 
     if (!resUpdatedGroup || !resUpdatedGroup.success) {
       this.createGroupToplayer.notification(this.locale.notificationMessages.cantCreate, "error");

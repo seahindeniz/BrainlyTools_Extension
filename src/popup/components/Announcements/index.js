@@ -1,8 +1,8 @@
+import ServerReq from "../../../scripts/controllers/Req/Server";
 import ext from "../../../scripts/utils/ext";
-import { GetAnnouncements, CreateAnnouncement } from "../../../scripts/controllers/ActionsOfServer";
-import Announcement from "./Announcement";
-import TextEditor from "../TextEditor";
 import notification from "../notification";
+import TextEditor from "../TextEditor";
+import Announcement from "./Announcement";
 
 class Announcements {
   constructor() {
@@ -71,7 +71,7 @@ class Announcements {
   }
   async PrepareAnnouncements() {
     if ($("html").attr("is") != "popup") {
-      let resAnnouncements = await GetAnnouncements();
+      let resAnnouncements = await new ServerReq().GetAnnouncements();
 
       if (resAnnouncements.success && resAnnouncements.data) {
         this.RenderAnnouncementNodes(resAnnouncements.data);
@@ -136,7 +136,7 @@ class Announcements {
       notification("You must add a message", "danger");
     } else {
       let data = { title, content };
-      let resCreated = await CreateAnnouncement(data);
+      let resCreated = await new ServerReq().CreateAnnouncement(data);
 
       if (!resCreated || !resCreated.success) {
         notification((resCreated.message || System.data.locale.common.notificationMessages.operationError), "danger");

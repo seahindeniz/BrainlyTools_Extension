@@ -1,5 +1,5 @@
+import Query from "graphql-query-builder";
 import Request from "../";
-import { jsonToGraphQLQuery } from "json-to-graphql-query";
 
 export default class Brainly extends Request {
   constructor() {
@@ -8,37 +8,41 @@ export default class Brainly extends Request {
   Legacy() {
     let marketOrigin = (window.System && System.data.meta.location.origin) || document.location.origin;
     this.path += `${marketOrigin}/api/28`;
+
+    this.JSON();
+    this.X_Req_With();
+    this.SetAccountToken();
+
+    return this;
+  }
+  SetAccountToken() {
     this.headers = {
       ...this.headers,
       'X-B-Token-Long': System.data.Brainly.tokenLong
     }
-
-    this.JSON();
-    this.X_Req_With();
-
-    return this;
   }
   GenerateCoupon() {
     return btoa(`[object Object]${System.data.Brainly.userData.user.id}-${new Date().getTime()}-${Math.floor(1 + Math.random() * 99999999)}`);
   }
   GQL() {
     this.path += `/graphql/${System.data.Brainly.defaultConfig.MARKET}`;
-    this.headers = {
-      ...this.headers,
-      'X-B-Token-Long': System.data.Brainly.tokenLong
-    }
 
     this.JSON();
+    this.SetAccountToken();
+
     return this;
   }
-  Mutation(operationName, data) {
-    let mutation = {
-      mutation: {
-        [operationName]: data
-      }
-    };
+  /**
+   * @param {{args: {}, find: {}, operationName: string}} data
+   */
+  Mutation(data) {
+    let operation = new Query(data.operationName, data.args);
+    operation.find(data.find);
 
-    let dataGQL = jsonToGraphQLQuery(mutation, { pretty: true });
+    let mutation = new Query("mutation");
+    mutation.find([operation]);
+
+    let dataGQL = mutation.toString().replace(/\\\\/g, "\\");
 
     this.data = {
       operationName: "",
@@ -67,142 +71,146 @@ export default class Brainly extends Request {
   }
 
   api_tasks() {
-    return this.Path("api_tasks");
+    return this.P("api_tasks");
   }
   main_view() {
-    return this.Path("main_view");
+    return this.P("main_view");
   }
 
   moderation_new() {
-    return this.Path("moderation_new");
+    return this.P("moderation_new");
   }
   delete_task_content() {
-    return this.Path("delete_task_content");
+    return this.P("delete_task_content");
   }
   delete_response_content() {
-    return this.Path("delete_response_content");
+    return this.P("delete_response_content");
   }
   delete_comment_content() {
-    return this.Path("delete_comment_content");
+    return this.P("delete_comment_content");
   }
   accept() {
-    return this.Path("accept");
+    return this.P("accept");
   }
   wrong_report() {
-    return this.Path("wrong_report");
+    return this.P("wrong_report");
   }
   get_content() {
-    return this.Path("get_content");
+    return this.P("get_content");
   }
   get_comments_content() {
-    return this.Path("get_comments_content");
+    return this.P("get_comments_content");
   }
   get_wrong_content() {
-    return this.Path("get_wrong_content");
+    return this.P("get_wrong_content");
   }
 
   api_content_quality() {
-    return this.Path("api_content_quality");
+    return this.P("api_content_quality");
   }
   confirm() {
-    return this.Path("confirm");
+    return this.P("confirm");
   }
   unconfirm() {
-    return this.Path("unconfirm");
+    return this.P("unconfirm");
   }
 
   api_task_lines() {
-    return this.Path("api_task_lines");
+    return this.P("api_task_lines");
   }
   big() {
-    return this.Path("big");
+    return this.P("big");
   }
 
   moderate_tickets() {
-    return this.Path("moderate_tickets");
+    return this.P("moderate_tickets");
   }
   expire() {
-    return this.Path("expire");
+    return this.P("expire");
   }
 
   api_user_profiles() {
-    return this.Path("api_user_profiles");
+    return this.P("api_user_profiles");
   }
   get_by_id() {
-    return this.Path("get_by_id");
+    return this.P("get_by_id");
   }
 
   api_users() {
-    return this.Path("api_users");
+    return this.P("api_users");
   }
   get() {
-    return this.Path("get");
+    return this.P("get");
   }
 
   moderators() {
-    return this.Path("moderators");
+    return this.P("moderators");
   }
   cancel_warning() {
-    return this.Path("cancel_warning");
+    return this.P("cancel_warning");
   }
   supervisors() {
-    return this.Path("supervisors");
+    return this.P("supervisors");
   }
 
   buddies_new() {
-    return this.Path("buddies_new");
+    return this.P("buddies_new");
   }
   ajax_panel_get_buddies() {
-    return this.Path("ajax_panel_get_buddies");
+    return this.P("ajax_panel_get_buddies");
   }
   unbuddy() {
-    return this.Path("unbuddy");
+    return this.P("unbuddy");
   }
 
   users() {
-    return this.Path("users");
+    return this.P("users");
   }
   search() {
-    return this.Path("search");
+    return this.P("search");
   }
 
   api_messages() {
-    return this.Path("api_messages");
+    return this.P("api_messages");
   }
   check() {
-    return this.Path("check");
+    return this.P("check");
   }
   send() {
-    return this.Path("send");
+    return this.P("send");
   }
 
   ranks() {
-    return this.Path("ranks");
+    return this.P("ranks");
   }
   delete_user_special_ranks() {
-    return this.Path("delete_user_special_ranks");
+    return this.P("delete_user_special_ranks");
   }
   add_special_rank_to_user() {
-    return this.Path("add_special_rank_to_user");
+    return this.P("add_special_rank_to_user");
   }
 
   admin() {
-    return this.Path("admin");
+    return this.P("admin");
   }
   change_points() {
-    return this.Path("change_points");
+    return this.P("change_points");
   }
   uploader() {
-    return this.Path("uploader");
+    return this.P("uploader");
   }
   add() {
-    return this.Path("add");
+    return this.P("add");
   }
 
   api_comments() {
-    return this.Path("api_comments");
+    return this.P("api_comments");
   }
   index() {
-    return this.Path("index");
+    return this.P("index");
+  }
+
+  question() {
+    return this.P("question");
   }
 }

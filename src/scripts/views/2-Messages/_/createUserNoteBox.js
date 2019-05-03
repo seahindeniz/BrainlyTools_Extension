@@ -1,9 +1,9 @@
 import UserNoteBox from "../../../components/UserNoteBox";
 import UserTag from "../../../components/UserTag";
-import { GetUser } from "../../../controllers/ActionsOfServer";
+import Action from "../../../controllers/Req/Brainly/Action";
+import ServerReq from "../../../controllers/Req/Server";
 import WaitForElement from "../../../helpers/WaitForElement";
 import WaitForObject from "../../../helpers/WaitForObject";
-import Action from "../../../controllers/Req/Brainly/Action";
 
 async function profileLinkContainerFound(targetElm) {
   if (targetElm) {
@@ -13,7 +13,7 @@ async function profileLinkContainerFound(targetElm) {
       if ($link.length > 0) {
         let id = System.ExtractId($link.attr('href'));
         let nick = $link.attr('title');
-        let resExtUser = await GetUser(id, nick);
+        let resExtUser = await new ServerReq().GetUser(id, nick);
 
         if (resExtUser && resExtUser.success && resExtUser.data) {
           let $notebox = UserNoteBox(resExtUser.data);

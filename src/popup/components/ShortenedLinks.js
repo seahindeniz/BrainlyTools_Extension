@@ -1,6 +1,6 @@
-import ext from "../../scripts/utils/ext";
-import { GetShortenedLinks, FindShortenedLink } from "../../scripts/controllers/ActionsOfServer";
 import { debounce } from 'throttle-debounce';
+import ServerReq from "../../scripts/controllers/Req/Server";
+import ext from "../../scripts/utils/ext";
 
 class AccountDeleteReports {
   constructor() {
@@ -45,7 +45,7 @@ class AccountDeleteReports {
   }
   async FetchShortenedLinks() {
     if ($("html").attr("is") != "popup") {
-      let resLinks = await GetShortenedLinks();
+      let resLinks = await new ServerReq().GetShortenedLinks();
 
       this.RenderLinks(resLinks);
     }
@@ -98,7 +98,7 @@ class AccountDeleteReports {
     if (!value || value == "") {
       this.FetchShortenedLinks();
     } else {
-      let resLinks = await FindShortenedLink(value);
+      let resLinks = await new ServerReq().FindShortenedLink(value);
 
       this.RenderLinks(resLinks);
     }

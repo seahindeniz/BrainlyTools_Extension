@@ -6,8 +6,8 @@ import ArrayLast from "../helpers/ArrayLast";
 import storage from "../helpers/extStorage";
 import InjectToDOM from "../helpers/InjectToDOM";
 import ext from "../utils/ext";
-import { Logger } from "./ActionsOfServer";
 import Action from "./Req/Brainly/Action";
+import ServerReq from "./Req/Server/index.js";
 
 class _System {
   constructor() {
@@ -324,7 +324,7 @@ class _System {
       log.user.id = user.data.id;
     }
 
-    Logger(type, log);
+    new ServerReq().Logger(type, log);
   }
   async updateExtension() {
     let status = await this.toBackground("updateExtension");
@@ -417,7 +417,6 @@ class _System {
     this.toBackground("OpenExtensionOptions", params)
   }
   /**
-   *
    * @param {number[]|string} users
    * @param {{each: function, done?: function}} handlers
    */
@@ -466,7 +465,7 @@ class _System {
     let ids = html.match(/\=\d{1,}/gim) || [];
 
     if (ids.length > 0 && typeof ids[0] == "string")
-      ids.map(id => ~~(id.replace(/\D/gim, "")));
+      ids = ids.map(id => ~~(id.replace(/\D/gim, "")));
 
     return ids;
   }

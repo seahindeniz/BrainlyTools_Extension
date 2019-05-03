@@ -1,4 +1,4 @@
-import { UpdateNote } from "../controllers/ActionsOfServer";
+import ServerReq from "../controllers/Req/Server";
 
 export default (user) => {
   let $userNoteBox = $(`
@@ -15,7 +15,7 @@ export default (user) => {
       _id: user._id,
       note: this.value
     }
-    let resUpdate = await UpdateNote(data);
+    let resUpdate = await new ServerReq().UpdateNote(data);
 
     if (resUpdate && resUpdate.success) {
       $input.addClass("changed").delay(3000).queue(() => $input.removeClass("changed"));

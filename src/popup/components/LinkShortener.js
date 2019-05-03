@@ -1,5 +1,5 @@
+import ServerReq from "../../scripts/controllers/Req/Server";
 import ext from "../../scripts/utils/ext";
-import { CreateShortLink } from "../../scripts/controllers/ActionsOfServer";
 
 class LinkShortener {
   constructor() {
@@ -57,7 +57,7 @@ class LinkShortener {
   }
   CreateLink(url) {
     return new Promise(async (resolve, reject) => {
-      let resCreated = await CreateShortLink({ url });
+      let resCreated = await new ServerReq().CreateShortLink({ url });
 
       if (!resCreated) {
         notification("Server error", "danger");

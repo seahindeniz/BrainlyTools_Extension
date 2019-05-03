@@ -1,9 +1,9 @@
-import notification from "../../../components/notification";
-import { AccountDeleteReport } from "../../../controllers/ActionsOfServer";
 import JSZip from "jszip";
-import Progress from "../../../components/Progress";
-import FileIcon from "../../../helpers/FileIcon";
 import prettysize from "prettysize";
+import notification from "../../../components/notification";
+import Progress from "../../../components/Progress";
+import ServerReq from "../../../controllers/Req/Server";
+import FileIcon from "../../../helpers/FileIcon";
 
 class AccountDeleteReporter {
   constructor() {
@@ -203,11 +203,7 @@ class AccountDeleteReporter {
     $(".sg-button-secondary svg", $evidence).html(this.svgPath.delete);
   }
   SendFormDataToExtensionServer() {
-    let xhrPromise = AccountDeleteReport(this.formData);
-
-    xhrPromise.progress(this.UpdateUploadProgress.bind(this));
-
-    return xhrPromise;
+    return new ServerReq().AccountDeleteReport(this.formData, this.UpdateUploadProgress.bind(this));
   }
   UpdateUploadProgress(event) {
     var percent = 0;

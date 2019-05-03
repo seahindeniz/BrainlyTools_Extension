@@ -1,8 +1,8 @@
-import { GetAccountDeleteReports, FindDeleteReport } from "../../scripts/controllers/ActionsOfServer";
-import FileIcon from "../../scripts/helpers/FileIcon";
-import Modal from "./Modal";
 import prettysize from "prettysize";
 import { debounce } from 'throttle-debounce';
+import ServerReq from "../../scripts/controllers/Req/Server";
+import FileIcon from "../../scripts/helpers/FileIcon";
+import Modal from "./Modal";
 
 class AccountDeleteReports {
   constructor() {
@@ -59,7 +59,7 @@ class AccountDeleteReports {
     this.$reportsTBody = $("table.reports > tbody", this.$layout);
   }
   async FetchReports() {
-    let resReports = await GetAccountDeleteReports();
+    let resReports = await new ServerReq().GetAccountDeleteReports();
 
     this.RenderReports(resReports);
   }
@@ -118,8 +118,7 @@ class AccountDeleteReports {
     let resReports = this.storedReports;
 
     if (value && value != "") {
-      resReports = await FindDeleteReport(filter, value);
-      console.log(resReports);
+      resReports = await new ServerReq().FindDeleteReport(filter, value);
 
       if (this.storedReports.length == 0) {
         this.storedReports = this.reports;

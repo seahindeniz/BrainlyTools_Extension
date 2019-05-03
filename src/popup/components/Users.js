@@ -1,4 +1,4 @@
-import { GetUsers, PutUser, GivePrivilege, RevokePrivilege } from "../../scripts/controllers/ActionsOfServer";
+import ServerReq from "../../scripts/controllers/Req/Server";
 import notification from "./notification";
 
 class Users {
@@ -205,7 +205,7 @@ class Users {
     this.$editUserSectionContainer.appendTo(this.$editSectionContainer);
   }
   async PrepareUsers() {
-    let resUsers = await GetUsers();
+    let resUsers = await new ServerReq().GetUsers();
 
     if (resUsers.success && resUsers.data) {
       this.RenderUserNodes(resUsers.data);
@@ -453,7 +453,7 @@ class Users {
     try {
       let privileges = $("input:checked", this.$privilegesContainer).map((i, input) => ~~(input.id.replace("p-", ""))).get();
       let approved = this.$permission.prop("checked");
-      let resUser = await PutUser({
+      let resUser = await new ServerReq().PutUser({
         id: user.brainlyData.id,
         nick: user.brainlyData.nick,
         privileges,
@@ -488,7 +488,7 @@ class Users {
       let privilege = Number(value);
 
       if (privilege > 0) {
-        let res = await GivePrivilege(privilege);
+        let res = await new ServerReq().GivePrivilege(privilege);
 
         this.PrepareUsers();
         notification(System.data.locale.popup.notificationMessages.privilegeHasGiven.replace("%{user_amount}", ` ${res.data.affected} `), "success");
@@ -501,7 +501,7 @@ class Users {
       let privilege = Number(value);
 
       if (privilege > 0) {
-        let res = await RevokePrivilege(privilege);
+        let res = await new ServerReq().RevokePrivilege(privilege);
 
         this.PrepareUsers();
         notification(System.data.locale.popup.notificationMessages.privilegeHasRevoked.replace("%{user_amount}", ` ${res.data.affected} `), "success");

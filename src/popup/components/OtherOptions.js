@@ -9,7 +9,7 @@ class OtherOptions {
 
     this.Render();
     this.SetInputsValues();
-    this.BindEvents();
+    this.BindHandlers();
   }
   Render() {
     this.$layout = $(`
@@ -110,7 +110,7 @@ class OtherOptions {
       }
     });
   }
-  BindEvents() {
+  BindHandlers() {
     let that = this;
 
     this.$extendMessageLayoutCheckbox.change(function() {

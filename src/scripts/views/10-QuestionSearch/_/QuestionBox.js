@@ -21,7 +21,7 @@ class QuestionBox {
       this.RenderSelectBox();
       this.ShowSelectbox();
       this.RenderSpinner();
-      this.BindEvents();
+      this.BindHandlers();
     }
   }
   async GetQuestion() {
@@ -167,7 +167,7 @@ class QuestionBox {
       <div class="sg-spinner sg-spinner--small"></div>
     </div>`);
   }
-  BindEvents() {
+  BindHandlers() {
     this.$checkBox.change(this.CheckBoxChanged.bind(this));
   }
   CheckBoxChanged() {

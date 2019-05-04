@@ -14,7 +14,7 @@ class ModerateSection {
     this.RenderStopButton();
     this.RenderCounterLabel();
     this.RenderDeleteSection();
-    this.BindEvents();
+    this.BindHandlers();
 
     if (System.checkUserP(26)) {
       this.RenderDeleteNButton();
@@ -125,7 +125,7 @@ class ModerateSection {
 
     this.deleteSection.$.appendTo(this.$deleteSectionContainer);
   }
-  BindEvents() {
+  BindHandlers() {
     this.$stopButton.click(this.HideStopButton.bind(this));
     this.$selectAll.click(this.ToggleCheckboxes.bind(this));
     this.$deleteButton.click(this.DeleteSelectedQuestionsFromCurrentPage.bind(this));

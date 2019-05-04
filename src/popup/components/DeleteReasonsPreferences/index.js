@@ -6,7 +6,7 @@ class DeleteReasonsPreferences {
     this.selectedReasons = [];
 
     this.Render();
-    this.BindEvents();
+    this.BindHandlers();
   }
   Render() {
     this.$layout = $(`
@@ -77,7 +77,7 @@ class DeleteReasonsPreferences {
       });
     }
   }
-  BindEvents() {
+  BindHandlers() {
     bulmahead(this.$input.get(0), this.$menu.get(0), this.SearchDeleteReason.bind(this), this.ReasonSelected.bind(this));
   }
   SearchDeleteReason(value) {

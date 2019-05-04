@@ -26,7 +26,7 @@ class ModeratingPanel {
     this.RenderAttachments();
     this.RenderDeleteSection();
     this.CheckContentAndExpand();
-    this.BindEvents();
+    this.BindHandlers();
   }
   OpenTicket() {
     return new Promise(async (resolve, reject) => {
@@ -200,7 +200,7 @@ class ModeratingPanel {
       this.ExpandContentContainer();
     }
   }
-  BindEvents() {
+  BindHandlers() {
     this.modal.$close.click(this.ClosePanel.bind(this));
     this.$showMoreLink.click(this.ExpandContentContainer.bind(this));
     this.$deleteQuestionButton.click(this.DeleteQuestion.bind(this));

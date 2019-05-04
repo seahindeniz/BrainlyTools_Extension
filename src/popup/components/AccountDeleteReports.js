@@ -11,7 +11,7 @@ class AccountDeleteReports {
 
     this.Render();
     this.FetchReports();
-    this.BindEvents();
+    this.BindHandlers();
   }
   Render() {
     this.$layout = $(`
@@ -93,7 +93,7 @@ class AccountDeleteReports {
 
     $report.appendTo(this.$reportsTBody);
   }
-  BindEvents() {
+  BindHandlers() {
     let that = this;
 
     this.$searchInput.on("input", debounce(500, function(e) {

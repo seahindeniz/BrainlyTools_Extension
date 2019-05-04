@@ -16,7 +16,7 @@ class ReportedCommentsDeleter {
   Init() {
     this.RenderLi();
     this.RenderPanel();
-    this.BindEvents();
+    this.BindHandlers();
   }
   RenderLi() {
     this.$li = $(`
@@ -110,7 +110,7 @@ class ReportedCommentsDeleter {
       }
     });
   }
-  BindEvents() {
+  BindHandlers() {
     this.$li.on("click", "span", this.TogglePanel.bind(this));
     this.$stop.click(this.ManuelStop.bind(this));
     this.$start.click(this.StartDeleting.bind(this));

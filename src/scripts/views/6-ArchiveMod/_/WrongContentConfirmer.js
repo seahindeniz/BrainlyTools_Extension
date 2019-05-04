@@ -7,13 +7,13 @@ class WrongContentConfirmer {
     this.started = false;
 
     this.RenderButtons();
-    this.BindEvents();
+    this.BindHandlers();
   }
   RenderButtons() {
     this.$stopButton = $(`<button class="sg-button-secondary sg-button-secondary--small sg-button-secondary--peach" style="margin-left: 1em;">${System.data.locale.common.stop}</button>`);
     this.$confirmButton = $(`<button class="sg-button-secondary sg-button-secondary--small sg-button-secondary--alt" style="margin-left: 1em;">${System.data.locale.moderateAll.wrongContentConfirmer.text}</button>`);
   }
-  async BindEvents() {
+  async BindHandlers() {
     let filters = await WaitForElement("#moderation-all > div.top > div.sub-header.row > div.span5 > select.filters");
     this.$filters = $(filters);
     this.$pendingWrongLink = $(".pending-wrong");

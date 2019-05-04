@@ -24,7 +24,7 @@ class NoticeBoard {
     this.RenderSpinner();
     this.InitMarkdownRenderer();
     this.RenderUsersSection();
-    this.BindEvents();
+    this.BindHandlers();
 
     if (System.checkUserP(20)) {
       this.RenderEditButton();
@@ -201,7 +201,7 @@ class NoticeBoard {
       }
     }
   }
-  BindEvents() {
+  BindHandlers() {
     this.$close.click(this.CloseModal.bind(this));
     this.$li.on("click", "span", this.OpenModal.bind(this));
   }

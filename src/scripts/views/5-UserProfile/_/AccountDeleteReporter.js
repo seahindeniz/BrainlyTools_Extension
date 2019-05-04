@@ -52,7 +52,7 @@ class AccountDeleteReporter {
       this.$progressHole = $(".container.progress", this.$evidences);
 
       this.$evidences.insertBefore($deleteButtonContainer);
-      this.BindEvents();
+      this.BindHandlers();
     }
   }
   RenderProgress() {
@@ -65,7 +65,7 @@ class AccountDeleteReporter {
 
     this.$progressHole.appendTo(this.$evidences);
   }
-  BindEvents() {
+  BindHandlers() {
     let that = this;
 
     this.$deleteForm.on('submit', function(event) {

@@ -107,7 +107,7 @@ class RankSection {
     this.RenderRanksSpinner();
     this.RenderUserSectionSpinner();
     this.RenderUserSection()
-    this.BindEvents();
+    this.BindHandlers();
   }
   RenderRankSection() {
     this.$ = $(`
@@ -177,7 +177,7 @@ class RankSection {
       user.FillData();
     }
   }
-  BindEvents() {
+  BindHandlers() {
     this.$rankSelect.change(this.ChangeRank.bind(this));
   }
   ChangeRank() {

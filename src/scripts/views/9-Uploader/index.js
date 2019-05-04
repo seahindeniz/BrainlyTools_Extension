@@ -72,7 +72,7 @@ class Uploader {
     this.mainRight = await WaitForElement("#main-right");
 
     this.RenderUploadPanel();
-    this.BindEvents();
+    this.BindHandlers();
   }
   RenderUploadPanel() {
     this.$panel = $(`
@@ -107,7 +107,7 @@ class Uploader {
 
     this.$panel.appendTo(this.mainRight)
   }
-  BindEvents() {
+  BindHandlers() {
     let that = this;
 
     this.$fileInput.change(function() {

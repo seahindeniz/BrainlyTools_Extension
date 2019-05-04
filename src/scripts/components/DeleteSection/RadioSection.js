@@ -16,7 +16,7 @@ class RadioSection {
     if (items.length > 0)
       this.RenderItems();
 
-    this.BindEvent();
+    this.BindHandler();
   }
   Render() {
     this.$ = $(`
@@ -69,7 +69,7 @@ class RadioSection {
 
     $separator.appendTo(this.$list)
   }
-  BindEvent() {
+  BindHandler() {
     $("input", this.$list).change(this.InputChanged.bind(this));
   }
   InputChanged(event) {

@@ -80,9 +80,9 @@ class GroupChatbox {
     autosize(this.$messageInput);
     this.$messageInput.show();
 
-    this.BindEvents();
+    this.BindHandlers();
   }
-  BindEvents() {
+  BindHandlers() {
     let $editGroup = $("button.js-edit-group", this.$chatbox);
     let $deleteGroup = $("button.js-delete-group", this.$chatbox);
 

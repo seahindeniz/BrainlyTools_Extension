@@ -11,7 +11,7 @@ class IdListSection {
 
     this.Render();
     this.RenderSpinner();
-    this.BindEvents();
+    this.BindHandlers();
   }
   Render() {
     this.$ = $(`
@@ -39,7 +39,7 @@ class IdListSection {
   RenderSpinner() {
     this.$spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner"></div></div>`);
   }
-  BindEvents() {
+  BindHandlers() {
     this.$textarea.on({
       paste: this.PasteHandler.bind(this),
       scroll: this.UpdateTextareaBackScroll.bind(this),

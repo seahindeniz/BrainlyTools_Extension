@@ -12,7 +12,7 @@ class Comments extends UserContent {
     this.RenderDeleteSection("comment");
     this.ShowDeleteSection();
     this.GetQuestions();
-    this.BindEvents();
+    this.BindHandlers();
   }
   GetQuestions() {
     $.each(this.questions, this.GetQuestion.bind(this));
@@ -131,7 +131,7 @@ class Comments extends UserContent {
       }
     }
   }
-  BindEvents() {
+  BindHandlers() {
     this.$deleteButton.click(this.DeleteSelectedComments.bind(this));
   }
   async DeleteSelectedComments() {

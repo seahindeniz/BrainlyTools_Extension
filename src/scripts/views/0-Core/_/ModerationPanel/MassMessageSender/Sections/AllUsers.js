@@ -63,7 +63,7 @@ class AllUsers {
     this.Render();
     this.RenderLogs();
     this.RenderSpinner();
-    this.BindEvents();
+    this.BindHandlers();
   }
   Render() {
     this.$ = $(`
@@ -91,7 +91,7 @@ class AllUsers {
   RenderSpinner() {
     this.$spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--small"></div></div>`);
   }
-  BindEvents() {
+  BindHandlers() {
     this.$userId.on("input", this.CheckInputValue.bind(this));
   }
   CheckInputValue() {

@@ -18,7 +18,7 @@ class UserTag {
       }
     }
 
-    this.BindEvents();
+    this.BindHandlers();
   }
   Render() {
     this.$ = $(`
@@ -74,7 +74,7 @@ class UserTag {
       });
     }
   }
-  BindEvents() {
+  BindHandlers() {
     if (System.checkUserP([5, 22, 23, 24, 25]))
       this.$badge.click(this.EditUser.bind(this)).addClass("sg-media--clickable");
   }

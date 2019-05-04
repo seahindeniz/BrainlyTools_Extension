@@ -1,6 +1,3 @@
-"use strict";
-
-//import renderMessageSender from "./MessageSender"
 import WaitForObject from "../../../../helpers/WaitForObject";
 import MassContentDeleter from "./MassContentDeleter";
 import NoticeBoard from "./NoticeBoard";
@@ -23,7 +20,7 @@ class ModerationPanel {
     this.RenderComponents();
     this.RenderComponentsAfterDeleteReasonsLoaded();
     this.RenderResizeTrackingElement();
-    this.BindEvents();
+    this.BindHandlers();
   }
   RenderList() {
     this.$ul = $(`<ul class="sg-menu-list sg-menu-list--small sg-content-box--spaced-bottom"></ul>`);
@@ -55,7 +52,7 @@ class ModerationPanel {
     }
 
     if (System.checkUserP(18)) {
-      //this.RenderComponent(new ReportedContentsConfirmer());
+      this.RenderComponent(new ReportedContentsConfirmer());
     }
   }
   async RenderComponentsAfterDeleteReasonsLoaded() {
@@ -81,7 +78,7 @@ class ModerationPanel {
     this.$resizeStyle = $("style", this.$resizeOverlay);
     this.$resizeOverlay.appendTo(document.body);
   }
-  BindEvents() {
+  BindHandlers() {
     this.$newpanelButton.click(this.DelayedHeightFix.bind(this));
     this.$oldPanelCoveringText.click(this.DelayedHeightFix.bind(this));
     window.addEventListener("load", this.FixPanelsHeight.bind(this));

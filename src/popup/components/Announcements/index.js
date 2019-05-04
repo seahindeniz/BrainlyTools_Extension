@@ -14,7 +14,7 @@ class Announcements {
     this.RenderUI();
     this.RenderTextEditorForAddNewAnnouncement();
     this.PrepareAnnouncements();
-    this.BindEvents();
+    this.BindHandlers();
   }
   RenderUI() {
     let avatar = System.prepareAvatar(System.data.Brainly.userData.user);
@@ -95,7 +95,7 @@ class Announcements {
 
     this.$announcementsBody.prepend($announcemenet);
   }
-  BindEvents() {
+  BindHandlers() {
     if ($("html").attr("is") == "popup") {
       this.$layout.click(() => {
         ext.runtime.openOptionsPage();

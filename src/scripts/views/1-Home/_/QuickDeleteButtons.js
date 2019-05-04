@@ -19,7 +19,7 @@ class QuickDeleteButtons {
     this.ShowContainer();
     this.RenderMoreOptionsButton();
     this.RenderButtons();
-    this.BindEvents();
+    this.BindHandlers();
   }
   RenderContainer() {
     this.$container = $(`<div class="sg-actions-list sg-actions-list--to-top ext_actions"></div>`);
@@ -83,7 +83,7 @@ class QuickDeleteButtons {
       button.$.appendTo($buttonContainer);
     });
   }
-  BindEvents() {
+  BindHandlers() {
     this.$moreOptionsButton.click(this.OpenPanel.bind(this));
   }
   async OpenPanel() {

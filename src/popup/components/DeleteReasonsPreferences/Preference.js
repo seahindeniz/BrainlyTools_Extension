@@ -11,7 +11,7 @@ class Preference {
     this.RenderNoConfirmationButton();
     this.RenderAskConfirmationButton();
     this.RenderDeleteButton();
-    this.BindEvents();
+    this.BindHandlers();
   }
   Render() {
     this.$ = $(`
@@ -48,7 +48,7 @@ class Preference {
 
     this.$deleteButton.appendTo(this.$tags);
   }
-  BindEvents() {
+  BindHandlers() {
     this.$deleteButton.click(this.Delete.bind(this));
     this.$noConfirmationButton.click(this.NoConfirmation.bind(this));
     this.$askConfirmationButton.click(this.AskConfirmation.bind(this));

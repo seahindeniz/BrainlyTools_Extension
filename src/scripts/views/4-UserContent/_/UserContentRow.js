@@ -28,7 +28,7 @@ export default class UserContentRow {
     this.FetchContentWithPromise();
     this.RenderAfterResolve();
     this.RenderContentViewer();
-    this.BindEvents();
+    this.BindHandlers();
   }
   AttachID() {
     this.$questionLink = $("a[href]", this.element);
@@ -221,7 +221,7 @@ export default class UserContentRow {
     //this.main.checkboxes.elements.push(checkbox);
     this.checkbox.onchange = this.main.HideSelectContentWarning.bind(this.main);
   }
-  BindEvents() {
+  BindHandlers() {
     this.$questionLink.click(this.ToggleContentViewer.bind(this));
   }
   /**

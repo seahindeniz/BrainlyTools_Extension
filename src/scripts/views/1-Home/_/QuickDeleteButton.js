@@ -16,7 +16,7 @@ class QuickDeleteButton {
 
     this.RenderSpinner();
     this.Render();
-    this.BindEvent();
+    this.BindHandler();
   }
   RenderSpinner() {
     this.$spinnerContainer = $(`<div class="sg-spinner-container"></div>`);
@@ -33,7 +33,7 @@ class QuickDeleteButton {
 
     this.$.appendTo(this.$spinnerContainer)
   }
-  BindEvent() {
+  BindHandler() {
     this.$.click(this.ConfirmDeleteQuestion.bind(this));
   }
   async ConfirmDeleteQuestion() {

@@ -15,7 +15,7 @@ class GroupModal {
     this.groupLi = groupLi;
 
     this.CreateModal();
-    this.BindEvents();
+    this.BindHandlers();
 
     return new Promise((resolve, reject) => {
       this.resolve = resolve;
@@ -164,7 +164,7 @@ class GroupModal {
       }
     }
   }
-  BindEvents() {
+  BindHandlers() {
     let that = this;
     /**
      * Modal close

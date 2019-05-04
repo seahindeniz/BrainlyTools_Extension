@@ -31,7 +31,7 @@ class MassMessageSender {
     this.RenderSendButton();
     this.RenderContinueButton();
     this.RenderStopButton();
-    this.BindEvents();
+    this.BindHandlers();
   }
   RenderLi() {
     this.$li = $(`
@@ -101,7 +101,7 @@ class MassMessageSender {
 
     this.$stopButton = $("button", this.$stopButtonContainer);
   }
-  BindEvents() {
+  BindHandlers() {
     this.$li.on("click", "span", this.OpenModal.bind(this));
     this.modal.$close.click(this.modal.Close.bind(this.modal));
     this.$message.on({

@@ -18,7 +18,7 @@ class RankManager {
   Init() {
     this.RenderLink();
     this.RenderPanel();
-    this.BindEvents();
+    this.BindHandlers();
     this.UpdateInputTitle();
   }
   RenderLink() {
@@ -93,7 +93,7 @@ class RankManager {
       }
     });
   }
-  BindEvents() {
+  BindHandlers() {
     this.$manageLink.click(e => {
       e.preventDefault();
       this.TogglePanel();

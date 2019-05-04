@@ -7,7 +7,7 @@ class UserBio {
     this.editable = editable;
 
     this.Render();
-    this.BindEvents();
+    this.BindHandlers();
   }
   Render() {
     this.$ = $(`
@@ -28,7 +28,7 @@ class UserBio {
 
     this.$bioContent.prop("contenteditable", this.editable);
   }
-  BindEvents() {
+  BindHandlers() {
     this.$bioContent.on({
       mousedown: this.RemovePlaceholder.bind(this),
       paste: this.PaseHandler.bind(this),

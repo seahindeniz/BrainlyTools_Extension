@@ -13,7 +13,7 @@ class PointChanger {
   Init() {
     this.RenderLi();
     this.RenderModal();
-    this.BindEvent();
+    this.BindHandler();
   }
   RenderLi() {
     this.$li = $(`
@@ -95,7 +95,7 @@ class PointChanger {
     this.$addPointToAllButton = $(".id .sg-actions-list__hole:eq(2) button", this.modal.$modal);
     this.$amountOfUsers = $(".sg-content-box__actions .sg-actions-list > .sg-actions-list__hole > .sg-text > span", this.modal.$modal);
   }
-  BindEvent() {
+  BindHandler() {
     let that = this;
 
     this.modal.$close.click(this.modal.Close.bind(this.modal));

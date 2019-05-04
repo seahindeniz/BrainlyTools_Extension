@@ -6,7 +6,7 @@ class AccountDeleteReports {
   constructor() {
     this.Render();
     this.FetchShortenedLinks();
-    this.BindEvents();
+    this.BindHandlers();
 
   }
   Render() {
@@ -77,7 +77,7 @@ class AccountDeleteReports {
 
     $link.appendTo(this.$linksTBody);
   }
-  BindEvents() {
+  BindHandlers() {
     if ($("html").attr("is") == "popup") {
       this.$layout.on("click", function() {
         ext.runtime.openOptionsPage();

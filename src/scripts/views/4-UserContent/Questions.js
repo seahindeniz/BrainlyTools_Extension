@@ -9,9 +9,9 @@ class Questions extends UserContent {
     this.RenderCheckboxes();
     this.RenderDeleteSection("task");
     this.ShowDeleteSection();
-    this.BindEvents();
+    this.BindHandlers();
   }
-  BindEvents() {
+  BindHandlers() {
     this.$deleteButton.click(this.DeleteSelectedQuestions.bind(this));
   }
   async DeleteSelectedQuestions() {

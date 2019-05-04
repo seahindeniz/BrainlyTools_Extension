@@ -8,7 +8,7 @@ class TextEditor {
 
     this.CreateEditor();
     this.SetValue(value);
-    this.BindEvents();
+    this.BindHandlers();
 
     return this;
   }
@@ -55,7 +55,7 @@ class TextEditor {
   SetValue(value) {
     this.editor.setElementValue(value);
   }
-  BindEvents() {
+  BindHandlers() {
     this.editor.events.on('change', this.OnChangeHandler.bind(this));
   }
   OnChangeHandler() {

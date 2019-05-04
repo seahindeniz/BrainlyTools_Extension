@@ -13,7 +13,7 @@ class Announcement {
     window.popup.ReserveAUser(data.user.brainlyID);
 
     this.Render();
-    this.BindEvents();
+    this.BindHandlers();
 
     return this.$node;
   }
@@ -88,7 +88,7 @@ class Announcement {
       });
     }
   }
-  BindEvents() {
+  BindHandlers() {
 
     this.$editButton.click(this.Edit.bind(this));
     this.$removeButton.click(this.Remove.bind(this));

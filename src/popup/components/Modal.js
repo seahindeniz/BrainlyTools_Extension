@@ -4,7 +4,7 @@ class Modal {
     this.$parent = this.$element.parent();
 
     this.Create();
-    this.BindEvents();
+    this.BindHandlers();
   }
   Create() {
     this.$modal = $(`
@@ -29,7 +29,7 @@ class Modal {
 
     this.$modal.appendTo("body");
   }
-  BindEvents() {
+  BindHandlers() {
     this.$close.click(this.CloseModal.bind(this));
   }
   async CloseModal() {

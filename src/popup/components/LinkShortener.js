@@ -4,7 +4,7 @@ import ext from "../../scripts/utils/ext";
 class LinkShortener {
   constructor() {
     this.Render();
-    this.BindEvents();
+    this.BindHandlers();
   }
   Render() {
     this.$layout = $(`
@@ -27,7 +27,7 @@ class LinkShortener {
     this.$input = $("input.input", this.$shorterInputContainer);
     this.$button = $("button.button", this.$layout);
   }
-  BindEvents() {
+  BindHandlers() {
     this.$input.click(this.$input.select);
     this.$button.on("click", this.LinkShortenerHandler.bind(this));
   }

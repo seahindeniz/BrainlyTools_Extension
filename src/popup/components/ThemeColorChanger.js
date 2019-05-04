@@ -9,7 +9,7 @@ class ThemeColorChanger {
     this.color = color;
 
     this.Render();
-    this.BindEvents();
+    this.BindHandlers();
   }
   Render() {
     this.$layout = $(`
@@ -67,7 +67,7 @@ class ThemeColorChanger {
     this.$saveButton = $("button.save", this.$layout);
     this.$colorPicker = $("#colorPicker", this.$layout);
   }
-  BindEvents() {
+  BindHandlers() {
     this.$colorPicker.on("input", event => this.ColorInputHandler(event.target.value));
     this.$colorValue.on("input change", event => this.ColorInputHandler(event.target.value));
     this.$saveButton.click(this.SaveToStorage.bind(this));

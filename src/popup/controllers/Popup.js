@@ -24,7 +24,7 @@ class Popup {
     this.parameters = {};
 
     this.RefreshTimeElements();
-    this.BindEvents();
+    this.BindHandlers();
 
     setInterval(this.RefreshTimeElements.bind(this), 1000);
   }
@@ -40,7 +40,7 @@ class Popup {
       $element.text(timeAgoShort);
     });
   }
-  BindEvents() {
+  BindHandlers() {
     $(".box > .title", this.$container).on("click", function() {
       $(this).parent().toggleClass("is-active");
     });

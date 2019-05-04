@@ -72,7 +72,7 @@ class Users {
     }
 
     this.PrepareUsers();
-    this.BindEvents();
+    this.BindHandlers();
   }
   Render() {
     this.$layout = $(`
@@ -345,7 +345,7 @@ class Users {
       }
     }
   }
-  BindEvents() {
+  BindHandlers() {
     let that = this;
 
     this.$level.on("click", ".level-item > a", function(e) {

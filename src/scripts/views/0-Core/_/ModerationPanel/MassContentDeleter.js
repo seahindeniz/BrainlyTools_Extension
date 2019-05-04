@@ -18,7 +18,7 @@ class MassContentDeleter {
     this.RenderTextareaSpinner();
     this.RenderDeleteSection();
     this.RenderTextareaWarning();
-    this.BindEvents();
+    this.BindHandlers();
   }
   RenderLi() {
     this.$li = $(`
@@ -101,7 +101,7 @@ class MassContentDeleter {
   RenderTextareaWarning() {
     this.$textareaWarning = $(`<div class="sg-bubble sg-bubble--top sg-bubble--row-start sg-bubble--peach sg-text--white enterIdWarn">${System.data.locale.core.notificationMessages.enterIdWarn}</div>`);
   }
-  BindEvents() {
+  BindHandlers() {
     this.$li.on("click", "span", this.OpenModal.bind(this));
     this.$deleteButton.click(this.StartDeleting.bind(this));
     this.modal.$close.click(this.modal.Close.bind(this.modal));

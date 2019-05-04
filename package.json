@@ -1,11 +1,11 @@
 {
 	"name": "brainly_tools",
-	"version": "6.22.3",
+	"version": "6.22.4",
 	"description": "A toolbox for exclusive users of Brainly. It enhances the Brainly and it helps users to do fast and quick actions and much more..",
 	"license": "SEE LICENSE IN LICENSE.md",
 	"scripts": {
-		"build": "cross-env NODE_ENV=production TARGET=chrome gulp",
 		"watch": "cross-env TARGET=chrome gulp watch",
+		"build": "cross-env NODE_ENV=production TARGET=chrome gulp",
 		"dist": "cross-env NODE_ENV=production cross-env TARGET=chrome gulp dist"
 	},
 	"//scripts": {
@@ -68,9 +68,9 @@
 		"debounce": "^1.2.0",
 		"easyeditor": "^1.2.0",
 		"emojione": "^4.5.0",
+		"graphql-query-builder": "^1.0.7",
 		"js-cookie": "^2.2.0",
 		"js-md5": "^0.7.3",
-		"json-to-graphql-query": "^1.9.0",
 		"jszip": "^3.2.1",
 		"markdown-it": "^8.4.2",
 		"markdown-it-abbr": "^1.0.4",

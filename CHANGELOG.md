@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.22.4] - 2019.05.04
+
+### Changed
+
+- [#58] Issue related to Extension of Brainly India Market [Not authorised to perform
+ this operation]
+
+[#58]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/58
+
 ## [6.22.3] - 2019.05.02
 
 ### Changed

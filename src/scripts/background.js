@@ -15,7 +15,7 @@ class Background {
     this.activeSessions = {};
     this.popupOpened = null;
     this.optionsPassedParameters = {};
-    this.blockedDomains = /mc.yandex.ru|hotjar.com|google(-analytics|tagmanager|adservices|tagservices).com|kissmetrics.com|doubleclick.net|ravenjs.com/i;
+    this.blockedDomains = /mc\.yandex\.ru|hotjar\.com|google(-analytics|tagmanager|adservices|tagservices)\.com|kissmetrics\.com|doubleclick\.net|ravenjs\.com|browser\.sentry-cdn\.com/i;
 
     this.manifest = ext.runtime.getManifest();
 

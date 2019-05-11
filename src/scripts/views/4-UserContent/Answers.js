@@ -44,9 +44,9 @@ class Answers extends UserContent {
   RenderButtonContainer() {
     if (!this.$buttonContainer) {
       this.$buttonContainer = $(`
-		<div class="sg-content-box__content sg-content-box__content--spaced-bottom">
-			<div class="sg-actions-list"></div>
-		</div>`);
+      <div class="sg-content-box__content sg-content-box__content--spaced-bottom">
+        <div class="sg-actions-list"></div>
+      </div>`);
 
       this.$buttonList = $(".sg-actions-list", this.$buttonContainer);
 

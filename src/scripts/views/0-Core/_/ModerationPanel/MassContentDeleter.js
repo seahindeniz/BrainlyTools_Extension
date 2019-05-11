@@ -71,7 +71,7 @@ class MassContentDeleter {
 			</div>`,
       actions: `
 			<div class="sg-spinner-container">
-				<button class="sg-button-primary sg-button-primary--peach js-delete">${System.data.locale.common.delete}</button>
+				<button class="sg-button-primary sg-button-primary--peach js-delete">${System.data.locale.common.delete} !</button>
 			</div>`
     });
     this.$modal = this.modal.$modal;

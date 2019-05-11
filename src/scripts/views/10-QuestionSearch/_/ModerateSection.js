@@ -53,7 +53,7 @@ class ModerateSection {
           <div class="sg-actions-list sg-actions-list--space-between">
             <div class="sg-actions-list__hole">
               <div class="sg-spinner-container">
-                <button class="sg-button-secondary sg-button-secondary--peach">${System.data.locale.common.delete}</button>
+                <button class="sg-button-secondary sg-button-secondary--peach">${System.data.locale.common.delete} !</button>
               </div>
             </div>
           </div>
@@ -121,7 +121,7 @@ class ModerateSection {
     this.$counter.text(`${this.counter.n}/${this.counter.max}`)
   }
   RenderDeleteSection() {
-    this.deleteSection = new DeleteSection("task");
+    this.deleteSection = new DeleteSection({ type: "task" });
 
     this.deleteSection.$.appendTo(this.$deleteSectionContainer);
   }

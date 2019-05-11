@@ -59,7 +59,7 @@ class UserContent {
 				<div class="sg-content-box">
 				</div>
 			</div>
-			<div class="sg-content-box__content"> </div>
+			<div class="sg-content-box__content sg-content-box__actions--spaced-top-large"> </div>
 			<div class="sg-content-box__actions sg-content-box__actions--spaced-top sg-content-box__actions--spaced-bottom"> </div>
 		</div>`);
 
@@ -113,12 +113,12 @@ class UserContent {
     }
   }
   RenderDeleteSection(type) {
-    this.deleteSection = new DeleteSection(type);
+    this.deleteSection = new DeleteSection({ type });
 
     this.RenderDeleteButton();
   }
   RenderDeleteButton() {
-    this.$deleteButton = $(`<button class="sg-button-secondary sg-button-secondary--peach">${System.data.locale.common.delete}</button>`);
+    this.$deleteButton = $(`<button class="sg-button-secondary sg-button-secondary--peach">${System.data.locale.common.delete} !</button>`);
 
     this.$deleteButton.click();
   }

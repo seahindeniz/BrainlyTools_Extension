@@ -2,15 +2,17 @@ class RadioSection {
   /**
    * @typedef {{id:string, label:string}} Item
    * @typedef {[Item]} Items
-   * @param {{ name:string, warning: string, items: Items, changeHandler: function }} param0
+   * @param {{ name:string, warning: string, items: Items, changeHandler: function, noHorizontalSeparator: boolean }} param0
    */
-  constructor({ name, warning, items, changeHandler }) {
+  constructor({ name, warning, items, changeHandler, noHorizontalSeparator = false }) {
     this.name = name;
     this.warning = warning;
     this.items = items;
     this.changeHandler = changeHandler;
+    this.noHorizontalSeparator = noHorizontalSeparator;
 
     this.Render();
+    this.RenderHorizontalSeparator();
     this.RenderWarning();
 
     if (items.length > 0)
@@ -21,7 +23,6 @@ class RadioSection {
   Render() {
     this.$ = $(`
     <div class="sg-content-box__actions">
-      <div class="sg-horizontal-separator"></div>
       <div class="sg-actions-list sg-content-box__actions--spaced-top sg-content-box__actions--spaced-bottom sg-actions-list--no-wrap sg-actions-list--to-top">
         <div class="sg-actions-list__hole sg-actions-list__hole--no-shrink">
           <span class="sg-text sg-text--small">${System.data.locale.core.MassContentDeleter.select[this.name]}:</span>
@@ -33,6 +34,12 @@ class RadioSection {
     </div>`);
 
     this.$list = $("> .sg-actions-list > .sg-actions-list__hole:eq(1) > .sg-actions-list", this.$);
+  }
+  RenderHorizontalSeparator() {
+    this.$separator = $(`<div class="sg-horizontal-separator"></div>`);
+
+    if (!this.noHorizontalSeparator)
+      this.$separator.prependTo(this.$);
   }
   RenderWarning() {
     this.$warning = $(`<div class="sg-bubble sg-bubble--top sg-bubble--row-start sg-bubble--peach sg-text--white" style="z-index: 1;">${this.warning}</div>`);
@@ -52,13 +59,15 @@ class RadioSection {
     let $item = $(`
     <div class="sg-actions-list__hole sg-actions-list__hole--no-spacing">
       <div class="sg-label sg-label--secondary">
-        <div class="sg-label__icon">
-          <div class="sg-radio">
-            <input type="radio" class="sg-radio__element" name="${this.name}" id="${item.id}">
-            <label class="sg-radio__ghost" for="${item.id}"></label>
+        <label class="sg-actions-list">
+          <div class="sg-label__icon sg-actions-list__hole">
+            <div class="sg-radio">
+              <input type="radio" class="sg-radio__element" name="${this.name}" id="${item.id}">
+              <label class="sg-radio__ghost"></label>
+            </div>
           </div>
-        </div>
-        <label class="sg-label__text" for="${item.id}">${item.label}</label>
+          <span class="sg-label__text sg-actions-list__hole">${item.label}</span>
+        </label>
       </div>
     </div>`);
 

@@ -121,7 +121,7 @@ class ModeratingPanel {
 			</div>`,
 
       actions: `<div class="sg-spinner-container">
-			<button class="sg-button-primary sg-button-primary--peach js-delete">${System.data.locale.common.moderating.confirm}</button>
+			<button class="sg-button-primary sg-button-primary--peach js-delete">${System.data.locale.common.confirm}</button>
 		</div>`
     });
 
@@ -177,7 +177,7 @@ class ModeratingPanel {
     }
   }
   RenderDeleteSection() {
-    this.deleteSection = new DeleteSection("task", this.ticket.data.delete_reasons.task);
+    this.deleteSection = new DeleteSection({ type: "task", reasons: this.ticket.data.delete_reasons.task });
     let $toplayerContentBox = $(".sg-toplayer__wrapper > .sg-content-box > div:nth-child(2)", this.modal.$modal);
 
     this.deleteSection.$.appendTo($toplayerContentBox);

@@ -23,7 +23,6 @@ export default class Action extends Brainly {
       give_warning: false,
       take_points: true,
       return_points: true,
-      schema: "",
       _coupon_: this.GenerateCoupon(),
       ...data
     }
@@ -39,7 +38,6 @@ export default class Action extends Brainly {
       model_type_id: 2,
       give_warning: false,
       take_points: true,
-      schema: "moderation.response.delete.req",
       _coupon_: this.GenerateCoupon(),
       ...data
     }
@@ -55,7 +53,6 @@ export default class Action extends Brainly {
     data = {
       model_type_id: 45,
       give_warning: false,
-      schema: "",
       _coupon_: this.GenerateCoupon(),
       ...data
     }
@@ -91,8 +88,7 @@ export default class Action extends Brainly {
   ConfirmContent(model_id, model_type_id) {
     let data = {
       model_id,
-      model_type_id,
-      schema: "moderation.content.ok"
+      model_type_id
     };
 
     return this.Legacy().moderation_new().accept().POST(data);
@@ -130,7 +126,6 @@ export default class Action extends Brainly {
   ReportForCorrection(data) {
     data = {
       model_type_id: 2,
-      schema: "",
       ...data
     }
     data.reason += ` ${System.constants.config.reasonSign}`;
@@ -142,8 +137,7 @@ export default class Action extends Brainly {
       try {
         let data = {
           model_id,
-          model_type_id: 1,
-          schema: "moderation.content.result.res"
+          model_type_id: 1
         }
 
         let resTicket = await this.Legacy().moderation_new().get_content().POST(data);
@@ -174,8 +168,7 @@ export default class Action extends Brainly {
   CloseModerationTicket(model_id) {
     let data = {
       model_id,
-      model_type_id: 1,
-      schema: ""
+      model_type_id: 1
     }
 
     return this.Legacy().moderate_tickets().expire().POST(data);
@@ -405,8 +398,7 @@ export default class Action extends Brainly {
   GetReportedContents(last_id) {
     let data = {
       subject_id: 0,
-      category_id: 0,
-      schema: "moderation.index"
+      category_id: 0
     }
 
     if (last_id)
@@ -417,8 +409,7 @@ export default class Action extends Brainly {
   GetReportedComments(last_id) {
     let data = {
       subject_id: 0,
-      category_id: 998,
-      schema: "moderation.index"
+      category_id: 998
     }
 
     if (last_id)
@@ -429,8 +420,7 @@ export default class Action extends Brainly {
   GetCorrectedContents(last_id) {
     let data = {
       subject_id: 0,
-      category_id: 999,
-      schema: "moderation.index"
+      category_id: 999
     }
 
     if (last_id)

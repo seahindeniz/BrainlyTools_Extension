@@ -1,15 +1,28 @@
 import RadioSection from "./RadioSection";
 
+const noop = () => {};
+
 class DeleteSection {
   /**
-   * @param {string} type
-   * @param {[]} reasons
+   * @param {{type: "task"|"response"|"comment", reasons: [], hideReasons: ["task", "response", "comment"], handlers: {contentTypeChange: function, reasonChange: function, subReasonChange: function}, noSpacedTop: boolean}} param0
    */
-  constructor(type, reasons) {
+  constructor({ type, reasons, hideReasons = [], handlers = {}, noSpacedTop = false } = {}) {
     this.type = type;
     this.reasons = reasons;
     this.reasonSections = {};
     this.subReasonSections = {};
+    this.hideReasons = hideReasons;
+    this.noSpacedTop = noSpacedTop;
+    this.handlers = {
+      contentTypeChange: noop,
+      reasonChange: noop,
+      subReasonChange: noop,
+      ...handlers
+    };
+    /**
+     * @type {RadioSection}
+     */
+    this.selectedReasonSection;
 
     if (this.type && !this.reasons)
       this.SetReasons();
@@ -25,12 +38,30 @@ class DeleteSection {
       this.UpdateReasonSection();
     }
   }
+  /**
+   * @param {string} type
+   */
+  set type(type) {
+    if (typeof type == "string") {
+      type = type.toLowerCase();
+
+      if (type == "question")
+        type = "task";
+      if (type == "answer")
+        type = "response";
+    }
+
+    this._type = type;
+  }
+  get type() {
+    return this._type;
+  }
   SetReasons() {
     this.reasons = System.data.Brainly.deleteReasons[this.type];
   }
   Render() {
     this.$ = $(`
-		<div class="sg-content-box sg-content-box--spaced-top-large sg-content-box--spaced-bottom sg-content-box--full">
+		<div class="sg-content-box${this.noSpacedTop ? "" : " sg-content-box--spaced-top"} sg-content-box--spaced-bottom sg-content-box--full">
       <div class="sg-content-box__actions">
         <div class="sg-content-box sg-content-box--full"></div>
       </div>
@@ -59,17 +90,19 @@ class DeleteSection {
     <div class="sg-actions-list__hole sg-actions-list__hole--no-spacing">
       <div class="sg-text sg-text--bold">
         <div class="sg-label sg-label--secondary" >
-          <div class="sg-label__icon" title="${title}">
-            <div class="sg-checkbox">
-              <input type="checkbox" class="sg-checkbox__element" id="${id}">
-              <label class="sg-checkbox__ghost" for="${id}">
-              <svg class="sg-icon sg-icon--adaptive sg-icon--x10">
-                <use xlink:href="#icon-check"></use>
-              </svg>
-              </label>
+          <label class="sg-actions-list">
+            <div class="sg-label__icon sg-actions-list__hole" title="${title}">
+              <div class="sg-checkbox">
+                <input type="checkbox" class="sg-checkbox__element" id="${id}">
+                <label class="sg-checkbox__ghost">
+                  <svg class="sg-icon sg-icon--adaptive sg-icon--x10">
+                    <use xlink:href="#icon-check"></use>
+                  </svg>
+                </label>
+              </div>
             </div>
-          </div>
-          <label class="sg-label__text" for="${id}">${label}</label>
+            <span class="sg-label__text sg-actions-list__hole">${label}</span>
+          </label>
         </div>
       </div>
     </div>`);
@@ -90,24 +123,22 @@ class DeleteSection {
     this.$giveWarning = $("input", this.$giveWarningContainer);
   }
   RenderContentTypeSection() {
-    this.contentTypeSection = new RadioSection({
+    let sectionData = {
       name: "contentType",
       warning: System.data.locale.common.moderating.selectContentType,
       changeHandler: this.ContentTypeRadioChange.bind(this),
-      items: [{
-          id: "task",
-          label: System.data.locale.popup.extensionOptions.quickDeleteButtons.task
-        },
-        {
-          id: "response",
-          label: System.data.locale.popup.extensionOptions.quickDeleteButtons.response
-        },
-        {
-          id: "comment",
-          label: System.data.locale.popup.extensionOptions.quickDeleteButtons.comment
-        }
-      ]
-    });
+      items: []
+    };
+
+    ["task", "response", "comment"].forEach(id => {
+      if (!this.hideReasons.includes(id))
+        sectionData.items.push({
+          id,
+          label: System.data.locale.popup.extensionOptions.quickDeleteButtons[id]
+        });
+    })
+
+    this.contentTypeSection = new RadioSection(sectionData);
 
     this.contentTypeSection.$.appendTo(this.$listSection);
   }
@@ -115,14 +146,37 @@ class DeleteSection {
    * @param {Event} event
    */
   ContentTypeRadioChange(event) {
-    this.HideSections(this.reasonSections);
-    this.HideSections(this.subReasonSections);
+    this.HideOptions();
+    this.ShowContentType();
 
     this.type = event.target.id;
-    this.reason = undefined;
+    let status = this.handlers.contentTypeChange(event);
 
+    if (status === false) {
+      this.type = this.lastSelectedContentType;
+      let input = $(`#${this.type}`, this.contentTypeSection.$);
+
+      input.prop("checked", true);
+      input.change();
+
+      return false;
+    }
+
+    this.lastSelectedContentType = this.type;
+
+    this.ShowReasons();
+  }
+  ShowReasons() {
     this.SetReasons();
     this.UpdateReasonSection();
+  }
+  ShowContentType() {
+    this.type = undefined;
+    this.reason = undefined;
+
+    this.HideSections(this.reasonSections);
+    this.HideSections(this.subReasonSections);
+    this.contentTypeSection.$.appendTo(this.$listSection);
   }
   HideSections(sections) {
     $.each(sections, (key, section) => section.Hide())
@@ -200,6 +254,7 @@ class DeleteSection {
    * @param {Event} event
    */
   ReasonRadioChange(event) {
+    this.handlers.reasonChange(event);
     this.HideSections(this.subReasonSections);
 
     let reasonId = System.ExtractId(event.target.id);
@@ -225,11 +280,15 @@ class DeleteSection {
    * @param {Event} event
    */
   SubReasonRadioChange(event) {
+    this.handlers.subReasonChange(event);
     let subReasonId = System.ExtractId(event.target.id);
     let subReason = this.reason.subcategories.find(reason => reason.id == subReasonId);
 
     this.$textarea.val(subReason.text);
   }
+  /**
+   * @returns {{id: number, category_id: number, text: string, title: string}}
+   */
   get selectedReason() {
     if (!this.type)
       this.contentTypeSection.ShowWarning();

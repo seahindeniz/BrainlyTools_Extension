@@ -4,7 +4,7 @@ import NoticeBoard from "./NoticeBoard";
 import MassMessageSender from "./MassMessageSender";
 import PointChanger from "./PointChanger";
 import ReportedCommentsDeleter from "./ReportedCommentsDeleter";
-import ReportedContentsConfirmer from "./ReportedContentsConfirmer";
+import MassModerateReportedContents from "./MassModerateReportedContents";
 import renderUserFinder from "./UserFinder";
 
 class ModerationPanel {
@@ -52,7 +52,7 @@ class ModerationPanel {
     }
 
     if (System.checkUserP(18)) {
-      this.RenderComponent(new ReportedContentsConfirmer());
+      this.RenderComponent(new MassModerateReportedContents());
     }
   }
   async RenderComponentsAfterDeleteReasonsLoaded() {

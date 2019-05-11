@@ -35,7 +35,7 @@ async function ArciveMod() {
     let confirmButton = Buttons('RemoveQuestionNoIcon', {
       text: "✓",
       class: "confirm",
-      title: System.data.locale.common.moderating.confirm,
+      title: System.data.locale.common.confirm,
     }, `<div class="sg-spinner-container">{button}</div>`);
 
     $.each(System.data.config.quickDeleteButtonsReasons, (reasonType, reasonIds) => {

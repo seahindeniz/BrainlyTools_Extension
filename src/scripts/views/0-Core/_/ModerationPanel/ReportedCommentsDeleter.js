@@ -81,7 +81,7 @@ class ReportedCommentsDeleter {
 						<div class="sg-text pending">${System.data.locale.core.reportedCommentsDeleter.numberOfPending}: <b>0</b></div>
 					</div>
 					<div class="sg-content-box__content">
-						<div class="sg-text deleted">${System.data.locale.core.reportedCommentsDeleter.deleted}: <b>0</b></div>
+						<div class="sg-text deleted">${System.data.locale.common.deleted}: <b>0</b></div>
 					</div>
 				</div>
 			</div>

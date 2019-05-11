@@ -2,7 +2,7 @@ import md5 from "js-md5";
 
 class ReportReasonText {
   constructor($target) {
-    this.$ = $(`<textarea class="sg-textarea sg-textarea--full-width" placeholder="${System.data.locale.core.reportedContentsConfirmer.reportReasonText}"></textarea>`);
+    this.$ = $(`<textarea class="sg-textarea sg-textarea--full-width" placeholder="${System.data.locale.core.massModerateReportedContents.reportReasonText}"></textarea>`);
 
     this.$.appendTo($target);
   }

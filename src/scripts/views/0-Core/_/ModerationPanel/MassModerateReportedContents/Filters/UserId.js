@@ -3,7 +3,7 @@ import md5 from "js-md5";
 class UserId {
   constructor($target, type) {
     this.type = type;
-    this.$ = $(`<input type="text" class="sg-input sg-input--small sg-input--full-width" placeholder="${System.data.locale.core.reportedContentsConfirmer.profileId[type]}">`);
+    this.$ = $(`<input type="text" class="sg-input sg-input--small sg-input--full-width" placeholder="${System.data.locale.core.massModerateReportedContents.profileId[type]}">`);
 
     this.$.appendTo($target);
   }

@@ -9,11 +9,13 @@ class Modal extends Toplayer {
   }
   RenderModal() {
     this.$modal = $(`
-		<div class="js-modal">
+    <div class="js-modal">
+      <div class="js-flash-container" style="z-index: 99999;position: fixed;top: 0px;width: 100%;"></div>
 			<div class="sg-overlay"></div>
 		</div>`);
 
     this.$overlay = $(".sg-overlay", this.$modal);
+    this.$flashContainer = $(".js-flash-container", this.$modal);
 
     this.$toplayer.appendTo(this.$overlay);
   }
@@ -26,10 +28,8 @@ class Modal extends Toplayer {
   notification(message, type = "", makePermanent = false) {
     let $notification = notification(message, type, makePermanent);
 
-    if ($notification) {
-      $notification.css("z-index", 2);
-      $notification.insertBefore(this.$close);
-    }
+    if ($notification)
+      $notification.appendTo(this.$flashContainer);
   }
 }
 export default Modal;

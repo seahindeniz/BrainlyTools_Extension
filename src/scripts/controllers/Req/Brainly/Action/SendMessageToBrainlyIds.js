@@ -103,7 +103,7 @@ export default class SendMessageToBrainlyIds {
     this.handlers.Done(this.processedIdList);
   }
   Promise() {
-    this.promise = new Promise(resolve => (this.handlers.Done = resolve));
+    this.promise = new Promise((resolve, reject) => (this.handlers.Done = resolve, this.handlers.Error = reject));
 
     return this.promise;
   }

@@ -222,9 +222,9 @@ class GroupChatbox {
       progress.UpdateLabel(`${sendedMessagesCount} - ${membersLen}`);
     };
 
-    SendMessages.handlers.Each = doInEachSending;
-    SendMessages.Start(this.group.members, message);
-    let membersWithConversationIds = await SendMessages.Promise();
+    this.SendMessage.handlers.Each = doInEachSending;
+    this.SendMessage.Start(this.group.members, message);
+    let membersWithConversationIds = await this.SendMessage.Promise();
     console.log("membersWithConversationIds:", membersWithConversationIds);
 
     //this.CheckForImproperMember(membersWithConversationIds);

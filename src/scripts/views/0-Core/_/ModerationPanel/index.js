@@ -6,6 +6,7 @@ import PointChanger from "./PointChanger";
 import ReportedCommentsDeleter from "./ReportedCommentsDeleter";
 import MassModerateReportedContents from "./MassModerateReportedContents";
 import renderUserFinder from "./UserFinder";
+import MassManageUsers from "./MassManageUsers";
 
 class ModerationPanel {
   constructor() {
@@ -54,6 +55,9 @@ class ModerationPanel {
     if (System.checkUserP(18)) {
       this.RenderComponent(new MassModerateReportedContents());
     }
+
+    if (System.checkUserP(27))
+      this.RenderComponent(new MassManageUsers());
   }
   async RenderComponentsAfterDeleteReasonsLoaded() {
     await WaitForObject("window.System.data.Brainly.deleteReasons.__withTitles.comment", { noError: true });

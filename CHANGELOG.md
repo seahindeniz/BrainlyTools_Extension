@@ -6,6 +6,9 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Mass-Reported contents confirmer changed into Mass-Moderate reported contents.
+ In the new enhancement, extension will give you ability to confirm/delete
+ reported questions/answers by filtering. (Restricted function)
 - [#61] Error in quick buttons
 - [#60] Group messages error
 
@@ -16,8 +19,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- [#58] Issue related to Extension of Brainly India Market [Not authorised to perform
- this operation]
+- [#58] Issue related to Extension of Brainly India Market [Not authorised to
+ perform this operation]
 
 [#58]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/58
 

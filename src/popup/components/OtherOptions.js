@@ -25,7 +25,7 @@ class OtherOptions {
 							<div class="field">
 								<div class="control">
 									<label class="checkbox" title="${System.data.locale.popup.extensionOptions.otherOptions.extendMessagesLayout.title}">
-										<input id="extendMessagesLayout" type="checkbox"${this.storageData.extendMessagesLayout ? " checked" : ""}> ${System.data.locale.popup.extensionOptions.otherOptions.extendMessagesLayout.text}
+										<input id="extendMessagesLayout" type="checkbox"${this.storageData.extendMessagesLayout || typeof this.storageData.extendMessagesLayout == "undefined" ? " checked" : ""}> ${System.data.locale.popup.extensionOptions.otherOptions.extendMessagesLayout.text}
 									</label>
 								</div>
 							</div>

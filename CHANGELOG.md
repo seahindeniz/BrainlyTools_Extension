@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.22.5] - 2019.05.13
+
+### Changed
+
+- [#61] Error in quick buttons
+- [#60] Group messages error
+
+[#61]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/61
+[#60]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/60
+
 ## [6.22.4] - 2019.05.04
 
 ### Changed

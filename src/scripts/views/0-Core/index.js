@@ -72,7 +72,7 @@ class Core {
   }
   UserDataLoaded() {
     window.postMessage({ action: "changeColors", data: this.userData.themeColor || "#57b2f8" }, "*");
-    messagesLayoutExtender(this.userData.extendMessagesLayout || true);
+    messagesLayoutExtender(this.userData.extendMessagesLayout || typeof this.userData.extendMessagesLayout == "undefined");
   }
   async SetMarketConfig() {
     System.data.config.marketConfig = await InjectToDOM(`/config/${location.hostname}.json`);

@@ -6,10 +6,15 @@ common:
   allDone: All done!
   save: Save
   clearInputs: Hapus input teks
-  delete: Hapus !
+  delete: Hapus
+  confirm: Konfirmasi
   # %{number_of_contents} variable indicates the number of selected contents.\n
   # Example: Delete (25)
   deleteN: "Hapus %{number_of_contents}"
+  # Will be shown before the number of moderated reports.
+  # Example> Confirmed 78
+  confirmed: Konfirmasi
+  deleted: Dihapus
   edit: Edit
   profileID: Profile ID
   nick: Nick
@@ -19,6 +24,7 @@ common:
   remove: Menghapus
   select: Pilih
   start: Dimulai
+  startAll: Memulai semua
   stop: Berhenti
   continue: Lanjutkan
   # Short for points
@@ -53,7 +59,6 @@ common:
     selectReason: Pilih sebuah alasan
     editInPanel: Edit pada panel moderasi
     point: poin
-    confirm: Konfirmasi
     notificationMessages:
     takePoints:
       task:
@@ -233,8 +238,8 @@ popup:
           title: Penghapusan komentar yang dilaporkan
           description: Pengguna dapat menggunakan fungsi ini untuk menghapus semua komentar yang dilaporkan dari moderasi Semua
         "18":
-          title: Berdasarkan konten yang dikonfirmasi
-          description: Pengguna dapat menggunakan fungsi ini untuk mengkonfirmasi jawaban yang dilaporkan dari Moderasi Semua dengan memfilter
+          title: Moderasi secara massal konten yang dilaporkan
+          description: Pengguna dapat menggunakan fungsi ini untuk mengkonfirmasi/menghapus konten yang dilaporkan secra masif dari Moderasi Semua dengan memfilter
         "21":
           title: Meninjau privilege pengguna
           description: Pengguna dapat meninjau privilege pengguna ekstensi lainnya tanpa membuat perubahan apa pun
@@ -253,6 +258,9 @@ popup:
         "26":
           title: Penghapusan pertanyaan terpilih (beberapa halaman)
           description: "Pada halaman pencarian pertanyaan, pengguna dapat menggunakan fungsi pemilihan penghapusan untuk menghapus pertanyaan yang dipilih dari beberapa halaman sekaligus"
+        "27":
+          title: Mengelola pengguna secara massal
+          description: "Pengguna dapat menggunakan fungsi ini untuk mengelola pengguna secara massif. Seperti, mengubah daftar poin pengguna atau menyetujui jawaban pengguna atau lainnya"
     announcements:
       text: Pengumuman
       addNewAnnouncement: Tambahkan sebuah pengumuman
@@ -298,6 +306,7 @@ core:
     pointsAdded: Poin ditambahkan
     thisConditionAlreadyAdded: Kondisi ini telah ditambahkan
     thisConditionAlreadyAddedInCommonConditions: Kondisi ini telah ditambahkan ke kondisi umum
+    youNeedToRemoveThePreviousFilterFirst: Kamu harus menghapus filter tipe konten yang ditambahkan sebelumnya dari daftar filter yang pertama
     conditionsDoesntMatchAnything: Kondisinya tidak sesuai dengan lainnya
     # %{content_id} variable indicates the content id.
     # Example> An error occured while deleting the #356985
@@ -305,6 +314,9 @@ core:
     doYouWantToContinue: "Apakah kamu ingin melanjutkan?"
     couldntAbleToGetNoticeBoardContent: Saya tidak bisa mendapatkan konten pada papan pengumuman
     changesMayNotBeSaved: Perubahan yang kamu buat mungkin tidak tersimpan
+    youCantAddMoreThan8Sections: Kamu tidak dapat menambah lebih dari 8 bagian
+    stillProcessing: "Bagian ini masih dalam proses. Apakah kamu ingin menghapus blok ini?\n(ini akan menghentikan proses moderasi)"
+    youNeedToChooseActionType: Kamu perlu memilih salah satu jenis tindakan
   MassContentDeleter:
     text: Penghapusan konten massal
     contentLinksOrIDs: Link konten atau id
@@ -320,6 +332,7 @@ core:
       contentType: Tipe konten
       reason: Alasan
       subReason: Sub alasan
+      action: Tindakan
   MessageSender:
     text: Pengiriman pesan massal
     lastRegisteredUserId: "Masukkan ID user yang terakhir "
@@ -359,20 +372,16 @@ core:
     deleting: Dihapus
     stopped: Terhenti
     numberOfPending: Tertunda
-    deleted: Dihapus
     selectAReason: Pilih sebuah alasan
-  reportedContentsConfirmer:
-    text: ""
-    addConditionBlock: Tambahkan blok kondisi
+  massModerateReportedContents:
+    text: Moderasi secara massal konten yang dilaporkan
+    addConditionBlock: Tambahkan bagian kondisi
     selectAFilter: Pilih sebuah filter
     reportReasonText: Teks alasan pelaporan
     fetchedReports: Jumlah laporan yang diambil dari Moderate all
     # %{number_of_matched_reports} indicates the number of matched reports.
     # Example> Matched 35
     matched: "Cocok %{number_of_matched_reports}"
-    # %{number_of_confirmed_reports} indicates the number of confirmed reports.
-    # Example> Confirmed 78
-    confirmed: "Terkonfirmasi %{number_of_confirmed_reports}"
     regexp: Ekspresi Regular
     confirmAll: Mengkonfirmasi semua
     informationText1: "Kamu dapat mengkonfirmasi konten yang dilaporkan dari Moderasi Semua dengan memfilter. Kamu hanya perlu untuk memilih dan manambahkan kondisi yang terkait dengan konten dan mengeklik mulai dan biarkan tab tetap terbuka, itu saja"
@@ -409,6 +418,8 @@ core:
     lastChanges: Perubahan terakhir
     # More information: https://ibb.co/2Ys4pt9
     readBy: Dibaca oleh
+  massManageUsers:
+    text: Mengelola pengguna secara massal
 home:
   todaysActions: Aksi hari ini
 messages:

@@ -6,10 +6,15 @@ common:
   allDone: All done!
   save: Save
   clearInputs: Clear text inputs
-  delete: Delete !
+  delete: Delete
+  confirm: Confirm
   # %{number_of_contents} variable indicates the number of selected contents.\n
   # Example: Delete (25)
   deleteN: Delete %{number_of_contents}
+  # Will be shown before the number of moderated reports.
+  # Example> Confirmed 78
+  confirmed: Confirmed
+  deleted: Deleted
   edit: Edit
   profileID: Profile ID
   nick: Nick
@@ -19,6 +24,7 @@ common:
   remove: Remove
   select: Select
   start: Start
+  startAll: Start all
   stop: Stop
   continue: Continue
   # Short for points
@@ -53,7 +59,6 @@ common:
     selectReason: Please select a reason
     editInPanel: Edit in moderation panel
     point: point
-    confirm: Confirm
     notificationMessages:
     takePoints:
       task:
@@ -233,8 +238,8 @@ popup:
           title: Reported comments deleter
           description: User can use this function to delete all the reported comments from Moderate all
         "18":
-          title: Reported contents confirmer
-          description: User can use this function to confirm reported contents from Moderate all by filtering
+          title: Mass-Moderate reported contents
+          description: User can use this function to confirm/delete reported contents massively from the Moderate all by filtering
         "21":
           title: Review user privileges
           description: User can review other extension users privileges without making any changes
@@ -253,6 +258,9 @@ popup:
         "26":
           title: Selective question deletion(Multiple pages)
           description: On the question searching page, user can use the selective deletion function to delete selected questions from multiple pages at once
+        "27":
+          title: Mass-Manage users
+          description: User can use this function to manage users massively. Like, changing a list of users points or approve answers of users or etc.
     announcements:
       text: Announcements
       addNewAnnouncement: Add a new announcement
@@ -298,6 +306,7 @@ core:
     pointsAdded: Points added
     thisConditionAlreadyAdded: This condition already added
     thisConditionAlreadyAddedInCommonConditions: This condition already added in the Common conditions
+    youNeedToRemoveThePreviousFilterFirst: You need to remove previously added content type filter from the filter list first
     conditionsDoesntMatchAnything: Conditions doesn't match with anything
     # %{content_id} variable indicates the content id.
     # Example> An error occured while deleting the #356985
@@ -305,6 +314,9 @@ core:
     doYouWantToContinue: Do you want to continue?
     couldntAbleToGetNoticeBoardContent: I couldn't able to get content of notice board
     changesMayNotBeSaved: Changes you made may not be saved
+    youCantAddMoreThan8Sections: You can't add more than 8 sections
+    stillProcessing: "This section is still in process. Do you want to remove this block?\n(this will stop the moderating process)"
+    youNeedToChooseActionType: You need to choose an action type
   MassContentDeleter:
     text: Mass-Content deleter
     contentLinksOrIDs: Content links or id's..
@@ -320,6 +332,7 @@ core:
       contentType: Content type
       reason: Reason
       subReason: Sub reason
+      action: Action
   MessageSender:
     text: Mass-Message sender
     lastRegisteredUserId: Enter last registered user id
@@ -359,20 +372,16 @@ core:
     deleting: Deleting
     stopped: Stopped
     numberOfPending: Pending
-    deleted: Deleted
     selectAReason: Select a reason
-  reportedContentsConfirmer:
+  massModerateReportedContents:
     text: Mass-Moderate reported contents
-    addConditionBlock: Add condition block
+    addConditionBlock: Add condition section
     selectAFilter: Select a filter
     reportReasonText: Report reason text
     fetchedReports: Count of fetched reports from Moderate all
     # %{number_of_matched_reports} indicates the number of matched reports.
     # Example> Matched 35
     matched: Matched %{number_of_matched_reports}
-    # %{number_of_confirmed_reports} indicates the number of confirmed reports.
-    # Example> Confirmed 78
-    confirmed: Confirmed %{number_of_confirmed_reports}
     regexp: Regular Expression
     confirmAll: Confirm All
     informationText1: You can confirm reported contents from Moderate All by filtering. You just need to select and add conditions related the content and click start and keep this tab open that's all.
@@ -409,6 +418,8 @@ core:
     lastChanges: Last changes
     # More information: https://ibb.co/2Ys4pt9
     readBy: Read by
+  massManageUsers:
+    text: Mass-Manage users
 home:
   todaysActions: Today's actions
 messages:

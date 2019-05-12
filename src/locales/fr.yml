@@ -6,10 +6,15 @@ common:
   allDone: Terminé !
   save: Enregistrer
   clearInputs: Effacer les champs de texte
-  delete: Supprimer !
+  delete: Supprimer
+  confirm: Confirmer
   # %{number_of_contents} variable indicates the number of selected contents.\n
   # Example: Delete (25)
   deleteN: "Supprimer %{number_of_contents}"
+  # Will be shown before the number of moderated reports.
+  # Example> Confirmed 78
+  confirmed: Approuvées
+  deleted: Supprimé
   edit: Editer
   profileID: ID du profil
   nick: Pseudo
@@ -19,6 +24,7 @@ common:
   remove: Supprimer
   select: Sélectionner
   start: Débuter
+  startAll: Tout commencer
   stop: Stopper
   continue: Continuer
   # Short for points
@@ -53,7 +59,6 @@ common:
     selectReason: Merci de sélectionner une raison
     editInPanel: Editer dans le panneau de modération
     point: Point
-    confirm: Confirmer
     notificationMessages:
     takePoints:
       task:
@@ -233,8 +238,8 @@ popup:
           title: Supprimer les commentaires signalés
           description: L'utilisateur peut utiliser cette fonction pour supprimer tous commentaires signalés dans le Tout modérer
         "18":
-          title: Approuver les contenus signalés
-          description: L'utilisateur peut utiliser cette fonction pour supprimer tous commentaires signalés dans le Tout modérer en utilisant des filtres
+          title: Modération de masse des contenus signalés
+          description: L'utilisateur peut utiliser cette fonction pour approuver/supprimer massivement les contenus depuis le Tout Modérer en les filtrant
         "21":
           title: Voir les privilèges de l'utilisateur
           description: L'utilisateur peut voir les privilèges des autres utilisateurs utilisateurs sans faire de modifications
@@ -253,6 +258,9 @@ popup:
         "26":
           title: Suppression des questions sélectionnées (pages multiple)
           description: "Sur la page de recherche de question, l'utilisateur peut sélectionner de questions sur de multiple pages pour les supprimer "
+        "27":
+          title: Management de masse des utilisateurs
+          description: "L'utilisateur peut utiliser cette fonction pour manager les utilisateurs tel que changer le nombre de points, approuver les réponses des utilisateurs etc .."
     announcements:
       text: Annonces
       addNewAnnouncement: Ajouter une nouvelle annonce
@@ -298,6 +306,7 @@ core:
     pointsAdded: Les points ont été ajoutés
     thisConditionAlreadyAdded: La condition a déjà été ajoutée
     thisConditionAlreadyAddedInCommonConditions: La condition a déjà été ajoutée dans les conditions communes
+    youNeedToRemoveThePreviousFilterFirst: Vous devez d'abord retirer le filtre précédent depuis la liste des filtres
     conditionsDoesntMatchAnything: Les conditions ne correspondent à aucun signalemlent
     # %{content_id} variable indicates the content id.
     # Example> An error occured while deleting the #356985
@@ -305,6 +314,9 @@ core:
     doYouWantToContinue: "Voulez-vous continuer ?"
     couldntAbleToGetNoticeBoardContent: Je ne suis pas en mesure de d'obtenir le contenu du tableau d'information
     changesMayNotBeSaved: Les changements effectués peuvent ne pas avoir été sauvegardés
+    youCantAddMoreThan8Sections: Vous ne pouvez pas ajouter plus de 8 sections
+    stillProcessing: "Cette section est toujours en cours. Voulez-vous enlever ce bloc ?\n(cela arrêtera le processus de modération)"
+    youNeedToChooseActionType: Vous devez choisir un type d'action
   MassContentDeleter:
     text: Suppression de masse des contenus
     contentLinksOrIDs: Lien du contenu ou IDs
@@ -320,6 +332,7 @@ core:
       contentType: Type de contenu
       reason: Raison
       subReason: Catégorie
+      action: Action
   MessageSender:
     text: Messagerie de masse
     lastRegisteredUserId: Entrer l'ID du dernier utilisateur enregistré
@@ -359,20 +372,16 @@ core:
     deleting: Suppression
     stopped: Stopper
     numberOfPending: En attente
-    deleted: Supprimé
     selectAReason: Sélectionner une raison
-  reportedContentsConfirmer:
+  massModerateReportedContents:
     text: Modération de masse des contenus signalés
-    addConditionBlock: Ajouter un bloc de condition
+    addConditionBlock: Ajouter une section de condition
     selectAFilter: Sélectionner un filtre
     reportReasonText: Raison de signalement
     fetchedReports: Nombre de signalement correspondant à votre requête
     # %{number_of_matched_reports} indicates the number of matched reports.
     # Example> Matched 35
     matched: "Résultat : %{number_of_matched_reports}"
-    # %{number_of_confirmed_reports} indicates the number of confirmed reports.
-    # Example> Confirmed 78
-    confirmed: "Approuvé : %{number_of_confirmed_reports}"
     regexp: Expression
     confirmAll: Tout approuver
     informationText1: Vous pouvez approuver les contenus signalés depuis le Tout modérer en appliquant des filtres. Vous avez simplement à sélectionner et ajouter les conditions relatives aux contenus et cliquer sur démarrer et ne pas fermer cet onglet
@@ -409,6 +418,8 @@ core:
     lastChanges: Dernier changements
     # More information: https://ibb.co/2Ys4pt9
     readBy: Lu par
+  massManageUsers:
+    text: Management de masse des utilisateurs
 home:
   todaysActions: Actions du jour
 messages:

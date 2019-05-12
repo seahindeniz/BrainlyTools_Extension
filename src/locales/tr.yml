@@ -6,10 +6,15 @@ common:
   allDone: Tamamdır!
   save: Kaydet
   clearInputs: Metin girişlerini temizle
-  delete: Sil !
+  delete: Sil
+  confirm: Onayla
   # %{number_of_contents} variable indicates the number of selected contents.\n
   # Example: Delete (25)
   deleteN: "Sil %{number_of_contents}"
+  # Will be shown before the number of moderated reports.
+  # Example> Confirmed 78
+  confirmed: Onaylandı
+  deleted: Silindi
   edit: Düzenle
   profileID: Profil ID
   nick: Nick
@@ -19,6 +24,7 @@ common:
   remove: Kaldır
   select: Seç
   start: Başlat
+  startAll: Tümünü başlat
   stop: Durdur
   continue: Devam et
   # Short for points
@@ -53,7 +59,6 @@ common:
     selectReason: Silim sebebi seçmelisin
     editInPanel: Moderatör panelinde düzenle
     point: puan
-    confirm: Onayla
     notificationMessages:
     takePoints:
       task:
@@ -233,8 +238,8 @@ popup:
           title: TD > Toplu yorum silici
           description: Kullanıcı bu fonksiyonu kullanarak Tümünü düzelt'ten tüm yorumları silebilir
         "18":
-          title: Şikayet edilmiş içerik onaylayıcı
-          description: Kullanıcı bu fonksiyonu kullanarak Tümünü düzelt'ten şikayet edilmiş içerikleri filtreleyerek onaylayabilir
+          title: Şikayet edilmiş içerik düzenleyici
+          description: Kullanıcı bu fonksiyonu kullanarak Tümünü düzelt'ten şikayet edilmiş içerikleri filtreleyerek çoklu olarak onaylayabilir/silebilir
         "21":
           title: Kullanıcının yetkilerini görebilme
           description: "Kullanıcı, diğer eklenti kullanıcılarının sahip olduğu yetkileri düzenlemeden, sadece görüntüleyebilir"
@@ -253,6 +258,9 @@ popup:
         "26":
           title: Seçmeli soru silimi(Sayfalar arası)
           description: "Kullanıcı, soru arama sayfasında sayfalar arasında geçiş yaparak, seçtiği soruları silebilir"
+        "27":
+          title: Çoklu kullanıcı yönetimi
+          description: "Kullanıcı bu fonksiyonu kullanarak, kullanıcı çoklu şekilde yönetebilir. Örneğin, listelediği kullanıcıların puanlarını değiştirebilir veya cevaplarını doğrulayabilir veya buna benzer eylemler uygulayabilir"
     announcements:
       text: Duyurular
       addNewAnnouncement: Yeni duyuru ekle
@@ -298,6 +306,7 @@ core:
     pointsAdded: Puanlar eklendi
     thisConditionAlreadyAdded: Koşul zaten eklenmiş
     thisConditionAlreadyAddedInCommonConditions: Ortak koşullar'da zaten bulunuyor
+    youNeedToRemoveThePreviousFilterFirst: Önce filtre listesine eklediğin içerik tipi filtresini kaldırmalısın
     conditionsDoesntMatchAnything: Koşul herhangi bir şeyle eşleşmiyor
     # %{content_id} variable indicates the content id.
     # Example> An error occured while deleting the #356985
@@ -305,6 +314,9 @@ core:
     doYouWantToContinue: "Devam etmek istiyor musun?"
     couldntAbleToGetNoticeBoardContent: Duyuru panosunun içeriğini sunucudan alamadım
     changesMayNotBeSaved: Yaptığınız değişiklikler kaydedilmemiş olabilir
+    youCantAddMoreThan8Sections: 8 adetten fazla blok ekleyemezsin
+    stillProcessing: "Bu blok halen işlem sürecinde. Bloğu silmek istiyor musun? (onay vermen, aktif işlemi durduracaktır)"
+    youNeedToChooseActionType: Eylem tipi seçmelisin
   MassContentDeleter:
     text: Çoklu içerik silici
     contentLinksOrIDs: İçerik linki veya id numarası..
@@ -320,6 +332,7 @@ core:
       contentType: İçerik tipi
       reason: Sebep
       subReason: Alt sebep
+      action: Eylem
   MessageSender:
     text: Toplu özel mesaj gönder
     lastRegisteredUserId: Kayıtlı son kullanıcı id'sini gir
@@ -359,9 +372,8 @@ core:
     deleting: Siliniyor
     stopped: Durduruldu
     numberOfPending: Bekleyen
-    deleted: Silindi
     selectAReason: Silim sebebi seç
-  reportedContentsConfirmer:
+  massModerateReportedContents:
     text: Şikayet edilmiş içerik düzenleyici
     addConditionBlock: Koşul bloğu ekle
     selectAFilter: Filtre seç
@@ -370,9 +382,6 @@ core:
     # %{number_of_matched_reports} indicates the number of matched reports.
     # Example> Matched 35
     matched: "%{number_of_matched_reports} eşleşme"
-    # %{number_of_confirmed_reports} indicates the number of confirmed reports.
-    # Example> Confirmed 78
-    confirmed: "Onaylanan %{number_of_confirmed_reports}"
     regexp: Koşullu ifade
     confirmAll: Tümünü onayla
     informationText1: Tümünü düzelt'ten şikayet edilmiş içerikeri filtreleyerek onaylayabilirsin. Yapman gereken sadece içeriklerle alakalı koşulları seçmek ve başlata basmak ve işlem sırasında sekmeyi kapatmamak.
@@ -409,6 +418,8 @@ core:
     lastChanges: Son değişiklik
     # More information: https://ibb.co/2Ys4pt9
     readBy: Okuyanlar
+  massManageUsers:
+    text: Çoklu kullanıcı yönet
 home:
   todaysActions: Eylem sayısı
 messages:

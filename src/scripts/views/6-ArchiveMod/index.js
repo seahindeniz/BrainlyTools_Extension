@@ -191,19 +191,22 @@ async function ArciveMod() {
       response: true
     };
 
-    $.each(System.data.config.quickDeleteButtonsReasons, (key, reasons) => {
-      if (prepareQuickDeleteButtons[key]) {
+    $.each(System.data.config.quickDeleteButtonsReasons, (reasonType, reasonIds) => {
+      if (prepareQuickDeleteButtons[reasonType]) {
         let data = [];
 
-        reasons.forEach((reason, i) => {
-          data.push({
-            text: System.data.Brainly.deleteReasons.__withIds[key][reason].title,
-            title: System.data.Brainly.deleteReasons.__withIds[key][reason].text,
-            type: "peach sg-button-secondary--small"
-          });
+        reasonIds.forEach((reasonId, i) => {
+          let reason = System.data.Brainly.deleteReasons.__withIds[reasonType][reasonId];
+
+          if (reason)
+            data.push({
+              text: reason.title,
+              title: reason.text,
+              type: "peach sg-button-secondary--small"
+            });
         });
 
-        prepareQuickDeleteButtons[key] = Buttons('RemoveQuestionNoIcon', data);
+        prepareQuickDeleteButtons[reasonType] = Buttons('RemoveQuestionNoIcon', data);
       }
     });
 
@@ -228,7 +231,8 @@ async function ArciveMod() {
                 let data = {
                   model_id: contentID,
                   reason_id: reason.category_id,
-                  reason: reason.text
+                  reason: reason.text,
+                  give_warning: System.canBeWarned(reason.id)
                 };
                 let spinner = $(`<div class="sg-spinner sg-spinner--xxsmall sg-spinner--light"></div>`).appendTo(this);
                 let obj = Zadanium.getObject($($toplayer).attr("objecthash"));

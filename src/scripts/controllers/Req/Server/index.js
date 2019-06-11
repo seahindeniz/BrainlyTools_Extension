@@ -142,8 +142,8 @@ export default class ServerReq {
   AnnouncementRead(id) {
     return this.announcement().P(id).PUT();
   }
-  CreateShortLink(data) {
-    return this.urlshortener().POST(data);
+  CreateShortLink(url) {
+    return this.urlshortener().POST({ url });
   }
   Logger(type, log) {
     return this.logger().PUT({ type, log });
@@ -246,6 +246,56 @@ export default class ServerReq {
       System.StoreUsers(resSupervisors.data, handlers);
     });
   }
+  /**
+   * @param {string[]} hashList
+   * @param {number} id
+   * @param {string} nick
+   */
+  ActionsHistoryDetails(hashList, id, nick) {
+    return this.actionsHistory().details().POST({ hashList, id, nick });
+  }
+  ConfirmActionHistoryEntry(_id, hashList) {
+    if (typeof hashList == "string")
+      hashList = [hashList];
+
+    return this.actionsHistory().confirm().P(_id).PUT({ hashList });
+  }
+  /**
+   * @param {string} _id
+   * @param {string} hash
+   * @param {string} message
+   */
+  DisapproveActionHistoryEntry(_id, hashList, message) {
+    if (typeof hashList == "string")
+      hashList = [hashList];
+
+    let data = {
+      hashList
+    };
+
+    if (message)
+      data.message = message;
+
+    return this.actionsHistory().disapprove().P(_id).PUT(data);
+  }
+  RevertActionHistoryReport(_id) {
+    if (!_id) throw "Id not found";
+
+    return this.actionsHistory().revert().P(_id).PUT();
+  }
+  /**
+   * @param {Blob} screenshot
+   */
+  ActionHistoryEntryImage(screenshot) {
+    let formData = new FormData();
+
+    formData.append('file', screenshot, screenshot.name);
+
+    return this.FrontGate().Axios().SKey().P("actionsHistory").P("image").POST(formData);
+  }
+  ActionHistoryEntryLinks(links) {
+    return this.actionsHistory().storeLinks().POST({ links });
+  }
 
   auth() {
     return this.P("auth");
@@ -306,5 +356,23 @@ export default class ServerReq {
   }
   moderatorList() {
     return this.P("moderatorList");
+  }
+  actionsHistory() {
+    return this.P("actionsHistory");
+  }
+  details() {
+    return this.P("details");
+  }
+  confirm() {
+    return this.P("confirm");
+  }
+  disapprove() {
+    return this.P("disapprove");
+  }
+  revert() {
+    return this.P("revert");
+  }
+  storeLinks() {
+    return this.P("storeLinks");
   }
 }

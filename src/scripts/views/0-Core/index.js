@@ -27,7 +27,7 @@ window.selectors = {
   toplayerContainer: "body > div.js-page-wrapper"
 }
 
-window.onbeforeunload = function() {
+window.addEventListener("beforeunload", () => {
   if (window.isPageProcessing) {
     let message = System.data.locale.common.notificationMessages.ongoingProcess;
 
@@ -35,9 +35,10 @@ window.onbeforeunload = function() {
       message = window.isPageProcessing;
     }
 
-    return message;
+    event.preventDefault();
+    event.returnValue = message;
   }
-}
+});
 
 class Core {
   constructor() {
@@ -130,7 +131,7 @@ class Core {
     //renderChatPanel();
     RenderMenuButtonFixer();
 
-    document.documentElement.setAttribute("extension", System.data.meta.manifest.version);
+    //document.documentElement.setAttribute("extension", System.data.meta.manifest.version);
     window.sitePassedParams && typeof window.sitePassedParams == "string" && (window.sitePassedParams = JSON.parse(sitePassedParams));
   }
   InjectFilesToPage() {
@@ -152,6 +153,13 @@ class Core {
       InjectToDOM([
         "/scripts/views/9-Uploader/index.js",
         "/styles/pages/Uploader.css"
+      ]);
+    }
+
+    if (System.checkRoute(2, "view_moderator")) {
+      InjectToDOM([
+        "/scripts/views/11-ModeratorActionsHistory/index.js",
+        "/styles/pages/ModeratorActionsHistory.css"
       ]);
     }
   }

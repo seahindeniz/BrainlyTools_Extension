@@ -1,0 +1,52 @@
+div#content-old tr {
+  .dataTime {
+    .js-actions.sg-content-box {
+      display: none;
+      width: 77px;
+      height: inherit;
+      position: absolute;
+      text-align: center;
+      margin: -19px 0 0 -77px;
+
+      .sg-text--link {
+        padding: 7.5px 0;
+      }
+    }
+
+    .flag {
+      position: absolute;
+      min-width: 67px;
+      margin: 0.5% 0 0 -77px;
+    }
+  }
+
+  td:nth-child(2) {
+    height: 90px;
+  }
+
+  &:hover,
+  &.processing {
+    .dataTime .sg-content-box {
+      display: block;
+    }
+  }
+
+  &.confirmed,
+  &.disapproved {
+    .dataTime a {
+      color: #fff;
+    }
+  }
+
+  &.confirmed {
+    .dataTime {
+      background-color: #5fd398;
+    }
+  }
+
+  &.disapproved {
+    .dataTime {
+      background-color: #f17868;
+    }
+  }
+}

@@ -223,7 +223,8 @@ class GroupChatbox {
     };
 
     this.SendMessage.handlers.Each = doInEachSending;
-    this.SendMessage.Start(this.group.members, message);
+    let idList = this.group.members.map(member => ~~member.brainlyID)
+    this.SendMessage.Start(idList, message);
     let membersWithConversationIds = await this.SendMessage.Promise();
     console.log("membersWithConversationIds:", membersWithConversationIds);
 
@@ -246,7 +247,7 @@ class GroupChatbox {
       .text(message.substring(0, 60))
       .attr("title", message);
 
-      new ServerReq().MessageSended({
+    new ServerReq().MessageSended({
       _id: this.group._id,
       message,
       members: membersWithConversationIds

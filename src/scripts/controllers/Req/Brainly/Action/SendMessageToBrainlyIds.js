@@ -70,8 +70,8 @@ export default class SendMessageToBrainlyIds {
 
         this.processedIdList.push(user);
 
-        let resSend = await new Action().SendMessage(user.conversation_id, this.content);
-        //await System.TestDelay();	let resSend = { success: true }
+        let resSend = await new Action().SendMessage({ conversation_id: user.conversation_id }, this.content);
+        //await System.TestDelay(); let resSend = { success: true }
 
         if (!resSend || !resSend.success) {
           user.exception_type = resSend.exception_type;

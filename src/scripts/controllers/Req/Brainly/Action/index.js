@@ -117,7 +117,7 @@ export default class Action extends Brainly {
       _coupon_: this.GenerateCoupon()
     }
 
-    return this.Legacy().api_content_quality().confirm().POST(data);
+    return this.Legacy().api_content_quality().unconfirm().POST(data);
   }
   /**
    * Report answer for correction
@@ -294,14 +294,24 @@ export default class Action extends Brainly {
     return this.Legacy().api_messages().check().POST({ user_id });
   }
   /**
-   * @param {number} conversation_id
+   * @param {{conversation_id:number, user_id: number}} param0
    * @param {string} content
    */
-  SendMessage(conversation_id, content) {
+  async SendMessage({ conversation_id, user_id }, content) {
     let data = {
       content,
       conversation_id
     };
+
+    if (user_id) {
+      let resConversation = await this.GetConversationID(user_id);
+
+      if (!resConversation || !resConversation.success)
+        return Promise.reject(resConversation);
+
+      data.conversation_id = resConversation.data.conversation_id;
+      this.path = "";
+    }
     //onError yerine function aç ve gelen isteğe göre conversation id oluştur. İstek conversation id hatası değilse on error devam ettir
     return this.Legacy().api_messages().send().POST(data);
   }

@@ -1,4 +1,11 @@
+/**
+ * @typedef {{size: "small"|"medium"|"large", header: string, content: string, actions: string, addAfter: string}} options
+ */
+
 class Toplayer {
+  /**
+   * @param {options} param0
+   */
   constructor({ size = "medium", header = "", content = "", actions = "", addAfter = "" } = {}) {
     this.size = size;
     this.header = header;
@@ -36,7 +43,7 @@ class Toplayer {
     this.$header = $(`<div class="sg-content-box__header">${this.header}</div>`);
 
     if (this.size) {
-      this.$header.addClass("sg-content-box__content--spaced-bottom-large");
+      this.$header.addClass("sg-content-box__content--spaced-top sg-content-box__content--spaced-bottom-xlarge");
     }
 
     this.$header.appendTo(this.$contentContainer);

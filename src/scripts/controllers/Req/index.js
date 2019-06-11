@@ -148,6 +148,7 @@ export default class Request {
     ) {
       this.HandleCaptcha();
     } else if (++this.errorCount < 3) {
+      await System.Delay(1000);
       this.OpenConnection();
     } else {
       this.errorCount = 0;

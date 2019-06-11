@@ -2,6 +2,9 @@ import Toplayer from "./Toplayer";
 import notification from "./notification";
 
 class Modal extends Toplayer {
+  /**
+   * @param {import("./Toplayer").options} options
+   */
   constructor(options) {
     super(options);
 

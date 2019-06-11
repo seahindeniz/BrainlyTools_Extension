@@ -105,12 +105,15 @@ class UserContent {
     this.$selectContentWarning = $(`<div class="sg-bubble sg-bubble--top sg-bubble--row-start sg-bubble--peach sg-text--white">${System.data.locale.userContent.notificationMessages.selectAtLeasetOneContent}</div>`);
   }
   BindPageCloseEvent() {
-    window.onbeforeunload = () => {
+    window.addEventListener("beforeunload", () => {
       let rows = this.rows.filter(row => row.isBusy);
 
-      if (rows.length > 0)
-        return true;
-    }
+      if (rows.length > 0) {
+        event.returnValue = "";
+
+        event.preventDefault();
+      }
+    });
   }
   RenderDeleteSection(type) {
     this.deleteSection = new DeleteSection({ type });

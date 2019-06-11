@@ -57,7 +57,7 @@ class LinkShortener {
   }
   CreateLink(url) {
     return new Promise(async (resolve, reject) => {
-      let resCreated = await new ServerReq().CreateShortLink({ url });
+      let resCreated = await new ServerReq().CreateShortLink(url);
 
       if (!resCreated) {
         notification("Server error", "danger");

@@ -146,8 +146,8 @@ class NoticeBoard {
     this.$usersSection = $(`
 		<div class="sg-horizontal-separator sg-horizontal-separator--spaced"></div>
 		<div class="sg-content-box">
-			<div class="sg-content-box__content sg-content-box__content--spaced-bottom-small">
-				<h2 class="sg-header-secondary">${System.data.locale.core.noticeBoard.readBy}:</h2>
+			<div class="sg-content-box__content">
+				<h2 class="sg-headline sg-headline--lavender-dark sg-headline--xsmall">${System.data.locale.core.noticeBoard.readBy}:</h2>
 			</div>
 			<div class="sg-content-box__actions"></div>
 		</div>`);
@@ -329,10 +329,13 @@ class NoticeBoard {
     this.$saveButton.click(this.SaveContent.bind(this));
     this.$editSectionContent.on("input", this.UpdateContent.bind(this));
 
-    window.onbeforeunload = () => {
-      if (!this.IsEditorValSame())
-        return true;
-    }
+    window.addEventListener("beforeunload", () => {
+      if (!this.IsEditorValSame()) {
+        event.returnValue = "";
+
+        event.preventDefault();
+      }
+    });
   }
   OpenEditSection() {
     this.$editSectionContent.text(this.noticeContent);

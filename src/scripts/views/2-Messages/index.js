@@ -26,12 +26,14 @@ function Messages() {
     new renderGroupMessaging();
   }
 
-  window.onbeforeunload = function() {
+  window.addEventListener("beforeunload", () => {
     let $textarea = $(selectors.textarea);
     let value = $textarea.val() || "";
 
     if (value.trim() != "") {
-      return System.data.locale.messages.notificationMessages.unsendedMessage;
+      event.returnValue = System.data.locale.messages.notificationMessages.unsendedMessage;
+
+      event.preventDefault();
     }
-  }
+  });
 }

@@ -9,11 +9,13 @@ let System = new _System();
 window.System = System;
 window.isPageBusy = false;
 
-window.onbeforeunload = function() {
+window.addEventListener("beforeunload", () => {
   if (window.isPageBusy) {
-    return System.data.locale.common.notificationMessages.ongoingProcess;
+    event.returnValue = System.data.locale.common.notificationMessages.ongoingProcess;
+
+    event.preventDefault();
   }
-}
+});
 
 $(onBodyLoad);
 async function onBodyLoad() {

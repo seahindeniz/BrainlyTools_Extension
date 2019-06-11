@@ -4,3 +4,5 @@ node_modules
 ep_list.json
 !build/.gitkeep
 privilege_list.yml
+src/styles/_/style-guide.css
+src/styles/_/style-guide.css.map

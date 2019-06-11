@@ -169,15 +169,17 @@ class GroupModal {
     /**
      * Modal close
      */
-    window.onbeforeunload = () => {
+    window.addEventListener("beforeunload", () => {
       if (this.$toplayerContainer) {
         let $newUsers = $(".group-members-list>ul > li.new-user[data-user-id]", this.$toplayerContainer);
 
         if (this.$groupName.val() != this.$groupName.prop("defaultValue") || $newUsers.length > 0) {
-          return System.data.locale.common.notificationMessages.ongoingProcess;
+          event.returnValue = System.data.locale.common.notificationMessages.ongoingProcess;
+
+          event.preventDefault();
         }
       }
-    }
+    });
 
     /**
      * Add and Remove all buttons

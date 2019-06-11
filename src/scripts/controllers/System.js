@@ -28,8 +28,7 @@ class _System {
           "brainly.ro",
         ],
         style_guide: {
-          css: `https://styleguide.brainly.com/${extensionConfig.STYLE_GUIDE_VERSION}/style-guide.css` + "?treat=.ext_css",
-          icons: "https://styleguide.brainly.com/images/icons-1b40deaa8d.js" + "?treat=.ext_js"
+          icons: "https://styleguide.brainly.com/images/icons-d4009d7e19.js" + "?treat=.ext_js"
         },
         githubHighlight: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css",
       },

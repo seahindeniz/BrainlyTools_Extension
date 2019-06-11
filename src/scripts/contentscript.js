@@ -1,52 +1,101 @@
-"use strict";
-
-import "./helpers/preExecuteScripts";
-import ext from "./utils/ext";
-import InjectToDOM from "./helpers/InjectToDOM";
-import ThemeColorChanger from "./helpers/ThemeColorChanger";
-import messagesLayoutExtender from "./helpers/messagesLayoutExtender";
 import _System from "./controllers/System";
+import InjectToDOM from "./helpers/InjectToDOM";
+import IsBrainly from "./helpers/IsBrainly";
+import IsIgnoredPath from "./helpers/IsIgnoredPath";
+import messagesLayoutExtender from "./helpers/messagesLayoutExtender";
+import ThemeColorChanger from "./helpers/ThemeColorChanger";
 import WaitForObject from "./helpers/WaitForObject";
+import ext from "./utils/ext";
 
 let manifest = ext.runtime.getManifest();
 manifest.URL = ext.extension.getURL("");
 manifest.id = ext.runtime.id;
 //manifest.clientID = Math.random().toString(36).slice(2);
 
-let System = new _System();
-System.data.meta.marketName = location.hostname;
-System.data.meta.location = JSON.parse(JSON.stringify(location));
-System.data.meta.manifest = manifest;
+const html = document.documentElement;
 
-System.data.meta.marketTitle = document.title;
-System.data.meta.extension = {
-  id: ext.runtime.id,
-  URL: ext.runtime.getURL("").replace(/\/$/, "")
+if (!html.brainly_tools || html.brainly_tools !== manifest.version)
+  InitIfTabIsBrainly();
+
+function InitIfTabIsBrainly() {
+  const url = new URL(location.href);
+
+  if (
+    !IsBrainly(url) ||
+    IsIgnoredPath(url)
+  )
+    return;
+
+  html.brainly_tools = manifest.version;
+
+  Init();
+  console.log("Content Script OK!");
 }
-window.System = System;
 
-let html = document.documentElement;
+async function Init() {
+  let System = new _System();
+  System.data.meta.marketName = location.hostname;
+  System.data.meta.location = JSON.parse(JSON.stringify(location));
+  System.data.meta.manifest = manifest;
 
-if (!html.getAttribute("extension")) {
-  System.changeBadgeColor("loading");
-  InjectToDOM([
-    "/scripts/lib/prototypeOverrides.js",
-    "/scripts/lib/regex-colorizer.js",
-    "/scripts/views/0-Core/index.js"
-  ]);
-  InjectToDOM("/styles/pages/Core.css", { makeItLastElement: true })
+  System.data.meta.marketTitle = document.title;
+  System.data.meta.extension = {
+    id: ext.runtime.id,
+    URL: ext.runtime.getURL("").replace(/\/$/, "")
+  }
+  window.System = System;
 
-  WaitForObject(`document.body.classList.contains("mint")`, { noError: true }).then(isContains => {
-    if (isContains && !document.body.attributes.itemtype) {
+  let html = document.documentElement;
+
+  if (html.getAttribute("extension"))
+    System.changeBadgeColor("loaded");
+  else {
+    System.changeBadgeColor("loading");
+    require("./helpers/preExecuteScripts");
+    document.documentElement.setAttribute("extension", manifest.version);
+    InjectToDOM([
+      "/scripts/lib/prototypeOverrides.js",
+      "/scripts/lib/regex-colorizer.js",
+      "/scripts/views/0-Core/index.js"
+    ]);
+    InjectToDOM("/styles/pages/Core.css", { makeItLastElement: true })
+
+    if (html.id == "html") {
       InjectToDOM([
-        System.constants.Brainly.style_guide.css,
-        System.constants.Brainly.style_guide.icons
-      ]);
-      InjectToDOM("/styles/pages/oldLayoutFixes.css", { makeItLastElement: true })
+        "/styles/style-guide.css"
+      ], { makeItLastElement: true });
+      await System.Delay(10);
+      InjectToDOM("/styles/pages/oldLayoutFixes.css", { makeItLastElement: true });
+
+      WaitForObject(`document.body.classList.contains("mint")`, { noError: true }).then(isContains => {
+        if (isContains && !document.body.attributes.itemtype) {
+          InjectToDOM([
+            System.constants.Brainly.style_guide.icons
+          ]);
+        }
+      });
     }
+  }
+
+  ext.runtime.onMessage.addListener(MessageHandler);
+
+  window.addEventListener('contentscript>Share System.data to background.js:DONE', () => {
+    System.toBackground("popup>Get System.data from background")
   });
-} else {
-  System.changeBadgeColor("loaded");
+
+  window.addEventListener('metaGet', e => {
+    window.postMessage({
+        action: 'metaSet',
+        data: System.data.meta
+      },
+      e.target.URL);
+  });
+  window.addEventListener("message", event => {
+    if (event.source != window)
+      return;
+
+    MessageHandler(event.data);
+  });
 }
 
 function MessageHandler(request) {
@@ -80,23 +129,3 @@ function MessageHandler(request) {
     return Promise.resolve(html.getAttribute("extension"));
   }
 }
-
-ext.runtime.onMessage.addListener(MessageHandler);
-
-window.addEventListener('contentscript>Share System.data to background.js:DONE', () => {
-  System.toBackground("popup>Get System.data from background")
-});
-
-window.addEventListener('metaGet', e => {
-  window.postMessage({
-      action: 'metaSet',
-      data: System.data.meta
-    },
-    e.target.URL);
-});
-window.addEventListener("message", event => {
-  if (event.source != window)
-    return;
-
-  MessageHandler(event.data);
-});

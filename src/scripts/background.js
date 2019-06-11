@@ -37,7 +37,7 @@ class Background {
     ext.tabs.onActivated.addListener(this.TabActivatedHandler.bind(this));
     //ext.tabs.getSelected(null, tabCreated);
 
-    ext.webRequest.onBeforeRequest.addListener(({ url }) => ({ cancel: this.blockedDomains.test(url) }), { urls: ["<all_urls>"] }, ["blocking"]);
+    ext.webRequest.onBeforeRequest.addListener(({ url, initiator }) => ({ cancel: this.IsBrainly(initiator) && this.blockedDomains.test(url) }), { urls: ["<all_urls>"] }, ["blocking"]);
   }
   async MessageRequestHandler(request, sender) {
     //console.log("bg:", request);
@@ -224,6 +224,9 @@ class Background {
     }
   }
   IsBrainly(_url) {
+    if (!_url)
+      return false;
+
     let url = new URL(_url);
     let index = System.constants.Brainly.brainlyMarkets.indexOf(url.hostname);
 

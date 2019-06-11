@@ -8,11 +8,13 @@ class Comments extends UserContent {
 
   }
   InitComments() {
-    this.RenderCheckboxes();
-    this.RenderDeleteSection("comment");
-    this.ShowDeleteSection();
-    this.GetQuestions();
-    this.BindHandlers();
+    if (System.checkUserP(16)) {
+      this.RenderCheckboxes();
+      this.RenderDeleteSection("comment");
+      this.ShowDeleteSection();
+      this.GetQuestions();
+      this.BindHandlers();
+    }
   }
   GetQuestions() {
     $.each(this.questions, this.GetQuestion.bind(this));

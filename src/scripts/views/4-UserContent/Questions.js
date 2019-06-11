@@ -6,10 +6,12 @@ class Questions extends UserContent {
     super("Questions");
   }
   InitQuestions() {
-    this.RenderCheckboxes();
-    this.RenderDeleteSection("task");
-    this.ShowDeleteSection();
-    this.BindHandlers();
+    if (System.checkUserP(14)) {
+      this.RenderCheckboxes();
+      this.RenderDeleteSection("task");
+      this.ShowDeleteSection();
+      this.BindHandlers();
+    }
   }
   BindHandlers() {
     this.$deleteButton.click(this.DeleteSelectedQuestions.bind(this));

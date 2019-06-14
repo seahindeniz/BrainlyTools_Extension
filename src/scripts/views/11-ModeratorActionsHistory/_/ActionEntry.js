@@ -17,8 +17,12 @@ export default class ActionEntry {
     this.$tr = $(tr);
     this.$buttonContainer = $("> td.dataTime", tr);
     this.$entryContent = $("> td:eq(1)", tr);
+    this.$moderatedContentOwnerLink = $("a", this.$entryContent);
     this.$questionLink = $("> a", this.$buttonContainer);
     this.questionId = this.$questionLink.text();
+    /**
+     * @type {string}
+     */
     this.questionLink = System.createBrainlyLink("task", { id: this.questionId });
     /**
      * @type {{_id: string, time: Date, target: {hash: string, action: string, message?: string}, user: {_id: string, brainlyID: number, nick: string}}}
@@ -27,17 +31,36 @@ export default class ActionEntry {
 
     this.GenerateHash();
   }
+  get moderatedContentOwner() {
+    return {
+      nick: this.$moderatedContentOwnerLink.text(),
+      link: location.origin + this.$moderatedContentOwnerLink.attr("href")
+    }
+  }
+  get moderatorAction() {
+    return this.$moderatedContentOwnerLink.prev().text()
+  }
+  get moderatorActionDate() {
+    let childNodes = this.$buttonContainer.prop("childNodes");
+
+    return childNodes ? childNodes[childNodes.length - 1].data.trim() : "";
+  }
+  get entryContent() {
+    let content = Array.from(this.$entryContent.prop("childNodes")).find(node => node.nodeName == "#text" && node.length > 1 && node.nextSibling != null)
+    return content ? content.data.trim() : "";
+  }
   GenerateHash() {
     let idText = this.$buttonContainer.text().trim();
-    let contentText = Array.from(this.$entryContent.prop("childNodes")).find(node => node.nodeName == "#text" && node.length > 1 && node.nextSibling != null).data.trim();
 
-    this.hash = md5(idText + contentText)
+    this.hash = md5(idText + this.entryContent)
   }
   RenderDetails() {
     if (!this.details) {
-      this.RenderActionButtons();
-      this.RenderButtonSpinner();
-      this.BindHandlers();
+      if (this.main.moderator.id != System.data.Brainly.userData.user.id) {
+        this.RenderActionButtons();
+        this.RenderButtonSpinner();
+        this.BindHandlers();
+      }
     } else {
       this.AddStatusClass();
       this.RenderFlagIcon();
@@ -50,7 +73,7 @@ export default class ActionEntry {
     <div class="sg-content-box js-actions">
       <div class="sg-content-box__content">
         <div class="sg-spinner-container">
-          <div class="sg-text sg-text--link" title="${System.data.locale.common.confirm}">
+          <div class="sg-text sg-text--link" title="${System.data.locale.moderatorActionHistory.confirm}">
             <div class="sg-icon sg-icon--mint sg-icon--x26">
               <svg class="sg-icon__svg">
                 <use xlink:href="#icon-thumbs_up"></use>
@@ -97,7 +120,14 @@ export default class ActionEntry {
     await this.Confirming();
 
     if (event.ctrlKey || !event.ctrlKey && confirm(System.data.locale.moderatorActionHistory.notificationMessages.doYouWantToConfirm)) {
-      let res = await new ServerReq().ConfirmActionHistoryEntry(this.main.moderator._id, this.hash);
+      let res = await new ServerReq().ConfirmActionHistoryEntry(this.main.moderator._id, {
+        hashList: this.hash,
+        content: this.entryContent,
+        questionLink: this.questionLink,
+        moderatorAction: this.moderatorAction,
+        moderatorActionDate: this.moderatorActionDate,
+        contentOwner: this.moderatedContentOwner
+      });
 
       this.CheckResponse(res);
     } else
@@ -150,7 +180,7 @@ export default class ActionEntry {
     this.HideElement(this.$actionButtonsContainer);
   }
   HideElement($element) {
-    $element.appendTo("<div />");
+    this.main.HideElement($element);
   }
   HideSpinner() {
     this.HideElement(this.$spinner);
@@ -209,7 +239,15 @@ export default class ActionEntry {
       if (!!event)
         await this.InformModerator();
 
-      let res = /* { success: true } // */ await new ServerReq().DisapproveActionHistoryEntry(this.main.moderator._id, this.hash, this.main.fixedMessage);
+      let res = /* { success: true } // */ await new ServerReq().DisapproveActionHistoryEntry(this.main.moderator._id, {
+        hashList: this.hash,
+        content: this.entryContent,
+        questionLink: this.questionLink,
+        message: this.main.fixedMessage,
+        moderatorAction: this.moderatorAction,
+        moderatorActionDate: this.moderatorActionDate,
+        contentOwner: this.moderatedContentOwner
+      });
 
       this.CheckResponse(res);
     } else
@@ -221,10 +259,10 @@ export default class ActionEntry {
     return this.InProgress();
   }
   async InformModerator() {
-    let shortCode = await this.TakeScreenshot();
+    await this.TakeScreenshot();
 
     return this.main.OpenModal({
-      actionLink: `${System.data.config.extension.shortenedLinkURL}/${shortCode}`,
+      actionLink: `${System.data.config.extension.shortenedLinkURL}/${this.shortCodeOfScreenshot}`,
       questionLink: this.questionLink
     });
   }
@@ -238,7 +276,10 @@ export default class ActionEntry {
 
         this.main.ChangeVisibilityOfAllEntries(true, this.hash);
         this.main.ChangeVisibilityOtherElementsForScreenshot("show");
-        resolve(shortCode);
+
+        this.shortCodeOfScreenshot = shortCode;
+
+        resolve();
       } catch (error) {
         reject(error);
       }
@@ -250,12 +291,17 @@ export default class ActionEntry {
   }
   RenderDetailsCell() {
     let time = new Date(this.details.time).toLocaleString();
+    let reviewerProfileLink = System.createProfileLink(this.details.user);
+    let reviwedOnBy = System.data.locale.moderatorActionHistory.reviewedOn[this.details.target.action]
+      .replace("%{date}", time)
+      .replace("%{nick}", `<a href="${reviewerProfileLink}" target="_blank">${this.details.user.nick}</a>`);
+
     this.$detailsRow = $(`
     <tr>
       <td class="sg-box--gray-secondary-ultra-light">
         <div class="sg-content-box">
           <div class="sg-content-box__content sg-content-box__content--full">
-            <span class="sg-text sg-text--xsmall sg-text--gray">${ System.data.locale.moderatorActionHistory.reviewedOn[this.details.target.action]} ${time}</span>
+            <span class="sg-text sg-text--xsmall sg-text--gray">${reviwedOnBy}</span>
           </div>
         </div>
       </td>
@@ -267,12 +313,16 @@ export default class ActionEntry {
     this.RenderPM();
   }
   ShowDetailsCell() {
-    this.$detailsRow.insertAfter(this.$tr);
-    this.$buttonContainer.attr("rowspan", 2);
+    if (this.$detailsRow) {
+      this.$detailsRow.insertAfter(this.$tr);
+      this.$buttonContainer.attr("rowspan", 2);
+    }
   }
   HideDetailsCell() {
-    this.HideElement(this.$detailsRow);
-    this.$buttonContainer.removeAttr("rowspan");
+    if (this.$detailsRow) {
+      this.HideElement(this.$detailsRow);
+      this.$buttonContainer.removeAttr("rowspan");
+    }
   }
   RenderPM() {
     if (this.details.target.message) {
@@ -330,7 +380,7 @@ export default class ActionEntry {
     this.HideElement(this.$flagContainer);
   }
   InitTimer() {
-    if (this.IsReportCanReversible()) {
+    if (this.details.user.brainlyID == System.data.Brainly.userData.user.id && this.IsReportCanReversible()) {
       this.runTimer = true;
 
       this.RenderTimer();

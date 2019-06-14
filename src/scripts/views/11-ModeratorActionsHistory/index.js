@@ -14,9 +14,9 @@ export default class ModeratorActionHistory {
   constructor() {
     this.details = [];
     /**
-     * @type {Object.<string, ActionEntry>}
+     * @type {ActionEntry[]}
      */
-    this.entries = {};
+    this.entries = [];
     /**
      * @type {{id: number, nick: string, _id: string}}
      */
@@ -26,10 +26,10 @@ export default class ModeratorActionHistory {
     this.Init();
   }
   get hashList() {
-    return Object.keys(this.entries);
+    return this.entries.map(entry => entry.hash);
   }
   get reportableHashList() {
-    return Object.keys(this.entries).filter(hash => !this.entries[hash].details);
+    return this.entries.filter(entry => !entry.details);
   }
   async Init() {
     try {
@@ -60,7 +60,8 @@ export default class ModeratorActionHistory {
   PrepareActionIds() {
     this.$actionRows.each((i, tr) => {
       let entry = new ActionEntry(this, tr);
-      this.entries[entry.hash] = entry;
+
+      this.entries.push(entry);
     });
   }
   async GetEntryDetails() {
@@ -74,16 +75,24 @@ export default class ModeratorActionHistory {
     this.RenderDetails();
     this.RenderActions();
   }
+  /**
+   * @param {string} hash
+   */
+  GetEntry(hash) {
+    return this.entries.find(entry => entry.hash == hash);
+  }
   RenderDetails() {
-    this.hashList.forEach(id => {
-      let entry = this.entries[id];
+    this.entries.forEach(entry => {
       entry.details = this.details.find(detail => detail.target.hash == entry.hash);
 
       entry.RenderDetails();
     })
   }
   RenderActions() {
-    if (this.details.length < this.$actionRows.length) {
+    if (
+      this.details.length < this.$actionRows.length &&
+      this.moderator.id != System.data.Brainly.userData.user.id
+    ) {
       this.RenderActionButtons();
       this.RenderSpinner();
       this.BindHandlers();
@@ -132,7 +141,13 @@ export default class ModeratorActionHistory {
     if (!confirm(System.data.locale.moderatorActionHistory.notificationMessages.doYouWantToConfirmUnreviewedActions))
       this.FinishProgress();
     else {
-      let res = await new ServerReq().ConfirmActionHistoryEntry(this.moderator._id, this.reportableEntries);
+      await this.PrepareReportDetails();
+
+      let res = await new ServerReq().ConfirmActionHistoryEntry(this.moderator._id, {
+        hashList: this.reportableEntries,
+        content: this.actionLink,
+        questionLink: this.questionLink
+      });
 
       this.CheckResponse(res);
     }
@@ -152,12 +167,12 @@ export default class ModeratorActionHistory {
 
     this.ShowSpinner();
     this.DisableButtons();
-    this.reportableHashList.forEach(id => this.entries[id][method]());
+    this.reportableHashList.forEach(hash => this.GetEntry(hash)[method]());
 
     return System.Delay(50);
   }
   ReportableEntries() {
-    return this.reportableHashList.filter(hash => !this.entries[hash].details && hash);
+    return this.reportableHashList.filter(hash => !this.GetEntry(hash).details && hash);
   }
   ShowSpinner() {
     let $spinnerContainer;
@@ -178,7 +193,7 @@ export default class ModeratorActionHistory {
 
     this.HideSpinner();
     this.ActivateButtons();
-    this.reportableHashList.forEach(id => this.entries[id].FinishProgress());
+    this.reportableHashList.forEach(hash => this.GetEntry(hash).FinishProgress());
   }
   HideSpinner() {
     this.HideElement(this.$spinner);
@@ -187,7 +202,8 @@ export default class ModeratorActionHistory {
    * @param {JQuery<HTMLElement>} $element
    */
   HideElement($element) {
-    $element.appendTo("<div />");
+    if ($element && $element.length > 0)
+      $element.appendTo("<div />");
   }
   ActivateButtons() {
     this.$actionButtons.removeClass("sg-button-secondary--disabled");
@@ -207,7 +223,7 @@ export default class ModeratorActionHistory {
 
     hashList.forEach(hash => {
       let entryData = data[hash];
-      let entry = this.entries[hash];
+      let entry = this.GetEntry(hash);
 
       entry.SetDetails(entryData);
     });
@@ -218,11 +234,9 @@ export default class ModeratorActionHistory {
       this.Disapproved();
   }
   Confirmed() {
-    //this.reportableHashList.forEach(id => this.entries[id].details);
     this.FinishProgress();
   }
   Disapproved() {
-    //this.reportableHashList.forEach(id => this.entries[id].details);
     this.FinishProgress();
   }
   /**
@@ -235,10 +249,17 @@ export default class ModeratorActionHistory {
       if (!confirm(System.data.locale.moderatorActionHistory.notificationMessages.doYouWantToDisapproveUnreviewedActions))
         this.FinishProgress();
       else {
+        await this.PrepareReportDetails();
+
         if (!!event)
           await this.InformModerator();
 
-        let res = await new ServerReq().DisapproveActionHistoryEntry(this.moderator._id, this.reportableEntries, this.fixedMessage);
+        let res = await new ServerReq().DisapproveActionHistoryEntry(this.moderator._id, {
+          hashList: this.reportableEntries,
+          content: this.actionLink,
+          questionLink: this.questionLink,
+          message: this.fixedMessage
+        });
 
         this.CheckResponse(res);
       }
@@ -251,23 +272,28 @@ export default class ModeratorActionHistory {
 
     return this.InProgress("Disapproving");
   }
-  async InformModerator() {
+  async PrepareReportDetails() {
     try {
-      let shortCode = await this.TakeScreenshot();
-      let questionLink = await this.PrepareQuestionLinks();
+      this.shortCodeOfScreenshot = await this.TakeScreenshot();
+      this.questionLink = await this.PrepareQuestionLinks();
 
-      if (!shortCode)
-        return Promise.reject(`Taking screenshot has failed ${shortCode.message || ""}`);
+      if (!this.shortCodeOfScreenshot)
+        throw { message: `Taking screenshot has failed ${this.shortCodeOfScreenshot.message || ""}` };
       else if (!questionLink)
-        return Promise.reject(`Storing question links has failed`);
-      else
-        return this.OpenModal({
-          actionLink: `${System.data.config.extension.shortenedLinkURL}/${shortCode}`,
-          questionLink
-        });
+        throw { message: `Storing question links has failed` };
+
+      this.actionLink = `${System.data.config.extension.shortenedLinkURL}/${this.shortCodeOfScreenshot}`;
+
+      return Promise.resolve();
     } catch (error) {
       return Promise.reject(error);
     }
+  }
+  async InformModerator() {
+    return this.OpenModal({
+      actionLink: this.actionLink,
+      questionLink: this.questionLink
+    });
   }
   TakeScreenshot(hash) {
     return new Promise(async (resolve, reject) => {
@@ -290,11 +316,11 @@ export default class ModeratorActionHistory {
         canvas.toBlob(async (blob) => {
           blob.name = `${hash}.png`;
           this.screenshot = blob;
-          //return this.PreviewScreenshot(blob);
+          //this.PreviewScreenshot(blob);
           let resScreenshot = await new ServerReq().ActionHistoryEntryImage(blob);
 
           this.ChangeVisibilityOtherElementsForScreenshot("show");
-          resolve(resScreenshot.data.shortCode);
+          resolve(resScreenshot && resScreenshot.data && resScreenshot.data.shortCode);
         }, "image/png");
       } catch (error) {
         reject(error);
@@ -321,17 +347,12 @@ export default class ModeratorActionHistory {
    * @param {boolean} makeItVisible
    */
   ChangeVisibilityOfReportedEntries(makeItVisible) {
-    let hashList = Object.keys(this.entries);
-
-    hashList.forEach(hash => {
-      let entry = this.entries[hash];
-
+    this.entries.forEach(entry => {
       if (entry.details) {
-        if (makeItVisible) {
+        if (makeItVisible)
           entry.Show();
-        } else {
+        else
           entry.Hide();
-        }
       }
     })
   }
@@ -340,17 +361,12 @@ export default class ModeratorActionHistory {
    * @param {string} excludedHash
    */
   ChangeVisibilityOfAllEntries(makeItVisible, excludedHash) {
-    let hashList = Object.keys(this.entries);
-
-    hashList.forEach(hash => {
-      if (excludedHash != hash) {
-        let entry = this.entries[hash];
-
-        if (makeItVisible) {
+    this.entries.forEach(entry => {
+      if (excludedHash != entry.hash) {
+        if (makeItVisible)
           entry.Show();
-        } else {
+        else
           entry.Hide();
-        }
       }
     })
   }
@@ -360,7 +376,7 @@ export default class ModeratorActionHistory {
         let links = [];
 
         this.reportableEntries.forEach(hash => {
-          let link = this.entries[hash].questionLink;
+          let link = this.GetEntry(hash).questionLink;
 
           if (!links.includes(link))
             links.push(link);
@@ -413,7 +429,7 @@ export default class ModeratorActionHistory {
     })
   }
   RenderModal() {
-    let wouldYouLikeToInform = System.data.locale.moderatorActionHistory.wouldYouLikeToInform.replace(/%\{nick}/gi, `<b>${this.moderator.nick}</b>`);
+    let wouldYouLikeToInform = System.data.locale.moderatorActionHistory.notificationMessages.wouldYouLikeToInform.replace(/%\{nick}/gi, `<b>${this.moderator.nick}</b>`);
     this.modal = new Modal({
       header: `
       <div class="sg-actions-list sg-actions-list--space-between">
@@ -586,10 +602,10 @@ export default class ModeratorActionHistory {
       this._loop_timer = setInterval(this.RunTimer.bind(this), 1000);
   }
   RunTimer() {
-    this.hashList.forEach(hash => this.entries[hash].StartTimer());
+    this.entries.forEach(entry => entry.StartTimer())
   }
   TryToStopTimer() {
-    let entriesHasTimersRunning = this.hashList.filter(hash => !!this.entries[hash].runTimer);
+    let entriesHasTimersRunning = this.entries.filter(entry => !!entry.runTimer);
 
     if (entriesHasTimersRunning.length == 0) {
       clearInterval(this._loop_timer);

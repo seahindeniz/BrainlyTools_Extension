@@ -41,6 +41,7 @@ class Users {
         privileges: [
           12,
           8,
+          28,
           1,
           2,
           45,

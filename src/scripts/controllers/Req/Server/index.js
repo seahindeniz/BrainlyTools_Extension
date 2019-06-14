@@ -254,29 +254,30 @@ export default class ServerReq {
   ActionsHistoryDetails(hashList, id, nick) {
     return this.actionsHistory().details().POST({ hashList, id, nick });
   }
-  ConfirmActionHistoryEntry(_id, hashList) {
-    if (typeof hashList == "string")
-      hashList = [hashList];
-
-    return this.actionsHistory().confirm().P(_id).PUT({ hashList });
+  /**
+   * @param {string} _id
+   * @param {{hashList: string[], content:string, questionLink: string}} data
+   */
+  ConfirmActionHistoryEntry(_id, data) {
+    return this.ReportActionHistoryEntry("confirm", _id, data);
   }
   /**
    * @param {string} _id
-   * @param {string} hash
-   * @param {string} message
+   * @param {{hashList: string[], content:string, questionLink: string, message?: string}} data
    */
-  DisapproveActionHistoryEntry(_id, hashList, message) {
-    if (typeof hashList == "string")
-      hashList = [hashList];
+  DisapproveActionHistoryEntry(_id, data) {
+    return this.ReportActionHistoryEntry("disapprove", _id, data);
+  }
+  /**
+   * @param {string} action
+   * @param {string} _id
+   * @param {{hashList: string[], content:string, questionLink: string, message?: string}} data
+   */
+  ReportActionHistoryEntry(action, _id, data) {
+    if (typeof data.hashList == "string")
+      data.hashList = [data.hashList];
 
-    let data = {
-      hashList
-    };
-
-    if (message)
-      data.message = message;
-
-    return this.actionsHistory().disapprove().P(_id).PUT(data);
+    return this.actionsHistory()[action]().P(_id).PUT(data);
   }
   RevertActionHistoryReport(_id) {
     if (!_id) throw "Id not found";

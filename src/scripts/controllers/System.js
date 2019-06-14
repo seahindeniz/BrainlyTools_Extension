@@ -215,7 +215,7 @@ class _System {
 
     if (Object.prototype.toString.call(id) == "[object Object]") {
       nick = id.nick;
-      id = id.id;
+      id = id.id || id.brainlyID;
     }
 
     if (!nick && !id) {

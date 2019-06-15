@@ -28,8 +28,11 @@ export default class ModeratorActionHistory {
   get hashList() {
     return this.entries.map(entry => entry.hash);
   }
-  get reportableHashList() {
+  ReportableEntries() {
     return this.entries.filter(entry => !entry.details);
+  }
+  get reportableHashList() {
+    return this.ReportableEntries().map(entry => entry.hash);
   }
   async Init() {
     try {
@@ -144,8 +147,8 @@ export default class ModeratorActionHistory {
       await this.PrepareReportDetails();
 
       let res = await new ServerReq().ConfirmActionHistoryEntry(this.moderator._id, {
-        hashList: this.reportableEntries,
-        content: this.actionLink,
+        hashList: this.reportableHashList,
+        actionLink: this.actionLink,
         questionLink: this.questionLink
       });
 
@@ -163,6 +166,11 @@ export default class ModeratorActionHistory {
     if (this.reportableEntries.length == 0)
       return Promise.reject();
 
+    if (this.reportableEntries.length == 1) {
+      this.entries.forEach(entry => entry.hash == this.reportableEntries[0].hash && entry[this.action]);
+      throw 0
+    }
+
     window.isPageProcessing = true;
 
     this.ShowSpinner();
@@ -170,9 +178,6 @@ export default class ModeratorActionHistory {
     this.reportableHashList.forEach(hash => this.GetEntry(hash)[method]());
 
     return System.Delay(50);
-  }
-  ReportableEntries() {
-    return this.reportableHashList.filter(hash => !this.GetEntry(hash).details && hash);
   }
   ShowSpinner() {
     let $spinnerContainer;
@@ -255,8 +260,8 @@ export default class ModeratorActionHistory {
           await this.InformModerator();
 
         let res = await new ServerReq().DisapproveActionHistoryEntry(this.moderator._id, {
-          hashList: this.reportableEntries,
-          content: this.actionLink,
+          hashList: this.reportableHashList,
+          actionLink: this.actionLink,
           questionLink: this.questionLink,
           message: this.fixedMessage
         });
@@ -279,7 +284,7 @@ export default class ModeratorActionHistory {
 
       if (!this.shortCodeOfScreenshot)
         throw { message: `Taking screenshot has failed ${this.shortCodeOfScreenshot.message || ""}` };
-      else if (!questionLink)
+      else if (!this.questionLink)
         throw { message: `Storing question links has failed` };
 
       this.actionLink = `${System.data.config.extension.shortenedLinkURL}/${this.shortCodeOfScreenshot}`;
@@ -311,7 +316,7 @@ export default class ModeratorActionHistory {
         });
 
         if (!hash)
-          hash = md5(this.reportableEntries.join())
+          hash = md5(this.reportableHashList.join())
 
         canvas.toBlob(async (blob) => {
           blob.name = `${hash}.png`;
@@ -375,8 +380,8 @@ export default class ModeratorActionHistory {
       try {
         let links = [];
 
-        this.reportableEntries.forEach(hash => {
-          let link = this.GetEntry(hash).questionLink;
+        this.reportableEntries.forEach(entry => {
+          let link = entry.questionLink;
 
           if (!links.includes(link))
             links.push(link);

@@ -110,13 +110,13 @@ export default class ActionEntry {
     </div>`);
   }
   BindHandlers() {
-    this.$confirmButton.click(this.Confirm.bind(this));
-    this.$disapproveButton.click(this.Disapprove.bind(this));
+    this.$confirmButton.click(this.confirm.bind(this));
+    this.$disapproveButton.click(this.disapprove.bind(this));
   }
   /**
    * @param {MouseEvent} event
    */
-  async Confirm(event) {
+  async confirm(event) {
     await this.Confirming();
 
     if (event.ctrlKey || !event.ctrlKey && confirm(System.data.locale.moderatorActionHistory.notificationMessages.doYouWantToConfirm)) {
@@ -232,7 +232,7 @@ export default class ActionEntry {
   /**
    * @param {MouseEvent} event
    */
-  async Disapprove(event) {
+  async disapprove(event) {
     await this.Disapproving();
 
     if (event.ctrlKey || !event.ctrlKey && confirm(System.data.locale.moderatorActionHistory.notificationMessages.doYouWantToDisapprove)) {

@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.23.1] - 2019.06.15
+
+### Added
+
+- [#59] Checkboxes in action checking page (<https://ibb.co/f2DjCyP>) (<https://ibb.co/q9dcVz0>)
+- [#69] Kullanıcı içeriğinde toplu silim yetkisi olmadan ödev içeriği görüntüleme
+
+### Changed
+
+- [#65] mesaj ve toplu düzenleme
+- [#67] TD içerisinde yapılan silimlerde uyarı verilmiyor
+- [#68] Eklenti bazı adresleri engelliyor
+
+[#59]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/59
+[#65]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/65
+[#67]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/67
+[#68]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/68
+[#69]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/69
+
 ## [6.22.5] - 2019.05.13
 
 ### Changed

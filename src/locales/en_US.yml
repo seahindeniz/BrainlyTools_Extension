@@ -27,6 +27,7 @@ common:
   startAll: Start all
   stop: Stop
   continue: Continue
+  no: No
   # Short for points
   shortPoints: Pts
   writeSomething: Write something
@@ -199,8 +200,8 @@ popup:
           title: Quick delete comments
           description: On the pages of questions and archive mod, user can use the quick delete buttons for deleting the comment(s)
         "7":
-          title: Mass-Question delete
-          description: In the moderation panel, user can use this function for deleting multiple questions
+          title: Mass-Content deleter
+          description: In the moderation panel, user can use this function for deleting multiple questions/answers/comments from Brainly
         "8":
           title: Group messages
           description: In the messages page, user can send private messages to multiple users in a group at once
@@ -261,6 +262,9 @@ popup:
         "27":
           title: Mass-Manage users
           description: User can use this function to manage users massively. Like, changing a list of users points or approve answers of users or etc.
+        "28":
+          title: Mod. Action H. Approval
+          description: User can use this function to report- actions of moderators from moderator actions history page.
     announcements:
       text: Announcements
       addNewAnnouncement: Add a new announcement
@@ -573,3 +577,38 @@ moderateAll:
   notificationMessages:
   wrongContentConfirmer:
     text: Confirm all corrected contents
+moderatorActionHistory:
+  notificationMessages:
+    # More details https://ibb.co/TrZZ9Vw
+    doYouWantToConfirm: Do you want to confirm this action?
+    # More details https://ibb.co/TrZZ9Vw
+    doYouWantToConfirmUnreviewedActions: Do you want to confirm all unreviewed actions?
+    # More details https://ibb.co/TrZZ9Vw
+    doYouWantToDisapprove: Do you want to disapprove this action?
+    # More details https://ibb.co/TrZZ9Vw
+    doYouWantToDisapproveUnreviewedActions: Do you want to disapprove all unreviewed actions?
+    # More details https://ibb.co/gDYL8wH
+    doYouWantToRevertThisReport: Do you want to revert this report?
+    # More details https://ibb.co/gDYL8wH
+    iCouldntRevertThisReport: I couldn't revert this report
+    # More details https://ibb.co/cr64kDj
+    wouldYouLikeToInform: Would you like to inform %{nick} about this action with a private message?
+  # More details https://ibb.co/YhKK3VM
+  confirm: Confirm
+  confirmAll: Confirm all
+  # More details https://ibb.co/YhKK3VM
+  disapprove: Disapprove
+  disapproveAll: Disapprove all
+  # More details https://ibb.co/gDYL8wH
+  revert: Revert
+  # Short for private message
+  PM: PM
+  # This is a sample private message and variables will be replaced with the data of what indicates in the variable name. Example result https://ibb.co/Fb3sh8b
+  sampleMessage: "Hello %{n}\n\nI have found problems on your actions. Could you please check it?\n\nAction: %{a}\nQuestion: %{q}"
+  reviewedOn:
+    # Example: Confirmed on 5/23/2019, 7:02:12 PM by BenBrooklyn01
+    # More details https://ibb.co/cr64kDj
+    confirm: Confirmed on %{date} by %{nick}
+    # Example: Disapproved on 5/23/2019, 7:02:12 PM by HottestReader1
+    # More details https://ibb.co/cr64kDj
+    disapprove: Disapproved on %{date} by %{nick}

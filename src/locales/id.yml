@@ -27,6 +27,7 @@ common:
   startAll: Memulai semua
   stop: Berhenti
   continue: Lanjutkan
+  no: No
   # Short for points
   shortPoints: Poin
   writeSomething: Menuliskan sesuatu
@@ -199,8 +200,8 @@ popup:
           title: Penghapusan cepat komentar
           description: "Dihalaman pengguna, konten pengguna dan halaman Moderais semua, pengguna dapat menggunakan tombol penghapusan cepat untuk menghapus komentar."
         "7":
-          title: Hapus pertanyaan massal
-          description: "Dalam panel moderasi, pengguna dapat menggunakan fungsi untuk menghapus beberapa pertanyaan"
+          title: Penghapusan konten massal
+          description: "Dalam panel moderasi, pengguna dapat menggunakan fungsi ini untuk menghapus beberapa pertanyaan/Jawaban/Komentar di Brainly"
         "8":
           title: Pesan grup
           description: "Di halaman pesan, user dapat mengirim pesan pribadi ke banyak pengguna dalam satu grup sekaligus"
@@ -261,6 +262,9 @@ popup:
         "27":
           title: Mengelola pengguna secara massal
           description: "Pengguna dapat menggunakan fungsi ini untuk mengelola pengguna secara massif. Seperti, mengubah daftar poin pengguna atau menyetujui jawaban pengguna atau lainnya"
+        "28":
+          title: Mod. Action H. Approval
+          description: Pengguna dapat menggunakan fungsi ini untuk melaporkan aksi moderasi dari halaman moderator actions history.
     announcements:
       text: Pengumuman
       addNewAnnouncement: Tambahkan sebuah pengumuman
@@ -573,3 +577,38 @@ moderateAll:
   notificationMessages:
   wrongContentConfirmer:
     text: Mengkonfirmasi semua konten yang telah dikoreksi
+moderatorActionHistory:
+  notificationMessages:
+    # More details https://ibb.co/TrZZ9Vw
+    doYouWantToConfirm: "Apakah kamu ingin mengkonfirmasi tindakan moderasi ini?"
+    # More details https://ibb.co/TrZZ9Vw
+    doYouWantToConfirmUnreviewedActions: "Apakah kamu ingin mengkonfirmasi semua tindakan yang belum ditinjau?"
+    # More details https://ibb.co/TrZZ9Vw
+    doYouWantToDisapprove: "Apakah kamu ini menolak tindakan moderasi ini?"
+    # More details https://ibb.co/TrZZ9Vw
+    doYouWantToDisapproveUnreviewedActions: "Apakah kamu ingin menolak semua tindakan yang belum ditinjau?"
+    # More details https://ibb.co/gDYL8wH
+    doYouWantToRevertThisReport: "Apakah kamu ingin mengembalikan laporan ini?"
+    # More details https://ibb.co/gDYL8wH
+    iCouldntRevertThisReport: Saya tidak dapat memulihkan laporan ini
+    # More details https://ibb.co/cr64kDj
+    wouldYouLikeToInform: "Apakah kamu ingin mengkonfirmasi %{nick} tentang aksi moderasinya melalu pesan pribadi?"
+  # More details https://ibb.co/YhKK3VM
+  confirm: Konfirmasi
+  confirmAll: Mengkonfirmasi semua
+  # More details https://ibb.co/YhKK3VM
+  disapprove: Disapprove
+  disapproveAll: Disapprove semua
+  # More details https://ibb.co/gDYL8wH
+  revert: Memulihkan
+  # Short for private message
+  PM: PM
+  # This is a sample private message and variables will be replaced with the data of what indicates in the variable name. Example result https://ibb.co/Fb3sh8b
+  sampleMessage: "Hello %{n}\n\nSaya telah menemukan masalah pada aksi moderasi kamu. Bisa kah kamu mengeceknya?\n\nAksi: %{a}\nPertanyaan: %{q}"
+  reviewedOn:
+    # Example: Confirmed on 5/23/2019, 7:02:12 PM by BenBrooklyn01
+    # More details https://ibb.co/cr64kDj
+    confirm: "Mengkonfirmasi pada %{date} oleh %{nick}"
+    # Example: Disapproved on 5/23/2019, 7:02:12 PM by HottestReader1
+    # More details https://ibb.co/cr64kDj
+    disapprove: "Ditolak pada %{date} oleh %{nick}"

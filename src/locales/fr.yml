@@ -27,6 +27,7 @@ common:
   startAll: Tout commencer
   stop: Stopper
   continue: Continuer
+  no: No
   # Short for points
   shortPoints: Pts
   writeSomething: Ecrivez quelque chose
@@ -199,8 +200,8 @@ popup:
           title: Suppression rapide des commentaires
           description: "Sur la page des questions, tout modérer et sur la page d'accueil, l'utilisateur peut utiliser les boutons de suppression rapide pour supprimer les commentaire(s)"
         "7":
-          title: Suppression de masse des questions
-          description: Dans le panneau de modération l'utilisateur peut utiliser cette fonctionnalité pour supprimer plusieurs questions à la fois
+          title: Suppression de masse des contenus
+          description: "Dans le panneau de modération, l'utilisateur peut utiliser la fonction pour supprimer plusieurs questions/réponses/commentaires"
         "8":
           title: Messages de groupe
           description: "Dans la messagerie, l'utilisateur peut envoyer des messages privés à de multiples utilisateurs d'un groupe en une fois."
@@ -261,6 +262,9 @@ popup:
         "27":
           title: Management de masse des utilisateurs
           description: "L'utilisateur peut utiliser cette fonction pour manager les utilisateurs tel que changer le nombre de points, approuver les réponses des utilisateurs etc .."
+        "28":
+          title: Mod. Action H. Approbation
+          description: L'utilisateur peut utiliser cette fonction pour signaler des actions de modération depuis l'historique de modération.
     announcements:
       text: Annonces
       addNewAnnouncement: Ajouter une nouvelle annonce
@@ -573,3 +577,38 @@ moderateAll:
   notificationMessages:
   wrongContentConfirmer:
     text: Approuver tous les contenus corrigés
+moderatorActionHistory:
+  notificationMessages:
+    # More details https://ibb.co/TrZZ9Vw
+    doYouWantToConfirm: "Voulez-vous confirmer cette action ?"
+    # More details https://ibb.co/TrZZ9Vw
+    doYouWantToConfirmUnreviewedActions: Voulez-vous approuver toutes les actions non revues
+    # More details https://ibb.co/TrZZ9Vw
+    doYouWantToDisapprove: "Voulez-vous désapprouver cette action ?"
+    # More details https://ibb.co/TrZZ9Vw
+    doYouWantToDisapproveUnreviewedActions: "Voulez-vous désapprouver toutes les actions non revues ?"
+    # More details https://ibb.co/gDYL8wH
+    doYouWantToRevertThisReport: "Voulez-vous modifier ce rapport ?"
+    # More details https://ibb.co/gDYL8wH
+    iCouldntRevertThisReport: Je ne peux pas modifier ce rapport
+    # More details https://ibb.co/cr64kDj
+    wouldYouLikeToInform: "Voulez-vous informer %{nick}  de cette action via un message privé ?"
+  # More details https://ibb.co/YhKK3VM
+  confirm: Confirmer
+  confirmAll: Tout confirmer
+  # More details https://ibb.co/YhKK3VM
+  disapprove: Désapprouver
+  disapproveAll: Tout désapprouver
+  # More details https://ibb.co/gDYL8wH
+  revert: Modifier
+  # Short for private message
+  PM: MP
+  # This is a sample private message and variables will be replaced with the data of what indicates in the variable name. Example result https://ibb.co/Fb3sh8b
+  sampleMessage: "Bonjour %{n}\n\nJ'ai trouvé des problèmes dans tes actions. Pourrais-tu vérifier ? \n\nAction : %{a}\nQuestion : %{q}"
+  reviewedOn:
+    # Example: Confirmed on 5/23/2019, 7:02:12 PM by BenBrooklyn01
+    # More details https://ibb.co/cr64kDj
+    confirm: "Confirmer le %{date} par %{nick}"
+    # Example: Disapproved on 5/23/2019, 7:02:12 PM by HottestReader1
+    # More details https://ibb.co/cr64kDj
+    disapprove: "Désapprouver le %{date} par %{nick}"

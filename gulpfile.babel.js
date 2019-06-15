@@ -3,319 +3,346 @@ import babelify from 'babelify';
 import log from "fancy-log";
 import colors from "colors";
 import syncReq from "sync-request";
+import downloadFileSync from "download-file-sync";
+import fs from "fs";
 
 import extensionOptions from "./src/config/_/extension";
 
 const $ = require('gulp-load-plugins')();
-
-const styleGuideManifest = JSON.parse(
-	syncReq("GET", "https://raw.githubusercontent.com/brainly/style-guide/master/package.json").getBody('utf8')
-);
+const STYLE_GUIDE_PATH = "src/styles/_/style-guide.css";
 
 var isProduction = process.env.NODE_ENV === "production";
 var target = process.env.TARGET || "chrome";
 
 var manifest = {
-	dev: {
-		"version": process.env.npm_package_version,
-		"background": {
-			"scripts": [
-				"scripts/livereload.js",
-				"scripts/lib/jquery-3.3.1.min.js",
-				"scripts/background.js"
-			]
-		}
-	},
+  dev: {
+    "version": process.env.npm_package_version,
+    "background": {
+      "scripts": [
+        "scripts/livereload.js",
+        "scripts/lib/jquery-3.3.1.min.js",
+        "scripts/background.js"
+      ]
+    }
+  },
 
-	production: {
-		"version": process.env.npm_package_version
-	},
+  production: {
+    "version": process.env.npm_package_version
+  },
 
-	firefox: {
-		"applications": {
-			"gecko": {
-				"id": ""
-			}
-		}
-	}
+  firefox: {
+    "applications": {
+      "gecko": {
+        "id": ""
+      }
+    }
+  }
 }
+
+const styleGuidePJBody = syncReq("GET", "https://api.github.com/repos/brainly/style-guide/releases/latest", {
+  headers: {
+    "user-agent": "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36"
+  }
+});
+const styleGuidePJ = JSON.parse(styleGuidePJBody.getBody('utf8'));
+let versionNumber = styleGuidePJ.tag_name.replace(/^[a-z]/i, "");
+
+if (!(/\d{1,}\.\d{1,}\.\d{1,}/i.exec(versionNumber)))
+  throw `Version number isn't correct: ${versionNumber}`;
+
+let styleGuideContent = downloadFileSync(`https://styleguide.brainly.com/${versionNumber}/style-guide.css`);
+let styleGuideMapContent = downloadFileSync(`https://styleguide.brainly.com/${versionNumber}/style-guide.css.map`);
+styleGuideContent = styleGuideContent.replace(/\.\.\//g, "https://styleguide.brainly.com/");
+
+fs.writeFileSync(`./${STYLE_GUIDE_PATH}`, styleGuideContent);
+fs.writeFileSync(`./${STYLE_GUIDE_PATH}.map`, styleGuideMapContent);
 
 // Clean previous build
 task('clean', () => {
-	return src(`./build/${target}`, { allowEmpty: true })
-		.on('end', () => log('Waiting for 1 second before clean..'))
-		.pipe($.wait(1000))
-		.pipe($.clean());
+  return src(`./build/${target}`, { allowEmpty: true })
+    .on('end', () => log('Waiting for 1 second before clean..'))
+    .pipe($.wait(1000))
+    .pipe($.clean());
 })
 
 /**
  * COMMON
  */
 task("assets", () => {
-	let assets = [{
-			src: './src/icons/**/*',
-			dest: `./build/${target}/icons`
-		},
-		{
-			src: './src/_locales/**/*',
-			dest: `./build/${target}/_locales`
-		},
-		{
-			src: `./src/images/${target}/**/*`,
-			dest: `./build/${target}/images`
-		},
-		{
-			src: './src/images/shared/**/*',
-			dest: `./build/${target}/images`
-		},
-		{
-			src: './src/**/*.html',
-			dest: `./build/${target}`
-		},
-		{
-			src: "src/scripts/**/*.min.js",
-			dest: `build/${target}/scripts`
-		},
-		{
-			src: "src/config/*.json",
-			dest: `build/${target}/config`
-		}
-	];
+  let assets = [{
+      src: './src/icons/**/*',
+      dest: `./build/${target}/icons`
+    },
+    {
+      src: './src/_locales/**/*',
+      dest: `./build/${target}/_locales`
+    },
+    {
+      src: `./src/images/${target}/**/*`,
+      dest: `./build/${target}/images`
+    },
+    {
+      src: './src/images/shared/**/*',
+      dest: `./build/${target}/images`
+    },
+    {
+      src: './src/**/*.html',
+      dest: `./build/${target}`
+    },
+    {
+      src: "src/scripts/**/*.min.js",
+      dest: `build/${target}/scripts`
+    },
+    {
+      src: "src/config/*.json",
+      dest: `build/${target}/config`
+    }
+  ];
 
-	assets = assets.map(function(asset) {
-		return src(asset.src)
-			.pipe(dest(asset.dest));
-	});
+  assets = assets.map(function(asset) {
+    return src(asset.src)
+      .pipe(dest(asset.dest));
+  });
 
-	return assets[assets.length - 1]
+  return assets[assets.length - 1]
 });
 
 task("extensionConfig", () => {
-	let mergeJsonData = {
-		fileName: "extension.json"
-	};
+  let mergeJsonData = {
+    fileName: "extension.json"
+  };
 
-	if (isProduction) {
-		mergeJsonData.endObj = extensionOptions.production;
-	} else {
-		mergeJsonData.endObj = extensionOptions.dev;
-	}
+  if (isProduction) {
+    mergeJsonData.endObj = extensionOptions.production;
+  } else {
+    mergeJsonData.endObj = extensionOptions.dev;
+  }
 
-	mergeJsonData.endObj.STYLE_GUIDE_VERSION = styleGuideManifest.version;
-
-	return src('./src/config/_/extension.json')
-		.pipe($.mergeJson(mergeJsonData))
-		.pipe(dest(`./src/config/_`))
+  return src('./src/config/_/extension.json')
+    .pipe($.mergeJson(mergeJsonData))
+    .pipe(dest(`./src/config/_`))
 });
 
-task('styles', () => {
-	return compileStyleFiles([
-		'src/styles/**/*.scss',
-		'src/styles/**/**/*.scss',
-		'!src/styles/_/**/*.scss'
-	], `build/${target}/styles`);
+task('scss', () => {
+  return compileScssFiles([
+    'src/styles/**/*.scss',
+    'src/styles/**/**/*.scss',
+    '!src/styles/_/**/*.scss'
+  ], `build/${target}/styles`);
+});
+
+task("styleGuide", () => {
+  return FetchStyleGuide();
 });
 
 task("locales", () => {
-	return src('src/locales/*.yml')
-		.pipe($.yaml())
-		.pipe(dest(`build/${target}/locales`));
+  return src('src/locales/*.yml')
+    .pipe($.yaml())
+    .pipe(dest(`build/${target}/locales`));
 });
 
 task('popup', () => {
-	return compileJSFiles(
-		[
-			'src/popup/*.js'
-		],
-		`build/${target}/popup`
-	);
+  return compileJSFiles(
+    [
+      'src/popup/*.js'
+    ],
+    `build/${target}/popup`
+  );
 });
 
 task('js', () => {
-	return compileJSFiles(
-		[
-			'src/scripts/*.js',
-			'src/scripts/**/**/*.js',
+  return compileJSFiles(
+    [
+      'src/scripts/*.js',
+      'src/scripts/**/**/*.js',
 
-			'!src/scripts/**/**/_/*',
-			'!src/scripts/**/**/_/**/*',
-			'!src/scripts/components/**/*.js',
-			'!src/scripts/controllers/**/*.js',
-			'!src/scripts/helpers/**/*.js',
-			'!src/scripts/utils/*.js',
-			"!src/scripts/lib/*.min.js"
-		],
-		`build/${target}/scripts`
-	);
+      '!src/scripts/**/**/_/*',
+      '!src/scripts/**/**/_/**/*',
+      '!src/scripts/components/**/*.js',
+      '!src/scripts/controllers/**/*.js',
+      '!src/scripts/helpers/**/*.js',
+      '!src/scripts/utils/*.js',
+      "!src/scripts/lib/*.min.js"
+    ],
+    `build/${target}/scripts`
+  );
 });
 
 task("manifest", () => {
-	let mergeJsonData = {
-		fileName: "manifest.json"
-	};
+  let mergeJsonData = {
+    fileName: "manifest.json"
+  };
 
-	if (target === "firefox") {
-		mergeJsonData.endObj = manifest.firefox
-	} else if (isProduction) {
-		mergeJsonData.endObj = manifest.production
-	} else {
-		mergeJsonData.endObj = manifest.dev
-	}
+  if (target === "firefox") {
+    mergeJsonData.endObj = manifest.firefox
+  } else if (isProduction) {
+    mergeJsonData.endObj = manifest.production
+  } else {
+    mergeJsonData.endObj = manifest.dev
+  }
 
-	return src('./manifest.json')
-		.pipe($.mergeJson(mergeJsonData))
-		.pipe(dest(`./build/${target}`))
+  return src('./manifest.json')
+    .pipe($.mergeJson(mergeJsonData))
+    .pipe(dest(`./build/${target}`))
 });
 
 task(
-	'build',
-	series('clean', "assets", "extensionConfig", 'styles', "locales", "popup", 'js', 'manifest')
+  'build',
+  series('clean', "assets", "extensionConfig", 'scss', "styleGuide", "locales", "popup", 'js', 'manifest')
 );
 task(
-	"reloadExtension",
-	next => {
-		$.livereload.reload();
-		next();
-	}
-);
-
-task(
-	"watchFiles",
-	() => {
-		$.livereload.listen();
-
-		let watchJSFilesNeedsOnlyReload = watch([
-			'./src/scripts/views/*/*.js',
-			'./src/scripts/*.js',
-
-			'!./src/scripts/views/**/_/*.js',
-			'!./src/scripts/views/**/_/**/*.js',
-		], series("reloadExtension"));
-		let watchJSFilesNeedsToReBuild = watch([
-			'./src/**/*.js',
-			'./src/scripts/views/**/_/*.js',
-			'./src/scripts/views/**/_/**/*.js',
-
-			'!./src/scripts/views/*/*.js',
-			'!./src/scripts/*.js'
-		], series('build', "reloadExtension"));
-		let watchSCSSFilesNeedsOnlyReload = watch(
-			[
-				'src/styles/**/*.scss',
-				'src/scripts/views/**/*.scss'
-			], series("reloadExtension"));
-		let watchAllFilesNeedsToReBuild = watch(
-			[
-				'./src/**/*',
-
-				'!./src/**/*.js',
-				'!./src/config/_/extension.json',
-				'!src/styles/**/*.scss',
-				'!src/scripts/views/**/*.scss'
-			],
-			series('build', "reloadExtension"));
-
-		watchJSFilesNeedsToReBuild.on("change", function(path) {
-			log.info(colors.green(path), "has changed, rebuilding");
-		});
-		watchJSFilesNeedsOnlyReload.on("change", function(path) {
-			let filePath = path.split("/");
-			let destPath = filePath.slice(1, -1).join("/");
-			let fileName = filePath.pop();
-			let destFullPath = `build/${target}/${destPath}/${fileName}`;
-
-			compileJSFiles(path, `build/${target}/${destPath}`);
-
-			log.info(colors.green(path), "has replaced with", colors.magenta(destFullPath));
-		});
-
-		watchSCSSFilesNeedsOnlyReload.on("change", function(path) {
-			let filePath = path.split("/");
-			let destPath = filePath.slice(1, -1).join("/");
-			let fileName = filePath.pop().split(".");
-			fileName.pop();
-			fileName = fileName.join(".");
-			let destFullPath = `build/${target}/${destPath}/${fileName}.css`;
-
-			compileStyleFiles(path, `build/${target}/${destPath}`);
-
-			log.info(colors.green(path), "has replaced with", colors.magenta(destFullPath));
-		});
-
-		watchAllFilesNeedsToReBuild.on("change", function(path) {
-			log.info(colors.green(path), "has changed, rebuilding");
-		});
-
-		return watchAllFilesNeedsToReBuild;
-	}
-);
-task(
-	'watch',
-	series('build', "watchFiles")
+  "reloadExtension",
+  next => {
+    $.livereload.reload();
+    next();
+  }
 );
 
 task(
-	'default',
-	series('build')
+  "watchFiles",
+  () => {
+    $.livereload.listen();
+
+    let watchJSFilesNeedsOnlyReload = watch([
+      './src/scripts/views/*/*.js',
+      './src/scripts/*.js',
+
+      '!./src/scripts/views/**/_/*.js',
+      '!./src/scripts/views/**/_/**/*.js',
+    ], series("reloadExtension"));
+    let watchJSFilesNeedsToReBuild = watch([
+      './src/**/*.js',
+      './src/scripts/views/**/_/*.js',
+      './src/scripts/views/**/_/**/*.js',
+
+      '!./src/scripts/views/*/*.js',
+      '!./src/scripts/*.js'
+    ], series('build', "reloadExtension"));
+    let watchSCSSFilesNeedsOnlyReload = watch(
+      [
+        'src/styles/**/*.scss',
+        'src/scripts/views/**/*.scss'
+      ], series("reloadExtension"));
+    let watchAllFilesNeedsToReBuild = watch(
+      [
+        './src/**/*',
+
+        '!./src/**/*.js',
+        '!./src/config/_/extension.json',
+        '!src/styles/**/*.scss',
+        '!src/scripts/views/**/*.scss'
+      ],
+      series('build', "reloadExtension"));
+
+    watchJSFilesNeedsToReBuild.on("change", function(path) {
+      log.info(colors.green(path), "has changed, rebuilding");
+    });
+    watchJSFilesNeedsOnlyReload.on("change", function(path) {
+      let filePath = path.split("/");
+      let destPath = filePath.slice(1, -1).join("/");
+      let fileName = filePath.pop();
+      let destFullPath = `build/${target}/${destPath}/${fileName}`;
+
+      compileJSFiles(path, `build/${target}/${destPath}`);
+
+      log.info(colors.green(path), "has replaced with", colors.magenta(destFullPath));
+    });
+
+    watchSCSSFilesNeedsOnlyReload.on("change", function(path) {
+      let filePath = path.split("/");
+      let destPath = filePath.slice(1, -1).join("/");
+      let fileName = filePath.pop().split(".");
+      fileName.pop();
+      fileName = fileName.join(".");
+      let destFullPath = `build/${target}/${destPath}/${fileName}.css`;
+
+      compileScssFiles(path, `build/${target}/${destPath}`);
+
+      log.info(colors.green(path), "has replaced with", colors.magenta(destFullPath));
+    });
+
+    watchAllFilesNeedsToReBuild.on("change", function(path) {
+      log.info(colors.green(path), "has changed, rebuilding");
+    });
+
+    return watchAllFilesNeedsToReBuild;
+  }
+);
+task(
+  'watch',
+  series('build', "watchFiles")
+);
+
+task(
+  'default',
+  series('build')
 );
 
 /**
  * DIST
  */
 task(
-	'zip',
-	() => {
-		return src(`./build/${target}/**/*`)
-			.pipe($.zip(`${target}-${process.env.npm_package_version}.zip`))
-			.pipe(dest('./dists'))
-	}
+  'zip',
+  () => {
+    return src(`./build/${target}/**/*`)
+      .pipe($.zip(`${target}-${process.env.npm_package_version}.zip`))
+      .pipe(dest('./dists'))
+  }
 );
 
 task(
-	'dist',
-	series('build', 'zip')
+  'dist',
+  series('build', 'zip')
 );
 
 /**
  * HELPERS
  */
 function compileJSFiles(files, path) {
-	return src(files)
-		.pipe($.bro({
-			transform: [
-				babelify.configure({
+  return src(files)
+    .pipe($.bro({
+      transform: [
+        babelify.configure({
           sourceMaps: false,
-					presets: [
-						'@babel/preset-env',
-						{
-							plugins: [
-								'@babel/plugin-transform-runtime',
-								[
-									"babel-plugin-inline-import", {
-										"extensions": [
-											".html"
-										]
-									}
+          presets: [
+            '@babel/preset-env',
+            {
+              plugins: [
+                '@babel/plugin-transform-runtime',
+                [
+                  "babel-plugin-inline-import", {
+                    "extensions": [
+                      ".html"
+                    ]
+                  }
                 ]
-							]
-						}
-					]
-				}),
-				['uglifyify', { global: true, sourceMap: false }]
-			]
-		}))
-		.pipe(dest(path, { overwrite: true }));;
+              ]
+            }
+          ]
+        }),
+        ['uglifyify', { global: true, sourceMap: false }]
+      ]
+    }))
+    .pipe(dest(path, { overwrite: true }));;
 }
 
-function compileStyleFiles(files, path) {
-	return src(files)
-		.pipe($.plumber())
-		.pipe($.sourcemaps.init())
-		.pipe($.sass.sync({
-			outputStyle: 'compressed',
-			precision: 10,
-			includePaths: ['.']
-		}).on('error', $.sass.logError))
-		.pipe($.sourcemaps.write(`./`))
-		.pipe(dest(path, { overwrite: true }));;
+function compileScssFiles(files, path) {
+  return src(files)
+    .pipe($.plumber())
+    .pipe($.sourcemaps.init())
+    .pipe($.sass.sync({
+      outputStyle: 'compressed',
+      precision: 10,
+      includePaths: ['.']
+    }).on('error', $.sass.logError))
+    .pipe($.sourcemaps.write(`./`))
+    .pipe(dest(path, { overwrite: true }));
+}
+
+function FetchStyleGuide() {
+  return src([
+      STYLE_GUIDE_PATH,
+      `${STYLE_GUIDE_PATH}.map`
+    ])
+    .pipe(dest(`build/${target}/styles`, { overwrite: true }));;
 }

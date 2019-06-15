@@ -27,6 +27,7 @@ common:
   startAll: Tümünü başlat
   stop: Durdur
   continue: Devam et
+  no: No
   # Short for points
   shortPoints: Puan
   writeSomething: Bir şeyler yaz
@@ -199,8 +200,8 @@ popup:
           title: Hızlı yorum silimi
           description: Soru içeriği ve tümünü düzelt sayfalarında hızlı silim butonlarını kullanarak yorum(ları) silme
         "7":
-          title: Çoklu soru silimi
-          description: "Kullanıcı, Moderatör Paneli'nde çoklu soru silim özelliğini kullanabilir"
+          title: Çoklu içerik silici
+          description: "Kullanıcı, Moderatör Panelinden Çoklu içerik silici özelliğini kullanarak birden fazla soru/cevap/yorum silebilir"
         "8":
           title: Grup mesaj gönderme
           description: "Mesajlar sayfasında, kullanıcı gruplar oluşturarak birden fazla kişiye özel mesaj gönderebilir"
@@ -261,6 +262,9 @@ popup:
         "27":
           title: Çoklu kullanıcı yönetimi
           description: "Kullanıcı bu fonksiyonu kullanarak, kullanıcı çoklu şekilde yönetebilir. Örneğin, listelediği kullanıcıların puanlarını değiştirebilir veya cevaplarını doğrulayabilir veya buna benzer eylemler uygulayabilir"
+        "28":
+          title: Mod. Eylem Kontrolcüsü
+          description: Kullanıcı bu fonksiyonu kullanarak diğer moderatörlerin eylem geçmişlerinde bulunan eylemlerini iyi/kötü şekilde raporlayabilir
     announcements:
       text: Duyurular
       addNewAnnouncement: Yeni duyuru ekle
@@ -573,3 +577,38 @@ moderateAll:
   notificationMessages:
   wrongContentConfirmer:
     text: Düzenlenmiş tüm içerikleri onayla
+moderatorActionHistory:
+  notificationMessages:
+    # More details https://ibb.co/TrZZ9Vw
+    doYouWantToConfirm: "Bu eylemi onaylamak istiyor musun?"
+    # More details https://ibb.co/TrZZ9Vw
+    doYouWantToConfirmUnreviewedActions: "Bildirilmemiş tüm eylemleri onaylamak istiyor musun?"
+    # More details https://ibb.co/TrZZ9Vw
+    doYouWantToDisapprove: "Bu eylemi reddetmek istiyor musun?"
+    # More details https://ibb.co/TrZZ9Vw
+    doYouWantToDisapproveUnreviewedActions: "Bildirilmemiş tüm eylemleri reddetmek istiyor musun?"
+    # More details https://ibb.co/gDYL8wH
+    doYouWantToRevertThisReport: "Rapor geri alınsın mı?"
+    # More details https://ibb.co/gDYL8wH
+    iCouldntRevertThisReport: Raporu geri alamadım
+    # More details https://ibb.co/cr64kDj
+    wouldYouLikeToInform: "%{nick} kişisine özel mesaj göndererek, eylemi hakkında bilgilendirmek ister misin?"
+  # More details https://ibb.co/YhKK3VM
+  confirm: Onayla
+  confirmAll: Tümünü onayla
+  # More details https://ibb.co/YhKK3VM
+  disapprove: Reddet
+  disapproveAll: Tümünü reddet
+  # More details https://ibb.co/gDYL8wH
+  revert: Geri al
+  # Short for private message
+  PM: PM
+  # This is a sample private message and variables will be replaced with the data of what indicates in the variable name. Example result https://ibb.co/Fb3sh8b
+  sampleMessage: "Merhaba %{n}\n\nEylemlerinde sorun olduğunu düşünüyorum. Kontrol edebilir misin?\n\nEylem: %{a}\nSoru: %{q}"
+  reviewedOn:
+    # Example: Confirmed on 5/23/2019, 7:02:12 PM by BenBrooklyn01
+    # More details https://ibb.co/cr64kDj
+    confirm: "%{date} tarihinde %{nick} tarafından onaylandı"
+    # Example: Disapproved on 5/23/2019, 7:02:12 PM by HottestReader1
+    # More details https://ibb.co/cr64kDj
+    disapprove: "%{date} tarihinde %{nick} tarafından reddedildi"

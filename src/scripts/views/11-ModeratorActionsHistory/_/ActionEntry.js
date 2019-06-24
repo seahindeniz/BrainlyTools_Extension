@@ -196,11 +196,11 @@ export default class ActionEntry {
     if (!res || !res.success)
       this.FinishProgress();
     else {
-      this.SetDetails(res.data[this.hash]);
+      this.SetDetails(res.data[0]);
     }
   }
   /**
-   * @param {{_id: string, time: string}} data
+   * @param {{_id: string, time: string, hash: string}} data
    */
   SetDetails(data) {
     this.details = {

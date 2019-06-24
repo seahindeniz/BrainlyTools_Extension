@@ -7,6 +7,7 @@ import ServerReq from "../../controllers/Req/Server";
 import IsKeyAlphaNumeric from "../../helpers/IsKeyAlphaNumeric";
 import WaitForElement from "../../helpers/WaitForElement";
 import ActionEntry from "./_/ActionEntry";
+import notification from "../../components/notification";
 
 const MAX_MESSAGE_LENGTH = 512;
 
@@ -214,23 +215,21 @@ export default class ModeratorActionHistory {
     this.$actionButtons.removeClass("sg-button-secondary--disabled");
   }
   CheckResponse(res) {
-    if (!res || !res.success)
+    if (!res || !res.success) {
       this.FinishProgress();
-    else {
+      notification(res.message || System.data.locale.common.notificationMessages.somethingWentWrong, "error")
+    } else {
       this.SetDetails(res.data);
     }
   }
   /**
-   * @param {Object<string,{_id: string, time: string}>} data
+   * @param {{hash: string, time: Date, _id: string}[]} data
    */
   SetDetails(data) {
-    let hashList = Object.keys(data);
+    data.forEach(log => {
+      let entry = this.GetEntry(log.hash);
 
-    hashList.forEach(hash => {
-      let entryData = data[hash];
-      let entry = this.GetEntry(hash);
-
-      entry.SetDetails(entryData);
+      entry.SetDetails(log);
     });
 
     if (this.action == "confirm")
@@ -279,15 +278,10 @@ export default class ModeratorActionHistory {
   }
   async PrepareReportDetails() {
     try {
-      this.shortCodeOfScreenshot = await this.TakeScreenshot();
       this.questionLink = await this.PrepareQuestionLinks();
 
-      if (!this.shortCodeOfScreenshot)
-        throw { message: `Taking screenshot has failed ${this.shortCodeOfScreenshot.message || ""}` };
-      else if (!this.questionLink)
+      if (!this.questionLink)
         throw { message: `Storing question links has failed` };
-
-      this.actionLink = `${System.data.config.extension.shortenedLinkURL}/${this.shortCodeOfScreenshot}`;
 
       return Promise.resolve();
     } catch (error) {
@@ -295,6 +289,13 @@ export default class ModeratorActionHistory {
     }
   }
   async InformModerator() {
+    this.shortCodeOfScreenshot = await this.TakeScreenshot();
+
+    if (!this.shortCodeOfScreenshot)
+      throw { message: `Taking screenshot has failed ${this.shortCodeOfScreenshot.message || ""}` };
+
+    this.actionLink = `${System.data.config.extension.shortenedLinkURL}/${this.shortCodeOfScreenshot}`;
+
     return this.OpenModal({
       actionLink: this.actionLink,
       questionLink: this.questionLink

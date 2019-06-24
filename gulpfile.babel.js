@@ -230,7 +230,9 @@ task(
         '!./src/**/*.js',
         '!./src/config/_/extension.json',
         '!src/styles/**/*.scss',
-        '!src/scripts/views/**/*.scss'
+        '!src/scripts/views/**/*.scss',
+        '!src/styles/_/style-guide.css',
+        '!src/styles/_/style-guide.map.css'
       ],
       series('build', "reloadExtension"));
 

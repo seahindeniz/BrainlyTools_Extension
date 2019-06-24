@@ -298,7 +298,7 @@ async function ArciveMod() {
       (async () => {
         let moderationItemParent = await WaitForElement(selectors.moderationItemParent);
 
-        //moderationItemParent[0].classList.add("quickDelete");
+        moderationItemParent[0].classList.add("sg-actions-list", "sg-actions-list--space-between");
         $(moderationItemParent).observe('added', 'div.moderation-item:not(.ext-buttons-added)', e => {
           createQuickDeleteButtons(e.addedNodes);
         });

@@ -33,10 +33,10 @@ button {
 
   .content {
     .moderation-item {
-
-      width: 16.8em;
+      width: 24%;
       height: 18em;
       overflow: hidden;
+      line-height: initial;
 
       >.header {
         height: 26px;
@@ -62,6 +62,10 @@ button {
           }
         }
       }
+    }
+
+    &:not(.listView) .moderation-item {
+      margin: 12px 3px 0;
     }
 
     &.listView .moderation-item {

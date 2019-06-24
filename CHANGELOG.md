@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.24.0] - 2019.06.24
+
+### Added
+
+- Deleting multiple accounts from Mass-Manage users panel
+
+### Changed
+
+- Fixed layout rendering issue on Moderate all
+
 ## [6.23.1] - 2019.06.15
 
 ### Added

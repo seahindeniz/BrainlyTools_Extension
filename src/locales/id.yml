@@ -17,6 +17,7 @@ common:
   deleted: Dihapus
   edit: Edit
   profileID: Profile ID
+  profileLinksOrIds: Link profil atau ID
   nick: Nick
   moderator: Moderator
   date: Tanggal
@@ -32,6 +33,10 @@ common:
   shortPoints: Poin
   writeSomething: Menuliskan sesuatu
   userHasNoPrivilege: Pengguna tidak memiliki privilege
+  nUsers: "%{n} users"
+  nIds: "%{n} id"
+  nNotFound: "%{n} tidak ditemukan"
+  removeAll: Hapus semua
   halloween:
     # On October 31 it's Halloween and I prepared a little suprise for extension users so bare with me :)
     imSorry: Mohon maaf jika kamu sedikit takut!
@@ -361,7 +366,6 @@ core:
     markAsRead: Tandai telah dibaca
   pointChanger:
     text: Mengubah poin
-    nUsers: "%{n} users"
     enterOrPasteUID: Masukkan dan paste profile ID pengguna
     # More information: https://ibb.co/GWqLCPC
     youNeedToEnterOrPaste: Kamu harus memasukkan ID pengguna atau kamu dapat menempelkan daftar ID pengguna yang disalin ke dalam input
@@ -423,7 +427,24 @@ core:
     # More information: https://ibb.co/2Ys4pt9
     readBy: Dibaca oleh
   massManageUsers:
+    notificationMessages:
+      doYouWantToRemoveSelectedUsers: "Apakah kamu ingin menghapus pengguna yang dipilih dari daftar?"
+      doYouReallyWantToRemoveAllUsers: "Apakah kamu benar-benar ingin menghapus semua pengguna dalam daftar?"
+      tryingToAddPreviouslyRemovedIds: "ID yang kamu masukkan berisi nomor ID yang ada di daftar sebelumnya \n\nKlik \"OK\" jika kamu ingin menambahkan atau\nKlik \"Cancel\" jika kamu ingin mengecualikan."
+      areYouSureAboutDeletingAllListedUsers: "Kamu akan mengkonfirmasi untuk nenghapus semua pengguna dalam daftar\n\nApakah kamu benar-benar yakin?"
+      thereIsNoUserLeft: Tidak ada pengguna yang tersisa dalam daftar
     text: Mengelola pengguna secara massal
+    removeSelected: Hapus yang dipilih
+    removeSelectedUsersFromTheList: Menghapus pengguna yang dipilih dari daftar
+    removeAllUsersFromTheList: Menghapus semua pengguna dari daftar
+    sections:
+      actionButton:
+        approveAnswers:
+          text: Menyetujui jawaban
+          title: Menyetujui semua jawaban dari semua pengguna dalam daftar
+        deleteUsers:
+          text: Hapus pengguna
+          title: Hapus semua pengguna yang terdaftar
 home:
   todaysActions: Aksi hari ini
 messages:
@@ -440,7 +461,6 @@ messages:
     searchResults: Hasil pencarian
     selectGroupType: Pilih jenis grup
     addAll: Tambahkan semua
-    removeAll: Hapus semua
     # %{n} variable indicates the number of people in the group.
     # Replaced example in English: "12 users" in Turkish: "12 kullanici"
     nUser: "%{n} users"

@@ -6,3 +6,4 @@ ep_list.json
 privilege_list.yml
 src/styles/_/style-guide.css
 src/styles/_/style-guide.css.map
+src/config/_/extension.json

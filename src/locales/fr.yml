@@ -17,6 +17,7 @@ common:
   deleted: Supprimé
   edit: Editer
   profileID: ID du profil
+  profileLinksOrIds: Liens des profils ou IDs
   nick: Pseudo
   moderator: Modérateur
   date: Date
@@ -32,6 +33,10 @@ common:
   shortPoints: Pts
   writeSomething: Ecrivez quelque chose
   userHasNoPrivilege: L'utilisateur n'a pas de privilège
+  nUsers: "%{n} utilisateurs"
+  nIds: "%{n} IDs"
+  nNotFound: "%{n} non trouvé"
+  removeAll: Tout retirer
   halloween:
     # On October 31 it's Halloween and I prepared a little suprise for extension users so bare with me :)
     imSorry: Je suis désolé de vous avoir effrayé !
@@ -361,7 +366,6 @@ core:
     markAsRead: Marquer comme lu
   pointChanger:
     text: Changement de masse des points
-    nUsers: "%{n} utilisateurs"
     enterOrPasteUID: Entrer ou coller l'ID du profil
     # More information: https://ibb.co/GWqLCPC
     youNeedToEnterOrPaste: Vous devez entrer un ID d'utilisateur valide
@@ -423,7 +427,24 @@ core:
     # More information: https://ibb.co/2Ys4pt9
     readBy: Lu par
   massManageUsers:
+    notificationMessages:
+      doYouWantToRemoveSelectedUsers: "Voulez-vous supprimer les utilisateurs sélectionnés ?"
+      doYouReallyWantToRemoveAllUsers: "Voulez-vous vraiment supprimer tous ces utilisateurs ?"
+      tryingToAddPreviouslyRemovedIds: "Les IDs que vous avez entré contiennent des utilisateurs précédemment supprimés \n\nCliquer sur \"OK\" si vous voulez les ajouter ou\nCliquer sur \"Annuler\" si vous voulez les exclure"
+      areYouSureAboutDeletingAllListedUsers: "Vous êtes sur le point de supprimer ces utilisateurs.\nEtes-vous sûr de vouloir continuer ? "
+      thereIsNoUserLeft: Il n'y a plus d'utilisateur dans la liste
     text: Management de masse des utilisateurs
+    removeSelected: Supprimer la sélection
+    removeSelectedUsersFromTheList: Supprimer les utilisateurs sélectionnés
+    removeAllUsersFromTheList: Supprimer tous les utilisateurs de la liste
+    sections:
+      actionButton:
+        approveAnswers:
+          text: Approuver les réponses
+          title: Approuver toutes les réponses des utilisateurs sélectionnés
+        deleteUsers:
+          text: Supprimer les utilisateurs
+          title: Supprimer tous les utilisateurs sélectionnés
 home:
   todaysActions: Actions du jour
 messages:
@@ -440,7 +461,6 @@ messages:
     searchResults: Rechercher des résultats
     selectGroupType: Sélectionner un type de groupe
     addAll: Tout ajouter
-    removeAll: Tout retirer
     # %{n} variable indicates the number of people in the group.
     # Replaced example in English: "12 users" in Turkish: "12 kullanici"
     nUser: "%{n} utilisateurs"

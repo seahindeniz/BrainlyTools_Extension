@@ -17,6 +17,7 @@ common:
   deleted: Silindi
   edit: Düzenle
   profileID: Profil ID
+  profileLinksOrIds: Profil linki veya id numarası..
   nick: Nick
   moderator: Moderatör
   date: Tarih
@@ -32,6 +33,10 @@ common:
   shortPoints: Puan
   writeSomething: Bir şeyler yaz
   userHasNoPrivilege: Kullanıcının yetkisi yok
+  nUsers: "%{n} kullanıcı"
+  nIds: "%{n} id"
+  nNotFound: "%{n} bulunamadı"
+  removeAll: Tümünü kaldır
   halloween:
     # On October 31 it's Halloween and I prepared a little suprise for extension users so bare with me :)
     imSorry: Üzgünüm eğer korkuttuysam!
@@ -361,7 +366,6 @@ core:
     markAsRead: Okundu olarak işaretle
   pointChanger:
     text: Çoklu puan değiştirici
-    nUsers: "%{n} kullanıcı"
     enterOrPasteUID: Kullanıcı id'si girin veya yapıştırın
     # More information: https://ibb.co/GWqLCPC
     youNeedToEnterOrPaste: Kullanıcı id'si ni girebilir veya daha önce kopyaladığın kullanıcı id'lerini kutucuğa yapıştırabilirsin
@@ -423,7 +427,24 @@ core:
     # More information: https://ibb.co/2Ys4pt9
     readBy: Okuyanlar
   massManageUsers:
+    notificationMessages:
+      doYouWantToRemoveSelectedUsers: "Seçili kişileri listeden çıkartmak istiyor musun?"
+      doYouReallyWantToRemoveAllUsers: "Tüm kişileri listeden çıkartmak istediğine emin misin?"
+      tryingToAddPreviouslyRemovedIds: "Girdiğin id numaralarından bazıları, daha önce listeden kaldırdığın id numalarından bir kaçını barındırıyor.\n\n\"Tamam\" a basarak listeye tekrar ekleyebilir veya\n\"İptal\" e basarak liste dışında bırakabilirsin."
+      areYouSureAboutDeletingAllListedUsers: "Listelenen tüm kullanıcıları silmeye onay vermek üzeresin.\n\nExtra emin misin?"
+      thereIsNoUserLeft: Listede kullanıcı yok
     text: Çoklu kullanıcı yönet
+    removeSelected: Seçilenleri çıkart
+    removeSelectedUsersFromTheList: Seçilen kişileri listeden çıkart
+    removeAllUsersFromTheList: Listelenen tüm kişileri listeden çıkart
+    sections:
+      actionButton:
+        approveAnswers:
+          text: Cevapları doğrula
+          title: "Listelenen tüm kullanıcıların, tüm cevaplarını doğrulama"
+        deleteUsers:
+          text: Kullanıcıları sil
+          title: Listelenen tüm kullanıcıları silme
 home:
   todaysActions: Eylem sayısı
 messages:
@@ -440,7 +461,6 @@ messages:
     searchResults: Bulunan kişiler
     selectGroupType: Grup tipini seç
     addAll: Tümünü ekle
-    removeAll: Tümünü kaldır
     # %{n} variable indicates the number of people in the group.
     # Replaced example in English: "12 users" in Turkish: "12 kullanici"
     nUser: "%{n} kullanıcı"

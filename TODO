@@ -8,7 +8,8 @@ New:
 
 	Global:
 		- Eklenti seçeneklerine resim paylaşma özelliği ekle. Olursa eğer
-		- Eklentiye özel silim sebebi tanımlama seçeneği. Bununla ilgili eklenti seçeneğine özel olarak alan oluştur ve yönetilebilsin
+    - Eklentiye özel silim sebebi tanımlama seçeneği. Bununla ilgili eklenti seçeneğine özel olarak alan oluştur ve yönetilebilsin
+    - Şikayet edilmşi içerik onaylayıcıyı, Mass-Moderate reported contents olarak değiştir. TD taramasını da, sunucudan gelen last_id listesi ile çek ve işlemi hızlandır
 
 	Anasayfa:
 

@@ -88,6 +88,7 @@ class _System {
   }
   /**
    * @param {number} milliseconds - Specify delay in milliseconds
+   * @return {Promise<number>} - milliseconds
    */
   Delay(milliseconds = System.randomNumber(1000, 4000)) {
     return new Promise(resolve => setTimeout(() => resolve(milliseconds), milliseconds));
@@ -95,7 +96,14 @@ class _System {
   TestDelay() {
     return this.Delay(System.randomNumber(100, 500))
   }
-  randomNumber(min, max) {
+  /**
+   * Generates a number between the maximum number including the minimum number
+   * @param {number} min
+   * @param {number} max
+   */
+  randomNumber(min = 0, max = 10) {
+    if (min > max)[min, max] = [max, min];
+
     return Math.floor((Math.random() * max) + min);
   }
   pageLoaded(loadMessage) {
@@ -391,12 +399,11 @@ class _System {
   }
   /**
    * @param {string|[]} list
-   * @returns {[]}
+   * @returns {number[]}
    */
   ExtractIds(list) {
-    if (typeof list == "string") {
-      list = list.split(/\r\n|\n/g);
-    }
+    if (typeof list == "string")
+      list = list.split(/\r\n|\n| /g);
 
     return list
       .filter(Boolean)

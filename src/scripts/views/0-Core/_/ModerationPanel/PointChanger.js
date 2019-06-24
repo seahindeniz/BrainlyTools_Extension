@@ -23,7 +23,7 @@ class PointChanger {
 
   }
   RenderModal() {
-    let nUsers = System.data.locale.core.pointChanger.nUsers.replace("%{n}", ` <span>0</span> `);
+    let nUsers = System.data.locale.common.nUsers.replace("%{n}", ` <span>0</span> `);
     this.modal = new Modal({
       header: `<div class="sg-actions-list sg-actions-list--space-between">
 				<div class="sg-actions-list__hole">

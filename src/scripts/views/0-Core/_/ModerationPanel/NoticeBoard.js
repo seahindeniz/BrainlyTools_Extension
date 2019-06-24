@@ -91,9 +91,6 @@ class NoticeBoard {
     this.$close = $(".sg-toplayer__close", this.modal.$modal);
     this.$lastUpdate = $(".sg-text > span", this.modal.$modal);
     this.$headerActionList = $(".sg-content-box__header > .sg-actions-list", this.modal.$modal);
-
-    this.modal.$content.removeClass("sg-content-box__content--spaced-bottom-large");
-    this.modal.$content.addClass("sg-content-box__content--spaced-bottom-xxlarge");
   }
   InitMarkdownRenderer() {
     this.md = new MarkdownIt({

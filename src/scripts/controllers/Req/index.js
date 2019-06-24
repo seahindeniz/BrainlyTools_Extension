@@ -97,12 +97,13 @@ export default class Request {
 
     if (this.axios) {
       connectionData.url = this.path;
-
       let promise = this.axios(connectionData);
+
       promise.then(this.HandleResponse.bind(this));
       promise.catch(this.HandleError.bind(this));
     } else {
       let promise = fetch(this.path, connectionData);
+
       promise.then(this.HandleResponse.bind(this));
       promise.catch(this.HandleError.bind(this));
     }

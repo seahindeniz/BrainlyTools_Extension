@@ -67,7 +67,7 @@ class GroupModal {
 							<h2 class="sg-headline sg-headline--normal sg-headline--gray sg-headline--justify">${this.locale.groupMembers}</h2>
 						</div>
 						<div class="sg-actions-list__hole">
-							<button class="sg-button-secondary sg-button-secondary--alt">${this.locale.removeAll}</button>
+							<button class="sg-button-secondary sg-button-secondary--alt">${System.data.locale.common.removeAll}</button>
 						</div>
 					</div>
 					<ul class="sg-list sg-list--spaced-elements"></ul>

@@ -46,20 +46,32 @@ class Toplayer {
       this.$header.addClass("sg-content-box__content--spaced-top sg-content-box__content--spaced-bottom-xlarge");
     }
 
+    if (this.header)
+      this.ShowHeader()
+  }
+  ShowHeader() {
     this.$header.appendTo(this.$contentContainer);
   }
   RenderContent() {
     this.$content = $(`<div class="sg-content-box__content">${this.content}</div>`);
 
-    if (this.size) {
+    /* if (this.size) {
       this.$content.addClass("sg-content-box__content--spaced-bottom-large");
-    }
+    } */
 
+    if (this.content)
+      this.ShowContent();
+  }
+  ShowContent() {
     this.$content.appendTo(this.$contentContainer);
   }
   RenderActions() {
     this.$actions = $(`<div class="sg-content-box__actions">${this.actions}</div>`);
 
+    if (this.actions)
+      this.ShowActions();
+  }
+  ShowActions() {
     this.$actions.appendTo(this.$contentContainer);
   }
   RenderAdditionalElements() {

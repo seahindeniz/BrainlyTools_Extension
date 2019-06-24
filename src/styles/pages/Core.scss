@@ -32,9 +32,53 @@ $baseline: 1.5rem;
   transform: scale(-1, 1);
 }
 
+.sg-button-secondary {
+  &--peach-inverse {
+    background-color: #fff;
+    color: #ff7968;
+    fill: #ff7968;
+  }
+}
+
+.sg-spinner-container {
+  &--spaced {
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+}
+
 .sg-toplayer {
   &--90prc {
     width: 90%;
+    max-width: 90%;
+  }
+
+  &--fit-content {
+    width: fit-content;
+  }
+}
+
+.sg-actions-list__hole {
+  @for $i from 1 to 31 {
+    &--#{$i}-em {
+      width: #{$i}em;
+      min-width: #{$i}em;
+      max-width: #{$i}em;
+    }
+  }
+}
+
+.sg-popup-menu {
+  &--no-arrow {
+    content: none;
+  }
+}
+
+.sg-element--front {
+  @for $i from 1 to 9 {
+    &-#{$i} {
+      z-index: $i;
+    }
   }
 }
 
@@ -526,6 +570,14 @@ body.mint {
     &-horizontal {
       resize: horizontal;
     }
+  }
+
+  &--max1000 {
+    max-height: 1000px;
+  }
+
+  &--min-width-30em {
+    min-width: 30em;
   }
 }
 

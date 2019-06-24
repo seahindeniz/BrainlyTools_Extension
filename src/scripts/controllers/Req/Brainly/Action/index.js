@@ -1,5 +1,19 @@
 import Brainly from "../";
+import Chunkify from "../../../../helpers/Chunkify";
 
+const USERS_PROFILE_REQ_CHUNK_SIZE = 990;
+
+/**
+ * @typedef {{avatar:{medium: string, small: string}|null, avatar_id: number, category: number, client_type: number, current_best_answers_count: number, gender:number, id: number, is_deleted: boolean, nick: string, points: number, primary_rank_id: number, ranks_ids: number[], registration_date: string}} User
+ *
+ * @typedef {{answers_by_subject: {subject_id: number, answers_count: number}[], avatars: null|{64: string, 100: string}, best_answers_from_30_days: number, description: string, followed_count: string, follower_count: string, gender: number, id: number, is_followed_by: boolean, is_following: boolean, nick: string, points: number, ranks_ids: number[], total_questions: number, total_thanks: number}} UserProfile
+ *
+ * @typedef {{id: number, author_id: number, question_id: number, content: string, points: number, thanks_count: number, rating: number, rates_count: number, is_confirmed: boolean, is_excellent: boolean, is_best: boolean, can_comment: boolean, attachment_ids: [], created: string}[]} AnswersOfUser
+ *
+ * @typedef {{success: boolean, data?: User[]}} UserResponse
+ * @typedef {{success: boolean, data?: UserProfile[]}} UserProfileResponse
+ * @typedef {{success: boolean, pagination?: {first: string, prev: string, self: string, next: string, last: string}, data?: AnswersOfUser}} AnswersOfUserResponse
+ */
 export default class Action extends Brainly {
   constructor() {
     super();
@@ -176,6 +190,7 @@ export default class Action extends Brainly {
   /**
    * Get user profile data by id
    * @param {number} id - User id
+   * @returns {Promise<UserProfileResponse>}
    */
   GetUserProfile(id) {
     return this.Legacy().api_user_profiles().get_by_id().P(id).GET();
@@ -185,6 +200,7 @@ export default class Action extends Brainly {
    * Difference between GetUserProfile and GetUser is GetUserProfile serves the Bio text and returns success:false for deleted accounts.
    * But GetUser returns with success:true for deleted accounts- but returns without bio text. Therefore, there should be two different methods to get user details.
    * @param {number} id - User id
+   * @returns {Promise<UserResponse>}
    */
   GetUser(id) {
     return this.Legacy().api_users().get().P(~~id).GET();
@@ -192,9 +208,48 @@ export default class Action extends Brainly {
   /**
    * Get users data by ids
    * @param {number[]} ids - User id numbers
+   * @returns {Promise<UserResponse>}
    */
   GetUsers(ids) {
-    return this.Legacy().api_users().get_by_id().GET({ "id[]": ids.join("&id[]=") });
+    if (!(ids instanceof Array))
+      return Promise.reject("Not an array");
+
+    if (ids.length > USERS_PROFILE_REQ_CHUNK_SIZE)
+      return this.GetUsersInChunk(ids);
+
+    return this.Legacy().api_users().get_by_id().GET({ a: ids.length, "id[]": ids.join("&id[]=") });
+  }
+  GetUsersInChunk(ids) {
+    return new Promise((resolve, reject) => {
+      let count = 0;
+      let chunkedIds = Chunkify(ids, USERS_PROFILE_REQ_CHUNK_SIZE);
+      /**
+       * @type {UserResponse}
+       */
+      let results = {
+        success: true,
+        data: []
+      };
+
+      chunkedIds.forEach(async (idList) => {
+        try {
+          let resUsers = await new Action().GetUsers(idList);
+
+          if (resUsers && resUsers.success)
+            results.data = [
+              ...results.data,
+              ...resUsers.data
+            ];
+
+          if (++count == chunkedIds.length)
+            resolve(results);
+        } catch (error) {
+          console.log("err", error);
+          reject(error);
+          throw error;
+        }
+      });
+    });
   }
   /**
    * Cancel user warning by warning id
@@ -331,43 +386,6 @@ export default class Action extends Brainly {
     return this.GQL().Mutation(data).POST();
   }
   /**
-   * @param {string} sourceURL
-   * @param {string} formSelector
-   */
-  GetPHPTokens(sourceURL, formSelector) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        this.path = sourceURL;
-        let HTML = await this.GET();
-        this.path = "";
-        let tokens = {
-          key: /\[key]" value="(.*?)" i/i,
-          lock: /\[lock]" value="(.*?)" i/i,
-          fields: /\[fields]" value="(.*?)" id="TokenF/i
-        }
-
-        /**
-         * To avoid having the "imgError:undefined" error message on console
-         */
-        HTML = HTML.replace(/onerror="imgError\(this, (?:'|\&\#039\;){1,}\);"/gmi, "");
-
-        if (formSelector) {
-          HTML = $(formSelector, HTML).html();
-        }
-
-        $.each(tokens, (i, token) => {
-          let tokenMatch = HTML.match(token);
-
-          tokens[i] = tokenMatch ? tokenMatch[1] : "";
-        });
-
-        resolve(tokens);
-      } catch (error) {
-        reject(error);
-      }
-    });
-  }
-  /**
    * @param {number} user_id
    * @param {string|{key: string, fields: string, lock: string}} tokens
    */
@@ -396,6 +414,19 @@ export default class Action extends Brainly {
     data["data[ChangePoints][diff]"] = point;
 
     return this.admin().users().change_points().P(user_id).Form().POST(data);
+  }
+  /**
+   * @param {number} user_id
+   * @param {string} reason
+   */
+  async DeleteAccount(user_id, reason = "") {
+    let data = await this.SetFormTokens(System.createProfileLink(user_id), "#DelUserAddForm");
+    data["data[DelUser][delTasks]"] = 1;
+    data["data[DelUser][delComments]"] = 1;
+    data["data[DelUser][delResponses]"] = 1;
+    data["data[DelUser][reason]"] = reason;
+
+    return this.admin().users().delete().P(user_id).Form().POST(data);
   }
   /**
    * @param {number} model_id
@@ -446,5 +477,21 @@ export default class Action extends Brainly {
   }
   GetQuestionAddPage() {
     return this.X_Req_With().question().add().GET();
+  }
+  /**
+   * @param {number} userId
+   * @param {number} page
+   * @returns {Promise<AnswersOfUserResponse>}
+   */
+  GetAnswersOfUser(userId, page) {
+    if (~~userId == 0)
+      return Promise.reject("Unvalid id");
+
+    let data = { userId };
+
+    if (page)
+      data.page = page
+
+    return this.Legacy().api_responses().get_by_user().GET(data);
   }
 }

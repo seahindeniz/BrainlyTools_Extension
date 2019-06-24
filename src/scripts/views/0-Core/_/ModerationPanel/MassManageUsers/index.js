@@ -1,32 +1,46 @@
+import template from "backtick-template";
 import debounce from "debounce";
 import Modal from "../../../../../components/Modal";
 import Action from "../../../../../controllers/Req/Brainly/Action";
+import ApproveAnswers from "./ActionSection/ApproveAnswers";
+import DeleteUsers from "./ActionSection/DeleteUsers";
+import ModalContent from "./templates/ModalContent.html";
+import User from "./User";
 
 /**
- * @typedef {import("../../../../../controllers/Req/Brainly/Action/index").UserProfile} UserProfile
+ * @typedef {import("../../../../../controllers/Req/Brainly/Action/index").User} UserProfile
  * @type {import("../../../../../controllers/System").default}
  */
 let System;
 let SetSystem = () => !System && (System = window.System);
 
-class MassManageUsers {
+export default class MassManageUsers {
   constructor() {
     /**
      * @type {number[]}
      */
     this.idList = [];
     /**
-     * @type {Object<string, null|UserProfile>}
+     * @type {Object<string, User>}
      */
     this.users = {};
     /**
      * @type {UserProfile[]}
      */
     this.fetchedUsers = [];
+    /**
+     * @type {ApproveAnswers|DeleteUsers}
+     */
+    this.activeAction;
+    /**
+     * @type {number[]}
+     */
+    this.removedIds = [];
 
     SetSystem();
     this.RenderLi();
     this.RenderModal();
+    this.RenderNumberOfIdsSpinner();
     this.RenderUserList();
     this.BindHandlers();
   }
@@ -37,7 +51,11 @@ class MassManageUsers {
 		</li>`);
   }
   RenderModal() {
-    let nUsers = System.data.locale.core.pointChanger.nUsers.replace("%{n}", ` <span>0</span> `);
+    let contentData = {
+      nIds: String(System.data.locale.common.nIds.replace("%{n}", ` <span class="sg-text--bold">0</span> `)),
+      nUsers: String(System.data.locale.common.nUsers.replace("%{n}", ` <span class="sg-text--bold">0</span> `)),
+      nNotFound: String(System.data.locale.common.nNotFound.replace("%{n}", ` <span class="sg-text--bold">0</span> `))
+    };
     this.modal = new Modal({
       header: `
       <div class="sg-actions-list sg-actions-list--space-between">
@@ -47,54 +65,81 @@ class MassManageUsers {
 					</div>
 				</div>
 			</div>`,
-      content: `
-      <div class="sg-content-box">
-				<div class="sg-content-box__content sg-content-box__content--spaced-top">
-          <div class="sg-actions-list sg-actions-list--no-wrap">
-            <div class="sg-actions-list__hole" style="width: 30em;min-width: 30em;max-width: 30em;">
-              <textarea class="sg-textarea sg-textarea--full-width sg-textarea--tall sg-textarea--resizable-vertical" placeholder="${System.data.locale.common.profileLinksOrIds}"></textarea>
-            </div>
-          </div>
-				</div>
-				<div class="sg-content-box__actions">
-					<div class="sg-actions-list sg-actions-list--no-wrap">
-						<div class="sg-actions-list__hole">
-							<p class="sg-text sg-text--xsmall">${nUsers}</p>
-						</div>
-					</div>
-        </div>
-			</div>`,
+      content: template(ModalContent, contentData),
       size: "90prc sg-toplayer--fit-content"
     });
 
     this.$idInput = $("textarea", this.modal.$content);
-    this.$inputActionList = $(".sg-content-box__content > .sg-actions-list", this.modal.$content);
-    this.$numberOfUsers = $(".sg-content-box__actions .sg-actions-list > .sg-actions-list__hole > .sg-text > span", this.modal.$content);
+    this.$sectionContainer = $("> .sg-content-box", this.modal.$content);
+    this.$inputActionList = $("> .sg-content-box__content > .sg-actions-list", this.$sectionContainer);
+    this.$numberOfIdsSpinnerContainer = $(".sg-spinner-container", this.modal.$content);
+    this.$numberOfIds = $(".sg-text > span", this.$numberOfIdsSpinnerContainer);
+    this.$numberOfUsers = $(".sg-content-box__actions .sg-actions-list__hole:nth-child(2) > .sg-text > span", this.modal.$content);
+    this.$numberOfNotFound = $(".sg-content-box__actions .sg-actions-list__hole:nth-child(3) > .sg-text > span", this.modal.$content);
+  }
+  RenderNumberOfIdsSpinner() {
+    this.$numberOfIdsSpinner = $(`
+    <div class="sg-spinner-container__overlay">
+      <div class="sg-spinner sg-spinner--small"></div>
+    </div>`);
   }
   RenderUserList() {
     this.$userListContainer = $(`
     <div class="sg-actions-list__hole sg-actions-list__hole--container">
-      <div class="sg-content-box__actions sg-textarea sg-textarea--tall sg-textarea--resizable-vertical"></div>
+      <div class="sg-content-box">
+        <div class="sg-content-box__actions sg-textarea sg-textarea--tall sg-textarea--resizable-vertical sg-actions-list--space-evenly"></div>
+        <div class="sg-content-box__actions">
+          <div class="sg-actions-list sg-actions-list--space-around">
+            <div class="sg-actions-list__hole">
+              <button class="sg-button-secondary sg-button-secondary--small sg-button-secondary--dark" title="${System.data.locale.core.massManageUsers.removeAllUsersFromTheList}">${System.data.locale.common.removeAll}</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>`);
 
-    this.$userList = $(".sg-content-box__actions", this.$userListContainer);
+    this.$userList = $("> .sg-content-box > .sg-content-box__actions:nth-child(1)", this.$userListContainer);
+    this.$removeButtonList = $(".sg-actions-list", this.$userListContainer);
+    this.$removeAllButton = $("button", this.$userListContainer);
+
+    this.RenderRemoveSelectedButton();
+  }
+  RenderRemoveSelectedButton() {
+    this.$removeSelectedButtonContainer = $(`
+    <div class="sg-actions-list__hole">
+      <button class="sg-button-secondary sg-button-secondary--small sg-button-secondary--dark-inverse" title="${System.data.locale.core.massManageUsers.removeSelectedUsersFromTheList}">${System.data.locale.core.massManageUsers.removeSelected}&nbsp;<b></b></button>
+    </div>`);
+
+    this.$removeSelectedButton = $("> button", this.$removeSelectedButtonContainer);
+    this.$numberOfSelectedUsers = $("> b", this.$removeSelectedButton);
   }
   BindHandlers() {
     this.modal.$close.click(this.modal.Close.bind(this.modal));
-    this.$li.on("click", "span", this.modal.Open.bind(this.modal));
-    this.$idInput.on("input", debounce(() => this.UpdateInput(), 700));
-    this.$idInput.on("change", this.InputChanged.bind(this));
+    this.$li.on("click", "span", this.Open.bind(this));
+    this.$idInput.on("input", debounce(() => this.UpdateInput(), 1000));
+    this.$removeAllButton.click(this.RemoveAllUsers.bind(this));
+    this.$removeSelectedButton.click(this.RemoveSelectedUsers.bind(this));
+  }
+  Open() {
+    this.modal.Open();
+    /* this.$idInput.val(1016288) //"1\n2\n3\n4");
+    this.$idInput.trigger("input"); */
   }
   UpdateInput() {
-    this.FixNumberLines();
+    //this.FixNumberLines();
     this.ParseIds();
-    this.UpdateNumberOfUsers();
+    this.UpdateNumberOfIds();
     this.FetchUserDetails();
   }
   FixNumberLines() {
     let value = this.$idInput.val();
+
+    if (!value) return;
+
     let cursorPosition = ~~(this.$idInput.prop("selectionStart") + 1);
     let newValue = value.replace(/(\d{1,})+(?:([a-z])| {1,})/gm, "$1\n$2");
+
+    if (value == newValue) return;
 
     this.$idInput
       .val(newValue)
@@ -104,82 +149,270 @@ class MassManageUsers {
   }
   ParseIds() {
     let value = this.$idInput.val();
-    let valueList = value.split(/\r\n|\n/g);
-    this.idList = System.ExtractIds(valueList);
-    this.idList = [...new Set(this.idList)];
+    let idList = System.ExtractIds(value);
+    this.idList = [...new Set(idList)];
   }
-  UpdateNumberOfUsers() {
-    this.$numberOfUsers.text(this.idList.length);
-  }
-  InputChanged() {
-    this.UpdateInput();
+  UpdateNumberOfIds() {
+    this.$numberOfIds.text(this.idList.length);
   }
   async FetchUserDetails() {
     if (this.idList.length > 0) {
       let idList = this.FilterFetchedUserIds();
 
       if (idList.length > 0) {
-        let resUsers = await new Action().GetUsers(idList);
+        let removedIds = this.CheckIfIdListContainsAnyRemovedIds(idList);
 
-        if (resUsers && resUsers.success) {
-          this.fetchedUsers = resUsers.data;
-
-          this.RenderUsers();
+        if (removedIds.length > 0) {
+          if (confirm(System.data.locale.core.massManageUsers.notificationMessages.tryingToAddPreviouslyRemovedIds))
+            this.RemoveIdsFromRemovedIdsList(removedIds);
+          else
+            idList = this.FilterRemovedIds(idList);
         }
+
+        try {
+          this.ShowNumberOfUsersSpinner();
+
+          let resUsers = await new Action().GetUsers(idList);
+
+          if (resUsers && resUsers.success) {
+            this.fetchedUsers = resUsers.data;
+
+            this.RenderUsers();
+            this.UpdateNumbers();
+            this.ToggleSections();
+          }
+        } catch (error) {
+          this.RemoveIdsFromIdList(idList);
+        }
+
+        this.HideNumberOfUsersSpinner();
       }
     }
   }
   FilterFetchedUserIds() {
-    if (this.users.length == 0)
+    if (Object.keys(this.users).length == 0)
       return this.idList;
 
     return this.idList.filter(id => {
       let _user = this.users[id];
 
       if (!_user)
-        this.users[id] = null;
+        this.users[id] = true;
 
       return !_user
     });
   }
-  RenderUsers() {
-    this.fetchedUsers.forEach(this.RenderUser.bind(this));
-    this.ShowUserList();
-    console.log(this.users);
+  /**
+   * @param {number[]} idList
+   */
+  CheckIfIdListContainsAnyRemovedIds(idList) {
+    return idList.filter(id => this.removedIds.includes(id));
   }
   /**
-   * @param {UserProfile} user
+   * @param {number[]} idList
    */
-  RenderUser(user) {
-    this.users[user.id] = user;
-    let avatar = System.prepareAvatar(user);
-    let profileLink = System.createProfileLink(user);
-    console.log(user);
-    let $user = $(`
-    <div class="sg-box sg-box--xxsmall-padding sg-box--no-min-height sg-box--navyblue-secondary sg-box--no-border">
-      <div class="sg-box__hole">
-        <div class="sg-actions-list">
-          <div class="sg-actions-list__hole">
-            <div class="sg-avatar sg-avatar--spaced">
-              <a href="${profileLink}">
-                <img class="sg-avatar__image" src="${avatar}">
-              </a>
-            </div>
-          </div>
-          <div class="sg-actions-list__hole">
-            <a href="${profileLink}" class="sg-text sg-text--link-unstyled sg-text--bold">
-              <span class="sg-text sg-text--small sg-text--gray sg-text--bold">${user.nick}</span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>`);
+  RemoveIdsFromRemovedIdsList(idList) {
+    this.removedIds = this.removedIds.filter(id => !idList.includes(id));
+  }
+  /**
+   * @param {number[]} idList
+   */
+  FilterRemovedIds(idList) {
+    return idList.filter(id => !this.removedIds.includes(id));
+  }
+  ShowNumberOfUsersSpinner() {
+    this.$numberOfIdsSpinner.appendTo(this.$numberOfIdsSpinnerContainer);
+  }
+  HideNumberOfUsersSpinner() {
+    this.HideElement(this.$numberOfIdsSpinner);
+  }
+  /**
+   * @param {JQuery<HTMLElement>} $element
+   */
+  HideElement($element) {
+    if ($element)
+      $element.detach();
+    //$element.appendTo("<div />");
+  }
+  /**
+   * @param {number[]} idList
+   */
+  RemoveIdsFromIdList(idList) {
+    idList.forEach(id => (delete this.users[id]));
+  }
+  RenderUsers() {
+    this.fetchedUsers.forEach(this.RenderUser.bind(this));
+  }
+  /**
+   * @param {UserProfile} details
+   */
+  RenderUser(details) {
+    let user = this.users[details.id] = new User(details, this);
 
-    $user.appendTo(this.$userList);
+    /* let promise = new Action().GetUserProfile(details.id);
+    promise.then(resProfil => {
+      let count = resProfil.data.answers_by_subject.reduce((sum, entry) => sum + entry.answers_count, 0);
+      console.log("Toplam cevap", count);
+    }) */
+    user.$.appendTo(this.$userList);
+  }
+  UpdateNumbers() {
+    this.UpdateNumberOfNotFound();
+    this.UpdateNumberOfUsers();
+  }
+  UpdateNumberOfUsers() {
+    this.$numberOfUsers.text(Object.keys(this.users).length);
+  }
+  UpdateNumberOfNotFound() {
+    let count = this.RemoveNotFoundUsersFromStore();
+
+    this.$numberOfNotFound.text(count);
+  }
+  RemoveNotFoundUsersFromStore() {
+    let count = 0;
+    let idList = Object.keys(this.users);
+
+    idList.forEach(id => {
+      if (this.users[id] === true) {
+        count++;
+        delete this.users[id];
+      }
+    });
+
+    return count;
+  }
+  ToggleSections() {
+    if (Object.keys(this.users).length > 0)
+      this.ShowSections();
+    else
+      this.HideSections();
+  }
+  ShowSections() {
+    this.ShowUserList();
+    this.ShowActionsSection();
+  }
+  HideSections() {
+    this.HideUserList();
+    this.HideActionsSection();
   }
   ShowUserList() {
     this.$userListContainer.appendTo(this.$inputActionList);
   }
-}
+  HideUserList() {
+    this.HideElement(this.$userListContainer);
+  }
+  ToggleUserList() {
+    let idList = Object.keys(this.users);
 
-export default MassManageUsers
+    if (idList.length == 0)
+      this.HideUserList();
+  }
+  async ShowActionsSection() {
+    if (!this.$actionsSection)
+      this.RenderActionsSection();
+
+    await System.Delay(50);
+
+    this.$actionsSection.appendTo(this.$sectionContainer);
+  }
+  HideActionsSection() {
+    this.HideElement(this.$actionsSection);
+  }
+  RenderActionsSection() {
+    this.$actionsSection = $(`
+    <div class="sg-content-box__content sg-content-box__content--spaced-top-xlarge">
+      <div class="sg-actions-list sg-actions-list--space-around"></div>
+    </div>`);
+
+    this.$actionsList = $(".sg-actions-list", this.$actionsSection);
+
+    this.RenderActionsSectionSeparator();
+    this.RenderActions();
+  }
+  RenderActionsSectionSeparator() {
+    this.$actionsSectionSeparator = $(`<div class="sg-horizontal-separator sg-horizontal-separator--short-spaced"></div>`);
+  }
+  ShowActionsSectionSeparator() {
+    this.$actionsSectionSeparator.appendTo(this.$actionsSection);
+  }
+  HideActionsSectionSeparator() {
+    this.HideElement(this.$actionsSectionSeparator);
+  }
+  RenderActions() {
+    this.actions = [
+      //new ApproveAnswers(this),
+      new DeleteUsers(this)
+    ];
+
+    this.actions.forEach(this.RenderAction.bind(this));
+  }
+  /**
+   * @param {import("./ActionSection/index").default} Section
+   */
+  RenderAction(Section) {
+    Section.$actionButtonContainer.appendTo(this.$actionsList);
+  }
+  ShowRemoveSelectedButton() {
+    this.$removeSelectedButton.prependTo(this.$removeButtonList);
+  }
+  HideRemoveSelectedButton() {
+    this.HideElement(this.$removeSelectedButton);
+  }
+  ToggleRemoveSelectedButton() {
+    let filteredIds = this.FilterSelectedUsers();
+
+    if (filteredIds.length == 0)
+      this.HideRemoveSelectedButton();
+    else {
+      this.ShowRemoveSelectedButton();
+      this.$numberOfSelectedUsers.text(`(${filteredIds.length})`);
+    }
+  }
+  FilterSelectedUsers() {
+    let idList = Object.keys(this.users);
+
+    return idList.filter(id => this.users[id].$checkbox.is(':checked'));
+  }
+  RemoveAllUsers() {
+    if (confirm(System.data.locale.core.massManageUsers.notificationMessages.doYouWantToRemoveSelectedUsers)) {
+      let idList = Object.keys(this.users);
+
+      this.RemoveUsersById(idList);
+    }
+  }
+  RemoveSelectedUsers() {
+    if (confirm(System.data.locale.core.massManageUsers.notificationMessages.doYouReallyWantToRemoveAllUsers)) {
+      let idList = this.FilterSelectedUsers();
+
+      this.RemoveUsersById(idList);
+    }
+  }
+  /**
+   * @param {string[]} idList
+   */
+  RemoveUsersById(idList) {
+    idList.forEach(id => {
+      this.removedIds.push(~~id);
+      this.HideElement(this.users[id].$);
+
+      delete this.users[id];
+    });
+
+    this.UpdateNumbers();
+    this.ToggleRemoveSelectedButton();
+    this.ToggleSections();
+  }
+  MakeListedUsersBusy() {
+    let idList = Object.keys(this.users);
+
+    if (idList.length == 0) {
+      this.modal.notification(System.data.locale.core.massManageUsers.notificationMessages.thereIsNoUserLeft, "info");
+
+      return false;
+    }
+
+    idList.forEach(id => this.users[id].BeBusy());
+
+    return idList;
+  }
+}

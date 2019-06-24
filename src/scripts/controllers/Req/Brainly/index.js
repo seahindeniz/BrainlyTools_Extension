@@ -69,6 +69,46 @@ export default class Brainly extends Request {
       "data[_Token][lock]": tokens.lock
     });
   }
+  /**
+   * @param {string} sourceURL
+   * @param {string} formSelector
+   */
+  GetPHPTokens(sourceURL, formSelector) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        this.path = sourceURL;
+        let HTML = await this.GET();
+        this.path = "";
+        let tokens = {
+          key: /\[key]" value="(.*?)" i/i,
+          lock: /\[lock]" value="(.*?)" i/i,
+          fields: /\[fields]" value="(.*?)" id="TokenF/i
+        }
+
+        /**
+         * To avoid having the "imgError:undefined" error message on console
+         */
+        HTML = HTML.replace(/onerror="imgError\(this, (?:'|\&\#039\;){1,}\);"/gmi, "");
+
+        if (formSelector) {
+          HTML = $(formSelector, HTML).html();
+        }
+
+        if (!HTML)
+          return reject({ msg: `The "${formSelector}" cannot be found on profile page`, error: 404 });
+
+        $.each(tokens, (i, token) => {
+          let tokenMatch = HTML.match(token);
+
+          tokens[i] = tokenMatch ? tokenMatch[1] : "";
+        });
+
+        resolve(tokens);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
 
   api_tasks() {
     return this.P("api_tasks");
@@ -202,6 +242,9 @@ export default class Brainly extends Request {
   add() {
     return this.P("add");
   }
+  delete() {
+    return this.P("delete");
+  }
 
   api_comments() {
     return this.P("api_comments");
@@ -212,5 +255,12 @@ export default class Brainly extends Request {
 
   question() {
     return this.P("question");
+  }
+
+  api_responses() {
+    return this.P("api_responses");
+  }
+  get_by_user() {
+    return this.P("get_by_user");
   }
 }

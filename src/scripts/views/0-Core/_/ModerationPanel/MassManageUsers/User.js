@@ -105,6 +105,10 @@ export default class User {
     this.ShowSpinner();
     this.HideCheckbox();
   }
+  UnBusy(){
+    this.HideSpinner();
+    this.ShowCheckbox();
+  }
   ChangeBoxColor(replacement) {
     this.$box.addClass(replacement);
     this.$box.removeClass("sg-box--gray-secondary-lightest");
@@ -125,8 +129,11 @@ export default class User {
     this.$.addClass("sg-box--full sg-spinner-container--spaced");
     this.$box.addClass("sg-box--full");
   }
-  async ShowSmallSpinner() {
+  ShowSmallSpinner() {
     this.$smallSpinner.appendTo(this.$smallSpinnerContainer);
+  }
+  HideSmallSpinner(){
+    this.main.HideElement(this.$smallSpinner);
   }
   ShowInfoBar() {
     this.$infoBarContainer.appendTo(this.$nickContainer);

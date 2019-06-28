@@ -15,11 +15,11 @@ export default class DeleteUsers extends ActionSection {
      */
     let renderDetails = {
       content: {
-        text: System.data.locale.core.massManageUsers.sections.actionButton.deleteUsers.title,
+        text: System.data.locale.core.massManageUsers.sections.deleteUsers.actionButton.title,
         style: " sg-text--peach-dark"
       },
       actionButton: {
-        ...System.data.locale.core.massManageUsers.sections.actionButton.deleteUsers,
+        ...System.data.locale.core.massManageUsers.sections.deleteUsers.actionButton,
         style: "sg-button-secondary--peach-inverse"
       }
     }
@@ -67,7 +67,7 @@ export default class DeleteUsers extends ActionSection {
     this.$stopButton.click(this.StopDeleting.bind(this));
   }
   StartDeleting() {
-    this.SetUserIdList();
+    this.SetUsers();
 
     if (this.userIdList && confirm(System.data.locale.core.massManageUsers.notificationMessages.areYouSureAboutDeletingAllListedUsers)) {
       this.started = true;

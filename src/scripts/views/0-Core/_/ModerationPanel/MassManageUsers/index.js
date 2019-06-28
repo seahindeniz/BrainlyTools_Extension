@@ -36,6 +36,7 @@ export default class MassManageUsers {
      * @type {number[]}
      */
     this.removedIds = [];
+    this.lastIdInputValue = "";
 
     SetSystem();
     this.RenderLi();
@@ -85,7 +86,7 @@ export default class MassManageUsers {
   }
   RenderUserList() {
     this.$userListContainer = $(`
-    <div class="sg-actions-list__hole sg-actions-list__hole--container">
+    <div class="sg-actions-list__hole sg-actions-list__hole--container sg-actions-list__hole--grow">
       <div class="sg-content-box">
         <div class="sg-content-box__actions sg-textarea sg-textarea--tall sg-textarea--resizable-vertical sg-actions-list--space-evenly"></div>
         <div class="sg-content-box__actions">
@@ -107,7 +108,7 @@ export default class MassManageUsers {
   RenderRemoveSelectedButton() {
     this.$removeSelectedButtonContainer = $(`
     <div class="sg-actions-list__hole">
-      <button class="sg-button-secondary sg-button-secondary--small sg-button-secondary--dark-inverse" title="${System.data.locale.core.massManageUsers.removeSelectedUsersFromTheList}">${System.data.locale.core.massManageUsers.removeSelected}&nbsp;<b></b></button>
+      <button class="sg-button-secondary sg-button-secondary--small sg-button-secondary--inverse" title="${System.data.locale.core.massManageUsers.removeSelectedUsersFromTheList}">${System.data.locale.core.massManageUsers.removeSelected}&nbsp;<b></b></button>
     </div>`);
 
     this.$removeSelectedButton = $("> button", this.$removeSelectedButtonContainer);
@@ -122,14 +123,26 @@ export default class MassManageUsers {
   }
   Open() {
     this.modal.Open();
-    /* this.$idInput.val(1016288) //"1\n2\n3\n4");
-    this.$idInput.trigger("input"); */
+    /*this.$idInput.val([129666, 573253, 1027900, 1016288, 996887].join("\n")) //"1\n2\n3\n4");
+    /**
+     * 14818 40016
+     * 129666 2152
+     * 1016288 244
+     * 996887 155
+     */
+    //this.$idInput.trigger("input");
   }
   UpdateInput() {
     //this.FixNumberLines();
-    this.ParseIds();
-    this.UpdateNumberOfIds();
-    this.FetchUserDetails();
+    let value = this.$idInput.val().trim();
+
+    if (value != this.lastIdInputValue) {
+      this.lastIdInputValue = value;
+
+      this.ParseIds();
+      this.UpdateNumberOfIds();
+      this.FetchUserDetails();
+    }
   }
   FixNumberLines() {
     let value = this.$idInput.val();
@@ -340,7 +353,7 @@ export default class MassManageUsers {
   }
   RenderActions() {
     this.actions = [
-      //new ApproveAnswers(this),
+      new ApproveAnswers(this),
       new DeleteUsers(this)
     ];
 
@@ -374,14 +387,14 @@ export default class MassManageUsers {
     return idList.filter(id => this.users[id].$checkbox.is(':checked'));
   }
   RemoveAllUsers() {
-    if (confirm(System.data.locale.core.massManageUsers.notificationMessages.doYouWantToRemoveSelectedUsers)) {
+    if (confirm(System.data.locale.core.massManageUsers.notificationMessages.doYouReallyWantToRemoveAllUsers)) {
       let idList = Object.keys(this.users);
 
       this.RemoveUsersById(idList);
     }
   }
   RemoveSelectedUsers() {
-    if (confirm(System.data.locale.core.massManageUsers.notificationMessages.doYouReallyWantToRemoveAllUsers)) {
+    if (confirm(System.data.locale.core.massManageUsers.notificationMessages.doYouWantToRemoveSelectedUsers)) {
       let idList = this.FilterSelectedUsers();
 
       this.RemoveUsersById(idList);
@@ -393,7 +406,8 @@ export default class MassManageUsers {
   RemoveUsersById(idList) {
     idList.forEach(id => {
       this.removedIds.push(~~id);
-      this.HideElement(this.users[id].$);
+      //this.HideElement();
+      this.users[id].$.remove();
 
       delete this.users[id];
     });
@@ -408,11 +422,24 @@ export default class MassManageUsers {
     if (idList.length == 0) {
       this.modal.notification(System.data.locale.core.massManageUsers.notificationMessages.thereIsNoUserLeft, "info");
 
-      return false;
-    }
+      return null;
+    } else
+      idList = idList.map(id => {
+        this.users[id].BeBusy();
 
-    idList.forEach(id => this.users[id].BeBusy());
+        return Number(id);
+      });
 
     return idList;
+  }
+  UnBusyListedUsers() {
+    let idList = Object.keys(this.users);
+
+    if (idList.length > 0)
+      idList = idList.map(id => {
+        this.users[id].UnBusy();
+
+        return Number(id);
+      });
   }
 }

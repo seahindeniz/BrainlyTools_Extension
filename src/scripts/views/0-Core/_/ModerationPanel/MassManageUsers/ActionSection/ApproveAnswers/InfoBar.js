@@ -8,13 +8,11 @@ export default class InfoBar {
   constructor(user, main) {
     this.user = user;
     this.main = main;
+    this.approved = false;
     this.numberOfFetchedAnswers = 0;
     this.numberOfApprovedAnswers = 0;
+    this.numberOfAlreadyApprovedAnswers = 0;
     this.fetchingAnswersDone = false;
-    /**
-     * @type {number}
-     */
-    this.lastAnswersPage;
 
     this.Promise();
     this.RenderInfoBar();
@@ -40,10 +38,22 @@ export default class InfoBar {
           </div>
         </div>
       </div>
-      <div class="sg-actions-list__hole">
+      <div class="sg-actions-list__hole" title="${System.data.locale.core.massManageUsers.sections.approveAnswers.numberOfApprovedAnswers}">
         <div class="sg-label sg-label--small sg-label--secondary">
           <div class="sg-label__icon">
             <div class="sg-icon  sg-icon--mint sg-icon--x18">
+              <svg class="sg-icon__svg">
+                <use xlink:href="#icon-check"></use>
+              </svg>
+            </div>
+          </div>
+          <div class="sg-text sg-text--small sg-text--gray-secondary sg-text--bold">0</div>
+        </div>
+      </div>
+      <div class="sg-actions-list__hole" title="${System.data.locale.core.massManageUsers.sections.approveAnswers.numberOfAlreadyApprovedAnswers}">
+        <div class="sg-label sg-label--small sg-label--secondary">
+          <div class="sg-label__icon">
+            <div class="sg-icon  sg-icon--mustard sg-icon--x18">
               <svg class="sg-icon__svg">
                 <use xlink:href="#icon-check"></use>
               </svg>
@@ -57,61 +67,78 @@ export default class InfoBar {
     this.$numberOfFetchedAnswers = $("> .sg-actions-list__hole:nth-child(1) .sg-text > span:nth-child(1)", this.$infoBar);
     this.$numberOfTotalAnswers = $("> .sg-actions-list__hole:nth-child(1) .sg-text > span:nth-child(2)", this.$infoBar);
     this.$numberOfApprovedAnswers = $("> .sg-actions-list__hole:nth-child(2) .sg-text", this.$infoBar);
+    this.$numberOfAlreadyApprovedAnswers = $("> .sg-actions-list__hole:nth-child(3) .sg-text", this.$infoBar);
 
     this.$infoBar.appendTo(this.user.$infoBarContainer);
   }
-  async FetchAnswers(page, isLastPage) {
-    let resAnswers = await new Action().GetAnswersOfUser(this.user.details.id, page);
+  /**
+   * @param {number} currentPage
+   * @param {boolean} isLastPage
+   */
+  async FetchAnswers(currentPage, isLastPage = false) {
+    let resAnswers = await new Action().GetAnswersOfUser(this.user.details.id, currentPage);
 
     if (resAnswers && resAnswers.success) {
-      if (resAnswers.data.length > 0) {
+      if (resAnswers.data.length == 0) {
+        this.fetchingAnswersDone = true;
+        this.reject({ message: `${this.user.details.nick} has no answer`, exception: 1 });
+      } else {
         let nextPage = this.ExtractPageNumber(resAnswers.pagination.next);
+        let lastPage = this.ExtractPageNumber(resAnswers.pagination.last);
         this.numberOfFetchedAnswers += resAnswers.data.length;
-
-        if (resAnswers.data.length < 100)
-          console.log("page data isn't right", page);
-
-        resAnswers.data.forEach(answer => {
-          if (!answer.is_confirmed)
-            this.main.answersWaitingForApproval.push({
-              id: answer.id,
-              infoBar: this
-            });
-          else
-            this.numberOfApprovedAnswers++;
-        });
-
-        if (!this.lastAnswersPage) {
-          this.lastAnswersPage = this.ExtractPageNumber(resAnswers.pagination.last);
-
-          if (this.lastAnswersPage !== page)
-            this.FetchAnswers(this.lastAnswersPage, true);
-
-        }
-
-        this.PrintNumberOfFetchedAnswers();
-        this.PrintNumberOfApprovedAnswers();
-
-        if (!isLastPage && nextPage && nextPage != this.lastAnswersPage)
-          this.FetchAnswers(nextPage);
 
         let numberOfTotalAnswers;
 
-        if (this.lastAnswersPage === page)
+        if (lastPage === currentPage)
           numberOfTotalAnswers = resAnswers.data.length
 
         if (isLastPage) {
-          numberOfTotalAnswers = ((page - 1) * 100) + resAnswers.data.length;
+          numberOfTotalAnswers = ((currentPage - 1) * 100) + resAnswers.data.length;
         }
 
-        if (numberOfTotalAnswers)
+        if (numberOfTotalAnswers > 0) {
+          this.numberOfTotalAnswers = numberOfTotalAnswers;
+
           this.$numberOfTotalAnswers.text(numberOfTotalAnswers);
+        }
 
+        resAnswers.data.forEach(answer => {
+          let data = {
+            id: answer.id,
+            infoBar: this
+          };
 
-      this.main.StartApproving();
-      } else {
-        this.fetchingAnswersDone = true;
+          if (!answer.is_confirmed)
+            this.main.answersWaitingForApproval.push(data);
+          else {
+            this.numberOfAlreadyApprovedAnswers++;
 
+            this.main.AnswerApproved(data);
+          }
+        });
+
+        this.PrintNumberOfFetchedAnswers();
+        this.PrintNumberOfApprovedAnswers();
+        this.PrintNumberOfAlreadyApprovedAnswers();
+
+        if (lastPage !== currentPage) {
+          if (!this.lastPage) {
+            this.lastPage = lastPage;
+
+            this.FetchAnswers(lastPage, true); // Fetch last page async
+          }
+          let isNotLastPage = !isLastPage;
+
+          if (isNotLastPage && !!nextPage && nextPage != lastPage && currentPage != lastPage) {
+            this.FetchAnswers(nextPage);
+          } else {
+            this.fetchingAnswersDone = true;
+
+          }
+        } else if (!isLastPage)
+          this.fetchingAnswersDone = true;
+
+        this.main.StartApproving();
         this.TryToFinish();
       }
     }
@@ -125,6 +152,9 @@ export default class InfoBar {
   }
   PrintNumberOfApprovedAnswers() {
     this.$numberOfApprovedAnswers.text(this.numberOfApprovedAnswers);
+  }
+  PrintNumberOfAlreadyApprovedAnswers() {
+    this.$numberOfAlreadyApprovedAnswers.text(this.numberOfAlreadyApprovedAnswers);
   }
   TryToFinish() {
     if (this.fetchingAnswersDone)

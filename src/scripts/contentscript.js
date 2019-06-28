@@ -29,10 +29,9 @@ function InitIfTabIsBrainly() {
   html.brainly_tools = manifest.version;
 
   Init();
-  console.log("Content Script OK!");
 }
 
-async function Init() {
+function Init() {
   let System = new _System();
   System.data.meta.marketName = location.hostname;
   System.data.meta.location = JSON.parse(JSON.stringify(location));
@@ -50,6 +49,7 @@ async function Init() {
   if (html.getAttribute("extension"))
     System.changeBadgeColor("loaded");
   else {
+    console.log("Content Script OK!");
     System.changeBadgeColor("loading");
     require("./helpers/preExecuteScripts");
     document.documentElement.setAttribute("extension", manifest.version);
@@ -58,14 +58,11 @@ async function Init() {
       "/scripts/lib/regex-colorizer.js",
       "/scripts/views/0-Core/index.js"
     ]);
-    InjectToDOM("/styles/pages/Core.css", { makeItLastElement: true })
 
-    if (html.id == "html") {
-      InjectToDOM([
-        "/styles/style-guide.css"
-      ], { makeItLastElement: true });
-      await System.Delay(10);
-      InjectToDOM("/styles/pages/oldLayoutFixes.css", { makeItLastElement: true });
+    if (html.id != "html") {
+      InjectToDOM("/styles/pages/Core.css", { makeItLastElement: true });
+    } else {
+      InjectToDOM("/styles/pages/CoreWithStyleGuide.css", { makeItLastElement: true });
 
       WaitForObject(`document.body.classList.contains("mint")`, { noError: true }).then(isContains => {
         if (isContains && !document.body.attributes.itemtype) {

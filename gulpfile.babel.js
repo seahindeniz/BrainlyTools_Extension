@@ -39,19 +39,28 @@ var manifest = {
   }
 }
 
-const styleGuidePJBody = syncReq("GET", "https://api.github.com/repos/brainly/style-guide/releases/latest", {
+/* const styleGuidePJBody = syncReq("GET", "https://api.github.com/repos/brainly/style-guide/releases/latest", {
   headers: {
     "user-agent": "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36"
   }
 });
 const styleGuidePJ = JSON.parse(styleGuidePJBody.getBody('utf8'));
-let versionNumber = styleGuidePJ.tag_name.replace(/^[a-z]/i, "");
+let versionNumber = styleGuidePJ.tag_name.replace(/^[a-z]/i, ""); */
+const styleGuidePJBody = syncReq("GET", "https://raw.githubusercontent.com/brainly/style-guide/master/package.json", {
+  headers: {
+    "user-agent": "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36"
+  }
+});
+
+const styleGuidePJ = JSON.parse(styleGuidePJBody.getBody('utf8'));
+let versionNumber = styleGuidePJ.version;
 
 if (!(/\d{1,}\.\d{1,}\.\d{1,}/i.exec(versionNumber)))
   throw `Version number isn't correct: ${versionNumber}`;
 
-let styleGuideContent = downloadFileSync(`https://styleguide.brainly.com/${versionNumber}/style-guide.css`);
-let styleGuideMapContent = downloadFileSync(`https://styleguide.brainly.com/${versionNumber}/style-guide.css.map`);
+let styleGuideLink = `https://styleguide.brainly.com/${versionNumber}/style-guide.css`;
+let styleGuideContent = downloadFileSync(styleGuideLink);
+let styleGuideMapContent = downloadFileSync(`${styleGuideLink}.map`);
 styleGuideContent = styleGuideContent.replace(/\.\.\//g, "https://styleguide.brainly.com/");
 
 fs.writeFileSync(`./${STYLE_GUIDE_PATH}`, styleGuideContent);
@@ -232,7 +241,7 @@ task(
         '!src/styles/**/*.scss',
         '!src/scripts/views/**/*.scss',
         '!src/styles/_/style-guide.css',
-        '!src/styles/_/style-guide.map.css'
+        '!src/styles/_/style-guide.css.map'
       ],
       series('build', "reloadExtension"));
 

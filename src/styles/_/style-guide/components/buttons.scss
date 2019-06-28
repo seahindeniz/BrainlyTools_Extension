@@ -1,0 +1,43 @@
+$colorMap: ("":"",
+  mint: (#60d399, #40bd7e),
+  peach:(#ff7968, #ff543d),
+  mustard:(#fbbe2e, #eda600),
+);
+
+@each $colorName,
+$colorList in $colorMap {
+  @if $colorName !="" {
+    $normal: nth($colorList, 1);
+    $dark: nth($colorList, 2);
+
+    .sg-button {
+      &-secondary {
+        &--#{$colorName} {
+          background-color: $normal;
+
+          &:hover,
+          &:focus,
+          &:active {
+            border-color: $dark !important;
+            background-color: $dark !important;
+          }
+
+          &-inverse {
+            color: $normal;
+            background: none;
+            border: 2px solid;
+            border-color: $normal;
+
+            &:hover,
+            &:focus,
+            &:active {
+              color: $dark;
+              border-color: $dark !important;
+              background-color: rgba(0, 0, 0, 0.12) !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}

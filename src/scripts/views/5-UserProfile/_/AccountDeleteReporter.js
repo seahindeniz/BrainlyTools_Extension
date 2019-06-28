@@ -27,7 +27,7 @@ class AccountDeleteReporter {
 					<div class="sg-content-box__content sg-content-box__content--spaced-top">
 						<div class="sg-content-box addFile">
 							<div class="sg-content-box__content sg-content-box__content--with-centered-text sg-content-box__content--spaced-top">
-								<label class="sg-button-secondary sg-button-secondary--dark-inverse" for="addFileInput">
+								<label class="sg-button-secondary sg-button-secondary--inverse" for="addFileInput">
 									<span class="sg-button-primary__icon">
 										<div class="sg-icon sg-icon--adaptive sg-icon--x14">
 											<svg class="sg-icon__svg">

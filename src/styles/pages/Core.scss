@@ -4,6 +4,8 @@ $baseline: 1.5rem;
   @return $baselines * $baseline;
 }
 
+@import "../_/style-guide/components/buttons.scss";
+
 .resizeOverlay {
   position: fixed;
   top: 0;
@@ -32,13 +34,6 @@ $baseline: 1.5rem;
   transform: scale(-1, 1);
 }
 
-.sg-button-secondary {
-  &--peach-inverse {
-    background-color: #fff;
-    color: #ff7968;
-    fill: #ff7968;
-  }
-}
 
 .sg-spinner-container {
   &--spaced {
@@ -576,8 +571,8 @@ body.mint {
     max-height: 1000px;
   }
 
-  &--min-width-30em {
-    min-width: 30em;
+  &--min-width-25em {
+    min-width: 25em;
   }
 }
 

@@ -42,6 +42,10 @@ async function ArciveMod() {
       if (prepareButtons[reasonType] === "") {
         let data = [];
         let reasons = System.data.Brainly.deleteReasons.__withIds[reasonType];
+        let buttonStyle = "peach";
+
+        if (reasonType == "task")
+          buttonStyle = "mustard";
 
         reasonIds.forEach((reasonId, i) => {
           let reason = reasons[reasonId];
@@ -50,7 +54,7 @@ async function ArciveMod() {
             data.push({
               text: i + 1,
               title: reason.title + ":\n" + reason.text,
-              type: "peach " + reasonType
+              type: buttonStyle
             });
           }
         });

@@ -25,6 +25,7 @@ class Pagination {
     this.RenderPageNumbers();
     this.Show();
     this.$filtersList.change(this.Toggle.bind(this));
+    $(this.loadMoreButton).addClass("sg-box--full")
   }
   RenderPageNumbers() {
     let data = this.resPagination.data;
@@ -34,7 +35,7 @@ class Pagination {
   }
   RenderPageNumber(last_id, i) {
     let $number = $(`
-    <button class="sg-button-secondary sg-button-secondary--small sg-button-secondary--dark-inverse">${i + 2}</button>`);
+    <button class="sg-button-secondary sg-button-secondary--small sg-button-secondary--inverse">${i + 2}</button>`);
 
     $number.prop("last_id", last_id);
     $number.appendTo(this.$numberList);
@@ -60,7 +61,7 @@ class Pagination {
      */
     let button = event.target;
 
-    if (button.classList.contains("sg-button-secondary--dark-inverse") || button.classList.contains("sg-button-secondary--dark")) {
+    if (button.classList.contains("sg-button-secondary--inverse") || button.classList.contains("sg-button-secondary--dark")) {
       let last_id = button.last_id;
 
       if (last_id)
@@ -74,20 +75,20 @@ class Pagination {
       this.ResetButtons();
       $Z.moderation.all.getContent();
       button.classList.add("sg-button-secondary--disabled");
-      button.classList.remove("sg-button-secondary--dark-inverse", "sg-button-secondary--dark");
+      button.classList.remove("sg-button-secondary--inverse", "sg-button-secondary--dark");
       $('#moderation-all > div.content > .moderation-item').remove();
     }
   }
   MarkPreviousButton() {
-    let $buttons = $("button:not(.sg-button-secondary--dark-inverse)", this.$numberList);
+    let $buttons = $("button:not(.sg-button-secondary--inverse)", this.$numberList);
 
     $buttons.addClass("sg-button-secondary--dark");
   }
   ResetButtons() {
-    let $clickedButtons = $("button:not(.sg-button-secondary--dark-inverse)", this.$numberList);
-    let $buttons = $("button:not(.sg-button-secondary--dark-inverse):not(.sg-button-secondary--dark)", this.$numberList);
+    let $clickedButtons = $("button:not(.sg-button-secondary--inverse)", this.$numberList);
+    let $buttons = $("button:not(.sg-button-secondary--inverse):not(.sg-button-secondary--dark)", this.$numberList);
 
-    $buttons.addClass("sg-button-secondary--dark-inverse");
+    $buttons.addClass("sg-button-secondary--inverse");
     $buttons.removeClass("sg-button-secondary--disabled");
     $clickedButtons.removeClass("sg-button-secondary--disabled");
   }

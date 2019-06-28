@@ -39,6 +39,18 @@ const HATS = {
       file: `/images/hats/hat_9.png`,
       css: "top: -25px; left: 30px; width: 70px; transform: rotate(-6deg);"
     },
+    {
+      file: `/images/hats/hat_10.png`,
+      css: "top: -18px;width: 70px;transform: rotate(24deg);"
+    },
+    {
+      file: `/images/hats/hat_11.png`,
+      css: "top: 0;width: 70px;left: 55px;transform: rotate(0deg);"
+    },
+    {
+      file: `/images/hats/hat_12.png`,
+      css: "top: -33px;left: 27px;transform: rotate(-8deg);width: 70px;"
+    },
   ],
   Unisex: [0, 8, 9],
   get Female() {

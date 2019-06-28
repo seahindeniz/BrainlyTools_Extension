@@ -110,6 +110,13 @@ export default class Brainly extends Request {
     });
   }
 
+  hello() {
+    return this.P("hello");
+  }
+  world() {
+    return this.P("world");
+  }
+
   api_tasks() {
     return this.P("api_tasks");
   }

@@ -18,6 +18,9 @@ export default class Action extends Brainly {
   constructor() {
     super();
   }
+  HelloWorld() {
+    return this.Legacy().hello().world().GET();
+  }
   /**
    * Get details of a question
    * @param {number|string} id - Question id

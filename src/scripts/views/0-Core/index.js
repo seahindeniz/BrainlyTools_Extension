@@ -76,7 +76,7 @@ class Core {
     messagesLayoutExtender(this.userData.extendMessagesLayout || typeof this.userData.extendMessagesLayout == "undefined");
   }
   async SetMarketConfig() {
-    System.data.config.marketConfig = await InjectToDOM(`/config/${location.hostname}.json`);
+    System.data.config.marketConfig = await InjectToDOM(`/configs/${location.hostname}.json`);
 
     return Promise.resolve();
   }
@@ -162,6 +162,12 @@ class Core {
         "/styles/pages/ModeratorActionsHistory.css"
       ]);
     }
+    /* if (System.checkRoute(2, "holidays_show")) {
+      InjectToDOM([
+        "/scripts/views/Holidays/index.js",
+        //"/styles/pages/ModeratorActionsHistory.css"
+      ]);
+    } */
   }
   async InjectFilesToPageAfter_FriendsListLoaded() {
     await fetchFriends();

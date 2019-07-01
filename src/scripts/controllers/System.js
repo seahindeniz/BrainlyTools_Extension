@@ -1,7 +1,5 @@
-"use strict";
-
 import cookie from "js-cookie";
-import extensionConfig from "../../config/_/extension.json";
+import extensionConfig from "../../configs/_/extension.json";
 import ArrayLast from "../helpers/ArrayLast";
 import storage from "../helpers/extStorage";
 import InjectToDOM from "../helpers/InjectToDOM";

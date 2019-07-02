@@ -20,7 +20,8 @@ class Users {
           17,
           18,
           13,
-          9
+          9,
+          27
         ]
       },
       lessImportant: {

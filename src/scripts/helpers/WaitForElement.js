@@ -5,6 +5,7 @@ import MakeExpire from "./MakeExpire";
  * @param {string} query - Element selector string
  * @param {number=} atLeast - If you want to find elements at least n
  * @param {boolean=} noError - Set it true to avoid errors when specified element wasn't found
+ * @returns {Promise<NodeListOf<Element>>}
  **/
 export default function WaitForElement(query, atLeast = 1, noError = false) {
   if (typeof atLeast == "boolean") {

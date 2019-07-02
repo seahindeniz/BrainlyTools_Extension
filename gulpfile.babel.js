@@ -5,8 +5,7 @@ import colors from "colors";
 import syncReq from "sync-request";
 import downloadFileSync from "download-file-sync";
 import fs from "fs";
-
-import extensionOptions from "./src/config/_/extension";
+import yaml from "js-yaml";
 
 const $ = require('gulp-load-plugins')();
 const STYLE_GUIDE_PATH = "src/styles/_/style-guide.css";
@@ -103,8 +102,8 @@ task("assets", () => {
       dest: `build/${target}/scripts`
     },
     {
-      src: "src/config/*.json",
-      dest: `build/${target}/config`
+      src: "src/configs/*.json",
+      dest: `build/${target}/configs`
     }
   ];
 
@@ -117,19 +116,21 @@ task("assets", () => {
 });
 
 task("extensionConfig", () => {
+  //const extensionOptions = require("./src/configs/_/extension.js");
+  let extensionOptionsRaw = fs.readFileSync('./src/configs/_/main.yml', 'utf8');
+  let extensionOptions = yaml.safeLoad(extensionOptionsRaw);
   let mergeJsonData = {
     fileName: "extension.json"
   };
 
-  if (isProduction) {
+  if (isProduction)
     mergeJsonData.endObj = extensionOptions.production;
-  } else {
+  else
     mergeJsonData.endObj = extensionOptions.dev;
-  }
 
-  return src('./src/config/_/extension.json')
+  return src('./src/configs/_/extension.json')
     .pipe($.mergeJson(mergeJsonData))
-    .pipe(dest(`./src/config/_`))
+    .pipe(dest(`./src/configs/_`))
 });
 
 task('scss', () => {
@@ -171,9 +172,23 @@ task('js', () => {
       '!src/scripts/controllers/**/*.js',
       '!src/scripts/helpers/**/*.js',
       '!src/scripts/utils/*.js',
-      "!src/scripts/lib/*.min.js"
+      "!src/scripts/lib/*.min.js",
+      "!src/scripts/jsx/*",
+      "!src/scripts/jsx/**/*",
     ],
     `build/${target}/scripts`
+  );
+});
+
+task('jsx', () => {
+  return compileJSXFiles(
+    [
+      'src/scripts/jsx/**/*.jsx',
+
+      '!src/scripts/jsx/**/_/*',
+      '!src/scripts/jsx/**/_/**/*',
+    ],
+    `build/${target}/scripts/views`
   );
 });
 
@@ -197,7 +212,7 @@ task("manifest", () => {
 
 task(
   'build',
-  series('clean', "assets", "extensionConfig", 'scss', "styleGuide", "locales", "popup", 'js', 'manifest')
+  series('clean', "assets", "extensionConfig", 'scss', "styleGuide", "locales", "popup", 'js', "jsx", 'manifest')
 );
 task(
   "reloadExtension",
@@ -212,6 +227,9 @@ task(
   () => {
     $.livereload.listen();
 
+    /**
+     * JS Files
+     */
     let watchJSFilesNeedsOnlyReload = watch([
       './src/scripts/views/*/*.js',
       './src/scripts/*.js',
@@ -227,17 +245,40 @@ task(
       '!./src/scripts/views/*/*.js',
       '!./src/scripts/*.js'
     ], series('build', "reloadExtension"));
+
+    /**
+     * JSX files
+     */
+    let watchJSXFilesNeedsOnlyReload = watch([
+      './src/scripts/jsx/**/*.jsx',
+
+      '!./src/scripts/jsx/**/_/*.jsx',
+      '!./src/scripts/jsx/**/_/**/*.jsx',
+    ], series("reloadExtension"));
+    let watchJSXFilesNeedsToReBuild = watch([
+      './src/scripts/jsx/**/_/*.jsx',
+      './src/scripts/jsx/**/_/**/*.jsx'
+    ], series('build', "reloadExtension"));
+
+    /**
+     * SCSS files
+     */
     let watchSCSSFilesNeedsOnlyReload = watch(
       [
         'src/styles/**/*.scss',
         'src/scripts/views/**/*.scss'
       ], series("reloadExtension"));
+
+    /**
+     * All files
+     */
     let watchAllFilesNeedsToReBuild = watch(
       [
         './src/**/*',
 
         '!./src/**/*.js',
-        '!./src/config/_/extension.json',
+        "!./src/scripts/jsx/**/*.jsx",
+        '!./src/configs/_/extension.json',
         '!src/styles/**/*.scss',
         '!src/scripts/views/**/*.scss',
         '!src/styles/_/style-guide.css',
@@ -245,9 +286,7 @@ task(
       ],
       series('build', "reloadExtension"));
 
-    watchJSFilesNeedsToReBuild.on("change", function(path) {
-      log.info(colors.green(path), "has changed, rebuilding");
-    });
+    watchJSFilesNeedsToReBuild.on("change", PrintRebuilding);
     watchJSFilesNeedsOnlyReload.on("change", function(path) {
       let filePath = path.split("/");
       let destPath = filePath.slice(1, -1).join("/");
@@ -256,7 +295,19 @@ task(
 
       compileJSFiles(path, `build/${target}/${destPath}`);
 
-      log.info(colors.green(path), "has replaced with", colors.magenta(destFullPath));
+      log.info(`${colors.yellow("JS")}: ${colors.green(path)} has replaced with ${colors.magenta(destFullPath)}`);
+    });
+
+    watchJSXFilesNeedsToReBuild.on("change", PrintRebuilding);
+    watchJSXFilesNeedsOnlyReload.on("change", function(path) {
+      let filePath = path.split("/");
+      let destPath = filePath.slice(1, -1).join("/");
+      let fileName = filePath.pop();
+      let destFullPath = `build/${target}/${destPath}/${fileName}`;
+
+      compileJSXFiles(path, `build/${target}/${destPath}`);
+
+      log.info(`${colors.yellow("JSX")}: ${colors.green(path)} has replaced with ${colors.magenta(destFullPath)}`);
     });
 
     watchSCSSFilesNeedsOnlyReload.on("change", function(path) {
@@ -269,16 +320,18 @@ task(
 
       compileScssFiles(path, `build/${target}/${destPath}`);
 
-      log.info(colors.green(path), "has replaced with", colors.magenta(destFullPath));
+      log.info(`${colors.yellow("SCSS")}: ${colors.green(path)} has replaced with ${colors.magenta(destFullPath)}`);
     });
 
-    watchAllFilesNeedsToReBuild.on("change", function(path) {
-      log.info(colors.green(path), "has changed, rebuilding");
-    });
+    watchAllFilesNeedsToReBuild.on("change", PrintRebuilding);
 
     return watchAllFilesNeedsToReBuild;
   }
 );
+
+function PrintRebuilding(path) {
+  log.info(colors.green(path), "has changed, rebuilding");
+}
 task(
   'watch',
   series('build', "watchFiles")
@@ -334,6 +387,36 @@ function compileJSFiles(files, path) {
         ['uglifyify', { global: true, sourceMap: false }]
       ]
     }))
+    .pipe(dest(path, { overwrite: true }));;
+}
+
+function compileJSXFiles(files, path) {
+  return src(files)
+    .pipe($.bro({
+      transform: [
+        babelify.configure({
+          sourceMaps: false,
+          presets: [
+            '@babel/preset-env',
+            "@babel/preset-react",
+            {
+              plugins: [
+                '@babel/plugin-transform-runtime',
+                [
+                  "babel-plugin-inline-import", {
+                    "extensions": [
+                      ".html"
+                    ]
+                  }
+                ]
+              ]
+            }
+          ]
+        }),
+        ['uglifyify', { global: true, sourceMap: false }]
+      ]
+    }))
+    .pipe($.rename({ extname: '.js' }))
     .pipe(dest(path, { overwrite: true }));;
 }
 

@@ -178,10 +178,10 @@ popup:
           description: "On the pages of questions, archive mod and homepage, user can use the quick delete buttons for deleting the question(s)"
         "2":
           title: "Quick delete answers"
-          description: "On the pages of questions, archive mod and homepage, user can use the quick delete buttons for deleting the answer(s)"
+          description: "On the pages of questions, archive mod and homepage, user can use the quick delete buttons for deleting the answers"
         "45":
           title: "Quick delete comments"
-          description: "On the pages of questions and archive mod, user can use the quick delete buttons for deleting the comment(s)"
+          description: "On the pages of questions and archive mod, user can use the quick delete buttons for deleting the comments"
         "7":
           title: "Mass-Content deleter"
           description: "In the moderation panel, user can use this function for deleting multiple questions/answers/comments from Brainly"
@@ -444,7 +444,7 @@ userContent:
     alreadyApproved: "This answer is already approved"
     alreadyUnapproved: "This answer is already unapproved"
     someOfSelectedAnswersAreApproved: "Some of selected answers have already been approved, so you don't need to approve those answers again"
-    selectAnUnapprovedAnswerForApproving: "You need select some unapproved answer(s) for start approving"
+    selectAnUnapprovedAnswerForApproving: "You need select some unapproved answers for start approving"
     confirmApproving: "Do you want approve this answer(s)?"
     someOfSelectedAnswersAreUnapproved: "Some of selected answers isn't approved, so you don't need to unapprove those answers again"
     selectAnApprovedAnswerForUnapproving: "You need select some approved answer(s) for start"

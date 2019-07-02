@@ -106,7 +106,7 @@ class NoticeBoard {
     this.md.use(require("markdown-it-anchor"));
     this.md.use(require('markdown-it-task-lists'));
     this.md.use(require("markdown-it-highlightjs"));
-    this.md.use(require("markdown-it-imsize"));
+    //this.md.use(require("markdown-it-imsize"));
     //this.md.use(require("markdown-it-table-of-contents"));
     this.md.use(require("markdown-it-toc-done-right"), {
       itemClass: "sg-text sg-text--xsmall sg-text--gray",

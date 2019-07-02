@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.25.0] - 2019.07.02
+
+### Added
+
+- Ability to approve all answers of all listed users by their user ids accounts
+ from Mass-Manage users panel
+
+### Changed
+
+- Red button color has been restored
+- Load more button size is fixed on moderate all
+
 ## [6.24.0] - 2019.06.24
 
 ### Added

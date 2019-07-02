@@ -27,7 +27,7 @@ class MassContentDeleter {
 		</li>`);
   }
   RenderModal() {
-    let nIds = System.data.locale.core.MassContentDeleter.nIds.replace("%{n}", ` <span>0</span> `);
+    let nIds = System.data.locale.common.nIds.replace("%{n}", ` <span>0</span> `);
     let nIdsToDeleted = System.data.locale.core.MassContentDeleter.nIdsToDeleted.replace("%{n}", ` <span>0</span> `);
     let nHasBeenDeleted = System.data.locale.core.MassContentDeleter.nHasBeenDeleted.replace("%{n}", ` <b>0</b> `);
     this.modal = new Modal({

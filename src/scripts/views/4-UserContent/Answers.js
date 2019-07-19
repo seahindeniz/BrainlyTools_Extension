@@ -1,6 +1,7 @@
 import UserContent from "./_/UserContent";
 import UserContentRow from "./_/UserContentRow";
 import Action from "../../controllers/Req/Brainly/Action";
+import Button from "../../components/Button";
 
 class Answers extends UserContent {
   constructor() {
@@ -57,28 +58,50 @@ class Answers extends UserContent {
     return $(`<div class="sg-actions-list__hole"></div>`).appendTo(this.$buttonList);;
   }
   RenderApproveButton() {
-    this.$approveButtonContainer = this.RenderButtonHole();
-    this.$approveButton = $(`<button class="sg-button-secondary">${System.data.locale.common.moderating.approve}</button>`);
-
-    this.$approveButton.appendTo(this.$approveButtonContainer);
+    let button = this.RenderButton({
+      type: "primary-mint",
+      text: System.data.locale.common.moderating.approve
+    });
+    this.$approveButtonContainer = button.$container;
+    this.$approveButton = button.$button;
   }
   RenderUnapproveButton() {
-    this.$unApproveButtonContainer = this.RenderButtonHole();
-    this.$unApproveButton = $(`<button class="sg-button-secondary sg-button-secondary--dark">${System.data.locale.common.moderating.unapprove}</button>`);
-
-    this.$unApproveButton.appendTo(this.$unApproveButtonContainer);
+    let button = this.RenderButton({
+      text: System.data.locale.common.moderating.unapprove
+    });
+    this.$unApproveButtonContainer = button.$container;
+    this.$unApproveButton = button.$button;
   }
   RenderCorrectionButton() {
-    this.$correctionButtonContainer = this.RenderButtonHole();
-    this.$correctionButton = $(`<button class="sg-button-secondary sg-button-secondary--alt">${System.data.locale.userContent.askForCorrection.text}</button>`);
-
-    this.$correctionButton.appendTo(this.$correctionButtonContainer);
+    let button = this.RenderButton({
+      type: "link-button-blue",
+      text: System.data.locale.userContent.askForCorrection.text
+    });
+    this.$correctionButtonContainer = button.$container;
+    this.$correctionButton = button.$button;
   }
   RenderModerateButton() {
-    this.$moderateButtonContainer = this.RenderButtonHole();
-    this.$moderateButton = $(`<button class="sg-button-secondary sg-button-secondary--peach">${System.data.locale.common.moderating.moderate}</button>`);
+    let button = this.RenderButton({
+      type: "link-button-peach",
+      text: System.data.locale.common.moderating.moderate
+    });
+    this.$moderateButtonContainer = button.$container;
+    this.$moderateButton = button.$button;
+  }
+  /**
+   * @param {import("../../components/Button").ButtonOptions} options
+   */
+  RenderButton(options) {
+    let $container = $(`<div class="sg-actions-list__hole"></div>`);
+    let $button = Button({
+      size: "small",
+      ...options
+    });
 
-    this.$moderateButton.appendTo(this.$moderateButtonContainer);
+    $button.appendTo($container);
+    $container.appendTo(this.$buttonList);
+
+    return { $button, $container };
   }
 
   BindApprovementEvents() {

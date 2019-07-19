@@ -2,6 +2,7 @@ import prettysize from "prettysize";
 import WaitForElement from "../../helpers/WaitForElement";
 import notification from "../../components/notification";
 import Action from "../../controllers/Req/Brainly/Action";
+import Button from "../../components/Button";
 
 System.pageLoaded("Supervisors page OK!");
 
@@ -72,6 +73,8 @@ class Uploader {
     this.mainRight = await WaitForElement("#main-right");
 
     this.RenderUploadPanel();
+    this.RenderFileInput();
+    this.RenderSelectFileButton();
     this.BindHandlers();
   }
   RenderUploadPanel() {
@@ -81,35 +84,45 @@ class Uploader {
 				<div class="sg-content-box__content sg-content-box__content--full sg-content-box__content--spaced-bottom">
 					<div class="sg-actions-list sg-actions-list--space-between">
 						<div class="sg-actions-list__hole">
-							<h1 class="sg-headline sg-headline--xsmall">${System.data.locale.uploader.text}</h1>
+              <h2 class="sg-text sg-text--small sg-text--gray sg-text--bold">${System.data.locale.uploader.text}</h2>
 						</div>
 						<div class="sg-actions-list__hole">
-							<h1 class="sg-headline sg-headline--xsmall js-count"></h1>
+              <h2 class="sg-text sg-text--small sg-text--gray sg-text--bold"></h2>
 						</div>
 					</div>
 				</div>
 				<div class="sg-horizontal-separator"></div>
 				<div class="sg-content-box sg-content-box--full">
-					<div class="sg-content-box__content sg-content-box__content--spaced-top">
-						<label class="sg-button-primary sg-button-primary--alt sg-button-primary--full-width" for="uploadInput">${System.data.locale.uploader.selectFiles}</label>
-						<input type="file" class="sg-input sg-input--full-width js-hidden" id="uploadInput" multiple />
-					</div>
+					<div class="sg-content-box__content sg-content-box__content--spaced-top">	</div>
 					<div class="sg-content-box__content sg-content-box__content--spaced-top js-progress"></div>
 				</div>
 			</div>
 		</div>`);
 
-    this.$fileInput = $("#uploadInput", this.$panel);
-    this.$counterLabel = $(".js-count", this.$panel);
+    this.$counterLabel = $(".sg-actions-list__hole:nth-child(2) > h2", this.$panel);
     this.$progressBoxContainer = $(".js-progress", this.$panel);
+    this.$selectFileButtonContainer = $(".sg-content-box > .sg-content-box__content:nth-child(1)", this.$panel);
 
     this.Chunk.$counterLabel = this.$counterLabel;
 
     this.$panel.appendTo(this.mainRight)
   }
+  RenderFileInput() {
+    this.$fileInput = $(`<input type="file" multiple />`);
+  }
+  RenderSelectFileButton() {
+    this.$selectFileButton = Button({
+      type: "primary-blue",
+      text: System.data.locale.uploader.selectFiles,
+      fullWidth: true
+    });
+
+    this.$selectFileButton.appendTo(this.$selectFileButtonContainer);
+  }
   BindHandlers() {
     let that = this;
 
+    this.$selectFileButton.click(() => this.$fileInput.click());
     this.$fileInput.change(function() {
       that.ProcessFiles(this.files);
       this.value = "";

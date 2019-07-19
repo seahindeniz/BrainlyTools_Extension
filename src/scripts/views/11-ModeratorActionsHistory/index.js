@@ -8,6 +8,7 @@ import IsKeyAlphaNumeric from "../../helpers/IsKeyAlphaNumeric";
 import WaitForElement from "../../helpers/WaitForElement";
 import ActionEntry from "./_/ActionEntry";
 import notification from "../../components/notification";
+import Button from "../../components/Button";
 
 const MAX_MESSAGE_LENGTH = 512;
 
@@ -103,19 +104,25 @@ export default class ModeratorActionHistory {
     }
   }
   RenderActionButtons() {
+    this.$confirmButton = Button({
+      type: "primary-mint",
+      size: "small",
+      text: System.data.locale.moderatorActionHistory.confirmAll
+    });
+    this.$disapproveButton = Button({
+      type: "destructive",
+      size: "small",
+      text: System.data.locale.moderatorActionHistory.disapproveAll
+    });
     this.$actionButtonsContainer = $(`
     <div class="sg-content-box sg-content-box--spaced">
       <div class="sg-content-box__content sg-content-box__content--spaced-top-xlarge sg-content-box__content--spaced-bottom-xlarge">
         <div class="sg-actions-list">
           <div class="sg-actions-list__hole">
-            <div class="sg-spinner-container">
-              <button class="sg-button-secondary">${System.data.locale.moderatorActionHistory.confirmAll}</button>
-            </div>
+            <div class="sg-spinner-container"></div>
           </div>
           <div class="sg-actions-list__hole">
-            <div class="sg-spinner-container">
-              <button class="sg-button-secondary sg-button-secondary--peach">${System.data.locale.moderatorActionHistory.disapproveAll}</button>
-            </div>
+            <div class="sg-spinner-container"></div>
           </div>
         </div>
       </div>
@@ -123,10 +130,9 @@ export default class ModeratorActionHistory {
 
     this.$confirmButtonSpinnerContainer = $(".sg-spinner-container:eq(0)", this.$actionButtonsContainer);
     this.$disapproveButtonSpinnerContainer = $(".sg-spinner-container:eq(1)", this.$actionButtonsContainer);
-    this.$confirmButton = $("button", this.$confirmButtonSpinnerContainer);
-    this.$disapproveButton = $("button", this.$disapproveButtonSpinnerContainer);
-    this.$actionButtons = $("button", this.$actionButtonsContainer);
 
+    this.$confirmButton.appendTo(this.$confirmButtonSpinnerContainer);
+    this.$disapproveButton.appendTo(this.$disapproveButtonSpinnerContainer);
     this.$actionButtonsContainer.insertAfter("table.activities");
   }
   RenderSpinner() {
@@ -192,7 +198,8 @@ export default class ModeratorActionHistory {
       this.$spinner.appendTo($spinnerContainer);
   }
   DisableButtons() {
-    this.$actionButtons.addClass("sg-button-secondary--disabled");
+    this.$confirmButton.Disable();
+    this.$disapproveButton.Disable();
   }
   FinishProgress() {
     window.isPageProcessing = false;
@@ -212,7 +219,8 @@ export default class ModeratorActionHistory {
       $element.appendTo("<div />");
   }
   ActivateButtons() {
-    this.$actionButtons.removeClass("sg-button-secondary--disabled");
+    this.$confirmButton.Enable();
+    this.$disapproveButton.Enable();
   }
   CheckResponse(res) {
     if (!res || !res.success) {
@@ -466,13 +474,9 @@ export default class ModeratorActionHistory {
       actions: `
       <div class="sg-actions-list sg-actions-list--space-between">
         <div class="sg-actions-list__hole">
-          <div class="sg-spinner-container">
-            <button class="sg-button-secondary">${System.data.locale.messages.groups.send}</button>
-          </div>
+          <div class="sg-spinner-container"></div>
         </div>
-        <div class="sg-actions-list__hole">
-          <button class="sg-button-secondary sg-button-secondary--dark">${System.data.locale.common.no}</button>
-        </div>
+        <div class="sg-actions-list__hole"></div>
       </div>`,
       size: "large"
     });
@@ -480,13 +484,31 @@ export default class ModeratorActionHistory {
     this.message = "";
     this.$textarea = $("textarea", this.modal.$content);
     this.$preview = $("blockquote", this.modal.$content);
-    this.$noButton = $("button:eq(1)", this.modal.$actions);
-    this.$sendButton = $("button:eq(0)", this.modal.$actions);
     this.$counter = $("p > .sg-text--mint", this.modal.$content);
+    this.$noButtonContainer = $(".sg-actions-list__hole:nth-child(2)", this.modal.$actions);
     this.$sendButtonSpinnerContainer = $(".sg-spinner-container", this.modal.$actions);
 
+    this.RenderNoButton();
+    this.RenderSendButton();
     this.RenderSendButtonSpinner();
     this.BindModalHandlers();
+  }
+  RenderNoButton() {
+    this.$noButton = Button({
+      size: "small",
+      text: System.data.locale.common.no
+    });
+
+    this.$noButton.appendTo(this.$noButtonContainer);
+  }
+  RenderSendButton() {
+    this.$sendButton = Button({
+      type: "primary-mint",
+      size: "small",
+      text: System.data.locale.messages.groups.send
+    });
+
+    this.$sendButton.prependTo(this.$sendButtonSpinnerContainer);
   }
   RenderSendButtonSpinner() {
     this.$sendButtonSpinner = $(`

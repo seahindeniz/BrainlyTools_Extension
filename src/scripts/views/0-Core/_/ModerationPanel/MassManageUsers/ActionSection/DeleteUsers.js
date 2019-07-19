@@ -1,15 +1,12 @@
 import ActionSection from ".";
 import Action from "../../../../../../controllers/Req/Brainly/Action";
+import Button from "../../../../../../components/Button";
 
-/**
- * @type {import("../../../../../../controllers/System").default}
- */
-let System;
-let SetSystem = () => !System && (System = window.System);
+let System = require("../../../../../../helpers/System");
 
 export default class DeleteUsers extends ActionSection {
   constructor(main) {
-    SetSystem();
+    System = System();
     /**
      * @type {import("./index").renderDetails}
      */
@@ -20,7 +17,7 @@ export default class DeleteUsers extends ActionSection {
       },
       actionButton: {
         ...System.data.locale.core.massManageUsers.sections.deleteUsers.actionButton,
-        style: "sg-button-secondary--peach-inverse"
+        type: "link-button-peach"
       }
     }
 
@@ -31,7 +28,7 @@ export default class DeleteUsers extends ActionSection {
 
     this.RenderContent();
     this.RenderStopButton();
-    this.RenderUserList();
+    this.RenderStartButton();
     this.BindHandlers();
   }
   RenderContent() {
@@ -39,28 +36,30 @@ export default class DeleteUsers extends ActionSection {
     <div class="sg-actions-list sg-actions-list--no-wrap sg-actions-list--to-top sg-actions-list--centered">
       <div class="sg-actions-list__hole sg-actions-list__hole--10-em">
         <div class="sg-content-box">
-          <div class="sg-content-box__content sg-content-box__content--full sg-content-box__content--with-centered-text">
-            <button class="sg-button-secondary">${System.data.locale.common.start}</button>
-          </div>
+          <div class="sg-content-box__content sg-content-box__content--full sg-content-box__content--with-centered-text"></div>
         </div>
       </div>
     </div>`);
 
-    this.$startButton = $("button", this.$content);
-    this.$buttonContainer = $(".sg-content-box__content", this.$content);
+    this.$startButtonContainer = $(".sg-content-box__content", this.$content);
 
     this.$content.appendTo(this.$contentContainer);
   }
   RenderStopButton() {
-    this.$stopButton = $(`<button class="sg-button-secondary sg-button-secondary--peach">${System.data.locale.common.stop}</button>`);
+    this.$stopButton = Button({
+      type: "destructive",
+      size: "small",
+      text: System.data.locale.common.stop
+    });
   }
-  RenderUserList() {
-    this.$userListContainer = $(`
-    <div class="sg-actions-list__hole sg-actions-list__hole--grow">
-      <div class="sg-content-box__actions sg-textarea sg-textarea--tall sg-textarea--resizable-vertical sg-actions-list--space-evenly"></div>
-    </div>`);
+  RenderStartButton() {
+    this.$startButton = Button({
+      type: "primary-mint",
+      size: "small",
+      text: System.data.locale.common.start
+    });
 
-    this.$userList = $(".sg-content-box__actions", this.$userListContainer);
+    this.$startButton.appendTo(this.$startButtonContainer);
   }
   BindHandlers() {
     this.$startButton.click(this.StartDeleting.bind(this));
@@ -83,7 +82,7 @@ export default class DeleteUsers extends ActionSection {
   }
   ShowStopButton() {
     this.HideStartButton();
-    this.$stopButton.appendTo(this.$buttonContainer);
+    this.$stopButton.appendTo(this.$startButtonContainer);
   }
   HideStartButton() {
     this.main.HideElement(this.$startButton);
@@ -93,7 +92,7 @@ export default class DeleteUsers extends ActionSection {
     this.ShowStartButton();
   }
   ShowStartButton() {
-    this.$startButton.appendTo(this.$buttonContainer);
+    this.$startButton.appendTo(this.$startButtonContainer);
   }
   TryToDelete() {
     if (this.started)

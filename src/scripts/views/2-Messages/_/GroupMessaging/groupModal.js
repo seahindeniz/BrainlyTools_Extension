@@ -7,14 +7,25 @@ import renderGroupLi from "./groupLi";
 import rankSelector from "./rankSelector";
 import userLi from "./userLi";
 import userSearch from "./userSearch";
+import Button from "../../../../components/Button";
+
+let System = require("../../../../helpers/System");
 
 class GroupModal {
   constructor(group, groupLi) {
+    if (typeof System == "function")
+      System = System();
+
     this.locale = System.data.locale.messages.groups;
     this.group = group;
     this.groupLi = groupLi;
 
-    this.CreateModal();
+    this.Render();
+    this.RenderSaveButton();
+    this.RenderSaveButtonSpinner();
+    this.RenderRemoveAllButton();
+    this.RenderAddAllButton();
+    this.OpenModal();
     this.BindHandlers();
 
     return new Promise((resolve, reject) => {
@@ -22,20 +33,25 @@ class GroupModal {
       this.reject = reject;
     });
   }
-  async CreateModal() {
+  async Render() {
     //if (true) {
-    this.createGroupToplayer = new Modal({
-      header: `<div class="sg-actions-list sg-actions-list--no-wrap">
+    let title = this.locale.createGroup;
+
+    if (this.group)
+      title = this.locale.editGroup;
+
+    this.modal = new Modal({
+      header: `
+      <div class="sg-actions-list sg-actions-list--no-wrap">
 				<div class="sg-actions-list__hole">
-					<h2 class="sg-header-secondary">${this.locale[this.group?"editGroup":"createGroup"]}</h2>
+					<h2 class="sg-header-secondary">${title}</h2>
 				</div>
 				<div class="sg-actions-list__hole sg-actions-list__hole--to-right">
-					<div class="sg-spinner-container">
-						<button class="sg-button-secondary sg-button-secondary--small sg-button-secondary--alt sg-button-secondary js-save">${System.data.locale.common.save}</button>
-					</div>
+					<div class="sg-spinner-container"></div>
 				</div>
 			</div>`,
-      content: `<div class="sg-actions-list sg-actions-list--space-between group-header sg-content-box__content--spaced-bottom">
+      content: `
+      <div class="sg-actions-list sg-actions-list--space-between group-header sg-content-box__content--spaced-bottom">
 				<div class="sg-actions-list__hole">
 					<div class="sg-actions-list sg-actions-list--space-between sg-actions-list--no-wrap">
 						<div class="sg-actions-list__hole">
@@ -61,25 +77,21 @@ class GroupModal {
 				</div>
 			</div>
 			<div class="sg-card sg-card--vertical sg-card--full  sg-card--padding-small">
-				<div class="sg-card__hole sg-card__hole--lavender-secondary-light group-members-list">
+				<div class="sg-card__hole sg-card__hole--lavender-secondary-light">
 					<div class="sg-actions-list sg-actions-list--space-between">
 						<div class="sg-actions-list__hole">
 							<h2 class="sg-headline sg-headline--normal sg-headline--gray sg-headline--justify">${this.locale.groupMembers}</h2>
 						</div>
-						<div class="sg-actions-list__hole">
-							<button class="sg-button-secondary sg-button-secondary--alt">${System.data.locale.common.removeAll}</button>
-						</div>
+						<div class="sg-actions-list__hole"></div>
 					</div>
 					<ul class="sg-list sg-list--spaced-elements"></ul>
 				</div>
-				<div class="sg-card__hole find-users find-users-list">
+				<div class="sg-card__hole">
 					<div class="sg-actions-list sg-actions-list--space-between">
 						<div class="sg-actions-list__hole">
 							<h2 class="sg-headline sg-headline--normal sg-headline--gray sg-headline--justify">${this.locale.searchResults}</h2>
 						</div>
-						<div class="sg-actions-list__hole">
-							<button class="sg-button-secondary sg-button-secondary--alt">${this.locale.addAll}</button>
-						</div>
+						<div class="sg-actions-list__hole"></div>
 					</div>
 					<ul class="sg-list sg-list--spaced-elements"></ul>
 				</div>
@@ -87,24 +99,23 @@ class GroupModal {
       size: "limited-width"
     });
     //}
-    let $createGroupToplayer = this.createGroupToplayer.$modal;
-    this.$toplayerContainer = $(`<div class="js-toplayers-container"></div>`);
+    this.$saveButtonContainer = $(".sg-spinner-container", this.modal.$header);
+    this.$groupMembersContainerHole = $(".sg-card__hole:nth-child(1)", this.modal.$content);
+    this.$searchResultsContainerHole = $(".sg-card__hole:nth-child(2)", this.modal.$content);
+    this.$removeAllButtonContainer = $(".sg-actions-list__hole:nth-child(2)", this.$groupMembersContainerHole);
+    this.$addAllButtonContainer = $(".sg-actions-list__hole:nth-child(2)", this.$searchResultsContainerHole);
 
-    this.$toplayerContainer.insertBefore("footer.js-page-footer");
-    $createGroupToplayer.appendTo(this.$toplayerContainer);
-
-    this.$closeIcon = $(".sg-toplayer__close", $createGroupToplayer);
+    this.$closeIcon = $(".sg-toplayer__close", this.modal.$modal);
     this.$closeIconSVG = $("svg", this.$closeIcon);
-    this.$saveButton = $("button.js-save", $createGroupToplayer);
 
-    this.$color = $("input#colorPicker", this.$toplayerContainer);
-    this.$groupName = $("input.js-group-name", $createGroupToplayer);
-    this.$userCategorySelectorContainer = $(".group-header > div.sg-actions-list__hole > div.user-category-selector", $createGroupToplayer);
+    this.$color = $("input#colorPicker", this.modal.$content);
+    this.$groupName = $("input.js-group-name", this.modal.$modal);
+    this.$userCategorySelectorContainer = $(".group-header > div.sg-actions-list__hole > div.user-category-selector", this.modal.$modal);
 
-    this.$groupMembersList = $(".group-members-list>ul", $createGroupToplayer);
-    this.$findUsersList = $(".find-users-list>ul", $createGroupToplayer);
-    this.$removeAll = $(".group-members-list>.sg-actions-list button", $createGroupToplayer);
-    this.$addAll = $(".find-users-list>.sg-actions-list button", $createGroupToplayer);
+    this.$groupMembersList = $("> ul", this.$groupMembersContainerHole);
+    this.$searchResultsList = $("> ul", this.$searchResultsContainerHole);
+    this.$removeAll = $("> .sg-actions-list button", this.$groupMembersContainerHole);
+    this.$addAll = $("> .sg-actions-list button", this.$searchResultsContainerHole);
 
     this.$userCategoryList = Dropdown({
       label: this.locale.selectGroupType,
@@ -164,14 +175,47 @@ class GroupModal {
       }
     }
   }
+  RenderSaveButton() {
+    this.$saveButton = Button({
+      type: "primary-blue",
+      size: "small",
+      text: System.data.locale.common.save
+    });
+
+    this.$saveButton.prependTo(this.$saveButtonContainer);
+  }
+  RenderSaveButtonSpinner() {
+    this.$saveButtonSpinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`);
+  }
+  RenderRemoveAllButton() {
+    this.$removeAllButton = Button({
+      type: "primary-blue",
+      size: "small",
+      text: System.data.locale.common.removeAll
+    });
+
+    this.$removeAllButton.appendTo(this.$removeAllButtonContainer);
+  }
+  RenderAddAllButton() {
+    this.$addAllButton = Button({
+      type: "primary-blue",
+      size: "small",
+      text: this.locale.addAll
+    });
+
+    this.$addAllButton.appendTo(this.$addAllButtonContainer);
+  }
+  OpenModal() {
+    this.modal.Open();
+  }
   BindHandlers() {
     let that = this;
     /**
      * Modal close
      */
     window.addEventListener("beforeunload", () => {
-      if (this.$toplayerContainer) {
-        let $newUsers = $(".group-members-list>ul > li.new-user[data-user-id]", this.$toplayerContainer);
+      if (this.modal.isOpen) {
+        let $newUsers = $("> li.new-user[data-user-id]", this.$groupMembersList);
 
         if (this.$groupName.val() != this.$groupName.prop("defaultValue") || $newUsers.length > 0) {
           event.returnValue = System.data.locale.common.notificationMessages.ongoingProcess;
@@ -200,22 +244,25 @@ class GroupModal {
     /**
      * Bind the jQuery UI Sortable
      */
-    $(".find-users-list>ul, .group-members-list>ul", this.$toplayerContainer).sortable({
+    let sortableOptions = {
       connectWith: ".sg-list",
-      snap: this.$findUsersList,
+      snap: this.$searchResultsList,
       snapMode: "inner",
       revert: true,
-      start: function(e, ui) {
-        if ($(ui.item).parents(".group-members-list>ul").length == 0) {
+      start: (e, ui) => {
+        if ($(ui.item).parents(".sg-card__hole:nth-child(1) > ul").length == 0) {
           let userID = $(ui.item).attr("data-user-id");
 
-          if ($(`.group-members-list>ul > li[data-user-id="${userID}"]`, this.$toplayerContainer).length > 0) {
+          if ($(`> li[data-user-id="${userID}"]`, this.$groupMembersList).length > 0) {
             $(ui.item).remove();
-            this.createGroupToplayer.notification(this.locale.notificationMessages.alreadyExist, "error");
+            this.modal.notification(this.locale.notificationMessages.alreadyExist, "error");
           }
         }
       }
-    }).disableSelection();
+    }
+
+    this.$searchResultsList.sortable(sortableOptions).disableSelection();
+    this.$groupMembersList.sortable(sortableOptions).disableSelection();
 
     /**
      * Group name input
@@ -260,7 +307,7 @@ class GroupModal {
         $subActionListHole = undefined;
       }
 
-      that.$findUsersList.html("");
+      that.$searchResultsList.html("");
 
       if (this.value == "findUsers") {
         $subActionListHole = $(`<div class="sg-actions-list__hole sg-box--full"></div>`);
@@ -295,7 +342,7 @@ class GroupModal {
               ranks
             });
 
-            that.$findUsersList.append($li);
+            that.$searchResultsList.append($li);
           });
         }
         if (this.value == "friendsList") {
@@ -316,7 +363,7 @@ class GroupModal {
               ranks
             });
 
-            that.$findUsersList.append($li);
+            that.$searchResultsList.append($li);
           });
         }
       }
@@ -326,7 +373,7 @@ class GroupModal {
 
   }
   AddAllUsersToGroupMembersList() {
-    let $users = $(">li", this.$findUsersList);
+    let $users = $(">li", this.$searchResultsList);
 
     $users.each((i, userLi) => {
       if ($(`li[data-user-id="${userLi.dataset.userId}"]`, this.$groupMembersList).length == 0) {
@@ -340,23 +387,22 @@ class GroupModal {
     let $users = $(">li", this.$groupMembersList);
 
     if ($users.length > 0 && confirm(this.locale.notificationMessages.doYouWantToRemoveMembers)) {
-      this.$findUsersList.html("");
+      this.$searchResultsList.html("");
 
-      $users.appendTo(this.$findUsersList);
+      $users.appendTo(this.$searchResultsList);
     }
   }
   SaveGroup() {
-    let $groupMembersLi = $(".group-members-list>ul > li[data-user-id]", this.$toplayerContainer);
-    this.$newGroupMembersLi = $(".group-members-list>ul > li.new-user[data-user-id]", this.$toplayerContainer);
-    this.$spinnerSaveButton = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`);
+    let $groupMembersLi = $("> li[data-user-id]", this.$groupMembersList);
+    this.$newGroupMembersLi = $("> li.new-user[data-user-id]", this.$groupMembersList);
     let groupData = {
       color: this.$color.val(),
       title: this.$groupName.val().trim(),
       members: []
     };
 
-    this.$spinnerSaveButton.insertAfter(this.$saveButton);
-    this.$saveButton.off("click");
+    this.ShowSaveButtonSpinner();
+    this.$saveButton.Disable();
     this.$closeIcon.off("click");
 
     if (this.group) {
@@ -394,21 +440,34 @@ class GroupModal {
       });
       this.CreateGroup(groupData);
     } else {
-      this.createGroupToplayer.notification(this.locale.notificationMessages.youNeedToAddMembers, "info");
-      this.$spinnerSaveButton.remove();
-      this.$saveButton.on("click", this.SaveGroup.bind(this));
+      this.modal.notification(this.locale.notificationMessages.youNeedToAddMembers, "info");
+      this.HideSaveButtonSpinner();
+      this.$saveButton.Enable();
       this.$closeIcon.click(this.CloseModal.bind(this));
     }
+  }
+  ShowSaveButtonSpinner() {
+    this.$saveButtonSpinner.appendTo(this.$saveButtonContainer);
+  }
+  HideSaveButtonSpinner() {
+    this.HideElement(this.$saveButtonSpinner);
+  }
+  /**
+   * @param {JQuery<HTMLElement>} $element
+   */
+  HideElement($element) {
+    if ($element)
+      $element.appendTo("<div/>");
   }
   async CreateGroup(groupData) {
 
     let resCreatedGroup = await new ServerReq().CreateMessageGroup(groupData);
 
     if (!resCreatedGroup || !resCreatedGroup.success) {
-      this.$spinnerSaveButton.remove();
+      this.$saveButton.Enable();
+      this.HideSaveButtonSpinner()
       this.$closeIcon.click(this.CloseModal.bind(this));
-      this.$saveButton.click(this.SaveGroup.bind(this));
-      this.createGroupToplayer.notification(this.locale.notificationMessages.cantCreate, "error");
+      this.modal.notification(this.locale.notificationMessages.cantCreate, "error");
       this.reject("Can't create group");
     } else {
       groupData.time = Date();
@@ -424,7 +483,7 @@ class GroupModal {
     let resUpdatedGroup = await new ServerReq().UpdateMessageGroup(this.group._id, groupData);
 
     if (!resUpdatedGroup || !resUpdatedGroup.success) {
-      this.createGroupToplayer.notification(this.locale.notificationMessages.cantCreate, "error");
+      this.modal.notification(this.locale.notificationMessages.cantCreate, "error");
     } else {
       let $groupLi = renderGroupLi(this.group);
 
@@ -433,25 +492,22 @@ class GroupModal {
 
       this.$groupName.prop("defaultValue", groupData.title);
 
-      this.createGroupToplayer.notification(this.locale.notificationMessages.groupUpdated.replace("%{groupName}", ` ${groupData.title} `), "success");
+      this.modal.notification(this.locale.notificationMessages.groupUpdated.replace("%{groupName}", ` ${groupData.title} `), "success");
     }
 
-    this.$spinnerSaveButton.remove();
-    this.$saveButton.on("click", this.SaveGroup.bind(this));
+    this.HideSaveButtonSpinner();
+    this.$saveButton.Enable();
     this.$closeIcon.click(this.CloseModal.bind(this));
     this.$newGroupMembersLi.removeClass("new-user");
   }
   async CloseModal(forceClose) {
-    let $newUsers = $(".group-members-list>ul > li.new-user[data-user-id]", this.$toplayerContainer);
+    let $newUsers = $("> li.new-user[data-user-id]", this.$groupMembersList);
     let $spinner = $(`<div class="sg-spinner sg-spinner--xxsmall"></div>`);
 
     $spinner.insertBefore(this.$closeIconSVG);
     this.$closeIconSVG.hide();
     this.$closeIcon.off("click");
 
-    /**
-     * Adding a delayer for avoiding from having no icon animation because of the confirm dialog
-     */
     await System.Delay(50);
 
     if (
@@ -464,9 +520,7 @@ class GroupModal {
       )
     ) {
       this.reject();
-      this.$toplayerContainer.remove();
-
-      this.$toplayerContainer = undefined;
+      this.modal.Close();
     } else {
       $spinner.remove();
       this.$closeIconSVG.show();

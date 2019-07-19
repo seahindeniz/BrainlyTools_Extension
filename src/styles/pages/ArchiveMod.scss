@@ -2,17 +2,7 @@ $arrow-pos: -0.4em;
 
 .js-pagination {
   button {
-    margin: .5em 0 .5em 1.6em;
-  }
-}
-
-button {
-  label.sg-label__text {
-    margin: 0 auto;
-  }
-
-  span.sg-button-primary__icon {
-    margin: 0;
+    margin: .5em .8em;
   }
 }
 
@@ -77,6 +67,8 @@ button {
 
         .footer {
           width: 19rem;
+          height: 32px;
+          min-height: 32px;
           top: -1.85rem;
           right: 4em;
           border: 0;
@@ -88,11 +80,9 @@ button {
           .ext-action-buttons {
             text-align: right;
 
-            .sg-button-secondary {
+            .sg-button {
               padding: 0 14px;
-              height: 1.5rem;
-              border-radius: 5px;
-              font-size: .75rem;
+              height: 24px;
             }
           }
         }

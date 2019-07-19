@@ -7,6 +7,7 @@ import IdListSection from "./Sections/IdList";
 import ModeratorsSection from "./Sections/Moderators";
 import ResultsSection from "./Sections/Results";
 import templateModalContent from "./templates/ModalContent.html";
+import Button from "../../../../../components/Button";
 
 const MAX_MESSAGE_LENGTH = 512;
 
@@ -78,28 +79,34 @@ class MassMessageSender {
     this.ResultsSection = new ResultsSection(this);
   }
   RenderSendButton() {
-    this.$sendButtonContainer = $(`
-		<div class="sg-actions-list__hole">
-			<button class="sg-button-primary">${System.data.locale.messages.groups.send}</button>
-		</div>`);
+    this.$sendButtonContainer = $(`<div class="sg-actions-list__hole"></div>`);
 
-    this.$sendButton = $("button", this.$sendButtonContainer);
+    this.$sendButton = Button({
+      type: "primary-mint",
+      text: System.data.locale.messages.groups.send
+    });
+
+    this.$sendButton.appendTo(this.$sendButtonContainer);
   }
   RenderContinueButton() {
-    this.$continueButtonContainer = $(`
-		<div class="sg-actions-list__hole">
-			<button class="sg-button-primary sg-button-primary--alt">${System.data.locale.common.continue}</button>
-		</div>`);
+    this.$continueButtonContainer = $(`<div class="sg-actions-list__hole"></div>`);
 
-    this.$continueButton = $("button", this.$continueButtonContainer);
+    this.$continueButton = Button({
+      type: "primary-blue",
+      text: System.data.locale.common.continue
+    });
+
+    this.$continueButton.appendTo(this.$continueButtonContainer);
   }
   RenderStopButton() {
-    this.$stopButtonContainer = $(`
-		<div class="sg-actions-list__hole">
-			<button class="sg-button-primary sg-button-primary--peach">${System.data.locale.common.stop}</button>
-		</div>`);
+    this.$stopButtonContainer = $(`<div class="sg-actions-list__hole"></div>`);
 
-    this.$stopButton = $("button", this.$stopButtonContainer);
+    this.$stopButton = Button({
+      type: "destructive",
+      text: System.data.locale.common.stop
+    });
+
+    this.$stopButton.appendTo(this.$stopButtonContainer);
   }
   BindHandlers() {
     this.$li.on("click", "span", this.OpenModal.bind(this));

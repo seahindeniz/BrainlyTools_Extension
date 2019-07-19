@@ -1,5 +1,6 @@
 import Modal from "../../../../components/Modal";
 import Action from "../../../../controllers/Req/Brainly/Action";
+import Button from "../../../../components/Button";
 
 const spinner = `<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`;
 
@@ -13,6 +14,8 @@ class PointChanger {
   Init() {
     this.RenderLi();
     this.RenderModal();
+    this.RenderAddUserButton();
+    this.RenderAddPointToAllButton();
     this.BindHandler();
   }
   RenderLi() {
@@ -41,24 +44,8 @@ class PointChanger {
 								<div class="sg-actions-list__hole sg-actions-list__hole--grow">
 									<textarea class="sg-textarea sg-textarea--full-width sg-textarea--resizable-vertical" placeholder="${System.data.locale.common.profileID}"></textarea>
 								</div>
-								<div class="sg-actions-list__hole">
-									<button class="sg-button-secondary sg-button-secondary--alt">
-										<div class="sg-icon sg-icon--adaptive sg-icon--x22">
-											<svg class="sg-icon__svg">
-												<use xlink:href="#icon-profile_view"></use>
-											</svg>
-										</div>
-									</button>
-								</div>
-								<div class="sg-actions-list__hole">
-									<button class="sg-button-secondary js-hidden">
-										<div class="sg-icon sg-icon--adaptive sg-icon--x22">
-											<svg class="sg-icon__svg">
-												<use xlink:href="#icon-check"></use>
-											</svg>
-										</div>
-									</button>
-								</div>
+								<div class="sg-actions-list__hole"></div>
+								<div class="sg-actions-list__hole"></div>
 							</div>
 						</div>
 					</div>
@@ -91,9 +78,25 @@ class PointChanger {
     this.$idInput = $(".id textarea", this.modal.$modal);
     this.$userList = $(".js-user-list", this.modal.$modal);
     this.$idInputContainer = $(".sg-content-box.id", this.modal.$modal);
-    this.$addUserButton = $(".id .sg-actions-list__hole:eq(1) button", this.modal.$modal);
-    this.$addPointToAllButton = $(".id .sg-actions-list__hole:eq(2) button", this.modal.$modal);
+    this.$addUserButtonContainer = $(".id .sg-actions-list__hole:eq(1)", this.modal.$modal);
+    this.$addPointToAllButtonContainer = $(".id .sg-actions-list__hole:eq(2)", this.modal.$modal);
     this.$amountOfUsers = $(".sg-content-box__actions .sg-actions-list > .sg-actions-list__hole > .sg-text > span", this.modal.$modal);
+  }
+  RenderAddUserButton() {
+    this.$addUserButton = Button({
+      type: "primary-blue",
+      size: "small",
+      icon: "profile_view"
+    });
+
+    this.$addUserButton.appendTo(this.$addUserButtonContainer);
+  }
+  RenderAddPointToAllButton() {
+    this.$addPointToAllButton = Button({
+      type: "primary-mint",
+      size: "small",
+      icon: "check"
+    });
   }
   BindHandler() {
     let that = this;
@@ -107,30 +110,6 @@ class PointChanger {
       let idList = this.GetID()
 
       this.FindIDs(idList);
-    });
-
-    this.$userList.on("click", `button.js-add-point`, async function() {
-      let $userNode = $(this).parents(".js-node");
-      let $pointInput = $(`input[type="number"]`, $userNode);
-      let diffPoint = Number($pointInput.val());
-
-      if (diffPoint) {
-        let user = $userNode.prop("userData");
-        let $spinner = $(spinner).insertAfter(this);
-        let $pointsLabel = $(".js-points", $userNode);
-
-        this.classList.add("sg-button-secondary--disabled");
-        await new Action().AddPoint(user.id, diffPoint);
-        this.classList.remove("sg-button-secondary--disabled");
-        that.modal.notification(System.data.locale.core.notificationMessages.pointsAdded, "success");
-
-        user.points += diffPoint;
-
-        $spinner.remove();
-        $pointsLabel.text(user.points + " + ");
-      }
-
-      $pointInput.val("").trigger("input");
     });
 
     this.$userList.on("input", `input[type="number"]`, function() {
@@ -282,14 +261,7 @@ class PointChanger {
 					<div class="sg-actions-list__hole">
 						<span class="sg-text sg-text--small sg-text--gray sg-text--bold js-points">${user.points} + </span>
 						<input type="number" class="sg-input sg-input--small" placeholder="${System.data.locale.common.shortPoints}.." tabindex="${$lastAddedUser.index() + 2}">
-						<div class="sg-spinner-container">
-							<button class="sg-button-secondary sg-button-secondary--small js-add-point" title="${System.data.locale.core.pointChanger.addPoint}">
-								<div class="sg-icon sg-icon--adaptive sg-icon--x14">
-									<svg class="sg-icon__svg">
-										<use xlink:href="#icon-check"></use>
-									</svg></div>
-							</button>
-						</div>
+						<div class="sg-spinner-container"></div>
 					</div>
 				</div>
 			</div>
@@ -297,11 +269,22 @@ class PointChanger {
 
     let $ptsInput = $(`input[type="number"]`, $node);
 
+    let $addPointButtonContainer = $(".sg-spinner-container", $node);
+    let $addPointButton = Button({
+      type: "primary-mint",
+      size: "small",
+      title: System.data.locale.core.pointChanger.addPoint,
+      icon: "check"
+    });
+
+    $addPointButton.click(this.AddPointToUser.bind(this));
+    $addPointButton.prependTo($addPointButtonContainer);
+
     this.users.push(user.id);
     this.ChangeAmountOfUser(1);
     $node.prop("userData", user);
     $node.insertBefore(this.$idInputContainer);
-    this.$addPointToAllButton.removeClass("js-hidden");
+    this.ShowAddPointToAllButton();
 
     if (preDefinedPoints)
       $ptsInput
@@ -312,6 +295,39 @@ class PointChanger {
     let currentAmount = this.$amountOfUsers.text();
 
     this.$amountOfUsers.text(Number(currentAmount) + amount);
+  }
+  /**
+   * @param {Event} event
+   */
+  async AddPointToUser(event) {
+    /**
+     * @type {import("../../../../components/Button").ButtonElement}
+     */
+    let button = event.currentTarget;
+    let $userNode = $(button).parents(".js-node");
+    let $pointInput = $(`input[type="number"]`, $userNode);
+    let diffPoint = Number($pointInput.val());
+
+    if (diffPoint) {
+      let user = $userNode.prop("userData");
+      let $spinner = $(spinner).insertAfter(button);
+      let $pointsLabel = $(".js-points", $userNode);
+
+      button.Disable();
+      await new Action().AddPoint(user.id, diffPoint);
+      button.Enable();
+      this.modal.notification(System.data.locale.core.notificationMessages.pointsAdded, "success");
+
+      user.points += diffPoint;
+
+      $spinner.remove();
+      $pointsLabel.text(user.points + " + ");
+    }
+
+    $pointInput.val("").trigger("input");
+  }
+  ShowAddPointToAllButton() {
+    this.$addPointToAllButton.appendTo(this.$addPointToAllButtonContainer);
   }
 }
 

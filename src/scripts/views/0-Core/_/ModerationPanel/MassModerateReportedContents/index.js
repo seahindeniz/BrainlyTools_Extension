@@ -1,11 +1,12 @@
 import template from "backtick-template";
+import Button from "../../../../../components/Button";
 import Modal from "../../../../../components/Modal";
 import Action from "../../../../../controllers/Req/Brainly/Action";
 import ServerReq from "../../../../../controllers/Req/Server";
 import ConditionSection from "./ConditionSection";
 import templateModalContent from "./templates/ModalContent.html";
 
-const spinner = `<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`;
+let System = require("../../../../../helpers/System");
 
 class MassModerateReportedContents {
   constructor() {
@@ -20,11 +21,12 @@ class MassModerateReportedContents {
     this.commonConditionSection;
     this.openedFetchingConnections = 0;
 
-    this.Init();
-  }
-  Init() {
+    if (typeof System == "function")
+      System = System();
+
     this.RenderLi();
     this.RenderModal();
+    this.RenderAddUniqueConditionSectionButton();
     this.RenderCommonConditionSection();
     this.RenderStartButton();
     this.RenderStartButtonSpinner();
@@ -55,11 +57,22 @@ class MassModerateReportedContents {
     this.$totalReportsCount = $(".js-total-reports-count", this.$modal);
     this.$fetchedReportsCount = $(".js-fetched-reports-count", this.$modal);
     this.$conditionSectionsContainer = $("> .sg-content-box > .sg-content-box__content > .sg-content-box:eq(0)", this.modal.$content);
-    this.$addUniqueConditionSectionButton = $("> .sg-content-box > .sg-content-box__content > .sg-content-box:eq(1) button", this.modal.$content);
+    this.$addUniqueConditionSectionButtonContainer = $("> .sg-content-box > .sg-content-box__content > .sg-content-box:nth-child(2) .sg-actions-list__hole", this.modal.$content);
     this.$counterContainer = $(".sg-content-box__actions > .sg-actions-list > .sg-actions-list__hole:eq(1)", this.modal.$content);
     this.$buttonsMainContainer = $(".sg-content-box__actions > .sg-actions-list > .sg-actions-list__hole:eq(2)", this.modal.$content);
     this.$buttonsListContainer = $("> .sg-actions-list", this.$buttonsMainContainer);
     this.$buttonsContainer = $("> .sg-actions-list__hole", this.$buttonsListContainer);
+  }
+  RenderAddUniqueConditionSectionButton() {
+    this.$addUniqueConditionSectionButton = Button({
+      type: "primary-blue",
+      size: "small",
+      icon: "plus",
+      fullWidth: true,
+      text: System.data.locale.core.massModerateReportedContents.addConditionBlock
+    });
+
+    this.$addUniqueConditionSectionButton.appendTo(this.$addUniqueConditionSectionButtonContainer);
   }
   RenderCommonConditionSection() {
     this.commonConditionSection = this.AddConditionSection(System.data.locale.core.massModerateReportedContents.commonConditions.text, System.data.locale.core.massModerateReportedContents.commonConditions.title, { isCommon: true });
@@ -84,28 +97,25 @@ class MassModerateReportedContents {
     return conditionSection;
   }
   RenderStartButton() {
-    this.$startButtonContainer = $(`
-    <div class="sg-actions-list__hole">
-      <div class="sg-spinner-container">
-        <button class="sg-button-primary">${System.data.locale.common.startAll}</button>
-      </div>
-    </div>`);
-    this.$startButtonSpinnerContainer = $("> .sg-spinner-container", this.$startButtonContainer);
-    this.$startButton = $("button", this.$startButtonSpinnerContainer);
+    this.$startButtonContainer = $(`<div class="sg-spinner-container"></div>`);
+    this.$startButton = Button({
+      type: "primary-mint",
+      text: System.data.locale.common.startAll
+    });
+
+    this.$startButton.prependTo(this.$startButtonContainer);
   }
   RenderStartButtonSpinner() {
     this.$startButtonSpinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`);
   }
   RenderStopButton() {
-    this.$stopButtonContainer = $(`
-    <div class="sg-actions-list__hole">
-      <div class="sg-spinner-container">
-        <button class="sg-button-primary sg-button-primary--peach">${System.data.locale.common.stop}</button>
-      </div>
-    </div>`);
+    this.$stopButtonContainer = $(`<div class="sg-actions-list__hole"></div>`);
+    this.$stopButton = Button({
+      type: "destructive",
+      text: System.data.locale.common.stop
+    });
 
-    this.$stopButtonSpinnerContainer = $("> .sg-spinner-container", this.$stopButtonContainer);
-    this.$stopButton = $("button", this.$stopButtonSpinnerContainer);
+    this.$stopButton.prependTo(this.$stopButtonContainer);
   }
   BindHandlers() {
     this.modal.$close.click(this.modal.Close.bind(this.modal));
@@ -275,8 +285,8 @@ class MassModerateReportedContents {
       this.requestLimit = 1;
   }
   ShowActionButtonSpinner() {
-    this.$startButtonSpinner.appendTo(this.$startButtonSpinnerContainer);
-    this.$startButton.addClass("sg-button-secondary--disabled").prop("disabled", true);
+    this.$startButton.Disable()
+    this.$startButtonSpinner.appendTo(this.$startButtonContainer);
   }
   StopModerating() {
     this.isModerating = false;
@@ -288,8 +298,8 @@ class MassModerateReportedContents {
     }
   }
   HideActionButtonSpinner() {
+    this.$startButton.Enable()
     this.HideElement(this.$startButtonSpinner);
-    this.$startButton.removeClass("sg-button-secondary--disabled").prop("disabled", false);
   }
   HideActionButtons() {
     this.HideActionButtonSpinner();

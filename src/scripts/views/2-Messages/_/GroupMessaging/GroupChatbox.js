@@ -1,98 +1,128 @@
 import autosize from "autosize";
+import Button from "../../../../components/Button";
 import Progress from "../../../../components/Progress";
 import SendMessageToBrainlyIds from "../../../../controllers/Req/Brainly/Action/SendMessageToBrainlyIds";
 import ServerReq from "../../../../controllers/Req/Server";
 import ScrollToDown from "../../../../helpers/ScrollToDown";
 import renderGroupModal from "./groupModal";
 
-let locale__groups = System.data.locale.messages.groups;
+let System = require("../../../../helpers/System");
 
 class GroupChatbox {
   constructor() {
+    if (typeof System == "function")
+      System = System();
+
     this.SendMessage = new SendMessageToBrainlyIds();
-    this.$chatbox = $(`
-		<div class="sg-content-box__header js-hidden">
-			<div class="sg-actions-list">
-				<div class="sg-actions-list__hole sg-hide-for-medium-up">
-					<div class="sg-button-secondary sg-button-secondary--small sg-button-secondary--dark js-open-conversation-list">${locale__groups.title}</div>
-				</div>
-				<div class="sg-actions-list__hole">
-					<span class="sg-text sg-text--link sg-text--bold js-groupTitle"></span>
-				</div>
-				<div class="sg-actions-list__hole sg-actions-list__hole--to-right">
-					<button class="sg-button-secondary sg-button-secondary--small sg-button-secondary--active-inverse js-delete-group">
-						<div class="sg-label sg-label--secondary sg-label--unstyled">
-							<div class="sg-label__icon">
-								<div class="sg-icon sg-icon--adaptive sg-icon--x14">
-									<svg class="sg-icon__svg">
-										<use xlink:href="#icon-x"></use>
-									</svg>
-								</div>
-							</div>
-							<label class="sg-label__text">${locale__groups.deleteGroup}</label>
-						</div>
-					</button>
-					<button class="sg-button-secondary sg-button-secondary--small sg-button-secondary--inverse js-edit-group">
-						<div class="sg-label sg-label--secondary">
-							<div class="sg-label__icon">
-								<div class="sg-icon sg-icon--lavender sg-icon--x14">
-									<svg class="sg-icon__svg">
-										<use xlink:href="#icon-pencil"></use>
-									</svg>
-								</div>
-							</div>
-							<label class="sg-label__text">${locale__groups.editGroup}</label>
-						</div>
-					</button>
-				</div>
-				<div class="sg-actions-list__hole sg-box--full progress"></div>
-			</div>
-		</div>
-		<div class="sg-content-box__content">
-			<div class="sg-horizontal-separator"></div>
-			<section class="brn-chatbox__chat js-group-chat"></section>
-		</div>
-		<div class="sg-content-box__content">
-			<footer class="brn-chatbox__footer">
-				<div class="sg-horizontal-separator"></div>
-				<div class="sg-content-box sg-content-box--spaced-top js-chatbox-footer">
-					<div class="sg-textarea sg-textarea--auto-height sg-textarea--short">
-						<div class="sg-actions-list sg-actions-list--no-wrap">
-							<div class="sg-actions-list__hole sg-actions-list__hole--grow">
-								<textarea class="sg-textarea sg-textarea--nested" maxlength="512" placeholder="${locale__groups.writeSomething}" style="display:none;"></textarea>
-							</div>
-							<div class="sg-actions-list__hole sg-actions-list__hole--to-end">
-								<div class="sg-spinner-container">
-									<button class="sg-button-secondary sg-button-secondary--alt sg-button-secondary--small">${locale__groups.send}</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</footer>
-		</div>`);
 
-    this.$messagesContainer = $(".js-group-chat", this.$chatbox);
-    this.$messageInput = $("footer.brn-chatbox__footer textarea", this.$chatbox);
-    this.$sendButton = $("footer.brn-chatbox__footer button", this.$chatbox);
-    this.$progressHole = $(".sg-actions-list > .sg-actions-list__hole.progress", this.$chatbox);
-
-    autosize(this.$messageInput);
-    this.$messageInput.show();
-
+    this.Render();
+    this.RenderMessageInput();
+    this.RenderSendButton();
+    this.RenderSendButtonSpinner();
+    this.RenderGroupsButton();
+    this.RenderEditGroupButton();
+    this.RenderDeleteGroupButton();
     this.BindHandlers();
   }
+  Render() {
+    this.$ = $(`
+    <div class="sg-content-box">
+      <div class="sg-content-box__header">
+        <div class="sg-actions-list">
+          <div class="sg-actions-list__hole sg-hide-for-medium-up"></div>
+          <div class="sg-actions-list__hole">
+            <span class="sg-text sg-text--link sg-text--bold"></span>
+          </div>
+          <div class="sg-actions-list__hole sg-actions-list__hole--to-right">
+            <div class="sg-actions-list sg-actions-list--no-wrap">
+              <div class="sg-actions-list__hole sg-actions-list__hole--spaced-xsmall"></div>
+              <div class="sg-actions-list__hole sg-actions-list__hole--spaced-xsmall"></div>
+            </div>
+          </div>
+          <div class="sg-actions-list__hole sg-box--full progress"></div>
+        </div>
+      </div>
+      <div class="sg-content-box__content">
+        <div class="sg-horizontal-separator"></div>
+        <section class="brn-chatbox__chat js-group-chat"></section>
+      </div>
+    </div>`);
+
+    this.$messagesContainer = $(".js-group-chat", this.$);
+    this.$title = $(".sg-actions-list__hole:nth-child(2) > .sg-text", this.$);
+    this.$progressHole = $(".sg-actions-list > .sg-actions-list__hole.progress", this.$);
+    this.$buttonsContainer = $("> .sg-content-box__header > .sg-actions-list > .sg-actions-list__hole:nth-child(3)", this.$);
+    this.$editGroupButtonContainer = $(".sg-actions-list__hole:nth-child(1)", this.$buttonsContainer);
+    this.$deleteGroupButtonContainer = $(".sg-actions-list__hole:nth-child(2)", this.$buttonsContainer);
+    this.$groupsButtonContainer = $("> .sg-content-box__header > .sg-actions-list > .sg-actions-list__hole:nth-child(1)", this.$);
+  }
+  RenderMessageInput() {
+    this.$messageInputSection = $(`
+    <div class="sg-content-box__content">
+      <footer class="brn-chatbox__footer">
+        <div class="sg-horizontal-separator"></div>
+        <div class="sg-content-box sg-content-box--spaced-top js-chatbox-footer">
+          <div class="sg-textarea sg-textarea--auto-height sg-textarea--short">
+            <div class="sg-actions-list sg-actions-list--no-wrap">
+              <div class="sg-actions-list__hole sg-actions-list__hole--grow">
+                <textarea class="sg-textarea sg-textarea--nested" maxlength="512" placeholder="${System.data.locale.messages.groups.writeSomething}" style="display:none;"></textarea>
+              </div>
+              <div class="sg-actions-list__hole sg-actions-list__hole--to-end">
+                <div class="sg-spinner-container"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>`);
+
+    this.$messageInput = $("textarea", this.$messageInputSection);
+    this.$sendButtonSpinnerContainer = $(".sg-spinner-container", this.$messageInputSection);
+
+    autosize(this.$messageInput);
+  }
+  RenderSendButton() {
+    this.$sendButton = Button({
+      type: "primary-blue",
+      size: "small",
+      text: System.data.locale.messages.groups.send
+    });
+
+    this.$sendButton.prependTo(this.$sendButtonSpinnerContainer);
+  }
+  RenderSendButtonSpinner() {
+    this.$sendButtonSpinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--small"></div></div>`)
+  }
+  RenderGroupsButton() {
+    this.$groupsButton = Button({
+      size: "xsmall",
+      text: System.data.locale.messages.groups.title,
+      moreClass: "js-open-conversation-list"
+    });
+
+    this.$groupsButton.appendTo(this.$groupsButtonContainer);
+  }
+  RenderEditGroupButton() {
+    this.$editGroupButton = Button({
+      type: "primary-blue",
+      size: "xsmall",
+      icon: "pencil",
+      text: System.data.locale.common.edit,
+      title: System.data.locale.messages.groups.editGroup
+    });
+  }
+  RenderDeleteGroupButton() {
+    this.$deleteGroupButton = Button({
+      type: "destructive",
+      size: "xsmall",
+      icon: "x",
+      text: System.data.locale.common.delete,
+      title: System.data.locale.messages.groups.deleteGroup
+    });
+  }
   BindHandlers() {
-    let $editGroup = $("button.js-edit-group", this.$chatbox);
-    let $deleteGroup = $("button.js-delete-group", this.$chatbox);
-
-    $editGroup.click(() => {
-      new renderGroupModal(this.group, this.groupLi);
-    });
-
-    $deleteGroup.click(() => {
-      this.DeleteGroup();
-    });
+    this.$editGroupButton.click(this.EditGroup.bind(this));
+    this.$deleteGroupButton.click(this.DeleteGroup.bind(this));
 
     this.$messageInput.on({
       "keydown": e => {
@@ -116,6 +146,9 @@ class GroupChatbox {
     });
     this.$sendButton.click(this.Send.bind(this));
   }
+  EditGroup() {
+    new renderGroupModal(this.group, this.groupLi);
+  }
   InitGroup(group, groupLi) {
     this.group = group;
     this.groupLi = groupLi;
@@ -124,19 +157,39 @@ class GroupChatbox {
     this.PrepareChatbox();
   }
   PrepareChatbox() {
-    let $title = $(".js-groupTitle", this.$chatbox);
-
-    $title.html(this.group.title);
+    this.$title.html(this.group.title);
 
     this.RefreshChatbox();
     this.ShowChatbox();
     this.PrepareMessageMedia(this.group.messages);
   }
   HideChatbox() {
-    this.$chatbox.addClass("js-hidden");
+    this.HideEditGroupButton();
+    this.HideDeleteGroupButton();
+    this.HideMessageInputSection();
+  }
+  HideEditGroupButton() {
+    this.HideElement(this.$editGroupButton);
+  }
+  HideDeleteGroupButton() {
+    this.HideElement(this.$deleteGroupButton);
+  }
+  HideMessageInputSection() {
+    this.HideElement(this.$messageInputSection);
   }
   ShowChatbox() {
-    this.$chatbox.removeClass("js-hidden");
+    this.ShowEditGroupButton();
+    this.ShowDeleteGroupButton();
+    this.ShowMessageInputSection();
+  }
+  ShowEditGroupButton() {
+    this.$editGroupButton.appendTo(this.$editGroupButtonContainer);
+  }
+  ShowDeleteGroupButton() {
+    this.$deleteGroupButton.appendTo(this.$deleteGroupButtonContainer);
+  }
+  ShowMessageInputSection() {
+    this.$messageInputSection.appendTo(this.$);
   }
   RefreshChatbox() {
     this.$messagesContainer.html("");
@@ -206,14 +259,13 @@ class GroupChatbox {
     let membersLen = this.group.members.length;
     let $groupLiMessateContent = $(".js-message-content", this.groupLi);
 
-    let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--small"></div></div>`).insertAfter(this.$sendButton);
-
     let progress = new Progress({
       type: "is-success",
       label: System.data.locale.common.progressing,
       max: membersLen
     });
 
+    this.ShowSendButtonSpinner();
     this.$messageInput.prop("disabled", true);
     progress.$container.appendTo(this.$progressHole.html(""));
 
@@ -232,7 +284,7 @@ class GroupChatbox {
 
     window.isPageProcessing = false;
 
-    $spinner.remove();
+    this.HideSendButtonSpinner();
     progress.UpdateLabel(`(${membersLen}) - ${System.data.locale.common.allDone}`);
 
     autosize.update(
@@ -252,6 +304,19 @@ class GroupChatbox {
       message,
       members: membersWithConversationIds
     });
+  }
+  ShowSendButtonSpinner() {
+    this.$sendButtonSpinner.appendTo(this.$sendButtonSpinnerContainer);
+  }
+  HideSendButtonSpinner() {
+    this.HideElement(this.$sendButtonSpinner);
+  }
+  /**
+   * @param {JQuery<HTMLElement>} $element
+   */
+  HideElement($element) {
+    if ($element)
+      $element.appendTo("<div/>");
   }
   async DeleteGroup() {
     if (confirm(System.data.locale.common.notificationMessages.areYouSure)) {

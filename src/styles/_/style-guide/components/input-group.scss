@@ -1,0 +1,60 @@
+.sg-input-group {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5rem;
+  min-height: 1.5rem;
+  margin: 0;
+  overflow: visible;
+  width: 100%;
+
+  input {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    padding-right: 40px;
+
+    &:only-child {
+      padding-right: 12px;
+    }
+
+    &+button {
+      right: 3px;
+      left: unset;
+    }
+  }
+
+  button {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    bottom: 0;
+    z-index: 1;
+    width: 30px;
+    height: 30px;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+
+    &+input {
+      padding-left: 40px;
+      padding-right: 12px;
+    }
+  }
+}
+
+/*
+        <div class="sg-input-group">
+          <input class="sg-input sg-input--full-width sg-input--light-alt sg-input--light-alt-shadow" placeholder="SORUN NEDİR?">
+          <button role="button" class="sg-icon-as-button sg-icon-as-button--mint sg-icon-as-button--normal sg-icon-as-button--action sg-icon-as-button--small">
+            <div class="sg-icon-as-button__hole">
+              <div class="sg-icon sg-icon--adaptive sg-icon--x14">
+                <svg class="sg-icon__svg">
+                  <use xlink:href="#icon-check"></use>
+                </svg>
+              </div>
+            </div>
+          </button>
+        </div>
+*/

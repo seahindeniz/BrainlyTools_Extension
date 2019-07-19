@@ -1,0 +1,21 @@
+$baseline: 1.5rem;
+
+@function rhythm($baselines) {
+  @return $baselines * $baseline;
+}
+
+$sizeList: ("": 0.5,
+  small: 1/3,
+  xsmall: 1/4,
+  xxsmall: 1/6,
+  large: 1,
+  xlarge: 1.5,
+  xxlarge: 2,
+);
+
+$cornerSpaces: ("":"",
+  top: $sizeList,
+  left: $sizeList,
+  bottom: $sizeList,
+  right: $sizeList,
+);

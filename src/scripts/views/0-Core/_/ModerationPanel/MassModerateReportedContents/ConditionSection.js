@@ -1,5 +1,6 @@
 import template from "backtick-template";
 import moment from "moment-timezone";
+import Button from "../../../../../components/Button";
 import DeleteSection from "../../../../../components/DeleteSection";
 import RadioSection from "../../../../../components/DeleteSection/RadioSection";
 import Action from "../../../../../controllers/Req/Brainly/Action";
@@ -11,6 +12,8 @@ import templateFilterContainer from "./templates/FilterContainer.html";
 import templateFilterSelectCard from "./templates/FilterSelectCard.html";
 import templateFooter from "./templates/Footer.html";
 import templateReportBox from "./templates/ReportBox.html";
+
+let System = require("../../../../../helpers/System");
 
 String.prototype.template = template.asMethod;
 
@@ -44,6 +47,9 @@ class ConditionSection {
      * @type {"QUESTION"|"ANSWER"}
      */
     this.contentType;
+
+    if (typeof System == "function")
+      System = System();
 
     this.RenderSection();
     this.RenderActionTypes();
@@ -98,12 +104,19 @@ class ConditionSection {
     this.actionTypeSection.$.appendTo(this.$actionTypeContainer);
   }
   RenderFooter() {
-    this.$footer = $(templateFooter.template({ matchedText: this.ReplaceMatchedTextString() }));
+    this.$footer = $(templateFooter.template());
 
     this.$footerActionList = $("> .sg-content-box > .sg-content-box__content > .sg-actions-list", this.$footer);
     this.$matchedButtonContainer = $("> .sg-actions-list__hole", this.$footerActionList);
-    this.$matchedButton = $("button", this.$matchedButtonContainer);
-    this.$matchedReportsCount = $(".sg-label__number", this.$matchedButton);
+    this.$matchedButton = Button({
+      type: "primary-blue",
+      size: "small",
+      icon: "lightning",
+      text: this.ReplaceMatchedTextString()
+    });
+    this.$matchedReportsCount = $("b", this.$matchedButton);
+
+    this.$matchedButton.appendTo(this.$matchedButtonContainer);
 
     if (!this.options.isCommon)
       this.ShowFooter();
@@ -158,10 +171,18 @@ class ConditionSection {
     this.$actionButtonsSpinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`);
   }
   RenderStartButton() {
-    this.$startButton = $(`<button class="sg-button-secondary">${System.data.locale.common.start}</button>`);
+    this.$startButton = Button({
+      type: "primary-mint",
+      size: "small",
+      text: System.data.locale.common.start
+    });
   }
   RenderStopButton() {
-    this.$stopButton = $(`<button class="sg-button-secondary sg-button-secondary--peach">${System.data.locale.common.stop}</button>`);
+    this.$stopButton = Button({
+      type: "destructive",
+      size: "small",
+      text: System.data.locale.common.stop
+    });
   }
   RenderReportsContainer() {
     this.$reportsContainerSection = $(`
@@ -172,15 +193,15 @@ class ConditionSection {
   }
   ReplaceMatchedTextString() {
     let matchedText = System.data.locale.core.massModerateReportedContents.matched.match(/(.*)(\%{.*})+$|(\%{.*})(.*)+$/);
-    let text = `<label class="sg-label__text">Matched</label><div class="sg-label__number">0</div>`;
+    let text = System.data.locale.core.massModerateReportedContents.matched.replace("%{number_of_matched_reports}", "<b>0</b>");
 
     if (matchedText.length > 3) {
       matchedText = matchedText.filter(Boolean);
 
       if (matchedText[1].indexOf("%") >= 0) {
-        text = matchedText[1].replace("%{number_of_matched_reports}", `<div class="sg-label__number">0</div>`) + `<label class="sg-label__text">${matchedText[2]}</label>`;
+        text = matchedText[1].replace("%{number_of_matched_reports}", `<b>0</b>`) + matchedText[2];
       } else {
-        text = `<label class="sg-label__text">${matchedText[1]}</label>` + matchedText[2].replace("%{number_of_matched_reports}", `<div class="sg-label__number">0</div>`);
+        text = matchedText[1] + matchedText[2].replace("%{number_of_matched_reports}", `<b>0</b>`);
       }
     }
 
@@ -221,15 +242,28 @@ class ConditionSection {
   RenderFilterContainer() {
     this.$filterContainer = $(templateFilterContainer.template());
 
-    this.$regexpButtonContainer = $("> .sg-actions-list__hole", this.$filterContainer);
-    this.$addFilterButton = $("button:not(.regexp)", this.$filterContainer);
-    this.$filterWrapper = $(`<div class="sg-actions-list__hole sg-actions-list__hole--grow js-filter-value"></div>`).prependTo(this.$filterContainer);
+    this.$filterWrapper = $("> .sg-actions-list__hole:nth-child(1)", this.$filterContainer);
+    this.$buttonContainer = $("> .sg-actions-list__hole:nth-child(2)", this.$filterContainer);
+    this.$addFilterButton = Button({
+      type: "primary-blue",
+      size: "small",
+      icon: "check"
+    });
+
+    this.$addFilterButton.appendTo(this.$buttonContainer);
   }
   RenderRegexpButton() {
-    this.$regexpButton = $(`
-    <button class="sg-button-secondary sg-button-secondary--small sg-button-secondary--dark sg-button-secondary--spaced-bottom-small">
-      <span class="sg-text sg-text--white" title="${System.data.locale.core.massModerateReportedContents.regexp}">.*</span>
-    </button>`);
+    this.$regexpButton = Button({
+      type: "primary",
+      size: "small",
+      title: System.data.locale.core.massModerateReportedContents.regexp,
+      text: ".*",
+      spaced: {
+        bottom: {
+          small: true
+        }
+      }
+    });
   }
   RenderClose() {
     if (!this.options.isCommon) {
@@ -243,7 +277,7 @@ class ConditionSection {
   }
   BindHandlers() {
     this.$close && this.$close.click(this.RemoveSection.bind(this));
-    this.$regexpButton.click(this.ToggleDarkButton);
+    this.$regexpButton.click(this.ToggleDarkButton.bind(this));
     this.$filterSelect.change(this.UpdateFilterValueContainer.bind(this));
     this.$addFilterButton.click(this.AddFilterButtonClicked.bind(this));
     this.$conditionsContainer.on("click", ".sg-box", this.RemoveCondition.bind(this));
@@ -262,7 +296,7 @@ class ConditionSection {
     }
   }
   ToggleDarkButton() {
-    this.classList.toggle("sg-button-secondary--dark");
+    this.$regexpButton.ToggleType("primary-blue");
   }
   UpdateFilterValueContainer() {
     let value = this.$filterSelect.val();
@@ -286,7 +320,7 @@ class ConditionSection {
     this.main.HideElement(this.$regexpButton);
   }
   ShowRegexpButton() {
-    this.$regexpButton.prependTo(this.$regexpButtonContainer);
+    this.$regexpButton.prependTo(this.$buttonContainer);
   }
   ShowFilterContainer() {
     this.$filterContainer.appendTo(this.$filtersSelectContainer);
@@ -338,7 +372,7 @@ class ConditionSection {
           this.contentType = filterData.value;
 
         let $conditionContainer = $(`<div class="sg-box sg-box--xxsmall-padding sg-box--margin-spaced sg-box--no-min-height sg-box--no-border sg-media--clickable no-select ${filterData.class}"></div>`);
-        let $condition = $(`<div class="sg-box__hole${this.IsRegexButtonDark()?"":" regex"}" data-hash="${filterData.hash}">${filterData.text}</div>`);
+        let $condition = $(`<div class="sg-box__hole${this.IsRegexSelected() ? " regex" : ""}" data-hash="${filterData.hash}">${filterData.text}</div>`);
 
         $condition.prop("condition", filterData);
         $condition.appendTo($conditionContainer);
@@ -367,8 +401,8 @@ class ConditionSection {
 
     return $condition.length > 0
   }
-  IsRegexButtonDark() {
-    return this.$regexpButton.is(".sg-button-secondary--dark");
+  IsRegexSelected() {
+    return this.$regexpButton._type == "primary-blue";
   }
   FilterReports() {
     this.ToggleConditionContainer();
@@ -438,7 +472,7 @@ class ConditionSection {
     if (data.type == "REPORT_REASON") {
       key = "report.abuse.data";
 
-      if (!this.$regexpButton.is(".sg-button-secondary--dark")) {
+      if (this.IsRegexSelected()) {
         value = new RegExp(data.value, "i");
       } else {
         value = new RegExp(`\\b${data.value}\\b`, "i");
@@ -712,10 +746,10 @@ class ConditionSection {
     this.main.HideElement(this.$stopButton);
   }
   DisableStopButton() {
-    this.$stopButton.addClass("sg-button-secondary--disabled").prop("disabled", true);
+    this.$stopButton.Disable();
   }
   EnableStopButton() {
-    this.$stopButton.removeClass("sg-button-secondary--disabled").prop("disabled", false);
+    this.$stopButton.Enable();
   }
   PrepareModerateRequestData() {
     if (!this.actionType)

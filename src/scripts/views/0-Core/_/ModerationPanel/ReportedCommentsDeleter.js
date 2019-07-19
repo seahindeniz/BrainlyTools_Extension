@@ -1,5 +1,6 @@
 import notification from "../../../../components/notification";
 import Action from "../../../../controllers/Req/Brainly/Action";
+import Button from "../../../../components/Button";
 
 const spinner = `<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`;
 
@@ -16,6 +17,9 @@ class ReportedCommentsDeleter {
   Init() {
     this.RenderLi();
     this.RenderPanel();
+    this.RenderStartButton();
+    this.RenderStopButton();
+    this.RenderReasons();
     this.BindHandlers();
   }
   RenderLi() {
@@ -61,14 +65,10 @@ class ReportedCommentsDeleter {
 			<div class="sg-content-box__actions">
 				<div class="sg-actions-list sg-actions-list--space-between">
 					<div class="sg-actions-list__hole">
-						<div class="sg-spinner-container">
-							<button class="sg-button-secondary sg-button-secondary--small sg-button-secondary--alt js-start">${System.data.locale.common.start}</button>
-						</div>
+						<div class="sg-spinner-container"></div>
 					</div>
 					<div class="sg-actions-list__hole">
-						<div class="sg-spinner-container">
-							<button class="sg-button-secondary sg-button-secondary--small  sg-button-secondary--peach js-hidden js-stop">${System.data.locale.common.stop}</button>
-						</div>
+						<div class="sg-spinner-container"></div>
 					</div>
 				</div>
 			</div>
@@ -88,16 +88,33 @@ class ReportedCommentsDeleter {
 		</div>`);
 
     this.$spinner = $(spinner);
-    this.$stop = $(".js-stop", this.$panel);
     this.$status = $(".status", this.$panel);
-    this.$start = $(".js-start", this.$panel);
     this.$reasons = $(".reasons", this.$panel);
     this.$deleted = $(".deleted > b", this.$panel);
     this.$pending = $(".pending > b", this.$panel);
     this.$processSection = $(".process", this.$panel);
     this.$giveWarning = $("#giveWarning", this.$panel);
+    this.$startButtonSpinnerContainer = $(".sg-spinner-container:eq(0)", this.$panel);
+    this.$stopButtonSpinnerContainer = $(".sg-spinner-container:eq(1)", this.$panel);
+  }
+  RenderStartButton() {
+    this.$startButton = Button({
+      type: "primary-blue",
+      size: "small",
+      text: System.data.locale.common.start
+    });
 
-    this.RenderReasons();
+    this.$startButton.appendTo(this.$startButtonSpinnerContainer)
+  }
+  RenderStopButton() {
+    this.$stopButton = Button({
+      type: "destructive",
+      size: "small",
+      text: System.data.locale.common.stop
+    });
+
+    this.$stopButton.Disable();
+    this.$stopButton.appendTo(this.$stopButtonSpinnerContainer)
   }
   RenderReasons() {
     let reasons = System.data.Brainly.deleteReasons.__withTitles.comment;
@@ -112,8 +129,8 @@ class ReportedCommentsDeleter {
   }
   BindHandlers() {
     this.$li.on("click", "span", this.TogglePanel.bind(this));
-    this.$stop.click(this.ManuelStop.bind(this));
-    this.$start.click(this.StartDeleting.bind(this));
+    this.$stopButton.click(this.ManuelStop.bind(this));
+    this.$startButton.click(this.StartDeleting.bind(this));
   }
   TogglePanel() {
     if (this.$panel.is(":visible")) {
@@ -124,7 +141,7 @@ class ReportedCommentsDeleter {
   }
   ManuelStop() {
     this.Stop();
-    this.$start.text(System.data.locale.common.continue);
+    this.$startButton.text(System.data.locale.common.continue);
   }
   Stop() {
     this.StopDeleting();
@@ -136,9 +153,9 @@ class ReportedCommentsDeleter {
 
     this.deleteProcessInterval = null;
 
-    this.$stop.addClass("js-hidden");
+    this.$startButton.Enable();
+    this.$stopButton.Disable().Disable();
     this.$spinner.appendTo("</ div>");
-    this.$start.removeClass("sg-button-secondary--disabled").prop("disabled", false);
     this.$status.text(`${System.data.locale.core.reportedCommentsDeleter.stopped}..`);
   }
   StopFetching() {
@@ -155,15 +172,15 @@ class ReportedCommentsDeleter {
     } else {
       this.started = true;
 
-      this.$spinner.appendTo(this.$start);
-      this.$start.addClass("sg-button-secondary--disabled").prop("disabled", true);
+      this.$spinner.appendTo(this.$startButton);
+      this.$startButton.Disable();
       this.$status.text(`${System.data.locale.core.reportedCommentsDeleter.deleting}..`);
 
       System.log(23);
       await this.LoadReportedComments(this.last_id);
 
       this.DeleteStoredReports();
-      this.$stop.removeClass("js-hidden");
+      this.$stopButton.Show();
       this.$processSection.removeClass("js-hidden");
     }
   }
@@ -213,7 +230,7 @@ class ReportedCommentsDeleter {
     }
   }
   HideStartButton() {
-    this.$start.appendTo("<div />");
+    this.$startButton.appendTo("<div />");
   }
   GrabReport() {
     let report = this.reports.shift();
@@ -228,8 +245,8 @@ class ReportedCommentsDeleter {
       give_warning: this.$giveWarning.is(":checked")
     };
 
-    await new Action().RemoveComment(data);
-    //await System.Delay();
+    //await new Action().RemoveComment(data);
+    await System.Delay();
     this.ContentDeleted();
   }
   ContentDeleted() {

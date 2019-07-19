@@ -1,6 +1,4 @@
-"use strict";
-
-import Buttons from "../../components/Buttons";
+import Button from "../../components/Button";
 import notification from "../../components/notification";
 import Action from "../../controllers/Req/Brainly/Action";
 import WaitForElement from "../../helpers/WaitForElement";
@@ -28,38 +26,48 @@ async function ArciveMod() {
      *  Adding remove buttons inside of question boxes
      **/
     let prepareButtons = {
-      task: "",
-      response: "",
-      comment: ""
+      task: [],
+      response: [],
+      comment: []
     };
-    let confirmButton = Buttons('RemoveQuestionNoIcon', {
-      text: "✓",
-      class: "confirm",
-      title: System.data.locale.common.confirm,
-    }, `<div class="sg-spinner-container">{button}</div>`);
+    let $spinnerContainer = $(`<div class="sg-spinner-container"></div>`);
+    let $confirmButton = Button({
+      type: "primary-mint",
+      size: "small",
+      icon: "check",
+      title: System.data.locale.common.confirm
+    });
+    $confirmButton = $spinnerContainer.clone().append($confirmButton);
 
     $.each(System.data.config.quickDeleteButtonsReasons, (reasonType, reasonIds) => {
-      if (prepareButtons[reasonType] === "") {
-        let data = [];
+      if (prepareButtons[reasonType].length == 0) {
+        let buttons = [];
         let reasons = System.data.Brainly.deleteReasons.__withIds[reasonType];
-        let buttonStyle = "peach";
+        let type = "destructive";
 
         if (reasonType == "task")
-          buttonStyle = "mustard";
+          type = "warning";
 
         reasonIds.forEach((reasonId, i) => {
           let reason = reasons[reasonId];
 
           if (reason) {
-            data.push({
+            let $button = Button({
+              type,
+              size: "small",
               text: i + 1,
-              title: reason.title + ":\n" + reason.text,
-              type: buttonStyle
+              title: `${reason.title}:\n${reason.text}`
             });
+
+            $button = $spinnerContainer.clone().append($button);
+            buttons.push($button);
           }
         });
 
-        prepareButtons[reasonType] = Buttons('RemoveQuestionNoIcon', data, `<div class="sg-spinner-container">{button}</div>`) + confirmButton;
+        prepareButtons[reasonType] = [
+          ...buttons,
+          $confirmButton
+        ];
       }
     });
 
@@ -79,10 +87,23 @@ async function ArciveMod() {
           if (System.checkUserP(obj.data.model_type_id)) {
             $("> div", $footer).remove();
             let itemType = obj.data.model_type_id == 1 ? "task" : obj.data.model_type_id == 2 ? "response" : "comment";
-            let $extActionButtons = $(`<div class="ext-action-buttons sg-content-box__content--with-centered-text">${prepareButtons[itemType]}</div>`);
+            let $extActionButtons = $(`
+            <div class="ext-action-buttons sg-content-box__content--with-centered-text">
+              <div class="sg-actions-list sg-actions-list--centered sg-actions-list--no-wrap"></div>
+            </div>`);
+            let $actionList = $(".sg-actions-list", $extActionButtons);
 
-            //$footer.html("");
-            prepareButtons[itemType] && $footer.append($extActionButtons);
+            if (prepareButtons[itemType].length > 0) {
+              prepareButtons[itemType].forEach($button => {
+                let $hole = $(`<div class="sg-actions-list__hole sg-actions-list__hole--spaced-small"></div>`);
+
+                $button.clone().appendTo($hole);
+                $hole.appendTo($actionList);
+              });
+
+              //$footer.html("");
+              $footer.append($extActionButtons);
+            }
           }
         }
       }
@@ -98,7 +119,7 @@ async function ArciveMod() {
       if (obj && obj.data && obj.data.model_id && obj.data.model_id >= 0) {
         let contentType = obj.data.model_type_id == 1 ? "task" : obj.data.model_type_id == 2 ? "response" : "comment";
 
-        if ($(this).is(".confirm")) {
+        if ($(this).is(".sg-button--primary-mint")) {
           if (confirm(System.data.locale.userContent.notificationMessages.doYouWantToConfirmThisContent)) {
             let res;
             let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--small sg-spinner--light"></div></div>`).appendTo(this);
@@ -191,27 +212,28 @@ async function ArciveMod() {
      * Manipulate moderation panel
      */
     let prepareQuickDeleteButtons = {
-      task: true,
-      response: true
+      task: [],
+      response: []
     };
 
     $.each(System.data.config.quickDeleteButtonsReasons, (reasonType, reasonIds) => {
-      if (prepareQuickDeleteButtons[reasonType]) {
-        let data = [];
-
+      if (/task|response/i.exec(reasonType))
         reasonIds.forEach((reasonId, i) => {
           let reason = System.data.Brainly.deleteReasons.__withIds[reasonType][reasonId];
 
-          if (reason)
-            data.push({
+          if (reason) {
+            let $button = Button({
+              type: "destructive",
+              size: "xsmall",
               text: reason.title,
-              title: reason.text,
-              type: "peach sg-button-secondary--small"
+              title: reason.text
             });
-        });
+            let $buttonContainer = $(`<div class="sg-actions-list__hole sg-actions-list__hole--spaced-small"></div>`);
 
-        prepareQuickDeleteButtons[reasonType] = Buttons('RemoveQuestionNoIcon', data);
-      }
+            $button.appendTo($buttonContainer);
+            prepareQuickDeleteButtons[reasonType].push($buttonContainer);
+          }
+        });
     });
 
     let manipulateModPanel = $toplayer => {
@@ -220,76 +242,81 @@ async function ArciveMod() {
         let contentType_id = contentType == "task" ? 1 : contentType == "response" ? 2 : 45;
 
         if (System.checkUserP(contentType_id)) {
-          let contentID = $moderation.getAttribute("class").replace(/[^0-9.]/g, "");
+          let contentID = ~~($moderation.getAttribute("class").replace(/[^0-9.]/g, ""));
           let $actions = $("> div.header > div.actions", $moderation);
-          let $quickDeleteButtons = $(`<div class="actions pull-right quickDeleteButtons">${prepareQuickDeleteButtons[contentType]}</div>`);
+          let $quickDeleteButtonsContainer = $(`
+          <div class="sg-content-box">
+            <div class="sg-content-box__content sg-content-box__content--full sg-content-box__content--spaced-top">
+              <div class="sg-actions-list sg-actions-list--to-right"></div>
+            </div>
+          </div>`);
+          let $quickDeleteButtons = $(".sg-actions-list", $quickDeleteButtonsContainer);
+          let buttons = prepareQuickDeleteButtons[contentType];
 
-          $quickDeleteButtons.insertAfter($actions);
+          buttons.forEach(button => button.clone().appendTo($quickDeleteButtons));
+          $quickDeleteButtonsContainer.insertAfter($actions);
 
           $("button", $quickDeleteButtons).click(async function() {
             let btn_index = $(this).index();
 
-            if (contentID >= 0) {
-              if (confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
-                let reason = System.data.Brainly.deleteReasons.__withIds[contentType][System.data.config.quickDeleteButtonsReasons[contentType][btn_index]];
-                let data = {
-                  model_id: contentID,
-                  reason_id: reason.category_id,
-                  reason: reason.text,
-                  give_warning: System.canBeWarned(reason.id)
-                };
-                let spinner = $(`<div class="sg-spinner sg-spinner--xxsmall sg-spinner--light"></div>`).appendTo(this);
-                let obj = Zadanium.getObject($($toplayer).attr("objecthash"));
-                let toplayer = Zadanium.toplayer.createdObjects[Zadanium.toplayer.createdObjects.length - 1].data.toplayer;
-                let notify = message => {
-                  if (toplayer) {
-                    toplayer.setMessage(message, "failure");
-                  } else {
-                    notification(message, "error");
-                  }
-                }
-
-                let onRes = (res) => {
-                  new Action().CloseModerationTicket(obj.data.task_id);
-
-                  if (res) {
-                    if (res.success) {
-                      if (contentType == "task") {
-                        $(selectors.panelCloseIcon).click();
-                      } else if (contentType == "response") {
-                        $moderation.classList.add("removed");
-                        $("button.resign", $moderation).click();
-                        $("> div.header > div.actions", $moderation).remove();
-                      }
-                    } else if (res.message) {
-                      notify(res.message)
-                    }
-                  } else {
-                    notify(System.data.locale.common.notificationMessages.somethingWentWrong)
-                  }
-                  spinner.remove();
-                };
-
-                if (contentType == "task") {
-                  let user = Zadanium.users.getUserObject(obj.data.task.user.id);
-
-                  let res = await new Action().RemoveQuestion(data);
-
-                  onRes(res);
-                  System.log(5, { user: user.data, data: [contentID] });
-                } else if (contentType == "response") {
-                  let response = obj.data.responses.find(res => {
-                    return res.id == contentID;
-                  });
-                  let user = Zadanium.users.getUserObject(response.user_id);
-
-                  let res = await new Action().RemoveAnswer(data);
-
-                  onRes(res);
-                  System.log(6, { user: user.data, data: [contentID] });
+            if (contentID >= 0 && confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
+              let reason = System.data.Brainly.deleteReasons.__withIds[contentType][System.data.config.quickDeleteButtonsReasons[contentType][btn_index]];
+              let data = {
+                model_id: contentID,
+                reason_id: reason.category_id,
+                reason: reason.text,
+                give_warning: System.canBeWarned(reason.id)
+              };
+              let spinner = $(`<div class="sg-button__icon sg-spinner sg-spinner--xxsmall"></div>`).appendTo(this);
+              let obj = Zadanium.getObject($($toplayer).attr("objecthash"));
+              let toplayer = Zadanium.toplayer.createdObjects[Zadanium.toplayer.createdObjects.length - 1].data.toplayer;
+              let notify = message => {
+                if (toplayer) {
+                  toplayer.setMessage(message, "failure");
+                } else {
+                  notification(message, "error");
                 }
               }
 
+              let onRes = (res) => {
+                new Action().CloseModerationTicket(obj.data.task_id);
+
+                if (res) {
+                  if (res.success) {
+                    if (contentType == "task") {
+                      $(selectors.panelCloseIcon).click();
+                    } else if (contentType == "response") {
+                      $moderation.classList.add("removed");
+                      $("button.resign", $moderation).click();
+                      $("> div.header > div.actions", $moderation).remove();
+                    }
+                  } else if (res.message) {
+                    notify(res.message)
+                  }
+                } else {
+                  notify(System.data.locale.common.notificationMessages.somethingWentWrong)
+                }
+                spinner.remove();
+              };
+
+              if (contentType == "task") {
+                let user = Zadanium.users.getUserObject(obj.data.task.user.id);
+
+                let res = await new Action().RemoveQuestion(data);
+
+                onRes(res);
+                System.log(5, { user: user.data, data: [contentID] });
+              } else if (contentType == "response") {
+                let response = obj.data.responses.find(res => {
+                  return res.id == contentID;
+                });
+                let user = Zadanium.users.getUserObject(response.user_id);
+
+                let res = await new Action().RemoveAnswer(data);
+
+                onRes(res);
+                System.log(6, { user: user.data, data: [contentID] });
+              }
             }
           });
         }
@@ -302,7 +329,7 @@ async function ArciveMod() {
       (async () => {
         let moderationItemParent = await WaitForElement(selectors.moderationItemParent);
 
-        moderationItemParent[0].classList.add("sg-actions-list", "sg-actions-list--space-between");
+        moderationItemParent[0].classList.add("sg-actions-list", "sg-actions-list--space-evenly");
         $(moderationItemParent).observe('added', 'div.moderation-item:not(.ext-buttons-added)', e => {
           createQuickDeleteButtons(e.addedNodes);
         });

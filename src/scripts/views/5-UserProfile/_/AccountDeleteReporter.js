@@ -4,16 +4,16 @@ import notification from "../../../components/notification";
 import Progress from "../../../components/Progress";
 import ServerReq from "../../../controllers/Req/Server";
 import FileIcon from "../../../helpers/FileIcon";
+import Button from "../../../components/Button";
 
 class AccountDeleteReporter {
   constructor() {
     this.evidencePool = {};
-    this.svgPath = {
-      close: `<use xlink:href="#icon-x"></use>`,
-      "delete": `<path d="M12 38c0 2 2 4 4 4h16c2 0 4-2 4-4V14H12v24zM38 8h-7l-2-2H19l-2 2h-7v4h28V8z" style="transform: scale(0.45) translate(-8px,-9px);"></path>`
-    }
     this.Render();
-    this.RenderProgress()
+    this.RenderAddFileInput();
+    this.RenderAddFileButton();
+    this.RenderProgress();
+    this.BindHandlers();
   }
   Render() {
     this.$deleteForm = $(`#DelUserAddForm`);
@@ -23,19 +23,11 @@ class AccountDeleteReporter {
       this.$evidences = $(`
 			<div class="evidences">
 				<div class="container">
-					<label for="addFileInput">${System.data.locale.userProfile.accountDelete.evidences}:</label>
+					<label>${System.data.locale.userProfile.accountDelete.evidences}:</label>
 					<div class="sg-content-box__content sg-content-box__content--spaced-top">
 						<div class="sg-content-box addFile">
 							<div class="sg-content-box__content sg-content-box__content--with-centered-text sg-content-box__content--spaced-top">
-								<label class="sg-button-secondary sg-button-secondary--inverse" for="addFileInput">
-									<span class="sg-button-primary__icon">
-										<div class="sg-icon sg-icon--adaptive sg-icon--x14">
-											<svg class="sg-icon__svg">
-												<use xlink:href="#icon-attachment"></use>
-											</svg>
-										</div>
-									</span>${System.data.locale.userProfile.accountDelete.addFiles}..</label>
-								<input type="file" id="addFileInput" multiple>
+
 							</div>
 						</div>
 					</div>
@@ -47,13 +39,25 @@ class AccountDeleteReporter {
 			</div>`);
 
       this.$comment = $("textarea#comment", this.$evidences);
-      this.$addFileButtonContainer = $("div.addFile", this.$evidences);
-      this.$addFile = $(`#addFileInput`, this.$evidences);
+      this.$addFileButtonWrapper = $(".sg-content-box", this.$evidences);
+      this.$addFileButtonContainer = $(".sg-content-box__content", this.$addFileButtonWrapper);
       this.$progressHole = $(".container.progress", this.$evidences);
 
       this.$evidences.insertBefore($deleteButtonContainer);
-      this.BindHandlers();
     }
+  }
+  RenderAddFileInput() {
+    this.$addFileInput = $(`<input type="file" multiple>`);
+  }
+  RenderAddFileButton() {
+    this.$addFileButton = Button({
+      size: "small",
+      icon: "attachment",
+      text: `${System.data.locale.userProfile.accountDelete.addFiles}..`,
+      forInput: ""
+    });
+
+    this.$addFileButton.appendTo(this.$addFileButtonContainer);
   }
   RenderProgress() {
     this.$progressHole = $(`<div class="container"></div>`);
@@ -68,32 +72,37 @@ class AccountDeleteReporter {
   BindHandlers() {
     let that = this;
 
+    this.$addFileButton.click(() => {
+      this.$addFileInput.click();
+    });
     this.$deleteForm.on('submit', function(event) {
       event.preventDefault();
 
       that.DeleteFormSubmited(this);
     });
 
-    this.$addFile.on("change", function() {
+    this.$addFileInput.on("change", function() {
       that.ProcessFiles(this.files);
       this.value = "";
     });
 
-    this.$evidences
-      .on("click", ".evidence:not(.previewing) .preview > *", function() {
-        let evidence = $(this).parents(".evidence");
+    if (this.$evidences) {
+      this.$evidences
+        .on("click", ".evidence:not(.previewing) .preview > *", function() {
+          let evidence = $(this).parents(".evidence");
 
-        that.ShowPreview(evidence)
-      })
-      .on("click", ".evidence .sg-button-secondary", function() {
-        let $parent = $(this).parents(".evidence");
+          that.ShowPreview(evidence)
+        })
+        .on("click", ".evidence .sg-button", function() {
+          let $parent = $(this).parents(".evidence");
 
-        if ($parent.is(".previewing")) {
-          that.ClosePreview($parent);
-        } else {
-          that.RemoveListItem($parent);
-        }
-      });
+          if ($parent.is(".previewing")) {
+            that.ClosePreview($parent);
+          } else {
+            that.RemoveListItem($parent);
+          }
+        });
+    }
   }
   async DeleteFormSubmited(form) {
     this.$progressHole.html("");
@@ -159,13 +168,7 @@ class AccountDeleteReporter {
 		<div class="sg-content-box sg-content-box--full evidence" data-evidenceid="${evidenceId}">
 			<div class="sg-content-box__content sg-content-box__content--spaced-top-small">
 				<div class="sg-actions-list">
-					<div class="sg-actions-list__hole">
-						<span class="sg-button-secondary sg-button-secondary--small sg-button-secondary--peach">
-							<div class="sg-icon sg-icon--adaptive sg-icon--x14">
-								<svg class="sg-icon__svg">${this.svgPath.delete}</svg>
-							</div>
-						</span>
-					</div>
+					<div class="sg-actions-list__hole"></div>
 					<div class="sg-actions-list__hole sg-actions-list__hole--grow sg-text--to-right">
 						<span class="sg-text sg-text--small sg-text--gray sg-text--bold" title="${file.name}">${file.name.replace(/[\s|⠀]{2,}/gm," ").trim()}</span>
 						<i class="sg-text sg-text--xsmall sg-text--gray-secondary">${prettysize(file.size)} &nbsp;</i>
@@ -177,9 +180,18 @@ class AccountDeleteReporter {
 					</div>
 				</div>
 			</div>
-		</div>`);
+    </div>`);
 
-    $evidence.insertBefore(this.$addFileButtonContainer);
+    let $buttonContainer = $(".sg-actions-list__hole:nth-child(1)", $evidence);
+    let $button = Button({
+      type: "destructive",
+      size: "small",
+      icon: "trash",
+      tag: "span"
+    });
+
+    $button.appendTo($buttonContainer);
+    $evidence.insertBefore(this.$addFileButtonWrapper);
 
     let $iconImg = $(".preview > img", $evidence);
     new FileIcon(file, $iconImg);
@@ -195,12 +207,12 @@ class AccountDeleteReporter {
   ShowPreview($evidence) {
     $evidence.addClass("previewing");
     $("video, audio", $evidence).attr("controls", "true");
-    $(".sg-button-secondary svg", $evidence).html(this.svgPath.close);
+    $("a use", $evidence).attr("xlink:href", "#icon-x");
   }
   ClosePreview($evidence) {
     $evidence.removeClass("previewing");
     $("video, audio", $evidence).removeAttr("controls").trigger("pause");
-    $(".sg-button-secondary svg", $evidence).html(this.svgPath.delete);
+    $("a use", $evidence).attr("xlink:href", "#icon-trash");
   }
   SendFormDataToExtensionServer() {
     return new ServerReq().AccountDeleteReport(this.formData, this.UpdateUploadProgress.bind(this));

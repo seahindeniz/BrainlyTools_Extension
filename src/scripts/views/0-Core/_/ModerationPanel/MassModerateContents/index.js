@@ -1,11 +1,13 @@
 import debounce from "debounce";
-import DeleteSection from "../../../../components/DeleteSection";
-import Modal from "../../../../components/Modal";
-import Action from "../../../../controllers/Req/Brainly/Action";
-import Button from "../../../../components/Button";
+import DeleteSection from "../../../../../components/DeleteSection";
+import Modal from "../../../../../components/Modal";
+import Action from "../../../../../controllers/Req/Brainly/Action";
+import Button from "../../../../../components/Button";
+let System = require("../../../../../helpers/System");
 
-class MassContentDeleter {
+class MassModerateContents {
   constructor() {
+    System = System();
     this.deletedContents = {};
     this.contentsToDelete = [];
     this.deletedContentCount = 0;
@@ -25,7 +27,7 @@ class MassContentDeleter {
   RenderLi() {
     this.$li = $(`
 		<li class="sg-menu-list__element" style="display: table; width: 100%;">
-			<span class="sg-menu-list__link sg-text--link">${System.data.locale.core.MassContentDeleter.text}</span>
+			<span class="sg-menu-list__link sg-text--link">${System.data.locale.core.MassModerateContents.text}</span>
 		</li>`);
   }
   RenderModal() {
@@ -43,13 +45,13 @@ class MassContentDeleter {
 			</div>`,
       content: `
 			<div class="sg-content-box">
-				<div class="sg-spinner-container sg-content-box--full">
+				<div class="sg-spinner-container sg-content-box--full js-inputs">
 					<div class="sg-content-box__actions">
 						<div class="sg-textarea sg-textarea--full-width back" style="color: transparent;"></div>
 						<div class="sg-textarea sg-textarea--full-width sg-textarea--resizable-vertical" contenteditable="true" style="position: absolute; background: transparent;" placeholder="${System.data.locale.core.MassContentDeleter.contentLinksOrIDs}"></div>
 					</div>
 				</div>
-				<div class="sg-content-box__actions sg-content-box__content--spaced-top-small">
+				<div class="sg-content-box__actions sg-content-box__content--spaced-top-small js-labels">
 					<div class="sg-actions-list sg-actions-list--no-wrap">
 						<div class="sg-actions-list__hole">
 							<div class="sg-content-box">
@@ -74,15 +76,14 @@ class MassContentDeleter {
       actions: `<div class="sg-spinner-container"></div>`
     });
     this.$modal = this.modal.$modal;
+    this.$deleteButtonContainer = $(".sg-spinner-container", this.modal.$actions);
     this.$textareaSpinnerContainer = $(".sg-spinner-container", this.modal.$content);
     this.$textareaBack = $(".sg-textarea.back", this.$textareaSpinnerContainer);
     this.$textarea = $(".sg-textarea:not(.back)", this.$textareaSpinnerContainer);
-    this.$deleteButtonSpinnerContainer = $(".sg-spinner-container", this.modal.$actions);
     this.$labels = $("> .sg-content-box > .sg-content-box__actions:eq(0)", this.modal.$content);
     this.$nHasBeenDeleted = $(".sg-text > b", this.$labels);
     this.$contentsCount = $(".sg-content-box__content:eq(0) .sg-text > span", this.$labels);
     this.$nIdsToDelete = $(".sg-content-box__content:eq(1) .sg-text > span", this.$labels);
-
   }
   RenderDeleteButton() {
     this.$deleteButton = Button({
@@ -90,7 +91,7 @@ class MassContentDeleter {
       text: `${System.data.locale.common.delete} !`
     });
 
-    this.$deleteButton.appendTo(this.$deleteButtonSpinnerContainer);
+    this.$deleteButton.appendTo(this.$deleteButtonContainer);
   }
   RenderButtonSpinner() {
     this.$buttonSpinner = this.RenderSpinner();
@@ -215,7 +216,6 @@ class MassContentDeleter {
   }
   IsDataClear() {
     if (!this.contentsToDelete || this.contentsToDelete.length == 0) {
-      this.$textarea.focus();
       this.ShowTextareaWarning();
     } else if (this.deleteSection.selectedReason) {
       this.HideTextareaWarning();
@@ -242,7 +242,7 @@ class MassContentDeleter {
     this.$nHasBeenDeleted.parents(".sg-actions-list__hole.js-hidden").removeClass("js-hidden");
   }
   ShowButtonSpinner() {
-    this.$buttonSpinner.appendTo(this.$deleteButtonSpinnerContainer);
+    this.$buttonSpinner.insertAfter(this.$deleteButton);
   }
   HideButtonSpinner() {
     this.HideElement(this.$buttonSpinner);
@@ -328,4 +328,4 @@ class MassContentDeleter {
   }
 }
 
-export default MassContentDeleter
+export default MassModerateContents

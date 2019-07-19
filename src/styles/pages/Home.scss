@@ -1,55 +1,62 @@
 .ext_actions {
-	display: none;
-	position: absolute;
-	top: 0;
-	right: 0;
-	width: 5em;
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 5em;
+  z-index: 2;
 
-	/* padding: 0px 5px 7px; */
-	/* border-radius: 5px; */
-	/* box-shadow: 0px 0px 10px 0px #c5c5c5; */
-	>.sg-actions-list__hole {
-		width: 2em;
+  /* padding: 0px 5px 7px; */
+  /* border-radius: 5px; */
+  /* box-shadow: 0px 0px 10px 0px #c5c5c5; */
+  >.sg-actions-list__hole {
+    width: 36px;
 
-		button {
-			padding: 0 9px;
-			float: right;
-			margin-top: 7px;
+    &:nth-child(1) button {
+      float: right;
+    }
 
-			label.sg-label__text {
-				display: none;
-				margin-right: 10px;
-			}
+    &:nth-child(2) button {
+      float: left;
+    }
 
-			span.sg-button-primary__icon {
-				margin: 0;
-			}
+    button {
+      padding: 0 9px;
+      margin-top: 7px;
 
-			&:hover {
-				label {
-					display: block;
-				}
-			}
-		}
-	}
+      .sg-button__text {
+        display: none;
+      }
+
+      &:not(:hover) .sg-button__icon {
+        margin: 0;
+      }
+
+      &:hover {
+        .sg-button__text {
+          display: block;
+        }
+      }
+    }
+  }
 }
 
 .quickDelete div[data-test="feed-item"] {
-	&.deleted .sg-content-box {
+  &.deleted .sg-content-box {
 
-		&,
-		>.sg-box {
-			background-color: #ffc8c0;
-		}
-	}
+    &,
+    >.sg-box {
+      background-color: #ffc8c0;
+    }
+  }
 
-	&:hover:not(.deleted)>.sg-content-box {
-		position: relative;
+  &:hover:not(.deleted)>.sg-content-box {
+    position: relative;
 
-		.ext_actions {
-			display: flex;
-		}
-	}
+    .ext_actions {
+      display: flex;
+    }
+  }
 }
 
 /* @media (max-width: 767px) {
@@ -59,21 +66,21 @@
 } */
 
 .js-modal {
-	.taskContent {
+  .taskContent {
 
-		span {
-			display: none;
-		}
+    span {
+      display: none;
+    }
 
-		&.js-shrink {
-			h1 {
-				max-height: 156px;
-				overflow: hidden;
-			}
+    &.js-shrink {
+      h1 {
+        max-height: 156px;
+        overflow: hidden;
+      }
 
-			span {
-				display: block;
-			}
-		}
-	}
+      span {
+        display: block;
+      }
+    }
+  }
 }

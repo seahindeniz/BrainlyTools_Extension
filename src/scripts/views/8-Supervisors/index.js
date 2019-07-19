@@ -2,6 +2,10 @@ import notification from "../../components/notification";
 import Progress from "../../components/Progress";
 import SendMessageToBrainlyIds from "../../controllers/Req/Brainly/Action/SendMessageToBrainlyIds";
 import WaitForElement from "../../helpers/WaitForElement";
+import Button from "../../components/Button";
+
+let System = require("../../helpers/System");
+System = System();
 
 System.pageLoaded("Supervisors page OK!");
 
@@ -114,17 +118,29 @@ async function Supervisors() {
 			<div class="messageBox js-hidden">
 				<textarea class="sg-textarea sg-text--small sg-textarea--tall sg-textarea--full-width" placeholder="${System.data.locale.messages.groups.writeSomething}"></textarea>
 
-				<div class="sg-spinner-container">
-					<button class="sg-button-secondary sg-button-secondary--small sg-button-secondary--alt js-listed" title="${System.data.locale.supervisors.sendMessagesToListedMods.title}">⇐ ${System.data.locale.supervisors.sendMessagesToListedMods.text}</button>
-				</div>
-				<div class="sg-spinner-container">
-					<button class="sg-button-secondary sg-button-secondary--small sg-button-secondary--dark js-all" title="${System.data.locale.supervisors.sendMessagesToAllMods.title}">${System.data.locale.supervisors.sendMessagesToAllMods.text}</button>
-				</div>
+				<div class="sg-spinner-container"></div>
+				<div class="sg-spinner-container"></div>
 			</div>
 		</div>`);
     let $sendMessageContainer = $("> span", $sendMessage);
     let $messageBox = $("> div.messageBox", $sendMessage);
     let $messageInput = $("> div.messageBox > textarea", $sendMessage);
+    let $toListedButtonSpinnerContainer = $(".sg-spinner-container:nth-child(2)", $sendMessage);
+    let $toAllButtonSpinnerContainer = $(".sg-spinner-container:nth-child(3)", $sendMessage);
+    let $toListedButton = Button({
+      type: "primary-blue",
+      size: "small",
+      text: `⇐ ${System.data.locale.supervisors.sendMessagesToListedMods.text}`,
+      title: System.data.locale.supervisors.sendMessagesToListedMods.title
+    });
+    let $toAllButton = Button({
+      size: "small",
+      ...System.data.locale.supervisors.sendMessagesToListedMods
+    });
+
+    $toAllButton.appendTo($toAllButtonSpinnerContainer);
+    $toListedButton.appendTo($toListedButtonSpinnerContainer);
+
     let $sendButton = $("> div.messageBox > div > button", $sendMessage);
 
     $sendMessage.appendTo($actionBox);
@@ -140,15 +156,7 @@ async function Supervisors() {
     /**
      * Send message
      */
-    $sendButton.click(async function() {
-      let users = [];
-
-      if (this.classList.contains("js-listed")) {
-        users = listedUsers;
-      } else if (this.classList.contains("js-all")) {
-        users = System.allModerators.list
-      }
-
+    let SendMessage = async (users) => {
       if (window.isPageProcessing) {
         notification(System.data.locale.common.notificationMessages.ongoingProcessWait, "info");
       } else if ($messageInput.val() == "") {
@@ -195,6 +203,9 @@ async function Supervisors() {
         $sendButton.removeClass("js-disabled");
         progress.UpdateLabel(`(${idListLen}) - ${System.data.locale.common.allDone}`);
       }
-    });
+    };
+
+    $toListedButton.click(() => SendMessage(listedUsers));
+    $toAllButton.click(() => SendMessage(System.allModerators.list));
   }
 }

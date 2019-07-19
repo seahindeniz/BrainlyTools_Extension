@@ -2,6 +2,7 @@ import notification from "../../../components/notification";
 import Progress from "../../../components/Progress";
 import Action from "../../../controllers/Req/Brainly/Action";
 import WaitForElement from "../../../helpers/WaitForElement";
+import Button from "../../../components/Button";
 
 class RankManager {
   constructor(user) {
@@ -18,6 +19,10 @@ class RankManager {
   Init() {
     this.RenderLink();
     this.RenderPanel();
+    this.RenderSaveButton();
+    this.RenderProgressBar();
+    this.RenderSpinner();
+    this.RenderRanks();
     this.BindHandlers();
     this.UpdateInputTitle();
   }
@@ -36,21 +41,25 @@ class RankManager {
 			</div>
 			<div class="sg-content-box__content sg-content-box__content--spaced-bottom-large"></div>
 			<div class="sg-content-box__actions sg-content-box__actions--spaced-bottom">
-				<div class="sg-spinner-container sg-button-secondary--full-width">
-					<button class="sg-button-secondary sg-button-secondary--full-width sg-toplayer__wrapper--no-padding">${System.data.locale.common.save}</button>
-				</div>
+				<div class="sg-spinner-container sg-box--full"></div>
 			</div>
 			<div class="sg-content-box__actions sg-content-box__actions--spaced-bottom-large">
-				<div class="container progress sg-button-secondary--full-width"></div>
+				<div class="container progress sg-box--full"></div>
 			</div>
 		</div>`);
-    this.$saveButton = $("button", this.$panel);
     this.$saveButtonContainer = $(".sg-spinner-container", this.$panel);
     this.$progressHole = $(".container.progress", this.$panel);
     this.$rankContainer = $(".sg-content-box__content", this.$panel);
-    this.RenderProgressBar();
-    this.RenderSpinner();
-    this.RenderRanks();
+  }
+  RenderSaveButton() {
+    this.$saveButton = Button({
+      type: "primary-mint",
+      size: "small",
+      fullWidth: true,
+      text: System.data.locale.common.save
+    });
+
+    this.$saveButton.appendTo(this.$saveButtonContainer);
   }
   RenderProgressBar() {
     this.progress = new Progress({

@@ -143,8 +143,7 @@ class ThemeColorChanger {
 
 		.sg-box--blue,
 		.sg-header__container,
-		.sg-button-primary--alt,
-		.sg-button-secondary--alt,
+    .sg-button--primary-blue,
 		.mint-tabs__tab--active,
 		#html .mint .mint-header,
 		#html .mint #tabs-doj #main_menu>li.active,
@@ -152,7 +151,9 @@ class ThemeColorChanger {
 			${this.backgroundStyle}
 		}
 
-		.sg-menu-list__link,
+    .sg-menu-list__link,
+    .sg-text--link.sg-text--blue,
+    .sg-text--link.sg-text--blue-dark,
 		.sg-link:not([class*="gray"]):not([class*="light"]):not([class*="mustard"]):not([class*="peach"]),
 		#html .mint #profile #main-left .personal_info .helped_subjects>li,
 		#html .mint #profile #main-left .personal_info .helped_subjects>li .bold,
@@ -164,7 +165,8 @@ class ThemeColorChanger {
 		#html .mint .mod-profile-panel .onlylink,
 		div#content-old .editProfileContent .profileListEdit,
 		#main-panel .menu-right .menu-element#panel-notifications .notifications-container .notifications li.notification .main .content .nick,
-		#main-panel .menu-right .menu-element#panel-notifications .notifications-container .notification-wrapper .main .content .nick {
+    #main-panel .menu-right .menu-element#panel-notifications .notifications-container .notification-wrapper .main .content .nick,
+    #moderate-task-toplayer a:not(.btn-danger) {
 			color: ${this.fixedPrimaryColor} !important;
 		}
 
@@ -172,11 +174,15 @@ class ThemeColorChanger {
 			color: ${this.fontColor} !important;
 		}
 
-		.sg-button-secondary--alt-inverse,
+    .sg-button--link-button-blue,
 		.sg-sticker__front {
 			color: ${this.primaryColor} !important;
 			fill: ${this.primaryColor} !important;
-		}
+    }
+
+    .brn-progress-tracking__tab--blue{
+      border-color: ${this.primaryColor};
+    }
 		`
   }
   ChangeStyles() {

@@ -6,6 +6,8 @@ import ApproveAnswers from "./ActionSection/ApproveAnswers";
 import DeleteUsers from "./ActionSection/DeleteUsers";
 import ModalContent from "./templates/ModalContent.html";
 import User from "./User";
+import ChangePoints from "./ActionSection/ChangePoints";
+import Button from "../../../../../components/Button";
 
 /**
  * @typedef {import("../../../../../controllers/Req/Brainly/Action/index").User} UserProfile
@@ -43,6 +45,8 @@ export default class MassManageUsers {
     this.RenderModal();
     this.RenderNumberOfIdsSpinner();
     this.RenderUserList();
+    this.RenderRemoveAllButton();
+    this.RenderRemoveSelectedButton();
     this.BindHandlers();
   }
   RenderLi() {
@@ -91,9 +95,7 @@ export default class MassManageUsers {
         <div class="sg-content-box__actions sg-textarea sg-textarea--tall sg-textarea--resizable-vertical sg-actions-list--space-evenly"></div>
         <div class="sg-content-box__actions">
           <div class="sg-actions-list sg-actions-list--space-around">
-            <div class="sg-actions-list__hole">
-              <button class="sg-button-secondary sg-button-secondary--small sg-button-secondary--dark" title="${System.data.locale.core.massManageUsers.removeAllUsersFromTheList}">${System.data.locale.common.removeAll}</button>
-            </div>
+            <div class="sg-actions-list__hole"></div>
           </div>
         </div>
       </div>
@@ -101,18 +103,33 @@ export default class MassManageUsers {
 
     this.$userList = $("> .sg-content-box > .sg-content-box__actions:nth-child(1)", this.$userListContainer);
     this.$removeButtonList = $(".sg-actions-list", this.$userListContainer);
-    this.$removeAllButton = $("button", this.$userListContainer);
+    this.$removeAllButtonContainer = $(".sg-actions-list__hole", this.$removeButtonList);
+  }
+  RenderRemoveAllButton() {
+    this.$removeAllButton = Button({
+      size: "small",
+      text: System.data.locale.common.removeAll,
+      title: System.data.locale.core.massManageUsers.removeAllUsersFromTheList
+    });
 
-    this.RenderRemoveSelectedButton();
+    this.$removeAllButton.appendTo(this.$removeAllButtonContainer);
   }
   RenderRemoveSelectedButton() {
-    this.$removeSelectedButtonContainer = $(`
-    <div class="sg-actions-list__hole">
-      <button class="sg-button-secondary sg-button-secondary--small sg-button-secondary--inverse" title="${System.data.locale.core.massManageUsers.removeSelectedUsersFromTheList}">${System.data.locale.core.massManageUsers.removeSelected}&nbsp;<b></b></button>
+    let $badge = $(`
+    <div class="sg-badge">
+      <div class="sg-text sg-text--xsmall sg-text--bold">0</div>
     </div>`);
+    this.$numberOfSelectedUsers = $(".sg-text", $badge);
+    this.$removeSelectedButton = Button({
+      type: "secondary",
+      size: "small",
+      text: `${System.data.locale.core.massManageUsers.removeSelected}&nbsp;`,
+      title: System.data.locale.core.massManageUsers.removeSelectedUsersFromTheList
+    });
+    this.$removeSelectedButtonContainer = $(`<div class="sg-actions-list__hole"></div>`);
 
-    this.$removeSelectedButton = $("> button", this.$removeSelectedButtonContainer);
-    this.$numberOfSelectedUsers = $("> b", this.$removeSelectedButton);
+    $badge.appendTo(this.$removeSelectedButton);
+    this.$removeSelectedButton.appendTo(this.$removeSelectedButtonContainer);
   }
   BindHandlers() {
     this.modal.$close.click(this.modal.Close.bind(this.modal));
@@ -203,7 +220,7 @@ export default class MassManageUsers {
     }
   }
   FilterFetchedUserIds() {
-    if (Object.keys(this.users).length == 0)
+    if (this.Users().length == 0)
       return this.idList;
 
     return this.idList.filter(id => {
@@ -274,7 +291,7 @@ export default class MassManageUsers {
     this.UpdateNumberOfUsers();
   }
   UpdateNumberOfUsers() {
-    this.$numberOfUsers.text(Object.keys(this.users).length);
+    this.$numberOfUsers.text(this.Users().length);
   }
   UpdateNumberOfNotFound() {
     let count = this.RemoveNotFoundUsersFromStore();
@@ -283,7 +300,7 @@ export default class MassManageUsers {
   }
   RemoveNotFoundUsersFromStore() {
     let count = 0;
-    let idList = Object.keys(this.users);
+    let idList = this.Users();
 
     idList.forEach(id => {
       if (this.users[id] === true) {
@@ -295,7 +312,7 @@ export default class MassManageUsers {
     return count;
   }
   ToggleSections() {
-    if (Object.keys(this.users).length > 0)
+    if (this.Users().length > 0)
       this.ShowSections();
     else
       this.HideSections();
@@ -315,7 +332,7 @@ export default class MassManageUsers {
     this.HideElement(this.$userListContainer);
   }
   ToggleUserList() {
-    let idList = Object.keys(this.users);
+    let idList = this.Users();
 
     if (idList.length == 0)
       this.HideUserList();
@@ -354,7 +371,8 @@ export default class MassManageUsers {
   RenderActions() {
     this.actions = [
       new ApproveAnswers(this),
-      new DeleteUsers(this)
+      new DeleteUsers(this),
+      new ChangePoints(this),
     ];
 
     this.actions.forEach(this.RenderAction.bind(this));
@@ -366,36 +384,49 @@ export default class MassManageUsers {
     Section.$actionButtonContainer.appendTo(this.$actionsList);
   }
   ShowRemoveSelectedButton() {
-    this.$removeSelectedButton.prependTo(this.$removeButtonList);
+    this.$removeSelectedButtonContainer.prependTo(this.$removeButtonList);
   }
   HideRemoveSelectedButton() {
-    this.HideElement(this.$removeSelectedButton);
+    this.HideElement(this.$removeSelectedButtonContainer);
+  }
+  UserCheckboxChanged(user) {
+    let idsOfSelectedUsers = this.ToggleRemoveSelectedButton();
+
+    this.actions.forEach(action => {
+      if (action.UserCheckboxChanged)
+        action.UserCheckboxChanged(user, idsOfSelectedUsers);
+    })
   }
   ToggleRemoveSelectedButton() {
-    let filteredIds = this.FilterSelectedUsers();
+    let filteredIds = this.SelectedUsers();
 
     if (filteredIds.length == 0)
       this.HideRemoveSelectedButton();
     else {
       this.ShowRemoveSelectedButton();
-      this.$numberOfSelectedUsers.text(`(${filteredIds.length})`);
+      this.$numberOfSelectedUsers.text(filteredIds.length);
     }
+
+    return filteredIds;
   }
-  FilterSelectedUsers() {
-    let idList = Object.keys(this.users);
+  SelectedUsers() {
+    let idList = this.Users();
 
     return idList.filter(id => this.users[id].$checkbox.is(':checked'));
   }
+  Users() {
+    return Object.keys(this.users);
+  }
   RemoveAllUsers() {
     if (confirm(System.data.locale.core.massManageUsers.notificationMessages.doYouReallyWantToRemoveAllUsers)) {
-      let idList = Object.keys(this.users);
+      let idList = this.Users();
 
       this.RemoveUsersById(idList);
     }
   }
   RemoveSelectedUsers() {
     if (confirm(System.data.locale.core.massManageUsers.notificationMessages.doYouWantToRemoveSelectedUsers)) {
-      let idList = this.FilterSelectedUsers();
+      let idList = this.SelectedUsers();
 
       this.RemoveUsersById(idList);
     }
@@ -416,24 +447,28 @@ export default class MassManageUsers {
     this.ToggleRemoveSelectedButton();
     this.ToggleSections();
   }
-  MakeListedUsersBusy() {
-    let idList = Object.keys(this.users);
+  MakeListedUsersBusy(onlySelected = false) {
+    let idList;
+
+    if (!onlySelected)
+      idList = this.Users();
+    else
+      idList = this.SelectedUsers();
 
     if (idList.length == 0) {
       this.modal.notification(System.data.locale.core.massManageUsers.notificationMessages.thereIsNoUserLeft, "info");
 
       return null;
-    } else
-      idList = idList.map(id => {
-        this.users[id].BeBusy();
+    }
 
-        return Number(id);
-      });
+    return idList.map(id => {
+      this.users[id].BeBusy();
 
-    return idList;
+      return Number(id);
+    });
   }
   UnBusyListedUsers() {
-    let idList = Object.keys(this.users);
+    let idList = this.Users();
 
     if (idList.length > 0)
       idList = idList.map(id => {

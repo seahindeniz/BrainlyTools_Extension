@@ -1,7 +1,12 @@
-import WaitForElement from "../../helpers/WaitForElement";
-import Buttons from "../../components/Buttons";
+import Button from "../../components/Button";
 import notification from "../../components/notification";
 import Action from "../../controllers/Req/Brainly/Action";
+import WaitForElement from "../../helpers/WaitForElement";
+
+let System = require("../../helpers/System");
+
+if (typeof System == "function")
+  System = System();
 
 System.pageLoaded("User's warnings page OK!");
 
@@ -10,11 +15,16 @@ if (window.sitePassedParams[0] != myData.id) {
 }
 
 async function UserWarnings() {
-  let row = await WaitForElement("#content-old > table > tbody > tr");
+  let rows = await WaitForElement("#content-old > table > tbody > tr");
+  let firstRow = rows[0];
 
-  $(row).each((i, el) => {
-    $(el).append(`
-		<th style="width:10%">
+  $("th:nth-child(1)", firstRow).css("width", "7%");
+  $("th:nth-child(2)", firstRow).css("width", "23%");
+  $("th:nth-child(3)", firstRow).removeAttr("style");
+
+  $(rows).each((i, row) => {
+    $(row).append(`
+		<th style="width: 3%">
 			<div class="sg-checkbox">
 				<input type="checkbox" class="sg-checkbox__element" id="select-${i}">
 				<label class="sg-checkbox__ghost" for="select-${i}">
@@ -29,22 +39,28 @@ async function UserWarnings() {
   });
 
   $('input#select-0').click(function() {
-    $('input[type="checkbox"]', row).prop("checked", $(this).prop("checked"));
+    $('input[type="checkbox"]', rows).prop("checked", $(this).prop("checked"));
   });
 
-  let $button = Buttons('RemoveQuestionNoIcon', {
-    text: System.data.locale.userWarnings.cancelWarnings,
-    title: "",
-    type: "alt"
+  let $button = Button({
+    type: "primary-blue",
+    size: "small",
+    text: System.data.locale.userWarnings.cancelWarnings
   });
-  let $buttonContainer = $(`<div class="fright sg-content-box__content--spaced-top-small">${$button}</div>`);
+  let $buttonContainer = $(`<div class="fright sg-content-box__content--spaced-top-small"></div>`);
+
+  $button.appendTo($buttonContainer)
 
   $buttonContainer.insertAfter("#content-old > table.threadList");
 
-  $("button", $buttonContainer).click(() => {
+  $button.click(() => {
+    let $checkedBoxes = $('input[type="checkbox"]:not(#select-0):checked', rows);
+
+    if ($checkedBoxes.length == 0)
+      return notification(System.data.locale.common.notificationMessages.youNeedToSelectAtLeastOne, "info");
+
     let idList = [];
     let userID = window.sitePassedParams[0];
-    let $checkedBoxes = $('input[type="checkbox"]:not(#select-0):checked', row);
 
     $checkedBoxes.each((i, el) => {
       let parentRow = $(el).parents("tr");

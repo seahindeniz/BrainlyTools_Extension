@@ -1,6 +1,7 @@
 import WaitForElement from "../../../helpers/WaitForElement";
 import DeleteSection from "../../../components/DeleteSection";
 import UserContentRow from "./UserContentRow";
+import Button from "../../../components/Button";
 
 class UserContent {
   /**
@@ -121,9 +122,11 @@ class UserContent {
     this.RenderDeleteButton();
   }
   RenderDeleteButton() {
-    this.$deleteButton = $(`<button class="sg-button-secondary sg-button-secondary--peach">${System.data.locale.common.delete} !</button>`);
-
-    this.$deleteButton.click();
+    this.$deleteButton = Button({
+      type: "destructive",
+      size: "small",
+      text: `${System.data.locale.common.delete} !`
+    });
   }
   ToggleDeleteSection() {
     if (this.$deleteButton.is(":visible")) {
@@ -133,6 +136,7 @@ class UserContent {
     }
   }
   ShowDeleteSection() {
+    this.ClearActionsTab();
     this.deleteSection.$.appendTo(this.$moderateContent);
     this.$deleteButton.appendTo(this.$moderateActions);
   }
@@ -146,13 +150,18 @@ class UserContent {
 			<div class="sg-content-box__actions">
 				<textarea class="sg-textarea sg-textarea--invalid sg-textarea--full-width" placeholder="${System.data.locale.userContent.askForCorrection.placeholder}"></textarea>
 			</div>
-			<div class="sg-content-box__actions">
-				<button class="sg-button-secondary sg-button-secondary--alt">${System.data.locale.userContent.askForCorrection.ask}</button>
-			</div>
-		</div>`);
+			<div class="sg-content-box__actions"></div>
+    </div>`);
+    this.$reportButton = Button({
+      type: "primary-blue",
+      size: "small",
+      text: System.data.locale.userContent.askForCorrection.ask
+    });
 
     this.$correctionReason = $("textarea", this.$correctionReasonContainer);
-    this.$reportButton = $("button", this.$correctionReasonContainer);
+    this.$reportButtonContainer = $(".sg-content-box__actions:nth-child(2)", this.$correctionReasonContainer);
+
+    this.$reportButton.appendTo(this.$reportButtonContainer);
   }
   ToggleReportForCorrectionSection() {
     if (this.$correctionReasonContainer.is(":visible")) {
@@ -165,6 +174,7 @@ class UserContent {
     this.HideElement(this.$correctionReasonContainer);
   }
   ShowReportForCorrectionSection() {
+    this.ClearActionsTab();
     this.$correctionReasonContainer.appendTo(this.$moderateActions);
   }
   /**
@@ -222,6 +232,10 @@ class UserContent {
   }
   RenderRowSelectCheckbox(row) {
     row.RenderCheckbox();
+  }
+  ClearActionsTab() {
+    this.$moderateContent.html("");
+    this.$moderateActions.html("");
   }
 }
 

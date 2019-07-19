@@ -1,3 +1,5 @@
+import mime from "mime-types";
+import Button from "../../../components/Button";
 import DeleteSection from "../../../components/DeleteSection";
 import Modal from "../../../components/Modal";
 import notification from "../../../components/notification";
@@ -5,12 +7,17 @@ import Action from "../../../controllers/Req/Brainly/Action";
 import secondsToTime from "../../../helpers/secondsToTime";
 import QuickDeleteButtons from "./QuickDeleteButtons";
 
+let System = require("../../../helpers/System");
+
 class ModeratingPanel {
   /**
    * @param {QuickDeleteButtons} main
    */
   constructor(main) {
     this.main = main;
+
+    if (typeof System == "function")
+      System = System();
 
     try {
       this.Init();
@@ -22,6 +29,8 @@ class ModeratingPanel {
     this.ticket = await this.OpenTicket();
 
     this.RenderModal();
+    this.RenderDeleteButton();
+    this.RenderSpinner();
     this.StartCounter();
     this.RenderAttachments();
     this.RenderDeleteSection();
@@ -44,8 +53,9 @@ class ModeratingPanel {
     });
   }
   RenderModal() {
+    let questionLink = System.createBrainlyLink("task", { id: this.ticket.data.task.id });
     let questionOwner = this.ticket.users_data.find(user => user.id == this.ticket.data.task.user.id);
-    let ownerProfileLink = System.createBrainlyLink("profile", { nick: questionOwner.nick, id: questionOwner.id });;
+    let ownerProfileLink = System.createBrainlyLink("profile", { nick: questionOwner.nick, id: questionOwner.id });
 
     let avatar = `<div class="sg-avatar__image sg-avatar__image--icon"><svg class="sg-icon sg-icon--gray sg-icon--x32"><use xlink:href="#icon-profile"></use></svg></div>`;
     if (questionOwner.avatar) {
@@ -82,7 +92,7 @@ class ModeratingPanel {
 									<div class="js-asker-avatar question-header__avatar-wrapper sg-hide-for-small-only">
 										<div class="user-fiche-wrapper">
 											<div class="sg-avatar">
-												<a href="${ownerProfileLink}" title="${questionOwner.nick}">${avatar}</a>
+												<a href="${ownerProfileLink}" title="${questionOwner.nick}" target="_blank">${avatar}</a>
 											</div>
 										</div>
 									</div>
@@ -90,12 +100,12 @@ class ModeratingPanel {
 								<div class="sg-actions-list__hole">
 									<ul class="sg-breadcrumb-list">
 										<li class="sg-breadcrumb-list__element">
-											<a href="${ownerProfileLink}" class="sg-link sg-link--small sg-link--gray" title="${questionOwner.nick}">
+											<a href="${ownerProfileLink}" class="sg-text sg-text--small sg-text--link sg-text--bold sg-text--gray" title="${questionOwner.nick}" target="_blank">
 												<span>${questionOwner.nick}</span>
 											</a>
 										</li>
 										<li class="sg-breadcrumb-list__element">
-											<span class="sg-link sg-link--small sg-link--gray sg-link--disabled">${this.ticket.data.task.points.ptsForResp}+${this.ticket.data.task.points.ptsForBest} ${System.data.locale.common.moderating.point}</span>
+											<span class="sg-text sg-text--small sg-text--gray sg-text--bold">${this.ticket.data.task.points.ptsForResp}+${this.ticket.data.task.points.ptsForBest} ${System.data.locale.common.moderating.point}</span>
 										</li>
 									</ul>
 								</div>
@@ -103,7 +113,9 @@ class ModeratingPanel {
 						</div>
 						<div class="sg-actions-list__hole">
 							<div class="sg-actions-list sg-actions-list--to-right sg-actions-list--no-wrap">
-								<div class="sg-actions-list__hole"><a class="sg-link sg-link--gray" href="${System.createBrainlyLink("task", { id: this.ticket.data.task.id })}">${this.ticket.data.task.id}</a></div>
+                <div class="sg-actions-list__hole">
+                  <a class="sg-text sg-text--small sg-text--link sg-text--bold sg-text--gray" href="${questionLink}" target="_blank">${this.ticket.data.task.id}</a>
+                </div>
 							</div>
 						</div>
 					</div>
@@ -113,22 +125,31 @@ class ModeratingPanel {
 			<div class="sg-content-box js-question-wrapper">
 				<div class="sg-content-box__content taskContent js-shrink">
 					<h1 class="sg-text sg-text--regular sg-text--headline">${this.ticket.data.task.content}</h1>
-					<span class="sg-link sg-link--small sg-link--underlined">Show more..</span>
+					<span class="sg-text sg-text--small sg-text--link-underlined sg-text--bold sg-text--blue-dark">${System.data.locale.common.showMore}</span>
 				</div>
 			</div>
 			<div class="sg-content-box sg-content-box--spaced-top-large sg-content-box--spaced-bottom sg-content-box--spaced-bottom-xxlarge">
 				<div class="sg-actions-list attachments"></div>
 			</div>`,
 
-      actions: `<div class="sg-spinner-container">
-			<button class="sg-button-primary sg-button-primary--peach js-delete">${System.data.locale.common.confirm}</button>
-		</div>`
+      actions: `<div class="sg-spinner-container"></div>`
     });
 
     this.$counter = $(".js-counter", this.modal.$modal);
-    this.$deleteQuestionButton = $('button.js-delete', this.modal.$modal);
+    this.$deleteButtonSpinnerContainer = $('> .sg-spinner-container', this.modal.$actions);
 
     this.modal.Open();
+  }
+  RenderDeleteButton() {
+    this.$deleteButton = Button({
+      type: "destructive",
+      text: System.data.locale.common.delete
+    });
+
+    this.$deleteButton.prependTo(this.$deleteButtonSpinnerContainer);
+  }
+  RenderSpinner() {
+    this.$spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner"></div></div>`);
   }
   StartCounter() {
     this.UpdateCounter();
@@ -156,17 +177,17 @@ class ModeratingPanel {
         if (attachment.thumbnail) {
           content = `
 					<div class="sg-box sg-box--image-wrapper">
-						<a class="sg-link sg-link--gray sg-link--emphasised" href="${attachment.full}" target="_blank">
+						<a href="${attachment.full}" target="_blank">
 							<img class="sg-box__image" src="${attachment.thumbnail}">
 						</a>
 					</div>`;
         } else {
           content = `
-					<div class="sg-box sg-box--dark sg-box--no-border sg-box--image-wrapper">
-						<div class="sg-box__hole">
-							<a class="sg-link sg-link--gray sg-link--emphasised" href="${attachment.full}" target="_blank">${attachment.type}</a>
-						</div>
-					</div>`
+          <a class="sg-text sg-text--small sg-text--link sg-text--bold sg-text--gray" href="${attachment.full}" target="_blank">
+            <div class="sg-box sg-box--dark sg-box--no-border sg-box--image-wrapper">
+              <div class="sg-box__hole">${(mime.extension(attachment.type) || attachment.type).toLocaleUpperCase()}</div>
+            </div>
+          </a>`
         }
 
         $attachments.append(`
@@ -203,7 +224,7 @@ class ModeratingPanel {
   BindHandlers() {
     this.modal.$close.click(this.ClosePanel.bind(this));
     this.$showMoreLink.click(this.ExpandContentContainer.bind(this));
-    this.$deleteQuestionButton.click(this.DeleteQuestion.bind(this));
+    this.$deleteButton.click(this.DeleteQuestion.bind(this));
   }
   async ClosePanel(ignoreTicket) {
     this.modal.ShowCloseSpinner();
@@ -223,7 +244,6 @@ class ModeratingPanel {
   }
   async DeleteQuestion() {
     if (this.deleteSection.selectedReason) {
-      let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner"></div></div>`).insertAfter(this.$deleteQuestionButton);
       let taskData = {
         model_id: this.ticket.data.task.id,
         reason: this.deleteSection.reasonText,
@@ -233,17 +253,32 @@ class ModeratingPanel {
         return_points: this.deleteSection.returnPoints
       };
 
+      this.ShowSpinner();
+
       let resRemove = await new Action().RemoveQuestion(taskData);
 
       if (!resRemove || !resRemove.success) {
-        $spinner.remove();
+        this.HideSpinner();
         this.modal.$overlay.scrollTop(0);
-        this.modal.notification(resRemove.message || System.data.locale.common.notificationMessages.somethingWentWrong, "error");
-      } else {
-        this.main.target.classList.add("deleted");
-        this.ClosePanel(true);
+
+        return this.modal.notification(resRemove.message || System.data.locale.common.notificationMessages.somethingWentWrong, "error");
       }
+
+      this.main.target.classList.add("deleted");
+      this.ClosePanel(true);
     }
+  }
+  ShowSpinner() {
+    this.$spinner.appendTo(this.$deleteButtonSpinnerContainer);
+  }
+  HideSpinner() {
+    this.HideElement(this.$spinner);
+  }
+  /**
+   * @param {JQuery<HTMLElement>} $element
+   */
+  HideElement($element) {
+    $element.appendTo("<div/>");
   }
 }
 

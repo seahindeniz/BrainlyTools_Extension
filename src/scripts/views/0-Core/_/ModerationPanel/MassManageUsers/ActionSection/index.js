@@ -1,5 +1,7 @@
+import Button from "../../../../../../components/Button";
+
 /**
- * @typedef {{content: {text: string, style: string}, actionButton: {text: string, title: string style: string}}} renderDetails
+ * @typedef {{content: {text: string, style: string}, actionButton: import("../../../../../../components/Button").ButtonOptions}} renderDetails
  */
 export default class ActionSection {
   /**
@@ -21,12 +23,13 @@ export default class ActionSection {
 
     this.Render();
     this.RenderButtonContainer();
+    this.RenderUserList();
     this.BindButtonHandler();
   }
   Render() {
     this.$ = $(`
-    <div class="sg-content-box sg-content-box--spaced">
-      <div class="sg-content-box__title sg-content-box__title--spaced-top sg-content-box__title--spaced-small">
+    <div class="sg-content-box">
+      <div class="sg-content-box__title sg-content-box__title--spaced-top sg-content-box__title--spaced-bottom sg-content-box__title--spaced-small">
         <h2 class="sg-text sg-text--bold ${this.renderDetails.content.style}">${this.renderDetails.content.text}</h2>
       </div>
       <div class="sg-content-box__content"></div>
@@ -37,11 +40,21 @@ export default class ActionSection {
     this.$actionsContainer = $("> .sg-content-box__actions", this.$);
   }
   RenderButtonContainer() {
-    this.$actionButtonContainer = $(`<div class="sg-actions-list__hole sg-actions-list__hole--space-bellow">
-      <button class="sg-button-secondary ${this.renderDetails.actionButton.style} sg-button-secondary--full-width" title="${this.renderDetails.actionButton.title}">${this.renderDetails.actionButton.text}</button>
+    this.$actionButton = Button({
+      size: "small",
+      ...this.renderDetails.actionButton
+    });
+    this.$actionButtonContainer = $(`<div class="sg-actions-list__hole sg-actions-list__hole--space-bellow"></div>`);
+
+    this.$actionButton.appendTo(this.$actionButtonContainer);
+  }
+  RenderUserList() {
+    this.$userListContainer = $(`
+    <div class="sg-actions-list__hole sg-actions-list__hole--grow">
+      <div class="sg-content-box__actions sg-textarea sg-textarea--tall sg-textarea--resizable-vertical sg-actions-list--space-evenly sg-textarea--max1000 sg-textarea--min-width-25em"></div>
     </div>`);
 
-    this.$actionButton = $("button", this.$actionButtonContainer);
+    this.$userList = $(".sg-content-box__actions", this.$userListContainer);
   }
   BindButtonHandler() {
     this.$actionButton.click(this.ShowSection.bind(this));
@@ -59,6 +72,7 @@ export default class ActionSection {
 
     this.main.activeAction = this;
 
+    this.$actionButton.Active();
     this.main.ShowActionsSectionSeparator();
     this.$.appendTo(this.main.$actionsSection);
 
@@ -67,6 +81,7 @@ export default class ActionSection {
   }
   HideSection() {
     this.main.HideElement(this.$);
+    this.$actionButton.Inactive();
   }
   /* SetUserIdList() {
     this.userIdList = this.main.MakeListedUsersBusy();
@@ -75,30 +90,34 @@ export default class ActionSection {
     let id = this.userIdList.shift();
 
     if (id)
-      return this.users[id];
+      return this.main.users[id];
   }
-  SetUsers() {
-    let listedUserIdList = this.main.MakeListedUsersBusy();
+  SetUsers(onlySelected = false) {
+    let listedUserIdList = this.main.MakeListedUsersBusy(onlySelected);
 
-    if (listedUserIdList)
+    /* if (listedUserIdList)
       this.userIdList = [
         ...listedUserIdList,
         ...this.userIdList
-      ];
-    this.userIdList = [...new Set(this.userIdList)];
+      ]; */
 
-    if (this.userIdList.length > 0)
-      this.userIdList.slice(0).forEach((id) => {
-        if (!this.users[id])
-          this.users[id] = this.main.users[id];
-        else {
-          let i = this.userIdList.indexOf(id);
+    if (!listedUserIdList)
+      return this.userIdList = null;
 
-          if (i !== -1) {
-            this.userIdList.splice(i, 1);
-            this.main.RemoveUsersById([id]);
-          }
-        }
-      });
+    this.userIdList = [...new Set(listedUserIdList)];
+    /*
+        if (this.userIdList.length > 0)
+          this.userIdList.slice(0).forEach((id) => {
+            if (!this.users[id])
+              this.users[id] = this.main.users[id];
+            else {
+              let i = this.userIdList.indexOf(id);
+
+              if (i !== -1) {
+                this.userIdList.splice(i, 1);
+                this.main.RemoveUsersById([id]);
+              }
+            }
+          }); */
   }
 }

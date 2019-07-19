@@ -1,5 +1,6 @@
 import WaitForElement from "../../../helpers/WaitForElement";
 import Action from "../../../controllers/Req/Brainly/Action";
+import Button from "../../../components/Button";
 
 class WrongContentConfirmer {
   constructor() {
@@ -10,8 +11,22 @@ class WrongContentConfirmer {
     this.BindHandlers();
   }
   RenderButtons() {
-    this.$stopButton = $(`<button class="sg-button-secondary sg-button-secondary--small sg-button-secondary--peach" style="margin-left: 1em;">${System.data.locale.common.stop}</button>`);
-    this.$confirmButton = $(`<button class="sg-button-secondary sg-button-secondary--small sg-button-secondary--alt" style="margin-left: 1em;">${System.data.locale.moderateAll.wrongContentConfirmer.text}</button>`);
+    this.$stopButton = Button({
+      type: "destructive",
+      size: "small",
+      text: System.data.locale.common.stop,
+      spaced: {
+        left: true
+      }
+    });
+    this.$confirmButton = Button({
+      type: "primary-blue",
+      size: "small",
+      text: System.data.locale.moderateAll.wrongContentConfirmer.text,
+      spaced: {
+        left: true
+      }
+    });
   }
   async BindHandlers() {
     let filters = await WaitForElement("#moderation-all > div.top > div.sub-header.row > div.span5 > select.filters");

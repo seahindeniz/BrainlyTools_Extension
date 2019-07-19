@@ -1,52 +1,60 @@
 .quickDelete {
-	.sg-content-box {
-		&.deleted {
-			background-color: #ffc8c0;
-		}
+  .sg-content-box {
+    &.deleted {
+      background-color: #ffc8c0;
+    }
 
-		&.warning {
-			background-color: #fedd8e;
-		}
+    &.warning {
+      background-color: #fedd8e;
+    }
 
-		&:hover:not(.deleted) {
-			position: relative;
+    &:hover:not(.deleted) {
+      position: relative;
 
-			.ext_actions {
-				display: flex;
-			}
-		}
-	}
+      .ext_actions {
+        display: flex;
+      }
+    }
+  }
 }
 
 .ext_actions {
-	display: none;
-	position: absolute;
-	top: -29px;
-	right: -30px;
-	width: 5em;
+  display: none;
+  position: absolute;
+  top: -30px;
+  right: -30px;
+  width: 5em;
+  z-index: 2;
 
-	>.sg-actions-list__hole {
-		width: 2em;
+  >.sg-actions-list__hole {
+    width: 2em;
 
-		button {
-			padding: 0 9px;
-			float: right;
-			margin-top: 7px;
+    &:nth-child(1) button {
+      float: right;
+    }
 
-			label.sg-label__text {
-				display: none;
-				margin-right: 10px;
-			}
+    &:nth-child(2) button {
+      float: left;
+    }
 
-			span.sg-button-primary__icon {
-				margin: 0;
-			}
+    button {
+      padding: 0 9px;
+      margin-top: 7px;
 
-			&:hover {
-				label {
-					display: block;
-				}
-			}
-		}
-	}
+      .sg-button__text {
+        display: none;
+        margin-right: 10px;
+      }
+
+      &:not(:hover) .sg-button__icon {
+        margin: 0;
+      }
+
+      &:hover {
+        .sg-button__text {
+          display: block;
+        }
+      }
+    }
+  }
 }

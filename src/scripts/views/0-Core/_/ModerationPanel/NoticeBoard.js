@@ -5,6 +5,9 @@ import Modal from "../../../../components/Modal";
 import notification from "../../../../components/notification";
 import Action from "../../../../controllers/Req/Brainly/Action";
 import ServerReq from "../../../../controllers/Req/Server";
+import Button from "../../../../components/Button";
+
+let System = require("../../../../helpers/System");
 
 emojione.emojiSize = "64";
 
@@ -14,6 +17,9 @@ class NoticeBoard {
     this.noticeContent = "";
     this.modalSize = "large";
     this.templateString = `# Nothing to see..\n\n### But you can add ;)`;
+
+    if (typeof System == "function")
+      System = System();
 
     this.Init();
   }
@@ -289,7 +295,9 @@ class NoticeBoard {
 		<div class="sg-actions-list__hole">
 			<div class="sg-spinner-container"></div>
 		</div>`);
-    this.$editButton = $(`<button class="sg-button-primary sg-button-primary--dark">${System.data.locale.common.edit}</button>`);
+    this.$editButton = Button({
+      text: System.data.locale.common.edit
+    });
 
     this.$buttonContainer.appendTo(this.$headerActionList);
     this.$editButton.appendTo($(">div", this.$buttonContainer));
@@ -301,7 +309,10 @@ class NoticeBoard {
 		</div>`);
   }
   RenderSaveButton() {
-    this.$saveButton = $(`<button class="sg-button-primary">${System.data.locale.common.save}</button>`);
+    this.$saveButton = Button({
+      type: "primary-mint",
+      text: System.data.locale.common.save
+    });
   }
   RenderEditSection() {
     this.$editSection = $(`

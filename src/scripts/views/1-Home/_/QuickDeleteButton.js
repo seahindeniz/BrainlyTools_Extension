@@ -1,6 +1,6 @@
-import Buttons from "../../../components/Buttons";
-import QuickDeleteButtons from "./QuickDeleteButtons";
+import Button from "../../../components/Button";
 import Action from "../../../controllers/Req/Brainly/Action";
+import QuickDeleteButtons from "./QuickDeleteButtons";
 
 class QuickDeleteButton {
   /**
@@ -23,13 +23,13 @@ class QuickDeleteButton {
     this.$spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`);
   }
   Render() {
-    let button = Buttons('RemoveQuestion', {
-      text: this.reason.title,
+    this.$ = Button({
+      type: "destructive",
+      size: "xsmall",
+      icon: "x",
       title: this.reason.text,
-      type: "peach",
-      icon: "x"
-    })
-    this.$ = $(button);
+      text: this.reason.title
+    });
 
     this.$.appendTo(this.$spinnerContainer)
   }

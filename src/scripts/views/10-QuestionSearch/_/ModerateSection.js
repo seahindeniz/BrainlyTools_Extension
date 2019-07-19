@@ -1,6 +1,9 @@
 import DeleteSection from "../../../components/DeleteSection";
 import notification from "../../../components/notification";
 import Action from "../../../controllers/Req/Brainly/Action";
+import Button from "../../../components/Button";
+
+let System = require("../../../helpers/System");
 
 class ModerateSection {
   /**
@@ -9,9 +12,13 @@ class ModerateSection {
   constructor(main) {
     this.main = main;
 
+    if (typeof System == "function")
+      System = System();
+
     this.Render();
     this.ResetCounter();
     this.RenderStopButton();
+    this.RenderDeleteButton();
     this.RenderCounterLabel();
     this.RenderDeleteSection();
     this.BindHandlers();
@@ -52,9 +59,7 @@ class ModerateSection {
         <div class="sg-content-box__actions">
           <div class="sg-actions-list sg-actions-list--space-between">
             <div class="sg-actions-list__hole">
-              <div class="sg-spinner-container">
-                <button class="sg-button-secondary sg-button-secondary--peach">${System.data.locale.common.delete} !</button>
-              </div>
+              <div class="sg-spinner-container"></div>
             </div>
           </div>
         </div>
@@ -62,9 +67,8 @@ class ModerateSection {
     </div>`);
 
     this.$selectAll = $("input", this.$);
-    this.$deleteButton = $("button", this.$);
     this.$deleteButtonSpinner = this.RenderSpinner();
-    this.$deleteButtonSpinnerContainer = this.$deleteButton.parent();
+    this.$deleteButtonSpinnerContainer = $(".sg-spinner-container", this.$);
     this.$deleteButtonContainer = this.$deleteButtonSpinnerContainer.parent();
     this.$deleteSectionContainer = $(".sg-content-box__content:eq(1)", this.$);
   }
@@ -87,18 +91,27 @@ class ModerateSection {
   RenderStopButton() {
     this.$stopButtonContainer = $(`
     <div class="sg-actions-list__hole">
-      <div class="sg-spinner-container">
-        <button class="sg-button-secondary sg-button-secondary--active-inverse">
-          <div class="sg-label sg-label--secondary sg-label--unstyled">
-            <label class="sg-label__text">${System.data.locale.common.stop}</label>
-          </div>
-        </button>
-      </div>
+      <div class="sg-spinner-container"></div>
     </div>`);
 
+    this.$stopButton = Button({
+      type: "destructive",
+      size: "small",
+      text: System.data.locale.common.stop
+    });
     this.$stopButtonSpinner = this.RenderSpinner();
-    this.$stopButton = $("button", this.$stopButtonContainer);
     this.$stopButtonSpinnerContainer = $(".sg-spinner-container", this.$stopButtonContainer);
+
+    this.$stopButton.prependTo(this.$stopButtonSpinnerContainer);
+  }
+  RenderDeleteButton() {
+    this.$deleteButton = Button({
+      type: "destructive",
+      size: "small",
+      text: `${System.data.locale.common.delete} !`
+    });
+
+    this.$deleteButton.prependTo(this.$deleteButtonSpinnerContainer);
   }
   RenderCounterLabel() {
     this.$counterLabelContainer = $(`
@@ -144,14 +157,8 @@ class ModerateSection {
     this.HideDeleteNButtonSpinner();
   }
   EnableDeleteButtons() {
-    this.EnableButton(this.$deleteButton);
-    this.EnableButton(this.$deleteNButton);
-  }
-  EnableButton($button) {
-    if (!$button) return;
-
-    $button.prop("disabled", false)
-    $button.removeClass("sg-button-primary--disabled");
+    this.$deleteButton.Enable();
+    this.$deleteNButton.Enable();
   }
   HideElement($element) {
     if (!$element) return;
@@ -234,14 +241,8 @@ class ModerateSection {
     this.$stopButtonContainer.insertAfter(this.$deleteButtonContainer);
   }
   DisableDeleteButtons() {
-    this.DisableButton(this.$deleteButton);
-    this.DisableButton(this.$deleteNButton);
-  }
-  DisableButton($button) {
-    if (!$button) return;
-
-    $button.prop("disabled", true)
-    $button.addClass("sg-button-primary--disabled");
+    this.$deleteButton.Disable();
+    this.$deleteNButton.Disable();
   }
   StartDeleting() {
     for (let i = 0; i < 5; i++) {
@@ -257,16 +258,18 @@ class ModerateSection {
     clearInterval(this._loop);
   }
   async DeleteQuestion(model_id) {
+    /**
+     * @type {import("./QuestionBox").default}
+     */
     let questionBox = this.main.questionBoxs[model_id];
+    questionBox.deleted = true;
     let postData = {
       ...this.postData,
       model_id
     };
-    questionBox.deleted = true;
 
     questionBox.ShowSpinner();
-    questionBox.$checkBox.prop("disabled", true);
-    questionBox.$checkBox.addClass("sg-button-secondary--disabled");
+    questionBox.DisableCheckbox();
 
     let resRemove = await new Action().RemoveQuestion(postData);
 
@@ -291,19 +294,22 @@ class ModerateSection {
     }
   }
   RenderDeleteNButton() {
+    this.$deleteNButton = Button({
+      type: "destructive",
+      size: "small",
+      text: ""
+    });
     this.$deleteNButtonContainer = $(`
     <div class="sg-actions-list__hole">
-      <div class="sg-spinner-container">
-        <button class="sg-button-secondary sg-button-secondary--peach"></button>
-      </div>
+      <div class="sg-spinner-container"></div>
     </div>`);
 
     this.$deleteNButtonSpinner = this.RenderSpinner();
-    this.$deleteNButton = $("button", this.$deleteNButtonContainer);
-    this.$deleteNButtonSpinnerContainer = $(".sg-spinner-container", this.$deleteNButtonContainer);
+    this.$deleteNButtonSpinnerContainer = $("> .sg-spinner-container", this.$deleteNButtonContainer);
 
     this.ChangeDeleteNButtonNumber();
-    this.$deleteNButtonContainer.insertAfter(this.$deleteButtonContainer)
+    this.$deleteNButton.prepend(this.$deleteNButtonSpinnerContainer);
+    this.$deleteNButtonContainer.insertAfter(this.$deleteButtonContainer);
   }
   ChangeDeleteNButtonNumber(n = 0) {
     if (!this.$deleteNButton) return;

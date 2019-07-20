@@ -1,0 +1,707 @@
+{
+  "common": {
+    "extensionUser": "Extension user",
+    "selectAll": "Pilih semua",
+    "progressing": "Progressing",
+    "done": "selesai!",
+    "allDone": "All done!",
+    "save": "Save",
+    "clearInputs": "Hapus input teks",
+    "delete": "Hapus",
+    "confirm": "Konfirmasi",
+    "deleteN": "Hapus %{number_of_contents}",
+    "confirmed": "Konfirmasi",
+    "deleted": "Dihapus",
+    "edit": "Edit",
+    "profileID": "Profile ID",
+    "profileLinksOrIds": "Link profil atau ID",
+    "nick": "Nick",
+    "moderator": "Moderator",
+    "date": "Tanggal",
+    "show": "Tampilkan",
+    "remove": "Menghapus",
+    "select": "Pilih",
+    "start": "Dimulai",
+    "startAll": "Memulai semua",
+    "stop": "Berhenti",
+    "continue": "Lanjutkan",
+    "no": "Tidak",
+    "shortPoints": "Poin",
+    "writeSomething": "Menuliskan sesuatu",
+    "userHasNoPrivilege": "Pengguna tidak memiliki privilege",
+    "nUsers": "%{n} users",
+    "nIds": "%{n} id",
+    "nNotFound": "%{n} tidak ditemukan",
+    "removeAll": "Hapus semua",
+    "halloween": {
+      "imSorry": "Mohon maaf jika kamu sedikit takut!",
+      "happyHalloween": "Happy Halloween %{userNick}!!"
+    },
+    "notificationMessages": {
+      "operationError": "Terjadi kesalahan selama proses operasi. Silahkan mencoba kembali",
+      "somethingWentWrong": "Oops, terjadi kesalahan",
+      "somethingWentWrongPleaseRefresh": "Sesuatu terjadi, tolong segarkan halaman ini",
+      "cannotShareUserInfoWithServer": "Kesalahan tak terduga terjadi ketika mencoba mengirim informasi pengguna ke server ekstensi. Silakan coba lagi dalam 2 detik",
+      "ongoingProcess": "Beberapa konten masih diproses. Apakah kamu ingin keluar dari halaman ini?",
+      "areYouSure": "Kamu yakin?",
+      "mayRequireWarning": "Proses penghapusan ini mungkin perlu diberikan peringatan, apakah kamu ingin memberikan peringatan kepada pemilik konten?",
+      "ongoingProcessWait": "Beberapa konten masih dalam proses dan kamu perlu menunggu sampai ini selesai",
+      "xSendYouANewMessage": "%{userName} mengirimi kamu pesan baru",
+      "newNotification": "Notifikasi baru",
+      "operationCompleted": "Pengerjaan selesai",
+      "unsavedChanges": "Kamu memiliki beberapa perubahan tidak disimpan. Apakah kamu tetap ingin menutup?",
+      "youNeedToSelectAtLeastOne": "You need to select at least one"
+    },
+    "moderating": {
+      "moreOptions": "Lebih Banyak Opsi",
+      "moderate": "Moderasi",
+      "doYouWantToDelete": "Apakah kamu ingin menghapus?",
+      "selectContentType": "Silahkan pilih sebuah jenis konten",
+      "selectReason": "Pilih sebuah alasan",
+      "editInPanel": "Edit pada panel moderasi",
+      "point": "poin",
+      "takePoints": {
+        "task": {
+          "text": "Ambil kembali poin responden",
+          "title": "Menghapus poin yang diterima oleh responden, ketika mereka menjawab pertanyaan"
+        },
+        "response": {
+          "text": "Mengambil poin kembali",
+          "title": "Mengambil kembali poin dari user"
+        }
+      },
+      "returnPoints": {
+        "text": "Jangan mengembalikan poin",
+        "title": "Jangan mengembalikan poin ke penanya"
+      },
+      "giveWarning": {
+        "text": "Beri peringatan",
+        "title": "Menghapus konten yang dipilih dengan peringatan"
+      },
+      "approve": "Menyetujui",
+      "approved": "Disetujui",
+      "unapprove": "Tidak disetujui",
+      "unapproved": "Tidak disetujui",
+      "doYouWantToDeleteWithReason": "Do you want to delete it?\n\n%{reason_title}:\n%{reason_message}"
+    },
+    "personalNote": {
+      "text": "Catatan pribadi",
+      "title": "Kamu dapat menambahkan catatan pribadi disini dan ini itu hanya akan berhubungan dengan user ini saja"
+    },
+    "pointsWithExample": {
+      "text": "Points: (1 or -1)",
+      "title": "You can add points by typing positive numbers like 123\nor\nyou can remove points by typing negative numbers like -123"
+    },
+    "showMore": "Show more..",
+    "userHasNPoints": "User has %{n} points"
+  },
+  "popup": {
+    "notificationMessages": {
+      "shortLinkSuccessMessage": "Short link telah dibuat dan ditambahkan ke clipboard (CTRL + C)",
+      "languageChanged": "Bahasa telah dipilih",
+      "cannotFindUser": "Saya tidak dapat menemukan pengguna dengan memasukkan nomor ID",
+      "createdMessage": "Berhasil dibuat",
+      "updatedMessage": "Updated successfully",
+      "removedMessage": "Penghapusan sukses",
+      "published": "Published",
+      "unpublished": "Unpublished",
+      "layoutExtended": "Layout diperpanjang",
+      "switchedToNormal": "Beralih kembali ke normal",
+      "notifierOn": "Notifikasi diaktifkan",
+      "notifierOff": "Notifikasi ditutup",
+      "idNumberRequired": "Kamu harus menambahkan nomor ID",
+      "invalidId": "Nomor ID tidak valid",
+      "pleaseWait": "Harap menunggu",
+      "openABrainlyPage": "Kamu perlu untuk membuka halaman Brainly dari browser kamu.",
+      "errorN": "Error %{error_code}",
+      "iCantFechMarketData": "Saya tidak dapat mengambil data pasar",
+      "uncorrectDate": "Saya tidak dapat mengambil data dari Brainly<br><br>Silahkan menuju halaman utama Brainly atau dengan memuat ulang halaman",
+      "preparingUnsuccessful": "Terjadi kesalahan selama mempersiapkan alasan penghapusan dan mengambil dari Brainly",
+      "noEvidenceFound": "Moderator tidak menambahkan bukti atau komentar",
+      "doYouWannaGiveThisPrivilege": "Apakah kamu ingin memberikan privilege kepada seluruh pengguna ekstensi",
+      "doYouWannaRevokeThisPrivilege": "Apakah kamu ingin menghapus privilege dari semua pengguna ekstensi",
+      "privilegeHasGiven": "Privilege telah diberikan kepada pengguna %{user_amount}",
+      "privilegeHasRevoked": "Privilege telah dihapus dari pengguna %{user_amount}"
+    },
+    "createShortLinkButton": {
+      "text": "Shorten URL",
+      "title": "Buat sebuah tautan pendek untuk halaman web ini"
+    },
+    "shortenedLinks": {
+      "text": "Tautan singkat",
+      "originalURL": "URL asli",
+      "created": "Dibuat",
+      "shortURL": "URL pendek",
+      "allClicks": "Klik semua",
+      "searchURL": "Pencarian URL"
+    },
+    "extensionOptions": {
+      "title": "Opsi Ekstensi",
+      "themeColor": {
+        "title": "Warna Tema",
+        "setYourColor": "Atur warna mu",
+        "rainbow": "Pelangi",
+        "pickAColor": "Pilih warna",
+        "colorFormatInfo": "Kamu dapat mengatur warna tema dengan kode warna Hex. Maksud saya, kamu perlu untuk mengatur #FF0000 untuk warna merah"
+      },
+      "quickDeleteButtons": {
+        "text": "Tombol hapus cepat",
+        "title": "Kamu dapat mengatur alasan penghapusan di tombol cepat",
+        "task": "Pertanyaan",
+        "response": "Jawaban",
+        "comment": "Komentar"
+      },
+      "otherOptions": {
+        "title": "Pilihan Lain",
+        "extendMessagesLayout": {
+          "text": "Memperluas pesan",
+          "title": "Opsi ini akan memperpanjang tata letak halaman pesan.\nAnda dapat mencobanya ketika halaman pesan aktif"
+        },
+        "extensionLanguage": {
+          "text": "Bahasa ekstensi",
+          "chooseLanguage": "Pilih bahasa"
+        },
+        "notifier": {
+          "text": "Notifikasi browser",
+          "title": "Ekstensi akan memberikan notifikasi kepada kamu ketika kamu mendapatkan pesan atau notifikasi baru di Brainly"
+        }
+      }
+    },
+    "extensionManagement": {
+      "title": "Ext. Management",
+      "users": {
+        "text": "Users",
+        "title": "Kamu dapat mengatur izin dan privileges pengguna ekstensi",
+        "changeUserPrivileges": "Mengubah privilege semua pengguna",
+        "revoke": "Hapus",
+        "give": "Memberikan",
+        "addNewOrEditUser": "Tambahkan pengguna baru atau edit ekstension pengguna",
+        "permission": "Izin akses",
+        "privileges": "Privileges",
+        "firstUsageTimeAgoPreTitle": "Mulai menggunakan pada %{time}",
+        "hasntUsed": "Pengguna belum menggunakan ekstensi",
+        "important": "Penting",
+        "lessImportant": "Kurang penting",
+        "harmless": "Tidak berbahaya",
+        "explainingColors": {
+          "line1": "Beberapa pengguna memiliki warna pada border avatar mereka dan warna ini menunjukkan status izin penggunaan ekstensi mereka",
+          "line2": "Border <s>Merah</s> berarti pengguna yang ditampilkan dilarang menggunakan ekstensi",
+          "line3": "Border <s>Mustard</s> berarti pengguna memiliki izin untuk menggunakan ekstensi tetapi belum mulai menggunakannya",
+          "line4": "Border <s>Hijau</s> berarti pengguna ini adalah pengguna aktif resmi",
+          "line5": "<s>Tidak ada border</s> berarti bahwa pengguna memiliki beberapa privilege yang ditetapkan tetapi tidak diberi izin untuk menggunakan ekstensi di akun mereka dan belum mulai menggunakan ekstensi."
+        },
+        "privilegeList": {
+          "0": {
+            "title": "Ekstensi Admin",
+            "description": "Dapat menggunakan ekstensi tanpa batasan apapun. (Tidak perlu menetapkan privilige lainnya, ini akan menghapus semua pembatasan)"
+          },
+          "1": {
+            "title": "Tombol hapus cepat",
+            "description": "Pada halaman pertanyaan, konten pengguna, arsip moderator dan halaman utama, pengguna bisa menggunakan tombol penghapusan cepat untuk menghapus jawaban"
+          },
+          "2": {
+            "title": "Tombol hapus cepat",
+            "description": "Pada halaman pertanyaan, konten pengguna, arsip moderator dan halaman utama, pengguna bisa menggunakan tombol penghapusan cepat untuk menghapus jawaban"
+          },
+          "4": {
+            "title": "Pengaturan Pengumuman",
+            "description": "Dapat membuat, mengedit menghapus atau mempublikasikan pengumuman ekstensi internal"
+          },
+          "5": {
+            "title": "Managemen user",
+            "description": "Dapat menambahkan atau mengedit ekstensi user dan memberikan mereka privileges atau izin untuk menggunakan ekstensi"
+          },
+          "6": {
+            "title": "Pemilihan jawaban untuk disetujui",
+            "description": "Di halaman konten pengguna, moderator dapat menyetujui jawabannya dengan memilih"
+          },
+          "7": {
+            "title": "Penghapusan konten massal",
+            "description": "Dalam panel moderasi, pengguna dapat menggunakan fungsi ini untuk menghapus beberapa pertanyaan/Jawaban/Komentar di Brainly"
+          },
+          "8": {
+            "title": "Pesan grup",
+            "description": "Di halaman pesan, user dapat mengirim pesan pribadi ke banyak pengguna dalam satu grup sekaligus"
+          },
+          "9": {
+            "title": "Pengiriman pesan massal",
+            "description": "Pada panel moderasi, user dapat menggunakan fungsi ini untuk mengirim pesan pribadi ke seluruh pengguna di pasar Indonesia"
+          },
+          "10": {
+            "title": "Halaman supervisor, pengirim pesan",
+            "description": "Di halaman superisor, user dapat mengirim pesan pribadi ke daftar moderator atau ke semua moderator di pasar anda"
+          },
+          "11": {
+            "title": "Manajemen preferensi alasan penghapusan",
+            "description": "Dapat mengatur tingkat peringatan dari alasan penghapusan"
+          },
+          "12": {
+            "title": "Laporan penghapusan akun",
+            "description": "Pada ops ekstensi, pengguna dapat melihat laporan akun yang dihapus"
+          },
+          "13": {
+            "title": "Mengubah poin",
+            "description": "Di panel moderasi, pengguna dapat mengganti poin pengguna berdasarkan ID"
+          },
+          "14": {
+            "title": "Memilih pertanyaan yang dihapus",
+            "description": "Pada halaman konten pengguna, pengguana dapat memilih fungsi penghapusan untuk menghapus pertanyaan yang dipilih."
+          },
+          "15": {
+            "title": "Memilih jawabn yang dihapus",
+            "description": "Pada halaman konten pengguna, pengguana dapat memilih fungsi penghapusan untuk menghapus pertanyaan yang dipilih."
+          },
+          "16": {
+            "title": "Memilih komentar yang dihapus",
+            "description": "Dihalaman pengguna, konten pengguna dan halaman Moderais semua, pengguna dapat menggunakan tombol penghapusan cepat untuk menghapus komentar."
+          },
+          "17": {
+            "title": "Penghapusan komentar yang dilaporkan",
+            "description": "Pengguna dapat menggunakan fungsi ini untuk menghapus semua komentar yang dilaporkan dari moderasi Semua"
+          },
+          "18": {
+            "title": "Moderasi secara massal konten yang dilaporkan",
+            "description": "Pengguna dapat menggunakan fungsi ini untuk mengkonfirmasi/menghapus konten yang dilaporkan secra masif dari Moderasi Semua dengan memfilter"
+          },
+          "19": {
+            "title": "Pemilihan meminta untuk dikoreksi",
+            "description": "Pada halaman konten pengguna, pengguna dapat memilih konten yang akan diminta dikoreksi untuk dilaporkan"
+          },
+          "20": {
+            "title": "Manajemen papan pengumuman",
+            "description": "Dapat mengedit konten papan pengumuman"
+          },
+          "21": {
+            "title": "Meninjau privilege pengguna",
+            "description": "Pengguna dapat meninjau privilege pengguna ekstensi lainnya tanpa membuat perubahan apa pun"
+          },
+          "22": {
+            "title": "Dapat mengubah izin akses",
+            "description": "Pengguna dapat mengatur izin untuk menggunakan ekstensi"
+          },
+          "23": {
+            "title": "Dapat mengubah privilege yang penting",
+            "description": "Pengguna dapat menetapkan atau membatalkan privilege yang penting untuk pengguna ekstensi lainnya"
+          },
+          "24": {
+            "title": "Dapat mengubah privilege yang kurang penting",
+            "description": "Pengguna dapat menetapkan atau membatalkan privilege yang tidak penting untuk pengguna ekstensi lainnya"
+          },
+          "25": {
+            "title": "Dapat mengubah privilege yang tidak berbahaya",
+            "description": "Pengguna dapat menetapkan atau membatalkan privilege yang tidak berbahaya untuk pengguna ekstensi lainnya"
+          },
+          "26": {
+            "title": "Penghapusan pertanyaan terpilih (beberapa halaman)",
+            "description": "Pada halaman pencarian pertanyaan, pengguna dapat menggunakan fungsi pemilihan penghapusan untuk menghapus pertanyaan yang dipilih dari beberapa halaman sekaligus"
+          },
+          "27": {
+            "title": "Mengelola pengguna secara massal",
+            "description": "Pengguna dapat menggunakan fungsi ini untuk mengelola pengguna secara massif. Seperti, mengubah daftar poin pengguna atau menyetujui jawaban pengguna atau lainnya"
+          },
+          "28": {
+            "title": "Mod. Action H. Approval",
+            "description": "Pengguna dapat menggunakan fungsi ini untuk melaporkan aksi moderasi dari halaman moderator actions history."
+          },
+          "45": {
+            "title": "Penghapusan cepat komentar",
+            "description": "Dihalaman pengguna, konten pengguna dan halaman Moderais semua, pengguna dapat menggunakan tombol penghapusan cepat untuk menghapus komentar."
+          },
+          "29": {
+            "title": "Mass-Moderate contents",
+            "description": "User can use this function to moderate contents massively"
+          },
+          "30": {
+            "title": "Approve all answers",
+            "description": "User can use this function to approve all answers of users massively by providing list of ids/links of users"
+          },
+          "31": {
+            "title": "Delete users",
+            "description": "User can use this function to delete users massively by providing list of ids/links of users"
+          },
+          "32": {
+            "title": "Change points",
+            "description": "User can use this function to change points of users massively by providing list of ids/links of users"
+          }
+        }
+      },
+      "announcements": {
+        "text": "Pengumuman",
+        "addNewAnnouncement": "Tambahkan sebuah pengumuman",
+        "editorTitle": "Judul",
+        "editorContent": "Konten",
+        "cancelEdit": "Batalkan pengeditan",
+        "update": "Memperbarui",
+        "publish": "Publish",
+        "unpublish": "Unpublish",
+        "readedOn": "Dibaca pada:\n%{date}"
+      },
+      "DeleteReasonsPreferences": {
+        "text": "Preferensi alasan penghapusan",
+        "withoutAsk": "Berikan peringatan tanpa meminta mengkonfirmasi",
+        "withAsk": "Menampilkan dialog konfirmasi saat menghapus konten",
+        "findReason": "Menemukan alasannya",
+        "explaining": {
+          "line1": "Kamu dapat menemukan alasan penghapusan dengan mengetikkan nama alasannya",
+          "line2": "Setelah memilih satu dari hasil, kamu dapat mengeklik %{exclamation-circle} tombol akan memberikan peringatan tanpa meminta konfirmasi dari moderator selama mereka menghapus sebuah konten. Namun dalam beberapa kasus, hal ini mungkin akan berubah dan moderator harus memutuskan apakah perlu memberikan peringatan atau tidak. . Jadi kamu dapat mengeklik %{exclamation-triangle} untuk menampilkan dialog konfirmasi kepada moderator saat mereka menghapus suatu konten."
+        }
+      },
+      "accountDeleteReports": {
+        "text": "Laporan penghapusan akun",
+        "listAllUsers": "Mencari pada semua pengguna",
+        "onModerators": "Tentang moderators",
+        "onDeletedAccounts": "Pada akun yang dihapus",
+        "download": "Unduh",
+        "play": "Play"
+      }
+    }
+  },
+  "core": {
+    "assignExtensionPermission": "Memberikan izin penggunaan ekstensi",
+    "notificationMessages": {
+      "cantFetchDeleteReasons": "Kesalahan tak terduga terjadi selama mempersiapkan alasan penghapusan",
+      "searching": "Mencari...",
+      "userNotFound": "Pengguna tidak ditemukan",
+      "extensionServerError": "Terjadi kesalahan yang tidak terduga saat menghubungkan ke server ekstensi. Silakan coba lagi dalam ~5 detik.",
+      "ifErrorPersists": "Jika kesalahan ini berlanjut, hubungi Mahapatih dan jelaskan apa yang terjadi :)",
+      "accessPermissionDenied": "Kamu tidak memiliki wewenang untuk menggunakan ekstensi Brainly tools..<br>Silahkan hubungi Community Manager untuk mendapatkan izin atau hapus ekstensi ini dari browser kamu.",
+      "updateNeeded": "Ekstensi memiliki sebuah versi baru dan browser kamu perlu diupdate. Proses ini akan dilakukan secara otomatis dan kamu perlu untuk menyegarkan halaman dalam ~`10 detik",
+      "warningBeforeDelete": "Proses ini akan dijalankan dan jumlah id pertanyaan di input akan dihapus setelah Anda mengkonfirmasi peringatan ini. \n\nApakah Anda tiga kali lipat yakin?",
+      "enterIdWarn": "Kamu perlu untuk menambahkan setidaknya 1 nomor ID dari pertanyaan yang ingin kamu hapus",
+      "youNeedToEnterValidId": "Kamu perlu unruk menginput nomor ID yang valid",
+      "tryingToSendTheSameMessage": "Kamu telah mencoba mengirim yang terakhir. Apakah kamu masih ingin mengirim?",
+      "alreadyStarted": "Proses telah dimulai",
+      "pointsAdded": "Poin ditambahkan",
+      "thisConditionAlreadyAdded": "Kondisi ini telah ditambahkan",
+      "thisConditionAlreadyAddedInCommonConditions": "Kondisi ini telah ditambahkan ke kondisi umum",
+      "youNeedToRemoveThePreviousFilterFirst": "Kamu harus menghapus filter tipe konten yang ditambahkan sebelumnya dari daftar filter yang pertama",
+      "conditionsDoesntMatchAnything": "Kondisinya tidak sesuai dengan lainnya",
+      "errorOccuredWhileDeletingTheN": "Terjadi error saat penghapusan %{content_id}",
+      "doYouWantToContinue": "Apakah kamu ingin melanjutkan?",
+      "couldntAbleToGetNoticeBoardContent": "Saya tidak bisa mendapatkan konten pada papan pengumuman",
+      "changesMayNotBeSaved": "Perubahan yang kamu buat mungkin tidak tersimpan",
+      "youCantAddMoreThan8Sections": "Kamu tidak dapat menambah lebih dari 8 bagian",
+      "stillProcessing": "Bagian ini masih dalam proses. Apakah kamu ingin menghapus blok ini?\n(ini akan menghentikan proses moderasi)",
+      "youNeedToChooseActionType": "Kamu perlu memilih salah satu jenis tindakan"
+    },
+    "MassContentDeleter": {
+      "text": "Penghapusan konten massal",
+      "contentLinksOrIDs": "Link konten atau id",
+      "nIdsToDeleted": "%{n} id untuk dihapus",
+      "nHasBeenDeleted": "%{n} id telah dihapus",
+      "containerExplanation": "Kamu perlu untuk meletakkan link konten atau id ke baris per baris. Contohnya:",
+      "select": {
+        "contentType": "Tipe konten",
+        "reason": "Alasan",
+        "subReason": "Sub alasan",
+        "action": "Tindakan"
+      }
+    },
+    "MessageSender": {
+      "text": "Pengiriman pesan massal",
+      "lastRegisteredUserId": "Masukkan ID user yang terakhir",
+      "information": "Dengan Fungsi ini kamu dapat mengirim pesan ke pengguna dengan menghitung mundur dari nomor id yang diberikan. Setelah kamu memulai proses dan jika ingin mengirim pesan ke nomor id, kamu harus menunggu dan jangan menutup halaman ini (ini termasuk komputer Anda juga) sampai proses selesai.",
+      "target": "Target",
+      "allUsers": "Semua pengguna",
+      "moderators": "Moderator",
+      "listOfIds": "Daftar ID",
+      "startOver": "Mulai lagi dari awal",
+      "sent": "Dikirim",
+      "usersNotFound": "Pengguna tidak ditemukan",
+      "errors": "Error"
+    },
+    "announcements": {
+      "text": "Pengumuman",
+      "title": "Ketika kamu telah membaca pengumuman, kamu perlu untuk menandainya sebagai telah dibaca",
+      "markAsRead": "Tandai telah dibaca"
+    },
+    "pointChanger": {
+      "text": "Mengubah poin",
+      "enterOrPasteUID": "Masukkan dan paste profile ID pengguna",
+      "youNeedToEnterOrPaste": "Kamu harus memasukkan ID pengguna atau kamu dapat menempelkan daftar ID pengguna yang disalin ke dalam input",
+      "pastingExample": "Contoh daftar ID pengguna",
+      "pastingExample2": "Kamu juga dapat menentukan poin dalam daftar sebelum mengcopy paste",
+      "addPoint": "Poin ditambahkan"
+    },
+    "reportedCommentsDeleter": {
+      "text": "Menghapus komentar yang dilaporkan",
+      "description": "Kamu dapat menghapus semua komentar yang dilaporkan di Panal Moderasi Semua dengan satu klik. Kamu hanya perlu memulai dan membiarkan tab ini terbuka, itu saja.",
+      "deleting": "Dihapus",
+      "stopped": "Terhenti",
+      "numberOfPending": "Tertunda",
+      "selectAReason": "Pilih sebuah alasan"
+    },
+    "massModerateReportedContents": {
+      "text": "Moderasi secara massal konten yang dilaporkan",
+      "addConditionBlock": "Tambahkan bagian kondisi",
+      "selectAFilter": "Pilih sebuah filter",
+      "reportReasonText": "Teks alasan pelaporan",
+      "fetchedReports": "Jumlah laporan yang diambil dari Moderate all",
+      "matched": "Cocok %{number_of_matched_reports}",
+      "regexp": "Ekspresi Regular",
+      "confirmAll": "Mengkonfirmasi semua",
+      "informationText1": "Kamu dapat mengkonfirmasi konten yang dilaporkan dari Moderasi Semua dengan memfilter. Kamu hanya perlu untuk memilih dan manambahkan kondisi yang terkait dengan konten dan mengeklik mulai dan biarkan tab tetap terbuka, itu saja",
+      "informationText2": "Kamu dapat menggunakan bagian kondisi umum kemudian diaplikasikan pada kondisi spesifik untuk semua kondisi unik",
+      "informationText3": "Tetapi menambahkan semua kondisi ke bagian umum tidak akan memberikan kesesuaian dengan laporan manapun. Kamu perlu untuk menggunakan kondisi unik agar sesuai.",
+      "informationText4": "Setelah kamu telah mengatur kondisi, tolong periksa laporan yang cocok dan pastikan sebelum mengkonfirmasi",
+      "commonConditions": {
+        "text": "Kondisi umum",
+        "title": "Kondisi yang akan kamu tambahkan ke bagian ini akan diterapkan bersama semua ketentuan tambahan"
+      },
+      "profileId": {
+        "REPORTER": "ID Pelapor",
+        "REPORTEE": "ID yang dilaporkan"
+      },
+      "conditionN": {
+        "text": "Kondisi unik %{amount_of_conditions}",
+        "title": "Kondisi unik ini akan dibatasi dari kondisi unik yang lain"
+      },
+      "filters": {
+        "byContentType": "berdasarkan type konten",
+        "byReporter": {
+          "text": "berdasarkan pelapor",
+          "title": "Reporter berarti orang yang melaporkan pertanyaan atau jawaban"
+        },
+        "byReportee": {
+          "text": "berdasarkan pelapor",
+          "title": "Reportee merupakan orang yang memiliki pertanyaan atau jawaban yang dilaporkan"
+        },
+        "byDateRange": "Berdasarkan rentang tanggal",
+        "byReportReason": "berdasarkan alasan (pesan)"
+      }
+    },
+    "noticeBoard": {
+      "text": "Papan pengumuman",
+      "lastChanges": "Perubahan terakhir",
+      "readBy": "Dibaca oleh"
+    },
+    "massManageUsers": {
+      "notificationMessages": {
+        "doYouWantToRemoveSelectedUsers": "Apakah kamu ingin menghapus pengguna yang dipilih dari daftar?",
+        "doYouReallyWantToRemoveAllUsers": "Apakah kamu benar-benar ingin menghapus semua pengguna dalam daftar?",
+        "tryingToAddPreviouslyRemovedIds": "ID yang kamu masukkan berisi nomor ID yang ada di daftar sebelumnya \n\nKlik \"OK\" jika kamu ingin menambahkan atau\nKlik \"Cancel\" jika kamu ingin mengecualikan.",
+        "areYouSureAboutDeletingAllListedUsers": "Kamu akan mengkonfirmasi untuk nenghapus semua pengguna dalam daftar\n\nApakah kamu benar-benar yakin?",
+        "thereIsNoUserLeft": "Tidak ada pengguna yang tersisa dalam daftar"
+      },
+      "text": "Mengelola pengguna secara massal",
+      "removeSelected": "Hapus yang dipilih",
+      "removeSelectedUsersFromTheList": "Menghapus pengguna yang dipilih dari daftar",
+      "removeAllUsersFromTheList": "Menghapus semua pengguna dari daftar",
+      "sections": {
+        "approveAnswers": {
+          "numberOfApprovedAnswers": "Jawaban ini telah disetujui",
+          "numberOfAlreadyApprovedAnswers": "Jawaban ini telah disetujui",
+          "actionButton": {
+            "text": "Menyetujui jawaban",
+            "title": "Menyetujui semua jawaban dari semua pengguna dalam daftar"
+          }
+        },
+        "deleteUsers": {
+          "actionButton": {
+            "text": "Hapus pengguna",
+            "title": "Hapus semua pengguna yang terdaftar"
+          }
+        },
+        "changePoints": {
+          "actionButton": {
+            "text": "Change points",
+            "title": "Change points of all listed users"
+          },
+          "applyToAll": "Apply to all",
+          "applyToSelected": "Apply to selected",
+          "notificationMessages": {
+            "doYouWantToGiveNPointsToAllListedUsers": "Do you want to give %{n} points to all listed users?",
+            "doYouWantToGiveNPointsToSelectedUsers": "Do you want to give %{n} points to selected users?",
+            "oopsYouDidntSpecifyThePoints": "Oops, you didn't specify the points",
+            "thereIsNoPointToGiveZeroPoints": "There is no point to give zero points :)"
+          }
+        }
+      }
+    },
+    "MassModerateContents": {
+      "text": "Mass-Moderate contents"
+    }
+  },
+  "home": {
+    "todaysActions": "Aksi hari ini"
+  },
+  "messages": {
+    "notificationMessages": {
+      "unsendedMessage": "Kamu tidak mengirim pesan kamu. Kamu tetap ingin meninggalkan?"
+    },
+    "groups": {
+      "title": "Grup",
+      "createGroup": "Membuat sebuah grup",
+      "editGroup": "Edit grup",
+      "deleteGroup": "Hapus grup",
+      "groupName": "Nama grup",
+      "groupColor": "Kamu dapat mengatur sebuah warna untuk nama grup untuk membuatnya terlihat berbeda dengan grup lainnya yang telah dibuat.",
+      "groupMembers": "Anggota grup",
+      "searchResults": "Hasil pencarian",
+      "selectGroupType": "Pilih jenis grup",
+      "addAll": "Tambahkan semua",
+      "writeSomething": "Tuliskan pesan kamu disini",
+      "send": "Dikirim",
+      "pinTip": "Kamu dapat menyematkan grup dengan meng-klik icon %{pin}.",
+      "notificationMessages": {
+        "groupCreated": "%{groupName} sukses dibuat",
+        "groupUpdated": "%{groupName} updated",
+        "cantCreate": "Saya tidak dapat membuat grup ini karena ada hal yang salah. Bisakah kamu memeriksa rinciannya?",
+        "userAlreadyAdded": "Pengguna ini telah ada dalam daftar",
+        "cantFecthGroupData": "Terjadi kesalahan yang tidak terduga. Kami tidak dapat mengambil pesan dari grup ini dari server ekstensi",
+        "doYouWantToRemoveMembers": "Apakah kamu ingin menghapus semua anggota?",
+        "youNeedToAddMembers": "Kamu perlu menambahkan setidaknya satu pengguna dalam daftar anggota grup",
+        "youHaventCreatedAGroupYet": "Kamu belum membuat grup",
+        "wrongMessageLength": "Pesan anda harus terdiri dari 1 dan %{max_value} panjang karakter",
+        "messageContainsSwear": "Ups! Sepertinya pesan anda mengandung kata umpatan. Anda tidak dapat mengirimkannya!"
+      },
+      "userCategories": {
+        "findUsers": {
+          "text": "Temukan pengguna",
+          "nickOrID": "Nick atau Profile ID"
+        },
+        "friendsList": "Daftar teman",
+        "moderatorRanks": {
+          "text": "Rank Moderator",
+          "selectRank": "Pilih rank"
+        },
+        "allModerators": "Semua moderator"
+      }
+    }
+  },
+  "userContent": {
+    "notificationMessages": {
+      "selectAtLeasetOneContent": "Pilih setidaknya satu konten",
+      "alreadyApproved": "Jawaban ini telah disetujui",
+      "alreadyUnapproved": "Jawaban ini telah dibatalkan untuk disetujui",
+      "someOfSelectedAnswersAreApproved": "Beberapa dari jawaban yang dipilih telah disetujui, sehingga kamu tidak perlu untuk menyetujui jawaban iini lagi.",
+      "selectAnUnapprovedAnswerForApproving": "Kamu perlu memilih beberapa jawaban yang belum disetujui untuk memulai menyetujui",
+      "confirmApproving": "Apakah kamu ingin menyetujui jawaban ini?",
+      "someOfSelectedAnswersAreUnapproved": "Beberapa jawaban yang dipilih belum disetujui, sehingga kamu tidak perlu untuk membatalkan persetujuan untuk jawaban itu lagi",
+      "selectAnApprovedAnswerForUnapproving": "Kamu perlu memilih beberapa jawaban yang disetujui untuk memulai",
+      "confirmUnapproving": "Apakah kamu ingin menghapus persetujuan dari jawaban ini?",
+      "doYouWantToConfirmThisContent": "Apakah kamu ingin mengkonfirmasi konten ini?",
+      "xIsAlreayApproved": "%{row_id} telah disetujui",
+      "xIsAlreayUnapproved": "%{row_id} telah batal disetujui",
+      "confirmReporting": "Aapakah kamu ingin melaporkan jawaban ini untuk dikoreksi?"
+    },
+    "questionHasAttachment": "Pertanyaan memiliki lampiran",
+    "answerHasAttachment": "Jawaban memiliki lampiran",
+    "approvedAnswer": "Jawaban disetujui",
+    "bestAnswer": "Jawaban terbaik",
+    "askForCorrection": {
+      "text": "Meminta koreksi",
+      "placeholder": "Menuliskan informasi tambahan untuk pengguna",
+      "ask": "meminta"
+    }
+  },
+  "userProfile": {
+    "notificationMessages": {
+      "selectAtLeasetOneUser": "Kamu perlu memilih setidaknya satu pengguna",
+      "areYouSureDeleteSelectedFriends": "Apakah kamu yakin akan menghapus ingin menghapus pengguna yang dipilih dari daftar teman?",
+      "areYouSureRemoveAllFriends": "Apakah kamu yakin ingin menghapus semua daftar temanmu?",
+      "youHaveNoFriends": "Jangan sedih karena kamu tidak memiliki teman dalam daftar kamu.:/ Maaf",
+      "cannotChangeBio": "Saya tidak dapat mengubah bio kamu :/ sorry guys",
+      "fileSizeExceeded": "File %{file_name} melebihi batas ukuran %{file_size}",
+      "aShortcutFile": "Kamu mencoba menambahkan sebuah pintasan pada file dan itu tidak dianggap sebagai file yang aktual. Ini semacam sampah jika kamu menambahkannya.\nKamu mungkin butuh menambahkan file asli sebagai gantinya. Apakah kamu masih ingin menambahkan pintasan ini?",
+      "unableToReportAccountDeleting": "Kami tidak dapat melaporkan permintaanmu untuk penghapusan akun ke Community Manager jadi kami tidak dapat melanjutkan penghapusan. Maaf :/<br> Jika kesalahan ini terus berlanjut, mintalah bantuan ke Community Manager.",
+      "confirmNoEvidenceOrComment": "Kamu tidak menambahkan bukti atau komentar apa pun.\nApakah kamu masih ingin menghapus akun ini?",
+      "afterSavingCompletedIgnoreNotifications": "Setelah selesai menyimpan,<br> abaikan notifikasi ketika kamu menyegarkan atau meninggalkan halaman"
+    },
+    "previousNicks": {
+      "text": "Nick sebelumnya",
+      "title": "Nick pengguna sebelumnya yang terdaftar di database"
+    },
+    "userBio": {
+      "title": "Bio",
+      "description": "Teks bio dari aplikasi mobile Brainly"
+    },
+    "showAllFriends": {
+      "text": "Tampilkan semua",
+      "title": "Daftar teman kamu"
+    },
+    "removeAllFriends": {
+      "text": "Unfriend all",
+      "title": "Hapus semua daftar temanmu"
+    },
+    "removeSelectedFriends": {
+      "text": "Unfriend",
+      "title": "Kamu dapat menghapus teman yang kamu pilih dari daftar temanmu"
+    },
+    "accountDelete": {
+      "evidences": "Bukti",
+      "willBeReviewedByCommunityManager": "Akan ditinjau oleh Community Manager/Mahapatih",
+      "addFiles": "Menambahkan file",
+      "yourComment": "Komentarmu",
+      "compressingTheFile": "Mengompresi %{file_name}",
+      "compressingTheFiles": "Mengompresi file",
+      "uploading": "Mengunggah konten %{percentage_value}",
+      "deletingContiunes": "Penghapusan beranjut.."
+    },
+    "rankManager": {
+      "title": "Mengelola peringkat khusus",
+      "removeAllRanks": "Hapus semua peringkat khusus",
+      "allRanksRemoved": "Semua peringkat khusus telah dihapus",
+      "updatingRanks": "Memperbarui peringkat",
+      "xHasAssigned": "%{rank_name} telah ditugaskan"
+    }
+  },
+  "userWarnings": {
+    "notificationMessages": {
+      "ifYouHavePrivileges": "Peringatan akan dihapus jika kamu memiliki wewenang. Kami juga menyarankan kamu untuk menunggu sekitar ~10 menit setelah proses dimulai"
+    },
+    "cancelWarnings": "Cancel peringatan"
+  },
+  "supervisors": {
+    "notificationMessages": {
+      "noUser": "Tidak ada user untuk dikirimi pesan ini",
+      "emptyMessage": "Kamu tidak dapat mengirim pesan kosong"
+    },
+    "allRanks": "Semua ranking",
+    "tableLayout": "Layout Tabel",
+    "sendMessagesToMods": "Mengirim pesan ke moderator",
+    "sendMessagesToListedMods": {
+      "text": "Terdaftar sebagai moderator",
+      "title": "Kirim pesan hanya kepada moderator yang terdaftar"
+    },
+    "sendMessagesToAllMods": {
+      "text": "Untuk semua moderator",
+      "title": "Mengirim sebuah pesan ke semua moderator"
+    }
+  },
+  "uploader": {
+    "notificationMessages": {
+      "alreadyExist": "%{file_name} telah ada",
+      "fileNameCannotContainBackslash": "Nama file tidak boleh mengandung garis miring terbalik. Silakan ganti nama %{file_name}"
+    },
+    "text": "Mngunggah banyak file",
+    "selectFiles": "Memilih file"
+  },
+  "moderateAll": {
+    "wrongContentConfirmer": {
+      "text": "Mengkonfirmasi semua konten yang telah dikoreksi"
+    }
+  },
+  "moderatorActionHistory": {
+    "notificationMessages": {
+      "doYouWantToConfirm": "Apakah kamu ingin mengkonfirmasi tindakan moderasi ini?",
+      "doYouWantToConfirmUnreviewedActions": "Apakah kamu ingin mengkonfirmasi semua tindakan yang belum ditinjau?",
+      "doYouWantToDisapprove": "Apakah kamu ini menolak tindakan moderasi ini?",
+      "doYouWantToDisapproveUnreviewedActions": "Apakah kamu ingin menolak semua tindakan yang belum ditinjau?",
+      "doYouWantToRevertThisReport": "Apakah kamu ingin mengembalikan laporan ini?",
+      "iCouldntRevertThisReport": "Saya tidak dapat memulihkan laporan ini",
+      "wouldYouLikeToInform": "Apakah kamu ingin mengkonfirmasi %{nick} tentang aksi moderasinya melalu pesan pribadi?"
+    },
+    "confirm": "Konfirmasi",
+    "confirmAll": "Mengkonfirmasi semua",
+    "disapprove": "Disapprove",
+    "disapproveAll": "Disapprove semua",
+    "revert": "Memulihkan",
+    "PM": "PM",
+    "sampleMessage": "Halo %{n} \n\n [Tulis alasanmu di sini] \n\n Tindakan: %{a} \n Pertanyaan: %{q}",
+    "reviewedOn": {
+      "confirm": "Mengkonfirmasi pada %{date} oleh %{nick}",
+      "disapprove": "Ditolak pada %{date} oleh %{nick}"
+    }
+  }
+}

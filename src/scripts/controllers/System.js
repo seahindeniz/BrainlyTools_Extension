@@ -8,7 +8,9 @@ import Action from "./Req/Brainly/Action";
 import ServerReq from "./Req/Server/index.js";
 
 class _System {
-  constructor() {
+  constructor(main) {
+    this.logStyle = `font-size: 11px;color: #57b2f8;font-family:century gothic;`;
+    this.main = main;
     this.constants = {
       Brainly: {
         regexp_BrainlyMarkets: /:\/\/(?:www\.)?((?:eodev|znanija)\.com|nosdevoirs\.fr|brainly(?:(?:\.(?:com(?:\.br|[^.])|co\.(?:id)|lat|in|ph|ro|pl))))/i,
@@ -31,7 +33,7 @@ class _System {
         githubHighlight: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css",
       },
       config: {
-        reasonSign: "Ω",
+        reasonSign: "߷",
         idExtractRegex: /((?:.*[-|\/|a-z])(?=\d))|(?:[\/|\?].*)/g,
         MAX_FILE_SIZE_OF_EVIDENCE_IN_MB: 22,
         get MAX_FILE_SIZE_OF_EVIDENCE() {
@@ -72,6 +74,9 @@ class _System {
         }
       },
       meta: {},
+      /**
+       * @type {import("../../locales")}
+       */
       locale: {},
       config: {
         extension: extensionConfig
@@ -82,7 +87,24 @@ class _System {
       task: null
     };
 
-    console.log("System library initalized");
+    console.log(`%cSystem library initalized`, this.logStyle);
+  }
+  /**
+   * A colorizing proxy of console.log method
+   * @param  {...any} args
+   */
+  Log(...args) {
+    let isContainsObject = args.filter(arg => typeof arg !== "string" || typeof arg !== "number");
+
+    if (!isContainsObject)
+      console.log(`%c${args.join(" ")}`, this.logStyle);
+    else
+      args.forEach(arg => {
+        if (typeof arg == "string" || typeof arg == "number")
+          console.log(`%c${arg}`, this.logStyle);
+        else
+          console.log(arg);
+      });
   }
   /**
    * @param {number} milliseconds - Specify delay in milliseconds
@@ -105,8 +127,8 @@ class _System {
     return Math.floor((Math.random() * max) + min);
   }
   pageLoaded(loadMessage) {
-    Console.log(loadMessage);
-    Console.log("Brainly Tools loaded in", Number((performance.now() - window.performanceStartTiming).toFixed(2)), "milliseconds");
+    this.Log(loadMessage);
+    this.Log(`Brainly Tools loaded in ${Number((performance.now() - window.performanceStartTiming).toFixed(2))} milliseconds`);
   }
   checkRoute(index, str) {
     let curr_path = System.data.meta.location.pathname.split("/"),
@@ -163,7 +185,7 @@ class _System {
       if (!res) {
         reject({ message: "I couldn't share the System data variable to background", res });
       } else {
-        console.log("Data shared with background OK!");
+        System.Log("Data shared with background OK!");
         resolve();
       }
     });
@@ -342,9 +364,10 @@ class _System {
       console.warn("Asking too frequently. It's throttled");
     }
   }
-  prepareLangFile(language, _resolve) {
+  prepareLangFile(language, _resolve, _reject) {
     return new Promise(async (resolve, reject) => {
       resolve = _resolve || resolve;
+      reject = _reject || reject;
 
       if (language.match(/\ben[-_](?:us|au|ca|in|nz|gb|za)|en\b/i)) {
         language = "en_US";
@@ -352,21 +375,24 @@ class _System {
 
       try {
         let fileType = "json";
+        /**
+         * @type {HTMLScriptElement}
+         */
         let localeData = await InjectToDOM(`/locales/${language}.${fileType}`);
 
         resolve(localeData);
       } catch (error) {
         if (language != "en_US") {
-          this.prepareLangFile("en_US", resolve);
+          console.warn("Missing language file, swtching to default language");
+          this.prepareLangFile("en_US", resolve, reject);
         } else {
-          reject("Cannot find the default language file for extension");
+          reject("Cannot find the default language file of extension");
         }
       }
 
       /* if (fileType == "yml") {
       	localeData = yaml.load(localeData);
       } */
-
     });
   }
   canBeWarned(reasonID) {

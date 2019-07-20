@@ -2,9 +2,11 @@ import storage from "../../scripts/helpers/extStorage";
 import notification from "../components/notification";
 import send2AllBrainlyTabs from "../helpers/send2AllBrainlyTabs";
 import Dropdown from "../helpers/Dropdown";
+let System = require("../../scripts/helpers/System");
 
 class OtherOptions {
   constructor(storageData) {
+    System = System();
     this.storageData = storageData;
 
     this.Render();
@@ -136,8 +138,9 @@ class OtherOptions {
     notification(System.data.locale.popup.notificationMessages[isChecked ? "notifierOn" : "notifierOff"]);
   }
   async SetLanguage(language) {
-    let localeData = await System.prepareLangFile(language);
-    System.data.locale = localeData;
+    /* let localeData =  */
+    await System.prepareLangFile(language);
+    /* System.data.locale = localeData; */
 
     storage("set", { language });
     notification(System.data.locale.popup.notificationMessages.languageChanged, "success");

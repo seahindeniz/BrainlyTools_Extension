@@ -7,22 +7,11 @@ assignees: seahindeniz
 
 ---
 
-**Describe the issue/bug**
-A clear and concise description of what the bug is.
+**Describe the issue/bug [a clear and concise description of what the bug is.] :**
+...
 
-**To Reproduce**
-Steps to reproduce the behavior:
+**To Reproduce [add steps to reproduce the behavior below] :**
+...
 
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
-
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
-
-**Market informations**
-Your profile link: [e.g. https://brainly.com/profile/traBolic-1087454 ]
-
-**Additional context**
-Add any other context about the problem here.
+**Screenshots [paste below]**
+...

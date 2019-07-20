@@ -26,6 +26,7 @@ class QuickDeleteButtons {
 
       this.ShowContainer();
       this.RenderMoreOptionsButton();
+      this.RenderButtonSpinner();
       this.RenderDeleteButtons();
       this.BindHandlers();
     } catch (error) {
@@ -35,14 +36,16 @@ class QuickDeleteButtons {
   RenderContainer() {
     this.$container = $(`
     <div class="sg-actions-list sg-actions-list--to-top ext_actions">
-      <div class="sg-actions-list__hole sg-actions-list__hole--spaced-xsmall"></div>
+      <div class="sg-actions-list__hole sg-actions-list__hole--spaced-xsmall">
+        <div class="sg-spinner-container"></div>
+      </div>
       <div class="sg-actions-list__hole sg-actions-list__hole--no-spacing">
         <div class="sg-content-box"></div>
       </div>
     </div>`);
 
-    this.$moreOptionsButtonContainer = $(".sg-actions-list__hole:nth-child(1)", this.$container);
     this.$deleteButtonContainerBox = $(".sg-content-box", this.$container);
+    this.$moreOptionsButtonContainer = $(".sg-spinner-container", this.$container);
   }
   /**
    * @returns {number}
@@ -87,22 +90,32 @@ class QuickDeleteButtons {
 
     this.$moreOptionsButton.appendTo(this.$moreOptionsButtonContainer);
   }
+  RenderButtonSpinner() {
+    this.$spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`);
+  }
   RenderDeleteButtons() {
     System.data.config.quickDeleteButtonsReasons.task.forEach(this.RenderDeleteButton.bind(this));
   }
   RenderDeleteButton(id) {
     let button = new QuickDeleteButton(id, this);
-    let $buttonContainer = $(`<div class="sg-content-box__content"></div>`);
+    let $buttonContainer = $(`<div class="sg-content-box__content sg-content-box__content--spaced-bottom-xsmall"></div>`);
 
     $buttonContainer.appendTo(this.$deleteButtonContainerBox);
 
-    button.$.appendTo($buttonContainer);
+    button.$spinnerContainer.appendTo($buttonContainer);
   }
   BindHandlers() {
     this.$moreOptionsButton.click(this.OpenPanel.bind(this));
   }
   async OpenPanel() {
+    this.ShowMoreOptionsButtonSpinner();
     new ModeratingPanel(this);
+  }
+  ShowMoreOptionsButtonSpinner() {
+    this.$spinner.appendTo(this.$moreOptionsButtonContainer);
+  }
+  HideSpinner() {
+    this.$spinner.appendTo("<div />");
   }
 }
 

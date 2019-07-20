@@ -238,6 +238,7 @@ class ModeratingPanel {
 
     this.StopCounter();
     this.modal.Close();
+    this.main.HideSpinner();
   }
   ExpandContentContainer() {
     this.$taskContent.removeClass("js-shrink")

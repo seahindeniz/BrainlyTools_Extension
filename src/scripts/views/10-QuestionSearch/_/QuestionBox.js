@@ -129,7 +129,7 @@ class QuestionBox {
     }
   }
   RenderSelectBox() {
-    this.$checkBoxContainer = $(`
+    this.$checkBoxContainerHole = $(`
     <div class="sg-actions-list__hole">
       <div class="sg-spinner-container">
         <div class="sg-label sg-label--secondary">
@@ -150,15 +150,16 @@ class QuestionBox {
       </div>
     </div>`);
 
+    this.$checkBoxContainer = $(".sg-checkbox", this.$checkBoxContainerHole);
     this.$checkBox = $("input", this.$checkBoxContainer);
     this.$checkBoxGhost = $(".sg-checkbox__ghost", this.$checkBoxContainer);
-    this.$spinnerContainer = $(".sg-spinner-container", this.$checkBoxContainer);
+    this.$spinnerContainer = $(".sg-spinner-container", this.$checkBoxContainerHole);
   }
   ShowSelectbox() {
     if (System.checkUserP([14, 26])) {
       let $seeAnswerLinkContainer = $(".sg-content-box__actions > .sg-actions-list", this.$);
 
-      this.$checkBoxContainer.prependTo($seeAnswerLinkContainer);
+      this.$checkBoxContainerHole.prependTo($seeAnswerLinkContainer);
     }
   }
   RenderSpinner() {
@@ -192,7 +193,11 @@ class QuestionBox {
   }
   Deleted() {
     this.$.addClass("deleted");
-    this.$checkBoxGhost.removeClass("sg-button-secondary--disabled");
+    this.$checkBoxContainer.removeClass("sg-checkbox--disabled");
+  }
+  DisableCheckbox() {
+    this.$checkBox.prop("disabled", true);
+    this.$checkBoxContainer.addClass("sg-checkbox--disabled");
   }
 }
 

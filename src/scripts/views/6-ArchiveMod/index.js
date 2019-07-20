@@ -6,6 +6,11 @@ import WaitForObject from "../../helpers/WaitForObject";
 import layoutChanger from "./_/layoutChanger";
 import Pagination from "./_/Pagination";
 
+let System = require("../../helpers/System");
+
+if (typeof System == "function")
+  System = System();
+
 window.selectors = {
   moderationItemParent: "#moderation-all > div.content",
   moderationItemFooter: "div.content > div.footer",
@@ -60,13 +65,18 @@ async function ArciveMod() {
             });
 
             $button = $spinnerContainer.clone().append($button);
-            buttons.push($button);
+            buttons.push({
+              reasonId: reason.id,
+              $buttonContainer: $button
+            });
           }
         });
 
         prepareButtons[reasonType] = [
           ...buttons,
-          $confirmButton
+          {
+            $buttonContainer: $confirmButton
+          }
         ];
       }
     });
@@ -94,10 +104,15 @@ async function ArciveMod() {
             let $actionList = $(".sg-actions-list", $extActionButtons);
 
             if (prepareButtons[itemType].length > 0) {
-              prepareButtons[itemType].forEach($button => {
+              prepareButtons[itemType].forEach(buttonEntry => {
                 let $hole = $(`<div class="sg-actions-list__hole sg-actions-list__hole--spaced-small"></div>`);
 
-                $button.clone().appendTo($hole);
+                let $buttonContainer = buttonEntry.$buttonContainer.clone();
+
+                if (buttonEntry.reasonId)
+                  $("button", $buttonContainer).prop("reasonId", buttonEntry.reasonId);
+
+                $buttonContainer.appendTo($hole);
                 $hole.appendTo($actionList);
               });
 
@@ -155,53 +170,58 @@ async function ArciveMod() {
               }
             }
           }
-        } else if (confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
-          let reasonID = System.data.config.quickDeleteButtonsReasons[contentType][btn_index];
-          let reason = System.data.Brainly.deleteReasons.__withIds[contentType][reasonID];
-          let data = {
-            model_id: obj.data.model_id,
-            reason_id: reason.category_id,
-            reason: reason.text,
-            give_warning: System.canBeWarned(reason.id)
-          };
-          let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--small sg-spinner--light"></div></div>`).appendTo(this);
-          let $extActions = $(this).parents(".ext-action-buttons");
+        } else {
+          let reason = System.data.Brainly.deleteReasons.__withIds[contentType][this.reasonId];
+          let confirmDeleting = System.data.locale.common.moderating.doYouWantToDeleteWithReason
+            .replace("%{reason_title}", reason.title)
+            .replace("%{reason_message}", reason.text);
 
-          $extActions.addClass("is-deleting");
+          if (confirm(confirmDeleting)) {
+            let data = {
+              model_id: obj.data.model_id,
+              reason_id: reason.category_id,
+              reason: reason.text,
+              give_warning: System.canBeWarned(reason.id)
+            };
+            let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--small sg-spinner--light"></div></div>`).appendTo(this);
+            let $extActions = $(this).parents(".ext-action-buttons");
 
-          let onRes = res => {
-            new Action().CloseModerationTicket(obj.data.task_id);
+            $extActions.addClass("is-deleting");
 
-            $spinner.remove();
-            $extActions.removeClass("is-deleting");
+            let onRes = res => {
+              new Action().CloseModerationTicket(obj.data.task_id);
 
-            if (res) {
-              if (res.success) {
-                $moderation_item.addClass("removed");
-                $(this).parent().remove();
-              } else if (res.message) {
-                notification(res.message, "error");
+              $spinner.remove();
+              $extActions.removeClass("is-deleting");
+
+              if (res) {
+                if (res.success) {
+                  $moderation_item.addClass("removed");
+                  $(this).parent().remove();
+                } else if (res.message) {
+                  notification(res.message, "error");
+                }
+              } else {
+                notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
               }
-            } else {
-              notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
+            };
+
+            if (contentType == "task") {
+              let res = await new Action().RemoveQuestion(data);
+
+              System.log(5, { user: obj.data.user, data: [data.model_id] });
+              onRes(res);
+            } else if (contentType == "response") {
+              let res = await new Action().RemoveAnswer(data);
+
+              System.log(6, { user: obj.data.user, data: [data.model_id] });
+              onRes(res);
+            } else if (contentType == "comment") {
+              let res = await new Action().RemoveComment(data);
+
+              System.log(7, { user: obj.data.user, data: [data.model_id] });
+              onRes(res);
             }
-          };
-
-          if (contentType == "task") {
-            let res = await new Action().RemoveQuestion(data);
-
-            System.log(5, { user: obj.data.user, data: [data.model_id] });
-            onRes(res);
-          } else if (contentType == "response") {
-            let res = await new Action().RemoveAnswer(data);
-
-            System.log(6, { user: obj.data.user, data: [data.model_id] });
-            onRes(res);
-          } else if (contentType == "comment") {
-            let res = await new Action().RemoveComment(data);
-
-            System.log(7, { user: obj.data.user, data: [data.model_id] });
-            onRes(res);
           }
         }
       }
@@ -231,7 +251,10 @@ async function ArciveMod() {
             let $buttonContainer = $(`<div class="sg-actions-list__hole sg-actions-list__hole--spaced-small"></div>`);
 
             $button.appendTo($buttonContainer);
-            prepareQuickDeleteButtons[reasonType].push($buttonContainer);
+            prepareQuickDeleteButtons[reasonType].push({
+              reasonId: reason.id,
+              $buttonContainer
+            });
           }
         });
     });
@@ -253,14 +276,23 @@ async function ArciveMod() {
           let $quickDeleteButtons = $(".sg-actions-list", $quickDeleteButtonsContainer);
           let buttons = prepareQuickDeleteButtons[contentType];
 
-          buttons.forEach(button => button.clone().appendTo($quickDeleteButtons));
+          buttons.forEach(buttonEntry => {
+            let $buttonContainer = buttonEntry.$buttonContainer.clone();
+
+            if (buttonEntry.reasonId)
+              $("button", $buttonContainer).prop("reasonId", buttonEntry.reasonId);
+
+            $buttonContainer.appendTo($quickDeleteButtons);
+          });
           $quickDeleteButtonsContainer.insertAfter($actions);
 
           $("button", $quickDeleteButtons).click(async function() {
-            let btn_index = $(this).index();
+            let reason = System.data.Brainly.deleteReasons.__withIds[contentType][this.reasonId];
+            let confirmDeleting = System.data.locale.common.moderating.doYouWantToDeleteWithReason
+              .replace("%{reason_title}", reason.title)
+              .replace("%{reason_message}", reason.text);
 
-            if (contentID >= 0 && confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
-              let reason = System.data.Brainly.deleteReasons.__withIds[contentType][System.data.config.quickDeleteButtonsReasons[contentType][btn_index]];
+            if (contentID >= 0 && confirm(confirmDeleting)) {
               let data = {
                 model_id: contentID,
                 reason_id: reason.category_id,

@@ -29,17 +29,12 @@
   >.sg-actions-list__hole {
     width: 2em;
 
-    &:nth-child(1) button {
+    &:nth-child(1) .sg-spinner-container {
       float: right;
-    }
-
-    &:nth-child(2) button {
-      float: left;
     }
 
     button {
       padding: 0 9px;
-      margin-top: 7px;
 
       .sg-button__text {
         display: none;

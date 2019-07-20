@@ -48,42 +48,51 @@ export default async function responseSection() {
 }
 
 async function responseModerateButtonsClickHandler() {
-  let btn_index = $(this).parent().index();
   let parentResponseContainer = $(this).parents(selectors.responseContainer);
   let answer_id = Number(parentResponseContainer.data("answer-id"));
-  let questionData = $(".js-main-question").data("z");
-  let answer = questionData.responses.find(response => response.id == answer_id);
-  let usersData = $(".js-users-data").data("z");
-  let user = usersData[answer.userId];
 
   if (!answer_id)
-    console.error("Cannot find the answer id");
-  else if (!user)
-    console.error("Cannot find the user data");
-  else {
-    if (confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
-      let reason = System.data.Brainly.deleteReasons.__withIds.response[System.data.config.quickDeleteButtonsReasons.response[btn_index]];
-      let responseData = {
-        model_id: answer_id,
-        reason_id: reason.category_id,
-        reason: reason.text
-      };
-      responseData.give_warning = System.canBeWarned(reason.id);
-      let svg = $("svg", this);
+    throw "Cannot find the answer id";
 
-      $(`<div class="sg-spinner sg-spinner--xxsmall sg-spinner--light"></div>`).insertBefore(svg);
-      svg.remove();
+  let usersData = $(".js-users-data").data("z");
+  let questionData = $(".js-main-question").data("z");
+  let answer = questionData.responses.find(response => response.id == answer_id);
+  let user = usersData[answer.userId];
 
-      let res = await new Action().RemoveAnswer(responseData);
-      await new Action().CloseModerationTicket(questionData.id);
+  if (!user)
+    throw "Cannot find the user data";
 
-      if (!res || !res.success)
-        return notification((res && res.message) || System.data.locale.common.notificationMessages.somethingWentWrong, "error");
+  let btn_index = $(this).parent().index();
+  let reason = System.data.Brainly.deleteReasons.__withIds.response[System.data.config.quickDeleteButtonsReasons.response[btn_index]];
 
-      System.log(6, { user, data: [answer_id] });
-      parentResponseContainer.addClass("brn-question--deleted");
-      $(selectors.responseModerateButtonContainer, parentResponseContainer).remove();
-      $responseModerateButtons.remove();
-    }
+  if (!reason || !reason.id)
+    throw "Can't find the reason";
+
+  let confirmDeleting = System.data.locale.common.moderating.doYouWantToDeleteWithReason
+    .replace("%{reason_title}", reason.title)
+    .replace("%{reason_message}", reason.text);
+
+  if (confirm(confirmDeleting)) {
+    let responseData = {
+      model_id: answer_id,
+      reason_id: reason.category_id,
+      reason: reason.text
+    };
+    responseData.give_warning = System.canBeWarned(reason.id);
+    let svg = $("svg", this);
+
+    $(`<div class="sg-spinner sg-spinner--xxsmall sg-spinner--light"></div>`).insertBefore(svg);
+    svg.remove();
+
+    let res = await new Action().RemoveAnswer(responseData);
+    await new Action().CloseModerationTicket(questionData.id);
+
+    if (!res || !res.success)
+      return notification((res && res.message) || System.data.locale.common.notificationMessages.somethingWentWrong, "error");
+
+    System.log(6, { user, data: [answer_id] });
+    parentResponseContainer.addClass("brn-question--deleted");
+    $(selectors.responseModerateButtonContainer, parentResponseContainer).remove();
+    $responseModerateButtons.remove();
   }
 };

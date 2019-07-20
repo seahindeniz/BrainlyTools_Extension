@@ -2,25 +2,29 @@ import Button from "../../../components/Button";
 import Action from "../../../controllers/Req/Brainly/Action";
 import QuickDeleteButtons from "./QuickDeleteButtons";
 
+let System = require("../../../helpers/System");
+
 class QuickDeleteButton {
   /**
    * @param {number} reasonId
    * @param {QuickDeleteButtons} main
    */
   constructor(reasonId, main) {
+    if (typeof System == "function")
+      System = System();
+
     this.main = main;
     this.reason = System.data.Brainly.deleteReasons.__withIds.task[reasonId];
 
     if (!this.reason)
       throw `Reason couldn't find ${reasonId}`;
 
-    this.RenderSpinner();
+    this.RenderSpinnerContainer();
     this.Render();
     this.BindHandler();
   }
-  RenderSpinner() {
+  RenderSpinnerContainer() {
     this.$spinnerContainer = $(`<div class="sg-spinner-container"></div>`);
-    this.$spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`);
   }
   Render() {
     this.$ = Button({
@@ -40,9 +44,14 @@ class QuickDeleteButton {
     this.ShowSpinner();
     await System.Delay(50);
 
-    if (confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
-      this.DeleteQuestion();
-    }
+    let confirmDeleting = System.data.locale.common.moderating.doYouWantToDeleteWithReason
+      .replace("%{reason_title}", this.reason.title)
+      .replace("%{reason_message}", this.reason.text);
+
+    if (!confirm(confirmDeleting))
+      return this.main.HideSpinner();
+
+    this.DeleteQuestion();
   }
   async DeleteQuestion() {
     let taskData = {
@@ -62,13 +71,10 @@ class QuickDeleteButton {
       this.main.target.classList.add("deleted");
     }
 
-    this.HideSpinner();
+    this.main.HideSpinner();
   }
   ShowSpinner() {
-    this.$spinner.appendTo(this.$spinnerContainer);
-  }
-  HideSpinner() {
-    this.$spinner.appendTo("<div />");
+    this.main.$spinner.appendTo(this.$spinnerContainer);
   }
 }
 

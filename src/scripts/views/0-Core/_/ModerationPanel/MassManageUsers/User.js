@@ -1,3 +1,5 @@
+let System = require("../../../../../helpers/System");
+
 export default class User {
   /**
    * @param {import("../../../../../controllers/Req/Brainly/Action/index").User} details
@@ -7,6 +9,9 @@ export default class User {
     this.details = details;
     this.main = main;
 
+    if (typeof System == "function")
+      System = System();
+
     this.Render();
     this.RenderInfoBar();
     this.RenderSpinner();
@@ -14,6 +19,7 @@ export default class User {
     this.BindHandlers();
   }
   Render() {
+    let separatedPoints = this.details.points.toLocaleString();
     let avatar = System.prepareAvatar(this.details);
     let profileLink = System.createProfileLink(this.details);
     this.$ = $(`
@@ -48,6 +54,13 @@ export default class User {
                       <a href="${profileLink}" target="_blank" class="sg-text sg-text--link-unstyled sg-text--bold">
                         <span class="sg-text sg-text--small sg-text--gray sg-text--bold">${this.details.nick}</span>
                       </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="sg-content-box__content sg-content-box__content--full">
+                  <div class="sg-actions-list">
+                    <div class="sg-actions-list__hole">
+                      <span class="sg-text sg-text--xsmall sg-text--gray" title="${System.data.locale.common.userHasNPoints.replace("%{n}", separatedPoints)}">${System.data.locale.common.shortPoints}: ${separatedPoints}</span>
                     </div>
                   </div>
                 </div>
@@ -90,7 +103,7 @@ export default class User {
     this.$checkbox.change(this.CheckboxChanged.bind(this));
   }
   CheckboxChanged() {
-    this.main.ToggleRemoveSelectedButton();
+    this.main.UserCheckboxChanged(this);
   }
   ShowCheckbox() {
     this.$checkboxHole.prependTo(this.$checkboxContainer);
@@ -105,7 +118,7 @@ export default class User {
     this.ShowSpinner();
     this.HideCheckbox();
   }
-  UnBusy(){
+  UnBusy() {
     this.HideSpinner();
     this.ShowCheckbox();
   }
@@ -118,6 +131,7 @@ export default class User {
    */
   Move$To$($targetElement) {
     delete this.main.users[this.details.id];
+
     this.HideSpinner();
     this.$.appendTo($targetElement);
     this.main.UpdateNumbers();
@@ -132,7 +146,7 @@ export default class User {
   ShowSmallSpinner() {
     this.$smallSpinner.appendTo(this.$smallSpinnerContainer);
   }
-  HideSmallSpinner(){
+  HideSmallSpinner() {
     this.main.HideElement(this.$smallSpinner);
   }
   ShowInfoBar() {

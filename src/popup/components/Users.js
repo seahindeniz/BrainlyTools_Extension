@@ -18,10 +18,16 @@ class Users {
           ],
           7,
           17,
+          //29,
           18,
           13,
           9,
-          27
+          [
+            27,
+            30,
+            31,
+            32
+          ]
         ]
       },
       lessImportant: {
@@ -121,7 +127,7 @@ class Users {
                 <div class="content">
                   <div class="field is-grouped">
                     <div class="control is-expanded">
-                      <div class="select">
+                      <div class="select is-fullwidth">
                         <select class="privileges" id="changeUserPrivileges">
                           <option>${System.data.locale.common.select}</option>
                         </select>
@@ -166,7 +172,7 @@ class Users {
               <img class="avatar is-rounded" src="https://${System.data.meta.marketName}/img/avatars/100-ON.png">
             </figure>
             <div>
-              <p class="nick"></p>
+              <p id="nick"></p>
             </div>
           </a>
         </div>
@@ -198,7 +204,7 @@ class Users {
     this.$idInput = $('input', this.$editUserSectionContainer);
     this.$avatarContainer = $(".media-left", this.$editUserSectionContainer);
     this.$link = $("a", this.$avatarContainer);
-    this.$nick = $(".nick", this.$link);
+    this.$nick = $("#nick", this.$link);
     this.$avatar = $("img.avatar", this.$link);
     this.$actions = $(".media-right", this.$editUserSectionContainer);
     this.$resetButton = $(".has-text-danger", this.$actions);

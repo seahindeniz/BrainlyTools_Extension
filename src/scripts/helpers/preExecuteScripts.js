@@ -1,4 +1,5 @@
 import ThemeColorChanger from "./ThemeColorChanger";
+import InjectIcons from "../components/SVG/index";
 
 function preExecuteScripts() {
   let color = window.localStorage.getItem("themeColor");
@@ -12,7 +13,10 @@ function preExecuteScripts() {
       elements.forEach(element => element.remove());
   });
 
-  window.addEventListener("load", () => clearInterval(_loop_removeElement));
+  window.addEventListener("load", () => {
+    InjectIcons();
+    clearInterval(_loop_removeElement)
+  });
   setTimeout(() => clearInterval(_loop_removeElement), 10000);
 }
 

@@ -369,19 +369,26 @@ export default class MassManageUsers {
     this.HideElement(this.$actionsSectionSeparator);
   }
   RenderActions() {
-    this.actions = [
-      new ApproveAnswers(this),
-      new DeleteUsers(this),
-      new ChangePoints(this),
-    ];
+    this.actions = [];
 
-    this.actions.forEach(this.RenderAction.bind(this));
+    if (System.checkUserP(30))
+      this.actions.push(new ApproveAnswers(this));
+
+    if (System.checkUserP(31))
+      this.actions.push(new DeleteUsers(this));
+
+    if (System.checkUserP(32))
+      this.actions.push(new ChangePoints(this));
+
+    if (this.actions.length > 0)
+      this.actions.forEach(this.RenderAction.bind(this));
   }
   /**
    * @param {import("./ActionSection/index").default} Section
    */
   RenderAction(Section) {
-    Section.$actionButtonContainer.appendTo(this.$actionsList);
+    if (Section && Section.$actionButtonContainer)
+      Section.$actionButtonContainer.appendTo(this.$actionsList);
   }
   ShowRemoveSelectedButton() {
     this.$removeSelectedButtonContainer.prependTo(this.$removeButtonList);

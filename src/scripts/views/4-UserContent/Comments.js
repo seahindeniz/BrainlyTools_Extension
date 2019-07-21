@@ -22,11 +22,15 @@ class Comments extends UserContent {
   async GetQuestion(questionID, question) {
     question.res = await question.resPromise;
     let rows = this.rows.filter(row => row.element.questionID == questionID);
-    let allComments = await this.FindAllComments(question.res.data);
+
+    if (!question.res || !question.res.success)
+      return rows.forEach(row => row.Deleted(true));
+
+    let allComments = await this.FindUsersComments(question.res.data);
 
     this.AttachCommentsToRows(allComments, rows);
   }
-  async FindAllComments(data) {
+  async FindUsersComments(data) {
     let allComments = [];
     let usersComments = [];
 
@@ -78,11 +82,11 @@ class Comments extends UserContent {
       // This should be exists in here because this line can push comment details even if related question has been deleted.
       allComments = content.comments.items;
 
-      if (content.comments.count > 5) {
+      if (content.comments.count > 5 && content.settings && !content.settings.is_deleted) {
         let resComments = await new Action().GetComments(content.id, type, content.comments.count);
 
         if (resComments && resComments.success)
-          allComments = resComments.data.comments.items
+          allComments = resComments.data.comments.items;
       }
     }
 
@@ -104,7 +108,7 @@ class Comments extends UserContent {
   }
   /**
    * @param {{}} comment
-   * @param {{}} row
+   * @param {import("./_/UserContentRow").default} row
    */
   AttachCommentToRow(comment, row) {
     let $dateCell = $("td:last", row.element);
@@ -128,6 +132,7 @@ class Comments extends UserContent {
           row.isBusy = false;
           row.comment = comment;
           row.checkbox.HideSpinner();
+          row.UnDelete();
           //row.element.dataset.commentId = comment.id;
         }
       }

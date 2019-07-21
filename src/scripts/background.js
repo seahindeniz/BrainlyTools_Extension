@@ -1,13 +1,15 @@
-"use strict";
-
 import ext from "./utils/ext";
 import _System from "./controllers/System";
 import storage from "./utils/storage";
 import NotifierSocket from "./controllers/NotifierSocket";
 
+/**
+ * @type {_System}
+ */
+let System;
+
 const BROWSER_ACTION = ext.browserAction;
 const RED_BADGE_COLOR = [255, 121, 107, 255];
-const __c = `font-size: 14px;color: #57b2f8;font-family:century gothic;`;
 
 class Background {
   constructor() {
@@ -25,7 +27,7 @@ class Background {
     this.BindListeners();
   }
   InitSystem() {
-    window.System = new _System();
+    window.System = System = new _System();
   }
   BindListeners() {
     ext.runtime.onMessage.addListener(this.MessageRequestHandler.bind(this));
@@ -167,7 +169,7 @@ class Background {
     }
   }
   async CheckUpdate() {
-    console.log("update started");
+    System.Log("update started");
     let status = await ext.runtime.requestUpdateCheck();
 
     if (status == "update_available") {
@@ -243,8 +245,8 @@ class Background {
       allFrames: true
     });
 
-    console.info("Content script injected OK!");
-    console.info(`%c${this.manifest.short_name}: Initilazing > ${tabId}`, __c);
+    System.Log("Content script injected OK!");
+    System.Log(`%c${this.manifest.short_name}: Initilazing > ${tabId}`);
   }
   CheckThePageWhetherInjected(tabId) {
     return new Promise(async (resolve) => {

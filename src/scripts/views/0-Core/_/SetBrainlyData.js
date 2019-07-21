@@ -28,7 +28,7 @@ export default async function SetBrainlyData() {
   System.data.Brainly.Routing = routing;
   System.data.Brainly.defaultConfig = defaultConfig;
 
-  Console.info("SetBrainlyData OK!");
+  System.Log("SetBrainlyData OK!");
 
   return true;
 }

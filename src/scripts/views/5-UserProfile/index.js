@@ -18,10 +18,11 @@ class UserProfile {
   async Init() {
     try {
       this.mainRight = await WaitForElement("#main-right");
-      this.profileData = await this.GetProfilData();
-
-      this.extensionPromise = new ServerReq().GetUser(this.profileData.id, this.profileData.nick);
-      this.brainlyPromise = new Action().GetUserProfile(this.profileData.id);
+      this.profileData = this.GetProfilData();
+      this.promise = {
+        profile: new Action().GetUserProfile(this.profileData.id),
+        extension: new ServerReq().GetUser(this.profileData.id, this.profileData.nick)
+      }
 
       new AccountDeleteReporter();
       this.RenderFriendsManager();
@@ -33,13 +34,13 @@ class UserProfile {
       console.error(error);
     }
   }
-  async GetProfilData() {
+  GetProfilData() {
     let data = window.profileData;
 
     if (!data || !data.id || !data.nick)
-      return Promise.reject("Can't find the user profile data");
+      throw "Can't find the profile data of user";
 
-    return Promise.resolve(data);
+    return data;
   }
   RenderFriendsManager() {
     if (myData.id == this.profileData.id)
@@ -51,7 +52,7 @@ class UserProfile {
     this.$infoSection.insertAfter("#main-left > div.personal_info > div.clear");
   }
   async LoadComponentsAfterExtensionResolve() {
-    let resUser = await this.extensionPromise;
+    let resUser = await this.promise.extension;
 
     if (!resUser.success)
       return console.error("User can't passed to extension server");
@@ -91,7 +92,7 @@ class UserProfile {
     $previousNickBox.prependTo(this.$infoSection);
   }
   async LoadComponentsAfterBrainlyResolve() {
-    let res = await this.brainlyPromise;
+    let res = await this.promise.profile;
 
     if (!res || !res.success || !res.data)
       return console.error("Data is not correct: ", res);
@@ -112,7 +113,7 @@ class UserProfile {
     $bioContainer.appendTo(this.$infoSection);
   }
   async LoadComponentsAfterAllResolved() {
-    await Promise.all([this.extensionPromise, this.brainlyPromise]);
+    await Promise.all([this.promise.extension, this.promise.profile]);
 
     if (this.extensionUser && this.brainlyUser) {
       this.RenderExtensionUserTag();

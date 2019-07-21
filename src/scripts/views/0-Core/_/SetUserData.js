@@ -36,7 +36,7 @@ export default function SetUserData() {
       System.data.Brainly.userData = res.user;
 
       resolve(res);
-      Console.info("SetUserData OK!");
+      System.Log("SetUserData OK!");
     } else {
       Console.error("User data error. Maybe not logged in", _dataLayer);
       reject();

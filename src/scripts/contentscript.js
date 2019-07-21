@@ -7,52 +7,61 @@ import ThemeColorChanger from "./helpers/ThemeColorChanger";
 import WaitForObject from "./helpers/WaitForObject";
 import ext from "./utils/ext";
 
-let manifest = ext.runtime.getManifest();
-manifest.URL = ext.extension.getURL("");
-manifest.id = ext.runtime.id;
+/**
+ * @type {_System}
+ */
+let System;
+let MANIFEST = ext.runtime.getManifest();
+MANIFEST.URL = ext.extension.getURL("");
+MANIFEST.id = ext.runtime.id;
 //manifest.clientID = Math.random().toString(36).slice(2);
 
 const html = document.documentElement;
 
-if (!html.brainly_tools || html.brainly_tools !== manifest.version)
-  InitIfTabIsBrainly();
-
-function InitIfTabIsBrainly() {
-  const url = new URL(location.href);
-
-  if (
-    !IsBrainly(url) ||
-    IsIgnoredPath(url)
-  )
-    return;
-
-  html.brainly_tools = manifest.version;
-
-  Init();
-}
-
-function Init() {
-  let System = new _System();
-  System.data.meta.marketName = location.hostname;
-  System.data.meta.location = JSON.parse(JSON.stringify(location));
-  System.data.meta.manifest = manifest;
-
-  System.data.meta.marketTitle = document.title;
-  System.data.meta.extension = {
-    id: ext.runtime.id,
-    URL: ext.runtime.getURL("").replace(/\/$/, "")
+class Contentscript {
+  constructor() {
+    this.InitIfBrainly();
   }
-  window.System = System;
+  InitIfBrainly() {
+    const url = new URL(location.href);
 
-  let html = document.documentElement;
+    if (
+      !IsBrainly(url) ||
+      IsIgnoredPath(url)
+    )
+      return;
 
-  if (html.getAttribute("extension"))
-    System.changeBadgeColor("loaded");
-  else {
-    console.log("Content Script OK!");
-    System.changeBadgeColor("loading");
+    html.brainly_tools = MANIFEST.version;
+
+    this.Init();
+    this.InjectCoreIfItIsntInjected();
+    this.BindHandlers();
+  }
+  Init() {
+    System = new _System(this);
+    System.data.meta.marketName = location.hostname;
+    System.data.meta.location = JSON.parse(JSON.stringify(location));
+    System.data.meta.manifest = MANIFEST;
+
+    System.data.meta.marketTitle = document.title;
+    System.data.meta.extension = {
+      id: ext.runtime.id,
+      URL: ext.runtime.getURL("").replace(/\/$/, "")
+    }
+    window.System = System;
+  }
+  InjectCoreIfItIsntInjected() {
+    if (html.getAttribute("extension"))
+      System.changeBadgeColor("loaded");
+    else {
+      System.Log("Content Script OK!");
+      System.changeBadgeColor("loading");
+      this.InjectCore();
+    }
+  }
+  async InjectCore() {
     require("./helpers/preExecuteScripts");
-    document.documentElement.setAttribute("extension", manifest.version);
+    document.documentElement.setAttribute("extension", MANIFEST.version);
     InjectToDOM([
       "/scripts/lib/prototypeOverrides.js",
       "/scripts/lib/regex-colorizer.js",
@@ -64,65 +73,67 @@ function Init() {
     } else {
       InjectToDOM("/styles/pages/CoreWithStyleGuide.css", { makeItLastElement: true });
 
-      WaitForObject(`document.body.classList.contains("mint")`, { noError: true }).then(isContains => {
-        if (isContains && !document.body.attributes.itemtype) {
-          InjectToDOM([
-            System.constants.Brainly.style_guide.icons
-          ]);
-        }
-      });
+      let isContains = await WaitForObject(`document.body.classList.contains("mint")`, { noError: true });
+
+      if (isContains && !document.body.attributes.itemtype)
+        InjectToDOM([
+          System.constants.Brainly.style_guide.icons
+        ]);
     }
   }
-
-  ext.runtime.onMessage.addListener(MessageHandler);
-
-  window.addEventListener('contentscript>Share System.data to background.js:DONE', () => {
-    System.toBackground("popup>Get System.data from background")
-  });
-
-  window.addEventListener('metaGet', e => {
+  BindHandlers() {
+    window.addEventListener('metaGet', this.SendMetaData.bind(this));
+    ext.runtime.onMessage.addListener(this.MessageHandler.bind(this));
+    window.addEventListener("message", this.SecondaryMessageHandler.bind(this));
+    window.addEventListener('contentscript>Share System.data to background.js:DONE', () => {
+      System.toBackground("popup>Get System.data from background")
+    });
+  }
+  SendMetaData(event) {
     window.postMessage({
         action: 'metaSet',
         data: System.data.meta
       },
-      e.target.URL);
-  });
-  window.addEventListener("message", event => {
+      event.target.URL);
+  }
+  MessageHandler(request) {
+    if (request.action == "manifest") {
+      return MANIFEST;
+    }
+    if (request.action === "previewColor") {
+      if (window.coloring) {
+        window.coloring.UpdateColor(request.data);
+      } else {
+        window.coloring = new ThemeColorChanger(request.data, true);
+      }
+    }
+    if (request.action === "changeColors") {
+      localStorage.setItem("themeColor", request.data);
+      this.MessageHandler({ action: "previewColor", data: request.data });
+    }
+    if (request.action === "contentscript>Share System.data to background.js") {
+      window.postMessage({
+        action: "DOM>Share System.data to background.js"
+      }, request.url);
+
+    }
+    if (request.action === "extendMessagesLayout") {
+      messagesLayoutExtender(request.data);
+    }
+
+    if (request.action == "contentscript>Check if content script injected") {
+      html = document.documentElement;
+
+      return Promise.resolve(html.getAttribute("extension"));
+    }
+  }
+  SecondaryMessageHandler(event) {
     if (event.source != window)
       return;
 
-    MessageHandler(event.data);
-  });
-}
-
-function MessageHandler(request) {
-  if (request.action == "manifest") {
-    return manifest;
-  }
-  if (request.action === "previewColor") {
-    if (window.coloring) {
-      window.coloring.UpdateColor(request.data);
-    } else {
-      window.coloring = new ThemeColorChanger(request.data, true);
-    }
-  }
-  if (request.action === "changeColors") {
-    localStorage.setItem("themeColor", request.data);
-    MessageHandler({ action: "previewColor", data: request.data });
-  }
-  if (request.action === "contentscript>Share System.data to background.js") {
-    window.postMessage({
-      action: "DOM>Share System.data to background.js"
-    }, request.url);
-
-  }
-  if (request.action === "extendMessagesLayout") {
-    messagesLayoutExtender(request.data);
-  }
-
-  if (request.action == "contentscript>Check if content script injected") {
-    html = document.documentElement;
-
-    return Promise.resolve(html.getAttribute("extension"));
+    this.MessageHandler(event.data);
   }
 }
+
+if (!html.brainly_tools || html.brainly_tools !== MANIFEST.version)
+  new Contentscript();

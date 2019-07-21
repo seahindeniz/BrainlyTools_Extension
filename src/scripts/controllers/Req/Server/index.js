@@ -70,7 +70,7 @@ export default class ServerReq {
           this.Auth(true).then(System.SetUserData.bind(System));
         }
 
-        console.info("Auth OK!");
+        System.Log("Auth OK!");
         resolve();
       } catch (error) {
         reject(error);

@@ -20,16 +20,17 @@ import SetBrainlyData from "./_/SetBrainlyData";
 import SetMetaData from "./_/SetMetaData";
 import SetUserData from "./_/SetUserData";
 
-let System = new _System();
-window.System = System;
-
+/**
+ * @type {_System}
+ */
+let System;
 window.selectors = {
   toplayerContainer: "body > div.js-page-wrapper"
 }
 
 window.addEventListener("beforeunload", () => {
-  if (window.isPageProcessing) {
-    let message = System.data.locale.common.notificationMessages.ongoingProcess;
+  if (window.System && window.isPageProcessing) {
+    let message = window.System.data.locale.common.notificationMessages.ongoingProcess;
 
     if (typeof window.isPageProcessing == "string") {
       message = window.isPageProcessing;
@@ -42,6 +43,9 @@ window.addEventListener("beforeunload", () => {
 
 class Core {
   constructor() {
+    System = new _System(this);
+    window.System = System;
+
     this.Pipeline();
   }
   async Pipeline() {
@@ -63,7 +67,7 @@ class Core {
     this.InitNotifier();
 
     await WaitForObject("jQuery");
-    Console.info("Jquery OK!");
+    System.Log("Jquery OK!");
 
     this.RenderEventCelebrating();
     this.LoadComponentsForAllPages();
@@ -94,7 +98,7 @@ class Core {
     }
 
     System.data.locale = await System.prepareLangFile(language);
-    Console.info("Locale inject OK!");
+    System.Log("Locale inject OK!");
 
     return Promise.resolve();
   }
@@ -171,7 +175,7 @@ class Core {
   }
   async InjectFilesToPageAfter_FriendsListLoaded() {
     await fetchFriends();
-    Console.info("Fetching friends OK!");
+    System.Log("Fetching friends OK!");
 
     if (System.checkRoute(1, "messages")) {
       InjectToDOM([
@@ -197,7 +201,7 @@ class Core {
   }
   async InjectFilesToPageAfter_DeleteReasonsLoaded() {
     await PrepareDeleteReasons();
-    Console.info("Delete reasons OK!");
+    System.Log("Delete reasons OK!");
 
     if (System.checkRoute(1, "") || System.checkRoute(1, "task_subject_dynamic")) {
       InjectToDOM([

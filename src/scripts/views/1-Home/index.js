@@ -1,10 +1,8 @@
-"use strict";
-
+import TimedLoop from "../../helpers/TimedLoop";
 import WaitForElement from "../../helpers/WaitForElement";
 import WaitForObject from "../../helpers/WaitForObject";
-import TodaysActions from "./_/TodaysActions";
 import startObservingForDeleteButtons from "./_/startObservingForDeleteButtons";
-import TimedLoop from "../../helpers/TimedLoop";
+import TodaysActions from "./_/TodaysActions";
 
 System.pageLoaded("Root inject OK!");
 

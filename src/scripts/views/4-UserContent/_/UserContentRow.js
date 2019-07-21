@@ -34,6 +34,8 @@ export default class UserContentRow {
     this.$questionLink = $("a[href]", this.element);
     let URL = this.$questionLink.attr("href");
     this.element.questionID = System.ExtractId(URL);
+
+    this.$questionLink.attr("target", "_blank");
   }
   async FetchContentWithPromise(refreshContent) {
     if (refreshContent || !this.resPromise) {
@@ -54,8 +56,13 @@ export default class UserContentRow {
   async RenderAfterResolve() {
     await this.SetContentAfterResolve();
 
-    this.RenderQuestionContent();
-    this.RenderAnswers();
+    if (this.res && this.res.success) {
+      this.RenderQuestionContent();
+      this.RenderAnswers();
+
+      if (this.res.data.task.settings.is_deleted)
+        this.Deleted(true);
+    }
 
     if (this.main.caller == "Questions" || this.main.caller == "Answers") {
       this.isBusy = false;
@@ -75,13 +82,15 @@ export default class UserContentRow {
     this.$contentContainer = $(".sg-box", this.$viewer);
   }
   RenderQuestionContent() {
-    let user = this.res.users_data.find(user => user.id == this.res.data.task.user_id);
-    let content = new ContentViewer_Content(this.res.data.task, user);
-    this.contents.question = content;
+    if (this.res && this.res.success) {
+      let user = this.res.users_data.find(user => user.id == this.res.data.task.user_id);
+      let content = new ContentViewer_Content(this.res.data.task, user);
+      this.contents.question = content;
 
-    content.$.appendTo(this.$contentContainer);
+      content.$.appendTo(this.$contentContainer);
 
-    this.RenderAttachmentsIcon(content.source);
+      this.RenderAttachmentsIcon(content.source);
+    }
 
     /* let question = this.content.res.data.task;
     let user = this.content.res.users_data.find(user => user.id == question.user_id);
@@ -99,7 +108,7 @@ export default class UserContentRow {
     this.RenderAttachmentsIcon(question); */
   }
   RenderAnswers() {
-    if (this.res.data.responses && this.res.data.responses.length > 0) {
+    if (this.res && this.res.success && this.res.data.responses && this.res.data.responses.length > 0) {
       this.res.data.responses.forEach(this.RenderAnswer.bind(this));
     }
   }
@@ -199,7 +208,7 @@ export default class UserContentRow {
   }
   RenderIcon(color, name) {
     let $icon = $(`
-		<button role="button" class="sg-icon-as-button sg-icon-as-button--${color} sg-icon-as-button--xxsmall sg-icon-as-button--action sg-icon-as-button--action-active sg-link--disabled sg-list__icon--spacing-right-small">
+		<button role="button" class="sg-icon-as-button sg-icon-as-button--${color} sg-icon-as-button--xxsmall sg-icon-as-button--action sg-icon-as-button--action-active sg-text--link-disabled sg-list__icon--spacing-right-small">
 			<div class="sg-icon-as-button__hole">
 				<div class="sg-icon sg-icon--adaptive sg-icon--x10">
 					<svg class="sg-icon__svg">
@@ -228,28 +237,39 @@ export default class UserContentRow {
    * @param {Event} event
    */
   async ToggleContentViewer(event) {
-    event && event.preventDefault();
+    if (this.res && this.res.success) {
+      event && event.preventDefault();
 
-    if (this.$contentContainer.children().length == 0) {
-      this.RenderQuestionContent();
-      this.RenderAnswers();
-    }
+      if (this.$contentContainer.children().length == 0) {
+        this.RenderQuestionContent();
+        this.RenderAnswers();
+      }
 
-    if (this.$viewer.is(":visible")) {
-      this.$viewer.appendTo("<div />");
-    } else {
-      this.$viewer.insertAfter(this.$questionLink);
+      if (this.$viewer.is(":visible")) {
+        this.$viewer.appendTo("<div />");
+      } else {
+        this.$viewer.insertAfter(this.$questionLink);
+      }
     }
   }
   Deleted(already) {
     this.deleted = true;
+    this.isBusy = false;
 
     this.checkbox.Disable();
+    this.checkbox.HideSpinner();
     this.element.classList.add("removed");
     this.element.classList.remove("already");
 
     if (already)
       this.element.classList.add("already");
+  }
+  UnDelete() {
+    this.deleted = false;
+    this.isBusy = false;
+
+    this.checkbox.Activate();
+    this.element.classList.remove("removed", "already");
   }
   Reported(already) {
     this.reported = true;

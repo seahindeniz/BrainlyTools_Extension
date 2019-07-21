@@ -1,335 +1,349 @@
 img.userHat {
-	position: absolute;
-	transform: rotate(-25deg);
-	pointer-events: none;
-	z-index: 1;
-	top: -7px;
-	left: 20px;
-	width: 50px;
+  position: absolute;
+  transform: rotate(-25deg);
+  pointer-events: none;
+  z-index: 1;
+  top: -7px;
+  left: 20px;
+  width: 50px;
 }
 
 .ranking {
-	>h2:not(:last-child) {
-		margin-right: 0.5em;
-	}
+  >h2:not(:last-child) {
+    margin-right: 0.5em;
+  }
 
-	&>a,
-	div.userFlag .sg-badge {
-		margin-right: 1em;
-	}
+  &>a,
+  div.userFlag .sg-badge {
+    margin-right: 1em;
+  }
+}
+
+#profile {
+  /* width: 100%; */
+  display: block;
+
+  /* #main-left {
+    width: 65%;
+  }
+
+  #main-right {
+    width: 33%;
+    margin: 0;
+  } */
 }
 
 #profile #main-left .personal_info .header {
-	display: inline-block;
-	overflow: unset;
+  display: inline-block;
+  overflow: unset;
 }
 
 #main-left span.ranking {
-	display: inline-grid;
+  display: inline-grid;
 }
 
 #profile #main-left .personal_info .header .info .info_top {
-	overflow: unset;
-	display: inline-block;
-	min-height: 6em;
+  overflow: unset;
+  display: inline-block;
+  min-height: 6em;
 }
 
 .userTag {
-	float: right;
-	clear: both;
-	height: 0;
-	position: relative;
-	top: 20px;
+  float: right;
+  clear: both;
+  height: 0;
+  position: relative;
+  top: 20px;
 
-	.sg-bubble {
-		z-index: 1;
-		top: -13px;
-		position: absolute;
-		left: 100%;
-		width: max-content;
-	}
+  .sg-bubble {
+    z-index: 1;
+    top: -13px;
+    position: absolute;
+    left: 100%;
+    width: max-content;
+  }
 }
 
 
 #profile-friends {
-	display: inline-block;
+  display: inline-block;
 
-	.avatar.all {
-		float: left;
-		width: 182px;
-		max-width: initial !important;
-		max-height: initial !important;
-		text-align: left;
-		padding: 0;
-		overflow: hidden;
-		margin: 0 0px 20px 0 !important;
-		padding: 6px 4px 0;
+  .avatar.all {
+    float: left;
+    width: 182px;
+    max-width: initial !important;
+    max-height: initial !important;
+    text-align: left;
+    padding: 0;
+    overflow: hidden;
+    margin: 0 0px 20px 0 !important;
+    padding: 6px 4px 0;
 
-		&.removed {
-			background-color: #fcc;
+    &.removed {
+      background-color: #fcc;
 
-			.sg-checkbox {
-				display: none;
-			}
-		}
+      .sg-checkbox {
+        display: none;
+      }
+    }
 
-		&:nth-child(3n) {
-			margin-right: 0px !important;
-		}
+    &:nth-child(3n) {
+      margin-right: 0px !important;
+    }
 
-		>div.bilgi {
-			float: left;
-			width: 100%;
-			max-width: 141px;
-			height: 37px;
+    >div.bilgi {
+      float: left;
+      width: 100%;
+      max-width: 141px;
+      height: 37px;
 
-			img {
-				max-width: 65px;
-				max-height: 65px;
-			}
+      img {
+        max-width: 65px;
+        max-height: 65px;
+      }
 
-			>div {
-				&.nick {
-					font-size: 12px;
-					text-overflow: ellipsis;
-					overflow: hidden;
-					max-width: 125px;
-				}
+      >div {
+        &.nick {
+          font-size: 12px;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          max-width: 125px;
+        }
 
-				&.rank {
-					position: relative;
-					max-width: 100%;
-					background-color: #fff;
-					height: 21px;
-					overflow: hidden;
-					padding: 0 3px 4px;
-					border: 1px solid transparent;
-					//Instead of the line below you could use @include border-radius($radius, $vertical-radius)
-					border-radius: 3px;
-					word-break: break-all;
-					top: 4px;
+        &.rank {
+          position: relative;
+          max-width: 100%;
+          background-color: #fff;
+          height: 21px;
+          overflow: hidden;
+          padding: 0 3px 4px;
+          border: 1px solid transparent;
+          //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+          border-radius: 3px;
+          word-break: break-all;
+          top: 4px;
 
-					&:empty {
-						display: none;
-					}
-				}
-			}
+          &:empty {
+            display: none;
+          }
+        }
+      }
 
-			>.sg-checkbox {
-				float: right;
-				z-index: 2;
-				left: -5px;
-				bottom: 15px;
+      >.sg-checkbox {
+        float: right;
+        z-index: 2;
+        left: -5px;
+        bottom: 15px;
 
-				>.sg-checkbox__ghost {
-					display: none;
-				}
+        >.sg-checkbox__ghost {
+          display: none;
+        }
 
-				>.sg-checkbox__element:checked+.sg-checkbox__ghost {
-					display: block;
-				}
+        >.sg-checkbox__element:checked+.sg-checkbox__ghost {
+          display: block;
+        }
 
-				>.sg-checkbox__element:not(:checked)+.sg-checkbox__ghost {
-					border-color: #ff796b;
-				}
-			}
-		}
+        >.sg-checkbox__element:not(:checked)+.sg-checkbox__ghost {
+          border-color: #ff796b;
+        }
+      }
+    }
 
-		&:hover {
-			overflow: unset;
+    &:hover {
+      overflow: unset;
 
-			&:not(.removed)>div.bilgi>div.sg-checkbox>label.sg-checkbox__ghost {
-				display: inline-block;
-			}
+      &:not(.removed)>div.bilgi>div.sg-checkbox>label.sg-checkbox__ghost {
+        display: inline-block;
+      }
 
-			>div.bilgi {
-				>div.rank {
-					overflow: visible;
-					height: initial;
-					z-index: 1;
+      >div.bilgi {
+        >div.rank {
+          overflow: visible;
+          height: initial;
+          z-index: 1;
 
-					&:not(:empty) {
-						border: 1px solid;
-					}
-				}
-			}
-		}
-	}
+          &:not(:empty) {
+            border: 1px solid;
+          }
+        }
+      }
+    }
+  }
 }
 
 #profile #profile-mod-panel {
-	.rankManager {
-		.sg-label {
-			margin-bottom: 1em;
+  .rankManager {
+    .sg-label {
+      margin-bottom: 1em;
 
-			* {
-				cursor: pointer;
-			}
-		}
-	}
+      * {
+        cursor: pointer;
+      }
+    }
+  }
 
-	div.evidences {
-		display: inline-block;
-		width: 98%;
-		padding: 10px 0;
-		margin: 30px auto 0;
-		-webkit-transition: color 2s, outline-color .7s ease-out, background-color .7s ease-out;
-		-moz-transition: color 2s, outline-color .7s ease-out, background-color .7s ease-out;
-		-o-transition: color 2s, outline-color .7s ease-out, background-color .7s ease-out;
-		transition: color 2s, outline-color .7s ease-out, background-color .7s ease-out;
+  div.evidences {
+    display: inline-block;
+    width: 98%;
+    padding: 10px 0;
+    margin: 30px auto 0;
+    -webkit-transition: color 2s, outline-color .7s ease-out, background-color .7s ease-out;
+    -moz-transition: color 2s, outline-color .7s ease-out, background-color .7s ease-out;
+    -o-transition: color 2s, outline-color .7s ease-out, background-color .7s ease-out;
+    transition: color 2s, outline-color .7s ease-out, background-color .7s ease-out;
 
-		div {
-			padding: 0;
-		}
+    div {
+      padding: 0;
+    }
 
-		>div {
-			width: 100%;
-			display: inline-block;
-			margin-top: 5px;
+    >div {
+      width: 100%;
+      display: inline-block;
+      margin-top: 5px;
 
 
-			&.textarea {
-				text-align: center;
-			}
+      &.textarea {
+        text-align: center;
+      }
 
-			&.container>label {
-				font-size: 12px;
-				width: initial;
-				font-weight: bold;
+      &.container>label {
+        font-size: 12px;
+        width: initial;
+        font-weight: bold;
 
-				>i {
-					font-size: 0.9em;
-					font-weight: normal;
-				}
-			}
+        >i {
+          font-size: 0.9em;
+          font-weight: normal;
+        }
+      }
 
-			>textarea {
-				/*width: 49%;
+      >textarea {
+        /*width: 49%;
 	height: 58px;
 	position: absolute;
 	bottom: 58px;*/
-				width: 87.5%;
-				height: 45px;
-				min-height: 45px;
-				position: relative;
-				resize: vertical;
-			}
+        width: 87.5%;
+        height: 45px;
+        min-height: 45px;
+        position: relative;
+        resize: vertical;
+      }
 
-		}
+    }
 
-		.evidence {
-			img {
-				object-fit: contain;
-			}
+    .evidence {
+      img {
+        object-fit: contain;
+      }
 
-			&:not(.previewing) {
-				.preview {
-					cursor: pointer;
-				}
+      &:not(.previewing) {
+        .preview {
+          cursor: pointer;
+        }
 
-				.sg-actions-list {
-					display: -webkit-box !important;
-				}
-			}
+        .sg-actions-list {
+          display: -webkit-box !important;
+        }
+      }
 
-			&.previewing .preview {
-				width: 100%;
-				max-width: unset;
-				height: 100%;
-				max-height: unset;
+      &.previewing .preview {
+        width: 100%;
+        max-width: unset;
+        height: 100%;
+        max-height: unset;
 
-				video {
-					width: 264px;
-				}
+        video {
+          width: 264px;
+        }
 
-			}
+      }
 
-			span.sg-text {
-				width: 100%;
-				height: 18px;
-				overflow: hidden;
-				text-overflow: ellipsis;
-				display: inline-block;
-				white-space: nowrap;
-			}
-		}
+      span.sg-text {
+        width: 100%;
+        height: 18px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-block;
+        white-space: nowrap;
+      }
+    }
 
-		.addFile {
+    .addFile {
 
-			input {
-				visibility: hidden;
-				width: 0;
-				height: 0;
-				padding: 0;
-				border: 0;
-			}
+      input {
+        visibility: hidden;
+        width: 0;
+        height: 0;
+        padding: 0;
+        border: 0;
+      }
 
-			label {
-				display: inline-flex;
-				width: unset;
-				padding: 0 18px;
-				float: unset;
-				line-height: inherit;
-			}
-		}
+      label {
+        display: inline-flex;
+        width: unset;
+        padding: 0 18px;
+        float: unset;
+        line-height: inherit;
+      }
+    }
 
-		ul {
-			/*width: 49%;
+    ul {
+      /*width: 49%;
 	clear: both;
 	overflow-x: auto;
 	float: right;
 	margin-top: 0;*/
-			width: 100%;
+      width: 100%;
 
-			>li {
-				width: 60px;
-				height: 55px;
-				padding: 10px;
-				outline: 1px solid #eee;
-				text-align: center;
-				float: left;
-				margin: 0 4px 10px;
-				-webkit-user-select: none;
-				-moz-user-select: none;
-				-ms-user-select: none;
-				user-select: none;
+      >li {
+        width: 60px;
+        height: 55px;
+        padding: 10px;
+        outline: 1px solid #eee;
+        text-align: center;
+        float: left;
+        margin: 0 4px 10px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
 
-				&.kanit {
-					>button {
-						position: relative;
-						margin: -15px 0 0 35px;
-						float: right;
-						top: 6px;
-						right: -10px;
-						z-index: 1;
-					}
+        &.kanit {
+          >button {
+            position: relative;
+            margin: -15px 0 0 35px;
+            float: right;
+            top: 6px;
+            right: -10px;
+            z-index: 1;
+          }
 
-					>img,
-					>video {
-						height: 64%;
-					}
+          >img,
+          >video {
+            height: 64%;
+          }
 
-					&.preview {
-						width: 100%;
-						height: 16em;
+          &.preview {
+            width: 100%;
+            height: 16em;
 
-						>img,
-						>video {
-							height: 150px;
-						}
-					}
+            >img,
+            >video {
+              height: 150px;
+            }
+          }
 
-					>p {
-						width: 100%;
-						height: 15px;
-						overflow: hidden;
-						text-overflow: ellipsis;
-						display: inline-block;
-						white-space: nowrap;
-					}
-				}
+          >p {
+            width: 100%;
+            height: 15px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: inline-block;
+            white-space: nowrap;
+          }
+        }
 
-			}
-		}
-	}
+      }
+    }
+  }
 }

@@ -26,30 +26,23 @@ class GroupMessaging {
   }
   async RenderGroupsLink() {
     this.$conversationsHeader = await WaitForElement(selectors.conversationsHeader);
-    let $groupMessageLink = $(`<a class="sg-headline sg-headline--small" href="#">${__groups.title}</a>`);
+    let $groupMessageLink = $(`<h2 class="sg-text sg-text--bold sg-text--link">${__groups.title}</h2>`);
     let $topMessagesHeaderText = $("h2", this.$conversationsHeader);
 
     $groupMessageLink.appendTo(this.$conversationsHeader);
 
-    $groupMessageLink.click(e => {
-      e.preventDefault();
-
+    $groupMessageLink.click(() => {
       this.RefreshTimeElements(true);
       this.RenderCreateAGroupLink();
       this.RenderConversationsList();
       this.RenderChatbox();
 
       $topMessagesHeaderText.remove();
-      $groupMessageLink.removeAttr("href");
       $groupMessageLink.off("click");
+      $groupMessageLink.removeClass("sg-text--link");
     });
   }
   async RefreshTimeElements(keepRefreshing = false) {
-    if (keepRefreshing) {
-      await System.Delay(1000);
-      this.RefreshTimeElements(true);
-    }
-
     let $time = $(".js-time");
 
     $time.each((i, element) => {
@@ -61,15 +54,18 @@ class GroupMessaging {
         element.title = _moment.format('LLLL');
       }
     });
+
+    if (keepRefreshing) {
+      await System.Delay(1000);
+      this.RefreshTimeElements(true);
+    }
   }
   RenderCreateAGroupLink() {
-    let $createGroupLink = $(`<a class="sg-headline sg-headline--small" href="#">${__groups.createGroup}</a>`);
+    let $createGroupLink = $(`<h2 class="sg-text sg-text--bold sg-text--link">${__groups.createGroup}</h2>`);
 
     $createGroupLink.appendTo(this.$conversationsHeader);
 
-    $createGroupLink.click(async e => {
-      e.preventDefault();
-
+    $createGroupLink.click(async () => {
       try {
         let groupData = await new renderGroupModal();
         let $groupLi = groupLi(groupData);
@@ -113,6 +109,7 @@ class GroupMessaging {
     if (groups && groups.success && groups.data && groups.data.length > 0) {
       groups.data.reverse();
       groups.data.forEach(this.RenderListItem.bind(this));
+      this.RefreshTimeElements();
     }
   }
   RenderListItem(group) {
@@ -151,16 +148,13 @@ class GroupMessaging {
   }
   RenderChatbox() {
     this.groupChatbox = new GroupChatbox();
-    let $BrainlysMessagesChatBox = $(selectors.chatbox);
-    let $chatBox_content = $(`<div class="sg-content-box"></div>`);
+    let $chatboxContainer = $(selectors.chatbox);
 
-    $chatBox_content.append(this.groupChatbox.$chatbox);
-
-    $(">*", $BrainlysMessagesChatBox).remove();
-    $BrainlysMessagesChatBox
-      .append($chatBox_content)
-      .addClass("js-group-chatbox")
-      .removeClass("js-chatbox");
+    $chatboxContainer
+      .html("")
+      .removeClass("js-chatbox")
+      .append(this.groupChatbox.$)
+      .addClass("js-group-chatbox");
   }
   OpenChatbox(data, groupLi) {
     this.groupChatbox.InitGroup(data, groupLi);

@@ -23,10 +23,21 @@ class Modal extends Toplayer {
     this.$toplayer.appendTo(this.$overlay);
   }
   Close() {
+    this.isOpen = false;
+
     this.$modal.appendTo("<div />>");
   }
   Open() {
-    this.$modal.appendTo("div.js-toplayers-container");
+    this.isOpen = true;
+    this.$toplayerContainer = $("div.js-toplayers-container");
+
+    if (this.$toplayerContainer.length == 0) {
+      this.$toplayerContainer = $(`<div class="js-toplayers-container"></div>`);
+
+      this.$toplayerContainer.appendTo("body");
+    }
+
+    this.$modal.appendTo(this.$toplayerContainer);
   }
   notification(message, type = "", makePermanent = false) {
     let $notification = notification(message, type, makePermanent);

@@ -12,7 +12,7 @@ window.selectors = {
 
   responseParentContainer: ".js-answers-wrapper",
   responseContainer: ".brn-answer",
-  responseModerateButtonContainer: "> .sg-content-box > .sg-actions-list > div:not(.js-best-answer-label-container)"
+  responseModerateButtonContainer: `> div.sg-content-box > div[class^="js-react-answer-header-"] > div.sg-actions-list > div.sg-actions-list__hole:nth-child(2) > div.sg-actions-list`
 }
 if (System.checkBrainlyP(102)) {
   if (System.checkUserP(1)) {

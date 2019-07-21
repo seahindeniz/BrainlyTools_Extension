@@ -1,4 +1,5 @@
 import template from "backtick-template";
+import mime from "mime-types";
 import templateContentViewer from "./templates/ContentViewer.html";
 
 export default class ContentViewer_Content {
@@ -109,14 +110,17 @@ export default class ContentViewer_Content {
     this.$attachmentIcon.click(this.ToggleAttachments.bind(this));
   }
   RenderAttachments() {
-    this.$attachmentsContainer = $(`<div class="sg-content-box__actions sg-content-box__actions--spaced-top-xxlarge"><div class="sg-actions-list"></div></div>`);
+    this.$attachmentsContainer = $(`
+    <div class="sg-content-box__actions sg-content-box__actions--spaced-top-xxlarge">
+      <div class="sg-actions-list"></div>
+    </div>`);
 
     this.$attachments = $("> div", this.$attachmentsContainer);
 
     this.source.attachments.forEach(attachment => {
       let $hole = $(`
 			<div class="sg-actions-list__hole sg-actions-list__hole--space-bellow">
-				<a href="${attachment.full}" target="_blank" class="sg-link">
+				<a href="${attachment.full}" target="_blank">
 					<div class="sg-box sg-box--dark sg-box--image-wrapper"></div>
 				</a>
 			</div>`);
@@ -127,7 +131,7 @@ export default class ContentViewer_Content {
       } else {
         $(`
 				<div class="sg-box__hole">
-					<span class="sg-text sg-text--bold sg-text--bold sg-text--gray">${attachment.type}</span>
+					<span class="sg-text sg-text--small sg-text--link sg-text--bold sg-text--gray">${(mime.extension(attachment.type) || attachment.type).toLocaleUpperCase()}</span>
 				</div>`).appendTo($box);
       }
 

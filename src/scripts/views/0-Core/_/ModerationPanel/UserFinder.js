@@ -15,10 +15,10 @@ const userLi = ({ id, nick, avatar, buddyUrl, ranks }) => {
 						</a>
 					</div>
 				</div>
-				<div class="sg-actions-list__hole sg-actions-list__hole--grow">
-					<a class="sg-link sg-link--unstyled" href="${buddyUrl}">
-						<span class="sg-text sg-text--small sg-text--gray sg-text--emphasised">${nick}</span>
-					</a>
+        <div class="sg-actions-list__hole sg-actions-list__hole--grow">
+          <a href="${buddyUrl}" class="sg-text sg-text--link">
+            <span class="sg-text sg-text--small sg-text--gray sg-text--emphasised">${nick}</span>
+          </a>
 					<div class="sg-text--xsmall rankList"></div>
 				</div>
 			</div>

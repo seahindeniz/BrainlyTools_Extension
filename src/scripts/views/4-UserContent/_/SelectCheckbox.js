@@ -52,12 +52,12 @@ export default class SelectCheckbox extends HTMLInputElement {
   Activate() {
     this.disabled = false;
 
-    this.$ghost.removeClass("sg-link--disabled");
+    this.$ghost.removeClass("sg-text--link-disabled");
   }
   Disable() {
     this.disabled = true;
 
-    this.$ghost.addClass("sg-link--disabled");
+    this.$ghost.addClass("sg-text--link-disabled");
   }
 }
 window.customElements.define('select-checkbox', SelectCheckbox, { extends: "input" });

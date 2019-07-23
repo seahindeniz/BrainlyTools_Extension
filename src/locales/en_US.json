@@ -323,7 +323,8 @@
             "title": "Change points",
             "description": "User can use this function to change points of users massively by providing list of ids/links of users"
           }
-        }
+        },
+        "veryImportant": "Very important"
       },
       "announcements": {
         "text": "Announcements",

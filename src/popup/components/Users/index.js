@@ -1,13 +1,27 @@
-import ServerReq from "../../scripts/controllers/Req/Server";
-import notification from "./notification";
+import ServerReq from "../../../scripts/controllers/Req/Server";
+import notification from "../notification";
+import PrivilegeCategory from "./_/PrivilegeCategory";
+
+let System = require("../../../scripts/helpers/System");
 
 class Users {
   constructor() {
+    if (typeof System == "function")
+      System = System();
+
+    /**
+     * @type {Object<string, {title: string, privileges: number|number[]}>}
+     */
     this.privilegeListOrder = {
+      veryImportant: {
+        title: System.data.locale.popup.extensionManagement.users.veryImportant,
+        privileges: [
+          0,
+        ]
+      },
       important: {
         title: System.data.locale.popup.extensionManagement.users.important,
         privileges: [
-          0,
           /* 4, */
           [
             5,
@@ -71,12 +85,18 @@ class Users {
     if (System.checkUserP([5, 23, 24, 25])) {
       this.RenderPrivilegesContainer();
 
-      if (System.checkUserP([5, 23]))
-        this.RenderPrivilegeGroup("important");
-      if (System.checkUserP([5, 24]))
-        this.RenderPrivilegeGroup("lessImportant");
-      if (System.checkUserP([5, 25]))
-        this.RenderPrivilegeGroup("harmless");
+      if (System.checkUserP([0])) {
+        new PrivilegeCategory(this, "veryImportant");
+      }
+      if (System.checkUserP([5, 23])) {
+        new PrivilegeCategory(this, "important");
+      }
+      if (System.checkUserP([5, 24])) {
+        new PrivilegeCategory(this, "lessImportant");
+      }
+      if (System.checkUserP([5, 25])) {
+        new PrivilegeCategory(this, "harmless");
+      }
     }
 
     this.PrepareUsers();
@@ -293,65 +313,10 @@ class Users {
 
     this.$privilegesContainer.appendTo(this.$settingsContainer);
   }
-  RenderPrivilegeGroup(groupKey) {
-    let group = this.privilegeListOrder[groupKey];
-
-    if (group) {
-      this.RenderDivider(group.title);
-      this.RenderPrivileges(group.privileges);
-    }
-  }
   RenderDivider(title) {
     let $divider = $(`<div class="is-divider"${title ? ` data-content="${title}"` : ""}></div>`);
 
     this.$privilegesContainer.append($divider);
-  }
-  RenderPrivileges(privileges) {
-    if (privileges && privileges.length > 0)
-      privileges.forEach(key => {
-        if (key instanceof Array)
-          this.RenderSubPrivilegeGroup(key);
-        else
-          this.RenderPrivilege(key);
-      });
-  }
-  RenderSubPrivilegeGroup(group) {
-    let mainKey = group.shift();
-    let $field = this.RenderPrivilege(mainKey, { isGroupLead: true });
-
-    group.forEach(key => this.RenderPrivilege(key, { isGroupElement: true, $field }));
-  }
-  RenderPrivilege(key, { isGroupLead, isGroupElement, $field } = {}) {
-    if (key != 0 || key == 0 && System.checkUserP(0)) {
-      let privilege = System.data.locale.popup.extensionManagement.users.privilegeList[key];
-
-      if (privilege) {
-        if (!key == 0 && this.$privilegesSelect) {
-          this.$privilegesSelect.append(`<option value="${key}" title="${privilege.description}">${privilege.title}</option>`);
-        }
-
-        let $element = $(`
-        <div class="field${isGroupElement ? " marginLeft20" : ""}" title="${privilege.description}">
-          <input class="is-checkradio is-block is-info" id="p-${key}" type="checkbox">
-          <label for="p-${key}">${isGroupElement ? `<span class="content is-small">&gt;</span> ` : ""}${privilege.title}</label>
-        </div>`);
-
-        if (isGroupLead) {
-          let $field = $(`<div class="field" title="${privilege.description}"></div>`);
-
-          $element.appendTo($field);
-
-          $element = $field;
-        }
-
-        if ($field)
-          $field.append($element);
-        else
-          this.$privilegesContainer.append($element);
-
-        return $element;
-      }
-    }
   }
   BindHandlers() {
     let that = this;
@@ -421,7 +386,7 @@ class Users {
     this.$avatar.attr("src", avatar);
     this.$link.attr("href", profileLink);
     this.$actions.removeClass("is-invisible");
-    this.$permission.prop("checked", false)
+    this.$permission.prop("checked", false);
     this.$privilegeInputs.prop("checked", false);
     this.$avatarContainer.removeClass("is-invisible");
 
@@ -434,9 +399,11 @@ class Users {
     if (user.serverData) {
       this.$permission.prop("checked", user.serverData.approved);
 
-      if (user.serverData.privileges && user.serverData.privileges.length > 0) {
-        user.serverData.privileges.forEach(type => $("#p-" + type, this.$privilegesContainer).prop("checked", true));
-      }
+      if (user.serverData.privileges && user.serverData.privileges.length > 0)
+        this.$privilegeInputs.each((i, input) => {
+          if (user.serverData.privileges.includes(input.key))
+            input.checked = true;
+        });
     }
   }
   async SubmitForm() {
@@ -459,7 +426,7 @@ class Users {
   }
   async SaveUser(user) {
     try {
-      let privileges = $("input:checked", this.$privilegesContainer).map((i, input) => ~~(input.id.replace("p-", ""))).get();
+      let privileges = $("input:checked", this.$privilegesContainer).map((i, input) => typeof input.key == "number" && input.key).get();
       let approved = this.$permission.prop("checked");
       let resUser = await new ServerReq().PutUser({
         id: user.brainlyData.id,
@@ -468,9 +435,8 @@ class Users {
         approved
       });
 
-      if (!resUser.success) {
+      if (!resUser.success)
         throw resUser.message;
-      }
 
       notification(System.data.locale.common.allDone, "success");
 
@@ -488,7 +454,6 @@ class Users {
       console.error(error);
       notification(typeof error == "string" && error || System.data.locale.common.notificationMessages.operationError, "danger");
     }
-
   }
   async GivePrivilege() {
     if (confirm(System.data.locale.popup.notificationMessages.doYouWannaGiveThisPrivilege)) {

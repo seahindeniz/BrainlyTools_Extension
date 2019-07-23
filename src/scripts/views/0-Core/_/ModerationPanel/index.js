@@ -1,12 +1,13 @@
 import WaitForObject from "../../../../helpers/WaitForObject";
 import MassContentDeleter from "./MassContentDeleter";
-import NoticeBoard from "./NoticeBoard";
+import MassManageUsers from "./MassManageUsers";
 import MassMessageSender from "./MassMessageSender";
+import MassModerateContents from "./MassModerateContents";
+import MassModerateReportedContents from "./MassModerateReportedContents";
+import NoticeBoard from "./NoticeBoard";
 import PointChanger from "./PointChanger";
 import ReportedCommentsDeleter from "./ReportedCommentsDeleter";
-import MassModerateReportedContents from "./MassModerateReportedContents";
 import renderUserFinder from "./UserFinder";
-import MassManageUsers from "./MassManageUsers";
 
 class ModerationPanel {
   constructor() {
@@ -17,7 +18,6 @@ class ModerationPanel {
     this.$oldPanelCoveringText = $("#moderate-functions-panel > div.panel > div.covering-text");
 
     this.RenderList();
-    this.RenderToplayerContainer();
     this.RenderComponents();
     this.RenderComponentsAfterDeleteReasonsLoaded();
     this.RenderResizeTrackingElement();
@@ -28,47 +28,37 @@ class ModerationPanel {
 
     this.$ul.prependTo(".brn-moderation-panel__list, #moderate-functions");
   }
-  RenderToplayerContainer() {
-    let $toplayerContainer = $("body div.js-toplayers-container");
-
-    if ($toplayerContainer.length == 0) {
-      $toplayerContainer = $(`<div class="js-toplayers-container"></div>`);
-
-      $toplayerContainer.appendTo("body");
-    }
-  }
   RenderComponents() {
     this.RenderComponent({ $li: renderUserFinder() });
 
-    if (System.checkUserP(20) || System.data.Brainly.userData.extension.noticeBoard !== null) {
+    if (System.checkUserP(20) || System.data.Brainly.userData.extension.noticeBoard !== null)
       this.RenderComponent(new NoticeBoard());
-    }
 
-    if (System.checkUserP(9)) {
+    if (System.checkUserP(9))
       this.RenderComponent(new MassMessageSender());
-    }
 
-    if (System.checkUserP(13) && System.checkBrainlyP(41)) {
+    if (System.checkUserP(13) && System.checkBrainlyP(41))
       this.RenderComponent(new PointChanger());
+
+    if (System.checkUserP(29)) {
+      //this.RenderComponent(new MassModerateContents());
     }
 
-    if (System.checkUserP(18)) {
+    if (System.checkUserP(18))
       this.RenderComponent(new MassModerateReportedContents());
-    }
 
-    if (System.checkUserP(27))
+    if (System.checkUserP([27, 30, 31, 32]))
       this.RenderComponent(new MassManageUsers());
   }
   async RenderComponentsAfterDeleteReasonsLoaded() {
     await WaitForObject("window.System.data.Brainly.deleteReasons.__withTitles.comment", { noError: true });
 
-    if (System.checkUserP(17)) {
+    if (System.checkUserP(17))
       this.RenderComponent(new ReportedCommentsDeleter());
-    }
 
-    if (System.checkUserP(7)) {
+    if (System.checkUserP(7))
       this.RenderComponent(new MassContentDeleter());
-    }
+
   }
   RenderComponent(instance) {
     instance.$li.appendTo(this.$ul);

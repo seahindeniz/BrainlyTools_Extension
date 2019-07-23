@@ -371,13 +371,13 @@ export default class MassManageUsers {
   RenderActions() {
     this.actions = [];
 
-    if (System.checkUserP(30))
+    if (System.checkUserP([27, 30]))
       this.actions.push(new ApproveAnswers(this));
 
-    if (System.checkUserP(31))
+    if (System.checkUserP([27, 31]))
       this.actions.push(new DeleteUsers(this));
 
-    if (System.checkUserP(32))
+    if (System.checkUserP([27, 32]))
       this.actions.push(new ChangePoints(this));
 
     if (this.actions.length > 0)

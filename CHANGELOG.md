@@ -20,7 +20,7 @@ All notable changes to this project will be documented in this file.
 
 [#63]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/63
 [#73]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/73
-[#1584]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/1584
+[#1584]: https://github.com/brainly/style-guide/issues/1584
 [#74]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/73
 
 ## [6.25.0] - 2019.07.02

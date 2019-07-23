@@ -323,7 +323,8 @@
             "title": "Puan değiştirme",
             "description": "Kullanıcı bu fonksiyonu kullanarak kullanıcıların puanlarını, profil linki veya id listesi ile çoklu şekilde değiştirebilir"
           }
-        }
+        },
+        "veryImportant": "Çok önemli"
       },
       "announcements": {
         "text": "Duyurular",

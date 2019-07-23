@@ -146,8 +146,7 @@ task("styleGuide", () => {
 });
 
 task("locales", () => {
-  return src('src/locales/*.yml')
-    .pipe($.yaml())
+  return src('src/locales/*.json')
     .pipe(dest(`build/${target}/locales`));
 });
 
@@ -212,7 +211,7 @@ task("manifest", () => {
 
 task(
   'build',
-  series('clean', "assets", "extensionConfig", 'scss', "styleGuide", "locales", "popup", 'js', "jsx", 'manifest')
+  series('clean', "assets", "extensionConfig", 'scss', "styleGuide", "locales", "popup", 'js', /* "jsx", */ 'manifest')
 );
 task(
   "reloadExtension",

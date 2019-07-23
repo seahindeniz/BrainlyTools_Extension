@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.26.0] - 2019.07.23
+
+### Added
+
+- [#63] Regarding mass point adder
+- [#73] While deleting using quick buttons, show the Moderator the reason with
+ which they are deleting
+
+### Changed
+
+- [#1584] Buttons are changed to avoid using depracated elements and comply
+ changes of Brainly
+- [#74]
+- Couldn't able to add personal notes in profile or messages page
+- Selected user privileges are not shown on ext. options after updating privileges
+
+[#63]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/63
+[#73]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/73
+[#1584]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/1584
+[#74]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/73
+
 ## [6.25.0] - 2019.07.02
 
 ### Added

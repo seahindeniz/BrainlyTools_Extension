@@ -50,7 +50,7 @@
       "newNotification": "Nouvelle notification",
       "operationCompleted": "Opération effectuée",
       "unsavedChanges": "Vous avez des modifications non sauvegardées. Voulez-vous toujours quitter ?",
-      "youNeedToSelectAtLeastOne": "You need to select at least one"
+      "youNeedToSelectAtLeastOne": "Vous devez en sélectionner au moins un"
     },
     "moderating": {
       "moreOptions": "Plus d'options",
@@ -82,18 +82,18 @@
       "approved": "Approuvée",
       "unapprove": "Désapprouver",
       "unapproved": "Désapprouvé",
-      "doYouWantToDeleteWithReason": "Do you want to delete it?\n\n%{reason_title}:\n%{reason_message}"
+      "doYouWantToDeleteWithReason": "Voulez-vous supprimer ceci ?\n%{reason_title} :\n%{reason_message}"
     },
     "personalNote": {
       "text": "Note personnelle",
       "title": "Tu peux ajouter une note personnelle ici et qui sera reliée à cet utilisateur seulement"
     },
     "pointsWithExample": {
-      "text": "Points: (1 or -1)",
-      "title": "You can add points by typing positive numbers like 123\nor\nyou can remove points by typing negative numbers like -123"
+      "text": "Points: (1 ou -1)",
+      "title": "Vous pouvez ajouter des points en tapant des nombres positifs comme 123 \n ou \n vous pouvez supprimer des points en tapant des nombres négatifs comme -123"
     },
-    "showMore": "Show more..",
-    "userHasNPoints": "User has %{n} points"
+    "showMore": "Montre plus..",
+    "userHasNPoints": "L'utilisateur a %{n} points"
   },
   "popup": {
     "notificationMessages": {
@@ -308,22 +308,23 @@
             "description": "Sur la page des questions, tout modérer et sur la page d'accueil, l'utilisateur peut utiliser les boutons de suppression rapide pour supprimer les commentaires"
           },
           "29": {
-            "title": "Mass-Moderate contents",
-            "description": "User can use this function to moderate contents massively"
+            "title": "Modération de masse des contenus",
+            "description": "L'utilisateur peut utiliser cette fonction pour modérer massivement les contenus"
           },
           "30": {
-            "title": "Approve all answers",
-            "description": "User can use this function to approve all answers of users massively by providing list of ids/links of users"
+            "title": "Approuver toutes les réponses",
+            "description": "L'utilisateur peut utiliser cette fonction pour approuver massivement toutes les réponses des utilisateurs en fournissant une liste d'identifiants / liens d'utilisateurs"
           },
           "31": {
-            "title": "Delete users",
-            "description": "User can use this function to delete users massively by providing list of ids/links of users"
+            "title": "Supprimer les utilisateurs",
+            "description": "L'utilisateur peut utiliser cette fonction pour supprimer massivement des utilisateurs en indiquant la liste des IDs/liens des utilisateurs"
           },
           "32": {
-            "title": "Change points",
-            "description": "User can use this function to change points of users massively by providing list of ids/links of users"
+            "title": "Changer les points",
+            "description": "L'utilisateur peut utiliser cette fonction pour changer massivement les points des utilisateurs en indiquant la liste des IDs/liens des utilisateurs"
           }
-        }
+        },
+        "veryImportant": "Très important"
       },
       "announcements": {
         "text": "Annonces",
@@ -504,22 +505,22 @@
         },
         "changePoints": {
           "actionButton": {
-            "text": "Change points",
-            "title": "Change points of all listed users"
+            "text": "Changer les points",
+            "title": "Modifier les points de tous les utilisateurs répertoriés"
           },
-          "applyToAll": "Apply to all",
-          "applyToSelected": "Apply to selected",
+          "applyToAll": "Appliquer à tous",
+          "applyToSelected": "Appliquer à la sélection",
           "notificationMessages": {
-            "doYouWantToGiveNPointsToAllListedUsers": "Do you want to give %{n} points to all listed users?",
-            "doYouWantToGiveNPointsToSelectedUsers": "Do you want to give %{n} points to selected users?",
-            "oopsYouDidntSpecifyThePoints": "Oops, you didn't specify the points",
-            "thereIsNoPointToGiveZeroPoints": "There is no point to give zero points :)"
+            "doYouWantToGiveNPointsToAllListedUsers": "Voulez-vous attribuer %{n} points à tous les utilisateurs répertoriés?",
+            "doYouWantToGiveNPointsToSelectedUsers": "Voulez-vous donner %{n} points aux utilisateurs sélectionnés?",
+            "oopsYouDidntSpecifyThePoints": "Oups, vous n'avez pas précisé les points",
+            "thereIsNoPointToGiveZeroPoints": "Il est inutile de donner zéro point :)"
           }
         }
       }
     },
     "MassModerateContents": {
-      "text": "Mass-Moderate contents"
+      "text": "Modération de masse des contenus"
     }
   },
   "home": {

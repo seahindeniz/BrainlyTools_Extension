@@ -1,3 +1,4 @@
+.env
 dists
 build/*
 node_modules

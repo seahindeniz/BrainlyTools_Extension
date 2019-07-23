@@ -50,7 +50,7 @@
       "newNotification": "Notifikasi baru",
       "operationCompleted": "Pengerjaan selesai",
       "unsavedChanges": "Kamu memiliki beberapa perubahan tidak disimpan. Apakah kamu tetap ingin menutup?",
-      "youNeedToSelectAtLeastOne": "You need to select at least one"
+      "youNeedToSelectAtLeastOne": "Kamu harus memilih setidaknya satu"
     },
     "moderating": {
       "moreOptions": "Lebih Banyak Opsi",
@@ -82,18 +82,18 @@
       "approved": "Disetujui",
       "unapprove": "Tidak disetujui",
       "unapproved": "Tidak disetujui",
-      "doYouWantToDeleteWithReason": "Do you want to delete it?\n\n%{reason_title}:\n%{reason_message}"
+      "doYouWantToDeleteWithReason": "Apakah kamu ingin menghapus?\n\n%{reason_title}:\n%{reason_message}"
     },
     "personalNote": {
       "text": "Catatan pribadi",
       "title": "Kamu dapat menambahkan catatan pribadi disini dan ini itu hanya akan berhubungan dengan user ini saja"
     },
     "pointsWithExample": {
-      "text": "Points: (1 or -1)",
-      "title": "You can add points by typing positive numbers like 123\nor\nyou can remove points by typing negative numbers like -123"
+      "text": "Poin: (1 atau -1)",
+      "title": "Anda dapat menambahkan poin dengan mengetikkan angka positif seperti 123 \n atau \n Anda dapat menghapus poin dengan mengetikkan angka negatif seperti -123"
     },
-    "showMore": "Show more..",
-    "userHasNPoints": "User has %{n} points"
+    "showMore": "Lihat lebih banyak..",
+    "userHasNPoints": "Pengguna memiliki %{n} poin"
   },
   "popup": {
     "notificationMessages": {
@@ -308,22 +308,23 @@
             "description": "Dihalaman pengguna, konten pengguna dan halaman Moderais semua, pengguna dapat menggunakan tombol penghapusan cepat untuk menghapus komentar."
           },
           "29": {
-            "title": "Mass-Moderate contents",
-            "description": "User can use this function to moderate contents massively"
+            "title": "Moderasi konten massal",
+            "description": "Pengguna dapat menggunakan fungsi ini untuk memoderasi konten secara massal."
           },
           "30": {
-            "title": "Approve all answers",
-            "description": "User can use this function to approve all answers of users massively by providing list of ids/links of users"
+            "title": "Menyetujui semua jawaban",
+            "description": "Pengguna dapat menggunakan fungsi ini untuk mengubah poin pengguna secara massal dengan memberikan daftar id/link dari pengguna."
           },
           "31": {
-            "title": "Delete users",
-            "description": "User can use this function to delete users massively by providing list of ids/links of users"
+            "title": "Hapus pengguna",
+            "description": "Pengguna dapat menggunakan fungsi ini untuk mengubah poin pengguna secara massal dengan memberikan daftar id/link dari pengguna."
           },
           "32": {
-            "title": "Change points",
-            "description": "User can use this function to change points of users massively by providing list of ids/links of users"
+            "title": "Ubah poin",
+            "description": "Pengguna dapat menggunakan fungsi ini untuk mengubah poin pengguna secara massal dengan memberikan daftar id/link dari pengguna."
           }
-        }
+        },
+        "veryImportant": "Very important"
       },
       "announcements": {
         "text": "Pengumuman",
@@ -504,22 +505,22 @@
         },
         "changePoints": {
           "actionButton": {
-            "text": "Change points",
-            "title": "Change points of all listed users"
+            "text": "Ubah poin",
+            "title": "Ubah poin dari semua pengguna yang terdaftar"
           },
-          "applyToAll": "Apply to all",
-          "applyToSelected": "Apply to selected",
+          "applyToAll": "Terapkan ke semua",
+          "applyToSelected": "Terapkan untuk dipilih",
           "notificationMessages": {
-            "doYouWantToGiveNPointsToAllListedUsers": "Do you want to give %{n} points to all listed users?",
-            "doYouWantToGiveNPointsToSelectedUsers": "Do you want to give %{n} points to selected users?",
-            "oopsYouDidntSpecifyThePoints": "Oops, you didn't specify the points",
-            "thereIsNoPointToGiveZeroPoints": "There is no point to give zero points :)"
+            "doYouWantToGiveNPointsToAllListedUsers": "Apakah kamu ingin memberikan %{n} poin ke semua daftar pengguna ?",
+            "doYouWantToGiveNPointsToSelectedUsers": "Apakah kamu ingin memberikan %{n} poin ke pengguna yang dipilih?",
+            "oopsYouDidntSpecifyThePoints": "Ups, kamu tidak menentukan poin spesifik",
+            "thereIsNoPointToGiveZeroPoints": "Tidak ada gunanya untuk memberikan poin nol :)"
           }
         }
       }
     },
     "MassModerateContents": {
-      "text": "Mass-Moderate contents"
+      "text": "Moderasi konten Massal"
     }
   },
   "home": {

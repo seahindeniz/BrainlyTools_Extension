@@ -76,7 +76,8 @@ async function responseModerateButtonsClickHandler() {
     let responseData = {
       model_id: answer_id,
       reason_id: reason.category_id,
-      reason: reason.text
+      reason: reason.text,
+      reason_title: reason.title
     };
     responseData.give_warning = System.canBeWarned(reason.id);
     let svg = $("svg", this);
@@ -93,6 +94,6 @@ async function responseModerateButtonsClickHandler() {
     System.log(6, { user, data: [answer_id] });
     parentResponseContainer.addClass("brn-question--deleted");
     $(selectors.responseModerateButtonContainer, parentResponseContainer).remove();
-    $responseModerateButtons.remove();
+    $(this).parents(".ext_actions").remove();
   }
 };

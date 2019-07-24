@@ -1,13 +1,12 @@
 import Button from "../../../components/Button";
 import Action from "../../../controllers/Req/Brainly/Action";
-import QuickDeleteButtons from "./QuickDeleteButtons";
 
 let System = require("../../../helpers/System");
 
 class QuickDeleteButton {
   /**
    * @param {number} reasonId
-   * @param {QuickDeleteButtons} main
+   * @param {import("./QuickDeleteButtons").default} main
    */
   constructor(reasonId, main) {
     if (typeof System == "function")
@@ -57,7 +56,8 @@ class QuickDeleteButton {
     let taskData = {
       model_id: this.main.questionId,
       reason_id: this.reason.category_id,
-      reason: this.reason.text
+      reason: this.reason.text,
+      reason_title: this.reason.title
     };
     taskData.give_warning = System.canBeWarned(this.reason.id);
 

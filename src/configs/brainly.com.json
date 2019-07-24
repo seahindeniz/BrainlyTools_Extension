@@ -8,5 +8,10 @@
     "task": [12, 52, 9],
     "response": [35, 21, 48],
     "comment": [23, 71, 58]
+  },
+  "defaultAbuseReportReasons": {
+    "question": [2, 5],
+    "answer": [8, 7],
+    "comment": [301, null]
   }
 }

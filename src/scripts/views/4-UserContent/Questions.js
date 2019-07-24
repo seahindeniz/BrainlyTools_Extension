@@ -28,6 +28,7 @@ class Questions extends UserContent {
       if (confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
         this.postData = {
           reason_id: this.deleteSection.selectedReason.id,
+          reason_title: this.deleteSection.selectedReason.title,
           reason: this.deleteSection.reasonText,
           give_warning: this.deleteSection.giveWarning,
           take_points: this.deleteSection.takePoints,

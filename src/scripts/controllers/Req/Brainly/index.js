@@ -270,4 +270,11 @@ export default class Brainly extends Request {
   get_by_user() {
     return this.P("get_by_user");
   }
+
+  api_moderation() {
+    return this.P("api_moderation");
+  }
+  abuse_report() {
+    return this.P("abuse_report");
+  }
 }

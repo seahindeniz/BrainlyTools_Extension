@@ -249,6 +249,7 @@ class ModeratingPanel {
         model_id: this.ticket.data.task.id,
         reason: this.deleteSection.reasonText,
         reason_id: this.deleteSection.selectedReason.id,
+        reason_title: this.deleteSection.selectedReason.title,
         give_warning: this.deleteSection.giveWarning,
         take_points: this.deleteSection.takePoints,
         return_points: this.deleteSection.returnPoints

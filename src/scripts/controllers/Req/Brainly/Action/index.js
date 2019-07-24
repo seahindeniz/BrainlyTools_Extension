@@ -32,9 +32,9 @@ export default class Action extends Brainly {
     return this.Legacy().api_tasks().main_view().P(id).GET();
   }
   /**
-   * @param {{model_id: number, reason: string, reason_id: number, give_warning: boolean, take_points: boolean, return_points:boolean}} data
+   * @param {{model_id: number, reason: string, reason_title?: string, reason_id: number, give_warning: boolean, take_points: boolean, return_points:boolean}} data
    */
-  RemoveQuestion(data) {
+  async RemoveQuestion(data) {
     data = {
       model_type_id: 1,
       give_warning: false,
@@ -45,12 +45,19 @@ export default class Action extends Brainly {
     }
     data.reason += ` ${System.constants.config.reasonSign}`;
 
+    if (data.reason_title && System.data.config.marketConfig.defaultAbuseReportReasons) {
+      let resReport = await new Action().ReportQuestion(data.model_id, data.reason_title);
+
+      if (!resReport || !resReport.success)
+        return Promise.reject(resReport || { success: false, message: System.data.locale.common.notificationMessages.somethingWentWrongPleaseRefresh });
+    }
+
     return this.Legacy().moderation_new().delete_task_content().POST(data);
   }
   /**
-   * @param {{model_id: number, reason: string, reason_id: number, give_warning: boolean, take_points: boolean}} data
+   * @param {{model_id: number, reason: string, reason_title?: string, reason_id: number, give_warning: boolean, take_points: boolean}} data
    */
-  RemoveAnswer(data) {
+  async RemoveAnswer(data) {
     data = {
       model_type_id: 2,
       give_warning: false,
@@ -59,6 +66,13 @@ export default class Action extends Brainly {
       ...data
     }
     data.reason += ` ${System.constants.config.reasonSign}`;
+
+    if (data.reason_title && System.data.config.marketConfig.defaultAbuseReportReasons) {
+      let resReport = await new Action().ReportAnswer(data.model_id, data.reason_title);
+
+      if (!resReport || !resReport.success)
+        return Promise.reject(resReport || { success: false, message: System.data.locale.common.notificationMessages.somethingWentWrongPleaseRefresh });
+    }
 
     return this.Legacy().moderation_new().delete_response_content().POST(data);
   }
@@ -496,5 +510,64 @@ export default class Action extends Brainly {
       data.page = page
 
     return this.Legacy().api_responses().get_by_user().GET(data);
+  }
+  /**
+   * @param {number} model_id
+   * @param {string} reason
+   * @param {number} category_id
+   * @param {number} subcategory_id
+   */
+  ReportQuestion(model_id, reason, category_id, subcategory_id) {
+    return this.ReportContent(1, model_id, reason, category_id, subcategory_id);
+  }
+  /**
+   * @param {number} model_id
+   * @param {string} reason
+   * @param {number} category_id
+   * @param {number} subcategory_id
+   */
+  ReportAnswer(model_id, reason, category_id, subcategory_id) {
+    return this.ReportContent(2, model_id, reason, category_id, subcategory_id);
+  }
+  /**
+   * @param {number} model_id
+   * @param {string} reason
+   * @param {number} category_id
+   * @param {number} subcategory_id
+   */
+  ReportComment(model_id, reason, category_id, subcategory_id) {
+    return this.ReportContent(45, model_id, reason, category_id, subcategory_id);
+  }
+  /**
+   * @param {number} model_type_id
+   * @param {number} model_id
+   * @param {string} reason
+   * @param {number} category_id
+   * @param {number} subcategory_id
+   */
+  ReportContent(model_type_id, model_id, reason, category_id, subcategory_id) {
+    let type = model_type_id == 1 ? "question" : model_type_id == 2 ? "answer" : model_type_id == 45 ? "comment" : "";
+
+    if (!type)
+      throw "Incorrect model type";
+
+    if (typeof category_id === "undefined")
+      category_id = System.data.config.marketConfig.defaultAbuseReportReasons[type][0];
+
+    if (typeof subcategory_id === "undefined")
+      category_id = System.data.config.marketConfig.defaultAbuseReportReasons[type][1];
+
+    let data = {
+      abuse: {
+        category_id,
+        subcategory_id,
+        data: reason
+      },
+      model_id,
+      model_type_id
+    }
+    data.abuse.data += ` ${System.constants.config.reasonSign}`;
+
+    return this.Legacy().api_moderation().abuse_report().POST(data);
   }
 }

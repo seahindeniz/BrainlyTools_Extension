@@ -60,7 +60,8 @@ export default function taskSection() {
       let taskData = {
         model_id: question_id,
         reason_id: reason.category_id,
-        reason: reason.text
+        reason: reason.text,
+        reason_title: reason.title
       };
       taskData.give_warning = System.canBeWarned(reason.id);
       let svg = $("svg", this);
@@ -69,6 +70,7 @@ export default function taskSection() {
       svg.hide();
 
       let res = await new Action().RemoveQuestion(taskData);
+      //let res = { success: true }; await System.Delay();
 
       new Action().CloseModerationTicket(question_id);
 

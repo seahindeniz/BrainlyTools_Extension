@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.27.0] - 2019.07.24
+
+### Added
+
+- (Brainly.com) Quick delete buttons will report contents for abuse while deleting
+
 ## [6.26.0] - 2019.07.23
 
 ### Added

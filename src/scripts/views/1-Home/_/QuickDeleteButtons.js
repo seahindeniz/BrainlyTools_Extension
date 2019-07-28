@@ -22,6 +22,7 @@ class QuickDeleteButtons {
     try {
       this.RenderContainer();
 
+      this.user = this.FindOwner();
       this.questionId = this.FindQuestionId();
 
       this.ShowContainer();
@@ -47,6 +48,32 @@ class QuickDeleteButtons {
     this.$deleteButtonContainerBox = $(".sg-content-box", this.$container);
     this.$moreOptionsButtonContainer = $(".sg-spinner-container", this.$container);
   }
+  FindOwner() {
+    let $userLink = $(window.selectors.userLink, this.target);
+
+    if ($userLink.length == 0)
+      throw { msg: "User link element not found from target", element: this.target };
+
+    let link = $userLink.attr("href")
+
+    if (!link)
+      throw { msg: "User link not found from target", element: this.target };
+
+    let [nick, id] = link.replace(/.*\//, "").split("-");
+
+    if (!nick)
+      throw { msg: "User nick not found from target", element: this.target };
+
+    if (!id)
+      throw { msg: "User id not found from target", element: this.target };
+
+    id = ~~id;
+
+    return {
+      id,
+      nick
+    }
+  }
   /**
    * @returns {number}
    */
@@ -56,7 +83,7 @@ class QuickDeleteButtons {
 
     if (!questionLink)
       throw {
-        error: "Question link cannot be found",
+        msg: "Question link cannot be found",
         element: $questionLink
       };
 
@@ -64,7 +91,7 @@ class QuickDeleteButtons {
 
     if (!questionId)
       throw {
-        error: "Question id is invalid",
+        msg: "Question id is invalid",
         element: $questionLink,
         data: questionLink,
         id: questionId

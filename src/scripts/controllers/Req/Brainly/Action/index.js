@@ -48,8 +48,8 @@ export default class Action extends Brainly {
     if (data.reason_title && System.data.config.marketConfig.defaultAbuseReportReasons) {
       let resReport = await new Action().ReportQuestion(data.model_id, data.reason_title);
 
-      if (!resReport || !resReport.success)
-        return Promise.reject(resReport || { success: false, message: System.data.locale.common.notificationMessages.somethingWentWrongPleaseRefresh });
+      if (!resReport || (!resReport.success && resReport.code != 10))
+        return Promise.resolve(resReport || { success: false, message: System.data.locale.common.notificationMessages.somethingWentWrongPleaseRefresh });
     }
 
     return this.Legacy().moderation_new().delete_task_content().POST(data);
@@ -70,8 +70,8 @@ export default class Action extends Brainly {
     if (data.reason_title && System.data.config.marketConfig.defaultAbuseReportReasons) {
       let resReport = await new Action().ReportAnswer(data.model_id, data.reason_title);
 
-      if (!resReport || !resReport.success)
-        return Promise.reject(resReport || { success: false, message: System.data.locale.common.notificationMessages.somethingWentWrongPleaseRefresh });
+      if (!resReport || (!resReport.success && resReport.code != 10))
+        return Promise.resolve(resReport || { success: false, message: System.data.locale.common.notificationMessages.somethingWentWrongPleaseRefresh });
     }
 
     return this.Legacy().moderation_new().delete_response_content().POST(data);
@@ -555,7 +555,7 @@ export default class Action extends Brainly {
       category_id = System.data.config.marketConfig.defaultAbuseReportReasons[type][0];
 
     if (typeof subcategory_id === "undefined")
-      category_id = System.data.config.marketConfig.defaultAbuseReportReasons[type][1];
+      subcategory_id = System.data.config.marketConfig.defaultAbuseReportReasons[type][1];
 
     let data = {
       abuse: {

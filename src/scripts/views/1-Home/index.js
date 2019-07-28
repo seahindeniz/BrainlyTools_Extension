@@ -12,6 +12,7 @@ window.selectors = {
   feed_item: `div[data-test="feed-item"]`,
   questionsBox_buttonList: `> div.sg-content-box`,
   questionLink: `.sg-content-box a[data-test="feed-item-link"]`,
+  userLink: `.sg-content-box > .sg-content-box__title > .sg-avatar > a`,
 
   userInfoBoxPoints: "div.game-box__element > div.game-box__user-info > div.game-box__progress-items"
 }

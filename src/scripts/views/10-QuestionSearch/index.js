@@ -6,8 +6,9 @@ import QuestionBox from "./_/QuestionBox";
 System.pageLoaded("Question search page OK!");
 
 window.selectors = {
-  questionLink: "> div > a"
-}
+  questionLink: "> div > a",
+  userLink: ".sg-content-box__title > .sg-avatar > a"
+};
 
 export class QuestionSearch {
   constructor() {

@@ -63,6 +63,7 @@ class QuickDeleteButton {
 
     let resRemove = await new Action().RemoveQuestion(taskData);
 
+    System.log(5, { user: this.main.user, data: [this.main.questionId] });
     new Action().CloseModerationTicket(this.main.questionId);
 
     if (!resRemove || !resRemove.success) {

@@ -5,9 +5,10 @@
  * @param {boolean} permanent - To make it permanent
  */
 function notification(message, type = "", permanent = false) {
-  if (!message || message == "") {
+  if (!message || message == "")
     return false;
-  }
+
+  message = message.trim();
 
   let extIcon = `<img src="${System.data.meta.extension.URL}/icons/icon24.png" alt="Brainly Tools" class="notification-brainlyToolsImg">`;
 
@@ -16,33 +17,28 @@ function notification(message, type = "", permanent = false) {
    * Old UI has the Zadanium object init.
    */
   if (window.Zadanium) {
-    if (type === "error") {
+    if (type === "error")
       type = "failure";
-    }
 
     Zadanium.namespace('flash_msg').flash.setMsg(extIcon + message, type);
   } else if (window.Application) {
-    if (type === "warning" || type == "failure") {
+    if (type === "warning" || type == "failure")
       type = "error";
-    }
 
     Application.alert.flash.addMessage(extIcon + message, type)
   } else {
-    if (type === "warning" || type == "failure") {
+    if (type === "warning" || type == "failure")
       type = "error";
-    }
 
-    if (type != "") {
+    if (type != "")
       type = " sg-flash__message--" + type;
-    }
 
     let flash = $(`
-		<div class="sg-flash">
-			<div class="sg-flash__message${type} js-flash-message">
-				${extIcon}
-				<div class="sg-text sg-text--to-center sg-text--emphasised sg-text--small sg-text--white">${message}</div>
-			</div>
-		</div>`);
+    <div class="sg-flash">
+      <div class="sg-flash__message sg-flash__message--${type} js-flash-message">
+        <div class="sg-text sg-text--bold sg-text--small">${extIcon}${message}</div>
+      </div>
+    </div>`);
 
     flash.appendTo(".flash-messages-container");
 

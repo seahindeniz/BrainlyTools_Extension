@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.27.1] - 2019.07.29
+
+### Changed
+
+- [#52] Comments deleter stopps
+- Can't able to delete some questions with quick delete buttons
+- (Brainly.com) Wrong reason message on abuse reports
+- Position of extension's notification icon is misplaced
+
 ## [6.27.0] - 2019.07.24
 
 ### Added

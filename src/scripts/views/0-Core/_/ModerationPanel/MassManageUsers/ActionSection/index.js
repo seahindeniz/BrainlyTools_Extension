@@ -22,7 +22,7 @@ export default class ActionSection {
     this.userIdList = [];
 
     this.Render();
-    this.RenderButtonContainer();
+    this.RenderActionButton();
     this.RenderUserList();
     this.BindButtonHandler();
   }
@@ -39,7 +39,7 @@ export default class ActionSection {
     this.$contentContainer = $("> .sg-content-box__content", this.$);
     this.$actionsContainer = $("> .sg-content-box__actions", this.$);
   }
-  RenderButtonContainer() {
+  RenderActionButton() {
     this.$actionButton = Button({
       size: "small",
       ...this.renderDetails.actionButton
@@ -95,29 +95,9 @@ export default class ActionSection {
   SetUsers(onlySelected = false) {
     let listedUserIdList = this.main.MakeListedUsersBusy(onlySelected);
 
-    /* if (listedUserIdList)
-      this.userIdList = [
-        ...listedUserIdList,
-        ...this.userIdList
-      ]; */
-
     if (!listedUserIdList)
       return this.userIdList = null;
 
     this.userIdList = [...new Set(listedUserIdList)];
-    /*
-        if (this.userIdList.length > 0)
-          this.userIdList.slice(0).forEach((id) => {
-            if (!this.users[id])
-              this.users[id] = this.main.users[id];
-            else {
-              let i = this.userIdList.indexOf(id);
-
-              if (i !== -1) {
-                this.userIdList.splice(i, 1);
-                this.main.RemoveUsersById([id]);
-              }
-            }
-          }); */
   }
 }

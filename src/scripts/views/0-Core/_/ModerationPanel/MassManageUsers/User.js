@@ -75,7 +75,7 @@ export default class User {
     this.$checkbox = $("input", this.$);
     this.$checkboxHole = $(".sg-box__hole > .sg-actions-list > .sg-actions-list__hole:nth-child(1)", this.$);
     this.$checkboxContainer = this.$checkboxHole.parent();
-    this.$smallSpinnerContainer = $(".sg-content-box__content > .sg-actions-list", this.$);
+    this.$smallSpinnerContainer = $(".sg-content-box__content:nth-child(1) > .sg-actions-list", this.$);
     this.$nickContainer = $(".sg-content-box", this.$);
   }
   RenderInfoBar() {

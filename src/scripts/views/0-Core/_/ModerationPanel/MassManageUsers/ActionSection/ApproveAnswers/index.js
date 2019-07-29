@@ -41,7 +41,6 @@ export default class ApproveAnswers extends ActionSection {
     this.RenderStartButton();
     this.RenderStopButton();
     this.RenderContinueButton();
-    //this.RenderUserList2();
     this.BindHandlers();
   }
   RenderContent() {
@@ -81,15 +80,6 @@ export default class ApproveAnswers extends ActionSection {
       text: System.data.locale.common.continue
     });
   }
-  RenderUserList2() {
-    this.$userListContainer = $(`
-    <div class="sg-actions-list__hole sg-actions-list__hole--grow">
-      <div class="sg-content-box__actions sg-textarea sg-textarea--auto-height sg-textarea--max1000 sg-textarea--min-width-25em sg-textarea--resizable-vertical sg-actions-list--space-evenly"></div>
-    </div>`);
-
-    this.$userList = $(".sg-content-box__actions", this.$userListContainer);
-    this.$userListContainer.appendTo(this.$content);
-  }
   BindHandlers() {
     this.$startButton.click(this.Start.bind(this));
     this.$stopButton.click(this.Stop.bind(this));
@@ -99,14 +89,18 @@ export default class ApproveAnswers extends ActionSection {
     this.SetUsers();
 
     if (this.userIdList) {
-      if (this.userIdList > 0 && confirm(System.data.locale.common.notificationMessages.areYouSure)) {
+      if (this.userIdList.length > 0 && confirm(System.data.locale.common.notificationMessages.areYouSure)) {
         this.fetchingStarted = true;
 
+        this.ShowUserList();
         this.Continue();
         //this._loop_TryToStart = setInterval(this.TryToStart.bind(this), 1000);
       } else
         this.main.UnBusyListedUsers();
     }
+  }
+  ShowUserList() {
+    this.$userListContainer.appendTo(this.$content);
   }
   Continue() {
     this.stopped = false;
@@ -184,14 +178,14 @@ export default class ApproveAnswers extends ActionSection {
       if (!answer)
         this.StopApproving();
       else {
-        //await System.Delay(10);
-        let resApprove = await new Action().ApproveAnswer(answer.id); // { success: true };
+        //let resApprove = { success: true };await System.Delay(500);
+        let resApprove = await new Action().ApproveAnswer(answer.id);
 
-        this.CheckResponse(resApprove);
+        this.CheckResponse(answer, resApprove);
       }
     }
   }
-  CheckResponse(resApprove) {
+  CheckResponse(answer, resApprove) {
     if (!resApprove || !resApprove.success && resApprove.exception_type) {
       this.main.modal.notification(resApprove.message || System.data.locale.common.notificationMessages.somethingWentWrong, "error");
 

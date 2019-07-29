@@ -31,7 +31,7 @@ export default class MassManageUsers {
      */
     this.fetchedUsers = [];
     /**
-     * @type {ApproveAnswers|DeleteUsers}
+     * @type {ApproveAnswers|DeleteUsers|ChangePoints}
      */
     this.activeAction;
     /**
@@ -140,14 +140,14 @@ export default class MassManageUsers {
   }
   Open() {
     this.modal.Open();
-    /*this.$idInput.val([129666, 573253, 1027900, 1016288, 996887].join("\n")) //"1\n2\n3\n4");
+    /*this.$idInput.val([901322, 996887, 1016288].join("\n")) //"1\n2\n3\n4");
+    this.$idInput.trigger("input");
     /**
      * 14818 40016
      * 129666 2152
      * 1016288 244
      * 996887 155
      */
-    //this.$idInput.trigger("input");
   }
   UpdateInput() {
     //this.FixNumberLines();

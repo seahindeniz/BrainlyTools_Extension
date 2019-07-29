@@ -245,8 +245,12 @@ class ReportedCommentsDeleter {
       give_warning: this.$giveWarning.is(":checked")
     };
 
-    //await new Action().RemoveComment(data);
-    await System.Delay();
+    //await System.Delay();
+    let resRemove = await new Action().RemoveComment(data);
+
+    if (!resRemove || !resRemove.success)
+      console.warn(resRemove)
+
     this.ContentDeleted();
   }
   ContentDeleted() {

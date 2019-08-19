@@ -76,7 +76,7 @@ class Core {
     this.InjectFilesToPageAfter_DeleteReasonsLoaded();
   }
   UserDataLoaded() {
-    window.postMessage({ action: "changeColors", data: this.userData.themeColor || "#57b2f8" }, "*");
+    window.postMessage({ action: "changeColors", data: this.userData.themeColor || "#4fb3f6" }, "*");
     messagesLayoutExtender(this.userData.extendMessagesLayout || typeof this.userData.extendMessagesLayout == "undefined");
   }
   async SetMarketConfig() {
@@ -125,7 +125,7 @@ class Core {
     }*/
     /* await InjectToDOM("/scripts/lib/snowstorm.min.js");
     await WaitForObject("snowStorm");
-    snowStorm.snowColor = '#57b2f8';
+    snowStorm.snowColor = '#4fb3f6';
     snowStorm.flakesMaxActive = 32;
     snowStorm.excludeMobile = false; */
   }

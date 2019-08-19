@@ -1,4 +1,5 @@
 import cookie from "js-cookie";
+// @ts-ignore
 import extensionConfig from "../../configs/_/extension.json";
 import ArrayLast from "../helpers/ArrayLast";
 import storage from "../helpers/extStorage";
@@ -9,7 +10,7 @@ import ServerReq from "./Req/Server/index.js";
 
 class _System {
   constructor(main) {
-    this.logStyle = `font-size: 11px;color: #57b2f8;font-family:century gothic;`;
+    this.logStyle = `font-size: 11px;color: #4fb3f6;font-family:century gothic;`;
     this.main = main;
     this.constants = {
       Brainly: {
@@ -28,7 +29,8 @@ class _System {
           "brainly.ro",
         ],
         style_guide: {
-          icons: "https://styleguide.brainly.com/images/icons-d4009d7e19.js" + "?treat=.ext_js"
+          icons: "https://styleguide.brainly.com/images/std-icons-12f84055d5.js" + "?treat=.ext_js",
+          oldIcons: "https://styleguide.brainly.com/images/icons-d4009d7e19.js" + "?treat=.ext_js"
         },
         githubHighlight: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css",
       },
@@ -86,6 +88,7 @@ class _System {
       profile: null,
       task: null
     };
+    this.friends = [];
 
     console.log(`%cSystem library initalized`, this.logStyle);
   }
@@ -234,9 +237,10 @@ class _System {
     return avatar;
   }
   /**
-   * @param {number|string} id
-   * @param {string} nick
-   * @param {boolean} noOrigin
+   * @typedef {number|string} idType
+   * @param {idType | {id: idType, nick: string}} [id]
+   * @param {string} [nick]
+   * @param {boolean} [noOrigin]
    */
   createProfileLink(id, nick = "a", noOrigin) {
     let origin = "";

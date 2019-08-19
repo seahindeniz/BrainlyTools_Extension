@@ -4,7 +4,7 @@ import TimedLoop from "./TimedLoop";
 
 const MAX_LUMINOSITY = 0.52
 const COLOR_STORE_KEY = "themeColor";
-const DEFAULT_THEME_COLOR = "#57b2f8";
+const DEFAULT_THEME_COLOR = "#4fb3f6";
 const STYLE_ELEMENT_ID = "PersonalColors";
 
 class ThemeColorChanger {

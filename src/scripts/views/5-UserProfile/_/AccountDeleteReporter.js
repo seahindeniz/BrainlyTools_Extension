@@ -51,10 +51,12 @@ class AccountDeleteReporter {
   }
   RenderAddFileButton() {
     this.$addFileButton = Button({
+      tag: "label",
       size: "small",
-      icon: "attachment",
-      text: `${System.data.locale.userProfile.accountDelete.addFiles}..`,
-      forInput: ""
+      icon: {
+        type: "attachment"
+      },
+      text: `${System.data.locale.userProfile.accountDelete.addFiles}..`
     });
 
     this.$addFileButton.appendTo(this.$addFileButtonContainer);
@@ -186,7 +188,9 @@ class AccountDeleteReporter {
     let $button = Button({
       type: "destructive",
       size: "small",
-      icon: "trash",
+      icon: {
+        type: "ext-trash"
+      },
       tag: "span"
     });
 

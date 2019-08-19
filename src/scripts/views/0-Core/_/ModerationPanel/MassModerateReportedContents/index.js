@@ -67,7 +67,9 @@ class MassModerateReportedContents {
     this.$addUniqueConditionSectionButton = Button({
       type: "primary-blue",
       size: "small",
-      icon: "plus",
+      icon: {
+        type: "plus"
+      },
       fullWidth: true,
       text: System.data.locale.core.massModerateReportedContents.addConditionBlock
     });

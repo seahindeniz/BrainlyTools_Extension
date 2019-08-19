@@ -111,7 +111,9 @@ class ConditionSection {
     this.$matchedButton = Button({
       type: "primary-blue",
       size: "small",
-      icon: "lightning",
+      icon: {
+        type: "lightning"
+      },
       text: this.ReplaceMatchedTextString()
     });
     this.$matchedReportsCount = $("b", this.$matchedButton);
@@ -247,7 +249,9 @@ class ConditionSection {
     this.$addFilterButton = Button({
       type: "primary-blue",
       size: "small",
-      icon: "check"
+      icon: {
+        type: "check"
+      }
     });
 
     this.$addFilterButton.appendTo(this.$buttonContainer);

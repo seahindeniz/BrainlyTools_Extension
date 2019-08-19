@@ -30,14 +30,14 @@ function GET_Crowdin(method, options) {
     validateStatus: false,
     ...options
   });
-} */
+}
 function DownloadLangFileFromCrowdin(lang) {
   download(`https://api.crowdin.com/api/project/brainly-tools/export-file?file=Extension/en_US.json&language=${lang}&key=${process.env.CROWDIN_TOKEN}`, LANGUAGE_FOLDER, {
     //let files = await download(`https://api.crowdin.com/api/project/brainly-tools/download/all.zip?key=${process.env.CROWDIN_TOKEN}`, LANGUAGE_FOLDER, {
     //extract: true
     filename: `${lang}.json`
   });
-}
+} */
 async function UpdateLangFilesFromCrowdin() {
   try {
     /* let resExport = await GET_Crowdin("export");
@@ -113,7 +113,7 @@ async function UpdateLangFilesFromLokalise(lokaliseOptions = {}) {
     if (!files || files.length == 0)
       throw "I can't find language file in the Lokalise zip";
 
-    SaveSchemaFile(files);
+    //SaveSchemaFile(files);
 
     files.forEach(fileEntry => {
       if (fileEntry.type == "file" && fileEntry.data instanceof Buffer) {

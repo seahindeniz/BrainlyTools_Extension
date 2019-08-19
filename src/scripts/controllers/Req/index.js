@@ -1,12 +1,17 @@
 import Axios from "axios";
 
 let requestsOnHold = [];
+let System = require("../../helpers/System");
 
 export default class Request {
   constructor() {
     this.path = "";
     this.headers = {};
     this.errorCount = 0;
+
+    if (typeof System == "function")
+    // @ts-ignore
+    System = System();
   }
   JSON() {
     this.contentType = "json";
@@ -36,7 +41,7 @@ export default class Request {
   }
   /**
    * Add a path
-   * @param {string} path
+   * @param {string | number} path
    */
   P(path) {
     if (path)
@@ -45,7 +50,7 @@ export default class Request {
     return this;
   }
   /**
-   * @param {{}} queryString
+   * @param {{}} [queryString]
    */
   GET(queryString) {
     this.method = "GET";
@@ -172,8 +177,8 @@ export default class Request {
     }
   }
   /**
-   * @param {{}} data
-   * @param {{}} queryString
+   * @param {{}} [data]
+   * @param {{}} [queryString]
    */
   POST(data, queryString) {
     this.method = "POST";
@@ -181,8 +186,8 @@ export default class Request {
     return this._Post(data, queryString)
   }
   /**
-   * @param {{}} data
-   * @param {{}} queryString
+   * @param {{}} [data]
+   * @param {{}} [queryString]
    */
   PUT(data, queryString) {
     this.method = "PUT";
@@ -190,8 +195,8 @@ export default class Request {
     return this._Post(data, queryString)
   }
   /**
-   * @param {{}} data
-   * @param {{}} queryString
+   * @param {{}} [data]
+   * @param {{}} [queryString]
    */
   _Post(data, queryString) {
     if (data)
@@ -214,7 +219,7 @@ export default class Request {
   }
   /**
    * @param {{}} data
-   * @param {boolean} isWithFile
+   * @param {boolean} [isWithFile]
    */
   GenerateFormData(data, isWithFile) {
     let Method = isWithFile ? FormData : URLSearchParams;
@@ -239,6 +244,7 @@ export default class Request {
   static CalculateProgressPercent(event) {
     if (event.lengthComputable) {
       let percent = 0;
+      // @ts-ignore
       let position = event.loaded || event.position;
       let total = event.total;
 

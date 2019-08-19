@@ -2,7 +2,7 @@ import MakeExpire from "./MakeExpire";
 
 /**
  * @param {function|function[]} funcs
- * @param {{expireTime:number, intervalTime:number}} options - expireTime in seconds, intervalTime in milliseconds
+ * @param {{expireTime?: number, intervalTime?: number}} options - expireTime in seconds, intervalTime in milliseconds
  */
 function TimedLoop(funcs, { expireTime, intervalTime } = {}) {
   if (!funcs || !(typeof funcs == "function" || funcs instanceof Array))

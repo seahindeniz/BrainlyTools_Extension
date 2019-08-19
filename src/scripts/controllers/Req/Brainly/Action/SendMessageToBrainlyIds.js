@@ -1,4 +1,5 @@
 import Action from "./";
+import FillRange from "../../../../helpers/FillRange";
 
 const noop = () => {};
 
@@ -26,7 +27,7 @@ export default class SendMessageToBrainlyIds {
   FixIdList(idList) {
     if (typeof idList == "string" && idList.indexOf(":") >= 0) {
       let range = idList.split(":");
-      idList = fillRange(...range);
+      idList = FillRange(...range);
     }
 
     return idList

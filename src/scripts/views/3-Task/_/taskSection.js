@@ -25,7 +25,9 @@ export default function taskSection() {
     let $button = Button({
       type: "destructive",
       size: "xsmall",
-      icon: "x",
+      icon: {
+        type: "x"
+      },
       text: reason.title,
       title: reason.text
     });

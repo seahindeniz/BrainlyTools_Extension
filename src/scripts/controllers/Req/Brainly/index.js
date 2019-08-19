@@ -1,12 +1,21 @@
 import Query from "graphql-query-builder";
 import Request from "../";
 
+let System = require("../../../helpers/System");
+
+/**
+ * @typedef {{operationName: string, args: {}, find: {}}} GQL_OperationData
+ */
 export default class Brainly extends Request {
   constructor() {
     super();
+
+    if (typeof System == "function")
+      // @ts-ignore
+      System = System();
   }
   Legacy() {
-    let marketOrigin = (window.System && System.data.meta.location.origin) || document.location.origin;
+    let marketOrigin = (System && System.data.meta.location.origin) || document.location.origin;
     this.path += `${marketOrigin}/api/28`;
 
     this.JSON();
@@ -33,16 +42,29 @@ export default class Brainly extends Request {
     return this;
   }
   /**
-   * @param {{args: {}, find: {}, operationName: string}} data
+   * @param {GQL_OperationData} data
+   */
+  Query(data) {
+    return this.GQL_Operation("query", data);
+  }
+  /**
+   * @param {GQL_OperationData} data
    */
   Mutation(data) {
+    return this.GQL_Operation("mutation", data);
+  }
+  /**
+   * @param {"query" | "mutation"} type
+   * @param {GQL_OperationData} data
+   */
+  GQL_Operation(type, data) {
     let operation = new Query(data.operationName, data.args);
     operation.find(data.find);
 
-    let mutation = new Query("mutation");
-    mutation.find([operation]);
+    let query = new Query(type);
+    query.find([operation]);
 
-    let dataGQL = mutation.toString().replace(/\\\\/g, "\\");
+    let dataGQL = query.toString().replace(/\\\\/g, "\\");
 
     this.data = {
       operationName: "",
@@ -53,11 +75,12 @@ export default class Brainly extends Request {
     return this;
   }
   /**
+   * @typedef {{key: string, fields: string, lock: string}} PHPTokens
    * @param {string} sourceURL
-   * @param {undefined|string|{key: string, fields: string, lock: string}} tokens - Tokens or form selector
+   * @param {undefined|string|PHPTokens} [tokens] - Tokens or form selector
    */
   async SetFormTokens(sourceURL, tokens) {
-    if (!tokens || typeof tokens == "string") {
+    if (!(tokens instanceof Object)) {
       let tempHeaders = JSON.parse(JSON.stringify(this.headers));
       tokens = await this.X_Req_With().GetPHPTokens(sourceURL, tokens);
       this.headers = tempHeaders;
@@ -71,7 +94,8 @@ export default class Brainly extends Request {
   }
   /**
    * @param {string} sourceURL
-   * @param {string} formSelector
+   * @param {string} [formSelector]
+   * @returns {Promise<PHPTokens>}
    */
   GetPHPTokens(sourceURL, formSelector) {
     return new Promise(async (resolve, reject) => {
@@ -79,7 +103,15 @@ export default class Brainly extends Request {
         this.path = sourceURL;
         let HTML = await this.GET();
         this.path = "";
+        /**
+         * @type {PHPTokens}
+         */
         let tokens = {
+          key: undefined,
+          lock: undefined,
+          fields: undefined
+        };
+        let tokensRegex = {
           key: /\[key]" value="(.*?)" i/i,
           lock: /\[lock]" value="(.*?)" i/i,
           fields: /\[fields]" value="(.*?)" id="TokenF/i
@@ -97,11 +129,11 @@ export default class Brainly extends Request {
         if (!HTML)
           return reject({ msg: `The "${formSelector}" cannot be found on profile page`, error: 404 });
 
-        $.each(tokens, (i, token) => {
-          let tokenMatch = HTML.match(token);
+        for (let [tokenName, tokenRegex] of Object.entries(tokensRegex)) {
+          let tokenMatch = HTML.match(tokenRegex);
 
-          tokens[i] = tokenMatch ? tokenMatch[1] : "";
-        });
+          tokens[tokenName] = tokenMatch ? tokenMatch[1] : "";
+        }
 
         resolve(tokens);
       } catch (error) {
@@ -150,6 +182,9 @@ export default class Brainly extends Request {
   }
   get_wrong_content() {
     return this.P("get_wrong_content");
+  }
+  get_abuse_reasons() {
+    return this.P("get_abuse_reasons");
   }
 
   api_content_quality() {

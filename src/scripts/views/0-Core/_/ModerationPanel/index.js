@@ -41,7 +41,7 @@ class ModerationPanel {
       this.RenderComponent(new PointChanger());
 
     if (System.checkUserP(29)) {
-      //this.RenderComponent(new MassModerateContents());
+      this.RenderComponent(new MassModerateContents());
     }
 
     if (System.checkUserP(18))

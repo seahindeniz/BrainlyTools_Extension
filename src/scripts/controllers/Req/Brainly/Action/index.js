@@ -1,6 +1,8 @@
 import Brainly from "../";
 import Chunkify from "../../../../helpers/Chunkify";
 
+let System = require("../../../../helpers/System");
+
 const USERS_PROFILE_REQ_CHUNK_SIZE = 990;
 
 /**
@@ -10,13 +12,17 @@ const USERS_PROFILE_REQ_CHUNK_SIZE = 990;
  *
  * @typedef {{id: number, author_id: number, question_id: number, content: string, points: number, thanks_count: number, rating: number, rates_count: number, is_confirmed: boolean, is_excellent: boolean, is_best: boolean, can_comment: boolean, attachment_ids: [], created: string}[]} AnswersOfUser
  *
- * @typedef {{success: boolean, data?: User[]}} UserResponse
+ * @typedef {{success: boolean, data?: User[], message?: string}} UserResponse
  * @typedef {{success: boolean, data?: UserProfile[]}} UserProfileResponse
  * @typedef {{success: boolean, pagination?: {first: string, prev: string, self: string, next: string, last: string}, data?: AnswersOfUser}} AnswersOfUserResponse
  */
 export default class Action extends Brainly {
   constructor() {
     super();
+
+    if (typeof System == "function")
+      // @ts-ignore
+      System = System();
   }
   HelloWorld() {
     return this.Legacy().hello().world().GET();
@@ -27,12 +33,12 @@ export default class Action extends Brainly {
    */
   QuestionContent(id) {
     if (~~id == 0)
-      return Promise.reject("Unvalid id");
+      return Promise.reject("Invalid id");
 
-    return this.Legacy().api_tasks().main_view().P(id).GET();
+    return this.Legacy().api_tasks().main_view().P(String(id)).GET();
   }
   /**
-   * @param {{model_id: number, reason: string, reason_title?: string, reason_id: number, give_warning: boolean, take_points: boolean, return_points:boolean}} data
+   * @param {{model_id: number, reason: string, reason_title?: string, reason_id: number, model_type_id?: number, give_warning?: boolean, take_points?: boolean, return_points?:boolean, _coupon_?: string}} data
    */
   async RemoveQuestion(data) {
     data = {
@@ -45,7 +51,7 @@ export default class Action extends Brainly {
     }
     data.reason += ` ${System.constants.config.reasonSign}`;
 
-    if (data.reason_title && System.data.config.marketConfig.defaultAbuseReportReasons) {
+    if (data.reason_title && System.data.config.marketConfig.default.abuseReportReasons) {
       let resReport = await new Action().ReportQuestion(data.model_id, data.reason_title);
 
       if (!resReport || (!resReport.success && resReport.code != 10))
@@ -55,7 +61,7 @@ export default class Action extends Brainly {
     return this.Legacy().moderation_new().delete_task_content().POST(data);
   }
   /**
-   * @param {{model_id: number, reason: string, reason_title?: string, reason_id: number, give_warning: boolean, take_points: boolean}} data
+   * @param {{model_id: number, reason: string, reason_title?: string, reason_id: number, model_type_id?: number, give_warning?: boolean, take_points?: boolean, _coupon_?: string}} data
    */
   async RemoveAnswer(data) {
     data = {
@@ -67,7 +73,7 @@ export default class Action extends Brainly {
     }
     data.reason += ` ${System.constants.config.reasonSign}`;
 
-    if (data.reason_title && System.data.config.marketConfig.defaultAbuseReportReasons) {
+    if (data.reason_title && System.data.config.marketConfig.default.abuseReportReasons) {
       let resReport = await new Action().ReportAnswer(data.model_id, data.reason_title);
 
       if (!resReport || (!resReport.success && resReport.code != 10))
@@ -125,7 +131,6 @@ export default class Action extends Brainly {
     return this.Legacy().moderation_new().accept().POST(data);
   }
   /**
-   * Approve answer by id
    * @param {number} model_id - Answer id
    */
   ApproveAnswer(model_id) {
@@ -138,7 +143,6 @@ export default class Action extends Brainly {
     return this.Legacy().api_content_quality().confirm().POST(data);
   }
   /**
-   * Unapprove answer by id
    * @param {number} model_id - answer id
    */
   UnapproveAnswer(model_id) {
@@ -271,7 +275,7 @@ export default class Action extends Brainly {
   /**
    * Cancel user warning by warning id
    * @param {number} userId
-   * @param {number} warningId
+   * @param {number | number[]} warningId
    */
   CancelWarning(userId, warningId) {
     if (warningId instanceof Array)
@@ -502,7 +506,7 @@ export default class Action extends Brainly {
    */
   GetAnswersOfUser(userId, page) {
     if (~~userId == 0)
-      return Promise.reject("Unvalid id");
+      return Promise.reject("Invalid id");
 
     let data = { userId };
 
@@ -514,17 +518,17 @@ export default class Action extends Brainly {
   /**
    * @param {number} model_id
    * @param {string} reason
-   * @param {number} category_id
-   * @param {number} subcategory_id
+   * @param {number} [category_id]
+   * @param {number} [subcategory_id]
    */
   ReportQuestion(model_id, reason, category_id, subcategory_id) {
     return this.ReportContent(1, model_id, reason, category_id, subcategory_id);
   }
   /**
    * @param {number} model_id
-   * @param {string} reason
-   * @param {number} category_id
-   * @param {number} subcategory_id
+   * @param {string} [reason]
+   * @param {number} [category_id]
+   * @param {number} [subcategory_id]
    */
   ReportAnswer(model_id, reason, category_id, subcategory_id) {
     return this.ReportContent(2, model_id, reason, category_id, subcategory_id);
@@ -532,42 +536,124 @@ export default class Action extends Brainly {
   /**
    * @param {number} model_id
    * @param {string} reason
-   * @param {number} category_id
-   * @param {number} subcategory_id
+   * @param {number} [category_id]
+   * @param {number} [subcategory_id]
    */
   ReportComment(model_id, reason, category_id, subcategory_id) {
     return this.ReportContent(45, model_id, reason, category_id, subcategory_id);
   }
   /**
-   * @param {number} model_type_id
+   * @param {1 | "QUESTION" | 2 | "ANSWER" | 45 | "COMMENT" } model_type_id
    * @param {number} model_id
-   * @param {string} reason
-   * @param {number} category_id
-   * @param {number} subcategory_id
+   * @param {string} [reason]
+   * @param {number} [category_id]
+   * @param {number} [subcategory_id]
    */
   ReportContent(model_type_id, model_id, reason, category_id, subcategory_id) {
-    let type = model_type_id == 1 ? "question" : model_type_id == 2 ? "answer" : model_type_id == 45 ? "comment" : "";
+    if (typeof model_type_id == "string")
+      model_type_id = model_type_id == "QUESTION" ? 1 : model_type_id == "ANSWER" ? 2 : model_type_id == "COMMENT" ? 45 : undefined;
 
-    if (!type)
-      throw "Incorrect model type";
+    if (
+      model_type_id != 1 &&
+      model_type_id != 2 &&
+      model_type_id != 45
+    )
+      throw "Model type is not valid";
+
+    let type = model_type_id == 1 ? "QUESTION" : model_type_id == 2 ? "ANSWER" : "COMMENT";
 
     if (typeof category_id === "undefined")
-      category_id = System.data.config.marketConfig.defaultAbuseReportReasons[type][0];
+      category_id = System.data.config.marketConfig.default.abuseReportReasons[type][0];
 
     if (typeof subcategory_id === "undefined")
-      subcategory_id = System.data.config.marketConfig.defaultAbuseReportReasons[type][1];
+      subcategory_id = System.data.config.marketConfig.default.abuseReportReasons[type][1];
 
     let data = {
       abuse: {
         category_id,
         subcategory_id,
-        data: reason
+        data: (reason || "") + System.constants.config.reasonSign
       },
       model_id,
       model_type_id
-    }
-    data.abuse.data += ` ${System.constants.config.reasonSign}`;
+    };
 
     return this.Legacy().api_moderation().abuse_report().POST(data);
+  }
+  SearchQuestion(query = "", after = "", limit = 10) {
+    let data = {
+      operationName: "questionSearch",
+      args: {
+        query,
+        first: limit,
+        after
+      },
+      find: [
+        "count",
+        {
+          edges: [{
+              node: [
+                "id",
+                "databaseId",
+                {
+                  author: [
+                    "id",
+                    "databaseId",
+                    "isDeleted",
+                    "nick",
+                    {
+                      avatar: [
+                        "thumbnailUrl"
+                      ]
+                    },
+                    {
+                      rank: [
+                        "name"
+                      ]
+                    }
+                  ]
+                },
+                "content",
+                {
+                  answers: [
+                    "hasVerified",
+                    {
+                      nodes: [
+                        "thanksCount",
+                        "ratesCount",
+                        "rating"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              highlight: [
+                "contentFragments"
+              ]
+            }
+          ]
+        }
+      ]
+    };
+
+    return this.GQL().Query(data).POST();
+  }
+  /**
+   * @param {(1 | 2 | 45) | ("QUESTION" | "ANSWER" | "COMMENT")} model_type_id
+   */
+  GetAbuseReasons(model_type_id) {
+    if (typeof model_type_id == "string")
+      model_type_id =
+      model_type_id == "QUESTION" ? 1 :
+      model_type_id == "ANSWER" ? 2 :
+      model_type_id == "COMMENT" ? 45 :
+      undefined;
+
+    if (!model_type_id)
+      throw "Model type should be specified";
+
+    return this.Legacy().moderation_new().get_abuse_reasons().POST({ model_type_id });
   }
 }

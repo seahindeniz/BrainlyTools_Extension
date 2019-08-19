@@ -1,330 +1,377 @@
-import debounce from "debounce";
-import DeleteSection from "../../../../../components/DeleteSection";
-import Modal from "../../../../../components/Modal";
-import Action from "../../../../../controllers/Req/Brainly/Action";
-import Button from "../../../../../components/Button";
+import Modal from "../../../../../components/Modal2";
+import { ActionList, ActionListHole, ContentBox, ContentBoxContent, SeparatorVertical, Text, Label, Radio } from "../../../../../components/style-guide";
+import Build from "../../../../../helpers/Build";
+import IsVisible from "../../../../../helpers/IsVisible";
+import Answer from "./Tab/ContentType/Answer";
+import Comment from "./Tab/ContentType/Comment";
+import Question from "./Tab/ContentType/Question";
+import IdRange from "./Tab/Inputs/IdRange";
+import ListOfIds from "./Tab/Inputs/ListOfIds";
+import SearchQuestion from "./Tab/Inputs/SearchQuestion";
+import ReportContent from "./Tab/Methods/ReportContent";
+
+/**
+ * @typedef {Question | Answer | Comment} ContentTypes
+ * @typedef {ListOfIds | IdRange | SearchQuestion} Inputs
+ * @typedef {ReportContent} Methods
+ * @typedef {ContentTypes | Inputs | Methods} Tabs
+ */
 let System = require("../../../../../helpers/System");
 
 class MassModerateContents {
   constructor() {
-    System = System();
-    this.deletedContents = {};
-    this.contentsToDelete = [];
-    this.deletedContentCount = 0;
+    if (typeof System == "function")
+      // @ts-ignore
+      System = System();
 
-    this.Init();
-  }
-  Init() {
+    let that = this;
+    this.active = {
+      /**
+       * @type {ContentTypes}
+       */
+      _contentType: undefined,
+      /**
+       * @type {Inputs}
+       */
+      _input: undefined,
+      /**
+       * @type {Methods}
+       */
+      _method: undefined,
+      set contentType(contentType) {
+        this._contentType = contentType;
+      },
+      get contentType() {
+        return this._contentType;
+      },
+      set input(input) {
+        this._input = input;
+
+        that.ToggleMethods();
+      },
+      get input() {
+        return this._input;
+      },
+      set method(method) {
+        this._method = method;
+      },
+      get method() {
+        return this._method;
+      }
+    }
+
     this.RenderLi();
-    this.RenderModal();
-    this.RenderDeleteButton();
-    this.RenderButtonSpinner();
-    this.RenderTextareaSpinner();
-    this.RenderDeleteSection();
-    this.RenderTextareaWarning();
-    this.BindHandlers();
   }
   RenderLi() {
     this.$li = $(`
 		<li class="sg-menu-list__element" style="display: table; width: 100%;">
 			<span class="sg-menu-list__link sg-text--link">${System.data.locale.core.MassModerateContents.text}</span>
-		</li>`);
+    </li>`);
+
+    this.$li.on("click", "span", this.Open.bind(this));
+  }
+  Open() {
+    if (!this.modal) {
+      try {
+        this.RenderSectionContainer();
+        this.RenderModal();
+        this.RenderContentTypes();
+        this.RenderInputsSection();
+        this.RenderInputs();
+        this.RenderMethodsSection();
+        this.RenderMethods();
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    this.modal.Open();
+  }
+  RenderSectionContainer() {
+    this.sectionContainer = ContentBox({ full: true });
+    this.$sectionContainer = $(this.sectionContainer);
   }
   RenderModal() {
-    let nIds = System.data.locale.common.nIds.replace("%{n}", ` <span>0</span> `);
-    let nIdsToDeleted = System.data.locale.core.MassContentDeleter.nIdsToDeleted.replace("%{n}", ` <span>0</span> `);
-    let nHasBeenDeleted = System.data.locale.core.MassContentDeleter.nHasBeenDeleted.replace("%{n}", ` <b>0</b> `);
+    this.contentTypesList = ActionList({
+      direction: "space-around"
+    });
+    this.$contentTypesList = $(this.contentTypesList);
     this.modal = new Modal({
-      header: `
-			<div class="sg-actions-list sg-actions-list--space-between">
-				<div class="sg-actions-list__hole">
-					<div class="sg-label sg-label--small sg-label--secondary">
-						<div class="sg-text sg-text--peach">${System.data.locale.core.MassContentDeleter.text}</div>
-					</div>
-				</div>
-			</div>`,
-      content: `
-			<div class="sg-content-box">
-				<div class="sg-spinner-container sg-content-box--full js-inputs">
-					<div class="sg-content-box__actions">
-						<div class="sg-textarea sg-textarea--full-width back" style="color: transparent;"></div>
-						<div class="sg-textarea sg-textarea--full-width sg-textarea--resizable-vertical" contenteditable="true" style="position: absolute; background: transparent;" placeholder="${System.data.locale.core.MassContentDeleter.contentLinksOrIDs}"></div>
-					</div>
-				</div>
-				<div class="sg-content-box__actions sg-content-box__content--spaced-top-small js-labels">
-					<div class="sg-actions-list sg-actions-list--no-wrap">
-						<div class="sg-actions-list__hole">
-							<div class="sg-content-box">
-                <div class="sg-content-box__content">
-									<p class="sg-text">${nIds}</p>
-								</div>
-                <div class="sg-content-box__content">
-									<p class="sg-text">${nIdsToDeleted}</p>
-								</div>
-              </div>
-						</div>
-						<div class="sg-actions-list__hole sg-actions-list__hole--to-right js-hidden">
-							<p class="sg-text">${nHasBeenDeleted}</p>
-						</div>
-					</div>
-				</div>
-				<div class="sg-content-box__content sg-content-box__content--spaced-top-large">
-					<blockquote class="sg-text sg-text--small">${System.data.locale.core.MassContentDeleter.containerExplanation}<br>${System.createBrainlyLink("task", { id: 1234567 })}<br>${System.createBrainlyLink("task", { id: 2345678 })}<br>1234567<br>53453<br>xy545645<br>xy423423</blockquote>
-				</div>
-				<div class="sg-content-box__actions deleteSection"></div>
-			</div>`,
-      actions: `<div class="sg-spinner-container"></div>`
-    });
-    this.$modal = this.modal.$modal;
-    this.$deleteButtonContainer = $(".sg-spinner-container", this.modal.$actions);
-    this.$textareaSpinnerContainer = $(".sg-spinner-container", this.modal.$content);
-    this.$textareaBack = $(".sg-textarea.back", this.$textareaSpinnerContainer);
-    this.$textarea = $(".sg-textarea:not(.back)", this.$textareaSpinnerContainer);
-    this.$labels = $("> .sg-content-box > .sg-content-box__actions:eq(0)", this.modal.$content);
-    this.$nHasBeenDeleted = $(".sg-text > b", this.$labels);
-    this.$contentsCount = $(".sg-content-box__content:eq(0) .sg-text > span", this.$labels);
-    this.$nIdsToDelete = $(".sg-content-box__content:eq(1) .sg-text > span", this.$labels);
-  }
-  RenderDeleteButton() {
-    this.$deleteButton = Button({
-      type: "destructive",
-      text: `${System.data.locale.common.delete} !`
-    });
-
-    this.$deleteButton.appendTo(this.$deleteButtonContainer);
-  }
-  RenderButtonSpinner() {
-    this.$buttonSpinner = this.RenderSpinner();
-  }
-  RenderTextareaSpinner() {
-    this.$textareaSpinner = this.RenderSpinner();
-  }
-  RenderSpinner() {
-    return $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner"></div></div>`);
-  }
-  RenderDeleteSection() {
-    this.deleteSection = new DeleteSection();
-
-    this.deleteSection.$.appendTo($(".deleteSection", this.$modal));
-  }
-  RenderTextareaWarning() {
-    this.$textareaWarning = $(`<div class="sg-bubble sg-bubble--top sg-bubble--row-start sg-bubble--peach sg-text--white enterIdWarn">${System.data.locale.core.notificationMessages.enterIdWarn}</div>`);
-  }
-  BindHandlers() {
-    this.$li.on("click", "span", this.OpenModal.bind(this));
-    this.$deleteButton.click(this.StartDeleting.bind(this));
-    this.modal.$close.click(this.modal.Close.bind(this.modal));
-
-    this.$textarea.on({
-      paste: this.PasteHandler.bind(this),
-      scroll: this.UpdateTextareaBackScroll.bind(this),
-      input: debounce(() => this.UpdateTextareaBackContent(), 5)
-    });
-
-    new window.ResizeObserver(this.UpdateTextAreaBackResize.bind(this)).observe(this.$textarea[0]);
-  }
-  OpenModal() {
-    this.modal.Open();
-    this.UpdateTextAreaBackResize();
-  }
-  UpdateTextAreaBackResize() {
-    this.$textareaBack.css({
-      width: this.$textarea.outerWidth(),
-      height: this.$textarea.outerHeight()
+      overlay: true,
+      size: "large",
+      limitedWidth: true,
+      title: {
+        children: System.data.locale.core.MassModerateContents.text
+      },
+      content: {
+        children: Build(this.sectionContainer, [
+          [
+            ContentBoxContent({
+              full: true,
+              spacedBottom: "large"
+            }),
+            [
+              [
+                ActionList(),
+                [
+                  [
+                    ActionListHole(),
+                    Text({
+                      color: "blue-dark",
+                      weight: "bold",
+                      noWrap: true,
+                      html: System.data.locale.core.MassModerateContents.contentType
+                    })
+                  ],
+                  [
+                    ActionListHole({
+                      grow: true
+                    }),
+                    this.contentTypesList
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ])
+      },
+      actions: {
+        align: "center",
+        spacedTop: "xlarge"
+      }
     });
   }
-  async PasteHandler(event) {
-    event.preventDefault();
-    this.ShowTextareaSpinner();
-
-    let text = (event.originalEvent || event).clipboardData.getData("text/plain");
-
-    await System.Delay(50);
-    document.execCommand("insertText", false, text);
+  RenderContentTypes() {
+    this.contentTypes = {
+      question: new Question(this),
+      answer: new Answer(this),
+      comment: new Comment(this)
+    };
   }
-  ShowTextareaSpinner() {
-    this.$textareaSpinner.appendTo(this.$textareaSpinnerContainer);
+  RenderInputsSection() {
+    this.inputsSection = Build(ContentBoxContent({
+      full: true,
+      spacedTop: "xxlarge",
+      spacedBottom: true
+    }), [
+      [
+        ActionList({
+          noWrap: true,
+          toTop: true
+        }),
+        [
+          [
+            ActionListHole(),
+            [
+              [
+                ContentBox(),
+                [
+                  [
+                    ContentBoxContent({
+                      full: true,
+                      spacedBottom: true
+                    }),
+                    Text({
+                      color: "blue-dark",
+                      weight: "bold",
+                      noWrap: true,
+                      html: System.data.locale.core.MassModerateContents.targets.text
+                    })
+                  ]
+                ]
+              ]
+            ]
+          ],
+          [
+            ActionListHole({
+              stretch: true
+            }),
+            SeparatorVertical({
+              size: "full"
+            })
+          ],
+          ActionListHole({
+            grow: true
+          })
+        ]
+      ]
+    ]);
+    this.$inputsSection = $(this.inputsSection);
+
+    this.$actionListOfInputsSection = $(".sg-content-box", this.$inputsSection);
+    this.$inputsContainer = $(".sg-actions-list__hole:nth-child(3)", this.$inputsSection);
   }
-  HideTextareaSpinner() {
-    this.HideElement(this.$textareaSpinner);
+  RenderInputs() {
+    this.inputs = [
+      new ListOfIds(this),
+      new IdRange(this),
+      //new SearchQuestion(this)
+    ];
+  }
+  RenderMethodsSection() {
+    this.methodsSection = Build(ContentBoxContent({
+      full: true,
+      spacedTop: "xxlarge"
+    }), [
+      [
+        ActionList({
+          noWrap: true,
+          toTop: true
+        }),
+        [
+          [
+            ActionListHole(),
+            [
+              [
+                ContentBox(),
+                [
+                  [
+                    ContentBoxContent({
+                      full: true,
+                      spacedBottom: true
+                    }),
+                    Text({
+                      color: "blue-dark",
+                      weight: "bold",
+                      noWrap: true,
+                      html: System.data.locale.core.MassModerateContents.methods.text
+                    })
+                  ]
+                ]
+              ]
+            ]
+          ],
+          [
+            ActionListHole({
+              stretch: true
+            }),
+            SeparatorVertical({
+              size: "full"
+            })
+          ],
+          ActionListHole({
+            grow: true
+          })
+        ]
+      ]
+    ]);
+    this.$methodsSection = $(this.methodsSection);
+
+    this.$actionListOfMethodsSection = $(".sg-content-box", this.$methodsSection);
+    this.$methodsContainer = $(".sg-actions-list__hole:nth-child(3)", this.$methodsSection);
+  }
+  RenderMethods() {
+    this.methods = [
+      new ReportContent(this)
+    ]
   }
   /**
-   * @param {jQuery} $element
+   * @param {HTMLElement | JQuery<HTMLElement>} $element
    */
   HideElement($element) {
-    $element.appendTo("<div />");
+    if ($element) {
+      if ($element instanceof HTMLElement)
+        document.createElement("div").appendChild($element);
+      else if ($element instanceof jQuery)
+        $element.appendTo("<div />");
+
+    }
   }
-  UpdateTextareaBackScroll() {
-    this.$textareaBack.scrollTop(this.$textarea.scrollTop());
-  }
-  UpdateTextareaBackContent() {
-    let idList = this.ParseIDs();
-    this.contentsToDelete = [];
+  HideInputs() {
+    this.HideElement(this.$inputsSection);
 
-    this.$contentsCount.text(idList.length);
+    if (this.active.input)
+      this.active.input.HideActive();
 
-    let temp = this.$textarea.html();
-
-    idList.forEach(id => {
-      let status = "toProcess";
-
-      if (this.deletedContents[id])
-        status = this.deletedContents[id].isDeleted ? "success" : "error";
-      else
-        this.contentsToDelete.push(id);
-
-      temp = temp.replace(new RegExp(`((?:\\b|[a-z]{1,})+${id}\\b)`), `<span class="${status}">$1</span>`);
-    });
-
-    this.$nIdsToDelete.text(this.contentsToDelete.length);
-    this.$textareaBack.html(temp);
-    this.HideTextareaWarning();
-    this.HideTextareaSpinner();
-    this.UpdateTextareaBackScroll();
+    this.inputs.forEach(this.HideInput.bind(this));
   }
   /**
-   * @returns {number[]}
+   * @param {(ListOfIds|IdRange|SearchQuestion)} input
    */
-  ParseIDs() {
-    let idList;
-    let values = this.$textarea.prop("innerText");
-
-    if (values) {
-      idList = System.ExtractIds(values);
-
-      if (idList && idList.length > 0) {
-        idList = Array.from(new Set(idList));
-      }
-    }
-    return idList;
+  HideInput(input) {
+    input.Hide();
+    input.HideActionButton();
   }
-  async StartDeleting() {
-    if (!this.IsDataClear())
-      return false;
+  HideMethods() {
+    this.HideElement(this.$methodsSection);
 
-    this.openedConnections = 0;
-    window.isPageProcessing = true;
-    let contentsToDelete = [...this.contentsToDelete];
-
-    this.PrepareData();
-    this.ShowButtonSpinner();
-    this.ShowTextareaSpinner();
-    this.ShowHasBeenDeletedLabel();
-    this.DeleteContents(contentsToDelete);
-    this._loop_deleter = setInterval(() => this.DeleteContents(contentsToDelete), 1000);
-    System.log(5, { user: System.data.Brainly.userData.user, data: this.contentsToDelete });
+    if (this.active.method)
+      this.active.method.HideActive();
   }
-  IsDataClear() {
-    if (!this.contentsToDelete || this.contentsToDelete.length == 0) {
-      this.ShowTextareaWarning();
-    } else if (this.deleteSection.selectedReason) {
-      this.HideTextareaWarning();
-
-      if (confirm(System.data.locale.core.notificationMessages.warningBeforeDelete)) {
-        return true;
-      }
+  TriggerInputs() {
+    if (this.active.contentType) {
+      this.$inputsSection.appendTo(this.$sectionContainer);
+      this.inputs.forEach(this.TriggerInput.bind(this));
     }
   }
-  PrepareData() {
-    this.contentData = {
-      reason_id: this.deleteSection.selectedReason.id,
-      reason: this.deleteSection.reasonText,
-      give_warning: this.deleteSection.giveWarning,
-    };
+  /**
+   * @param {(ListOfIds|IdRange|SearchQuestion)} input
+   */
+  TriggerInput(input) {
+    input.ContentTypeSelected();
 
-    if (this.deleteSection.type == "task")
-      this.contentData.take_points = this.deleteSection.takePoints;
-
-    if (this.deleteSection.type == "task" && this.deleteSection.type == "response")
-      this.contentData.return_points = this.deleteSection.returnPoints;
-  }
-  ShowHasBeenDeletedLabel() {
-    this.$nHasBeenDeleted.parents(".sg-actions-list__hole.js-hidden").removeClass("js-hidden");
-  }
-  ShowButtonSpinner() {
-    this.$buttonSpinner.insertAfter(this.$deleteButton);
-  }
-  HideButtonSpinner() {
-    this.HideElement(this.$buttonSpinner);
-  }
-  DeleteContents(contentIDs) {
-    if (!contentIDs || contentIDs.length == 0) {
-      return clearInterval(this._loop_deleter);
-    }
-
-    for (let i = 0, contentID; i < 5 && (contentID = contentIDs.shift()); i++) {
-      this.DeleteContent(contentID);
+    if (
+      !input.restrictions ||
+      input.restrictions.contentType.includes(this.active.contentType.is)
+    ) {
+      input.ShowActionButton();
+      input.Visible();
     }
   }
-  async DeleteContent(id) {
-    let Method;
-    this.contentData.model_id = id;
-    let action = new Action();
+  ToggleMethods() {
+    //console.log(this.active.input, this.active.input && this.active.input.idList);
+    if (
+      this.MethodsStarted().length == 0 &&
+      (
+        !this.active.input ||
+        this.active.input.idList.length == 0
+      )
+    )
+      return this.HideMethods();
 
-    if (this.deleteSection.type == "task")
-      Method = "RemoveQuestion";
+    this.TriggerMethods();
+  }
+  TriggerMethods() {
+    if (
+      !this.$methodsSection.is(":visible") &&
+      (
+        this.MethodsStarted().length > 0 ||
+        this.IsInputHasIds()
+      )
+    ) {
+      this.$methodsSection.appendTo(this.$sectionContainer);
+    }
 
-    if (this.deleteSection.type == "response")
-      Method = "RemoveAnswer";
+    this.methods.forEach(this.TriggerMethod.bind(this));
+  }
+  MethodsStarted() {
+    return this.methods.filter(method => method.started);
+  }
+  IsInputHasIds() {
+    return this.active.input && this.active.input.idList.length > 0;
+  }
+  /**
+   * @param {ReportContent} method
+   */
+  TriggerMethod(method) {
+    if (this.active.contentType)
+      method.ContentTypeSelected();
 
-    if (this.deleteSection.type == "comment")
-      Method = "RemoveComment";
+    if (this.active.input)
+      method.InputSelected();
 
-    let resRemove = await action[Method](this.contentData);
-
-    this.MarkContentID(id, !!resRemove.success);
-
-    if (!resRemove || !resRemove.success) {
-      this.modal.notification(
+    if (
+      !IsVisible(method.tabButton) &&
+      (
+        method.started ||
+        this.IsInputHasIds() &&
         (
-          resRemove.message ?
-          `#${id} > ${resRemove.message}` :
-          System.data.locale.core.notificationMessages.errorOccuredWhileDeletingTheN.replace("%{content_id}", ` #${id} `)
-        ),
-        "error"
-      );
-    } else {
-      this.UpdateCounter();
-    }
-
-    this.UpdateProcessStatus();
-  }
-  MarkContentID(id, isDeleted) {
-    let $id = $(`span:contains("${id}")`);
-
-    $id.removeClass("toProcess");
-    $id.addClass(isDeleted ? "success" : "error");
-    this.deletedContents[id] = { isDeleted };
-  }
-  UpdateCounter() {
-    this.$nHasBeenDeleted.text(++this.deletedContentCount);
-  }
-  UpdateProcessStatus() {
-    if (this.contentsToDelete.length == ++this.openedConnections) {
-      window.isPageProcessing = false;
-
-      this.HideButtonSpinner();
-      this.HideTextareaSpinner();
-      this.modal.notification(System.data.locale.common.notificationMessages.operationCompleted, "success", true);
-    }
-  }
-  ShowTextareaWarning() {
-    if (this.$textareaWarning.parents("body").length == 0) {
-      this.$textareaWarning.insertAfter(this.$textarea.parent());
-    } else {
-      this.$textareaWarning
-        .fadeTo('fast', 0.5)
-        .fadeTo('fast', 1)
-        .fadeTo('fast', 0.5)
-        .fadeTo('fast', 1);
-    }
-
-    this.$textareaWarning.focus();
-  }
-  async HideTextareaWarning() {
-    await this.$textareaWarning.slideUp('fast').promise();
-    this.HideElement(this.$textareaWarning)
-    this.$textareaWarning.show();
+          !method.restrictions ||
+          method.restrictions.contentType.includes(this.active.input.is)
+        )
+      )
+    )
+      method.ShowActionButton();
   }
 }
 

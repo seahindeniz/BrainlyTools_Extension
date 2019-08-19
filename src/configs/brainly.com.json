@@ -9,9 +9,11 @@
     "response": [35, 21, 48],
     "comment": [23, 71, 58]
   },
-  "defaultAbuseReportReasons": {
-    "question": [2, 5],
-    "answer": [8, 7],
-    "comment": [301, null]
+  "default": {
+    "abuseReportReasons": {
+      "QUESTION": [2, 5],
+      "ANSWER": [8, 7],
+      "COMMENT": [301, null]
+    }
   }
 }

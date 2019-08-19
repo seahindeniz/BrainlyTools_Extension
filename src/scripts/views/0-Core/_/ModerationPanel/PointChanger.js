@@ -86,7 +86,9 @@ class PointChanger {
     this.$addUserButton = Button({
       type: "primary-blue",
       size: "small",
-      icon: "profile_view"
+      icon: {
+        type: "profile_view"
+      }
     });
 
     this.$addUserButton.appendTo(this.$addUserButtonContainer);
@@ -95,7 +97,9 @@ class PointChanger {
     this.$addPointToAllButton = Button({
       type: "primary-mint",
       size: "small",
-      icon: "check"
+      icon: {
+        type: "check"
+      }
     });
   }
   BindHandler() {
@@ -274,7 +278,9 @@ class PointChanger {
       type: "primary-mint",
       size: "small",
       title: System.data.locale.core.pointChanger.addPoint,
-      icon: "check"
+      icon: {
+        type: "check"
+      }
     });
 
     $addPointButton.click(this.AddPointToUser.bind(this));

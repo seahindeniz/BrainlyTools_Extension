@@ -47,10 +47,9 @@ $colorList in $colorMap {
 .sg-button {
   &--xsmall {
     height: 28px;
-    padding: 0 14px;
+    padding: 0 16px;
     line-height: 10px;
     font-size: 12px;
-    border-radius: 12px;
   }
 
   &--disabled {

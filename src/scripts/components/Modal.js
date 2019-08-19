@@ -1,7 +1,7 @@
 import Toplayer from "./Toplayer";
 import notification from "./notification";
 
-class Modal extends Toplayer {
+export default class extends Toplayer {
   /**
    * @param {import("./Toplayer").options} options
    */
@@ -46,4 +46,3 @@ class Modal extends Toplayer {
       $notification.appendTo(this.$flashContainer);
   }
 }
-export default Modal;

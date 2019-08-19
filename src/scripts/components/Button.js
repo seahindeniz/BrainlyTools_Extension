@@ -1,3 +1,5 @@
+import Icon from "./style-guide/Icon";
+
 /**
  * @typedef {"primary"|"primary-inverted"|"primary-blue"|"primary-mint"} PrimaryType
  * @typedef {"link-button"|"link-button-inverted"|"link-button-peach"|"link-button-mustard"|"link-button-mint"|"link-button-blue"} LinkType
@@ -8,7 +10,6 @@
  * @typedef {boolean | {small: boolean, xsmall: boolean, xxsmall: boolean, large: boolean, xlarge: boolean, xxlarge: boolean}} sizeList
  * @typedef {boolean | {top: sizeList, left: sizeList, bottom: sizeList, right: sizeList}} cornerSpaces
  *
- * @typedef {""|"answer"|"answered"|"arrow_down"|"arrow_double_down"|"arrow_left"|"arrow_right"|"arrow_up"|"attachment"|"bold"|"camera"|"change_status"|"check"|"comment"|"counter"|"cup"|"equation"|"exclamation_mark"|"excellent"|"expert"|"friends"|"heart"|"keyboard"|"lightning"|"logout"|"menu"|"messages"|"notifications"|"pencil"|"planet"|"plus"|"podium"|"points"|"profile"|"profile_edit"|"profile_view"|"question"|"reload"|"report_flag"|"search"|"seen"|"star"|"stream"|"student"|"symbols"|"thumbs_up"|"unseen"|"verified"|"x"|"fb"} Icon
  * @typedef {function(): JQueryButtonElement} Hide
  * @typedef {function(): JQueryButtonElement} Show
  * @typedef {function(): JQueryButtonElement} Enable
@@ -22,55 +23,61 @@
  * @typedef {{_type: Type, mainType:Type, Hide: Hide, Show: Show, Enable: Enable, Disable: Disable, Active: Active, Inactive: Inactive, ChangeType: ChangeType, ToggleType: ToggleType, IsDisabled: IsDisabled}} CustomProperties
  * @typedef {(HTMLAnchorElement|HTMLButtonElement)&CustomProperties} ButtonElement
  * @typedef {JQuery<ButtonElement>&CustomProperties} JQueryButtonElement
- * @typedef {{type: Type, size: Size, icon: Icon, disabled: boolean, fullWidth: boolean, href: string, title: string, moreClass: string, forInput: string, bold: boolean, text: string, tag: string, spaced: cornerSpaces}} ButtonOptions
+ * @typedef {{tag?: string, type?: Type, size?: Size, icon?: import("./style-guide/Icon").Properties, disabled?: boolean, fullWidth?: boolean, href?: string, title?: string, moreClass?: string, forInput?: string, bold?: boolean, text?: string, spaced?: cornerSpaces}} ButtonOptions
  */
 const sg = "sg-button";
-const sgd = `${sg}--`;
+const SGD = `${sg}--`;
 
 /**
- * @param {ButtonOptions} options
+ * @param {ButtonOptions} param0
  * @returns {JQueryButtonElement}
  */
-export default function Button({ tag = "button", type: type, size, icon, disabled, fullWidth, href, title, moreClass, forInput, bold, text, spaced } = {}) {
+export default function ({ tag = "button", type, size, icon, disabled, fullWidth, href, title, moreClass, forInput, bold, text, spaced } = {}) {
   if (!icon && typeof text == "undefined")
     throw "Button cannot be empty";
 
   if (typeof href !== "undefined")
     tag = "a";
 
-  if (typeof forInput !== "undefined")
-    tag = "label";
-
   /**
    * @type {ButtonElement}
    */
+  // @ts-ignore
   let element = document.createElement(tag);
 
   element.classList.add(sg);
 
   if (type) {
     if (typeof type == "string")
-      element.classList.add(sgd + type);
+      element.classList.add(SGD + type);
     else if (type instanceof Array)
-      element.classList.add(sgd + type.join(` ${sgd}`));
+      element.classList.add(SGD + type.join(` ${SGD}`));
   }
 
   if (size)
-    element.classList.add(sgd + size);
+    element.classList.add(SGD + size);
 
   if (icon) {
-    let iconElement = CreateIcon(icon, size);
+    let iconElement = Icon({
+      size: size == "xsmall" ? 18 : 24,
+      color: "adaptive",
+      ...icon
+    });
+    let spanElement = document.createElement("span");
 
-    element.appendChild(iconElement);
+    spanElement.appendChild(iconElement);
+    spanElement.classList.add(`${sg}__icon`);
+
+    element.appendChild(spanElement);
   }
 
   if (disabled) {
     element.setAttribute("disabled", "");
-    element.classList.add(`${sgd}disabled`);
+    element.classList.add(`${SGD}disabled`);
   }
 
   if (fullWidth)
-    element.classList.add(`${sgd}full-width`);
+    element.classList.add(`${SGD}full-width`);
 
   if (href)
     element.setAttribute("href", href);
@@ -79,10 +86,7 @@ export default function Button({ tag = "button", type: type, size, icon, disable
     element.setAttribute("title", title);
 
   if (moreClass)
-    element.classList.add(...moreClass.replace(/\&/g, sgd).split(" "));
-
-  if (forInput)
-    element.setAttribute("for", forInput);
+    element.classList.add(...moreClass.replace(/\&/g, SGD).split(" "));
 
   if (typeof text !== "undefined") {
     let textElement = document.createElement("span");
@@ -99,18 +103,18 @@ export default function Button({ tag = "button", type: type, size, icon, disable
     let styles = [];
 
     if (typeof spaced == "boolean")
-      styles.push(`${sgd}spaced`);
+      styles.push(`${SGD}spaced`);
 
     if (typeof spaced == "object")
       for (let [corner, sizeName] of Object.entries(spaced)) {
         if (typeof sizeName == "boolean")
-          styles.push(`${sgd}spaced-${corner}`);
+          styles.push(`${SGD}spaced-${corner}`);
 
         if (typeof sizeName == "object") {
           let sizes = Object.keys(sizeName);
 
           sizes.forEach(size => {
-            styles.push(`${sgd}spaced-${corner}-${size}`);
+            styles.push(`${SGD}spaced-${corner}-${size}`);
           });
         }
       }
@@ -125,7 +129,7 @@ export default function Button({ tag = "button", type: type, size, icon, disable
   element.Enable = Enable;
   element.Disable = Disable;
   element.Active = Active;
-  element.Inactive = Inctive;
+  element.Inactive = Inactive;
   element.ChangeType = ChangeType;
   element.ToggleType = ToggleType;
   element.IsDisabled = IsDisabled;
@@ -136,34 +140,6 @@ export default function Button({ tag = "button", type: type, size, icon, disable
   let $element = Identify$(element);
 
   return $element
-}
-
-/**
- * @param {Icon} icon
- * @param {Size} size
- */
-function CreateIcon(icon, size) {
-  let iconSize = 24;
-  let spanElement = document.createElement("span");
-  let divElement = document.createElement("div");
-  let svgElement = document.createElementNS('http://www.w3.org/2000/svg', "svg");
-  let useElement = document.createElementNS('http://www.w3.org/2000/svg', "use");
-
-  svgElement.appendChild(useElement);
-  divElement.appendChild(svgElement);
-  spanElement.appendChild(divElement);
-
-  divElement.classList.add(`sg--icon`);
-  svgElement.classList.add("sg-icon__svg");
-  spanElement.classList.add(`${sg}__icon`, `${sg}__icon--${size}`);
-  useElement.setAttributeNS('http://www.w3.org/1999/xlink', "xlink:href", `#icon-${icon}`);
-
-  if (size == "xsmall")
-    iconSize = 18;
-
-  divElement.classList.add("sg-icon--adaptive", `sg-icon--x${iconSize}`);
-
-  return spanElement;
 }
 
 /**
@@ -202,7 +178,7 @@ function Disable() {
 
   button.prop("disabled", true);
 
-  return button.addClass(`${sgd}disabled`);
+  return button.addClass(`${SGD}disabled`);
 }
 
 /**
@@ -214,7 +190,7 @@ function Enable() {
 
   button.prop("disabled", false);
 
-  return button.removeClass(`${sgd}disabled`);
+  return button.removeClass(`${SGD}disabled`);
 }
 
 /**
@@ -224,17 +200,17 @@ function Enable() {
 function Active() {
   let button = Identify$(this);
 
-  return button.addClass(`${sgd}active`);
+  return button.addClass(`${SGD}active`);
 }
 
 /**
  * @this {JQueryButtonElement}
  * @returns {JQueryButtonElement}
  */
-function Inctive() {
+function Inactive() {
   let button = Identify$(this);
 
-  return button.removeClass(`${sgd}active`);
+  return button.removeClass(`${SGD}active`);
 }
 
 /**
@@ -245,12 +221,9 @@ function Inctive() {
 function ChangeType(type) {
   let button = Identify$(this);
 
-  console.log("old:", sgd + button._type, sgd + button.mainType);
-  console.log("new:", type);
-  button.removeClass(sgd + button._type);
-  button.removeClass(sgd + button.mainType);
-  button.addClass(sgd + type);
-  console.log(button[0]);
+  button.removeClass(SGD + button._type);
+  button.removeClass(SGD + button.mainType);
+  button.addClass(SGD + type);
 
   button._type = type;
   button.mainType = type;
@@ -268,8 +241,8 @@ function ChangeType(type) {
 function ToggleType(type) {
   let button = Identify$(this);
 
-  button.toggleClass(sgd + button.mainType).toggleClass(sgd + type);
-  button._type = button.hasClass(sgd + type) ? type : button.mainType;
+  button.toggleClass(SGD + button.mainType).toggleClass(SGD + type);
+  button._type = button.hasClass(SGD + type) ? type : button.mainType;
   button.prop("_type", button._type);
 
   return button;

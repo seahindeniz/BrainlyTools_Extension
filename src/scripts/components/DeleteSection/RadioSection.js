@@ -4,8 +4,9 @@ class RadioSection {
    * @typedef {[Item]} Items
    * @param {{ name:string, warning: string, items: Items, changeHandler: function, noHorizontalSeparator: boolean }} param0
    */
-  constructor({ name, warning, items, changeHandler, noHorizontalSeparator = false }) {
+  constructor({ name, text, warning, items, changeHandler, noHorizontalSeparator = false }) {
     this.name = name;
+    this.text = text;
     this.warning = warning;
     this.items = items;
     this.changeHandler = changeHandler;
@@ -25,7 +26,7 @@ class RadioSection {
     <div class="sg-content-box__actions">
       <div class="sg-actions-list sg-content-box__actions--spaced-top sg-content-box__actions--spaced-bottom sg-actions-list--no-wrap sg-actions-list--to-top">
         <div class="sg-actions-list__hole sg-actions-list__hole--no-shrink">
-          <span class="sg-text sg-text--small">${System.data.locale.core.MassContentDeleter.select[this.name]}:</span>
+          <span class="sg-text sg-text--small">${this.text}:</span>
         </div>
         <div class="sg-actions-list__hole sg-actions-list__hole--no-spacing">
           <div class="sg-actions-list"></div>

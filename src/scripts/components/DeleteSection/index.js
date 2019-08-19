@@ -86,7 +86,7 @@ class DeleteSection {
     this.$takePoints = $("input", this.$takePointsContainer);
   }
   RenderOption(id, label, title) {
-    return $(`
+    let $option = $(`
     <div class="sg-actions-list__hole sg-actions-list__hole--no-spacing">
       <div class="sg-text sg-text--bold">
         <div class="sg-label sg-label--secondary" >
@@ -106,6 +106,15 @@ class DeleteSection {
         </div>
       </div>
     </div>`);
+    /* let $checkboxGhost = $(".sg-checkbox__ghost", $option);
+    let icon = Icon({
+      type: "std-check",
+      color: "adaptive"
+    });
+
+    $checkboxGhost.append(icon); */
+
+    return $option;
   }
   RenderHoleSeparator() {
     return $(`
@@ -125,6 +134,7 @@ class DeleteSection {
   RenderContentTypeSection() {
     let sectionData = {
       name: "contentType",
+      text: System.data.locale.core.MassModerateContents.contentType,
       warning: System.data.locale.common.moderating.selectContentType,
       changeHandler: this.ContentTypeRadioChange.bind(this),
       items: []
@@ -189,6 +199,7 @@ class DeleteSection {
     if (!reasonSection) {
       reasonSection = this.reasonSections[this.type] = new RadioSection({
         name: "reason",
+        text: System.data.locale.core.MassContentDeleter.select["reason"],
         warning: System.data.locale.common.moderating.selectReason,
         items: this.reasons.map(reason => {
           return {
@@ -264,6 +275,7 @@ class DeleteSection {
     if (!subReasonSection) {
       subReasonSection = this.subReasonSections[reasonId] = new RadioSection({
         name: "subReason",
+        text: System.data.locale.core.MassContentDeleter.select["subReason"],
         items: this.reason.subcategories.map(reason => {
           return {
             id: `sr-${reason.id}`,

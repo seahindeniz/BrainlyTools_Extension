@@ -1,3 +1,5 @@
+import Icon from "./style-guide/Icon";
+
 /**
  * @typedef {{size: "small"|"medium"|"large", header: string, content: string, actions: string, addAfter: string}} options
  */
@@ -6,6 +8,7 @@ class Toplayer {
   /**
    * @param {options} param0
    */
+  // @ts-ignore
   constructor({ size = "medium", header = "", content = "", actions = "", addAfter = "" } = {}) {
     this.size = size;
     this.header = header;
@@ -32,12 +35,19 @@ class Toplayer {
 			</div>
 		</div>`);
 
-    if (this.size) {
+    if (this.size)
       this.$toplayer.addClass(`sg-toplayer--modal sg-toplayer--${this.size}`);
-    }
+
+    /* let iconX = Icon({
+      type: "std-close",
+      size: 14,
+      color: "gray-secondary"
+    }); */
 
     this.$close = $(".sg-toplayer__close", this.$toplayer);
     this.$contentContainer = $("> .sg-toplayer__wrapper > .sg-content-box", this.$toplayer);
+
+    //this.$close.append(iconX);
   }
   RenderHeader() {
     this.$header = $(`<div class="sg-content-box__header">${this.header}</div>`);

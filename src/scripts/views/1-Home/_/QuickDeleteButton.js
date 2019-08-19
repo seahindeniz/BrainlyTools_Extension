@@ -29,7 +29,9 @@ class QuickDeleteButton {
     this.$ = Button({
       type: "destructive",
       size: "xsmall",
-      icon: "x",
+      icon: {
+        type: "x"
+      },
       title: this.reason.text,
       text: this.reason.title
     });

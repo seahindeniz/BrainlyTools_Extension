@@ -4,7 +4,7 @@
  * @param {string} type - typeof message > ["", "success", "info", "warning", "failure", "error"]
  * @param {boolean} permanent - To make it permanent
  */
-function notification(message, type = "", permanent = false) {
+export default function (message, type = "", permanent = false) {
   if (!message || message == "")
     return false;
 
@@ -50,5 +50,3 @@ function notification(message, type = "", permanent = false) {
     return flash;
   }
 }
-
-export default notification

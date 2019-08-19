@@ -1,0 +1,27 @@
+.sg-text {
+  &--background {
+    &-mustard {
+      background: #fec83c;
+    }
+
+    &-mint {
+      background: #9ce8c2;
+    }
+
+    &-peach {
+      background: #ff7968;
+    }
+
+    &-light-gray {
+      background: #c3d1dd;
+    }
+
+    &-blue-dark{
+      background: #1d9ff5;
+    }
+
+    &-blue-light{
+      background: #d9f0ff;
+    }
+  }
+}

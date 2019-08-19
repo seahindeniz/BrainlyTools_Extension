@@ -1,0 +1,43 @@
+@mixin mins {
+  min-width: 4em;
+  min-height: 4em;
+}
+
+.sg-textarea {
+  &--resizable {
+    resize: auto;
+    @include mins();
+
+    &-vertical {
+      resize: vertical;
+      @include mins();
+    }
+
+    &-horizontal {
+      resize: horizontal;
+      @include mins();
+    }
+
+    &-both {
+      resize: both;
+      @include mins();
+    }
+  }
+
+  &--max1000 {
+    max-height: 1000px;
+  }
+
+  &--min-width-25em {
+    min-width: 25em;
+  }
+
+  &[placeholder]:empty:not([input]):not([textarea]) {
+    &:before {
+      content: attr(placeholder);
+      display: block;
+      color: #9fa6b5;
+      font-weight: bold;
+    }
+  }
+}

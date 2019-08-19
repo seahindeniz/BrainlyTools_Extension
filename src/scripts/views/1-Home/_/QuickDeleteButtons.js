@@ -111,7 +111,9 @@ class QuickDeleteButtons {
     this.$moreOptionsButton = Button({
       type: "primary-blue",
       size: "xsmall",
-      icon: "stream",
+      icon: {
+        type: "stream"
+      },
       text: System.data.locale.common.moderating.moreOptions
     });
 

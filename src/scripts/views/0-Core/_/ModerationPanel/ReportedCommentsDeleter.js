@@ -1,4 +1,4 @@
-import notification from "../../../../components/notification";
+import notification from "../../../../components/notification2";
 import Action from "../../../../controllers/Req/Brainly/Action";
 import Button from "../../../../components/Button";
 
@@ -166,9 +166,15 @@ class ReportedCommentsDeleter {
     this.selectedReason = System.data.Brainly.deleteReasons.__withIds.comment[reasonId];
 
     if (!this.selectedReason) {
-      notification(System.data.locale.common.moderating.selectReason, "info");
+      notification({
+        text: System.data.locale.common.moderating.selectReason,
+        type: "info"
+      });
     } else if (this.started) {
-      notification(System.data.locale.core.notificationMessages.alreadyStarted, "info");
+      notification({
+        text: System.data.locale.core.notificationMessages.alreadyStarted,
+        type: "info"
+      });
     } else {
       this.started = true;
 

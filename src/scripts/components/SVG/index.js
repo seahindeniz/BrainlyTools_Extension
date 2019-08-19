@@ -6,5 +6,6 @@ export default function InjectIcons() {
   svgWrapper.style.display = 'none';
   svgWrapper.innerHTML = template(IconsContent);
 
+
   document.body.insertBefore(svgWrapper, document.body.firstChild);
 }

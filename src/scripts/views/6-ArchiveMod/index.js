@@ -39,7 +39,9 @@ async function ArciveMod() {
     let $confirmButton = Button({
       type: "primary-mint",
       size: "small",
-      icon: "check",
+      icon: {
+        type: "check"
+      },
       title: System.data.locale.common.confirm
     });
     $confirmButton = $spinnerContainer.clone().append($confirmButton);

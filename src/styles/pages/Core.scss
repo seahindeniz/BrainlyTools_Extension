@@ -4,8 +4,10 @@ $baseline: 1.5rem;
   @return $baselines * $baseline;
 }
 
+@import "../_/style-guide/components/text.scss";
 @import "../_/style-guide/components/input.scss";
 @import "../_/style-guide/components/buttons.scss";
+@import "../_/style-guide/components/textarea.scss";
 @import "../_/style-guide/components/input-group.scss";
 
 .resizeOverlay {
@@ -553,28 +555,6 @@ body.mint {
 
   .notFound {
     background: #c3d1dd;
-  }
-}
-
-.sg-textarea {
-  &--resizable {
-    resize: auto;
-
-    &-vertical {
-      resize: vertical;
-    }
-
-    &-horizontal {
-      resize: horizontal;
-    }
-  }
-
-  &--max1000 {
-    max-height: 1000px;
-  }
-
-  &--min-width-25em {
-    min-width: 25em;
   }
 }
 

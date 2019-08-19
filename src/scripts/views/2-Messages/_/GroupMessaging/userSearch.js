@@ -43,13 +43,12 @@ const idSearch = n => {
   });
 };
 
-export default $createGroupToplayer => {
+export default $findUsersList => {
 
   let $idInput = $(`<input type="text" class="sg-input sg-input--small sg-input--full-width" placeholder="${System.data.locale.messages.groups.userCategories.findUsers.nickOrID}" />`);
   let delayTimer;
 
   $idInput.on("input", function() {
-    let $findUsersList = $(".find-users-list>ul", $createGroupToplayer);
     //let $notFound = $(".notFound", searchInput);
     let value = this.value;
 

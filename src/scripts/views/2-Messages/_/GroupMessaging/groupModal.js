@@ -104,6 +104,7 @@ class GroupModal {
     this.$searchResultsContainerHole = $(".sg-card__hole:nth-child(2)", this.modal.$content);
     this.$removeAllButtonContainer = $(".sg-actions-list__hole:nth-child(2)", this.$groupMembersContainerHole);
     this.$addAllButtonContainer = $(".sg-actions-list__hole:nth-child(2)", this.$searchResultsContainerHole);
+    this.$firstLetter = $(".js-first-letter", this.modal.$content);
 
     this.$closeIcon = $(".sg-toplayer__close", this.modal.$modal);
     this.$closeIconSVG = $("svg", this.$closeIcon);
@@ -267,7 +268,6 @@ class GroupModal {
     /**
      * Group name input
      */
-    let $firstLetter = $("label.js-first-letter", this.$toplayerContainer);
     let groupNameInputHandler = function() {
       let firstLetter = "G";
       let value = this.value && this.value.trim();
@@ -276,7 +276,7 @@ class GroupModal {
         firstLetter = value.charAt(0).toLocaleUpperCase(System.data.Brainly.defaultConfig.user.ME.user.isoLocale.replace("_", "-"));
       }
 
-      $firstLetter.text(firstLetter);
+      this.$firstLetter.text(firstLetter);
     };
     this.$groupName.on({
       input: groupNameInputHandler,
@@ -291,7 +291,7 @@ class GroupModal {
     let colorChangeHandler = function() {
       let color = { color: this.value };
 
-      $firstLetter.css(color);
+      this.$firstLetter.css(color);
       that.$groupName.css(color);
     }
     this.$color.change(colorChangeHandler);
@@ -311,14 +311,14 @@ class GroupModal {
 
       if (this.value == "findUsers") {
         $subActionListHole = $(`<div class="sg-actions-list__hole sg-box--full"></div>`);
-        let $input = userSearch(that.$toplayerContainer);
+        let $input = userSearch(that.$searchResultsList);
 
         $input.appendTo($subActionListHole);
         $subActionListHole.appendTo(that.$userCategorySelectorContainer);
         //$userCategoryList.removeClass("sg-dropdown--full-width");
       } else if (this.value == "moderatorRanks") {
         $subActionListHole = $(`<div class="sg-actions-list__hole sg-box--full"></div>`);
-        let $input = rankSelector(that.$toplayerContainer);
+        let $input = rankSelector(that.$searchResultsList);
 
         $input.appendTo($subActionListHole);
         $subActionListHole.appendTo(that.$userCategorySelectorContainer);

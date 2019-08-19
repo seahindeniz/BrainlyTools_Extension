@@ -3,8 +3,7 @@
 import Dropdown from "../../../../components/Dropdown";
 import userLi from "./userLi";
 
-export default $createGroupToplayer => {
-  let $findUsersList = $(".find-users-list>ul", $createGroupToplayer);
+export default $findUsersList => {
   let ranks = System.data.Brainly.defaultConfig.config.data.ranks.map((rank) => {
     return {
       value: rank.id,

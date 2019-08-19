@@ -10,6 +10,8 @@ import ActionEntry from "./_/ActionEntry";
 import notification from "../../components/notification";
 import Button from "../../components/Button";
 
+let System = require("../../helpers/System");
+
 const MAX_MESSAGE_LENGTH = 512;
 
 export default class ModeratorActionHistory {
@@ -25,6 +27,11 @@ export default class ModeratorActionHistory {
     this.moderator;
     this.message = "";
     this.fixedMessage = "";
+
+    if (typeof System == "function")
+      // @ts-ignore
+      System = System();
+
     this.Init();
   }
   get hashList() {
@@ -505,7 +512,7 @@ export default class ModeratorActionHistory {
     this.$sendButton = Button({
       type: "primary-mint",
       size: "small",
-      text: System.data.locale.messages.groups.send
+      text: System.data.locale.common.send
     });
 
     this.$sendButton.prependTo(this.$sendButtonSpinnerContainer);

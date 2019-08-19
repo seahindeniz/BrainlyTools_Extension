@@ -83,7 +83,7 @@ class MassMessageSender {
 
     this.$sendButton = Button({
       type: "primary-mint",
-      text: System.data.locale.messages.groups.send
+      text: System.data.locale.common.send
     });
 
     this.$sendButton.appendTo(this.$sendButtonContainer);
@@ -265,7 +265,7 @@ class MassMessageSender {
     this.SendMessages.Stop();
 
     if (isDone === true) {
-      this.$sendButton.text(System.data.locale.messages.groups.send);
+      this.$sendButton.text(System.data.locale.common.send);
     }
 
     await System.Delay(300);

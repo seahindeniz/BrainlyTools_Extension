@@ -12,6 +12,8 @@ import storage from "../../scripts/helpers/extStorage";
 import TimedLoop from "../../scripts/helpers/TimedLoop";
 import Action from "../../scripts/controllers/Req/Brainly/Action";
 
+let System = require("../../scripts/helpers/System");
+
 class Popup {
   constructor() {
     this.$body = $("body");
@@ -22,6 +24,10 @@ class Popup {
     this.storageData = {};
     this.fetchedUsers = {};
     this.parameters = {};
+
+    if (typeof System == "function")
+      // @ts-ignore
+      System = System();
 
     this.RefreshTimeElements();
     this.BindHandlers();
@@ -56,7 +62,7 @@ class Popup {
       return this.RenderStatusMessage({
         type: "danger",
         title: System.data.locale.popup.notificationMessages.errorN.replace("%{error_code}", ` 417 `),
-        message: System.data.locale.popup.notificationMessages.iCantFechMarketData
+        message: System.data.locale.popup.notificationMessages.iCantFetchMarketData
       });
     }
 
@@ -67,7 +73,7 @@ class Popup {
       this.RenderStatusMessage({
         type: "danger",
         title: System.data.locale.popup.notificationMessages.errorN.replace("%{error_code}", ` 417 `),
-        message: System.data.locale.popup.notificationMessages.uncorrectDate
+        message: System.data.locale.popup.notificationMessages.incorrectDate
       });
     } else if (!System.data.Brainly.deleteReasons.__withIds) {
       this.RenderStatusMessage({
@@ -268,14 +274,16 @@ class Popup {
 
       if (avatar) {
         $(`a[data-user-id="${user.brainlyData.id}"]`, this.$layoutBox).each((i, element) => {
-          let $img = $("img.avatar", element);
+          if (element instanceof HTMLAnchorElement) {
+            let $img = $("img.avatar", element);
 
-          $img.attr("src", avatar);
+            $img.attr("src", avatar);
 
-          element.href = System.createProfileLink(user.brainlyData);
+            element.href = System.createProfileLink(user.brainlyData);
 
-          if (!element.title) {
-            element.title = user.brainlyData.nick;
+            if (!element.title) {
+              element.title = user.brainlyData.nick;
+            }
           }
         });
       }

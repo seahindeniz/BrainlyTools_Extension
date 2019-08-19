@@ -85,7 +85,7 @@ class GroupChatbox {
     this.$sendButton = Button({
       type: "primary-blue",
       size: "small",
-      text: System.data.locale.messages.groups.send
+      text: System.data.locale.common.send
     });
 
     this.$sendButton.prependTo(this.$sendButtonSpinnerContainer);
@@ -106,7 +106,9 @@ class GroupChatbox {
     this.$editGroupButton = Button({
       type: "primary-blue",
       size: "xsmall",
-      icon: "pencil",
+      icon: {
+        type: "pencil"
+      },
       text: System.data.locale.common.edit,
       title: System.data.locale.messages.groups.editGroup
     });
@@ -115,7 +117,9 @@ class GroupChatbox {
     this.$deleteGroupButton = Button({
       type: "destructive",
       size: "xsmall",
-      icon: "x",
+      icon: {
+        type: "x"
+      },
       text: System.data.locale.common.delete,
       title: System.data.locale.messages.groups.deleteGroup
     });

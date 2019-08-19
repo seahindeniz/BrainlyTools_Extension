@@ -1,3 +1,4 @@
+// @ts-nocheck
 import debounce from "debounce";
 import DeleteSection from "../../../../components/DeleteSection";
 import Modal from "../../../../components/Modal";
@@ -46,7 +47,7 @@ class MassContentDeleter {
 				<div class="sg-spinner-container sg-content-box--full">
 					<div class="sg-content-box__actions">
 						<div class="sg-textarea sg-textarea--full-width back" style="color: transparent;"></div>
-						<div class="sg-textarea sg-textarea--full-width sg-textarea--resizable-vertical" contenteditable="true" style="position: absolute; background: transparent;" placeholder="${System.data.locale.core.MassContentDeleter.contentLinksOrIDs}"></div>
+						<div class="sg-textarea sg-textarea--full-width sg-textarea--resizable-vertical" contenteditable="true" style="position: absolute; background: transparent;" placeholder="${System.data.locale.core.MassModerateContents.targets.listOfIds.contentLinksOrIDs}"></div>
 					</div>
 				</div>
 				<div class="sg-content-box__actions sg-content-box__content--spaced-top-small">

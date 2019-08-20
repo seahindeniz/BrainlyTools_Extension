@@ -9,8 +9,8 @@ export default class Inputs extends Tab {
   constructor(main, details) {
     super(main, {
       ...details,
-      contentContainer: main.$inputsContainer,
-      buttonsContainer: main.$actionListOfInputsSection,
+      contentContainer: main.inputsContainer,
+      buttonsContainer: main.actionListOfInputsSection,
       tabButton: {
         activeType: "link-button-mint",
         container: ContentBoxContent({

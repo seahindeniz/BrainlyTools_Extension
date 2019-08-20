@@ -1,6 +1,9 @@
 import notification from "../../../../components/notification2";
 import Action from "../../../../controllers/Req/Brainly/Action";
 import Button from "../../../../components/Button";
+import { MenuListItem } from "../../../../components/style-guide";
+
+let System = require("../../../../helpers/System");
 
 const spinner = `<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`;
 
@@ -12,9 +15,10 @@ class ReportedCommentsDeleter {
     this.activeConnections = 0;
     this.deleteProcessInterval = null;
 
-    this.Init();
-  }
-  Init() {
+    if (typeof System == "function")
+      // @ts-ignore
+      System = System();
+
     this.RenderLi();
     this.RenderPanel();
     this.RenderStartButton();
@@ -23,10 +27,13 @@ class ReportedCommentsDeleter {
     this.BindHandlers();
   }
   RenderLi() {
-    this.$li = $(`
-		<li class="sg-menu-list__element" style="display: table; width: 100%; padding-right: 1em;">
-			<span class="sg-menu-list__link sg-text--link">${System.data.locale.core.reportedCommentsDeleter.text}</span>
-		</li>`);
+    this.li = MenuListItem({
+      type: "span",
+      html: System.data.locale.core.reportedCommentsDeleter.text
+    });
+    this.menuLink = this.li.querySelector("span");
+
+    this.li.setAttribute("style", "display: table; width: 100%;");
   }
   RenderPanel() {
     this.$panel = $(`
@@ -120,7 +127,7 @@ class ReportedCommentsDeleter {
     let reasons = System.data.Brainly.deleteReasons.__withTitles.comment;
 
     $.each(reasons, (name, details) => {
-      if (!name.startsWith("__")) {
+      if (!String(name).startsWith("__")) {
         let title = details.title || details.text.substring(0, 25) + "...";
 
         this.$reasons.append(`<option value="${details.id}" title="${details.text}">${title}</option>`);
@@ -128,7 +135,7 @@ class ReportedCommentsDeleter {
     });
   }
   BindHandlers() {
-    this.$li.on("click", "span", this.TogglePanel.bind(this));
+    this.menuLink.addEventListener("click", this.TogglePanel.bind(this));
     this.$stopButton.click(this.ManuelStop.bind(this));
     this.$startButton.click(this.StartDeleting.bind(this));
   }
@@ -136,7 +143,7 @@ class ReportedCommentsDeleter {
     if (this.$panel.is(":visible")) {
       this.$panel.appendTo("</ div>");
     } else {
-      this.$panel.appendTo(this.$li);
+      this.$panel.appendTo(this.li);
     }
   }
   ManuelStop() {
@@ -163,7 +170,7 @@ class ReportedCommentsDeleter {
   }
   async StartDeleting() {
     let reasonId = this.$reasons.val();
-    this.selectedReason = System.data.Brainly.deleteReasons.__withIds.comment[reasonId];
+    this.selectedReason = System.data.Brainly.deleteReasons.__withIds.comment[String(reasonId)];
 
     if (!this.selectedReason) {
       notification({

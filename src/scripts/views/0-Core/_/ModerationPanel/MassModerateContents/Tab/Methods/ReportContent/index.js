@@ -80,7 +80,6 @@ export default class ReportContent extends Methods {
         ]
       ]
     ]);
-    this.$ = $(this.container);
   }
   ContentTypeSelected() {
     if (!this.reasons)

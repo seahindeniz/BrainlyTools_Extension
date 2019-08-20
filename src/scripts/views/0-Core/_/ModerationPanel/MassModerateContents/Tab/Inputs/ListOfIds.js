@@ -56,17 +56,21 @@ export default class ListOfIds extends Inputs {
       size: "xsmall",
       html: System.data.locale.common.nIds.replace("%{n}", ` <span class="sg-text--bold">0</span> `)
     });
+    this.numberOfIds = nIds.querySelector("span");
     let nContents = Text({
       size: "xsmall",
       color: "blue-dark",
       html: System.data.locale.core.MassModerateContents.nContents.replace("%{n}", ` <span class="sg-text--bold">0</span> `)
     });
+    this.numberOfContents = nContents.querySelector("span");
     let nIgnored = Text({
       size: "xsmall",
       color: "peach-dark",
       html: System.data.locale.core.MassModerateContents.nIgnored.replace("%{n}", ` <span class="sg-text--bold">0</span> `)
     });
-    this.$ = $(Build(ContentBox(), [
+    this.numberOfIgnored = nIgnored.querySelector("span");
+
+    this.container = Build(ContentBox(), [
       this.textareaSpinnerContainer,
       [
         ContentBoxActions(),
@@ -172,11 +176,7 @@ export default class ListOfIds extends Inputs {
           ]
         ]
       ]
-    ]));
-    this.$numbersContainer = $(".sg-content-box__actions:nth-child(2)", this.$);
-    this.$numberOfIds = $("span", nIds);
-    this.$numberOfContents = $("span", nContents);
-    this.$numberOfIgnored = $("span", nIgnored);
+    ]);
   }
   RenderSpinner() {
     this.spinner = Spinner({
@@ -219,7 +219,7 @@ export default class ListOfIds extends Inputs {
     let moderatableIdList = [];
     let numberOfIgnored = 0;
 
-    this.$numberOfIds.text(0);
+    this.numberOfIds.innerText = "0";
 
     let temp = this.value[this.main.active.contentType.is] = this.textarea.innerHTML;
 
@@ -237,9 +237,9 @@ export default class ListOfIds extends Inputs {
     });
 
     this.idList = moderatableIdList; // for triggering the setter in index.js
-    this.$numberOfIds.text(idList.length);
-    this.$numberOfContents.text(moderatableIdList.length);
-    this.$numberOfIgnored.text(numberOfIgnored);
+    this.numberOfIds.innerText = String(idList.length);
+    this.numberOfIgnored.innerText = String(numberOfIgnored);
+    this.numberOfContents.innerText = String(moderatableIdList.length);
     this.textareaBack.innerHTML = temp;
     this.HideTextareaWarning();
     this.HideTextareaSpinner();

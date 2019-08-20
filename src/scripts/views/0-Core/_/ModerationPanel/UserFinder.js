@@ -1,4 +1,9 @@
 import Action from "../../../../controllers/Req/Brainly/Action";
+import { MenuListItem, ActionList, ActionListHole, Text } from "../../../../components/style-guide";
+import Input from "../../../../components/Input";
+import Build from "../../../../helpers/Build";
+
+let System = require("../../../../helpers/System");
 
 let $userList;
 
@@ -53,18 +58,42 @@ const userLi = ({ id, nick, avatar, buddyUrl, ranks }) => {
 }
 
 const UserFinder = () => {
-  let $userFinder = $(`
-	<li class="sg-menu-list__element userFinder" style="display: table; width: 100%;">
-		<label class="sg-menu-list__link">${System.data.locale.messages.groups.userCategories.findUsers.text}:
-			<input type="search" class="sg-input sg-input--small" placeholder="${System.data.locale.messages.groups.userCategories.findUsers.nickOrID}"/>
-		</label>
-		<div class="userList js-hidden" data-placeholder=""></div>
-	</li>`);
+  if (typeof System == "function")
+    // @ts-ignore
+    System = System();
 
-  $userList = $(".userList", $userFinder);
+  let input = Input({
+    size: "small",
+    type: "search",
+    placeholder: System.data.locale.messages.groups.userCategories.findUsers.nickOrID
+  });
+  let li = MenuListItem({
+    type: "label",
+    children: Build(ActionList(), [
+      [
+        ActionListHole(),
+        `${System.data.locale.messages.groups.userCategories.findUsers.text}:`
+      ],
+      [
+        ActionListHole({
+          grow: true
+        }),
+        input
+      ]
+    ])
+  });
+
+  li.setAttribute("style", "display: table; width: 100%;");
+
+  let userList = document.createElement("div");
+  userList.className = "userList js-hidden";
+
+  li.appendChild(userList)
+
+  $userList = $(userList);
   let delayTimer;
 
-  $("input", $userFinder).on("input", function() {
+  input.addEventListener("input", function() {
     let value = this.value;
 
     $userList.html("");
@@ -79,7 +108,7 @@ const UserFinder = () => {
     } else {
       delayTimer = setTimeout(async () => {
         if (isPosInt(value)) {
-          let user = await new Action().GetUserProfile(value);
+          let user = await new Action().GetUserProfile(~~value);
 
           if (!user || !user.success || !user.data) {
             $userList.attr("data-placeholder", System.data.locale.core.notificationMessages.userNotFound);
@@ -149,7 +178,7 @@ const UserFinder = () => {
     }
   });
 
-  return $userFinder;
+  return li;
 };
 
 export default UserFinder

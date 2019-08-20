@@ -14,8 +14,8 @@ export default class Methods extends Tab {
   constructor(main, details) {
     super(main, {
       ...details,
-      contentContainer: main.$methodsContainer,
-      buttonsContainer: main.$actionListOfMethodsSection,
+      contentContainer: main.methodsContainer,
+      buttonsContainer: main.actionListOfMethodsSection,
       tabButton: {
         activeType: "link-button-mint",
         container: ContentBoxContent({
@@ -95,7 +95,6 @@ export default class Methods extends Tab {
     this.continueButton.addEventListener("click", this.ContinueModerating.bind(this))
   }
   async StartModerating() {
-    console.log("start moderating");
     this.ShowActionButtonSpinner();
     await System.Delay(50);
 
@@ -104,7 +103,6 @@ export default class Methods extends Tab {
 
     this.started = true;
     this.idList = this.main.active.input.ShiftIdList();
-    console.log(this.idList);
 
     this.ContinueModerating();
   }
@@ -122,7 +120,6 @@ export default class Methods extends Tab {
     this._loop_Moderate = setInterval(this.TryToModerate.bind(this), 1000);
   }
   TryToModerate() {
-    console.log("try to moderate");
     if (!this.started)
       return this.StopModerating();
 
@@ -142,7 +139,6 @@ export default class Methods extends Tab {
     throw `No method specified to moderate "${id}"`;
   }
   StopModerating() {
-    console.log("stop moderating");
     this.started = false;
 
     clearInterval(this._loop_Moderate);

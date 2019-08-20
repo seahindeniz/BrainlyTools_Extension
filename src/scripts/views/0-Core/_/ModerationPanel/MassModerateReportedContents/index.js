@@ -4,7 +4,9 @@ import Modal from "../../../../../components/Modal";
 import Action from "../../../../../controllers/Req/Brainly/Action";
 import ServerReq from "../../../../../controllers/Req/Server";
 import ConditionSection from "./ConditionSection";
+// @ts-ignore
 import templateModalContent from "./templates/ModalContent.html";
+import { MenuListItem } from "../../../../../components/style-guide";
 
 let System = require("../../../../../helpers/System");
 
@@ -22,6 +24,7 @@ class MassModerateReportedContents {
     this.openedFetchingConnections = 0;
 
     if (typeof System == "function")
+      // @ts-ignore
       System = System();
 
     this.RenderLi();
@@ -34,10 +37,11 @@ class MassModerateReportedContents {
     this.BindHandlers();
   }
   RenderLi() {
-    this.$li = $(`
-		<li class="sg-menu-list__element" style="display: table; width: 100%; padding-right: 1em;">
-			<span class="sg-menu-list__link sg-text--link">${System.data.locale.core.massModerateReportedContents.text}</span>
-		</li>`);
+    this.li = MenuListItem({
+      html: System.data.locale.core.massModerateReportedContents.text
+    });
+
+    this.li.setAttribute("style", "display: table; width: 100%;");
   }
   RenderModal() {
     this.modal = new Modal({
@@ -68,7 +72,7 @@ class MassModerateReportedContents {
       type: "primary-blue",
       size: "small",
       icon: {
-        type: "plus"
+        type: "std-plus"
       },
       fullWidth: true,
       text: System.data.locale.core.massModerateReportedContents.addConditionBlock
@@ -89,7 +93,7 @@ class MassModerateReportedContents {
   }
   AddConditionSection(text, title, options) {
     if (!title)
-      return new Error("Title not specified");
+      throw "Title not specified";
 
     let conditionSection = new ConditionSection(this, text, title, options);
 
@@ -121,8 +125,7 @@ class MassModerateReportedContents {
   }
   BindHandlers() {
     this.modal.$close.click(this.modal.Close.bind(this.modal));
-    this.$li.on("click", "span", this.OpenModal.bind(this));
-
+    this.li.addEventListener("click", this.OpenModal.bind(this));
     this.$addUniqueConditionSectionButton.click(this.AddUniqeCondition.bind(this));
     this.$startButton.click(this.StartModerating.bind(this));
     this.$stopButton.click(this.StopModerating.bind(this));

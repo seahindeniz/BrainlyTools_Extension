@@ -6,6 +6,8 @@ import notification from "../../../../components/notification";
 import Action from "../../../../controllers/Req/Brainly/Action";
 import ServerReq from "../../../../controllers/Req/Server";
 import Button from "../../../../components/Button";
+import Build from "../../../../helpers/Build";
+import { SpinnerContainer, OverlayedBox, MenuListItem, Text } from "../../../../components/style-guide";
 
 let System = require("../../../../helpers/System");
 
@@ -15,10 +17,14 @@ class NoticeBoard {
   constructor() {
     this.users = [];
     this.noticeContent = "";
+    /**
+     * @type {"large"}
+     */
     this.modalSize = "large";
     this.templateString = `# Nothing to see..\n\n### But you can add ;)`;
 
     if (typeof System == "function")
+      // @ts-ignore
       System = System();
 
     this.Init();
@@ -40,7 +46,7 @@ class NoticeBoard {
     }
   }
   RenderLi() {
-    this.$li = $(`
+    /* this.$li = $(`
 		<li class="sg-menu-list__element" style="display: table; width: 100%;">
 			<div class="sg-spinner-container">
 				<div class="sg-overlayed-box">
@@ -51,22 +57,36 @@ class NoticeBoard {
 					</div>
 				</div>
 			</div>
-		</li>`);
+    </li>`); */
+    this.overlayedBox = OverlayedBox({
+      children: Text({
+        type: "span",
+        className: "sg-text--link sg-menu-list__link",
+        html: System.data.locale.core.noticeBoard.text
+      })
+    });
+    this.overlayedBoxOverlay = this.overlayedBox.querySelector("div");
+    this.li = MenuListItem({
+      children: SpinnerContainer({
+        children: this.overlayedBox
+      })
+    });
 
-    this.$overlayedBox = $(".sg-overlayed-box", this.$li);
+    this.li.setAttribute("style", "display: table; width: 100%;");
   }
   RenderBadge() {
-    this.$badge = $(`
+    /* this.$badge = $(`
 		<div class="sg-overlayed-box__overlay">
 			<div class="brn-progress-tracking__icon-dot"></div>
-		</div>`);
+    </div>`); */
+    this.$badge = $(`<div class="brn-progress-tracking__icon-dot"></div>`);
 
     if (System.data.Brainly.userData.extension.noticeBoard === true) {
       this.ShowBadge();
     }
   }
   ShowBadge() {
-    this.$badge.appendTo(this.$overlayedBox);
+    this.$badge.appendTo(this.overlayedBoxOverlay);
   }
   RenderModal() {
     this.modal = new Modal({
@@ -206,7 +226,7 @@ class NoticeBoard {
   }
   BindHandlers() {
     this.$close.click(this.CloseModal.bind(this));
-    this.$li.on("click", "span", this.OpenModal.bind(this));
+    this.li.addEventListener("click", this.OpenModal.bind(this));
   }
   CloseModal() {
     if (this.$editSection && this.$editSection.is(":visible")) {
@@ -245,7 +265,7 @@ class NoticeBoard {
       this.readTimeout = setTimeout(this.ReadNoticeBoard.bind(this), 2500);
   }
   ShowLiSpinner() {
-    this.$spinner.insertAfter(this.$overlayedBox);
+    this.$spinner.insertAfter(this.overlayedBox);
   }
   async GetContent() {
     let resContent = await new ServerReq().GetNoticeBoardContent();
@@ -337,7 +357,7 @@ class NoticeBoard {
     this.$saveButton.click(this.SaveContent.bind(this));
     this.$editSectionContent.on("input", this.UpdateContent.bind(this));
 
-    window.addEventListener("beforeunload", () => {
+    window.addEventListener("beforeunload", event => {
       if (!this.IsEditorValSame()) {
         event.returnValue = "";
 
@@ -418,7 +438,7 @@ class NoticeBoard {
     this.$spinner.insertAfter(this.$saveButton);
   }
   UpdateContent() {
-    let result = this.md.render(this.$editSectionContent.val() || this.templateString);
+    let result = this.md.render(String(this.$editSectionContent.val()) || this.templateString);
 
     this.$md.html(result);
     this.ResizeEditSection();

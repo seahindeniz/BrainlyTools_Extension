@@ -49,16 +49,20 @@ export default class IdRange extends Inputs {
       size: "xsmall",
       html: System.data.locale.common.nIds.replace("%{n}", ` <span class="sg-text--bold">0</span> `)
     });
+    this.numberOfIds = nIds.querySelector("span");
     let nContents = Text({
       size: "xsmall",
       color: "blue-dark",
       html: System.data.locale.core.MassModerateContents.nContents.replace("%{n}", ` <span class="sg-text--bold">0</span> `)
     });
+    this.numberOfContents = nContents.querySelector("span");
     let nIgnored = Text({
       size: "xsmall",
       color: "peach-dark",
       html: System.data.locale.core.MassModerateContents.nIgnored.replace("%{n}", ` <span class="sg-text--bold">0</span> `)
     });
+    this.numberOfIgnored = nIgnored.querySelector("span");
+
     this.container = Build(ActionList({
       noWrap: true
     }), [
@@ -189,12 +193,6 @@ export default class IdRange extends Inputs {
         ]
       ]
     ]);
-    this.$ = $(this.container);
-
-    this.$numberOfIds = $("span", nIds);
-    this.$numberOfContents = $("span", nContents);
-    this.$numberOfIgnored = $("span", nIgnored);
-    this.$inputContainer = $("> .sg-spinner-container > .sg-content-box__actions", this.$);
   }
   BindHandler() {
     this.input.addEventListener("input", debounce(this.Validate.bind(this), 100));
@@ -219,14 +217,20 @@ export default class IdRange extends Inputs {
     }
   }
   ParseRangeValue() {
-    return Array.from(new Set(rangeParser.parse(this.input.value.replace(/\s/g, ""))));
+    let value = this.input.value.replace(/\s/g, "");
+    let rangeArr = rangeParser.parse(value);
+    let rangeSet = new Set(rangeArr);
+    rangeArr = Array.from(rangeSet)
+      .filter(x => x > 0);
+
+    return rangeArr;
   }
   CalculateIdList() {
     let idList = this.range;
     let numberOfIgnored = 0;
     this.output.innerHTML = "";
 
-    this.$numberOfIds.text(idList.length);
+    this.numberOfIds.innerText = String(idList.length);
 
     idList = idList.filter(id => {
       if (this.main.active.contentType.deletedContents.includes(id)) {
@@ -249,11 +253,12 @@ export default class IdRange extends Inputs {
     });
 
     this.idList = idList;
-    this.$numberOfIgnored.text(numberOfIgnored);
-    this.$numberOfContents.text(idList.length);
+    this.numberOfIgnored.innerText = String(numberOfIgnored);
+    this.numberOfContents.innerText = String(idList.length);
   }
   Visible() {
     this.input.value = this.value[this.main.active.contentType.is] || "";
+
     this.Validate();
   }
   ClearInput() {

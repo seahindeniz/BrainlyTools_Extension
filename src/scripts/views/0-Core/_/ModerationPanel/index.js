@@ -8,14 +8,21 @@ import NoticeBoard from "./NoticeBoard";
 import PointChanger from "./PointChanger";
 import ReportedCommentsDeleter from "./ReportedCommentsDeleter";
 import renderUserFinder from "./UserFinder";
+import Menu from "../../../../components/style-guide/List/Menu";
+
+let System = require("../../../../helpers/System");
 
 class ModerationPanel {
   constructor() {
-    this.$statictic = $("#moderate-functions-panel > div.statistics");
-    this.$newpanel = $(".brn-moderation-panel__list");
-    this.$newpanelButton = $(".brn-moderation-panel__button");
+    this.$statistics = $("#moderate-functions-panel > div.statistics");
+    this.$newPanel = $(".brn-moderation-panel__list");
+    this.$newPanelButton = $(".brn-moderation-panel__button");
     this.$oldPanel = $("#moderate-functions-panel > div.panel > div.content-scroll");
     this.$oldPanelCoveringText = $("#moderate-functions-panel > div.panel > div.covering-text");
+
+    if (typeof System == "function")
+      // @ts-ignore
+      System = System();
 
     this.RenderList();
     this.RenderComponents();
@@ -24,12 +31,18 @@ class ModerationPanel {
     this.BindHandlers();
   }
   RenderList() {
-    this.$ul = $(`<ul class="sg-menu-list sg-menu-list--small sg-content-box--spaced-bottom"></ul>`);
+    this.ul = Menu({
+      size: "small",
+      className: "sg-content-box--spaced-bottom"
+    });
 
-    this.$ul.prependTo(".brn-moderation-panel__list, #moderate-functions");
+    let panel = document.querySelector(".brn-moderation-panel__list, #moderate-functions");
+
+    if (panel)
+      panel.prepend(this.ul);
   }
   RenderComponents() {
-    this.RenderComponent({ $li: renderUserFinder() });
+    this.RenderComponent({ li: renderUserFinder() });
 
     if (System.checkUserP(20) || System.data.Brainly.userData.extension.noticeBoard !== null)
       this.RenderComponent(new NoticeBoard());
@@ -60,8 +73,12 @@ class ModerationPanel {
       this.RenderComponent(new MassContentDeleter());
 
   }
+  /**
+   * @param {NoticeBoard | MassMessageSender | PointChanger | MassModerateContents | MassModerateReportedContents | MassManageUsers | ReportedCommentsDeleter | MassContentDeleter | {li: HTMLElement}} instance
+   */
   RenderComponent(instance) {
-    instance.$li.appendTo(this.$ul);
+    if (instance.li)
+      this.ul.append(instance.li);
   }
   RenderResizeTrackingElement() {
     this.$resizeOverlay = $(`
@@ -73,12 +90,13 @@ class ModerationPanel {
     this.$resizeOverlay.appendTo(document.body);
   }
   BindHandlers() {
-    this.$newpanelButton.click(this.DelayedHeightFix.bind(this));
+    this.$newPanelButton.click(this.DelayedHeightFix.bind(this));
     this.$oldPanelCoveringText.click(this.DelayedHeightFix.bind(this));
     window.addEventListener("load", this.FixPanelsHeight.bind(this));
     window.addEventListener('scroll', this.FixPanelsHeight.bind(this))
 
     if ("ResizeObserver" in window) {
+      // @ts-ignore
       new window.ResizeObserver(this.FixPanelsHeight.bind(this)).observe(this.$resizeOverlay[0])
     } else {
       window.addEventListener('resize', this.FixPanelsHeight.bind(this))
@@ -93,20 +111,20 @@ class ModerationPanel {
     this.FixOldPanelsHeight();
   }
   FixNewPanelsHeight() {
-    if (this.$newpanel.length > 0) {
+    if (this.$newPanel.length > 0) {
       let height = window.innerHeight - 226;
 
-      if (this.$newpanel[0].scrollHeight < height)
-        height = this.$newpanel[0].scrollHeight;
+      if (this.$newPanel[0].scrollHeight < height)
+        height = this.$newPanel[0].scrollHeight;
 
-      this.$newpanel.css("cssText", `height: ${height}px`);
+      this.$newPanel.css("cssText", `height: ${height}px`);
     }
   }
   FixOldPanelsHeight() {
     if (this.$oldPanel.length > 0) {
       let height = window.innerHeight - 115;
 
-      if (this.$statictic.is(":visible"))
+      if (this.$statistics.is(":visible"))
         height -= 160;
 
       if (this.$oldPanel[0].scrollHeight < height)

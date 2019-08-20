@@ -1,6 +1,9 @@
 import Modal from "../../../../components/Modal";
 import Action from "../../../../controllers/Req/Brainly/Action";
 import Button from "../../../../components/Button";
+import { MenuListItem } from "../../../../components/style-guide";
+
+let System = require("../../../../helpers/System");
 
 const spinner = `<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`;
 
@@ -9,9 +12,10 @@ class PointChanger {
     this.users = [];
     this.usersWithPoints = {};
 
-    this.Init();
-  }
-  Init() {
+    if (typeof System == "function")
+      // @ts-ignore
+      System = System();
+
     this.RenderLi();
     this.RenderModal();
     this.RenderAddUserButton();
@@ -19,11 +23,11 @@ class PointChanger {
     this.BindHandler();
   }
   RenderLi() {
-    this.$li = $(`
-		<li class="sg-menu-list__element" style="display: table; width: 100%;">
-			<span class="sg-menu-list__link sg-text--link">${System.data.locale.core.pointChanger.text}</span>
-		</li>`);
+    this.li = MenuListItem({
+      html: System.data.locale.core.pointChanger.text
+    });
 
+    this.li.setAttribute("style", "display: table; width: 100%;");
   }
   RenderModal() {
     let nUsers = System.data.locale.common.nUsers.replace("%{n}", ` <span>0</span> `);
@@ -87,7 +91,7 @@ class PointChanger {
       type: "primary-blue",
       size: "small",
       icon: {
-        type: "profile_view"
+        type: "std-profile_view"
       }
     });
 
@@ -98,15 +102,13 @@ class PointChanger {
       type: "primary-mint",
       size: "small",
       icon: {
-        type: "check"
+        type: "std-check"
       }
     });
   }
   BindHandler() {
-    let that = this;
-
     this.modal.$close.click(this.modal.Close.bind(this.modal));
-    this.$li.on("click", "span", this.modal.Open.bind(this.modal));
+    this.li.addEventListener("click", this.modal.Open.bind(this.modal));
     this.$addPointToAllButton.click(this.AddPointToAll.bind(this));
     this.$idInput.on("paste", this.IdInputPasteEvtHandle.bind(this));
 
@@ -191,7 +193,7 @@ class PointChanger {
     let value = this.$idInput.val();
 
     if (value) {
-      let idList = System.ExtractIds(value.split(" "));
+      let idList = System.ExtractIds(String(value).split(" "));
 
       if (idList)
         return idList;
@@ -279,7 +281,7 @@ class PointChanger {
       size: "small",
       title: System.data.locale.core.pointChanger.addPoint,
       icon: {
-        type: "check"
+        type: "std-check"
       }
     });
 
@@ -309,6 +311,7 @@ class PointChanger {
     /**
      * @type {import("../../../../components/Button").ButtonElement}
      */
+    // @ts-ignore
     let button = event.currentTarget;
     let $userNode = $(button).parents(".js-node");
     let $pointInput = $(`input[type="number"]`, $userNode);

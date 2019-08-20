@@ -9,7 +9,7 @@ export default class ContentType extends Tab {
   constructor(main, details) {
     super(main, {
       ...details,
-      buttonsContainer: main.$contentTypesList,
+      buttonsContainer: main.contentTypesList,
       tabButton: {
         activeType: "primary-blue",
         container: ActionListHole(),

@@ -4,6 +4,7 @@ import DeleteSection from "../../../../components/DeleteSection";
 import Modal from "../../../../components/Modal";
 import Action from "../../../../controllers/Req/Brainly/Action";
 import Button from "../../../../components/Button";
+import { MenuListItem } from "../../../../components/style-guide";
 
 class MassContentDeleter {
   constructor() {
@@ -24,10 +25,11 @@ class MassContentDeleter {
     this.BindHandlers();
   }
   RenderLi() {
-    this.$li = $(`
-		<li class="sg-menu-list__element" style="display: table; width: 100%;">
-			<span class="sg-menu-list__link sg-text--link">${System.data.locale.core.MassContentDeleter.text}</span>
-		</li>`);
+    this.li = MenuListItem({
+      html: System.data.locale.core.MassContentDeleter.text
+    });
+
+    this.li.setAttribute("style", "display: table; width: 100%;");
   }
   RenderModal() {
     let nIds = System.data.locale.common.nIds.replace("%{n}", ` <span>0</span> `);
@@ -111,7 +113,7 @@ class MassContentDeleter {
     this.$textareaWarning = $(`<div class="sg-bubble sg-bubble--top sg-bubble--row-start sg-bubble--peach sg-text--white enterIdWarn">${System.data.locale.core.notificationMessages.enterIdWarn}</div>`);
   }
   BindHandlers() {
-    this.$li.on("click", "span", this.OpenModal.bind(this));
+    this.li.addEventListener("click", this.OpenModal.bind(this));
     this.$deleteButton.click(this.StartDeleting.bind(this));
     this.modal.$close.click(this.modal.Close.bind(this.modal));
 

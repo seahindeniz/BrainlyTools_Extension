@@ -6,8 +6,12 @@ import AllUsersSection from "./Sections/AllUsers";
 import IdListSection from "./Sections/IdList";
 import ModeratorsSection from "./Sections/Moderators";
 import ResultsSection from "./Sections/Results";
+// @ts-ignore
 import templateModalContent from "./templates/ModalContent.html";
 import Button from "../../../../../components/Button";
+import { MenuListItem } from "../../../../../components/style-guide";
+
+let System = require("../../../../../helpers/System");
 
 const MAX_MESSAGE_LENGTH = 512;
 
@@ -19,9 +23,10 @@ class MassMessageSender {
       Done: this.SendingDone.bind(this)
     });
 
-    this.Init();
-  }
-  Init() {
+    if (typeof System == "function")
+      // @ts-ignore
+      System = System();
+
     this.RenderLi();
     this.RenderModal();
     this.RenderSpinner();
@@ -35,11 +40,11 @@ class MassMessageSender {
     this.BindHandlers();
   }
   RenderLi() {
-    this.$li = $(`
-		<li class="sg-menu-list__element" style="display: table; width: 100%;">
-			<span class="sg-menu-list__link sg-text--link">${System.data.locale.core.MessageSender.text}</span>
-		</li>`);
+    this.li = MenuListItem({
+      html: System.data.locale.core.MessageSender.text
+    });
 
+    this.li.setAttribute("style", "display: table; width: 100%;");
   }
   RenderModal() {
     this.modal = new Modal({
@@ -76,7 +81,7 @@ class MassMessageSender {
     this.IdListSection = new IdListSection(this);
   }
   RenderResultsSection() {
-    this.ResultsSection = new ResultsSection(this);
+    this.ResultsSection = new ResultsSection();
   }
   RenderSendButton() {
     this.$sendButtonContainer = $(`<div class="sg-actions-list__hole"></div>`);
@@ -109,7 +114,7 @@ class MassMessageSender {
     this.$stopButton.appendTo(this.$stopButtonContainer);
   }
   BindHandlers() {
-    this.$li.on("click", "span", this.OpenModal.bind(this));
+    this.li.addEventListener("click", this.OpenModal.bind(this));
     this.modal.$close.click(this.modal.Close.bind(this.modal));
     this.$message.on({
       keydown: this.LimitMessage.bind(this),
@@ -308,7 +313,9 @@ class MassMessageSender {
         if (error.vulgarism) {
           errorMessage = System.data.locale.messages.groups.notificationMessages.messageContainsSwear;
         } else if (error.length) {
-          errorMessage = this.ShowWrongMessageLengthError();
+          errorMessage = "";
+
+          this.ShowWrongMessageLengthError();
         }
 
         this.modal.notification(errorMessage, "error");

@@ -1,5 +1,5 @@
 import Modal from "../../../../../components/Modal2";
-import { ActionList, ActionListHole, ContentBox, ContentBoxContent, SeparatorVertical, Text, Label, Radio } from "../../../../../components/style-guide";
+import { ActionList, ActionListHole, ContentBox, ContentBoxContent, SeparatorVertical, Text, MenuListItem } from "../../../../../components/style-guide";
 import Build from "../../../../../helpers/Build";
 import IsVisible from "../../../../../helpers/IsVisible";
 import Answer from "./Tab/ContentType/Answer";
@@ -63,12 +63,12 @@ class MassModerateContents {
     this.RenderLi();
   }
   RenderLi() {
-    this.$li = $(`
-		<li class="sg-menu-list__element" style="display: table; width: 100%;">
-			<span class="sg-menu-list__link sg-text--link">${System.data.locale.core.MassModerateContents.text}</span>
-    </li>`);
+    this.li = MenuListItem({
+      html: System.data.locale.core.MassModerateContents.text
+    });
 
-    this.$li.on("click", "span", this.Open.bind(this));
+    this.li.setAttribute("style", "display: table; width: 100%;");
+    this.li.addEventListener("click", this.Open.bind(this));
   }
   Open() {
     if (!this.modal) {
@@ -89,13 +89,11 @@ class MassModerateContents {
   }
   RenderSectionContainer() {
     this.sectionContainer = ContentBox({ full: true });
-    this.$sectionContainer = $(this.sectionContainer);
   }
   RenderModal() {
     this.contentTypesList = ActionList({
       direction: "space-around"
     });
-    this.$contentTypesList = $(this.contentTypesList);
     this.modal = new Modal({
       overlay: true,
       size: "large",
@@ -149,6 +147,11 @@ class MassModerateContents {
     };
   }
   RenderInputsSection() {
+    this.inputsContainer = ActionListHole({
+      grow: true
+    });
+    this.actionListOfInputsSection = ContentBox();
+
     this.inputsSection = Build(ContentBoxContent({
       full: true,
       spacedTop: "xxlarge",
@@ -164,7 +167,7 @@ class MassModerateContents {
             ActionListHole(),
             [
               [
-                ContentBox(),
+                this.actionListOfInputsSection,
                 [
                   [
                     ContentBoxContent({
@@ -190,16 +193,10 @@ class MassModerateContents {
               size: "full"
             })
           ],
-          ActionListHole({
-            grow: true
-          })
+          this.inputsContainer
         ]
       ]
     ]);
-    this.$inputsSection = $(this.inputsSection);
-
-    this.$actionListOfInputsSection = $(".sg-content-box", this.$inputsSection);
-    this.$inputsContainer = $(".sg-actions-list__hole:nth-child(3)", this.$inputsSection);
   }
   RenderInputs() {
     this.inputs = [
@@ -209,6 +206,11 @@ class MassModerateContents {
     ];
   }
   RenderMethodsSection() {
+    this.methodsContainer = ActionListHole({
+      grow: true
+    });
+    this.actionListOfMethodsSection = ContentBox();
+
     this.methodsSection = Build(ContentBoxContent({
       full: true,
       spacedTop: "xxlarge"
@@ -223,7 +225,7 @@ class MassModerateContents {
             ActionListHole(),
             [
               [
-                ContentBox(),
+                this.actionListOfMethodsSection,
                 [
                   [
                     ContentBoxContent({
@@ -249,16 +251,10 @@ class MassModerateContents {
               size: "full"
             })
           ],
-          ActionListHole({
-            grow: true
-          })
+          this.methodsContainer
         ]
       ]
     ]);
-    this.$methodsSection = $(this.methodsSection);
-
-    this.$actionListOfMethodsSection = $(".sg-content-box", this.$methodsSection);
-    this.$methodsContainer = $(".sg-actions-list__hole:nth-child(3)", this.$methodsSection);
   }
   RenderMethods() {
     this.methods = [
@@ -278,7 +274,7 @@ class MassModerateContents {
     }
   }
   HideInputs() {
-    this.HideElement(this.$inputsSection);
+    this.HideElement(this.inputsSection);
 
     if (this.active.input)
       this.active.input.HideActive();
@@ -293,14 +289,14 @@ class MassModerateContents {
     input.HideActionButton();
   }
   HideMethods() {
-    this.HideElement(this.$methodsSection);
+    this.HideElement(this.methodsSection);
 
     if (this.active.method)
       this.active.method.HideActive();
   }
   TriggerInputs() {
     if (this.active.contentType) {
-      this.$inputsSection.appendTo(this.$sectionContainer);
+      this.sectionContainer.appendChild(this.inputsSection);
       this.inputs.forEach(this.TriggerInput.bind(this));
     }
   }
@@ -319,7 +315,6 @@ class MassModerateContents {
     }
   }
   ToggleMethods() {
-    //console.log(this.active.input, this.active.input && this.active.input.idList);
     if (
       this.MethodsStarted().length == 0 &&
       (
@@ -333,13 +328,13 @@ class MassModerateContents {
   }
   TriggerMethods() {
     if (
-      !this.$methodsSection.is(":visible") &&
+      !IsVisible(this.methodsSection) &&
       (
         this.MethodsStarted().length > 0 ||
         this.IsInputHasIds()
       )
     ) {
-      this.$methodsSection.appendTo(this.$sectionContainer);
+      this.sectionContainer.appendChild(this.methodsSection);
     }
 
     this.methods.forEach(this.TriggerMethod.bind(this));

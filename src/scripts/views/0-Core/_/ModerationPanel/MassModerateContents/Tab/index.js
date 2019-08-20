@@ -1,8 +1,7 @@
 import { Button } from "../../../../../../components/style-guide";
-import Build from "../../../../../../helpers/Build";
 /**
  * @typedef {import("../../../../../../components/style-guide/Button").Properties} ButtonProperties
- * @typedef {{contentContainer?: JQuery<HTMLElement>, buttonsContainer: JQuery<HTMLElement>, tabButton: {activeType: import("../../../../../../components/style-guide/Button").Type, container: HTMLElement, props: ButtonProperties}, restrictions?: Object<string, string[]>} & Object<string, *>} Details
+ * @typedef {{contentContainer?: HTMLElement, buttonsContainer: HTMLElement, tabButton: {activeType: import("../../../../../../components/style-guide/Button").Type, container: HTMLElement, props: ButtonProperties}, restrictions?: Object<string, string[]>} & Object<string, *>} Details
  */
 export default class Tab {
   /**
@@ -15,27 +14,28 @@ export default class Tab {
     this.is = "";
     this.name = "";
     /**
-     * @type {JQuery<HTMLElement>}
+     * @type {HTMLElement}
      */
-    this.$;
+    this.container;
 
     this.RenderActionButton();
     this.BindButtonListener();
   }
   RenderActionButton() {
     this.tabButton = Button(this.details.tabButton.props);
-    this.$tabButtonContainer = $(Build(this.details.tabButton.container, [this.tabButton]));
+    this.tabButtonContainer = this.details.tabButton.container;
 
-    this.$tabButtonContainer.appendTo(this.details.buttonsContainer);
+    this.details.tabButton.container.appendChild(this.tabButton)
+    this.details.buttonsContainer.appendChild(this.tabButtonContainer);
   }
   BindButtonListener() {
     this.tabButton.addEventListener("click", this.Show.bind(this));
   }
   ShowActionButton() {
-    this.$tabButtonContainer.appendTo(this.details.buttonsContainer);
+    this.details.buttonsContainer.appendChild(this.tabButtonContainer);
   }
   HideActionButton() {
-    this.main.HideElement(this.$tabButtonContainer);
+    this.main.HideElement(this.tabButtonContainer);
   }
   _Show() {}
   _Hide() {}
@@ -47,8 +47,8 @@ export default class Tab {
 
     this.HideActive();
 
-    if (this.$)
-      this.$.appendTo(this.details.contentContainer);
+    if (this.container)
+      this.details.contentContainer.appendChild(this.container);
 
     this.main.active[this.name] = this;
 
@@ -73,8 +73,8 @@ export default class Tab {
   Hide() {
     this._Hide();
 
-    if (this.$)
-      this.main.HideElement(this.$);
+    if (this.container)
+      this.main.HideElement(this.container);
   }
   ContentTypeSelected() {}
   InputSelected() {}

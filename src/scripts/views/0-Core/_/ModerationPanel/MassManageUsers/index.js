@@ -8,6 +8,7 @@ import ModalContent from "./templates/ModalContent.html";
 import User from "./User";
 import ChangePoints from "./ActionSection/ChangePoints";
 import Button from "../../../../../components/Button";
+import { MenuListItem } from "../../../../../components/style-guide";
 
 /**
  * @typedef {import("../../../../../controllers/Req/Brainly/Action/index").User} UserProfile
@@ -50,10 +51,11 @@ export default class MassManageUsers {
     this.BindHandlers();
   }
   RenderLi() {
-    this.$li = $(`
-		<li class="sg-menu-list__element" style="display: table; width: 100%;">
-			<span class="sg-menu-list__link sg-text--link">${System.data.locale.core.massManageUsers.text}</span>
-		</li>`);
+    this.li = MenuListItem({
+      html: System.data.locale.core.massManageUsers.text
+    });
+
+    this.li.setAttribute("style", "display: table; width: 100%;");
   }
   RenderModal() {
     let contentData = {
@@ -133,7 +135,7 @@ export default class MassManageUsers {
   }
   BindHandlers() {
     this.modal.$close.click(this.modal.Close.bind(this.modal));
-    this.$li.on("click", "span", this.Open.bind(this));
+    this.li.addEventListener("click", this.Open.bind(this));
     this.$idInput.on("input", debounce(() => this.UpdateInput(), 1000));
     this.$removeAllButton.click(this.RemoveAllUsers.bind(this));
     this.$removeSelectedButton.click(this.RemoveSelectedUsers.bind(this));

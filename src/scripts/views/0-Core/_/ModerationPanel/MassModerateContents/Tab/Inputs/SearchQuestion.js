@@ -39,16 +39,20 @@ export default class SearchQuestion extends Inputs {
       size: "xsmall",
       html: System.data.locale.common.nIds.replace("%{n}", ` <span class="sg-text--bold">0</span> `)
     });
+    this.numberOfIds = nIds.querySelector("span");
     let nContents = Text({
       size: "xsmall",
       color: "mustard-dark",
       html: System.data.locale.core.MassModerateContents.nContents.replace("%{n}", ` <span class="sg-text--bold">0</span> `)
     });
+    this.numberOfContents = nContents.querySelector("span");
     let nIgnored = Text({
       size: "xsmall",
       color: "peach-dark",
       html: System.data.locale.core.MassModerateContents.nIgnored.replace("%{n}", ` <span class="sg-text--bold">0</span> `)
     });
+    this.numberOfIgnored = nIgnored.querySelector("span");
+
     this.container = Build(ContentBox(), [
       [
         SpinnerContainer({
@@ -91,11 +95,6 @@ export default class SearchQuestion extends Inputs {
         ]
       ]
     ]);
-    this.$ = $(this.container);
-
-    this.$numberOfIds = $("span", nIds);
-    this.$numberOfContents = $("span", nContents);
-    this.$numberOfIgnored = $("span", nIgnored);
   }
   BindHandler() {
     this.$input.on("input", debounce(this.InputChanged.bind(this), 2000))

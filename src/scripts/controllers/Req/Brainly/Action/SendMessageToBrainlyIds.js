@@ -1,9 +1,15 @@
 import Action from "./";
 import FillRange from "../../../../helpers/FillRange";
 
-const noop = () => {};
+/**
+ * @typedef {function(): void} Noop
+ */
+function noop() {};
 
 export default class SendMessageToBrainlyIds {
+  /**
+   * @param {{EachBefore?: Noop, Each?: Noop, Done?: Noop, Error?: Noop}} handlers
+   */
   constructor(handlers = { EachBefore: noop, Each: noop, Done: noop, Error: noop }) {
     this.handlers = handlers;
     this.sendLimit = 0;

@@ -1,7 +1,7 @@
 import Icon from "./style-guide/Icon";
 
 /**
- * @typedef {{size: "small"|"medium"|"large", header: string, content: string, actions: string, addAfter: string}} options
+ * @typedef {{size?: "small"|"medium"|"large", header?: string, content?: string, actions?: string, addAfter?: string}} options
  */
 
 class Toplayer {

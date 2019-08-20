@@ -4,7 +4,7 @@ import PrivilegeGroup from "./PrivilegeGroup";
 export default class PrivilegeCategory {
   /**
    * @param {import("../index").default} main
-   * @param {"important"|"lessImportant"|"harmless"} name
+   * @param {"veryImportant" | "important" | "lessImportant" | "harmless"} name
    */
   constructor(main, name) {
     this.main = main;

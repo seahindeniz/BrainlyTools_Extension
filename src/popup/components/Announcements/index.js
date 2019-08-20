@@ -75,7 +75,7 @@ class Announcements {
 
       if (resAnnouncements.success && resAnnouncements.data) {
         this.RenderAnnouncementNodes(resAnnouncements.data);
-        window.popup.refreshUsersInformations();
+        window.popup.refreshUsersInformation();
       }
     }
   }
@@ -144,7 +144,7 @@ class Announcements {
         let $announcement = new Announcement(resCreated.data);
 
         this.$announcementsBody.prepend($announcement);
-        window.popup.refreshUsersInformations();
+        window.popup.refreshUsersInformation();
         notification(System.data.locale.popup.notificationMessages.createdMessage);
 
         $('html, body').animate({

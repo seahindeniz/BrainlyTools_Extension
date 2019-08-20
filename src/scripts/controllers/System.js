@@ -426,7 +426,7 @@ class _System {
       return id;
   }
   /**
-   * @param {string|[]} list
+   * @param {string | string[]} list
    * @returns {number[]}
    */
   ExtractIds(list) {

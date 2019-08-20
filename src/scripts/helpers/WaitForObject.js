@@ -5,7 +5,7 @@ import MakeExpire from "./MakeExpire";
  * @param {string} expression - Element selector string
  * @typedef {number} expireTime - Set number of expire in seconds
  * @typedef {boolean} noError - Do something when elements are found
- * @param {{expireTime: expireTime, noError: noError}} param1
+ * @param {{expireTime?: expireTime, noError?: noError}} param1
  **/
 export default function WaitForObject(expression, { expireTime, noError = false } = {}) {
   return new Promise((resolve, reject) => {
@@ -16,7 +16,7 @@ export default function WaitForObject(expression, { expireTime, noError = false 
       if (_loop_expireTime < Date.now()) {
         clearInterval(_loop);
         if (!noError) {
-          reject("The '", expression, "' object cannot be found");
+          reject(`The ${expression} object cannot be found`);
         }
 
         return false;

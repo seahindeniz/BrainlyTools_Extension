@@ -1,5 +1,5 @@
 /**
- * @param {KeyboardEvent} event
+ * @param {KeyboardEvent | JQuery.KeyDownEvent} event
  */
 function IsKeyAlphaNumeric(event) {
   return !(
@@ -10,7 +10,7 @@ function IsKeyAlphaNumeric(event) {
       event.keyCode >= 91 && event.keyCode <= 95 ||
       event.keyCode >= 112 && event.keyCode <= 135 ||
       event.keyCode >= 246 ||
-      (/^(?:3|6|8|9|12|144|145|224|225)$/).test(event.keyCode)
+      (/^(?:3|6|8|9|12|144|145|224|225)$/).test(String(event.keyCode))
     )
   )
 }

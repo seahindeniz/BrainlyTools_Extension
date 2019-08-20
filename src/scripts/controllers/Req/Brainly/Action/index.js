@@ -211,7 +211,7 @@ export default class Action extends Brainly {
   /**
    * Get user profile data by id
    * @param {number} id - User id
-   * @returns {Promise<UserProfileResponse>}
+   * @returns {Promise<UserProfileResponse & {message: string}>}
    */
   GetUserProfile(id) {
     return this.Legacy().api_user_profiles().get_by_id().P(id).GET();

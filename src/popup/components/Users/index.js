@@ -1,22 +1,31 @@
 import ServerReq from "../../../scripts/controllers/Req/Server";
 import notification from "../notification";
 import PrivilegeCategory from "./_/PrivilegeCategory";
+import moment from "moment";
 
 let System = require("../../../scripts/helpers/System");
 
 class Users {
   constructor() {
     if (typeof System == "function")
+      // @ts-ignore
       System = System();
 
     /**
-     * @type {Object<string, {title: string, privileges: number|number[]}>}
+     * @type {Object<string, {title: string, privileges: (number|number[])[]}>}
      */
     this.privilegeListOrder = {
       veryImportant: {
         title: System.data.locale.popup.extensionManagement.users.veryImportant,
         privileges: [
           0,
+          29,
+          [
+            27,
+            30,
+            31,
+            32
+          ],
         ]
       },
       important: {
@@ -32,16 +41,9 @@ class Users {
           ],
           7,
           17,
-          //29,
           18,
           13,
-          9,
-          [
-            27,
-            30,
-            31,
-            32
-          ]
+          9
         ]
       },
       lessImportant: {
@@ -237,7 +239,7 @@ class Users {
 
     if (resUsers.success && resUsers.data) {
       this.RenderUserNodes(resUsers.data);
-      window.popup.refreshUsersInformations();
+      window.popup.refreshUsersInformation();
       this.FocusOnUser();
     }
   }
@@ -358,7 +360,7 @@ class Users {
   GetIdFromInput() {
     let value = this.$idInput.val();
 
-    return System.ExtractId(value);
+    return System.ExtractId(String(value));
   }
   HideEditingForm(clearInput) {
     this.$link.attr("href", "");
@@ -380,6 +382,9 @@ class Users {
   async FillEditingForm(user) {
     let avatar = System.prepareAvatar(user.brainlyData);
     let profileLink = System.createProfileLink(user.brainlyData);
+    /**
+     * @type {JQuery<HTMLInputElement>}
+     */
     this.$privilegeInputs = $('input[type="checkbox"]', this.$privilegesContainer);
 
     this.$nick.text(user.brainlyData.nick);
@@ -443,7 +448,7 @@ class Users {
       $("#" + resUser.data._id, this.$level).parent().remove();
 
       let $node = this.RenderUserNode(resUser.data);
-      window.popup.refreshUsersInformations();
+      window.popup.refreshUsersInformation();
 
       $('html, body').animate({
         scrollTop: $node.offset().top

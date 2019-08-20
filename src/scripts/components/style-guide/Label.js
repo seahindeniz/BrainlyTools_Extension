@@ -1,6 +1,5 @@
 import classnames from 'classnames';
 import Icon from './Icon';
-import Text from './Text';
 
 /**
  * @typedef {"small" | "normal" | "large"} Size

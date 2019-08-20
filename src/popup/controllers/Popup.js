@@ -267,7 +267,7 @@ class Popup {
       }
     }
   }
-  refreshUsersInformations() {
+  refreshUsersInformation() {
     Object.keys(this.fetchedUsers).forEach(async brainlyID => {
       let user = await this.GetStoredUser(brainlyID);
       let avatar = System.prepareAvatar(user.brainlyData);

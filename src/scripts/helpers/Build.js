@@ -1,24 +1,41 @@
 /**
- * @typedef {HTMLElement | HTMLElement[] | HTMLElement[][]} Markup
+ * @typedef {HTMLElement | Text | string | number} AcceptableNodes
+ * @typedef {AcceptableNodes | AcceptableNodes[] | AcceptableNodes[][]} Markup
  *
  * @param {HTMLElement} parent
  * @param {Markup} elements
  */
 function transformArray(parent, elements) {
   if (elements) {
-    if (elements instanceof HTMLElement)
-      parent.appendChild(elements);
+    if (
+      elements instanceof HTMLElement ||
+      elements instanceof Text ||
+      typeof elements == "string" ||
+      typeof elements == "number"
+    )
+      Append(parent, elements);
     else {
       elements.forEach(element => {
         if (element instanceof Array)
           element = transformArray(element[0], element[1]);
 
-        parent.appendChild(element);
+        Append(parent, element);
       })
     }
   }
 
   return parent;
+}
+
+/**
+ * @param {HTMLElement} parent
+ * @param {AcceptableNodes} child
+ */
+function Append(parent, child) {
+  if (typeof child == "number")
+    child = String(child);
+
+  parent.append(child);
 }
 
 /**

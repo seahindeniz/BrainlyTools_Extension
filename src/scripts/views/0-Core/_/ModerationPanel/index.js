@@ -10,8 +10,6 @@ import ReportedCommentsDeleter from "./ReportedCommentsDeleter";
 import renderUserFinder from "./UserFinder";
 import Menu from "../../../../components/style-guide/List/Menu";
 
-let System = require("../../../../helpers/System");
-
 class ModerationPanel {
   constructor() {
     this.$statistics = $("#moderate-functions-panel > div.statistics");
@@ -19,10 +17,6 @@ class ModerationPanel {
     this.$newPanelButton = $(".brn-moderation-panel__button");
     this.$oldPanel = $("#moderate-functions-panel > div.panel > div.content-scroll");
     this.$oldPanelCoveringText = $("#moderate-functions-panel > div.panel > div.covering-text");
-
-    if (typeof System == "function")
-      // @ts-ignore
-      System = System();
 
     this.RenderList();
     this.RenderComponents();
@@ -44,32 +38,32 @@ class ModerationPanel {
   RenderComponents() {
     this.RenderComponent({ li: renderUserFinder() });
 
-    if (System.checkUserP(20) || System.data.Brainly.userData.extension.noticeBoard !== null)
+    if (window.System.checkUserP(20) || window.System.data.Brainly.userData.extension.noticeBoard !== null)
       this.RenderComponent(new NoticeBoard());
 
-    if (System.checkUserP(9))
+    if (window.System.checkUserP(9))
       this.RenderComponent(new MassMessageSender());
 
-    if (System.checkUserP(13) && System.checkBrainlyP(41))
+    if (window.System.checkUserP(13) && window.System.checkBrainlyP(41))
       this.RenderComponent(new PointChanger());
 
-    if (System.checkUserP(29)) {
+    if (window.System.checkUserP(29)) {
       this.RenderComponent(new MassModerateContents());
     }
 
-    if (System.checkUserP(18))
+    if (window.System.checkUserP(18))
       this.RenderComponent(new MassModerateReportedContents());
 
-    if (System.checkUserP([27, 30, 31, 32]))
+    if (window.System.checkUserP([27, 30, 31, 32]))
       this.RenderComponent(new MassManageUsers());
   }
   async RenderComponentsAfterDeleteReasonsLoaded() {
     await WaitForObject("window.System.data.Brainly.deleteReasons.__withTitles.comment", { noError: true });
 
-    if (System.checkUserP(17))
+    if (window.System.checkUserP(17))
       this.RenderComponent(new ReportedCommentsDeleter());
 
-    if (System.checkUserP(7))
+    if (window.System.checkUserP(7))
       this.RenderComponent(new MassContentDeleter());
 
   }
@@ -103,7 +97,7 @@ class ModerationPanel {
     }
   }
   async DelayedHeightFix() {
-    await System.Delay(15);
+    await window.System.Delay(15);
     this.FixPanelsHeight();
   }
   FixPanelsHeight() {

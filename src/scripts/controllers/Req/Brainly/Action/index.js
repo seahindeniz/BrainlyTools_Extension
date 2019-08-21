@@ -6,15 +6,19 @@ let System = require("../../../../helpers/System");
 const USERS_PROFILE_REQ_CHUNK_SIZE = 990;
 
 /**
- * @typedef {{avatar:{medium: string, small: string}|null, avatar_id: number, category: number, client_type: number, current_best_answers_count: number, gender:number, id: number, is_deleted: boolean, nick: string, points: number, primary_rank_id: number, ranks_ids: number[], registration_date: string}} User
+ * @typedef {{id: number, nick: string}} CommonUserProps
  *
- * @typedef {{answers_by_subject: {subject_id: number, answers_count: number}[], avatars: null|{64: string, 100: string}, best_answers_from_30_days: number, description: string, followed_count: string, follower_count: string, gender: number, id: number, is_followed_by: boolean, is_following: boolean, nick: string, points: number, ranks_ids: number[], total_questions: number, total_thanks: number}} UserProfile
+ * @typedef {CommonUserProps & {avatar:{medium: string, small: string}|null, avatar_id: number, category: number, client_type: number, current_best_answers_count: number, gender:number, is_deleted: boolean, points: number, primary_rank_id: number, ranks_ids: number[], registration_date: string}} User
+ *
+ * @typedef {CommonUserProps & {answers_by_subject: {subject_id: number, answers_count: number}[], avatars: null|{64: string, 100: string}, best_answers_from_30_days: number, description: string, followed_count: string, follower_count: string, gender: number, is_followed_by: boolean, is_following: boolean, points: number, ranks_ids: number[], total_questions: number, total_thanks: number}} UserProfile
  *
  * @typedef {{id: number, author_id: number, question_id: number, content: string, points: number, thanks_count: number, rating: number, rates_count: number, is_confirmed: boolean, is_excellent: boolean, is_best: boolean, can_comment: boolean, attachment_ids: [], created: string}[]} AnswersOfUser
  *
- * @typedef {{success: boolean, data?: User[], message?: string}} UserResponse
- * @typedef {{success: boolean, data?: UserProfile[]}} UserProfileResponse
- * @typedef {{success: boolean, pagination?: {first: string, prev: string, self: string, next: string, last: string}, data?: AnswersOfUser}} AnswersOfUserResponse
+ * @typedef {{success?: boolean, message?: string}} CommonProps
+ *
+ * @typedef {{data?: User[], message?: string} & CommonProps} UserResponse
+ * @typedef {{data?: UserProfile} & CommonProps} UserProfileResponse
+ * @typedef {{pagination?: {first: string, prev: string, self: string, next: string, last: string}, data?: AnswersOfUser} & CommonProps} AnswersOfUserResponse
  */
 export default class Action extends Brainly {
   constructor() {
@@ -211,7 +215,7 @@ export default class Action extends Brainly {
   /**
    * Get user profile data by id
    * @param {number} id - User id
-   * @returns {Promise<UserProfileResponse & {message: string}>}
+   * @returns {Promise<UserProfileResponse>}
    */
   GetUserProfile(id) {
     return this.Legacy().api_user_profiles().get_by_id().P(id).GET();

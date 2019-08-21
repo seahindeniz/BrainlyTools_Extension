@@ -91,7 +91,7 @@ class PointChanger {
       type: "primary-blue",
       size: "small",
       icon: {
-        type: "std-profile_view"
+        type: "profile_view"
       }
     });
 

@@ -32,8 +32,8 @@ function Extension() {
     _this[api] = null
 
     try {
-      if (chrome[api]) {
-        _this[api] = chrome[api]
+      if (window.chrome[api]) {
+        _this[api] = window.chrome[api]
       }
     } catch (e) {}
 
@@ -67,4 +67,4 @@ function Extension() {
 
 }
 
-module.exports = new Extension();
+export default new Extension();

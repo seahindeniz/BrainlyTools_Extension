@@ -12,6 +12,7 @@ class _System {
   constructor(main) {
     this.logStyle = `font-size: 11px;color: #4fb3f6;font-family:century gothic;`;
     this.main = main;
+    let that = this;
     this.constants = {
       Brainly: {
         regexp_BrainlyMarkets: /:\/\/(?:www\.)?((?:eodev|znanija)\.com|nosdevoirs\.fr|brainly(?:(?:\.(?:com(?:\.br|[^.])|co\.(?:id)|lat|in|ph|ro|pl))))/i,
@@ -29,8 +30,8 @@ class _System {
           "brainly.ro",
         ],
         style_guide: {
-          icons: "https://styleguide.brainly.com/images/std-icons-12f84055d5.js" + "?treat=.ext_js",
-          oldIcons: "https://styleguide.brainly.com/images/icons-d4009d7e19.js" + "?treat=.ext_js"
+          icons: "https://styleguide.brainly.com/images/std-icons-4fd63f0d49.js" + "?treat=.ext_js",
+          oldIcons: "https://styleguide.brainly.com/images/icons-b09022954c.js" + "?treat=.ext_js"
         },
         githubHighlight: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css",
       },
@@ -39,7 +40,7 @@ class _System {
         idExtractRegex: /((?:.*[-|\/|a-z])(?=\d))|(?:[\/|\?].*)/g,
         MAX_FILE_SIZE_OF_EVIDENCE_IN_MB: 22,
         get MAX_FILE_SIZE_OF_EVIDENCE() {
-          return window.System.constants.config.MAX_FILE_SIZE_OF_EVIDENCE_IN_MB * 1024 * 1024;
+          return this.MAX_FILE_SIZE_OF_EVIDENCE_IN_MB * 1024 * 1024;
         },
         RAINBOW_COLORS: "#F15A5A,#F0C419,#4EBA6F,#2D95BF,#955BA5",
         availableLanguages: [{
@@ -65,7 +66,9 @@ class _System {
     }
     this.data = {
       Brainly: {
-        apiURL: ((window.System && System.data.meta.location.origin) || document.location.origin) + "/api/28",
+        get apiURL() {
+          return (that.data.meta.location.origin || document.location.origin) + "/api/28"
+        },
         get nullAvatar() {
           return `/img/avatars/100-ON.png`;
         },
@@ -79,6 +82,7 @@ class _System {
       /**
        * @type {import("../../locales")}
        */
+      // @ts-ignore
       locale: {},
       config: {
         extension: extensionConfig
@@ -90,7 +94,7 @@ class _System {
     };
     this.friends = [];
 
-    console.log(`%cSystem library initalized`, this.logStyle);
+    console.log(`%cSystem library initialized`, this.logStyle);
   }
   /**
    * A colorizing proxy of console.log method
@@ -113,11 +117,11 @@ class _System {
    * @param {number} milliseconds - Specify delay in milliseconds
    * @return {Promise<number>} - milliseconds
    */
-  Delay(milliseconds = System.randomNumber(1000, 4000)) {
+  Delay(milliseconds = this.randomNumber(1000, 4000)) {
     return new Promise(resolve => setTimeout(() => resolve(milliseconds), milliseconds));
   }
   TestDelay() {
-    return this.Delay(System.randomNumber(100, 500))
+    return this.Delay(this.randomNumber(100, 500))
   }
   /**
    * Generates a number between the maximum number including the minimum number
@@ -134,29 +138,29 @@ class _System {
     this.Log(`Brainly Tools loaded in ${Number((performance.now() - window.performanceStartTiming).toFixed(2))} milliseconds`);
   }
   checkRoute(index, str) {
-    let curr_path = System.data.meta.location.pathname.split("/"),
+    let curr_path = this.data.meta.location.pathname.split("/"),
       result = false;
 
     if (curr_path.length >= 2) {
       if (typeof str == "undefined") {
-        Console.log("str is undefined, check please");
+        console.log("str is undefined, check please");
         result = curr_path[index];
       } else if ((curr_path[index] || "") == str) {
         result = true;
       } else {
-        let route = System.data.Brainly.Routing.routes[str] || System.data.Brainly.Routing.routes[System.data.Brainly.Routing.prefix + str];
+        let route = this.data.Brainly.Routing.routes[str] || this.data.Brainly.Routing.routes[this.data.Brainly.Routing.prefix + str];
 
         if (route) {
           let tokens = route.tokens;
 
           if (!tokens)
-            Console.error("Route tokens not found");
+            console.error("Route tokens not found");
           else {
             for (let i = 0;
               (i < tokens.length && typeof tokens != "string"); i++)
               tokens = tokens[tokens.length - 1];
             if (!tokens)
-              Console.error("Route tokens not found");
+              console.error("Route tokens not found");
             else {
               if (tokens == "/" + curr_path[index]) {
                 result = true;
@@ -171,24 +175,24 @@ class _System {
   toBackground(action, data) {
     let messageData = {
       action,
-      marketName: System.data.meta.marketName,
+      marketName: this.data.meta.marketName,
       data
     };
 
-    if (System.data.meta.extension && System.data.meta.extension.id) {
-      return ext.runtime.sendMessage(System.data.meta.extension.id, messageData);
+    if (this.data.meta.extension && this.data.meta.extension.id) {
+      return ext.runtime.sendMessage(this.data.meta.extension.id, messageData);
     } else {
       return ext.runtime.sendMessage(messageData);
     }
   }
   ShareSystemDataToBackground() {
     return new Promise(async (resolve, reject) => {
-      let res = await this.toBackground("setMarketData", System.data);
+      let res = await this.toBackground("setMarketData", this.data);
 
       if (!res) {
         reject({ message: "I couldn't share the System data variable to background", res });
       } else {
-        System.Log("Data shared with background OK!");
+        this.Log("Data shared with background OK!");
         resolve();
       }
     });
@@ -199,6 +203,11 @@ class _System {
   changeBadgeColor(status) {
     this.toBackground("changeBadgeColor", status)
   }
+  /**
+   * @typedef {{src?: string, small?: string, medium?: string}} Avatar
+   * @param {{avatar?: Avatar, avatars: Avatar} & Avatar} user
+   * @param {*} param1
+   */
   prepareAvatar(user, { returnIcon, noOrigin, replaceOrigin } = {}) {
     let avatar = "";
 
@@ -228,9 +237,9 @@ class _System {
         if (replaceOrigin)
           avatar = `https://${replaceOrigin}`;
         else if (!noOrigin)
-          avatar = `https://${System.data.meta.marketName}`;
+          avatar = `https://${this.data.meta.marketName}`;
 
-        avatar += System.data.Brainly.nullAvatar
+        avatar += this.data.Brainly.nullAvatar
       }
     }
 
@@ -238,28 +247,28 @@ class _System {
   }
   /**
    * @typedef {number|string} idType
-   * @param {idType | {id: idType, nick: string}} [id]
+   * @param {idType | {id?: idType, brainlyID?: idType, nick: string}} [id]
    * @param {string} [nick]
    * @param {boolean} [noOrigin]
    */
   createProfileLink(id, nick = "a", noOrigin) {
     let origin = "";
 
-    if (Object.prototype.toString.call(id) == "[object Object]") {
+    if (id instanceof Object && id.nick) {
       nick = id.nick;
       id = id.id || id.brainlyID;
     }
 
     if (!nick && !id) {
-      nick = System.data.Brainly.userData.user.nick
-      id = System.data.Brainly.userData.user.id
+      nick = this.data.Brainly.userData.user.nick
+      id = this.data.Brainly.userData.user.id
     }
 
     if (!this.profileLinkRoute)
-      this.profileLinkRoute = ArrayLast(ArrayLast(System.data.Brainly.Routing.routes[System.data.Brainly.Routing.prefix + "user_profile"].tokens));
+      this.profileLinkRoute = ArrayLast(ArrayLast(this.data.Brainly.Routing.routes[this.data.Brainly.Routing.prefix + "user_profile"].tokens));
 
     if (!noOrigin) {
-      origin = System.data.meta.location.origin;
+      origin = this.data.meta.location.origin;
     }
 
     if (this.profileLinkRoute) {
@@ -272,24 +281,24 @@ class _System {
 
     if (type === "profile") {
       if (!this.routeMasks.profile)
-        this.routeMasks.profile = ArrayLast(ArrayLast(System.data.Brainly.Routing.routes[System.data.Brainly.Routing.prefix + "user_profile"].tokens));
+        this.routeMasks.profile = ArrayLast(ArrayLast(this.data.Brainly.Routing.routes[this.data.Brainly.Routing.prefix + "user_profile"].tokens));
 
       if (this.routeMasks.profile) {
         /* console.log(System.data.meta.location.origin);
         console.log(this.routeMasks.profile);
         console.log(data.nick);
         console.log((data.id || data.brainlyID)); */
-        _return = System.data.meta.location.origin + this.routeMasks.profile + "/" + data.nick + "-" + (data.id || data.brainlyID);
+        _return = this.data.meta.location.origin + this.routeMasks.profile + "/" + data.nick + "-" + (data.id || data.brainlyID);
       } else
         _return = "";
     }
     if (type === "task") {
       if (!this.routeMasks.task) {
-        this.routeMasks.task = ArrayLast(ArrayLast(System.data.Brainly.Routing.routes[System.data.Brainly.Routing.prefix + "task_view"].tokens));
+        this.routeMasks.task = ArrayLast(ArrayLast(this.data.Brainly.Routing.routes[this.data.Brainly.Routing.prefix + "task_view"].tokens));
       }
 
       if (this.routeMasks.task)
-        _return = System.data.meta.location.origin + this.routeMasks.task + "/" + (data.id || data.brainlyID);
+        _return = this.data.meta.location.origin + this.routeMasks.task + "/" + (data.id || data.brainlyID);
       else
         _return = "";
     }
@@ -300,10 +309,10 @@ class _System {
     let r = !1;
 
     if (typeof p == "number") {
-      System.data.Brainly.userData.privileges.includes(p) && (r = !0);
+      this.data.Brainly.userData.privileges.includes(p) && (r = !0);
     } else if (p instanceof Array) {
       p.forEach(n => {
-        System.data.Brainly.userData.privileges.includes(n) && (r = !0);
+        this.data.Brainly.userData.privileges.includes(n) && (r = !0);
       });
     }
 
@@ -312,14 +321,14 @@ class _System {
   checkUserP(p) {
     let r = !1;
 
-    if (System.data.Brainly.userData._hash.includes(0))
+    if (this.data.Brainly.userData._hash.includes(0))
       r = !0;
     else {
       if (typeof p == "number") {
-        System.data.Brainly.userData._hash.includes(p) && (r = !0);
+        this.data.Brainly.userData._hash.includes(p) && (r = !0);
       } else {
         p.forEach(n => {
-          System.data.Brainly.userData._hash.includes(n) && (r = !0);
+          this.data.Brainly.userData._hash.includes(n) && (r = !0);
         });
       }
     }
@@ -387,7 +396,7 @@ class _System {
         resolve(localeData);
       } catch (error) {
         if (language != "en_US") {
-          console.warn("Missing language file, swtching to default language");
+          console.warn("Missing language file, switching to default language");
           this.prepareLangFile("en_US", resolve, reject);
         } else {
           reject("Cannot find the default language file of extension");
@@ -401,11 +410,11 @@ class _System {
   }
   canBeWarned(reasonID) {
     let isIt = false;
-    let preference = System.data.Brainly.deleteReasons.__preferences.find(pref => pref.reasonID == reasonID);
+    let preference = this.data.Brainly.deleteReasons.__preferences.find(pref => pref.reasonID == reasonID);
 
     if (preference && preference.confirmation != null) {
       if (preference.confirmation) {
-        isIt = confirm(`\n\n${System.data.locale.common.notificationMessages.mayRequireWarning}\n\n`);
+        isIt = confirm(`\n\n${this.data.locale.common.notificationMessages.mayRequireWarning}\n\n`);
       } else {
         isIt = true;
       }
@@ -418,7 +427,7 @@ class _System {
    * @returns {number}
    */
   ExtractId(value) {
-    let extractId = value.replace(System.constants.config.idExtractRegex, "");
+    let extractId = value.replace(this.constants.config.idExtractRegex, "");
     // Number because returns 0 if is not contains number
     let id = Number(extractId);
 
@@ -435,7 +444,7 @@ class _System {
 
     return list
       .filter(Boolean)
-      .map(System.ExtractId)
+      .map(this.ExtractId)
       .filter(Boolean);
   }
   SetUserData(data) {
@@ -444,14 +453,14 @@ class _System {
     this.SetUserDataToSystem(data);
   }
   SetUserDataToSystem(data) {
-    System.data.Brainly.userData.extension = data;
-    System.data.Brainly.userData._hash = data.hash;
+    this.data.Brainly.userData.extension = data;
+    this.data.Brainly.userData._hash = data.hash;
   }
   OpenExtensionOptions(params) {
     this.toBackground("OpenExtensionOptions", params)
   }
   /**
-   * @param {number[]|string} users
+   * @param {number[]} users
    * @param {{each: function, done?: function}} handlers
    */
   async StoreUsers(users, handlers) {
@@ -460,7 +469,7 @@ class _System {
 
     if (users.length > 0) {
       let resUsers = await new Action().GetUsers(users);
-      System.allModerators = {
+      this.allModerators = {
         list: resUsers.data,
         withNicks: {},
         withID: {},
@@ -469,18 +478,18 @@ class _System {
 
       if (resUsers.data && resUsers.data.length > 0) {
         resUsers.data.forEach(user => {
-          System.allModerators.withNicks[user.nick] = user;
-          System.allModerators.withID[user.id] = user;
+          this.allModerators.withNicks[user.nick] = user;
+          this.allModerators.withID[user.id] = user;
 
           if (handlers && handlers.each)
             handlers.each(user);
 
           if (user.ranks_ids && user.ranks_ids.length > 0) {
             user.ranks_ids.forEach(rank => {
-              let currentRank = System.allModerators.withRanks[rank];
+              let currentRank = this.allModerators.withRanks[rank];
 
               if (!currentRank) {
-                currentRank = System.allModerators.withRanks[rank] = []
+                currentRank = this.allModerators.withRanks[rank] = []
               }
 
               currentRank.push(user);
@@ -489,17 +498,18 @@ class _System {
         });
       }
 
-      handlers.done && handlers.done(System.allModerators);
+      handlers.done && handlers.done(this.allModerators);
     }
   }
   /**
    * @param {string} html
    */
   ParseUsers(html) {
-    let ids = html.match(/\=\d{1,}/gim) || [];
+    let ids = [];
+    let matchResult = html.match(/\=\d{1,}/gim);
 
-    if (ids.length > 0 && typeof ids[0] == "string")
-      ids = ids.map(id => ~~(id.replace(/\D/gim, "")));
+    if (matchResult && matchResult.length > 0)
+      ids = matchResult.map(id => ~~(id.replace(/\D/gim, "")));
 
     return ids;
   }

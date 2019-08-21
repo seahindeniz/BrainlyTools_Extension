@@ -1,6 +1,11 @@
 import WaitForObject from "./WaitForObject";
 import TimedLoop from "./TimedLoop";
 
+/**
+ * @typedef {{ attachExtensionId?: string, makeItLastElement?: boolean }} Properties
+ * @param {string} path
+ * @param {Properties} param1
+ */
 function injectIt(path, { attachExtensionId, makeItLastElement } = {}) {
   return new Promise(async (resolve, reject) => {
     let fileName = path.split(".");
@@ -11,13 +16,14 @@ function injectIt(path, { attachExtensionId, makeItLastElement } = {}) {
       let extensionURL;
       let fileExtension = [...fileName].pop();
 
-      if (System && System.data.meta && System.data.meta.extension) {
-        extensionURL = System.data.meta.extension.URL
+      if (window.System && window.System.data.meta && window.System.data.meta.extension) {
+        extensionURL = window.System.data.meta.extension.URL
       } else {
         //console.warn("Be warned, no extension System class found");
-        extensionURL = "chrome-extension://" + chrome.runtime.id
+        extensionURL = "chrome-extension://" + window.chrome.runtime.id
       }
 
+      window.System
       if (path.indexOf("http") < 0) {
         path = extensionURL + path;
       }
@@ -39,10 +45,10 @@ function injectIt(path, { attachExtensionId, makeItLastElement } = {}) {
 
           script.setAttribute('type', 'text/javascript');
           script.setAttribute('src', path);
-          script.dataset.IsFromExtension = true;
+          script.dataset.IsFromExtension = "true";
 
           if (attachExtensionId) {
-            script.setAttribute('extension_URL', chrome.runtime.id || add_ext_id);
+            script.setAttribute('extension_URL', window.chrome.runtime.id);
           }
 
           if (html) {
@@ -61,7 +67,7 @@ function injectIt(path, { attachExtensionId, makeItLastElement } = {}) {
           link.setAttribute('type', 'text/css');
           link.setAttribute('href', path);
           link.setAttribute('href', path);
-          link.dataset.IsFromExtension = true;
+          link.dataset.IsFromExtension = "true";
 
           if (fileExtension == "css") {
             let head = await WaitForObject("document.head");
@@ -70,7 +76,12 @@ function injectIt(path, { attachExtensionId, makeItLastElement } = {}) {
 
             if (makeItLastElement && head)
               TimedLoop(() => {
-                if (link.nextElementSibling && !link.nextElementSibling.dataset.IsFromExtension)
+                /**
+                 * @type {HTMLElement}
+                 */
+                let nextElementSibling = (link.nextElementSibling);
+
+                if (nextElementSibling && !nextElementSibling.dataset.IsFromExtension)
                   head && head.append(link);
               }, { expireTime: 5 });
           } else {
@@ -80,7 +91,12 @@ function injectIt(path, { attachExtensionId, makeItLastElement } = {}) {
 
             if (makeItLastElement && html)
               TimedLoop(() => {
-                if (link.nextElementSibling && !link.nextElementSibling.dataset.IsFromExtension)
+                /**
+                 * @type {HTMLElement}
+                 */
+                let nextElementSibling = (link.nextElementSibling);
+
+                if (nextElementSibling && !nextElementSibling.dataset.IsFromExtension)
                   html && html.appendChild(link);
               });
           }
@@ -98,24 +114,31 @@ function injectIt(path, { attachExtensionId, makeItLastElement } = {}) {
 
 /**
  * Injects a script into DOM
- * @param {string|string[]} filePath - Path of inject file
- * @param {{ attachExtensionId:string, makeItLastElement:boolean }} options - To adding an attribute contains the id key of the extension
- * @returns {Promise} - Check whether if file injected or not
+ * @param {string | string[]} filePath - Path of inject file
+ * @param {Properties} options - To adding an attribute contains the id key of the extension
+ * returns {Promise<>} - Check whether if file injected or not
  **/
-export default function InjectToDOM(filePath, options) {
-  let result = new Error("File path is required");
+export default function InjectToDOM(filePath, options = {}) {
+  /**
+   * @type {Promise | Promise[]}
+   */
+  let result;
 
   if (filePath && filePath.length > 0) {
-    if (typeof filePath == "string") {
+    if (typeof filePath == "string")
       result = injectIt(filePath, options);
-    } else {
+    else if (filePath instanceof Array) {
       result = [];
 
       filePath.forEach(path => {
+        // @ts-ignore
         result.push(injectIt(path, options));
       });
     }
   }
+
+  if (!result)
+    result = Promise.reject("File path is required");
 
   return result;
 }

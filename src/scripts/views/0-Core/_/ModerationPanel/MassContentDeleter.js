@@ -1,4 +1,3 @@
-// @ts-nocheck
 import debounce from "debounce";
 import DeleteSection from "../../../../components/DeleteSection";
 import Modal from "../../../../components/Modal";
@@ -26,21 +25,21 @@ class MassContentDeleter {
   }
   RenderLi() {
     this.li = MenuListItem({
-      html: System.data.locale.core.MassContentDeleter.text
+      html: window.System.data.locale.core.MassContentDeleter.text
     });
 
     this.li.setAttribute("style", "display: table; width: 100%;");
   }
   RenderModal() {
-    let nIds = System.data.locale.common.nIds.replace("%{n}", ` <span>0</span> `);
-    let nIdsToDeleted = System.data.locale.core.MassContentDeleter.nIdsToDeleted.replace("%{n}", ` <span>0</span> `);
-    let nHasBeenDeleted = System.data.locale.core.MassContentDeleter.nHasBeenDeleted.replace("%{n}", ` <b>0</b> `);
+    let nIds = window.System.data.locale.common.nIds.replace("%{n}", ` <span>0</span> `);
+    let nIdsToDeleted = window.System.data.locale.core.MassContentDeleter.nIdsToDeleted.replace("%{n}", ` <span>0</span> `);
+    let nHasBeenDeleted = window.System.data.locale.core.MassContentDeleter.nHasBeenDeleted.replace("%{n}", ` <b>0</b> `);
     this.modal = new Modal({
       header: `
 			<div class="sg-actions-list sg-actions-list--space-between">
 				<div class="sg-actions-list__hole">
 					<div class="sg-label sg-label--small sg-label--secondary">
-						<div class="sg-text sg-text--peach">${System.data.locale.core.MassContentDeleter.text}</div>
+						<div class="sg-text sg-text--peach">${window.System.data.locale.core.MassContentDeleter.text}</div>
 					</div>
 				</div>
 			</div>`,
@@ -49,7 +48,7 @@ class MassContentDeleter {
 				<div class="sg-spinner-container sg-content-box--full">
 					<div class="sg-content-box__actions">
 						<div class="sg-textarea sg-textarea--full-width back" style="color: transparent;"></div>
-						<div class="sg-textarea sg-textarea--full-width sg-textarea--resizable-vertical" contenteditable="true" style="position: absolute; background: transparent;" placeholder="${System.data.locale.core.MassModerateContents.targets.listOfIds.contentLinksOrIDs}"></div>
+						<div class="sg-textarea sg-textarea--full-width sg-textarea--resizable-vertical" contenteditable="true" style="position: absolute; background: transparent;" placeholder="${window.System.data.locale.core.MassModerateContents.targets.listOfIds.contentLinksOrIDs}"></div>
 					</div>
 				</div>
 				<div class="sg-content-box__actions sg-content-box__content--spaced-top-small">
@@ -70,7 +69,7 @@ class MassContentDeleter {
 					</div>
 				</div>
 				<div class="sg-content-box__content sg-content-box__content--spaced-top-large">
-					<blockquote class="sg-text sg-text--small">${System.data.locale.core.MassContentDeleter.containerExplanation}<br>${System.createBrainlyLink("task", { id: 1234567 })}<br>${System.createBrainlyLink("task", { id: 2345678 })}<br>1234567<br>53453<br>xy545645<br>xy423423</blockquote>
+					<blockquote class="sg-text sg-text--small">${window.System.data.locale.core.MassContentDeleter.containerExplanation}<br>${window.System.createBrainlyLink("task", { id: 1234567 })}<br>${window.System.createBrainlyLink("task", { id: 2345678 })}<br>1234567<br>53453<br>xy545645<br>xy423423</blockquote>
 				</div>
 				<div class="sg-content-box__actions deleteSection"></div>
 			</div>`,
@@ -90,7 +89,7 @@ class MassContentDeleter {
   RenderDeleteButton() {
     this.$deleteButton = Button({
       type: "destructive",
-      text: `${System.data.locale.common.delete} !`
+      text: `${window.System.data.locale.common.delete} !`
     });
 
     this.$deleteButton.appendTo(this.$deleteButtonSpinnerContainer);
@@ -110,7 +109,7 @@ class MassContentDeleter {
     this.deleteSection.$.appendTo($(".deleteSection", this.$modal));
   }
   RenderTextareaWarning() {
-    this.$textareaWarning = $(`<div class="sg-bubble sg-bubble--top sg-bubble--row-start sg-bubble--peach sg-text--white enterIdWarn">${System.data.locale.core.notificationMessages.enterIdWarn}</div>`);
+    this.$textareaWarning = $(`<div class="sg-bubble sg-bubble--top sg-bubble--row-start sg-bubble--peach sg-text--white enterIdWarn">${window.System.data.locale.core.notificationMessages.enterIdWarn}</div>`);
   }
   BindHandlers() {
     this.li.addEventListener("click", this.OpenModal.bind(this));
@@ -141,7 +140,7 @@ class MassContentDeleter {
 
     let text = (event.originalEvent || event).clipboardData.getData("text/plain");
 
-    await System.Delay(50);
+    await window.System.Delay(50);
     document.execCommand("insertText", false, text);
   }
   ShowTextareaSpinner() {
@@ -151,7 +150,7 @@ class MassContentDeleter {
     this.HideElement(this.$textareaSpinner);
   }
   /**
-   * @param {jQuery} $element
+   * @param {JQuery<HTMLElement>} $element
    */
   HideElement($element) {
     $element.appendTo("<div />");
@@ -192,7 +191,7 @@ class MassContentDeleter {
     let values = this.$textarea.prop("innerText");
 
     if (values) {
-      idList = System.ExtractIds(values);
+      idList = window.System.ExtractIds(values);
 
       if (idList && idList.length > 0) {
         idList = Array.from(new Set(idList));
@@ -214,7 +213,7 @@ class MassContentDeleter {
     this.ShowHasBeenDeletedLabel();
     this.DeleteContents(contentsToDelete);
     this._loop_deleter = setInterval(() => this.DeleteContents(contentsToDelete), 1000);
-    System.log(5, { user: System.data.Brainly.userData.user, data: this.contentsToDelete });
+    window.System.log(5, { user: window.System.data.Brainly.userData.user, data: this.contentsToDelete });
   }
   IsDataClear() {
     if (!this.contentsToDelete || this.contentsToDelete.length == 0) {
@@ -223,7 +222,7 @@ class MassContentDeleter {
     } else if (this.deleteSection.selectedReason) {
       this.HideTextareaWarning();
 
-      if (confirm(System.data.locale.core.notificationMessages.warningBeforeDelete)) {
+      if (confirm(window.System.data.locale.core.notificationMessages.warningBeforeDelete)) {
         return true;
       }
     }
@@ -282,7 +281,7 @@ class MassContentDeleter {
         (
           resRemove.message ?
           `#${id} > ${resRemove.message}` :
-          System.data.locale.core.notificationMessages.errorOccuredWhileDeletingTheN.replace("%{content_id}", ` #${id} `)
+          window.System.data.locale.core.notificationMessages.errorOccuredWhileDeletingTheN.replace("%{content_id}", ` #${id} `)
         ),
         "error"
       );

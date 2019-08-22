@@ -5,14 +5,12 @@ import QuestionBox from "./_/QuestionBox";
 
 System.pageLoaded("Question search page OK!");
 
-window.selectors = {
-  questionLink: "> div > a",
-  userLink: ".sg-content-box__title > .sg-avatar > a"
-};
-
 export class QuestionSearch {
   constructor() {
-    this.questionBoxs = {};
+    /**
+     * @type {Object<number, QuestionBox>}
+     */
+    this.questionBoxList = {};
 
     this.Init();
 
@@ -71,16 +69,17 @@ export class QuestionSearch {
     /**
      * @type {QuestionBox}
      */
-    let questionBox = this.questionBoxs[id];
+    let questionBox = this.questionBoxList[id];
+    console.log(this.questionBoxList);
 
     if (!questionBox) {
-      questionBox = this.questionBoxs[id] = new QuestionBox(this, question, id);
+      questionBox = this.questionBoxList[id] = new QuestionBox(this, question, id);
       questionBox.$checkBox.change();
     } else {
       questionBox.$ = $(question);
 
       questionBox.RenderQuestionOwner();
-      questionBox.ShowSelectbox();
+      questionBox.ShowSelectBox();
       questionBox.ShowQuickDeleteButtons();
       questionBox.CheckIsDeleted();
     }

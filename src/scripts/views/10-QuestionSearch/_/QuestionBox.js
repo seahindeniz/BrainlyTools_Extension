@@ -9,25 +9,32 @@ class QuestionBox {
    */
   constructor(main, box, id) {
     this.main = main;
+    this.container = box;
     this.$ = $(box);
     this.id = id;
+    this.deleted = false;
 
     this.GetQuestion();
 
-    if (System.checkUserP(1))
-      this.quickDeleteButtons = new QuickDeleteButtons(this.$);
-
     if (System.checkUserP([14, 26])) {
       this.RenderSelectBox();
-      this.ShowSelectbox();
+      this.ShowSelectBox();
       this.RenderSpinner();
       this.BindHandlers();
     }
   }
   async GetQuestion() {
-    this.question = await new Action().QuestionContent(this.id);;
+    this.question = await new Action().QuestionContent(this.id);
+
+    this.user = this.question.users_data.find(usr => usr.id == this.question.data.task.user_id);
 
     this.RenderQuestionOwner();
+
+    if (System.checkUserP(1))
+      this.quickDeleteButtons = new QuickDeleteButtons(this.container, {
+        user: this.user,
+        questionId: this.id,
+      });
   }
   RenderQuestionOwner() {
     this.PrepareAvatarHole();
@@ -97,9 +104,6 @@ class QuestionBox {
     this.$iconContentBox.appendTo(this.$avatarHole);
   }
   PrepareAvatar() {
-    let user_id = this.question.data.task.user_id;
-    this.user = this.question.users_data.find(usr => usr.id == user_id);
-
     return System.prepareAvatar(this.user, { returnIcon: true });
   }
   RenderAttachments() {
@@ -155,7 +159,7 @@ class QuestionBox {
     this.$checkBoxGhost = $(".sg-checkbox__ghost", this.$checkBoxContainer);
     this.$spinnerContainer = $(".sg-spinner-container", this.$checkBoxContainerHole);
   }
-  ShowSelectbox() {
+  ShowSelectBox() {
     if (System.checkUserP([14, 26])) {
       let $seeAnswerLinkContainer = $(".sg-content-box__actions > .sg-actions-list", this.$);
 

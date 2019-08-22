@@ -2,17 +2,15 @@ import Button from "../../../components/Button";
 import ModeratingPanel from "./ModeratingPanel";
 import QuickDeleteButton from "./QuickDeleteButton";
 
-let System = require("../../../helpers/System");
-
 class QuickDeleteButtons {
   /**
    * @param {HTMLElement} target
+   * @param {{user?: {}, questionId?: number}} param1
    */
-  constructor(target) {
+  constructor(target, { user, questionId } = {}) {
     this.target = target;
-
-    if (typeof System == "function")
-      System = System();
+    this.user = user;
+    this.questionId = questionId
 
     $(target).addClass("js-extension");
 
@@ -22,8 +20,11 @@ class QuickDeleteButtons {
     try {
       this.RenderContainer();
 
-      this.user = this.FindOwner();
-      this.questionId = this.FindQuestionId();
+      if (!this.user)
+        this.user = this.FindOwner();
+
+      if (!this.questionId)
+        this.questionId = this.FindQuestionId();
 
       this.ShowContainer();
       this.RenderMoreOptionsButton();
@@ -50,6 +51,7 @@ class QuickDeleteButtons {
   }
   FindOwner() {
     let $userLink = $(window.selectors.userLink, this.target);
+    console.log(window.selectors.userLink, this.target, $userLink);
 
     if ($userLink.length == 0)
       throw { msg: "User link element not found from target", element: this.target };

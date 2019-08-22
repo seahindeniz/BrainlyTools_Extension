@@ -3,17 +3,12 @@ import notification from "../../../components/notification";
 import Action from "../../../controllers/Req/Brainly/Action";
 import Button from "../../../components/Button";
 
-let System = require("../../../helpers/System");
-
 class ModerateSection {
   /**
    * @param {import("../index").QuestionSearch} main
    */
   constructor(main) {
     this.main = main;
-
-    if (typeof System == "function")
-      System = System();
 
     this.Render();
     this.ResetCounter();
@@ -42,8 +37,8 @@ class ModerateSection {
           <div class="sg-label sg-label--secondary">
             <div class="sg-label__icon">
               <div class="sg-checkbox">
-                <input type="checkbox" class="sg-checkbox__element" id="q-${this.id}">
-                <label class="sg-checkbox__ghost" for="q-${this.id}">
+                <input type="checkbox" class="sg-checkbox__element" id="selectAll">
+                <label class="sg-checkbox__ghost" for="selectAll">
                   <div class="sg-icon sg-icon--adaptive sg-icon--x10">
                     <svg class="sg-icon__svg">
                       <use xlink:href="#icon-check"></use>
@@ -52,7 +47,7 @@ class ModerateSection {
                 </label>
               </div>
             </div>
-            <label class="sg-label__text" for="q-${this.id}">${System.data.locale.common.selectAll}</label>
+            <label class="sg-label__text" for="selectAll">${System.data.locale.common.selectAll}</label>
           </div>
         </div>
         <div class="sg-content-box__content"></div>
@@ -128,7 +123,7 @@ class ModerateSection {
 
     this.$counter = $(".sg-text", this.$counterLabelContainer);
 
-    this.UpdateCounterNumbers(0, 0);
+    this.UpdateCounterNumbers();
   }
   UpdateCounterNumbers() {
     this.$counter.text(`${this.counter.n}/${this.counter.max}`)
@@ -178,14 +173,14 @@ class ModerateSection {
     this.HideElement(this.$deleteNButtonSpinner);
   }
   ToggleCheckboxes() {
-    $.each(this.main.questionBoxs, (id, questionBox) => {
+    $.each(this.main.questionBoxList, (id, questionBox) => {
       if (!questionBox.deleted && questionBox.$checkBox.is(":visible"))
         questionBox.$checkBox.prop("checked", this.$selectAll.prop("checked"));
     });
     this.UpdateDeleteNButtonNumber();
   }
   DeleteSelectedQuestionsFromCurrentPage() {
-    this.idList = this.SelectedQuestions(true);
+    this.idList = this.SelectedQuestions();
 
     let isConfirmed = this.DeleteQuestions();
 
@@ -199,7 +194,7 @@ class ModerateSection {
     if (fromCurrentPage)
       query += ":visible";
 
-    $.each(this.main.questionBoxs, (id, questionBox) => {
+    $.each(this.main.questionBoxList, (id, questionBox) => {
       if (questionBox.$checkBox.is(query) && !questionBox.deleted)
         idList.push(~~id);
     });
@@ -258,11 +253,14 @@ class ModerateSection {
   StopDeleting() {
     clearInterval(this._loop);
   }
+  /**
+   * @param {number} model_id
+   */
   async DeleteQuestion(model_id) {
     /**
      * @type {import("./QuestionBox").default}
      */
-    let questionBox = this.main.questionBoxs[model_id];
+    let questionBox = this.main.questionBoxList[model_id];
     questionBox.deleted = true;
     let postData = {
       ...this.postData,
@@ -315,7 +313,7 @@ class ModerateSection {
   ChangeDeleteNButtonNumber(n = 0) {
     if (!this.$deleteNButton) return;
 
-    this.$deleteNButton.text(System.data.locale.common.deleteN.replace("%{number_of_contents}", n));
+    this.$deleteNButton.text(System.data.locale.common.deleteN.replace("%{number_of_contents}", String(n)));
   }
   BindDeleteNHandler() {
     this.$deleteNButton.click(this.DeleteAllSelectedQuestions.bind(this));

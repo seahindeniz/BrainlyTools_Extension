@@ -26,6 +26,7 @@ export class QuestionSearch {
           this.searchResults = await WaitForElement(".js-react-search-results");
 
           if (this.searchResults && this.searchResults.length > 0) {
+            this.searchResults = this.searchResults[0];
             this.ObserveResults();
 
             let questionBoxContainer = await WaitForElement(".sg-layout__box");
@@ -39,11 +40,38 @@ export class QuestionSearch {
     }
   }
   ObserveResults() {
-    $(this.searchResults).observe('childlist', ".sg-layout__box", event => {
-      if (event.addedNodes && event.addedNodes.length > 0) {
-        this.PrepareQuestionBoxes(event.addedNodes[0]);
+    const observer = new MutationObserver(mutationsList => {
+      for (let mutation of mutationsList) {
+        if (
+          mutation.type === 'childList' &&
+          mutation.addedNodes &&
+          mutation.addedNodes.length > 0
+        ) {
+          /**
+           * @type {HTMLElement[]}
+           */
+          // @ts-ignore
+          let elements = Array.from(mutation.addedNodes);
+          let layout__box = elements.find(box => {
+            if (
+              box &&
+              box.classList.contains("sg-layout__box") &&
+              !(box.classList.contains("quickDelete"))
+            ) {
+              let animationBox = Array.from(box.children).find(child => child.classList.contains("brn-placeholder__animation-box"));
+
+              return !animationBox;
+            }
+          });
+
+          if (layout__box)
+            this.PrepareQuestionBoxes(layout__box);
+        }
       }
     });
+
+    const config = { attributes: false, childList: true, subtree: false };
+    observer.observe(this.searchResults, config);
   }
   /**
    * @param {HTMLElement} element
@@ -70,7 +98,6 @@ export class QuestionSearch {
      * @type {QuestionBox}
      */
     let questionBox = this.questionBoxList[id];
-    console.log(this.questionBoxList);
 
     if (!questionBox) {
       questionBox = this.questionBoxList[id] = new QuestionBox(this, question, id);

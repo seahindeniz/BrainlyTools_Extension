@@ -1,7 +1,12 @@
 import DeleteSection from "../../../components/DeleteSection";
-import notification from "../../../components/notification";
+import notification from "../../../components/notification2";
+import { ActionList, ActionListHole, Badge, Button, ContentBox, ContentBoxActions, ContentBoxContent, ContentBoxTitle, Label, Spinner, SpinnerContainer } from "../../../components/style-guide";
+import Checkbox from "../../../components/style-guide/Checkbox";
+import Icon from "../../../components/style-guide/Icon";
 import Action from "../../../controllers/Req/Brainly/Action";
-import Button from "../../../components/Button";
+import Build from "../../../helpers/Build";
+import generateRandomString from "../../../helpers/generateRandomString";
+import InsertAfter from "../../../helpers/InsertAfter";
 
 class ModerateSection {
   /**
@@ -10,62 +15,115 @@ class ModerateSection {
   constructor(main) {
     this.main = main;
 
-    this.Render();
-    this.ResetCounter();
-    this.RenderStopButton();
-    this.RenderDeleteButton();
-    this.RenderCounterLabel();
+    this.RenderSelectAll();
     this.RenderDeleteSection();
-    this.BindHandlers();
+    this.RenderDeleteButton();
+    this.RenderActionButtonContainer();
 
-    if (System.checkUserP(26)) {
-      this.RenderDeleteNButton();
-      this.BindDeleteNHandler();
-    }
+    if (System.checkUserP(26))
+      this.RenderDeleteAllButton();
+
+    this.Render();
+    this.RenderStopButton();
+    this.RenderCounterSpinner();
+    this.RenderCounterLabel();
+    this.ResetCounter();
+    this.RenderCheckIcon();
+    this.BindHandlers();
   }
-  ResetCounter() {
-    this.counter = {
-      n: 0,
-      max: 0
-    };
+  RenderSelectAll() {
+    this.selectAllContainer = Label({
+      html: System.data.locale.common.selectAll,
+      htmlFor: generateRandomString(),
+      icon: Checkbox()
+    });
+
+    this.selectAll = this.selectAllContainer.querySelector("input");
+  }
+  RenderDeleteSection() {
+    this.deleteSection = new DeleteSection({ type: "task" });
+    this.deleteSectionContainer = ContentBoxContent({
+      children: this.deleteSection.container
+    });
+  }
+  RenderDeleteButton() {
+    this.deleteButtonNumberBadgeContainer = Badge({
+      text: {
+        text: 0
+      }
+    });
+    this.deleteButtonNumberBadge = this.deleteButtonNumberBadgeContainer.querySelector("div");
+    this.deleteButton = Button({
+      type: "destructive",
+      size: "small",
+      html: `${System.data.locale.common.delete}&nbsp;`,
+    });
+
+    this.deleteButton.append(this.deleteButtonNumberBadgeContainer);
+
+    this.deleteButtonSpinnerContainer = SpinnerContainer({
+      children: this.deleteButton
+    });
+    this.deleteButtonContainer = ActionListHole({
+      children: this.deleteButtonSpinnerContainer
+    });
+
+    this.deleteButtonSpinner = this.RenderSpinner();
+  }
+  RenderActionButtonContainer() {
+    this.actionButtonContainer = ActionList({
+      direction: "space-between",
+      children: this.deleteButtonContainer
+    });
+  }
+  RenderDeleteAllButton() {
+    this.deleteAllButtonNumberBadgeContainer = Badge({
+      text: {
+        text: 0
+      }
+    });
+    this.deleteAllButtonNumberBadge = this.deleteAllButtonNumberBadgeContainer.querySelector("div");
+    this.deleteAllButton = Button({
+      type: "destructive",
+      size: "small",
+      html: `${System.data.locale.common.deleteAll}&nbsp;`,
+    });
+
+    this.deleteAllButton.append(this.deleteAllButtonNumberBadgeContainer);
+
+    this.deleteAllButtonSpinnerContainer = SpinnerContainer({
+      children: this.deleteAllButton
+    });
+    this.deleteAllButtonContainer = ActionListHole({
+      children: this.deleteAllButtonSpinnerContainer
+    });
+
+    this.actionButtonContainer.append(this.deleteAllButtonContainer);
+
+    this.deleteAllButtonSpinner = this.RenderSpinner();
   }
   Render() {
-    this.$ = $(`
-    <div class="sg-content-box__content sg-content-box__content--spaced-bottom-xlarge">
-      <div class="sg-content-box">
-        <div class="sg-content-box__content">
-          <div class="sg-label sg-label--secondary">
-            <div class="sg-label__icon">
-              <div class="sg-checkbox">
-                <input type="checkbox" class="sg-checkbox__element" id="selectAll">
-                <label class="sg-checkbox__ghost" for="selectAll">
-                  <div class="sg-icon sg-icon--adaptive sg-icon--x10">
-                    <svg class="sg-icon__svg">
-                      <use xlink:href="#icon-check"></use>
-                    </svg>
-                  </div>
-                </label>
-              </div>
-            </div>
-            <label class="sg-label__text" for="selectAll">${System.data.locale.common.selectAll}</label>
-          </div>
-        </div>
-        <div class="sg-content-box__content"></div>
-        <div class="sg-content-box__actions">
-          <div class="sg-actions-list sg-actions-list--space-between">
-            <div class="sg-actions-list__hole">
-              <div class="sg-spinner-container"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>`);
+    this.container = Build(ContentBoxContent({ spacedBottom: "xlarge" }), [
+      [
+        ContentBox(),
+        [
 
-    this.$selectAll = $("input", this.$);
-    this.$deleteButtonSpinner = this.RenderSpinner();
-    this.$deleteButtonSpinnerContainer = $(".sg-spinner-container", this.$);
-    this.$deleteButtonContainer = this.$deleteButtonSpinnerContainer.parent();
-    this.$deleteSectionContainer = $(".sg-content-box__content:eq(1)", this.$);
+          ContentBoxTitle({
+            align: "center",
+            children: System.data.locale.common.moderating.moderate
+          }),
+          [
+            ContentBoxContent(),
+            this.selectAllContainer
+          ],
+          this.deleteSectionContainer,
+          [
+            ContentBoxActions(),
+            this.actionButtonContainer
+          ]
+        ]
+      ]
+    ]);
   }
   Show() {
     this.$paginationContainer = $("> .sg-content-box__content:eq(2)", this.main.element);
@@ -74,113 +132,120 @@ class ModerateSection {
     if (this.$pagination.length == 0)
       return console.error("Pagination cannot be found");
 
-    this.$.insertAfter(this.$paginationContainer);
-    this.$selectAll.prop("checked", false);
+    this.$paginationContainer.after(this.container);
+
+    this.selectAll.checked = false;
   }
   RenderSpinner(isLight) {
-    return $(`
-    <div class="sg-spinner-container__overlay">
-      <div class="sg-spinner sg-spinner--xsmall${isLight?" sg-spinner--light":""}"></div>
-    </div>`);
+    return Spinner({
+      overlay: true,
+      size: "xsmall",
+      light: isLight
+    });
   }
   RenderStopButton() {
-    this.$stopButtonContainer = $(`
-    <div class="sg-actions-list__hole">
-      <div class="sg-spinner-container"></div>
-    </div>`);
-
-    this.$stopButton = Button({
+    this.stopButton = Button({
       type: "destructive",
       size: "small",
       text: System.data.locale.common.stop
+    })
+    this.stopButtonSpinnerContainer = SpinnerContainer({
+      children: this.stopButton
     });
-    this.$stopButtonSpinner = this.RenderSpinner();
-    this.$stopButtonSpinnerContainer = $(".sg-spinner-container", this.$stopButtonContainer);
+    this.stopButtonContainer = ActionListHole({
+      children: this.stopButtonSpinnerContainer
+    });
 
-    this.$stopButton.prependTo(this.$stopButtonSpinnerContainer);
+    this.stopButtonSpinner = this.RenderSpinner();
   }
-  RenderDeleteButton() {
-    this.$deleteButton = Button({
-      type: "destructive",
-      size: "small",
-      text: `${System.data.locale.common.delete} !`
+  RenderCounterSpinner() {
+    this.counterSpinner = Spinner({
+      size: "xxsmall"
     });
-
-    this.$deleteButton.prependTo(this.$deleteButtonSpinnerContainer);
   }
   RenderCounterLabel() {
-    this.$counterLabelContainer = $(`
-    <div class="sg-actions-list__hole">
-      <div class="sg-label sg-label--small sg-label--secondary">
-        <div class="sg-label__icon">
-          <div class="sg-icon sg-icon--gray-secondary sg-icon--x14"><svg class="sg-icon__svg">
-              <use xlink:href="#icon-lightning"></use>
-            </svg></div>
-        </div>
-        <div class="sg-text sg-text--small sg-text--gray-secondary sg-text--bold"></div>
-      </div>
-    </div>`);
-
-    this.$counter = $(".sg-text", this.$counterLabelContainer);
-
-    this.UpdateCounterNumbers();
+    this.counterLabel = Label({
+      text: "0/0",
+      icon: this.counterSpinner
+    });
+    this.counterText = this.counterLabel.querySelector(".sg-label__text");
+    this.counterContainer = ActionListHole({
+      children: this.counterLabel
+    });
   }
-  UpdateCounterNumbers() {
-    this.$counter.text(`${this.counter.n}/${this.counter.max}`)
-  }
-  RenderDeleteSection() {
-    this.deleteSection = new DeleteSection({ type: "task" });
+  ResetCounter() {
+    this.counter = {
+      n: 0,
+      max: 0
+    };
 
-    this.deleteSection.$.appendTo(this.$deleteSectionContainer);
+    this.counterLabel.ChangeIcon(this.counterSpinner);
+  }
+  RenderCheckIcon() {
+    this.checkIcon = Icon({
+      type: "check",
+      size: 14,
+      color: "mint"
+    });
   }
   BindHandlers() {
-    this.$stopButton.click(this.HideStopButton.bind(this));
-    this.$selectAll.click(this.ToggleCheckboxes.bind(this));
-    this.$deleteButton.click(this.DeleteSelectedQuestionsFromCurrentPage.bind(this));
+    this.stopButton.addEventListener("click", this.StopDeleting.bind(this));
+    this.selectAll.addEventListener("click", this.ToggleCheckboxes.bind(this));
+    this.deleteButton.addEventListener("click", this.DeleteSelectedQuestionsFromCurrentPage.bind(this));
+
+    if (this.deleteAllButton)
+      this.deleteAllButton.addEventListener("click", this.DeleteAllSelectedQuestions.bind(this));
   }
   async HideStopButton(event) {
     this.EnableDeleteButtons();
 
     if (event) {
-      this.$stopButtonSpinner.appendTo(this.$stopButtonSpinnerContainer);
+      this.stopButtonSpinnerContainer.append(this.stopButtonSpinner);
       await System.Delay(600);
     }
 
-    this.HideElement(this.$stopButtonSpinner);
-    this.HideElement(this.$stopButtonContainer);
+    this.HideElement(this.stopButtonSpinner);
+    this.HideElement(this.stopButtonContainer);
     this.HideDeleteButtonSpinner();
-    this.HideDeleteNButtonSpinner();
+    this.HideDeleteAllButtonSpinner();
   }
   EnableDeleteButtons() {
-    this.$deleteButton.Enable();
-    this.$deleteNButton.Enable();
+    this.deleteButton.Enable();
+    this.deleteAllButton.Enable();
   }
+  /**
+   * @param {HTMLElement | JQuery<HTMLElement>} $element
+   */
   HideElement($element) {
     if (!$element) return;
 
-    $element.appendTo("<div />");
+    if ($element instanceof HTMLElement) {
+      if ($element.parentElement)
+        $element.parentElement.removeChild($element);
+    } else if ($element instanceof jQuery)
+      $element.appendTo("<div />");
   }
   ShowDeleteButtonSpinner() {
-    this.$deleteButtonSpinner.appendTo(this.$deleteButtonSpinnerContainer);
+    this.deleteButtonSpinnerContainer.append(this.deleteButtonSpinner);
   }
   HideDeleteButtonSpinner() {
-    this.HideElement(this.$deleteButtonSpinner);
+    this.HideElement(this.deleteButtonSpinner);
   }
-  ShowDeleteNButtonSpinner() {
-    this.$deleteNButtonSpinner.appendTo(this.$deleteNButtonSpinnerContainer);
+  ShowDeleteAllButtonSpinner() {
+    this.deleteAllButtonSpinnerContainer.append(this.deleteAllButtonSpinner);
   }
-  HideDeleteNButtonSpinner() {
-    this.HideElement(this.$deleteNButtonSpinner);
+  HideDeleteAllButtonSpinner() {
+    this.HideElement(this.deleteAllButtonSpinner);
   }
   ToggleCheckboxes() {
     $.each(this.main.questionBoxList, (id, questionBox) => {
       if (!questionBox.deleted && questionBox.$checkBox.is(":visible"))
-        questionBox.$checkBox.prop("checked", this.$selectAll.prop("checked"));
+        questionBox.$checkBox.prop("checked", this.selectAll.checked);
     });
-    this.UpdateDeleteNButtonNumber();
+    this.UpdateDeleteButtonsNumber();
   }
   DeleteSelectedQuestionsFromCurrentPage() {
-    this.idList = this.SelectedQuestions();
+    this.idList = this.SelectedQuestions(true);
 
     let isConfirmed = this.DeleteQuestions();
 
@@ -203,9 +268,15 @@ class ModerateSection {
   }
   DeleteQuestions() {
     if (this.idList.length == 0) {
-      notification(System.data.locale.userContent.notificationMessages.selectAtLeasetOneContent, "error")
+      notification({
+        type: "error",
+        html: System.data.locale.userContent.notificationMessages.selectAtLeastOneContent,
+      })
     } else if (this.deleteSection.selectedReason) {
       if (confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
+        // @ts-ignore
+        window.isPageProcessing = true;
+
         this.postData = {
           reason_id: this.deleteSection.selectedReason.id,
           reason_title: this.deleteSection.selectedReason.title,
@@ -230,15 +301,18 @@ class ModerateSection {
     }
   }
   ShowCounter() {
-    this.$counterLabelContainer.insertAfter(this.$deleteButtonContainer);
+    InsertAfter(this.counterContainer, this.deleteButtonContainer);
+  }
+  UpdateCounterNumbers() {
+    this.counterText.innerHTML = `${this.counter.n}/${this.counter.max}`;
   }
   ShowStopButton() {
     this.DisableDeleteButtons();
-    this.$stopButtonContainer.insertAfter(this.$deleteButtonContainer);
+    InsertAfter(this.stopButtonContainer, this.deleteButtonContainer);
   }
   DisableDeleteButtons() {
-    this.$deleteButton.Disable();
-    this.$deleteNButton.Disable();
+    this.deleteButton.Disable();
+    this.deleteAllButton.Disable();
   }
   StartDeleting() {
     for (let i = 0; i < 5; i++) {
@@ -251,7 +325,12 @@ class ModerateSection {
     }
   }
   StopDeleting() {
+    this.started = false;
+    // @ts-ignore
+    window.isPageProcessing = false;
+
     clearInterval(this._loop);
+    this.counterLabel.ChangeIcon(this.checkIcon);
   }
   /**
    * @param {number} model_id
@@ -270,6 +349,7 @@ class ModerateSection {
     questionBox.ShowSpinner();
     questionBox.DisableCheckbox();
 
+    //let resRemove = await new Action().HelloWorld();
     let resRemove = await new Action().RemoveQuestion(postData);
 
     this.counter.n++;
@@ -282,41 +362,18 @@ class ModerateSection {
 
       questionBox.$.addClass("warning");
       questionBox.$checkBox.prop("disabled", false);
-      notification(`#${model_id} > ${System.data.locale.common.notificationMessages.somethingWentWrong}`, "error");
+      notification({
+        type: "error",
+        html: `#${model_id} > ${System.data.locale.common.notificationMessages.somethingWentWrong}`,
+      });
     } else {
       questionBox.Deleted();
 
       if (this.counter.n == this.counter.max) {
         this.HideStopButton();
-        this.UpdateDeleteNButtonNumber();
+        this.UpdateDeleteButtonsNumber();
       }
     }
-  }
-  RenderDeleteNButton() {
-    this.$deleteNButton = Button({
-      type: "destructive",
-      size: "small",
-      text: ""
-    });
-    this.$deleteNButtonContainer = $(`
-    <div class="sg-actions-list__hole">
-      <div class="sg-spinner-container"></div>
-    </div>`);
-
-    this.$deleteNButtonSpinner = this.RenderSpinner();
-    this.$deleteNButtonSpinnerContainer = $("> .sg-spinner-container", this.$deleteNButtonContainer);
-
-    this.ChangeDeleteNButtonNumber();
-    this.$deleteNButton.prepend(this.$deleteNButtonSpinnerContainer);
-    this.$deleteNButtonContainer.insertAfter(this.$deleteButtonContainer);
-  }
-  ChangeDeleteNButtonNumber(n = 0) {
-    if (!this.$deleteNButton) return;
-
-    this.$deleteNButton.text(System.data.locale.common.deleteN.replace("%{number_of_contents}", String(n)));
-  }
-  BindDeleteNHandler() {
-    this.$deleteNButton.click(this.DeleteAllSelectedQuestions.bind(this));
   }
   DeleteAllSelectedQuestions() {
     this.idList = this.SelectedQuestions();
@@ -324,12 +381,21 @@ class ModerateSection {
     let isConfirmed = this.DeleteQuestions();
 
     if (isConfirmed)
-      this.ShowDeleteNButtonSpinner();
+      this.ShowDeleteAllButtonSpinner();
   }
-  UpdateDeleteNButtonNumber() {
+  UpdateDeleteButtonsNumber() {
+    this.UpdateDeleteButtonNumber();
+    this.UpdateDeleteAllButtonNumber();
+  }
+  UpdateDeleteButtonNumber() {
+    let idList = this.SelectedQuestions(true);
+
+    this.deleteButtonNumberBadge.innerText = String(idList.length);
+  }
+  UpdateDeleteAllButtonNumber() {
     let idList = this.SelectedQuestions();
 
-    this.ChangeDeleteNButtonNumber(idList.length);
+    this.deleteAllButtonNumberBadge.innerText = String(idList.length);
   }
 }
 

@@ -2,7 +2,7 @@ class RadioSection {
   /**
    * @typedef {{id:string, label:string}} Item
    * @typedef {[Item]} Items
-   * @param {{ name:string, warning: string, items: Items, changeHandler: function, noHorizontalSeparator: boolean }} param0
+   * @param {{ name?:string, text?: string, warning?: string, items?: Items, changeHandler?: function, noHorizontalSeparator?: boolean }} param0
    */
   constructor({ name, text, warning, items, changeHandler, noHorizontalSeparator = false }) {
     this.name = name;

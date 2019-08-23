@@ -176,7 +176,7 @@ class QuestionBox {
     this.$checkBox.change(this.CheckBoxChanged.bind(this));
   }
   CheckBoxChanged() {
-    this.main.moderateSection.UpdateDeleteNButtonNumber();
+    this.main.moderateSection.UpdateDeleteButtonsNumber();
   }
   ShowSpinner() {
     this.$spinner.appendTo(this.$spinnerContainer);

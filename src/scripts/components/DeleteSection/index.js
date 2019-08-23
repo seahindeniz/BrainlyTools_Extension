@@ -1,10 +1,12 @@
 import RadioSection from "./RadioSection";
+import Build from "../../helpers/Build";
+import { ContentBox, ContentBoxActions, Textarea, ActionList } from "../style-guide";
 
 const noop = () => {};
 
 class DeleteSection {
   /**
-   * @param {{type: "task"|"response"|"comment", reasons: [], hideReasons: ["task", "response", "comment"], handlers: {contentTypeChange: function, reasonChange: function, subReasonChange: function}, noSpacedTop: boolean}} param0
+   * @param {{type?: "task"|"response"|"comment", reasons?: [], hideReasons?: string[] | ["task" | "response" | "comment"], handlers?: {contentTypeChange?: function, reasonChange?: function, subReasonChange?: function}, noSpacedTop?: boolean}} param0
    */
   constructor({ type, reasons, hideReasons = [], handlers = {}, noSpacedTop = false } = {}) {
     this.type = type;
@@ -60,18 +62,29 @@ class DeleteSection {
     this.reasons = System.data.Brainly.deleteReasons[this.type];
   }
   Render() {
-    this.$ = $(`
-		<div class="sg-content-box${this.noSpacedTop ? "" : " sg-content-box--spaced-top"} sg-content-box--spaced-bottom sg-content-box--full">
-      <div class="sg-content-box__actions">
-        <div class="sg-content-box sg-content-box--full"></div>
-      </div>
-			<div class="sg-content-box__actions">
-				<textarea class="sg-textarea sg-text--small sg-textarea--invalid sg-textarea--full-width"></textarea>
-			</div>
-      <div class="sg-content-box__actions">
-        <div class="sg-actions-list"></div>
-      </div>
-    </div>`);
+    this.container = Build(ContentBox({
+      spacedTop: !this.noSpacedTop,
+      spacedBottom: true,
+      full: true
+    }), [
+      [
+        ContentBoxActions(),
+        ContentBox({ full: true })
+      ],
+      [
+        ContentBoxActions(),
+        Textarea({
+          invalid: true,
+          fullWidth: true,
+          className: "sg-text--small"
+        })
+      ],
+      [
+        ContentBoxActions(),
+        ActionList()
+      ],
+    ]);
+    this.$ = $(this.container);
 
     this.$textarea = $('textarea', this.$);
     this.$listSection = $("> .sg-content-box__actions:eq(0) > .sg-content-box", this.$);
@@ -140,11 +153,11 @@ class DeleteSection {
       items: []
     };
 
-    ["task", "response", "comment"].forEach(id => {
-      if (!this.hideReasons.includes(id))
+    ["task", "response", "comment"].forEach(type => {
+      if (!this.hideReasons.includes(type))
         sectionData.items.push({
-          id,
-          label: System.data.locale.popup.extensionOptions.quickDeleteButtons[id]
+          id: type,
+          label: System.data.locale.popup.extensionOptions.quickDeleteButtons[type]
         });
     })
 
@@ -310,7 +323,7 @@ class DeleteSection {
       return this.reason;
   }
   get reasonText() {
-    return this.$textarea.val();
+    return String(this.$textarea.val());
   }
   get takePoints() {
     if (this.$takePoints.is(":visible"))

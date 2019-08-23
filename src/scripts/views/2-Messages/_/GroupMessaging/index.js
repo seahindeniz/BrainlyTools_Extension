@@ -125,7 +125,7 @@ class GroupMessaging {
     let resMessages = await new ServerReq().GetMessages(group_id);
 
     if (!resMessages || !resMessages.success || !resMessages.data)
-      return notification(__groups.notificationMessages.cantFecthGroupData, "error");
+      return notification(__groups.notificationMessages.cantFetchGroupData, "error");
 
     this.OpenChatbox(resMessages.data, groupLi);
   }

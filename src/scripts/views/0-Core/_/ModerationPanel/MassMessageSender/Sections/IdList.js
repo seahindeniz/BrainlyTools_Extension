@@ -16,7 +16,7 @@ class IdListSection {
   Render() {
     this.$ = $(`
 		<div class="sg-content-box">
-			<div class="sg-spinner-container sg-content-box--full js-inputs">
+			<div class="sg-spinner-container sg-content-box--full">
 				<div class="sg-content-box__actions">
 					<div class="sg-textarea sg-textarea--full-width" style="color: transparent;"></div>
 					<div class="sg-textarea sg-textarea--full-width sg-textarea--resizable-vertical" contenteditable="true" style="position: absolute; background: transparent;" placeholder="${System.data.locale.core.pointChanger.enterOrPasteUID}"></div>
@@ -80,7 +80,7 @@ class IdListSection {
     let temp = this.$textarea.html();
 
     this.idList.forEach(id => {
-      temp = temp.replace(new RegExp(`((?:\\b|pt)+${id}\\b)`), `<span class="toProcess">$1</span>`);
+      temp = temp.replace(new RegExp(`(\\b|[a-z]{1,})+(${id}\\b)`), `$1<span class="sg-text--background-blue-light">$2</span>`);
     });
 
     this.HideSpinner();

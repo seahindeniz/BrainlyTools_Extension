@@ -3,7 +3,7 @@ import Button from "../../../../../../components/Button";
 /**
  * @typedef {{content: {text: string, style: string}, actionButton: import("../../../../../../components/Button").ButtonOptions}} renderDetails
  */
-export default class ActionSection {
+export default class {
   /**
    * @param {import("../index").default} main
    * @param {renderDetails} renderDetails

@@ -20,17 +20,13 @@ import SetBrainlyData from "./_/SetBrainlyData";
 import SetMetaData from "./_/SetMetaData";
 import SetUserData from "./_/SetUserData";
 
-/**
- * @type {_System}
- */
-let System;
 window.selectors = {
   toplayerContainer: "body > div.js-page-wrapper"
 }
 
-window.addEventListener("beforeunload", () => {
-  if (window.System && window.isPageProcessing) {
-    let message = window.System.data.locale.common.notificationMessages.ongoingProcess;
+window.addEventListener("beforeunload", event => {
+  if (System && window.isPageProcessing) {
+    let message = System.data.locale.common.notificationMessages.ongoingProcess;
 
     if (typeof window.isPageProcessing == "string") {
       message = window.isPageProcessing;
@@ -43,8 +39,7 @@ window.addEventListener("beforeunload", () => {
 
 class Core {
   constructor() {
-    System = new _System(this);
-    window.System = System;
+    window.System = new _System(this);
 
     this.Pipeline();
   }

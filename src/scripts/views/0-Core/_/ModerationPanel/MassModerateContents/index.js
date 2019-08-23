@@ -113,11 +113,12 @@ class MassModerateContents {
                 ActionList(),
                 [
                   [
-                    ActionListHole(),
+                    ActionListHole({
+                      noShrink: true,
+                    }),
                     Text({
                       color: "blue-dark",
                       weight: "bold",
-                      noWrap: true,
                       html: System.data.locale.core.MassModerateContents.contentType
                     })
                   ],
@@ -164,7 +165,10 @@ class MassModerateContents {
         }),
         [
           [
-            ActionListHole(),
+            ActionListHole({
+              noShrink: true,
+              noSpacing: true,
+            }),
             [
               [
                 this.actionListOfInputsSection,
@@ -172,12 +176,12 @@ class MassModerateContents {
                   [
                     ContentBoxContent({
                       full: true,
-                      spacedBottom: true
+                      spacedBottom: true,
+                      align: "center",
                     }),
                     Text({
                       color: "blue-dark",
                       weight: "bold",
-                      noWrap: true,
                       html: System.data.locale.core.MassModerateContents.targets.text
                     })
                   ]
@@ -222,7 +226,10 @@ class MassModerateContents {
         }),
         [
           [
-            ActionListHole(),
+            ActionListHole({
+              noShrink: true,
+              noSpacing: true,
+            }),
             [
               [
                 this.actionListOfMethodsSection,
@@ -230,12 +237,12 @@ class MassModerateContents {
                   [
                     ContentBoxContent({
                       full: true,
-                      spacedBottom: true
+                      spacedBottom: true,
+                      align: "center",
                     }),
                     Text({
                       color: "blue-dark",
                       weight: "bold",
-                      noWrap: true,
                       html: System.data.locale.core.MassModerateContents.methods.text
                     })
                   ]

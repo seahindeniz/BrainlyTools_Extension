@@ -20,7 +20,8 @@ export default class Methods extends Tab {
         activeType: "link-button-mint",
         container: ContentBoxContent({
           full: true,
-          spacedBottom: "small"
+          spacedBottom: "small",
+          align: "center",
         }),
         props: {
           type: "link-button",

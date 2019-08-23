@@ -353,7 +353,7 @@ export default class UserContentRow {
 
       if (!resApprove.success && !resApprove.message) {
         this.element.classList.add("already");
-        let message = System.data.locale.userContent.notificationMessages.xIsAlreayApproved.replace("%{row_id}", ` #${rowNumber} `);
+        let message = System.data.locale.userContent.notificationMessages.xIsAlreadyApproved.replace("%{row_id}", ` #${rowNumber} `);
         notification(`${message}`, "info");
       }
     }
@@ -380,7 +380,7 @@ export default class UserContentRow {
 
       if (!resUnapprove.success && !resUnapprove.message) {
         this.element.classList.add("already");
-        let message = System.data.locale.userContent.notificationMessages.xIsAlreayUnapproved.replace("%{row_id}", `#${rowNumber} `);
+        let message = System.data.locale.userContent.notificationMessages.xIsAlreadyUnapproved.replace("%{row_id}", `#${rowNumber} `);
         notification(`${message}`, "info");
       }
     }

@@ -444,7 +444,7 @@ class _System {
 
     return list
       .filter(Boolean)
-      .map(this.ExtractId)
+      .map(this.ExtractId.bind(this))
       .filter(Boolean);
   }
   SetUserData(data) {

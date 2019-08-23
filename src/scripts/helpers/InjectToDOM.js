@@ -23,7 +23,6 @@ function injectIt(path, { attachExtensionId, makeItLastElement } = {}) {
         extensionURL = "chrome-extension://" + window.chrome.runtime.id
       }
 
-      window.System
       if (path.indexOf("http") < 0) {
         path = extensionURL + path;
       }

@@ -1,19 +1,14 @@
-import ActionSection from "../";
+import ActionSection from "..";
 import InfoBar from "./InfoBar";
 import Action from "../../../../../../../controllers/Req/Brainly/Action";
 import Button from "../../../../../../../components/Button";
 
 /**
  * @typedef {{id: number, infoBar: InfoBar}} Answer
- * @type {import("../../../../../../../controllers/System").default}
  */
-let System;
-let SetSystem = () => !System && (System = window.System);
 
 export default class ApproveAnswers extends ActionSection {
   constructor(main) {
-    SetSystem();
-
     /**
      * @type {import("../index").renderDetails}
      */

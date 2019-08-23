@@ -100,7 +100,7 @@ function FriendsManager() {
       }).get();
 
       if (idList.length == 0) {
-        notification(System.data.locale.userProfile.notificationMessages.selectAtLeasetOneUser, "info");
+        notification(System.data.locale.userProfile.notificationMessages.selectAtLeastOneUser, "info");
       } else if (confirm(System.data.locale.userProfile.notificationMessages.areYouSureDeleteSelectedFriends)) {
         let progress = new Progress({
           type: "is-success",

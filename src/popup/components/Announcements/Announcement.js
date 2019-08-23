@@ -75,12 +75,12 @@ class Announcement {
       readed_by.forEach(reading => {
         let user = this.data.readers.find(user => user._id == reading.user_id);
         let time = window.moment(reading.time).format('LLLL');
-        let readedOn = System.data.locale.popup.extensionManagement.announcements.readedOn.replace(" %{date} ", time);
+        let readOn = System.data.locale.popup.extensionManagement.announcements.readOn.replace(" %{date} ", time);
 
         window.popup.ReserveAUser(user.brainlyID);
 
         $container.append(`
-				<a class="level-item is-inline-block" data-user-id="${user.brainlyID}" title="${user.nick}\n${readedOn}" target="_blank">
+				<a class="level-item is-inline-block" data-user-id="${user.brainlyID}" title="${user.nick}\n${readOn}" target="_blank">
 					<figure class="image is-24x24">
 						<img class="avatar is-rounded" src="https://${System.data.meta.marketName}/img/avatars/100-ON.png">
 					</figure>

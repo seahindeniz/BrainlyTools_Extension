@@ -103,7 +103,7 @@ class UserContent {
     })
   }
   RenderSelectContentWarning() {
-    this.$selectContentWarning = $(`<div class="sg-bubble sg-bubble--top sg-bubble--row-start sg-bubble--peach sg-text--white">${System.data.locale.userContent.notificationMessages.selectAtLeasetOneContent}</div>`);
+    this.$selectContentWarning = $(`<div class="sg-bubble sg-bubble--top sg-bubble--row-start sg-bubble--peach sg-text--white">${System.data.locale.userContent.notificationMessages.selectAtLeastOneContent}</div>`);
   }
   BindPageCloseEvent() {
     window.addEventListener("beforeunload", () => {

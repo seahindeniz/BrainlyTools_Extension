@@ -12,6 +12,13 @@ import Icon from "./Icon";
  * @typedef {boolean | {small: boolean, xsmall: boolean, xxsmall: boolean, large: boolean, xlarge: boolean, xxlarge: boolean}} sizeList
  * @typedef {boolean | {top: sizeList, left: sizeList, bottom: sizeList, right: sizeList}} cornerSpaces
  *
+ * @typedef {function():ButtonElement} Hide
+ * @typedef {function():ButtonElement} Show
+ * @typedef {function():ButtonElement} Enable
+ * @typedef {function():ButtonElement} Disable
+ * @typedef {function():ButtonElement} Active
+ * @typedef {function():ButtonElement} Inactive
+ * @typedef {function():ButtonElement} IsDisabled
  * @typedef {function(Type):ButtonElement} ChangeType
  * @typedef {function(Type):ButtonElement} ToggleType
  * @typedef {function(IconElement=):ButtonElement} ChangeIcon
@@ -108,24 +115,25 @@ export default function({ tag = "button", size, type, icon, href, fullWidth, dis
     });
     button.icon = iconElement;
 
-    AddIcon.bind(this)(iconElement);
+    _AddIcon.bind(this)(iconElement);
   }
 
   button._type = type;
   button.mainType = type;
-  button.Hide = Hide;
-  button.Show = Show;
+  button.Hide = _Hide;
+  button.Show = _Show;
   // @ts-ignore
-  button.Enable = Enable;
+  button.Enable = _Enable;
   // @ts-ignore
-  button.Disable = Disable;
-  button.Active = Active;
-  button.Inactive = Inactive;
+  button.Disable = _Disable;
+  button.Active = _Active;
+  button.Inactive = _Inactive;
   // @ts-ignore
   button.ChangeType = _ChangeType;
   // @ts-ignore
   button.ToggleType = _ToggleType;
-  button.IsDisabled = IsDisabled;
+  // @ts-ignore
+  button.IsDisabled = _IsDisabled;
   // @ts-ignore
   button.ChangeIcon = _ChangeIcon;
 
@@ -133,33 +141,30 @@ export default function({ tag = "button", size, type, icon, href, fullWidth, dis
 }
 
 /**
- * @typedef {Hide} Hide
  * @this {ButtonElement}
  * @returns {ButtonElement}
  */
-function Hide() {
+function _Hide() {
   this.classList.add("js-hidden")
 
   return this;
 }
 
 /**
- * @typedef {Show} Show
  * @this {ButtonElement}
  * @returns {ButtonElement}
  */
-function Show() {
+function _Show() {
   this.classList.remove("js-hidden")
 
   return this;
 }
 
 /**
- * @typedef {Disable} Disable
  * @this {ButtonElement}
  * @returns {ButtonElement}
  */
-function Disable() {
+function _Disable() {
   if (this instanceof HTMLButtonElement)
     this.disabled = true;
 
@@ -169,11 +174,10 @@ function Disable() {
 }
 
 /**
- * @typedef {Enable} Enable
  * @this {ButtonElement}
  * @returns {ButtonElement}
  */
-function Enable() {
+function _Enable() {
   if (this instanceof HTMLButtonElement)
     this.disabled = false;
 
@@ -183,22 +187,20 @@ function Enable() {
 }
 
 /**
- * @typedef {Active} Active
  * @this {ButtonElement}
  * @returns {ButtonElement}
  */
-function Active() {
+function _Active() {
   this.classList.add(`${SGD}active`);
 
   return this;
 }
 
 /**
- * @typedef {Inactive} Inactive
  * @this {ButtonElement}
  * @returns {ButtonElement}
  */
-function Inactive() {
+function _Inactive() {
   this.classList.remove(`${SGD}active`);
 
   return this;
@@ -237,10 +239,9 @@ function _ToggleType(type) {
 }
 
 /**
- * @typedef {IsDisabled} IsDisabled
  * @this {ButtonElement}
  */
-function IsDisabled() {
+function _IsDisabled() {
   return this.classList.contains(`${SGD}disabled`);
 }
 
@@ -250,10 +251,10 @@ function IsDisabled() {
  */
 function _ChangeIcon(icon) {
   if (!icon)
-    return DeleteIcon.bind(this)();
+    return _DeleteIcon.bind(this)();
 
   if (!this.icon)
-    return AddIcon.bind(this)(icon);
+    return _AddIcon.bind(this)(icon);
 
   let iconContainer = this.querySelector(`.${SG_}icon`);
 
@@ -270,7 +271,7 @@ function _ChangeIcon(icon) {
  * @this {ButtonElement}
  * @param {IconElement} icon
  */
-function AddIcon(icon) {
+function _AddIcon(icon) {
   this.icon = icon;
   let iconContainer = document.createElement("span");
 
@@ -285,7 +286,7 @@ function AddIcon(icon) {
 /**
  * @this {ButtonElement}
  */
-function DeleteIcon() {
+function _DeleteIcon() {
   this.icon = undefined;
   let icon = this.querySelector(`.${SG_}icon`);
 

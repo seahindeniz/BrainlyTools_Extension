@@ -10,13 +10,23 @@ import ReportedCommentsDeleter from "./ReportedCommentsDeleter";
 import renderUserFinder from "./UserFinder";
 import Menu from "../../../../components/style-guide/List/Menu";
 
+const SELECTOR = {
+  STATISTICS: "#moderate-functions-panel > div.statistics",
+  NEW_PANEL: ".brn-moderation-panel__list",
+  NEW_PANEL_BUTTON: ".brn-moderation-panel__button",
+  OLD_PANEL: "#moderate-functions-panel > div.panel > div.content-scroll",
+  OLD_PANEL_COVERING_TEXT: `
+  #moderate-functions-panel > div.panel > div.covering-text`,
+  PANELS: ".brn-moderation-panel__list, #moderate-functions",
+}
+
 class ModerationPanel {
   constructor() {
-    this.$statistics = $("#moderate-functions-panel > div.statistics");
-    this.$newPanel = $(".brn-moderation-panel__list");
-    this.$newPanelButton = $(".brn-moderation-panel__button");
-    this.$oldPanel = $("#moderate-functions-panel > div.panel > div.content-scroll");
-    this.$oldPanelCoveringText = $("#moderate-functions-panel > div.panel > div.covering-text");
+    this.$statistics = $(SELECTOR.STATISTICS);
+    this.$newPanel = $(SELECTOR.NEW_PANEL);
+    this.$newPanelButton = $(SELECTOR.NEW_PANEL_BUTTON);
+    this.$oldPanel = $(SELECTOR.OLD_PANEL);
+    this.$oldPanelCoveringText = $(SELECTOR.OLD_PANEL_COVERING_TEXT);
 
     this.RenderList();
     this.RenderComponents();
@@ -30,7 +40,7 @@ class ModerationPanel {
       className: "sg-content-box--spaced-bottom"
     });
 
-    let panel = document.querySelector(".brn-moderation-panel__list, #moderate-functions");
+    let panel = document.querySelector(SELECTOR.PANELS);
 
     if (panel)
       panel.prepend(this.ul);
@@ -38,37 +48,51 @@ class ModerationPanel {
   RenderComponents() {
     this.RenderComponent({ li: renderUserFinder() });
 
-    if (window.System.checkUserP(20) || window.System.data.Brainly.userData.extension.noticeBoard !== null)
+    if (
+      System.checkUserP(20) ||
+      System.data.Brainly.userData.extension.noticeBoard !== null
+    )
       this.RenderComponent(new NoticeBoard());
 
-    if (window.System.checkUserP(9))
+    if (System.checkUserP(9))
       this.RenderComponent(new MassMessageSender());
 
-    if (window.System.checkUserP(13) && window.System.checkBrainlyP(41))
+    if (System.checkUserP(13) && System.checkBrainlyP(41))
       this.RenderComponent(new PointChanger());
 
-    if (window.System.checkUserP(29)) {
-      this.RenderComponent(new MassModerateContents());
-    }
-
-    if (window.System.checkUserP(18))
-      this.RenderComponent(new MassModerateReportedContents());
-
-    if (window.System.checkUserP([27, 30, 31, 32]))
+    if (System.checkUserP([27, 30, 31, 32]))
       this.RenderComponent(new MassManageUsers());
   }
   async RenderComponentsAfterDeleteReasonsLoaded() {
-    await WaitForObject("window.System.data.Brainly.deleteReasons.__withTitles.comment", { noError: true });
+    await WaitForObject(
+      "System.data.Brainly.deleteReasons.__withTitles.comment", {
+        noError: true
+      }
+    );
 
-    if (window.System.checkUserP(17))
+    if (System.checkUserP(17))
       this.RenderComponent(new ReportedCommentsDeleter());
 
-    if (window.System.checkUserP(7))
+    if (System.checkUserP(7))
       this.RenderComponent(new MassContentDeleter());
 
+    if (System.checkUserP(29)) {
+      this.RenderComponent(new MassModerateContents());
+    }
+
+    if (System.checkUserP(18))
+      this.RenderComponent(new MassModerateReportedContents());
   }
   /**
-   * @param {NoticeBoard | MassMessageSender | PointChanger | MassModerateContents | MassModerateReportedContents | MassManageUsers | ReportedCommentsDeleter | MassContentDeleter | {li: HTMLElement}} instance
+   * @param { NoticeBoard |
+   * MassMessageSender |
+   * PointChanger |
+   * MassModerateContents |
+   * MassModerateReportedContents |
+   * MassManageUsers |
+   * ReportedCommentsDeleter |
+   * MassContentDeleter |
+   * {li: HTMLElement} } instance
    */
   RenderComponent(instance) {
     if (instance.li)
@@ -91,13 +115,14 @@ class ModerationPanel {
 
     if ("ResizeObserver" in window) {
       // @ts-ignore
-      new window.ResizeObserver(this.FixPanelsHeight.bind(this)).observe(this.$resizeOverlay[0])
+      new window.ResizeObserver(this.FixPanelsHeight.bind(this))
+        .observe(this.$resizeOverlay[0])
     } else {
       window.addEventListener('resize', this.FixPanelsHeight.bind(this))
     }
   }
   async DelayedHeightFix() {
-    await window.System.Delay(15);
+    await System.Delay(15);
     this.FixPanelsHeight();
   }
   FixPanelsHeight() {

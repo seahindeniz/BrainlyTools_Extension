@@ -1,13 +1,12 @@
 import _System from "../controllers/System";
+/*
+System: _System;
+chrome: any;
+ResizeObserver: string;
+isPageProcessing: boolean;
+performanceStartTiming: number;
+*/
 
 declare global {
-  interface Window {
-    System: _System
-    chrome: any
-    performanceStartTiming: number
-    ResizeObserver: any
-    isPageProcessing: boolean
-  }
+  var System: _System;
 }
-
-//declare var System: _System;

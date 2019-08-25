@@ -1,4 +1,3 @@
-import html2canvas from "html2canvas";
 import md5 from "js-md5";
 import linkifyHtml from 'linkifyjs/html';
 import moment from "moment";

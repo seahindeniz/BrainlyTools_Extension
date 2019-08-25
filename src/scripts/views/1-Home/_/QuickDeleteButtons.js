@@ -51,7 +51,6 @@ class QuickDeleteButtons {
   }
   FindOwner() {
     let $userLink = $(window.selectors.userLink, this.target);
-    console.log(window.selectors.userLink, this.target, $userLink);
 
     if ($userLink.length == 0)
       throw { msg: "User link element not found from target", element: this.target };

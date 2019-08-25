@@ -9,8 +9,8 @@ import Icon from "./Icon";
  *
  * @typedef {"large"|"medium"|"small"|"xsmall"} Size
  *
- * @typedef {boolean | {small: boolean, xsmall: boolean, xxsmall: boolean, large: boolean, xlarge: boolean, xxlarge: boolean}} sizeList
- * @typedef {boolean | {top: sizeList, left: sizeList, bottom: sizeList, right: sizeList}} cornerSpaces
+ * @typedef {boolean | "small" | "xsmall" | "xxsmall" | "large" | "xlarge" | "xxlarge"} sizeList
+ * @typedef {boolean | {top?: sizeList, left?: sizeList, bottom?: sizeList, right?: sizeList}} cornerSpaces
  *
  * @typedef {function():ButtonElement} Hide
  * @typedef {function():ButtonElement} Show
@@ -26,7 +26,7 @@ import Icon from "./Icon";
  * @typedef {{_type: Type, mainType:Type, icon: IconElement, Hide: Hide, Show: Show, Enable: Enable, Disable: Disable, Active: Active, Inactive: Inactive, ChangeType: ChangeType, ToggleType: ToggleType, IsDisabled: IsDisabled, ChangeIcon: ChangeIcon}} CustomProperties
  * @typedef {(HTMLAnchorElement|HTMLButtonElement|HTMLLabelElement) & CustomProperties} ButtonElement
  *
- * @typedef {{tag?: "button" | "a" | "label", size?: Size, type?: Type, icon?: IconProperties, href?: string, fullWidth?: boolean, disabled?: boolean, children?: HTMLElement, className?: string, text?: string, html?: string, spaced?: cornerSpaces}} Properties
+ * @typedef {{tag?: "button" | "a" | "label", size?: Size, type?: Type, icon?: IconProperties, href?: string, fullWidth?: boolean, disabled?: boolean, children?: HTMLElement, className?: string, text?: string, html?: string, title?: string, spaced?: cornerSpaces}} Properties
  */
 
 const sg = "sg-button";
@@ -36,7 +36,7 @@ const SG_ = `${sg}__`;
 /**
  * @param {Properties} param0
  */
-export default function({ tag = "button", size, type, icon, href, fullWidth, disabled, children, className, text, html, spaced, ...props } = {}) {
+export default function({ tag = "button", size, type, icon, href, fullWidth, disabled, children, className, text, html, title, spaced, ...props } = {}) {
   if (text && html)
     throw "Content should be filled either with text or html";
 
@@ -66,17 +66,19 @@ export default function({ tag = "button", size, type, icon, href, fullWidth, dis
       styles.push(`${SGD}spaced`);
 
     if (typeof spaced == "object")
-      for (let [corner, sizeName] of Object.entries(spaced)) {
-        if (typeof sizeName == "boolean")
+      for (let [corner, size] of Object.entries(spaced)) {
+        if (typeof size == "boolean")
           styles.push(`${SGD}spaced-${corner}`);
-
-        if (typeof sizeName == "object") {
+        else {
+          styles.push(`${SGD}spaced-${corner}-${size}`);
+        }
+        /* if (typeof sizeName == "object") {
           let sizes = Object.keys(sizeName);
 
           sizes.forEach(size => {
             styles.push(`${SGD}spaced-${corner}-${size}`);
           });
-        }
+        } */
       }
 
     button.classList.add(...styles);
@@ -87,6 +89,9 @@ export default function({ tag = "button", size, type, icon, href, fullWidth, dis
 
   if (href && button instanceof HTMLAnchorElement)
     button.href = href;
+
+  if (title)
+    button.title = title;
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))
@@ -115,7 +120,7 @@ export default function({ tag = "button", size, type, icon, href, fullWidth, dis
     });
     button.icon = iconElement;
 
-    _AddIcon.bind(this)(iconElement);
+    _AddIcon.bind(button)(iconElement);
   }
 
   button._type = type;

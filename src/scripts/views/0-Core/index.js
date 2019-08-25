@@ -1,8 +1,6 @@
-"use strict";
-
 window.performanceStartTiming = performance.now();
 
-import notification from "../../components/notification";
+import notification from "../../components/notification2";
 import PrepareDeleteReasons from "../../controllers/PrepareDeleteReasons";
 import ServerReq from "../../controllers/Req/Server";
 import _System from "../../controllers/System";
@@ -11,11 +9,10 @@ import InjectToDOM from "../../helpers/InjectToDOM";
 import messagesLayoutExtender from "../../helpers/messagesLayoutExtender";
 import "../../helpers/preventConsolePreventer";
 import WaitForObject from "../../helpers/WaitForObject";
-import renderAnnouncements from "./_/Announcements";
+//import renderAnnouncements from "./_/Announcements";
 import fetchFriends from "./_/fetchFriends";
 //import renderChatPanel from "./_/ChatPanel";
 import RenderMenuButtonFixer from "./_/MenuButtonFixer";
-import ModerationPanel from "./_/ModerationPanel";
 import SetBrainlyData from "./_/SetBrainlyData";
 import SetMetaData from "./_/SetMetaData";
 import SetUserData from "./_/SetUserData";
@@ -71,11 +68,16 @@ class Core {
     this.InjectFilesToPageAfter_DeleteReasonsLoaded();
   }
   UserDataLoaded() {
-    window.postMessage({ action: "changeColors", data: this.userData.themeColor || "#4fb3f6" }, "*");
-    messagesLayoutExtender(this.userData.extendMessagesLayout || typeof this.userData.extendMessagesLayout == "undefined");
+    window.postMessage({
+      action: "changeColors",
+      data: this.userData.themeColor || "#4fb3f6"
+    }, "*");
+    messagesLayoutExtender(this.userData.extendMessagesLayout ||
+      typeof this.userData.extendMessagesLayout == "undefined");
   }
   async SetMarketConfig() {
-    System.data.config.marketConfig = await InjectToDOM(`/configs/${location.hostname}.json`);
+    const fileName = `/configs/${location.hostname}.json`
+    System.data.config.marketConfig = await InjectToDOM(fileName);
 
     return Promise.resolve();
   }
@@ -86,7 +88,8 @@ class Core {
       language = System.data.Brainly.defaultConfig.locale.LANGUAGE;
 
       if (!language) {
-        throw new Error("Language cannot be saved in storage. This is probably a defaultConfig error");
+        throw `Language cannot be saved in storage.
+        This is probably a defaultConfig error`;
       }
 
       storage("set", { language });
@@ -101,7 +104,11 @@ class Core {
     return new Promise((resolve, reject) => {
       if (System.data.Brainly.userData.extension.newUpdate) {
         System.updateExtension();
-        notification(System.data.locale.core.notificationMessages.updateNeeded, "info", true);
+        notification({
+          type: "info",
+          permanent: true,
+          text: System.data.locale.core.notificationMessages.updateNeeded,
+        });
         reject(System.data.locale.core.notificationMessages.updateNeeded);
       } else {
         resolve();
@@ -125,13 +132,13 @@ class Core {
     snowStorm.excludeMobile = false; */
   }
   LoadComponentsForAllPages() {
-    new ModerationPanel();
-    renderAnnouncements();
+    InjectToDOM("/scripts/views/0-Core/ModerationPanel.js");
+    //renderAnnouncements();
     //renderChatPanel();
     RenderMenuButtonFixer();
 
-    //document.documentElement.setAttribute("extension", System.data.meta.manifest.version);
-    window.sitePassedParams && typeof window.sitePassedParams == "string" && (window.sitePassedParams = JSON.parse(sitePassedParams));
+    if (window.sitePassedParams && typeof window.sitePassedParams == "string")
+      window.sitePassedParams = JSON.parse(sitePassedParams);
   }
   InjectFilesToPage() {
     if (System.checkRoute(2, "view_user_warns")) {
@@ -198,7 +205,10 @@ class Core {
     await PrepareDeleteReasons();
     System.Log("Delete reasons OK!");
 
-    if (System.checkRoute(1, "") || System.checkRoute(1, "task_subject_dynamic")) {
+    if (
+      System.checkRoute(1, "") ||
+      System.checkRoute(1, "task_subject_dynamic")
+    ) {
       InjectToDOM([
         "/scripts/lib/jquery-observe-2.0.3.min.js",
         "/scripts/views/1-Home/index.js",

@@ -44,7 +44,7 @@ module.exports = {
       cannotShareUserInfoWithServer: "An unexpected error occurred while trying to send details of user to the extension server. Please try again in 2 sec",
       ongoingProcess: "Some contents are still processing. Do you still want to exit the page?",
       areYouSure: "Are you sure?",
-      mayRequireWarning: "It seems to be appropriate to alert the owner of the content you're trying to delete\\nSo do you wanna give a warning to owner of this content?",
+      mayRequireWarning: "It seems to be appropriate to alert the owner of the content you're trying to delete\nSo do you wanna give a warning to owner of this content?",
       ongoingProcessWait: "Some contents are still processing and you have to wait till it finished",
       xSendYouANewMessage: "%{userName} send you a new message",
       newNotification: "New notification",
@@ -82,18 +82,21 @@ module.exports = {
       approved: "Approved",
       unapprove: "Unapprove",
       unapproved: "Unapproved",
-      doYouWantToDeleteWithReason: "Do you want to delete it?\\n\\n%{reason_title}:\\n%{reason_message}"
+      doYouWantToDeleteWithReason: "Do you want to delete it?\n\n%{reason_title}:\n%{reason_message}"
     },
     personalNote: {
       text: "Personal note",
       title: "You can add a personal private note here and that will relate to this user only"
     },
+    listOfIds: "List of ids",
     pointsWithExample: {
       text: "Points: (1 or -1)",
-      title: "You can add points by typing positive numbers like 123\\nor\\nyou can remove points by typing negative numbers like -123"
+      title: "You can add points by typing positive numbers like 123\nor\nyou can remove points by typing negative numbers like -123"
     },
     showMore: "Show more..",
-    userHasNPoints: "User has %{n} points"
+    userHasNPoints: "User has %{n} points",
+    send: "Send",
+    deleteAll: "Delete all"
   },
   popup: {
     notificationMessages: {
@@ -114,14 +117,14 @@ module.exports = {
       pleaseWait: "Please wait",
       openABrainlyPage: "You need to open a Brainly page in your browser",
       errorN: "Error %{error_code}",
-      iCantFechMarketData: "I can't fetch market data",
-      uncorrectDate: "I'm unable to fetch your data from Brainly<br><br>Please go to Brainly's homepage or reload the page",
       preparingUnsuccessful: "An error occurred while preparing the delete reasons and fetching from Brainly",
       noEvidenceFound: "Moderator didn't add any evidence nor comment",
       doYouWannaGiveThisPrivilege: "Do you wanna give this privilege to all extension users?",
       doYouWannaRevokeThisPrivilege: "Do you wanna revoke this privilege from all extension users?",
       privilegeHasGiven: "Privilege has given to %{user_amount} users",
-      privilegeHasRevoked: "Privilege has revoked from %{user_amount} users"
+      privilegeHasRevoked: "Privilege has revoked from %{user_amount} users",
+      iCantFetchMarketData: "I can't fetch market data",
+      incorrectDate: "I'm unable to fetch your data from Brainly<br><br>Please go to Brainly's homepage or reload the page"
     },
     createShortLinkButton: {
       text: "Shorten URL",
@@ -208,7 +211,7 @@ module.exports = {
             description: "Can create, edit, remove or publish the internal extension announcements"
           },
           5: {
-            title: "User management",
+            title: "Manage extension users",
             description: "Can add or editing the extension users and give them privileges or permission to use the extension"
           },
           6: {
@@ -335,7 +338,7 @@ module.exports = {
         update: "Update",
         publish: "Publish",
         unpublish: "Unpublish",
-        readedOn: "Read on:\\n%{date}"
+        readOn: "Read on:\n%{date}"
       },
       DeleteReasonsPreferences: {
         text: "Delete reasons preferences",
@@ -367,7 +370,7 @@ module.exports = {
       ifErrorPersists: "If this error persists, please contact with extension manager and explain what happened :)",
       accessPermissionDenied: "Your are not authorized to use Brainly Tools extension.<br>Please contact with the Extension Manager for getting permission or remove the extension from your browser",
       updateNeeded: "Extension has a new version and browser need's to be updated. This will be done automatically and you need to refresh the page in ~10 seconds",
-      warningBeforeDelete: "This process will be executed and the numbers of questions ids in the input will be deleted once you confirmed this warning. \\n\\n Are you triple times sure?",
+      warningBeforeDelete: "This process will be executed and the numbers of questions ids in the input will be deleted once you confirmed this warning. \n\n Are you triple times sure?",
       enterIdWarn: "You need to add at least 1 id number of question that you want to delete",
       youNeedToEnterValidId: "You need to enter a valid id number",
       tryingToSendTheSameMessage: "You're trying to send the last message again. Do you still want to send?",
@@ -377,22 +380,20 @@ module.exports = {
       thisConditionAlreadyAddedInCommonConditions: "This condition already added in the Common conditions",
       youNeedToRemoveThePreviousFilterFirst: "You need to remove previously added content type filter from the filter list first",
       conditionsDoesntMatchAnything: "Conditions doesn't match with anything",
-      errorOccuredWhileDeletingTheN: "An error occurred while deleting the %{content_id}",
       doYouWantToContinue: "Do you want to continue?",
       couldntAbleToGetNoticeBoardContent: "I couldn't able to get content of notice board",
       changesMayNotBeSaved: "Changes you made may not be saved",
       youCantAddMoreThan8Sections: "You can't add more than 8 sections",
-      stillProcessing: "This section is still in process. Do you want to remove this block?\\n(this will stop the moderating process)",
-      youNeedToChooseActionType: "You need to choose an action type"
+      stillProcessing: "This section is still in process. Do you want to remove this block?\n(this will stop the moderating process)",
+      youNeedToChooseActionType: "You need to choose an action type",
+      errorOccurredWhileDeletingTheN: "An error occurred while deleting the %{content_id}"
     },
     MassContentDeleter: {
       text: "Mass-Content deleter",
-      contentLinksOrIDs: "Content links or ids..",
       nIdsToDeleted: "%{n} ids to delete",
       nHasBeenDeleted: "%{n} ids has been deleted",
-      containerExplanation: "You need to put content links or ids to container line by line. Example:",
+      containerExplanation: "You need to put content links or ids to text box line by line. Each line should contain 1 id number",
       select: {
-        contentType: "Content type",
         reason: "Reason",
         subReason: "Sub reason",
         action: "Action"
@@ -405,7 +406,6 @@ module.exports = {
       target: "Target",
       allUsers: "All users",
       moderators: "Moderators",
-      listOfIds: "List of ids",
       startOver: "Start over",
       sent: "Sent",
       usersNotFound: "Users not found",
@@ -454,7 +454,7 @@ module.exports = {
         REPORTEE: "Reportee id"
       },
       conditionN: {
-        text: "Unique condition %{amount_of_conditions}",
+        text: "Condition group %{amount_of_conditions}",
         title: "This unique condition will be restricted from other unique conditions"
       },
       filters: {
@@ -480,8 +480,8 @@ module.exports = {
       notificationMessages: {
         doYouWantToRemoveSelectedUsers: "Do you want to remove selected users from the list?",
         doYouReallyWantToRemoveAllUsers: "Do you really want to remove all users from the list?",
-        tryingToAddPreviouslyRemovedIds: "The ids you've entered contains previously removed id numbers from the list\\n\\nClick \"OK\" if you want to add or\\nclick \"Cancel\" if you want to exclude.",
-        areYouSureAboutDeletingAllListedUsers: "You are about to confirm to delete all listed users.\\n\\nAre you triple sure about this?",
+        tryingToAddPreviouslyRemovedIds: "The ids you've entered contains previously removed id numbers from the list\n\nClick \"OK\" if you want to add or\nclick \"Cancel\" if you want to exclude.",
+        areYouSureAboutDeletingAllListedUsers: "You are about to confirm to delete all listed users.\n\nAre you triple sure about this?",
         thereIsNoUserLeft: "There is no user left in the list"
       },
       text: "Mass-Manage users",
@@ -516,11 +516,50 @@ module.exports = {
             oopsYouDidntSpecifyThePoints: "Oops, you didn't specify the points",
             thereIsNoPointToGiveZeroPoints: "There is no point to give zero points :)"
           }
+        },
+        changeRanks: {
+          actionButton: {
+            text: "Change ranks",
+            title: "Add or remove ranks from all listed users"
+          }
         }
       }
     },
     MassModerateContents: {
-      text: "Mass-Moderate contents"
+      text: "Mass-Moderate contents",
+      nContents: "%{n} contents",
+      nIgnored: "%{n} ignored",
+      contentType: "Content type",
+      targets: {
+        text: "Specify targets",
+        listOfIds: {
+          contentLinksOrIDs: "Content links or ids.."
+        },
+        idRange: {
+          text: "Id range",
+          youNeedToEnterTwoDifferentIdNumbers: "You need to enter different id numbers separated by a dash(-) or dots(.. or ...) to moderate the numbers between range",
+          exampleUsage: "Example Usage",
+          input: "Input",
+          output: "Output"
+        },
+        searchQuestion: {
+          text: "Search question",
+          whatIsYourQuestion: "What is your question?"
+        }
+      },
+      methods: {
+        text: "Methods",
+        clickListToCopy: "Click list to copy ids to clipboard",
+        copied: "Copied!",
+        iCantCopy: "I can't copy :(",
+        reportForAbuse: {
+          chooseAReason: "Choose a reason",
+          tabButton: {
+            text: "Report for abuse",
+            title: "Report abusive contents"
+          }
+        }
+      }
     }
   },
   home: {
@@ -542,19 +581,18 @@ module.exports = {
       selectGroupType: "Select a group type",
       addAll: "Add all",
       writeSomething: "Type your message here",
-      send: "Send",
       pinTip: "You can pin your groups by clicking the %{pin} icon.",
       notificationMessages: {
         groupCreated: "%{groupName} successfully created",
         groupUpdated: "%{groupName} updated",
         cantCreate: "I can't create this group because something must be wrong. Could you please check your details?",
         userAlreadyAdded: "This user is already on the list",
-        cantFecthGroupData: "There is an unexpected error occurred. I couldn't able to fetch messages of this group from the extension server",
         doYouWantToRemoveMembers: "Do you want to remove all group members?",
         youNeedToAddMembers: "You need add at least one user in the group members list",
         youHaventCreatedAGroupYet: "You haven't created a group yet..",
         wrongMessageLength: "Your message must be between 1 and %{max_value} characters long",
-        messageContainsSwear: "Oops! It seems like your message contains swearwords. You can't send it!"
+        messageContainsSwear: "Oops! It seems like your message contains swearwords. You can't send it!",
+        cantFetchGroupData: "There is an unexpected error occurred. I couldn't able to fetch messages of this group from the extension server"
       },
       userCategories: {
         findUsers: {
@@ -572,7 +610,6 @@ module.exports = {
   },
   userContent: {
     notificationMessages: {
-      selectAtLeasetOneContent: "Select at least one content",
       alreadyApproved: "This answer is already approved",
       alreadyUnapproved: "This answer is already unapproved",
       someOfSelectedAnswersAreApproved: "Some of selected answers have already been approved, so you don't need to approve those answers again",
@@ -582,9 +619,10 @@ module.exports = {
       selectAnApprovedAnswerForUnapproving: "You need select some approved answer(s) for start",
       confirmUnapproving: "Do you want to remove approvement from this answer(s)?",
       doYouWantToConfirmThisContent: "Do you want to confirm this content?",
-      xIsAlreayApproved: "%{row_id} has already approved",
-      xIsAlreayUnapproved: "%{row_id} has already unapproved",
-      confirmReporting: "Do you want to report this answer(s) for correction?"
+      confirmReporting: "Do you want to report this answer(s) for correction?",
+      selectAtLeastOneContent: "Select at least one content",
+      xIsAlreadyApproved: "%{row_id} has already approved",
+      xIsAlreadyUnapproved: "%{row_id} has already unapproved"
     },
     questionHasAttachment: "Question has attachment(s)",
     answerHasAttachment: "Answer has attachment(s)",
@@ -598,16 +636,16 @@ module.exports = {
   },
   userProfile: {
     notificationMessages: {
-      selectAtLeasetOneUser: "You need to select at least one user",
       areYouSureDeleteSelectedFriends: "Are you sure you want to remove selected user's from your friends list?",
       areYouSureRemoveAllFriends: "Are you sure you want to remove all your friends?",
       youHaveNoFriends: "Don't be sad because you have no friends to list :/ Sorry",
       cannotChangeBio: "I couldn't able to change your bio :/ Sorry..",
       fileSizeExceeded: "The %{file_name} file exceeds the size limit of %{file_size}",
-      aShortcutFile: "You're trying to add a shortcut of a file and it's not considered as an actual file. It's kind of garbage if you'll add it.\\nYou may need to select the original file instead\\nDo you still want to add this shortcut?",
+      aShortcutFile: "You're trying to add a shortcut of a file and it's not considered as an actual file. It's kind of garbage if you'll add it.\nYou may need to select the original file instead\nDo you still want to add this shortcut?",
       unableToReportAccountDeleting: "I couldn't able report your delete request to community manager, so I can't continue to delete. Sorry :/<br>If this error persist, ask for help from your extension manager",
-      confirmNoEvidenceOrComment: "You didn't add any evidence or comment.\\nDo you still want to delete this account?",
-      afterSavingCompletedIgnoreNotifications: "After saving completed,<br>just ignore the notifications when you refresh or exit this page"
+      confirmNoEvidenceOrComment: "You didn't add any evidence or comment.\nDo you still want to delete this account?",
+      afterSavingCompletedIgnoreNotifications: "After saving completed,<br>just ignore the notifications when you refresh or exit this page",
+      selectAtLeastOneUser: "You need to select at least one user"
     },
     previousNicks: {
       text: "Previous nicks",
@@ -637,7 +675,7 @@ module.exports = {
       compressingTheFile: "Compressing the %{file_name}",
       compressingTheFiles: "Compressing the files",
       uploading: "Contents uploading %{percentage_value}",
-      deletingContiunes: "Deleting continues.."
+      deletingContinues: "Deleting continues.."
     },
     rankManager: {
       title: "Manage special ranks",
@@ -699,7 +737,7 @@ module.exports = {
     disapproveAll: "Disapprove all",
     revert: "Revert",
     PM: "PM",
-    sampleMessage: "Hello %{n}\\n\\n[Write your reason here]\\n\\nAction: %{a}\\nQuestion: %{q}",
+    sampleMessage: "Hello %{n}\n\n[Write your reason here]\n\nAction: %{a}\nQuestion: %{q}",
     reviewedOn: {
       confirm: "Confirmed on %{date} by %{nick}",
       disapprove: "Disapproved on %{date} by %{nick}"

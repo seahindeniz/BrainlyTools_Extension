@@ -88,12 +88,15 @@
       "text": "Kişisel not",
       "title": "Buraya, bu kullanıcıyla alakalı bir not ekleyebilirsin ve bu alan sadece sana özeldir"
     },
+    "listOfIds": "Id listesi",
     "pointsWithExample": {
       "text": "Puan: (1 veya -1)",
       "title": "123 şeklinde pozitif sayı girişi yaparak puan ekleyebilir\nveya\n-123 şeklinde negatif sayı girişi yaparak puan düşürebilirsin"
     },
     "showMore": "Daha fazla göster..",
-    "userHasNPoints": "Kullanıcının %{n} puanı var"
+    "userHasNPoints": "Kullanıcının %{n} puanı var",
+    "send": "Gönder",
+    "deleteAll": "Tümünü sil"
   },
   "popup": {
     "notificationMessages": {
@@ -114,14 +117,14 @@
       "pleaseWait": "Lütfen bekleyin",
       "openABrainlyPage": "Tarayıcında herhangi bir Eodev sayfası açmalısın",
       "errorN": "Hata %{error_code}",
-      "iCantFechMarketData": "Eodev verilerini alamadım",
-      "uncorrectDate": "Eodev'den verilerini alamadım<br><br>Lütfen Eodev anasayfasına girebilir veya sayfayı yenileyebilir misin?",
       "preparingUnsuccessful": "Silim sebeplerini hazırlarken ve Eodev'den verileri çekerken bir hata oluştu",
       "noEvidenceFound": "Zaman",
       "doYouWannaGiveThisPrivilege": "Yetkiyi tüm eklenti kullanıcılarına vermek istiyor musun?",
       "doYouWannaRevokeThisPrivilege": "Yetkiyi tüm eklenti kullanıcılarından almak istiyor musun?",
       "privilegeHasGiven": "%{user_amount}kullanıcıya yetki verildi",
-      "privilegeHasRevoked": "%{user_amount} kullanıcıdan yetki alındı"
+      "privilegeHasRevoked": "%{user_amount} kullanıcıdan yetki alındı",
+      "iCantFetchMarketData": "Eodev verilerini alamadım",
+      "incorrectDate": "Eodev'den verilerini alamadım<br><br>Lütfen Eodev anasayfasına girebilir veya sayfayı yenileyebilir misin?"
     },
     "createShortLinkButton": {
       "text": "URL Kısalt",
@@ -208,7 +211,7 @@
             "description": "Eklenti duyuruları oluşturma, düzenleme, kaldırma ve yayınlama yetkisi"
           },
           "5": {
-            "title": "Kullanıcı yönetimi",
+            "title": "Eklenti kullanıcılarını yönetme",
             "description": "Eklenti kullanıcılarının erişim izni ve yetkilerini düzenleme yetkisi"
           },
           "6": {
@@ -335,7 +338,7 @@
         "update": "Güncelle",
         "publish": "Yayınla",
         "unpublish": "Yayından kaldır",
-        "readedOn": "Okunduğu zaman:\n%{date}"
+        "readOn": "Okunduğu zaman:\n%{date}"
       },
       "DeleteReasonsPreferences": {
         "text": "Silim sebebi tercihleri",
@@ -377,22 +380,20 @@
       "thisConditionAlreadyAddedInCommonConditions": "Ortak koşullar'da zaten bulunuyor",
       "youNeedToRemoveThePreviousFilterFirst": "Önce filtre listesine eklediğin içerik tipi filtresini kaldırmalısın",
       "conditionsDoesntMatchAnything": "Koşul herhangi bir şeyle eşleşmiyor",
-      "errorOccuredWhileDeletingTheN": "%{content_id} id'li soruyu silerken hata oluştu",
       "doYouWantToContinue": "Devam etmek istiyor musun?",
       "couldntAbleToGetNoticeBoardContent": "Duyuru panosunun içeriğini sunucudan alamadım",
       "changesMayNotBeSaved": "Yaptığınız değişiklikler kaydedilmemiş olabilir",
       "youCantAddMoreThan8Sections": "8 adetten fazla blok ekleyemezsin",
       "stillProcessing": "Bu blok halen işlem sürecinde. Bloğu silmek istiyor musun? (onay vermen, aktif işlemi durduracaktır)",
-      "youNeedToChooseActionType": "Eylem tipi seçmelisin"
+      "youNeedToChooseActionType": "Eylem tipi seçmelisin",
+      "errorOccurredWhileDeletingTheN": "%{content_id} id'li soruyu silerken hata oluştu"
     },
     "MassContentDeleter": {
       "text": "Çoklu içerik silici",
-      "contentLinksOrIDs": "İçerik linki veya id numarası..",
       "nIdsToDeleted": "%{n}içerik silinecek",
       "nHasBeenDeleted": "%{n} içerik silindi",
-      "containerExplanation": "İçerik linklerini satırlar halinde yukarıdaki alana girmelisin. Örneğin:",
+      "containerExplanation": "Metin kususuna içerik linklerini veya idleri satır satır girmelisin. Her satır, 1 id numarası barındırmalı",
       "select": {
-        "contentType": "İçerik tipi",
         "reason": "Sebep",
         "subReason": "Alt sebep",
         "action": "Eylem"
@@ -405,7 +406,6 @@
       "target": "Hedef",
       "allUsers": "Tüm kullanıcılar",
       "moderators": "Moderatörler",
-      "listOfIds": "Id listesi",
       "startOver": "Tekrar başla",
       "sent": "Ulaşan",
       "usersNotFound": "Kullanıcı bulunamadı",
@@ -454,7 +454,7 @@
         "REPORTEE": "Şikayet edilenin id'si"
       },
       "conditionN": {
-        "text": "Benzersiz koşul %{amount_of_conditions}",
+        "text": "Koşul grubu %{amount_of_conditions}",
         "title": "Bu benzersiz koşul bölümü, diğer benzersiz koşullardan bağımsızdır"
       },
       "filters": {
@@ -516,11 +516,50 @@
             "oopsYouDidntSpecifyThePoints": "Oops, puan girişi yapmadın",
             "thereIsNoPointToGiveZeroPoints": "Sıfır puan vermenin bir anlamı yok :)"
           }
+        },
+        "changeRanks": {
+          "actionButton": {
+            "text": "Rank değiştir",
+            "title": "Listelenen tüm kullanıcılara rütbe ekle veya kaldır"
+          }
         }
       }
     },
     "MassModerateContents": {
-      "text": "Çoklu içerik düzenleyici"
+      "text": "Çoklu içerik düzenleyici",
+      "nContents": "%{n} içerik",
+      "nIgnored": "%{n} yoksayıldı",
+      "contentType": "İçerik tipi",
+      "targets": {
+        "text": "Hedefleri belirtin",
+        "listOfIds": {
+          "contentLinksOrIDs": "İçerik linki veya id numarası.."
+        },
+        "idRange": {
+          "text": "Id aralığı",
+          "youNeedToEnterTwoDifferentIdNumbers": "Tire(-) veya noktalarla(.. veya ...) ayrılmış şekilde farklı id numaraları girmelisin",
+          "exampleUsage": "Örnek Kullanım",
+          "input": "Giriş",
+          "output": "Çıktı"
+        },
+        "searchQuestion": {
+          "text": "Soru ara",
+          "whatIsYourQuestion": "Sorun nedir?"
+        }
+      },
+      "methods": {
+        "text": "Eylemler",
+        "clickListToCopy": "Idleri kopyalamak için listeye tıklayabilirsin",
+        "copied": "Kopyalandı!",
+        "iCantCopy": ":( kopyalayamadım",
+        "reportForAbuse": {
+          "chooseAReason": "Bir neden seçin",
+          "tabButton": {
+            "text": "Şikayet et",
+            "title": "İçerikleri şikayet et"
+          }
+        }
+      }
     }
   },
   "home": {
@@ -542,19 +581,18 @@
       "selectGroupType": "Grup tipini seç",
       "addAll": "Tümünü ekle",
       "writeSomething": "Mesajını buraya yaz",
-      "send": "Gönder",
       "pinTip": "%{pin}ikonuna tıklayarak gruplarını sabitleyebilirsin",
       "notificationMessages": {
         "groupCreated": "%{groupName} başarıyla oluşturuldu",
         "groupUpdated": "%{groupName} güncellendi",
         "cantCreate": "Bu grubu oluşturamıyorum çünkü belirtilen verilerde bir sorun var. Girdiğin verileri kontrol eder misin?",
         "userAlreadyAdded": "Kullanıcı zaten listede var",
-        "cantFecthGroupData": "Beklenmedik bir hata oluştu. Eklenti sunucusundan bu gruba ait mesajları alamadım",
         "doYouWantToRemoveMembers": "Grubun tüm üyelerini kaldırmak istiyor musun?",
         "youNeedToAddMembers": "Grup üyeleri listesine en az bir kullanıcı eklemelisin",
         "youHaventCreatedAGroupYet": "Henüz bir grup oluşturmadın..",
         "wrongMessageLength": "Mesaj uzunluğu 1 ila %{max_value} arasında olmalıdır",
-        "messageContainsSwear": "Hopps! Mesajında servis kurallarını ihlal eden içerikler bulunmakta. Bu şekilde gönderemezsin!"
+        "messageContainsSwear": "Hopps! Mesajında servis kurallarını ihlal eden içerikler bulunmakta. Bu şekilde gönderemezsin!",
+        "cantFetchGroupData": "Beklenmedik bir hata oluştu. Eklenti sunucusundan bu gruba ait mesajları alamadım"
       },
       "userCategories": {
         "findUsers": {
@@ -572,7 +610,6 @@
   },
   "userContent": {
     "notificationMessages": {
-      "selectAtLeasetOneContent": "En az bir içerik seçmelisin",
       "alreadyApproved": "Bu cevap zaten doğrulanmış",
       "alreadyUnapproved": "Bu cevap zaten doğrulanmamış",
       "someOfSelectedAnswersAreApproved": "Seçilmiş bazı cevaplar zaten doğrulanmış. O yüzden tekrar doğrulamaya gerek kalmıyor",
@@ -582,9 +619,10 @@
       "selectAnApprovedAnswerForUnapproving": "İşleme başlamadan önce doğrulanmış cevap(lar) seçmelisin",
       "confirmUnapproving": "Seçilen cevap(lar)dan doğrulamayı kaldırmak istediğine emin misin?",
       "doYouWantToConfirmThisContent": "İçeriği onaylamak istiyor musun?",
-      "xIsAlreayApproved": "%{row_id} zaten doğrulanmış",
-      "xIsAlreayUnapproved": "%{row_id} doğrulaması zaten kaldırılmış",
-      "confirmReporting": "Seçili cevabı/cevapları hatalı olarak bildirmek istiyor musun?"
+      "confirmReporting": "Seçili cevabı/cevapları hatalı olarak bildirmek istiyor musun?",
+      "selectAtLeastOneContent": "En az bir içerik seçmelisin",
+      "xIsAlreadyApproved": "%{row_id} zaten doğrulanmış",
+      "xIsAlreadyUnapproved": "%{row_id} doğrulaması zaten kaldırılmış"
     },
     "questionHasAttachment": "Soruda dosya ek(ler)i var",
     "answerHasAttachment": "Cevapta dosya ek(ler)i mevcut",
@@ -598,7 +636,6 @@
   },
   "userProfile": {
     "notificationMessages": {
-      "selectAtLeasetOneUser": "En az bir kullanıcı seçmelisin",
       "areYouSureDeleteSelectedFriends": "Seçili kişileri arkadaşlık listenden kaldırmak istiyor musun?",
       "areYouSureRemoveAllFriends": "Tüm arkadaşlarını silmek istediğinden emin misin?",
       "youHaveNoFriends": "Üzülme çünkü listeleyebileceğim bir arkadaşın yok :/ Sorry",
@@ -607,7 +644,8 @@
       "aShortcutFile": "Bir dosyanın kısayolunu yüklemeye çalışıyorsun ve bu dosya eklemek istediğin dosya olmayabilir. Eklersende bir anlamı olmayacaktır.\nKısayolun hedefi olan orjinal dosyayı eklemeni öneririm.\nYine de bu kısayol dosyasını eklemek istiyor musun?",
       "unableToReportAccountDeleting": "Hesap silimini Topluluk Yöneticisine bildiremediğim için silim işlemine devam edemiyorum. Üzgünüm :/<br>Eğer bu hata devam ederse, eklenti yöneticine bildir lütfen",
       "confirmNoEvidenceOrComment": "Kanıt veya yorum eklemedin.\nHalen silmek istiyor musun?",
-      "afterSavingCompletedIgnoreNotifications": "Sıralamalar kaydedildikten sonra,<br>bu sayfadan çıktığında veya yenilediğinde karşılacağın bildirimleri, göz ardı edebilirsin"
+      "afterSavingCompletedIgnoreNotifications": "Sıralamalar kaydedildikten sonra,<br>bu sayfadan çıktığında veya yenilediğinde karşılacağın bildirimleri, göz ardı edebilirsin",
+      "selectAtLeastOneUser": "En az bir kullanıcı seçmelisin"
     },
     "previousNicks": {
       "text": "Önceki kullanıcı adları",
@@ -637,7 +675,7 @@
       "compressingTheFile": "%{file_name} sıkıştırılıyor",
       "compressingTheFiles": "Dosyalar sıkıştırılıyor",
       "uploading": "İçerikler yükleniyor %{percentage_value}",
-      "deletingContiunes": "Devam ediyor.."
+      "deletingContinues": "Devam ediyor.."
     },
     "rankManager": {
       "title": "Özel sıralamaları yönet",

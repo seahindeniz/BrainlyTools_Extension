@@ -2,20 +2,42 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.28.0] - 2019.07.26
+
+### Added
+
+- [#70] Problem: Cannot mass-report questions and answers on Brainly
+- [#74] Mass-Moderate contents (<https://ibb.co/Tv2yqW5>)
+ (<https://ibb.co/YNTQZNp>) (<https://ibb.co/ss555Dt>)
+- [#76] Selective deletion across multiple pages in brainly-in/app/ask? missing in the extension.
+
+### Changed
+
+- Can't find users by using the rank filter in messages
+- [#64] Question Search Bar
+
+[#64]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/64
+[#70]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/70
+[#74]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/74
+[#76]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/76
+
 ## [6.27.1] - 2019.07.29
 
 ### Changed
 
-- [#52] Comments deleter stopps
+- [#52] Comments deleter stops
 - Can't able to delete some questions with quick delete buttons
 - (Brainly.com) Wrong reason message on abuse reports
 - Position of extension's notification icon is misplaced
+
+[#52]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/52
 
 ## [6.27.0] - 2019.07.24
 
 ### Added
 
-- (Brainly.com) Quick delete buttons will report contents for abuse while deleting
+- (Brainly.com) Quick delete buttons will report contents for abuse while
+  deleting
 
 ## [6.26.0] - 2019.07.23
 
@@ -27,14 +49,15 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- [#1584] Buttons are changed to avoid using depracated elements and comply
+- [SG#1584] Buttons are changed to avoid using deprecated elements and comply
  changes of Brainly
 - Couldn't able to add personal notes in profile or messages page
-- Selected user privileges are not shown on ext. options after updating privileges
+- Selected user privileges are not shown on ext. options after updating
+  privileges
 
 [#63]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/63
 [#73]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/73
-[#1584]: https://github.com/brainly/style-guide/issues/1584
+[SG#1584]: https://github.com/brainly/style-guide/issues/1584
 
 ## [6.25.0] - 2019.07.02
 
@@ -62,8 +85,10 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- [#59] Checkboxes in action checking page (<https://ibb.co/f2DjCyP>) (<https://ibb.co/q9dcVz0>)
-- [#69] Kullanıcı içeriğinde toplu silim yetkisi olmadan ödev içeriği görüntüleme
+- [#59] Checkboxes in action checking page (<https://ibb.co/f2DjCyP>)
+  (<https://ibb.co/q9dcVz0>)
+- [#69] Kullanıcı içeriğinde toplu silim yetkisi olmadan ödev içeriği
+  görüntüleme
 
 ### Changed
 
@@ -94,7 +119,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- [#58] Issue related to Extension of Brainly India Market [Not authorised to
+- [#58] Issue related to Extension of Brainly India Market [Not authorized to
  perform this operation]
 
 [#58]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/58
@@ -109,15 +134,18 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- Some informative text added into the Mass-Content deleter (<https://ibb.co/1zBJ6mh>)
+- Some informative text added into the Mass-Content deleter
+  (<https://ibb.co/1zBJ6mh>)
 - Reported contents confirmer has deprecated for enhancement
 
 ## [6.22.1] - 2019.04.21
 
 ### Changed
 
-- Mass-Question deleter changed into Mass-Content deleter (<https://ibb.co/6t7Y6cT>)
-- New styling for the pagination buttons of the Moderate all (<https://ibb.co/0rMYHJx>)
+- Mass-Question deleter changed into Mass-Content deleter
+  (<https://ibb.co/6t7Y6cT>)
+- New styling for the pagination buttons of the Moderate all
+  (<https://ibb.co/0rMYHJx>)
 - [#53] Selective deletion on search page misbehaving
 
 [#53]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/53
@@ -245,7 +273,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- Usert content page enhanced. Question preview and attachment sections and
+- Users content page enhanced. Question preview and attachment sections and
  status icons are updated. (<https://ibb.co/znTJmMF>)
 - [FIX#23] Selective approval gives Selective deletion too
 - [FIX#24] Not able to see *Message option* in supervision page
@@ -314,7 +342,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Quick delete buttons ans selective content deletion privileges has been
- seperated.
+ separated.
  (Concerns only extension managers) (<https://ibb.co/vDMDhbX>)
 - Chatango service isn't useful anymore, so I removed :)
 - Stucking while deleting comments on user content page
@@ -503,8 +531,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- Searching users in while creating or editing a message group had a bug that
- couse messing the search results
+- Searching users while creating or editing a message group has a bug
 
 ## [6.2.0] - 2018.10.30
 
@@ -545,7 +572,7 @@ All notable changes to this project will be documented in this file.
 - Non-privileged extension users can't able to click
  [this](http://i.imgur.com/fRwLKqr.png) text before to switch the reported
  content between question&answer and comments, now its clickable. (Btw.
- moderator or non-moderator user's who has not any special privilige in the
+ moderator or non-moderator user's who has not any special privilege in the
  extension can also use the extension with just access permission can be given
  by the extension manager. This will not be any security risks for Brainly and
  moderating system at all, because they don't have privilege to make actions.)
@@ -558,6 +585,6 @@ All notable changes to this project will be documented in this file.
 - The quick delete buttons labels are now visible on the mobile view when the
  user tries to touch it
 - There is an issue with the extend message page layout checkbox in the
- extension options that thecheckbox didn't show the current status.
+ extension options that the checkbox didn't show the current status.
 - The unfriend all and unfriend buttons are has been hidden from the
  other users profile <https://ibb.co/fiNyrV>

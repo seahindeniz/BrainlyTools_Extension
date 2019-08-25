@@ -88,12 +88,15 @@
       "text": "Note personnelle",
       "title": "Tu peux ajouter une note personnelle ici et qui sera reliée à cet utilisateur seulement"
     },
+    "listOfIds": "Liste des IDs",
     "pointsWithExample": {
       "text": "Points: (1 ou -1)",
       "title": "Vous pouvez ajouter des points en tapant des nombres positifs comme 123 \n ou \n vous pouvez supprimer des points en tapant des nombres négatifs comme -123"
     },
     "showMore": "Montre plus..",
-    "userHasNPoints": "L'utilisateur a %{n} points"
+    "userHasNPoints": "L'utilisateur a %{n} points",
+    "send": "Envoyer",
+    "deleteAll": "Delete all"
   },
   "popup": {
     "notificationMessages": {
@@ -114,14 +117,14 @@
       "pleaseWait": "Patientez s'il vous plaît",
       "openABrainlyPage": "Vous devez ouvrir une page Nosdevoirs dans votre naviguateur",
       "errorN": "Erreur %{error_code}",
-      "iCantFechMarketData": "Je ne trouve pas les données",
-      "uncorrectDate": "Je ne suis pas en mesure de récupérer les données depuis Brainly <br><br> Merci de retourner sur la page d'accueil ou de recharger la page",
       "preparingUnsuccessful": "Une erreur s'est produite dans la préparation des raisons de suppression",
       "noEvidenceFound": "le modérateur n'a ajouté aucune preuve ou commentaire",
       "doYouWannaGiveThisPrivilege": "Voulez-vous donner ce privilège à tous les utilisateurs de l'extension ?",
       "doYouWannaRevokeThisPrivilege": "Voulez-vous révoquer ce privilège pour tous les utilisateurs de l'extension ?",
       "privilegeHasGiven": "Le privilège a été donné à %{user_amount} utilisateurs",
-      "privilegeHasRevoked": "Le privilège a été révoqué pour %{user_amount} utilisateurs"
+      "privilegeHasRevoked": "Le privilège a été révoqué pour %{user_amount} utilisateurs",
+      "iCantFetchMarketData": "Je ne trouve pas les données",
+      "incorrectDate": "Je ne suis pas en mesure de récupérer les données depuis Brainly <br><br> Merci de retourner sur la page d'accueil ou de recharger la page"
     },
     "createShortLinkButton": {
       "text": "URL court",
@@ -208,7 +211,7 @@
             "description": "Peut créer, éditer, enlever et publier les annonces internes dans l'extension"
           },
           "5": {
-            "title": "Gestion des utilisateurs",
+            "title": "Manage extension users",
             "description": "Peut ajouter ou éditer les utilisateurs de l'extension et leurs attribuer des privilèges ou permission d'utiliser l'extension"
           },
           "6": {
@@ -335,7 +338,7 @@
         "update": "Mise à jour",
         "publish": "Publier",
         "unpublish": "Non publié",
-        "readedOn": "Lu le : \n%{date}"
+        "readOn": "Read on:\n%{date}"
       },
       "DeleteReasonsPreferences": {
         "text": "Paramétrage des raisons de suppression",
@@ -377,22 +380,20 @@
       "thisConditionAlreadyAddedInCommonConditions": "La condition a déjà été ajoutée dans les conditions communes",
       "youNeedToRemoveThePreviousFilterFirst": "Vous devez d'abord retirer le filtre précédent depuis la liste des filtres",
       "conditionsDoesntMatchAnything": "Les conditions ne correspondent à aucun signalemlent",
-      "errorOccuredWhileDeletingTheN": "Une erreur est survenue lors de la suppression de %{content_id}",
       "doYouWantToContinue": "Voulez-vous continuer ?",
       "couldntAbleToGetNoticeBoardContent": "Je ne suis pas en mesure de d'obtenir le contenu du tableau d'information",
       "changesMayNotBeSaved": "Les changements effectués peuvent ne pas avoir été sauvegardés",
       "youCantAddMoreThan8Sections": "Vous ne pouvez pas ajouter plus de 8 sections",
       "stillProcessing": "Cette section est toujours en cours. Voulez-vous enlever ce bloc ?\n(cela arrêtera le processus de modération)",
-      "youNeedToChooseActionType": "Vous devez choisir un type d'action"
+      "youNeedToChooseActionType": "Vous devez choisir un type d'action",
+      "errorOccurredWhileDeletingTheN": "Une erreur est survenue lors de la suppression de %{content_id}"
     },
     "MassContentDeleter": {
       "text": "Suppression de masse des contenus",
-      "contentLinksOrIDs": "Lien du contenu ou IDs",
       "nIdsToDeleted": "%{n} IDs à supprimer",
       "nHasBeenDeleted": "%{n} IDs ont été supprimés",
-      "containerExplanation": "Vous devez entrer les liens ou IDs ligne par ligne. Exemple ;",
+      "containerExplanation": "You need to put content links or ids to text box line by line. Each line should contain 1 id number",
       "select": {
-        "contentType": "Type de contenu",
         "reason": "Raison",
         "subReason": "Catégorie",
         "action": "Action"
@@ -405,7 +406,6 @@
       "target": "Cible",
       "allUsers": "Tous les utilisateurs",
       "moderators": "Modérateurs",
-      "listOfIds": "Liste des IDs",
       "startOver": "Commencer",
       "sent": "Envoyer",
       "usersNotFound": "Utilisateur non trouvé",
@@ -454,7 +454,7 @@
         "REPORTEE": "ID de la personne ayant été signalé"
       },
       "conditionN": {
-        "text": "Condition unique %{amount_of_conditions}",
+        "text": "Condition group %{amount_of_conditions}",
         "title": "La condition unique sera limité par les autres conditions uniques"
       },
       "filters": {
@@ -516,11 +516,50 @@
             "oopsYouDidntSpecifyThePoints": "Oups, vous n'avez pas précisé les points",
             "thereIsNoPointToGiveZeroPoints": "Il est inutile de donner zéro point :)"
           }
+        },
+        "changeRanks": {
+          "actionButton": {
+            "text": "Change ranks",
+            "title": "Add or remove ranks from all listed users"
+          }
         }
       }
     },
     "MassModerateContents": {
-      "text": "Modération de masse des contenus"
+      "text": "Modération de masse des contenus",
+      "nContents": "%{n} contenus",
+      "nIgnored": "%{n} ignorés",
+      "contentType": "Type de contenu",
+      "targets": {
+        "text": "Spécifier les cibles",
+        "listOfIds": {
+          "contentLinksOrIDs": "Lien du contenu ou IDs"
+        },
+        "idRange": {
+          "text": "Plage d'Id",
+          "youNeedToEnterTwoDifferentIdNumbers": "Vous devez entrer différents identifiants séparés par un tiret (-) ou des points (.. ou ...) pour modérer les numéros entre deux plages.",
+          "exampleUsage": "Exemple d'utilisation",
+          "input": "Entrée",
+          "output": "Sortie"
+        },
+        "searchQuestion": {
+          "text": "Rechercher une question",
+          "whatIsYourQuestion": "Quelle est ta question ?"
+        }
+      },
+      "methods": {
+        "text": "Méthodes",
+        "clickListToCopy": "Cliquez sur la liste pour copier les identifiants dans le presse-papiers",
+        "copied": "Copié !",
+        "iCantCopy": "Je ne peux pas copier :(",
+        "reportForAbuse": {
+          "chooseAReason": "Choisissez une raison",
+          "tabButton": {
+            "text": "Signaler un abus",
+            "title": "Signaler un contenu abusif"
+          }
+        }
+      }
     }
   },
   "home": {
@@ -542,19 +581,18 @@
       "selectGroupType": "Sélectionner un type de groupe",
       "addAll": "Tout ajouter",
       "writeSomething": "Entrez votre message ici",
-      "send": "Envoyer",
       "pinTip": "Vous pouvez épingler vos groupes en cliquant sur l'icône %{pin}.",
       "notificationMessages": {
         "groupCreated": "%{groupName} Créé avec succès",
         "groupUpdated": "%{groupName}mis à jour",
         "cantCreate": "Je ne peux pas créer ce groupe à cause d'une erreur inattendue. Pouvez-vous vérifier ?",
         "userAlreadyAdded": "Cet utilisateur est déjà dans le groupe",
-        "cantFecthGroupData": "Une erreur inattendue est survenue. Je ne suis pas en mesure d'envoyer les messages à ce groupe depuis l'extension",
         "doYouWantToRemoveMembers": "Voulez-vous retirer tous les membres du groupe ?",
         "youNeedToAddMembers": "Vous devez ajouter au moins un utilisateur dans le groupe",
         "youHaventCreatedAGroupYet": "Vous n'avez pas encore créé de groupe",
         "wrongMessageLength": "Ton message doit être compris entre 1 et %{max_value} caractères",
-        "messageContainsSwear": "Hum... Ton message contient des vulgarités, des liens interdits ou des mots inappropriés, tu ne peux pas l'envoyer !"
+        "messageContainsSwear": "Hum... Ton message contient des vulgarités, des liens interdits ou des mots inappropriés, tu ne peux pas l'envoyer !",
+        "cantFetchGroupData": "Une erreur inattendue est survenue. Je ne suis pas en mesure d'envoyer les messages à ce groupe depuis l'extension"
       },
       "userCategories": {
         "findUsers": {
@@ -572,7 +610,6 @@
   },
   "userContent": {
     "notificationMessages": {
-      "selectAtLeasetOneContent": "Choisissez au moins un contenu",
       "alreadyApproved": "Cette réponse est déjà approuvée",
       "alreadyUnapproved": "Cette question est déjà désapprouvées",
       "someOfSelectedAnswersAreApproved": "Quelques une des réponses sélectionnées avaient déjà été approuvées, il n'est donc pas nécessaire de les approuver de nouveau.",
@@ -582,9 +619,10 @@
       "selectAnApprovedAnswerForUnapproving": "Vous devez sélectionner quelques réponses approuvées pour commencer.",
       "confirmUnapproving": "Voulez-vous enlever l'approbation de toutes ces questions ?",
       "doYouWantToConfirmThisContent": "Voulez-vous approuver ce contenu ?",
-      "xIsAlreayApproved": "%{row_id} sont déjà approuvé",
-      "xIsAlreayUnapproved": "%{row_id} ont déjà été approuvé",
-      "confirmReporting": "Voulez-vous demander la correction de cette/ces réponse(s) ?"
+      "confirmReporting": "Voulez-vous demander la correction de cette/ces réponse(s) ?",
+      "selectAtLeastOneContent": "Choisissez au moins un contenu",
+      "xIsAlreadyApproved": "%{row_id} sont déjà approuvé",
+      "xIsAlreadyUnapproved": "%{row_id} ont déjà été approuvé"
     },
     "questionHasAttachment": "La question a une/des pièce(s) jointe(s)",
     "answerHasAttachment": "La réponse a une/des pièce(s) jointe(s)",
@@ -598,7 +636,6 @@
   },
   "userProfile": {
     "notificationMessages": {
-      "selectAtLeasetOneUser": "Tu dois sélectionner au moins un utilisateur",
       "areYouSureDeleteSelectedFriends": "Es-tu certains de vouloir retirer les utilisateurs sélectionnés de ta liste d'amis ?",
       "areYouSureRemoveAllFriends": "Es-tu certains de vouloir enlever tous tes amis ?",
       "youHaveNoFriends": "Ne sois pas triste car tu n'as pas d'amis dans ta liste :/",
@@ -607,7 +644,8 @@
       "aShortcutFile": "Vous essayer d'ajouter un raccourci d'un fichier mais celui-ci n'est pas considéré comme un fichier. Cela va être le bazarre si vous l'ajouter\nVous devriez sélectionner le fichier d'origine à la place\nVoulez-vous toujours ajouter ce raccourci ?",
       "unableToReportAccountDeleting": "Je ne suis pas en mesure de rapporter votre demande de suppression au community manager donc je ne peux pas effectuer la suppression. Désolé :/ <br> Si cette erreur persiste signalez la",
       "confirmNoEvidenceOrComment": "Vous n'avez ajouter aucune preuve ou commentaire. \nVoulez-vous toujours supprimer ce compte ?",
-      "afterSavingCompletedIgnoreNotifications": "Une fois fois la sauvegarde effectué, <br> ignorez les notifications quand vous rechargez ou quittez la page"
+      "afterSavingCompletedIgnoreNotifications": "Une fois fois la sauvegarde effectué, <br> ignorez les notifications quand vous rechargez ou quittez la page",
+      "selectAtLeastOneUser": "Tu dois sélectionner au moins un utilisateur"
     },
     "previousNicks": {
       "text": "Pseudo précédent",
@@ -637,7 +675,7 @@
       "compressingTheFile": "Compression de %{file_name}",
       "compressingTheFiles": "Compression des fichiers",
       "uploading": "Contenu ajouté %{percentage_value}",
-      "deletingContiunes": "Poursuite des suppressions"
+      "deletingContinues": "Poursuite des suppressions"
     },
     "rankManager": {
       "title": "Gérer les rangs spéciaux",

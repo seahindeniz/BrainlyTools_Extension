@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { task, src, dest, series, watch } from 'gulp';
 import babelify from 'babelify';
 import log from "fancy-log";
@@ -208,10 +209,24 @@ task("manifest", () => {
     .pipe($.mergeJson(mergeJsonData))
     .pipe(dest(`./build/${target}`))
 });
+task(
+  "generateLocaleIndex",
+  () => {
+    return src('src/locales/en_US.json')
+      .pipe($.rename("index.js"))
+      .pipe($.modifyFile((content) => {
+        const start = 'module.exports = ';
+        content = content.replace(/\s"(.*)": /g, " $1: ");
+        const end = "\n";
 
+        return `${start}${content}${end}`;
+      }))
+      .pipe(dest(`src/locales`));
+  }
+)
 task(
   'build',
-  series('clean', "assets", "extensionConfig", 'scss', "styleGuide", "locales", "popup", 'js', /* "jsx", */ 'manifest')
+  series('clean', "assets", "extensionConfig", 'scss', "styleGuide", "locales", "generateLocaleIndex", "popup", 'js', /* "jsx", */ 'manifest')
 );
 task(
   "reloadExtension",
@@ -242,7 +257,8 @@ task(
       './src/scripts/views/**/_/**/*.js',
 
       '!./src/scripts/views/*/*.js',
-      '!./src/scripts/*.js'
+      '!./src/scripts/*.js',
+      '!src/locales/index.js'
     ], series('build', "reloadExtension"));
 
     /**
@@ -383,10 +399,16 @@ function compileJSFiles(files, path) {
             }
           ]
         }),
-        ['uglifyify', { global: true, sourceMap: false }]
+        //['uglifyify', { global: true, sourceMap: false }]
       ]
     }))
-    .pipe(dest(path, { overwrite: true }));;
+    .pipe($.minify({
+      noSource: true,
+      ext: {
+        min: ".js",
+      }
+    }))
+    .pipe(dest(path, { overwrite: true }));
 }
 
 function compileJSXFiles(files, path) {

@@ -88,12 +88,15 @@
       "text": "Catatan pribadi",
       "title": "Kamu dapat menambahkan catatan pribadi disini dan ini itu hanya akan berhubungan dengan user ini saja"
     },
+    "listOfIds": "Daftar ID",
     "pointsWithExample": {
       "text": "Poin: (1 atau -1)",
       "title": "Anda dapat menambahkan poin dengan mengetikkan angka positif seperti 123 \n atau \n Anda dapat menghapus poin dengan mengetikkan angka negatif seperti -123"
     },
     "showMore": "Lihat lebih banyak..",
-    "userHasNPoints": "Pengguna memiliki %{n} poin"
+    "userHasNPoints": "Pengguna memiliki %{n} poin",
+    "send": "Dikirim",
+    "deleteAll": "Delete all"
   },
   "popup": {
     "notificationMessages": {
@@ -114,14 +117,14 @@
       "pleaseWait": "Harap menunggu",
       "openABrainlyPage": "Kamu perlu untuk membuka halaman Brainly dari browser kamu.",
       "errorN": "Error %{error_code}",
-      "iCantFechMarketData": "Saya tidak dapat mengambil data pasar",
-      "uncorrectDate": "Saya tidak dapat mengambil data dari Brainly<br><br>Silahkan menuju halaman utama Brainly atau dengan memuat ulang halaman",
       "preparingUnsuccessful": "Terjadi kesalahan selama mempersiapkan alasan penghapusan dan mengambil dari Brainly",
       "noEvidenceFound": "Moderator tidak menambahkan bukti atau komentar",
       "doYouWannaGiveThisPrivilege": "Apakah kamu ingin memberikan privilege kepada seluruh pengguna ekstensi",
       "doYouWannaRevokeThisPrivilege": "Apakah kamu ingin menghapus privilege dari semua pengguna ekstensi",
       "privilegeHasGiven": "Privilege telah diberikan kepada pengguna %{user_amount}",
-      "privilegeHasRevoked": "Privilege telah dihapus dari pengguna %{user_amount}"
+      "privilegeHasRevoked": "Privilege telah dihapus dari pengguna %{user_amount}",
+      "iCantFetchMarketData": "Saya tidak dapat mengambil data pasar",
+      "incorrectDate": "Saya tidak dapat mengambil data dari Brainly<br><br>Silahkan menuju halaman utama Brainly atau dengan memuat ulang halaman"
     },
     "createShortLinkButton": {
       "text": "Shorten URL",
@@ -208,7 +211,7 @@
             "description": "Dapat membuat, mengedit menghapus atau mempublikasikan pengumuman ekstensi internal"
           },
           "5": {
-            "title": "Managemen user",
+            "title": "Manage extension users",
             "description": "Dapat menambahkan atau mengedit ekstensi user dan memberikan mereka privileges atau izin untuk menggunakan ekstensi"
           },
           "6": {
@@ -335,7 +338,7 @@
         "update": "Memperbarui",
         "publish": "Publish",
         "unpublish": "Unpublish",
-        "readedOn": "Dibaca pada:\n%{date}"
+        "readOn": "Read on:\n%{date}"
       },
       "DeleteReasonsPreferences": {
         "text": "Preferensi alasan penghapusan",
@@ -377,22 +380,20 @@
       "thisConditionAlreadyAddedInCommonConditions": "Kondisi ini telah ditambahkan ke kondisi umum",
       "youNeedToRemoveThePreviousFilterFirst": "Kamu harus menghapus filter tipe konten yang ditambahkan sebelumnya dari daftar filter yang pertama",
       "conditionsDoesntMatchAnything": "Kondisinya tidak sesuai dengan lainnya",
-      "errorOccuredWhileDeletingTheN": "Terjadi error saat penghapusan %{content_id}",
       "doYouWantToContinue": "Apakah kamu ingin melanjutkan?",
       "couldntAbleToGetNoticeBoardContent": "Saya tidak bisa mendapatkan konten pada papan pengumuman",
       "changesMayNotBeSaved": "Perubahan yang kamu buat mungkin tidak tersimpan",
       "youCantAddMoreThan8Sections": "Kamu tidak dapat menambah lebih dari 8 bagian",
       "stillProcessing": "Bagian ini masih dalam proses. Apakah kamu ingin menghapus blok ini?\n(ini akan menghentikan proses moderasi)",
-      "youNeedToChooseActionType": "Kamu perlu memilih salah satu jenis tindakan"
+      "youNeedToChooseActionType": "Kamu perlu memilih salah satu jenis tindakan",
+      "errorOccurredWhileDeletingTheN": "Terjadi error saat penghapusan %{content_id}"
     },
     "MassContentDeleter": {
       "text": "Penghapusan konten massal",
-      "contentLinksOrIDs": "Link konten atau id",
       "nIdsToDeleted": "%{n} id untuk dihapus",
       "nHasBeenDeleted": "%{n} id telah dihapus",
-      "containerExplanation": "Kamu perlu untuk meletakkan link konten atau id ke baris per baris. Contohnya:",
+      "containerExplanation": "You need to put content links or ids to text box line by line. Each line should contain 1 id number",
       "select": {
-        "contentType": "Tipe konten",
         "reason": "Alasan",
         "subReason": "Sub alasan",
         "action": "Tindakan"
@@ -405,7 +406,6 @@
       "target": "Target",
       "allUsers": "Semua pengguna",
       "moderators": "Moderator",
-      "listOfIds": "Daftar ID",
       "startOver": "Mulai lagi dari awal",
       "sent": "Dikirim",
       "usersNotFound": "Pengguna tidak ditemukan",
@@ -454,7 +454,7 @@
         "REPORTEE": "ID yang dilaporkan"
       },
       "conditionN": {
-        "text": "Kondisi unik %{amount_of_conditions}",
+        "text": "Condition group %{amount_of_conditions}",
         "title": "Kondisi unik ini akan dibatasi dari kondisi unik yang lain"
       },
       "filters": {
@@ -516,11 +516,50 @@
             "oopsYouDidntSpecifyThePoints": "Ups, kamu tidak menentukan poin spesifik",
             "thereIsNoPointToGiveZeroPoints": "Tidak ada gunanya untuk memberikan poin nol :)"
           }
+        },
+        "changeRanks": {
+          "actionButton": {
+            "text": "Change ranks",
+            "title": "Add or remove ranks from all listed users"
+          }
         }
       }
     },
     "MassModerateContents": {
-      "text": "Moderasi konten Massal"
+      "text": "Moderasi konten Massal",
+      "nContents": "%{n} contents",
+      "nIgnored": "%{n} ignored",
+      "contentType": "Tipe konten",
+      "targets": {
+        "text": "Specify targets",
+        "listOfIds": {
+          "contentLinksOrIDs": "Link konten atau id"
+        },
+        "idRange": {
+          "text": "Id range",
+          "youNeedToEnterTwoDifferentIdNumbers": "You need to enter different id numbers separated by a dash(-) or dots(.. or ...) to moderate the numbers between range",
+          "exampleUsage": "Example Usage",
+          "input": "Input",
+          "output": "Output"
+        },
+        "searchQuestion": {
+          "text": "Search question",
+          "whatIsYourQuestion": "Apa pertanyaanmu?"
+        }
+      },
+      "methods": {
+        "text": "Methods",
+        "clickListToCopy": "Click list to copy ids to clipboard",
+        "copied": "Copied!",
+        "iCantCopy": "I can't copy :(",
+        "reportForAbuse": {
+          "chooseAReason": "Choose a reason",
+          "tabButton": {
+            "text": "Report for abuse",
+            "title": "Report abusive contents"
+          }
+        }
+      }
     }
   },
   "home": {
@@ -542,19 +581,18 @@
       "selectGroupType": "Pilih jenis grup",
       "addAll": "Tambahkan semua",
       "writeSomething": "Tuliskan pesan kamu disini",
-      "send": "Dikirim",
       "pinTip": "Kamu dapat menyematkan grup dengan meng-klik icon %{pin}.",
       "notificationMessages": {
         "groupCreated": "%{groupName} sukses dibuat",
         "groupUpdated": "%{groupName} updated",
         "cantCreate": "Saya tidak dapat membuat grup ini karena ada hal yang salah. Bisakah kamu memeriksa rinciannya?",
         "userAlreadyAdded": "Pengguna ini telah ada dalam daftar",
-        "cantFecthGroupData": "Terjadi kesalahan yang tidak terduga. Kami tidak dapat mengambil pesan dari grup ini dari server ekstensi",
         "doYouWantToRemoveMembers": "Apakah kamu ingin menghapus semua anggota?",
         "youNeedToAddMembers": "Kamu perlu menambahkan setidaknya satu pengguna dalam daftar anggota grup",
         "youHaventCreatedAGroupYet": "Kamu belum membuat grup",
         "wrongMessageLength": "Pesan anda harus terdiri dari 1 dan %{max_value} panjang karakter",
-        "messageContainsSwear": "Ups! Sepertinya pesan anda mengandung kata umpatan. Anda tidak dapat mengirimkannya!"
+        "messageContainsSwear": "Ups! Sepertinya pesan anda mengandung kata umpatan. Anda tidak dapat mengirimkannya!",
+        "cantFetchGroupData": "Terjadi kesalahan yang tidak terduga. Kami tidak dapat mengambil pesan dari grup ini dari server ekstensi"
       },
       "userCategories": {
         "findUsers": {
@@ -572,7 +610,6 @@
   },
   "userContent": {
     "notificationMessages": {
-      "selectAtLeasetOneContent": "Pilih setidaknya satu konten",
       "alreadyApproved": "Jawaban ini telah disetujui",
       "alreadyUnapproved": "Jawaban ini telah dibatalkan untuk disetujui",
       "someOfSelectedAnswersAreApproved": "Beberapa dari jawaban yang dipilih telah disetujui, sehingga kamu tidak perlu untuk menyetujui jawaban iini lagi.",
@@ -582,9 +619,10 @@
       "selectAnApprovedAnswerForUnapproving": "Kamu perlu memilih beberapa jawaban yang disetujui untuk memulai",
       "confirmUnapproving": "Apakah kamu ingin menghapus persetujuan dari jawaban ini?",
       "doYouWantToConfirmThisContent": "Apakah kamu ingin mengkonfirmasi konten ini?",
-      "xIsAlreayApproved": "%{row_id} telah disetujui",
-      "xIsAlreayUnapproved": "%{row_id} telah batal disetujui",
-      "confirmReporting": "Aapakah kamu ingin melaporkan jawaban ini untuk dikoreksi?"
+      "confirmReporting": "Aapakah kamu ingin melaporkan jawaban ini untuk dikoreksi?",
+      "selectAtLeastOneContent": "Pilih setidaknya satu konten",
+      "xIsAlreadyApproved": "%{row_id} telah disetujui",
+      "xIsAlreadyUnapproved": "%{row_id} telah batal disetujui"
     },
     "questionHasAttachment": "Pertanyaan memiliki lampiran",
     "answerHasAttachment": "Jawaban memiliki lampiran",
@@ -598,7 +636,6 @@
   },
   "userProfile": {
     "notificationMessages": {
-      "selectAtLeasetOneUser": "Kamu perlu memilih setidaknya satu pengguna",
       "areYouSureDeleteSelectedFriends": "Apakah kamu yakin akan menghapus ingin menghapus pengguna yang dipilih dari daftar teman?",
       "areYouSureRemoveAllFriends": "Apakah kamu yakin ingin menghapus semua daftar temanmu?",
       "youHaveNoFriends": "Jangan sedih karena kamu tidak memiliki teman dalam daftar kamu.:/ Maaf",
@@ -607,7 +644,8 @@
       "aShortcutFile": "Kamu mencoba menambahkan sebuah pintasan pada file dan itu tidak dianggap sebagai file yang aktual. Ini semacam sampah jika kamu menambahkannya.\nKamu mungkin butuh menambahkan file asli sebagai gantinya. Apakah kamu masih ingin menambahkan pintasan ini?",
       "unableToReportAccountDeleting": "Kami tidak dapat melaporkan permintaanmu untuk penghapusan akun ke Community Manager jadi kami tidak dapat melanjutkan penghapusan. Maaf :/<br> Jika kesalahan ini terus berlanjut, mintalah bantuan ke Community Manager.",
       "confirmNoEvidenceOrComment": "Kamu tidak menambahkan bukti atau komentar apa pun.\nApakah kamu masih ingin menghapus akun ini?",
-      "afterSavingCompletedIgnoreNotifications": "Setelah selesai menyimpan,<br> abaikan notifikasi ketika kamu menyegarkan atau meninggalkan halaman"
+      "afterSavingCompletedIgnoreNotifications": "Setelah selesai menyimpan,<br> abaikan notifikasi ketika kamu menyegarkan atau meninggalkan halaman",
+      "selectAtLeastOneUser": "Kamu perlu memilih setidaknya satu pengguna"
     },
     "previousNicks": {
       "text": "Nick sebelumnya",
@@ -637,7 +675,7 @@
       "compressingTheFile": "Mengompresi %{file_name}",
       "compressingTheFiles": "Mengompresi file",
       "uploading": "Mengunggah konten %{percentage_value}",
-      "deletingContiunes": "Penghapusan beranjut.."
+      "deletingContinues": "Penghapusan beranjut.."
     },
     "rankManager": {
       "title": "Mengelola peringkat khusus",

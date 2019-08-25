@@ -204,7 +204,6 @@ class _System {
     this.toBackground("changeBadgeColor", status)
   }
   /**
-   * @typedef {{src?: string, small?: string, medium?: string}} Avatar
    * @param {{avatar?: Avatar, avatars: Avatar} & Avatar} user
    * @param {*} param1
    */
@@ -244,6 +243,25 @@ class _System {
     }
 
     return avatar;
+  }
+  /**
+   * @typedef {{src?: string, small?: string, medium?: string, 64: string, 100: string}} Avatar
+   * @param {{avatar?: Avatar, avatars: Avatar} & Avatar} entry
+   */
+  ExtractAvatarURL(entry) {
+    let avatarURL = "";
+
+    if (entry) {
+      avatarURL = _ExtractAvatarURL(entry);
+
+      if (!avatarURL && entry.avatar)
+        avatarURL = _ExtractAvatarURL(entry.avatar);
+
+      if (!avatarURL && entry.avatars)
+        avatarURL = _ExtractAvatarURL(entry.avatars);
+    }
+
+    return avatarURL;
   }
   /**
    * @typedef {number|string} idType
@@ -513,5 +531,13 @@ class _System {
 
     return ids;
   }
+}
+
+/**
+ *
+ * @param {Avatar} entry
+ */
+function _ExtractAvatarURL(entry) {
+  return entry[64] || entry[100] || entry.src || entry.small || entry.medium;
 }
 export default _System;

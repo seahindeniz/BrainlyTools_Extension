@@ -1,5 +1,7 @@
-import QuickDeleteButtons from "../../1-Home/_/QuickDeleteButtons";
+import { Avatar, ContentBox, ContentBoxContent, ContentBoxTitle } from "../../../components/style-guide";
 import Action from "../../../controllers/Req/Brainly/Action";
+import Build from "../../../helpers/Build";
+import QuickDeleteButtons from "../../1-Home/_/QuickDeleteButtons";
 
 class QuestionBox {
   /**
@@ -77,31 +79,30 @@ class QuestionBox {
     $contentBox.remove();
   }
   PrepareAvatarContentBox() {
-    let avatar = this.PrepareAvatar();
+    let avatarURL = System.ExtractAvatarURL(this.user);
     let profileLink = System.createProfileLink(this.user);
-    this.$iconContentBox = $(`
-    <div class="sg-content-box">
-      <div class="sg-content-box__title">
-        <div class="sg-avatar sg-avatar--normal sg-avatar--spaced">
-          <a href="${profileLink}">
-            <div class="sg-avatar__image sg-avatar__image--icon">
-              ${avatar}
-            </div>
-          </a>
-        </div>
-      </div>
-    </div>`);
+    this.iconContentBox = Build(ContentBox(), [
+      [
+        ContentBoxTitle(),
+        Avatar({
+          spaced: true,
+          link: profileLink,
+          imgSrc: avatarURL,
+        })
+      ]
+    ]);
 
     let $icon = $("> *", this.$avatarHole);
 
     if ($icon.length > 0) {
-      this.$approvedIconContainer = $(`<div class="sg-content-box__content"></div>`);
+      this.approvedIconContainer = ContentBoxContent();
 
-      this.$approvedIconContainer.appendTo(this.$iconContentBox);
-      $icon.appendTo(this.$approvedIconContainer);
+      this.iconContentBox.append(this.approvedIconContainer);
+
+      $icon.appendTo(this.approvedIconContainer);
     }
 
-    this.$iconContentBox.appendTo(this.$avatarHole);
+    this.$avatarHole.append(this.iconContentBox);
   }
   PrepareAvatar() {
     return System.prepareAvatar(this.user, { returnIcon: true });
@@ -129,7 +130,7 @@ class QuestionBox {
         </a>
       </div>`);
 
-      $attachmentContainer.appendTo(this.$iconContentBox);
+      $attachmentContainer.appendTo(this.iconContentBox);
     }
   }
   RenderSelectBox() {

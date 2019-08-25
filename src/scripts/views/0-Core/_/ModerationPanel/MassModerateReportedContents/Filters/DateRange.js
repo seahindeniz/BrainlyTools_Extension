@@ -4,8 +4,8 @@ import md5 from "js-md5";
 class DateRange {
   constructor($target, type) {
     this.type = type;
-    this.$date1 = $(`<input type="datetime-local" class="sg-input sg-input--small sg-input--full-width" />`);
-    this.$date2 = $(`<input type="datetime-local" class="sg-input sg-input--small sg-input--full-width" />`);
+    this.$date1 = $(`<input type="date" class="sg-input sg-input--small sg-input--full-width" />`);
+    this.$date2 = $(`<input type="date" class="sg-input sg-input--small sg-input--full-width" />`);
 
     /* this.$date1.val(("2019-02-12T00:00"));
     this.$date2.val(("2019-02-12T04:00")); */
@@ -17,9 +17,22 @@ class DateRange {
     let date1Val = this.CheckValue(this.$date1);
     let date2Val = this.CheckValue(this.$date2);
 
+    console.log(date1Val);
+    console.log(date2Val);
+
     if (date1Val && date2Val) {
-      let endTime = moment(date2Val + System.data.Brainly.defaultConfig.locale.OFFSET).tz(System.data.Brainly.defaultConfig.locale.TIMEZONE);
-      let startTime = moment(date1Val + System.data.Brainly.defaultConfig.locale.OFFSET).tz(System.data.Brainly.defaultConfig.locale.TIMEZONE);
+      let endTime = moment(
+        date2Val +
+        "T00:00" +
+        System.data.Brainly.defaultConfig.locale.OFFSET
+      ).tz(System.data.Brainly.defaultConfig.locale.TIMEZONE);
+      let startTime = moment(
+        date1Val +
+        "T00:00" +
+        System.data.Brainly.defaultConfig.locale.OFFSET
+      ).tz(System.data.Brainly.defaultConfig.locale.TIMEZONE);
+      console.log(endTime);
+      console.log(startTime);
       let type = "DATE_RANGE";
       let value = {
         date1: startTime,

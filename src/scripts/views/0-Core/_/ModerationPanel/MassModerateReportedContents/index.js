@@ -10,10 +10,14 @@ import { MenuListItem } from "../../../../../components/style-guide";
 
 let System = require("../../../../../helpers/System");
 
-class MassModerateReportedContents {
+export default class MassModerateReportedContents {
   constructor() {
     this.users = [];
     this.lastIds = [];
+    /**
+     * @typedef {{id: number, warnings_count: number, reports_count: number, successfull_reports_count: number, removed_contents_count:number}} ReportedUser
+     * @type {{model_id: number, model_type_id: number, subject_id: 5, task_id: number, content_short: string, created: string, report: {created: string, abuse: {category_id: number, data: string, name: string, subcategory_id: number}, user: ReportedUser}, user: ReportedUser}[]}
+     */
     this.reports = [];
     this.requestLimit = 1;
     this.conditionCount = 0;
@@ -86,13 +90,16 @@ class MassModerateReportedContents {
     this.HideElement(this.commonConditionSection.$section);
   }
   /**
-   * @param {JQuery<HTMLElement>} $element
+   * @param {HTMLElement | JQuery<HTMLElement>} element
    */
-  HideElement($element) {
-    return $element.appendTo("<div />");
+  HideElement(element) {
+    if (element instanceof HTMLElement)
+      element.parentElement && element.parentElement.removeChild(element);
+    else
+      return element.appendTo("<div />");
   }
   AddConditionSection(text, title, options) {
-    if (!title)
+    if (!text)
       throw "Title not specified";
 
     let conditionSection = new ConditionSection(this, text, title, options);
@@ -253,7 +260,7 @@ class MassModerateReportedContents {
       let text = System.data.locale.core.massModerateReportedContents.conditionN.text.replace("%{amount_of_conditions}", ` ${++this.conditionCount} `);
 
       this.ShowCommonConditionSection();
-      this.AddConditionSection(text, title);
+      this.AddConditionSection(text);
     }
   }
   ShowCommonConditionSection() {
@@ -376,5 +383,3 @@ class MassModerateReportedContents {
       this.StopModerating()
   }
 }
-
-export default MassModerateReportedContents

@@ -2,6 +2,7 @@ import md5 from "js-md5";
 
 class ContentType {
   constructor($target) {
+    this.type = "";
     this.$ = $(`
 		<div class="sg-select sg-select--full-width">
 			<div class="sg-select__icon"></div>

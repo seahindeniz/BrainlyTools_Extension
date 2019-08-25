@@ -9,7 +9,8 @@ All notable changes to this project will be documented in this file.
 - [#70] Problem: Cannot mass-report questions and answers on Brainly
 - [#74] Mass-Moderate contents (<https://ibb.co/Tv2yqW5>)
  (<https://ibb.co/YNTQZNp>) (<https://ibb.co/ss555Dt>)
-- [#76] Selective deletion across multiple pages in brainly-in/app/ask? missing in the extension.
+- [#76] Selective deletion across multiple pages in brainly-in/app/ask? missing
+  in the extension.
 
 ### Changed
 

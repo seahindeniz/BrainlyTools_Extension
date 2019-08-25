@@ -1,8 +1,20 @@
 import classnames from 'classnames';
 
 /**
- * @typedef {({value?: string | number, text?: string, title?: string} & Object<string, *>)} OptionProperties
- * @typedef {{value?: string | number, valid?: boolean, invalid?: boolean, capitalized?: boolean, fullWidth?: boolean, className?: string, options?: OptionProperties[]}} Properties
+ * @typedef {{
+ * value?: string | number,
+ * text?: string,
+ * title?: string,
+ * } & Object<string, *>} OptionProperties
+ * @typedef {{
+ * value?: string | number,
+ * valid?: boolean,
+ * invalid?: boolean,
+ * capitalized?: boolean,
+ * fullWidth?: boolean,
+ * className?: string,
+ * options?: OptionProperties[],
+ * }} Properties
  */
 const SG = "sg-select";
 const SGD = `${SG}--`
@@ -11,7 +23,16 @@ const SG_ = `${SG}__`
 /**
  * @param {Properties} param0
  */
-export default function({ value, valid, invalid, capitalized, fullWidth, className, options = [], ...props } = {}) {
+export default function({
+  value,
+  valid,
+  invalid,
+  capitalized,
+  fullWidth,
+  className,
+  options = [],
+  ...props
+} = {}) {
   if (valid === true && invalid === true)
     throw "Select can be either valid or invalid!";
 

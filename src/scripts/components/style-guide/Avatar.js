@@ -5,7 +5,15 @@ import Icon from './Icon';
  * @typedef {import("./Icon").Properties} IconProperties
  *
  * @typedef {"small" | "normal" | "large" | "xlarge" | "xxlarge"} Size
- * @typedef {{size?: Size, border?: boolean, spaced?: boolean, imgSrc?: string, link?: string, title?: string, className?: string}} Properties
+ * @typedef {{
+ * size?: Size,
+ * border?: boolean,
+ * spaced?: boolean,
+ * imgSrc?: string,
+ * link?: string,
+ * title?: string,
+ * className?: string,
+ * }} Properties
  *
  * @typedef {function(HTMLElement | IconProperties): Element} ChangeIcon
  *

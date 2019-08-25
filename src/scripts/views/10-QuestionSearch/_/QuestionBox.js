@@ -104,9 +104,6 @@ class QuestionBox {
 
     this.$avatarHole.append(this.iconContentBox);
   }
-  PrepareAvatar() {
-    return System.prepareAvatar(this.user, { returnIcon: true });
-  }
   RenderAttachments() {
     if (this.question.data.task.attachments.length > 0) {
       let questionLink = this.$questionLink.attr("href");

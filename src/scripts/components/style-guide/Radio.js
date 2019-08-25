@@ -4,7 +4,14 @@ import Label from './Label';
 
 /**
  * @typedef {"normal" | "large"} Size
- * @typedef {{checked?: boolean, name?: string, size?: Size, className?: string, id?: string, label?: import("./Label").Properties}} Properties
+ * @typedef {{
+ * checked?: boolean,
+ * name?: string,
+ * size?: Size,
+ * className?: string,
+ * id?: string,
+ * label?: import("./Label").Properties,
+ * }} Properties
  */
 
 const SG = "sg-radio";
@@ -14,7 +21,15 @@ const SG_ = `${SG}__`;
 /**
  * @param {Properties} param0
  */
-export default function({ checked, name, size = "normal", className, id = generateRandomString(), label, ...props } = {}) {
+export default function({
+  checked,
+  name,
+  size = "normal",
+  className,
+  id = generateRandomString(),
+  label,
+  ...props
+} = {}) {
   const radioClass = classnames(SG, {
     [SGD + size]: size !== "normal"
   }, className);

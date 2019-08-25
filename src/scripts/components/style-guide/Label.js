@@ -5,7 +5,20 @@ import Icon from './Icon';
  * @typedef {import("./Icon").Properties} IconProperties
  *
  * @typedef {"small" | "normal" | "large"} Size
- * @typedef {{size?: Size, text?: string, html?: string, children?: HTMLElement, number?: number, icon?: IconProperties | HTMLElement, htmlFor?: string, secondary?: boolean, unstyled?: boolean, emphasised?: boolean, elementsToTop?: boolean, className?: string}} Properties
+ * @typedef {{
+ * size?: Size,
+ * text?: string,
+ * html?: string,
+ * children?: HTMLElement,
+ * number?: number,
+ * icon?: IconProperties | HTMLElement,
+ * htmlFor?: string,
+ * secondary?: boolean,
+ * unstyled?: boolean,
+ * emphasised?: boolean,
+ * elementsToTop?: boolean,
+ * className?: string,
+ * }} Properties
  *
  * @typedef {function(HTMLElement | IconProperties): Element} ChangeIcon
  *
@@ -21,7 +34,21 @@ const SG_ = `${SG}__`;
 /**
  * @param {Properties} param0
  */
-export default function({ size = "normal", text, html, children, number, icon, htmlFor, secondary, unstyled, emphasised, elementsToTop, className, ...props } = {}) {
+export default function({
+  size = "normal",
+  text,
+  html,
+  children,
+  number,
+  icon,
+  htmlFor,
+  secondary,
+  unstyled,
+  emphasised,
+  elementsToTop,
+  className,
+  ...props
+} = {}) {
   const labelClass = classnames(SG, {
     [SGD + size]: size !== "normal",
     [`${SGD}secondary`]: secondary,

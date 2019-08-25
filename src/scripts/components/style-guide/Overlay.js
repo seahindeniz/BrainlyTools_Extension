@@ -1,7 +1,11 @@
 import classnames from 'classnames';
 
 /**
- * @typedef {{partial?: boolean, children?: HTMLElement, className?: string}} Properties
+ * @typedef {{
+ * partial?: boolean,
+ * children?: HTMLElement,
+ * className?: string,
+ * }} Properties
  */
 const SG = "sg-overlay";
 const SGD = `${SG}--`;

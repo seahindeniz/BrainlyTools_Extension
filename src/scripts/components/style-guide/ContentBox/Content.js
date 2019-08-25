@@ -1,9 +1,17 @@
 import classnames from 'classnames';
 
 /**
- * @typedef {"xxsmall" | "xsmall" | "small" | "normal" | "large" | "xlarge" | "xxlarge"} Size
+ * @typedef {"xxsmall" | "xsmall" | "small" | "normal" | "large" | "xlarge" |
+ * "xxlarge"} Size
  * @typedef {"left" | "center" | "right"} Alignment
- * @typedef {{children?: HTMLElement, full?: boolean, spacedTop?: true | Size, spacedBottom?: true | Size, align?: Alignment, className?: string}} Properties
+ * @typedef {{
+ * children?: HTMLElement,
+ * full?: boolean,
+ * spacedTop?: true | Size,
+ * spacedBottom?: true | Size,
+ * align?: Alignment,
+ * className?: string,
+ * }} Properties
  *
  * @typedef {HTMLDivElement} Element
  */
@@ -14,7 +22,15 @@ const SGD = `${SG}--`
  * @param {Properties} param0
  * @returns {Element}
  */
-export default function({ children, full, spacedTop, spacedBottom, className, align = "left", ...props } = {}) {
+export default function({
+  children,
+  full,
+  spacedTop,
+  spacedBottom,
+  className,
+  align = "left",
+  ...props
+} = {}) {
   const contentBoxClass = classnames(SG, {
     [`${SGD}full`]: full,
     [`${SGD}with-centered-text`]: align === "center",

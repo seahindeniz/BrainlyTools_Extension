@@ -3,7 +3,21 @@ import classnames from 'classnames';
 /**
  * @typedef {"short" | "normal" | "tall" | "xtall"} Size
  * @typedef {true | "vertical" | "horizontal" | "both"} Direction
- * @typedef {{type?: "textarea" | "div", placeholder?: string, value?: string | number, size?: Size, valid?: boolean, invalid?: boolean, fullWidth?: boolean, simple?: boolean, noPadding?: boolean, autoHeight?: boolean, resizable?: Direction, className?: string, contentEditable?: boolean} & Object<string, *>} Properties
+ * @typedef {{
+ * type?: "textarea" | "div",
+ * placeholder?: string,
+ * value?: string | number,
+ * size?: Size,
+ * valid?: boolean,
+ * invalid?: boolean,
+ * fullWidth?: boolean,
+ * simple?: boolean,
+ * noPadding?: boolean,
+ * autoHeight?: boolean,
+ * resizable?: Direction,
+ * className?: string,
+ * contentEditable?: boolean,
+ * } & Object<string, *>} Properties
  */
 const SG = "sg-textarea";
 const SGD = `${SG}--`
@@ -11,7 +25,22 @@ const SGD = `${SG}--`
 /**
  * @param {Properties} param0
  */
-export default function({ type = "textarea", placeholder, value = "", size = "normal", valid, invalid, fullWidth, simple, noPadding, autoHeight, resizable, className, contentEditable, ...props } = {}) {
+export default function({
+  type = "textarea",
+  placeholder,
+  value = "",
+  size = "normal",
+  valid,
+  invalid,
+  fullWidth,
+  simple,
+  noPadding,
+  autoHeight,
+  resizable,
+  className,
+  contentEditable,
+  ...props
+} = {}) {
   if (valid === true && invalid === true)
     throw 'Textarea can be either valid or invalid!';
 
@@ -30,7 +59,10 @@ export default function({ type = "textarea", placeholder, value = "", size = "no
   let textarea = document.createElement(type);
   textarea.className = textareaClass;
 
-  if (textarea instanceof HTMLTextAreaElement || textarea instanceof HTMLInputElement) {
+  if (
+    textarea instanceof HTMLTextAreaElement ||
+    textarea instanceof HTMLInputElement
+  ) {
     textarea.value = String(value);
   } else {
     textarea.innerHTML = String(value);

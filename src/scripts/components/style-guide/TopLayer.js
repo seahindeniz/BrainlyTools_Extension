@@ -3,7 +3,22 @@ import Icon from './Icon';
 
 /**
  * @typedef {"small" | "medium" | "large"} Size
- * @typedef {{children?: HTMLElement, onClose?: EventListenerOrEventListenerObject, size?: Size, lead?: boolean, fill?: boolean, modal?: boolean, withBugbox?: boolean, smallSpaced?: boolean, splashScreen?: boolean, limitedWidth?: boolean, row?: boolean, noPadding?: boolean, transparent?: boolean, className?: string}} Properties
+ * @typedef {{
+ * children?: HTMLElement,
+ * onClose?: EventListenerOrEventListenerObject,
+ * size?: Size,
+ * lead?: boolean,
+ * fill?: boolean,
+ * modal?: boolean,
+ * withBugbox?: boolean,
+ * smallSpaced?: boolean,
+ * splashScreen?: boolean,
+ * limitedWidth?: boolean,
+ * row?: boolean,
+ * noPadding?: boolean,
+ * transparent?: boolean,
+ * className?: string,
+ * }} Properties
  */
 const SG = "sg-toplayer";
 const SGD = `${SG}--`;
@@ -12,7 +27,23 @@ const SG_ = `${SG}__`;
 /**
  * @param {Properties} param0
  */
-export default function({ children, onClose, size, lead, fill, modal, withBugbox, smallSpaced, splashScreen, limitedWidth, row, noPadding, transparent, className, ...props }) {
+export default function({
+  children,
+  onClose,
+  size,
+  lead,
+  fill,
+  modal,
+  withBugbox,
+  smallSpaced,
+  splashScreen,
+  limitedWidth,
+  row,
+  noPadding,
+  transparent,
+  className,
+  ...props
+}) {
   const topLayerClassName = classnames(SG, {
     [`${SGD}lead`]: lead,
     [`${SGD}fill`]: fill,

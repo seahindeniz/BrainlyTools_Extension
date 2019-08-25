@@ -2,7 +2,12 @@ import classnames from 'classnames';
 
 /**
  * @typedef {"normal"  | "small"  | "large"  | "full"} Size
- * @typedef {{ size?: Size, white?: boolean, grayDark?: boolean, className?: string}} Properties
+ * @typedef {{
+ * size?: Size,
+ * white?: boolean,
+ * grayDark?: boolean,
+ * className?: string,
+ * }} Properties
  */
 const SG = "sg-vertical-separator";
 const SGD = `${SG}--`;
@@ -10,7 +15,13 @@ const SGD = `${SG}--`;
 /**
  * @param {Properties} param0
  */
-export default function({ size = "normal", white, grayDark, className, ...props } = {}) {
+export default function({
+  size = "normal",
+  white,
+  grayDark,
+  className,
+  ...props
+} = {}) {
   const separatorClass = classnames(SG, {
     [SGD + size]: size !== "normal",
     [`${SGD}white`]: white,

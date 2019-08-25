@@ -2,7 +2,12 @@ import classnames from 'classnames';
 
 /**
  * @typedef {"xxsmall" | "xsmall" | "small"} Size
- * @typedef {{light?: boolean, size?: Size, className?: string, overlay?: boolean}} Properties
+ * @typedef {{
+ * light?: boolean,
+ * size?: Size,
+ * className?: string,
+ * overlay?: boolean,
+ * }} Properties
  */
 const SG = "sg-spinner";
 const SGD = `${SG}--`

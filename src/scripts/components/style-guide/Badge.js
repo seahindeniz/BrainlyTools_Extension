@@ -2,11 +2,20 @@ import classnames from 'classnames';
 import Text from './Text';
 
 /**
- * @typedef {"light" | "peach" | "mustard" | "mint" | "mint-secondary" | "blue-secondary" | "blue" | "gray-secondary" | "mint-secondary-light" | "peach-secondary-light" | "blue-secondary-light" | "lavender"} Color
+ * @typedef {"light" | "peach" | "mustard" | "mint" | "mint-secondary" |
+ * "blue-secondary" | "blue" | "gray-secondary" | "mint-secondary-light" |
+ * "peach-secondary-light" | "blue-secondary-light" | "lavender"} Color
  *
  * @typedef {"small" | "normal" | "large"} Size
  *
- * @typedef {{text?: import("./Text").Properties, color?: Color, size?: Size, rounded?: boolean, withAnimation?: boolean, children?: HTMLElement, className?: string}} Properties
+ * @typedef {{
+ * text?: import("./Text").Properties,
+ * color?: Color, size?: Size,
+ * rounded?: boolean,
+ * withAnimation?: boolean,
+ * children?: HTMLElement,
+ * className?: string,
+ * }} Properties
  */
 
 const BADGE_COLOR = {
@@ -46,7 +55,16 @@ const SG_ = `${SG}__`;
 /**
  * @param {Properties} param0
  */
-export default function({ text, color = "light", size = "normal", rounded, withAnimation, children, className, ...props } = {}) {
+export default function({
+  text,
+  color = "light",
+  size = "normal",
+  rounded,
+  withAnimation,
+  children,
+  className,
+  ...props
+} = {}) {
   const badgeClass = classnames(
     SG, {
       [SGD + color]: color !== BADGE_COLOR.NORMAL,

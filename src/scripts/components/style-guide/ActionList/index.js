@@ -5,9 +5,16 @@ export const ALIGNMENT = {
   STRETCH: 'stretch'
 };
 /**
- * @typedef {"to-right" | "centered" | "space-between" | "space-around" | "space-evenly"} Direction
+ * @typedef {"to-right" | "centered" | "space-between" | "space-around" |
+ * "space-evenly"} Direction
  * @typedef {"BASELINE" | "STRETCH"} ALIGNMENT
- * @typedef {{children?: HTMLElement, toTop?: boolean, direction?: Direction, align?: ALIGNMENT, noWrap?: boolean, className?: string}} Properties
+ * @typedef {{
+ * children?: HTMLElement,
+ * toTop?: boolean,
+ * direction?: Direction,align?: ALIGNMENT,
+ * noWrap?: boolean,
+ * className?: string,
+ * }} Properties
  */
 
 const sg = "sg-actions-list";
@@ -16,7 +23,15 @@ const SGD = `${sg}--`;
 /**
  * @param {Properties} param0
  */
-export default function({ children, toTop, direction, align, noWrap, className, ...props } = {}) {
+export default function({
+  children,
+  toTop,
+  direction,
+  align,
+  noWrap,
+  className,
+  ...props
+} = {}) {
   const actionListClass = classnames(sg, {
     [SGD + direction]: direction,
     [SGD + ALIGNMENT[align]]: ALIGNMENT[align],

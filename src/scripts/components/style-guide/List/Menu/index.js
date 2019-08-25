@@ -3,7 +3,11 @@ import { MenuListItem } from '../..';
 
 /**
  * @typedef {"small" | "normal" | "large"} Size
- * @typedef {{items?: import("./Item").Properties[], size?: Size, className?: string}} Properties
+ * @typedef {{
+ * items?: import("./Item").Properties[],
+ * size?: Size,
+ * className?: string,
+ * }} Properties
  */
 
 const SG = "sg-menu-list";

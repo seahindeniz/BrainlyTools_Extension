@@ -2,8 +2,15 @@ import Spinner from ".";
 import classnames from 'classnames';
 
 /**
- * @typedef {"xxsmall" | "xsmall" | "small" | "normal" | "large" | "xlarge" | "xxlarge"} Size
- * @typedef {{loading?: boolean, light?: boolean, size?: import("./index").Size, children?: HTMLElement, className?: string}} Properties
+ * @typedef {"xxsmall" | "xsmall" | "small" | "normal" | "large" | "xlarge" |
+ * "xxlarge"} Size
+ * @typedef {{
+ * loading?: boolean,
+ * light?: boolean,
+ * size?: import("./index").Size,
+ * children?: HTMLElement,
+ * className?: string,
+ * }} Properties
  */
 const SG = "sg-spinner-container";
 const SG_ = `${SG}__`
@@ -11,7 +18,14 @@ const SG_ = `${SG}__`
 /**
  * @param {Properties} param0
  */
-export default function({ loading, light, size, children, className, ...props } = {}) {
+export default function({
+  loading,
+  light,
+  size,
+  children,
+  className,
+  ...props
+} = {}) {
 
   let spinnerContainerClass = classnames(SG, className);
 

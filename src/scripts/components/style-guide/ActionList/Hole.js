@@ -2,7 +2,22 @@ import classnames from 'classnames';
 
 /**
  * @typedef {"xsmall" | "small"} Spacing
- * @typedef {{children?: HTMLElement, asContainer?: boolean, spacing?: Spacing, noSpacing?: boolean, spaceBellow?: boolean, spacedLarge?: boolean, noShrink?: boolean, grow?: boolean, toEnd?: boolean, toRight?: boolean, stretch?: boolean, equalWidth?: boolean, hideOverflow?: boolean, className?: string}} Properties
+ * @typedef {{
+ * children?: HTMLElement,
+ * asContainer?: boolean,
+ * spacing?: Spacing,
+ * noSpacing?: boolean,
+ * spaceBellow?: boolean,
+ * spacedLarge?: boolean,
+ * noShrink?: boolean,
+ * grow?: boolean,
+ * toEnd?: boolean,
+ * toRight?: boolean,
+ * stretch?: boolean,
+ * equalWidth?: boolean,
+ * hideOverflow?: boolean,
+ * className?: string,
+ * }} Properties
  */
 
 const sg = "sg-actions-list__hole";
@@ -11,7 +26,23 @@ const SGD = `${sg}--`;
 /**
  * @param {Properties} param0
  */
-export default function ({ children, asContainer, spacing, noSpacing, spaceBellow, spacedLarge, noShrink, grow, toEnd, toRight, stretch, equalWidth, hideOverflow, className, ...props } = {}) {
+export default function({
+  children,
+  asContainer,
+  spacing,
+  noSpacing,
+  spaceBellow,
+  spacedLarge,
+  noShrink,
+  grow,
+  toEnd,
+  toRight,
+  stretch,
+  equalWidth,
+  hideOverflow,
+  className,
+  ...props
+} = {}) {
   const actionListHoleClass = classnames('sg-actions-list__hole', {
     [`${SGD}container`]: asContainer,
     [`${SGD}no-spacing`]: noSpacing,

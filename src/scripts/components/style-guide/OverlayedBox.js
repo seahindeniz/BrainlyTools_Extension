@@ -2,7 +2,11 @@ import classnames from 'classnames';
 
 /**
  * @typedef {"small" | "normal" | "large"} Size
- * @typedef {{children?: HTMLElement, overlay?: HTMLElement, className?: string}} Properties
+ * @typedef {{
+ * children?: HTMLElement,
+ * overlay?: HTMLElement,
+ * className?: string,
+ * }} Properties
  */
 
 const SG = "sg-overlayed-box";

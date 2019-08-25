@@ -7,7 +7,13 @@ import { ActionListHole } from '.';
 
 /**
  * @typedef {"success" | "error" | "info"} Type - Default is blue
- * @typedef {{text?: string, html?: string, type?: Type, className?: string, noIcon?: boolean}} Properties
+ * @typedef {{
+ * text?: string,
+ * html?: string,
+ * type?: Type,
+ * className?: string,
+ * noIcon?: boolean,
+ * }} Properties
  */
 const SG = "sg-flash__message";
 const SGD = `${SG}--`;
@@ -40,6 +46,7 @@ export default function({ text, html, type, className, noIcon, ...props } = {}) 
   if (noIcon)
     message.appendChild(textElement);
   else
+    // @ts-ignore
     message = Build(message, [
       [
         ActionList({

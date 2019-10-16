@@ -4,13 +4,13 @@ import extensionConfig from "../../configs/_/extension.json";
 import ArrayLast from "../helpers/ArrayLast";
 import storage from "../helpers/extStorage";
 import InjectToDOM from "../helpers/InjectToDOM";
-import ext from "../utils/ext";
 import Action from "./Req/Brainly/Action";
 import ServerReq from "./Req/Server/index.js";
 
 class _System {
   constructor(main) {
-    this.logStyle = `font-size: 11px;color: #4fb3f6;font-family:century gothic;`;
+    this.logStyle =
+      `font-size: 11px;color: #4fb3f6;font-family:century gothic;`;
     this.main = main;
     let that = this;
     this.constants = {
@@ -30,8 +30,8 @@ class _System {
           "brainly.ro",
         ],
         style_guide: {
-          icons: "https://styleguide.brainly.com/images/std-icons-4fd63f0d49.js" + "?treat=.ext_js",
-          oldIcons: "https://styleguide.brainly.com/images/icons-b09022954c.js" + "?treat=.ext_js"
+          icons: "https://styleguide.brainly.com/images/icons-dbb19c2ba8.js" +
+            "?treat=.ext_js",
         },
         githubHighlight: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css",
       },
@@ -67,7 +67,8 @@ class _System {
     this.data = {
       Brainly: {
         get apiURL() {
-          return (that.data.meta.location.origin || document.location.origin) + "/api/28"
+          return (that.data.meta.location.origin || document.location
+            .origin) + "/api/28"
         },
         get nullAvatar() {
           return `/img/avatars/100-ON.png`;
@@ -101,7 +102,8 @@ class _System {
    * @param  {...any} args
    */
   Log(...args) {
-    let isContainsObject = args.filter(arg => typeof arg !== "string" || typeof arg !== "number");
+    let isContainsObject = args.filter(arg => typeof arg !== "string" ||
+      typeof arg !== "number");
 
     if (!isContainsObject)
       console.log(`%c${args.join(" ")}`, this.logStyle);
@@ -118,7 +120,8 @@ class _System {
    * @return {Promise<number>} - milliseconds
    */
   Delay(milliseconds = this.randomNumber(1000, 4000)) {
-    return new Promise(resolve => setTimeout(() => resolve(milliseconds), milliseconds));
+    return new Promise(resolve => setTimeout(() => resolve(milliseconds),
+      milliseconds));
   }
   TestDelay() {
     return this.Delay(this.randomNumber(100, 500))
@@ -135,7 +138,10 @@ class _System {
   }
   pageLoaded(loadMessage) {
     this.Log(loadMessage);
-    this.Log(`Brainly Tools loaded in ${Number((performance.now() - window.performanceStartTiming).toFixed(2))} milliseconds`);
+    this.Log(
+      // @ts-ignore
+      `Brainly Tools loaded in ${Number((performance.now() - window.performanceStartTiming).toFixed(2))} milliseconds`
+    );
   }
   checkRoute(index, str) {
     let curr_path = this.data.meta.location.pathname.split("/"),
@@ -148,7 +154,8 @@ class _System {
       } else if ((curr_path[index] || "") == str) {
         result = true;
       } else {
-        let route = this.data.Brainly.Routing.routes[str] || this.data.Brainly.Routing.routes[this.data.Brainly.Routing.prefix + str];
+        let route = this.data.Brainly.Routing.routes[str] || this.data.Brainly
+          .Routing.routes[this.data.Brainly.Routing.prefix + str];
 
         if (route) {
           let tokens = route.tokens;
@@ -179,18 +186,33 @@ class _System {
       data
     };
 
-    if (this.data.meta.extension && this.data.meta.extension.id) {
-      return ext.runtime.sendMessage(this.data.meta.extension.id, messageData);
-    } else {
-      return ext.runtime.sendMessage(messageData);
-    }
+    return new Promise((resolve, reject) => {
+      let handler = (response) => {
+        try {
+          resolve(response);
+        } catch (error) {
+          reject(error);
+        }
+      };
+      try {
+        // @ts-ignore
+        window.chrome.runtime.sendMessage(this.data.meta.extension && this
+          .data.meta.extension.id,
+          messageData, handler);
+      } catch (error) {
+        reject(error);
+      }
+    });
   }
   ShareSystemDataToBackground() {
     return new Promise(async (resolve, reject) => {
       let res = await this.toBackground("setMarketData", this.data);
 
       if (!res) {
-        reject({ message: "I couldn't share the System data variable to background", res });
+        reject({
+          message: "I couldn't share the System data variable to background",
+          res
+        });
       } else {
         this.Log("Data shared with background OK!");
         resolve();
@@ -212,18 +234,22 @@ class _System {
 
     if (user) {
       if (user.avatar) {
-        avatar = user.avatar[64] || user.avatar[100] || user.avatar.src || user.avatar.small || user.avatar.medium;
+        avatar = user.avatar[64] || user.avatar[100] || user.avatar.src ||
+          user.avatar.small || user.avatar.medium;
       }
       if (user.avatars) {
-        avatar = user.avatars[64] || user.avatars[100] || user.avatars.src || user.avatars.small || user.avatars.medium;
+        avatar = user.avatars[64] || user.avatars[100] || user.avatars.src ||
+          user.avatars.small || user.avatars.medium;
       }
       if (user[64] || user[100] || user.src || user.small || user.medium) {
-        avatar = user[64] || user[100] || user.src || user.small || user.medium;
+        avatar = user[64] || user[100] || user.src || user.small || user
+          .medium;
       }
     }
 
     if (avatar && returnIcon) {
-      avatar = `<img class="sg-avatar__image sg-avatar__image--icon" src="${avatar}">`;
+      avatar =
+        `<img class="sg-avatar__image sg-avatar__image--icon" src="${avatar}">`;
     } else if (!avatar) {
       if (returnIcon)
         avatar =
@@ -245,8 +271,8 @@ class _System {
     return avatar;
   }
   /**
-   * @typedef {{src?: string, small?: string, medium?: string, 64: string, 100: string}} Avatar
-   * @param {{avatar?: Avatar, avatars: Avatar} & Avatar} entry
+   * @typedef {{src?: string, small?: string, medium?: string, 64?: string, 100?: string}} Avatar
+   * @param {{avatar?: Avatar, avatars?: Avatar} & Avatar} entry
    */
   ExtractAvatarURL(entry) {
     let avatarURL = "";
@@ -283,7 +309,8 @@ class _System {
     }
 
     if (!this.profileLinkRoute)
-      this.profileLinkRoute = ArrayLast(ArrayLast(this.data.Brainly.Routing.routes[this.data.Brainly.Routing.prefix + "user_profile"].tokens));
+      this.profileLinkRoute = ArrayLast(ArrayLast(this.data.Brainly.Routing
+        .routes[this.data.Brainly.Routing.prefix + "user_profile"].tokens));
 
     if (!noOrigin) {
       origin = this.data.meta.location.origin;
@@ -299,24 +326,29 @@ class _System {
 
     if (type === "profile") {
       if (!this.routeMasks.profile)
-        this.routeMasks.profile = ArrayLast(ArrayLast(this.data.Brainly.Routing.routes[this.data.Brainly.Routing.prefix + "user_profile"].tokens));
+        this.routeMasks.profile = ArrayLast(ArrayLast(this.data.Brainly
+          .Routing.routes[this.data.Brainly.Routing.prefix + "user_profile"]
+          .tokens));
 
       if (this.routeMasks.profile) {
         /* console.log(System.data.meta.location.origin);
         console.log(this.routeMasks.profile);
         console.log(data.nick);
         console.log((data.id || data.brainlyID)); */
-        _return = this.data.meta.location.origin + this.routeMasks.profile + "/" + data.nick + "-" + (data.id || data.brainlyID);
+        _return = this.data.meta.location.origin + this.routeMasks.profile +
+          "/" + data.nick + "-" + (data.id || data.brainlyID);
       } else
         _return = "";
     }
     if (type === "task") {
       if (!this.routeMasks.task) {
-        this.routeMasks.task = ArrayLast(ArrayLast(this.data.Brainly.Routing.routes[this.data.Brainly.Routing.prefix + "task_view"].tokens));
+        this.routeMasks.task = ArrayLast(ArrayLast(this.data.Brainly.Routing
+          .routes[this.data.Brainly.Routing.prefix + "task_view"].tokens));
       }
 
       if (this.routeMasks.task)
-        _return = this.data.meta.location.origin + this.routeMasks.task + "/" + (data.id || data.brainlyID);
+        _return = this.data.meta.location.origin + this.routeMasks.task +
+        "/" + (data.id || data.brainlyID);
       else
         _return = "";
     }
@@ -409,12 +441,14 @@ class _System {
         /**
          * @type {HTMLScriptElement}
          */
-        let localeData = await InjectToDOM(`/locales/${language}.${fileType}`);
+        let localeData = await InjectToDOM(
+          `/locales/${language}.${fileType}`);
 
         resolve(localeData);
       } catch (error) {
         if (language != "en_US") {
-          console.warn("Missing language file, switching to default language");
+          console.warn(
+            "Missing language file, switching to default language");
           this.prepareLangFile("en_US", resolve, reject);
         } else {
           reject("Cannot find the default language file of extension");
@@ -428,11 +462,14 @@ class _System {
   }
   canBeWarned(reasonID) {
     let isIt = false;
-    let preference = this.data.Brainly.deleteReasons.__preferences.find(pref => pref.reasonID == reasonID);
+    let preference = this.data.Brainly.deleteReasons.__preferences.find(
+      pref => pref.reasonID == reasonID);
 
     if (preference && preference.confirmation != null) {
       if (preference.confirmation) {
-        isIt = confirm(`\n\n${this.data.locale.common.notificationMessages.mayRequireWarning}\n\n`);
+        isIt = confirm(
+          `\n\n${this.data.locale.common.notificationMessages.mayRequireWarning}\n\n`
+        );
       } else {
         isIt = true;
       }
@@ -479,7 +516,7 @@ class _System {
   }
   /**
    * @param {number[]} users
-   * @param {{each: function, done?: function}} handlers
+   * @param {{each?: function, done?: function}} handlers
    */
   async StoreUsers(users, handlers) {
     if (typeof users == "string")

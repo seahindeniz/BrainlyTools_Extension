@@ -102,7 +102,7 @@ class PointChanger {
       type: "primary-mint",
       size: "small",
       icon: {
-        type: "std-check"
+        type: "check"
       }
     });
   }
@@ -281,7 +281,7 @@ class PointChanger {
       size: "small",
       title: System.data.locale.core.pointChanger.addPoint,
       icon: {
-        type: "std-check"
+        type: "check"
       }
     });
 

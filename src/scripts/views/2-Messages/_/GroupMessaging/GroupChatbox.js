@@ -118,7 +118,7 @@ class GroupChatbox {
       type: "destructive",
       size: "xsmall",
       icon: {
-        type: "x"
+        type: "close"
       },
       text: System.data.locale.common.delete,
       title: System.data.locale.messages.groups.deleteGroup

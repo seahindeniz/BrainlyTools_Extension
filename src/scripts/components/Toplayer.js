@@ -39,7 +39,7 @@ class Toplayer {
       this.$toplayer.addClass(`sg-toplayer--modal sg-toplayer--${this.size}`);
 
     /* let iconX = Icon({
-      type: "std-close",
+      type: "close",
       size: 14,
       color: "gray-secondary"
     }); */

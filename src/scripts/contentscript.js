@@ -78,7 +78,6 @@ class Contentscript {
       if (isContains && !document.body.attributes.itemtype)
         InjectToDOM([
           System.constants.Brainly.style_guide.icons,
-          System.constants.Brainly.style_guide.oldIcons
         ]);
     }
   }

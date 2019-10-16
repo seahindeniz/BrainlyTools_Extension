@@ -5,7 +5,7 @@ import classnames from 'classnames';
  * "xxlarge"} Size
  * @typedef {"left" | "center" | "right"} Alignment
  * @typedef {{
- * children?: HTMLElement,
+ * children?: HTMLElement | HTMLElement[],
  * full?: boolean,
  * spacedTop?: true | Size,
  * spacedBottom?: true | Size,
@@ -35,20 +35,26 @@ export default function({
     [`${SGD}full`]: full,
     [`${SGD}with-centered-text`]: align === "center",
     [`${SGD}spaced-top`]: spacedTop === "normal" || spacedTop === true,
-    [`${SGD}spaced-top-${spacedTop || ''}`]: spacedTop && spacedTop !== "normal" && spacedTop !== true,
-    [`${SGD}spaced-bottom`]: spacedBottom === "normal" || spacedBottom === true,
-    [`${SGD}spaced-bottom-${spacedBottom || ''}`]: spacedBottom && spacedBottom !== "normal" && spacedBottom !== true
+    [`${SGD}spaced-top-${spacedTop || ''}`]: spacedTop && spacedTop !==
+      "normal" && spacedTop !== true,
+    [`${SGD}spaced-bottom`]: spacedBottom === "normal" || spacedBottom ===
+      true,
+    [`${SGD}spaced-bottom-${spacedBottom || ''}`]: spacedBottom &&
+      spacedBottom !== "normal" && spacedBottom !== true
   }, className);
 
   let div = document.createElement("div");
   div.className = contentBoxClass;
 
-  if (children)
-    div.appendChild(children);
+  if (children instanceof Array && children.length > 0)
+    div.append(...children);
+  else if (children instanceof HTMLElement)
+    div.append(children);
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))
-      div.setAttribute(propName, propVal)
+      if (propVal)
+        div[propName] = propVal;
 
   return div;
 }

@@ -3,7 +3,7 @@ import classnames from 'classnames';
 /**
  * @typedef {{
  * partial?: boolean,
- * children?: HTMLElement,
+ * children?: HTMLElement | HTMLElement[],
  * className?: string,
  * }} Properties
  */
@@ -22,12 +22,15 @@ export default function({ partial, children, className, ...props } = {}) {
   let container = document.createElement("div");
   container.className = overlayClass;
 
-  if (children)
-    container.appendChild(children)
+  if (children instanceof Array && children.length > 0)
+    container.append(...children);
+  else if (children instanceof HTMLElement)
+    container.append(children);
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))
-      container.setAttribute(propName, propVal);
+      if (propVal)
+        container[propName] = propVal;
 
   return container;
 }

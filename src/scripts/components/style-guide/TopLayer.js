@@ -4,7 +4,7 @@ import Icon from './Icon';
 /**
  * @typedef {"small" | "medium" | "large"} Size
  * @typedef {{
- * children?: HTMLElement,
+ * children?: HTMLElement | HTMLElement[],
  * onClose?: EventListenerOrEventListenerObject,
  * size?: Size,
  * lead?: boolean,
@@ -71,14 +71,16 @@ export default function({
     for (let [propName, propVal] of Object.entries(props))
       toplayer[propName] = propVal;
 
-  if (children)
-    wrapper.appendChild(children);
+  if (children instanceof Array && children.length > 0)
+    wrapper.append(...children);
+  else if (children instanceof HTMLElement)
+    wrapper.append(children);
 
   if (onClose) {
     let close = document.createElement("div");
     close.className = `${SG_}close`;
     let icon = Icon({
-      type: "std-close",
+      type: "close",
       color: "gray-secondary",
       size: 24
     });

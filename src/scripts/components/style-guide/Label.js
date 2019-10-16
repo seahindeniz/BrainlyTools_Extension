@@ -6,18 +6,18 @@ import Icon from './Icon';
  *
  * @typedef {"small" | "normal" | "large"} Size
  * @typedef {{
- * size?: Size,
- * text?: string,
- * html?: string,
- * children?: HTMLElement,
- * number?: number,
- * icon?: IconProperties | HTMLElement,
- * htmlFor?: string,
- * secondary?: boolean,
- * unstyled?: boolean,
- * emphasised?: boolean,
- * elementsToTop?: boolean,
- * className?: string,
+ *  size?: Size,
+ *  text?: string,
+ *  html?: string | HTMLElement,
+ *  children?: HTMLElement | HTMLElement[],
+ *  number?: number,
+ *  icon?: IconProperties | HTMLElement,
+ *  htmlFor?: string,
+ *  secondary?: boolean,
+ *  unstyled?: boolean,
+ *  emphasised?: boolean,
+ *  elementsToTop?: boolean,
+ *  className?: string,
  * }} Properties
  *
  * @typedef {function(HTMLElement | IconProperties): Element} ChangeIcon
@@ -65,11 +65,17 @@ export default function({
   container.className = labelClass;
 
   if (icon) {
+    /**
+     * @type {HTMLElement}
+     */
+    let iconElement;
     let iconContainer = document.createElement("div");
     iconContainer.className = `${SG_}icon`;
 
-    if (!(icon instanceof HTMLElement)) {
-      icon = Icon({
+    if (icon instanceof HTMLElement)
+      iconElement = icon;
+    else {
+      iconElement = Icon({
         ...icon,
         size: size == "small" ? 18 : size == "large" ? 24 : 16
       });
@@ -80,7 +86,7 @@ export default function({
       // @ts-ignore
       icon.ChangeId(htmlFor);
 
-    iconContainer.appendChild(icon);
+    iconContainer.appendChild(iconElement);
     container.appendChild(iconContainer);
   }
 
@@ -90,6 +96,8 @@ export default function({
 
     if (text)
       label.innerText = text;
+    else if (html instanceof HTMLElement)
+      label.append(html);
     else
       label.innerHTML = html;
 
@@ -112,7 +120,8 @@ export default function({
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))
-      container.setAttribute(propName, propVal)
+      if (propVal)
+        container[propName] = propVal;
 
   container.size = size;
   // @ts-ignore
@@ -126,19 +135,24 @@ export default function({
  * @param {HTMLElement | IconProperties} icon
  */
 function _ChangeIcon(icon) {
+  /**
+   * @type {HTMLElement}
+   */
+  let iconElement;
   let iconContainer = this.querySelector(`.${SG_}icon`);
-
   let oldIcon = iconContainer.firstElementChild;
 
   if (oldIcon)
     iconContainer.removeChild(oldIcon);
 
-  if (!(icon instanceof HTMLElement)) {
-    icon = Icon({
+  if (icon instanceof HTMLElement)
+    iconElement = icon;
+  else {
+    iconElement = Icon({
       ...icon,
       size: this.size == "small" ? 18 : this.size == "large" ? 24 : 16
     });
   }
 
-  iconContainer.appendChild(icon);
+  iconContainer.appendChild(iconElement);
 }

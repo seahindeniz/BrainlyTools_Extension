@@ -26,7 +26,8 @@ export default function({ light, size, className, overlay, ...props } = {}) {
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))
-      spinner.setAttribute(propName, propVal)
+      if (propVal)
+        spinner[propName] = propVal;
 
   if (overlay) {
     let overlay = document.createElement("div");

@@ -1,17 +1,22 @@
 import classnames from 'classnames';
 
 /**
+ * @typedef {"normal" | "tall" | "xtall"} Size
+ *
  * @typedef {{
  * value?: string | number,
  * text?: string,
  * title?: string,
  * } & Object<string, *>} OptionProperties
+ *
  * @typedef {{
- * value?: string | number,
+ * value?: string | number | string[] | number[],
  * valid?: boolean,
  * invalid?: boolean,
  * capitalized?: boolean,
  * fullWidth?: boolean,
+ * multiple?: boolean,
+ * size?: Size,
  * className?: string,
  * options?: OptionProperties[],
  * }} Properties
@@ -29,6 +34,8 @@ export default function({
   invalid,
   capitalized,
   fullWidth,
+  multiple,
+  size = "normal",
   className,
   options = [],
   ...props
@@ -40,26 +47,27 @@ export default function({
     [`${SGD}valid`]: valid,
     [`${SGD}invalid`]: invalid,
     [`${SGD}capitalized`]: capitalized,
-    [`${SGD}full-width`]: fullWidth
+    [`${SGD}full-width`]: fullWidth,
+    [`${SGD}multiple`]: multiple,
+    [SGD + size]: multiple === true && size !== "normal",
   }, className);
 
   let container = document.createElement("div");
   container.className = selectClass;
 
-  let icon = document.createElement("div");
-  icon.className = `${SG_}icon`;
+  if (!multiple) {
+    let icon = document.createElement("div");
+    icon.className = `${SG_}icon`;
 
-  container.appendChild(icon);
+    container.appendChild(icon);
+  }
 
   let select = document.createElement("select");
   select.className = `${SG_}element`;
 
-  if (value)
-    select.value = String(value);
+  RenderOptions(select, options, value);
 
   container.appendChild(select);
-
-  RenderOptions(select, options);
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))
@@ -71,8 +79,9 @@ export default function({
 /**
  * @param {HTMLSelectElement} select
  * @param {OptionProperties[]} options
+ * @param {string | number | string[] | number[]} [values]
  */
-function RenderOptions(select, options) {
+function RenderOptions(select, options, values) {
   options.forEach(({ value, text, title, ...props }) => {
     let optionElement = document.createElement("option");
 
@@ -84,6 +93,13 @@ function RenderOptions(select, options) {
 
     if (value)
       optionElement.value = String(value);
+
+    if (values)
+      if (values instanceof Array)
+        // @ts-ignore
+        optionElement.selected = values.includes(value);
+      else
+        optionElement.selected = values === value;
 
     if (props)
       for (let [propName, propVal] of Object.entries(props))

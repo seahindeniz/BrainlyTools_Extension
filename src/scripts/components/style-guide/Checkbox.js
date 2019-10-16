@@ -5,7 +5,11 @@ import Icon from './Icon';
 /**
  * @typedef {"small" | "normal" | "large"} Size
  *
- * @typedef {{checked?: boolean, id?: string, className?: string}} Properties
+ * @typedef {{
+ *  checked?: boolean,
+ *  id?: string,
+ *  className?: string,
+ * }} Properties
  *
  * @typedef {function(string):Element} ChangeId
  *
@@ -60,7 +64,7 @@ export default function({
   let icon = Icon({
     type: "check",
     color: "adaptive",
-    size: 10
+    size: 16
   });
 
   label.append(icon);

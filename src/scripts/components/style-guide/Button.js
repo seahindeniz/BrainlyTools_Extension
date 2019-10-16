@@ -1,9 +1,7 @@
 import classnames from 'classnames';
-import Icon from "./Icon";
+import Icon, * as IconModule from "./Icon";
 
 /**
- * @typedef {import("./Icon").Properties} IconProperties
- * @typedef {import("./Icon").IconElement} IconElement
  *
  * @typedef {"primary" | "primary-inverted" | "primary-blue" | "primary-mint" |
  * "secondary" | "link-button" | "link-button-inverted" | "link-button-peach" |
@@ -22,50 +20,51 @@ import Icon from "./Icon";
  * right?: sizeList,
  * }} cornerSpaces
  *
- * @typedef {function():ButtonElement} Hide
- * @typedef {function():ButtonElement} Show
- * @typedef {function():ButtonElement} Enable
- * @typedef {function():ButtonElement} Disable
- * @typedef {function():ButtonElement} Active
- * @typedef {function():ButtonElement} Inactive
- * @typedef {function():ButtonElement} IsDisabled
- * @typedef {function(Type):ButtonElement} ChangeType
- * @typedef {function(Type):ButtonElement} ToggleType
- * @typedef {function(IconElement=):ButtonElement} ChangeIcon
+ * @typedef {function(): ButtonElement} Hide
+ * @typedef {function(): ButtonElement} Show
+ * @typedef {function(): ButtonElement} Enable
+ * @typedef {function(): ButtonElement} Disable
+ * @typedef {function(): ButtonElement} Active
+ * @typedef {function(): ButtonElement} Inactive
+ * @typedef {function(): ButtonElement} IsDisabled
+ * @typedef {function(Type): ButtonElement} ChangeType
+ * @typedef {function(Type): ButtonElement} ToggleType
+ * @typedef {function(IconModule.IconElement=): ButtonElement} ChangeIcon
  *
  * @typedef {{
- * _type: Type,
- * mainType:Type,
- * icon: IconElement,
- * Hide: Hide,
- * Show: Show,
- * Enable: Enable,
- * Disable: Disable,
- * Active: Active,
- * Inactive: Inactive,
- * ChangeType: ChangeType,
- * ToggleType: ToggleType,
- * IsDisabled: IsDisabled,
- * ChangeIcon: ChangeIcon,
+ *  _type: Type,
+ *  mainType:Type,
+ *  icon: IconModule.IconElement,
+ *  Hide: Hide,
+ *  Show: Show,
+ *  Enable: Enable,
+ *  Disable: Disable,
+ *  Active: Active,
+ *  Inactive: Inactive,
+ *  ChangeType: ChangeType,
+ *  ToggleType: ToggleType,
+ *  IsDisabled: IsDisabled,
+ *  ChangeIcon: ChangeIcon,
  * }} CustomProperties
  *
  * @typedef {(HTMLAnchorElement | HTMLButtonElement | HTMLLabelElement) &
  * CustomProperties} ButtonElement
  *
  * @typedef {{
- * tag?: "button" | "a" | "label",
- * size?: Size,
- * type?: Type,
- * icon?: IconProperties,
- * href?: string,
- * fullWidth?: boolean,
- * disabled?: boolean,
- * children?: HTMLElement,
- * className?: string,
- * text?: string,
- * html?: string,
- * title?: string,
- * spaced?: cornerSpaces
+ *  tag?: "button" | "a" | "label",
+ *  size?: Size,
+ *  type?: Type,
+ *  icon?: IconModule.Properties | HTMLElement,
+ *  href?: string,
+ *  fullWidth?: boolean,
+ *  disabled?: boolean,
+ *  children?: HTMLElement | HTMLElement[],
+ *  className?: string,
+ *  text?: string,
+ *  html?: string,
+ *  title?: string,
+ *  spaced?: cornerSpaces,
+ *  [x: string]: *,
  * }} Properties
  */
 
@@ -75,6 +74,7 @@ const SG_ = `${sg}__`;
 
 /**
  * @param {Properties} param0
+ * @returns {ButtonElement}
  */
 export default function({
   tag = "button",
@@ -150,7 +150,8 @@ export default function({
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))
-      button.setAttribute(propName, propVal)
+      if (propVal)
+        button[propName] = propVal;
 
   if (text || html || children) {
     let textElement = document.createElement("span");
@@ -161,19 +162,27 @@ export default function({
     else if (text)
       textElement.innerText = text;
 
-    if (children)
-      textElement.appendChild(children);
+    if (children instanceof Array && children.length > 0)
+      textElement.append(...children);
+    else if (children instanceof HTMLElement)
+      textElement.append(children);
 
     button.appendChild(textElement);
   }
 
   if (icon) {
-    let iconElement = Icon({
-      size: size == "xsmall" ? 18 : 24,
-      color: "adaptive",
-      ...icon
-    });
-    button.icon = iconElement;
+    let iconElement;
+
+    if (icon instanceof HTMLElement)
+      iconElement = icon;
+    else {
+      iconElement = Icon({
+        size: size == "xsmall" ? 18 : 24,
+        color: "adaptive",
+        ...icon
+      });
+      button.icon = iconElement;
+    }
 
     _AddIcon.bind(button)(iconElement);
   }

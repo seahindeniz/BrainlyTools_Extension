@@ -7,13 +7,13 @@ import classnames from 'classnames';
  * @typedef {"left" | "center" | "right"} Alignment
  *
  * @typedef {{
- * children?: HTMLElement,
- * spaced?: boolean,
- * spacedSmall?: boolean,
- * spacedTop?: Size,
- * spacedBottom?: Size,full?: boolean,
- * className?: string,
- * align?: Alignment,
+ *  children?: HTMLElement | HTMLElement[],
+ *  spaced?: boolean,
+ *  spacedSmall?: boolean,
+ *  spacedTop?: Size,
+ *  spacedBottom?: Size,full?: boolean,
+ *  className?: string,
+ *  align?: Alignment,
  * }} Properties
  */
 const SG = "sg-content-box__header";
@@ -37,7 +37,8 @@ export default function({
     [`${SGD}spaced`]: spaced,
     [`${SGD}spaced-small`]: spacedSmall,
     [`${SGD}spaced-top`]: spacedTop === "normal",
-    [`${SGD}spaced-top-${spacedTop || ''}`]: spacedTop && spacedTop !== "normal",
+    [`${SGD}spaced-top-${spacedTop || ''}`]: spacedTop && spacedTop !==
+      "normal",
     [`${SGD}spaced-bottom`]: spacedBottom === "normal",
     [`${SGD}spaced-bottom-${spacedBottom || ""}`]: (
       spacedBottom &&
@@ -48,8 +49,10 @@ export default function({
   let div = document.createElement("div");
   div.className = contentBoxClass;
 
-  if (children)
-    div.appendChild(children);
+  if (children instanceof Array && children.length > 0)
+    div.append(...children);
+  else if (children instanceof HTMLElement)
+    div.append(children);
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))

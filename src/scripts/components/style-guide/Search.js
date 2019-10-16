@@ -15,7 +15,7 @@ export default function({ adaptiveIco, ...props } = {}) {
     ...props
   });
   let icon = Icon({
-    type: "std-search",
+    type: "search",
     size: 18,
     color: adaptiveIco ? "adaptive" : "gray-secondary"
   });

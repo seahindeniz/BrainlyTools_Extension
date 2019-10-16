@@ -1,25 +1,28 @@
 import classnames from 'classnames';
-import { MenuListItem } from '../..';
 
 /**
- * @typedef {"small" | "normal" | "large"} Size
  * @typedef {{
- * items?: import("./Item").Properties[],
- * size?: Size,
- * className?: string,
+ *  spaced?: boolean,
+ *  children?: HTMLElement | HTMLElement[],
+ *  className?: string,
  * }} Properties
  */
 
-const SG = "sg-menu-list";
+const SG = "sg-list";
 const SGD = `${SG}--`;
 const SG_ = `${SG}__`;
 
 /**
  * @param {Properties} param0
  */
-export default function({ items, size = "normal", className, ...props } = {}) {
+export default function({
+  spaced,
+  className,
+  children,
+  ...props
+} = {}) {
   const listClass = classnames(SG, {
-      [SGD + size]: size !== "normal",
+      [`${SGD}spaced-elements`]: spaced,
     },
     className
   );
@@ -32,8 +35,10 @@ export default function({ items, size = "normal", className, ...props } = {}) {
       if (propVal)
         list[propName] = propVal;
 
-  if (items)
-    items.forEach(item => list.append(MenuListItem(item)));
+  if (children instanceof Array)
+    list.append(...children);
+  else if (children)
+    list.append(children);
 
   return list;
 }

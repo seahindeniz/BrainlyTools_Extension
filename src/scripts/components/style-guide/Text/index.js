@@ -26,22 +26,26 @@ export const TEXT_ALIGN = Object.freeze({
  * @typedef {"LEFT" | "CENTER" | "RIGHT" | "JUSTIFY"} Align
  *
  * @typedef {{
- * children?: HTMLElement,
- * text?: string | number,
- * html?: string,
- * type?: Type,
- * size?: Size,
- * weight?: Weight,
- * color?: Color,
- * transform?: Transform,
- * align?: Align,
- * noWrap?: boolean,
- * asContainer?: boolean,
- * full?: boolean,
- * breakWords?: boolean,
- * className?: string,
- * bgColor?: BgColor,
- * }} Properties
+ *  children?: HTMLElement | HTMLElement[],
+ *  text?: string | number,
+ *  html?: string,
+ *  type?: Type,
+ *  size?: Size,
+ *  weight?: Weight,
+ *  color?: Color,
+ *  transform?: Transform,
+ *  align?: Align,
+ *  noWrap?: boolean,
+ *  asContainer?: boolean,
+ *  full?: boolean,
+ *  breakWords?: boolean,
+ *  title?: string,
+ *  href?: string,
+ *  underlined?: boolean,
+ *  unstyled?: boolean,
+ *  className?: string,
+ *  bgColor?: BgColor,
+ * } & Object<string, *>} Properties
  */
 
 const SG = "sg-text";
@@ -64,6 +68,10 @@ export default function({
   asContainer,
   full,
   breakWords,
+  title,
+  href,
+  underlined,
+  unstyled,
   className,
   bgColor,
   ...props
@@ -78,14 +86,26 @@ export default function({
     [`${SGD}container`]: asContainer,
     [`${SGD}full`]: full,
     [`${SGD}no-wrap`]: noWrap,
-    [`${SGD}break-words`]: breakWords
+    [`${SGD}break-words`]: breakWords,
+    [`${SGD}underlined`]: underlined,
+    [`${SGD}unstyled`]: unstyled,
   }, className);
+
+  if (href !== undefined && href !== "")
+    type = "a";
 
   let textElement = document.createElement(type);
   textElement.className = textClass;
 
-  if (children)
-    textElement.appendChild(children);
+  if (textElement instanceof HTMLAnchorElement) {
+    textElement.classList.add(`${SGD}link`);
+
+    if (href)
+      textElement.href = href;
+  }
+
+  if (title)
+    textElement.title = title;
 
   if (text !== undefined)
     textElement.innerText = String(text);
@@ -93,9 +113,15 @@ export default function({
   if (html !== undefined)
     textElement.innerHTML = html;
 
+  if (children instanceof Array && children.length > 0)
+    textElement.append(...children);
+  else if (children instanceof HTMLElement)
+    textElement.append(children);
+
   if (props)
     for (let [propName, propVal] of Object.entries(props))
-      textElement.setAttribute(propName, propVal)
+      if (propVal)
+        textElement[propName] = propVal;
 
   return textElement;
 }

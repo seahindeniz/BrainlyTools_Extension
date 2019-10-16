@@ -2,9 +2,13 @@ import classnames from 'classnames';
 
 /**
  * @typedef {"short" | "normal" | "tall" | "xtall"} Size
+ *
  * @typedef {true | "vertical" | "horizontal" | "both"} Direction
+ *
+ * @typedef {"textarea" | "div"} EditableElements
+ *
  * @typedef {{
- * type?: "textarea" | "div",
+ * tag?: EditableElements,
  * placeholder?: string,
  * value?: string | number,
  * size?: Size,
@@ -19,14 +23,16 @@ import classnames from 'classnames';
  * contentEditable?: boolean,
  * } & Object<string, *>} Properties
  */
+
 const SG = "sg-textarea";
-const SGD = `${SG}--`
+const SGD = `${SG}--`;
 
 /**
- * @param {Properties} param0
+ * @template {EditableElements} T
+ * @param {{tag?: T} & Properties} param0
  */
 export default function({
-  type = "textarea",
+  tag,
   placeholder,
   value = "",
   size = "normal",
@@ -56,7 +62,11 @@ export default function({
     [`${SGD}resizable-${resizable}`]: resizable && resizable !== true
   }, className);
 
-  let textarea = document.createElement(type);
+  // @ts-ignore
+  if (!tag) tag = "textarea";
+
+  let textarea = document.createElement(tag);
+
   textarea.className = textareaClass;
 
   if (
@@ -76,7 +86,8 @@ export default function({
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))
-      textarea.setAttribute(propName, propVal)
+      if (propVal)
+        textarea[propName] = propVal;
 
   return textarea
 }

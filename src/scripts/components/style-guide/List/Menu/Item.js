@@ -55,7 +55,8 @@ export default function({
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))
-      link[propName] = propVal;
+      if (propVal)
+        link[propName] = propVal;
 
   return element;
 }

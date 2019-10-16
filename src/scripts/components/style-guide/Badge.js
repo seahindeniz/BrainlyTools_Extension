@@ -13,7 +13,7 @@ import Text from './Text';
  * color?: Color, size?: Size,
  * rounded?: boolean,
  * withAnimation?: boolean,
- * children?: HTMLElement,
+ * children?: HTMLElement | HTMLElement[],
  * className?: string,
  * }} Properties
  */

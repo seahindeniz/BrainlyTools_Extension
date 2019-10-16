@@ -8,13 +8,13 @@ import Text from '../Text';
  * @typedef {"left" | "center" | "right"} Alignment
  *
  * @typedef {{
- * children?: string | HTMLElement,
- * spaced?: boolean,
- * spacedSmall?: boolean,
- * spacedTop?: Size,
- * spacedBottom?: Size,full?: boolean,
- * className?: string,
- * align?: Alignment,
+ *  children?: string | (HTMLElement | HTMLElement[]),
+ *  spaced?: boolean,
+ *  spacedSmall?: boolean,
+ *  spacedTop?: Size,
+ *  spacedBottom?: Size,full?: boolean,
+ *  className?: string,
+ *  align?: Alignment,
  * }} Properties
  *
  * @typedef {HTMLDivElement} Element
@@ -41,7 +41,8 @@ export default function({
     [`${SGD}spaced`]: spaced,
     [`${SGD}spaced-small`]: spacedSmall,
     [`${SGD}spaced-top`]: spacedTop === "normal",
-    [`${SGD}spaced-top-${spacedTop || ''}`]: spacedTop && spacedTop !== "normal",
+    [`${SGD}spaced-top-${spacedTop || ''}`]: spacedTop && spacedTop !==
+      "normal",
     [`${SGD}spaced-bottom`]: spacedBottom === "normal",
     [`${SGD}spaced-bottom-${spacedBottom || ''}`]: (
       spacedBottom &&
@@ -61,7 +62,10 @@ export default function({
         size: "large"
       });
 
-    div.appendChild(children);
+    if (children instanceof Array && children.length > 0)
+      div.append(...children);
+    else if (children instanceof HTMLElement)
+      div.append(children);
   }
 
   if (props)

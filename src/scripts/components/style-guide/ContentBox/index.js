@@ -4,7 +4,7 @@ import classnames from 'classnames';
  * @typedef {"xxsmall" | "xsmall" | "small" | "normal" | "large" | "xlarge" |
  * "xxlarge"} Size
  * @typedef {{
- * children?: HTMLElement,
+ * children?: HTMLElement | HTMLElement[],
  * spacedTop?: boolean | Size,
  * spacedBottom?: boolean | Size,
  * spaced?: boolean,
@@ -34,8 +34,10 @@ export default function({
     [`${SGD}spaced-small`]: spacedSmall,
     [`${SGD}full`]: full,
     [`${SGD}spaced-top`]: spacedTop === "normal" || spacedTop === true,
-    [`${SGD}spaced-top-${spacedTop || ``}`]: spacedTop && spacedTop !== "normal",
-    [`${SGD}spaced-bottom`]: spacedBottom === "normal" || spacedBottom === true,
+    [`${SGD}spaced-top-${spacedTop || ``}`]: spacedTop && spacedTop !==
+      "normal",
+    [`${SGD}spaced-bottom`]: spacedBottom === "normal" || spacedBottom ===
+      true,
     [`${SGD}spaced-bottom-${spacedBottom || ``}`]: (
       spacedBottom &&
       spacedBottom !== "normal"
@@ -45,12 +47,15 @@ export default function({
   let div = document.createElement("div");
   div.className = contentBoxClass;
 
-  if (children)
-    div.appendChild(children);
+  if (children instanceof Array && children.length > 0)
+    div.append(...children);
+  else if (children instanceof HTMLElement)
+    div.append(children);
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))
-      div.setAttribute(propName, propVal)
+      if (propVal)
+        div[propName] = propVal;
 
   return div;
 }

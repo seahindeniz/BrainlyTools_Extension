@@ -13,13 +13,7 @@ import Icon from './Icon';
  * link?: string,
  * title?: string,
  * className?: string,
- * }} Properties
- *
- * @typedef {function(HTMLElement | IconProperties): Element} ChangeIcon
- *
- * @typedef {{size: Size, ChangeIcon: ChangeIcon}} CustomProperties
- *
- * @typedef {HTMLDivElement & CustomProperties} Element
+ * } & Object<string, *>} Properties
  */
 
 const SG = "sg-avatar";
@@ -105,7 +99,7 @@ export default function({
     avatar = document.createElement("div");
     avatar.className = `${SG_}image ${SG_}image--icon`;
     let icon = Icon({
-      type: "std-profile",
+      type: "profile",
       color: "gray-light",
       size: border ? ICON_SIZE_FOR_AVATARS_WITH_BORDER[size] : ICON_SIZE[size]
     });

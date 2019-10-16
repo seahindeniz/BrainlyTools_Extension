@@ -97,6 +97,11 @@ $colorList in $colorMap {
     }
   }
 
+  &__text {
+    position: relative;
+    top: 1px;
+  }
+
   &--spaced {
     margin: rhythm(0.2);
 

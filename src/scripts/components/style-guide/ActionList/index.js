@@ -9,7 +9,7 @@ export const ALIGNMENT = {
  * "space-evenly"} Direction
  * @typedef {"BASELINE" | "STRETCH"} ALIGNMENT
  * @typedef {{
- * children?: HTMLElement,
+ * children?: HTMLElement | HTMLElement[],
  * toTop?: boolean,
  * direction?: Direction,align?: ALIGNMENT,
  * noWrap?: boolean,
@@ -42,12 +42,15 @@ export default function({
   let div = document.createElement("div");
   div.className = actionListClass;
 
-  if (children)
-    div.appendChild(children);
+  if (children instanceof Array && children.length > 0)
+    div.append(...children);
+  else if (children instanceof HTMLElement)
+    div.append(children);
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))
-      div.setAttribute(propName, propVal)
+      if (propVal)
+        div[propName] = propVal;
 
   return div;
 }

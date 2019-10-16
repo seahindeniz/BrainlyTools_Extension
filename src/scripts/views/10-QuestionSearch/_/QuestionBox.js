@@ -1,4 +1,14 @@
-import { Avatar, ContentBox, ContentBoxContent, ContentBoxTitle } from "../../../components/style-guide";
+import {
+  ActionListHole,
+  Avatar,
+  Checkbox,
+  ContentBox,
+  ContentBoxContent,
+  ContentBoxTitle,
+  Label,
+  Spinner,
+  SpinnerContainer
+} from "../../../components/style-guide";
 import Action from "../../../controllers/Req/Brainly/Action";
 import Build from "../../../helpers/Build";
 import QuickDeleteButtons from "../../1-Home/_/QuickDeleteButtons";
@@ -28,7 +38,8 @@ class QuestionBox {
   async GetQuestion() {
     this.question = await new Action().QuestionContent(this.id);
 
-    this.user = this.question.users_data.find(usr => usr.id == this.question.data.task.user_id);
+    this.user = this.question.users_data.find(usr => usr.id == this.question
+      .data.task.user_id);
 
     this.RenderQuestionOwner();
 
@@ -52,7 +63,8 @@ class QuestionBox {
       this.CreateAvatarHole();
     else {
       let $contentTextHole = $("> .sg-actions-list__hole:eq(1)", $actionList);
-      let $itemContent = $(`> [data-test="search-item-content"]`, $contentTextHole);
+      let $itemContent = $(`> [data-test="search-item-content"]`,
+        $contentTextHole);
       let $contentText = $(`> div`, $itemContent);
 
       $contentText.appendTo(this.$questionLink);
@@ -63,7 +75,8 @@ class QuestionBox {
   }
   CreateAvatarHole() {
     let $contentBox = $(`> .sg-content-box__content`, this.$questionLink);
-    let $contentText = $(`> [data-test="search-item-content-text"]`, $contentBox);
+    let $contentText = $(`> [data-test="search-item-content-text"]`,
+      $contentBox);
     let $actionList = $(`
     <div class="sg-actions-list sg-actions-list--to-top sg-actions-list--no-wrap">
       <div class="sg-actions-list__hole"></div>
@@ -131,56 +144,44 @@ class QuestionBox {
     }
   }
   RenderSelectBox() {
-    this.$checkBoxContainerHole = $(`
-    <div class="sg-actions-list__hole">
-      <div class="sg-spinner-container">
-        <div class="sg-label sg-label--secondary">
-          <div class="sg-label__icon">
-            <div class="sg-checkbox">
-              <input type="checkbox" class="sg-checkbox__element" id="q-${this.id}">
-              <label class="sg-checkbox__ghost" for="q-${this.id}">
-                <div class="sg-icon sg-icon--adaptive sg-icon--x10">
-                  <svg class="sg-icon__svg">
-                    <use xlink:href="#icon-check"></use>
-                  </svg>
-                </div>
-              </label>
-            </div>
-          </div>
-          <label class="sg-label__text" for="q-${this.id}">${System.data.locale.common.select}</label>
-        </div>
-      </div>
-    </div>`);
-
-    this.$checkBoxContainer = $(".sg-checkbox", this.$checkBoxContainerHole);
-    this.$checkBox = $("input", this.$checkBoxContainer);
-    this.$checkBoxGhost = $(".sg-checkbox__ghost", this.$checkBoxContainer);
-    this.$spinnerContainer = $(".sg-spinner-container", this.$checkBoxContainerHole);
+    this.checkBoxContainer = Checkbox();
+    this.checkBox = this.checkBoxContainer.querySelector("input");
+    this.checkBoxContainerHole = Build(ActionListHole(), [
+      [
+        this.spinnerContainer = SpinnerContainer(),
+        Label({
+          icon: this.checkBoxContainer,
+          htmlFor: this.checkBoxContainer.id,
+          html: System.data.locale.common.select,
+        })
+      ]
+    ]);
   }
   ShowSelectBox() {
     if (System.checkUserP([14, 26])) {
-      let $seeAnswerLinkContainer = $(".sg-content-box__actions > .sg-actions-list", this.$);
+      let $seeAnswerLinkContainer = $(
+        ".sg-content-box__actions > .sg-actions-list", this.$);
 
-      this.$checkBoxContainerHole.prependTo($seeAnswerLinkContainer);
+      $seeAnswerLinkContainer.prepend(this.checkBoxContainerHole);
     }
   }
   RenderSpinner() {
-    this.$spinner = $(`
-    <div class="sg-spinner-container__overlay">
-      <div class="sg-spinner sg-spinner--small"></div>
-    </div>`);
+    this.spinner = Spinner({
+      overlay: true,
+      size: "small",
+    })
   }
   BindHandlers() {
-    this.$checkBox.change(this.CheckBoxChanged.bind(this));
+    this.checkBox.addEventListener("change", this.CheckBoxChanged.bind(this));
   }
   CheckBoxChanged() {
     this.main.moderateSection.UpdateDeleteButtonsNumber();
   }
   ShowSpinner() {
-    this.$spinner.appendTo(this.$spinnerContainer);
+    this.spinnerContainer.append(this.spinner);
   }
   HideSpinner() {
-    this.$spinner.appendTo("<div />");
+    this.spinnerContainer.removeChild(this.spinner);
   }
   ShowQuickDeleteButtons() {
     if (System.checkUserP(1)) {
@@ -195,11 +196,9 @@ class QuestionBox {
   }
   Deleted() {
     this.$.addClass("deleted");
-    this.$checkBoxContainer.removeClass("sg-checkbox--disabled");
   }
   DisableCheckbox() {
-    this.$checkBox.prop("disabled", true);
-    this.$checkBoxContainer.addClass("sg-checkbox--disabled");
+    this.checkBox.disabled = true;
   }
 }
 

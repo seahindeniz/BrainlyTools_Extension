@@ -1,9 +1,10 @@
-import Button from "../../../../../../components/Button";
+import { ActionListHole } from "../../../../../../components/style-guide";
+import Button from "../../../../../../components/style-guide/Button";
 
 /**
- * @typedef {{content: {text: string, style: string}, actionButton: import("../../../../../../components/Button").ButtonOptions}} renderDetails
+ * @typedef {{content: {text: string, style: string}, actionButton: import("../../../../../../components/style-guide/Button").Properties}} renderDetails
  */
-export default class {
+export default class ActionSection{
   /**
    * @param {import("../index").default} main
    * @param {renderDetails} renderDetails
@@ -22,7 +23,7 @@ export default class {
     this.userIdList = [];
 
     this.Render();
-    this.RenderActionButton();
+    this.RenderTabButton();
     this.RenderUserList();
     this.BindButtonHandler();
   }
@@ -39,14 +40,15 @@ export default class {
     this.$contentContainer = $("> .sg-content-box__content", this.$);
     this.$actionsContainer = $("> .sg-content-box__actions", this.$);
   }
-  RenderActionButton() {
-    this.$actionButton = Button({
+  RenderTabButton() {
+    this.tabButton = Button({
       size: "small",
       ...this.renderDetails.actionButton
     });
-    this.$actionButtonContainer = $(`<div class="sg-actions-list__hole sg-actions-list__hole--space-bellow"></div>`);
-
-    this.$actionButton.appendTo(this.$actionButtonContainer);
+    this.actionButtonContainer = ActionListHole({
+      spaceBellow: true,
+      children: this.tabButton,
+    });
   }
   RenderUserList() {
     this.$userListContainer = $(`
@@ -57,7 +59,7 @@ export default class {
     this.$userList = $(".sg-content-box__actions", this.$userListContainer);
   }
   BindButtonHandler() {
-    this.$actionButton.click(this.ShowSection.bind(this));
+    this.tabButton.addEventListener("click", this.ShowSection.bind(this));
   }
   ShowSection() {
     if (this.main.activeAction) {
@@ -72,16 +74,16 @@ export default class {
 
     this.main.activeAction = this;
 
-    this.$actionButton.Active();
+    this.tabButton.Active();
     this.main.ShowActionsSectionSeparator();
-    this.$.appendTo(this.main.$actionsSection);
+    this.$.appendTo(this.main.actionsSection);
 
-    if (this.SectionOpened)
+    if ("SectionOpened" in this)
       this.SectionOpened();
   }
   HideSection() {
     this.main.HideElement(this.$);
-    this.$actionButton.Inactive();
+    this.tabButton.Inactive();
   }
   /* SetUserIdList() {
     this.userIdList = this.main.MakeListedUsersBusy();

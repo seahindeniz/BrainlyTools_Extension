@@ -69,7 +69,7 @@ export default class InfoBar {
     this.$numberOfApprovedAnswers = $("> .sg-actions-list__hole:nth-child(2) .sg-text", this.$infoBar);
     this.$numberOfAlreadyApprovedAnswers = $("> .sg-actions-list__hole:nth-child(3) .sg-text", this.$infoBar);
 
-    this.$infoBar.appendTo(this.user.$infoBarContainer);
+    this.$infoBar.appendTo(this.user.infoBarContainer);
   }
   /**
    * @param {number} currentPage

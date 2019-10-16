@@ -1,15 +1,29 @@
+// @ts-ignore
 import md5 from "js-md5";
+// @ts-ignore
 import linkifyHtml from 'linkifyjs/html';
+// @ts-ignore
 import moment from "moment";
 import notification from "../../../components/notification";
+import {
+  Button,
+  ContentBox,
+  ContentBoxContent,
+  Spinner,
+  SpinnerContainer
+} from "../../../components/style-guide";
 import ServerReq from "../../../controllers/Req/Server";
+import Build from "../../../helpers/Build";
 
-const REPORT_EDIT_TIME_LIMIT = ["1", "hour"]; // see also actionsHistory/index.js
+/**
+ * @see actionsHistory/index.js
+ */
+const REPORT_EDIT_TIME_LIMIT = ["1", "hour"];
 
 export default class ActionEntry {
   /**
    * @param {import("../index").default} main
-   * @param {HTMLTableRowElement} tr
+   * @param {HTMLTableRowElement | HTMLElement} tr
    */
   constructor(main, tr) {
     this.main = main;
@@ -22,9 +36,12 @@ export default class ActionEntry {
     /**
      * @type {string}
      */
-    this.questionLink = System.createBrainlyLink("task", { id: this.questionId });
+    this.questionLink = System.createBrainlyLink("task", {
+      id: this
+        .questionId
+    });
     /**
-     * @type {{_id: string, time: Date, target: {hash: string, action: string, message?: string}, user: {_id: string, brainlyID: number, nick: string}}}
+     * @type {{_id?: string, time: string, target: {hash: string, action: string, message?: string}, user: {_id?: string, brainlyID: number, nick: string}}}
      */
     this.details;
 
@@ -42,10 +59,13 @@ export default class ActionEntry {
   get moderatorActionDate() {
     let childNodes = this.$buttonContainer.prop("childNodes");
 
-    return childNodes ? childNodes[childNodes.length - 1].data.trim() : "";
+    return String(childNodes ? childNodes[childNodes.length - 1].data.trim() :
+      "");
   }
   get entryContent() {
-    let content = Array.from(this.$entryContent.prop("childNodes")).find(node => node.nodeName == "#text" && node.length > 1 && node.nextSibling != null)
+    let content = Array.from(this.$entryContent.prop("childNodes")).find(
+      node => node.nodeName == "#text" && node.length > 1 && node
+      .nextSibling != null)
     return content ? content.data.trim() : "";
   }
   GenerateHash() {
@@ -68,49 +88,61 @@ export default class ActionEntry {
     }
   }
   RenderActionButtons() {
-    this.$actionButtonsContainer = $(`
-    <div class="sg-content-box js-actions">
-      <div class="sg-content-box__content">
-        <div class="sg-spinner-container">
-          <div class="sg-text sg-text--link" title="${System.data.locale.moderatorActionHistory.confirm}">
-            <div class="sg-icon sg-icon--mint sg-icon--x26">
-              <svg class="sg-icon__svg">
-                <use xlink:href="#icon-thumbs_up"></use>
-              </svg>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="sg-content-box__content">
-        <div class="sg-spinner-container">
-          <div class="sg-text sg-text--link" title="${System.data.locale.moderatorActionHistory.disapprove}">
-            <div class="sg-icon sg-icon--peach sg-icon--x22">
-              <svg class="sg-icon__svg">
-                <use xlink:href="#icon-x"></use>
-              </svg>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>`);
+    this.actionButtonsContainer = Build(ContentBox(), [
+      [
+        ContentBoxContent(),
+        [
+          [
+            this.confirmButtonSpinnerContainer = SpinnerContainer(),
+            this.confirmButton = Button({
+              type: "primary-inverted",
+              size: "small",
+              title: System.data.locale.moderatorActionHistory
+                .confirm,
+              icon: {
+                type: "check",
+                size: 32,
+                color: "mint",
+              }
+            }),
+          ]
+        ]
+      ],
+      [
+        ContentBoxContent({
+          spacedTop: true,
+        }),
+        [
+          [
+            this.disapproveButtonSpinnerContainer = SpinnerContainer(),
+            this.disapproveButton = Button({
+              type: "primary-inverted",
+              size: "small",
+              title: System.data.locale.moderatorActionHistory
+                .disapprove,
+              icon: {
+                type: "close",
+                size: 30,
+                color: "peach",
+              }
+            }),
+          ]
+        ]
+      ]
+    ]);
 
-    this.$confirmButtonSpinnerContainer = $(".sg-spinner-container:eq(0)", this.$actionButtonsContainer);
-    this.$disapproveButtonSpinnerContainer = $(".sg-spinner-container:eq(1)", this.$actionButtonsContainer);
-    this.$actionButtons = $(".sg-text--link", this.$actionButtonsContainer)
-    this.$confirmButton = $(".sg-text--link", this.$confirmButtonSpinnerContainer);
-    this.$disapproveButton = $(".sg-text--link", this.$disapproveButtonSpinnerContainer);
-
-    this.$actionButtonsContainer.prependTo(this.$buttonContainer);
+    this.$buttonContainer.prepend(this.actionButtonsContainer);
   }
   RenderButtonSpinner() {
-    this.$spinner = $(`
-    <div class="sg-spinner-container__overlay">
-      <div class="sg-spinner sg-spinner--xsmall"></div>
-    </div>`);
+    this.spinner = Spinner({
+      overlay: true,
+      size: "xsmall",
+    });
   }
   BindHandlers() {
-    this.$confirmButton.click(this.confirm.bind(this));
-    this.$disapproveButton.click(this.disapprove.bind(this));
+    this.confirmButton.addEventListener("click", this.confirm.bind(this));
+    this.disapproveButton.addEventListener("click", this.disapprove.bind(
+      this));
   }
   /**
    * @param {MouseEvent} event
@@ -118,15 +150,17 @@ export default class ActionEntry {
   async confirm(event) {
     await this.Confirming();
 
-    if (event.ctrlKey || !event.ctrlKey && confirm(System.data.locale.moderatorActionHistory.notificationMessages.doYouWantToConfirm)) {
-      let res = await new ServerReq().ConfirmActionHistoryEntry(this.main.moderator._id, {
-        hashList: this.hash,
-        content: this.entryContent,
-        questionLink: this.questionLink,
-        moderatorAction: this.moderatorAction,
-        moderatorActionDate: this.moderatorActionDate,
-        contentOwner: this.moderatedContentOwner
-      });
+    if (event.ctrlKey || !event.ctrlKey && confirm(System.data.locale
+        .moderatorActionHistory.notificationMessages.doYouWantToConfirm)) {
+      let res = await new ServerReq().ConfirmActionHistoryEntry(this.main
+        .moderator._id, {
+          hashList: this.hash,
+          content: this.entryContent,
+          questionLink: this.questionLink,
+          moderatorAction: this.moderatorAction,
+          moderatorActionDate: this.moderatorActionDate,
+          contentOwner: this.moderatedContentOwner
+        });
 
       this.CheckResponse(res);
     } else
@@ -141,6 +175,7 @@ export default class ActionEntry {
     return this.InProgress();
   }
   InProgress() {
+    // @ts-ignore
     window.isPageProcessing = true;
 
     this.ShowSpinner();
@@ -150,20 +185,22 @@ export default class ActionEntry {
     return System.Delay(50);
   }
   ShowSpinner() {
-    let $spinnerContainer;
+    let spinnerContainer;
 
     if (this.action == "confirm")
-      $spinnerContainer = this.$confirmButtonSpinnerContainer;
+      spinnerContainer = this.confirmButtonSpinnerContainer;
     else if (this.action == "disapprove")
-      $spinnerContainer = this.$disapproveButtonSpinnerContainer;
+      spinnerContainer = this.disapproveButtonSpinnerContainer;
 
-    if ($spinnerContainer)
-      this.$spinner.appendTo($spinnerContainer);
+    if (spinnerContainer)
+      spinnerContainer.append(this.spinner);
   }
   DisableButtons() {
-    this.$actionButtons.addClass("sg-text--disabled");
+    this.confirmButton.Disable();
+    this.disapproveButton.Disable();
   }
   FinishProgress() {
+    // @ts-ignore
     window.isPageProcessing = false;
 
     if (!this.details) {
@@ -176,20 +213,20 @@ export default class ActionEntry {
     this.$tr.removeClass("processing");
   }
   HideButtons() {
-    this.HideElement(this.$actionButtonsContainer);
-  }
-  HideElement($element) {
-    this.main.HideElement($element);
+    this.main.HideElement(this.actionButtonsContainer);
   }
   HideSpinner() {
-    this.HideElement(this.$spinner);
+    this.main.HideElement(this.spinner);
+
     this.$spinnerContainer = undefined;
   }
   ActivateButtons() {
-    this.$actionButtons.removeClass("sg-text--disabled");
+    this.confirmButton.Enable();
+    this.disapproveButton.Enable();
   }
   /**
-   * @param {{success: boolean, data: []}} res
+   * @typedef {{_id: string, time: string, hash: string}} Details
+   * @param {{success: boolean, data: Details[]}} res
    */
   async CheckResponse(res) {
     if (!res || !res.success)
@@ -199,12 +236,12 @@ export default class ActionEntry {
     }
   }
   /**
-   * @param {{_id: string, time: string, hash: string}} data
+   * @param {Details} data
    */
   SetDetails(data) {
     this.details = {
       _id: data._id,
-      time: data.time || new Date().toISOString(),
+      time: String(data.time || new Date().toISOString()),
       target: {
         hash: this.hash,
         action: this.action
@@ -234,19 +271,21 @@ export default class ActionEntry {
   async disapprove(event) {
     await this.Disapproving();
 
-    if (event.ctrlKey || !event.ctrlKey && confirm(System.data.locale.moderatorActionHistory.notificationMessages.doYouWantToDisapprove)) {
+    if (event.ctrlKey || !event.ctrlKey && confirm(System.data.locale
+        .moderatorActionHistory.notificationMessages.doYouWantToDisapprove)) {
       if (!!event)
         await this.InformModerator();
 
-      let res = /* { success: true } // */ await new ServerReq().DisapproveActionHistoryEntry(this.main.moderator._id, {
-        hashList: this.hash,
-        content: this.entryContent,
-        questionLink: this.questionLink,
-        message: this.main.fixedMessage,
-        moderatorAction: this.moderatorAction,
-        moderatorActionDate: this.moderatorActionDate,
-        contentOwner: this.moderatedContentOwner
-      });
+      let res = /* { success: true } // */ await new ServerReq()
+        .DisapproveActionHistoryEntry(this.main.moderator._id, {
+          hashList: this.hash,
+          content: this.entryContent,
+          questionLink: this.questionLink,
+          message: this.main.fixedMessage,
+          moderatorAction: this.moderatorAction,
+          moderatorActionDate: this.moderatorActionDate,
+          contentOwner: this.moderatedContentOwner
+        });
 
       this.CheckResponse(res);
     } else
@@ -291,9 +330,12 @@ export default class ActionEntry {
   RenderDetailsCell() {
     let time = new Date(this.details.time).toLocaleString();
     let reviewerProfileLink = System.createProfileLink(this.details.user);
-    let reviwedOnBy = System.data.locale.moderatorActionHistory.reviewedOn[this.details.target.action]
+    let reviwedOnBy = System.data.locale.moderatorActionHistory.reviewedOn[
+        this.details.target.action]
       .replace("%{date}", time)
-      .replace("%{nick}", `<a href="${reviewerProfileLink}" target="_blank">${this.details.user.nick}</a>`);
+      .replace("%{nick}",
+        `<a href="${reviewerProfileLink}" target="_blank">${this.details.user.nick}</a>`
+      );
 
     this.$detailsRow = $(`
     <tr>
@@ -319,7 +361,7 @@ export default class ActionEntry {
   }
   HideDetailsCell() {
     if (this.$detailsRow) {
-      this.HideElement(this.$detailsRow);
+      this.main.HideElement(this.$detailsRow);
       this.$buttonContainer.removeAttr("rowspan");
     }
   }
@@ -376,10 +418,11 @@ export default class ActionEntry {
     this.$flagContainer.prependTo(this.$buttonContainer);
   }
   HideFlagIcon() {
-    this.HideElement(this.$flagContainer);
+    this.main.HideElement(this.$flagContainer);
   }
   InitTimer() {
-    if (this.details.user.brainlyID == System.data.Brainly.userData.user.id && this.IsReportCanReversible()) {
+    if (this.details.user.brainlyID == System.data.Brainly.userData.user.id &&
+      this.IsReportCanReversible()) {
       this.runTimer = true;
 
       this.RenderTimer();
@@ -411,9 +454,11 @@ export default class ActionEntry {
         </div>
       </div>
     </div>`);
-    this.$timer = $(".sg-content-box__content:nth-child(2) .sg-text", this.$timerContainer);
+    this.$timer = $(".sg-content-box__content:nth-child(2) .sg-text", this
+      .$timerContainer);
     this.$revert = $(".sg-label > .sg-text", this.$timerContainer);
-    this.$revertSpinnerContainer = $(".sg-spinner-container", this.$timerContainer);
+    this.$revertSpinnerContainer = $(".sg-spinner-container", this
+      .$timerContainer);
 
     this.$timerContainer.appendTo(this.$flagContainer);
 
@@ -429,17 +474,20 @@ export default class ActionEntry {
       (
         !event ||
         (
-          event && confirm(System.data.locale.moderatorActionHistory.notificationMessages.doYouWantToRevertThisReport)
+          event && confirm(System.data.locale.moderatorActionHistory
+            .notificationMessages.doYouWantToRevertThisReport)
         )
       ) && this.IsReportCanReversible()
     ) {
-      let resRevert = await new ServerReq().RevertActionHistoryReport(this.details._id);
+      let resRevert = await new ServerReq().RevertActionHistoryReport(this
+        .details._id);
 
       if (!resRevert || !resRevert.success) {
         if (resRevert.exception == 408)
           this.CloseTimer();
 
-        return notification(System.data.locale.moderatorActionHistory.notificationMessages.iCouldntRevertThisReport, "error");
+        return notification(System.data.locale.moderatorActionHistory
+          .notificationMessages.iCouldntRevertThisReport, "error");
       }
 
       this.CloseTimer();
@@ -468,7 +516,7 @@ export default class ActionEntry {
     return System.Delay(10);
   }
   HideRevertSpinner() {
-    this.HideElement(this.$revertSpinner);
+    this.main.HideElement(this.$revertSpinner);
   }
   StartTimer() {
     if (this.runTimer && this.details) {
@@ -495,7 +543,7 @@ export default class ActionEntry {
   }
   FinishTimer() {
     this.StopTimer();
-    this.HideElement(this.$timerContainer);
+    this.main.HideElement(this.$timerContainer);
   }
   HideTimer() {
     this.main.HideElement(this.$timerContainer);

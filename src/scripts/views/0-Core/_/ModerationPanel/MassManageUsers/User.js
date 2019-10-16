@@ -1,4 +1,9 @@
-let System = require("../../../../../helpers/System");
+import Build from "../../../../../helpers/Build";
+import { ActionListHole, SpinnerContainer, Box, ActionList, Avatar, ContentBox,
+  ContentBoxContent, Text,
+  Spinner } from "../../../../../components/style-guide";
+import Checkbox from "../../../../../components/style-guide/Checkbox";
+import IsVisible from "../../../../../helpers/IsVisible";
 
 export default class User {
   /**
@@ -9,110 +14,142 @@ export default class User {
     this.details = details;
     this.main = main;
 
-    if (typeof System == "function")
-      System = System();
-
+    this.RenderSpinnerContainer();
+    this.RenderCheckbox();
     this.Render();
     this.RenderInfoBar();
     this.RenderSpinner();
     this.RenderSmallSpinner();
     this.BindHandlers();
   }
+  RenderSpinnerContainer() {
+    this.spinnerContainer = SpinnerContainer({
+      className: "sg-spinner-container--spaced"
+    });
+  }
+  RenderCheckbox() {
+    this.checkboxContainer = ActionListHole({
+      children: Checkbox(),
+    })
+    this.checkbox = this.checkboxContainer.querySelector("input");
+  }
   Render() {
     let separatedPoints = this.details.points.toLocaleString();
-    let avatar = System.prepareAvatar(this.details);
+    let avatar = System.ExtractAvatarURL(this.details);
     let profileLink = System.createProfileLink(this.details);
-    this.$ = $(`
-    <div class="sg-spinner-container sg-spinner-container--spaced">
-      <label class="sg-box sg-box--xxsmall-padding sg-box--no-min-height sg-box--gray-secondary-lightest sg-box--no-border sg-flex--margin-top-xxs sg-flex--margin-bottom-xxs">
-        <div class="sg-box__hole">
-          <div class="sg-actions-list">
-            <div class="sg-actions-list__hole">
-              <div class="sg-checkbox">
-                <input type="checkbox" class="sg-checkbox__element">
-                <label class="sg-checkbox__ghost">
-                  <div class="sg-icon sg-icon--adaptive sg-icon--x10">
-                    <svg class="sg-icon__svg">
-                      <use xlink:href="#icon-check"></use>
-                    </svg>
-                  </div>
-                </label>
-              </div>
-            </div>
-            <div class="sg-actions-list__hole">
-              <div class="sg-avatar sg-avatar--spaced">
-                <a href="${profileLink}" target="_blank">
-                  <img class="sg-avatar__image" src="${avatar}">
-                </a>
-              </div>
-            </div>
-            <div class="sg-actions-list__hole sg-actions-list__hole--grow">
-              <div class="sg-content-box">
-                <div class="sg-content-box__content sg-content-box__content--full">
-                  <div class="sg-actions-list">
-                    <div class="sg-actions-list__hole">
-                      <a href="${profileLink}" target="_blank" class="sg-text sg-text--link-unstyled sg-text--bold">
-                        <span class="sg-text sg-text--small sg-text--gray sg-text--bold">${this.details.nick}</span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div class="sg-content-box__content sg-content-box__content--full">
-                  <div class="sg-actions-list">
-                    <div class="sg-actions-list__hole">
-                      <span class="sg-text sg-text--xsmall sg-text--gray" title="${System.data.locale.common.userHasNPoints.replace("%{n}", separatedPoints)}">${System.data.locale.common.shortPoints}: ${separatedPoints}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </label>
-    </div>`);
-
-    this.$box = $("> .sg-box", this.$);
-    this.$checkbox = $("input", this.$);
-    this.$checkboxHole = $(".sg-box__hole > .sg-actions-list > .sg-actions-list__hole:nth-child(1)", this.$);
-    this.$checkboxContainer = this.$checkboxHole.parent();
-    this.$smallSpinnerContainer = $(".sg-content-box__content:nth-child(1) > .sg-actions-list", this.$);
-    this.$nickContainer = $(".sg-content-box", this.$);
+    this.container = Build(ActionListHole(), [
+      [
+        this.spinnerContainer,
+        (this.box = Box({
+          padding: "xxsmall-padding",
+          noMinHeight: true,
+          color: "gray-secondary-lightest",
+          border: false,
+          className: "sg-flex--margin-top-xxs sg-flex--margin-bottom-xxs",
+          children: Build(ActionList(), [
+            this.checkboxContainer,
+            [
+              ActionListHole(),
+              Avatar({
+                spaced: true,
+                imgSrc: avatar,
+                link: profileLink,
+              })
+            ],
+            [
+              ActionListHole({ grow: true }),
+              [
+                [
+                  (this.nickContainer = ContentBox()),
+                  [
+                    [
+                      ContentBoxContent({ full: true }),
+                      [
+                        [
+                          (this.smallSpinnerContainer =
+                            ActionList()),
+                          [
+                            [
+                              ActionListHole(),
+                              Text({
+                                color: "gray",
+                                weight: "bold",
+                                size: "small",
+                                href: profileLink,
+                                text: this.details.nick,
+                              })
+                            ]
+                          ]
+                        ]
+                      ]
+                    ],
+                    [
+                      ContentBoxContent({ full: true }),
+                      [
+                        [
+                          ActionList(),
+                          [
+                            [
+                              ActionListHole(),
+                              Text({
+                                color: "gray",
+                                size: "xsmall",
+                                title: System.data.locale.common
+                                  .userHasNPoints.replace(
+                                    " %{n}", separatedPoints),
+                                html: `${System.data.locale.common.shortPoints}: ${separatedPoints}`,
+                              }),
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ])
+        }))
+      ]
+    ]);
   }
   RenderInfoBar() {
-    this.$infoBarContainer = $(`<div class="sg-content-box__content sg-content-box__content--full"></div>`);
+    this.infoBarContainer = ContentBoxContent({
+      full: true,
+    });
   }
   RenderSpinner() {
-    this.$spinner = $(`
-    <div class="sg-spinner-container__overlay">
-      <div class="sg-spinner"></div>
-    </div>`);
+    this.spinner = Spinner({
+      overlay: true,
+    });
   }
   RenderSmallSpinner() {
-    this.$smallSpinner = $(`
-    <div class="sg-actions-list__hole">
-      <div class="sg-spinner sg-spinner--xsmall"></div>
-    </div>`);
+    this.smallSpinner = ActionListHole({
+      children: Spinner({
+        size: "xsmall"
+      })
+    });
   }
   ShowSpinner() {
-    this.$spinner.appendTo(this.$);
+    this.spinnerContainer.append(this.spinner);
   }
   HideSpinner() {
-    this.main.HideElement(this.$spinner);
+    this.main.HideElement(this.spinner);
   }
   BindHandlers() {
-    this.$checkbox.change(this.CheckboxChanged.bind(this));
+    this.checkbox.addEventListener("change", this.CheckboxChanged.bind(this));
   }
   CheckboxChanged() {
     this.main.UserCheckboxChanged(this);
   }
   ShowCheckbox() {
-    this.$checkboxHole.prependTo(this.$checkboxContainer);
+    this.container.prepend(this.checkboxContainer);
   }
   HideCheckbox() {
-    this.main.HideElement(this.$checkboxHole);
+    this.main.HideElement(this.checkboxContainer);
   }
   get isProcessing() {
-    return this.$spinner.is(":visible");
+    return IsVisible(this.spinner);
   }
   BeBusy() {
     this.ShowSpinner();
@@ -123,8 +160,7 @@ export default class User {
     this.ShowCheckbox();
   }
   ChangeBoxColor(replacement) {
-    this.$box.addClass(replacement);
-    this.$box.removeClass("sg-box--gray-secondary-lightest");
+    this.box.ChangeColor(replacement);
   }
   /**
    * @param {JQuery<HTMLElement>} $targetElement
@@ -133,26 +169,27 @@ export default class User {
     delete this.main.users[this.details.id];
 
     this.HideSpinner();
-    this.$.appendTo($targetElement);
+    $targetElement.append(this.container);
     this.main.UpdateNumbers();
     //this.main.ToggleUserList();
 
-    return this.$
+    return this.container
   }
   FullBoxView() {
-    this.$.addClass("sg-box--full sg-spinner-container--spaced");
-    this.$box.addClass("sg-box--full");
+    this.box.classList.add("sg-box--full");
+    this.container.classList.add("sg-box--full",
+      "sg-spinner-container--spaced");
   }
   ShowSmallSpinner() {
-    this.$smallSpinner.appendTo(this.$smallSpinnerContainer);
+    this.smallSpinnerContainer.append(this.smallSpinner);
   }
   HideSmallSpinner() {
-    this.main.HideElement(this.$smallSpinner);
+    this.main.HideElement(this.smallSpinner);
   }
   ShowInfoBar() {
-    this.$infoBarContainer.appendTo(this.$nickContainer);
+    this.nickContainer.append(this.infoBarContainer);
   }
   HideInfoBar() {
-    this.main.HideElement(this.$infoBarContainer);
+    this.main.HideElement(this.infoBarContainer);
   }
 }

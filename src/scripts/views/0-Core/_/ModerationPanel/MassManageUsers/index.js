@@ -1,21 +1,32 @@
-import template from "backtick-template";
 import debounce from "debounce";
-import Modal from "../../../../../components/Modal";
+import Modal from "../../../../../components/Modal2";
+import {
+  ActionList,
+  ActionListHole,
+  Badge,
+  Button,
+  ContentBox,
+  ContentBoxActions,
+  ContentBoxContent,
+  MenuListItem,
+  Spinner,
+  SpinnerContainer,
+  Text,
+  Textarea,
+  SeparatorHorizontal
+} from "../../../../../components/style-guide";
 import Action from "../../../../../controllers/Req/Brainly/Action";
+import Build from "../../../../../helpers/Build";
 import ApproveAnswers from "./ActionSection/ApproveAnswers";
-import DeleteUsers from "./ActionSection/DeleteUsers";
-import ModalContent from "./templates/ModalContent.html";
-import User from "./User";
 import ChangePoints from "./ActionSection/ChangePoints";
-import Button from "../../../../../components/Button";
-import { MenuListItem } from "../../../../../components/style-guide";
+import ChangeRanks from "./ActionSection/ChangeRanks";
+import DeleteUsers from "./ActionSection/DeleteUsers";
+import User from "./User";
 
 /**
  * @typedef {import("../../../../../controllers/Req/Brainly/Action/index").User} UserProfile
- * @type {import("../../../../../controllers/System").default}
+ * @typedef {ApproveAnswers| DeleteUsers | ChangePoints | ChangeRanks} Actions
  */
-let System;
-let SetSystem = () => !System && (System = window.System);
 
 export default class MassManageUsers {
   constructor() {
@@ -24,7 +35,7 @@ export default class MassManageUsers {
      */
     this.idList = [];
     /**
-     * @type {Object<string, User>}
+     * @type {Object<string, User | boolean>}
      */
     this.users = {};
     /**
@@ -32,21 +43,31 @@ export default class MassManageUsers {
      */
     this.fetchedUsers = [];
     /**
-     * @type {ApproveAnswers|DeleteUsers|ChangePoints}
+     * @type {Actions}
      */
     this.activeAction;
+    /**
+     * @type {Actions[]}
+     */
+    this.actions;
     /**
      * @type {number[]}
      */
     this.removedIds = [];
     this.lastIdInputValue = "";
 
-    SetSystem();
     this.RenderLi();
-    this.RenderModal();
+    this.RenderSectionContainer();
+    this.RenderInputActionList();
+    this.RenderIdInput();
+    this.RenderNumberOfIdsSpinnerContainer();
     this.RenderNumberOfIdsSpinner();
-    this.RenderUserList();
+    this.RenderNumberOfIds();
+    this.RenderNumberOfUsers();
+    this.RenderNumberOfNotFound();
+    this.RenderModal();
     this.RenderRemoveAllButton();
+    this.RenderUserList();
     this.RenderRemoveSelectedButton();
     this.BindHandlers();
   }
@@ -57,38 +78,145 @@ export default class MassManageUsers {
 
     this.li.setAttribute("style", "display: table; width: 100%;");
   }
-  RenderModal() {
-    let contentData = {
-      nIds: String(System.data.locale.common.nIds.replace("%{n}", ` <span class="sg-text--bold">0</span> `)),
-      nUsers: String(System.data.locale.common.nUsers.replace("%{n}", ` <span class="sg-text--bold">0</span> `)),
-      nNotFound: String(System.data.locale.common.nNotFound.replace("%{n}", ` <span class="sg-text--bold">0</span> `))
-    };
-    this.modal = new Modal({
-      header: `
-      <div class="sg-actions-list sg-actions-list--space-between">
-				<div class="sg-actions-list__hole">
-					<div class="sg-label sg-label--small sg-label--secondary">
-						<div class="sg-text sg-text--peach">${System.data.locale.core.massManageUsers.text}</div>
-					</div>
-				</div>
-			</div>`,
-      content: template(ModalContent, contentData),
-      size: "90prc sg-toplayer--fit-content"
+  RenderSectionContainer() {
+    this.sectionContainer = ContentBox();
+  }
+  RenderInputActionList() {
+    this.inputActionList = ActionList({
+      noWrap: true,
+      toTop: true,
+    });
+  }
+  RenderIdInput() {
+    /**
+     * @type {HTMLTextAreaElement}
+     */
+    // @ts-ignore
+    this.idInput = Textarea({
+      tag: "textarea",
+      fullWidth: true,
+      size: "tall",
+      resizable: "vertical",
+      placeholder: (
+        System.data.locale.common.profileLinksOrIds
+      )
+    });
+  }
+  RenderNumberOfIdsSpinnerContainer() {
+    this.numberOfIdsSpinnerContainer = SpinnerContainer();
+  }
+  RenderNumberOfIds() {
+    this.numberOfIdsText = Text({
+      size: "xsmall",
+      html: String(System.data.locale.common.nIds.replace("%{n}",
+        ` <span class="sg-text--bold">0</span> `))
     });
 
-    this.$idInput = $("textarea", this.modal.$content);
-    this.$sectionContainer = $("> .sg-content-box", this.modal.$content);
-    this.$inputActionList = $("> .sg-content-box__content > .sg-actions-list", this.$sectionContainer);
-    this.$numberOfIdsSpinnerContainer = $(".sg-spinner-container", this.modal.$content);
-    this.$numberOfIds = $(".sg-text > span", this.$numberOfIdsSpinnerContainer);
-    this.$numberOfUsers = $(".sg-content-box__actions .sg-actions-list__hole:nth-child(2) > .sg-text > span", this.modal.$content);
-    this.$numberOfNotFound = $(".sg-content-box__actions .sg-actions-list__hole:nth-child(3) > .sg-text > span", this.modal.$content);
+    this.numberOfIds = this.numberOfIdsText.querySelector("span");
+  }
+  RenderNumberOfUsers() {
+    this.numberOfUsersText = Text({
+      size: "xsmall",
+      color: "blue-dark",
+      html: String(System.data.locale.common.nUsers.replace("%{n}",
+        ` <span class="sg-text--bold">0</span> `))
+    });
+
+    this.numberOfUsers = this.numberOfUsersText.querySelector("span");
+  }
+  RenderNumberOfNotFound() {
+    this.numberOfNotFoundText = Text({
+      size: "xsmall",
+      color: "peach-dark",
+      html: String(System.data.locale.common.nNotFound.replace("%{n}",
+        ` <span class="sg-text--bold">0</span> `))
+    });
+
+    this.numberOfNotFound = this.numberOfNotFoundText.querySelector("span");
+  }
+  RenderModal() {
+    this.modal = new Modal({
+      overlay: true,
+      className: "sg-toplayer--90prc sg-toplayer--fit-content",
+      title: System.data.locale.core.massManageUsers.text,
+      content: Build(this.sectionContainer, [
+        [
+          ContentBoxContent(),
+          [
+            [
+              this.inputActionList,
+              [
+                [
+                  ActionListHole({
+                    className: "sg-actions-list__hole--22-em"
+                  }),
+                  [
+                    [
+                      ContentBox(),
+                      [
+                        [
+                          ContentBoxContent(),
+                          this.idInput
+                        ],
+                        [
+                          ContentBoxActions(),
+                          [
+                            [
+                              ActionList({
+                                noWrap: true,
+                                direction: "space-between",
+                              }),
+                              [
+                                [
+                                  ActionListHole(),
+                                  [
+                                    [
+                                      this
+                                      .numberOfIdsSpinnerContainer,
+                                      this.numberOfIdsText
+                                    ]
+                                  ]
+                                ],
+                                [
+                                  ActionListHole(),
+                                  this.numberOfUsersText
+                                ],
+                                [
+                                  ActionListHole(),
+                                  this.numberOfNotFoundText
+                                ],
+                              ]
+                            ]
+                          ]
+                        ],
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ])
+    });
   }
   RenderNumberOfIdsSpinner() {
-    this.$numberOfIdsSpinner = $(`
-    <div class="sg-spinner-container__overlay">
-      <div class="sg-spinner sg-spinner--small"></div>
-    </div>`);
+    this.numberOfIdsSpinner = Spinner({
+      size: "small",
+      overlay: true,
+    });
+  }
+  RenderRemoveAllButton() {
+    this.removeAllButton = Button({
+      size: "small",
+      text: System.data.locale.common.removeAll,
+      title: System.data.locale.core.massManageUsers
+        .removeAllUsersFromTheList
+    });
+
+    this.removeAllButtonContainer = ActionListHole({
+      children: this.removeAllButton
+    });
   }
   RenderUserList() {
     this.$userListContainer = $(`
@@ -102,48 +230,80 @@ export default class MassManageUsers {
         </div>
       </div>
     </div>`);
-
-    this.$userList = $("> .sg-content-box > .sg-content-box__actions:nth-child(1)", this.$userListContainer);
-    this.$removeButtonList = $(".sg-actions-list", this.$userListContainer);
-    this.$removeAllButtonContainer = $(".sg-actions-list__hole", this.$removeButtonList);
-  }
-  RenderRemoveAllButton() {
-    this.$removeAllButton = Button({
-      size: "small",
-      text: System.data.locale.common.removeAll,
-      title: System.data.locale.core.massManageUsers.removeAllUsersFromTheList
-    });
-
-    this.$removeAllButton.appendTo(this.$removeAllButtonContainer);
+    this.userList = ActionList({ direction: "space-evenly" });
+    this.removeButtonList = ActionList({ direction: "space-around" });
+    this.userListContainer = Build(ActionListHole({
+      asContainer: true,
+      grow: true
+    }), [
+      [
+        ContentBox({
+          full: true
+        }),
+        [
+          [
+            Textarea({
+              tag: "div",
+              size: "tall",
+              fullWidth: true,
+              resizable: "vertical",
+            }),
+            [
+              [
+                ContentBoxActions({ style: "height: 100%;" }),
+                this.userList
+              ]
+            ]
+          ],
+          [
+            ContentBoxActions(),
+            [
+              [
+                this.removeButtonList,
+                this.removeAllButtonContainer
+              ]
+            ]
+          ],
+        ]
+      ]
+    ]);
   }
   RenderRemoveSelectedButton() {
-    let $badge = $(`
-    <div class="sg-badge">
-      <div class="sg-text sg-text--xsmall sg-text--bold">0</div>
-    </div>`);
-    this.$numberOfSelectedUsers = $(".sg-text", $badge);
-    this.$removeSelectedButton = Button({
+    let badge = Badge({
+      text: {
+        text: 0,
+        size: "xsmall",
+        weight: "bold",
+      }
+    });
+    this.numberOfSelectedUsers = badge.querySelector("*");
+
+    this.removeSelectedButton = Button({
       type: "secondary",
       size: "small",
-      text: `${System.data.locale.core.massManageUsers.removeSelected}&nbsp;`,
-      title: System.data.locale.core.massManageUsers.removeSelectedUsersFromTheList
+      html: `${System.data.locale.core.massManageUsers.removeSelected}&nbsp;`,
+      title: System.data.locale.core.massManageUsers
+        .removeSelectedUsersFromTheList,
     });
-    this.$removeSelectedButtonContainer = $(`<div class="sg-actions-list__hole"></div>`);
+    this.removeSelectedButtonContainer = ActionListHole({
+      children: this.removeSelectedButton
+    });
 
-    $badge.appendTo(this.$removeSelectedButton);
-    this.$removeSelectedButton.appendTo(this.$removeSelectedButtonContainer);
+    this.removeSelectedButton.append(badge);
   }
   BindHandlers() {
-    this.modal.$close.click(this.modal.Close.bind(this.modal));
     this.li.addEventListener("click", this.Open.bind(this));
-    this.$idInput.on("input", debounce(() => this.UpdateInput(), 1000));
-    this.$removeAllButton.click(this.RemoveAllUsers.bind(this));
-    this.$removeSelectedButton.click(this.RemoveSelectedUsers.bind(this));
+    this.idInput.addEventListener("input", debounce(() => this.UpdateInput(),
+      1000));
+    this.removeAllButton.addEventListener("click", this.RemoveAllUsers.bind(
+      this));
+    this.removeSelectedButton.addEventListener("click", this
+      .RemoveSelectedUsers.bind(this));
   }
   Open() {
     this.modal.Open();
-    /*this.$idInput.val([901322, 996887, 1016288].join("\n")) //"1\n2\n3\n4");
-    this.$idInput.trigger("input");
+    /*this.idInput.value = ([901322, 996887, 1016288].join("\n")) //"1\n2\n3\n4");
+    $(this.idInput).trigger("input");
     /**
      * 14818 40016
      * 129666 2152
@@ -153,7 +313,7 @@ export default class MassManageUsers {
   }
   UpdateInput() {
     //this.FixNumberLines();
-    let value = this.$idInput.val().trim();
+    let value = this.idInput.value.trim();
 
     if (value != this.lastIdInputValue) {
       this.lastIdInputValue = value;
@@ -164,28 +324,25 @@ export default class MassManageUsers {
     }
   }
   FixNumberLines() {
-    let value = this.$idInput.val();
+    let value = this.idInput.value;
 
     if (!value) return;
 
-    let cursorPosition = ~~(this.$idInput.prop("selectionStart") + 1);
+    let cursorPosition = ~~(this.idInput.selectionStart + 1);
     let newValue = value.replace(/(\d{1,})+(?:([a-z])| {1,})/gm, "$1\n$2");
 
     if (value == newValue) return;
 
-    this.$idInput
-      .val(newValue)
-      .prop("selectionStart", cursorPosition)
-      .prop("selectionEnd", cursorPosition)
-      .focus();
+    this.idInput.value = newValue;
+    this.idInput.selectionStart = cursorPosition;
+    this.idInput.selectionEnd = cursorPosition;
   }
   ParseIds() {
-    let value = this.$idInput.val();
-    let idList = System.ExtractIds(value);
+    let idList = System.ExtractIds(this.idInput.value);
     this.idList = [...new Set(idList)];
   }
   UpdateNumberOfIds() {
-    this.$numberOfIds.text(this.idList.length);
+    this.numberOfIds.innerText = String(this.idList.length);
   }
   async FetchUserDetails() {
     if (this.idList.length > 0) {
@@ -195,7 +352,8 @@ export default class MassManageUsers {
         let removedIds = this.CheckIfIdListContainsAnyRemovedIds(idList);
 
         if (removedIds.length > 0) {
-          if (confirm(System.data.locale.core.massManageUsers.notificationMessages.tryingToAddPreviouslyRemovedIds))
+          if (confirm(System.data.locale.core.massManageUsers
+              .notificationMessages.tryingToAddPreviouslyRemovedIds))
             this.RemoveIdsFromRemovedIdsList(removedIds);
           else
             idList = this.FilterRemovedIds(idList);
@@ -253,18 +411,22 @@ export default class MassManageUsers {
     return idList.filter(id => !this.removedIds.includes(id));
   }
   ShowNumberOfUsersSpinner() {
-    this.$numberOfIdsSpinner.appendTo(this.$numberOfIdsSpinnerContainer);
+    this.numberOfIdsSpinnerContainer.append(this.numberOfIdsSpinner);
   }
   HideNumberOfUsersSpinner() {
-    this.HideElement(this.$numberOfIdsSpinner);
+    this.HideElement(this.numberOfIdsSpinner);
   }
   /**
-   * @param {JQuery<HTMLElement>} $element
+   * @param {HTMLElement | JQuery<HTMLElement>} $element
    */
   HideElement($element) {
-    if ($element)
-      $element.detach();
-    //$element.appendTo("<div />");
+    if ($element) {
+      if ($element instanceof HTMLElement) {
+        if ($element.parentElement)
+          $element.parentElement.removeChild($element);
+      } else
+        $element.detach();
+    }
   }
   /**
    * @param {number[]} idList
@@ -286,19 +448,19 @@ export default class MassManageUsers {
       let count = resProfil.data.answers_by_subject.reduce((sum, entry) => sum + entry.answers_count, 0);
       console.log("Toplam cevap", count);
     }) */
-    user.$.appendTo(this.$userList);
+    this.userList.append(user.container);
   }
   UpdateNumbers() {
     this.UpdateNumberOfNotFound();
     this.UpdateNumberOfUsers();
   }
   UpdateNumberOfUsers() {
-    this.$numberOfUsers.text(this.Users().length);
+    this.numberOfUsers.innerText = String(this.Users().length);
   }
   UpdateNumberOfNotFound() {
     let count = this.RemoveNotFoundUsersFromStore();
 
-    this.$numberOfNotFound.text(count);
+    this.numberOfNotFound.innerText = String(count);
   }
   RemoveNotFoundUsersFromStore() {
     let count = 0;
@@ -328,10 +490,10 @@ export default class MassManageUsers {
     this.HideActionsSection();
   }
   ShowUserList() {
-    this.$userListContainer.appendTo(this.$inputActionList);
+    this.inputActionList.append(this.userListContainer);
   }
   HideUserList() {
-    this.HideElement(this.$userListContainer);
+    this.HideElement(this.userListContainer);
   }
   ToggleUserList() {
     let idList = this.Users();
@@ -340,35 +502,35 @@ export default class MassManageUsers {
       this.HideUserList();
   }
   async ShowActionsSection() {
-    if (!this.$actionsSection)
+    if (!this.actionsSection)
       this.RenderActionsSection();
 
     await System.Delay(50);
 
-    this.$actionsSection.appendTo(this.$sectionContainer);
+    this.sectionContainer.append(this.actionsSection);
   }
   HideActionsSection() {
-    this.HideElement(this.$actionsSection);
+    this.HideElement(this.actionsSection);
   }
   RenderActionsSection() {
-    this.$actionsSection = $(`
-    <div class="sg-content-box__content sg-content-box__content--spaced-top-xlarge">
-      <div class="sg-actions-list sg-actions-list--space-around"></div>
-    </div>`);
-
-    this.$actionsList = $(".sg-actions-list", this.$actionsSection);
+    this.actionsList = ActionList({ direction: "space-around" });
+    this.actionsSection = ContentBoxContent({
+      spacedTop: "xlarge",
+      children: this.actionsList,
+    });
 
     this.RenderActionsSectionSeparator();
     this.RenderActions();
   }
   RenderActionsSectionSeparator() {
-    this.$actionsSectionSeparator = $(`<div class="sg-horizontal-separator sg-horizontal-separator--short-spaced"></div>`);
+    this.actionsSectionSeparator =
+      SeparatorHorizontal({ type: "short-spaced" });
   }
   ShowActionsSectionSeparator() {
-    this.$actionsSectionSeparator.appendTo(this.$actionsSection);
+    this.actionsSection.append(this.actionsSectionSeparator)
   }
   HideActionsSectionSeparator() {
-    this.HideElement(this.$actionsSectionSeparator);
+    this.HideElement(this.actionsSectionSeparator);
   }
   RenderActions() {
     this.actions = [];
@@ -382,6 +544,9 @@ export default class MassManageUsers {
     if (System.checkUserP([27, 32]))
       this.actions.push(new ChangePoints(this));
 
+    /* if (System.checkUserP([27, 33]))
+      this.actions.push(new ChangeRanks(this)); */
+
     if (this.actions.length > 0)
       this.actions.forEach(this.RenderAction.bind(this));
   }
@@ -389,20 +554,23 @@ export default class MassManageUsers {
    * @param {import("./ActionSection/index").default} Section
    */
   RenderAction(Section) {
-    if (Section && Section.$actionButtonContainer)
-      Section.$actionButtonContainer.appendTo(this.$actionsList);
+    if (Section && Section.actionButtonContainer)
+      this.actionsList.append(Section.actionButtonContainer);
   }
   ShowRemoveSelectedButton() {
-    this.$removeSelectedButtonContainer.prependTo(this.$removeButtonList);
+    this.removeButtonList.prepend(this.removeSelectedButtonContainer);
   }
   HideRemoveSelectedButton() {
-    this.HideElement(this.$removeSelectedButtonContainer);
+    this.HideElement(this.removeSelectedButtonContainer);
   }
+  /**
+   * @param {User} user
+   */
   UserCheckboxChanged(user) {
     let idsOfSelectedUsers = this.ToggleRemoveSelectedButton();
 
     this.actions.forEach(action => {
-      if (action.UserCheckboxChanged)
+      if ("UserCheckboxChanged" in action)
         action.UserCheckboxChanged(user, idsOfSelectedUsers);
     })
   }
@@ -413,7 +581,7 @@ export default class MassManageUsers {
       this.HideRemoveSelectedButton();
     else {
       this.ShowRemoveSelectedButton();
-      this.$numberOfSelectedUsers.text(filteredIds.length);
+      this.numberOfSelectedUsers.innerHTML = String(filteredIds.length);
     }
 
     return filteredIds;
@@ -421,20 +589,27 @@ export default class MassManageUsers {
   SelectedUsers() {
     let idList = this.Users();
 
-    return idList.filter(id => this.users[id].$checkbox.is(':checked'));
+    return idList.filter(id => {
+      let user = this.users[id];
+
+      if (user instanceof User)
+        return user.checkbox.checked;
+    });
   }
   Users() {
     return Object.keys(this.users);
   }
   RemoveAllUsers() {
-    if (confirm(System.data.locale.core.massManageUsers.notificationMessages.doYouReallyWantToRemoveAllUsers)) {
+    if (confirm(System.data.locale.core.massManageUsers.notificationMessages
+        .doYouReallyWantToRemoveAllUsers)) {
       let idList = this.Users();
 
       this.RemoveUsersById(idList);
     }
   }
   RemoveSelectedUsers() {
-    if (confirm(System.data.locale.core.massManageUsers.notificationMessages.doYouWantToRemoveSelectedUsers)) {
+    if (confirm(System.data.locale.core.massManageUsers.notificationMessages
+        .doYouWantToRemoveSelectedUsers)) {
       let idList = this.SelectedUsers();
 
       this.RemoveUsersById(idList);
@@ -444,10 +619,16 @@ export default class MassManageUsers {
    * @param {string[]} idList
    */
   RemoveUsersById(idList) {
-    idList.forEach(id => {
+    idList.forEach(async (id) => {
       this.removedIds.push(~~id);
       //this.HideElement();
-      this.users[id].$.remove();
+      let user = this.users[id];
+
+      if (user instanceof User) {
+        this.HideElement(user.container);
+        await System.Delay(50);
+        user.container.remove();
+      }
 
       delete this.users[id];
     });
@@ -465,25 +646,41 @@ export default class MassManageUsers {
       idList = this.SelectedUsers();
 
     if (idList.length == 0) {
-      this.modal.notification(System.data.locale.core.massManageUsers.notificationMessages.thereIsNoUserLeft, "info");
+      this.modal.Notification({
+        text: System.data.locale.core.massManageUsers.notificationMessages
+          .thereIsNoUserLeft,
+        type: "info"
+      });
 
       return null;
     }
 
     return idList.map(id => {
-      this.users[id].BeBusy();
+      let user = this.users[id];
+
+      if (user instanceof User)
+        user.BeBusy();
 
       return Number(id);
     });
   }
   UnBusyListedUsers() {
-    let idList = this.Users();
+    let keys = this.Users();
+    /**
+     * @type {number[]}
+     */
+    let idList = [];
 
-    if (idList.length > 0)
-      idList = idList.map(id => {
-        this.users[id].UnBusy();
+    if (keys.length > 0)
+      idList = keys.map(id => {
+        let user = this.users[id];
+
+        if (user instanceof User)
+          user.UnBusy();
 
         return Number(id);
       });
+
+    return idList;
   }
 }

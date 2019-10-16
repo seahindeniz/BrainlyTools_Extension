@@ -1,56 +1,91 @@
-import Button from "../../../components/Button";
-import notification from "../../../components/notification";
+import notification from "../../../components/notification2";
+import {
+  Button,
+  ContentBox,
+  ContentBoxContent,
+  Text
+} from "../../../components/style-guide";
 import Action from "../../../controllers/Req/Brainly/Action";
 import WaitForElement from "../../../helpers/WaitForElement";
-import WaitForObject from "../../../helpers/WaitForObject";
 
 export default async function responseSection() {
-  let $responseModerateButtons = $(`
-  <div class="sg-actions-list__hole">
-    <div class="sg-actions-list sg-actions-list--to-right sg-actions-list--no-wrap">
-      <div class="sg-content-box" style="height: 0;">
-        <ul class="sg-list ext_actions"></ul>
-      </div>
-		</div>
-  </div>`);
-  let $buttonContainerList = $(".sg-list", $responseModerateButtons);
+  /**
+   * @param {HTMLElement} [target]
+   */
+  const addButtons = (target) => {
+    let responseContainers = $(window.selectors
+      .responseModerateButtonContainer, target);
 
-  System.data.config.quickDeleteButtonsReasons.response.forEach(id => {
-    let reason = System.data.Brainly.deleteReasons.__withIds.response[id];
-    let $buttonContainer = $(`<li class="sg-list__element sg-actions-list--to-right"></li>`);
+    responseContainers.each((i, moderateButtonContainer) => {
+      let extButtonsContainer = ContentBox({
+        className: "ext_actions",
+      });
 
-    let $button = Button({
-      type: "destructive",
-      size: "xsmall",
-      icon: {
-        type: "x"
-      },
-      text: reason.title,
-      title: reason.text
-    });
+      moderateButtonContainer.after(extButtonsContainer);
 
-    $button.appendTo($buttonContainer);
-    $buttonContainer.appendTo($buttonContainerList);
-  });
+      System.data.config.quickDeleteButtonsReasons.response.forEach(
+        (id, i) => {
+          let reason = System.data.Brainly.deleteReasons.__withIds
+            .response[id];
+          let button = Button({
+            type: "destructive",
+            size: "small",
+            icon: Text({
+              text: i + 1,
+              weight: "bold",
+              color: "white",
+            }),
+            text: reason.title,
+            title: reason.text
+          });
+          let buttonContainer = ContentBoxContent({
+            children: button,
+            spacedTop: "small",
+          });
 
-  let cloneResponseModerateButtons = () => $responseModerateButtons.clone();
-  cloneResponseModerateButtons().insertAfter(selectors.responseContainer + selectors.responseModerateButtonContainer);
-
-  let _$_observe = await WaitForObject("$().observe");
-
-  if (_$_observe) {
-    let responseParentContainer = await WaitForElement(selectors.responseParentContainer);
-
-    $(responseParentContainer).observe('added', 'div.js-answer-react', e => {
-      cloneResponseModerateButtons().insertAfter($(selectors.responseContainer + selectors.responseModerateButtonContainer, e.addedNodes));
+          extButtonsContainer.append(buttonContainer);
+        });
     });
   }
+  addButtons();
 
-  $(selectors.responseContainer).on("click", ".ext_actions button", responseModerateButtonsClickHandler);
+  let observer = new MutationObserver(mutations => {
+    mutations.forEach(mutation => {
+      if (mutation.target) {
+        /**
+         * @type {HTMLDivElement}
+         */
+        // @ts-ignore
+        let target = mutation.target;
+
+        if (
+          target.className.includes(window.selectors
+            .responseHeader)
+        ) {
+          let ext_actions = target.querySelector(".ext_actions");
+
+          if (!ext_actions) {
+            addButtons(target);
+          }
+        }
+      }
+    })
+  });
+
+  let responseParentContainer = await WaitForElement(window.selectors
+    .responseParentContainer);
+  observer.observe(responseParentContainer[0], {
+    childList: true,
+    subtree: true
+  });
+
+  $(window.selectors.responseContainer).on("click", ".ext_actions button",
+    responseModerateButtonsClickHandler);
 }
 
 async function responseModerateButtonsClickHandler() {
-  let parentResponseContainer = $(this).parents(selectors.responseContainer);
+  let parentResponseContainer = $(this).parents(window.selectors
+    .responseContainer);
   let answer_id = Number(parentResponseContainer.data("answer-id"));
 
   if (!answer_id)
@@ -58,19 +93,22 @@ async function responseModerateButtonsClickHandler() {
 
   let usersData = $(".js-users-data").data("z");
   let questionData = $(".js-main-question").data("z");
-  let answer = questionData.responses.find(response => response.id == answer_id);
+  let answer = questionData.responses.find(response => response.id ==
+    answer_id);
   let user = usersData[answer.userId];
 
   if (!user)
     throw "Cannot find the user data";
 
   let btn_index = $(this).parent().index();
-  let reason = System.data.Brainly.deleteReasons.__withIds.response[System.data.config.quickDeleteButtonsReasons.response[btn_index]];
+  let reason = System.data.Brainly.deleteReasons.__withIds.response[System
+    .data.config.quickDeleteButtonsReasons.response[btn_index]];
 
   if (!reason || !reason.id)
     throw "Can't find the reason";
 
-  let confirmDeleting = System.data.locale.common.moderating.doYouWantToDeleteWithReason
+  let confirmDeleting = System.data.locale.common.moderating
+    .doYouWantToDeleteWithReason
     .replace("%{reason_title}", reason.title)
     .replace("%{reason_message}", reason.text);
 
@@ -84,18 +122,25 @@ async function responseModerateButtonsClickHandler() {
     responseData.give_warning = System.canBeWarned(reason.id);
     let svg = $("svg", this);
 
-    $(`<div class="sg-spinner sg-spinner--xxsmall sg-spinner--light"></div>`).insertBefore(svg);
+    $(`<div class="sg-spinner sg-spinner--xxsmall sg-spinner--light"></div>`)
+      .insertBefore(svg);
     svg.remove();
 
     let res = await new Action().RemoveAnswer(responseData);
     await new Action().CloseModerationTicket(questionData.id);
 
     if (!res || !res.success)
-      return notification((res && res.message) || System.data.locale.common.notificationMessages.somethingWentWrong, "error");
+      return notification({
+        type: "error",
+        html: (res && res.message) || System.data.locale.common
+          .notificationMessages.somethingWentWrong
+      });
 
     System.log(6, { user, data: [answer_id] });
     parentResponseContainer.addClass("brn-question--deleted");
-    $(selectors.responseModerateButtonContainer, parentResponseContainer).remove();
+    $(window.selectors.responseModerateButtonContainer,
+        parentResponseContainer)
+      .remove();
     $(this).parents(".ext_actions").remove();
   }
 };

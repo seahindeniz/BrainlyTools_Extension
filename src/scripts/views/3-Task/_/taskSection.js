@@ -1,44 +1,51 @@
-import Button from "../../../components/Button";
 import notification from "../../../components/notification";
+import {
+  Button,
+  ContentBox,
+  ContentBoxContent,
+  Text
+} from "../../../components/style-guide";
 import Action from "../../../controllers/Req/Brainly/Action";
 
-let System = require("../../../helpers/System");
-
 export default function taskSection() {
-  if (typeof System == "function")
-    System = System();
+  let moderateButtonContainer = document.querySelector(window.selectors
+    .taskModerateButtonContainer);
 
-  let $taskModerateButtons = $(`
-	<div class="sg-actions-list sg-actions-list--to-right sg-actions-list--no-wrap">
-		<div class="sg-content-box" style="height: 0;">
-			<ul class="sg-list ext_actions"></ul>
-		</div>
-	</div>`);
-  let $buttonContainerList = $(".sg-list", $taskModerateButtons);
+  if (!moderateButtonContainer)
+    return;
 
-  $taskModerateButtons.insertAfter(selectors.taskModerateButtonContainer);
-
-  System.data.config.quickDeleteButtonsReasons.task.forEach(id => {
-    let reason = System.data.Brainly.deleteReasons.__withIds.task[id];
-    let $buttonContainer = $(`<li class="sg-list__element sg-actions-list--to-right"></li>`);
-
-    let $button = Button({
-      type: "destructive",
-      size: "xsmall",
-      icon: {
-        type: "x"
-      },
-      text: reason.title,
-      title: reason.text
-    });
-
-    $button.appendTo($buttonContainer);
-    $button.prop("reasonId", reason.id);
-    $buttonContainer.appendTo($buttonContainerList);
+  let extButtonsContainer = ContentBox({
+    className: "ext_actions",
   });
 
+  moderateButtonContainer.after(extButtonsContainer);
+
+  System.data.config.quickDeleteButtonsReasons.task.forEach(
+    (id, i) => {
+      let reason = System.data.Brainly.deleteReasons.__withIds.task[id];
+      let button = Button({
+        type: "destructive",
+        size: "small",
+        icon: Text({
+          text: i + 1,
+          weight: "bold",
+          color: "white",
+        }),
+        text: reason.title,
+        title: reason.text,
+        reasonId: reason.id,
+      });
+      let buttonContainer = ContentBoxContent({
+        children: button,
+        spacedTop: "small",
+      });
+
+      extButtonsContainer.append(buttonContainer);
+    });
+
   let taskModerateButtonsClickHandler = async function() {
-    let $parentArticle = $(this).parents(selectors.articleQuestion);
+    // @ts-ignore
+    let $parentArticle = $(this).parents(window.selectors.articleQuestion);
     let question_id = Number($parentArticle.data("question-id"));
 
     if (!question_id)
@@ -49,12 +56,14 @@ export default function taskSection() {
     if (!userData)
       throw "Cannot find the user data";
 
-    let reason = System.data.Brainly.deleteReasons.__withIds.task[this.reasonId];
+    let reason = System.data.Brainly.deleteReasons.__withIds.task[this
+      .reasonId];
 
     if (!reason || !reason.id)
       throw "Can't find the reason";
 
-    let confirmDeleting = System.data.locale.common.moderating.doYouWantToDeleteWithReason
+    let confirmDeleting = System.data.locale.common.moderating
+      .doYouWantToDeleteWithReason
       .replace("%{reason_title}", reason.title)
       .replace("%{reason_message}", reason.text);
 
@@ -67,7 +76,9 @@ export default function taskSection() {
       };
       taskData.give_warning = System.canBeWarned(reason.id);
       let svg = $("svg", this);
-      let spinner = $(`<div class="sg-spinner sg-spinner--xxsmall sg-spinner--light"></div>`).insertBefore(svg);
+      let spinner = $(
+        `<div class="sg-spinner sg-spinner--xxsmall sg-spinner--light"></div>`
+      ).insertBefore(svg);
 
       svg.hide();
 
@@ -77,16 +88,18 @@ export default function taskSection() {
       new Action().CloseModerationTicket(question_id);
 
       if (!res || !res.success)
-        return notification((res && res.message) || System.data.locale.common.notificationMessages.somethingWentWrong, "error");
+        return notification((res && res.message) || System.data.locale
+          .common.notificationMessages.somethingWentWrong, "error");
 
       System.log(5, { user: userData, data: [question_id] });
       $parentArticle.addClass("brn-question--deleted");
-      $(selectors.taskModerateButton).remove();
-      $taskModerateButtons.remove();
+      // @ts-ignore
+      $(window.selectors.taskModerateButton).remove();
+      extButtonsContainer.remove();
 
       spinner.remove();
       svg.show();
     }
   };
-  $("button", $taskModerateButtons).on("click", taskModerateButtonsClickHandler);
+  $("button", extButtonsContainer).on("click", taskModerateButtonsClickHandler);
 }

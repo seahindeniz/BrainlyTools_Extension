@@ -35,10 +35,10 @@
 
     button {
       padding: 0 9px;
+      min-width: 35px;
 
       .sg-button__text {
         display: none;
-        margin-right: 10px;
       }
 
       &:not(:hover) .sg-button__icon {
@@ -46,6 +46,10 @@
       }
 
       &:hover {
+        .sg-button__icon {
+          display: none;
+        }
+
         .sg-button__text {
           display: block;
         }

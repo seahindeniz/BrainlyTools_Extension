@@ -7,26 +7,34 @@ article.brn-question {
 }
 
 .ext_actions {
-  margin-right: -22px;
+  height: 0;
+  width: 35px;
+  float: right;
   position: relative;
-  z-index: 1;
+  z-index: 2;
 
   button {
-    padding: 0 9px;
-    float: right;
-    margin-top: 7px;
+    min-width: 35px;
 
     .sg-button__text {
       display: none;
     }
 
-    &:not(:hover) .sg-button__icon {
-      margin: 0;
-    }
-
     &:hover {
+      .sg-button__icon {
+        display: none;
+      }
+
       .sg-button__text {
         display: block;
+      }
+    }
+
+    &:not(:hover) {
+      padding: 0 9px;
+
+      .sg-button__icon {
+        margin: 0;
       }
     }
   }

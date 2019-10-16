@@ -3,20 +3,21 @@
   position: absolute;
   top: 0;
   right: 0;
-  width: 5em;
+  width: 5.4em;
   z-index: 2;
 
   /* padding: 0px 5px 7px; */
   /* border-radius: 5px; */
   /* box-shadow: 0px 0px 10px 0px #c5c5c5; */
   >.sg-actions-list__hole {
-    width: 36px;
+    width: 40px;
 
     &:nth-child(1) .sg-spinner-container {
       float: right;
     }
 
     button {
+      min-width: 35px;
       padding: 0 9px;
 
       .sg-button__text {
@@ -28,6 +29,10 @@
       }
 
       &:hover {
+        .sg-button__icon {
+          display: none;
+        }
+
         .sg-button__text {
           display: block;
         }
@@ -45,7 +50,7 @@
     }
   }
 
-  &:hover:not(.deleted)>.sg-content-box {
+  &:hover:not(.deleted)>.sg-flex {
     position: relative;
 
     .ext_actions {

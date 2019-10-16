@@ -1,6 +1,7 @@
 import Button from "../../../components/Button";
 import ModeratingPanel from "./ModeratingPanel";
 import QuickDeleteButton from "./QuickDeleteButton";
+import { ContentBoxContent } from "../../../components/style-guide";
 
 class QuickDeleteButtons {
   /**
@@ -47,13 +48,18 @@ class QuickDeleteButtons {
     </div>`);
 
     this.$deleteButtonContainerBox = $(".sg-content-box", this.$container);
-    this.$moreOptionsButtonContainer = $(".sg-spinner-container", this.$container);
+    this.$moreOptionsButtonContainer = $(".sg-spinner-container", this
+      .$container);
   }
   FindOwner() {
     let $userLink = $(window.selectors.userLink, this.target);
 
     if ($userLink.length == 0)
-      throw { msg: "User link element not found from target", element: this.target };
+      throw {
+        msg: "User link element not found from target",
+        element: this
+          .target
+      };
 
     let link = $userLink.attr("href")
 
@@ -104,7 +110,8 @@ class QuickDeleteButtons {
     let $feedContentBox = $(this.target);
 
     if (window.selectors.questionsBox_buttonList)
-      $feedContentBox = $(window.selectors.questionsBox_buttonList, this.target);
+      $feedContentBox = $(window.selectors.questionsBox_buttonList, this
+        .target);
 
     this.$container.appendTo($feedContentBox);
   }
@@ -113,7 +120,7 @@ class QuickDeleteButtons {
       type: "primary-blue",
       size: "xsmall",
       icon: {
-        type: "stream"
+        type: "menu"
       },
       text: System.data.locale.common.moderating.moreOptions
     });
@@ -121,18 +128,26 @@ class QuickDeleteButtons {
     this.$moreOptionsButton.appendTo(this.$moreOptionsButtonContainer);
   }
   RenderButtonSpinner() {
-    this.$spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`);
+    this.$spinner = $(
+      `<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`
+    );
   }
   RenderDeleteButtons() {
-    System.data.config.quickDeleteButtonsReasons.task.forEach(this.RenderDeleteButton.bind(this));
+    System.data.config.quickDeleteButtonsReasons.task.forEach(this
+      .RenderDeleteButton.bind(this));
   }
-  RenderDeleteButton(id) {
-    let button = new QuickDeleteButton(id, this);
-    let $buttonContainer = $(`<div class="sg-content-box__content sg-content-box__content--spaced-bottom-xsmall"></div>`);
+  /**
+   * @param {number} id
+   * @param {number} index
+   */
+  RenderDeleteButton(id, index) {
+    let button = new QuickDeleteButton(id, index, this);
+    let buttonContainer = ContentBoxContent({
+      spacedBottom: "xsmall",
+    });
 
-    $buttonContainer.appendTo(this.$deleteButtonContainerBox);
-
-    button.$spinnerContainer.appendTo($buttonContainer);
+    buttonContainer.append(button.spinnerContainer);
+    this.$deleteButtonContainerBox.append(buttonContainer);
   }
   BindHandlers() {
     this.$moreOptionsButton.click(this.OpenPanel.bind(this));

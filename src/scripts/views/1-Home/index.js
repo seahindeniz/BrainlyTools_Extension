@@ -10,11 +10,11 @@ window.selectors = {
   ...window.selectors,
   feeds_parent: ".js-feed-stream",
   feed_item: `div[data-test="feed-item"]`,
-  questionsBox_buttonList: `> div.sg-content-box`,
-  questionLink: `.sg-content-box a[data-test="feed-item-link"]`,
-  userLink: `.sg-content-box > .sg-content-box__title > .sg-avatar > a`,
+  questionsBox_buttonList: `> div.sg-flex`,
+  userLink: `.brn-feed-item__avatar .sg-avatar > a`,
+  questionLink: `a[data-test="feed-item-link"]`,
 
-  userInfoBoxPoints: "div.game-box__element > div.game-box__user-info > div.game-box__progress-items"
+  userInfoBoxPoints: "div.game-box__element > div.game-box__user-info > div.game-box__progress-items",
 }
 
 Home();

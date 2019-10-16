@@ -1,18 +1,16 @@
-import Button from "../../../components/Button";
+import notification from "../../../components/notification2";
 import Action from "../../../controllers/Req/Brainly/Action";
-
-let System = require("../../../helpers/System");
+import { Button, Text, SpinnerContainer } from "../../../components/style-guide";
 
 class QuickDeleteButton {
   /**
    * @param {number} reasonId
+   * @param {number} index
    * @param {import("./QuickDeleteButtons").default} main
    */
-  constructor(reasonId, main) {
-    if (typeof System == "function")
-      System = System();
-
+  constructor(reasonId, index, main) {
     this.main = main;
+    this.index = index;
     this.reason = System.data.Brainly.deleteReasons.__withIds.task[reasonId];
 
     if (!this.reason)
@@ -23,23 +21,25 @@ class QuickDeleteButton {
     this.BindHandler();
   }
   RenderSpinnerContainer() {
-    this.$spinnerContainer = $(`<div class="sg-spinner-container"></div>`);
+    this.spinnerContainer = SpinnerContainer();
   }
   Render() {
-    this.$ = Button({
+    this.button = Button({
       type: "destructive",
       size: "xsmall",
-      icon: {
-        type: "x"
-      },
+      icon: Text({
+        text: this.index + 1,
+        weight: "bold",
+        color: "white",
+      }),
       title: this.reason.text,
       text: this.reason.title
     });
 
-    this.$.appendTo(this.$spinnerContainer)
+    this.spinnerContainer.append(this.button);
   }
   BindHandler() {
-    this.$.click(this.ConfirmDeleteQuestion.bind(this));
+    this.button.addEventListener("click",this.ConfirmDeleteQuestion.bind(this));
   }
   async ConfirmDeleteQuestion() {
     this.ShowSpinner();
@@ -57,9 +57,9 @@ class QuickDeleteButton {
   async DeleteQuestion() {
     let taskData = {
       model_id: this.main.questionId,
-      reason_id: this.reason.category_id,
       reason: this.reason.text,
-      reason_title: this.reason.title
+      reason_title: this.reason.title,
+      reason_id: this.reason.category_id,
     };
     taskData.give_warning = System.canBeWarned(this.reason.id);
 
@@ -68,16 +68,18 @@ class QuickDeleteButton {
     System.log(5, { user: this.main.user, data: [this.main.questionId] });
     new Action().CloseModerationTicket(this.main.questionId);
 
-    if (!resRemove || !resRemove.success) {
-      notification(resRemove.message || System.data.locale.common.notificationMessages.somethingWentWrong, "error");
-    } else {
+    if (!resRemove || !resRemove.success)
+      notification({
+        type: "error",
+        text: resRemove.message || System.data.locale.common.notificationMessages.somethingWentWrong,
+      });
+    else
       this.main.target.classList.add("deleted");
-    }
 
     this.main.HideSpinner();
   }
   ShowSpinner() {
-    this.main.$spinner.appendTo(this.$spinnerContainer);
+    this.main.$spinner.appendTo(this.spinnerContainer);
   }
 }
 

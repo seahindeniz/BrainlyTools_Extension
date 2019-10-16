@@ -181,8 +181,9 @@ async function ArciveMod() {
           if (confirm(confirmDeleting)) {
             let data = {
               model_id: obj.data.model_id,
-              reason_id: reason.category_id,
               reason: reason.text,
+              reason_title: reason.title,
+              reason_id: reason.category_id,
               give_warning: System.canBeWarned(reason.id)
             };
             let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--small sg-spinner--light"></div></div>`).appendTo(this);

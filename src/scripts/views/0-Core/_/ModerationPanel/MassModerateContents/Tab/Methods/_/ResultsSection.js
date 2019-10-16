@@ -21,12 +21,12 @@ export default class ResultsSection {
   }
   RenderLists() {
     this.moderatedIdsBox = Textarea({
-      type: "div",
+      tag: "div",
       size: "xtall",
       resizable: "vertical"
     });
     this.failedIdsBox = Textarea({
-      type: "div",
+      tag: "div",
       size: "xtall",
       resizable: "vertical"
     });

@@ -8,7 +8,7 @@ export default function notification({ permanent = false, ...props }) {
   let flash = FlashMessage(props);
   let container = Container();
 
-  container.appendChild(flash);
+  container.append(flash);
 
   flash.addEventListener("click", Clear, false);
 
@@ -19,13 +19,18 @@ export default function notification({ permanent = false, ...props }) {
 }
 
 function Container() {
-  let container = document.querySelector(".flash-messages-container");
+  let container = document.querySelector(
+    ".flash-messages-container, body > #main-panel"
+  );
 
   if (!container) {
     container = document.createElement("div");
     container.className = "flash-messages-container";
 
-    document.body.appendChild(container);
+    let header = document.querySelector("body > #main-panel, body");
+
+    if (header)
+      header.append(container);
   }
 
   return container;
@@ -38,35 +43,6 @@ function Clear(element) {
   if (element instanceof MouseEvent)
     element = element.currentTarget;
 
-  element.remove();
+  if ("remove" in element)
+    element.remove();
 }
-/* if (window.Zadanium) {
-    if (type === "error")
-      type = "failure";
-
-    let flash = Zadanium.namespace('flash_msg').flash;
-
-    flash.setMsg(extIcon + message, type);
-
-    let flashElements = Array.from(flash.elements.main);
-    let flashElement = flashElements[flashElements.length - 1];
-
-    if (!permanent)
-      Clear(flashElement);
-
-    return flashElement;
-  } else {
-    if (type === "warning" || type == "failure")
-      type = "error";
-
-    if (window.Application) {
-      Application.alert.flash.addMessage(extIcon + message, type);
-      let flashElements = document.querySelectorAll(".js-flash-messages-container");
-      let flashElement = flashElements[flashElements.length - 1];
-
-      if (!permanent)
-        Clear(flashElement);
-
-      return flashElement;
-    } else {}
-  } */

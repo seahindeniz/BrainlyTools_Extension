@@ -231,7 +231,7 @@ export default class Request {
     return formData;
   }
   /**
-   * @param {import("axios").AxiosRequestConfig} options
+   * @param {import("axios").AxiosRequestConfig} [options]
    */
   Axios(options) {
     this.axios = Axios.create(options);

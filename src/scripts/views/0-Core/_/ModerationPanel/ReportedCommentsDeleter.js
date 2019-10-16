@@ -253,9 +253,10 @@ class ReportedCommentsDeleter {
   async DeleteReport(report) {
     let data = {
       model_id: report.model_id,
-      reason_id: this.selectedReason.category_id,
       reason: this.selectedReason.text,
-      give_warning: this.$giveWarning.is(":checked")
+      reason_title: this.selectedReason.title,
+      reason_id: this.selectedReason.category_id,
+      give_warning: this.$giveWarning.is(":checked"),
     };
 
     //await System.Delay();

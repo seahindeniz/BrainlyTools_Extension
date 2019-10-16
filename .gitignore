@@ -4,6 +4,7 @@ build/*
 node_modules
 ep_list.json
 !build/.gitkeep
+package-lock.json
 privilege_list.yml
 src/configs/_/extension.json
 src/styles/_/style-guide.css

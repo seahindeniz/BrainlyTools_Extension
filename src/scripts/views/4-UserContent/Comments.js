@@ -152,8 +152,9 @@ class Comments extends UserContent {
 
       if (confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
         this.postData = {
-          reason_id: this.deleteSection.selectedReason.id,
           reason: this.deleteSection.reasonText,
+          reason_id: this.deleteSection.selectedReason.id,
+          reason_title: this.deleteSection.selectedReason.title,
           give_warning: this.deleteSection.giveWarning
         };
 

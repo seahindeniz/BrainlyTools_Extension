@@ -23,13 +23,15 @@ export class QuestionSearch {
         let _$_observe = await WaitForObject("$().observe");
 
         if (_$_observe) {
-          this.searchResults = await WaitForElement(".js-react-search-results");
+          this.searchResults = await WaitForElement(
+            ".js-react-search-results");
 
           if (this.searchResults && this.searchResults.length > 0) {
             this.searchResults = this.searchResults[0];
             this.ObserveResults();
 
-            let questionBoxContainer = await WaitForElement(".sg-layout__box");
+            let questionBoxContainer = await WaitForElement(
+              ".sg-layout__box");
 
             this.PrepareQuestionBoxes(questionBoxContainer[0]);
           }
@@ -58,7 +60,9 @@ export class QuestionSearch {
               box.classList.contains("sg-layout__box") &&
               !(box.classList.contains("quickDelete"))
             ) {
-              let animationBox = Array.from(box.children).find(child => child.classList.contains("brn-placeholder__animation-box"));
+              let animationBox = Array.from(box.children).find(
+                child => child.classList.contains(
+                  "brn-placeholder__animation-box"));
 
               return !animationBox;
             }
@@ -77,7 +81,9 @@ export class QuestionSearch {
    * @param {HTMLElement} element
    */
   PrepareQuestionBoxes(element) {
-    let $questions = $(`[data-test="search-stream-wrapper"] > .sg-content-box.sg-content-box--spaced-top-large`, element);
+    let $questions = $(
+      `[data-test="search-stream-wrapper"] > .sg-content-box.sg-content-box--spaced-top-large`,
+      element);
 
     if ($questions.length > 0 && !element.classList.contains("quickDelete")) {
       this.element = element;
@@ -92,7 +98,8 @@ export class QuestionSearch {
    * @param {HTMLElement} question
    */
   InitQuestionBox(question) {
-    let $seeAnswerLink = $(".sg-content-box__actions > .sg-actions-list a", question);
+    let $seeAnswerLink = $(".sg-content-box__actions > .sg-actions-list a",
+      question);
     let id = System.ExtractId($seeAnswerLink.attr("href"));
     /**
      * @type {QuestionBox}
@@ -100,8 +107,9 @@ export class QuestionSearch {
     let questionBox = this.questionBoxList[id];
 
     if (!questionBox) {
-      questionBox = this.questionBoxList[id] = new QuestionBox(this, question, id);
-      questionBox.$checkBox.change();
+      questionBox = this.questionBoxList[id] = new QuestionBox(this, question,
+        id);
+      questionBox.checkBox.dispatchEvent(new Event('change'));
     } else {
       questionBox.$ = $(question);
 

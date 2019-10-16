@@ -1,6 +1,6 @@
 div#content-old tr {
   .dataTime {
-    .js-actions.sg-content-box {
+    >.sg-content-box {
       display: none;
       width: 77px;
       height: inherit;
@@ -16,6 +16,7 @@ div#content-old tr {
     .flag {
       position: absolute;
       min-width: 67px;
+      max-width: 67px;
       margin: 0.5% 0 0 -77px;
     }
   }
@@ -26,7 +27,7 @@ div#content-old tr {
 
   &:hover,
   &.processing {
-    .dataTime .sg-content-box {
+    .dataTime>.sg-content-box {
       display: block;
     }
   }

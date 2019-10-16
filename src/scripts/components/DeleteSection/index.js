@@ -74,6 +74,7 @@ class DeleteSection {
       [
         ContentBoxActions(),
         Textarea({
+          tag: "textarea",
           invalid: true,
           fullWidth: true,
           className: "sg-text--small"
@@ -121,7 +122,7 @@ class DeleteSection {
     </div>`);
     /* let $checkboxGhost = $(".sg-checkbox__ghost", $option);
     let icon = Icon({
-      type: "std-check",
+      type: "check",
       color: "adaptive"
     });
 

@@ -27,7 +27,7 @@ export default class ListOfIds extends Inputs {
   }
   RenderTextAreaContainer() {
     this.textarea = Textarea({
-      type: "div",
+      tag: "div",
       fullWidth: true,
       resizable: true,
       contentEditable: true,
@@ -35,7 +35,7 @@ export default class ListOfIds extends Inputs {
       style: "position: absolute; background: transparent;"
     });
     this.textareaBack = Textarea({
-      type: "div",
+      tag: "div",
       fullWidth: true,
       style: "color: transparent;"
     });

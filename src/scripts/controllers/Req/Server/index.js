@@ -1,6 +1,6 @@
 import md5 from "js-md5";
 import Request from "../";
-import notification from "../../../components/notification";
+import notification from "../../../components/notification2";
 import storage from "../../../helpers/extStorage";
 
 export default class ServerReq {
@@ -13,19 +13,27 @@ export default class ServerReq {
   GET() {
     return this.BackGate("GET");
   }
+  /**
+   * @param {{}} [data]
+   */
   POST(data) {
     return this.BackGate("POST", data);
   }
+  /**
+   * @param {{}} [data]
+   */
   PUT(data) {
     return this.BackGate("PUT", data);
   }
+  /**
+   * @param {{}} [data]
+   */
   DELETE(data) {
     return this.BackGate("DELETE", data);
   }
   /**
    * @param {string} method
-   * @param {{}} data
-   * @returns {Promise}
+   * @param {{}} [data]
    */
   BackGate(method, data) {
     if (data)
@@ -37,7 +45,8 @@ export default class ServerReq {
       data,
     };
 
-    if (System.data.Brainly.userData.extension && System.data.Brainly.userData.extension.secretKey)
+    if (System.data.Brainly.userData.extension && System.data.Brainly.userData
+      .extension.secretKey)
       messageData.headers = {
         SecretKey: System.data.Brainly.userData.extension.secretKey
       };
@@ -97,13 +106,25 @@ export default class ServerReq {
 
       if (!resAuth) {
         System.changeBadgeColor("error");
-        notification(`${System.data.locale.core.notificationMessages.extensionServerError}<br>${System.data.locale.core.notificationMessages.ifErrorPersists}`, "error", true);
+        notification({
+          type: "error",
+          permanent: true,
+          html: System.data.locale.core.notificationMessages
+            .extensionServerError + "<br>" + System.data.locale.core
+            .notificationMessages.ifErrorPersists,
+        });
         reject();
       } else if (!resAuth.data.probatus) {
         System.changeBadgeColor("error");
-        notification(System.data.locale.core.notificationMessages.accessPermissionDenied, "error", true);
+        notification({
+          type: "error",
+          permanent: true,
+          html: System.data.locale.core.notificationMessages
+            .accessPermissionDenied,
+        });
         reLogin && location.reload(true);
-        reject(System.data.locale.core.notificationMessages.accessPermissionDenied.replace(/<br.*?>/gi, "\n"));
+        reject(System.data.locale.core.notificationMessages
+          .accessPermissionDenied.replace(/<br.*?>/gi, "\n"));
       } else {
         resAuth.data.hash = JSON.parse(atob(resAuth.data.hash));
 
@@ -111,13 +132,30 @@ export default class ServerReq {
       }
     });
   }
+  HelloWorld(){
+    return this.helloWorld().GET();
+  }
   GetDeleteReasons() {
     return this.deleteReasons().P(System.data.meta.marketName).GET();
   }
+  /**
+   * @param {number | {id: number, nick: string}} id
+   * @param {string} [nick]
+   * @returns {Promise<{success: boolean, data: {probatus: boolean, hash: string, previousNicks: string[], secretKey: string, privileges?: number[]}}>}
+   */
   GetUser(id, nick) {
+    if (id instanceof Object && id.id) {
+      nick = id.nick;
+      id = id.id;
+    }
+
     let promise = this.user().P(id).P(nick).GET();
 
-    promise.catch(() => notification(System.data.locale.common.notificationMessages.cannotShareUserInfoWithServer, "error"));
+    promise.catch(() => notification({
+      type: "error",
+      html: System.data.locale.common
+        .notificationMessages.cannotShareUserInfoWithServer,
+    }));
 
     return promise;
   }
@@ -180,10 +218,11 @@ export default class ServerReq {
   }
   /**
    * @param {FormData} data
-   * @param {function} onUploadProgress
+   * @param {function(): void} [onUploadProgress]
    */
   AccountDeleteReport(data, onUploadProgress) {
-    return this.FrontGate().Axios({ onUploadProgress }).SKey().P("accountDeleteReport").POST(data);
+    return this.FrontGate().Axios({ onUploadProgress }).SKey().P(
+      "accountDeleteReport").POST(data);
   }
   GetAccountDeleteReports() {
     return this.accountDeleteReports().GET();
@@ -208,13 +247,15 @@ export default class ServerReq {
    * @param {number} privilege
    */
   GivePrivilege(privilege) {
-    return this.FrontGate().SKey().JSON().P("users").P("give").PUT({ privilege });
+    return this.FrontGate().SKey().JSON().P("users").P("give")
+      .PUT({ privilege });
   }
   /**
    * @param {number} privilege
    */
   RevokePrivilege(privilege) {
-    return this.FrontGate().SKey().JSON().P("users").P("revoke").PUT({ privilege });
+    return this.FrontGate().SKey().JSON().P("users").P("revoke")
+      .PUT({ privilege });
   }
   GetNoticeBoardContent() {
     return this.noticeBoard().GET();
@@ -229,14 +270,15 @@ export default class ServerReq {
     return this.noticeBoard().read().PUT();
   }
   /**
-   * @param {{each?: function, done?: function}} handlers
+   * @param {{each?: function, done?: function}} [handlers]
    */
-  GetAllModerators(handlers) {
+  GetAllModerators(handlers = {}) {
     return new Promise(async (resolve, reject) => {
       let resSupervisors = await this.moderatorList().GET();
 
       if (!resSupervisors || !resSupervisors.success)
-        return reject("Can't fetch moderators list from extension server");
+        return reject(
+          "Can't fetch moderators list from extension server");
 
       handlers = {
         done: resolve,
@@ -256,22 +298,36 @@ export default class ServerReq {
   }
   /**
    * @param {string} _id
-   * @param {{hashList: string[], content:string, questionLink: string}} data
+   * @param {ReportActionParams} data
    */
   ConfirmActionHistoryEntry(_id, data) {
     return this.ReportActionHistoryEntry("confirm", _id, data);
   }
   /**
    * @param {string} _id
-   * @param {{hashList: string[], content:string, questionLink: string, message?: string}} data
+   * @param {ReportActionParams} data
    */
   DisapproveActionHistoryEntry(_id, data) {
     return this.ReportActionHistoryEntry("disapprove", _id, data);
   }
   /**
+   * @typedef {{
+   *  hashList: string[],
+   *  actionLink?: string,
+   *  content?: string,
+   *  questionLink?: string,
+   *  message?: string,
+   *  moderatorAction?: string,
+   *  moderatorActionDate?: string,
+   *  contentOwner?: {
+   *    nick?: string,
+   *    id?: number | string,
+   *    link?: string,
+   *  }
+   * }} ReportActionParams
    * @param {string} action
    * @param {string} _id
-   * @param {{hashList: string[], content:string, questionLink: string, message?: string}} data
+   * @param {ReportActionParams} data
    */
   ReportActionHistoryEntry(action, _id, data) {
     if (typeof data.hashList == "string")
@@ -285,21 +341,33 @@ export default class ServerReq {
     return this.actionsHistory().revert().P(_id).PUT();
   }
   /**
-   * @param {Blob} screenshot
+   * @param {File | Blob} screenshot
    */
   ActionHistoryEntryImage(screenshot) {
     let formData = new FormData();
 
-    formData.append('file', screenshot, screenshot.name);
+    if ("name" in screenshot)
+      formData.append('file', screenshot, screenshot.name);
 
-    return this.FrontGate().Axios().SKey().P("actionsHistory").P("image").POST(formData);
+    return this.FrontGate().Axios().SKey().P("actionsHistory").P("image")
+      .POST(formData);
   }
   ActionHistoryEntryLinks(links) {
     return this.actionsHistory().storeLinks().POST({ links });
   }
+  /**
+   * @param {number} id
+   * @param {string} [comment]
+   */
+  PointTransferer(id, comment) {
+    return this.pointTransferer().POST({ id, comment });
+  }
 
   auth() {
     return this.P("auth");
+  }
+  helloWorld() {
+    return this.P("hello_world");
   }
   deleteReasons() {
     return this.P("deleteReasons");
@@ -375,5 +443,8 @@ export default class ServerReq {
   }
   storeLinks() {
     return this.P("storeLinks");
+  }
+  pointTransferer() {
+    return this.P("pointTransferer");
   }
 }

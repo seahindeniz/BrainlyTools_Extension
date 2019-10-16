@@ -81,7 +81,7 @@ export default class {
     if (type == "textarea")
       // @ts-ignore
       input = Textarea({
-        type: "textarea",
+        tag: "textarea",
         placeholder: "..."
       });
     else

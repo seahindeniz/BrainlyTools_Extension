@@ -1,12 +1,25 @@
 import DeleteSection from "../../../components/DeleteSection";
 import notification from "../../../components/notification2";
-import { ActionList, ActionListHole, Badge, Button, ContentBox, ContentBoxActions, ContentBoxContent, ContentBoxTitle, Label, Spinner, SpinnerContainer } from "../../../components/style-guide";
+import {
+  ActionList,
+  ActionListHole,
+  Badge,
+  Button,
+  ContentBox,
+  ContentBoxActions,
+  ContentBoxContent,
+  ContentBoxTitle,
+  Label,
+  Spinner,
+  SpinnerContainer
+} from "../../../components/style-guide";
 import Checkbox from "../../../components/style-guide/Checkbox";
 import Icon from "../../../components/style-guide/Icon";
 import Action from "../../../controllers/Req/Brainly/Action";
 import Build from "../../../helpers/Build";
 import generateRandomString from "../../../helpers/generateRandomString";
 import InsertAfter from "../../../helpers/InsertAfter";
+import IsVisible from "../../../helpers/IsVisible";
 
 class ModerateSection {
   /**
@@ -52,7 +65,8 @@ class ModerateSection {
         text: 0
       }
     });
-    this.deleteButtonNumberBadge = this.deleteButtonNumberBadgeContainer.querySelector("div");
+    this.deleteButtonNumberBadge = this.deleteButtonNumberBadgeContainer
+      .querySelector("div");
     this.deleteButton = Button({
       type: "destructive",
       size: "small",
@@ -82,7 +96,8 @@ class ModerateSection {
         text: 0
       }
     });
-    this.deleteAllButtonNumberBadge = this.deleteAllButtonNumberBadgeContainer.querySelector("div");
+    this.deleteAllButtonNumberBadge = this.deleteAllButtonNumberBadgeContainer
+      .querySelector("div");
     this.deleteAllButton = Button({
       type: "destructive",
       size: "small",
@@ -126,8 +141,10 @@ class ModerateSection {
     ]);
   }
   Show() {
-    this.$paginationContainer = $("> .sg-content-box__content:eq(2)", this.main.element);
-    this.$pagination = $(`[data-test="pagination"]`, this.$paginationContainer);
+    this.$paginationContainer = $("> .sg-content-box__content:eq(2)", this
+      .main.element);
+    this.$pagination = $(`[data-test="pagination"]`, this
+      .$paginationContainer);
 
     if (this.$pagination.length == 0)
       return console.error("Pagination cannot be found");
@@ -190,11 +207,14 @@ class ModerateSection {
   }
   BindHandlers() {
     this.stopButton.addEventListener("click", this.StopDeleting.bind(this));
-    this.selectAll.addEventListener("click", this.ToggleCheckboxes.bind(this));
-    this.deleteButton.addEventListener("click", this.DeleteSelectedQuestionsFromCurrentPage.bind(this));
+    this.selectAll.addEventListener("click", this.ToggleCheckboxes.bind(
+      this));
+    this.deleteButton.addEventListener("click", this
+      .DeleteSelectedQuestionsFromCurrentPage.bind(this));
 
     if (this.deleteAllButton)
-      this.deleteAllButton.addEventListener("click", this.DeleteAllSelectedQuestions.bind(this));
+      this.deleteAllButton.addEventListener("click", this
+        .DeleteAllSelectedQuestions.bind(this));
   }
   async HideStopButton(event) {
     this.EnableDeleteButtons();
@@ -239,8 +259,8 @@ class ModerateSection {
   }
   ToggleCheckboxes() {
     $.each(this.main.questionBoxList, (id, questionBox) => {
-      if (!questionBox.deleted && questionBox.$checkBox.is(":visible"))
-        questionBox.$checkBox.prop("checked", this.selectAll.checked);
+      if (!questionBox.deleted && IsVisible(questionBox.checkBox))
+        questionBox.checkBox.checked = this.selectAll.checked;
     });
     this.UpdateDeleteButtonsNumber();
   }
@@ -254,13 +274,16 @@ class ModerateSection {
   }
   SelectedQuestions(fromCurrentPage = false) {
     let idList = [];
-    let query = ":checked";
-
-    if (fromCurrentPage)
-      query += ":visible";
 
     $.each(this.main.questionBoxList, (id, questionBox) => {
-      if (questionBox.$checkBox.is(query) && !questionBox.deleted)
+      if (
+        questionBox.checkBox.checked &&
+        (
+          fromCurrentPage &&
+          IsVisible(questionBox.checkBox)
+        ) &&
+        !questionBox.deleted
+      )
         idList.push(~~id);
     });
 
@@ -270,7 +293,8 @@ class ModerateSection {
     if (this.idList.length == 0) {
       notification({
         type: "error",
-        html: System.data.locale.userContent.notificationMessages.selectAtLeastOneContent,
+        html: System.data.locale.userContent.notificationMessages
+          .selectAtLeastOneContent,
       })
     } else if (this.deleteSection.selectedReason) {
       if (confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
@@ -361,7 +385,7 @@ class ModerateSection {
       questionBox.deleted = false;
 
       questionBox.$.addClass("warning");
-      questionBox.$checkBox.prop("disabled", false);
+      questionBox.checkBox.disabled = false;
       notification({
         type: "error",
         html: `#${model_id} > ${System.data.locale.common.notificationMessages.somethingWentWrong}`,
@@ -393,9 +417,11 @@ class ModerateSection {
     this.deleteButtonNumberBadge.innerText = String(idList.length);
   }
   UpdateDeleteAllButtonNumber() {
-    let idList = this.SelectedQuestions();
+    if (this.deleteAllButtonNumberBadge) {
+      let idList = this.SelectedQuestions();
 
-    this.deleteAllButtonNumberBadge.innerText = String(idList.length);
+      this.deleteAllButtonNumberBadge.innerText = String(idList.length);
+    }
   }
 }
 

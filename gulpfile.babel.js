@@ -214,7 +214,7 @@ task(
   () => {
     return src('src/locales/en_US.json')
       .pipe($.rename("index.js"))
-      .pipe($.modifyFile((content) => {
+      .pipe($.change((content) => {
         const start = 'module.exports = ';
         content = content.replace(/\s"(.*)": /g, " $1: ");
         const end = "\n";
@@ -402,12 +402,12 @@ function compileJSFiles(files, path) {
         //['uglifyify', { global: true, sourceMap: false }]
       ]
     }))
-    .pipe($.minify({
+    /* .pipe($.minify({
       noSource: true,
       ext: {
         min: ".js",
       }
-    }))
+    })) */
     .pipe(dest(path, { overwrite: true }));
 }
 

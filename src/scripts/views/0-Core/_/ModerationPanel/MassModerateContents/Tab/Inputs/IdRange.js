@@ -37,7 +37,7 @@ export default class IdRange extends Inputs {
   }
   RenderOutput() {
     this.output = Textarea({
-      type: "div",
+      tag: "div",
       fullWidth: true,
       resizable: "vertical",
       placeholder: `${System.data.locale.core.MassModerateContents.targets.idRange.output}..`

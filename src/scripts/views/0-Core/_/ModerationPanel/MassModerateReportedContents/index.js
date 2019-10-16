@@ -76,7 +76,7 @@ export default class MassModerateReportedContents {
       type: "primary-blue",
       size: "small",
       icon: {
-        type: "std-plus"
+        type: "plus"
       },
       fullWidth: true,
       text: System.data.locale.core.massModerateReportedContents.addConditionBlock

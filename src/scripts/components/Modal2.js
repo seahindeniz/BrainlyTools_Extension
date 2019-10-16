@@ -1,14 +1,30 @@
-import { Overlay, TopLayer, ContentBox, ContentBoxContent, ContentBoxTitle, ContentBoxActions, Text } from "./style-guide";
 import IsVisible from "../helpers/IsVisible";
 import notification from "./notification2";
+import {
+  ContentBox,
+  ContentBoxActions,
+  ContentBoxContent,
+  ContentBoxTitle,
+  Overlay,
+  TopLayer
+} from "./style-guide";
 
 /**
- * @typedef {import("./style-guide/ContentBox/Title").Properties} TitleProperties
- * @typedef {import("./style-guide/ContentBox/Content").Properties} ContentProperties
- * @typedef {import("./style-guide/ContentBox/Actions").Properties} ActionsProperties
+ * @typedef {string | HTMLDivElement | HTMLElement |
+ * import("./style-guide/ContentBox/Title").Properties} TitleProperties
+ * @typedef {HTMLDivElement | HTMLElement |
+ * import("./style-guide/ContentBox/Content").Properties} ContentProperties
+ * @typedef {HTMLDivElement | HTMLElement |
+ * import("./style-guide/ContentBox/Actions").Properties} ActionsProperties
  *
- * @typedef {{overlay?: boolean, title?: TitleProperties, content?: ContentProperties, actions?: ActionsProperties}} ModalProperties
- * @typedef {import("./style-guide/TopLayer").Properties & ModalProperties} Properties
+ * @typedef {{
+ * overlay?: boolean,
+ * title?: TitleProperties,
+ * content?: ContentProperties,
+ * actions?: ActionsProperties,
+ * }} ModalProperties
+ * @typedef {ModalProperties &
+ * import("./style-guide/TopLayer").Properties} Properties
  */
 
 export default class Modal {
@@ -43,7 +59,8 @@ export default class Modal {
       this.RenderInOverlay();
   }
   Render() {
-    if (this.sections.title || this.sections.content || this.sections.actions) {
+    if (this.sections.title || this.sections.content || this.sections
+      .actions) {
       this.contentBox = ContentBox();
 
       if (this.sections.title)
@@ -70,11 +87,21 @@ export default class Modal {
    * @param {TitleProperties} [props]
    */
   RenderTitle(props = {}) {
-    this._title = ContentBoxTitle({
-      spacedTop: "normal",
-      spacedBottom: "large",
-      ...props
-    });
+    if (props instanceof HTMLElement || props instanceof HTMLDivElement)
+      // @ts-ignore
+      this._title = props;
+    else {
+      if (typeof props === "string")
+        props = {
+          children: props
+        };
+
+      this._title = ContentBoxTitle({
+        spacedTop: "normal",
+        spacedBottom: "large",
+        ...props
+      });
+    }
 
     if (props.children)
       this.contentBox.appendChild(this._title);
@@ -85,7 +112,11 @@ export default class Modal {
    * @param {ContentProperties} [props]
    */
   RenderContent(props = {}) {
-    this._content = ContentBoxContent(props);
+    if (props instanceof HTMLElement || props instanceof HTMLDivElement)
+      // @ts-ignore
+      this._content = props;
+    else
+      this._content = ContentBoxContent(props);
 
     if (props.children)
       this.contentBox.appendChild(this._content);
@@ -96,7 +127,11 @@ export default class Modal {
    * @param {ActionsProperties} [props]
    */
   RenderActions(props = {}) {
-    this._actions = ContentBoxActions(props);
+    if (props instanceof HTMLElement || props instanceof HTMLDivElement)
+      // @ts-ignore
+      this._actions = props;
+    else
+      this._actions = ContentBoxActions(props);
 
     if (props.children)
       this.contentBox.appendChild(this._actions);
@@ -186,8 +221,6 @@ export default class Modal {
   RenderInOverlay() {
     this.container = document.createElement("div");
     this.container.className = "js-modal";
-
-    this.modalContainer.appendChild(this.container);
 
     this.flashContainer = document.createElement("div");
     this.flashContainer.className = "js-flash-container";

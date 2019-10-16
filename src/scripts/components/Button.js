@@ -59,7 +59,7 @@ export default function ({ tag = "button", type, size, icon, disabled, fullWidth
 
   if (icon) {
     let iconElement = Icon({
-      size: size == "xsmall" ? 18 : 24,
+      size: size == "xsmall" ? 22 : 24,
       color: "adaptive",
       ...icon
     });

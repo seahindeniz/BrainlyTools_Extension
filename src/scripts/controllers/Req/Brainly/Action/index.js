@@ -16,10 +16,18 @@ const USERS_PROFILE_REQ_CHUNK_SIZE = 990;
  *
  * @typedef {{success?: boolean, message?: string}} CommonProps
  *
- * @typedef {{data?: User[], message?: string} & CommonProps} UserResponse
+ * @typedef {{data?: User, message?: string} & CommonProps} UserResponse
+ * @typedef {{data?: User[], message?: string} & CommonProps} UsersResponse
  * @typedef {{data?: UserProfile} & CommonProps} UserProfileResponse
  * @typedef {{pagination?: {first: string, prev: string, self: string, next: string, last: string}, data?: AnswersOfUser} & CommonProps} AnswersOfUserResponse
  */
+const FAILED_RESPONSE = {
+  success: false,
+  get message() {
+    return System.data.locale.common.notificationMessages
+      .somethingWentWrongPleaseRefresh
+  }
+};
 export default class Action extends Brainly {
   constructor() {
     super();
@@ -28,18 +36,17 @@ export default class Action extends Brainly {
       // @ts-ignore
       System = System();
   }
-  HelloWorld() {
-    return this.Legacy().hello().world().GET();
+  HelloWorld(data) {
+    return this.Legacy().hello().world()[data ? "POST" : "GET"]();
   }
   /**
-   * Get details of a question
-   * @param {number|string} id - Question id
+   * @param {number|string} questionId
    */
-  QuestionContent(id) {
-    if (~~id == 0)
+  QuestionContent(questionId) {
+    if (~~questionId == 0)
       return Promise.reject("Invalid id");
 
-    return this.Legacy().api_tasks().main_view().P(String(id)).GET();
+    return this.Legacy().api_tasks().main_view().P(String(questionId)).GET();
   }
   /**
    * @param {{model_id: number, reason: string, reason_title?: string, reason_id: number, model_type_id?: number, give_warning?: boolean, take_points?: boolean, return_points?:boolean, _coupon_?: string}} data
@@ -55,11 +62,13 @@ export default class Action extends Brainly {
     }
     data.reason += ` ${System.constants.config.reasonSign}`;
 
-    if (data.reason_title && System.data.config.marketConfig.default.abuseReportReasons) {
-      let resReport = await new Action().ReportQuestion(data.model_id, data.reason_title);
+    if (data.reason_title && System.data.config.marketConfig.default
+      .abuseReportReasons) {
+      let resReport = await new Action().ReportQuestion(data.model_id, data
+        .reason_title);
 
       if (!resReport || (!resReport.success && resReport.code != 10))
-        return Promise.resolve(resReport || { success: false, message: System.data.locale.common.notificationMessages.somethingWentWrongPleaseRefresh });
+        return Promise.resolve(resReport || FAILED_RESPONSE);
     }
 
     return this.Legacy().moderation_new().delete_task_content().POST(data);
@@ -77,20 +86,22 @@ export default class Action extends Brainly {
     }
     data.reason += ` ${System.constants.config.reasonSign}`;
 
-    if (data.reason_title && System.data.config.marketConfig.default.abuseReportReasons) {
-      let resReport = await new Action().ReportAnswer(data.model_id, data.reason_title);
+    if (data.reason_title && System.data.config.marketConfig.default
+      .abuseReportReasons) {
+      let resReport = await new Action().ReportAnswer(data.model_id, data
+        .reason_title);
 
       if (!resReport || (!resReport.success && resReport.code != 10))
-        return Promise.resolve(resReport || { success: false, message: System.data.locale.common.notificationMessages.somethingWentWrongPleaseRefresh });
+        return Promise.resolve(resReport || FAILED_RESPONSE);
     }
 
-    return this.Legacy().moderation_new().delete_response_content().POST(data);
+    return this.Legacy().moderation_new().delete_response_content().POST(
+      data);
   }
   /**
-   * Delete comment by id
-   * @param {object} data - Post data
+   * @param {{model_id: number, reason?: string, reason_title?: string, reason_id?: number,  model_type_id?: number, give_warning?: boolean, _coupon_?: string}} data - Post data
    */
-  RemoveComment(data) {
+  async RemoveComment(data) {
     data = {
       model_type_id: 45,
       give_warning: false,
@@ -98,6 +109,15 @@ export default class Action extends Brainly {
       ...data
     }
     data.reason += ` ${System.constants.config.reasonSign}`;
+
+    if (data.reason_title && System.data.config.marketConfig.default
+      .abuseReportReasons) {
+      let resReport = await new Action().ReportComment(data.model_id, data
+        .reason_title);
+
+      if (!resReport || (!resReport.success && resReport.code != 10))
+        return Promise.resolve(resReport || FAILED_RESPONSE);
+    }
 
     return this.Legacy().moderation_new().delete_comment_content().POST(data);
   }
@@ -179,7 +199,8 @@ export default class Action extends Brainly {
           model_type_id: 1
         }
 
-        let resTicket = await this.Legacy().moderation_new().get_content().POST(data);
+        let resTicket = await this.Legacy().moderation_new()
+          .get_content().POST(data);
 
         if (!resTicket || !resTicket.success || !withActionsHistory)
           return resolve(resTicket);
@@ -233,7 +254,7 @@ export default class Action extends Brainly {
   /**
    * Get users data by ids
    * @param {number[]} ids - User id numbers
-   * @returns {Promise<UserResponse>}
+   * @returns {Promise<UsersResponse>}
    */
   GetUsers(ids) {
     if (!(ids instanceof Array))
@@ -242,14 +263,18 @@ export default class Action extends Brainly {
     if (ids.length > USERS_PROFILE_REQ_CHUNK_SIZE)
       return this.GetUsersInChunk(ids);
 
-    return this.Legacy().api_users().get_by_id().GET({ a: ids.length, "id[]": ids.join("&id[]=") });
+    return this.Legacy().api_users().get_by_id().GET({
+      a: ids
+        .length,
+      "id[]": ids.join("&id[]=")
+    });
   }
   GetUsersInChunk(ids) {
     return new Promise((resolve, reject) => {
       let count = 0;
       let chunkedIds = Chunkify(ids, USERS_PROFILE_REQ_CHUNK_SIZE);
       /**
-       * @type {UserResponse}
+       * @type {UsersResponse}
        */
       let results = {
         success: true,
@@ -295,12 +320,14 @@ export default class Action extends Brainly {
   CancelWarnings(userId, ids = []) {
     let promises = [];
 
-    ids.forEach(warningId => (this.path = "", promises.push(this.CancelWarning(userId, warningId))));
+    ids.forEach(warningId => (this.path = "", promises.push(this
+      .CancelWarning(userId, warningId))));
 
     return Promise.all(promises);
   }
   AllFriends() {
-    return this.JSON().X_Req_With().buddies_new().ajax_panel_get_buddies().GET();
+    return this.JSON().X_Req_With().buddies_new().ajax_panel_get_buddies()
+      .GET();
   }
   RemoveFriend(id) {
     return this.buddies_new().unbuddy().P(id).GET();
@@ -354,7 +381,8 @@ export default class Action extends Brainly {
   }
   GetAllModerators(handlers) {
     return new Promise(async (resolve, reject) => {
-      let resSupervisors = await this.moderators().supervisors().P(System.data.Brainly.userData.user.id).GET();
+      let resSupervisors = await this.moderators().supervisors().P(
+        System.data.Brainly.userData.user.id).GET();
 
       if (!resSupervisors)
         return reject("Can't fetch users from supervisors page");
@@ -374,7 +402,7 @@ export default class Action extends Brainly {
     return this.Legacy().api_messages().check().POST({ user_id });
   }
   /**
-   * @param {{conversation_id:number, user_id: number}} param0
+   * @param {{conversation_id?: number, user_id?: number}} param0
    * @param {string} content
    */
   async SendMessage({ conversation_id, user_id }, content) {
@@ -414,8 +442,10 @@ export default class Action extends Brainly {
    * @param {number} user_id
    * @param {string|{key: string, fields: string, lock: string}} tokens
    */
-  async RemoveAllRanks(user_id, tokens = `[action="/ranks/delete_user_special_ranks"]`) {
-    let data = await this.SetFormTokens(System.createProfileLink(user_id), tokens);
+  async RemoveAllRanks(user_id, tokens =
+    `[action="/ranks/delete_user_special_ranks"]`) {
+    let data = await this.SetFormTokens(System.createProfileLink(user_id),
+      tokens);
     data["data[uid]"] = user_id;
 
     return this.ranks().delete_user_special_ranks().Form().Salt().POST(data);
@@ -425,17 +455,20 @@ export default class Action extends Brainly {
    * @param {number} rank_id
    */
   async AddRank(user_id, rank_id) {
-    let data = await this.SetFormTokens(`/ranks/choose_special_rank_for_user/${user_id}`);
+    let data = await this.SetFormTokens(
+      `/ranks/choose_special_rank_for_user/${user_id}`);
     data["data[Rank][type]"] = rank_id;
 
-    return this.ranks().add_special_rank_to_user().P(user_id).Form().Salt().POST(data);
+    return this.ranks().add_special_rank_to_user().P(user_id).Form().Salt()
+      .POST(data);
   }
   /**
    * @param {number} user_id
    * @param {number} point
    */
   async AddPoint(user_id, point) {
-    let data = await this.SetFormTokens(System.createProfileLink(user_id), "#ChangePointsAddForm");
+    let data = await this.SetFormTokens(System.createProfileLink(user_id),
+      "#ChangePointsAddForm");
     data["data[ChangePoints][diff]"] = point;
 
     return this.admin().users().change_points().P(user_id).Form().POST(data);
@@ -445,7 +478,8 @@ export default class Action extends Brainly {
    * @param {string} reason
    */
   async DeleteAccount(user_id, reason = "") {
-    let data = await this.SetFormTokens(System.createProfileLink(user_id), "#DelUserAddForm");
+    let data = await this.SetFormTokens(System.createProfileLink(user_id),
+      "#DelUserAddForm");
     data["data[DelUser][delTasks]"] = 1;
     data["data[DelUser][delComments]"] = 1;
     data["data[DelUser][delResponses]"] = 1;
@@ -459,7 +493,8 @@ export default class Action extends Brainly {
    * @param {number} amount
    */
   GetComments(model_id, type, amount) {
-    return this.Legacy().api_comments().index().P(model_id).P(type).P(amount).GET();
+    return this.Legacy().api_comments().index().P(model_id).P(type).P(amount)
+      .GET();
   }
   GetReportedContents(last_id) {
     let data = {
@@ -498,7 +533,8 @@ export default class Action extends Brainly {
     let data = await this.SetFormTokens("/admin/uploader/index");
     data["data[Uploader][file]"] = file;
 
-    return this.Axios({ onUploadProgress }).admin().uploader().add().File().POST(data);
+    return this.Axios({ onUploadProgress }).admin().uploader().add().File()
+      .POST(data);
   }
   GetQuestionAddPage() {
     return this.X_Req_With().question().add().GET();
@@ -526,7 +562,8 @@ export default class Action extends Brainly {
    * @param {number} [subcategory_id]
    */
   ReportQuestion(model_id, reason, category_id, subcategory_id) {
-    return this.ReportContent(1, model_id, reason, category_id, subcategory_id);
+    return this.ReportContent(1, model_id, reason, category_id,
+      subcategory_id);
   }
   /**
    * @param {number} model_id
@@ -535,7 +572,8 @@ export default class Action extends Brainly {
    * @param {number} [subcategory_id]
    */
   ReportAnswer(model_id, reason, category_id, subcategory_id) {
-    return this.ReportContent(2, model_id, reason, category_id, subcategory_id);
+    return this.ReportContent(2, model_id, reason, category_id,
+      subcategory_id);
   }
   /**
    * @param {number} model_id
@@ -544,7 +582,8 @@ export default class Action extends Brainly {
    * @param {number} [subcategory_id]
    */
   ReportComment(model_id, reason, category_id, subcategory_id) {
-    return this.ReportContent(45, model_id, reason, category_id, subcategory_id);
+    return this.ReportContent(45, model_id, reason, category_id,
+      subcategory_id);
   }
   /**
    * @param {1 | "QUESTION" | 2 | "ANSWER" | 45 | "COMMENT" } model_type_id
@@ -555,7 +594,8 @@ export default class Action extends Brainly {
    */
   ReportContent(model_type_id, model_id, reason, category_id, subcategory_id) {
     if (typeof model_type_id == "string")
-      model_type_id = model_type_id == "QUESTION" ? 1 : model_type_id == "ANSWER" ? 2 : model_type_id == "COMMENT" ? 45 : undefined;
+      model_type_id = model_type_id == "QUESTION" ? 1 : model_type_id ==
+      "ANSWER" ? 2 : model_type_id == "COMMENT" ? 45 : undefined;
 
     if (
       model_type_id != 1 &&
@@ -564,13 +604,16 @@ export default class Action extends Brainly {
     )
       throw "Model type is not valid";
 
-    let type = model_type_id == 1 ? "QUESTION" : model_type_id == 2 ? "ANSWER" : "COMMENT";
+    let type = model_type_id == 1 ? "QUESTION" : model_type_id == 2 ?
+      "ANSWER" : "COMMENT";
 
     if (typeof category_id === "undefined")
-      category_id = System.data.config.marketConfig.default.abuseReportReasons[type][0];
+      category_id = System.data.config.marketConfig.default
+      .abuseReportReasons[type][0];
 
     if (typeof subcategory_id === "undefined")
-      subcategory_id = System.data.config.marketConfig.default.abuseReportReasons[type][1];
+      subcategory_id = System.data.config.marketConfig.default
+      .abuseReportReasons[type][1];
 
     let data = {
       abuse: {
@@ -658,6 +701,7 @@ export default class Action extends Brainly {
     if (!model_type_id)
       throw "Model type should be specified";
 
-    return this.Legacy().moderation_new().get_abuse_reasons().POST({ model_type_id });
+    return this.Legacy().moderation_new().get_abuse_reasons()
+      .POST({ model_type_id });
   }
 }

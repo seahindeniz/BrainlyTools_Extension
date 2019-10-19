@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- New extension user badge menu panel (<https://streamable.com/oh3le>)
+- New extension user badge and menu (<https://streamable.com/oh3le>)
 
 ### Changed
 

@@ -93,7 +93,7 @@ export default class Methods extends Tab {
   BindHandlers() {
     this.startButton.addEventListener("click", this.StartModerating.bind(this));
     this.stopButton.addEventListener("click", this.StopModerating.bind(this));
-    this.continueButton.addEventListener("click", this.ContinueModerating.bind(this))
+    this.continueButton.addEventListener("click", this.ContinueModerating.bind(this));
   }
   async StartModerating() {
     this.ShowActionButtonSpinner();

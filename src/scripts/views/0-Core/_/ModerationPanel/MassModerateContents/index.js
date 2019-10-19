@@ -1,5 +1,13 @@
 import Modal from "../../../../../components/Modal2";
-import { ActionList, ActionListHole, ContentBox, ContentBoxContent, SeparatorVertical, Text, MenuListItem } from "../../../../../components/style-guide";
+import {
+  ActionList,
+  ActionListHole,
+  ContentBox,
+  ContentBoxContent,
+  MenuListItem,
+  SeparatorVertical,
+  Text
+} from "../../../../../components/style-guide";
 import Build from "../../../../../helpers/Build";
 import IsVisible from "../../../../../helpers/IsVisible";
 import Answer from "./Tab/ContentType/Answer";
@@ -9,21 +17,17 @@ import IdRange from "./Tab/Inputs/IdRange";
 import ListOfIds from "./Tab/Inputs/ListOfIds";
 import SearchQuestion from "./Tab/Inputs/SearchQuestion";
 import ReportContent from "./Tab/Methods/ReportContent";
+import AddAnswer from "./Tab/Methods/AddAnswer";
 
 /**
  * @typedef {Question | Answer | Comment} ContentTypes
  * @typedef {ListOfIds | IdRange | SearchQuestion} Inputs
- * @typedef {ReportContent} Methods
+ * @typedef {ReportContent | AddAnswer} Methods
  * @typedef {ContentTypes | Inputs | Methods} Tabs
  */
-let System = require("../../../../../helpers/System");
 
 class MassModerateContents {
   constructor() {
-    if (typeof System == "function")
-      // @ts-ignore
-      System = System();
-
     let that = this;
     this.active = {
       /**
@@ -119,7 +123,8 @@ class MassModerateContents {
                     Text({
                       color: "blue-dark",
                       weight: "bold",
-                      html: System.data.locale.core.MassModerateContents.contentType
+                      html: System.data.locale.core
+                        .MassModerateContents.contentType
                     })
                   ],
                   [
@@ -182,7 +187,8 @@ class MassModerateContents {
                     Text({
                       color: "blue-dark",
                       weight: "bold",
-                      html: System.data.locale.core.MassModerateContents.targets.text
+                      html: System.data.locale.core.MassModerateContents
+                        .targets.text
                     })
                   ]
                 ]
@@ -243,7 +249,8 @@ class MassModerateContents {
                     Text({
                       color: "blue-dark",
                       weight: "bold",
-                      html: System.data.locale.core.MassModerateContents.methods.text
+                      html: System.data.locale.core.MassModerateContents
+                        .methods.text
                     })
                   ]
                 ]
@@ -265,7 +272,8 @@ class MassModerateContents {
   }
   RenderMethods() {
     this.methods = [
-      new ReportContent(this)
+      new ReportContent(this),
+      new AddAnswer(this),
     ]
   }
   /**
@@ -353,7 +361,7 @@ class MassModerateContents {
     return this.active.input && this.active.input.idList.length > 0;
   }
   /**
-   * @param {ReportContent} method
+   * @param {Methods} method
    */
   TriggerMethod(method) {
     if (this.active.contentType)

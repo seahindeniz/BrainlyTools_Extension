@@ -1,5 +1,10 @@
 import Input from "../../../../../../../../components/Input";
-import { ContentBox, ContentBoxContent, Radio, Textarea } from "../../../../../../../../components/style-guide";
+import {
+  ContentBox,
+  ContentBoxContent,
+  Radio,
+  Textarea
+} from "../../../../../../../../components/style-guide";
 import Build from "../../../../../../../../helpers/Build";
 import SubReasonSection from "./SubReasonSection";
 
@@ -8,7 +13,6 @@ import SubReasonSection from "./SubReasonSection";
  * @typedef {{id: number, text: string} & ReasonData} props
  * @typedef {props & {visible: boolean, subcategories?: props[]}} Reason
  */
-let System = require("../../../../../../../../helpers/System");
 
 export default class {
   /**
@@ -18,10 +22,6 @@ export default class {
   constructor(main, details) {
     this.main = main;
     this.details = details;
-
-    if (typeof System === "function")
-      // @ts-ignore
-      System = System();
 
     this.main.reasons.push(this);
 

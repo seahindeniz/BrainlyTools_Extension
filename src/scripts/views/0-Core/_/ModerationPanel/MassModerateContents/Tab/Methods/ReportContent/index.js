@@ -1,22 +1,25 @@
 import Methods from "..";
-import { ContentBox, ContentBoxContent, Spinner, Text } from "../../../../../../../../components/style-guide";
+import {
+  ContentBox,
+  ContentBoxContent,
+  Spinner,
+  Text
+} from "../../../../../../../../components/style-guide";
 import Action from "../../../../../../../../controllers/Req/Brainly/Action";
 import Build from "../../../../../../../../helpers/Build";
 import Reason from "./Reason";
 
-let System = require("../../../../../../../../helpers/System");
-
 export default class ReportContent extends Methods {
+  /**
+   * @param {import("../../../index").default} main
+   */
   constructor(main) {
-    if (typeof System == "function")
-      // @ts-ignore
-      System = System();
-
     super(main, {
       startButton: {
         html: System.data.locale.common.send
       },
-      tabButton: System.data.locale.core.MassModerateContents.methods.reportForAbuse.tabButton
+      tabButton: System.data.locale.core.MassModerateContents.methods
+        .reportForAbuse.tabButton
     });
 
     this.is = "reportContent";
@@ -35,8 +38,6 @@ export default class ReportContent extends Methods {
     }
     this.lastSelectedContentType;
 
-    this.RenderReasonContainer();
-    this.RenderSpinner();
     this.Render();
   }
   set reasons(reasons) {
@@ -44,14 +45,6 @@ export default class ReportContent extends Methods {
   }
   get reasons() {
     return this._reasons[this.main.active.contentType.is]
-  }
-  RenderReasonContainer() {
-    this.reasonContainer = ContentBoxContent({
-      spacedBottom: true
-    });
-  }
-  RenderSpinner() {
-    this.spinner = Spinner();
   }
   Render() {
     this.container = Build(ContentBox(), [
@@ -68,12 +61,15 @@ export default class ReportContent extends Methods {
                 Text({
                   color: "blue-dark",
                   weight: "bold",
-                  text: System.data.locale.core.MassModerateContents.methods.reportForAbuse.chooseAReason
+                  text: System.data.locale.core.MassModerateContents
+                    .methods.reportForAbuse.chooseAReason
                 })
               ],
               [
-                this.reasonContainer,
-                this.spinner
+                this.reasonContainer = ContentBoxContent({
+                  spacedBottom: true
+                }),
+                this.spinner = Spinner()
               ]
             ]
           ]
@@ -90,7 +86,8 @@ export default class ReportContent extends Methods {
   }
   async FetchReasons() {
     this.reasons = [];
-    let resReasons = await new Action().GetAbuseReasons(this.main.active.contentType.is);
+    let resReasons = await new Action().GetAbuseReasons(this.main.active
+      .contentType.is);
     this.main.HideElement(this.spinner);
 
     if (resReasons && resReasons.success) {
@@ -116,12 +113,16 @@ export default class ReportContent extends Methods {
     this.reasons.forEach(reason => reason.Show())
   }
   HidePreviousReasons() {
-    this._reasons[this.lastSelectedContentType].forEach(reason => reason.Hide())
+    this._reasons[this.lastSelectedContentType].forEach(reason => reason
+      .Hide())
   }
   _Show() {
     if (this.started)
       this.ShowActionButtonSpinnerContainer();
-    else if (this.main.IsInputHasIds() && this.IsReasonSelected())
+    else if (
+      this.main.IsInputHasIds() &&
+      this.IsReasonSelected()
+    )
       this.ShowStartButton();
   }
   IsReasonSelected() {
@@ -131,17 +132,14 @@ export default class ReportContent extends Methods {
    * @param {number} contentId
    */
   async Moderate(contentId) {
-    console.log("report", contentId);
     let modelType = this.main.active.contentType.is;
     let reasonText = this.selectedReason.text;
     let reasonId = this.selectedReason.details.id;
-    let subReasonId = this.selectedReason.selectedSubReason ? this.selectedReason.selectedSubReason.details.id : null;
+    let subReasonId = this.selectedReason.selectedSubReason ? this
+      .selectedReason.selectedSubReason.details.id : null;
 
-    /* console.log("modelType:", modelType);
-    console.log("reasonText:", reasonText);
-    console.log("reasonId:", reasonId);
-    console.log("subReasonId:", subReasonId); */
-    let resReport = await new Action().ReportContent(modelType, contentId, reasonText, reasonId, subReasonId);
+    let resReport = await new Action().ReportContent(modelType, contentId,
+      reasonText, reasonId, subReasonId);
     //let resReport = await new Action().HelloWorld();
 
     if (!resReport || !resReport.success)

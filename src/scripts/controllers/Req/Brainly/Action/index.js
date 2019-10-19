@@ -1,7 +1,9 @@
 import Brainly from "../";
 import Chunkify from "../../../../helpers/Chunkify";
-
-let System = require("../../../../helpers/System");
+const gql = (s = "") => s;
+import UserFragment from "./GraphQL/User.graphql";
+import QuestionFragment from "./GraphQL/Question.graphql";
+import CommentConnection from "./GraphQL/Comment/Connection.graphql";
 
 const USERS_PROFILE_REQ_CHUNK_SIZE = 990;
 
@@ -31,22 +33,116 @@ const FAILED_RESPONSE = {
 export default class Action extends Brainly {
   constructor() {
     super();
-
-    if (typeof System == "function")
-      // @ts-ignore
-      System = System();
   }
   HelloWorld(data) {
     return this.Legacy().hello().world()[data ? "POST" : "GET"]();
   }
   /**
-   * @param {number|string} questionId
+   * @param {number | string} id
    */
-  QuestionContent(questionId) {
-    if (~~questionId == 0)
+  GetQuestion(id) {
+    if (~~id == 0)
       return Promise.reject("Invalid id");
 
-    return this.Legacy().api_tasks().main_view().P(String(questionId)).GET();
+    return this.Legacy().api_tasks().main_view().P(String(id)).GET();
+  }
+  /**
+   * @param {number | string} id
+   * @param {{
+   *  includeQuestion?: boolean,
+   *  includeComments?: boolean,
+   * }} [param1]
+   */
+  GetAnswer(id, {
+    includeQuestion,
+    includeComments,
+  } = {}) {
+
+    try {
+      let idData = atob(String(id));
+
+      if (!idData.includes("answer"))
+        throw "Invalid id";
+    } catch (e) {
+      if (~~id == 0)
+        return Promise.reject("Invalid id");
+
+      id = btoa(`answer:${id}`);
+    }
+    let data = {
+      operation: "answer",
+      variables: {
+        id: {
+          value: id,
+          type: "ID!"
+        },
+      },
+      fields: [
+        "id",
+        "content",
+        {
+          author: [
+            "...UserFragment"
+          ],
+        },
+        {
+          attachments: [
+            "...AttachmentFragment"
+          ]
+        },
+        "points",
+        "created",
+        "isBest",
+        "thanksCount",
+      ],
+    };
+
+    if (includeQuestion)
+      // @ts-ignore
+      data.fields.push({ question: ["...QuestionFragment"] });
+    else if (includeComments)
+      // @ts-ignore
+      data.fields.push({ comments: ["...CommentConnection"] });
+
+    this.GQL().Query(data);
+
+    if (!includeQuestion && !includeComments)
+      this.data.query += UserFragment;
+    else if (includeQuestion)
+      this.data.query += QuestionFragment;
+    else if (includeComments)
+      this.data.query += CommentConnection;
+
+    return this.POST();
+  }
+  /**
+   * @param {number} task_id
+   * @param {string} content
+   * @param {number[]} [attachments] - List of attachment ids
+   */
+  AddAnswer(task_id, content, attachments = []) {
+    /* let resTicket = await new Action().GetTicketForAnswering(task_id);
+
+    if (!resTicket || !resTicket.success)
+      return Promise.resolve(resTicket || FAILED_RESPONSE); */
+
+    content = content.replace(/\r\n|\n/gi, "</p><p>");
+    content = `<p>${content}</p>`;
+
+    let data = {
+      attachments,
+      content,
+      task_id,
+    }
+    data.content += `<p></p><p>${System.constants.config.reasonSign}</p>`;
+
+    return this.Legacy().api_responses().add().POST(data);
+  }
+  /**
+   * @param {number} task_id
+   */
+  GetTicketForAnswering(task_id) {
+    return this.Legacy().api_tickets().get().POST({ task_id });
   }
   /**
    * @param {{model_id: number, reason: string, reason_title?: string, reason_id: number, model_type_id?: number, give_warning?: boolean, take_points?: boolean, return_points?:boolean, _coupon_?: string}} data
@@ -423,17 +519,25 @@ export default class Action extends Brainly {
     //onError yerine function aç ve gelen isteğe göre conversation id oluştur. İstek conversation id hatası değilse on error devam ettir
     return this.Legacy().api_messages().send().POST(data);
   }
+  /**
+   * @param {string} text
+   */
   ChangeBio(text) {
     let data = {
-      args: {
+      operation: "updateUserDescription",
+      variables: {
         input: {
-          description: text
-        }
+          value: {
+            description: text
+          },
+          type: "UpdateUserDescriptionInput"
+        },
       },
-      find: {
-        user: ["id"]
-      },
-      operationName: "updateUserDescription"
+      fields: [{
+        user: [
+          "id"
+        ]
+      }],
     };
 
     return this.GQL().Mutation(data).POST();
@@ -627,60 +731,63 @@ export default class Action extends Brainly {
 
     return this.Legacy().api_moderation().abuse_report().POST(data);
   }
-  SearchQuestion(query = "", after = "", limit = 10) {
+  SearchQuestion(query = "", after = null, limit = 10) {
     let data = {
-      operationName: "questionSearch",
-      args: {
-        query,
-        first: limit,
-        after
+      operation: "questionSearch",
+      variables: {
+        query: {
+          value: query,
+          type: "String!"
+        },
+        first: {
+          value: limit,
+          type: "Int"
+        },
+        after: {
+          value: after,
+          type: "ID"
+        },
       },
-      find: [
+      fields: [
         "count",
         {
           edges: [{
-              node: [
-                "id",
-                "databaseId",
-                {
-                  author: [
-                    "id",
-                    "databaseId",
-                    "isDeleted",
-                    "nick",
-                    {
-                      avatar: [
-                        "thumbnailUrl"
-                      ]
-                    },
-                    {
-                      rank: [
-                        "name"
-                      ]
-                    }
-                  ]
-                },
-                "content",
-                {
-                  answers: [
-                    "hasVerified",
-                    {
-                      nodes: [
-                        "thanksCount",
-                        "ratesCount",
-                        "rating"
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              highlight: [
-                "contentFragments"
-              ]
-            }
-          ]
+            node: [
+              "id",
+              "databaseId",
+              {
+                author: [
+                  "id",
+                  "databaseId",
+                  "isDeleted",
+                  "nick",
+                  {
+                    avatar: [
+                      "thumbnailUrl"
+                    ]
+                  },
+                  {
+                    rank: [
+                      "name"
+                    ]
+                  }
+                ]
+              },
+              "content",
+              {
+                answers: [
+                  "hasVerified",
+                  {
+                    nodes: [
+                      "thanksCount",
+                      "ratesCount",
+                      "rating"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }]
         }
       ]
     };

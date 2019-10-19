@@ -25,7 +25,7 @@ export default class ContentType extends Tab {
      */
     this.is;
     this.name = "contentType";
-    this.deletedContents = [123];
+    this.deletedContents = [];
     this.contentsToDelete = [];
     this.deletedContentCount = 0;
   }

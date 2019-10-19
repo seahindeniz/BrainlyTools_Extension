@@ -1,18 +1,13 @@
-import Query from "graphql-query-builder";
 import Request from "../";
-
-let System = require("../../../helpers/System");
+import * as gql from "gql-query-builder";
 
 /**
- * @typedef {{operationName: string, args: {}, find: {}}} GQL_OperationData
+ * @typedef {import("gql-query-builder/build/IQueryBuilderOptions").default} IQueryBuilderOptions
+ * @typedef {IQueryBuilderOptions | IQueryBuilderOptions[]} GQL_OperationData
  */
 export default class Brainly extends Request {
   constructor() {
     super();
-
-    if (typeof System == "function")
-      // @ts-ignore
-      System = System();
   }
   Legacy() {
     let marketOrigin = (System && System.data.meta.location.origin) || document.location.origin;
@@ -45,32 +40,15 @@ export default class Brainly extends Request {
    * @param {GQL_OperationData} data
    */
   Query(data) {
-    return this.GQL_Operation("query", data);
+    this.data = gql.query(data);
+
+    return this;
   }
   /**
    * @param {GQL_OperationData} data
    */
   Mutation(data) {
-    return this.GQL_Operation("mutation", data);
-  }
-  /**
-   * @param {"query" | "mutation"} type
-   * @param {GQL_OperationData} data
-   */
-  GQL_Operation(type, data) {
-    let operation = new Query(data.operationName, data.args);
-    operation.find(data.find);
-
-    let query = new Query(type);
-    query.find([operation]);
-
-    let dataGQL = query.toString().replace(/\\\\/g, "\\");
-
-    this.data = {
-      operationName: "",
-      query: dataGQL,
-      variables: {}
-    };
+    this.data = gql.mutation(data);
 
     return this;
   }
@@ -311,5 +289,9 @@ export default class Brainly extends Request {
   }
   abuse_report() {
     return this.P("abuse_report");
+  }
+
+  api_tickets() {
+    return this.P("api_tickets");
   }
 }

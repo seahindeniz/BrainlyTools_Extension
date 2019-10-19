@@ -96,7 +96,11 @@
     "showMore": "Daha fazla göster..",
     "userHasNPoints": "Kullanıcının %{n} puanı var",
     "send": "Gönder",
-    "deleteAll": "Tümünü sil"
+    "deleteAll": "Tümünü sil",
+    "ok": "Tamam",
+    "cancel": "İptal",
+    "optional": "İSTEĞE BAĞLI",
+    "add": "Ekle"
   },
   "popup": {
     "notificationMessages": {
@@ -325,6 +329,14 @@
           "32": {
             "title": "Puan değiştirme",
             "description": "Kullanıcı bu fonksiyonu kullanarak kullanıcıların puanlarını, profil linki veya id listesi ile çoklu şekilde değiştirebilir"
+          },
+          "33": {
+            "title": "Rank değiştir",
+            "description": "Kullanıcı bu fonksiyonu kullanarak kullanıcıların rütbelerini, profil linki veya id listesi ile çoklu şekilde değiştirebilir"
+          },
+          "34": {
+            "title": "Point transferer req.",
+            "description": "User can use the \"Mark as point transferer\" button to mark a user that uses some point transferring methods to gain points"
           }
         },
         "veryImportant": "Çok önemli"
@@ -558,6 +570,18 @@
             "text": "Şikayet et",
             "title": "İçerikleri şikayet et"
           }
+        },
+        "addAnswer": {
+          "tabButton": {
+            "text": "Cevap ekle",
+            "title": "Hedef sorulara cevap ekleme"
+          }
+        },
+        "approveAnswers": {
+          "tabButton": {
+            "text": "Approve answers",
+            "title": "Approve answers of questions, relatively"
+          }
         }
       }
     }
@@ -683,6 +707,22 @@
       "allRanksRemoved": "Tüm özel sıralamalar kaldırıldı",
       "updatingRanks": "Sıralamalar güncelleniyor",
       "xHasAssigned": "%{rank_name} eklendi"
+    },
+    "morePanel": {
+      "title": "Daha fazla..",
+      "pointTransferer": {
+        "markAsPointTransferer": "Mark as point transferer",
+        "description": "Mark this user as point transferer. Process will reduce points to -25000 and send a report to the manager",
+        "markThisUser": "Mark this user",
+        "doYouReallyWantToMark": "Do you really want to mark this user as a point transferer?",
+        "wouldYouLikeToSayAnything": "Would you like to say anything?"
+      },
+      "privileges": {
+        "title": "Atanmış yetkiler"
+      },
+      "manageExtensionUser": {
+        "title": "Eklenti yetkilerini yönet"
+      }
     }
   },
   "userWarnings": {

@@ -36,7 +36,7 @@ class QuestionBox {
     }
   }
   async GetQuestion() {
-    this.question = await new Action().QuestionContent(this.id);
+    this.question = await new Action().GetQuestion(this.id);
 
     this.user = this.question.users_data.find(usr => usr.id == this.question
       .data.task.user_id);

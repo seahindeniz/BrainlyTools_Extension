@@ -1,0 +1,15 @@
+#import "./Attachment.graphql"
+
+fragment UserFragment on User {
+  id
+  nick
+  points
+  gender
+  avatar {
+    ...AttachmentFragment
+  }
+  rank {
+    id
+    name
+  }
+}

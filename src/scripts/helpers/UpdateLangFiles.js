@@ -80,7 +80,7 @@ async function UpdateLangFilesFromLokalise(lokaliseOptions) {
 
           content += `\n
 if (!window)
-  module.exports = translations;
+  export default translations;
 else
   window.System.data.locale = translations;
 `;

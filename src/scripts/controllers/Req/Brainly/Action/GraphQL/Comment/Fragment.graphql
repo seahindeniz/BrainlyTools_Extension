@@ -1,0 +1,9 @@
+#import "../User.graphql"
+
+fragment CommentFragment on Comment {
+  id
+  content
+  author {
+    ...UserFragment
+  }
+}

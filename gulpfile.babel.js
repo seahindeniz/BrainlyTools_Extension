@@ -11,6 +11,8 @@ import yaml from "js-yaml";
 const $ = require('gulp-load-plugins')();
 const STYLE_GUIDE_PATH = "src/styles/_/style-guide.css";
 
+let presets;
+let plugins;
 var isProduction = process.env.NODE_ENV === "production";
 var target = process.env.TARGET || "chrome";
 
@@ -46,11 +48,12 @@ var manifest = {
 });
 const styleGuidePJ = JSON.parse(styleGuidePJBody.getBody('utf8'));
 let versionNumber = styleGuidePJ.tag_name.replace(/^[a-z]/i, ""); */
-const styleGuidePJBody = syncReq("GET", "https://raw.githubusercontent.com/brainly/style-guide/master/package.json", {
-  headers: {
-    "user-agent": "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36"
-  }
-});
+const styleGuidePJBody = syncReq("GET",
+  "https://raw.githubusercontent.com/brainly/style-guide/master/package.json", {
+    headers: {
+      "user-agent": "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36"
+    }
+  });
 
 const styleGuidePJ = JSON.parse(styleGuidePJBody.getBody('utf8'));
 let versionNumber = styleGuidePJ.version;
@@ -58,10 +61,12 @@ let versionNumber = styleGuidePJ.version;
 if (!(/\d{1,}\.\d{1,}\.\d{1,}/i.exec(versionNumber)))
   throw `Version number isn't correct: ${versionNumber}`;
 
-let styleGuideLink = `https://styleguide.brainly.com/${versionNumber}/style-guide.css`;
+let styleGuideLink =
+  `https://styleguide.brainly.com/${versionNumber}/style-guide.css`;
 let styleGuideContent = downloadFileSync(styleGuideLink);
 let styleGuideMapContent = downloadFileSync(`${styleGuideLink}.map`);
-styleGuideContent = styleGuideContent.replace(/\.\.\//g, "https://styleguide.brainly.com/");
+styleGuideContent = styleGuideContent.replace(/\.\.\//g,
+  "https://styleguide.brainly.com/");
 
 fs.writeFileSync(`./${STYLE_GUIDE_PATH}`, styleGuideContent);
 fs.writeFileSync(`./${STYLE_GUIDE_PATH}.map`, styleGuideMapContent);
@@ -118,7 +123,8 @@ task("assets", () => {
 
 task("extensionConfig", () => {
   //const extensionOptions = require("./src/configs/_/extension.js");
-  let extensionOptionsRaw = fs.readFileSync('./src/configs/_/main.yml', 'utf8');
+  let extensionOptionsRaw = fs.readFileSync('./src/configs/_/main.yml',
+    'utf8');
   let extensionOptions = yaml.safeLoad(extensionOptionsRaw);
   let mergeJsonData = {
     fileName: "extension.json"
@@ -215,7 +221,7 @@ task(
     return src('src/locales/en_US.json')
       .pipe($.rename("index.js"))
       .pipe($.change((content) => {
-        const start = 'module.exports = ';
+        const start = 'export default ';
         content = content.replace(/\s"(.*)": /g, " $1: ");
         const end = "\n";
 
@@ -225,8 +231,20 @@ task(
   }
 )
 task(
+  "getBabelRC",
+  next => {
+    let configs = JSON.parse(fs.readFileSync("./.babelrc", "utf8"));
+    presets = configs.presets;
+    plugins = configs.plugins;
+
+    next();
+  }
+);
+task(
   'build',
-  series('clean', "assets", "extensionConfig", 'scss', "styleGuide", "locales", "generateLocaleIndex", "popup", 'js', /* "jsx", */ 'manifest')
+  series('clean', "getBabelRC", "assets", "extensionConfig", 'scss',
+    "styleGuide", "locales", "generateLocaleIndex", "popup",
+    'js', /* "jsx", */ 'manifest')
 );
 task(
   "reloadExtension",
@@ -310,7 +328,9 @@ task(
 
       compileJSFiles(path, `build/${target}/${destPath}`);
 
-      log.info(`${colors.yellow("JS")}: ${colors.green(path)} has replaced with ${colors.magenta(destFullPath)}`);
+      log.info(
+        `${colors.yellow("JS")}: ${colors.green(path)} has replaced with ${colors.magenta(destFullPath)}`
+      );
     });
 
     watchJSXFilesNeedsToReBuild.on("change", PrintRebuilding);
@@ -322,7 +342,9 @@ task(
 
       compileJSXFiles(path, `build/${target}/${destPath}`);
 
-      log.info(`${colors.yellow("JSX")}: ${colors.green(path)} has replaced with ${colors.magenta(destFullPath)}`);
+      log.info(
+        `${colors.yellow("JSX")}: ${colors.green(path)} has replaced with ${colors.magenta(destFullPath)}`
+      );
     });
 
     watchSCSSFilesNeedsOnlyReload.on("change", function(path) {
@@ -335,7 +357,9 @@ task(
 
       compileScssFiles(path, `build/${target}/${destPath}`);
 
-      log.info(`${colors.yellow("SCSS")}: ${colors.green(path)} has replaced with ${colors.magenta(destFullPath)}`);
+      log.info(
+        `${colors.yellow("SCSS")}: ${colors.green(path)} has replaced with ${colors.magenta(destFullPath)}`
+      );
     });
 
     watchAllFilesNeedsToReBuild.on("change", PrintRebuilding);
@@ -382,22 +406,9 @@ function compileJSFiles(files, path) {
     .pipe($.bro({
       transform: [
         babelify.configure({
+          presets,
+          plugins,
           sourceMaps: false,
-          presets: [
-            '@babel/preset-env',
-            {
-              plugins: [
-                '@babel/plugin-transform-runtime',
-                [
-                  "babel-plugin-inline-import", {
-                    "extensions": [
-                      ".html"
-                    ]
-                  }
-                ]
-              ]
-            }
-          ]
         }),
         //['uglifyify', { global: true, sourceMap: false }]
       ]

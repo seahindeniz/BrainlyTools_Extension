@@ -96,7 +96,11 @@
     "showMore": "Show more..",
     "userHasNPoints": "User has %{n} points",
     "send": "Send",
-    "deleteAll": "Delete all"
+    "deleteAll": "Delete all",
+    "ok": "OK",
+    "cancel": "Cancel",
+    "optional": "OPTIONAL",
+    "add": "Add"
   },
   "popup": {
     "notificationMessages": {
@@ -325,6 +329,14 @@
           "32": {
             "title": "Change points",
             "description": "User can use this function to change points of users massively by providing list of ids/links of users"
+          },
+          "33": {
+            "title": "Change ranks",
+            "description": "User can use this function to change ranks of users massively by providing list of ids/links of users"
+          },
+          "34": {
+            "title": "Point transferer req.",
+            "description": "User can use the \"Mark as point transferer\" button to mark a user that uses some point transferring methods to gain points"
           }
         },
         "veryImportant": "Very important"
@@ -558,6 +570,18 @@
             "text": "Report for abuse",
             "title": "Report abusive contents"
           }
+        },
+        "addAnswer": {
+          "tabButton": {
+            "text": "Add answer",
+            "title": "Add an answer to target questions"
+          }
+        },
+        "approveAnswers": {
+          "tabButton": {
+            "text": "Approve answers",
+            "title": "Approve answers of questions, relatively"
+          }
         }
       }
     }
@@ -683,6 +707,22 @@
       "allRanksRemoved": "All special ranks are removed",
       "updatingRanks": "Updating ranks",
       "xHasAssigned": "%{rank_name} has assigned"
+    },
+    "morePanel": {
+      "title": "More..",
+      "pointTransferer": {
+        "markAsPointTransferer": "Mark as point transferer",
+        "description": "Mark this user as point transferer. Process will reduce points to -25000 and send a report to the manager",
+        "markThisUser": "Mark this user",
+        "doYouReallyWantToMark": "Do you really want to mark this user as a point transferer?",
+        "wouldYouLikeToSayAnything": "Would you like to say anything?"
+      },
+      "privileges": {
+        "title": "Active privileges"
+      },
+      "manageExtensionUser": {
+        "title": "Manage extension privileges"
+      }
     }
   },
   "userWarnings": {

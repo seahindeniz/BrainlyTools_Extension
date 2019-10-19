@@ -26,8 +26,8 @@ class Toplayer {
     this.$toplayer = $(`
 		<div class="sg-toplayer">
 			<div class="sg-toplayer__close">
-				<svg class="sg-icon sg-icon--gray-secondary sg-icon--x14">
-					<use xlink:href="#icon-x"></use>
+				<svg class="sg-icon sg-icon--gray-secondary sg-icon--x24">
+					<use xlink:href="#icon-close"></use>
 				</svg>
 			</div>
 			<div class="sg-toplayer__wrapper">

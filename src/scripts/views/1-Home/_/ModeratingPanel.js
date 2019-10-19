@@ -7,17 +7,12 @@ import Action from "../../../controllers/Req/Brainly/Action";
 import secondsToTime from "../../../helpers/secondsToTime";
 import QuickDeleteButtons from "./QuickDeleteButtons";
 
-let System = require("../../../helpers/System");
-
 class ModeratingPanel {
   /**
    * @param {QuickDeleteButtons} main
    */
   constructor(main) {
     this.main = main;
-
-    if (typeof System == "function")
-      System = System();
 
     try {
       this.Init();

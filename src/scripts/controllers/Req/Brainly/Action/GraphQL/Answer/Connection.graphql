@@ -1,0 +1,7 @@
+#import "./Fragment.graphql"
+
+fragment AnswerConnection on AnswerConnection {
+  nodes {
+    ...AnswerFragment
+  }
+}

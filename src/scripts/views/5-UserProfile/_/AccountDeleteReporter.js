@@ -211,7 +211,7 @@ class AccountDeleteReporter {
   ShowPreview($evidence) {
     $evidence.addClass("previewing");
     $("video, audio", $evidence).attr("controls", "true");
-    $("a use", $evidence).attr("xlink:href", "#icon-x");
+    $("a use", $evidence).attr("xlink:href", "#icon-close");
   }
   ClosePreview($evidence) {
     $evidence.removeClass("previewing");

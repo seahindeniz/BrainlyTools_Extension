@@ -271,7 +271,7 @@ class ConditionSection {
       this.$close = $(`
 			<div class="sg-toplayer__close sg-toplayer__close--spaced-small">
 				<svg class="sg-icon sg-icon--gray-secondary sg-icon--x14">
-					<use xlink:href="#icon-x"></use>
+					<use xlink:href="#icon-close"></use>
 				</svg>
 			</div>`).prependTo(this.$sectionCard);
     }

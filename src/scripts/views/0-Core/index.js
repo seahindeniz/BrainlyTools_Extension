@@ -23,7 +23,8 @@ window.selectors = {
 
 window.addEventListener("beforeunload", event => {
   if (System && window.isPageProcessing) {
-    let message = System.data.locale.common.notificationMessages.ongoingProcess;
+    let message = System.data.locale.common.notificationMessages
+      .ongoingProcess;
 
     if (typeof window.isPageProcessing == "string") {
       message = window.isPageProcessing;
@@ -107,7 +108,8 @@ class Core {
         notification({
           type: "info",
           permanent: true,
-          text: System.data.locale.core.notificationMessages.updateNeeded,
+          text: System.data.locale.core.notificationMessages
+            .updateNeeded,
         });
         reject(System.data.locale.core.notificationMessages.updateNeeded);
       } else {

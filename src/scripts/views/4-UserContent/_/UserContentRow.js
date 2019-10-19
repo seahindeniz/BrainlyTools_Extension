@@ -45,7 +45,7 @@ export default class UserContentRow {
         if (!this.main.questions[this.element.questionID])
           this.main.questions[this.element.questionID] = {};
 
-        this.main.questions[this.element.questionID].resPromise = this.resPromise = new Action().QuestionContent(this.element.questionID);
+        this.main.questions[this.element.questionID].resPromise = this.resPromise = new Action().GetQuestion(this.element.questionID);
       } else {
         this.resPromise = this.main.questions[this.element.questionID].resPromise;
       }

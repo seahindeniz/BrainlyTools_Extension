@@ -1,0 +1,5 @@
+fragment SubjectFragment on Subject {
+  id
+  name
+  icon
+}

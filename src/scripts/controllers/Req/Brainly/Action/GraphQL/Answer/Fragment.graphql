@@ -1,0 +1,17 @@
+#import "../User.graphql"
+#import "../Attachment.graphql"
+
+fragment AnswerFragment on Answer {
+  id
+  content
+  author{
+    ...UserFragment
+  }
+  points
+  created
+  isBest
+  thanksCount
+  attachments{
+    ...AttachmentFragment
+  }
+}

@@ -9,6 +9,11 @@
       "node_modules/@types",
       "./src/scripts/typings",
     ],
+    "baseUrl": ".",
+    "paths": {
+      "@style-guide": ["src/scripts/components/style-guide"],
+      "@/*": ["src/*"],
+    }
   },
   "exclude": [
     "build",

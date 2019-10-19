@@ -1,0 +1,26 @@
+#import "./User.graphql"
+#import "./Subject.graphql"
+#import "./Answer/Connection.graphql"
+#import "./Comment/Connection.graphql"
+
+fragment QuestionFragment on Question {
+  id
+  content
+  points
+  created
+  author {
+    ...UserFragment
+  }
+  subject {
+    ...SubjectFragment
+  }
+  answers {
+    ...AnswerConnection
+  }
+  comments{
+    ...CommentConnection
+  }
+  attachments{
+    ...AttachmentFragment
+  }
+}

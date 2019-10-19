@@ -1,40 +1,56 @@
+import {
+  ActionList,
+  ActionListHole,
+  ContentBox
+} from "../../components/style-guide";
 import UserBio from "../../components/UserBio";
 import UserHat from "../../components/UserHat";
 import UserNoteBox from "../../components/UserNoteBox";
-import UserTag from "../../components/UserTag";
 import Action from "../../controllers/Req/Brainly/Action";
 import ServerReq from "../../controllers/Req/Server";
 import WaitForElement from "../../helpers/WaitForElement";
 import AccountDeleteReporter from "./_/AccountDeleteReporter";
 import FriendsManager from "./_/FriendsManager";
+import MorePanel from "./_/MorePanel";
 import RankManager from "./_/RankManager";
 
 System.pageLoaded("User Profile inject OK!");
 
-class UserProfile {
+export default class UserProfile {
   constructor() {
     this.Init();
   }
   async Init() {
     try {
-      this.mainRight = await WaitForElement("#main-right");
-      this.profileData = this.GetProfilData();
+      let mainRight = await WaitForElement("#main-right");
+      this.mainRight = mainRight[0];
+      this.profileData = this.GetProfileData();
       this.promise = {
         profile: new Action().GetUserProfile(this.profileData.id),
-        extension: new ServerReq().GetUser(this.profileData.id, this.profileData.nick)
+        extension: new ServerReq().GetUser(this.profileData),
+        moderators: new ServerReq().GetAllModerators(),
       }
+
+      this.FixInfoBottom();
+
+      this.morePanel = new MorePanel(this);
 
       new AccountDeleteReporter();
       this.RenderFriendsManager();
       this.RenderProfileInfoSection();
       this.LoadComponentsAfterExtensionResolve();
       this.LoadComponentsAfterBrainlyResolve();
+      this.LoadComponentsAfterModeratorsResolved();
       this.LoadComponentsAfterAllResolved();
     } catch (error) {
       console.error(error);
     }
   }
-  GetProfilData() {
+  GetProfileData() {
+    /**
+     * @type {{id: number, nick: string}}
+     */
+    // @ts-ignore
     let data = window.profileData;
 
     if (!data || !data.id || !data.nick)
@@ -42,26 +58,57 @@ class UserProfile {
 
     return data;
   }
+  FixInfoBottom() {
+    let info_bottom = document.querySelector(".info_bottom");
+
+    if (!info_bottom)
+      throw "info_bottom element cannot be found";
+
+    this.infoBottomList = ActionList({
+      direction: "space-between",
+    });
+
+    Array.from(info_bottom.children).forEach(children => {
+      let hole = ActionListHole({
+        children,
+      });
+
+      this.infoBottomList.append(hole);
+    });
+
+    info_bottom.after(this.infoBottomList);
+    info_bottom.remove();
+  }
   RenderFriendsManager() {
-    if (myData.id == this.profileData.id)
+    if (window.myData.id == this.profileData.id)
       FriendsManager();
   }
   RenderProfileInfoSection() {
-    this.$infoSection = $(`<div class="sg-content-box sg-content-box--full"></div>`);
+    this.infoSection = ContentBox({
+      full: true,
+    });
 
-    this.$infoSection.insertAfter("#main-left > div.personal_info > div.clear");
+    let personal_info = document.querySelector(
+      "#main-left > div.personal_info > div.clear"
+    );
+
+    if (personal_info)
+      personal_info.after(this.infoSection);
   }
   async LoadComponentsAfterExtensionResolve() {
     let resUser = await this.promise.extension;
 
     if (!resUser.success)
-      return console.error("User can't passed to extension server");
+      throw "User can't passed to extension server";
 
     this.extensionUser = resUser.data;
+    console.log("this.extensionUser:", this.extensionUser);
 
     if (this.extensionUser) {
       this.RenderNoteSection();
       this.RenderPreviousNicks();
+      this.morePanel.ShowPermissionStatus();
+      this.morePanel.RenderSectionsAfterExtensionResolved();
     }
   }
   RenderNoteSection() {
@@ -75,7 +122,8 @@ class UserProfile {
     this.$noteContainer.prependTo(this.mainRight);
   }
   RenderPreviousNicks() {
-    let previousNicks = (this.extensionUser.previousNicks && this.extensionUser.previousNicks.join(", ")) || " -";
+    let previousNicks = (this.extensionUser.previousNicks &&
+      this.extensionUser.previousNicks.join(", ")) || " -";
     let $previousNickBox = $(`
 		<div class="sg-content-box__actions sg-content-box__actions--spaced-top-large">
 			<div class="sg-actions-list sg-actions-list--no-wrap sg-actions-list--to-top sg-content-box__actions--spaced-bottom">
@@ -89,7 +137,7 @@ class UserProfile {
 			<div class="sg-horizontal-separator"></div>
 		</div>`);
 
-    $previousNickBox.prependTo(this.$infoSection);
+    $previousNickBox.prependTo(this.infoSection);
   }
   async LoadComponentsAfterBrainlyResolve() {
     let res = await this.promise.profile;
@@ -103,14 +151,20 @@ class UserProfile {
     new RankManager(res.data);
   }
   RenderUserBio() {
-    let userBio = new UserBio(this.brainlyUser.description, myData.id == this.profileData.id);
+    let userBio = new UserBio(this.brainlyUser.description, window.myData
+      .id == this.profileData.id);
     let $bioContainer = $(`
 		<div class="sg-content-box__actions">
 			<div class="sg-horizontal-separator"></div>
 		</div>`);
 
     userBio.$.prependTo($bioContainer);
-    $bioContainer.appendTo(this.$infoSection);
+    $bioContainer.appendTo(this.infoSection);
+  }
+  async LoadComponentsAfterModeratorsResolved() {
+    await this.promise.moderators;
+    console.log(System.allModerators);
+    this.morePanel.RenderSectionsAfterModeratorsResolved();
   }
   async LoadComponentsAfterAllResolved() {
     await Promise.all([this.promise.extension, this.promise.profile]);
@@ -129,9 +183,16 @@ class UserProfile {
     $img.prependTo("#main-left > div.personal_info");
   }
   RenderExtensionUserTag() {
-    let tag = new UserTag(this.profileData.id, this.extensionUser);
+    /* let tag = new UserTag(this.profileData.id, this.extensionUser);
 
-    tag.$.insertAfter("#main-left span.ranking");
+    tag.$.insertAfter("#main-left span.ranking"); */
+  }
+  /**
+   * @param {HTMLElement} element
+   */
+  HideElement(element) {
+    if (element && element.parentElement)
+      element.parentElement.removeChild(element);
   }
 }
 

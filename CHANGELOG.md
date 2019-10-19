@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.29.0] - 2019.07.26
+
+### Added
+
+- New extension user badge menu panel (<https://streamable.com/oh3le>)
+
+### Changed
+
+- Quick delete buttons is not visible
+
 ## [6.28.0] - 2019.07.26
 
 ### Added

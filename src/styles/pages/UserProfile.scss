@@ -36,6 +36,32 @@ img.userHat {
 #profile #main-left .personal_info .header {
   display: inline-block;
   overflow: unset;
+
+  .pw {
+    display: block;
+    padding: 5px;
+    float: right;
+    font-size: 11px;
+
+    .friends span {
+      display: inline-block;
+      max-width: 150px;
+      word-wrap: break-word
+    }
+
+    img {
+      vertical-align: baseline;
+    }
+
+    a {
+      color: #5bb8ff;
+      font-size: 12px;
+    }
+
+    >div {
+      line-height: 16px;
+    }
+  }
 }
 
 #main-left span.ranking {

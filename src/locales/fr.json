@@ -96,7 +96,11 @@
     "showMore": "Montre plus..",
     "userHasNPoints": "L'utilisateur a %{n} points",
     "send": "Envoyer",
-    "deleteAll": "Delete all"
+    "deleteAll": "Supprimer tout",
+    "ok": "OK",
+    "cancel": "Annuler",
+    "optional": "FACULTATIF",
+    "add": "Add"
   },
   "popup": {
     "notificationMessages": {
@@ -211,7 +215,7 @@
             "description": "Peut créer, éditer, enlever et publier les annonces internes dans l'extension"
           },
           "5": {
-            "title": "Manage extension users",
+            "title": "Gérer les utilisateurs de l'extension",
             "description": "Peut ajouter ou éditer les utilisateurs de l'extension et leurs attribuer des privilèges ou permission d'utiliser l'extension"
           },
           "6": {
@@ -325,6 +329,14 @@
           "32": {
             "title": "Changer les points",
             "description": "L'utilisateur peut utiliser cette fonction pour changer massivement les points des utilisateurs en indiquant la liste des IDs/liens des utilisateurs"
+          },
+          "33": {
+            "title": "Changer les rangs",
+            "description": "L'utilisateur peut utiliser cette fonction pour changer massivement les rangs d'utilisateurs en fournissant une liste d'ids/liens d'utilisateurs"
+          },
+          "34": {
+            "title": "Demande de transfert de points",
+            "description": "User can use the \"Mark as point transferer\" button to mark a user that uses some point transferring methods to gain points"
           }
         },
         "veryImportant": "Très important"
@@ -338,7 +350,7 @@
         "update": "Mise à jour",
         "publish": "Publier",
         "unpublish": "Non publié",
-        "readOn": "Read on:\n%{date}"
+        "readOn": "Lu le : %{date}"
       },
       "DeleteReasonsPreferences": {
         "text": "Paramétrage des raisons de suppression",
@@ -379,7 +391,7 @@
       "thisConditionAlreadyAdded": "La condition a déjà été ajoutée",
       "thisConditionAlreadyAddedInCommonConditions": "La condition a déjà été ajoutée dans les conditions communes",
       "youNeedToRemoveThePreviousFilterFirst": "Vous devez d'abord retirer le filtre précédent depuis la liste des filtres",
-      "conditionsDoesntMatchAnything": "Les conditions ne correspondent à aucun signalemlent",
+      "conditionsDoesntMatchAnything": "Les conditions ne correspondent à aucun signalement",
       "doYouWantToContinue": "Voulez-vous continuer ?",
       "couldntAbleToGetNoticeBoardContent": "Je ne suis pas en mesure de d'obtenir le contenu du tableau d'information",
       "changesMayNotBeSaved": "Les changements effectués peuvent ne pas avoir été sauvegardés",
@@ -392,7 +404,7 @@
       "text": "Suppression de masse des contenus",
       "nIdsToDeleted": "%{n} IDs à supprimer",
       "nHasBeenDeleted": "%{n} IDs ont été supprimés",
-      "containerExplanation": "You need to put content links or ids to text box line by line. Each line should contain 1 id number",
+      "containerExplanation": "Vous devez mettre les liens des devoirs ou les ids dans la boîte de texte ligne par ligne. Chaque ligne doit contenir 1 id.",
       "select": {
         "reason": "Raison",
         "subReason": "Catégorie",
@@ -420,7 +432,7 @@
       "text": "Changement de masse des points",
       "enterOrPasteUID": "Entrer ou coller l'ID du profil",
       "youNeedToEnterOrPaste": "Vous devez entrer un ID d'utilisateur valide",
-      "pastingExample": "Exemple de list d'IDs utilisateurs",
+      "pastingExample": "Exemple de liste d'IDs utilisateurs",
       "pastingExample2": "Vous pouvez également spécifier le nombre de points dans la liste avant de copier-coller",
       "addPoint": "Ajouter des points"
     },
@@ -437,12 +449,12 @@
       "addConditionBlock": "Ajouter une section de condition",
       "selectAFilter": "Sélectionner un filtre",
       "reportReasonText": "Raison de signalement",
-      "fetchedReports": "Nombre de signalement correspondant à votre requête",
+      "fetchedReports": "Nombre de signalements correspondant à votre requête",
       "matched": "Résultat : %{number_of_matched_reports}",
       "regexp": "Expression",
       "confirmAll": "Tout approuver",
       "informationText1": "Vous pouvez approuver les contenus signalés depuis le Tout modérer en appliquant des filtres. Vous avez simplement à sélectionner et ajouter les conditions relatives aux contenus et cliquer sur démarrer et ne pas fermer cet onglet",
-      "informationText2": "Vous pouvons appliquer des conditions communes ou appliquer des conditions spécifiques",
+      "informationText2": "Vous pouvez appliquer des conditions communes ou appliquer des conditions spécifiques",
       "informationText3": "Mais ajouter toutes les conditions ne vous donnera aucun résultat.",
       "informationText4": "Une fois que vous avez défini les conditions, merci de regarder les résultats avant de confirmer",
       "commonConditions": {
@@ -451,10 +463,10 @@
       },
       "profileId": {
         "REPORTER": "ID de la personne ayant signalé",
-        "REPORTEE": "ID de la personne ayant été signalé"
+        "REPORTEE": "ID de la personne ayant été signalée"
       },
       "conditionN": {
-        "text": "Condition group %{amount_of_conditions}",
+        "text": "%{amount_of_conditions} groupes de conditions",
         "title": "La condition unique sera limité par les autres conditions uniques"
       },
       "filters": {
@@ -473,7 +485,7 @@
     },
     "noticeBoard": {
       "text": "Tableau d'information",
-      "lastChanges": "Dernier changements",
+      "lastChanges": "Dernières modifications",
       "readBy": "Lu par"
     },
     "massManageUsers": {
@@ -481,7 +493,7 @@
         "doYouWantToRemoveSelectedUsers": "Voulez-vous supprimer les utilisateurs sélectionnés ?",
         "doYouReallyWantToRemoveAllUsers": "Voulez-vous vraiment supprimer tous ces utilisateurs ?",
         "tryingToAddPreviouslyRemovedIds": "Les IDs que vous avez entré contiennent des utilisateurs précédemment supprimés \n\nCliquer sur \"OK\" si vous voulez les ajouter ou\nCliquer sur \"Annuler\" si vous voulez les exclure",
-        "areYouSureAboutDeletingAllListedUsers": "Vous êtes sur le point de supprimer ces utilisateurs.\nEtes-vous sûr de vouloir continuer ?",
+        "areYouSureAboutDeletingAllListedUsers": "Vous êtes sur le point de supprimer ces utilisateurs.\nÊtes-vous sûr de vouloir continuer ?",
         "thereIsNoUserLeft": "Il n'y a plus d'utilisateur dans la liste"
       },
       "text": "Management de masse des utilisateurs",
@@ -519,8 +531,8 @@
         },
         "changeRanks": {
           "actionButton": {
-            "text": "Change ranks",
-            "title": "Add or remove ranks from all listed users"
+            "text": "Changer les rangs",
+            "title": "Ajouter ou supprimer des rangs de tous les utilisateurs de la liste"
           }
         }
       }
@@ -557,6 +569,18 @@
           "tabButton": {
             "text": "Signaler un abus",
             "title": "Signaler un contenu abusif"
+          }
+        },
+        "addAnswer": {
+          "tabButton": {
+            "text": "Add answer",
+            "title": "Add an answer to target questions"
+          }
+        },
+        "approveAnswers": {
+          "tabButton": {
+            "text": "Approve answers",
+            "title": "Approve answers of questions, relatively"
           }
         }
       }
@@ -611,11 +635,11 @@
   "userContent": {
     "notificationMessages": {
       "alreadyApproved": "Cette réponse est déjà approuvée",
-      "alreadyUnapproved": "Cette question est déjà désapprouvées",
-      "someOfSelectedAnswersAreApproved": "Quelques une des réponses sélectionnées avaient déjà été approuvées, il n'est donc pas nécessaire de les approuver de nouveau.",
+      "alreadyUnapproved": "Cette question est déjà désapprouvée",
+      "someOfSelectedAnswersAreApproved": "Quelques unes des réponses sélectionnées avaient déjà été approuvées, il n'est donc pas nécessaire de les approuver de nouveau.",
       "selectAnUnapprovedAnswerForApproving": "Tu dois sélectionner au moins une réponse non approuvée pour démarrer l'approbation",
       "confirmApproving": "Veux-tu approuver cette/ces réponse(s) ?",
-      "someOfSelectedAnswersAreUnapproved": "Quelques une des réponses sélectionnées ne sont pas approuvées vous n'avez pas besoin de les désapprouver à nouveau.",
+      "someOfSelectedAnswersAreUnapproved": "Quelques unes des réponses sélectionnées ne sont pas approuvées vous n'avez pas besoin de les désapprouver à nouveau.",
       "selectAnApprovedAnswerForUnapproving": "Vous devez sélectionner quelques réponses approuvées pour commencer.",
       "confirmUnapproving": "Voulez-vous enlever l'approbation de toutes ces questions ?",
       "doYouWantToConfirmThisContent": "Voulez-vous approuver ce contenu ?",
@@ -630,7 +654,7 @@
     "bestAnswer": "Meilleure réponse",
     "askForCorrection": {
       "text": "Demander la correction",
-      "placeholder": "Ecrire des informations additionnelles pour les utilisateurs",
+      "placeholder": "Écrire des informations additionnelles pour les utilisateurs",
       "ask": "Demander"
     }
   },
@@ -644,7 +668,7 @@
       "aShortcutFile": "Vous essayer d'ajouter un raccourci d'un fichier mais celui-ci n'est pas considéré comme un fichier. Cela va être le bazarre si vous l'ajouter\nVous devriez sélectionner le fichier d'origine à la place\nVoulez-vous toujours ajouter ce raccourci ?",
       "unableToReportAccountDeleting": "Je ne suis pas en mesure de rapporter votre demande de suppression au community manager donc je ne peux pas effectuer la suppression. Désolé :/ <br> Si cette erreur persiste signalez la",
       "confirmNoEvidenceOrComment": "Vous n'avez ajouter aucune preuve ou commentaire. \nVoulez-vous toujours supprimer ce compte ?",
-      "afterSavingCompletedIgnoreNotifications": "Une fois fois la sauvegarde effectué, <br> ignorez les notifications quand vous rechargez ou quittez la page",
+      "afterSavingCompletedIgnoreNotifications": "Une fois la sauvegarde effectuée, <br> ignorez les notifications quand vous rechargez ou quittez la page",
       "selectAtLeastOneUser": "Tu dois sélectionner au moins un utilisateur"
     },
     "previousNicks": {
@@ -683,6 +707,22 @@
       "allRanksRemoved": "Tous les rangs spéciaux ont été supprimés",
       "updatingRanks": "Mise à jour des rangs",
       "xHasAssigned": "%{rank_name} a été assigné"
+    },
+    "morePanel": {
+      "title": "More..",
+      "pointTransferer": {
+        "markAsPointTransferer": "Mark as point transferer",
+        "description": "Mark this user as point transferer. Process will reduce points to -25000 and send a report to the manager",
+        "markThisUser": "Mark this user",
+        "doYouReallyWantToMark": "Do you really want to mark this user as a point transferer?",
+        "wouldYouLikeToSayAnything": "Aimeriez-vous dire quelque chose de plus ?"
+      },
+      "privileges": {
+        "title": "Privilèges actifs"
+      },
+      "manageExtensionUser": {
+        "title": "Gérer les privilèges de l'extension"
+      }
     }
   },
   "userWarnings": {
@@ -737,7 +777,7 @@
     "disapproveAll": "Tout désapprouver",
     "revert": "Modifier",
     "PM": "MP",
-    "sampleMessage": "Bonjour %{n}\n\n[Ecrivez votre raison ici]\n\nAction : %{a}\nQuestion : %{q}",
+    "sampleMessage": "Bonjour %{n}\n\n[Écrivez votre raison ici]\n\nAction : %{a}\nQuestion : %{q}",
     "reviewedOn": {
       "confirm": "Confirmer le %{date} par %{nick}",
       "disapprove": "Désapprouver le %{date} par %{nick}"

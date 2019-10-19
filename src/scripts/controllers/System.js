@@ -6,6 +6,8 @@ import storage from "../helpers/extStorage";
 import InjectToDOM from "../helpers/InjectToDOM";
 import Action from "./Req/Brainly/Action";
 import ServerReq from "./Req/Server/index.js";
+import locale from "@/locales"
+
 
 class _System {
   constructor(main) {
@@ -80,11 +82,7 @@ class _System {
         }
       },
       meta: {},
-      /**
-       * @type {import("../../locales")}
-       */
-      // @ts-ignore
-      locale: {},
+      locale,
       config: {
         extension: extensionConfig
       }

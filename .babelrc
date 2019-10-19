@@ -1,8 +1,26 @@
 {
-	"presets": [
-		"@babel/preset-env"
-	],
-	"plugins": [
-		"@babel/plugin-transform-runtime"
-	]
+  "presets": [
+    "@babel/preset-env"
+  ],
+  "plugins": [
+    "@babel/plugin-transform-runtime",
+    [
+      "inline-import", {
+        "extensions": [
+          ".html"
+        ]
+      }
+    ],
+    [
+      "import-graphql", {
+        "runtime": true
+      }
+    ],
+    ["module-resolver", {
+      "alias": {
+        "@style-guide": "./src/scripts/components/style-guide",
+        "@": ["./src"]
+      }
+    }]
+  ]
 }

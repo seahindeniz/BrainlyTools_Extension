@@ -1,0 +1,10 @@
+#import "./Fragment.graphql"
+
+fragment CommentConnection on CommentConnection {
+  count
+  edges {
+    node {
+      ...CommentFragment
+    }
+  }
+}

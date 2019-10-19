@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Quick delete buttons is not visible
+- Close icon is not visible
 
 ## [6.28.0] - 2019.07.26
 

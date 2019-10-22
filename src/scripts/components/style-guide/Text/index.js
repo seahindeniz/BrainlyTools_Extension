@@ -46,6 +46,17 @@ export const TEXT_ALIGN = Object.freeze({
  *  className?: string,
  *  bgColor?: BgColor,
  * } & Object<string, *>} Properties
+ *
+ *
+ *
+ * @typedef {function(Color): TextElement} ChangeColor
+ *
+ * @typedef {{
+ *  color: Color,
+ *  ChangeColor: ChangeColor,
+ * }} CustomProperties
+ *
+ * @typedef {CustomProperties & (HTMLDivElement | HTMLAnchorElement)} TextElement
  */
 
 const SG = "sg-text";
@@ -94,8 +105,15 @@ export default function({
   if (href !== undefined && href !== "")
     type = "a";
 
+  /**
+   * @type {TextElement}
+   */
+  // @ts-ignore
   let textElement = document.createElement(type);
   textElement.className = textClass;
+  textElement.color = color;
+  // @ts-ignore
+  textElement.ChangeColor = _ChangeColor;
 
   if (textElement instanceof HTMLAnchorElement) {
     textElement.classList.add(`${SGD}link`);
@@ -120,8 +138,20 @@ export default function({
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))
-      if (propVal)
         textElement[propName] = propVal;
 
   return textElement;
+}
+
+/**
+ * @this {TextElement}
+ * @param {Color} color
+ */
+function _ChangeColor(color) {
+  this.classList.remove(SGD + this.color);
+  this.classList.add(SGD + color);
+
+  this.color = color;
+
+  return this;
 }

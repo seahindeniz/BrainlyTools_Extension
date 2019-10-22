@@ -1,9 +1,5 @@
-article.brn-question {
-  &:not(.brn-question--deleted):hover {
-    .ext_actions {
-      visibility: visible;
-    }
-  }
+.brn-question--deleted .ext_actions {
+  display: none;
 }
 
 .ext_actions {

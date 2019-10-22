@@ -2,8 +2,15 @@ import classnames from 'classnames';
 import Text from '../Text';
 
 /**
- * @typedef {"xxsmall" | "xsmall" | "small" | "normal" | "large" | "xlarge" |
- * "xxlarge"} Size
+ * @typedef {boolean
+ * | "xxsmall"
+ * | "xsmall"
+ * | "small"
+ * | "normal"
+ * | "large"
+ * | "xlarge"
+ * | "xxlarge"
+ * } Size
  *
  * @typedef {"left" | "center" | "right"} Alignment
  *
@@ -12,7 +19,8 @@ import Text from '../Text';
  *  spaced?: boolean,
  *  spacedSmall?: boolean,
  *  spacedTop?: Size,
- *  spacedBottom?: Size,full?: boolean,
+ *  spacedBottom?: Size,
+ *  full?: boolean,
  *  className?: string,
  *  align?: Alignment,
  * }} Properties
@@ -40,13 +48,22 @@ export default function({
     [`${SGD}with-centered-elements`]: align === "center",
     [`${SGD}spaced`]: spaced,
     [`${SGD}spaced-small`]: spacedSmall,
-    [`${SGD}spaced-top`]: spacedTop === "normal",
-    [`${SGD}spaced-top-${spacedTop || ''}`]: spacedTop && spacedTop !==
+    [`${SGD}spaced-top`]: spacedTop === true || spacedTop === "normal",
+    [`${SGD}spaced-top-${spacedTop || ''}`]: (
+      spacedTop &&
+      (
+        spacedTop !== true &&
+        spacedTop !== "normal"
+      )
+    ),
+    [`${SGD}spaced-bottom`]: spacedBottom === true || spacedBottom ===
       "normal",
-    [`${SGD}spaced-bottom`]: spacedBottom === "normal",
     [`${SGD}spaced-bottom-${spacedBottom || ''}`]: (
       spacedBottom &&
-      spacedBottom !== "normal"
+      (
+        spacedBottom !== true &&
+        spacedBottom !== "normal"
+      )
     )
   }, className);
 

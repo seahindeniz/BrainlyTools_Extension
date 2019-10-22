@@ -8,7 +8,6 @@ import Action from "./Req/Brainly/Action";
 import ServerReq from "./Req/Server/index.js";
 import locale from "@/locales"
 
-
 class _System {
   constructor(main) {
     this.logStyle =
@@ -55,7 +54,7 @@ class _System {
           },
           {
             key: "fr",
-            title: `Français <span class="is-pulled-right">MichaelS</span>`
+            title: `Français <span class="is-pulled-right">MichaelS, Its1tom</span>`
           },
           {
             key: "tr",
@@ -306,6 +305,11 @@ class _System {
       id = this.data.Brainly.userData.user.id
     }
 
+    if (isNaN(Number(id)))
+      try {
+        id = this.DecryptId(String(id));
+      } catch (error) {}
+
     if (!this.profileLinkRoute)
       this.profileLinkRoute = ArrayLast(ArrayLast(this.data.Brainly.Routing
         .routes[this.data.Brainly.Routing.prefix + "user_profile"].tokens));
@@ -499,6 +503,14 @@ class _System {
       .filter(Boolean)
       .map(this.ExtractId.bind(this))
       .filter(Boolean);
+  }
+  DecryptId(id = "") {
+    if (!id)
+      return;
+
+    let data = atob(id);
+
+    return Number(data.replace(/.*\:/, ""));
   }
   SetUserData(data) {
     storage("setL", { authData: data });

@@ -2,7 +2,7 @@ window.performanceStartTiming = performance.now();
 
 import notification from "../../components/notification2";
 import PrepareDeleteReasons from "../../controllers/PrepareDeleteReasons";
-import ServerReq from "../../controllers/Req/Server";
+import ServerReq from "@ServerReq";
 import _System from "../../controllers/System";
 import storage from "../../helpers/extStorage";
 import InjectToDOM from "../../helpers/InjectToDOM";

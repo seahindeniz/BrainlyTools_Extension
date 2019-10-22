@@ -2,7 +2,7 @@ import autosize from "autosize";
 import Button from "../../../../components/Button";
 import Progress from "../../../../components/Progress";
 import SendMessageToBrainlyIds from "../../../../controllers/Req/Brainly/Action/SendMessageToBrainlyIds";
-import ServerReq from "../../../../controllers/Req/Server";
+import ServerReq from "@ServerReq";
 import ScrollToDown from "../../../../helpers/ScrollToDown";
 import renderGroupModal from "./groupModal";
 

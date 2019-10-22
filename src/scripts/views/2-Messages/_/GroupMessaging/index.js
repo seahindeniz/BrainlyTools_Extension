@@ -1,6 +1,6 @@
 import moment from "moment";
 import notification from "../../../../components/notification";
-import ServerReq from "../../../../controllers/Req/Server";
+import ServerReq from "@ServerReq";
 import WaitForElement from "../../../../helpers/WaitForElement";
 import GroupChatbox from "./GroupChatbox";
 import groupLi from "./groupLi";

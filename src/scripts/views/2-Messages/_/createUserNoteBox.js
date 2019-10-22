@@ -1,7 +1,7 @@
 import UserNoteBox from "../../../components/UserNoteBox";
 import UserTag from "../../../components/UserTag";
 import Action from "../../../controllers/Req/Brainly/Action";
-import ServerReq from "../../../controllers/Req/Server";
+import ServerReq from "@ServerReq";
 import WaitForElement from "../../../helpers/WaitForElement";
 import WaitForObject from "../../../helpers/WaitForObject";
 

@@ -1,4 +1,4 @@
-import ServerReq from "../controllers/Req/Server";
+import ServerReq from "@ServerReq";
 
 export default (user) => {
   let $userNoteBox = $(`

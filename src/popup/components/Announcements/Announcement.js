@@ -1,4 +1,4 @@
-import ServerReq from "../../../scripts/controllers/Req/Server";
+import ServerReq from "@ServerReq";
 import notification from "../notification";
 import TextEditor from "../TextEditor";
 

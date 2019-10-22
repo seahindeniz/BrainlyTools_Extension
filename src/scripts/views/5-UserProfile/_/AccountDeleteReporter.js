@@ -2,7 +2,7 @@ import JSZip from "jszip";
 import prettysize from "prettysize";
 import notification from "../../../components/notification";
 import Progress from "../../../components/Progress";
-import ServerReq from "../../../controllers/Req/Server";
+import ServerReq from "@ServerReq";
 import FileIcon from "../../../helpers/FileIcon";
 import Button from "../../../components/Button";
 

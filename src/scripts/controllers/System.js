@@ -5,7 +5,7 @@ import ArrayLast from "../helpers/ArrayLast";
 import storage from "../helpers/extStorage";
 import InjectToDOM from "../helpers/InjectToDOM";
 import Action from "./Req/Brainly/Action";
-import ServerReq from "./Req/Server/index.js";
+import ServerReq from "@ServerReq";
 import locale from "@/locales"
 
 class _System {

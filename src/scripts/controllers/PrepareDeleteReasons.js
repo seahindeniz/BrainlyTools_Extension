@@ -1,6 +1,6 @@
 import notification from "../components/notification";
 import storage from "../helpers/extStorage";
-import ServerReq from "./Req/Server";
+import ServerReq from "@ServerReq";
 
 export default function prepareDeleteReasons(reload = false) {
   return new Promise(async (resolve, reject) => {

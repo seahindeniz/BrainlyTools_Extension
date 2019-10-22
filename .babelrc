@@ -4,21 +4,19 @@
   ],
   "plugins": [
     "@babel/plugin-transform-runtime",
-    [
-      "inline-import", {
-        "extensions": [
-          ".html"
-        ]
-      }
-    ],
-    [
-      "import-graphql", {
-        "runtime": true
-      }
-    ],
+    ["inline-import", {
+      "extensions": [
+        ".html"
+      ]
+    }],
+    ["import-graphql", {
+      "runtime": true
+    }],
     ["module-resolver", {
       "alias": {
         "@style-guide": "./src/scripts/components/style-guide",
+        "@BrainlyAction": "./src/scripts/controllers/Req/Brainly/Action",
+        "@ServerReq": "./src/scripts/controllers/Req/Server",
         "@": ["./src"]
       }
     }]

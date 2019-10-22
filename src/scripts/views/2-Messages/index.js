@@ -1,4 +1,4 @@
-import ServerReq from "../../controllers/Req/Server";
+import ServerReq from "@ServerReq";
 import createUserNoteBox from "./_/createUserNoteBox";
 import renderGroupMessaging from "./_/GroupMessaging";
 

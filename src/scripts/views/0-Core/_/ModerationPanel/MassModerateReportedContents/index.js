@@ -2,7 +2,7 @@ import template from "backtick-template";
 import Button from "../../../../../components/Button";
 import Modal from "../../../../../components/Modal";
 import Action from "../../../../../controllers/Req/Brainly/Action";
-import ServerReq from "../../../../../controllers/Req/Server";
+import ServerReq from "@ServerReq";
 import ConditionSection from "./ConditionSection";
 // @ts-ignore
 import templateModalContent from "./templates/ModalContent.html";

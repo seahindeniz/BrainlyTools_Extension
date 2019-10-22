@@ -4,7 +4,7 @@ import MarkdownItContainer from "markdown-it-container";
 import Modal from "../../../../components/Modal";
 import notification from "../../../../components/notification";
 import Action from "../../../../controllers/Req/Brainly/Action";
-import ServerReq from "../../../../controllers/Req/Server";
+import ServerReq from "@ServerReq";
 import Button from "../../../../components/Button";
 import Build from "../../../../helpers/Build";
 import { SpinnerContainer, OverlayedBox, MenuListItem, Text } from "@style-guide";

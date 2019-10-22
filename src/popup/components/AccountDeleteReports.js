@@ -1,6 +1,6 @@
+import ServerReq from "@ServerReq";
 import prettysize from "prettysize";
 import { debounce } from 'throttle-debounce';
-import ServerReq from "../../scripts/controllers/Req/Server";
 import FileIcon from "../../scripts/helpers/FileIcon";
 import Modal from "./Modal";
 
@@ -82,7 +82,8 @@ class AccountDeleteReports {
     }
   }
   RenderReport(report) {
-    let targetUserProfileLink = System.createProfileLink(report.target.user.brainlyID, report.target.user.nick);
+    let targetUserProfileLink = System.createProfileLink(report.target.user
+      .brainlyID, report.target.user.nick);
     let $report = $(`
 		<tr id="${report._id}">
 			<td><a href="${targetUserProfileLink}" target="_blank">${report.target.user.brainlyID}</a></td>
@@ -154,7 +155,8 @@ class AccountDeleteReports {
     let $evidenceContainer = $("tbody", $detailRow);
 
     if (!report.target.evidences) {
-      $evidenceContainer.attr("data-empty", System.data.locale.popup.notificationMessages.noEvidenceFound);
+      $evidenceContainer.attr("data-empty", System.data.locale.popup
+        .notificationMessages.noEvidenceFound);
     } else {
       let file = report.target.evidences.file;
       let comment = report.target.evidences.comment;

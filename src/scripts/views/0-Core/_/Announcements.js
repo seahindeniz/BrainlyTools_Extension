@@ -1,6 +1,6 @@
 import notification from "../../../components/notification";
 import Toplayer from "../../../components/Toplayer";
-import ServerReq from "../../../controllers/Req/Server";
+import ServerReq from "@ServerReq";
 
 export default () => {
   let announcements = System.data.Brainly.userData.extension.announcements;

@@ -10,7 +10,7 @@ import linkifyHtml from 'linkifyjs/html';
 // @ts-ignore
 import moment from "moment";
 import notification from "../../../components/notification";
-import ServerReq from "../../../controllers/Req/Server";
+import ServerReq from "@ServerReq";
 import Build from "../../../helpers/Build";
 
 /**

@@ -7,7 +7,7 @@ import UserBio from "../../components/UserBio";
 import UserHat from "../../components/UserHat";
 import UserNoteBox from "../../components/UserNoteBox";
 import Action from "../../controllers/Req/Brainly/Action";
-import ServerReq from "../../controllers/Req/Server";
+import ServerReq from "@ServerReq";
 import WaitForElement from "../../helpers/WaitForElement";
 import AccountDeleteReporter from "./_/AccountDeleteReporter";
 import FriendsManager from "./_/FriendsManager";

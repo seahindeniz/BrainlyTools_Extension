@@ -3,7 +3,7 @@ import md5 from "js-md5";
 import linkifyHtml from 'linkifyjs/html';
 import Modal from "../../components/Modal";
 import Action from "../../controllers/Req/Brainly/Action";
-import ServerReq from "../../controllers/Req/Server";
+import ServerReq from "@ServerReq";
 import IsKeyAlphaNumeric from "../../helpers/IsKeyAlphaNumeric";
 import WaitForElement from "../../helpers/WaitForElement";
 import ActionEntry from "./_/ActionEntry";

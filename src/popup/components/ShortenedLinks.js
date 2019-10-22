@@ -1,5 +1,5 @@
 import { debounce } from 'throttle-debounce';
-import ServerReq from "../../scripts/controllers/Req/Server";
+import ServerReq from "@ServerReq";
 import ext from "../../scripts/utils/ext";
 
 class AccountDeleteReports {

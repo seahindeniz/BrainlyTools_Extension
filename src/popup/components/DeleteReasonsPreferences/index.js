@@ -1,5 +1,6 @@
 import bulmahead from "../../../scripts/lib/bulmahead";
 import Preference from "./Preference";
+import ServerReq from "@ServerReq";
 
 class DeleteReasonsPreferences {
   constructor() {
@@ -60,40 +61,52 @@ class DeleteReasonsPreferences {
 
     if (preferences instanceof Array && preferences.length > 0) {
       preferences.forEach(preference => {
-        let reason = System.data.Brainly.deleteReasons.__withIds.__all[preference.reasonID];
+        let reason = System.data.Brainly.deleteReasons.__withIds.__all[
+          preference.reasonID];
 
         if (reason) {
-          let category = System.data.Brainly.deleteReasons.__withIds.__all[reason.category_id];
+          let category = System.data.Brainly.deleteReasons.__withIds
+            .__all[reason.category_id];
           let categoryText = category.text;
           let label = categoryText + " › " + reason.title;
 
-          let deleteReasonsPreference = new Preference(reason, label, preference.confirmation);
+          let deleteReasonsPreference = new Preference(reason, label,
+            preference.confirmation);
 
-          deleteReasonsPreference.$.appendTo($(`.field[data-type="${reason.type}"]`, this.$layout));
+          deleteReasonsPreference.$.appendTo($(
+            `.field[data-type="${reason.type}"]`, this.$layout));
           this.selectedReasons.push(reason.id);
         } else {
-          RemoveDeleteReasonPreference(preference.reasonID)
+          new ServerReq()
+            .RemoveDeleteReasonPreference(preference.reasonID);
         }
       });
     }
   }
   BindHandlers() {
-    bulmahead(this.$input.get(0), this.$menu.get(0), this.SearchDeleteReason.bind(this), this.ReasonSelected.bind(this));
+    bulmahead(this.$input.get(0), this.$menu.get(0), this.SearchDeleteReason
+      .bind(this), this.ReasonSelected.bind(this));
   }
   SearchDeleteReason(value) {
     return new Promise(resolve => {
       return resolve((() => {
         let reasonList = [];
 
-        $.each(System.data.Brainly.deleteReasons.__withTitles, (type, reasons) => {
+        $.each(System.data.Brainly.deleteReasons.__withTitles, (
+          type, reasons) => {
           $.each(reasons, (reasonKey, reason) => {
             if (
               reasonKey.indexOf("__") < 0 &&
               (new RegExp(value, "i")).test(reasonKey) &&
               this.selectedReasons.indexOf(reason.id) < 0
             ) {
-              let typeT = System.data.locale.popup.extensionOptions.quickDeleteButtons[type]; //type == "task" ? "Q" : type == "response" ? "A" : "C";
-              let categoryName = System.data.Brainly.deleteReasons.__withIds[type].__categories[reason.category_id].text;
+              let typeT = System.data.locale.popup
+                .extensionOptions.quickDeleteButtons[
+                  type
+                ]; //type == "task" ? "Q" : type == "response" ? "A" : "C";
+              let categoryName = System.data.Brainly
+                .deleteReasons.__withIds[type].__categories[
+                  reason.category_id].text;
 
               reasonList.push({
                 type,
@@ -113,7 +126,8 @@ class DeleteReasonsPreferences {
   ReasonSelected(data) {
     let deleteReasonsPreference = new Preference(data.reason, data.label);
 
-    deleteReasonsPreference.$.appendTo($(`.field[data-type="${data.type}"]`, this.$layout));
+    deleteReasonsPreference.$.appendTo($(`.field[data-type="${data.type}"]`,
+      this.$layout));
     this.$input.val("");
   }
 }

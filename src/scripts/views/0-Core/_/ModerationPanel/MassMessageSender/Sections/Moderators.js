@@ -1,4 +1,4 @@
-import ServerReq from "../../../../../../controllers/Req/Server";
+import ServerReq from "@ServerReq";
 
 const ERROR = "sg-box--peach";
 const USER_NOT_FOUND = "sg-box--dark";

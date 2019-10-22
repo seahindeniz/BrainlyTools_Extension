@@ -11,8 +11,8 @@ import yaml from "js-yaml";
 const $ = require('gulp-load-plugins')();
 const STYLE_GUIDE_PATH = "src/styles/_/style-guide.css";
 
-let presets;
-let plugins;
+let _presets;
+let _plugins;
 var isProduction = process.env.NODE_ENV === "production";
 var target = process.env.TARGET || "chrome";
 
@@ -234,8 +234,8 @@ task(
   "getBabelRC",
   next => {
     let configs = JSON.parse(fs.readFileSync("./.babelrc", "utf8"));
-    presets = configs.presets;
-    plugins = configs.plugins;
+    _presets = configs.presets;
+    _plugins = configs.plugins;
 
     next();
   }
@@ -402,12 +402,17 @@ task(
  * HELPERS
  */
 function compileJSFiles(files, path) {
+  //console.log(JSON.stringify(_plugins));
   return src(files)
     .pipe($.bro({
       transform: [
         babelify.configure({
-          presets,
-          plugins,
+          get presets() {
+            return _presets;
+          },
+          get plugins() {
+            return _plugins;
+          },
           sourceMaps: false,
         }),
         //['uglifyify', { global: true, sourceMap: false }]

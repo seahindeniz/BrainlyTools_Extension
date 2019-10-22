@@ -1,5 +1,5 @@
 import Button from "../../../components/Button";
-import ServerReq from "../../../controllers/Req/Server";
+import ServerReq from "@ServerReq";
 import WaitForElement from "../../../helpers/WaitForElement";
 
 class Pagination {

@@ -2,7 +2,7 @@ import Dropdown from "../../../../components/Dropdown";
 import Modal from "../../../../components/Modal";
 import notification from "../../../../components/notification";
 import Action from "../../../../controllers/Req/Brainly/Action";
-import ServerReq from "../../../../controllers/Req/Server";
+import ServerReq from "@ServerReq";
 import renderGroupLi from "./groupLi";
 import rankSelector from "./rankSelector";
 import userLi from "./userLi";

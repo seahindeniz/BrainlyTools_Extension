@@ -41,7 +41,7 @@ export default class User {
       [
         this.spinnerContainer,
         (this.box = Box({
-          padding: "xxsmall-padding",
+          padding: "xxsmall",
           noMinHeight: true,
           color: "gray-secondary-lightest",
           border: false,

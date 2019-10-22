@@ -1,0 +1,11 @@
+#import "./Fragment.graphql"
+#import "../Comment/Connection.graphql"
+
+fragment AnswerConnection_With_Comments on AnswerConnection {
+  nodes {
+    comments(last: 1000) {
+      ...CommentConnection
+    }
+    ...AnswerFragment
+  }
+}

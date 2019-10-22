@@ -1,6 +1,3 @@
-#import "../User.graphql"
-#import "../Attachment.graphql"
-
 fragment AnswerFragment on Answer {
   id
   content
@@ -9,6 +6,13 @@ fragment AnswerFragment on Answer {
   }
   points
   created
+  isConfirmed
+  verification {
+    hasAccess
+    approval {
+      approvedTime
+    }
+  }
   isBest
   thanksCount
   attachments{

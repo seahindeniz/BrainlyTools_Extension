@@ -1,5 +1,3 @@
-#import "./User.graphql"
-#import "./Subject.graphql"
 #import "./Answer/Connection.graphql"
 #import "./Comment/Connection.graphql"
 
@@ -8,6 +6,8 @@ fragment QuestionFragment on Question {
   content
   points
   created
+  pointsForAnswer
+  pointsForBestAnswer
   author {
     ...UserFragment
   }
@@ -17,7 +17,7 @@ fragment QuestionFragment on Question {
   answers {
     ...AnswerConnection
   }
-  comments{
+  comments(last: 1000) {
     ...CommentConnection
   }
   attachments{

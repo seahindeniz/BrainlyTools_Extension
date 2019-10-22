@@ -26,28 +26,28 @@ import Icon from './Icon';
  * )} CloseIconColor
  *
  * @typedef {(
- * | "no-padding"
- * | "small-padding"
- * | "xsmall-padding"
- * | "xxsmall-padding"
- * | "large-padding"
+ * | "no"
+ * | "small"
+ * | "xsmall"
+ * | "xxsmall"
+ * | "large"
  * )} Padding
  *
  * @typedef {"small" | "normal" | "large"} Size
  *
  * @typedef {{
- * color?: Color,
- * padding?: Padding,
- * full?: boolean,
- * children?: HTMLElement | HTMLElement[],
- * border?: boolean,
- * imgSrc?: string,
- * noMinHeight?: boolean,
- * shadow?: boolean,
- * noBorderRadius?: boolean,
- * onClose?: EventListenerOrEventListenerObject,
- * closeIconColor?: CloseIconColor,
- * className?: ?string,
+ *  color?: Color,
+ *  padding?: Padding,
+ *  full?: boolean,
+ *  children?: HTMLElement | HTMLElement[],
+ *  border?: boolean,
+ *  imgSrc?: string,
+ *  noMinHeight?: boolean,
+ *  shadow?: boolean,
+ *  noBorderRadius?: boolean,
+ *  onClose?: EventListenerOrEventListenerObject,
+ *  closeIconColor?: CloseIconColor,
+ *  className?: ?string,
  * }} Properties
  *
  * @typedef {function(Color):BoxElement} ChangeColor
@@ -62,11 +62,11 @@ const SGD = `${SG}--`;
 const SG_ = `${SG}__`;
 
 export const PADDING = {
-  NO: 'no-padding',
-  SMALL: 'small-padding',
-  XSMALL: 'xsmall-padding',
-  XXSMALL: 'xxsmall-padding',
-  LARGE: 'large-padding',
+  no: 'no-padding',
+  small: 'small-padding',
+  xsmall: 'xsmall-padding',
+  xxsmall: 'xxsmall-padding',
+  large: 'large-padding',
 };
 
 /**
@@ -77,7 +77,7 @@ export default function({
   padding,
   full,
   children,
-  border = !color,
+  border,
   imgSrc,
   noMinHeight,
   shadow,
@@ -92,7 +92,7 @@ export default function({
       [SGD + color]: color,
       [`${SGD}no-border`]: !border,
       [`${SGD}full`]: full,
-      [SGD + padding]: padding,
+      [SGD + PADDING[padding]]: PADDING[padding],
       [`${SGD}image-wrapper`]: imgSrc,
       [`${SGD}no-min-height`]: noMinHeight,
       [`${SGD}with-shadow`]: shadow,
@@ -144,7 +144,7 @@ export default function({
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))
-      box[propName] = propVal;
+        box[propName] = propVal;
 
   box.color = color;
   // @ts-ignore

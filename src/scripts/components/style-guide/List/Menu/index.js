@@ -29,7 +29,6 @@ export default function({ items, size = "normal", className, ...props } = {}) {
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))
-      if (propVal)
         list[propName] = propVal;
 
   if (items)

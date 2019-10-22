@@ -29,7 +29,6 @@ export default function({ partial, children, className, ...props } = {}) {
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))
-      if (propVal)
         container[propName] = propVal;
 
   return container;

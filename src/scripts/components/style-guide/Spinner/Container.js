@@ -39,7 +39,6 @@ export default function({
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))
-    if (propVal)
       container[propName] = propVal;
 
   if (loading) {

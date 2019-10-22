@@ -55,7 +55,6 @@ export default function({
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))
-      if (propVal)
         link[propName] = propVal;
 
   return element;

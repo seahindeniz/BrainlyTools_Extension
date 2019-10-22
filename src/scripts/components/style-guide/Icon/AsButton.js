@@ -108,7 +108,6 @@ export default function({
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))
-      if (propVal)
         button[propName] = propVal;
 
   let hole = document.createElement("div");

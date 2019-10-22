@@ -32,7 +32,6 @@ export default function({
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))
-      if (propVal)
         list[propName] = propVal;
 
   if (children instanceof Array)

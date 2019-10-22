@@ -26,7 +26,6 @@ export default function({ light, size, className, overlay, ...props } = {}) {
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))
-      if (propVal)
         spinner[propName] = propVal;
 
   if (overlay) {

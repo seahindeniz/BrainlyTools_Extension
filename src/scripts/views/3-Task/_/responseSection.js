@@ -10,12 +10,9 @@ import WaitForElement from "../../../helpers/WaitForElement";
 
 export default async function responseSection() {
   /**
-   * @param {HTMLElement} [target]
+   * @param {JQuery<HTMLElement>} [responseContainers]
    */
-  const addButtons = (target) => {
-    let responseContainers = $(window.selectors
-      .responseModerateButtonContainer, target);
-
+  const addButtons = (responseContainers) => {
     responseContainers.each((i, moderateButtonContainer) => {
       let extButtonsContainer = ContentBox({
         className: "ext_actions",
@@ -47,7 +44,8 @@ export default async function responseSection() {
         });
     });
   }
-  addButtons();
+  addButtons($(window.selectors.responseContainer + " " + window.selectors
+    .responseModerateButtonContainer));
 
   let observer = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
@@ -65,7 +63,8 @@ export default async function responseSection() {
           let ext_actions = target.querySelector(".ext_actions");
 
           if (!ext_actions) {
-            addButtons(target);
+            addButtons($(window.selectors
+              .responseModerateButtonContainer, target));
           }
         }
       }
@@ -139,8 +138,7 @@ async function responseModerateButtonsClickHandler() {
     System.log(6, { user, data: [answer_id] });
     parentResponseContainer.addClass("brn-question--deleted");
     $(window.selectors.responseModerateButtonContainer,
-        parentResponseContainer)
-      .remove();
+      parentResponseContainer).remove();
     $(this).parents(".ext_actions").remove();
   }
 };

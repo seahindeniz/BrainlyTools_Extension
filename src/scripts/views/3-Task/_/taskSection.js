@@ -22,7 +22,8 @@ export default function taskSection() {
 
   System.data.config.quickDeleteButtonsReasons.task.forEach(
     (id, i) => {
-      let reason = System.data.Brainly.deleteReasons.__withIds.task[id];
+      let reason = System.data.Brainly.deleteReasons.__withIds.task
+      [id];
       let button = Button({
         type: "destructive",
         size: "small",

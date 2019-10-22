@@ -1,10 +1,9 @@
-import { ActionListHole } from "../../../../../../components/style-guide";
-import Button from "../../../../../../components/style-guide/Button";
+import { ActionListHole, Button } from "@style-guide";
 
 /**
- * @typedef {{content: {text: string, style: string}, actionButton: import("../../../../../../components/style-guide/Button").Properties}} renderDetails
+ * @typedef {{content: {text: string, style: string}, actionButton: import("@style-guide/Button").Properties}} renderDetails
  */
-export default class ActionSection{
+export default class ActionSection {
   /**
    * @param {import("../index").default} main
    * @param {renderDetails} renderDetails

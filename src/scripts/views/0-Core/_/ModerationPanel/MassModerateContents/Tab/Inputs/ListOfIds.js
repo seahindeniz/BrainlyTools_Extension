@@ -1,7 +1,18 @@
-import Inputs from ".";
+import {
+  ActionList,
+  ActionListHole,
+  ContentBox,
+  ContentBoxActions,
+  ContentBoxContent,
+  Label,
+  Spinner,
+  SpinnerContainer,
+  Text,
+  Textarea
+} from "@style-guide";
 import debounce from "debounce";
+import Inputs from ".";
 import Build from "../../../../../../../helpers/Build";
-import { Text, ContentBox, ContentBoxActions, ActionList, ActionListHole, SpinnerContainer, Textarea, Spinner, ContentBoxContent, Label } from "../../../../../../../components/style-guide";
 
 let System = require("../../../../../../../helpers/System");
 
@@ -31,7 +42,8 @@ export default class ListOfIds extends Inputs {
       fullWidth: true,
       resizable: true,
       contentEditable: true,
-      placeholder: System.data.locale.core.MassModerateContents.targets.listOfIds.contentLinksOrIDs,
+      placeholder: System.data.locale.core.MassModerateContents.targets
+        .listOfIds.contentLinksOrIDs,
       style: "position: absolute; background: transparent;"
     });
     this.textareaBack = Textarea({
@@ -54,19 +66,22 @@ export default class ListOfIds extends Inputs {
   Render() {
     let nIds = Text({
       size: "xsmall",
-      html: System.data.locale.common.nIds.replace("%{n}", ` <span class="sg-text--bold">0</span> `)
+      html: System.data.locale.common.nIds.replace("%{n}",
+        ` <span class="sg-text--bold">0</span> `)
     });
     this.numberOfIds = nIds.querySelector("span");
     let nContents = Text({
       size: "xsmall",
       color: "blue-dark",
-      html: System.data.locale.core.MassModerateContents.nContents.replace("%{n}", ` <span class="sg-text--bold">0</span> `)
+      html: System.data.locale.core.MassModerateContents.nContents
+        .replace("%{n}", ` <span class="sg-text--bold">0</span> `)
     });
     this.numberOfContents = nContents.querySelector("span");
     let nIgnored = Text({
       size: "xsmall",
       color: "peach-dark",
-      html: System.data.locale.core.MassModerateContents.nIgnored.replace("%{n}", ` <span class="sg-text--bold">0</span> `)
+      html: System.data.locale.core.MassModerateContents.nIgnored.replace(
+        "%{n}", ` <span class="sg-text--bold">0</span> `)
     });
     this.numberOfIgnored = nIgnored.querySelector("span");
 
@@ -118,7 +133,8 @@ export default class ListOfIds extends Inputs {
                       size: "small",
                       weight: "bold",
                       align: "CENTER",
-                      html: System.data.locale.core.MassModerateContents.targets.idRange.exampleUsage
+                      html: System.data.locale.core.MassModerateContents
+                        .targets.idRange.exampleUsage
                     })
                   ],
                   [
@@ -129,12 +145,14 @@ export default class ListOfIds extends Inputs {
                       Text({
                         type: "div",
                         size: "xsmall",
-                        html: System.createBrainlyLink("task", { id: 1234567 })
+                        html: System.createBrainlyLink(
+                          "task", { id: 1234567 })
                       }),
                       Text({
                         type: "div",
                         size: "xsmall",
-                        html: System.createBrainlyLink("task", { id: 2345678 })
+                        html: System.createBrainlyLink(
+                          "task", { id: 2345678 })
                       }),
                       Text({
                         type: "div",
@@ -163,7 +181,8 @@ export default class ListOfIds extends Inputs {
                       spacedTop: true
                     }),
                     Label({
-                      html: System.data.locale.core.MassContentDeleter.containerExplanation,
+                      html: System.data.locale.core.MassContentDeleter
+                        .containerExplanation,
                       icon: {
                         color: "blue",
                         "type": "ext-info"
@@ -184,7 +203,9 @@ export default class ListOfIds extends Inputs {
     });
   }
   RenderTextareaWarning() {
-    this.$textareaWarning = $(`<div class="sg-bubble sg-bubble--top sg-bubble--row-start sg-bubble--peach sg-text--white enterIdWarn">${System.data.locale.core.notificationMessages.enterIdWarn}</div>`);
+    this.$textareaWarning = $(
+      `<div class="sg-bubble sg-bubble--top sg-bubble--row-start sg-bubble--peach sg-text--white enterIdWarn">${System.data.locale.core.notificationMessages.enterIdWarn}</div>`
+    );
   }
   BindHandlers() {
     $(this.textarea).on({
@@ -194,13 +215,15 @@ export default class ListOfIds extends Inputs {
     });
 
     // @ts-ignore
-    new window.ResizeObserver(this.UpdateTextAreaBackResize.bind(this)).observe(this.textarea);
+    new window.ResizeObserver(this.UpdateTextAreaBackResize.bind(this))
+      .observe(this.textarea);
   }
   async PasteHandler(event) {
     event.preventDefault();
     this.ShowTextareaSpinner();
 
-    let text = (event.originalEvent || event).clipboardData.getData("text/plain");
+    let text = (event.originalEvent || event).clipboardData.getData(
+      "text/plain");
 
     await System.Delay(50);
     document.execCommand("insertText", false, text);
@@ -221,7 +244,8 @@ export default class ListOfIds extends Inputs {
 
     this.numberOfIds.innerText = "0";
 
-    let temp = this.value[this.main.active.contentType.is] = this.textarea.innerHTML;
+    let temp = this.value[this.main.active.contentType.is] = this.textarea
+      .innerHTML;
 
     idList.forEach(id => {
       let status = "blue-light";
@@ -233,7 +257,8 @@ export default class ListOfIds extends Inputs {
       } else
         moderatableIdList.push(id);
 
-      temp = temp.replace(new RegExp(`((?:\\b|[a-z]{1,})+${id}\\b)`), `<span class="sg-text--background-${status}">$1</span>`);
+      temp = temp.replace(new RegExp(`((?:\\b|[a-z]{1,})+${id}\\b)`),
+        `<span class="sg-text--background-${status}">$1</span>`);
     });
 
     this.idList = moderatableIdList; // for triggering the setter in index.js
@@ -272,7 +297,8 @@ export default class ListOfIds extends Inputs {
     this.textareaBack.style.height = this.textarea.style.height;
   }
   Visible() {
-    this.textarea.innerHTML = this.value[this.main.active.contentType.is] || "";
+    this.textarea.innerHTML = this.value[this.main.active.contentType.is] ||
+      "";
 
     this.UpdateTextareaBackContent();
   }

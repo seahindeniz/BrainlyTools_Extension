@@ -1,4 +1,4 @@
-import { ContentBoxContent } from "../../../../../../../../components/style-guide";
+import { ContentBoxContent } from "@style-guide";
 
 export default class SubReason {
   /**

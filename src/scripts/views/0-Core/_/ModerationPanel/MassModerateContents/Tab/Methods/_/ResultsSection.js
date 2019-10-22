@@ -1,5 +1,15 @@
+import {
+  ActionList,
+  ActionListHole,
+  ContentBox,
+  ContentBoxActions,
+  ContentBoxContent,
+  Label,
+  SeparatorHorizontal,
+  Text,
+  Textarea
+} from "@style-guide";
 import clipboard from "clipboard";
-import { ActionList, ActionListHole, ContentBox, ContentBoxActions, ContentBoxContent, Label, SeparatorHorizontal, Text, Textarea } from "../../../../../../../../components/style-guide";
 import Build from "../../../../../../../../helpers/Build";
 
 let System = require("../../../../../../../../helpers/System");
@@ -103,7 +113,8 @@ export default class ResultsSection {
               [
                 ContentBoxActions(),
                 Label({
-                  text: System.data.locale.core.MassModerateContents.methods.clickListToCopy,
+                  text: System.data.locale.core.MassModerateContents
+                    .methods.clickListToCopy,
                   icon: {
                     type: "ext-info",
                     color: "blue"
@@ -146,7 +157,8 @@ export default class ResultsSection {
   }
   NotCopied() {
     this.main.main.modal.Notification({
-      text: System.data.locale.core.MassModerateContents.methods.iCantCopy,
+      text: System.data.locale.core.MassModerateContents.methods
+        .iCantCopy,
       type: "error"
     });
   }

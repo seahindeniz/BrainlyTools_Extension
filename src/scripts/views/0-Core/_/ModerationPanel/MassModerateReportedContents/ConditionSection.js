@@ -11,7 +11,7 @@ import templateFilterContainer from "./templates/FilterContainer.html";
 import templateFilterSelectCard from "./templates/FilterSelectCard.html";
 import templateFooter from "./templates/Footer.html";
 import templateReportBox from "./templates/ReportBox.html";
-import { Button } from "../../../../../components/style-guide";
+import { Button } from "@style-guide";
 
 String.prototype.template = template.asMethod;
 

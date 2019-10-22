@@ -14,7 +14,7 @@ import {
   Text,
   Textarea,
   SeparatorHorizontal
-} from "../../../../../components/style-guide";
+} from "@style-guide";
 import Action from "../../../../../controllers/Req/Brainly/Action";
 import Build from "../../../../../helpers/Build";
 import ApproveAnswers from "./ActionSection/ApproveAnswers";

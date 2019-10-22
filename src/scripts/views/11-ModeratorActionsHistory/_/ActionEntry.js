@@ -1,17 +1,15 @@
-// @ts-ignore
-import md5 from "js-md5";
-// @ts-ignore
-import linkifyHtml from 'linkifyjs/html';
-// @ts-ignore
-import moment from "moment";
-import notification from "../../../components/notification";
 import {
   Button,
   ContentBox,
   ContentBoxContent,
   Spinner,
   SpinnerContainer
-} from "../../../components/style-guide";
+} from "@style-guide";
+import md5 from "js-md5";
+import linkifyHtml from 'linkifyjs/html';
+// @ts-ignore
+import moment from "moment";
+import notification from "../../../components/notification";
 import ServerReq from "../../../controllers/Req/Server";
 import Build from "../../../helpers/Build";
 

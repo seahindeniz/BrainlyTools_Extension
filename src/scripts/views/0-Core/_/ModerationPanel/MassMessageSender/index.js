@@ -9,7 +9,7 @@ import ResultsSection from "./Sections/Results";
 // @ts-ignore
 import templateModalContent from "./templates/ModalContent.html";
 import Button from "../../../../../components/Button";
-import { MenuListItem } from "../../../../../components/style-guide";
+import { MenuListItem } from "@style-guide";
 
 let System = require("../../../../../helpers/System");
 

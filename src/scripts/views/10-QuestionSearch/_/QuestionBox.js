@@ -8,7 +8,7 @@ import {
   Label,
   Spinner,
   SpinnerContainer
-} from "../../../components/style-guide";
+} from "@style-guide";
 import Action from "../../../controllers/Req/Brainly/Action";
 import Build from "../../../helpers/Build";
 import QuickDeleteButtons from "../../1-Home/_/QuickDeleteButtons";

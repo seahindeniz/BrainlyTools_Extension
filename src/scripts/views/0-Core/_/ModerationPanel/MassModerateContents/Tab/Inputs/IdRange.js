@@ -1,8 +1,17 @@
+import {
+  ActionList,
+  ActionListHole,
+  ContentBox,
+  ContentBoxActions,
+  ContentBoxContent,
+  SpinnerContainer,
+  Text,
+  Textarea
+} from "@style-guide";
 import debounce from "debounce";
 import rangeParser from "parse-numeric-range";
 import Inputs from ".";
 import Input from "../../../../../../../components/Input";
-import { ActionList, ActionListHole, ContentBox, ContentBoxActions, ContentBoxContent, SpinnerContainer, Text, Textarea } from "../../../../../../../components/style-guide";
 import Build from "../../../../../../../helpers/Build";
 
 let System = require("../../../../../../../helpers/System");
@@ -15,7 +24,8 @@ export default class IdRange extends Inputs {
 
     super(main, {
       tabButton: {
-        text: System.data.locale.core.MassModerateContents.targets.idRange.text
+        text: System.data.locale.core.MassModerateContents.targets.idRange
+          .text
       }
     });
 
@@ -31,7 +41,8 @@ export default class IdRange extends Inputs {
     this.input = Input({
       fullWidth: true,
       placeholder: "1,2,3,4-10,11...30",
-      title: System.data.locale.core.MassModerateContents.targets.idRange.youNeedToEnterTwoDifferentIdNumbers
+      title: System.data.locale.core.MassModerateContents.targets.idRange
+        .youNeedToEnterTwoDifferentIdNumbers
     });
     this.$input = $(this.input);
   }
@@ -47,19 +58,22 @@ export default class IdRange extends Inputs {
     let sampleRange = "1,2,3-10,11..20,20...30";
     let nIds = Text({
       size: "xsmall",
-      html: System.data.locale.common.nIds.replace("%{n}", ` <span class="sg-text--bold">0</span> `)
+      html: System.data.locale.common.nIds.replace("%{n}",
+        ` <span class="sg-text--bold">0</span> `)
     });
     this.numberOfIds = nIds.querySelector("span");
     let nContents = Text({
       size: "xsmall",
       color: "blue-dark",
-      html: System.data.locale.core.MassModerateContents.nContents.replace("%{n}", ` <span class="sg-text--bold">0</span> `)
+      html: System.data.locale.core.MassModerateContents.nContents
+        .replace("%{n}", ` <span class="sg-text--bold">0</span> `)
     });
     this.numberOfContents = nContents.querySelector("span");
     let nIgnored = Text({
       size: "xsmall",
       color: "peach-dark",
-      html: System.data.locale.core.MassModerateContents.nIgnored.replace("%{n}", ` <span class="sg-text--bold">0</span> `)
+      html: System.data.locale.core.MassModerateContents.nIgnored.replace(
+        "%{n}", ` <span class="sg-text--bold">0</span> `)
     });
     this.numberOfIgnored = nIgnored.querySelector("span");
 
@@ -145,7 +159,8 @@ export default class IdRange extends Inputs {
                       size: "small",
                       weight: "bold",
                       align: "CENTER",
-                      html: System.data.locale.core.MassModerateContents.targets.idRange.exampleUsage
+                      html: System.data.locale.core.MassModerateContents
+                        .targets.idRange.exampleUsage
                     })
                   ],
                   [
@@ -195,7 +210,8 @@ export default class IdRange extends Inputs {
     ]);
   }
   BindHandler() {
-    this.input.addEventListener("input", debounce(this.Validate.bind(this), 100));
+    this.input.addEventListener("input", debounce(this.Validate.bind(this),
+      100));
   }
   Validate() {
     this.range = [];

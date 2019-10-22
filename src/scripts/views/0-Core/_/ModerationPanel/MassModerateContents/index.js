@@ -7,7 +7,7 @@ import {
   MenuListItem,
   SeparatorVertical,
   Text
-} from "../../../../../components/style-guide";
+} from "@style-guide";
 import Build from "../../../../../helpers/Build";
 import IsVisible from "../../../../../helpers/IsVisible";
 import Answer from "./Tab/ContentType/Answer";
@@ -16,13 +16,14 @@ import Question from "./Tab/ContentType/Question";
 import IdRange from "./Tab/Inputs/IdRange";
 import ListOfIds from "./Tab/Inputs/ListOfIds";
 import SearchQuestion from "./Tab/Inputs/SearchQuestion";
-import ReportContent from "./Tab/Methods/ReportContent";
 import AddAnswer from "./Tab/Methods/AddAnswer";
+import ApproveAnswers from "./Tab/Methods/ApproveAnswers";
+import ReportContent from "./Tab/Methods/ReportContent";
 
 /**
  * @typedef {Question | Answer | Comment} ContentTypes
  * @typedef {ListOfIds | IdRange | SearchQuestion} Inputs
- * @typedef {ReportContent | AddAnswer} Methods
+ * @typedef {AddAnswer | ApproveAnswers | ReportContent} Methods
  * @typedef {ContentTypes | Inputs | Methods} Tabs
  */
 
@@ -274,6 +275,7 @@ class MassModerateContents {
     this.methods = [
       new ReportContent(this),
       new AddAnswer(this),
+      //new ApproveAnswers(this),
     ]
   }
   /**

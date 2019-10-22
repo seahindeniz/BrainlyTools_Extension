@@ -2,7 +2,7 @@ import {
   ActionList,
   ActionListHole,
   ContentBox
-} from "../../components/style-guide";
+} from "@style-guide";
 import UserBio from "../../components/UserBio";
 import UserHat from "../../components/UserHat";
 import UserNoteBox from "../../components/UserNoteBox";

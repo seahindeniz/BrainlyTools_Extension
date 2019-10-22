@@ -1,4 +1,4 @@
-import { Select, ContentBoxContent, ContentBox } from "../../../../../../../../components/style-guide";
+import { Select, ContentBoxContent, ContentBox } from "@style-guide";
 import SubReason from "./SubReason";
 
 export default class SubReasonSection {

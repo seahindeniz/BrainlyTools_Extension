@@ -3,7 +3,7 @@ import DeleteSection from "../../../../components/DeleteSection";
 import Modal from "../../../../components/Modal";
 import Action from "../../../../controllers/Req/Brainly/Action";
 import Button from "../../../../components/Button";
-import { MenuListItem } from "../../../../components/style-guide";
+import { MenuListItem } from "@style-guide";
 
 class MassContentDeleter {
   constructor() {

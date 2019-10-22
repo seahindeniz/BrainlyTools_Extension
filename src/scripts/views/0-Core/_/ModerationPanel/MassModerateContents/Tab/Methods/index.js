@@ -1,5 +1,10 @@
+import {
+  Button,
+  ContentBoxContent,
+  Spinner,
+  SpinnerContainer
+} from "@style-guide";
 import Tab from "..";
-import { Button, ContentBoxContent, Spinner, SpinnerContainer } from "../../../../../../../components/style-guide";
 import IsVisible from "../../../../../../../helpers/IsVisible";
 import ResultsSection from "./_/ResultsSection";
 
@@ -7,7 +12,7 @@ let System = require("../../../../../../../helpers/System");
 
 export default class Methods extends Tab {
   /**
-   * @typedef {import("../../../../../../../components/style-guide/Button").Properties} ButtonProperties
+   * @typedef {import("@style-guide/Button").Properties} ButtonProperties
    * @param {import("../../index").default} main
    * @param {{tabButton: ButtonProperties, restrictions?: Object<string, string[]>, startButton?: ButtonProperties}} details
    */
@@ -91,9 +96,11 @@ export default class Methods extends Tab {
     this.resultsSection = new ResultsSection(this);
   }
   BindHandlers() {
-    this.startButton.addEventListener("click", this.StartModerating.bind(this));
+    this.startButton.addEventListener("click", this.StartModerating.bind(
+      this));
     this.stopButton.addEventListener("click", this.StopModerating.bind(this));
-    this.continueButton.addEventListener("click", this.ContinueModerating.bind(this));
+    this.continueButton.addEventListener("click", this.ContinueModerating
+      .bind(this));
   }
   async StartModerating() {
     this.ShowActionButtonSpinner();

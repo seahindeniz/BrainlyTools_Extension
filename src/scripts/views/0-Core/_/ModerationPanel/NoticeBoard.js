@@ -7,7 +7,7 @@ import Action from "../../../../controllers/Req/Brainly/Action";
 import ServerReq from "../../../../controllers/Req/Server";
 import Button from "../../../../components/Button";
 import Build from "../../../../helpers/Build";
-import { SpinnerContainer, OverlayedBox, MenuListItem, Text } from "../../../../components/style-guide";
+import { SpinnerContainer, OverlayedBox, MenuListItem, Text } from "@style-guide";
 
 let System = require("../../../../helpers/System");
 

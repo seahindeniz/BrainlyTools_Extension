@@ -1,10 +1,10 @@
 import Tab from "..";
-import { ContentBoxContent } from "../../../../../../../components/style-guide";
+import { ContentBoxContent } from "@style-guide";
 
 export default class Inputs extends Tab {
   /**
    * @param {import("../../index").default} main
-   * @param {{tabButton: import("../../../../../../../components/style-guide/Button").Properties, restrictions?: Object<string, string[]>}} details
+   * @param {{tabButton: import("@style-guide/Button").Properties, restrictions?: Object<string, string[]>}} details
    */
   constructor(main, details) {
     super(main, {

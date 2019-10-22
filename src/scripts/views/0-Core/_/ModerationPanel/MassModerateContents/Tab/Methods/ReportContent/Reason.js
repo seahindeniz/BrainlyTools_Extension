@@ -4,7 +4,7 @@ import {
   ContentBoxContent,
   Radio,
   Textarea
-} from "../../../../../../../../components/style-guide";
+} from "@style-guide";
 import Build from "../../../../../../../../helpers/Build";
 import SubReasonSection from "./SubReasonSection";
 

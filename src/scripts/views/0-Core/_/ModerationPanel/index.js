@@ -8,7 +8,7 @@ import NoticeBoard from "./NoticeBoard";
 import PointChanger from "./PointChanger";
 import ReportedCommentsDeleter from "./ReportedCommentsDeleter";
 import renderUserFinder from "./UserFinder";
-import Menu from "../../../../components/style-guide/List/Menu";
+import { MenuList } from "@style-guide";
 
 const SELECTOR = {
   STATISTICS: "#moderate-functions-panel > div.statistics",
@@ -35,7 +35,7 @@ class ModerationPanel {
     this.BindHandlers();
   }
   RenderList() {
-    this.ul = Menu({
+    this.ul = MenuList({
       size: "small",
       className: "sg-content-box--spaced-bottom"
     });

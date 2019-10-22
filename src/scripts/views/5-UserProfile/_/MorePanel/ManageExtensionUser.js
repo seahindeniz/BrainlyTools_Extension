@@ -1,4 +1,4 @@
-import { ContentBoxContent, Text } from "../../../../components/style-guide";
+import { ContentBoxContent, Text } from "@style-guide";
 
 export default class ManageExtensionUser {
   /**

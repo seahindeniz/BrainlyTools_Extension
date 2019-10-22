@@ -1,6 +1,14 @@
+import {
+  ActionList,
+  ActionListHole,
+  ContentBox,
+  ContentBoxActions,
+  Search,
+  SpinnerContainer,
+  Text
+} from "@style-guide";
 import debounce from "debounce";
 import Inputs from ".";
-import { ActionList, ActionListHole, ContentBox, ContentBoxActions, Search, SpinnerContainer, Text } from "../../../../../../../components/style-guide";
 import Action from "../../../../../../../controllers/Req/Brainly/Action";
 import Build from "../../../../../../../helpers/Build";
 
@@ -17,7 +25,8 @@ export default class SearchQuestion extends Inputs {
         contentType: ["QUESTION"]
       },
       tabButton: {
-        text: System.data.locale.core.MassModerateContents.targets.searchQuestion.text
+        text: System.data.locale.core.MassModerateContents.targets
+          .searchQuestion.text
       }
     });
 
@@ -30,26 +39,30 @@ export default class SearchQuestion extends Inputs {
   RenderInput() {
     this.searchContainer = Search({
       fullWidth: true,
-      placeholder: System.data.locale.core.MassModerateContents.targets.searchQuestion.whatIsYourQuestion
+      placeholder: System.data.locale.core.MassModerateContents.targets
+        .searchQuestion.whatIsYourQuestion
     });
     this.$input = $("input", this.searchContainer);
   }
   Render() {
     let nIds = Text({
       size: "xsmall",
-      html: System.data.locale.common.nIds.replace("%{n}", ` <span class="sg-text--bold">0</span> `)
+      html: System.data.locale.common.nIds.replace("%{n}",
+        ` <span class="sg-text--bold">0</span> `)
     });
     this.numberOfIds = nIds.querySelector("span");
     let nContents = Text({
       size: "xsmall",
       color: "mustard-dark",
-      html: System.data.locale.core.MassModerateContents.nContents.replace("%{n}", ` <span class="sg-text--bold">0</span> `)
+      html: System.data.locale.core.MassModerateContents.nContents
+        .replace("%{n}", ` <span class="sg-text--bold">0</span> `)
     });
     this.numberOfContents = nContents.querySelector("span");
     let nIgnored = Text({
       size: "xsmall",
       color: "peach-dark",
-      html: System.data.locale.core.MassModerateContents.nIgnored.replace("%{n}", ` <span class="sg-text--bold">0</span> `)
+      html: System.data.locale.core.MassModerateContents.nIgnored.replace(
+        "%{n}", ` <span class="sg-text--bold">0</span> `)
     });
     this.numberOfIgnored = nIgnored.querySelector("span");
 
@@ -107,7 +120,8 @@ export default class SearchQuestion extends Inputs {
       this.Search();
   }
   async Search() {
-    let resSearch = await new Action().SearchQuestion(String(this.$input.val()));
+    let resSearch = await new Action().SearchQuestion(String(this.$input
+      .val()));
   }
   Visible() {
     this.$input.val(this.value[this.main.active.contentType.is] || "");

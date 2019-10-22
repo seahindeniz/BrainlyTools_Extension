@@ -1,10 +1,5 @@
+import { ContentBox, ContentBoxContent, Spinner, Text } from "@style-guide";
 import Methods from "..";
-import {
-  ContentBox,
-  ContentBoxContent,
-  Spinner,
-  Text
-} from "../../../../../../../../components/style-guide";
 import Action from "../../../../../../../../controllers/Req/Brainly/Action";
 import Build from "../../../../../../../../helpers/Build";
 import Reason from "./Reason";

@@ -1,7 +1,7 @@
-import { Button } from "../../../../../../components/style-guide";
+import { Button } from "@style-guide";
 /**
- * @typedef {import("../../../../../../components/style-guide/Button").Properties} ButtonProperties
- * @typedef {{contentContainer?: HTMLElement, buttonsContainer: HTMLElement, tabButton: {activeType: import("../../../../../../components/style-guide/Button").Type, container: HTMLElement, props: ButtonProperties}, restrictions?: Object<string, string[]>} & Object<string, *>} Details
+ * @typedef {import("@style-guide/Button").Properties} ButtonProperties
+ * @typedef {{contentContainer?: HTMLElement, buttonsContainer: HTMLElement, tabButton: {activeType: import("@style-guide/Button").Type, container: HTMLElement, props: ButtonProperties}, restrictions?: Object<string, string[]>} & Object<string, *>} Details
  */
 export default class Tab {
   /**

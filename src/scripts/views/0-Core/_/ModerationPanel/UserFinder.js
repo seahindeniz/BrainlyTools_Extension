@@ -1,5 +1,5 @@
 import Action from "../../../../controllers/Req/Brainly/Action";
-import { MenuListItem, ActionList, ActionListHole, Text } from "../../../../components/style-guide";
+import { MenuListItem, ActionList, ActionListHole, Text } from "@style-guide";
 import Input from "../../../../components/Input";
 import Build from "../../../../helpers/Build";
 

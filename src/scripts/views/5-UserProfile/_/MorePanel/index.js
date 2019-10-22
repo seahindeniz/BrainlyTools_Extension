@@ -4,7 +4,7 @@ import {
   ContentBoxTitle,
   IconAsButton,
   Text
-} from "../../../../components/style-guide";
+} from "@style-guide";
 import Build from "../../../../helpers/Build";
 import IsVisible from "../../../../helpers/IsVisible";
 import PointTransferer from "./PointTransferer";

@@ -4,7 +4,7 @@ import {
   ContentBox,
   ContentBoxContent,
   Text
-} from "../../../components/style-guide";
+} from "@style-guide";
 import Action from "../../../controllers/Req/Brainly/Action";
 import WaitForElement from "../../../helpers/WaitForElement";
 

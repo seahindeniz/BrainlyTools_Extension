@@ -1,7 +1,7 @@
 import Button from "../../../components/Button";
 import ModeratingPanel from "./ModeratingPanel";
 import QuickDeleteButton from "./QuickDeleteButton";
-import { ContentBoxContent } from "../../../components/style-guide";
+import { ContentBoxContent } from "@style-guide";
 
 class QuickDeleteButtons {
   /**

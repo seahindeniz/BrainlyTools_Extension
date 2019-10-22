@@ -1,6 +1,6 @@
 import notification from "../../../components/notification2";
 import Action from "../../../controllers/Req/Brainly/Action";
-import { Button, Text, SpinnerContainer } from "../../../components/style-guide";
+import { Button, Text, SpinnerContainer } from "@style-guide";
 
 class QuickDeleteButton {
   /**
@@ -39,13 +39,15 @@ class QuickDeleteButton {
     this.spinnerContainer.append(this.button);
   }
   BindHandler() {
-    this.button.addEventListener("click",this.ConfirmDeleteQuestion.bind(this));
+    this.button.addEventListener("click", this.ConfirmDeleteQuestion.bind(
+      this));
   }
   async ConfirmDeleteQuestion() {
     this.ShowSpinner();
     await System.Delay(50);
 
-    let confirmDeleting = System.data.locale.common.moderating.doYouWantToDeleteWithReason
+    let confirmDeleting = System.data.locale.common.moderating
+      .doYouWantToDeleteWithReason
       .replace("%{reason_title}", this.reason.title)
       .replace("%{reason_message}", this.reason.text);
 
@@ -71,7 +73,8 @@ class QuickDeleteButton {
     if (!resRemove || !resRemove.success)
       notification({
         type: "error",
-        text: resRemove.message || System.data.locale.common.notificationMessages.somethingWentWrong,
+        text: resRemove.message || System.data.locale.common
+          .notificationMessages.somethingWentWrong,
       });
     else
       this.main.target.classList.add("deleted");

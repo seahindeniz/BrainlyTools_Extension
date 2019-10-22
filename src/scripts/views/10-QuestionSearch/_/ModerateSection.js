@@ -1,20 +1,20 @@
-import DeleteSection from "../../../components/DeleteSection";
-import notification from "../../../components/notification2";
 import {
   ActionList,
   ActionListHole,
   Badge,
   Button,
+  Checkbox,
   ContentBox,
   ContentBoxActions,
   ContentBoxContent,
   ContentBoxTitle,
+  Icon,
   Label,
   Spinner,
   SpinnerContainer
-} from "../../../components/style-guide";
-import Checkbox from "../../../components/style-guide/Checkbox";
-import Icon from "../../../components/style-guide/Icon";
+} from "@style-guide";
+import DeleteSection from "../../../components/DeleteSection";
+import notification from "../../../components/notification2";
 import Action from "../../../controllers/Req/Brainly/Action";
 import Build from "../../../helpers/Build";
 import generateRandomString from "../../../helpers/generateRandomString";

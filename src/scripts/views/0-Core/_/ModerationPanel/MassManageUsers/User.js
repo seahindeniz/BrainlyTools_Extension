@@ -1,8 +1,16 @@
+import {
+  ActionList,
+  ActionListHole,
+  Avatar,
+  Box,
+  Checkbox,
+  ContentBox,
+  ContentBoxContent,
+  Spinner,
+  SpinnerContainer,
+  Text
+} from "@style-guide";
 import Build from "../../../../../helpers/Build";
-import { ActionListHole, SpinnerContainer, Box, ActionList, Avatar, ContentBox,
-  ContentBoxContent, Text,
-  Spinner } from "../../../../../components/style-guide";
-import Checkbox from "../../../../../components/style-guide/Checkbox";
 import IsVisible from "../../../../../helpers/IsVisible";
 
 export default class User {

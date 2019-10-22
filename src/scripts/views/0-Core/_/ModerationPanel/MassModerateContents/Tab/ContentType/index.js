@@ -1,10 +1,10 @@
 import Tab from "..";
-import { ActionListHole } from "../../../../../../../components/style-guide";
+import { ActionListHole } from "@style-guide";
 
 export default class ContentType extends Tab {
   /**
    * @param {import("../../index").default} main
-   * @param {{tabButton: import("../../../../../../../components/style-guide/Button").Properties}} details
+   * @param {{tabButton: import("@style-guide/Button").Properties}} details
    */
   constructor(main, details) {
     super(main, {

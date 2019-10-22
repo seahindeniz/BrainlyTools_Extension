@@ -6,7 +6,7 @@ import ServerReq from "../../../../../controllers/Req/Server";
 import ConditionSection from "./ConditionSection";
 // @ts-ignore
 import templateModalContent from "./templates/ModalContent.html";
-import { MenuListItem } from "../../../../../components/style-guide";
+import { MenuListItem } from "@style-guide";
 
 let System = require("../../../../../helpers/System");
 

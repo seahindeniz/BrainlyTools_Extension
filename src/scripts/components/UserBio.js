@@ -63,7 +63,7 @@ class UserBio {
     let oldBio = this.bio;
     let newBio = this.bioContent.innerText.trim();
 
-    let resBio = await new Action().ChangeBio(newBio.replace(/(?:\r\n|\n)/gm, "\\n"));
+    let resBio = await new Action().ChangeBio(newBio);
 
     if (resBio.errors) {
       this.bioContent.innerText = oldBio;

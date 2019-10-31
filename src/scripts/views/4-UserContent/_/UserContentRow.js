@@ -1,4 +1,5 @@
-import moment from "moment-timezone";
+// @ts-ignore
+import moment from "moment";
 import notification from "../../../components/notification";
 import ContentViewer_Content from "./ContentViewer_Content";
 import SelectCheckbox from "./SelectCheckbox";
@@ -41,13 +42,16 @@ export default class UserContentRow {
     if (refreshContent || !this.resPromise) {
       /* this.content = this.main.questions[this.element.questionID] = new Content(this.element.questionID);
       this.content.resPromise = this.content.Fetch(); */
-      if (!this.main.questions[this.element.questionID] || !this.main.questions[this.element.questionID].resPromise) {
+      if (!this.main.questions[this.element.questionID] || !this.main
+        .questions[this.element.questionID].resPromise) {
         if (!this.main.questions[this.element.questionID])
           this.main.questions[this.element.questionID] = {};
 
-        this.main.questions[this.element.questionID].resPromise = this.resPromise = new Action().GetQuestion(this.element.questionID);
+        this.main.questions[this.element.questionID].resPromise = this
+          .resPromise = new Action().GetQuestion(this.element.questionID);
       } else {
-        this.resPromise = this.main.questions[this.element.questionID].resPromise;
+        this.resPromise = this.main.questions[this.element.questionID]
+          .resPromise;
       }
 
       //return this.CheckContentPromise();
@@ -83,7 +87,8 @@ export default class UserContentRow {
   }
   RenderQuestionContent() {
     if (this.res && this.res.success) {
-      let user = this.res.users_data.find(user => user.id == this.res.data.task.user_id);
+      let user = this.res.users_data.find(user => user.id == this.res.data
+        .task.user_id);
       let content = new ContentViewer_Content(this.res.data.task, user);
       this.contents.question = content;
 
@@ -108,7 +113,8 @@ export default class UserContentRow {
     this.RenderAttachmentsIcon(question); */
   }
   RenderAnswers() {
-    if (this.res && this.res.success && this.res.data.responses && this.res.data.responses.length > 0) {
+    if (this.res && this.res.success && this.res.data.responses && this.res
+      .data.responses.length > 0) {
       this.res.data.responses.forEach(this.RenderAnswer.bind(this));
     }
   }
@@ -120,7 +126,8 @@ export default class UserContentRow {
     this.RenderAnswerSeperator();
     content.$.appendTo(this.$contentContainer);
 
-    if (answer.user_id == window.sitePassedParams[0] && this.main.caller == "Answers") {
+    if (answer.user_id == window.sitePassedParams[0] && this.main.caller ==
+      "Answers") {
       this.AttachAnswerID(answer);
       this.RenderBestIcon(answer);
       this.RenderApproveIcon(answer);
@@ -149,7 +156,9 @@ export default class UserContentRow {
     } */
   }
   RenderAnswerSeperator() {
-    let $seperator = $(`<div class="sg-horizontal-separator sg-horizontal-separator--spaced"></div>`);
+    let $seperator = $(
+      `<div class="sg-horizontal-separator sg-horizontal-separator--spaced"></div>`
+    );
 
     $seperator.appendTo(this.$contentContainer);
   }
@@ -159,9 +168,10 @@ export default class UserContentRow {
 
     if (date) {
       let date2 = moment(answer.created);
-      date2 = date2.tz(System.data.Brainly.defaultConfig.locale.TIMEZONE);
+      date2 = date2.utcOffset(System.data.Brainly.defaultConfig.locale
+        .OFFSET).format("YYYY-MM-DD HH:mm:ss");
 
-      if (date == date2.format("YYYY-MM-DD HH:mm:ss")) {
+      if (date == date2) {
         this.answerID = answer.id;
       }
     }
@@ -174,10 +184,12 @@ export default class UserContentRow {
     }
   }
   RenderApproveIcon(answer) {
-    if ((this.approved || (answer.approved && answer.approved.date)) && !this.$approveIcon) {
+    if ((this.approved || (answer.approved && answer.approved.date)) && !this
+      .$approveIcon) {
       this.$approveIcon = this.RenderIcon("mint", "check");
 
-      this.$approveIcon.attr("title", System.data.locale.userContent.approvedAnswer);
+      this.$approveIcon.attr("title", System.data.locale.userContent
+        .approvedAnswer);
     }
   }
   HideApproveIcon() {
@@ -195,11 +207,13 @@ export default class UserContentRow {
 
       let $icon = this.RenderIcon(iconColor, "attachment");
 
-      $icon.attr("title", System.data.locale.userContent.questionHasAttachment);
+      $icon.attr("title", System.data.locale.userContent
+        .questionHasAttachment);
 
       if (this.main.caller == "Answers") {
         if (content.task_id) {
-          $icon.attr("title", System.data.locale.userContent.answerHasAttachment);
+          $icon.attr("title", System.data.locale.userContent
+            .answerHasAttachment);
         } else {
           $icon.addClass("seperator");
         }
@@ -228,7 +242,8 @@ export default class UserContentRow {
     this.isBusy = true;
     this.checkbox.ShowSpinner();
     //this.main.checkboxes.elements.push(checkbox);
-    this.checkbox.onchange = this.main.HideSelectContentWarning.bind(this.main);
+    this.checkbox.onchange = this.main.HideSelectContentWarning.bind(this
+      .main);
   }
   BindHandlers() {
     this.$questionLink.click(this.ToggleContentViewer.bind(this));
@@ -317,7 +332,8 @@ export default class UserContentRow {
       this.element.classList.add("already");
   }
   RowNumber() {
-    return Number(this.element.children && this.element.children.length > 1 ? this.element.children[1].innerText : 0);
+    return Number(this.element.children && this.element.children.length > 1 ?
+      this.element.children[1].innerText : 0);
   }
   CheckDeleteResponse(resRemove) {
     let rowNumber = this.RowNumber();
@@ -325,7 +341,9 @@ export default class UserContentRow {
     this.checkbox.HideSpinner();
 
     if (!resRemove || (!resRemove.success && !resRemove.message)) {
-      notification(`#${rowNumber} > ${System.data.locale.common.notificationMessages.somethingWentWrong}`, "error");
+      notification(
+        `#${rowNumber} > ${System.data.locale.common.notificationMessages.somethingWentWrong}`,
+        "error");
     } else {
       this.Deleted();
 
@@ -341,7 +359,9 @@ export default class UserContentRow {
     this.checkbox.HideSpinner();
 
     if (!resApprove) {
-      notification(`#${rowNumber} > ${System.data.locale.common.notificationMessages.somethingWentWrong}`, "error");
+      notification(
+        `#${rowNumber} > ${System.data.locale.common.notificationMessages.somethingWentWrong}`,
+        "error");
     } else if (!resApprove.success && resApprove.message) {
       notification(`#${rowNumber} > ${resApprove.message}`, "error");
     } else {
@@ -353,13 +373,15 @@ export default class UserContentRow {
 
       if (!resApprove.success && !resApprove.message) {
         this.element.classList.add("already");
-        let message = System.data.locale.userContent.notificationMessages.xIsAlreadyApproved.replace("%{row_id}", ` #${rowNumber} `);
+        let message = System.data.locale.userContent.notificationMessages
+          .xIsAlreadyApproved.replace("%{row_id}", ` #${rowNumber} `);
         notification(`${message}`, "info");
       }
     }
   }
   UpdateAnswerContent() {
-    let answer = this.res.data.responses.find(response => response.id == this.answerID);
+    let answer = this.res.data.responses.find(response => response.id == this
+      .answerID);
     this.contents.answers[this.answerID].source = answer;
   }
   async CheckUnapproveResponse(resUnapprove) {
@@ -368,7 +390,9 @@ export default class UserContentRow {
     this.checkbox.HideSpinner();
 
     if (!resUnapprove) {
-      notification(`#${rowNumber} > ${System.data.locale.common.notificationMessages.somethingWentWrong}`, "error");
+      notification(
+        `#${rowNumber} > ${System.data.locale.common.notificationMessages.somethingWentWrong}`,
+        "error");
     } else if (!resUnapprove.success && resUnapprove.message) {
       notification(`#${rowNumber} > ${resUnapprove.message}`, "error");
     } else {
@@ -380,7 +404,8 @@ export default class UserContentRow {
 
       if (!resUnapprove.success && !resUnapprove.message) {
         this.element.classList.add("already");
-        let message = System.data.locale.userContent.notificationMessages.xIsAlreadyUnapproved.replace("%{row_id}", `#${rowNumber} `);
+        let message = System.data.locale.userContent.notificationMessages
+          .xIsAlreadyUnapproved.replace("%{row_id}", `#${rowNumber} `);
         notification(`${message}`, "info");
       }
     }
@@ -391,7 +416,9 @@ export default class UserContentRow {
     this.checkbox.HideSpinner();
 
     if (!resReport) {
-      notification(`#${rowNumber} > ${System.data.locale.common.notificationMessages.somethingWentWrong}`, "error");
+      notification(
+        `#${rowNumber} > ${System.data.locale.common.notificationMessages.somethingWentWrong}`,
+        "error");
     } else if (!resReport.success && resReport.code == 3) {
       this.Deleted();
       notification(`#${rowNumber} > ${resReport.message}`, "error");

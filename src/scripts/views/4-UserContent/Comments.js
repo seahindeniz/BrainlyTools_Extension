@@ -1,4 +1,5 @@
-import moment from "moment-timezone";
+// @ts-ignore
+import moment from "moment";
 import UserContent from "./_/UserContent";
 import Action from "../../controllers/Req/Brainly/Action";
 
@@ -118,10 +119,11 @@ class Comments extends UserContent {
 
     if (date) {
       let date2 = moment(comment.created);
-      date2 = date2.tz(System.data.Brainly.defaultConfig.locale.TIMEZONE);
+      date2 = date2.utcOffset(System.data.Brainly.defaultConfig.locale
+        .OFFSET).format("YYYY-MM-DD HH:mm:ss");
 
       //console.log(date, date2.format("YYYY-MM-DD HH:mm:ss"), comment.created, date == date2.format("YYYY-MM-DD HH:mm:ss"));
-      if (date == date2.format("YYYY-MM-DD HH:mm:ss")) {
+      if (date == date2) {
         /* if (date) {
         	date = moment(date + System.data.Brainly.defaultConfig.locale.OFFSET).tz(System.data.Brainly.defaultConfig.locale.TIMEZONE);
 

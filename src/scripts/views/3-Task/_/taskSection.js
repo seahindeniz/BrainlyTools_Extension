@@ -1,13 +1,9 @@
-import notification from "../../../components/notification";
-import {
-  Button,
-  ContentBox,
-  ContentBoxContent,
-  Text
-} from "@style-guide";
+import { Button, ContentBox, ContentBoxContent, Text } from "@style-guide";
+import notification from "../../../components/notification2";
 import Action from "../../../controllers/Req/Brainly/Action";
 
 export default function taskSection() {
+  // @ts-ignore
   let moderateButtonContainer = document.querySelector(window.selectors
     .taskModerateButtonContainer);
 
@@ -22,8 +18,7 @@ export default function taskSection() {
 
   System.data.config.quickDeleteButtonsReasons.task.forEach(
     (id, i) => {
-      let reason = System.data.Brainly.deleteReasons.__withIds.task
-      [id];
+      let reason = System.data.Brainly.deleteReasons.__withIds.task[id];
       let button = Button({
         type: "destructive",
         size: "small",
@@ -52,7 +47,7 @@ export default function taskSection() {
     if (!question_id)
       throw "Cannot find the question id";
 
-    let userData = ($parentArticle.data("user"));
+    let userData = ($(".user-fiche-wrapper", $parentArticle).data("z"));
 
     if (!userData)
       throw "Cannot find the user data";
@@ -89,8 +84,11 @@ export default function taskSection() {
       new Action().CloseModerationTicket(question_id);
 
       if (!res || !res.success)
-        return notification((res && res.message) || System.data.locale
-          .common.notificationMessages.somethingWentWrong, "error");
+        return notification({
+          type: "error",
+          html: (res && res.message) || System.data.locale
+            .common.notificationMessages.somethingWentWrong,
+        });
 
       System.log(5, { user: userData, data: [question_id] });
       $parentArticle.addClass("brn-question--deleted");

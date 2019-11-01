@@ -1,7 +1,7 @@
-import WaitForElement from "../../../helpers/WaitForElement";
-import DeleteSection from "../../../components/DeleteSection";
-import UserContentRow from "./UserContentRow";
 import Button from "../../../components/Button";
+import DeleteSection from "../../../components/DeleteSection";
+import WaitForElement from "../../../helpers/WaitForElement";
+import UserContentRow from "./UserContentRow";
 
 class UserContent {
   /**
@@ -34,7 +34,7 @@ class UserContent {
     this.LookupContents();
     this.RenderModerationSection();
     this.RenderSelectContentWarning();
-    this.BindPageCloseEvent();
+    this.BindPageCloseHandler();
 
     this[`Init${this.caller}`]();
   }
@@ -51,7 +51,9 @@ class UserContent {
   async RenderSelectLabel() {
     let $tableHeaderRow = $(this.selectors.tableHeaderRow, this.table);
 
-    $tableHeaderRow.prepend(`<th style="width: 5%;"><b>${System.data.locale.common.select}</b></th>`);
+    $tableHeaderRow.prepend(
+      `<th style="width: 5%;"><b>${System.data.locale.common.select}</b></th>`
+    );
   }
   RenderModerationSection() {
     this.$moderateSection = $(`
@@ -64,9 +66,13 @@ class UserContent {
 			<div class="sg-content-box__actions sg-content-box__actions--spaced-top sg-content-box__actions--spaced-bottom"> </div>
 		</div>`);
 
-    this.$moderateHeader = $(" > .sg-content-box__content:eq(0) > .sg-content-box", this.$moderateSection);
-    this.$moderateContent = $("> .sg-content-box__content:eq(1)", this.$moderateSection);
-    this.$moderateActions = $("> .sg-content-box__actions", this.$moderateSection);
+    this.$moderateHeader = $(
+      " > .sg-content-box__content:eq(0) > .sg-content-box", this
+      .$moderateSection);
+    this.$moderateContent = $("> .sg-content-box__content:eq(1)", this
+      .$moderateSection);
+    this.$moderateActions = $("> .sg-content-box__actions", this
+      .$moderateSection);
 
     this.$moderateSection.insertAfter(this.table);
   }
@@ -103,9 +109,11 @@ class UserContent {
     })
   }
   RenderSelectContentWarning() {
-    this.$selectContentWarning = $(`<div class="sg-bubble sg-bubble--top sg-bubble--row-start sg-bubble--peach sg-text--white">${System.data.locale.userContent.notificationMessages.selectAtLeastOneContent}</div>`);
+    this.$selectContentWarning = $(
+      `<div class="sg-bubble sg-bubble--top sg-bubble--row-start sg-bubble--peach sg-text--white">${System.data.locale.userContent.notificationMessages.selectAtLeastOneContent}</div>`
+    );
   }
-  BindPageCloseEvent() {
+  BindPageCloseHandler() {
     window.addEventListener("beforeunload", () => {
       let rows = this.rows.filter(row => row.isBusy);
 
@@ -159,7 +167,8 @@ class UserContent {
     });
 
     this.$correctionReason = $("textarea", this.$correctionReasonContainer);
-    this.$reportButtonContainer = $(".sg-content-box__actions:nth-child(2)", this.$correctionReasonContainer);
+    this.$reportButtonContainer = $(".sg-content-box__actions:nth-child(2)",
+      this.$correctionReasonContainer);
 
     this.$reportButton.appendTo(this.$reportButtonContainer);
   }
@@ -178,7 +187,7 @@ class UserContent {
     this.$correctionReasonContainer.appendTo(this.$moderateActions);
   }
   /**
-   * @param {jQuery} $element
+   * @param {JQuery<HTMLElement>} $element
    */
   HideElement($element) {
     $element.appendTo("<div />");
@@ -219,6 +228,18 @@ class UserContent {
         )
       )
     ));
+  }
+  RenderButtonContainer() {
+    if (!this.$buttonContainer) {
+      this.$buttonContainer = $(`
+      <div class="sg-content-box__content sg-content-box__content--spaced-bottom">
+        <div class="sg-actions-list"></div>
+      </div>`);
+
+      this.$buttonList = $(".sg-actions-list", this.$buttonContainer);
+
+      this.$buttonContainer.appendTo(this.$moderateHeader);
+    }
   }
   RenderCheckboxes() {
     if (!this.$selectAllContainer) {

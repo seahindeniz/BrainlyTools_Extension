@@ -1,10 +1,22 @@
+import Build from "@/scripts/helpers/Build";
+import IsVisible from "@/scripts/helpers/IsVisible";
+import {
+  ActionList,
+  ActionListHole,
+  Box,
+  ContentBox,
+  ContentBoxActions,
+  ContentBoxContent,
+  IconAsButton,
+  Text
+} from "@style-guide";
 // @ts-ignore
 import moment from "moment";
 import notification from "../../../components/notification";
+import Action from "../../../controllers/Req/Brainly/Action";
 import ContentViewer_Content from "./ContentViewer_Content";
 import SelectCheckbox from "./SelectCheckbox";
 import UserContent from "./UserContent";
-import Action from "../../../controllers/Req/Brainly/Action";
 
 export default class UserContentRow {
   /**
@@ -25,18 +37,51 @@ export default class UserContentRow {
 
     $(element).prop("that", this);
 
+    this.RenderLinkContainer();
     this.AttachID();
     this.FetchContentWithPromise();
     this.RenderAfterResolve();
     this.RenderContentViewer();
     this.BindHandlers();
   }
-  AttachID() {
-    this.$questionLink = $("a[href]", this.element);
-    let URL = this.$questionLink.attr("href");
-    this.element.questionID = System.ExtractId(URL);
+  RenderLinkContainer() {
+    let questionLink = this.element.querySelector("a[href]");
 
-    this.$questionLink.attr("target", "_blank");
+    if (questionLink instanceof HTMLAnchorElement) {
+      this.container = Build(ContentBox(), [
+        [
+          ContentBoxActions(), [
+            [
+              this.questionLinkContainerList = ActionList({
+                noWrap: true
+              }),
+              [
+                [
+                  ActionListHole(),
+                  this.questionLink = Text({
+                    type: "a",
+                    size: "xsmall",
+                    color: "blue-dark",
+                    html: questionLink.innerHTML,
+                    href: questionLink.href,
+                    target: "_blank",
+                  })
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]);
+
+      questionLink.after(this.container);
+      questionLink.remove();
+    }
+  }
+  AttachID() {
+    if (this.questionLink instanceof HTMLAnchorElement) {
+      let url = this.questionLink.href
+      this.element.questionID = System.ExtractId(url);
+    }
   }
   async FetchContentWithPromise(refreshContent) {
     if (refreshContent || !this.resPromise) {
@@ -79,11 +124,20 @@ export default class UserContentRow {
     return Promise.resolve();
   }
   RenderContentViewer() {
-    this.$viewer = $(`
-		<div class="sg-content-box sg-content-box--spaced-top sg-content-box--spaced-bottom-large">
-			<div class="sg-box sg-box--no-border" style="width: 52em"></div>
-		</div>`);
-    this.$contentContainer = $(".sg-box", this.$viewer);
+    this.viewer = Build(ContentBoxContent(), [
+      [
+        ContentBox({ spacedTop: true, spacedBottom: "large" }),
+        [
+          [
+            ContentBoxContent(),
+            this.contentContainer = Box({
+              border: false,
+              style: "width: 52em;"
+            })
+          ]
+        ]
+      ]
+    ]);
   }
   RenderQuestionContent() {
     if (this.res && this.res.success) {
@@ -92,9 +146,10 @@ export default class UserContentRow {
       let content = new ContentViewer_Content(this.res.data.task, user);
       this.contents.question = content;
 
-      content.$.appendTo(this.$contentContainer);
+      content.$.appendTo(this.contentContainer);
 
       this.RenderAttachmentsIcon(content.source);
+      this.RenderReportedContentIcon(content.source);
     }
 
     /* let question = this.content.res.data.task;
@@ -124,14 +179,15 @@ export default class UserContentRow {
     this.contents.answers[answer.id] = content;
 
     this.RenderAnswerSeperator();
-    content.$.appendTo(this.$contentContainer);
+    content.$.appendTo(this.contentContainer);
 
     if (answer.user_id == window.sitePassedParams[0] && this.main.caller ==
       "Answers") {
       this.AttachAnswerID(answer);
       this.RenderBestIcon(answer);
-      this.RenderApproveIcon(answer);
       this.RenderAttachmentsIcon(answer);
+      this.RenderApproveIcon(answer);
+      this.RenderReportedContentIcon(answer);
     }
 
     /* let user = this.content.res.users_data.find(user => user.id == answer.user_id);
@@ -156,11 +212,11 @@ export default class UserContentRow {
     } */
   }
   RenderAnswerSeperator() {
-    let $seperator = $(
+    let $separator = $(
       `<div class="sg-horizontal-separator sg-horizontal-separator--spaced"></div>`
     );
 
-    $seperator.appendTo(this.$contentContainer);
+    $separator.appendTo(this.contentContainer);
   }
   AttachAnswerID(answer) {
     let $dateCell = $("td:last", this.element);
@@ -178,63 +234,114 @@ export default class UserContentRow {
   }
   RenderBestIcon(answer) {
     if (answer.best) {
-      let $icon = this.RenderIcon("mustard", "excellent");
+      let icon = this.RenderIcon({
+        color: "mustard",
+        type: "excellent",
+      });
 
-      $icon.attr("title", System.data.locale.userContent.bestAnswer);
+      icon.title = System.data.locale.userContent.bestAnswer;
     }
   }
   RenderApproveIcon(answer) {
     if ((this.approved || (answer.approved && answer.approved.date)) && !this
-      .$approveIcon) {
-      this.$approveIcon = this.RenderIcon("mint", "check");
+      .approveIcon) {
+      this.approveIcon = this.RenderIcon({
+        color: "mint",
+        type: "check",
+        iconSize: 14,
+      });
 
-      this.$approveIcon.attr("title", System.data.locale.userContent
-        .approvedAnswer);
+      this.approveIcon.title = System.data.locale.userContent.approvedAnswer;
     }
   }
   HideApproveIcon() {
-    if (this.$approveIcon) {
-      this.$approveIcon.appendTo("<div />");
-    }
+    if (this.approveIcon)
+      this.HideElement(this.approveIcon);
+  }
+  /**
+   * @param {HTMLElement} element
+   */
+  HideElement(element) {
+    if (element && element.parentElement)
+      element.parentElement.removeChild(element);
   }
   RenderAttachmentsIcon(content) {
     if (content.attachments && content.attachments.length > 0) {
-      let iconColor = "dark";
+      let iconProps = {
+        color: "alt",
+        type: "attachment",
+        title: System.data.locale.userContent.hasAttachment.question,
+      };
 
-      if (content.task_id) {
-        iconColor = "alt";
-      }
-
-      let $icon = this.RenderIcon(iconColor, "attachment");
-
-      $icon.attr("title", System.data.locale.userContent
-        .questionHasAttachment);
-
-      if (this.main.caller == "Answers") {
-        if (content.task_id) {
-          $icon.attr("title", System.data.locale.userContent
-            .answerHasAttachment);
+      if (
+        this.main.caller == "Answers" ||
+        this.main.caller == "Comments"
+      ) {
+        if (content.responses) {
+          iconProps.color = "dark";
+          iconProps.className = "separator";
         } else {
-          $icon.addClass("seperator");
+          iconProps.title = System.data.locale.userContent.hasAttachment
+            .answer;
         }
       }
+
+      this.RenderIcon(iconProps);
     }
   }
-  RenderIcon(color, name) {
-    let $icon = $(`
-		<button role="button" class="sg-icon-as-button sg-icon-as-button--${color} sg-icon-as-button--xxsmall sg-icon-as-button--action sg-icon-as-button--action-active sg-text--link-disabled sg-list__icon--spacing-right-small">
-			<div class="sg-icon-as-button__hole">
-				<div class="sg-icon sg-icon--adaptive sg-icon--x10">
-					<svg class="sg-icon__svg">
-						<use xlink:href="#icon-${name}"></use>
-					</svg>
-				</div>
-			</div>
-		</button>`);
+  RenderReportedContentIcon(content) {
+    if (
+      content.is_marked_abuse ||
+      (
+        content.settings &&
+        content.settings.is_marked_abuse
+      )
+    ) {
+      let iconProps = {
+        color: "peach",
+        type: "report_flag",
+        title: System.data.locale.userContent.reported.question,
+      };
 
-    $icon.insertBefore(this.$questionLink);
+      if (
+        this.main.caller == "Answers" ||
+        this.main.caller == "Comments"
+      ) {
+        if (content.responses) {
+          iconProps.color = "dark";
+          iconProps.className = "separator";
+        } else {
+          iconProps.title = System.data.locale.userContent.reported[this
+            .main.caller == "Answers" ? "answer" : "comment"];
+        }
+      }
 
-    return $icon;
+      this.RenderIcon(iconProps);
+    }
+  }
+  RenderIcon({ className = "", ...props }) {
+    let icon = IconAsButton({
+      action: true,
+      active: true,
+      disabled: true,
+      size: "xxsmall",
+      className: `sg-list__icon--spacing-right-small ${className}`,
+      ...props
+    });
+
+    if (!this.iconContainer)
+      this.RenderIconContainer();
+
+    this.iconContainer.append(icon)
+
+    return icon;
+  }
+  RenderIconContainer() {
+    this.iconContainer = ActionListHole({
+      noShrink: true,
+    });
+
+    this.questionLinkContainerList.prepend(this.iconContainer);
   }
   RenderCheckbox() {
     this.checkbox = new SelectCheckbox(this.element, this.id);
@@ -246,7 +353,8 @@ export default class UserContentRow {
       .main);
   }
   BindHandlers() {
-    this.$questionLink.click(this.ToggleContentViewer.bind(this));
+    this.questionLink
+      .addEventListener("click", this.ToggleContentViewer.bind(this));
   }
   /**
    * @param {Event} event
@@ -255,15 +363,15 @@ export default class UserContentRow {
     if (this.res && this.res.success) {
       event && event.preventDefault();
 
-      if (this.$contentContainer.children().length == 0) {
+      if (this.contentContainer.childNodes.length == 0) {
         this.RenderQuestionContent();
         this.RenderAnswers();
       }
 
-      if (this.$viewer.is(":visible")) {
-        this.$viewer.appendTo("<div />");
+      if (IsVisible(this.viewer)) {
+        this.HideElement(this.viewer);
       } else {
-        this.$viewer.insertAfter(this.$questionLink);
+        this.container.append(this.viewer);
       }
     }
   }

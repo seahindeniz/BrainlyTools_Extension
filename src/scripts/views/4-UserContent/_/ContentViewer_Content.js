@@ -17,7 +17,9 @@ export default class ContentViewer_Content {
   }
   CheckLatex() {
     if (this.contentData.content) {
-      this.contentData.content = this.contentData.content.replace(/(?:\r\n|\n)/g, "").replace(/\[tex\](.*?)\[\/tex\]/gi, (_, latex) => {
+      this.contentData.content = this.contentData.content.replace(
+        /(?:\r\n|\n)/g, "").replace(/\[tex\](.*?)\[\/tex\]/gi, (_,
+        latex) => {
         let latexURI = window.encodeURIComponent(latex);
 
         if (!latex.startsWith("\\")) {
@@ -31,20 +33,22 @@ export default class ContentViewer_Content {
   RenderContent() {
     this.$ = $(template(templateContentViewer, this.contentData));
     this.$box = $("> .sg-box", this.$);
-    this.$attachmentsIconContainer = $(".sg-actions-list__hole:eq(0) .sg-content-box__content", this.$);
+    this.$attachmentsIconContainer = $(
+      ".sg-actions-list__hole:eq(0) .sg-content-box__content", this.$);
+
+    if (this.source.user_id == window.sitePassedParams[0])
+      this.$box.addClass("sg-box--gray-secondary-lightest");
 
     this.RenderBestIcon();
     this.RenderApproveIcon();
     this.RenderQuestionPoints();
 
-    if (this.source.user_id == window.sitePassedParams[0]) {
-      this.$box.addClass("sg-box--gray-secondary-lightest");
-    }
-
     if (this.source.attachments && this.source.attachments.length > 0) {
       this.RenderAttachmentsIcon();
       this.RenderAttachments();
     }
+
+    this.RenderReportedContentIcon();
   }
   RenderBestIcon() {
     if (this.source.best) {
@@ -87,6 +91,11 @@ export default class ContentViewer_Content {
       $element.appendTo($breadcrumb);
     }
   }
+  RenderReportedContentIcon() {
+    if (this.source.settings.is_marked_abuse) {
+      this.RenderIcon("peach", "report_flag");
+    }
+  }
   RenderAttachmentsIcon() {
     this.$attachmentIcon = $(`
 		<span class="sg-text sg-text--link-unstyled sg-text--bold">
@@ -127,7 +136,8 @@ export default class ContentViewer_Content {
       let $box = $(".sg-box", $hole);
 
       if (attachment.thumbnail) {
-        $(`<img class="sg-box__image" src="${attachment.thumbnail}">`).appendTo($box);
+        $(`<img class="sg-box__image" src="${attachment.thumbnail}">`)
+          .appendTo($box);
       } else {
         $(`
 				<div class="sg-box__hole">

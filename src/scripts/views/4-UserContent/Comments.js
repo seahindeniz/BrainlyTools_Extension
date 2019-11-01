@@ -108,7 +108,7 @@ class Comments extends UserContent {
     rows.forEach(row => this.AttachCommentToRow(comment, row));
   }
   /**
-   * @param {{}} comment
+   * @param {{[x: string]: *}} comment
    * @param {import("./_/UserContentRow").default} row
    */
   AttachCommentToRow(comment, row) {
@@ -135,6 +135,11 @@ class Comments extends UserContent {
           row.comment = comment;
           row.checkbox.HideSpinner();
           row.UnDelete();
+
+          if(comment.is_marked_abuse){
+            row.element.that.RenderReportedContentIcon(comment);
+          }
+
           //row.element.dataset.commentId = comment.id;
         }
       }

@@ -16,12 +16,12 @@ class Answers extends UserContent {
 
         if (System.checkBrainlyP(146)) {
           this.RenderApproveButton();
-          this.BindApprovementEvents();
+          this.BindApprovementHandlers();
         }
 
         if (System.checkBrainlyP(147)) {
           this.RenderUnapproveButton();
-          this.BindUnapprovementEvents();
+          this.BindUnapprovementHandlers();
         }
       }
 
@@ -30,7 +30,7 @@ class Answers extends UserContent {
         this.RenderButtonContainer();
         this.RenderCorrectionButton();
         this.RenderReportForCorrectionSection();
-        this.BindCorrectionEvents();
+        this.BindCorrectionHandlers();
       }
 
       if (System.checkUserP(15)) {
@@ -38,20 +38,8 @@ class Answers extends UserContent {
         this.RenderButtonContainer();
         this.RenderModerateButton();
         this.RenderDeleteSection("response");
-        this.BindModerateEvents();
+        this.BindModerateHandlers();
       }
-    }
-  }
-  RenderButtonContainer() {
-    if (!this.$buttonContainer) {
-      this.$buttonContainer = $(`
-      <div class="sg-content-box__content sg-content-box__content--spaced-bottom">
-        <div class="sg-actions-list"></div>
-      </div>`);
-
-      this.$buttonList = $(".sg-actions-list", this.$buttonContainer);
-
-      this.$buttonContainer.appendTo(this.$moderateHeader);
     }
   }
   RenderButtonHole() {
@@ -104,7 +92,7 @@ class Answers extends UserContent {
     return { $button, $container };
   }
 
-  BindApprovementEvents() {
+  BindApprovementHandlers() {
     this.$approveButton.click(this.ApproveSelectedAnswers.bind(this));
   }
   async ApproveSelectedAnswers() {
@@ -134,7 +122,7 @@ class Answers extends UserContent {
     }
   }
 
-  BindUnapprovementEvents() {
+  BindUnapprovementHandlers() {
     this.$unApproveButton.click(this.UnapproveSelectedAnswers.bind(this));
   }
   async UnapproveSelectedAnswers() {
@@ -164,7 +152,7 @@ class Answers extends UserContent {
     }
   }
 
-  BindCorrectionEvents() {
+  BindCorrectionHandlers() {
     this.$correctionButton.click(this.ToggleReportForCorrectionSection.bind(this));
     this.$reportButton.click(this.ReportSelectedAnswersForCorrection.bind(this));
   }
@@ -206,7 +194,7 @@ class Answers extends UserContent {
     }
   }
 
-  BindModerateEvents() {
+  BindModerateHandlers() {
     this.$moderateButton.click(this.ToggleDeleteSection.bind(this));
     this.$deleteButton.click(this.DeleteSelectedAnswers.bind(this));
   }

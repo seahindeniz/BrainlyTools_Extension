@@ -2,11 +2,9 @@ import classnames from 'classnames';
 import Icon, * as IconModule from '.';
 
 /**
- * @typedef {"small" | "normal" | "large"} Size
- *
  * @typedef {{
  *  color?: IconModule.Color,
- *  size?: Size,
+ *  size?: keyof SIZE,
  *  type?: IconModule.Type,
  *  children?: HTMLElement | HTMLElement[],
  *  action?: boolean,
@@ -17,6 +15,7 @@ import Icon, * as IconModule from '.';
  *  title?: string,
  *  disabled?: boolean,
  *  pulsing?: boolean,
+ *  iconSize?: IconModule.Size,
  *  [x: string]: *,
  * }} Properties
  *
@@ -34,13 +33,15 @@ import Icon, * as IconModule from '.';
  *  ToggleBorder: ToggleBorder,
  * }} CustomProperties
  *
- * @typedef {CustomProperties & (HTMLButtonElement | HTMLAnchorElement)} ButtonElement
+ * @typedef {CustomProperties &
+ * (HTMLButtonElement | HTMLAnchorElement)
+ * } ButtonElement
  */
 
 const SG = "sg-icon-as-button";
 const SGD = `${SG}--`;
 const SG_ = `${SG}__`;
-const ICON_SIZE = {
+const SIZE = {
   "normal": 26,
   "small": 18,
   "xsmall": 14,
@@ -64,6 +65,7 @@ export default function({
   title,
   disabled,
   pulsing,
+  iconSize,
   ...props
 } = {}) {
   const buttonClass = classnames(SG, {
@@ -108,7 +110,7 @@ export default function({
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))
-        button[propName] = propVal;
+      button[propName] = propVal;
 
   let hole = document.createElement("div");
   hole.className = `${SG_}hole`;
@@ -121,7 +123,8 @@ export default function({
     content = Icon({
       type,
       color: "adaptive",
-      size: ICON_SIZE[size],
+      // @ts-ignore
+      size: iconSize || SIZE[size],
       title,
       pulsing,
     });

@@ -42,7 +42,7 @@ class NoticeBoard {
       this.RenderEditButton();
       this.RenderSaveButton();
       this.RenderEditSection();
-      this.BindModerateEvents();
+      this.BindModerateHandlers();
     }
   }
   RenderLi() {
@@ -352,7 +352,7 @@ class NoticeBoard {
 
     this.$editSectionContent = $("textarea", this.$editSection);
   }
-  BindModerateEvents() {
+  BindModerateHandlers() {
     this.$editButton.click(this.OpenEditSection.bind(this));
     this.$saveButton.click(this.SaveContent.bind(this));
     this.$editSectionContent.on("input", this.UpdateContent.bind(this));

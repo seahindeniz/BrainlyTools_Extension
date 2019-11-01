@@ -12,14 +12,8 @@ import Inputs from ".";
 import Action from "../../../../../../../controllers/Req/Brainly/Action";
 import Build from "../../../../../../../helpers/Build";
 
-let System = require("../../../../../../../helpers/System");
-
 export default class SearchQuestion extends Inputs {
   constructor(main) {
-    if (typeof System == "function")
-      // @ts-ignore
-      System = System();
-
     super(main, {
       restrictions: {
         contentType: ["QUESTION"]

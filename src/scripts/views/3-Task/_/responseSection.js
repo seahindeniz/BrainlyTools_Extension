@@ -1,10 +1,5 @@
+import { Button, ContentBox, ContentBoxContent, Text } from "@style-guide";
 import notification from "../../../components/notification2";
-import {
-  Button,
-  ContentBox,
-  ContentBoxContent,
-  Text
-} from "@style-guide";
 import Action from "../../../controllers/Req/Brainly/Action";
 import WaitForElement from "../../../helpers/WaitForElement";
 

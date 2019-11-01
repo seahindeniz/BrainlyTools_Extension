@@ -48,6 +48,7 @@ import Icon from './Icon';
  *  onClose?: EventListenerOrEventListenerObject,
  *  closeIconColor?: CloseIconColor,
  *  className?: ?string,
+ *  [x: string]: *,
  * }} Properties
  *
  * @typedef {function(Color):BoxElement} ChangeColor

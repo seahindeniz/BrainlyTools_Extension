@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.30.0] - 2019.11.01
+
+### Added
+
+- Reported content icons on users content page (<https://ibb.co/m9SRXhP>)
+
+### Changed
+
+- [#81] Users contents stuck on loading stage on users contents page
+- Selective deletion is not working
+- Quick delete buttons not working on the question page
+- Extension is not working after fresh installation
+
+[#81]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/64
+
 ## [6.29.0] - 2019.10.19
 
 ### Added

@@ -204,7 +204,7 @@
           },
           "1": {
             "title": "Quick delete questions",
-            "description": "On the pages of questions, archive mod and homepage, user can use the quick delete buttons for deleting the question(s)"
+            "description": "On the pages of questions, archive mod and homepage, user can use the quick delete buttons for deleting the question/s"
           },
           "2": {
             "title": "Quick delete answers",
@@ -380,7 +380,7 @@
       "userNotFound": "User not found",
       "extensionServerError": "An unexpected error occurred while connecting the extension server. Please try again in ~5 sec.",
       "ifErrorPersists": "If this error persists, please contact with extension manager and explain what happened :)",
-      "accessPermissionDenied": "Your are not authorized to use Brainly Tools.<br>Please contact with an admin",
+      "accessPermissionDenied": "Your are not authorized to use Brainly Tools.<br>Please contact with an admin or extension manager",
       "updateNeeded": "Extension has a new version and browser need's to be updated. This will be done automatically and you need to refresh the page in ~10 seconds",
       "warningBeforeDelete": "This process will be executed and the numbers of questions ids in the input will be deleted once you confirmed this warning. \n\n Are you triple times sure?",
       "enterIdWarn": "You need to add at least 1 id number of question that you want to delete",
@@ -638,24 +638,31 @@
       "alreadyUnapproved": "This answer is already unapproved",
       "someOfSelectedAnswersAreApproved": "Some of selected answers have already been approved, so you don't need to approve those answers again",
       "selectAnUnapprovedAnswerForApproving": "You need select some unapproved answers for start approving",
-      "confirmApproving": "Do you want approve this answer(s)?",
+      "confirmApproving": "Do you want to approve this answer/s?",
       "someOfSelectedAnswersAreUnapproved": "Some of selected answers isn't approved, so you don't need to unapprove those answers again",
-      "selectAnApprovedAnswerForUnapproving": "You need select some approved answer(s) for start",
-      "confirmUnapproving": "Do you want to remove approvement from this answer(s)?",
+      "selectAnApprovedAnswerForUnapproving": "You need select some approved answer/s for start",
+      "confirmUnapproving": "Do you want to remove approvement from this answer/s?",
       "doYouWantToConfirmThisContent": "Do you want to confirm this content?",
-      "confirmReporting": "Do you want to report this answer(s) for correction?",
+      "confirmReporting": "Do you want to report this answer/s for correction?",
       "selectAtLeastOneContent": "Select at least one content",
       "xIsAlreadyApproved": "%{row_id} has already approved",
       "xIsAlreadyUnapproved": "%{row_id} has already unapproved"
     },
-    "questionHasAttachment": "Question has attachment(s)",
-    "answerHasAttachment": "Answer has attachment(s)",
     "approvedAnswer": "Approved answer",
     "bestAnswer": "Best answer",
     "askForCorrection": {
       "text": "Ask for correction",
       "placeholder": "Write additional information for users",
       "ask": "Ask"
+    },
+    "hasAttachment": {
+      "question": "Question has attachment",
+      "answer": "Answer has attachment"
+    },
+    "reported": {
+      "question": "Reported question",
+      "answer": "Reported answer",
+      "comment": "Reported comment"
     }
   },
   "userProfile": {
@@ -727,7 +734,7 @@
   },
   "userWarnings": {
     "notificationMessages": {
-      "ifYouHavePrivileges": "Warning(s) will be revoked if you have authority. Also, I'll suggest you to wait like ~10 seconds once the process has started"
+      "ifYouHavePrivileges": "Warning/s will be revoked if you have authority. Also, I'll suggest you to wait like ~10 seconds once the process has started"
     },
     "cancelWarnings": "Cancel Warnings"
   },

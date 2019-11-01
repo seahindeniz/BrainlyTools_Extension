@@ -100,7 +100,7 @@
     "ok": "OK",
     "cancel": "Annuler",
     "optional": "FACULTATIF",
-    "add": "Add"
+    "add": "Ajouter"
   },
   "popup": {
     "notificationMessages": {
@@ -380,7 +380,7 @@
       "userNotFound": "Utilisateur non trouvé",
       "extensionServerError": "Une erreur inattendue s'est produite pendant la connexion au serveur de l'extension. Ré essaye de nouveau dans 5 secondes",
       "ifErrorPersists": "Si l'erreur persiste, merci de contacter l'administrateur pour lui indiquer :)",
-      "accessPermissionDenied": "Tu n'es pas autorisé à utiliser l'extension Brainly Tools.<br>Merci de contacter le responsable pour avoir la permission ou de retirer l'extension de ton navigateur",
+      "accessPermissionDenied": "Vous n'êtes pas autorisé à utiliser l'extension Brainly Tools.<br>Merci de contacter le responsable pour avoir la permission d'y accèder sinon veuillez retirer l'extension de votre navigateur.",
       "updateNeeded": "L'extension a une nouvelle version et ton navigateur doit être mis à jour. Ceci sera fait automatiquement, réactualise la page dans 10 secondes",
       "warningBeforeDelete": "Le processus va être exécuté et les questions indiquées seront supprimées. \n\nÊtes-vous sûr ?",
       "enterIdWarn": "Vous devez ajouter au moins un ID de question que vous voulez supprimer.",
@@ -573,8 +573,8 @@
         },
         "addAnswer": {
           "tabButton": {
-            "text": "Add answer",
-            "title": "Add an answer to target questions"
+            "text": "Ajouter une réponse",
+            "title": "Ajouter une réponse aux questions cibles"
           }
         },
         "approveAnswers": {
@@ -648,14 +648,21 @@
       "xIsAlreadyApproved": "%{row_id} sont déjà approuvé",
       "xIsAlreadyUnapproved": "%{row_id} ont déjà été approuvé"
     },
-    "questionHasAttachment": "La question a une/des pièce(s) jointe(s)",
-    "answerHasAttachment": "La réponse a une/des pièce(s) jointe(s)",
     "approvedAnswer": "Réponse approuvée",
     "bestAnswer": "Meilleure réponse",
     "askForCorrection": {
       "text": "Demander la correction",
       "placeholder": "Écrire des informations additionnelles pour les utilisateurs",
       "ask": "Demander"
+    },
+    "hasAttachment": {
+      "question": "Question has attachment",
+      "answer": "Answer has attachment"
+    },
+    "reported": {
+      "question": "Reported question",
+      "answer": "Reported answer",
+      "comment": "Reported comment"
     }
   },
   "userProfile": {
@@ -709,7 +716,7 @@
       "xHasAssigned": "%{rank_name} a été assigné"
     },
     "morePanel": {
-      "title": "More..",
+      "title": "Plus d'informations",
       "pointTransferer": {
         "markAsPointTransferer": "Mark as point transferer",
         "description": "Mark this user as point transferer. Process will reduce points to -25000 and send a report to the manager",

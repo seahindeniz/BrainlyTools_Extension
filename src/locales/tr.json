@@ -128,7 +128,7 @@
       "privilegeHasGiven": "%{user_amount}kullanıcıya yetki verildi",
       "privilegeHasRevoked": "%{user_amount} kullanıcıdan yetki alındı",
       "iCantFetchMarketData": "Eodev verilerini alamadım",
-      "incorrectDate": "Eodev'den verilerini alamadım<br><br>Lütfen Eodev anasayfasına girebilir veya sayfayı yenileyebilir misin?"
+      "incorrectDate": "Eodev'den gerekli olan verilerini alamadım<br><br>Sayfayı yenileyebilir misin?"
     },
     "createShortLinkButton": {
       "text": "URL Kısalt",
@@ -204,7 +204,7 @@
           },
           "1": {
             "title": "Hızlı soru silimi",
-            "description": "Soru içeriği, tümünü düzelt sayfalarında ve anasayfa da, hızlı silim butonlarını kullanarak soru(ları) silme"
+            "description": "Soru içeriği, tümünü düzelt sayfalarında ve anasayfa da, hızlı silim butonlarını kullanarak soru/ları silme"
           },
           "2": {
             "title": "Hızlı cevap silimi",
@@ -380,7 +380,7 @@
       "userNotFound": "Kullanıcı bulunamadı",
       "extensionServerError": "Sunucuya bağlanırken beklenmedik bir hata oluştu. ~5 saniye sonra tekrar deneyin",
       "ifErrorPersists": "Hatanın devam etmesi halinde, lütfen eklenti yöneticisi ile iletişime geçin ve durumu bilgilendirin :)",
-      "accessPermissionDenied": "Brainly Tools eklentisini kullanma yetkisine sahip değilsin<br>Eklenti yöneticisi ile iletişime geçip yetki istemen gerekiyor ya da eklentiyi tarayıcından kaldırmalısın",
+      "accessPermissionDenied": "Brainly Tools eklentisini kullanma yetkisine sahip değilsin<br>Admin veya eklenti yöneticisi ile iletişime geç lütfen",
       "updateNeeded": "Eklentinin yeni bir sürümü var ve tarayıcının eklentiyi güncellemesi gerekiyor. Bu işlem otomatik olarak yapılacak ve ~10 saniye sürecek",
       "warningBeforeDelete": "İşlem, bu uyarıyı onayladığın anda başlar ve başladığı anda belirtmiş olduğun soruları silinmeye başlar.\n\nSilmek istediğinden üç kere emin misin?",
       "enterIdWarn": "Silimi başlatmak için en 1 soru id'si eklemelisin",
@@ -640,7 +640,7 @@
       "selectAnUnapprovedAnswerForApproving": "Doğrulamaya başlamadan önce doğrulanmamış cevapları seçmelisin",
       "confirmApproving": "Seçili cevabı/cevapları doğrulamak istiyor musun?",
       "someOfSelectedAnswersAreUnapproved": "Seçilen bazı içerikler doğrulanmamış. O yüzden doğrulama kaldırma işlemine gerek kalmıyor",
-      "selectAnApprovedAnswerForUnapproving": "İşleme başlamadan önce doğrulanmış cevap(lar) seçmelisin",
+      "selectAnApprovedAnswerForUnapproving": "İşleme başlamadan önce doğrulanmış cevap/lar seçmelisin",
       "confirmUnapproving": "Seçilen cevap(lar)dan doğrulamayı kaldırmak istediğine emin misin?",
       "doYouWantToConfirmThisContent": "İçeriği onaylamak istiyor musun?",
       "confirmReporting": "Seçili cevabı/cevapları hatalı olarak bildirmek istiyor musun?",
@@ -648,14 +648,21 @@
       "xIsAlreadyApproved": "%{row_id} zaten doğrulanmış",
       "xIsAlreadyUnapproved": "%{row_id} doğrulaması zaten kaldırılmış"
     },
-    "questionHasAttachment": "Soruda dosya ek(ler)i var",
-    "answerHasAttachment": "Cevapta dosya ek(ler)i mevcut",
     "approvedAnswer": "Onaylanmış cevap",
     "bestAnswer": "En iyi cevap",
     "askForCorrection": {
       "text": "Hatalı olarak bildir",
       "placeholder": "Kullanıcı için ek bilgiler yazınız",
       "ask": "Bildir"
+    },
+    "hasAttachment": {
+      "question": "Soruya dosya eklenmiş",
+      "answer": "Cevaba dosya eklenmiş"
+    },
+    "reported": {
+      "question": "Soru şikayet edilmiş",
+      "answer": "Cevap şikayet edilmiş",
+      "comment": "Yorum şikayet edilmiş"
     }
   },
   "userProfile": {
@@ -727,7 +734,7 @@
   },
   "userWarnings": {
     "notificationMessages": {
-      "ifYouHavePrivileges": "Yetkin varsa, seçtiğin uyarı(lar) geri alınır. Ayrıca işlem başladıktan sonra ~10 saniye kadar sayfayı terk etmemeni öneririm"
+      "ifYouHavePrivileges": "Yetkin varsa, seçtiğin uyarı/lar geri alınır. Ayrıca işlem başladıktan sonra ~10 saniye kadar sayfayı terk etmemeni öneririm"
     },
     "cancelWarnings": "Uyarıları geri al"
   },

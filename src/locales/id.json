@@ -96,11 +96,11 @@
     "showMore": "Lihat lebih banyak..",
     "userHasNPoints": "Pengguna memiliki %{n} poin",
     "send": "Dikirim",
-    "deleteAll": "Delete all",
+    "deleteAll": "Hapus semua",
     "ok": "OK",
-    "cancel": "Cancel",
-    "optional": "OPTIONAL",
-    "add": "Add"
+    "cancel": "Batalkan",
+    "optional": "PILIHAN",
+    "add": "Menambahkan"
   },
   "popup": {
     "notificationMessages": {
@@ -215,7 +215,7 @@
             "description": "Dapat membuat, mengedit menghapus atau mempublikasikan pengumuman ekstensi internal"
           },
           "5": {
-            "title": "Manage extension users",
+            "title": "Mengelola ekstensi  pengguna",
             "description": "Dapat menambahkan atau mengedit ekstensi user dan memberikan mereka privileges atau izin untuk menggunakan ekstensi"
           },
           "6": {
@@ -331,15 +331,15 @@
             "description": "Pengguna dapat menggunakan fungsi ini untuk mengubah poin pengguna secara massal dengan memberikan daftar id/link dari pengguna."
           },
           "33": {
-            "title": "Change ranks",
-            "description": "User can use this function to change ranks of users massively by providing list of ids/links of users"
+            "title": "Memperbarui peringkat",
+            "description": "Pengguna dapat menggunakan fungsi ini untuk mengubah poin pengguna secara massal dengan memberikan daftar id/link dari pengguna."
           },
           "34": {
             "title": "Point transferer req.",
             "description": "User can use the \"Mark as point transferer\" button to mark a user that uses some point transferring methods to gain points"
           }
         },
-        "veryImportant": "Very important"
+        "veryImportant": "Sangat penting"
       },
       "announcements": {
         "text": "Pengumuman",
@@ -350,7 +350,7 @@
         "update": "Memperbarui",
         "publish": "Publish",
         "unpublish": "Unpublish",
-        "readOn": "Read on:\n%{date}"
+        "readOn": "Dibaca pada:\n%{date}"
       },
       "DeleteReasonsPreferences": {
         "text": "Preferensi alasan penghapusan",
@@ -404,7 +404,7 @@
       "text": "Penghapusan konten massal",
       "nIdsToDeleted": "%{n} id untuk dihapus",
       "nHasBeenDeleted": "%{n} id telah dihapus",
-      "containerExplanation": "You need to put content links or ids to text box line by line. Each line should contain 1 id number",
+      "containerExplanation": "Kamu perlu untuk meletakkan link konten atau ID ke baris per baris. Setiap baris harus berisi 1 nomo ID",
       "select": {
         "reason": "Alasan",
         "subReason": "Sub alasan",
@@ -466,7 +466,7 @@
         "REPORTEE": "ID yang dilaporkan"
       },
       "conditionN": {
-        "text": "Condition group %{amount_of_conditions}",
+        "text": "Kondisi grup %{amount_of_conditions}",
         "title": "Kondisi unik ini akan dibatasi dari kondisi unik yang lain"
       },
       "filters": {
@@ -531,50 +531,50 @@
         },
         "changeRanks": {
           "actionButton": {
-            "text": "Change ranks",
-            "title": "Add or remove ranks from all listed users"
+            "text": "Memperbarui peringkat",
+            "title": "Menambah atau menghapus pangkat dari semua pengguna terdaftar"
           }
         }
       }
     },
     "MassModerateContents": {
       "text": "Moderasi konten Massal",
-      "nContents": "%{n} contents",
-      "nIgnored": "%{n} ignored",
+      "nContents": "%{n} konten",
+      "nIgnored": "%{n} abaikan",
       "contentType": "Tipe konten",
       "targets": {
-        "text": "Specify targets",
+        "text": "Tentukan target",
         "listOfIds": {
           "contentLinksOrIDs": "Link konten atau id"
         },
         "idRange": {
-          "text": "Id range",
-          "youNeedToEnterTwoDifferentIdNumbers": "You need to enter different id numbers separated by a dash(-) or dots(.. or ...) to moderate the numbers between range",
-          "exampleUsage": "Example Usage",
-          "input": "Input",
+          "text": "Rentang id",
+          "youNeedToEnterTwoDifferentIdNumbers": "Kamu perlu memasukkan nomor ID berbeda yang dipisahkan oleh tanda hubung (-) atau titik (.. atau ...) untuk memoderasi nomor ID antara rentang",
+          "exampleUsage": "Contoh Penggunaan",
+          "input": "Memasukkan",
           "output": "Output"
         },
         "searchQuestion": {
-          "text": "Search question",
+          "text": "Cari pertanyaan",
           "whatIsYourQuestion": "Apa pertanyaanmu?"
         }
       },
       "methods": {
-        "text": "Methods",
-        "clickListToCopy": "Click list to copy ids to clipboard",
-        "copied": "Copied!",
-        "iCantCopy": "I can't copy :(",
+        "text": "Metode",
+        "clickListToCopy": "Klik daftar untuk menyalin id ke clipboard",
+        "copied": "Disalin!",
+        "iCantCopy": "Saya tidak bisa menyalin :(",
         "reportForAbuse": {
-          "chooseAReason": "Choose a reason",
+          "chooseAReason": "Pilih sebuah alasan",
           "tabButton": {
-            "text": "Report for abuse",
-            "title": "Report abusive contents"
+            "text": "Laporkan penyalahgunaan",
+            "title": "Melaporkan konten abusive"
           }
         },
         "addAnswer": {
           "tabButton": {
-            "text": "Add answer",
-            "title": "Add an answer to target questions"
+            "text": "Tambahkan jawaban",
+            "title": "Tambahkan jawaban ke pertanyaan yang dituju"
           }
         },
         "approveAnswers": {
@@ -648,14 +648,21 @@
       "xIsAlreadyApproved": "%{row_id} telah disetujui",
       "xIsAlreadyUnapproved": "%{row_id} telah batal disetujui"
     },
-    "questionHasAttachment": "Pertanyaan memiliki lampiran",
-    "answerHasAttachment": "Jawaban memiliki lampiran",
     "approvedAnswer": "Jawaban disetujui",
     "bestAnswer": "Jawaban terbaik",
     "askForCorrection": {
       "text": "Meminta koreksi",
       "placeholder": "Menuliskan informasi tambahan untuk pengguna",
       "ask": "meminta"
+    },
+    "hasAttachment": {
+      "question": "Question has attachment",
+      "answer": "Answer has attachment"
+    },
+    "reported": {
+      "question": "Reported question",
+      "answer": "Reported answer",
+      "comment": "Reported comment"
     }
   },
   "userProfile": {
@@ -709,7 +716,7 @@
       "xHasAssigned": "%{rank_name} telah ditugaskan"
     },
     "morePanel": {
-      "title": "More..",
+      "title": "Lebih..",
       "pointTransferer": {
         "markAsPointTransferer": "Mark as point transferer",
         "description": "Mark this user as point transferer. Process will reduce points to -25000 and send a report to the manager",
@@ -718,10 +725,10 @@
         "wouldYouLikeToSayAnything": "Would you like to say anything?"
       },
       "privileges": {
-        "title": "Active privileges"
+        "title": "Privilege aktif"
       },
       "manageExtensionUser": {
-        "title": "Manage extension privileges"
+        "title": "Mengelola hak pengguna ekstensi"
       }
     }
   },

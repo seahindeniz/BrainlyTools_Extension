@@ -231,7 +231,9 @@ class ModerateSection {
   }
   EnableDeleteButtons() {
     this.deleteButton.Enable();
-    this.deleteAllButton.Enable();
+
+    if (this.deleteAllButton)
+      this.deleteAllButton.Enable();
   }
   /**
    * @param {HTMLElement | JQuery<HTMLElement>} $element
@@ -336,7 +338,9 @@ class ModerateSection {
   }
   DisableDeleteButtons() {
     this.deleteButton.Disable();
-    this.deleteAllButton.Disable();
+
+    if (this.deleteAllButton)
+      this.deleteAllButton.Disable();
   }
   StartDeleting() {
     for (let i = 0; i < 5; i++) {

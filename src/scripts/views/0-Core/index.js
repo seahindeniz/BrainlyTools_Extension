@@ -86,7 +86,7 @@ class Core {
     let language = await storage("get", "language");
 
     if (!language) {
-      language = System.data.Brainly.defaultConfig.locale.LANGUAGE;
+      language = System.data.Brainly.defaultConfig.user.ME.user.isoLocale;
 
       if (!language) {
         throw `Language cannot be saved in storage.

@@ -1,4 +1,6 @@
+import { MenuListItem } from "@style-guide";
 import template from "backtick-template";
+import Button from "../../../../../components/Button";
 import Modal from "../../../../../components/Modal";
 import SendMessageToBrainlyIds from "../../../../../controllers/Req/Brainly/Action/SendMessageToBrainlyIds";
 import IsKeyAlphaNumeric from "../../../../../helpers/IsKeyAlphaNumeric";
@@ -8,24 +10,20 @@ import ModeratorsSection from "./Sections/Moderators";
 import ResultsSection from "./Sections/Results";
 // @ts-ignore
 import templateModalContent from "./templates/ModalContent.html";
-import Button from "../../../../../components/Button";
-import { MenuListItem } from "@style-guide";
-
-let System = require("../../../../../helpers/System");
 
 const MAX_MESSAGE_LENGTH = 512;
 
-class MassMessageSender {
+export default class MassMessageSender {
   constructor() {
     this.SendMessages = new SendMessageToBrainlyIds({
       EachBefore: this.BeforeSending.bind(this),
-      Each: this.MessageSend.bind(this),
+      Each: this.MessageSent.bind(this),
       Done: this.SendingDone.bind(this)
     });
-
-    if (typeof System == "function")
-      // @ts-ignore
-      System = System();
+    /**
+     * @type {number[]}
+     */
+    this.deletedUsers = [];
 
     this.RenderLi();
     this.RenderModal();
@@ -62,14 +60,23 @@ class MassMessageSender {
     this.$message = $("textarea", this.modal.$modal);
     this.$messageSpinner = this.$message.parent();
     this.$targetRadios = $(`input[name="target"]`, this.modal.$modal);
-    this.$targetRadiosContainer = $(`> .sg-content-box > .sg-content-box__actions .sg-content-box__actions > .sg-actions-list`, this.modal.$content);
+    this.$targetRadiosContainer = $(
+      `> .sg-content-box > .sg-content-box__actions .sg-content-box__actions > .sg-actions-list`,
+      this.modal.$content);
     this.$buttonContainer = $(".sg-actions-list", this.modal.$actions);
-    this.$targetsSection = $("> .sg-content-box > .sg-content-box__actions", this.modal.$content);
-    this.$targetContainer = $(`> .sg-content-box > .sg-content-box__content:eq(1)`, this.$targetsSection);
-    this.$characterCount = $("> .sg-content-box > .sg-content-box__content > .sg-actions-list > .sg-actions-list__hole > .sg-text > span", this.modal.$content);
+    this.$targetsSection = $("> .sg-content-box > .sg-content-box__actions",
+      this.modal.$content);
+    this.$targetContainer = $(
+      `> .sg-content-box > .sg-content-box__content:eq(1)`, this
+      .$targetsSection);
+    this.$characterCount = $(
+      "> .sg-content-box > .sg-content-box__content > .sg-actions-list > .sg-actions-list__hole > .sg-text > span",
+      this.modal.$content);
   }
   RenderSpinner() {
-    this.$spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner"></div></div>`);
+    this.$spinner = $(
+      `<div class="sg-spinner-container__overlay"><div class="sg-spinner"></div></div>`
+    );
   }
   RenderAllUsersSection() {
     this.AllUsersSection = new AllUsersSection(this);
@@ -84,7 +91,8 @@ class MassMessageSender {
     this.ResultsSection = new ResultsSection();
   }
   RenderSendButton() {
-    this.$sendButtonContainer = $(`<div class="sg-actions-list__hole"></div>`);
+    this.$sendButtonContainer = $(
+      `<div class="sg-actions-list__hole"></div>`);
 
     this.$sendButton = Button({
       type: "primary-mint",
@@ -94,7 +102,8 @@ class MassMessageSender {
     this.$sendButton.appendTo(this.$sendButtonContainer);
   }
   RenderContinueButton() {
-    this.$continueButtonContainer = $(`<div class="sg-actions-list__hole"></div>`);
+    this.$continueButtonContainer = $(
+      `<div class="sg-actions-list__hole"></div>`);
 
     this.$continueButton = Button({
       type: "primary-blue",
@@ -104,7 +113,8 @@ class MassMessageSender {
     this.$continueButton.appendTo(this.$continueButtonContainer);
   }
   RenderStopButton() {
-    this.$stopButtonContainer = $(`<div class="sg-actions-list__hole"></div>`);
+    this.$stopButtonContainer = $(
+      `<div class="sg-actions-list__hole"></div>`);
 
     this.$stopButton = Button({
       type: "destructive",
@@ -151,9 +161,11 @@ class MassMessageSender {
     this.$message.removeClass("error");
 
     if (len > MAX_MESSAGE_LENGTH)
-      this.$characterCount.removeClass("sg-text--mint").addClass("sg-text--peach-dark");
+      this.$characterCount.removeClass("sg-text--mint").addClass(
+        "sg-text--peach-dark");
     else
-      this.$characterCount.removeClass("sg-text--peach-dark").addClass("sg-text--mint");
+      this.$characterCount.removeClass("sg-text--peach-dark").addClass(
+        "sg-text--mint");
   }
   /**
    * @param {JQuery.ChangeEvent} event
@@ -210,8 +222,17 @@ class MassMessageSender {
   HideModeratorsSection() {
     this.HideElement(this.ModeratorsSection.$);
   }
+  /**
+   * @param {HTMLElement | JQuery<HTMLElement>} $element
+   */
   HideElement($element) {
-    $element.appendTo("<div />");
+    if ($element) {
+      if ($element instanceof HTMLElement) {
+        if ($element.parentElement)
+          $element.parentElement.removeChild($element);
+      } else
+        $element.detach();
+    }
   }
   ShowIdInputSection() {
     this.SelectedSection = this.IdListSection;
@@ -230,6 +251,7 @@ class MassMessageSender {
     else if (!idList || idList.length == 0)
       this.SelectedSection.ShowEmptyIdListError();
     else {
+      // @ts-ignore
       window.isPageProcessing = true;
 
       this.ShowSpinner();
@@ -242,10 +264,12 @@ class MassMessageSender {
     }
   }
   get message() {
-    return this.$message.val().trim();
+    return String(this.$message.val()).trim();
   }
   ShowWrongMessageLengthError() {
-    this.modal.notification(System.data.locale.messages.groups.notificationMessages.wrongMessageLength.replace("%{max_value}", MAX_MESSAGE_LENGTH), "error");
+    this.modal.notification(System.data.locale.messages.groups
+      .notificationMessages.wrongMessageLength.replace("%{max_value}",
+        String(MAX_MESSAGE_LENGTH)), "error");
     this.$message.addClass("error").focus();
   }
   ShowSpinner() {
@@ -263,6 +287,7 @@ class MassMessageSender {
     this.HideElement(this.ResultsSection.$);
   }
   async StopSending(isDone) {
+    // @ts-ignore
     window.isPageProcessing = false;
 
     this.SetStoppedSection();
@@ -286,7 +311,12 @@ class MassMessageSender {
   async ContinueSending() {
     this.SendMessages.content = this.message;
 
-    this.SwitchTarget({ target: { id: this.StoppedSection.prop("checked", true).attr("id") } });
+    this.SwitchTarget({
+      target: {
+        id: this.StoppedSection.prop("checked",
+          true).attr("id")
+      }
+    });
     await System.Delay(10);
     this.ShowSpinner();
     this.ShowStopButton();
@@ -297,10 +327,10 @@ class MassMessageSender {
   BeforeSending(user) {
     this.SelectedSection.BeforeSending(user);
   }
-  MessageSend(user) {
+  MessageSent(user) {
     this.CheckErrorStatus(user);
     this.UpdateResultsNumbers(user);
-    this.SelectedSection.MessageSend(user);
+    this.SelectedSection.MessageSent(user);
   }
   CheckErrorStatus(user) {
     if (user.validation_errors) {
@@ -308,10 +338,12 @@ class MassMessageSender {
 
       if (user.validation_errors) {
         let error = user.validation_errors.content;
-        let errorMessage = System.data.locale.common.notificationMessages.somethingWentWrong;
+        let errorMessage = System.data.locale.common.notificationMessages
+          .somethingWentWrong;
 
         if (error.vulgarism) {
-          errorMessage = System.data.locale.messages.groups.notificationMessages.messageContainsSwear;
+          errorMessage = System.data.locale.messages.groups
+            .notificationMessages.messageContainsSwear;
         } else if (error.length) {
           errorMessage = "";
 
@@ -334,8 +366,5 @@ class MassMessageSender {
   SendingDone() {
     this.StopSending(true);
     this.HideContinueButton();
-    console.log("All send!");
   }
 }
-
-export default MassMessageSender

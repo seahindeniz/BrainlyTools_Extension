@@ -4,14 +4,17 @@ $baseline: 1.5rem;
   @return $baselines * $baseline;
 }
 
-@import "../_/style-guide/components/text.scss";
-@import "../_/style-guide/components/badge.scss";
-@import "../_/style-guide/components/input.scss";
-@import "../_/style-guide/components/buttons.scss";
-@import "../_/style-guide/components/select.scss";
-@import "../_/style-guide/components/textarea.scss";
-@import "../_/style-guide/components/input-group.scss";
-@import "../_/style-guide/components/icon.scss";
+@import "../_/style-guide/components/*";
+
+.sg {
+  &--full {
+    width: 100%;
+
+    @at-root table#{&} {
+      table-layout: fixed;
+    }
+  }
+}
 
 .resizeOverlay {
   position: fixed;

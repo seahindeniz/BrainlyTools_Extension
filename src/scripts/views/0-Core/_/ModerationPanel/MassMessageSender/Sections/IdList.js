@@ -109,7 +109,7 @@ class IdListSection {
     this.$textarea.focus().addClass(`error`);
   }
   BeforeSending(user) {}
-  MessageSend(data) {
+  MessageSent(data) {
     this.MarkUserID(data.id, data.exception_type);
   }
   MarkUserID(id, status) {

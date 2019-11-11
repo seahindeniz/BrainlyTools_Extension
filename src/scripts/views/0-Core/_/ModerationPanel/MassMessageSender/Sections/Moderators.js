@@ -256,7 +256,7 @@ class RankSection {
     this.selectedUsersFromRanks.forEach(id => this.userElements[id].HideSpinner());
   }
   BeforeSending(data) {}
-  MessageSend(data) {
+  MessageSent(data) {
     let user = this.userElements[data.id];
 
     user.HideSpinner();

@@ -16,7 +16,7 @@ class Results {
 							<div class="sg-text sg-text--peach-dark">${System.data.locale.core.MessageSender.errors}: <span>0</span></div>
 						</li>
 						<li class="sg-list__element">
-							<div class="sg-text sg-text--gray">${System.data.locale.core.MessageSender.usersNotFound}: <span>0</span></div>
+							<div class="sg-text sg-text--lavender-dark">${System.data.locale.core.MessageSender.usersNotFound}: <span>0</span></div>
 						</li>
 					</ul>
 				</div>

@@ -2,7 +2,7 @@ import Action from "./";
 import FillRange from "../../../../helpers/FillRange";
 
 /**
- * @typedef {function(): void} Noop
+ * @typedef {function({}): void} Noop
  */
 function noop() {};
 
@@ -10,7 +10,12 @@ export default class SendMessageToBrainlyIds {
   /**
    * @param {{EachBefore?: Noop, Each?: Noop, Done?: Noop, Error?: Noop}} handlers
    */
-  constructor(handlers = { EachBefore: noop, Each: noop, Done: noop, Error: noop }) {
+  constructor(handlers = {
+    EachBefore: noop,
+    Each: noop,
+    Done: noop,
+    Error: noop
+  }) {
     this.handlers = handlers;
     this.sendLimit = 0;
     this.activeConnections = 0;
@@ -31,7 +36,7 @@ export default class SendMessageToBrainlyIds {
    * @returns {number[]}
    */
   FixIdList(idList) {
-    if (typeof idList == "string" && idList.indexOf(":") >= 0) {
+    if (!(idList instanceof Array)) {
       let range = idList.split(":");
       idList = FillRange(...range);
     }
@@ -71,17 +76,32 @@ export default class SendMessageToBrainlyIds {
 
       if (!resConversation || !resConversation.success) {
         user.exception_type = resConversation.exception_type;
+
+        if (resConversation.message)
+          user.message = resConversation.message;
       } else {
         user.conversation_id = resConversation.data.conversation_id;
         user.time = Date.now();
 
         this.processedIdList.push(user);
 
-        let resSend = await new Action().SendMessage({ conversation_id: user.conversation_id }, this.content);
-        //await System.TestDelay(); let resSend = { success: true }
+        let resSend = await new Action()
+          //.HelloWorld();
+          .SendMessage({
+            conversation_id: user.conversation_id
+          }, this.content);
+        /* await System.TestDelay();
+        let resSend = {
+          success: true,
+          exception_type: 501,
+          message: "Deleted user"
+        }; */
 
         if (!resSend || !resSend.success) {
           user.exception_type = resSend.exception_type;
+
+          if (resSend.message)
+            user.message = resSend.message;
 
           if (resSend.validation_errors)
             user.validation_errors = resSend.validation_errors;
@@ -110,7 +130,8 @@ export default class SendMessageToBrainlyIds {
     this.handlers.Done(this.processedIdList);
   }
   Promise() {
-    this.promise = new Promise((resolve, reject) => (this.handlers.Done = resolve, this.handlers.Error = reject));
+    this.promise = new Promise((resolve, reject) => (this.handlers.Done =
+      resolve, this.handlers.Error = reject));
 
     return this.promise;
   }

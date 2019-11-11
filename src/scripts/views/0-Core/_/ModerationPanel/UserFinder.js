@@ -1,9 +1,6 @@
-import Action from "../../../../controllers/Req/Brainly/Action";
-import { MenuListItem, ActionList, ActionListHole, Text } from "@style-guide";
-import Input from "../../../../components/Input";
-import Build from "../../../../helpers/Build";
-
-let System = require("../../../../helpers/System");
+import Build from "@/scripts/helpers/Build";
+import Action from "@BrainlyAction";
+import { ActionList, ActionListHole, Input, MenuListItem } from "@style-guide";
 
 let $userList;
 
@@ -58,14 +55,11 @@ const userLi = ({ id, nick, avatar, buddyUrl, ranks }) => {
 }
 
 const UserFinder = () => {
-  if (typeof System == "function")
-    // @ts-ignore
-    System = System();
-
   let input = Input({
     size: "small",
     type: "search",
-    placeholder: System.data.locale.messages.groups.userCategories.findUsers.nickOrID
+    placeholder: System.data.locale.messages.groups.userCategories
+      .findUsers.nickOrID
   });
   let li = MenuListItem({
     type: "label",
@@ -97,7 +91,8 @@ const UserFinder = () => {
     let value = this.value;
 
     $userList.html("");
-    $userList.attr("data-placeholder", System.data.locale.core.notificationMessages.searching);
+    $userList.attr("data-placeholder", System.data.locale.core
+      .notificationMessages.searching);
     $userList.removeClass("js-hidden");
 
     clearTimeout(delayTimer);
@@ -111,14 +106,21 @@ const UserFinder = () => {
           let user = await new Action().GetUserProfile(~~value);
 
           if (!user || !user.success || !user.data) {
-            $userList.attr("data-placeholder", System.data.locale.core.notificationMessages.userNotFound);
+            $userList.attr("data-placeholder", System.data.locale
+              .core.notificationMessages.userNotFound);
           } else {
             let ranks = [];
             let avatar = System.prepareAvatar(user.data);
-            let buddyUrl = System.createBrainlyLink("profile", { nick: user.data.nick, id: user.data.id });
+            let buddyUrl = System.createBrainlyLink(
+              "profile", {
+                nick: user.data.nick,
+                id: user.data
+                  .id
+              });
 
             user.data.ranks_ids.forEach(rankId => {
-              ranks.push(System.data.Brainly.defaultConfig.config.data.ranksWithId[rankId]);
+              ranks.push(System.data.Brainly.defaultConfig
+                .config.data.ranksWithId[rankId]);
             });
 
             userLi({
@@ -135,15 +137,21 @@ const UserFinder = () => {
         let $userContainers = $('td', resUserResult);
 
         if (!$userContainers || $userContainers.length == 0) {
-          $userList.attr("data-placeholder", System.data.locale.core.notificationMessages.userNotFound);
+          $userList.attr("data-placeholder", System.data.locale.core
+            .notificationMessages.userNotFound);
         } else {
           $userContainers.each(function(i, $userContainer) {
-            let avatar = $('.user-data > a > img', $userContainer).attr('src');
-            let $userLink = $('.user-data > div.user-nick > a.nick', $userContainer);
+            let avatar = $('.user-data > a > img',
+              $userContainer).attr('src');
+            let $userLink = $(
+              '.user-data > div.user-nick > a.nick',
+              $userContainer);
             let nick = $userLink.text();
             let buddyUrl = $userLink.attr('href');
             let id = System.ExtractId(buddyUrl);
-            let rankList = $('div.user-data > div.user-nick > a:nth-child(3), div.user-data > div.user-nick > span', $userContainer);
+            let rankList = $(
+              'div.user-data > div.user-nick > a:nth-child(3), div.user-data > div.user-nick > span',
+              $userContainer);
             let ranks = "";
 
             if (rankList.length == 1) {

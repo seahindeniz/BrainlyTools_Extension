@@ -1,11 +1,11 @@
-import Input from "../Input";
+import Input from "./Input";
 import Icon from "./Icon";
 
 const sg = "sg-search";
 const SG_ = `${sg}__`;
 
 /**
- * @param {{adaptiveIco?: boolean} & import("../Input").Properties} param0
+ * @param {{adaptiveIco?: boolean} & import("./Input").Properties} param0
  */
 export default function({ adaptiveIco, ...props } = {}) {
   let input = Input({

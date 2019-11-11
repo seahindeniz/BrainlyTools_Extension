@@ -13,6 +13,7 @@ export { default as ContentBoxTitle } from './ContentBox/Title';
 export { default as FlashMessage } from './FlashMessage';
 export { default as Icon } from './Icon';
 export { default as IconAsButton } from './Icon/AsButton';
+export { default as Input } from './Input';
 export { default as Label } from './Label';
 export { default as List } from './List';
 export { default as ListItem } from './List/Item';
@@ -30,4 +31,3 @@ export { default as SpinnerContainer } from './Spinner/Container';
 export { default as Text } from './Text';
 export { default as Textarea } from './Textarea';
 export { default as TopLayer } from './TopLayer';
-

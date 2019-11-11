@@ -115,12 +115,14 @@ export default function({
     container.appendChild(numberContainer);
   }
 
-  if (children && children instanceof HTMLElement)
-    container.appendChild(children);
+  if (children instanceof Array && children.length > 0)
+    container.append(...children);
+  else if (children instanceof HTMLElement)
+    container.append(children);
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))
-        container[propName] = propVal;
+      container[propName] = propVal;
 
   container.size = size;
   // @ts-ignore

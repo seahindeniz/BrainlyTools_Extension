@@ -18,7 +18,10 @@ export default function taskSection() {
 
   System.data.config.quickDeleteButtonsReasons.task.forEach(
     (id, i) => {
-      let reason = System.data.Brainly.deleteReasons.__withIds.task[id];
+      let reason = System.DeleteReason({
+        id,
+        type: "task",
+      });
       let button = Button({
         type: "destructive",
         size: "small",
@@ -52,8 +55,11 @@ export default function taskSection() {
     if (!userData)
       throw "Cannot find the user data";
 
-    let reason = System.data.Brainly.deleteReasons.__withIds.task[this
-      .reasonId];
+    let reason = System.DeleteReason({
+      id: this.reasonId,
+      type: "task",
+      noRandom: true,
+    });
 
     if (!reason || !reason.id)
       throw "Can't find the reason";

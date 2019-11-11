@@ -17,8 +17,10 @@ export default async function responseSection() {
 
       System.data.config.quickDeleteButtonsReasons.response.forEach(
         (id, i) => {
-          let reason = System.data.Brainly.deleteReasons.__withIds
-            .response[id];
+          let reason = System.DeleteReason({
+            id,
+            type: "response",
+          });
           let button = Button({
             type: "destructive",
             size: "small",
@@ -95,11 +97,12 @@ async function responseModerateButtonsClickHandler() {
     throw "Cannot find the user data";
 
   let btn_index = $(this).parent().index();
-  let reason = System.data.Brainly.deleteReasons.__withIds.response[System
-    .data.config.quickDeleteButtonsReasons.response[btn_index]];
-
-  if (!reason || !reason.id)
-    throw "Can't find the reason";
+  let reason = System.DeleteReason({
+    id: System
+      .data.config.quickDeleteButtonsReasons.response[btn_index],
+    type: "response",
+    noRandom: true,
+  });
 
   let confirmDeleting = System.data.locale.common.moderating
     .doYouWantToDeleteWithReason

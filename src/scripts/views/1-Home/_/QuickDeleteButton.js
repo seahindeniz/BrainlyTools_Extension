@@ -11,10 +11,10 @@ class QuickDeleteButton {
   constructor(reasonId, index, main) {
     this.main = main;
     this.index = index;
-    this.reason = System.data.Brainly.deleteReasons.__withIds.task[reasonId];
-
-    if (!this.reason)
-      throw `Reason couldn't find ${reasonId}`;
+    this.reason = System.DeleteReason({
+      id: reasonId,
+      type: "task",
+    });
 
     this.RenderSpinnerContainer();
     this.Render();

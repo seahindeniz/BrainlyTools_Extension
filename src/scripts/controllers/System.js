@@ -578,6 +578,63 @@ class _System {
 
     return ids;
   }
+  /**
+   * @param {{
+   *  id?: number | string,
+   *  name?: string,
+   *  type: "task" | "response" | "comment",
+   *  noRandom?: boolean
+   * }} param0
+   */
+  DeleteReason({
+    id,
+    name,
+    type,
+    noRandom,
+  }) {
+    if (!type)
+      throw "Content type needed";
+
+    if (!id && !name)
+      throw "Please specify an id or name";
+
+    if (id && name)
+      throw "You can't specify both id and name fields";
+
+    let deleteReasons = System.data.Brainly.deleteReasons;
+    let reasonGroup;
+
+    if (id)
+      reasonGroup = deleteReasons.__withIds;
+
+    if (name)
+      reasonGroup = deleteReasons.__withTitles;
+
+    let reasons = reasonGroup[type];
+
+    if (!reasons)
+      throw "Unknown content type";
+
+    let reasonKey = id || name;
+    let reason = reasons[reasonKey];
+
+    if (!reason) {
+      if (noRandom)
+        throw `Can't find a reason entry with: ${reasonKey}`;
+      else {
+        let reasonKeys = Object.keys(reasons)
+          .filter(key => !key.includes("__"));
+
+        if (reasonKeys.length === 0)
+          throw `Market doesn't have any delete reasons for ${type}`;
+
+        let randomN = Math.floor(Math.random() * reasonKeys.length);
+        reason = reasons[reasonKeys[randomN]];
+      }
+    }
+
+    return reason;
+  }
 }
 
 /**

@@ -7,9 +7,6 @@ export const TEXT_ALIGN = Object.freeze({
   JUSTIFY: 'justify'
 });
 /**
- * @typedef {"span" | "p" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "div" |
- * "label" | "a" | "blockquote"} Type
- *
  * @typedef {"xsmall" | "small" | "normal" | "large" | "xlarge" | "xxlarge"} Size
  *
  * @typedef {"" | "white" | "gray" | "gray-secondary" | "gray-secondary-light" |
@@ -29,7 +26,7 @@ export const TEXT_ALIGN = Object.freeze({
  *  children?: HTMLElement | HTMLElement[],
  *  text?: string | number,
  *  html?: string,
- *  type?: Type,
+ *  tag?: string,
  *  size?: Size,
  *  weight?: Weight,
  *  color?: Color,
@@ -63,13 +60,14 @@ const SG = "sg-text";
 const SGD = `${SG}--`;
 
 /**
- * @param {Properties} param0
+ * @template {keyof HTMLElementTagNameMap} T
+ * @param {{tag?: T} & Properties} param0
  */
 export default function({
   children,
   text,
   html,
-  type = "div",
+  tag,
   size = "normal",
   weight = "regular",
   color,
@@ -103,13 +101,17 @@ export default function({
   }, className);
 
   if (href !== undefined && href !== "")
-    type = "a";
+    // @ts-ignore
+    tag = "a";
+  else if (!tag)
+    // @ts-ignore
+    tag = "div";
 
   /**
    * @type {TextElement}
    */
   // @ts-ignore
-  let textElement = document.createElement(type);
+  let textElement = document.createElement(tag);
   textElement.className = textClass;
   textElement.color = color;
   // @ts-ignore
@@ -138,7 +140,7 @@ export default function({
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))
-        textElement[propName] = propVal;
+      textElement[propName] = propVal;
 
   return textElement;
 }

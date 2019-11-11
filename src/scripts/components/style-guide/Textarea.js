@@ -5,10 +5,8 @@ import classnames from 'classnames';
  *
  * @typedef {true | "vertical" | "horizontal" | "both"} Direction
  *
- * @typedef {"textarea" | "div"} EditableElements
- *
  * @typedef {{
- * tag?: EditableElements,
+ * tag?: string,
  * placeholder?: string,
  * value?: string | number,
  * size?: Size,
@@ -28,7 +26,7 @@ const SG = "sg-textarea";
 const SGD = `${SG}--`;
 
 /**
- * @template {EditableElements} T
+ * @template {keyof HTMLElementTagNameMap} T
  * @param {{tag?: T} & Properties} param0
  */
 export default function({

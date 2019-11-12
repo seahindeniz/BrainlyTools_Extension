@@ -60,7 +60,7 @@ class NoticeBoard {
     </li>`); */
     this.overlayedBox = OverlayedBox({
       children: Text({
-        type: "span",
+        tag: "span",
         className: "sg-text--link sg-menu-list__link",
         html: System.data.locale.core.noticeBoard.text
       })
@@ -292,7 +292,7 @@ class NoticeBoard {
   ChangeLastUpdate(date) {
     date = date ? new Date(date) : new Date();
 
-    date = date.toLocaleDateString(System.data.Brainly.defaultConfig.locale.LANGUAGE.replace("_", "-"), {
+    date = date.toLocaleDateString(System.data.Brainly.defaultConfig.locale.COUNTRY.replace("_", "-"), {
       year: "numeric",
       month: "long",
       day: "numeric",

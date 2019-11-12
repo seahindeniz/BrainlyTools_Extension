@@ -29,7 +29,7 @@ export default class PrivilegeList {
           [
             ContentBoxContent(),
             this.link = Text({
-              type: "a",
+              tag: "a",
               size: "small",
               weight: "bold",
               color: "blue-dark",

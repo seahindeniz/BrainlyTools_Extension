@@ -14,7 +14,7 @@ export default class ManageExtensionUser {
     this.container = ContentBoxContent({
       spacedBottom: true,
       children: this.link = Text({
-        type: "a",
+        tag: "a",
         size: "small",
         weight: "bold",
         color: "blue-dark",

@@ -6,6 +6,7 @@ export const TEXT_ALIGN = Object.freeze({
   RIGHT: 'to-right',
   JUSTIFY: 'justify'
 });
+
 /**
  * @typedef {"xsmall" | "small" | "normal" | "large" | "xlarge" | "xxlarge"} Size
  *
@@ -23,10 +24,10 @@ export const TEXT_ALIGN = Object.freeze({
  * @typedef {"LEFT" | "CENTER" | "RIGHT" | "JUSTIFY"} Align
  *
  * @typedef {{
+ *  tag?: keyof HTMLElementTagNameMap,
  *  children?: HTMLElement | HTMLElement[],
  *  text?: string | number,
  *  html?: string,
- *  tag?: string,
  *  size?: Size,
  *  weight?: Weight,
  *  color?: Color,
@@ -44,8 +45,6 @@ export const TEXT_ALIGN = Object.freeze({
  *  bgColor?: BgColor,
  * } & Object<string, *>} Properties
  *
- *
- *
  * @typedef {function(Color): TextElement} ChangeColor
  *
  * @typedef {{
@@ -53,7 +52,7 @@ export const TEXT_ALIGN = Object.freeze({
  *  ChangeColor: ChangeColor,
  * }} CustomProperties
  *
- * @typedef {CustomProperties & (HTMLDivElement | HTMLAnchorElement)} TextElement
+ * @typedef {CustomProperties & HTMLElement} TextElement
  */
 
 const SG = "sg-text";
@@ -64,10 +63,10 @@ const SGD = `${SG}--`;
  * @param {{tag?: T} & Properties} param0
  */
 export default function({
+  tag,
   children,
   text,
   html,
-  tag,
   size = "normal",
   weight = "regular",
   color,
@@ -108,7 +107,7 @@ export default function({
     tag = "div";
 
   /**
-   * @type {TextElement}
+   * @type {HTMLElementTagNameMap[T] & TextElement}
    */
   // @ts-ignore
   let textElement = document.createElement(tag);

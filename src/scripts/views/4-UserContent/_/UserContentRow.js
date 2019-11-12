@@ -59,7 +59,7 @@ export default class UserContentRow {
                 [
                   ActionListHole(),
                   this.questionLink = Text({
-                    type: "a",
+                    tag: "a",
                     size: "xsmall",
                     color: "blue-dark",
                     html: questionLink.innerHTML,

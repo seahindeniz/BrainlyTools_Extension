@@ -167,7 +167,7 @@ export default class ResultsSection {
    */
   Failed(contentId) {
     this.failedIdsBox.appendChild(Text({
-      type: "div",
+      tag: "div",
       text: contentId,
       size: "small",
       color: "peach-dark"
@@ -178,7 +178,7 @@ export default class ResultsSection {
    */
   Moderated(contentId) {
     this.moderatedIdsBox.appendChild(Text({
-      type: "div",
+      tag: "div",
       text: contentId,
       size: "small",
       color: "mint-dark"

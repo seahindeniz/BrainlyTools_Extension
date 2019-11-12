@@ -1,5 +1,5 @@
 import classnames from 'classnames';
-import Text from '../Text';
+import Text, * as TextModule from '../Text';
 
 /**
  * @typedef {boolean
@@ -15,7 +15,7 @@ import Text from '../Text';
  * @typedef {"left" | "center" | "right"} Alignment
  *
  * @typedef {{
- *  children?: string | (HTMLElement | HTMLElement[]),
+ *  children?: string | TextModule.Properties | (HTMLElement | HTMLElement[]),
  *  spaced?: boolean,
  *  spacedSmall?: boolean,
  *  spacedTop?: Size,
@@ -73,11 +73,22 @@ export default function({
   if (children) {
     if (typeof children == "string")
       children = Text({
+        tag: "td",
+        color: "gray",
+        weight: "bold",
+        size: "large",
         html: children,
+      });
+    else if (
+      !(children instanceof HTMLElement) &&
+      !(children instanceof Array) &&
+      children instanceof Object
+    )
+      children = Text(Object.assign({
         color: "gray",
         weight: "bold",
         size: "large"
-      });
+      }, children));
 
     if (children instanceof Array && children.length > 0)
       div.append(...children);

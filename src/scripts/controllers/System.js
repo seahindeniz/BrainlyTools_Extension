@@ -38,7 +38,7 @@ class _System {
       },
       config: {
         reasonSign: "߷",
-        idExtractRegex: /((?:.*[-|\/|a-z])(?=\d))|(?:[\/|\?].*)/g,
+        idExtractRegex: /((?:.*?[-/])(?=\d))|(?:[?/].*)|(?:[a-z]{1,})/gi,
         MAX_FILE_SIZE_OF_EVIDENCE_IN_MB: 22,
         get MAX_FILE_SIZE_OF_EVIDENCE() {
           return this.MAX_FILE_SIZE_OF_EVIDENCE_IN_MB * 1024 * 1024;
@@ -484,6 +484,8 @@ class _System {
    * @returns {number}
    */
   ExtractId(value) {
+    if (!value) return 0;
+
     let extractId = value.replace(this.constants.config.idExtractRegex, "");
     // Number because returns 0 if is not contains number
     let id = Number(extractId);
@@ -493,16 +495,38 @@ class _System {
   }
   /**
    * @param {string | string[]} list
-   * @returns {number[]}
+   * @param {boolean} [uniqueNumbers]
    */
-  ExtractIds(list) {
-    if (typeof list == "string")
-      list = list.split(/\r\n|\n| /g);
+  ExtractIds(list, uniqueNumbers) {
+    /**
+     * @type {number[]}
+     */
+    let idList = [];
 
-    return list
-      .filter(Boolean)
-      .map(this.ExtractId.bind(this))
-      .filter(Boolean);
+    if (typeof list == "string") {
+      list = list
+        .replace(this.constants.config.idExtractRegex, "")
+        .split(/\r\n|\n/g);
+    }
+
+    if (
+      list instanceof Array &&
+      list.length > 0
+    ) {
+      if (!uniqueNumbers)
+        idList = list.map(Number);
+      else
+        list.forEach(strId => {
+          if (strId !== "") {
+            let id = Number(strId);
+
+            if (!idList.includes(id))
+              idList.push(id);
+          }
+        });
+    }
+
+    return idList;
   }
   DecryptId(id = "") {
     if (!id)

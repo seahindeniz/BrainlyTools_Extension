@@ -128,17 +128,18 @@ task("extensionConfig", () => {
   let extensionOptionsRaw = fs.readFileSync('./src/configs/_/main.yml',
     'utf8');
   let extensionOptions = yaml.safeLoad(extensionOptionsRaw);
-  let mergeJsonData = {
-    fileName: "extension.json"
-  };
+  let config = extensionOptions.dev;
 
   if (isProduction)
-    mergeJsonData.endObj = extensionOptions.production;
-  else
-    mergeJsonData.endObj = extensionOptions.dev;
+    config = extensionOptions.production;
 
   return src('./src/configs/_/extension.json')
-    .pipe($.mergeJson(mergeJsonData))
+    .pipe($.change((content) => {
+      let data = JSON.parse(content);
+      data = mergeDeep(data, config);
+
+      return JSON.stringify(data);
+    }))
     .pipe(dest(`./src/configs/_`))
 });
 

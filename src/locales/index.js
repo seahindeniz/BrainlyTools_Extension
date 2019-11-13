@@ -421,7 +421,8 @@ export default {
       startOver: "Start over",
       sent: "Sent",
       usersNotFound: "Users not found",
-      errors: "Errors"
+      errors: "Errors",
+      unknownError: "Unknown error"
     },
     announcements: {
       text: "Announcements",

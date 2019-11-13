@@ -41,7 +41,18 @@
     "storage",
     "webRequest",
     "webRequestBlocking",
-    "<all_urls>"
+    "*://eodev.com/*",
+    "*://brainly.com/*",
+    "*://brainly.pl/*",
+    "*://brainly.com.br/*",
+    "*://brainly.co.id/*",
+    "*://znanija.com/*",
+    "*://brainly.lat/*",
+    "*://brainly.in/*",
+    "*://brainly.ph/*",
+    "*://nosdevoirs.fr/*",
+    "*://brainly.ro/*",
+    "*://browser.sentry-cdn.com/*"
   ],
   "web_accessible_resources": [
     "*/*"

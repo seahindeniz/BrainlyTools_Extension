@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.30.2] - 2019.12.13
+
+### Changed
+
+- Brainly.pl > Quick delete buttons doesn't work
+- Can't add answers by providing list of question ids
+- Can't add id range in mass-message sender
+- Page freeze after pasting more than 1000 ids into list of ids
+
 ## [6.30.0] - 2019.11.01
 
 ### Added

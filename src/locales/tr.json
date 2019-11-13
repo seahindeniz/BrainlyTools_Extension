@@ -421,7 +421,8 @@
       "startOver": "Tekrar başla",
       "sent": "Ulaşan",
       "usersNotFound": "Kullanıcı bulunamadı",
-      "errors": "Hatalar"
+      "errors": "Hatalar",
+      "unknownError": "Bilinmeyen hata"
     },
     "announcements": {
       "text": "Duyurular",

@@ -421,7 +421,8 @@
       "startOver": "Mulai lagi dari awal",
       "sent": "Dikirim",
       "usersNotFound": "Pengguna tidak ditemukan",
-      "errors": "Error"
+      "errors": "Error",
+      "unknownError": "Unknown error"
     },
     "announcements": {
       "text": "Pengumuman",

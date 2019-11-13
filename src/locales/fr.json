@@ -421,7 +421,8 @@
       "startOver": "Commencer",
       "sent": "Envoyer",
       "usersNotFound": "Utilisateur non trouvé",
-      "errors": "Erreurs"
+      "errors": "Erreurs",
+      "unknownError": "Unknown error"
     },
     "announcements": {
       "text": "Annonces",
@@ -656,13 +657,13 @@
       "ask": "Demander"
     },
     "hasAttachment": {
-      "question": "Question has attachment",
-      "answer": "Answer has attachment"
+      "question": "La question a une/des pièce(s) jointe(s)",
+      "answer": "La réponse a une/des pièce(s) jointe(s)"
     },
     "reported": {
-      "question": "Reported question",
-      "answer": "Reported answer",
-      "comment": "Reported comment"
+      "question": "Question signalée",
+      "answer": "Réponse signalée",
+      "comment": "Commentaire signalé"
     }
   },
   "userProfile": {

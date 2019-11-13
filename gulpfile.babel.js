@@ -7,6 +7,8 @@ import syncReq from "sync-request";
 import downloadFileSync from "download-file-sync";
 import fs from "fs";
 import yaml from "js-yaml";
+import mergeDeep from "merge-deep";
+import globImporter from "node-sass-glob-importer";
 
 const $ = require('gulp-load-plugins')();
 const STYLE_GUIDE_PATH = "src/styles/_/style-guide.css";
@@ -199,20 +201,21 @@ task('jsx', () => {
 });
 
 task("manifest", () => {
-  let mergeJsonData = {
-    fileName: "manifest.json"
-  };
+  let manifestData = manifest.dev;
 
   if (target === "firefox") {
-    mergeJsonData.endObj = manifest.firefox
+    manifestData = manifest.firefox
   } else if (isProduction) {
-    mergeJsonData.endObj = manifest.production
-  } else {
-    mergeJsonData.endObj = manifest.dev
+    manifestData = manifest.production
   }
 
   return src('./manifest.json')
-    .pipe($.mergeJson(mergeJsonData))
+    .pipe($.change((content) => {
+      let data = JSON.parse(content);
+      data = mergeDeep(data, manifestData);
+
+      return JSON.stringify(data);
+    }))
     .pipe(dest(`./build/${target}`))
 });
 task(
@@ -464,7 +467,8 @@ function compileScssFiles(files, path) {
     .pipe($.sass.sync({
       outputStyle: 'compressed',
       precision: 10,
-      includePaths: ['.']
+      includePaths: ['.'],
+      importer: globImporter(),
     }).on('error', $.sass.logError))
     .pipe($.sourcemaps.write(`./`))
     .pipe(dest(path, { overwrite: true }));

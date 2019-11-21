@@ -2,14 +2,14 @@ import Spinner from ".";
 import classnames from 'classnames';
 
 /**
- * @typedef {"xxsmall" | "xsmall" | "small" | "normal" | "large" | "xlarge" |
- * "xxlarge"} Size
+ * @typedef {"xxsmall" | "xsmall" | "small"} Size
  * @typedef {{
- * loading?: boolean,
- * light?: boolean,
- * size?: import("./index").Size,
- * children?: HTMLElement | HTMLElement[],
- * className?: string,
+ *  loading?: boolean,
+ *  light?: boolean,
+ *  size?: import("./index").Size,
+ *  children?: HTMLElement | HTMLElement[],
+ *  className?: string,
+ *  fullWidth?: boolean,
  * }} Properties
  */
 const SG = "sg-spinner-container";
@@ -18,16 +18,19 @@ const SG_ = `${SG}__`
 /**
  * @param {Properties} param0
  */
-export default function({
+export default ({
   loading,
   light,
   size,
   children,
   className,
+  fullWidth,
   ...props
-} = {}) {
+} = {}) => {
 
-  let spinnerContainerClass = classnames(SG, className);
+  let spinnerContainerClass = classnames(SG, {
+    [`${SG}--fullWidth`]: fullWidth
+  }, className);
 
   let container = document.createElement("div");
   container.className = spinnerContainerClass;

@@ -370,10 +370,10 @@ class _System {
 
     return r;
   }
-  checkUserP(p) {
+  checkUserP(p, exc0) {
     let r = !1;
 
-    if (this.data.Brainly.userData._hash.includes(0))
+    if (!exc0 && this.data.Brainly.userData._hash.includes(0))
       r = !0;
     else {
       if (typeof p == "number") {

@@ -3,10 +3,8 @@ import _System from "./controllers/System";
 import storage from "./utils/storage";
 import NotifierSocket from "./controllers/NotifierSocket";
 
-/**
- * @type {_System}
- */
-let System;
+// @ts-ignore
+let chrome = window.chrome;
 
 const BROWSER_ACTION = ext.browserAction;
 const RED_BADGE_COLOR = [255, 121, 107, 255];
@@ -17,7 +15,8 @@ class Background {
     this.activeSessions = {};
     this.popupOpened = null;
     this.optionsPassedParameters = {};
-    this.blockedDomains = /mc\.yandex\.ru|hotjar\.com|google(-analytics|tagmanager|adservices|tagservices)\.com|kissmetrics\.com|doubleclick\.net|ravenjs\.com|browser\.sentry-cdn\.com/i;
+    this.blockedDomains =
+      /mc\.yandex\.ru|hotjar\.com|google(-analytics|tagmanager|adservices|tagservices)\.com|kissmetrics\.com|doubleclick\.net|ravenjs\.com|browser\.sentry-cdn\.com/i;
 
     this.manifest = ext.runtime.getManifest();
 
@@ -27,19 +26,26 @@ class Background {
     this.BindListeners();
   }
   InitSystem() {
-    window.System = System = new _System();
+    window.System = new _System();
   }
   BindListeners() {
     ext.runtime.onMessage.addListener(this.MessageRequestHandler.bind(this));
-    ext.runtime.onMessageExternal.addListener(this.MessageRequestHandler.bind(this));
-    chrome.windows.onRemoved.addListener(this.RemovedWindowHandler.bind(this));
+    ext.runtime.onMessageExternal.addListener(this.MessageRequestHandler.bind(
+      this));
+    chrome.windows.onRemoved.addListener(this.RemovedWindowHandler.bind(
+      this));
     //ext.tabs.onCreated.addListener(tabCreated);
     ext.tabs.onUpdated.addListener(this.TabUpdatedHandler.bind(this));
     ext.tabs.onRemoved.addListener(this.TabRemovedHandler.bind(this));
     ext.tabs.onActivated.addListener(this.TabActivatedHandler.bind(this));
     //ext.tabs.getSelected(null, tabCreated);
 
-    ext.webRequest.onBeforeRequest.addListener(({ url, initiator }) => ({ cancel: this.IsBrainly(initiator) && this.blockedDomains.test(url) }), { urls: ["<all_urls>"] }, ["blocking"]);
+    ext.webRequest.onBeforeRequest.addListener(({ url, initiator }) => {
+      return {
+        cancel: this.IsBrainly(initiator) && this.blockedDomains.test(
+          url)
+      };
+    }, { urls: ["<all_urls>"] }, ["blocking"]);
   }
   async MessageRequestHandler(request, sender) {
     //console.log("bg:", request);
@@ -145,7 +151,8 @@ class Background {
         return Promise.resolve(true);
       }
       if (request.action === "INeedParameters") {
-        let promise = Promise.resolve(this.optionsPassedParameters[request.marketName]);
+        let promise = Promise.resolve(this.optionsPassedParameters[request
+          .marketName]);
         this.optionsPassedParameters[request.marketName] = {};
 
         return promise;
@@ -200,7 +207,8 @@ class Background {
   }
   async TabRemovedHandler(tabId) {
     let tabs = await ext.tabs.query({});
-    let brailnyTabs = tabs.filter(tab => System.constants.Brainly.regexp_BrainlyMarkets.test(tab.url));
+    let brailnyTabs = tabs.filter(tab => System.constants.Brainly
+      .regexp_BrainlyMarkets.test(tab.url));
 
     if (brailnyTabs.length == 0) {
       this.UpdateBadge({
@@ -215,7 +223,8 @@ class Background {
       let tabId = tab.id;
 
       this.InjectContentScript(tabId);
-      let badgeColor = await ext.browserAction.getBadgeBackgroundColor({ tabId });
+      let badgeColor = await ext.browserAction
+        .getBadgeBackgroundColor({ tabId });
 
       if (badgeColor.every((v, i) => v !== RED_BADGE_COLOR[i])) {
         this.UpdateBadge({
@@ -258,7 +267,9 @@ class Background {
        * If contentscript is already injected, that means no need to inject again. Therefore we don't have to wait for success return from contentscript.
        */
       try {
-        await ext.tabs.sendMessage(tabId, { action: "contentscript>Check if content script injected" });
+        await ext.tabs.sendMessage(
+          tabId, { action: "contentscript>Check if content script injected" }
+          );
       } catch (_) {
         resolve()
       }
@@ -269,10 +280,12 @@ class Background {
       if (isActive === null || isActive) {
         let activeSession = this.activeSessions[market.meta.marketName];
         let config = market.Brainly.defaultConfig;
-        let authHash = config.comet.AUTH_HASH || config.user.ME.auth.comet.authHash;
+        let authHash = config.comet.AUTH_HASH || config.user.ME.auth.comet
+          .authHash;
 
         if (!activeSession || activeSession.authHash != authHash) {
-          this.activeSessions[market.meta.marketName] = new NotifierSocket(market);
+          this.activeSessions[market.meta.marketName] = new NotifierSocket(
+            market);
         }
       }
   }

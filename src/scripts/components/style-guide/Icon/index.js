@@ -31,6 +31,7 @@ import classnames from 'classnames';
  * | 'heading'
  * | 'heart'
  * | 'image'
+ * | 'influence'
  * | 'instagram'
  * | 'italic'
  * | 'less'

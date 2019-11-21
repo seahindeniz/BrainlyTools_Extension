@@ -406,8 +406,7 @@ task(
  * HELPERS
  */
 function compileJSFiles(files, path) {
-  //console.log(JSON.stringify(_plugins));
-  return src(files)
+  let process = src(files)
     .pipe($.bro({
       transform: [
         babelify.configure({
@@ -422,13 +421,18 @@ function compileJSFiles(files, path) {
         //['uglifyify', { global: true, sourceMap: false }]
       ]
     }))
-    /* .pipe($.minify({
+
+  if (isProduction) {
+    process = process.pipe($.minify({
+      preserveComments: false,
       noSource: true,
       ext: {
         min: ".js",
       }
-    })) */
-    .pipe(dest(path, { overwrite: true }));
+    }));
+  }
+
+  return process.pipe(dest(path, { overwrite: true }));
 }
 
 function compileJSXFiles(files, path) {

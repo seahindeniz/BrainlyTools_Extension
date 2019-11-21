@@ -78,7 +78,7 @@ export default function({
   padding,
   full,
   children,
-  border,
+  border = !color,
   imgSrc,
   noMinHeight,
   shadow,
@@ -145,7 +145,7 @@ export default function({
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))
-        box[propName] = propVal;
+      box[propName] = propVal;
 
   box.color = color;
   // @ts-ignore

@@ -59,6 +59,9 @@ export default class ServerReq {
 
     return this.request;
   }
+  /**
+   * @param {string | number} path
+   */
   P(path) {
     this.path += `/${path}`;
 
@@ -132,7 +135,7 @@ export default class ServerReq {
       }
     });
   }
-  HelloWorld(){
+  HelloWorld() {
     return this.helloWorld().GET();
   }
   GetDeleteReasons() {
@@ -149,15 +152,17 @@ export default class ServerReq {
       id = id.id;
     }
 
-    let promise = this.user().P(id).P(nick).GET();
+    if (typeof id === "number") {
+      let promise = this.user().P(id).P(nick).GET();
 
-    promise.catch(() => notification({
-      type: "error",
-      html: System.data.locale.common
-        .notificationMessages.cannotShareUserInfoWithServer,
-    }));
+      promise.catch(() => notification({
+        type: "error",
+        html: System.data.locale.common
+          .notificationMessages.cannotShareUserInfoWithServer,
+      }));
 
-    return promise;
+      return promise;
+    }
   }
   PutUser(data) {
     return this.user().PUT(data);
@@ -362,6 +367,13 @@ export default class ServerReq {
   PointTransferer(id, comment) {
     return this.pointTransferer().POST({ id, comment });
   }
+  /**
+   * @param {number | string} id
+   * @returns {Promise<{success?: boolean, data?: string[]}>}
+   */
+  GetKeywordsForFreelancer(id) {
+    return this.keywordsForFreelancer().P(id).GET();
+  }
 
   auth() {
     return this.P("auth");
@@ -446,5 +458,8 @@ export default class ServerReq {
   }
   pointTransferer() {
     return this.P("pointTransferer");
+  }
+  keywordsForFreelancer() {
+    return this.P("keywordsForFreelancer");
   }
 }

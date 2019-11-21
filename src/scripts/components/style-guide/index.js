@@ -11,6 +11,7 @@ export { default as ContentBoxContent } from './ContentBox/Content';
 export { default as ContentBoxHeader } from './ContentBox/Header';
 export { default as ContentBoxTitle } from './ContentBox/Title';
 export { default as FlashMessage } from './FlashMessage';
+export { default as Flex } from './Flex';
 export { default as Icon } from './Icon';
 export { default as IconAsButton } from './Icon/AsButton';
 export { default as Input } from './Input';

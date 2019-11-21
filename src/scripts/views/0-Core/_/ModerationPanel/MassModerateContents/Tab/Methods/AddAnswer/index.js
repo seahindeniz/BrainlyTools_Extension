@@ -108,9 +108,9 @@ export default class AddAnswer extends Methods {
       "mint-dark"
     );
 
-    this._Show();
+    this.TabOpened();
   }
-  _Show() {
+  TabOpened() {
     if (this.started)
       this.ShowActionButtonSpinnerContainer();
     else if (
@@ -120,7 +120,7 @@ export default class AddAnswer extends Methods {
       this.ShowActionButtonSpinnerContainer();
       this.ShowStartButton();
     } else
-      this._Hide();
+      this.TabClosed();
   }
   HasValidAnswerContent() {
     return this.textarea.value.length >= MIN_ANSWER_LENGTH
@@ -130,8 +130,7 @@ export default class AddAnswer extends Methods {
    */
   async Moderate(contentId) {
     let resAnswer = await new Action()
-      .HelloWorld();
-    //.AddAnswer(contentId, this.answerContent);
+      .AddAnswer(contentId, this.answerContent);
 
     if (!resAnswer || !resAnswer.success)
       return this.resultsSection.Failed(contentId);

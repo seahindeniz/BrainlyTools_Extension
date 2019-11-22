@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.31.1] - 2019.11.22
+
+### Changed
+
+- Mass-Content deleter is not working
+
 ## [6.31.0] - 2019.11.22
 
 ### Added

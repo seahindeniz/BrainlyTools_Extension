@@ -48,6 +48,7 @@ class IdListSection {
       input: debounce(() => this.UpdateTextareaBackContent(), 5)
     });
 
+    // @ts-ignore
     new window.ResizeObserver(this.UpdateTextAreaBackResize.bind(this))
       .observe(this.$textarea[0]);
   }
@@ -90,21 +91,23 @@ class IdListSection {
 
     this.$idCount.text(this.idList.length);
 
-    let temp = this.$textarea.html();
+    let temp = this.$textarea.prop("innerHTML");
 
-    if (idList.length > 0)
-      temp = temp.replace(new RegExp(
-          `((?:\\b|[a-z]{1,})+${idList.join("|")}\\b)`, "g"),
-        replacedId => {
-          let id = Number(replacedId);
+    if (idList.length > 0) {
+      let rgx = new RegExp(`(?<![0-9])(?:${idList.join("|")})(?![0-9])`, "g");
+      temp = temp
+        .replace(rgx,
+          replacedId => {
+            let id = Number(replacedId);
 
-          if (this.idList.includes(id))
-            return replacedId;
+            if (this.idList.includes(id))
+              return replacedId;
 
-          this.idList.push(id);
+            this.idList.push(id);
 
-          return `<span class="sg-text--background-blue-light">${id}</span>`;
-        });
+            return `<span class="sg-text--background-blue-light">${id}</span>`;
+          });
+    }
 
     this.HideSpinner();
     this.$textareaBack.html(temp);

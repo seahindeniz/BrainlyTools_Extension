@@ -250,29 +250,31 @@ export default class ListOfIds extends Inputs {
     let temp = this.value[this.main.active.contentType.is] = this.textarea
       .innerHTML;
 
-    if (idList.length > 0)
-      temp = temp.replace(new RegExp(
-          `((?:\\b|[a-z]{1,})+${idList.join("|")}\\b)`, "g"),
-        replacedId => {
-          let id = Number(replacedId);
+    if (idList.length > 0) {
+      let rgx = new RegExp(`(?<![0-9])(?:${idList.join("|")})(?![0-9])`, "g");
+      temp = temp
+        .replace(rgx,
+          replacedId => {
+            let id = Number(replacedId);
 
-          if (moderatableIdList.includes(id))
-            return replacedId;
+            if (moderatableIdList.includes(id))
+              return replacedId;
 
-          let status = "blue-light";
+            let status = "blue-light";
 
-          if (
-            this.main.active.contentType.deletedContents.length > 0 &&
-            this.main.active.contentType.deletedContents.includes(id)
-          ) {
-            status = "peach";
+            if (
+              this.main.active.contentType.deletedContents.length > 0 &&
+              this.main.active.contentType.deletedContents.includes(id)
+            ) {
+              status = "peach";
 
-            numberOfIgnored++;
-          } else
-            moderatableIdList.push(id);
+              numberOfIgnored++;
+            } else
+              moderatableIdList.push(id);
 
-          return `<span class="sg-text--background-${status}">${id}</span>`
-        });
+            return `<span class="sg-text--background-${status}">${id}</span>`
+          });
+    }
 
     this.idList = moderatableIdList; // for triggering the setter in index.js
     this.textareaBack.innerHTML = temp;

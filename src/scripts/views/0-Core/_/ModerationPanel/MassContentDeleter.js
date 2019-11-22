@@ -192,29 +192,31 @@ class MassContentDeleter {
 
     this.$contentsCount.text(idList.length);
 
-    let temp = this.$textarea.html();
+    let temp = this.$textarea.prop("innerHTML");
 
-    if (idList.length > 0)
-      temp = temp.replace(new RegExp(
-          `((?:\\b|[a-z]{1,})+${idList.join("|")}\\b)`, "g"),
-        replacedId => {
-          let id = Number(replacedId);
+    if (idList.length > 0) {
+      let rgx = new RegExp(`(?<![0-9])(?:${idList.join("|")})(?![0-9])`, "g");
+      temp = temp
+        .replace(rgx,
+          replacedId => {
+            let id = Number(replacedId);
 
-          if (this.contentsToDelete.includes(id))
-            return replacedId;
+            if (this.contentsToDelete.includes(id))
+              return replacedId;
 
-          let status = "blue-light";
+            let status = "blue-light";
 
-          if (
-            this.deletedContents[id] &&
-            this.deletedContents[id].isDeleted
-          ) {
-            status = "peach";
-          } else
-            this.contentsToDelete.push(id);
+            if (
+              this.deletedContents[id] &&
+              this.deletedContents[id].isDeleted
+            ) {
+              status = "peach";
+            } else
+              this.contentsToDelete.push(id);
 
-          return `<span class="sg-text--background-${status}">${id}</span>`;
-        });
+            return `<span class="sg-text--background-${status}">${id}</span>`;
+          });
+    }
 
     this.$nIdsToDelete.text(this.contentsToDelete.length);
     this.$textareaBack.html(temp);

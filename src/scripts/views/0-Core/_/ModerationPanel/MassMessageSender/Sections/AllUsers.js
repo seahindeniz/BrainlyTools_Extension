@@ -1,3 +1,4 @@
+import CreateElement from "@/scripts/components/CreateElement";
 import Build from "@/scripts/helpers/Build";
 import IsVisible from "@/scripts/helpers/IsVisible";
 import {
@@ -17,7 +18,6 @@ import debounce from "debounce";
 // @ts-ignore
 import moment from "moment";
 import rangeParser from "parse-numeric-range";
-import CreateElement from "@/scripts/components/CreateElement";
 
 const ERROR = "peach-dark";
 const SUCCESS = "mint-dark";
@@ -354,25 +354,19 @@ class AllUsers {
   }
   CalculateIdList() {
     this.output.innerHTML = "";
-
-    this.idList.forEach(id => {
-      let color = "blue-dark";
-      let text = `${id}`;
-
-      if (this.main.deletedUsers.includes(id)) {
-        color = "peach-dark";
-        text = `-${id}`;
-      }
-
-      this.output.appendChild(Text({
-        text,
-        // @ts-ignore
-        color,
-        size: "small",
-      }));
-    });
-
     this.numberOfIds.innerText = String(this.idList.length);
+
+    if (this.idList.length > 0) {
+      let idList = this.idList.slice(0, 1000);
+      let tempList = idList.join("\n");
+      this.output.innerHTML = tempList.replace(/(\d{1,})/g,
+        `<div><span class="sg-text--background-blue-light">$1</span></div>`);
+
+      if (idList.length < this.idList.length)
+        this.output.innerHTML += `...`;
+
+      this.output.scrollTop = this.output.scrollHeight;
+    }
   }
   ShowEmptyIdListError() {
     this.input.focus();

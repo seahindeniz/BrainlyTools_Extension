@@ -37,7 +37,9 @@ class IdListSection {
     this.$idCount = $("> .sg-content-box__content .sg-text > span", this.$);
   }
   RenderSpinner() {
-    this.$spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner"></div></div>`);
+    this.$spinner = $(
+      `<div class="sg-spinner-container__overlay"><div class="sg-spinner"></div></div>`
+    );
   }
   BindHandlers() {
     this.$textarea.on({
@@ -46,7 +48,8 @@ class IdListSection {
       input: debounce(() => this.UpdateTextareaBackContent(), 5)
     });
 
-    new window.ResizeObserver(this.UpdateTextAreaBackResize.bind(this)).observe(this.$textarea[0]);
+    new window.ResizeObserver(this.UpdateTextAreaBackResize.bind(this))
+      .observe(this.$textarea[0]);
   }
   UpdateTextAreaBackResize() {
     this.$textareaBack.css({
@@ -58,10 +61,19 @@ class IdListSection {
     event.preventDefault();
     this.ShowSpinner();
 
-    let text = (event.originalEvent || event).clipboardData.getData("text/plain");
+    /**
+     * @type {string}
+     */
+    // @ts-ignore
+    let text = (event.originalEvent || event).clipboardData.getData(
+      "text/plain");
 
-    await System.Delay(50);
-    document.execCommand("insertText", false, text);
+    if (text)
+      text = text.replace(/ {1,}|(\s)\s{1,}/g, "\n");
+
+    this.$textarea.prop("innerText", text);
+
+    this.UpdateTextareaBackContent();
   }
   ShowSpinner() {
     this.$spinner.appendTo(this.$spinnerContainer);
@@ -73,15 +85,26 @@ class IdListSection {
     this.$textareaBack.scrollTop(this.$textarea.scrollTop());
   }
   UpdateTextareaBackContent() {
-    this.idList = this.ParseIDs();
+    this.idList = [];
+    let idList = this.ParseIDs();
 
     this.$idCount.text(this.idList.length);
 
     let temp = this.$textarea.html();
 
-    this.idList.forEach(id => {
-      temp = temp.replace(new RegExp(`(\\b|[a-z]{1,})+(${id}\\b)`), `$1<span class="sg-text--background-blue-light">$2</span>`);
-    });
+    if (idList.length > 0)
+      temp = temp.replace(new RegExp(
+          `((?:\\b|[a-z]{1,})+${idList.join("|")}\\b)`, "g"),
+        replacedId => {
+          let id = Number(replacedId);
+
+          if (this.idList.includes(id))
+            return replacedId;
+
+          this.idList.push(id);
+
+          return `<span class="sg-text--background-blue-light">${id}</span>`;
+        });
 
     this.HideSpinner();
     this.$textareaBack.html(temp);
@@ -105,7 +128,8 @@ class IdListSection {
     return idList;
   }
   ShowEmptyIdListError() {
-    this.main.modal.notification(System.data.locale.core.notificationMessages.youNeedToEnterValidId, "error");
+    this.main.modal.notification(System.data.locale.core.notificationMessages
+      .youNeedToEnterValidId, "error");
     this.$textarea.focus().addClass(`error`);
   }
   BeforeSending(user) {}
@@ -114,7 +138,8 @@ class IdListSection {
   }
   MarkUserID(id, status) {
     let _class = SUCCESS;
-    let $id = $(`span`, this.$textareaBack).filter((i, span) => span.innerText == id);
+    let $id = $(`span`, this.$textareaBack).filter((i, span) => span
+      .innerText == id);
 
     if (status == 500) {
       _class = USER_NOT_FOUND;

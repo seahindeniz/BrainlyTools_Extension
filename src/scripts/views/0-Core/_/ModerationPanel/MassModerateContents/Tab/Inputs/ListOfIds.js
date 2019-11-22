@@ -14,14 +14,8 @@ import debounce from "debounce";
 import Inputs from ".";
 import Build from "../../../../../../../helpers/Build";
 
-let System = require("../../../../../../../helpers/System");
-
 export default class ListOfIds extends Inputs {
   constructor(main) {
-    if (typeof System == "function")
-      // @ts-ignore
-      System = System();
-
     super(main, {
       tabButton: {
         text: System.data.locale.common.listOfIds
@@ -121,7 +115,7 @@ export default class ListOfIds extends Inputs {
             Text({
               size: "small",
               breakWords: true,
-              type: "blockquote"
+              tag: "blockquote"
             }),
             [
               [
@@ -143,34 +137,34 @@ export default class ListOfIds extends Inputs {
                     }),
                     [
                       Text({
-                        type: "div",
+                        tag: "div",
                         size: "xsmall",
                         html: System.createBrainlyLink(
                           "task", { id: 1234567 })
                       }),
                       Text({
-                        type: "div",
+                        tag: "div",
                         size: "xsmall",
                         html: System.createBrainlyLink(
                           "task", { id: 2345678 })
                       }),
                       Text({
-                        type: "div",
+                        tag: "div",
                         size: "xsmall",
                         html: "1234567"
                       }),
                       Text({
-                        type: "div",
+                        tag: "div",
                         size: "xsmall",
                         html: "53453"
                       }),
                       Text({
-                        type: "div",
+                        tag: "div",
                         size: "xsmall",
                         html: "tr545645"
                       }),
                       Text({
-                        type: "div",
+                        tag: "div",
                         size: "xsmall",
                         html: "us423423"
                       })
@@ -208,25 +202,36 @@ export default class ListOfIds extends Inputs {
     );
   }
   BindHandlers() {
-    $(this.textarea).on({
-      paste: this.PasteHandler.bind(this),
-      scroll: this.UpdateTextareaBackScroll.bind(this),
-      input: debounce(this.UpdateTextareaBackContent.bind(this), 5)
-    });
+    this.textarea.addEventListener("paste", this.PasteHandler.bind(this));
+    this.textarea.addEventListener("scroll", this.UpdateTextareaBackScroll
+      .bind(this));
+    this.textarea.addEventListener("input", debounce(this
+      .UpdateTextareaBackContent.bind(this), 5));
 
     // @ts-ignore
     new window.ResizeObserver(this.UpdateTextAreaBackResize.bind(this))
       .observe(this.textarea);
   }
-  async PasteHandler(event) {
+  /**
+   * @param {ClipboardEvent} event
+   */
+  PasteHandler(event) {
     event.preventDefault();
     this.ShowTextareaSpinner();
 
+    /**
+     * @type {string}
+     */
+    // @ts-ignore
     let text = (event.originalEvent || event).clipboardData.getData(
       "text/plain");
 
-    await System.Delay(50);
-    document.execCommand("insertText", false, text);
+    if (text)
+      text = text.replace(/ {1,}|(\s)\s{1,}/g, "\n");
+
+    this.textarea.innerText = text;
+
+    this.UpdateTextareaBackContent();
   }
   ShowTextareaSpinner() {
     this.textareaSpinnerContainer.appendChild(this.spinner);
@@ -241,49 +246,53 @@ export default class ListOfIds extends Inputs {
     let idList = this.ParseIDs();
     let moderatableIdList = [];
     let numberOfIgnored = 0;
-
     this.numberOfIds.innerText = "0";
-
     let temp = this.value[this.main.active.contentType.is] = this.textarea
       .innerHTML;
 
-    idList.forEach(id => {
-      let status = "blue-light";
+    if (idList.length > 0)
+      temp = temp.replace(new RegExp(
+          `((?:\\b|[a-z]{1,})+${idList.join("|")}\\b)`, "g"),
+        replacedId => {
+          let id = Number(replacedId);
 
-      if (this.main.active.contentType.deletedContents.includes(id)) {
-        status = "peach";
+          if (moderatableIdList.includes(id))
+            return replacedId;
 
-        numberOfIgnored++;
-      } else
-        moderatableIdList.push(id);
+          let status = "blue-light";
 
-      temp = temp.replace(new RegExp(`((?:\\b|[a-z]{1,})+${id}\\b)`),
-        `<span class="sg-text--background-${status}">$1</span>`);
-    });
+          if (
+            this.main.active.contentType.deletedContents.length > 0 &&
+            this.main.active.contentType.deletedContents.includes(id)
+          ) {
+            status = "peach";
+
+            numberOfIgnored++;
+          } else
+            moderatableIdList.push(id);
+
+          return `<span class="sg-text--background-${status}">${id}</span>`
+        });
 
     this.idList = moderatableIdList; // for triggering the setter in index.js
+    this.textareaBack.innerHTML = temp;
     this.numberOfIds.innerText = String(idList.length);
     this.numberOfIgnored.innerText = String(numberOfIgnored);
     this.numberOfContents.innerText = String(moderatableIdList.length);
-    this.textareaBack.innerHTML = temp;
+
     this.HideTextareaWarning();
     this.HideTextareaSpinner();
     this.UpdateTextareaBackScroll();
   }
-  /**
-   * @returns {number[]}
-   */
   ParseIDs() {
+    /**
+     * @type {number[]}
+     */
     let idList = [];
     let values = this.textarea.innerText;
 
-    if (values) {
+    if (values)
       idList = System.ExtractIds(values);
-
-      if (idList && idList.length > 0) {
-        idList = Array.from(new Set(idList));
-      }
-    }
 
     return idList;
   }

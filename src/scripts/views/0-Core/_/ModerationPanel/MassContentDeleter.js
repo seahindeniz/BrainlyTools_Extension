@@ -1,9 +1,9 @@
+import { MenuListItem } from "@style-guide";
 import debounce from "debounce";
+import Button from "../../../../components/Button";
 import DeleteSection from "../../../../components/DeleteSection";
 import Modal from "../../../../components/Modal";
 import Action from "../../../../controllers/Req/Brainly/Action";
-import Button from "../../../../components/Button";
-import { MenuListItem } from "@style-guide";
 
 class MassContentDeleter {
   constructor() {
@@ -31,9 +31,12 @@ class MassContentDeleter {
     this.li.setAttribute("style", "display: table; width: 100%;");
   }
   RenderModal() {
-    let nIds = System.data.locale.common.nIds.replace("%{n}", ` <span>0</span> `);
-    let nIdsToDeleted = System.data.locale.core.MassContentDeleter.nIdsToDeleted.replace("%{n}", ` <span>0</span> `);
-    let nHasBeenDeleted = System.data.locale.core.MassContentDeleter.nHasBeenDeleted.replace("%{n}", ` <b>0</b> `);
+    let nIds = System.data.locale.common.nIds.replace("%{n}",
+      ` <span>0</span> `);
+    let nIdsToDeleted = System.data.locale.core.MassContentDeleter
+      .nIdsToDeleted.replace("%{n}", ` <span>0</span> `);
+    let nHasBeenDeleted = System.data.locale.core.MassContentDeleter
+      .nHasBeenDeleted.replace("%{n}", ` <b>0</b> `);
     this.modal = new Modal({
       header: `
 			<div class="sg-actions-list sg-actions-list--space-between">
@@ -76,14 +79,21 @@ class MassContentDeleter {
       actions: `<div class="sg-spinner-container"></div>`
     });
     this.$modal = this.modal.$modal;
-    this.$textareaSpinnerContainer = $(".sg-spinner-container", this.modal.$content);
-    this.$textareaBack = $(".sg-textarea.back", this.$textareaSpinnerContainer);
-    this.$textarea = $(".sg-textarea:not(.back)", this.$textareaSpinnerContainer);
-    this.$deleteButtonSpinnerContainer = $(".sg-spinner-container", this.modal.$actions);
-    this.$labels = $("> .sg-content-box > .sg-content-box__actions:eq(0)", this.modal.$content);
+    this.$textareaSpinnerContainer = $(".sg-spinner-container", this.modal
+      .$content);
+    this.$textareaBack = $(".sg-textarea.back", this
+      .$textareaSpinnerContainer);
+    this.$textarea = $(".sg-textarea:not(.back)", this
+      .$textareaSpinnerContainer);
+    this.$deleteButtonSpinnerContainer = $(".sg-spinner-container", this.modal
+      .$actions);
+    this.$labels = $("> .sg-content-box > .sg-content-box__actions:eq(0)",
+      this.modal.$content);
     this.$nHasBeenDeleted = $(".sg-text > b", this.$labels);
-    this.$contentsCount = $(".sg-content-box__content:eq(0) .sg-text > span", this.$labels);
-    this.$nIdsToDelete = $(".sg-content-box__content:eq(1) .sg-text > span", this.$labels);
+    this.$contentsCount = $(".sg-content-box__content:eq(0) .sg-text > span",
+      this.$labels);
+    this.$nIdsToDelete = $(".sg-content-box__content:eq(1) .sg-text > span",
+      this.$labels);
 
   }
   RenderDeleteButton() {
@@ -101,7 +111,9 @@ class MassContentDeleter {
     this.$textareaSpinner = this.RenderSpinner();
   }
   RenderSpinner() {
-    return $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner"></div></div>`);
+    return $(
+      `<div class="sg-spinner-container__overlay"><div class="sg-spinner"></div></div>`
+    );
   }
   RenderDeleteSection() {
     this.deleteSection = new DeleteSection();
@@ -109,7 +121,9 @@ class MassContentDeleter {
     this.deleteSection.$.appendTo($(".deleteSection", this.$modal));
   }
   RenderTextareaWarning() {
-    this.$textareaWarning = $(`<div class="sg-bubble sg-bubble--top sg-bubble--row-start sg-bubble--peach sg-text--white enterIdWarn">${System.data.locale.core.notificationMessages.enterIdWarn}</div>`);
+    this.$textareaWarning = $(
+      `<div class="sg-bubble sg-bubble--top sg-bubble--row-start sg-bubble--peach sg-text--white enterIdWarn">${System.data.locale.core.notificationMessages.enterIdWarn}</div>`
+    );
   }
   BindHandlers() {
     this.li.addEventListener("click", this.OpenModal.bind(this));
@@ -122,7 +136,9 @@ class MassContentDeleter {
       input: debounce(() => this.UpdateTextareaBackContent(), 5)
     });
 
-    new window.ResizeObserver(this.UpdateTextAreaBackResize.bind(this)).observe(this.$textarea[0]);
+    // @ts-ignore
+    new window.ResizeObserver(this.UpdateTextAreaBackResize.bind(this))
+      .observe(this.$textarea[0]);
   }
   OpenModal() {
     this.modal.Open();
@@ -134,14 +150,26 @@ class MassContentDeleter {
       height: this.$textarea.outerHeight()
     });
   }
+  /**
+   * @param {ClipboardEvent} event
+   */
   async PasteHandler(event) {
     event.preventDefault();
     this.ShowTextareaSpinner();
 
-    let text = (event.originalEvent || event).clipboardData.getData("text/plain");
+    /**
+     * @type {string}
+     */
+    // @ts-ignore
+    let text = (event.originalEvent || event).clipboardData.getData(
+      "text/plain");
 
-    await System.Delay(50);
-    document.execCommand("insertText", false, text);
+    if (text)
+      text = text.replace(/ {1,}|(\s)\s{1,}/g, "\n");
+
+    this.$textarea.prop("innerText", text);
+
+    this.UpdateTextareaBackContent();
   }
   ShowTextareaSpinner() {
     this.$textareaSpinner.appendTo(this.$textareaSpinnerContainer);
@@ -166,16 +194,27 @@ class MassContentDeleter {
 
     let temp = this.$textarea.html();
 
-    idList.forEach(id => {
-      let status = "blue-light";
+    if (idList.length > 0)
+      temp = temp.replace(new RegExp(
+          `((?:\\b|[a-z]{1,})+${idList.join("|")}\\b)`, "g"),
+        replacedId => {
+          let id = Number(replacedId);
 
-      if (this.deletedContents[id])
-        status = this.deletedContents[id].isDeleted ? "mint" : "peach";
-      else
-        this.contentsToDelete.push(id);
+          if (this.contentsToDelete.includes(id))
+            return replacedId;
 
-      temp = temp.replace(new RegExp(`(\\b|[a-z]{1,})+(${id}\\b)`), `$1<span class="sg-text--background-${status}">$2</span>`);
-    });
+          let status = "blue-light";
+
+          if (
+            this.deletedContents[id] &&
+            this.deletedContents[id].isDeleted
+          ) {
+            status = "peach";
+          } else
+            this.contentsToDelete.push(id);
+
+          return `<span class="sg-text--background-${status}">${id}</span>`;
+        });
 
     this.$nIdsToDelete.text(this.contentsToDelete.length);
     this.$textareaBack.html(temp);
@@ -183,20 +222,16 @@ class MassContentDeleter {
     this.HideTextareaSpinner();
     this.UpdateTextareaBackScroll();
   }
-  /**
-   * @returns {number[]}
-   */
   ParseIDs() {
-    let idList;
+    /**
+     * @type {number[]}
+     */
+    let idList = [];
     let values = this.$textarea.prop("innerText");
 
-    if (values) {
+    if (values)
       idList = System.ExtractIds(values);
 
-      if (idList && idList.length > 0) {
-        idList = Array.from(new Set(idList));
-      }
-    }
     return idList;
   }
   async StartDeleting() {
@@ -204,6 +239,7 @@ class MassContentDeleter {
       return false;
 
     this.openedConnections = 0;
+    // @ts-ignore
     window.isPageProcessing = true;
     let contentsToDelete = [...this.contentsToDelete];
 
@@ -212,8 +248,13 @@ class MassContentDeleter {
     this.ShowTextareaSpinner();
     this.ShowHasBeenDeletedLabel();
     this.DeleteContents(contentsToDelete);
-    this._loop_deleter = setInterval(() => this.DeleteContents(contentsToDelete), 1000);
-    System.log(5, { user: System.data.Brainly.userData.user, data: this.contentsToDelete });
+    this._loop_deleter = setInterval(() => this.DeleteContents(
+      contentsToDelete), 1000);
+    System.log(5, {
+      user: System.data.Brainly.userData.user,
+      data: this
+        .contentsToDelete
+    });
   }
   IsDataClear() {
     if (!this.contentsToDelete || this.contentsToDelete.length == 0) {
@@ -222,26 +263,32 @@ class MassContentDeleter {
     } else if (this.deleteSection.selectedReason) {
       this.HideTextareaWarning();
 
-      if (confirm(System.data.locale.core.notificationMessages.warningBeforeDelete)) {
+      if (confirm(System.data.locale.core.notificationMessages
+          .warningBeforeDelete)) {
         return true;
       }
     }
   }
   PrepareData() {
     this.contentData = {
+      model_id: undefined,
       reason_id: this.deleteSection.selectedReason.id,
       reason: this.deleteSection.reasonText,
       give_warning: this.deleteSection.giveWarning,
     };
 
     if (this.deleteSection.type == "task")
-      this.contentData.take_points = this.deleteSection.takePoints;
-
-    if (this.deleteSection.type == "task" && this.deleteSection.type == "response")
       this.contentData.return_points = this.deleteSection.returnPoints;
+
+    if (
+      this.deleteSection.type == "task" ||
+      this.deleteSection.type == "response"
+    )
+      this.contentData.take_points = this.deleteSection.takePoints;
   }
   ShowHasBeenDeletedLabel() {
-    this.$nHasBeenDeleted.parents(".sg-actions-list__hole.js-hidden").removeClass("js-hidden");
+    this.$nHasBeenDeleted.parents(".sg-actions-list__hole.js-hidden")
+      .removeClass("js-hidden");
   }
   ShowButtonSpinner() {
     this.$buttonSpinner.appendTo(this.$deleteButtonSpinnerContainer);
@@ -254,7 +301,8 @@ class MassContentDeleter {
       return clearInterval(this._loop_deleter);
     }
 
-    for (let i = 0, contentID; i < 5 && (contentID = contentIDs.shift()); i++) {
+    for (let i = 0, contentID; i < 5 && (contentID = contentIDs
+        .shift()); i++) {
       this.DeleteContent(contentID);
     }
   }
@@ -264,15 +312,15 @@ class MassContentDeleter {
     let action = new Action();
 
     if (this.deleteSection.type == "task")
-      Method = "RemoveQuestion";
+      Method = action.RemoveQuestion;
 
     if (this.deleteSection.type == "response")
-      Method = "RemoveAnswer";
+      Method = action.RemoveAnswer;
 
     if (this.deleteSection.type == "comment")
-      Method = "RemoveComment";
+      Method = action.RemoveComment;
 
-    let resRemove = await action[Method](this.contentData);
+    let resRemove = await Method(this.contentData);
 
     this.MarkContentID(id, !!resRemove.success);
 
@@ -281,7 +329,9 @@ class MassContentDeleter {
         (
           resRemove.message ?
           `#${id} > ${resRemove.message}` :
-          System.data.locale.core.notificationMessages.errorOccurredWhileDeletingTheN.replace("%{content_id}", ` #${id} `)
+          System.data.locale.core.notificationMessages
+          .errorOccurredWhileDeletingTheN.replace("%{content_id}",
+            ` #${id} `)
         ),
         "error"
       );
@@ -303,11 +353,13 @@ class MassContentDeleter {
   }
   UpdateProcessStatus() {
     if (this.contentsToDelete.length == ++this.openedConnections) {
+      // @ts-ignore
       window.isPageProcessing = false;
 
       this.HideButtonSpinner();
       this.HideTextareaSpinner();
-      this.modal.notification(System.data.locale.common.notificationMessages.operationCompleted, "success", true);
+      this.modal.notification(System.data.locale.common.notificationMessages
+        .operationCompleted, "success", true);
     }
   }
   ShowTextareaWarning() {

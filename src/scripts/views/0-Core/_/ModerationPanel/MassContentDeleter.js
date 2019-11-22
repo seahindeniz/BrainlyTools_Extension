@@ -322,7 +322,7 @@ class MassContentDeleter {
     if (this.deleteSection.type == "comment")
       Method = action.RemoveComment;
 
-    let resRemove = await Method(this.contentData);
+    let resRemove = await Method.bind(action)(this.contentData);
 
     this.MarkContentID(id, !!resRemove.success);
 

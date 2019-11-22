@@ -6,12 +6,12 @@ import {
   ContentBoxContent,
   SpinnerContainer,
   Text,
-  Textarea
+  Textarea,
+  Input
 } from "@style-guide";
 import debounce from "debounce";
 import rangeParser from "parse-numeric-range";
 import Inputs from ".";
-import Input from "../../../../../../../components/Input";
 import Build from "../../../../../../../helpers/Build";
 
 let System = require("../../../../../../../helpers/System");
@@ -147,7 +147,7 @@ export default class IdRange extends Inputs {
             Text({
               size: "small",
               breakWords: true,
-              type: "blockquote"
+              tag: "blockquote"
             }),
             [
               [
@@ -169,14 +169,14 @@ export default class IdRange extends Inputs {
                     }),
                     [
                       Text({
-                        type: "span",
+                        tag: "span",
                         size: "xsmall",
                         weight: "bold",
                         color: "mint-dark",
                         html: `${System.data.locale.core.MassModerateContents.targets.idRange.input}: `
                       }),
                       Text({
-                        type: "span",
+                        tag: "span",
                         size: "xsmall",
                         html: sampleRange
                       })
@@ -188,14 +188,14 @@ export default class IdRange extends Inputs {
                     }),
                     [
                       Text({
-                        type: "span",
+                        tag: "span",
                         size: "xsmall",
                         weight: "bold",
                         color: "blue-dark",
                         html: `${System.data.locale.core.MassModerateContents.targets.idRange.output}: `
                       }),
                       Text({
-                        type: "span",
+                        tag: "span",
                         size: "xsmall",
                         html: rangeParser.parse(sampleRange).join(", ")
                       })

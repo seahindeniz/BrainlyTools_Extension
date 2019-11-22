@@ -111,7 +111,7 @@ export default class ReportContent extends Methods {
     this._reasons[this.lastSelectedContentType].forEach(reason => reason
       .Hide())
   }
-  _Show() {
+  TabOpened() {
     if (this.started)
       this.ShowActionButtonSpinnerContainer();
     else if (

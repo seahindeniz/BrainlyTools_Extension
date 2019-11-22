@@ -1,9 +1,9 @@
-import Input from "../../../../../../../../components/Input";
 import {
   ContentBox,
   ContentBoxContent,
   Radio,
-  Textarea
+  Textarea,
+  Input
 } from "@style-guide";
 import Build from "../../../../../../../../helpers/Build";
 import SubReasonSection from "./SubReasonSection";

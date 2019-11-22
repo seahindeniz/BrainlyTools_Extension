@@ -2,6 +2,7 @@
 
 import taskSection from "./_/taskSection";
 import responseSection from "./_/responseSection";
+import KeywordList from "./_/KeywordList";
 
 System.pageLoaded("Task inject OK!");
 
@@ -22,4 +23,7 @@ if (System.checkBrainlyP(102)) {
   if (System.checkUserP(2)) {
     responseSection();
   }
+
+  if (System.checkUserP(35, true))
+    new KeywordList();
 }

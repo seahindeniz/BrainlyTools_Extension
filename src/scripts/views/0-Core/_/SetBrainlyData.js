@@ -3,9 +3,6 @@ import WaitForObject from "../../../helpers/WaitForObject";
 
 let RoutesFetchURL;
 
-/**
- * Get and set [Routing, __default_config] from storage or fetching from Brainly
- */
 export default async function SetBrainlyData() {
   let routing = localStorage.getObject("Routing");
   let defaultConfig = localStorage.getObject("__default_config");
@@ -38,6 +35,8 @@ async function GetDefaultConfig() {
 
   if (document.head.innerHTML.match(/__default_config/gmi)) {
     defaultConfig = await WaitForObject("__default_config");
+
+    PrepareSecondaryObjects(defaultConfig);
   } else {
     defaultConfig = await FetchDefaultConfig();
   }
@@ -53,9 +52,13 @@ function FetchDefaultConfig() {
 
     //console.log("res:", res);
     if (sourcePageHTML && sourcePageHTML != "") {
-      let matchConfig = (/__default_config = (.*[\S\s]*?};)/gmi).exec(sourcePageHTML);
-      let matchSecondConfig = (/\.config \= (.*)\;/gmi).exec(sourcePageHTML);
-      let matchAuthJSFile = sourcePageHTML.match(/(\/sf\/js\/bundle\/include_auth\_[a-z\_\-]{1,}\-[a-z0-9]{1,}\.min\.js)/gmi);
+      let matchConfig = (/__default_config = (.*[\S\s]*?};)/gmi).exec(
+        sourcePageHTML);
+      let matchSecondConfig = (/\.config \= (.*)\;/gmi).exec(
+        sourcePageHTML);
+      let matchAuthJSFile = sourcePageHTML.match(
+        /(\/sf\/js\/bundle\/include_auth\_[a-z\_\-]{1,}\-[a-z0-9]{1,}\.min\.js)/gmi
+      );
       RoutesFetchURL = matchAuthJSFile[matchAuthJSFile.length - 1];
       //RoutesFetchURL = ExtractRoutesFetchURL(res);
 
@@ -66,53 +69,52 @@ function FetchDefaultConfig() {
       } else if (!RoutesFetchURL) {
         reject("Routes URL not found");
       } else {
-        resolve(ProcessDefaultConfigData(matchConfig[matchConfig.length - 1], matchSecondConfig[matchSecondConfig.length - 1]));
+        resolve(ProcessDefaultConfigData(matchConfig[matchConfig.length -
+          1], matchSecondConfig[matchSecondConfig.length - 1]));
       }
     }
   });
 }
 
-function ExtractRoutesFetchURL(source) {
-  let url;
-
-  if (source) {
-    let matchAuthJSFile = source.match(/(\/sf\/js\/bundle\/include_auth\_[a-z\_\-]{1,}\-[a-z0-9]{1,}\.min\.js)/gmi);
-    url = matchAuthJSFile[matchAuthJSFile.length - 1];
-  } else {
-    let RoutingContainerMatch = Array.from(document.scripts).find(script => script.src.match(/__vendors|include_main_/gmi));
-    console.log("RoutingContainerMatch:", RoutingContainerMatch);
-
-    if (RoutingContainerMatch) {
-      url = RoutingContainerMatch.src;
-    }
-  }
-
-  return url;
-}
-
 function ProcessDefaultConfigData(first, second) {
   System.data.Brainly.defaultConfig = new Function(`return ${first}`)();
-  System.data.Brainly.defaultConfig.user.ME = JSON.parse(System.data.Brainly.defaultConfig.user.ME);
   System.data.Brainly.defaultConfig.config = JSON.parse(second);
-  System.data.Brainly.defaultConfig.config.data.ranksWithId = {};
-  System.data.Brainly.defaultConfig.config.data.ranksWithName = {};
 
-  System.data.Brainly.defaultConfig.config.data.ranks.forEach(rank => {
-    System.data.Brainly.defaultConfig.config.data.ranksWithId[rank.id] = {
+  PrepareSecondaryObjects();
+
+  return System.data.Brainly.defaultConfig;
+}
+
+function PrepareSecondaryObjects(defaultConfig) {
+  if (!defaultConfig && System.data.Brainly.defaultConfig)
+    defaultConfig = System.data.Brainly.defaultConfig;
+
+  if (
+    !System.data.Brainly.defaultConfig ||
+    !System.data.Brainly.defaultConfig.user ||
+    typeof System.data.Brainly.defaultConfig.user.ME == "string"
+  ) {
+    defaultConfig.user.ME = JSON.parse(defaultConfig.user.ME);
+  }
+
+  defaultConfig.config.data.ranksWithId = {};
+  defaultConfig.config.data.ranksWithName = {};
+
+  defaultConfig.config.data.ranks.forEach(rank => {
+    defaultConfig.config.data.ranksWithId[rank.id] = {
       name: rank.name,
       color: rank.color,
       type: rank.type,
       description: rank.description
     };
-    System.data.Brainly.defaultConfig.config.data.ranksWithName[rank.name] = {
+    defaultConfig.config.data.ranksWithName[rank
+      .name] = {
       name: rank.name,
       color: rank.color,
       type: rank.type,
       description: rank.description
     };
   });
-
-  return System.data.Brainly.defaultConfig;
 }
 
 async function GetRoutingData() {
@@ -141,7 +143,8 @@ async function FetchRouting() {
     if (!matchRoutes || matchRoutes.length < 1) {
       throw new Error("Routes not found", resJS);
     } else {
-      let routing = new Function(`return {${matchRoutes[matchRoutes.length - 1]}}`)();
+      let routing = new Function(
+        `return {${matchRoutes[matchRoutes.length - 1]}}`)();
 
       return routing;
     }

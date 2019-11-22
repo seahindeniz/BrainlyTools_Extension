@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.31.0] - 2019.11.22
+
+### Added
+
+- Introduce keyword list for admins
+
+### Changed
+
+- Page crashing while adding huge amount of ids into id range
+- Brainy blocking the extension due to adding answers to frequently. 
+
 ## [6.30.2] - 2019.11.13
 
 ### Changed

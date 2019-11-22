@@ -1,5 +1,5 @@
 /**
- * @param {[]} array
+ * @param {*[]} array
  * @param {number} size
  */
 export default function Chunkify(array, size) {

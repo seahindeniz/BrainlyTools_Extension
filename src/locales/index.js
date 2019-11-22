@@ -790,5 +790,8 @@ export default {
       confirm: "Confirmed on %{date} by %{nick}",
       disapprove: "Disapproved on %{date} by %{nick}"
     }
+  },
+  question: {
+    keywords: "Keywords"
   }
 }

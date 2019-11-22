@@ -422,7 +422,7 @@
       "sent": "Envoyer",
       "usersNotFound": "Utilisateur non trouvé",
       "errors": "Erreurs",
-      "unknownError": "Unknown error"
+      "unknownError": "Erreur inconnue"
     },
     "announcements": {
       "text": "Annonces",
@@ -790,5 +790,8 @@
       "confirm": "Confirmer le %{date} par %{nick}",
       "disapprove": "Désapprouver le %{date} par %{nick}"
     }
+  },
+  "question": {
+    "keywords": "Keywords"
   }
 }

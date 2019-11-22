@@ -1,6 +1,6 @@
+import Build from "@/scripts/helpers/Build";
 import ServerReq from "@ServerReq";
 import { Box, Flex, Spinner, SpinnerContainer, Text } from "@style-guide";
-import Build from "@/scripts/helpers/Build";
 
 export default class KeywordList {
   constructor() {
@@ -115,7 +115,7 @@ export default class KeywordList {
           padding: "no",
           color: "dark",
           children: Text({
-            html: "Keywords:",
+            html: `${System.data.locale.question.keywords}:`,
             size: "small",
           }),
         })

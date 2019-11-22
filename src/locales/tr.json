@@ -790,5 +790,8 @@
       "confirm": "%{date} tarihinde %{nick} tarafından onaylandı",
       "disapprove": "%{date} tarihinde %{nick} tarafından reddedildi"
     }
+  },
+  "question": {
+    "keywords": "Anahtar kelimeler"
   }
 }

@@ -790,5 +790,8 @@
       "confirm": "Mengkonfirmasi pada %{date} oleh %{nick}",
       "disapprove": "Ditolak pada %{date} oleh %{nick}"
     }
+  },
+  "question": {
+    "keywords": "Keywords"
   }
 }

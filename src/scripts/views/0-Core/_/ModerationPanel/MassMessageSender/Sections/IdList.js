@@ -70,9 +70,9 @@ class IdListSection {
       "text/plain");
 
     if (text)
-      text = text.replace(/ {1,}|(\s)\s{1,}/g, "\n");
+      text = text.replace(/\s{1,}/g, "<br>");
 
-    this.$textarea.prop("innerText", text);
+    document.execCommand("insertHTML", false, text)
 
     this.UpdateTextareaBackContent();
   }
@@ -88,8 +88,6 @@ class IdListSection {
   UpdateTextareaBackContent() {
     this.idList = [];
     let idList = this.ParseIDs();
-
-    this.$idCount.text(this.idList.length);
 
     let temp = this.$textarea.prop("innerHTML");
 
@@ -113,6 +111,7 @@ class IdListSection {
     this.$textareaBack.html(temp);
     this.UpdateTextareaBackScroll();
     this.$textarea.removeClass(`error`);
+    this.$idCount.text(this.idList.length);
   }
   /**
    * @returns {number[]}

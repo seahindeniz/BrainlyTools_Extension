@@ -227,9 +227,9 @@ export default class ListOfIds extends Inputs {
       "text/plain");
 
     if (text)
-      text = text.replace(/ {1,}|(\s)\s{1,}/g, "\n");
+      text = text.replace(/\s{1,}/g, "<br>");
 
-    this.textarea.innerText = text;
+    document.execCommand("insertHTML", false, text)
 
     this.UpdateTextareaBackContent();
   }

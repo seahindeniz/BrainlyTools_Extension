@@ -236,39 +236,35 @@ export default class IdRange extends Inputs {
     let value = this.input.value.replace(/\s/g, "");
     let rangeArr = rangeParser.parse(value);
     let rangeSet = new Set(rangeArr);
-    rangeArr = Array.from(rangeSet)
-      .filter(x => x > 0);
+    rangeArr = Array.from(rangeSet);
+    this.rangeLengthBeforeFilter = rangeArr.length;
+    rangeArr = rangeArr.filter(x => (
+      x > 0 &&
+      !this.main.active.contentType
+      .deletedContents.includes(x)
+    ));
 
     return rangeArr;
   }
   CalculateIdList() {
     let idList = this.range;
-    let numberOfIgnored = 0;
+    let numberOfIgnored = this.rangeLengthBeforeFilter - idList.length;
     this.output.innerHTML = "";
 
-    this.numberOfIds.innerText = String(idList.length);
+    if (idList.length > 0) {
+      let tempArr = idList.slice(0, 1000);
+      let tempList = tempArr.join("\n");
+      this.output.innerHTML = tempList.replace(/(\d{1,})/g,
+        `<div><span class="sg-text--background-blue-light">$1</span></div>`);
 
-    idList = idList.filter(id => {
-      if (this.main.active.contentType.deletedContents.includes(id)) {
-        numberOfIgnored++;
+      if (tempArr.length < idList.length)
+        this.output.innerHTML += `...`;
 
-        this.output.appendChild(Text({
-          text: `-${id}`,
-          size: "small",
-          color: "peach-dark"
-        }));
-      } else {
-        this.output.appendChild(Text({
-          text: id,
-          size: "small",
-          color: "blue-dark"
-        }));
-
-        return id;
-      }
-    });
+      this.output.scrollTop = this.output.scrollHeight;
+    }
 
     this.idList = idList;
+    this.numberOfIds.innerText = String(this.rangeLengthBeforeFilter || 0);
     this.numberOfIgnored.innerText = String(numberOfIgnored);
     this.numberOfContents.innerText = String(idList.length);
   }

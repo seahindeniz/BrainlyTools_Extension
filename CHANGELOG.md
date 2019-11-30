@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.31.2] - 2019.11.30
+
+### Changed
+
+- Some contents cannot be deleted selectively on user contents page
+
 ## [6.31.1] - 2019.11.22
 
 ### Changed

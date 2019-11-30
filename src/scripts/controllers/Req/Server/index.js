@@ -107,7 +107,7 @@ export default class ServerReq {
 
       let resAuth = await this.auth().POST(data);
 
-      if (!resAuth) {
+      if (!resAuth || !(resAuth instanceof Object) || !resAuth.data) {
         System.changeBadgeColor("error");
         notification({
           type: "error",

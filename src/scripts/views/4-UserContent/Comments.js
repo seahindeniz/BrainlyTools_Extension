@@ -1,12 +1,10 @@
-// @ts-ignore
-import moment from "moment";
+import momentTz from "moment-timezone";
 import UserContent from "./_/UserContent";
 import Action from "../../controllers/Req/Brainly/Action";
 
 class Comments extends UserContent {
   constructor() {
     super("Comments");
-
   }
   InitComments() {
     if (System.checkUserP(16)) {
@@ -22,6 +20,7 @@ class Comments extends UserContent {
   }
   async GetQuestion(questionID, question) {
     question.res = await question.resPromise;
+    // @ts-ignore
     let rows = this.rows.filter(row => row.element.questionID == questionID);
 
     if (!question.res || !question.res.success)
@@ -39,7 +38,9 @@ class Comments extends UserContent {
     allComments = [...allComments, ...questionComments];
 
     if (data.responses && data.responses.length > 0) {
-      let answersComments = await this.FindCommentsFromContents([...data.responses], 2);
+      let answersComments = await this.FindCommentsFromContents([...data
+        .responses
+      ], 2);
       allComments = [...allComments, ...answersComments];
     }
 
@@ -56,7 +57,7 @@ class Comments extends UserContent {
     return Promise.resolve(usersComments);
   }
   /**
-   * @param {[]} contents
+   * @param {*[]} contents
    */
   FindCommentsFromContents(contents, type) {
     return new Promise(resolve => {
@@ -64,7 +65,8 @@ class Comments extends UserContent {
 
       let _loop = async () => {
         let content = contents.shift();
-        let comments = await this.FindCommentsFromContent(content, type);
+        let comments = await this.FindCommentsFromContent(content,
+          type);
         allComments = [...allComments, ...comments];
 
         if (contents.length == 0) {
@@ -83,8 +85,10 @@ class Comments extends UserContent {
       // This should be exists in here because this line can push comment details even if related question has been deleted.
       allComments = content.comments.items;
 
-      if (content.comments.count > 5 && content.settings && !content.settings.is_deleted) {
-        let resComments = await new Action().GetComments(content.id, type, content.comments.count);
+      if (content.comments.count > 5 && content.settings && !content.settings
+        .is_deleted) {
+        let resComments = await new Action().GetComments(content.id, type,
+          content.comments.count);
 
         if (resComments && resComments.success)
           allComments = resComments.data.comments.items;
@@ -94,15 +98,15 @@ class Comments extends UserContent {
     return Promise.resolve(allComments);
   }
   /**
-   * @param {[]} allComments
-   * @param {[]} rows
+   * @param {*[]} allComments
+   * @param {import("./_/UserContentRow").default[]} rows
    */
   AttachCommentsToRows(allComments, rows) {
     allComments.forEach(comment => this.AttachCommentToRows(comment, rows));
   }
   /**
    * @param {{}} comment
-   * @param {[]} rows
+   * @param {*[]} rows
    */
   AttachCommentToRows(comment, rows) {
     rows.forEach(row => this.AttachCommentToRow(comment, row));
@@ -118,16 +122,15 @@ class Comments extends UserContent {
     let cellText = $contentCell.text().trim().slice(0, -3);
 
     if (date) {
-      let date2 = moment(comment.created);
-      date2 = date2.utcOffset(System.data.Brainly.defaultConfig.locale
-        .OFFSET).format("YYYY-MM-DD HH:mm:ss");
+      let date2 = momentTz(comment.created);
+      let date2Str = date2
+        /* .utcOffset(System.data.Brainly.defaultConfig.locale
+                .OFFSET) */
+        .tz(System.data.Brainly.defaultConfig.config.data.config.timezone)
+        .format("YYYY-MM-DD HH:mm:ss");
 
       //console.log(date, date2.format("YYYY-MM-DD HH:mm:ss"), comment.created, date == date2.format("YYYY-MM-DD HH:mm:ss"));
-      if (date == date2) {
-        /* if (date) {
-        	date = moment(date + System.data.Brainly.defaultConfig.locale.OFFSET).tz(System.data.Brainly.defaultConfig.locale.TIMEZONE);
-
-        	if (date.format() == comment.created) { */
+      if (date == date2Str) {
         let fetchedText = comment.content.replace(/ {2,}/g, " ");
 
         if (fetchedText.startsWith(cellText)) {
@@ -136,7 +139,8 @@ class Comments extends UserContent {
           row.checkbox.HideSpinner();
           row.UnDelete();
 
-          if(comment.is_marked_abuse){
+          if (comment.is_marked_abuse) {
+            // @ts-ignore
             row.element.that.RenderReportedContentIcon(comment);
           }
 

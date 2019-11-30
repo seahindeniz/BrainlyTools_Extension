@@ -10,8 +10,7 @@ import {
   IconAsButton,
   Text
 } from "@style-guide";
-// @ts-ignore
-import moment from "moment";
+import momentTz from "moment-timezone";
 import notification from "../../../components/notification";
 import Action from "../../../controllers/Req/Brainly/Action";
 import ContentViewer_Content from "./ContentViewer_Content";
@@ -34,6 +33,7 @@ export default class UserContentRow {
       question: null,
       answers: {}
     }
+    this.comment = undefined;
 
     $(element).prop("that", this);
 
@@ -223,12 +223,18 @@ export default class UserContentRow {
     let date = $dateCell.text().trim();
 
     if (date) {
-      let date2 = moment(answer.created);
-      date2 = date2.utcOffset(System.data.Brainly.defaultConfig.locale
-        .OFFSET).format("YYYY-MM-DD HH:mm:ss");
+      let date2 = momentTz(answer.created);
+      let date2Str = date2
+        /* .utcOffset(System.data.Brainly.defaultConfig.locale
+                .OFFSET) */
+        .tz(System.data.Brainly.defaultConfig.config.data.config.timezone)
+        .format("YYYY-MM-DD HH:mm:ss");
 
-      if (date == date2) {
+      if (date == date2Str)
         this.answerID = answer.id;
+      else {
+        console.log(answer.created);
+        console.log(date, date2Str);
       }
     }
   }

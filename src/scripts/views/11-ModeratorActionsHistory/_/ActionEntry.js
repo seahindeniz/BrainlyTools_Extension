@@ -173,7 +173,6 @@ export default class ActionEntry {
     return this.InProgress();
   }
   InProgress() {
-    // @ts-ignore
     window.isPageProcessing = true;
 
     this.ShowSpinner();
@@ -198,7 +197,6 @@ export default class ActionEntry {
     this.disapproveButton.Disable();
   }
   FinishProgress() {
-    // @ts-ignore
     window.isPageProcessing = false;
 
     if (!this.details) {

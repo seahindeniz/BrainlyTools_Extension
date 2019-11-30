@@ -192,7 +192,6 @@ class _System {
         }
       };
       try {
-        // @ts-ignore
         window.chrome.runtime.sendMessage(this.data.meta.extension && this
           .data.meta.extension.id,
           messageData, handler);

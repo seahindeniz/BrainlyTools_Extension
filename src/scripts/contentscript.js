@@ -11,16 +11,23 @@ import ext from "./utils/ext";
  * @type {_System}
  */
 let System;
-let MANIFEST = ext.runtime.getManifest();
-MANIFEST.URL = ext.extension.getURL("");
-MANIFEST.id = ext.runtime.id;
+let manifestData = ext.runtime.getManifest();
+let MANIFEST = {
+  ...manifestData,
+  URL: ext.extension.getURL(""),
+  id: ext.runtime.id,
+};
 //manifest.clientID = Math.random().toString(36).slice(2);
 
-const html = document.documentElement;
+let html = document.documentElement;
 
-class Contentscript {
+class ContentScript {
   constructor() {
+    this.InitConsolePreventerPreventer();
     this.InitIfBrainly();
+  }
+  InitConsolePreventerPreventer() {
+    InjectToDOM("/scripts/lib/preventConsolePreventer.js");
   }
   InitIfBrainly() {
     const url = new URL(location.href);
@@ -31,7 +38,7 @@ class Contentscript {
     )
       return;
 
-    html.brainly_tools = MANIFEST.version;
+    html["brainly_tools"] = MANIFEST.version;
 
     this.Init();
     this.InjectCoreIfItIsntInjected();
@@ -71,11 +78,13 @@ class Contentscript {
     if (html.id != "html") {
       InjectToDOM("/styles/pages/Core.css", { makeItLastElement: true });
     } else {
-      InjectToDOM("/styles/pages/CoreWithStyleGuide.css", { makeItLastElement: true });
+      InjectToDOM(
+        "/styles/pages/CoreWithStyleGuide.css", { makeItLastElement: true });
 
-      let isContains = await WaitForObject(`document.body.classList.contains("mint")`, { noError: true });
+      let isContains = await WaitForObject(
+        `document.body.classList.contains("mint")`, { noError: true });
 
-      if (isContains && !document.body.attributes.itemtype)
+      if (isContains && !document.body.attributes["itemtype"])
         InjectToDOM([
           System.constants.Brainly.style_guide.icons,
         ]);
@@ -84,10 +93,12 @@ class Contentscript {
   BindHandlers() {
     window.addEventListener('metaGet', this.SendMetaData.bind(this));
     ext.runtime.onMessage.addListener(this.MessageHandler.bind(this));
-    window.addEventListener("message", this.SecondaryMessageHandler.bind(this));
-    window.addEventListener('contentscript>Share System.data to background.js:DONE', () => {
-      System.toBackground("popup>Get System.data from background")
-    });
+    window.addEventListener("message", this.SecondaryMessageHandler.bind(
+      this));
+    window.addEventListener(
+      'contentscript>Share System.data to background.js:DONE', () => {
+        System.toBackground("popup>Get System.data from background")
+      });
   }
   SendMetaData(event) {
     window.postMessage({
@@ -111,7 +122,8 @@ class Contentscript {
       localStorage.setItem("themeColor", request.data);
       this.MessageHandler({ action: "previewColor", data: request.data });
     }
-    if (request.action === "contentscript>Share System.data to background.js") {
+    if (request.action ===
+      "contentscript>Share System.data to background.js") {
       window.postMessage({
         action: "DOM>Share System.data to background.js"
       }, request.url);
@@ -135,5 +147,5 @@ class Contentscript {
   }
 }
 
-if (!html.brainly_tools || html.brainly_tools !== MANIFEST.version)
-  new Contentscript();
+if (!html["brainly_tools"] || html["brainly_tools"] !== MANIFEST.version)
+  new ContentScript();

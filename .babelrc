@@ -1,24 +1,35 @@
 {
-  "presets": [
-    "@babel/preset-env"
-  ],
   "plugins": [
     "@babel/plugin-transform-runtime",
-    ["inline-import", {
-      "extensions": [
-        ".html"
-      ]
-    }],
-    ["import-graphql", {
-      "runtime": true
-    }],
-    ["module-resolver", {
-      "alias": {
-        "@style-guide": "./src/scripts/components/style-guide",
-        "@BrainlyAction": "./src/scripts/controllers/Req/Brainly/Action",
-        "@ServerReq": "./src/scripts/controllers/Req/Server",
-        "@": ["./src"]
+    [
+      "inline-import",
+      {
+        "extensions": [
+          ".html"
+        ]
       }
-    }]
+    ],
+    [
+      "import-graphql",
+      {
+        "runtime": true
+      }
+    ],
+    [
+      "module-resolver",
+      {
+        "alias": {
+          "@": [
+            "./src"
+          ],
+          "@BrainlyAction": "./src/scripts/controllers/Req/Brainly/Action",
+          "@ServerReq": "./src/scripts/controllers/Req/Server",
+          "@style-guide": "./src/scripts/components/style-guide"
+        }
+      }
+    ]
+  ],
+  "presets": [
+    "@babel/preset-env"
   ]
 }

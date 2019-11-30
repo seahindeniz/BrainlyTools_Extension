@@ -1,13 +1,17 @@
 {
+  "brace_style": "collapse,preserve-inline",
+  "break_chained_methods": false,
+  "end_with_newline": true,
+  "html": {
+    "inline": [
+      "b",
+      "i",
+      "u"
+    ]
+  },
   "indent_size": 2,
   "max_preserve_newlines": 2,
   "preserve_newlines": true,
-  "break_chained_methods": false,
-  "wrap_line_length": 80,
-  "end_with_newline": true,
   "space_before_conditional": true,
-  "brace_style": "collapse,preserve-inline",
-  "html": {
-    "inline": ["b", "i", "u"]
-  }
+  "wrap_line_length": 80
 }

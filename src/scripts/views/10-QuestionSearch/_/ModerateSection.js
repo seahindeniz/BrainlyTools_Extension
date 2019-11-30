@@ -300,7 +300,6 @@ class ModerateSection {
       })
     } else if (this.deleteSection.selectedReason) {
       if (confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
-        // @ts-ignore
         window.isPageProcessing = true;
 
         this.postData = {
@@ -354,7 +353,6 @@ class ModerateSection {
   }
   StopDeleting() {
     this.started = false;
-    // @ts-ignore
     window.isPageProcessing = false;
 
     clearInterval(this._loop);

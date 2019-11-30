@@ -7,7 +7,6 @@ import _System from "../../controllers/System";
 import storage from "../../helpers/extStorage";
 import InjectToDOM from "../../helpers/InjectToDOM";
 import messagesLayoutExtender from "../../helpers/messagesLayoutExtender";
-import "../../helpers/preventConsolePreventer";
 import WaitForObject from "../../helpers/WaitForObject";
 //import renderAnnouncements from "./_/Announcements";
 import fetchFriends from "./_/fetchFriends";
@@ -140,7 +139,7 @@ class Core {
     RenderMenuButtonFixer();
 
     if (window.sitePassedParams && typeof window.sitePassedParams == "string")
-      window.sitePassedParams = JSON.parse(sitePassedParams);
+      window.sitePassedParams = JSON.parse(window.sitePassedParams);
   }
   InjectFilesToPage() {
     if (System.checkRoute(2, "view_user_warns")) {

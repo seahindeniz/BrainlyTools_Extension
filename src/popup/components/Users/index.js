@@ -3,14 +3,8 @@ import notification from "../notification";
 import PrivilegeCategory from "./_/PrivilegeCategory";
 import moment from "moment";
 
-let System = require("../../../scripts/helpers/System");
-
 class Users {
   constructor() {
-    if (typeof System == "function")
-      // @ts-ignore
-      System = System();
-
     /**
      * @type {Object<string, {title: string, privileges: (number|number[])[]}>}
      */

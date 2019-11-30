@@ -113,9 +113,9 @@ class Background {
 
         return $.ajax(ajaxData);
       }
-      if (request.action === "updateExtension") {
+      if (request.action === "updateExtension")
         return this.CheckUpdate();
-      }
+
       if (request.action === "openCaptchaPopup") {
         if (!this.popupOpened) {
           this.CreateWindow({
@@ -161,7 +161,6 @@ class Background {
   }
   InitMarket(data) {
     let name = data.meta.marketName;
-
     this.markets[name] = data;
   }
   UpdateBadge(options) {
@@ -179,9 +178,10 @@ class Background {
     System.Log("update started");
     let status = await ext.runtime.requestUpdateCheck();
 
-    if (status == "update_available") {
+    console.log(status);
+    if (status[0] == "update_available")
       ext.runtime.reload();
-    }
+
     chrome.storage.local.clear();
 
     return status;
@@ -269,7 +269,7 @@ class Background {
       try {
         await ext.tabs.sendMessage(
           tabId, { action: "contentscript>Check if content script injected" }
-          );
+        );
       } catch (_) {
         resolve()
       }

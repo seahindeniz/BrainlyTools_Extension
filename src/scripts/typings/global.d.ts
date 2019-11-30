@@ -1,12 +1,14 @@
 import _System from "../controllers/System";
-/*
-System: _System;
-chrome: any;
-ResizeObserver: string;
-isPageProcessing: boolean;
-performanceStartTiming: number;
-*/
+import ThemeColorChanger from "../helpers/ThemeColorChanger";
+import Popup from "@/popup/controllers/Popup";
 
 declare global {
+  var popup: Popup;
+  var selectors: {};
   var System: _System;
+  var ResizeObserver: any;
+  var isPageProcessing: boolean;
+  var coloring: ThemeColorChanger;
+  var sitePassedParams: string | {};
+  var performanceStartTiming: number;
 }

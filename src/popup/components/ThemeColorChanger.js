@@ -2,17 +2,11 @@ import storage from "../../scripts/helpers/extStorage";
 import notification from "../components/notification";
 import send2AllBrainlyTabs from "../helpers/send2AllBrainlyTabs";
 
-let System = require("../../scripts/helpers/System");
-
 const DEFAULT_THEME_COLOR = "#4fb3f6";
 
 class ThemeColorChanger {
   constructor(color = DEFAULT_THEME_COLOR) {
     this.color = color;
-
-    if (typeof System == "function")
-      // @ts-ignore
-      System = System();
 
     this.Render();
     this.BindHandlers();

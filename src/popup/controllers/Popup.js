@@ -12,8 +12,6 @@ import storage from "../../scripts/helpers/extStorage";
 import TimedLoop from "../../scripts/helpers/TimedLoop";
 import Action from "../../scripts/controllers/Req/Brainly/Action";
 
-let System = require("../../scripts/helpers/System");
-
 class Popup {
   constructor() {
     this.$body = $("body");
@@ -24,10 +22,6 @@ class Popup {
     this.storageData = {};
     this.fetchedUsers = {};
     this.parameters = {};
-
-    if (typeof System == "function")
-      // @ts-ignore
-      System = System();
 
     this.RefreshTimeElements();
     this.BindHandlers();
@@ -143,7 +137,7 @@ class Popup {
       [
         this.RenderAccountDeleteReports(),
         this.RenderDeleteReasonsPreferences(),
-        this.RenderAnnouncements(),
+        //this.RenderAnnouncements(),
         this.RenderUsers(),
       ]
     ];

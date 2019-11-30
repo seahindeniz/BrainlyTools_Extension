@@ -241,7 +241,6 @@ class MassContentDeleter {
       return false;
 
     this.openedConnections = 0;
-    // @ts-ignore
     window.isPageProcessing = true;
     let contentsToDelete = [...this.contentsToDelete];
 
@@ -355,7 +354,6 @@ class MassContentDeleter {
   }
   UpdateProcessStatus() {
     if (this.contentsToDelete.length == ++this.openedConnections) {
-      // @ts-ignore
       window.isPageProcessing = false;
 
       this.HideButtonSpinner();

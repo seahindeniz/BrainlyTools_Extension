@@ -197,7 +197,6 @@ export default class ModeratorActionHistory {
       throw 0
     }
 
-    // @ts-ignore
     window.isPageProcessing = true;
 
     this.ShowSpinner();
@@ -222,7 +221,6 @@ export default class ModeratorActionHistory {
     this.$disapproveButton.Disable();
   }
   FinishProgress() {
-    // @ts-ignore
     window.isPageProcessing = false;
 
     this.HideSpinner();

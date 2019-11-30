@@ -1,6 +1,13 @@
-import browser from "webextension-polyfill";
+import webExt from "webextension-polyfill";
 
-const apis = [
+/**
+ * @type {browser}
+ */
+const ext = webExt;
+
+export default ext;
+
+/* const apis = [
   'alarms',
   'bookmarks',
   'browserAction',
@@ -24,47 +31,44 @@ const apis = [
   'windows',
 ]
 
-function Extension() {
-  const _this = this
+class Extension {
+  constructor() {
+    this.api = undefined;
+    const _this = this;
+    console.log(this);
 
-  apis.forEach(function(api) {
-
-    _this[api] = null
-
+    apis.forEach(function(api) {
+      _this[api] = null;
+      try {
+        if (window.chrome[api]) {
+          _this[api] = window.chrome[api];
+        }
+      } catch (e) {}
+      try {
+        if (window[api]) {
+          _this[api] = window[api];
+        }
+      } catch (e) {}
+      try {
+        if (browser[api]) {
+          _this[api] = browser[api];
+        }
+      } catch (e) {}
+      try {
+        _this.api = browser.extension[api];
+      } catch (e) {}
+    });
     try {
-      if (window.chrome[api]) {
-        _this[api] = window.chrome[api]
+      if (browser && browser.runtime) {
+        this.runtime = browser.runtime;
       }
     } catch (e) {}
-
     try {
-      if (window[api]) {
-        _this[api] = window[api]
+      if (browser && browser.browserAction) {
+        this.browserAction = browser.browserAction;
       }
-    } catch (e) {}
-
-    try {
-      if (browser[api]) {
-        _this[api] = browser[api]
-      }
-    } catch (e) {}
-    try {
-      _this.api = browser.extension[api]
-    } catch (e) {}
-  })
-
-  try {
-    if (browser && browser.runtime) {
-      this.runtime = browser.runtime
-    }
-  } catch (e) {}
-
-  try {
-    if (browser && browser.browserAction) {
-      this.browserAction = browser.browserAction
-    }
-  } catch (e) {}
-
+    } catch (e) {};
+  }
 }
 
-export default new Extension();
+export default new Extension(); */

@@ -87,6 +87,7 @@ import classnames from 'classnames';
  * | 54
  * | 48
  * | 46
+ * | 40
  * | 32
  * | 30
  * | 26

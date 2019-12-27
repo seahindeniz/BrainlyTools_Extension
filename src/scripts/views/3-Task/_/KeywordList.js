@@ -1,4 +1,5 @@
 import Build from "@/scripts/helpers/Build";
+import IsVisible from "@/scripts/helpers/IsVisible";
 import ServerReq from "@ServerReq";
 import { Box, Flex, Spinner, SpinnerContainer, Text } from "@style-guide";
 
@@ -12,59 +13,53 @@ export default class KeywordList {
      * @type {string[]}
      */
     this.keywords = [];
+    this.dataFetched = false;
 
     this.ObserveAnswerPanel();
   }
   ObserveAnswerPanel() {
     let observer = new MutationObserver(mutations => {
       mutations.forEach(mutation => {
-        if (mutation.target instanceof HTMLDivElement) {
+        if (
+          mutation && mutation.target &&
+          mutation.target instanceof HTMLElement
+        ) {
+          /**
+           * @type {HTMLDivElement}
+           */
+          let answeringLayer = mutation.target
+            .querySelector(".brn-answering-layer");
+
           if (
-            mutation.addedNodes &&
-            mutation.addedNodes.length == 0 &&
-            mutation.target.classList.contains(
-              "brn-answering-layer__editor")
+            answeringLayer &&
+            (
+              !this.container ||
+              !IsVisible(this.container)
+            )
           ) {
-            this.answeringLayer = document.querySelector(
-              ".brn-answering-layer");
+            this.answeringLayer = answeringLayer;
 
             this.ShowContainer();
             this.DesktopView();
-          } else if (
-            mutation.target.classList.contains(
-              "js-react-add-answer-editor") &&
-            mutation.addedNodes &&
-            mutation.addedNodes.length == 1 &&
-            mutation.addedNodes[0] instanceof HTMLDivElement &&
-            mutation.addedNodes[0].classList.contains(
-              "sg-content-box")
+          }
+
+          let targetsHasAnsweringEditor = mutation.target
+            .querySelector(".js-react-add-answer-editor");
+
+          if (
+            targetsHasAnsweringEditor &&
+            targetsHasAnsweringEditor instanceof HTMLDivElement &&
+            targetsHasAnsweringEditor.firstChild &&
+            targetsHasAnsweringEditor
+            .firstChild instanceof HTMLDivElement &&
+            targetsHasAnsweringEditor
+            .firstChild.classList.contains("sg-content-box")
           ) {
-            this.answeringLayer = mutation.target;
+            this.answeringLayer = targetsHasAnsweringEditor
 
             this.ShowContainer();
             this.MobileView();
-          } else if (
-            mutation.addedNodes &&
-            mutation.addedNodes.length > 0
-          )
-            mutation.addedNodes.forEach(node => {
-              if (
-                node instanceof HTMLDivElement &&
-                node != this.container
-              ) {
-                this.answeringLayer = undefined;
-
-                if (node.classList.contains(
-                    "brn-answering-layer"))
-                  this.answeringLayer = node;
-
-                if (this.answeringLayer) {
-                  this.ShowContainer();
-                  this.DesktopView();
-                }
-              }
-            });
-
+          }
         }
       });
     });
@@ -79,7 +74,8 @@ export default class KeywordList {
         this.FetchKeywords();
       }
 
-      this.answeringLayer.append(this.container);
+      if (!this.dataFetched || this.keywords.length > 0)
+        this.answeringLayer.append(this.container);
     }
   }
   Render() {
@@ -127,13 +123,15 @@ export default class KeywordList {
     let resKeywords = await new ServerReq()
       .GetKeywordsForFreelancer(questionId);
 
+    this.dataFetched = true;
+
     if (resKeywords.success)
       this.keywords = resKeywords.data;
 
     this.RenderKeywords();
   }
   RenderKeywords() {
-    if (this.keywords.length == 0)
+    if (!this.keywords || this.keywords.length == 0)
       return this.HideContainer();
 
     this.HideSpinner();

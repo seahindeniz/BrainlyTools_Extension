@@ -4,7 +4,7 @@
     "url": "https://github.com/seahindeniz/BrainlyTools_Extension/issues"
   },
   "dependencies": {
-    "@lokalise/node-api": "^1.4.0",
+    "@lokalise/node-api": "^2.0.1",
     "@types/jquery": "^3.3.31",
     "autosize": "^4.0.2",
     "axios": "^0.19.0",
@@ -38,21 +38,21 @@
     "parse-numeric-range": "0.0.2",
     "prettysize": "^2.0.0",
     "throttle-debounce": "^2.1.0",
-    "webextension-polyfill": "^0.5.0"
+    "webextension-polyfill": "^0.6.0"
   },
-  "description": "A toolbox for exclusive users of Brainly. It enhances the Brainly and it helps users to do fast and quick actions and much more..",
+  "description": "A toolbox for exclusive users of Brainly. It enhances Brainly and it helps users to do fast and quick actions and much more..",
   "devDependencies": {
-    "@babel/core": "^7.7.4",
-    "@babel/plugin-transform-runtime": "^7.7.4",
-    "@babel/preset-env": "^7.7.4",
+    "@babel/core": "^7.7.7",
+    "@babel/plugin-transform-runtime": "^7.7.6",
+    "@babel/preset-env": "^7.7.7",
     "@babel/preset-react": "^7.7.4",
-    "@babel/register": "^7.7.4",
-    "@babel/runtime": "^7.7.4",
+    "@babel/register": "^7.7.7",
+    "@babel/runtime": "^7.7.7",
     "@types/chrome": "0.0.91",
     "@types/firefox-webext-browser": "^70.0.1",
     "babel-plugin-import-graphql": "^2.7.0",
     "babel-plugin-inline-import": "^3.0.0",
-    "babel-plugin-module-resolver": "^3.2.0",
+    "babel-plugin-module-resolver": "^4.0.0",
     "babel-plugin-transform-html-import-to-string": "0.0.1",
     "babelify": "^10.0.0",
     "backtick-template": "^0.2.0",
@@ -71,7 +71,7 @@
     "gulp-load-plugins": "^2.0.1",
     "gulp-minify": "^3.1.0",
     "gulp-plumber": "^1.2.1",
-    "gulp-rename": "^1.4.0",
+    "gulp-rename": "^2.0.0",
     "gulp-sass": "^4.0.2",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-wait": "0.0.2",
@@ -96,5 +96,5 @@
     "i18n-dev": "node --inspect -r dotenv/config -r @babel/register src/scripts/helpers/UpdateLangFiles.js",
     "watch": "cross-env TARGET=chrome gulp watch"
   },
-  "version": "6.31.2"
+  "version": "6.31.3"
 }

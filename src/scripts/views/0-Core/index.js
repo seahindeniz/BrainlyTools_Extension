@@ -126,11 +126,15 @@ class Core {
     if (_date.getMonth() == 9 && _date.getDate() == 31) {
     	renderHalloween();
     }*/
-    /* await InjectToDOM("/scripts/lib/snowstorm.min.js");
-    await WaitForObject("snowStorm");
-    snowStorm.snowColor = '#4fb3f6';
-    snowStorm.flakesMaxActive = 32;
-    snowStorm.excludeMobile = false; */
+
+    if (new Date() < new Date("2020-01-02")) {
+      await InjectToDOM("/scripts/lib/snowstorm.min.js");
+      await WaitForObject("snowStorm");
+      let st = window["snowStorm"];
+      st.snowColor = '#4fb3f6';
+      st.flakesMaxActive = 32;
+      st.excludeMobile = false;
+    }
   }
   LoadComponentsForAllPages() {
     InjectToDOM("/scripts/views/0-Core/ModerationPanel.js");

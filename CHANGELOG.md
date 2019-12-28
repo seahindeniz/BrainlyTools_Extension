@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.31.3] - 2019.12.28
+
+### Changed
+
+- Empty keywords list loader shows up after opening the answering editor at
+ secondary time.
+
 ## [6.31.2] - 2019.11.30
 
 ### Changed

@@ -1,15 +1,15 @@
 import {
   ActionListHole,
+  ButtonRound,
   ContentBox,
   ContentBoxTitle,
-  IconAsButton,
   Text
 } from "@style-guide";
 import Build from "../../../../helpers/Build";
 import IsVisible from "../../../../helpers/IsVisible";
+import ManageExtensionUser from "./ManageExtensionUser";
 import PointTransferer from "./PointTransferer";
 import PrivilegeList from "./PrivilegeList";
-import ManageExtensionUser from "./ManageExtensionUser";
 
 export default class MorePanel {
   /**
@@ -25,9 +25,11 @@ export default class MorePanel {
     this.BindHandlers();
   }
   RenderIconButton() {
-    this.iconButton = IconAsButton({
-      type: "ext-icon",
-      color: "dark",
+    this.iconButton = ButtonRound({
+      color: "black",
+      icon: {
+        type: "ext-icon",
+      },
     });
     this.iconContainer = ActionListHole({
       children: this.iconButton
@@ -96,6 +98,7 @@ export default class MorePanel {
       this.iconButton.ToggleBorder();
       this.iconButton.icon.TogglePulse();
       this.iconButton.ChangeColor("mint");
+      //this.iconButton.icon.ChangeColor("mint");
     }
   }
 }

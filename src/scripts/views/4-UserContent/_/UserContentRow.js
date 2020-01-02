@@ -4,12 +4,13 @@ import {
   ActionList,
   ActionListHole,
   Box,
+  ButtonRound,
   ContentBox,
   ContentBoxActions,
   ContentBoxContent,
-  IconAsButton,
   Text
 } from "@style-guide";
+import mergeDeep from "merge-deep";
 import momentTz from "moment-timezone";
 import notification from "../../../components/notification";
 import Action from "../../../controllers/Req/Brainly/Action";
@@ -242,7 +243,7 @@ export default class UserContentRow {
     if (answer.best) {
       let icon = this.RenderIcon({
         color: "mustard",
-        type: "excellent",
+        icon: "excellent",
       });
 
       icon.title = System.data.locale.userContent.bestAnswer;
@@ -253,8 +254,10 @@ export default class UserContentRow {
       .approveIcon) {
       this.approveIcon = this.RenderIcon({
         color: "mint",
-        type: "check",
-        iconSize: 14,
+        icon: {
+          type: "check",
+          size: 18
+        },
       });
 
       this.approveIcon.title = System.data.locale.userContent.approvedAnswer;
@@ -273,9 +276,12 @@ export default class UserContentRow {
   }
   RenderAttachmentsIcon(content) {
     if (content.attachments && content.attachments.length > 0) {
+      /**
+       * @type {import("@style-guide/ButtonRound").Properties}
+       */
       let iconProps = {
-        color: "alt",
-        type: "attachment",
+        color: "blue",
+        icon: "attachment",
         title: System.data.locale.userContent.hasAttachment.question,
       };
 
@@ -284,7 +290,7 @@ export default class UserContentRow {
         this.main.caller == "Comments"
       ) {
         if (content.responses) {
-          iconProps.color = "dark";
+          iconProps.color = "black";
           iconProps.className = "separator";
         } else {
           iconProps.title = System.data.locale.userContent.hasAttachment
@@ -303,9 +309,12 @@ export default class UserContentRow {
         content.settings.is_marked_abuse
       )
     ) {
+      /**
+       * @type {import("@style-guide/ButtonRound").Properties}
+       */
       let iconProps = {
         color: "peach",
-        type: "report_flag",
+        icon: "report_flag",
         title: System.data.locale.userContent.reported.question,
       };
 
@@ -314,7 +323,7 @@ export default class UserContentRow {
         this.main.caller == "Comments"
       ) {
         if (content.responses) {
-          iconProps.color = "dark";
+          iconProps.color = "black";
           iconProps.className = "separator";
         } else {
           iconProps.title = System.data.locale.userContent.reported[this
@@ -325,15 +334,25 @@ export default class UserContentRow {
       this.RenderIcon(iconProps);
     }
   }
+  /**
+   *
+   * @param {import("@style-guide/ButtonRound").Properties} param0
+   */
   RenderIcon({ className = "", ...props }) {
-    let icon = IconAsButton({
+    /* let icon = IconAsButton({
       action: true,
       active: true,
       disabled: true,
       size: "xxsmall",
       className: `sg-list__icon--spacing-right-small ${className}`,
       ...props
-    });
+    }); */
+    let icon = ButtonRound(mergeDeep({
+      filled: true,
+      disabled: true,
+      size: "xsmall",
+      className: `sg-list__icon--spacing-right-small ${className}`,
+    }, props));
 
     if (!this.iconContainer)
       this.RenderIconContainer();

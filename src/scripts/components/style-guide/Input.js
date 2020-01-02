@@ -23,8 +23,8 @@ import classnames from 'classnames';
  * | 'week'
  * } Type
  *
- * @typedef {'normal' | 'light' | 'light-alt'} Color
- * @typedef {'small' | 'normal' | 'large'} Size
+ * @typedef {'default' | 'white'} Color
+ * @typedef {'normal' | 'large'} Size
  *
  * @typedef {{
  *  Valid: _Valid,
@@ -57,7 +57,7 @@ const SGD = `${sg}--`;
  */
 export default function({
   type = "text",
-  color = "normal",
+  color = "default",
   size = "normal",
   title,
   value,
@@ -74,7 +74,7 @@ export default function({
 
   const inputClass = classnames(sg, {
     [SGD + size]: size !== "normal",
-    [SGD + color]: color !== "normal",
+    [SGD + color]: color !== "default",
     [`${SGD}full-width`]: fullWidth,
     [`${SGD}no-border`]: noBorder,
     [`${SGD}with-icon`]: withIcon

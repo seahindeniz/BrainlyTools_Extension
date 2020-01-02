@@ -84,7 +84,7 @@ export default function({
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))
-        textarea[propName] = propVal;
+      textarea[propName] = propVal;
 
   return textarea
 }

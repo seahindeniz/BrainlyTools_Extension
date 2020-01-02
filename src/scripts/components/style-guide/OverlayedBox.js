@@ -1,11 +1,12 @@
 import classnames from 'classnames';
+import AddChildren from './helpers/AddChildren';
 
 /**
  * @typedef {"small" | "normal" | "large"} Size
  * @typedef {{
- * children?: HTMLElement | HTMLElement[],
- * overlay?: HTMLElement,
- * className?: string,
+ *  children?: import("@style-guide/helpers/AddChildren").ChildrenParamType,
+ *  overlay?: HTMLElement,
+ *  className?: string,
  * }} Properties
  */
 
@@ -29,12 +30,9 @@ export default function({
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))
-        box[propName] = propVal;
+      box[propName] = propVal;
 
-  if (children instanceof Array)
-    box.append(...children);
-  else if (children)
-    box.append(children);
+  AddChildren(box, children);
 
   let overlayElement = document.createElement("div");
   overlayElement.className = `${SG_}overlay`;

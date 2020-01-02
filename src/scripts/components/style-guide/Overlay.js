@@ -1,10 +1,11 @@
 import classnames from 'classnames';
+import AddChildren from './helpers/AddChildren';
 
 /**
  * @typedef {{
- * partial?: boolean,
- * children?: HTMLElement | HTMLElement[],
- * className?: string,
+ *  partial?: boolean,
+ *  children?: import("@style-guide/helpers/AddChildren").ChildrenParamType,
+ *  className?: string,
  * }} Properties
  */
 const SG = "sg-overlay";
@@ -22,14 +23,11 @@ export default function({ partial, children, className, ...props } = {}) {
   let container = document.createElement("div");
   container.className = overlayClass;
 
-  if (children instanceof Array && children.length > 0)
-    container.append(...children);
-  else if (children instanceof HTMLElement)
-    container.append(children);
+  AddChildren(container, children);
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))
-        container[propName] = propVal;
+      container[propName] = propVal;
 
   return container;
 }

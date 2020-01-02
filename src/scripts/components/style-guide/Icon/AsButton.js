@@ -1,12 +1,13 @@
 import classnames from 'classnames';
 import Icon, * as IconModule from '.';
+import AddChildren from '../helpers/AddChildren';
 
 /**
  * @typedef {{
  *  color?: IconModule.Color,
  *  size?: keyof SIZE,
  *  type?: IconModule.Type,
- *  children?: HTMLElement | HTMLElement[],
+ *  children?: import("@style-guide/helpers/AddChildren").ChildrenParamType,
  *  action?: boolean,
  *  transparent?: boolean,
  *  active?: boolean,
@@ -132,10 +133,7 @@ export default function({
   } else
     content = children;
 
-  if (content instanceof Array && content.length > 0)
-    hole.append(...content);
-  else if (content instanceof HTMLElement)
-    hole.append(content);
+  AddChildren(hole, content);
 
   return button;
 }

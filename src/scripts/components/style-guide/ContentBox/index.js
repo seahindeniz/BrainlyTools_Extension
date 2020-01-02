@@ -1,16 +1,17 @@
 import classnames from 'classnames';
+import AddChildren from '../helpers/AddChildren';
 
 /**
  * @typedef {"xxsmall" | "xsmall" | "small" | "normal" | "large" | "xlarge" |
  * "xxlarge"} Size
  * @typedef {{
- * children?: HTMLElement | HTMLElement[],
- * spacedTop?: boolean | Size,
- * spacedBottom?: boolean | Size,
- * spaced?: boolean,
- * spacedSmall?: boolean,
- * full?: boolean,
- * className?: string,
+ *  children?: import("@style-guide/helpers/AddChildren").ChildrenParamType,
+ *  spacedTop?: boolean | Size,
+ *  spacedBottom?: boolean | Size,
+ *  spaced?: boolean,
+ *  spacedSmall?: boolean,
+ *  full?: boolean,
+ *  className?: string,
  * }} Properties
  */
 const sg = "sg-content-box";
@@ -47,14 +48,11 @@ export default function({
   let div = document.createElement("div");
   div.className = contentBoxClass;
 
-  if (children instanceof Array && children.length > 0)
-    div.append(...children);
-  else if (children instanceof HTMLElement)
-    div.append(children);
+  AddChildren(div, children);
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))
-        div[propName] = propVal;
+      div[propName] = propVal;
 
   return div;
 }

@@ -1,4 +1,5 @@
 import classnames from 'classnames';
+import AddChildren from '../helpers/AddChildren';
 
 export const ALIGNMENT = {
   BASELINE: 'align-baseline',
@@ -9,11 +10,11 @@ export const ALIGNMENT = {
  * "space-evenly"} Direction
  * @typedef {"BASELINE" | "STRETCH"} ALIGNMENT
  * @typedef {{
- * children?: HTMLElement | HTMLElement[],
- * toTop?: boolean,
- * direction?: Direction,align?: ALIGNMENT,
- * noWrap?: boolean,
- * className?: string,
+ *  children?: import("@style-guide/helpers/AddChildren").ChildrenParamType,
+ *  toTop?: boolean,
+ *  direction?: Direction,align?: ALIGNMENT,
+ *  noWrap?: boolean,
+ *  className?: string,
  * }} Properties
  */
 
@@ -42,10 +43,7 @@ export default function({
   let div = document.createElement("div");
   div.className = actionListClass;
 
-  if (children instanceof Array && children.length > 0)
-    div.append(...children);
-  else if (children instanceof HTMLElement)
-    div.append(children);
+  AddChildren(div, children);
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))

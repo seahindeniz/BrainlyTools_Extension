@@ -1,9 +1,10 @@
 import classnames from 'classnames';
+import AddChildren from '../helpers/AddChildren';
 
 /**
  * @typedef {"xsmall" | "small"} Spacing
  * @typedef {{
- * children?: HTMLElement | ChildNode | (HTMLElement | ChildNode)[] ,
+ * children?: import("@style-guide/helpers/AddChildren").ChildrenParamType,
  * asContainer?: boolean,
  * spacing?: Spacing,
  * noSpacing?: boolean,
@@ -61,14 +62,11 @@ export default function({
   let div = document.createElement("div");
   div.className = actionListHoleClass;
 
-  if (children instanceof Array && children.length > 0)
-    div.append(...children);
-  else if (children instanceof HTMLElement)
-    div.append(children);
+  AddChildren(div, children);
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))
-        div[propName] = propVal;
+      div[propName] = propVal;
 
   return div;
 }

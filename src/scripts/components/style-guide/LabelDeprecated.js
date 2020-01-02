@@ -1,5 +1,6 @@
 import classnames from 'classnames';
 import Icon from './Icon';
+import AddChildren from './helpers/AddChildren';
 
 /**
  * @typedef {import("./Icon").Properties} IconProperties
@@ -9,7 +10,7 @@ import Icon from './Icon';
  *  size?: Size,
  *  text?: string,
  *  html?: string | HTMLElement,
- *  children?: HTMLElement | HTMLElement[],
+ *  children?: import("@style-guide/helpers/AddChildren").ChildrenParamType,
  *  number?: number,
  *  icon?: IconProperties | HTMLElement,
  *  htmlFor?: string,
@@ -115,10 +116,7 @@ export default function({
     container.appendChild(numberContainer);
   }
 
-  if (children instanceof Array && children.length > 0)
-    container.append(...children);
-  else if (children instanceof HTMLElement)
-    container.append(children);
+  AddChildren(container, children);
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))

@@ -1,4 +1,5 @@
 import classnames from 'classnames';
+import AddChildren from '../helpers/AddChildren';
 import Icon, * as IconModule from "../Icon";
 
 /**
@@ -6,7 +7,7 @@ import Icon, * as IconModule from "../Icon";
  * @typedef {"a" | "span" | "label"} Type
  * @typedef {{
  *  className?: string,
- *  children?: HTMLElement | HTMLElement[],
+ *  children?: import("@style-guide/helpers/AddChildren").ChildrenParamType,
  *  text?: string,
  *  html?: string,
  *  icon?: boolean | HTMLElement | IconModule.Properties,
@@ -74,14 +75,11 @@ export default function({
     item.append(iconContainer);
   }
 
-  if (children instanceof Array)
-    item.append(...children);
-  else if (children)
-    item.append(children);
+  AddChildren(item, children);
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))
-        item[propName] = propVal;
+      item[propName] = propVal;
 
   return item;
 }

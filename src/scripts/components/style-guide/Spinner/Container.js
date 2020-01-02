@@ -1,5 +1,6 @@
-import Spinner from ".";
 import classnames from 'classnames';
+import Spinner from ".";
+import AddChildren from '../helpers/AddChildren';
 
 /**
  * @typedef {"xxsmall" | "xsmall" | "small"} Size
@@ -7,7 +8,7 @@ import classnames from 'classnames';
  *  loading?: boolean,
  *  light?: boolean,
  *  size?: import("./index").Size,
- *  children?: HTMLElement | HTMLElement[],
+ *  children?: import("@style-guide/helpers/AddChildren").ChildrenParamType,
  *  className?: string,
  *  fullWidth?: boolean,
  * }} Properties
@@ -35,10 +36,7 @@ export default ({
   let container = document.createElement("div");
   container.className = spinnerContainerClass;
 
-  if (children instanceof Array && children.length > 0)
-    container.append(...children);
-  else if (children instanceof HTMLElement)
-    container.append(children);
+  AddChildren(container, children);
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))

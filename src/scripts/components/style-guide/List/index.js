@@ -1,9 +1,10 @@
 import classnames from 'classnames';
+import AddChildren from '../helpers/AddChildren';
 
 /**
  * @typedef {{
  *  spaced?: boolean,
- *  children?: HTMLElement | HTMLElement[],
+ *  children?: import("@style-guide/helpers/AddChildren").ChildrenParamType,
  *  className?: string,
  * }} Properties
  */
@@ -30,14 +31,11 @@ export default function({
   let list = document.createElement("ul");
   list.className = listClass;
 
+  AddChildren(list, children);
+
   if (props)
     for (let [propName, propVal] of Object.entries(props))
-        list[propName] = propVal;
-
-  if (children instanceof Array)
-    list.append(...children);
-  else if (children)
-    list.append(children);
+      list[propName] = propVal;
 
   return list;
 }

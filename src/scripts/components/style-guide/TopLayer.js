@@ -1,23 +1,24 @@
 import classnames from 'classnames';
+import AddChildren from './helpers/AddChildren';
 import Icon from './Icon';
 
 /**
  * @typedef {"small" | "medium" | "large"} Size
  * @typedef {{
- * children?: HTMLElement | HTMLElement[],
- * onClose?: EventListenerOrEventListenerObject,
- * size?: Size,
- * lead?: boolean,
- * fill?: boolean,
- * modal?: boolean,
- * withBugbox?: boolean,
- * smallSpaced?: boolean,
- * splashScreen?: boolean,
- * limitedWidth?: boolean,
- * row?: boolean,
- * noPadding?: boolean,
- * transparent?: boolean,
- * className?: string,
+ *  children?: import("@style-guide/helpers/AddChildren").ChildrenParamType,
+ *  onClose?: EventListenerOrEventListenerObject,
+ *  size?: Size,
+ *  lead?: boolean,
+ *  fill?: boolean,
+ *  modal?: boolean,
+ *  withBugbox?: boolean,
+ *  smallSpaced?: boolean,
+ *  splashScreen?: boolean,
+ *  limitedWidth?: boolean,
+ *  row?: boolean,
+ *  noPadding?: boolean,
+ *  transparent?: boolean,
+ *  className?: string,
  * }} Properties
  */
 const SG = "sg-toplayer";
@@ -71,10 +72,7 @@ export default function({
     for (let [propName, propVal] of Object.entries(props))
       toplayer[propName] = propVal;
 
-  if (children instanceof Array && children.length > 0)
-    wrapper.append(...children);
-  else if (children instanceof HTMLElement)
-    wrapper.append(children);
+  AddChildren(wrapper, children);
 
   if (onClose) {
     let close = document.createElement("div");

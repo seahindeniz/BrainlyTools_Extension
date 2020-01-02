@@ -1,4 +1,5 @@
 import classnames from 'classnames';
+import AddChildren from '../helpers/AddChildren';
 
 /**
  * @typedef {"xxsmall" | "xsmall" | "small" | "normal" | "large" | "xlarge" |
@@ -7,7 +8,7 @@ import classnames from 'classnames';
  * @typedef {"left" | "center" | "right"} Alignment
  *
  * @typedef {{
- *  children?: HTMLElement | HTMLElement[],
+ *  children?: import("@style-guide/helpers/AddChildren").ChildrenParamType,
  *  spaced?: boolean,
  *  spacedSmall?: boolean,
  *  spacedTop?: Size,
@@ -49,10 +50,7 @@ export default function({
   let div = document.createElement("div");
   div.className = contentBoxClass;
 
-  if (children instanceof Array && children.length > 0)
-    div.append(...children);
-  else if (children instanceof HTMLElement)
-    div.append(children);
+  AddChildren(div, children);
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))

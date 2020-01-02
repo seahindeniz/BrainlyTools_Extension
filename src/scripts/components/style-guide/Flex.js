@@ -1,4 +1,5 @@
 import classnames from 'classnames';
+import AddChildren from "@style-guide/helpers/AddChildren"
 
 /**
  * @typedef {'center'
@@ -52,7 +53,7 @@ import classnames from 'classnames';
  *  marginBottom?: FlexMarginsType,
  *  marginLeft?: FlexMarginsType,
  *  marginRight?: FlexMarginsType,
- *  children?: HTMLElement | HTMLElement[],
+ *  children?: import('./helpers/AddChildren').ChildrenParamType,
  *  [x: string]: *
  * }} Properties
  */
@@ -109,10 +110,7 @@ export default ({
   let element = document.createElement("div");
   element.className = flexClass;
 
-  if (children instanceof Array && children.length > 0)
-    element.append(...children);
-  else if (children instanceof HTMLElement)
-    element.append(children);
+    AddChildren(element, children);
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))

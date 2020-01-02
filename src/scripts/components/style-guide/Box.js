@@ -1,5 +1,6 @@
 import classnames from 'classnames';
 import Icon from './Icon';
+import AddChildren from './helpers/AddChildren';
 
 /**
  * @typedef {(
@@ -39,7 +40,7 @@ import Icon from './Icon';
  *  color?: Color,
  *  padding?: Padding,
  *  full?: boolean,
- *  children?: HTMLElement | HTMLElement[],
+ *  children?: import('./helpers/AddChildren').ChildrenParamType,
  *  border?: boolean,
  *  imgSrc?: string,
  *  noMinHeight?: boolean,
@@ -135,10 +136,7 @@ export default function({
     content = document.createElement("div");
     content.className = `${SG_}hole`;
 
-    if (children instanceof Array && children.length > 0)
-      content.append(...children);
-    else if (children instanceof HTMLElement)
-      content.append(children);
+    AddChildren(content, children);
   }
 
   box.append(content);

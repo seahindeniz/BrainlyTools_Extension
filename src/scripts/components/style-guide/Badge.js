@@ -9,12 +9,13 @@ import Text from './Text';
  * @typedef {"small" | "normal" | "large"} Size
  *
  * @typedef {{
- * text?: import("./Text").Properties,
- * color?: Color, size?: Size,
- * rounded?: boolean,
- * withAnimation?: boolean,
- * children?: HTMLElement | HTMLElement[],
- * className?: string,
+ *  text?: import("./Text").Properties,
+ *  color?: Color, size?: Size,
+ *  rounded?: boolean,
+ *  withAnimation?: boolean,
+ *  children?: import("@style-guide/helpers/AddChildren").ChildrenParamType,
+ *  className?: string,
+ *  [x: string]: *,
  * }} Properties
  */
 

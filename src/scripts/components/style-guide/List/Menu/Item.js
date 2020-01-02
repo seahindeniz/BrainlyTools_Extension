@@ -1,4 +1,5 @@
 import classnames from 'classnames';
+import AddChildren from "@style-guide/helpers/AddChildren";
 
 /**
  * @typedef {"small" | "normal" | "large"} Size
@@ -6,7 +7,7 @@ import classnames from 'classnames';
  * @typedef {{
  * text?: string,
  * html?: string,
- * children?: HTMLElement | HTMLElement[],
+ * children?: import("@style-guide/helpers/AddChildren").ChildrenParamType,
  * href?: string,
  * type?: Type,
  * className?: string,
@@ -34,28 +35,31 @@ export default function({
   let element = document.createElement("li");
   element.className = `${SG_}element`;
 
-  let link = document.createElement(type);
-  link.className = linkClass;
+  if (
+    typeof text != "undefined" ||
+    typeof html != "undefined" ||
+    children
+  ) {
+    let link = document.createElement(type);
+    link.className = linkClass;
 
-  element.append(link);
+    element.append(link);
 
-  if (href)
-    link.setAttribute("href", href);
+    if (href)
+      link.setAttribute("href", href);
 
-  if (text)
-    link.innerText = text;
+    if (text)
+      link.innerText = text;
 
-  if (html)
-    link.innerHTML = html;
+    if (html)
+      link.innerHTML = html;
 
-  if (children instanceof Array)
-    link.append(...children);
-  else if (children)
-    link.append(children);
+    AddChildren(link, children);
 
-  if (props)
-    for (let [propName, propVal] of Object.entries(props))
+    if (props)
+      for (let [propName, propVal] of Object.entries(props))
         link[propName] = propVal;
+  }
 
   return element;
 }

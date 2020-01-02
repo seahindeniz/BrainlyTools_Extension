@@ -1,4 +1,5 @@
 import classnames from 'classnames';
+import AddChildren from '../helpers/AddChildren';
 
 export const TEXT_ALIGN = Object.freeze({
   LEFT: 'to-left',
@@ -25,7 +26,7 @@ export const TEXT_ALIGN = Object.freeze({
  *
  * @typedef {{
  *  tag?: keyof HTMLElementTagNameMap,
- *  children?: HTMLElement | HTMLElement[],
+ *  children?: import("@style-guide/helpers/AddChildren").ChildrenParamType,
  *  text?: string | number,
  *  html?: string,
  *  size?: Size,
@@ -132,10 +133,7 @@ export default function({
   if (html !== undefined)
     textElement.innerHTML = html;
 
-  if (children instanceof Array && children.length > 0)
-    textElement.append(...children);
-  else if (children instanceof HTMLElement)
-    textElement.append(children);
+  AddChildren(textElement, children);
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))

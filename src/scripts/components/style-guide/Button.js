@@ -1,4 +1,5 @@
 import classnames from 'classnames';
+import AddChildren from './helpers/AddChildren';
 import Icon, * as IconModule from "./Icon";
 
 /**
@@ -58,7 +59,7 @@ import Icon, * as IconModule from "./Icon";
  *  href?: string,
  *  fullWidth?: boolean,
  *  disabled?: boolean,
- *  children?: HTMLElement | HTMLElement[],
+ *  children?: import("@style-guide/helpers/AddChildren").ChildrenParamType,
  *  className?: string,
  *  text?: string,
  *  html?: string,
@@ -150,7 +151,7 @@ export default function({
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))
-        button[propName] = propVal;
+      button[propName] = propVal;
 
   if (text || html || children) {
     let textElement = document.createElement("span");
@@ -161,10 +162,7 @@ export default function({
     else if (text)
       textElement.innerText = text;
 
-    if (children instanceof Array && children.length > 0)
-      textElement.append(...children);
-    else if (children instanceof HTMLElement)
-      textElement.append(children);
+    AddChildren(textElement, children);
 
     button.appendChild(textElement);
   }

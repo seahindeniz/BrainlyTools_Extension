@@ -1,9 +1,9 @@
 import MakeExpire from "./MakeExpire";
 
 /**
- * A function for, do someting when the element's are found on DOM
+ * A function for, do something when the element's are found on DOM
  * @param {string} query - Element selector string
- * @param {number=} atLeast - If you want to find elements at least n
+ * @param {(number | boolean)=} atLeast - If you want to find elements at least n
  * @param {boolean=} noError - Set it true to avoid errors when specified element wasn't found
  * @returns {Promise<NodeListOf<Element>>}
  **/

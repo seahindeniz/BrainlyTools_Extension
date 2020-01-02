@@ -1,7 +1,8 @@
+import DeleteSection from "@/scripts/components/DeleteSection";
+import RadioSection from "@/scripts/components/DeleteSection/RadioSection";
+import { Button } from "@style-guide";
 import template from "backtick-template";
 import moment from "moment-timezone";
-import DeleteSection from "../../../../../components/DeleteSection";
-import RadioSection from "../../../../../components/DeleteSection/RadioSection";
 import Action from "../../../../../controllers/Req/Brainly/Action";
 import ContentType from "./Filters/ContentType";
 import DateRange from "./Filters/DateRange";
@@ -11,7 +12,6 @@ import templateFilterContainer from "./templates/FilterContainer.html";
 import templateFilterSelectCard from "./templates/FilterSelectCard.html";
 import templateFooter from "./templates/Footer.html";
 import templateReportBox from "./templates/ReportBox.html";
-import { Button } from "@style-guide";
 
 String.prototype.template = template.asMethod;
 

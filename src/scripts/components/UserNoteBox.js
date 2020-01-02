@@ -3,9 +3,7 @@ import ServerReq from "@ServerReq";
 export default (user) => {
   let $userNoteBox = $(`
 	<div class="sg-actions-list__hole userNoteBox">
-		<div class="sg-header-secondary">
-			<textarea class="sg-textarea sg-text--small inputNote sg-textarea--full-width" placeholder="${System.data.locale.common.writeSomething}.." title="${System.data.locale.common.personalNote.title}" maxlength="1000">${user.note || ""}</textarea>
-		</div>
+    <textarea class="sg-textarea sg-text--small inputNote sg-textarea--full-width" placeholder="${System.data.locale.common.personalNote.clickToAddANote}" title="${System.data.locale.common.personalNote.title}" maxlength="1000">${user.note || ""}</textarea>
 	</div>`);
 
   let $input = $("textarea", $userNoteBox);

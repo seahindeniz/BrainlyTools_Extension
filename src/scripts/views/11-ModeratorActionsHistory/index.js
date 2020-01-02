@@ -10,8 +10,6 @@ import ActionEntry from "./_/ActionEntry";
 import notification from "../../components/notification";
 import Button from "../../components/Button";
 
-let System = require("../../helpers/System");
-
 const MAX_MESSAGE_LENGTH = 512;
 
 export default class ModeratorActionHistory {
@@ -31,10 +29,6 @@ export default class ModeratorActionHistory {
      * @type {string}
      */
     this.actionLink;
-
-    if (typeof System == "function")
-      // @ts-ignore
-      System = System();
 
     this.Init();
   }

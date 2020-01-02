@@ -1,5 +1,3 @@
-import IsVisible from "../helpers/IsVisible";
-import notification from "./notification2";
 import {
   ContentBox,
   ContentBoxActions,
@@ -7,14 +5,16 @@ import {
   ContentBoxTitle,
   Overlay,
   TopLayer
-} from "./style-guide";
+} from "@style-guide";
+import IsVisible from "../helpers/IsVisible";
+import notification from "./notification2";
 
 /**
- * @typedef {string | HTMLDivElement | HTMLElement |
+ * @typedef {string | HTMLElement |
  * import("./style-guide/ContentBox/Title").Properties} TitleProperties
- * @typedef {HTMLDivElement | HTMLElement |
+ * @typedef {HTMLElement |
  * import("./style-guide/ContentBox/Content").Properties} ContentProperties
- * @typedef {HTMLDivElement | HTMLElement |
+ * @typedef {HTMLElement |
  * import("./style-guide/ContentBox/Actions").Properties} ActionsProperties
  *
  * @typedef {{
@@ -29,11 +29,17 @@ import {
 
 export default class Modal {
   /**
-   * @param {Properties} properties
+   * @param {Properties} param0
    */
-  constructor({ overlay, title, content, actions, ...properties } = {}) {
+  constructor({
+    overlay,
+    title,
+    content,
+    actions,
+    ...props
+  } = {}) {
     this.hasOverlay = overlay;
-    this.properties = properties;
+    this.props = props;
     this.sections = {
       title,
       content,
@@ -78,7 +84,7 @@ export default class Modal {
       size: "medium",
       children: this.contentBox,
       onClose: this.Close.bind(this),
-      ...this.properties
+      ...this.props
     });
 
     this.modalContainer.appendChild(this.toplayer);

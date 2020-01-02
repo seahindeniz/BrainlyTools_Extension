@@ -19,7 +19,7 @@ const resizeIt = (elm) => {
 	}
 	.brn-messages__conversations,
 	.brn-messages__chatbox {
-		height: ${wh - 107}px;
+    height: ${wh - 107}px;
 	}
 	section.brn-messages__conversations ul.brn-messages__list {
 		height: ${wh - 227}px;

@@ -58,7 +58,7 @@ export default function({
     let labelContainer = Label({
       ...label,
       icon: radioContainer,
-      htmlFor: id
+      htmlFor: id,
     });
     container = labelContainer;
   }

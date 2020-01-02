@@ -122,6 +122,8 @@ import classnames from 'classnames';
  *  className?: string,
  * } & Object<string, *>} Properties
  *
+ * @typedef {function(Color): IconElement} ChangeSize
+ * @typedef {function(Color): IconElement} ChangeColor
  * @typedef {function(): IconElement} TogglePulse
  *
  * @typedef {{
@@ -166,9 +168,9 @@ export default function Icon({
   div.size = size;
   div.color = color;
   // @ts-ignore
-  div.ChangeSize = ChangeSize;
+  div.ChangeSize = _ChangeSize;
   // @ts-ignore
-  div.ChangeColor = ChangeColor;
+  div.ChangeColor = _ChangeColor;
   div.TogglePulse = _TogglePulse;
 
   let svg = document.createElementNS('http://www.w3.org/2000/svg', "svg");
@@ -186,17 +188,16 @@ export default function Icon({
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))
-        div[propName] = propVal;
+      div[propName] = propVal;
 
   return div
 };
 
 /**
  * @this {IconElement}
- * @typedef {ChangeSize} ChangeSize
  * @param {Size} size
  */
-function ChangeSize(size) {
+function _ChangeSize(size) {
   this.classList.add(`${SGD}x${size}`);
   this.classList.remove(`${SGD}x${this.size}`);
 
@@ -207,10 +208,9 @@ function ChangeSize(size) {
 
 /**
  * @this {IconElement}
- * @typedef {ChangeColor} ChangeColor
  * @param {Color} color
  */
-function ChangeColor(color) {
+function _ChangeColor(color) {
   this.classList.remove(SGD + this.color);
   this.classList.add(SGD + color);
 

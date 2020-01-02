@@ -4,15 +4,13 @@ import {
   ContentBox,
   ContentBoxActions,
   ContentBoxContent,
-  Label,
+  LabelDeprecated,
   SeparatorHorizontal,
   Text,
   Textarea
 } from "@style-guide";
 import clipboard from "clipboard";
-import Build from "../../../../../../../../helpers/Build";
-
-let System = require("../../../../../../../../helpers/System");
+import Build from "@/scripts/helpers/Build";
 
 export default class ResultsSection {
   /**
@@ -20,10 +18,6 @@ export default class ResultsSection {
    */
   constructor(main) {
     this.main = main;
-
-    if (typeof System == "function")
-      // @ts-ignore
-      System = System();
 
     this.RenderLists();
     this.Render();
@@ -112,7 +106,7 @@ export default class ResultsSection {
               ],
               [
                 ContentBoxActions(),
-                Label({
+                LabelDeprecated({
                   text: System.data.locale.core.MassModerateContents
                     .methods.clickListToCopy,
                   icon: {

@@ -9,7 +9,7 @@ import {
   ContentBoxContent,
   ContentBoxTitle,
   Icon,
-  Label,
+  LabelDeprecated,
   Spinner,
   SpinnerContainer
 } from "@style-guide";
@@ -45,7 +45,7 @@ class ModerateSection {
     this.BindHandlers();
   }
   RenderSelectAll() {
-    this.selectAllContainer = Label({
+    this.selectAllContainer = LabelDeprecated({
       html: System.data.locale.common.selectAll,
       htmlFor: generateRandomString(),
       icon: Checkbox()
@@ -181,7 +181,7 @@ class ModerateSection {
     });
   }
   RenderCounterLabel() {
-    this.counterLabel = Label({
+    this.counterLabel = LabelDeprecated({
       text: "0/0",
       icon: this.counterSpinner
     });

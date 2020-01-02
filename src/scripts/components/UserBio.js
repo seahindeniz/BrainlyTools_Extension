@@ -1,4 +1,4 @@
-import notification from "./notification";
+import notification from "./notification2";
 import Action from "../controllers/Req/Brainly/Action";
 
 class UserBio {
@@ -48,12 +48,14 @@ class UserBio {
   PaseHandler(event) {
     event.preventDefault();
 
-    let text = (event.originalEvent || event).clipboardData.getData("text/plain");
+    let text = (event.originalEvent || event).clipboardData.getData(
+      "text/plain");
 
     document.execCommand("insertText", false, text);
   }
   async UpdateIfChanged() {
-    if (this.bioContent.innerText != this.bio.replace(/\s{0,}<br\s*[\/]?>/gi, "\n")) {
+    if (this.bioContent.innerText != this.bio.replace(/\s{0,}<br\s*[\/]?>/gi,
+        "\n")) {
       this.Update();
     }
 
@@ -68,11 +70,19 @@ class UserBio {
     if (resBio.errors) {
       this.bioContent.innerText = oldBio;
 
-      notification(System.data.locale.userProfile.notificationMessages.cannotChangeBio, "error");
+      notification({
+        type: "error",
+        html: System.data.locale.userProfile.notificationMessages
+          .cannotChangeBio
+      });
     } else {
       this.bio = newBio;
 
-      notification(System.data.locale.popup.notificationMessages.updatedMessage, "success");
+      notification({
+        type: "success",
+        html: System.data.locale.popup.notificationMessages
+          .updatedMessage,
+      });
     }
 
     this.AddPlaceholder();

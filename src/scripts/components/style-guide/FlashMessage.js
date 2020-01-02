@@ -1,9 +1,8 @@
 import classnames from 'classnames';
+import Build from '../../helpers/Build';
+import Flex from './Flex';
 import Icon from './Icon';
 import Text from './Text';
-import ActionList from './ActionList';
-import Build from '../../helpers/Build';
-import { ActionListHole } from '.';
 
 /**
  * @typedef {"success" | "error" | "info"} Type - Default is blue
@@ -21,7 +20,14 @@ const SGD = `${SG}--`;
 /**
  * @param {Properties} param0
  */
-export default function({ text, html, type, className, noIcon, ...props } = {}) {
+export default function({
+  text,
+  html,
+  type,
+  className,
+  noIcon,
+  ...props
+} = {}) {
   const messageClass = classnames(SG, {
     [SGD + type]: type
   }, className);
@@ -40,56 +46,36 @@ export default function({ text, html, type, className, noIcon, ...props } = {}) 
     html,
     text,
     size: "small",
-    weight: "bold"
+    weight: "bold",
+    align: "CENTER",
   });
 
   if (noIcon)
     message.appendChild(textElement);
   else
-    // @ts-ignore
     message = Build(message, [
       [
-        ActionList({
-          direction: "centered",
-          noWrap: true
-        }), [
+        Flex({
+          fullWidth: true,
+          alignItems: "center",
+          direction: "row",
+          justifyContent: "center",
+        }),
+        [
           [
-            ActionListHole(),
+            Flex({
+              marginRight: "xs",
+            }),
             Icon({
               type: "ext-icon"
             })
           ],
-          [
-            ActionListHole({
-              toEnd: true
-            }),
-            textElement
-          ]
+          textElement
         ]
       ]
     ]);
 
   flash.appendChild(message);
-
-  /* let textElement = Label({
-    html,
-    text,
-    icon: {
-      type: "ext-icon"
-    }
-  });
-  let extensionIcon = Icon({
-    type: "ext-icon"
-  });
-
-  message.appendChild(extensionIcon);
-
-  let textElement = Text({
-    html,
-    text
-  });
-
-  message.appendChild(textElement); */
 
   return flash;
 }

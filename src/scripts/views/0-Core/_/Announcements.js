@@ -1,4 +1,4 @@
-import notification from "../../../components/notification";
+import notification from "../../../components/notification2";
 import Toplayer from "../../../components/Toplayer";
 import ServerReq from "@ServerReq";
 
@@ -17,17 +17,20 @@ export default () => {
   announcementToplayer.$toplayer.appendTo($overlay);
   $overlay.appendTo(window.selectors.toplayerContainer);
 
-  let $announcementContainer = $("div.sg-toplayer__wrapper > div.sg-content-box > div.sg-content-box__content:not(:first-child)", announcementToplayer.$toplayer);
+  let $announcementContainer = $(
+    "div.sg-toplayer__wrapper > div.sg-content-box > div.sg-content-box__content:not(:first-child)",
+    announcementToplayer.$toplayer);
 
   announcements.reverse().forEach(announcement => {
-    let time = new Date(announcement.time).toLocaleDateString(System.data.Brainly.defaultConfig.locale.LANGUAGE, {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "numeric",
-      minute: "numeric"
-    });
+    let time = new Date(announcement.time).toLocaleDateString(System.data
+      .Brainly.defaultConfig.locale.LANGUAGE, {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric"
+      });
     $announcementContainer.append(`
 			<article class="announcement" id="${announcement._id}">
 				<div class="sg-content-box sg-content-box--spaced">
@@ -62,22 +65,29 @@ export default () => {
     $overlay.toggleClass("js-closed");
   });
 
-  $(announcementToplayer.$toplayer).on("click", ".js-read:not(.sg-button-secondary--disabled)", async function() {
-    let that = $(this);
-    let $article = that.parents("article.announcement");
-    let id = $article.attr("id");
+  $(announcementToplayer.$toplayer).on("click",
+    ".js-read:not(.sg-button-secondary--disabled)", async function() {
+      let that = $(this);
+      let $article = that.parents("article.announcement");
+      let id = $article.attr("id");
 
-    that.addClass("sg-button-secondary--disabled").attr("disabled", "true");
+      that.addClass("sg-button-secondary--disabled").attr("disabled",
+        "true");
 
-    let resReaded = await new ServerReq().AnnouncementRead(id);
+      let resReaded = await new ServerReq().AnnouncementRead(id);
 
-    if (resReaded && resReaded.success) {
-      that.removeClass("sg-button-secondary--dark");
-    } else {
-      notification(System.data.locale.common.notificationMessages.operationError, "error");
-      that.removeClass("sg-button-secondary--disabled").removeAttr("disabled");
-    }
-  });
+      if (resReaded && resReaded.success) {
+        that.removeClass("sg-button-secondary--dark");
+      } else {
+        notification({
+          type: "error",
+          html: System.data.locale.common.notificationMessages
+            .operationError
+        });
+        that.removeClass("sg-button-secondary--disabled").removeAttr(
+          "disabled");
+      }
+    });
 
   return $overlay;
 }

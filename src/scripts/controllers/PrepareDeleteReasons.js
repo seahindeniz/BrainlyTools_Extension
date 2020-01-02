@@ -1,4 +1,4 @@
-import notification from "../components/notification";
+import notification from "../components/notification2";
 import storage from "../helpers/extStorage";
 import ServerReq from "@ServerReq";
 
@@ -30,8 +30,13 @@ async function GetAndPrepareDeleteReasons() {
   let data = resDeleteReasons.data;
 
   if (data.deleteReasons.empty) {
-    notification(System.data.locale.core.notificationMessages.cantFetchDeleteReasons, "error");
-    return Promise.reject(System.data.locale.core.notificationMessages.cantFetchDeleteReasons);
+    notification({
+      type: "error",
+      html: System.data.locale.core.notificationMessages
+        .cantFetchDeleteReasons
+    });
+    return Promise.reject(System.data.locale.core.notificationMessages
+      .cantFetchDeleteReasons);
   }
 
   let deleteReasonsKeys = Object.keys(data.deleteReasons);
@@ -49,18 +54,30 @@ async function GetAndPrepareDeleteReasons() {
     };
 
     categories.forEach(category => {
-      data.deleteReasons.__withTitles[reasonKey].__categories[category.id] = category;
-      data.deleteReasons.__withIds[reasonKey].__categories[category.id] = category;
-      data.deleteReasons.__withIds.__all[category.id] = { ...category };
+      data.deleteReasons.__withTitles[reasonKey].__categories[category
+        .id] = category;
+      data.deleteReasons.__withIds[reasonKey].__categories[category
+        .id] = category;
+      data.deleteReasons.__withIds.__all[category.id] = {
+        ...
+        category
+      };
 
       if (category && category.subcategories) {
         category.subcategories.forEach(subcategory => {
           subcategory.category_id = category.id;
-          let title = subcategory.title == "" ? category.text : subcategory.title;
+          let title = subcategory.title == "" ? category.text :
+            subcategory.title;
           title = title.trim();
-          data.deleteReasons.__withTitles[reasonKey][title] = subcategory;
-          data.deleteReasons.__withIds[reasonKey][subcategory.id] = subcategory;
-          data.deleteReasons.__withIds.__all[subcategory.id] = { ...subcategory, type: reasonKey };
+          data.deleteReasons.__withTitles[reasonKey][title] =
+            subcategory;
+          data.deleteReasons.__withIds[reasonKey][subcategory
+            .id
+          ] = subcategory;
+          data.deleteReasons.__withIds.__all[subcategory.id] = {
+            ...subcategory,
+            type: reasonKey
+          };
         });
       }
     });
@@ -73,10 +90,12 @@ async function GetAndPrepareDeleteReasons() {
 
 async function PrepareDeleteButtonSettings() {
   try {
-    let quickDeleteButtonsReasons = await storage("get", "quickDeleteButtonsReasons");
+    let quickDeleteButtonsReasons = await storage("get",
+      "quickDeleteButtonsReasons");
 
     if (!quickDeleteButtonsReasons) {
-      quickDeleteButtonsReasons = System.data.config.marketConfig.quickDeleteButtonsDefaultReasons;
+      quickDeleteButtonsReasons = System.data.config.marketConfig
+        .quickDeleteButtonsDefaultReasons;
       //await storage("set", { quickDeleteButtonsReasons });
     }
 

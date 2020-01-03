@@ -1,5 +1,3 @@
-import debounce from "debounce";
-import Modal from "../../../../../components/Modal2";
 import {
   ActionList,
   ActionListHole,
@@ -8,15 +6,17 @@ import {
   ContentBox,
   ContentBoxActions,
   ContentBoxContent,
-  MenuListItem,
+  SeparatorHorizontal,
   Spinner,
   SpinnerContainer,
   Text,
-  Textarea,
-  SeparatorHorizontal
+  Textarea
 } from "@style-guide";
+import debounce from "debounce";
+import Modal from "../../../../../components/Modal2";
 import Action from "../../../../../controllers/Req/Brainly/Action";
 import Build from "../../../../../helpers/Build";
+import Components from "../Components";
 import ApproveAnswers from "./ActionSection/ApproveAnswers";
 import ChangePoints from "./ActionSection/ChangePoints";
 import ChangeRanks from "./ActionSection/ChangeRanks";
@@ -28,8 +28,12 @@ import User from "./User";
  * @typedef {ApproveAnswers| DeleteUsers | ChangePoints | ChangeRanks} Actions
  */
 
-export default class MassManageUsers {
-  constructor() {
+export default class MassManageUsers extends Components {
+  constructor(main) {
+    super(main);
+
+    if (!System.checkUserP([27, 30, 31, 32])) return;
+
     /**
      * @type {number[]}
      */
@@ -55,140 +59,104 @@ export default class MassManageUsers {
      */
     this.removedIds = [];
     this.lastIdInputValue = "";
+    this.liLinkContent = System.data.locale.core.massManageUsers.text;
 
-    this.RenderLi();
-    this.RenderSectionContainer();
-    this.RenderInputActionList();
-    this.RenderIdInput();
-    this.RenderNumberOfIdsSpinnerContainer();
+    this.RenderListItem();
     this.RenderNumberOfIdsSpinner();
-    this.RenderNumberOfIds();
-    this.RenderNumberOfUsers();
-    this.RenderNumberOfNotFound();
     this.RenderModal();
     this.RenderRemoveAllButton();
     this.RenderUserList();
     this.RenderRemoveSelectedButton();
     this.BindHandlers();
   }
-  RenderLi() {
-    this.li = MenuListItem({
-      html: System.data.locale.core.massManageUsers.text
-    });
-
-    this.li.setAttribute("style", "display: table; width: 100%;");
-  }
-  RenderSectionContainer() {
-    this.sectionContainer = ContentBox();
-  }
-  RenderInputActionList() {
-    this.inputActionList = ActionList({
-      noWrap: true,
-      toTop: true,
-    });
-  }
-  RenderIdInput() {
-    /**
-     * @type {HTMLTextAreaElement}
-     */
-    // @ts-ignore
-    this.idInput = Textarea({
-      tag: "textarea",
-      fullWidth: true,
-      size: "tall",
-      resizable: "vertical",
-      placeholder: (
-        System.data.locale.common.profileLinksOrIds
-      )
-    });
-  }
-  RenderNumberOfIdsSpinnerContainer() {
-    this.numberOfIdsSpinnerContainer = SpinnerContainer();
-  }
-  RenderNumberOfIds() {
-    this.numberOfIdsText = Text({
-      size: "xsmall",
-      html: String(System.data.locale.common.nIds.replace("%{n}",
-        ` <span class="sg-text--bold">0</span> `))
-    });
-
-    this.numberOfIds = this.numberOfIdsText.querySelector("span");
-  }
-  RenderNumberOfUsers() {
-    this.numberOfUsersText = Text({
-      size: "xsmall",
-      color: "blue-dark",
-      html: String(System.data.locale.common.nUsers.replace("%{n}",
-        ` <span class="sg-text--bold">0</span> `))
-    });
-
-    this.numberOfUsers = this.numberOfUsersText.querySelector("span");
-  }
-  RenderNumberOfNotFound() {
-    this.numberOfNotFoundText = Text({
-      size: "xsmall",
-      color: "peach-dark",
-      html: String(System.data.locale.common.nNotFound.replace("%{n}",
-        ` <span class="sg-text--bold">0</span> `))
-    });
-
-    this.numberOfNotFound = this.numberOfNotFoundText.querySelector("span");
-  }
   RenderModal() {
+    let nIds = System.data.locale.common.nIds.replace("%{n}",
+      ` <span class="sg-text--bold">0</span> `);
+    let nUsers = System.data.locale.common.nUsers.replace("%{n}",
+      ` <span class="sg-text--bold">0</span> `);
+    let nNotFound = System.data.locale.common.nNotFound.replace("%{n}",
+      ` <span class="sg-text--bold">0</span> `);
+
     this.modal = new Modal({
       overlay: true,
       className: "sg-toplayer--90prc sg-toplayer--fit-content",
       title: System.data.locale.core.massManageUsers.text,
-      content: Build(this.sectionContainer, [
-        [
-          ContentBoxContent(),
+      content: {
+        children: Build(this.sectionContainer = ContentBox(), [
           [
+            ContentBoxContent(),
             [
-              this.inputActionList,
               [
+                this.inputActionList = ActionList({
+                  noWrap: true,
+                  toTop: true,
+                }),
                 [
-                  ActionListHole({
-                    className: "sg-actions-list__hole--22-em"
-                  }),
                   [
+                    ActionListHole({
+                      className: "sg-actions-list__hole--22-em"
+                    }),
                     [
-                      ContentBox(),
                       [
+                        ContentBox(),
                         [
-                          ContentBoxContent(),
-                          this.idInput
-                        ],
-                        [
-                          ContentBoxActions(),
                           [
+                            ContentBoxContent(),
+                            this.idInput = Textarea({
+                              tag: "textarea",
+                              fullWidth: true,
+                              size: "tall",
+                              resizable: "vertical",
+                              placeholder: (
+                                System.data.locale.common
+                                .profileLinksOrIds
+                              )
+                            })
+                          ],
+                          [
+                            ContentBoxActions(),
                             [
-                              ActionList({
-                                noWrap: true,
-                                direction: "space-between",
-                              }),
                               [
+                                ActionList({
+                                  noWrap: true,
+                                  direction: "space-between",
+                                }),
                                 [
-                                  ActionListHole(),
                                   [
+                                    ActionListHole(),
                                     [
-                                      this
-                                      .numberOfIdsSpinnerContainer,
-                                      this.numberOfIdsText
+                                      [
+                                        this
+                                        .numberOfIdsSpinnerContainer =
+                                        SpinnerContainer(),
+                                        this.numberOfIdsText = Text({
+                                          size: "xsmall",
+                                          html: nIds,
+                                        })
+                                      ]
                                     ]
-                                  ]
-                                ],
-                                [
-                                  ActionListHole(),
-                                  this.numberOfUsersText
-                                ],
-                                [
-                                  ActionListHole(),
-                                  this.numberOfNotFoundText
-                                ],
+                                  ],
+                                  [
+                                    ActionListHole(),
+                                    this.numberOfUsersText = Text({
+                                      size: "xsmall",
+                                      color: "blue-dark",
+                                      html: nUsers
+                                    })
+                                  ],
+                                  [
+                                    ActionListHole(),
+                                    this.numberOfNotFoundText = Text({
+                                      size: "xsmall",
+                                      color: "peach-dark",
+                                      html: nNotFound
+                                    })
+                                  ],
+                                ]
                               ]
                             ]
-                          ]
-                        ],
+                          ],
+                        ]
                       ]
                     ]
                   ]
@@ -196,9 +164,13 @@ export default class MassManageUsers {
               ]
             ]
           ]
-        ]
-      ])
+        ])
+      }
     });
+
+    this.numberOfIds = this.numberOfIdsText.querySelector("span");
+    this.numberOfUsers = this.numberOfUsersText.querySelector("span");
+    this.numberOfNotFound = this.numberOfNotFoundText.querySelector("span");
   }
   RenderNumberOfIdsSpinner() {
     this.numberOfIdsSpinner = Spinner({
@@ -219,17 +191,6 @@ export default class MassManageUsers {
     });
   }
   RenderUserList() {
-    this.$userListContainer = $(`
-    <div class="sg-actions-list__hole sg-actions-list__hole--container sg-actions-list__hole--grow">
-      <div class="sg-content-box">
-        <div class="sg-content-box__actions sg-textarea sg-textarea--tall sg-textarea--resizable-vertical sg-actions-list--space-evenly"></div>
-        <div class="sg-content-box__actions">
-          <div class="sg-actions-list sg-actions-list--space-around">
-            <div class="sg-actions-list__hole"></div>
-          </div>
-        </div>
-      </div>
-    </div>`);
     this.userList = ActionList({ direction: "space-evenly" });
     this.removeButtonList = ActionList({ direction: "space-around" });
     this.userListContainer = Build(ActionListHole({

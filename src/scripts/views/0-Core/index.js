@@ -1,8 +1,9 @@
 window.performanceStartTiming = performance.now();
 
+import WaitForElement from "@/scripts/helpers/WaitForElement";
+import ServerReq from "@ServerReq";
 import notification from "../../components/notification2";
 import PrepareDeleteReasons from "../../controllers/PrepareDeleteReasons";
-import ServerReq from "@ServerReq";
 import _System from "../../controllers/System";
 import storage from "../../helpers/extStorage";
 import InjectToDOM from "../../helpers/InjectToDOM";
@@ -144,6 +145,14 @@ class Core {
 
     if (window.sitePassedParams && typeof window.sitePassedParams == "string")
       window.sitePassedParams = JSON.parse(window.sitePassedParams);
+
+    let RemoveSVG_Titles = async (stop) => {
+      let titles = await WaitForElement("svg > symbol > title", true);
+
+      titles.forEach(title => title.remove());
+      !stop && RemoveSVG_Titles(true);
+    };
+    RemoveSVG_Titles();
   }
   InjectFilesToPage() {
     if (System.checkRoute(2, "view_user_warns")) {

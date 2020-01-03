@@ -1,5 +1,5 @@
-import { MenuListItem } from "@style-guide";
 import template from "backtick-template";
+import Components from "../Components";
 import Button from "../../../../../components/Button";
 import Modal from "../../../../../components/Modal";
 import SendMessageToBrainlyIds from "../../../../../controllers/Req/Brainly/Action/SendMessageToBrainlyIds";
@@ -13,8 +13,12 @@ import templateModalContent from "./templates/ModalContent.html";
 
 const MAX_MESSAGE_LENGTH = 512;
 
-export default class MassMessageSender {
-  constructor() {
+export default class MassMessageSender extends Components {
+  constructor(main) {
+    super(main);
+
+    if (!System.checkUserP(9)) return;
+
     this.SendMessages = new SendMessageToBrainlyIds({
       EachBefore: this.BeforeSending.bind(this),
       Each: this.MessageSent.bind(this),
@@ -24,8 +28,9 @@ export default class MassMessageSender {
      * @type {number[]}
      */
     this.deletedUsers = [];
+    this.liLinkContent = System.data.locale.core.MessageSender.text;
 
-    this.RenderLi();
+    this.RenderListItem();
     this.RenderModal();
     this.RenderSpinner();
     this.RenderAllUsersSection();
@@ -36,13 +41,6 @@ export default class MassMessageSender {
     this.RenderContinueButton();
     this.RenderStopButton();
     this.BindHandlers();
-  }
-  RenderLi() {
-    this.li = MenuListItem({
-      html: System.data.locale.core.MessageSender.text
-    });
-
-    this.li.setAttribute("style", "display: table; width: 100%;");
   }
   RenderModal() {
     this.modal = new Modal({
@@ -248,10 +246,10 @@ export default class MassMessageSender {
 
     if (!message || message.length > MAX_MESSAGE_LENGTH)
       this.ShowWrongMessageLengthError();
-    else if (!idList || idList.length == 0)
-      this.SelectedSection.ShowEmptyIdListError();
-    else {
-      // @ts-ignore
+    else if (!idList || idList.length == 0) {
+      if ("ShowEmptyIdListError" in this.SelectedSection)
+        this.SelectedSection.ShowEmptyIdListError();
+    } else {
       window.isPageProcessing = true;
 
       this.ShowSpinner();
@@ -287,7 +285,6 @@ export default class MassMessageSender {
     this.HideElement(this.ResultsSection.$);
   }
   async StopSending(isDone) {
-    // @ts-ignore
     window.isPageProcessing = false;
 
     this.SetStoppedSection();

@@ -1,20 +1,28 @@
+import ServerReq from "@ServerReq";
+import { OverlayedBox, SpinnerContainer, Text } from "@style-guide";
 import emojione from "emojione";
 import MarkdownIt from "markdown-it";
 import MarkdownItContainer from "markdown-it-container";
+import Components from "./Components";
+import Button from "../../../../components/Button";
 import Modal from "../../../../components/Modal";
 import notification from "../../../../components/notification";
 import Action from "../../../../controllers/Req/Brainly/Action";
-import ServerReq from "@ServerReq";
-import Button from "../../../../components/Button";
-import Build from "../../../../helpers/Build";
-import { SpinnerContainer, OverlayedBox, MenuListItem, Text } from "@style-guide";
-
-let System = require("../../../../helpers/System");
 
 emojione.emojiSize = "64";
 
-class NoticeBoard {
-  constructor() {
+class NoticeBoard extends Components {
+  constructor(main) {
+    super(main);
+
+    if (
+      !(
+        System.checkUserP(20) ||
+        System.data.Brainly.userData.extension.noticeBoard !== null
+      )
+    )
+      return;
+
     this.users = [];
     this.noticeContent = "";
     /**
@@ -22,15 +30,13 @@ class NoticeBoard {
      */
     this.modalSize = "large";
     this.templateString = `# Nothing to see..\n\n### But you can add ;)`;
+    this.liLinkContent = Text({
+      tag: "span",
+      className: "sg-text--link sg-menu-list__link",
+      html: System.data.locale.core.noticeBoard.text
+    });
 
-    if (typeof System == "function")
-      // @ts-ignore
-      System = System();
-
-    this.Init();
-  }
-  Init() {
-    this.RenderLi();
+    this.RenderListItem();
     this.RenderBadge();
     this.RenderModal();
     this.RenderSpinner();
@@ -45,45 +51,21 @@ class NoticeBoard {
       this.BindModerateHandlers();
     }
   }
-  RenderLi() {
-    /* this.$li = $(`
-		<li class="sg-menu-list__element" style="display: table; width: 100%;">
-			<div class="sg-spinner-container">
-				<div class="sg-overlayed-box">
-					<div class="sg-actions-list sg-bubble--full">
-						<div class="sg-actions-list__hole sg-actions-list__hole--spaced-xsmall">
-							<span class="sg-text sg-menu-list__link sg-text--link">${System.data.locale.core.noticeBoard.text}</span>
-						</div>
-					</div>
-				</div>
-			</div>
-    </li>`); */
+  RenderLiContent() {
     this.overlayedBox = OverlayedBox({
-      children: Text({
-        tag: "span",
-        className: "sg-text--link sg-menu-list__link",
-        html: System.data.locale.core.noticeBoard.text
-      })
+      children: this.liLink,
     });
     this.overlayedBoxOverlay = this.overlayedBox.querySelector("div");
-    this.li = MenuListItem({
-      children: SpinnerContainer({
-        children: this.overlayedBox
-      })
-    });
 
-    this.li.setAttribute("style", "display: table; width: 100%;");
+    this.liContent = SpinnerContainer({
+      children: this.overlayedBox
+    });
   }
   RenderBadge() {
-    /* this.$badge = $(`
-		<div class="sg-overlayed-box__overlay">
-			<div class="brn-progress-tracking__icon-dot"></div>
-    </div>`); */
     this.$badge = $(`<div class="brn-progress-tracking__icon-dot"></div>`);
 
-    if (System.data.Brainly.userData.extension.noticeBoard === true) {
+    if (System.data.Brainly.userData.extension.noticeBoard === true)
       this.ShowBadge();
-    }
   }
   ShowBadge() {
     this.$badge.appendTo(this.overlayedBoxOverlay);
@@ -116,7 +98,8 @@ class NoticeBoard {
     this.$noticeBoard = $(".noticeBoard", this.modal.$modal);
     this.$close = $(".sg-toplayer__close", this.modal.$modal);
     this.$lastUpdate = $(".sg-text > span", this.modal.$modal);
-    this.$headerActionList = $(".sg-content-box__header > .sg-actions-list", this.modal.$modal);
+    this.$headerActionList = $(".sg-content-box__header > .sg-actions-list",
+      this.modal.$modal);
   }
   InitMarkdownRenderer() {
     this.md = new MarkdownIt({
@@ -161,9 +144,12 @@ class NoticeBoard {
     });
 
     this.md.renderer.rules.table_open = () => `<table class="table">`;
-    this.md.renderer.rules.emoji = (token, idx) => emojione.toImage(token[idx].content);
-    this.md.renderer.rules.link_open = () => `<a class="sg-text--link sg-text--bold sg-text--blue-dark">`;
-    this.md.renderer.rules.hr = () => `<div class="sg-horizontal-separator sg-horizontal-separator--spaced sg-horizontal-separator--gray-light"></div>`;
+    this.md.renderer.rules.emoji = (token, idx) => emojione.toImage(token[idx]
+      .content);
+    this.md.renderer.rules.link_open = () =>
+      `<a class="sg-text--link sg-text--bold sg-text--blue-dark">`;
+    this.md.renderer.rules.hr = () =>
+      `<div class="sg-horizontal-separator sg-horizontal-separator--spaced sg-horizontal-separator--gray-light"></div>`;
   }
   RenderUsersSection() {
     this.$usersSection = $(`
@@ -242,8 +228,10 @@ class NoticeBoard {
     return (
       !this.$editSectionContent ||
       (
-        this.$editSectionContent.val() == this.$editSectionContent.prop("defaultValue") ||
-        confirm(System.data.locale.core.notificationMessages.changesMayNotBeSaved)
+        this.$editSectionContent.val() == this.$editSectionContent.prop(
+          "defaultValue") ||
+        confirm(System.data.locale.core.notificationMessages
+          .changesMayNotBeSaved)
       )
     )
   }
@@ -253,7 +241,8 @@ class NoticeBoard {
     let data = await this.GetContent();
     this.readedBy = data.readedBy;
     this.noticeContent = this.FilterContent(data.content);
-    let markdowned_noticeContent = this.md.render(this.noticeContent || this.templateString);
+    let markdowned_noticeContent = this.md.render(this.noticeContent || this
+      .templateString);
 
     this.$md.html(markdowned_noticeContent);
     data.lastModified && this.ChangeLastUpdate(data.lastModified);
@@ -274,7 +263,8 @@ class NoticeBoard {
       return Promise.resolve(resContent.data);
     } else {
       this.HideElement(this.$spinner);
-      notification(System.data.locale.core.notificationMessages.couldntAbleToGetNoticeBoardContent, "error");
+      notification(System.data.locale.core.notificationMessages
+        .couldntAbleToGetNoticeBoardContent, "error");
 
       return Promise.reject();
     }
@@ -292,13 +282,14 @@ class NoticeBoard {
   ChangeLastUpdate(date) {
     date = date ? new Date(date) : new Date();
 
-    date = date.toLocaleDateString(System.data.Brainly.defaultConfig.locale.COUNTRY.replace("_", "-"), {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "numeric",
-      minute: "numeric"
-    });
+    date = date.toLocaleDateString(System.data.Brainly.defaultConfig.locale
+      .COUNTRY.replace("_", "-"), {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric"
+      });
 
     this.$lastUpdate.text(date);
   }
@@ -404,20 +395,24 @@ class NoticeBoard {
   }
   async ResizeEditSection() {
     await System.Delay(50);
-    this.$editSectionContent.css("height", this.$editSectionContent.prop("scrollHeight"));
+    this.$editSectionContent.css("height", this.$editSectionContent.prop(
+      "scrollHeight"));
   }
   async SaveContent() {
     try {
       //this.ShowButtonSpinner();
       await System.Delay(50);
 
-      if (confirm(System.data.locale.core.notificationMessages.doYouWantToContinue)) {
+      if (confirm(System.data.locale.core.notificationMessages
+          .doYouWantToContinue)) {
         let noticeContent = this.$editSectionContent.val();
 
-        let resUpdate = await new ServerReq().UpdateNoticeBoard(noticeContent);
+        let resUpdate = await new ServerReq().UpdateNoticeBoard(
+          noticeContent);
 
         if (!resUpdate || !resUpdate.success) {
-          this.modal.notification(System.data.locale.common.notificationMessages.somethingWentWrong, "error");
+          this.modal.notification(System.data.locale.common
+            .notificationMessages.somethingWentWrong, "error");
         } else {
           this.noticeContent = noticeContent;
 
@@ -438,7 +433,8 @@ class NoticeBoard {
     this.$spinner.insertAfter(this.$saveButton);
   }
   UpdateContent() {
-    let result = this.md.render(String(this.$editSectionContent.val()) || this.templateString);
+    let result = this.md.render(String(this.$editSectionContent.val()) || this
+      .templateString);
 
     this.$md.html(result);
     this.ResizeEditSection();

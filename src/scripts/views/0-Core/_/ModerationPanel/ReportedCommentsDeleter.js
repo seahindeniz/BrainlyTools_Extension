@@ -1,39 +1,30 @@
+import Button from "../../../../components/Button";
 import notification from "../../../../components/notification2";
 import Action from "../../../../controllers/Req/Brainly/Action";
-import Button from "../../../../components/Button";
-import { MenuListItem } from "@style-guide";
+import Components from "./Components";
 
-let System = require("../../../../helpers/System");
+const spinner =
+  `<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`;
 
-const spinner = `<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`;
+class ReportedCommentsDeleter extends Components {
+  constructor(main) {
+    super(main);
 
-class ReportedCommentsDeleter {
-  constructor() {
+    if (!System.checkUserP(17)) return;
+
     this.reports = []
     this.started = false;
     this.deletedReportsCount = 0;
     this.activeConnections = 0;
     this.deleteProcessInterval = null;
+    this.liLinkContent = System.data.locale.core.reportedCommentsDeleter.text;
 
-    if (typeof System == "function")
-      // @ts-ignore
-      System = System();
-
-    this.RenderLi();
+    this.RenderListItem();
     this.RenderPanel();
     this.RenderStartButton();
     this.RenderStopButton();
     this.RenderReasons();
     this.BindHandlers();
-  }
-  RenderLi() {
-    this.li = MenuListItem({
-      type: "span",
-      html: System.data.locale.core.reportedCommentsDeleter.text
-    });
-    this.menuLink = this.li.querySelector("span");
-
-    this.li.setAttribute("style", "display: table; width: 100%;");
   }
   RenderPanel() {
     this.$panel = $(`
@@ -101,8 +92,10 @@ class ReportedCommentsDeleter {
     this.$pending = $(".pending > b", this.$panel);
     this.$processSection = $(".process", this.$panel);
     this.$giveWarning = $("#giveWarning", this.$panel);
-    this.$startButtonSpinnerContainer = $(".sg-spinner-container:eq(0)", this.$panel);
-    this.$stopButtonSpinnerContainer = $(".sg-spinner-container:eq(1)", this.$panel);
+    this.$startButtonSpinnerContainer = $(".sg-spinner-container:eq(0)", this
+      .$panel);
+    this.$stopButtonSpinnerContainer = $(".sg-spinner-container:eq(1)", this
+      .$panel);
   }
   RenderStartButton() {
     this.$startButton = Button({
@@ -128,14 +121,17 @@ class ReportedCommentsDeleter {
 
     $.each(reasons, (name, details) => {
       if (!String(name).startsWith("__")) {
-        let title = details.title || details.text.substring(0, 25) + "...";
+        let title = details.title || details.text.substring(0, 25) +
+          "...";
 
-        this.$reasons.append(`<option value="${details.id}" title="${details.text}">${title}</option>`);
+        this.$reasons.append(
+          `<option value="${details.id}" title="${details.text}">${title}</option>`
+        );
       }
     });
   }
   BindHandlers() {
-    this.menuLink.addEventListener("click", this.TogglePanel.bind(this));
+    this.liLink.addEventListener("click", this.TogglePanel.bind(this));
     this.$stopButton.click(this.ManuelStop.bind(this));
     this.$startButton.click(this.StartDeleting.bind(this));
   }
@@ -163,14 +159,16 @@ class ReportedCommentsDeleter {
     this.$startButton.Enable();
     this.$stopButton.Disable().Disable();
     this.$spinner.appendTo("</ div>");
-    this.$status.text(`${System.data.locale.core.reportedCommentsDeleter.stopped}..`);
+    this.$status.text(
+      `${System.data.locale.core.reportedCommentsDeleter.stopped}..`);
   }
   StopFetching() {
     this.started = false;
   }
   async StartDeleting() {
     let reasonId = this.$reasons.val();
-    this.selectedReason = System.data.Brainly.deleteReasons.__withIds.comment[String(reasonId)];
+    this.selectedReason = System.data.Brainly.deleteReasons.__withIds.comment[
+      String(reasonId)];
 
     if (!this.selectedReason) {
       notification({
@@ -187,7 +185,8 @@ class ReportedCommentsDeleter {
 
       this.$spinner.appendTo(this.$startButton);
       this.$startButton.Disable();
-      this.$status.text(`${System.data.locale.core.reportedCommentsDeleter.deleting}..`);
+      this.$status.text(
+        `${System.data.locale.core.reportedCommentsDeleter.deleting}..`);
 
       System.log(23);
       await this.LoadReportedComments(this.last_id);
@@ -226,7 +225,8 @@ class ReportedCommentsDeleter {
     reports.forEach(report => this.reports.push(report));
   }
   DeleteStoredReports() {
-    this.deleteProcessInterval = setInterval(this.DeleteStoredReport.bind(this));
+    this.deleteProcessInterval = setInterval(this.DeleteStoredReport.bind(
+      this));
     this.resetCounterInterval = setInterval(() => {
       this.activeConnections = 0;
     }, 1000);

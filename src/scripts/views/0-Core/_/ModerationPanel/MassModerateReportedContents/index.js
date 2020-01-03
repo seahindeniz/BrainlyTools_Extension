@@ -1,17 +1,19 @@
+import ServerReq from "@ServerReq";
 import template from "backtick-template";
+import Components from "../Components";
 import Button from "../../../../../components/Button";
 import Modal from "../../../../../components/Modal";
 import Action from "../../../../../controllers/Req/Brainly/Action";
-import ServerReq from "@ServerReq";
 import ConditionSection from "./ConditionSection";
 // @ts-ignore
 import templateModalContent from "./templates/ModalContent.html";
-import { MenuListItem } from "@style-guide";
 
-let System = require("../../../../../helpers/System");
+export default class MassModerateReportedContents extends Components {
+  constructor(main) {
+    super(main);
 
-export default class MassModerateReportedContents {
-  constructor() {
+    if (!System.checkUserP(18)) return;
+
     this.users = [];
     this.lastIds = [];
     /**
@@ -26,12 +28,10 @@ export default class MassModerateReportedContents {
     this.moderatedReports = [];
     this.commonConditionSection;
     this.openedFetchingConnections = 0;
+    this.liLinkContent = System.data.locale.core.massModerateReportedContents
+      .text;
 
-    if (typeof System == "function")
-      // @ts-ignore
-      System = System();
-
-    this.RenderLi();
+    this.RenderListItem();
     this.RenderModal();
     this.RenderAddUniqueConditionSectionButton();
     this.RenderCommonConditionSection();
@@ -39,13 +39,6 @@ export default class MassModerateReportedContents {
     this.RenderStartButtonSpinner();
     this.RenderStopButton();
     this.BindHandlers();
-  }
-  RenderLi() {
-    this.li = MenuListItem({
-      html: System.data.locale.core.massModerateReportedContents.text
-    });
-
-    this.li.setAttribute("style", "display: table; width: 100%;");
   }
   RenderModal() {
     this.modal = new Modal({
@@ -64,12 +57,22 @@ export default class MassModerateReportedContents {
     this.$spinnerOfFetching = $(".sg-spinner-container", this.$modal);
     this.$totalReportsCount = $(".js-total-reports-count", this.$modal);
     this.$fetchedReportsCount = $(".js-fetched-reports-count", this.$modal);
-    this.$conditionSectionsContainer = $("> .sg-content-box > .sg-content-box__content > .sg-content-box:eq(0)", this.modal.$content);
-    this.$addUniqueConditionSectionButtonContainer = $("> .sg-content-box > .sg-content-box__content > .sg-content-box:nth-child(2) .sg-actions-list__hole", this.modal.$content);
-    this.$counterContainer = $(".sg-content-box__actions > .sg-actions-list > .sg-actions-list__hole:eq(1)", this.modal.$content);
-    this.$buttonsMainContainer = $(".sg-content-box__actions > .sg-actions-list > .sg-actions-list__hole:eq(2)", this.modal.$content);
-    this.$buttonsListContainer = $("> .sg-actions-list", this.$buttonsMainContainer);
-    this.$buttonsContainer = $("> .sg-actions-list__hole", this.$buttonsListContainer);
+    this.$conditionSectionsContainer = $(
+      "> .sg-content-box > .sg-content-box__content > .sg-content-box:eq(0)",
+      this.modal.$content);
+    this.$addUniqueConditionSectionButtonContainer = $(
+      "> .sg-content-box > .sg-content-box__content > .sg-content-box:nth-child(2) .sg-actions-list__hole",
+      this.modal.$content);
+    this.$counterContainer = $(
+      ".sg-content-box__actions > .sg-actions-list > .sg-actions-list__hole:eq(1)",
+      this.modal.$content);
+    this.$buttonsMainContainer = $(
+      ".sg-content-box__actions > .sg-actions-list > .sg-actions-list__hole:eq(2)",
+      this.modal.$content);
+    this.$buttonsListContainer = $("> .sg-actions-list", this
+      .$buttonsMainContainer);
+    this.$buttonsContainer = $("> .sg-actions-list__hole", this
+      .$buttonsListContainer);
   }
   RenderAddUniqueConditionSectionButton() {
     this.$addUniqueConditionSectionButton = Button({
@@ -79,13 +82,18 @@ export default class MassModerateReportedContents {
         type: "plus"
       },
       fullWidth: true,
-      text: System.data.locale.core.massModerateReportedContents.addConditionBlock
+      text: System.data.locale.core.massModerateReportedContents
+        .addConditionBlock
     });
 
-    this.$addUniqueConditionSectionButton.appendTo(this.$addUniqueConditionSectionButtonContainer);
+    this.$addUniqueConditionSectionButton.appendTo(this
+      .$addUniqueConditionSectionButtonContainer);
   }
   RenderCommonConditionSection() {
-    this.commonConditionSection = this.AddConditionSection(System.data.locale.core.massModerateReportedContents.commonConditions.text, System.data.locale.core.massModerateReportedContents.commonConditions.title, { isCommon: true });
+    this.commonConditionSection = this.AddConditionSection(System.data.locale
+      .core.massModerateReportedContents.commonConditions.text, System.data
+      .locale.core.massModerateReportedContents.commonConditions
+      .title, { isCommon: true });
 
     this.HideElement(this.commonConditionSection.$section);
   }
@@ -110,7 +118,8 @@ export default class MassModerateReportedContents {
     return conditionSection;
   }
   RenderStartButton() {
-    this.$startButtonContainer = $(`<div class="sg-spinner-container"></div>`);
+    this.$startButtonContainer = $(
+      `<div class="sg-spinner-container"></div>`);
     this.$startButton = Button({
       type: "primary-mint",
       text: System.data.locale.common.startAll
@@ -119,10 +128,13 @@ export default class MassModerateReportedContents {
     this.$startButton.prependTo(this.$startButtonContainer);
   }
   RenderStartButtonSpinner() {
-    this.$startButtonSpinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`);
+    this.$startButtonSpinner = $(
+      `<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`
+    );
   }
   RenderStopButton() {
-    this.$stopButtonContainer = $(`<div class="sg-actions-list__hole"></div>`);
+    this.$stopButtonContainer = $(
+      `<div class="sg-actions-list__hole"></div>`);
     this.$stopButton = Button({
       type: "destructive",
       text: System.data.locale.common.stop
@@ -133,7 +145,8 @@ export default class MassModerateReportedContents {
   BindHandlers() {
     this.modal.$close.click(this.modal.Close.bind(this.modal));
     this.li.addEventListener("click", this.OpenModal.bind(this));
-    this.$addUniqueConditionSectionButton.click(this.AddUniqeCondition.bind(this));
+    this.$addUniqueConditionSectionButton.click(this.AddUniqeCondition.bind(
+      this));
     this.$startButton.click(this.StartModerating.bind(this));
     this.$stopButton.click(this.StopModerating.bind(this));
     /* this.$stop.click(this.Stop.bind(this));
@@ -163,8 +176,10 @@ export default class MassModerateReportedContents {
   StartFetching() {
     this.IsFetchStartedBefore = true;
 
-    this._loop_fetch = setInterval(this.QuickFetchReportedContents.bind(this), 10);
-    this._loop_resetFetchLimiter = setInterval(() => (this.openedFetchingConnections = 0), 1000);
+    this._loop_fetch = setInterval(this.QuickFetchReportedContents.bind(this),
+      10);
+    this._loop_resetFetchLimiter = setInterval(() => (this
+      .openedFetchingConnections = 0), 1000);
   }
   async QuickFetchReportedContents() {
     if (this.openedFetchingConnections < 8) {
@@ -203,7 +218,8 @@ export default class MassModerateReportedContents {
       this.UpdateCountLabels(resReports.data.total_count);
       this.UpdateConditionSections();
 
-      if (resReports.data.last_id > 0 && resReports.data.items.length != resReports.data.total_count) {
+      if (resReports.data.last_id > 0 && resReports.data.items.length !=
+        resReports.data.total_count) {
         this.FetchReportedContents(resReports.data.last_id);
       } else {
         this.HideFetchingSpinner();
@@ -225,7 +241,8 @@ export default class MassModerateReportedContents {
       this.reports = [...this.reports, ...items];
   }
   RemoveReportFromStore(_report) {
-    this.reports = this.reports.filter(report => !(report.model_id == _report.model_id && report.model_type_id == _report.model_type_id));
+    this.reports = this.reports.filter(report => !(report.model_id == _report
+      .model_id && report.model_type_id == _report.model_type_id));
 
     this.UpdateCountLabels(this.reports.length);
   }
@@ -254,10 +271,14 @@ export default class MassModerateReportedContents {
     let $uniqueConditionSections = this.UniqueConditionSections();
 
     if ($uniqueConditionSections.length == 8)
-      this.modal.notification(System.data.locale.core.notificationMessages.youCantAddMoreThan8Sections, "info");
+      this.modal.notification(System.data.locale.core.notificationMessages
+        .youCantAddMoreThan8Sections, "info");
     else {
-      let title = System.data.locale.core.massModerateReportedContents.conditionN.title;
-      let text = System.data.locale.core.massModerateReportedContents.conditionN.text.replace("%{amount_of_conditions}", ` ${++this.conditionCount} `);
+      let title = System.data.locale.core.massModerateReportedContents
+        .conditionN.title;
+      let text = System.data.locale.core.massModerateReportedContents
+        .conditionN.text.replace("%{amount_of_conditions}",
+          ` ${++this.conditionCount} `);
 
       this.ShowCommonConditionSection();
       this.AddConditionSection(text);
@@ -265,7 +286,8 @@ export default class MassModerateReportedContents {
   }
   ShowCommonConditionSection() {
     if (false)
-      this.commonConditionSection.$section.prependTo(this.$conditionSectionsContainer);
+      this.commonConditionSection.$section.prependTo(this
+        .$conditionSectionsContainer);
   }
   StartModerating() {
     if (this.IsOKToModerate()) {
@@ -274,9 +296,11 @@ export default class MassModerateReportedContents {
       this.SetRequestLimit();
       this.ShowActionButtonSpinner();
       this.ShowStopButton();
-      this.matchedSections.forEach(section => section.ConditionSection && section.ConditionSection.StartModerating());
+      this.matchedSections.forEach(section => section.ConditionSection &&
+        section.ConditionSection.StartModerating());
     } else if (this.matchedSections.length == 0) {
-      this.modal.notification(System.data.locale.core.notificationMessages.conditionsDoesntMatchAnything, "info");
+      this.modal.notification(System.data.locale.core.notificationMessages
+        .conditionsDoesntMatchAnything, "info");
     }
   }
   IsOKToModerate() {
@@ -306,7 +330,8 @@ export default class MassModerateReportedContents {
     if (this.matchedSections.length > 0) {
       this.HideStopButton();
       this.HideActionButtonSpinner();
-      this.matchedSections.forEach(section => section.ConditionSection && section.ConditionSection.StopModerating(true));
+      this.matchedSections.forEach(section => section.ConditionSection &&
+        section.ConditionSection.StopModerating(true));
     }
   }
   HideActionButtonSpinner() {
@@ -323,7 +348,8 @@ export default class MassModerateReportedContents {
   ToggleActionButtons() {
     this.matchedSections = this.SectionsHasMatchedReports();
 
-    if (this.matchedSections.length > 0 && this.reports.length >= this.totalReports) {
+    if (this.matchedSections.length > 0 && this.reports.length >= this
+      .totalReports) {
       this.isModerating = false;
 
       this.ShowActionButtons();
@@ -363,7 +389,8 @@ export default class MassModerateReportedContents {
   SectionsStillModerating() {
     let $uniqueConditionSections = this.UniqueConditionSections().toArray();
     if ($uniqueConditionSections.length) {
-      $uniqueConditionSections = $uniqueConditionSections.filter((section) => {
+      $uniqueConditionSections = $uniqueConditionSections.filter((
+        section) => {
         /**
          * @type {ConditionSection}
          */
@@ -377,7 +404,8 @@ export default class MassModerateReportedContents {
     return $uniqueConditionSections;
   }
   TryToStopModerating() {
-    let moderatingSections = this.matchedSections.filter(section => !section.moderatingStarted);
+    let moderatingSections = this.matchedSections.filter(section => !section
+      .moderatingStarted);
 
     if (moderatingSections.length > 0)
       this.StopModerating()

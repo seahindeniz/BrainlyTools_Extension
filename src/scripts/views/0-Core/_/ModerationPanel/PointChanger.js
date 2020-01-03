@@ -2,35 +2,30 @@ import Modal from "../../../../components/Modal";
 import Action from "../../../../controllers/Req/Brainly/Action";
 import Button from "../../../../components/Button";
 import { MenuListItem } from "@style-guide";
+import Components from "./Components";
 
-let System = require("../../../../helpers/System");
+const spinner =
+  `<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`;
 
-const spinner = `<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`;
+class PointChanger extends Components {
+  constructor(main) {
+    super(main);
 
-class PointChanger {
-  constructor() {
+    if (System.checkUserP(13) || System.checkBrainlyP(41)) return;
+
     this.users = [];
     this.usersWithPoints = {};
+    this.liLinkContent = System.data.locale.core.pointChanger.text;
 
-    if (typeof System == "function")
-      // @ts-ignore
-      System = System();
-
-    this.RenderLi();
+    this.RenderListItem();
     this.RenderModal();
     this.RenderAddUserButton();
     this.RenderAddPointToAllButton();
     this.BindHandler();
   }
-  RenderLi() {
-    this.li = MenuListItem({
-      html: System.data.locale.core.pointChanger.text
-    });
-
-    this.li.setAttribute("style", "display: table; width: 100%;");
-  }
   RenderModal() {
-    let nUsers = System.data.locale.common.nUsers.replace("%{n}", ` <span>0</span> `);
+    let nUsers = System.data.locale.common.nUsers.replace("%{n}",
+      ` <span>0</span> `);
     this.modal = new Modal({
       header: `<div class="sg-actions-list sg-actions-list--space-between">
 				<div class="sg-actions-list__hole">
@@ -82,9 +77,13 @@ class PointChanger {
     this.$idInput = $(".id textarea", this.modal.$modal);
     this.$userList = $(".js-user-list", this.modal.$modal);
     this.$idInputContainer = $(".sg-content-box.id", this.modal.$modal);
-    this.$addUserButtonContainer = $(".id .sg-actions-list__hole:eq(1)", this.modal.$modal);
-    this.$addPointToAllButtonContainer = $(".id .sg-actions-list__hole:eq(2)", this.modal.$modal);
-    this.$amountOfUsers = $(".sg-content-box__actions .sg-actions-list > .sg-actions-list__hole > .sg-text > span", this.modal.$modal);
+    this.$addUserButtonContainer = $(".id .sg-actions-list__hole:eq(1)", this
+      .modal.$modal);
+    this.$addPointToAllButtonContainer = $(".id .sg-actions-list__hole:eq(2)",
+      this.modal.$modal);
+    this.$amountOfUsers = $(
+      ".sg-content-box__actions .sg-actions-list > .sg-actions-list__hole > .sg-text > span",
+      this.modal.$modal);
   }
   RenderAddUserButton() {
     this.$addUserButton = Button({
@@ -141,7 +140,8 @@ class PointChanger {
     /**
      * @type {string}
      */
-    let saltText = (event.originalEvent || event).clipboardData.getData("text/plain");
+    let saltText = (event.originalEvent || event).clipboardData.getData(
+      "text/plain");
 
     if (saltText) {
       let texts = saltText.split(/\r\n|\n/);
@@ -168,7 +168,8 @@ class PointChanger {
                 if (points[0] == "+" || points[0] == "-") {
                   this.usersWithPoints[id] = points.replace("+", "");
                 } else {
-                  idList = [...idList, ...System.ExtractIds(splittedText)];
+                  idList = [...idList, ...System.ExtractIds(
+                    splittedText)];
                 }
               }
             }
@@ -222,7 +223,8 @@ class PointChanger {
       let res = await new Action().GetUsers(idList);
 
       if (!res || !res.success) {
-        this.modal.notification(res.message || System.data.locale.common.notificationMessages.somethingWentWrong, "error");
+        this.modal.notification(res.message || System.data.locale.common
+          .notificationMessages.somethingWentWrong, "error");
       } else {
         this.ClearIdInput();
         res.data.forEach(this.AddUser.bind(this));
@@ -233,7 +235,8 @@ class PointChanger {
     let res = await new Action().GetUserProfile(id);
 
     if (!res || !res.success) {
-      this.modal.notification(res.message || System.data.locale.common.notificationMessages.somethingWentWrong, "error");
+      this.modal.notification(res.message || System.data.locale.common
+        .notificationMessages.somethingWentWrong, "error");
     } else {
       this.AddUser(res.data);
       this.ClearIdInput();
@@ -325,7 +328,8 @@ class PointChanger {
       button.Disable();
       await new Action().AddPoint(user.id, diffPoint);
       button.Enable();
-      this.modal.notification(System.data.locale.core.notificationMessages.pointsAdded, "success");
+      this.modal.notification(System.data.locale.core.notificationMessages
+        .pointsAdded, "success");
 
       user.points += diffPoint;
 

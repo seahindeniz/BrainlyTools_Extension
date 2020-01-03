@@ -1,3 +1,4 @@
+import { Flex, MenuList } from "@style-guide";
 import WaitForObject from "../../../../helpers/WaitForObject";
 import MassContentDeleter from "./MassContentDeleter";
 import MassManageUsers from "./MassManageUsers";
@@ -7,8 +8,20 @@ import MassModerateReportedContents from "./MassModerateReportedContents";
 import NoticeBoard from "./NoticeBoard";
 import PointChanger from "./PointChanger";
 import ReportedCommentsDeleter from "./ReportedCommentsDeleter";
-import renderUserFinder from "./UserFinder";
-import { MenuList } from "@style-guide";
+import UserFinder from "./UserFinder";
+
+/**
+ * @typedef {typeof NoticeBoard |
+ * typeof UserFinder |
+ * typeof MassMessageSender |
+ * typeof PointChanger |
+ * typeof MassModerateContents |
+ * typeof MassModerateReportedContents |
+ * typeof MassManageUsers |
+ * typeof ReportedCommentsDeleter |
+ * typeof MassContentDeleter
+ * } ComponentsType
+ */
 
 const SELECTOR = {
   STATISTICS: "#moderate-functions-panel > div.statistics",
@@ -27,76 +40,60 @@ class ModerationPanel {
     this.$newPanelButton = $(SELECTOR.NEW_PANEL_BUTTON);
     this.$oldPanel = $(SELECTOR.OLD_PANEL);
     this.$oldPanelCoveringText = $(SELECTOR.OLD_PANEL_COVERING_TEXT);
+    this.components = {
+      immediately: [
+        UserFinder,
+        NoticeBoard,
+        MassMessageSender,
+        PointChanger,
+        MassManageUsers
+      ],
+      afterDeleteReasons: [
+        ReportedCommentsDeleter,
+        MassContentDeleter,
+        MassModerateContents,
+        MassModerateReportedContents
+      ]
+    };
 
     this.RenderList();
-    this.RenderComponents();
-    this.RenderComponentsAfterDeleteReasonsLoaded();
+    this.InitComponents();
+    this.InitComponentsAfterDeleteReasonsLoaded();
     this.RenderResizeTrackingElement();
     this.BindHandlers();
   }
   RenderList() {
-    this.ul = MenuList({
-      size: "small",
-      className: "sg-content-box--spaced-bottom"
+    this.listContainer = Flex({
+      marginBottom: "s",
+      children: (
+        this.ul = MenuList({
+          size: "small",
+        })
+      )
     });
 
     let panel = document.querySelector(SELECTOR.PANELS);
 
     if (panel)
-      panel.prepend(this.ul);
+      panel.prepend(this.listContainer);
   }
-  RenderComponents() {
-    this.RenderComponent({ li: renderUserFinder() });
-
-    if (
-      System.checkUserP(20) ||
-      System.data.Brainly.userData.extension.noticeBoard !== null
-    )
-      this.RenderComponent(new NoticeBoard());
-
-    if (System.checkUserP(9))
-      this.RenderComponent(new MassMessageSender());
-
-    if (System.checkUserP(13) && System.checkBrainlyP(41))
-      this.RenderComponent(new PointChanger());
-
-    if (System.checkUserP([27, 30, 31, 32]))
-      this.RenderComponent(new MassManageUsers());
+  /**
+   * @param {"immediately" | "afterDeleteReasons"} [groupName]
+   */
+  InitComponents(groupName = "immediately") {
+    this.components[groupName].forEach(
+      /**
+       * @param {ComponentsType} constr
+       */
+      constr => new constr(this));
   }
-  async RenderComponentsAfterDeleteReasonsLoaded() {
+  async InitComponentsAfterDeleteReasonsLoaded() {
     await WaitForObject(
       "System.data.Brainly.deleteReasons.__withTitles.comment", {
         noError: true
       }
     );
-
-    if (System.checkUserP(17))
-      this.RenderComponent(new ReportedCommentsDeleter());
-
-    if (System.checkUserP(7))
-      this.RenderComponent(new MassContentDeleter());
-
-    if (System.checkUserP(29)) {
-      this.RenderComponent(new MassModerateContents());
-    }
-
-    if (System.checkUserP(18))
-      this.RenderComponent(new MassModerateReportedContents());
-  }
-  /**
-   * @param { NoticeBoard |
-   * MassMessageSender |
-   * PointChanger |
-   * MassModerateContents |
-   * MassModerateReportedContents |
-   * MassManageUsers |
-   * ReportedCommentsDeleter |
-   * MassContentDeleter |
-   * {li: HTMLElement} } instance
-   */
-  RenderComponent(instance) {
-    if (instance.li)
-      this.ul.append(instance.li);
+    this.InitComponents("afterDeleteReasons");
   }
   RenderResizeTrackingElement() {
     this.$resizeOverlay = $(`

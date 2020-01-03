@@ -1,6 +1,8 @@
+import CreateElement from "@/scripts/components/CreateElement";
 import Build from "@/scripts/helpers/Build";
 import Action from "@BrainlyAction";
-import { ActionList, ActionListHole, Input, MenuListItem } from "@style-guide";
+import { Flex, Input } from "@style-guide";
+import Components from "./Components";
 
 let $userList;
 
@@ -54,41 +56,63 @@ const userLi = ({ id, nick, avatar, buddyUrl, ranks }) => {
   $userBox.appendTo($userList);
 }
 
-const UserFinder = () => {
-  let input = Input({
-    size: "small",
-    type: "search",
-    placeholder: System.data.locale.messages.groups.userCategories
-      .findUsers.nickOrID
-  });
-  let li = MenuListItem({
-    type: "label",
-    children: Build(ActionList(), [
+export default class extends Components {
+  constructor(main) {
+    super(main);
+
+    this.liLinkContent =
+      `${System.data.locale.messages.groups.userCategories.findUsers.text}:`;
+
+    this.RenderInput();
+    this.RenderListItem();
+    this.Render();
+    this.BindHandler();
+  }
+  RenderInput() {
+    this.input = Input({
+      type: "search",
+      placeholder: System.data.locale.messages.groups
+        .userCategories
+        .findUsers.nickOrID
+    })
+  }
+  RenderLiContent() {
+    this.liContent = Build(CreateElement({
+      tag: "label",
+    }), [
       [
-        ActionListHole(),
-        `${System.data.locale.messages.groups.userCategories.findUsers.text}:`
-      ],
-      [
-        ActionListHole({
-          grow: true
+        Flex({
+          marginBottom: "xxs",
         }),
-        input
+        [,
+          Flex({
+            children: this.liLink,
+            direction: "column",
+            marginRight: "xs",
+          }),
+          [
+            Flex({
+              direction: "column",
+            }),
+            this.input
+          ]
+        ]
       ]
-    ])
-  });
+    ]);
+  }
+  Render() {
+    this.userList = document.createElement("div");
+    this.userList.className = "userList js-hidden";
+    $userList = $(this.userList);
 
-  li.setAttribute("style", "display: table; width: 100%;");
-
-  let userList = document.createElement("div");
-  userList.className = "userList js-hidden";
-
-  li.appendChild(userList)
-
-  $userList = $(userList);
-  let delayTimer;
-
-  input.addEventListener("input", function() {
-    let value = this.value;
+    this.liContent.appendChild(this.userList);
+  }
+  BindHandler() {
+    this.input.addEventListener("input", this.InputChanged.bind(this));
+  }
+  InputChanged() {
+    let delayTimer;
+    let value = this.input.value;
 
     $userList.html("");
     $userList.attr("data-placeholder", System.data.locale.core
@@ -184,9 +208,5 @@ const UserFinder = () => {
         }
       }, 600);
     }
-  });
-
-  return li;
-};
-
-export default UserFinder
+  }
+}

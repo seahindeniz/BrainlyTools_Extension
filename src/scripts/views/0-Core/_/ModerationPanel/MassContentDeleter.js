@@ -1,20 +1,22 @@
-import { MenuListItem } from "@style-guide";
 import debounce from "debounce";
 import Button from "../../../../components/Button";
 import DeleteSection from "../../../../components/DeleteSection";
 import Modal from "../../../../components/Modal";
 import Action from "../../../../controllers/Req/Brainly/Action";
+import Components from "./Components";
 
-class MassContentDeleter {
-  constructor() {
+class MassContentDeleter extends Components {
+  constructor(main) {
+    super(main);
+
+    if (!System.checkUserP(7)) return;
+
     this.deletedContents = {};
     this.contentsToDelete = [];
     this.deletedContentCount = 0;
+    this.liLinkContent = System.data.locale.core.MassContentDeleter.text;
 
-    this.Init();
-  }
-  Init() {
-    this.RenderLi();
+    this.RenderListItem();
     this.RenderModal();
     this.RenderDeleteButton();
     this.RenderButtonSpinner();
@@ -22,13 +24,6 @@ class MassContentDeleter {
     this.RenderDeleteSection();
     this.RenderTextareaWarning();
     this.BindHandlers();
-  }
-  RenderLi() {
-    this.li = MenuListItem({
-      html: System.data.locale.core.MassContentDeleter.text
-    });
-
-    this.li.setAttribute("style", "display: table; width: 100%;");
   }
   RenderModal() {
     let nIds = System.data.locale.common.nIds.replace("%{n}",

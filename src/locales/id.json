@@ -86,7 +86,8 @@
     },
     "personalNote": {
       "text": "Catatan pribadi",
-      "title": "Kamu dapat menambahkan catatan pribadi disini dan ini itu hanya akan berhubungan dengan user ini saja"
+      "title": "Kamu dapat menambahkan catatan pribadi disini dan ini itu hanya akan berhubungan dengan user ini saja",
+      "clickToAddANote": "Click to add a note"
     },
     "listOfIds": "Daftar ID",
     "pointsWithExample": {

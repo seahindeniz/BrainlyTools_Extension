@@ -86,7 +86,8 @@
     },
     "personalNote": {
       "text": "Kişisel not",
-      "title": "Buraya, bu kullanıcıyla alakalı bir not ekleyebilirsin ve bu alan sadece sana özeldir"
+      "title": "Buraya, bu kullanıcıyla alakalı bir not ekleyebilirsin ve bu alan sadece sana özeldir",
+      "clickToAddANote": "Not eklemek için tıkla"
     },
     "listOfIds": "Id listesi",
     "pointsWithExample": {

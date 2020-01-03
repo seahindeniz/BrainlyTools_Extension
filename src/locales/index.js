@@ -86,7 +86,8 @@ export default {
     },
     personalNote: {
       text: "Personal note",
-      title: "You can add a personal private note here and that will relate to this user only"
+      title: "You can add a personal private note here and that will relate to this user only",
+      clickToAddANote: "Click to add a note"
     },
     listOfIds: "List of ids",
     pointsWithExample: {

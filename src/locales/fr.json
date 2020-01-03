@@ -86,7 +86,8 @@
     },
     "personalNote": {
       "text": "Note personnelle",
-      "title": "Tu peux ajouter une note personnelle ici et qui sera reliée à cet utilisateur seulement"
+      "title": "Tu peux ajouter une note personnelle ici et qui sera reliée à cet utilisateur seulement",
+      "clickToAddANote": "Click to add a note"
     },
     "listOfIds": "Liste des IDs",
     "pointsWithExample": {
@@ -792,6 +793,6 @@
     }
   },
   "question": {
-    "keywords": "Keywords"
+    "keywords": "Mots-clés"
   }
 }

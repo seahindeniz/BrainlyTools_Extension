@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.31.5] - 2019.01.15
+
+### Changed
+
+- "Extension user" label appears too many times in each opening the conversation
+  page.
+
 ## [6.31.4] - 2019.01.15
 
 ### Changed
@@ -14,7 +21,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Empty keywords list loader shows up after opening the answering editor at
- secondary time.
+  secondary time.
 
 ## [6.31.2] - 2019.11.30
 

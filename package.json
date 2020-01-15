@@ -101,5 +101,5 @@
     "i18n-dev": "node --inspect -r dotenv/config -r @babel/register src/scripts/helpers/UpdateLangFiles.js",
     "watch": "cross-env TARGET=chrome gulp watch"
   },
-  "version": "6.31.4"
+  "version": "6.31.5"
 }

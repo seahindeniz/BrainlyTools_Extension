@@ -1,24 +1,38 @@
 import ServerReq from "@ServerReq";
+import { ActionListHole, Textarea } from "./style-guide";
 
-export default (user) => {
-  let $userNoteBox = $(`
-	<div class="sg-actions-list__hole userNoteBox">
-    <textarea class="sg-textarea sg-text--small inputNote sg-textarea--full-width" placeholder="${System.data.locale.common.personalNote.clickToAddANote}" title="${System.data.locale.common.personalNote.title}" maxlength="1000">${user.note || ""}</textarea>
-	</div>`);
+/**
+ * @param {import("@ServerReq").UserDetailsType} user
+ */
+export default user => {
+  let input = Textarea({
+    tag: "textarea",
+    fullWidth: true,
+    className: "sg-text-small",
+    placeholder: System.data.locale.common.personalNote
+      .clickToAddANote,
+    title: System.data.locale.common.personalNote.title,
+    maxlength: 1000,
+    value: user.note || "",
+  });
+  let container = ActionListHole({
+    children: input,
+    className: "userNoteBox",
+  });
 
-  let $input = $("textarea", $userNoteBox);
-
-  $input.change(async function() {
+  input.addEventListener("change", async () => {
     let data = {
       _id: user._id,
-      note: this.value
+      note: input.value
     }
     let resUpdate = await new ServerReq().UpdateNote(data);
 
     if (resUpdate && resUpdate.success) {
-      $input.addClass("changed").delay(3000).queue(() => $input.removeClass("changed"));
+      input.classList.add("changed");
+      await System.Delay(3000);
+      input.classList.remove("changed");
     }
   });
 
-  return $userNoteBox
+  return container;
 }

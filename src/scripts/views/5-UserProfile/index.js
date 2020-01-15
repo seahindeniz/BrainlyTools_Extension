@@ -112,13 +112,13 @@ export default class UserProfile {
     }
   }
   RenderNoteSection() {
-    this.$noteSection = UserNoteBox(this.extensionUser);
+    this.noteSection = UserNoteBox(this.extensionUser);
     this.$noteContainer = $(`
 		<div class="userNoteContainer">
 			<h3 class="bold dark_grey" title="${System.data.locale.common.personalNote.title}">${System.data.locale.common.personalNote.text}</h3>
 		</div>`);
 
-    this.$noteSection.appendTo(this.$noteContainer);
+    this.$noteContainer.append(this.noteSection);
     this.$noteContainer.prependTo(this.mainRight);
   }
   RenderPreviousNicks() {

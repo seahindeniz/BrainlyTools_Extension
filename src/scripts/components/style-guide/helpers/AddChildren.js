@@ -3,7 +3,7 @@
  *
  * @typedef {ChildrenType | ChildrenType[]} ChildrenParamType
  *
- * @param {HTMLElement} target
+ * @param {HTMLElement | Element} target
  * @param {ChildrenParamType} children
  */
 export default function AddChildren(target, children) {

@@ -1,3 +1,5 @@
+import { ActionListHole, Label } from "./style-guide";
+
 class UserTag {
   constructor(userId, user) {
     this.throttled = false;
@@ -21,24 +23,20 @@ class UserTag {
     this.BindHandlers();
   }
   Render() {
-    this.$ = $(`
-		<div class="sg-actions-list__hole userTag">
-			<div class="sg-badge">
-				<div class="sg-text sg-text--xsmall sg-text--white sg-text--emphasised"></div>
-			</div>
-		</div>`);
-
-    this.$badge = $(".sg-badge", this.$);
-    this.$text = $(".sg-text", this.$badge);
-    this.$actionList = $(".sg-actions-list", this.$);
+    this.container = ActionListHole({
+      className: "userTag",
+      children: this.label = Label({
+        type: "strong",
+      }),
+    });
   }
   RenderExtensionUser() {
-    this.$badge.addClass("sg-badge--lavender");
-    this.$text.text(System.data.locale.common.extensionUser);
+    this.label.ChangeColor("mint");
+    this.label.ChangeText(System.data.locale.common.extensionUser);
   }
   RenderAssignPermission() {
-    this.$badge.addClass("sg-badge--gray-secondary");
-    this.$text.text(System.data.locale.core.assignExtensionPermission);
+    this.label.ChangeColor("gray");
+    this.label.ChangeText(System.data.locale.core.assignExtensionPermission);
   }
   RenderPrivilegeList() {
     this.$bubble = $(`
@@ -47,8 +45,10 @@ class UserTag {
 		</div>`);
     this.$privilegeList = $("ul", this.$bubble);
 
-    this.$.mouseover(this.ShowPrivilegeList.bind(this));
-    this.$.mouseleave(this.HidePrivilegeList.bind(this));
+    this.container.addEventListener("mouseover", this.ShowPrivilegeList.bind(
+      this));
+    this.container.addEventListener("mouseleave", this.HidePrivilegeList.bind(
+      this));
   }
   RenderPrivileges() {
     if (this.user.privileges.length == 0) {
@@ -58,7 +58,8 @@ class UserTag {
 			</li>`);
     } else {
       this.user.privileges.forEach(id => {
-        let privilege = System.data.locale.popup.extensionManagement.users.privilegeList[id];
+        let privilege = System.data.locale.popup.extensionManagement.users
+          .privilegeList[id];
 
         this.$privilegeList.append(`
 				<li class="sg-list__element" title="${privilege.description}">
@@ -75,20 +76,22 @@ class UserTag {
     }
   }
   BindHandlers() {
-    if (System.checkUserP([5, 22, 23, 24, 25]))
-      this.$badge.click(this.EditUser.bind(this)).addClass("sg-media--clickable");
+    if (System.checkUserP([5, 22, 23, 24, 25])) {
+      this.label.addEventListener("click", this.EditUser.bind(this));
+      this.label.classList.add("sg-media--clickable");
+    }
   }
   ShowPrivilegeList() {
-    this.$bubble.appendTo(this.$);
+    this.container.append(this.$bubble[0]);
   }
   HidePrivilegeList() {
     this.$bubble.appendTo("<div />");
   }
   ExtensionUser() {
-    this.$.on("click", this.EditUser.bind(this));
+    this.container.addEventListener("click", this.EditUser.bind(this));
   }
   AddToUser() {
-    this.$.on("click", this.EditUser.bind(this));
+    this.container.addEventListener("click", this.EditUser.bind(this));
   }
   EditUser() {
     System.OpenExtensionOptions({ editUser: this.userId });

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.31.4] - 2019.01.15
+
+### Changed
+
+- "Extension user" isn't visible on the messages page
+- Finding deletion reports in extension options takes too long time
+
 ## [6.31.3] - 2019.12.28
 
 ### Changed

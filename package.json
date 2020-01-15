@@ -7,7 +7,7 @@
     "@lokalise/node-api": "^2.0.1",
     "@types/jquery": "^3.3.31",
     "autosize": "^4.0.2",
-    "axios": "^0.19.0",
+    "axios": "^0.19.1",
     "clipboard": "^2.0.4",
     "color": "^3.1.2",
     "debounce": "^1.2.0",
@@ -32,7 +32,7 @@
     "markdown-it-table-of-contents": "^0.4.4",
     "markdown-it-task-lists": "^2.1.1",
     "markdown-it-toc-done-right": "^4.1.0",
-    "mime-types": "^2.1.25",
+    "mime-types": "^2.1.26",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.27",
     "parse-numeric-range": "0.0.2",
@@ -42,12 +42,12 @@
   },
   "description": "A toolbox for exclusive users of Brainly. It enhances Brainly and it helps users to do fast and quick actions and much more..",
   "devDependencies": {
-    "@babel/core": "^7.7.7",
-    "@babel/plugin-transform-runtime": "^7.7.6",
-    "@babel/preset-env": "^7.7.7",
-    "@babel/preset-react": "^7.7.4",
-    "@babel/register": "^7.7.7",
-    "@babel/runtime": "^7.7.7",
+    "@babel/core": "^7.8.3",
+    "@babel/plugin-transform-runtime": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "@babel/preset-react": "^7.8.3",
+    "@babel/register": "^7.8.3",
+    "@babel/runtime": "^7.8.3",
     "@types/chrome": "0.0.91",
     "@types/classnames": "^2.2.9",
     "@types/emojione": "^2.2.6",
@@ -73,7 +73,7 @@
     "gulp-change": "^1.0.2",
     "gulp-clean": "^0.4.0",
     "gulp-livereload": "^4.0.2",
-    "gulp-load-plugins": "^2.0.1",
+    "gulp-load-plugins": "^2.0.2",
     "gulp-minify": "^3.1.0",
     "gulp-plumber": "^1.2.1",
     "gulp-rename": "^2.0.0",
@@ -101,5 +101,5 @@
     "i18n-dev": "node --inspect -r dotenv/config -r @babel/register src/scripts/helpers/UpdateLangFiles.js",
     "watch": "cross-env TARGET=chrome gulp watch"
   },
-  "version": "6.31.3"
+  "version": "6.31.4"
 }

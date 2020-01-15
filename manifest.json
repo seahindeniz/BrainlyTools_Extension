@@ -21,18 +21,30 @@
   "externally_connectable": {
     "accepts_tls_channel_id": false,
     "matches": [
-      "*://eodev.com/*",
-      "*://brainly.com/*",
-      "*://brainly.pl/*",
-      "*://brainly.com.br/*",
-      "*://brainly.co.id/*",
-      "*://znanija.com/*",
-      "*://brainly.lat/*",
-      "*://brainly.in/*",
-      "*://brainly.ph/*",
-      "*://nosdevoirs.fr/*",
-      "*://brainly.ro/*",
-      "*://cdnjs.cloudflare.com/*"
+      "http://eodev.com/*",
+      "http://brainly.com/*",
+      "http://brainly.pl/*",
+      "http://brainly.com.br/*",
+      "http://brainly.co.id/*",
+      "http://znanija.com/*",
+      "http://brainly.lat/*",
+      "http://brainly.in/*",
+      "http://brainly.ph/*",
+      "http://nosdevoirs.fr/*",
+      "http://brainly.ro/*",
+      "http://cdnjs.cloudflare.com/*",
+      "https://eodev.com/*",
+      "https://brainly.com/*",
+      "https://brainly.pl/*",
+      "https://brainly.com.br/*",
+      "https://brainly.co.id/*",
+      "https://znanija.com/*",
+      "https://brainly.lat/*",
+      "https://brainly.in/*",
+      "https://brainly.ph/*",
+      "https://nosdevoirs.fr/*",
+      "https://brainly.ro/*",
+      "https://cdnjs.cloudflare.com/*"
     ]
   },
   "icons": {
@@ -51,6 +63,7 @@
     "page": "options/index.html"
   },
   "permissions": [
+    "activeTab",
     "notifications",
     "tabs",
     "storage",

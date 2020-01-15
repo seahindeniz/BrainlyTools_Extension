@@ -19,7 +19,7 @@ import classnames from 'classnames';
  * resizable?: Direction,
  * className?: string,
  * contentEditable?: boolean,
- * } & Object<string, *>} Properties
+ * } & {[x: string]: *}} Properties
  */
 
 const SG = "sg-textarea";

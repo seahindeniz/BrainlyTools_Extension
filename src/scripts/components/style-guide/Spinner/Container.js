@@ -4,13 +4,14 @@ import AddChildren from '../helpers/AddChildren';
 
 /**
  * @typedef {"xxsmall" | "xsmall" | "small"} Size
+ *
  * @typedef {{
  *  loading?: boolean,
  *  light?: boolean,
+ *  fullWidth?: boolean,
  *  size?: import("./index").Size,
  *  children?: import("@style-guide/helpers/AddChildren").ChildrenParamType,
  *  className?: string,
- *  fullWidth?: boolean,
  * }} Properties
  */
 const SG = "sg-spinner-container";
@@ -22,15 +23,15 @@ const SG_ = `${SG}__`
 export default ({
   loading,
   light,
+  fullWidth,
   size,
   children,
   className,
-  fullWidth,
   ...props
 } = {}) => {
 
   let spinnerContainerClass = classnames(SG, {
-    [`${SG}--fullWidth`]: fullWidth
+    [`${SG}--full-width`]: fullWidth,
   }, className);
 
   let container = document.createElement("div");

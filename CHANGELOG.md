@@ -13,7 +13,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- "Extension user" isn't visible on the messages page
+- "Extension user" label isn't visible on the messages page
 - Finding deletion reports in extension options takes too long time
 
 ## [6.31.3] - 2019.12.28

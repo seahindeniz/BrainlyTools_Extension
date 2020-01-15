@@ -50,7 +50,8 @@
       "newNotification": "Notifikasi baru",
       "operationCompleted": "Pengerjaan selesai",
       "unsavedChanges": "Kamu memiliki beberapa perubahan tidak disimpan. Apakah kamu tetap ingin menutup?",
-      "youNeedToSelectAtLeastOne": "Kamu harus memilih setidaknya satu"
+      "youNeedToSelectAtLeastOne": "Kamu harus memilih setidaknya satu",
+      "cannotShareUserInfoWithServer_RefreshPage": "An unexpected error occurred while trying to communicate with extension's server. Could you refresh the page please?"
     },
     "moderating": {
       "moreOptions": "Lebih Banyak Opsi",

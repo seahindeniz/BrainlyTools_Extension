@@ -41,7 +41,7 @@ export default {
       operationError: "An error occurred during operation. Please try again",
       somethingWentWrong: "Oops, something went wrong",
       somethingWentWrongPleaseRefresh: "Something happened, please refresh the page",
-      cannotShareUserInfoWithServer: "An unexpected error occurred while trying to send details of user to the extension server. Please try again in 2 sec",
+      cannotShareUserInfoWithServer: "An unexpected error occurred while trying to communicate with extension's server. Please try again in 2 sec",
       ongoingProcess: "Some contents are still processing. Do you still want to exit the page?",
       areYouSure: "Are you sure?",
       mayRequireWarning: "It seems to be appropriate to alert the owner of the content you're trying to delete\nSo do you wanna give a warning to owner of this content?",
@@ -50,7 +50,8 @@ export default {
       newNotification: "New notification",
       operationCompleted: "Operation completed",
       unsavedChanges: "You have some unsaved changes. Do you still want to close?",
-      youNeedToSelectAtLeastOne: "You need to select at least one"
+      youNeedToSelectAtLeastOne: "You need to select at least one",
+      cannotShareUserInfoWithServer_RefreshPage: "An unexpected error occurred while trying to communicate with extension's server. Could you refresh the page please?"
     },
     moderating: {
       moreOptions: "More Options",

@@ -50,7 +50,8 @@
       "newNotification": "Nouvelle notification",
       "operationCompleted": "Opération effectuée",
       "unsavedChanges": "Vous avez des modifications non sauvegardées. Voulez-vous toujours quitter ?",
-      "youNeedToSelectAtLeastOne": "Vous devez en sélectionner au moins un"
+      "youNeedToSelectAtLeastOne": "Vous devez en sélectionner au moins un",
+      "cannotShareUserInfoWithServer_RefreshPage": "An unexpected error occurred while trying to communicate with extension's server. Could you refresh the page please?"
     },
     "moderating": {
       "moreOptions": "Plus d'options",
@@ -87,7 +88,7 @@
     "personalNote": {
       "text": "Note personnelle",
       "title": "Tu peux ajouter une note personnelle ici et qui sera reliée à cet utilisateur seulement",
-      "clickToAddANote": "Click to add a note"
+      "clickToAddANote": "Cliquez pour ajouter une note"
     },
     "listOfIds": "Liste des IDs",
     "pointsWithExample": {
@@ -598,7 +599,7 @@
     "groups": {
       "title": "Groupes",
       "createGroup": "Créer un groupe",
-      "editGroup": "Editer le groupe",
+      "editGroup": "Éditer le groupe",
       "deleteGroup": "Supprimer le groupe",
       "groupName": "Nom du groupe",
       "groupColor": "Vous pouvez choisir une couleur pour ce groupe pour le différencier des autres groupes",

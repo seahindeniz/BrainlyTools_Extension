@@ -41,7 +41,7 @@
       "operationError": "İşlem sırasında bir hata oluştu. Tekrar deneyin",
       "somethingWentWrong": "Oops, bir hata oluştu",
       "somethingWentWrongPleaseRefresh": "Bir sorun oluştu, lütfen sayfayı yeniler misin?",
-      "cannotShareUserInfoWithServer": "Kullanıcı bilgilerini eklenti sunucusuna iletirken beklenmedik bir hata oluştu. 2 saniye sonra tekrar deneyin",
+      "cannotShareUserInfoWithServer": "Eklenti sunucusuyla iletişime geçerken beklenmedik bir hata oluştu. 2 saniye sonra tekrar deneyin",
       "ongoingProcess": "Bazı içerikler halen işleniyor. Sayfadan ayrılmak istediğine emin misin?",
       "areYouSure": "Emin misin?",
       "mayRequireWarning": "Silmeye çalıştığın içeriğin sahibine uyarı verilmesi uygun gibi görünüyor.\nİçeriği ekleyen kişiye uyarı verilsin mi?",
@@ -50,7 +50,8 @@
       "newNotification": "Yeni bildirim",
       "operationCompleted": "İşlem tamamlandı",
       "unsavedChanges": "Kaydetmediğin değişikliklerin var. Halen kapatmak istiyor musun?",
-      "youNeedToSelectAtLeastOne": "En az birini seçmelisin"
+      "youNeedToSelectAtLeastOne": "En az birini seçmelisin",
+      "cannotShareUserInfoWithServer_RefreshPage": "Eklenti sunucusuyla iletişime geçerken beklenmedik bir hata oluştu. Sayfayı yenileyebilir misin lütfen?"
     },
     "moderating": {
       "moreOptions": "Daha fazla",

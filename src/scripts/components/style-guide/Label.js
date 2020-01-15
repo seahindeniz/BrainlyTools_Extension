@@ -31,11 +31,16 @@ import Text from './Text';
  *  [x: string]: *,
  * }} Properties
  *
+ * @typedef {function(string): LabelElement} ChangeText
  * @typedef {function(LabelIconType): LabelElement} ChangeIcon
+ * @typedef {function(LabelColorType): LabelElement} ChangeColor
  *
  * @typedef {{
  *  type: LabelType,
- *  ChangeIcon: ChangeIcon
+ *  color: LabelColorType,
+ *  ChangeText: ChangeText,
+ *  ChangeIcon: ChangeIcon,
+ *  ChangeColor: ChangeColor,
  * }} CustomProperties
  *
  * @typedef {HTMLDivElement & CustomProperties} LabelElement
@@ -96,27 +101,18 @@ export default function({
   // @ts-ignore
   let labelContainer = document.createElement("div");
   labelContainer.className = labelClass;
+  labelContainer.color = color;
+  labelContainer.type = type;
+  labelContainer.ChangeText = _ChangeText;
+  labelContainer.ChangeIcon = _ChangeIcon;
+  // @ts-ignore
+  labelContainer.ChangeColor = _ChangeColor;
 
   if (icon)
     AddIcon(labelContainer, icon, type)
 
   if (text || children) {
-    let textContainer = document.createElement("span");
-    textContainer.className = `${SG_}text`;
-
-    if (children)
-      AddChildren(textContainer, children);
-    else {
-      let textElement = Text({
-        text,
-        size: "small",
-        weight: "bold",
-        color: type && "white",
-      });
-
-      textContainer.append(textElement);
-    }
-    labelContainer.append(textContainer);
+    AddTextChildren(labelContainer, { text, children });
   }
 
   if (onClose) {
@@ -139,10 +135,6 @@ export default function({
   if (props)
     for (let [propName, propVal] of Object.entries(props))
       labelContainer[propName] = propVal;
-
-  labelContainer.type = type;
-  // @ts-ignore
-  labelContainer.ChangeIcon = _ChangeIcon;
 
   return labelContainer;
 }
@@ -190,11 +182,77 @@ function AddIcon(labelContainer, icon, type) {
 }
 
 /**
+ * @param {LabelElement} labelContainer
+ * @param {{
+ *  children?: import("@style-guide/helpers/AddChildren").ChildrenParamType,
+ *  text?: string,
+ * }} param0
+ */
+function AddTextChildren(labelContainer, { text, children }) {
+  let textContainer = labelContainer.querySelector(`${SG_}text`);
+
+  if (!textContainer) {
+    textContainer = document.createElement("span");
+    textContainer.className = `${SG_}text`;
+  } else
+    textContainer.innerHTML = "";
+
+  if (text) {
+    let textElement = Text({
+      text,
+      size: "small",
+      weight: "bold",
+      color: labelContainer.type && "white",
+    });
+
+    textContainer.append(textElement);
+  }
+
+  AddChildren(textContainer, children);
+
+  labelContainer.append(textContainer);
+}
+
+/**
  * @this {LabelElement}
  * @param {LabelIconType} icon
  */
 function _ChangeIcon(icon) {
   AddIcon(this, icon, this.type);
+
+  return this;
+}
+
+/**
+ * @this {LabelElement}
+ * @param {LabelColorType} color
+ */
+function _ChangeColor(color) {
+  /**
+   * @type {string}
+   */
+  const filteredOldColor = !this.type ? COLORS_DEFAULT_MAP[this.color] :
+    COLORS_STRONG_MAP[this.color];
+  /**
+   * @type {string}
+   */
+  const filteredColor = !this.type ? COLORS_DEFAULT_MAP[color] :
+    COLORS_STRONG_MAP[color];
+
+  this.classList.remove(SGD + filteredOldColor);
+  this.classList.add(SGD + filteredColor);
+
+  this.color = color;
+
+  return this;
+}
+
+/**
+ * @this {LabelElement}
+ * @param {string} text
+ */
+function _ChangeText(text) {
+  AddTextChildren(this, { text });
 
   return this;
 }

@@ -65,15 +65,7 @@ class AccountDeleteReports {
   }
   RenderReports(reports) {
     if (
-      reports &&
-      (
-        (
-          reports.data && reports.data.length > 0
-        ) ||
-        (
-          reports instanceof Array && reports.length > 0
-        )
-      )
+      reports
     ) {
       this.reports = reports.data;
 

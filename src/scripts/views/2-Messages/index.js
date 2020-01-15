@@ -86,6 +86,7 @@ export default class Messages {
     let conversationId = System.ExtractId(location.pathname);
 
     if (!this.conversations[conversationId])
+      this.conversations[conversationId] =
       new Conversation(this, conversationId, chatBox);
   }
 }

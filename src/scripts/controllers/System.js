@@ -555,7 +555,7 @@ class _System {
     if (typeof users == "string")
       users = this.ParseUsers(users);
 
-    if (users.length > 0) {
+    if (users && users instanceof Array && users.length > 0) {
       let resUsers = await new Action().GetUsers(users);
       this.allModerators = {
         list: resUsers.data,

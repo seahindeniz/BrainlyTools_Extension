@@ -9,8 +9,6 @@ class MassContentDeleter extends Components {
   constructor(main) {
     super(main);
 
-    if (!System.checkUserP(7)) return;
-
     this.deletedContents = {};
     this.contentsToDelete = [];
     this.deletedContentCount = 0;

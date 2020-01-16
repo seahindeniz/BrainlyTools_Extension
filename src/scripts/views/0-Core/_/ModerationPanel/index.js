@@ -11,8 +11,8 @@ import ReportedCommentsDeleter from "./ReportedCommentsDeleter";
 import UserFinder from "./UserFinder";
 
 /**
- * @typedef {typeof NoticeBoard |
- * typeof UserFinder |
+ * @typedef {typeof UserFinder |
+ * typeof NoticeBoard |
  * typeof MassMessageSender |
  * typeof PointChanger |
  * typeof MassModerateContents |
@@ -41,18 +41,45 @@ class ModerationPanel {
     this.$oldPanel = $(SELECTOR.OLD_PANEL);
     this.$oldPanelCoveringText = $(SELECTOR.OLD_PANEL_COVERING_TEXT);
     this.components = {
-      immediately: [
-        UserFinder,
-        NoticeBoard,
-        MassMessageSender,
-        PointChanger,
-        MassManageUsers
+      immediately: [{
+          constructor: UserFinder,
+        },
+        {
+          constructor: NoticeBoard,
+          condition: (
+            System.checkUserP(20) ||
+            System.data.Brainly.userData.extension.noticeBoard !== null
+          )
+        },
+        {
+          constructor: MassMessageSender,
+          condition: 9,
+        },
+        {
+          constructor: PointChanger,
+          condition: System.checkUserP(13) && System.checkBrainlyP(41),
+        },
+        {
+          constructor: MassManageUsers,
+          condition: [27, 30, 31, 32],
+        }
       ],
-      afterDeleteReasons: [
-        ReportedCommentsDeleter,
-        MassContentDeleter,
-        MassModerateContents,
-        MassModerateReportedContents
+      afterDeleteReasons: [{
+          constructor: ReportedCommentsDeleter,
+          condition: 17,
+        },
+        {
+          constructor: MassContentDeleter,
+          condition: 7,
+        },
+        {
+          constructor: MassModerateContents,
+          condition: 29,
+        },
+        {
+          constructor: MassModerateReportedContents,
+          condition: 18,
+        },
       ]
     };
 
@@ -83,9 +110,28 @@ class ModerationPanel {
   InitComponents(groupName = "immediately") {
     this.components[groupName].forEach(
       /**
-       * @param {ComponentsType} constr
+       * @param {{
+       *  constructor: ComponentsType,
+       *  condition?: number | number [] | boolean
+       * }} componentLayer
        */
-      constr => new constr(this));
+      componentLayer => {
+        if (
+          !("condition" in componentLayer) ||
+          (
+            componentLayer.condition === true ||
+            (
+              (
+                typeof componentLayer.condition == "number" ||
+                componentLayer.condition instanceof Array
+              ) &&
+              System.checkUserP(componentLayer.condition)
+            )
+          )
+        ) {
+          new componentLayer.constructor(this);
+        }
+      });
   }
   async InitComponentsAfterDeleteReasonsLoaded() {
     await WaitForObject(
@@ -111,8 +157,7 @@ class ModerationPanel {
     window.addEventListener('scroll', this.FixPanelsHeight.bind(this))
 
     if ("ResizeObserver" in window) {
-      // @ts-ignore
-      new window.ResizeObserver(this.FixPanelsHeight.bind(this))
+      new ResizeObserver(this.FixPanelsHeight.bind(this))
         .observe(this.$resizeOverlay[0])
     } else {
       window.addEventListener('resize', this.FixPanelsHeight.bind(this))

@@ -1,7 +1,6 @@
+import Button from "../../../../components/Button";
 import Modal from "../../../../components/Modal";
 import Action from "../../../../controllers/Req/Brainly/Action";
-import Button from "../../../../components/Button";
-import { MenuListItem } from "@style-guide";
 import Components from "./Components";
 
 const spinner =
@@ -10,8 +9,6 @@ const spinner =
 class PointChanger extends Components {
   constructor(main) {
     super(main);
-
-    if (System.checkUserP(13) || System.checkBrainlyP(41)) return;
 
     this.users = [];
     this.usersWithPoints = {};

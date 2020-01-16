@@ -15,14 +15,6 @@ class NoticeBoard extends Components {
   constructor(main) {
     super(main);
 
-    if (
-      !(
-        System.checkUserP(20) ||
-        System.data.Brainly.userData.extension.noticeBoard !== null
-      )
-    )
-      return;
-
     this.users = [];
     this.noticeContent = "";
     /**

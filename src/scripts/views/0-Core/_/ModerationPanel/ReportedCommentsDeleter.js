@@ -10,8 +10,6 @@ class ReportedCommentsDeleter extends Components {
   constructor(main) {
     super(main);
 
-    if (!System.checkUserP(17)) return;
-
     this.reports = []
     this.started = false;
     this.deletedReportsCount = 0;

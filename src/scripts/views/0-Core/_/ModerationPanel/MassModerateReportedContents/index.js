@@ -12,8 +12,6 @@ export default class MassModerateReportedContents extends Components {
   constructor(main) {
     super(main);
 
-    if (!System.checkUserP(18)) return;
-
     this.users = [];
     this.lastIds = [];
     /**

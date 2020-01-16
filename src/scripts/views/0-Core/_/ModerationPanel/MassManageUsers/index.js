@@ -32,8 +32,6 @@ export default class MassManageUsers extends Components {
   constructor(main) {
     super(main);
 
-    if (!System.checkUserP([27, 30, 31, 32])) return;
-
     /**
      * @type {number[]}
      */

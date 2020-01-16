@@ -25,7 +25,8 @@ import AddChildren from "@style-guide/helpers/AddChildren"
  * | 'row-reverse'
  * } FlexDirectionType
  *
- * @typedef {'xxs'
+ * @typedef {''
+ * | 'xxs'
  * | 'xs'
  * | 's'
  * | 'm'
@@ -54,6 +55,7 @@ import AddChildren from "@style-guide/helpers/AddChildren"
  *  marginLeft?: FlexMarginsType,
  *  marginRight?: FlexMarginsType,
  *  children?: import('./helpers/AddChildren').ChildrenParamType,
+ *  tag?: string,
  *  [x: string]: *
  * }} Properties
  */
@@ -80,6 +82,7 @@ export default ({
   marginRight,
   children,
   className,
+  tag = "div",
   ...props
 } = {}) => {
   const flexClass = classnames(
@@ -107,10 +110,10 @@ export default ({
     className
   );
 
-  let element = document.createElement("div");
+  let element = document.createElement(tag);
   element.className = flexClass;
 
-    AddChildren(element, children);
+  AddChildren(element, children);
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))

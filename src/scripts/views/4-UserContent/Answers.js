@@ -34,16 +34,20 @@ class Answers extends UserContent {
       }
 
       if (System.checkUserP(15)) {
-        this.RenderCheckboxes();
-        this.RenderButtonContainer();
-        this.RenderModerateButton();
         this.RenderDeleteSection("response");
-        this.BindModerateHandlers();
+
+        if (this.deleteSection) {
+          this.RenderCheckboxes();
+          this.RenderButtonContainer();
+          this.RenderModerateButton();
+          this.BindModerateHandlers();
+        }
       }
     }
   }
   RenderButtonHole() {
-    return $(`<div class="sg-actions-list__hole"></div>`).appendTo(this.$buttonList);;
+    return $(`<div class="sg-actions-list__hole"></div>`)
+      .appendTo(this.$buttonList);
   }
   RenderApproveButton() {
     let button = this.RenderButton({
@@ -104,7 +108,8 @@ class Answers extends UserContent {
       this.HideSelectContentWarning();
       await System.Delay(50);
 
-      if (confirm(System.data.locale.userContent.notificationMessages.confirmApproving)) {
+      if (confirm(System.data.locale.userContent.notificationMessages
+          .confirmApproving)) {
         rows.forEach(this.Row_ApproveAnswer.bind(this));
       }
     }
@@ -134,7 +139,8 @@ class Answers extends UserContent {
       this.HideSelectContentWarning();
       await System.Delay(50);
 
-      if (confirm(System.data.locale.userContent.notificationMessages.confirmUnapproving)) {
+      if (confirm(System.data.locale.userContent.notificationMessages
+          .confirmUnapproving)) {
         rows.forEach(this.Row_UnapproveAnswer.bind(this));
       }
     }
@@ -153,8 +159,10 @@ class Answers extends UserContent {
   }
 
   BindCorrectionHandlers() {
-    this.$correctionButton.click(this.ToggleReportForCorrectionSection.bind(this));
-    this.$reportButton.click(this.ReportSelectedAnswersForCorrection.bind(this));
+    this.$correctionButton.click(this.ToggleReportForCorrectionSection.bind(
+      this));
+    this.$reportButton.click(this.ReportSelectedAnswersForCorrection.bind(
+      this));
   }
   async ReportSelectedAnswersForCorrection() {
     let rows = this.DeletableRows();
@@ -165,13 +173,16 @@ class Answers extends UserContent {
       this.HideSelectContentWarning();
       await System.Delay(50);
 
-      if (confirm(System.data.locale.userContent.notificationMessages.confirmReporting)) {
+      if (confirm(System.data.locale.userContent.notificationMessages
+          .confirmReporting)) {
         let postData = {
           reason: this.$correctionReason.val(),
         };
         console.log(postData);
 
-        rows.forEach(row => this.Row_ReportAnswerForCorrection(row, { ...postData }));
+        rows.forEach(row => this.Row_ReportAnswerForCorrection(row, {
+          ...postData
+        }));
       }
     }
   }

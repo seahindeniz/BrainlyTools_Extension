@@ -125,9 +125,11 @@ class UserContent {
     });
   }
   RenderDeleteSection(type) {
-    this.deleteSection = new DeleteSection({ type });
+    if (System.data.Brainly.userData.user.id != sitePassedParams[0]) {
+      this.deleteSection = new DeleteSection({ type });
 
-    this.RenderDeleteButton();
+      this.RenderDeleteButton();
+    }
   }
   RenderDeleteButton() {
     this.$deleteButton = Button({
@@ -144,9 +146,11 @@ class UserContent {
     }
   }
   ShowDeleteSection() {
-    this.ClearActionsTab();
-    this.deleteSection.$.appendTo(this.$moderateContent);
-    this.$deleteButton.appendTo(this.$moderateActions);
+    if (this.deleteSection) {
+      this.ClearActionsTab();
+      this.deleteSection.$.appendTo(this.$moderateContent);
+      this.$deleteButton.appendTo(this.$moderateActions);
+    }
   }
   HideDeleteSection() {
     this.HideElement(this.deleteSection.$);

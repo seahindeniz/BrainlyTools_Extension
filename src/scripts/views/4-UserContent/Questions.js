@@ -7,10 +7,13 @@ class Questions extends UserContent {
   }
   InitQuestions() {
     if (System.checkUserP(14)) {
-      this.RenderCheckboxes();
       this.RenderDeleteSection("task");
-      this.ShowDeleteSection();
-      this.BindHandlers();
+
+      if (this.deleteSection) {
+        this.RenderCheckboxes();
+        this.ShowDeleteSection();
+        this.BindHandlers();
+      }
     }
   }
   BindHandlers() {

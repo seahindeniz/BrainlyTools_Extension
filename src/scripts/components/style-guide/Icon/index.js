@@ -46,6 +46,7 @@ import classnames from 'classnames';
  * | 'more'
  * | 'notifications'
  * | 'numbered_list'
+ * | 'open_in_new_tab'
  * | 'padlock'
  * | 'pencil'
  * | 'play'

@@ -18,7 +18,7 @@ export const TEXT_ALIGN = Object.freeze({
  * @typedef {"mustard" | "mint" | "peach" | "light-gray" | "blue-dark" |
  * "blue-light"} BgColor
  *
- * @typedef {"regular" | "bold"} Weight
+ * @typedef {"regular" | "bold" | "extraBold"} Weight
  *
  * @typedef {"uppercase" | "lowercase" | "capitalize"} Transform
  *

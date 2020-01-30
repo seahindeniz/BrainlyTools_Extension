@@ -125,11 +125,9 @@ class UserContent {
     });
   }
   RenderDeleteSection(type) {
-    if (System.data.Brainly.userData.user.id != sitePassedParams[0]) {
-      this.deleteSection = new DeleteSection({ type });
+    this.deleteSection = new DeleteSection({ type });
 
-      this.RenderDeleteButton();
-    }
+    this.RenderDeleteButton();
   }
   RenderDeleteButton() {
     this.$deleteButton = Button({

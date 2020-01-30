@@ -8,7 +8,10 @@ class Answers extends UserContent {
     super("Answers");
   }
   InitAnswers() {
-    if (System.checkUserP([6, 15, 19])) {
+    if (
+      System.checkUserP([6, 15, 19]) &&
+      System.data.Brainly.userData.user.id != sitePassedParams[0]
+    ) {
 
       if (System.checkUserP(6) && System.checkBrainlyP([146, 147])) {
         this.RenderCheckboxes();
@@ -35,13 +38,10 @@ class Answers extends UserContent {
 
       if (System.checkUserP(15)) {
         this.RenderDeleteSection("response");
-
-        if (this.deleteSection) {
-          this.RenderCheckboxes();
-          this.RenderButtonContainer();
-          this.RenderModerateButton();
-          this.BindModerateHandlers();
-        }
+        this.RenderCheckboxes();
+        this.RenderButtonContainer();
+        this.RenderModerateButton();
+        this.BindModerateHandlers();
       }
     }
   }

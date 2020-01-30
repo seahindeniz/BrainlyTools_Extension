@@ -6,14 +6,14 @@ class Questions extends UserContent {
     super("Questions");
   }
   InitQuestions() {
-    if (System.checkUserP(14)) {
+    if (
+      System.checkUserP(14) &&
+      System.data.Brainly.userData.user.id != sitePassedParams[0]
+    ) {
       this.RenderDeleteSection("task");
-
-      if (this.deleteSection) {
-        this.RenderCheckboxes();
-        this.ShowDeleteSection();
-        this.BindHandlers();
-      }
+      this.RenderCheckboxes();
+      this.ShowDeleteSection();
+      this.BindHandlers();
     }
   }
   BindHandlers() {

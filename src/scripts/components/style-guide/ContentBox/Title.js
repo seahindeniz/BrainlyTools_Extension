@@ -1,8 +1,10 @@
 import classnames from 'classnames';
 import AddChildren from '../helpers/AddChildren';
 import Text from '../Text';
+import mergeDeep from "merge-deep";
 
 /**
+ * @typedef {import("../Text").Properties} TextPropsType
  * @typedef {boolean
  * | "xxsmall"
  * | "xsmall"
@@ -16,7 +18,7 @@ import Text from '../Text';
  * @typedef {"left" | "center" | "right"} Alignment
  *
  * @typedef {{
- *  children?: import("@style-guide/helpers/AddChildren").ChildrenParamType,
+ *  children?: TextPropsType | import("@style-guide/helpers/AddChildren").ChildrenParamType,
  *  spaced?: boolean,
  *  spacedSmall?: boolean,
  *  spacedTop?: Size,
@@ -49,51 +51,47 @@ export default function({
     [`${SGD}with-centered-elements`]: align === "center",
     [`${SGD}spaced`]: spaced,
     [`${SGD}spaced-small`]: spacedSmall,
-    [`${SGD}spaced-top`]: spacedTop === true || spacedTop === "normal",
-    [`${SGD}spaced-top-${spacedTop || ''}`]: (
-      spacedTop &&
-      (
-        spacedTop !== true &&
-        spacedTop !== "normal"
-      )
-    ),
-    [`${SGD}spaced-bottom`]: spacedBottom === true || spacedBottom ===
-      "normal",
-    [`${SGD}spaced-bottom-${spacedBottom || ''}`]: (
-      spacedBottom &&
-      (
-        spacedBottom !== true &&
-        spacedBottom !== "normal"
-      )
-    )
+    [`${SGD}spaced-top`]: spacedTop === "normal" || spacedTop === true,
+    [`${SGD}spaced-top-${spacedTop || ''}`]: spacedTop &&
+      !(spacedTop === "normal" || spacedTop === true),
+    [`${SGD}spaced-bottom`]: spacedBottom === "normal" ||
+      spacedBottom === true,
+    [`${SGD}spaced-bottom-${spacedBottom || ''}`]: spacedBottom &&
+      !(spacedBottom === "normal" || spacedBottom === true)
   }, className);
 
   let div = document.createElement("div");
   div.className = contentBoxClass;
 
   if (children) {
-    if (typeof children == "string")
-      children = Text({
+    let childrenElement;
+
+    if (
+      children instanceof HTMLElement ||
+      children instanceof Array ||
+      children instanceof Node
+    )
+      childrenElement = children;
+    else {
+      /**
+       * @type {TextPropsType}
+       */
+      let textProps = {
         tag: "td",
         color: "gray",
-        weight: "bold",
+        weight: "extraBold",
         size: "large",
-        html: children,
-      });
-    else if (
-      !(children instanceof HTMLElement) &&
-      !(children instanceof Array) &&
-      children instanceof Object
-    )
-      // @ts-ignore
-      children = Text({
-        color: "gray",
-        weight: "bold",
-        size: "large",
-        ...children
-      });
+      };
 
-    AddChildren(div, children);
+      if (typeof children == "string")
+        textProps.html = children;
+      else
+        textProps = mergeDeep(textProps, children);
+
+      childrenElement = Text(textProps);
+    }
+
+    AddChildren(div, childrenElement);
   }
 
   if (props)

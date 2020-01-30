@@ -679,7 +679,8 @@
       "unableToReportAccountDeleting": "Kami tidak dapat melaporkan permintaanmu untuk penghapusan akun ke Community Manager jadi kami tidak dapat melanjutkan penghapusan. Maaf :/<br> Jika kesalahan ini terus berlanjut, mintalah bantuan ke Community Manager.",
       "confirmNoEvidenceOrComment": "Kamu tidak menambahkan bukti atau komentar apa pun.\nApakah kamu masih ingin menghapus akun ini?",
       "afterSavingCompletedIgnoreNotifications": "Setelah selesai menyimpan,<br> abaikan notifikasi ketika kamu menyegarkan atau meninggalkan halaman",
-      "selectAtLeastOneUser": "Kamu perlu memilih setidaknya satu pengguna"
+      "selectAtLeastOneUser": "Kamu perlu memilih setidaknya satu pengguna",
+      "youNeedToProvideSomeDetails": "You need to provide some details"
     },
     "previousNicks": {
       "text": "Nick sebelumnya",
@@ -720,18 +721,20 @@
     },
     "morePanel": {
       "title": "Lebih..",
-      "pointTransferer": {
-        "markAsPointTransferer": "Mark as point transferer",
-        "description": "Mark this user as point transferer. Process will reduce points to -25000 and send a report to the manager",
-        "markThisUser": "Mark this user",
-        "doYouReallyWantToMark": "Do you really want to mark this user as a point transferer?",
-        "wouldYouLikeToSayAnything": "Would you like to say anything?"
-      },
       "privileges": {
         "title": "Privilege aktif"
       },
       "manageExtensionUser": {
         "title": "Mengelola hak pengguna ekstensi"
+      },
+      "reportUser": {
+        "report": "Report this user",
+        "whatIsTheReason": "What is the reason?",
+        "reasons": {
+          "pointTransferer": "Point transferer",
+          "spammer": "Spammer",
+          "other": "Other"
+        }
       }
     }
   },

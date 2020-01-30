@@ -1,0 +1,8 @@
+{
+  "quickDeleteButtonsDefaultReasons": {
+    "task": [17, 23, 19],
+    "response": [34, 26, 32],
+    "comment": [13, 59, 64]
+  },
+  "default": {}
+}

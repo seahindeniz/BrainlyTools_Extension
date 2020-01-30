@@ -64,7 +64,7 @@
       "takePoints": {
         "task": {
           "text": "Cevap verenlerin puanlarını al",
-          "title": "RSoruya cevap verenlerden puanları geri al"
+          "title": "Soruya cevap verenlerden puanları geri al"
         },
         "response": {
           "text": "Kazandığı puanları geri al",
@@ -383,7 +383,7 @@
       "extensionServerError": "Sunucuya bağlanırken beklenmedik bir hata oluştu. ~5 saniye sonra tekrar deneyin",
       "ifErrorPersists": "Hatanın devam etmesi halinde, lütfen eklenti yöneticisi ile iletişime geçin ve durumu bilgilendirin :)",
       "accessPermissionDenied": "Brainly Tools eklentisini kullanma yetkisine sahip değilsin<br>Admin veya eklenti yöneticisi ile iletişime geç lütfen",
-      "updateNeeded": "Eklentinin yeni bir sürümü var ve tarayıcının eklentiyi güncellemesi gerekiyor. Bu işlem otomatik olarak yapılacak ve ~10 saniye sürecek",
+      "updateNeeded": "Eklentinin yeni sürümü mevcut ve arka planda güncellenecek.<br>Bu yüzden lütfen ~10 saniye bekleyip sayfayı yeniler misin?",
       "warningBeforeDelete": "İşlem, bu uyarıyı onayladığın anda başlar ve başladığı anda belirtmiş olduğun soruları silinmeye başlar.\n\nSilmek istediğinden üç kere emin misin?",
       "enterIdWarn": "Silimi başlatmak için en 1 soru id'si eklemelisin",
       "youNeedToEnterValidId": "Geçerli bir id numarası girmelisin",
@@ -679,7 +679,8 @@
       "unableToReportAccountDeleting": "Hesap silimini Topluluk Yöneticisine bildiremediğim için silim işlemine devam edemiyorum. Üzgünüm :/<br>Eğer bu hata devam ederse, eklenti yöneticine bildir lütfen",
       "confirmNoEvidenceOrComment": "Kanıt veya yorum eklemedin.\nHalen silmek istiyor musun?",
       "afterSavingCompletedIgnoreNotifications": "Sıralamalar kaydedildikten sonra,<br>bu sayfadan çıktığında veya yenilediğinde karşılacağın bildirimleri, göz ardı edebilirsin",
-      "selectAtLeastOneUser": "En az bir kullanıcı seçmelisin"
+      "selectAtLeastOneUser": "En az bir kullanıcı seçmelisin",
+      "youNeedToProvideSomeDetails": "Biraz daha detay ekleyebilir misin?"
     },
     "previousNicks": {
       "text": "Önceki kullanıcı adları",
@@ -720,18 +721,20 @@
     },
     "morePanel": {
       "title": "Daha fazla..",
-      "pointTransferer": {
-        "markAsPointTransferer": "Mark as point transferer",
-        "description": "Mark this user as point transferer. Process will reduce points to -25000 and send a report to the manager",
-        "markThisUser": "Mark this user",
-        "doYouReallyWantToMark": "Do you really want to mark this user as a point transferer?",
-        "wouldYouLikeToSayAnything": "Would you like to say anything?"
-      },
       "privileges": {
         "title": "Atanmış yetkiler"
       },
       "manageExtensionUser": {
         "title": "Eklenti yetkilerini yönet"
+      },
+      "reportUser": {
+        "report": "Şikayet et",
+        "whatIsTheReason": "Neden şikayet ediyorsun?",
+        "reasons": {
+          "pointTransferer": "Puan transferi yapıyor",
+          "spammer": "Spamcı",
+          "other": "Diğer"
+        }
       }
     }
   },

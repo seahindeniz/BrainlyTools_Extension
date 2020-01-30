@@ -63,8 +63,8 @@ export default {
       point: "point",
       takePoints: {
         task: {
-          text: "Take back respondents' points",
-          title: "Remove the points received by the respondents, when they answered the question"
+          text: "Take back respondent's points",
+          title: "Remove the points received by the respondent's, when they answered the question"
         },
         response: {
           text: "Take points back",
@@ -383,7 +383,7 @@ export default {
       extensionServerError: "An unexpected error occurred while connecting the extension server. Please try again in ~5 sec.",
       ifErrorPersists: "If this error persists, please contact with extension manager and explain what happened :)",
       accessPermissionDenied: "Your are not authorized to use Brainly Tools.<br>Please contact with an admin or extension manager",
-      updateNeeded: "Extension has a new version and browser need's to be updated. This will be done automatically and you need to refresh the page in ~10 seconds",
+      updateNeeded: "New version of extension is available.<br>It will be updated at background so, could you please wait ~10 seconds and then refresh the page?",
       warningBeforeDelete: "This process will be executed and the numbers of questions ids in the input will be deleted once you confirmed this warning. \n\n Are you triple times sure?",
       enterIdWarn: "You need to add at least 1 id number of question that you want to delete",
       youNeedToEnterValidId: "You need to enter a valid id number",
@@ -679,7 +679,8 @@ export default {
       unableToReportAccountDeleting: "I couldn't able report your delete request to community manager, so I can't continue to delete. Sorry :/<br>If this error persist, ask for help from your extension manager",
       confirmNoEvidenceOrComment: "You didn't add any evidence or comment.\nDo you still want to delete this account?",
       afterSavingCompletedIgnoreNotifications: "After saving completed,<br>just ignore the notifications when you refresh or exit this page",
-      selectAtLeastOneUser: "You need to select at least one user"
+      selectAtLeastOneUser: "You need to select at least one user",
+      youNeedToProvideSomeDetails: "You need to provide some details"
     },
     previousNicks: {
       text: "Previous nicks",
@@ -720,18 +721,20 @@ export default {
     },
     morePanel: {
       title: "More..",
-      pointTransferer: {
-        markAsPointTransferer: "Mark as point transferer",
-        description: "Mark this user as point transferer. Process will reduce points to -25000 and send a report to the manager",
-        markThisUser: "Mark this user",
-        doYouReallyWantToMark: "Do you really want to mark this user as a point transferer?",
-        wouldYouLikeToSayAnything: "Would you like to say anything?"
-      },
       privileges: {
         title: "Active privileges"
       },
       manageExtensionUser: {
         title: "Manage extension privileges"
+      },
+      reportUser: {
+        report: "Report this user",
+        whatIsTheReason: "What is the reason?",
+        reasons: {
+          pointTransferer: "Point transferer",
+          spammer: "Spammer",
+          other: "Other"
+        }
       }
     }
   },

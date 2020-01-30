@@ -679,7 +679,8 @@
       "unableToReportAccountDeleting": "Je ne suis pas en mesure de rapporter votre demande de suppression au community manager donc je ne peux pas effectuer la suppression. Désolé :/ <br> Si cette erreur persiste signalez la",
       "confirmNoEvidenceOrComment": "Vous n'avez ajouter aucune preuve ou commentaire. \nVoulez-vous toujours supprimer ce compte ?",
       "afterSavingCompletedIgnoreNotifications": "Une fois la sauvegarde effectuée, <br> ignorez les notifications quand vous rechargez ou quittez la page",
-      "selectAtLeastOneUser": "Tu dois sélectionner au moins un utilisateur"
+      "selectAtLeastOneUser": "Tu dois sélectionner au moins un utilisateur",
+      "youNeedToProvideSomeDetails": "You need to provide some details"
     },
     "previousNicks": {
       "text": "Pseudo précédent",
@@ -720,18 +721,20 @@
     },
     "morePanel": {
       "title": "Plus d'informations",
-      "pointTransferer": {
-        "markAsPointTransferer": "Mark as point transferer",
-        "description": "Mark this user as point transferer. Process will reduce points to -25000 and send a report to the manager",
-        "markThisUser": "Mark this user",
-        "doYouReallyWantToMark": "Do you really want to mark this user as a point transferer?",
-        "wouldYouLikeToSayAnything": "Aimeriez-vous dire quelque chose de plus ?"
-      },
       "privileges": {
         "title": "Privilèges actifs"
       },
       "manageExtensionUser": {
         "title": "Gérer les privilèges de l'extension"
+      },
+      "reportUser": {
+        "report": "Report this user",
+        "whatIsTheReason": "What is the reason?",
+        "reasons": {
+          "pointTransferer": "Point transferer",
+          "spammer": "Spammer",
+          "other": "Other"
+        }
       }
     }
   },

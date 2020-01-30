@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.32.0] - 2019.01.31
+
+### Added
+
+- Extension is now available on Brainly.ro
+
+### Changed
+
+- [#82] Remove selective content deletion on self profile
+
+[#82]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/82
+
+## [6.31.6] - 2019.01.16
+
+### Changed
+
+- Mass-Point changer option is visible to some users who has no have permission
+  to use it.
+- Rank names of manage special ranks are not rendering correctly on profile page
+
 ## [6.31.5] - 2019.01.16
 
 ### Changed

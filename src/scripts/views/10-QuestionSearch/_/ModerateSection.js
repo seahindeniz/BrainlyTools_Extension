@@ -17,7 +17,6 @@ import DeleteSection from "../../../components/DeleteSection";
 import notification from "../../../components/notification2";
 import Action from "../../../controllers/Req/Brainly/Action";
 import Build from "../../../helpers/Build";
-import generateRandomString from "../../../helpers/generateRandomString";
 import InsertAfter from "../../../helpers/InsertAfter";
 import IsVisible from "../../../helpers/IsVisible";
 
@@ -45,10 +44,11 @@ class ModerateSection {
     this.BindHandlers();
   }
   RenderSelectAll() {
+    let checkboxContainer = Checkbox();
     this.selectAllContainer = LabelDeprecated({
       html: System.data.locale.common.selectAll,
-      htmlFor: generateRandomString(),
-      icon: Checkbox()
+      htmlFor: checkboxContainer.inputId,
+      icon: checkboxContainer,
     });
 
     this.selectAll = this.selectAllContainer.querySelector("input");

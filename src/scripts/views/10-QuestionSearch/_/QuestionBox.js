@@ -151,7 +151,7 @@ class QuestionBox {
         this.spinnerContainer = SpinnerContainer(),
         LabelDeprecated({
           icon: this.checkBoxContainer,
-          htmlFor: this.checkBoxContainer.id,
+          htmlFor: this.checkBoxContainer.inputId,
           html: System.data.locale.common.select,
         })
       ]

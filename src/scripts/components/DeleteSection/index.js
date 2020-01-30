@@ -1,17 +1,48 @@
-import RadioSection from "./RadioSection";
 import Build from "../../helpers/Build";
-import { ContentBox, ContentBoxActions, Textarea, ActionList } from "../style-guide";
+import {
+  Checkbox,
+  ContentBox,
+  ContentBoxActions,
+  Flex,
+  SeparatorVertical,
+  Text,
+  Textarea
+} from "../style-guide";
+import RadioSection from "./RadioSection";
 
-const noop = () => {};
+const noop = (...params) => {};
 
 class DeleteSection {
   /**
-   * @param {{type?: "task"|"response"|"comment", reasons?: [], hideReasons?: string[] | ["task" | "response" | "comment"], handlers?: {contentTypeChange?: function, reasonChange?: function, subReasonChange?: function}, noSpacedTop?: boolean}} param0
+   * @param {{
+   *  type?: "task"|"response"|"comment",
+   *  reasons?: *[],
+   *  hideReasons?: ("task" | "response" | "comment" | string)[],
+   *  handlers?: {
+   *    contentTypeChange?: function,
+   *    reasonChange?: function,
+   *    subReasonChange?: function
+   *  },
+   *  noSpacedTop?: boolean
+   * }} param0
    */
-  constructor({ type, reasons, hideReasons = [], handlers = {}, noSpacedTop = false } = {}) {
+  constructor({
+    type,
+    reasons,
+    hideReasons = [],
+    handlers = {},
+    noSpacedTop =
+    false
+  } = {}) {
     this.type = type;
     this.reasons = reasons;
+    /**
+     * @type {{[x: string]: RadioSection}}
+     */
     this.reasonSections = {};
+    /**
+     * @type {{[x: string]: RadioSection}}
+     */
     this.subReasonSections = {};
     this.hideReasons = hideReasons;
     this.noSpacedTop = noSpacedTop;
@@ -82,44 +113,47 @@ class DeleteSection {
       ],
       [
         ContentBoxActions(),
-        ActionList()
+        this.optionsSection = Flex(),
       ],
     ]);
     this.$ = $(this.container);
 
     this.$textarea = $('textarea', this.$);
-    this.$listSection = $("> .sg-content-box__actions:eq(0) > .sg-content-box", this.$);
-    this.$optionsSection = $(".sg-content-box__actions:eq(2) > .sg-actions-list", this.$);
+    this.$listSection = $(
+      "> .sg-content-box__actions:eq(0) > .sg-content-box", this.$);
   }
   RenderTakePoints() {
-    this.$takePointsContainer = this.RenderOption("take_points");
-    this.$takePointsSeparator = this.RenderHoleSeparator();
+    let takePointsLocale =
+      System.data.locale.common.moderating.takePoints[this.type || "task"];
+    this.$takePointsContainer = this.RenderOption(
+      "take_points",
+      takePointsLocale.text,
+      takePointsLocale.title
+    );
+    this.takePointsSeparator = this.RenderHoleSeparator();
 
     this.$takePointsTitle = $(".sg-label__icon", this.$takePointsContainer);
     this.$takePointsLabel = $(".sg-label__text", this.$takePointsContainer);
     this.$takePoints = $("input", this.$takePointsContainer);
   }
   RenderOption(id, label, title) {
-    let $option = $(`
-    <div class="sg-actions-list__hole sg-actions-list__hole--no-spacing">
-      <div class="sg-text sg-text--bold">
-        <div class="sg-label sg-label--secondary" >
-          <label class="sg-actions-list">
-            <div class="sg-label__icon sg-actions-list__hole" title="${title}">
-              <div class="sg-checkbox">
-                <input type="checkbox" class="sg-checkbox__element" id="${id}">
-                <label class="sg-checkbox__ghost">
-                  <svg class="sg-icon sg-icon--adaptive sg-icon--x10">
-                    <use xlink:href="#icon-check"></use>
-                  </svg>
-                </label>
-              </div>
-            </div>
-            <span class="sg-label__text sg-actions-list__hole">${label}</span>
-          </label>
-        </div>
-      </div>
-    </div>`);
+    let option = Build(Flex(), [
+      [
+        Flex({ marginRight: "xs", }),
+        Checkbox({ id: id, }),
+      ],
+      [
+        Flex(),
+        Text({
+          tag: "label",
+          htmlFor: id,
+          html: label,
+          weight: "bold",
+          size: "xsmall",
+          title: title,
+        })
+      ],
+    ]);
     /* let $checkboxGhost = $(".sg-checkbox__ghost", $option);
     let icon = Icon({
       type: "check",
@@ -128,21 +162,26 @@ class DeleteSection {
 
     $checkboxGhost.append(icon); */
 
-    return $option;
+    return $(option);
   }
   RenderHoleSeparator() {
-    return $(`
-    <div class="sg-actions-list__hole sg-actions-list__hole--stretch sg-actions-list__hole--no-spacing">
-      <div class="sg-vertical-separator sg-vertical-separator--full"></div>
-    </div>`);
+    return Flex({
+      children: SeparatorVertical({
+        size: "full",
+      }),
+    });
   }
   RenderReturnPoints() {
-    this.$returnPointsContainer = this.RenderOption("return_points", System.data.locale.common.moderating.returnPoints.text, System.data.locale.common.moderating.returnPoints.title);
-    this.$returnPointsSeparator = this.RenderHoleSeparator();
+    this.$returnPointsContainer = this.RenderOption("return_points", System
+      .data.locale.common.moderating.returnPoints.text, System.data.locale
+      .common.moderating.returnPoints.title);
+    this.returnPointsSeparator = this.RenderHoleSeparator();
     this.$returnPoints = $("input", this.$returnPointsContainer);
   }
   RenderGiveWarning() {
-    this.$giveWarningContainer = this.RenderOption("give_warning", System.data.locale.common.moderating.giveWarning.text, System.data.locale.common.moderating.giveWarning.title);
+    this.$giveWarningContainer = this.RenderOption("give_warning", System.data
+      .locale.common.moderating.giveWarning.text, System.data.locale.common
+      .moderating.giveWarning.title);
     this.$giveWarning = $("input", this.$giveWarningContainer);
   }
   RenderContentTypeSection() {
@@ -158,13 +197,14 @@ class DeleteSection {
       if (!this.hideReasons.includes(type))
         sectionData.items.push({
           id: type,
-          label: System.data.locale.popup.extensionOptions.quickDeleteButtons[type]
+          label: System.data.locale.popup.extensionOptions
+            .quickDeleteButtons[type]
         });
     })
 
     this.contentTypeSection = new RadioSection(sectionData);
 
-    this.contentTypeSection.$.appendTo(this.$listSection);
+    this.$listSection.append(this.contentTypeSection.container)
   }
   /**
    * @param {Event} event
@@ -173,12 +213,14 @@ class DeleteSection {
     this.HideOptions();
     this.ShowContentType();
 
-    this.type = event.target.id;
+    if (event.target instanceof HTMLElement)
+      this.type = event.target.id;
+
     let status = this.handlers.contentTypeChange(event);
 
     if (status === false) {
       this.type = this.lastSelectedContentType;
-      let input = $(`#${this.type}`, this.contentTypeSection.$);
+      let input = $(`#${this.type}`, this.contentTypeSection.container);
 
       input.prop("checked", true);
       input.change();
@@ -200,7 +242,7 @@ class DeleteSection {
 
     this.HideSections(this.reasonSections);
     this.HideSections(this.subReasonSections);
-    this.contentTypeSection.$.appendTo(this.$listSection);
+    this.$listSection.append(this.contentTypeSection.container);
   }
   HideSections(sections) {
     $.each(sections, (key, section) => section.Hide())
@@ -227,7 +269,7 @@ class DeleteSection {
 
     this.selectedReasonSection = reasonSection;
 
-    reasonSection.$.appendTo(this.$listSection);
+    this.$listSection.append(reasonSection.container);
   }
   HideOptions() {
     this.HideTakePoints();
@@ -250,30 +292,41 @@ class DeleteSection {
   }
   HideTakePoints() {
     this.HideElement(this.$takePointsContainer);
-    this.HideElement(this.$takePointsSeparator);
+    this.HideElement(this.takePointsSeparator);
   }
   HideReturnPoints() {
     this.HideElement(this.$returnPointsContainer);
-    this.HideElement(this.$returnPointsSeparator);
+    this.HideElement(this.returnPointsSeparator);
   }
   HideGiveWarning() {
     this.HideElement(this.$giveWarningContainer);
   }
+  /**
+   * @param {HTMLElement | JQuery<HTMLElement>} $element
+   */
   HideElement($element) {
-    $element.appendTo("<div />");
+    if ($element) {
+      if ($element instanceof HTMLElement) {
+        if ($element.parentElement)
+          $element.parentElement.removeChild($element);
+      } else
+        $element.detach();
+    }
   }
   ShowTakePoints() {
-    this.$takePointsContainer.appendTo(this.$optionsSection);
-    this.$takePointsSeparator.appendTo(this.$optionsSection);
-    this.$takePointsLabel.text(System.data.locale.common.moderating.takePoints[this.type].text);
-    this.$takePointsTitle.attr("title", System.data.locale.common.moderating.takePoints[this.type].title);
+    this.$takePointsContainer.appendTo(this.optionsSection);
+    this.optionsSection.append(this.takePointsSeparator);
+    this.$takePointsLabel.text(System.data.locale.common.moderating
+      .takePoints[this.type].text);
+    this.$takePointsTitle.attr("title", System.data.locale.common.moderating
+      .takePoints[this.type].title);
   }
   ShowReturnPoints() {
-    this.$returnPointsContainer.appendTo(this.$optionsSection);
-    this.$returnPointsSeparator.appendTo(this.$optionsSection);
+    this.$returnPointsContainer.appendTo(this.optionsSection);
+    this.optionsSection.append(this.returnPointsSeparator);
   }
   ShowGiveWarning() {
-    this.$giveWarningContainer.appendTo(this.$optionsSection);
+    this.$giveWarningContainer.appendTo(this.optionsSection);
   }
   /**
    * @param {Event} event
@@ -282,35 +335,43 @@ class DeleteSection {
     this.handlers.reasonChange(event);
     this.HideSections(this.subReasonSections);
 
-    let reasonId = System.ExtractId(event.target.id);
-    this.reason = this.reasons.find(reason => reason.id == reasonId);
-    let subReasonSection = this.subReasonSections[reasonId];
+    if (event.target instanceof HTMLElement) {
+      let reasonId = System.ExtractId(event.target.id);
+      this.reason = this.reasons.find(reason => reason.id == reasonId);
+      let subReasonSection = this.subReasonSections[reasonId];
 
-    if (!subReasonSection) {
-      subReasonSection = this.subReasonSections[reasonId] = new RadioSection({
-        name: "subReason",
-        text: System.data.locale.core.MassContentDeleter.select["subReason"],
-        items: this.reason.subcategories.map(reason => {
-          return {
-            id: `sr-${reason.id}`,
-            label: reason.title || reason.text
-          }
-        }),
-        changeHandler: this.SubReasonRadioChange.bind(this)
-      });
+      if (!subReasonSection) {
+        subReasonSection = this.subReasonSections[reasonId] =
+          new RadioSection({
+            name: "subReason",
+            text: System.data.locale.core.MassContentDeleter.select[
+              "subReason"],
+            items: this.reason.subcategories.map(reason => {
+              return {
+                id: `sr-${reason.id}`,
+                label: reason.title || reason.text
+              }
+            }),
+            changeHandler: this.SubReasonRadioChange.bind(this)
+          });
+      }
+
+      this.$listSection.append(subReasonSection.container);
     }
-
-    subReasonSection.$.appendTo(this.$listSection);
   }
   /**
    * @param {Event} event
    */
   SubReasonRadioChange(event) {
     this.handlers.subReasonChange(event);
-    let subReasonId = System.ExtractId(event.target.id);
-    let subReason = this.reason.subcategories.find(reason => reason.id == subReasonId);
 
-    this.$textarea.val(subReason.text);
+    if (event.target instanceof HTMLElement) {
+      let subReasonId = System.ExtractId(event.target.id);
+      let subReason = this.reason.subcategories.find(reason => reason.id ==
+        subReasonId);
+
+      this.$textarea.val(subReason.text);
+    }
   }
   /**
    * @returns {{id: number, category_id: number, text: string, title: string}}

@@ -13,7 +13,10 @@ import Icon from './Icon';
  *
  * @typedef {function(string):Element} ChangeId
  *
- * @typedef {{ChangeId: ChangeId}} CustomProperties
+ * @typedef {{
+ *  inputId: string,
+ *  ChangeId: ChangeId
+ * }} CustomProperties
  * @typedef {HTMLDivElement & CustomProperties} Element
  */
 
@@ -69,6 +72,7 @@ export default function({
 
   label.append(icon);
 
+  container.inputId = id;
   // @ts-ignore
   container.ChangeId = _ChangeId;
 
@@ -82,7 +86,7 @@ export default function({
 function _ChangeId(id) {
   let input = this.querySelector("input");
   let label = this.querySelector("label");
-  this.id = label.htmlFor = input.id = id;
+  this.inputId = label.htmlFor = input.id = id;
 
   return this;
 }

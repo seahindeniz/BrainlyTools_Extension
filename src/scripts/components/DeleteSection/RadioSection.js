@@ -1,10 +1,33 @@
+import Build from "@/scripts/helpers/Build";
+import {
+  ContentBoxActions,
+  Flex,
+  Radio,
+  SeparatorHorizontal,
+  SeparatorVertical,
+  Text
+} from "../style-guide";
+
 class RadioSection {
   /**
-   * @typedef {{id:string, label:string}} Item
-   * @typedef {[Item]} Items
-   * @param {{ name?:string, text?: string, warning?: string, items?: Items, changeHandler?: function, noHorizontalSeparator?: boolean }} param0
+   * @typedef {{id: string, label: string}} Item
+   * @param {{
+   *  name?:string,
+   *  text?: string,
+   *  warning?: string,
+   *  items?: Item[],
+   *  changeHandler?: function,
+   *  noHorizontalSeparator?: boolean
+   * }} param0
    */
-  constructor({ name, text, warning, items, changeHandler, noHorizontalSeparator = false }) {
+  constructor({
+    name,
+    text,
+    warning,
+    items,
+    changeHandler,
+    noHorizontalSeparator = false
+  }) {
     this.name = name;
     this.text = text;
     this.warning = warning;
@@ -22,28 +45,46 @@ class RadioSection {
     this.BindHandler();
   }
   Render() {
-    this.$ = $(`
-    <div class="sg-content-box__actions">
-      <div class="sg-actions-list sg-content-box__actions--spaced-top sg-content-box__actions--spaced-bottom sg-actions-list--no-wrap sg-actions-list--to-top">
-        <div class="sg-actions-list__hole sg-actions-list__hole--no-shrink">
-          <span class="sg-text sg-text--small">${this.text}:</span>
-        </div>
-        <div class="sg-actions-list__hole sg-actions-list__hole--no-spacing">
-          <div class="sg-actions-list"></div>
-        </div>
-      </div>
-    </div>`);
-
-    this.$list = $("> .sg-actions-list > .sg-actions-list__hole:eq(1) > .sg-actions-list", this.$);
+    this.container = Build(ContentBoxActions({
+      spacedTop: "small",
+      spacedBottom: "small",
+    }), [
+      [
+        Flex({
+          marginTop: "xs",
+        }),
+        [
+          [
+            Flex({
+              marginTop: "xs",
+              marginRight: "s",
+              marginBottom: "xs",
+              noShrink: true,
+            }),
+            Text({
+              size: "small",
+              html: `${this.text}:`,
+            }),
+          ],
+          [
+            this.list = Flex({ wrap: true }),
+          ]
+        ]
+      ]
+    ]);
   }
   RenderHorizontalSeparator() {
-    this.$separator = $(`<div class="sg-horizontal-separator"></div>`);
+    if (this.noHorizontalSeparator)
+      return;
 
-    if (!this.noHorizontalSeparator)
-      this.$separator.prependTo(this.$);
+    this.separator = SeparatorHorizontal();
+
+    this.container.prepend(this.separator);
   }
   RenderWarning() {
-    this.$warning = $(`<div class="sg-bubble sg-bubble--top sg-bubble--row-start sg-bubble--peach sg-text--white" style="z-index: 1;">${this.warning}</div>`);
+    this.$warning = $(
+      `<div class="sg-bubble sg-bubble--top sg-bubble--row-start sg-bubble--peach sg-text--white" style="z-index: 1;">${this.warning}</div>`
+    );
   }
   RenderItems() {
     this.items.forEach((item, i) => {
@@ -54,10 +95,10 @@ class RadioSection {
     });
   }
   /**
-   * @param {Item} item
+   * @param {Item} data
    */
-  RenderItem(item) {
-    let $item = $(`
+  RenderItem(data) {
+    /* let $item = $(`
     <div class="sg-actions-list__hole sg-actions-list__hole--no-spacing">
       <div class="sg-label sg-label--secondary">
         <label class="sg-actions-list">
@@ -70,17 +111,39 @@ class RadioSection {
           <span class="sg-label__text sg-actions-list__hole">${item.label}</span>
         </label>
       </div>
-    </div>`);
+    </div>`); */
+    let item = Build(Flex({ marginTop: "xs", marginBottom: "xs", }), [
+      [
+        Flex({ marginRight: "xs", }),
+        Radio({ id: data.id, name: this.name }),
+      ],
+      [
+        Flex(),
+        Text({
+          tag: "label",
+          htmlFor: data.id,
+          html: data.label,
+          weight: "bold",
+          size: "xsmall",
+        })
+      ],
+    ]);
 
-    $item.appendTo(this.$list);
+    this.list.append(item)
   }
   RenderSeparator() {
-    let $separator = $(`<div class="sg-vertical-separator sg-vertical-separator--small"></div>`);
+    let separator = Flex({
+      marginTop: "xs",
+      marginBottom: "xs",
+      children: SeparatorVertical({
+        size: "full",
+      }),
+    });
 
-    $separator.appendTo(this.$list)
+    this.list.append(separator);
   }
   BindHandler() {
-    $("input", this.$list).change(this.InputChanged.bind(this));
+    $("input", this.list).change(this.InputChanged.bind(this));
   }
   InputChanged(event) {
     this.HideWarning();
@@ -89,11 +152,23 @@ class RadioSection {
       this.changeHandler(event);
   }
   Hide() {
-    this.$.appendTo("<div />");
+    this.HideElement(this.container);
+  }
+  /**
+   * @param {HTMLElement | JQuery<HTMLElement>} $element
+   */
+  HideElement($element) {
+    if ($element) {
+      if ($element instanceof HTMLElement) {
+        if ($element.parentElement)
+          $element.parentElement.removeChild($element);
+      } else
+        $element.detach();
+    }
   }
   ShowWarning() {
     if (!this.$warning.is(":visible")) {
-      this.$warning.appendTo(this.$);
+      this.container.append(this.$warning[0])
     } else {
       this.$warning
         .fadeTo('fast', 0.5)
@@ -106,7 +181,8 @@ class RadioSection {
   }
   async HideWarning() {
     await this.$warning.slideUp('fast').promise();
-    this.$warning.appendTo("<div />").show();
+    this.HideElement(this.$warning);
+    this.$warning.show();
   }
 }
 

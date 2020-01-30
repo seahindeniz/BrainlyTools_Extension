@@ -59,6 +59,8 @@ export default class UserProfile {
     return data;
   }
   FixInfoBottom() {
+    let contentOld = document.getElementById("content-old");
+    contentOld.id += "2";
     let info_bottom = document.querySelector(".info_bottom");
 
     if (!info_bottom)
@@ -171,6 +173,7 @@ export default class UserProfile {
 
     if (this.extensionUser && this.brainlyUser) {
       this.RenderExtensionUserTag();
+      this.morePanel.RenderSectionsAfterAllResolved();
 
       if (this.extensionUser.probatus) {
         this.RenderUserHat();

@@ -44,7 +44,7 @@ function injectIt(path, { attachExtensionId, makeItLastElement } = {}) {
 
           script.setAttribute('type', 'text/javascript');
           script.setAttribute('src', path);
-          script.dataset.IsFromExtension = "true";
+          script.dataset.addedByExtension = "true";
 
           if (attachExtensionId) {
             script.setAttribute('extension_URL', window.chrome.runtime.id);
@@ -66,7 +66,7 @@ function injectIt(path, { attachExtensionId, makeItLastElement } = {}) {
           link.setAttribute('type', 'text/css');
           link.setAttribute('href', path);
           link.setAttribute('href', path);
-          link.dataset.IsFromExtension = "true";
+          link.dataset.addedByExtension = "true";
 
           if (fileExtension == "css") {
             let head = await WaitForObject("document.head");
@@ -80,7 +80,7 @@ function injectIt(path, { attachExtensionId, makeItLastElement } = {}) {
                  */
                 let nextElementSibling = (link.nextElementSibling);
 
-                if (nextElementSibling && !nextElementSibling.dataset.IsFromExtension)
+                if (nextElementSibling && !nextElementSibling.dataset.addedByExtension)
                   head && head.append(link);
               }, { expireTime: 5 });
           } else {
@@ -95,7 +95,7 @@ function injectIt(path, { attachExtensionId, makeItLastElement } = {}) {
                  */
                 let nextElementSibling = (link.nextElementSibling);
 
-                if (nextElementSibling && !nextElementSibling.dataset.IsFromExtension)
+                if (nextElementSibling && !nextElementSibling.dataset.addedByExtension)
                   html && html.appendChild(link);
               });
           }

@@ -17,8 +17,6 @@ export default class MassMessageSender extends Components {
   constructor(main) {
     super(main);
 
-    if (!System.checkUserP(9)) return;
-
     this.SendMessages = new SendMessageToBrainlyIds({
       EachBefore: this.BeforeSending.bind(this),
       Each: this.MessageSent.bind(this),

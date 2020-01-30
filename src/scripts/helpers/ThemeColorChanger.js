@@ -46,9 +46,12 @@ class ThemeColorChanger {
 
     if (!this.styleElement) {
       this.styleElement = document.createElement('style');
-      this.styleElement.type = 'text/css';
-      this.styleElement.id = STYLE_ELEMENT_ID;
-      this.styleElement.dataset.IsFromExtension = true;
+
+      if (this.styleElement instanceof HTMLStyleElement) {
+        this.styleElement.type = 'text/css';
+        this.styleElement.id = STYLE_ELEMENT_ID;
+        this.styleElement.dataset.addedByExtension = "true";
+      }
     }
   }
   RenderStyleElement() {
@@ -63,7 +66,8 @@ class ThemeColorChanger {
   PrepareColors() {
     if (this.IsMulticolor()) {
       this.fontColor = "#fff";
-      this.colors = this.primaryColor.split(",").map(color => color.toLowerCase());
+      this.colors = this.primaryColor.split(",")
+        .map(color => color.toLowerCase());
     } else {
       //this.PrepareMultiColor();
       this.colors = [this.primaryColor];
@@ -103,7 +107,8 @@ class ThemeColorChanger {
     if (!this.IsDark(secondaryColor)) {
       secondaryColor = secondaryColor.lighten(.3);
     } else {
-      if (secondaryColor.hex().toLowerCase() != DEFAULT_THEME_COLOR.toLowerCase()) {
+      if (secondaryColor.hex().toLowerCase() != DEFAULT_THEME_COLOR
+        .toLowerCase()) {
         this.fontColor = "#fff";
       }
 
@@ -121,7 +126,8 @@ class ThemeColorChanger {
     if (this.colors.length < 2) {
       this.backgroundStyle += `background: ${this.colors} !important;`
     } else {
-      this.backgroundStyle += `background: linear-gradient(180deg, ${this.colors});`;
+      this.backgroundStyle +=
+        `background: linear-gradient(180deg, ${this.colors});`;
 
       if (this.colors.length > 2) {
         this.backgroundStyle += `

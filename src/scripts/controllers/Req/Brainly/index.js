@@ -10,7 +10,8 @@ export default class Brainly extends Request {
     super();
   }
   Legacy() {
-    let marketOrigin = (System && System.data.meta.location.origin) || document.location.origin;
+    let marketOrigin = (System && System.data.meta.location.origin) ||
+      document.location.origin;
     this.path += `${marketOrigin}/api/28`;
 
     this.JSON();
@@ -22,11 +23,14 @@ export default class Brainly extends Request {
   SetAccountToken() {
     this.headers = {
       ...this.headers,
-      'X-B-Token-Long': System.data.Brainly.tokenLong
+      'X-B-Token-Long': System.data.Brainly.tokenLong,
     }
   }
   GenerateCoupon() {
-    return btoa(`[object Object]${System.data.Brainly.userData.user.id}-${new Date().getTime()}-${Math.floor(1 + Math.random() * 99999999)}`);
+    return btoa(
+      `[object Object]${System.data.Brainly.userData.user.id}-` +
+      `${new Date().getTime()}-${Math.floor(1 + Math.random() * 99999999)}`
+    );
   }
   GQL() {
     this.path += `/graphql/${System.data.Brainly.defaultConfig.MARKET}`;
@@ -98,16 +102,21 @@ export default class Brainly extends Request {
         /**
          * To avoid having the "imgError:undefined" error message on console
          */
-        HTML = HTML.replace(/onerror="imgError\(this, (?:'|\&\#039\;){1,}\);"/gmi, "");
+        HTML = HTML.replace(
+          /onerror="imgError\(this, (?:'|\&\#039\;){1,}\);"/gmi, "");
 
         if (formSelector) {
           HTML = $(formSelector, HTML).html();
         }
 
         if (!HTML)
-          return reject({ msg: `The "${formSelector}" cannot be found on profile page`, error: 404 });
+          return reject({
+            msg: `The "${formSelector}" cannot be found on profile page`,
+            error: 404
+          });
 
-        for (let [tokenName, tokenRegex] of Object.entries(tokensRegex)) {
+        for (let [tokenName, tokenRegex] of Object.entries(
+            tokensRegex)) {
           let tokenMatch = HTML.match(tokenRegex);
 
           tokens[tokenName] = tokenMatch ? tokenMatch[1] : "";
@@ -293,5 +302,8 @@ export default class Brainly extends Request {
 
   api_tickets() {
     return this.P("api_tickets");
+  }
+  remove() {
+    return this.P("remove");
   }
 }

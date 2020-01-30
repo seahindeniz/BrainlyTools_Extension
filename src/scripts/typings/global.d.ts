@@ -6,7 +6,6 @@ declare global {
   var popup: Popup;
   var selectors: { [x: string]: string };
   var System: _System;
-  var ResizeObserver: any;
   var isPageProcessing: boolean;
   var coloring: ThemeColorChanger;
   var sitePassedParams: string | { [x: string]: any };

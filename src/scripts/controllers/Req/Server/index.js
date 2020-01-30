@@ -3,6 +3,24 @@ import Request from "../";
 import notification from "../../../components/notification2";
 import storage from "../../../helpers/extStorage";
 
+/**
+ * @typedef {{
+ *  success: boolean,
+ *  exception?: number,
+ *  message?: string,
+ * }} CommonResponsePropsType
+ *
+ * @typedef {{
+ *  _id: string,
+ *  probatus: boolean,
+ *  previousNicks: string[],
+ *  privileges?: number[],
+ *  note: string,
+ *  secretKey: string,
+ *  hash: string,
+ * }} UserDetailsType
+ */
+
 export default class ServerReq {
   constructor() {
     this.path = "";
@@ -144,13 +162,16 @@ export default class ServerReq {
   /**
    * @param {number | {id: number, nick: string}} id
    * @param {string} [nick]
-   * @returns {Promise<{success: boolean, data: {probatus: boolean, hash: string, previousNicks: string[], secretKey: string, privileges?: number[]}}>}
+   * @returns {Promise<{data: UserDetailsType} & CommonResponsePropsType>}
    */
   GetUser(id, nick) {
-    if (id instanceof Object && id.id) {
+    if (id instanceof Object && id.hasOwnProperty("id")) {
       nick = id.nick;
       id = id.id;
     }
+
+    if (!id || isNaN(Number(id)))
+      throw `Invalid user id: ${id}`;
 
     if (typeof id === "number") {
       let promise = this.user().P(id).P(nick).GET();
@@ -361,11 +382,14 @@ export default class ServerReq {
     return this.actionsHistory().storeLinks().POST({ links });
   }
   /**
-   * @param {number} id
-   * @param {string} [comment]
+   * @param {{
+   *  user_id: string,
+   *  report_id: string,
+   *  message?: string,
+   * }} param0
    */
-  PointTransferer(id, comment) {
-    return this.pointTransferer().POST({ id, comment });
+  ReportUser({ user_id, report_id, message }) {
+    return this.user().report().POST({ user_id, report_id, message });
   }
   /**
    * @param {number | string} id
@@ -456,8 +480,8 @@ export default class ServerReq {
   storeLinks() {
     return this.P("storeLinks");
   }
-  pointTransferer() {
-    return this.P("pointTransferer");
+  report() {
+    return this.P("report");
   }
   keywordsForFreelancer() {
     return this.P("keywordsForFreelancer");

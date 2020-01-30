@@ -2,8 +2,15 @@ import classnames from 'classnames';
 import AddChildren from '../helpers/AddChildren';
 
 /**
- * @typedef {"xxsmall" | "xsmall" | "small" | "normal" | "large" | "xlarge" |
- * "xxlarge"} Size
+ * @typedef {boolean
+ * | "xxsmall"
+ * | "xsmall"
+ * | "small"
+ * | "normal"
+ * | "large"
+ * | "xlarge"
+ * | "xxlarge"
+ * } Size
  *
  * @typedef {"left" | "center" | "right"} Alignment
  *
@@ -12,7 +19,8 @@ import AddChildren from '../helpers/AddChildren';
  *  spaced?: boolean,
  *  spacedSmall?: boolean,
  *  spacedTop?: Size,
- *  spacedBottom?: Size,full?: boolean,
+ *  spacedBottom?: Size,
+ *  full?: boolean,
  *  className?: string,
  *  align?: Alignment,
  * }} Properties
@@ -37,14 +45,13 @@ export default function({
     [`${SGD}with-centered-elements`]: align === "center",
     [`${SGD}spaced`]: spaced,
     [`${SGD}spaced-small`]: spacedSmall,
-    [`${SGD}spaced-top`]: spacedTop === "normal",
-    [`${SGD}spaced-top-${spacedTop || ''}`]: spacedTop && spacedTop !==
-      "normal",
-    [`${SGD}spaced-bottom`]: spacedBottom === "normal",
-    [`${SGD}spaced-bottom-${spacedBottom || ""}`]: (
-      spacedBottom &&
-      spacedBottom !== "normal"
-    )
+    [`${SGD}spaced-top`]: spacedTop === "normal" || spacedTop === true,
+    [`${SGD}spaced-top-${spacedTop || ''}`]: spacedTop &&
+      !(spacedTop === "normal" || spacedTop === true),
+    [`${SGD}spaced-bottom`]: spacedBottom === "normal" ||
+      spacedBottom === true,
+    [`${SGD}spaced-bottom-${spacedBottom || ''}`]: spacedBottom &&
+      !(spacedBottom === "normal" || spacedBottom === true)
   }, className);
 
   let div = document.createElement("div");

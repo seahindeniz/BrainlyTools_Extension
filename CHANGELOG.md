@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.32.1] - 2019.02.04
+
+### Changed
+
+- The "MORE.." section on the profile page will remain visible permanently
+- Account deletion reporter is not working
+
 ## [6.32.0] - 2019.01.31
 
 ### Added

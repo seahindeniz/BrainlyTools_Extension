@@ -2,14 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
-## [6.32.1] - 2019.02.04
+## [6.32.1] - 2020.02.04
 
 ### Changed
 
 - The "MORE.." section on the profile page will remain visible permanently
 - Account deletion reporter is not working
 
-## [6.32.0] - 2019.01.31
+## [6.32.0] - 2020.01.31
 
 ### Added
 
@@ -21,7 +21,7 @@ All notable changes to this project will be documented in this file.
 
 [#82]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/82
 
-## [6.31.6] - 2019.01.16
+## [6.31.6] - 2020.01.16
 
 ### Changed
 
@@ -29,14 +29,14 @@ All notable changes to this project will be documented in this file.
   to use it.
 - Rank names of manage special ranks are not rendering correctly on profile page
 
-## [6.31.5] - 2019.01.16
+## [6.31.5] - 2020.01.16
 
 ### Changed
 
 - "Extension user" label appears too many times in each opening the conversation
   page.
 
-## [6.31.4] - 2019.01.15
+## [6.31.4] - 2020.01.15
 
 ### Changed
 

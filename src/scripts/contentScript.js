@@ -96,7 +96,7 @@ class ContentScript {
     window.addEventListener("message", this.SecondaryMessageHandler.bind(
       this));
     window.addEventListener(
-      'contentscript>Share System.data to background.js:DONE', () => {
+      'contentScript>Share System.data to background.js:DONE', () => {
         System.toBackground("popup>Get System.data from background")
       });
   }
@@ -123,7 +123,7 @@ class ContentScript {
       this.MessageHandler({ action: "previewColor", data: request.data });
     }
     if (request.action ===
-      "contentscript>Share System.data to background.js") {
+      "contentScript>Share System.data to background.js") {
       window.postMessage({
         action: "DOM>Share System.data to background.js"
       }, request.url);
@@ -133,10 +133,10 @@ class ContentScript {
       messagesLayoutExtender(request.data);
     }
 
-    if (request.action == "contentscript>Check if content script injected") {
+    if (request.action == "contentScript>Check if content script injected") {
       html = document.documentElement;
 
-      return Promise.resolve(html.getAttribute("extension"));
+      return Promise.resolve(true);
     }
   }
   SecondaryMessageHandler(event) {

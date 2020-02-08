@@ -51,12 +51,12 @@ async function onBodyLoad() {
 
     if (tab) {
       isBrainlyPageFound = true;
-      var message = { action: "contentscript>Share System.data to background.js", url: tab.url };
+      var message = { action: "contentScript>Share System.data to background.js", url: tab.url };
 
       try {
         await ext.tabs.sendMessage(tab.id, message);
       } catch (error) {
-        await System.toBackground("background>Inject content script anyway", tab.id)
+        await System.toBackground("background>Inject content script anyway", tab)
         ext.tabs.sendMessage(tab.id, message);
       }
     }

@@ -249,7 +249,7 @@ class Background {
     }
 
     await chrome.tabs.executeScript(tabId, {
-      file: "scripts/contentscript.js",
+      file: "scripts/contentScript.js",
       runAt: "document_start",
       allFrames: true
     });
@@ -261,14 +261,14 @@ class Background {
     return new Promise(async (resolve) => {
       /**
        * Scenarios:
-       * If contentscript hasn't injected to specified tab, sending a message will return {message: "Could not establish connection. Receiving end does not exist."}
+       * If contentScript hasn't injected to specified tab, sending a message will return {message: "Could not establish connection. Receiving end does not exist."}
        * ...this means page is can be injected so the promise can be resolved.
        *
-       * If contentscript is already injected, that means no need to inject again. Therefore we don't have to wait for success return from contentscript.
+       * If contentScript is already injected, that means no need to inject again. Therefore we don't have to wait for success return from contentScript.
        */
       try {
         await ext.tabs.sendMessage(
-          tabId, { action: "contentscript>Check if content script injected" }
+          tabId, { action: "contentScript>Check if content script injected" }
         );
       } catch (_) {
         resolve()

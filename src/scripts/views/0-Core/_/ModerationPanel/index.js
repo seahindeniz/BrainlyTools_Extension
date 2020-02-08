@@ -8,10 +8,10 @@ import MassModerateReportedContents from "./MassModerateReportedContents";
 import NoticeBoard from "./NoticeBoard";
 import PointChanger from "./PointChanger";
 import ReportedCommentsDeleter from "./ReportedCommentsDeleter";
-import UserFinder from "./UserFinder";
+import SearchUser from "./SearchUser";
 
 /**
- * @typedef {typeof UserFinder |
+ * @typedef {typeof SearchUser |
  * typeof NoticeBoard |
  * typeof MassMessageSender |
  * typeof PointChanger |
@@ -42,7 +42,7 @@ class ModerationPanel {
     this.$oldPanelCoveringText = $(SELECTOR.OLD_PANEL_COVERING_TEXT);
     this.components = {
       immediately: [{
-          constructor: UserFinder,
+          constructor: SearchUser,
         },
         {
           constructor: NoticeBoard,

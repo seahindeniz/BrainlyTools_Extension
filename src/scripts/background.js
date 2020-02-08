@@ -1,12 +1,13 @@
 import ext from "./utils/ext";
 import _System from "./controllers/System";
 import storage from "./utils/storage";
-import NotifierSocket from "./controllers/NotifierSocket";
+//import NotifierSocket from "./controllers/NotifierSocket";
 
-// @ts-ignore
-let chrome = window.chrome;
-
+const chrome = window.chrome;
 const BROWSER_ACTION = ext.browserAction;
+/**
+ * @type {browser.browserAction.ColorValue}
+ */
 const RED_BADGE_COLOR = [255, 121, 107, 255];
 
 class Background {
@@ -16,7 +17,7 @@ class Background {
     this.popupOpened = null;
     this.optionsPassedParameters = {};
     this.blockedDomains =
-      /mc\.yandex\.ru|hotjar\.com|google(-analytics|tagmanager|adservices|tagservices)\.com|kissmetrics\.com|doubleclick\.net|ravenjs\.com|browser\.sentry-cdn\.com/i;
+      /mc\.yandex\.ru|hotjar\.com|google(-analytics|tagmanager|adservices|tagservices)\.com|kissmetrics\.com|doubleclick\.net|ravenjs\.com|browser\.sentry-cdn\.com|datadome\.co/i;
 
     this.manifest = ext.runtime.getManifest();
 
@@ -32,21 +33,28 @@ class Background {
     ext.runtime.onMessage.addListener(this.MessageRequestHandler.bind(this));
     ext.runtime.onMessageExternal.addListener(this.MessageRequestHandler.bind(
       this));
-    chrome.windows.onRemoved.addListener(this.RemovedWindowHandler.bind(
+
+    ext.windows.onRemoved.addListener(this.RemovedWindowHandler.bind(
       this));
-    //ext.tabs.onCreated.addListener(tabCreated);
+
     ext.tabs.onUpdated.addListener(this.TabUpdatedHandler.bind(this));
     ext.tabs.onRemoved.addListener(this.TabRemovedHandler.bind(this));
     ext.tabs.onActivated.addListener(this.TabActivatedHandler.bind(this));
     //ext.tabs.getSelected(null, tabCreated);
+    //ext.tabs.onCreated.addListener(tabCreated);
 
-    ext.webRequest.onBeforeRequest.addListener(({ url, initiator }) => {
-      return {
-        cancel: this.IsBrainly(initiator) && this.blockedDomains.test(
-          url)
-      };
-    }, { urls: ["<all_urls>"] }, ["blocking"]);
+    if (ext.webRequest)
+      ext.webRequest.onBeforeRequest.addListener(({ url, initiator }) => {
+        return {
+          cancel: this.IsBrainly(initiator) && this.blockedDomains.test(
+            url)
+        };
+      }, { urls: ["<all_urls>"] }, ["blocking"]);
   }
+  /**
+   * @param {browser.tabs.Tab & {[x: string]: *}} request
+   * @param {{ tab: { id: number; }; }} sender
+   */
   async MessageRequestHandler(request, sender) {
     //console.log("bg:", request);
     if (request.marketName) {
@@ -73,6 +81,9 @@ class Background {
         return true;
       }
       if (request.action === "changeBadgeColor") {
+        /**
+         * @type {browser.browserAction.ColorValue}
+         */
         let color = [0, 0, 0, 0];
 
         if (request.data === "loading") {
@@ -98,20 +109,33 @@ class Background {
         return true;
       }
       if (request.action === "xmlHttpRequest") {
-        let ajaxData = {
+        let url = request.data.url;
+
+        delete request.data.url;
+
+        if (!request.data.headers)
+          request.data.headers = {};
+
+        request.data.headers.accept = "application/json";
+        request.data.headers["Content-Type"] = "application/json";
+
+        if (request.data.body instanceof Object)
+          request.data.body = JSON.stringify(request.data.body);
+
+        let res = await fetch(url, request.data);
+
+        return res.json();
+        /* let ajaxData = {
           type: request.data.method,
-          method: request.data.method,
-          url: market.config.extension.serverAPIURL + request.data.path,
-          headers: request.data.headers
+          ...request.data
         };
 
         if (request.data.data) {
-          ajaxData.data = request.data.data;
           ajaxData.dataType = "json";
           ajaxData.contentType = "application/json; charset=utf-8";
         }
 
-        return $.ajax(ajaxData);
+        return $.ajax(ajaxData); */
       }
       if (request.action === "updateExtension")
         return this.CheckUpdate();
@@ -135,9 +159,9 @@ class Background {
         this.BrainlyNotificationSocket(request.data);
       }
       if (request.action === "background>Inject content script anyway") {
-        this.InjectContentScript(request.data, true);
+        return this.InjectContentScript(request, true);
 
-        return Promise.resolve(true);
+        //return Promise.resolve(true);
       }
       if (request.action === "OpenExtensionOptions") {
 
@@ -159,10 +183,20 @@ class Background {
       }
     }
   }
+  /**
+   * @param {{ meta: { marketName: string; }; }} data
+   */
   InitMarket(data) {
     let name = data.meta.marketName;
     this.markets[name] = data;
   }
+  /**
+   * @param {{
+   *  id?: number,
+   *  text: string,
+   *  color: browser.browserAction.ColorValue,
+   * }} options
+   */
   UpdateBadge(options) {
     BROWSER_ACTION.setBadgeText({
       text: options.text
@@ -175,12 +209,13 @@ class Background {
     }
   }
   async CheckUpdate() {
-    System.Log("update started");
+    System.Log("Update started");
     let status = await ext.runtime.requestUpdateCheck();
 
-    console.log(status);
     if (status[0] == "update_available")
       ext.runtime.reload();
+    else
+      console.warn(status);
 
     chrome.storage.local.clear();
 
@@ -195,11 +230,19 @@ class Background {
       this.popupOpened = null;
     }
   }
-  TabUpdatedHandler(tabId, changeInfo, tab) {
+  /**
+   * @param {number} _tabId
+   * @param {{ status: string; }} changeInfo
+   * @param {browser.tabs.Tab} tab
+   */
+  TabUpdatedHandler(_tabId, changeInfo, tab) {
     if (changeInfo.status == "loading") {
       this.ManipulateTab(tab);
     }
   }
+  /**
+   * @param {{ tabId: number, }} activeInfo
+   */
   async TabActivatedHandler(activeInfo) {
     let tab = await ext.tabs.get(activeInfo.tabId);
 
@@ -207,10 +250,10 @@ class Background {
   }
   async TabRemovedHandler(tabId) {
     let tabs = await ext.tabs.query({});
-    let brailnyTabs = tabs.filter(tab => System.constants.Brainly
+    let brainlyTabs = tabs.filter(tab => System.constants.Brainly
       .regexp_BrainlyMarkets.test(tab.url));
 
-    if (brailnyTabs.length == 0) {
+    if (brainlyTabs.length == 0) {
       this.UpdateBadge({
         text: "",
         color: ""
@@ -218,11 +261,14 @@ class Background {
       BROWSER_ACTION.disable();
     }
   }
+  /**
+   * @param {browser.tabs.Tab} tab
+   */
   async ManipulateTab(tab) {
     if (tab.url && this.IsBrainly(tab.url)) {
       let tabId = tab.id;
 
-      this.InjectContentScript(tabId);
+      await this.InjectContentScript(tab);
       let badgeColor = await ext.browserAction
         .getBadgeBackgroundColor({ tabId });
 
@@ -234,6 +280,9 @@ class Background {
       }
     }
   }
+  /**
+   * @param {string} _url
+   */
   IsBrainly(_url) {
     if (!_url)
       return false;
@@ -243,51 +292,83 @@ class Background {
 
     return index >= 0;
   }
-  async InjectContentScript(tabId, forceInject) {
-    if (!forceInject) {
-      await this.CheckThePageWhetherInjected(tabId);
+  /**
+   * @param {browser.tabs.Tab} tab
+   * @param {boolean} [forceInject]
+   */
+  async InjectContentScript(tab, forceInject) {
+    try {
+      if (
+        !forceInject &&
+        await this.IsTabHasContentScript(tab)
+      )
+        return;
+
+      let url = new URL(tab.url);
+      let permission = {
+        permissions: ["tabs"],
+        origins: [
+          `*://${url.hostname}/*`,
+        ]
+      };
+
+      let hasAccess = await ext.permissions.contains(permission);
+
+      if (!hasAccess)
+        // @ts-ignore
+        hasAccess = await ext.permissions.request(permission);
+
+      if (!hasAccess)
+        throw `User doesn't allow extension to work on ${url.hostname}`;
+
+      ext.tabs.executeScript(tab.id, {
+        file: "scripts/contentScript.js",
+        runAt: "document_start",
+        allFrames: false
+      });
+
+      System.Log("Content script injected OK!");
+      System.Log(
+        `${this.manifest.short_name} running on ${tab.id} - ${tab.url}`);
+
+      return Promise.resolve(true);
+    } catch (error) {
+      if (error)
+        console.error(error.message || error);
     }
-
-    await chrome.tabs.executeScript(tabId, {
-      file: "scripts/contentScript.js",
-      runAt: "document_start",
-      allFrames: true
-    });
-
-    System.Log("Content script injected OK!");
-    System.Log(`%c${this.manifest.short_name}: Initilazing > ${tabId}`);
   }
-  CheckThePageWhetherInjected(tabId) {
-    return new Promise(async (resolve) => {
-      /**
-       * Scenarios:
-       * If contentScript hasn't injected to specified tab, sending a message will return {message: "Could not establish connection. Receiving end does not exist."}
-       * ...this means page is can be injected so the promise can be resolved.
-       *
-       * If contentScript is already injected, that means no need to inject again. Therefore we don't have to wait for success return from contentScript.
-       */
-      try {
-        await ext.tabs.sendMessage(
-          tabId, { action: "contentScript>Check if content script injected" }
-        );
-      } catch (_) {
-        resolve()
-      }
-    });
+  /**
+   * @param {browser.tabs.Tab} tab
+   */
+  async IsTabHasContentScript(tab) {
+    let status = false;
+    /**
+     * Scenarios:
+     * If contentScript hasn't injected to specified tab, sending a message will return {message: "Could not establish connection. Receiving end does not exist."}
+     * ...this means page is can be injected so the promise can be resolved.
+     *
+     * If contentScript is already injected, that means no need to inject again. Therefore we don't have to wait for success return from contentScript.
+     */
+    try {
+      status = await ext.tabs.sendMessage(tab.id, {
+        action: "contentScript>Check if content script injected"
+      });
+    } catch (_) {}
+
+    return status;
   }
   BrainlyNotificationSocket(market, isActive) {
-    if (false)
-      if (isActive === null || isActive) {
-        let activeSession = this.activeSessions[market.meta.marketName];
-        let config = market.Brainly.defaultConfig;
-        let authHash = config.comet.AUTH_HASH || config.user.ME.auth.comet
-          .authHash;
+    /* if (isActive === null || isActive) {
+      let activeSession = this.activeSessions[market.meta.marketName];
+      let config = market.Brainly.defaultConfig;
+      let authHash = config.comet.AUTH_HASH || config.user.ME.auth.comet
+        .authHash;
 
-        if (!activeSession || activeSession.authHash != authHash) {
-          this.activeSessions[market.meta.marketName] = new NotifierSocket(
-            market);
-        }
+      if (!activeSession || activeSession.authHash != authHash) {
+        this.activeSessions[market.meta.marketName] = new NotifierSocket(
+          market);
       }
+    } */
   }
 }
 

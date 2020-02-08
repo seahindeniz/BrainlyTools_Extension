@@ -2,7 +2,6 @@
   "author": "Sahin Deniz - traBolic",
   "background": {
     "scripts": [
-      "scripts/lib/jquery-3.3.1.min.js",
       "scripts/background.js"
     ]
   },
@@ -15,36 +14,22 @@
     "default_popup": "popup/index.html",
     "default_title": "__MSG_btnTooltip__"
   },
-  "content_security_policy": "script-src 'self' https://cdnjs.cloudflare.com 'unsafe-eval'; object-src 'self' https://cdnjs.cloudflare.com",
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "default_locale": "en",
   "description": "__MSG_appDescription__",
   "externally_connectable": {
-    "accepts_tls_channel_id": false,
     "matches": [
-      "http://eodev.com/*",
-      "http://brainly.com/*",
-      "http://brainly.pl/*",
-      "http://brainly.com.br/*",
-      "http://brainly.co.id/*",
-      "http://znanija.com/*",
-      "http://brainly.lat/*",
-      "http://brainly.in/*",
-      "http://brainly.ph/*",
-      "http://nosdevoirs.fr/*",
-      "http://brainly.ro/*",
-      "http://cdnjs.cloudflare.com/*",
-      "https://eodev.com/*",
-      "https://brainly.com/*",
-      "https://brainly.pl/*",
-      "https://brainly.com.br/*",
-      "https://brainly.co.id/*",
-      "https://znanija.com/*",
-      "https://brainly.lat/*",
-      "https://brainly.in/*",
-      "https://brainly.ph/*",
-      "https://nosdevoirs.fr/*",
-      "https://brainly.ro/*",
-      "https://cdnjs.cloudflare.com/*"
+      "*://eodev.com/*",
+      "*://znanija.com/*",
+      "*://nosdevoirs.fr/*",
+      "*://brainly.pl/*",
+      "*://brainly.in/*",
+      "*://brainly.ph/*",
+      "*://brainly.ro/*",
+      "*://brainly.com/*",
+      "*://brainly.lat/*",
+      "*://brainly.co.id/*",
+      "*://brainly.com.br/*"
     ]
   },
   "icons": {
@@ -63,40 +48,23 @@
     "page": "options/index.html"
   },
   "permissions": [
-    "activeTab",
-    "notifications",
     "tabs",
-    "storage",
-    "webRequest",
-    "webRequestBlocking",
-    "http://eodev.com/*",
-    "http://brainly.com/*",
-    "http://brainly.pl/*",
-    "http://brainly.com.br/*",
-    "http://brainly.co.id/*",
-    "http://znanija.com/*",
-    "http://brainly.lat/*",
-    "http://brainly.in/*",
-    "http://brainly.ph/*",
-    "http://nosdevoirs.fr/*",
-    "http://brainly.ro/*",
-    "http://browser.sentry-cdn.com/*",
-    "https://eodev.com/*",
-    "https://brainly.com/*",
-    "https://brainly.pl/*",
-    "https://brainly.com.br/*",
-    "https://brainly.co.id/*",
-    "https://znanija.com/*",
-    "https://brainly.lat/*",
-    "https://brainly.in/*",
-    "https://brainly.ph/*",
-    "https://nosdevoirs.fr/*",
-    "https://brainly.ro/*",
-    "https://browser.sentry-cdn.com/*"
+    "storage"
+  ],
+  "optional_permissions": [
+    "*://eodev.com/*",
+    "*://znanija.com/*",
+    "*://nosdevoirs.fr/*",
+    "*://brainly.pl/*",
+    "*://brainly.in/*",
+    "*://brainly.ph/*",
+    "*://brainly.ro/*",
+    "*://brainly.com/*",
+    "*://brainly.lat/*",
+    "*://brainly.co.id/*",
+    "*://brainly.com.br/*"
   ],
   "short_name": "__MSG_btnTooltip__",
   "version": "gulp-fill-this",
-  "web_accessible_resources": [
-    "*/*"
-  ]
+  "web_accessible_resources": ["*/*"]
 }

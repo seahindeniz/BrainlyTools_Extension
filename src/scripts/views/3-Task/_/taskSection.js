@@ -28,7 +28,7 @@ export default function taskSection() {
         icon: Text({
           text: i + 1,
           weight: "bold",
-          color: "white",
+          color: "gray",
         }),
         text: reason.title,
         title: reason.text,

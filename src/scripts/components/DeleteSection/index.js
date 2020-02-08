@@ -125,16 +125,19 @@ class DeleteSection {
   RenderTakePoints() {
     let takePointsLocale =
       System.data.locale.common.moderating.takePoints[this.type || "task"];
-    this.$takePointsContainer = this.RenderOption(
-      "take_points",
-      takePointsLocale.text,
-      takePointsLocale.title
-    );
-    this.takePointsSeparator = this.RenderHoleSeparator();
 
-    this.$takePointsTitle = $(".sg-label__icon", this.$takePointsContainer);
-    this.$takePointsLabel = $(".sg-label__text", this.$takePointsContainer);
-    this.$takePoints = $("input", this.$takePointsContainer);
+    if (takePointsLocale) {
+      this.$takePointsContainer = this.RenderOption(
+        "take_points",
+        takePointsLocale.text,
+        takePointsLocale.title
+      );
+      this.takePointsSeparator = this.RenderHoleSeparator();
+
+      this.$takePointsTitle = $(".sg-label__icon", this.$takePointsContainer);
+      this.$takePointsLabel = $(".sg-label__text", this.$takePointsContainer);
+      this.$takePoints = $("input", this.$takePointsContainer);
+    }
   }
   RenderOption(id, label, title) {
     let option = Build(Flex(), [

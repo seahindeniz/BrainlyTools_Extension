@@ -13,6 +13,7 @@ import WaitForObject from "../../helpers/WaitForObject";
 import fetchFriends from "./_/fetchFriends";
 //import renderChatPanel from "./_/ChatPanel";
 import RenderMenuButtonFixer from "./_/MenuButtonFixer";
+import RemoveJunkNotifications from "./_/RemoveJunkNotifications";
 import SetBrainlyData from "./_/SetBrainlyData";
 import SetMetaData from "./_/SetMetaData";
 import SetUserData from "./_/SetUserData";
@@ -42,6 +43,9 @@ class Core {
     this.Pipeline();
   }
   async Pipeline() {
+
+    RemoveJunkNotifications();
+
     await SetMetaData();
 
     this.userData = await SetUserData();
@@ -50,6 +54,9 @@ class Core {
     await SetBrainlyData();
 
     await this.SetMarketConfig();
+
+    RemoveJunkNotifications();
+
     await this.PrepareLanguageData();
 
     await System.ShareSystemDataToBackground();
@@ -108,7 +115,7 @@ class Core {
         notification({
           type: "info",
           permanent: true,
-          text: System.data.locale.core.notificationMessages
+          html: System.data.locale.core.notificationMessages
             .updateNeeded,
         });
         reject(System.data.locale.core.notificationMessages.updateNeeded);

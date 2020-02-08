@@ -76,7 +76,7 @@ export default class extends Components {
       System.data.locale.core.notificationMessages.searching
     );
 
-    if (!this.input.value)
+    if (!this.input.value || String(this.input.value).length < 2)
       return this.HideUserList();
 
     this.StartSearching();

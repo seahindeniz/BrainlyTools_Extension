@@ -23,7 +23,7 @@ export default function taskSection() {
         type: "task",
       });
       let button = Button({
-        type: "destructive",
+        type: "warning",
         size: "small",
         icon: Text({
           text: i + 1,

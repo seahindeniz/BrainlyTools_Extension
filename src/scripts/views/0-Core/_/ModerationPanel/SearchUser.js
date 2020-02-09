@@ -61,9 +61,12 @@ export default class extends Components {
   }
   RenderUserList() {
     this.userList = Flex({
+      marginTop: "xs",
+      marginBottom: "xs",
       direction: "column",
     });
 
+    // Fixed width to avoid too wide result box when a user has too much ranks
     this.userList.style.width = `${this.main.ul.offsetWidth}px`;
   }
   BindHandler() {

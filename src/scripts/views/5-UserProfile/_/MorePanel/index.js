@@ -8,7 +8,7 @@ import {
 import Build from "../../../../helpers/Build";
 import IsVisible from "../../../../helpers/IsVisible";
 import ManageExtensionUser from "./ManageExtensionUser";
-import PointTransferer from "./PointTransferer";
+import ReportUser from "./ReportUser";
 import PrivilegeList from "./PrivilegeList";
 
 export default class MorePanel {
@@ -17,12 +17,23 @@ export default class MorePanel {
    */
   constructor(main) {
     this.main = main;
-    this.sections = {};
+    this._sections = {};
 
     this.RenderIconButton();
     this.Render();
     this.RenderSections();
     this.BindHandlers();
+  }
+  set sections(sections) {
+    this._sections = sections;
+  }
+  get sections() {
+    this.ShowPanel();
+
+    return this._sections;
+  }
+  ShowPanel() {
+    this.main.mainRight.append(this.container);
   }
   RenderIconButton() {
     this.iconButton = ButtonRound({
@@ -35,6 +46,7 @@ export default class MorePanel {
       children: this.iconButton
     });
 
+    this.iconButton.Disable();
     this.main.infoBottomList.firstChild.after(this.iconContainer);
   }
   Render() {
@@ -53,16 +65,7 @@ export default class MorePanel {
     ]);
   }
   RenderSections() {}
-  async RenderSectionsAfterModeratorsResolved() {
-    if (
-      !System.allModerators.withID[this.main.profileData.id] &&
-      this.main.profileData.id !== System.data.Brainly.userData.user.id
-    ) {
-      //if (System.checkUserP(34))
-      //  this.sections.pointTransferer = new PointTransferer(this);
-      // TODO: a button that reports user for applying ban
-    }
-  }
+  async RenderSectionsAfterModeratorsResolved() {}
   async RenderSectionsAfterExtensionResolved() {
     if (
       this.main.extensionUser.probatus &&
@@ -73,10 +76,18 @@ export default class MorePanel {
     if (System.checkUserP([5, 22, 23, 24, 25]))
       this.sections.manageExtensionUser = new ManageExtensionUser(this);
   }
-  BindHandlers() {
-    this.iconButton.addEventListener("click", this.ShowPanel.bind(this))
+  async RenderSectionsAfterAllResolved() {
+    /* if (
+      !System.allModerators.withID[this.main.profileData.id] &&
+      this.main.profileData.id !== System.data.Brainly.userData.user.id
+    ) */
+    if (false && System.checkUserP(34))
+      this.sections.pointTransferer = new ReportUser(this);
   }
-  ShowPanel() {
+  BindHandlers() {
+    //this.iconButton.addEventListener("click", this.TogglePanel.bind(this))
+  }
+  TogglePanel() {
     if (
       IsVisible(this.container) ||
       Object.keys(this.sections).length == 0

@@ -1,13 +1,9 @@
-import {
-  ActionList,
-  ActionListHole,
-  ContentBox
-} from "@style-guide";
+import ServerReq from "@ServerReq";
+import { ActionList, ActionListHole, ContentBox } from "@style-guide";
 import UserBio from "../../components/UserBio";
 import UserHat from "../../components/UserHat";
 import UserNoteBox from "../../components/UserNoteBox";
 import Action from "../../controllers/Req/Brainly/Action";
-import ServerReq from "@ServerReq";
 import WaitForElement from "../../helpers/WaitForElement";
 import AccountDeleteReporter from "./_/AccountDeleteReporter";
 import FriendsManager from "./_/FriendsManager";
@@ -32,16 +28,7 @@ export default class UserProfile {
       }
 
       this.FixInfoBottom();
-
-      this.morePanel = new MorePanel(this);
-
-      new AccountDeleteReporter();
-      this.RenderFriendsManager();
-      this.RenderProfileInfoSection();
-      this.LoadComponentsAfterExtensionResolve();
-      this.LoadComponentsAfterBrainlyResolve();
-      this.LoadComponentsAfterModeratorsResolved();
-      this.LoadComponentsAfterAllResolved();
+      this.LoadComponents();
     } catch (error) {
       console.error(error);
     }
@@ -90,12 +77,24 @@ export default class UserProfile {
       full: true,
     });
 
-    let personal_info = document.querySelector(
+    let personal_info = document.body.querySelector(
       "#main-left > div.personal_info > div.clear"
     );
 
     if (personal_info)
       personal_info.after(this.infoSection);
+  }
+  LoadComponents() {
+    this.morePanel = new MorePanel(this);
+
+    new AccountDeleteReporter();
+
+    this.RenderFriendsManager();
+    this.RenderProfileInfoSection();
+    this.LoadComponentsAfterExtensionResolve();
+    this.LoadComponentsAfterBrainlyResolve();
+    this.LoadComponentsAfterModeratorsResolved();
+    this.LoadComponentsAfterAllResolved();
   }
   async LoadComponentsAfterExtensionResolve() {
     let resUser = await this.promise.extension;
@@ -104,7 +103,6 @@ export default class UserProfile {
       throw "User can't passed to extension server";
 
     this.extensionUser = resUser.data;
-    console.log("this.extensionUser:", this.extensionUser);
 
     if (this.extensionUser) {
       this.RenderNoteSection();
@@ -165,7 +163,7 @@ export default class UserProfile {
   }
   async LoadComponentsAfterModeratorsResolved() {
     await this.promise.moderators;
-    console.log(System.allModerators);
+
     this.morePanel.RenderSectionsAfterModeratorsResolved();
   }
   async LoadComponentsAfterAllResolved() {

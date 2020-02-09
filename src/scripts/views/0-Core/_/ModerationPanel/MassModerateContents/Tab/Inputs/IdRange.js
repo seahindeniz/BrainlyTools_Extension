@@ -89,7 +89,7 @@ export default class IdRange extends Inputs {
             ContentBox(), [
               [
                 SpinnerContainer({
-                  className: "sg-box--full"
+                  fullWidth: true,
                 }),
                 [
                   [

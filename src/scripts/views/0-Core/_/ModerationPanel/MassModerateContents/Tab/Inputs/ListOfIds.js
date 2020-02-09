@@ -11,8 +11,8 @@ import {
   Textarea
 } from "@style-guide";
 import debounce from "debounce";
-import Inputs from ".";
 import Build from "../../../../../../../helpers/Build";
+import Inputs from ".";
 
 export default class ListOfIds extends Inputs {
   constructor(main) {
@@ -43,18 +43,14 @@ export default class ListOfIds extends Inputs {
     this.textareaBack = Textarea({
       tag: "div",
       fullWidth: true,
+      color: "white",
       style: "color: transparent;"
     });
     this.textareaSpinnerContainer = Build(SpinnerContainer({
-      className: "sg-box--full"
+      fullWidth: true,
     }), [
-      [
-        ContentBoxActions(),
-        [
-          this.textareaBack,
-          this.textarea
-        ]
-      ]
+      this.textareaBack,
+      this.textarea
     ]);
   }
   Render() {
@@ -175,8 +171,12 @@ export default class ListOfIds extends Inputs {
                       spacedTop: true
                     }),
                     Label({
-                      html: System.data.locale.core.MassContentDeleter
-                        .containerExplanation,
+                      children: Text({
+                        weight: "bold",
+                        size: "xsmall",
+                        html: System.data.locale.core
+                          .MassContentDeleter.containerExplanation,
+                      }),
                       icon: {
                         color: "blue",
                         "type": "ext-info"

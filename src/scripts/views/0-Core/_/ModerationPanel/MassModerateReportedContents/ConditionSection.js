@@ -77,7 +77,8 @@ class ConditionSection {
     </div>`);
 
     this.$header = $(".sg-content-box__content:nth-child(1)", this.$section);
-    this.$actionTypeContainer = $(".sg-content-box__actions:nth-child(2)", this.$section);
+    this.$actionTypeContainer = $(".sg-content-box__actions:nth-child(2)",
+      this.$section);
 
     if (this.options.isCommon)
       this.$section.addClass("is-common")
@@ -86,7 +87,8 @@ class ConditionSection {
     let sectionData = {
       name: "action",
       text: System.data.locale.core.MassContentDeleter.select.action,
-      warning: System.data.locale.core.notificationMessages.youNeedToChooseActionType,
+      warning: System.data.locale.core.notificationMessages
+        .youNeedToChooseActionType,
       changeHandler: this.ChangeActionType.bind(this),
       noHorizontalSeparator: true,
       items: []
@@ -101,13 +103,16 @@ class ConditionSection {
 
     this.actionTypeSection = new RadioSection(sectionData);
 
-    this.actionTypeSection.$.appendTo(this.$actionTypeContainer);
+    this.$actionTypeContainer.append(this.actionTypeSection.container);
   }
   RenderFooter() {
     this.$footer = $(templateFooter.template());
 
-    this.$footerActionList = $("> .sg-content-box > .sg-content-box__content > .sg-actions-list", this.$footer);
-    this.$matchedButtonContainer = $("> .sg-actions-list__hole", this.$footerActionList);
+    this.$footerActionList = $(
+      "> .sg-content-box > .sg-content-box__content > .sg-actions-list",
+      this.$footer);
+    this.$matchedButtonContainer = $("> .sg-actions-list__hole", this
+      .$footerActionList);
     this.matchedButton = Button({
       type: "primary-blue",
       size: "small",
@@ -135,7 +140,8 @@ class ConditionSection {
     </div>`);
 
     this.$counterTextLabel = $("> .sg-label", this.$counterTextContainer);
-    this.$counterTextLabelText = $("> .sg-text > span", this.$counterTextLabel);
+    this.$counterTextLabelText = $("> .sg-text > span", this
+      .$counterTextLabel);
     this.$counterTextNumber = $("> .sg-text > b", this.$counterTextLabel);
   }
   RenderCounterTextSpinner() {
@@ -167,10 +173,13 @@ class ConditionSection {
       </div>
     </div>`);
 
-    this.$actionButtonsSpinnerContainer = $("> .sg-spinner-container", this.$actionButtonsContainer);
+    this.$actionButtonsSpinnerContainer = $("> .sg-spinner-container", this
+      .$actionButtonsContainer);
   }
   RenderActionButtonSpinner() {
-    this.$actionButtonsSpinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`);
+    this.$actionButtonsSpinner = $(
+      `<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`
+    );
   }
   RenderStartButton() {
     this.startButton = Button({
@@ -191,19 +200,24 @@ class ConditionSection {
     <div class="sg-content-box">
       <div class="sg-content-box__content" style="padding: 1em 1.5em;"> </div>
     </div>`);
-    this.$reportsContainer = $("> .sg-content-box__content", this.$reportsContainerSection);
+    this.$reportsContainer = $("> .sg-content-box__content", this
+      .$reportsContainerSection);
   }
   ReplaceMatchedTextString() {
-    let matchedText = System.data.locale.core.massModerateReportedContents.matched.match(/(.*)(\%{.*})+$|(\%{.*})(.*)+$/);
-    let text = System.data.locale.core.massModerateReportedContents.matched.replace("%{number_of_matched_reports}", "<b>0</b>");
+    let matchedText = System.data.locale.core.massModerateReportedContents
+      .matched.match(/(.*)(\%{.*})+$|(\%{.*})(.*)+$/);
+    let text = System.data.locale.core.massModerateReportedContents.matched
+      .replace("%{number_of_matched_reports}", "<b>0</b>");
 
     if (matchedText.length > 3) {
       matchedText = matchedText.filter(Boolean);
 
       if (matchedText[1].indexOf("%") >= 0)
-        text = matchedText[1].replace("%{number_of_matched_reports}", `&nbsp;<b>0</b>`) + matchedText[2];
+        text = matchedText[1].replace("%{number_of_matched_reports}",
+          `&nbsp;<b>0</b>`) + matchedText[2];
       else
-        text = matchedText[1] + matchedText[2].replace("%{number_of_matched_reports}", `&nbsp;<b>0</b>`);
+        text = matchedText[1] + matchedText[2].replace(
+          "%{number_of_matched_reports}", `&nbsp;<b>0</b>`);
     }
 
     return text;
@@ -230,10 +244,12 @@ class ConditionSection {
     <div class="sg-content-box">
       <div class="sg-content-box__actions"></div>
     </div>`);
-    this.$conditionsContainer = $(".sg-content-box__actions", this.$conditionsContainerBox);
+    this.$conditionsContainer = $(".sg-content-box__actions", this
+      .$conditionsContainerBox);
   }
   RenderFilterSelectCard() {
-    this.$filtersSelectContainer = $(templateFilterSelectCard.template()).appendTo(this.$sectionCard);
+    this.$filtersSelectContainer = $(templateFilterSelectCard.template())
+      .appendTo(this.$sectionCard);
 
     this.$filterSelect = $("select", this.$filtersSelectContainer);
 
@@ -243,8 +259,10 @@ class ConditionSection {
   RenderFilterContainer() {
     this.$filterContainer = $(templateFilterContainer.template());
 
-    this.$filterWrapper = $("> .sg-actions-list__hole:nth-child(1)", this.$filterContainer);
-    this.$buttonContainer = $("> .sg-actions-list__hole:nth-child(2)", this.$filterContainer);
+    this.$filterWrapper = $("> .sg-actions-list__hole:nth-child(1)", this
+      .$filterContainer);
+    this.$buttonContainer = $("> .sg-actions-list__hole:nth-child(2)", this
+      .$filterContainer);
     this.addFilterButton = Button({
       type: "primary-blue",
       size: "small",
@@ -278,12 +296,17 @@ class ConditionSection {
   }
   BindHandlers() {
     this.$close && this.$close.click(this.RemoveSection.bind(this));
-    this.regexpButton.addEventListener("click", this.ToggleDarkButton.bind(this));
+    this.regexpButton.addEventListener("click", this.ToggleDarkButton.bind(
+      this));
     this.$filterSelect.change(this.UpdateFilterValueContainer.bind(this));
-    this.addFilterButton.addEventListener("click", this.AddFilterButtonClicked.bind(this));
-    this.$conditionsContainer.on("click", ".sg-box", this.RemoveCondition.bind(this));
-    this.matchedButton.addEventListener("click", this.ToggleReports.bind(this));
-    this.startButton.addEventListener("click", this.StartModerating.bind(this));
+    this.addFilterButton.addEventListener("click", this.AddFilterButtonClicked
+      .bind(this));
+    this.$conditionsContainer.on("click", ".sg-box", this.RemoveCondition
+      .bind(this));
+    this.matchedButton.addEventListener("click", this.ToggleReports.bind(
+      this));
+    this.startButton.addEventListener("click", this.StartModerating.bind(
+      this));
     this.stopButton.addEventListener("click", this.StopModerating.bind(this));
   }
   RemoveSection() {
@@ -358,23 +381,33 @@ class ConditionSection {
     if (filterData) {
       let $previousContentType = this.IsContentTypeExist();
 
-      if (filterData.type == "CONTENT_TYPE" && $previousContentType.length > 0) {
+      if (filterData.type == "CONTENT_TYPE" && $previousContentType.length >
+        0) {
         let condition = $previousContentType.prop("condition");
 
         if (condition.value != filterData.value)
-          this.main.modal.notification(System.data.locale.core.notificationMessages.youNeedToRemoveThePreviousFilterFirst, "error");
+          this.main.modal.notification(System.data.locale.core
+            .notificationMessages.youNeedToRemoveThePreviousFilterFirst,
+            "error");
         else
           return true;
       } else if (this.IsConditionExist(filterData)) {
-        this.main.modal.notification(System.data.locale.core.notificationMessages.thisConditionAlreadyAdded, "error");
+        this.main.modal.notification(System.data.locale.core
+          .notificationMessages.thisConditionAlreadyAdded, "error");
       } else if (this.IsConditionExistInTheCommonConditions(filterData)) {
-        this.main.modal.notification(System.data.locale.core.notificationMessages.thisConditionAlreadyAddedInCommonConditions, "error");
+        this.main.modal.notification(System.data.locale.core
+          .notificationMessages.thisConditionAlreadyAddedInCommonConditions,
+          "error");
       } else {
         if (filterData.type == "CONTENT_TYPE")
           this.contentType = filterData.value;
 
-        let $conditionContainer = $(`<div class="sg-box sg-box--xxsmall-padding sg-box--margin-spaced sg-box--no-min-height sg-box--no-border sg-media--clickable no-select ${filterData.class}"></div>`);
-        let $condition = $(`<div class="sg-box__hole${this.IsRegexSelected() ? " regex" : ""}" data-hash="${filterData.hash}">${filterData.text}</div>`);
+        let $conditionContainer = $(
+          `<div class="sg-box sg-box--xxsmall-padding sg-box--margin-spaced sg-box--no-min-height sg-box--no-border sg-media--clickable no-select ${filterData.class}"></div>`
+        );
+        let $condition = $(
+          `<div class="sg-box__hole${this.IsRegexSelected() ? " regex" : ""}" data-hash="${filterData.hash}">${filterData.text}</div>`
+        );
 
         $condition.prop("condition", filterData);
         $condition.appendTo($conditionContainer);
@@ -391,15 +424,18 @@ class ConditionSection {
     let $conditions = $(`[data-hash]`, this.$conditionsContainer);
 
     // @ts-ignore
-    return $conditions.filter((i, element) => element.condition && element.condition.type == "CONTENT_TYPE");
+    return $conditions.filter((i, element) => element.condition && element
+      .condition.type == "CONTENT_TYPE");
   }
   IsConditionExist(conditionData) {
-    let $condition = $(`[data-hash="${conditionData.hash}"]`, this.$conditionsContainer);
+    let $condition = $(`[data-hash="${conditionData.hash}"]`, this
+      .$conditionsContainer);
 
     return $condition.length > 0
   }
   IsConditionExistInTheCommonConditions(conditionData) {
-    let $condition = $(`[data-hash="${conditionData.hash}"]`, this.main.commonConditionSection.$conditionsContainer);
+    let $condition = $(`[data-hash="${conditionData.hash}"]`, this.main
+      .commonConditionSection.$conditionsContainer);
 
     return $condition.length > 0
   }
@@ -421,7 +457,8 @@ class ConditionSection {
       let $sections = $("> div", this.main.$conditionSectionsContainer);
 
       // @ts-ignore
-      $sections.each(section => section && section.ConditionSection && section.ConditionSection.FilterReports());
+      $sections.each(section => section && section.ConditionSection && section
+        .ConditionSection.FilterReports());
     }
   }
   ToggleConditionContainer() {
@@ -433,8 +470,10 @@ class ConditionSection {
       this.main.HideElement(this.$conditionsContainerBox);
   }
   PrepareConditions() {
-    let $conditions = $(".sg-box > .sg-box__hole[data-hash]", this.$conditionsContainer);
-    let $commonConditions = $(".sg-box > .sg-box__hole[data-hash]", this.main.commonConditionSection.$conditionsContainer);
+    let $conditions = $(".sg-box > .sg-box__hole[data-hash]", this
+      .$conditionsContainer);
+    let $commonConditions = $(".sg-box > .sg-box__hole[data-hash]", this.main
+      .commonConditionSection.$conditionsContainer);
     let conditions = [];
 
     $conditions.each((i, element) => {
@@ -487,7 +526,8 @@ class ConditionSection {
             if (entry.user.id == condition.value)
               result = true;
           } else if (condition.key == "DATE_RANGE") {
-            if (this.IsBetweenDates(condition.value, entry.report.created))
+            if (this.IsBetweenDates(condition.value, entry.report
+                .created))
               result = true;
           } else if (
             condition.key == "REPORT_REASON" &&
@@ -509,7 +549,8 @@ class ConditionSection {
   }
   IsBetweenDates({ date1 = undefined, date2 = undefined } = {}, value) {
     if (date1 && date2) {
-      let dateReport = moment(value).tz(System.data.Brainly.defaultConfig.locale.TIMEZONE);
+      let dateReport = moment(value).tz(System.data.Brainly.defaultConfig
+        .locale.TIMEZONE);
 
       return dateReport >= date1 && dateReport <= date2;
     }
@@ -568,7 +609,8 @@ class ConditionSection {
   }
   RenderReports() {
     if (this.filteredReports.length > 0)
-      this.filteredReports.slice(0, 200).forEach(this.RenderReport.bind(this));
+      this.filteredReports.slice(0, 200).forEach(this.RenderReport.bind(
+        this));
   }
   RenderReport(report) {
     let users = this.main.users.reduce((users, user) => {
@@ -580,7 +622,8 @@ class ConditionSection {
       return users;
     }, {});
 
-    let reportDate = moment(report.report.created).tz(System.data.Brainly.defaultConfig.locale.TIMEZONE);
+    let reportDate = moment(report.report.created).tz(System.data.Brainly
+      .defaultConfig.locale.TIMEZONE);
     report.report.created_fixed = reportDate.format("L LT");
 
     let $report = $(templateReportBox.template({ ...report, ...users }));
@@ -588,7 +631,8 @@ class ConditionSection {
     $report.appendTo(this.$reportsContainer);
   }
   ToggleReportsContainer() {
-    if (this.$reportsContainer.is(":visible") || this.filteredReports.length == 0)
+    if (this.$reportsContainer.is(":visible") || this.filteredReports
+      .length == 0)
       this.HideReportsContainer();
     else
       this.ShowReportsContainer();
@@ -685,7 +729,8 @@ class ConditionSection {
       this.Log();
       this.ToggleStopButton();
       this._loop_Moderate = setInterval(this.Moderate.bind(this));
-      this._loop_ResetCounter = setInterval(() => (this.activeModerateConnectionCount = 0), 1000);
+      this._loop_ResetCounter = setInterval(() => (this
+        .activeModerateConnectionCount = 0), 1000);
     }
   }
   FinishModerating() {
@@ -797,7 +842,8 @@ class ConditionSection {
     this.$counterTextCheckIcon.prependTo(this.$counterTextLabel);
   }
   async Moderate() {
-    if (this.moderatingStarted && this.activeModerateConnectionCount < this.main.requestLimit) {
+    if (this.moderatingStarted && this.activeModerateConnectionCount < this
+      .main.requestLimit) {
       let report = this.PullReport();
       this.activeModerateConnectionCount++;
 
@@ -814,7 +860,8 @@ class ConditionSection {
             let action = new Action();
 
             if (this.actionType == "confirm") {
-              promise = action.ConfirmContent(report.model_id, report.model_type_id);
+              promise = action.ConfirmContent(report.model_id, report
+                .model_type_id);
             } else if (this.actionType == "delete") {
               let Method;
               let data = {
@@ -885,7 +932,8 @@ class ConditionSection {
   }
   Log() {
     if (this.filteredReports.length) {
-      let idList = this.filteredReports.map(report => `${report.model_id}:${report.model_type_id}`);
+      let idList = this.filteredReports.map(report =>
+        `${report.model_id}:${report.model_type_id}`);
 
       System.log(23, { data: idList });
     }

@@ -137,7 +137,7 @@ class AllUsers {
                     ContentBox(), [
                       [
                         this.spinnerContainer = SpinnerContainer({
-                          className: "sg-box--full"
+                          fullWidth: true,
                         }),
                         [
                           [

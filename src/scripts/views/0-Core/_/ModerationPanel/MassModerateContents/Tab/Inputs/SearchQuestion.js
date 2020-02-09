@@ -63,7 +63,7 @@ export default class SearchQuestion extends Inputs {
     this.container = Build(ContentBox(), [
       [
         SpinnerContainer({
-          className: "sg-box--full"
+          fullWidth: true,
         }),
         [
           [ContentBoxActions(),

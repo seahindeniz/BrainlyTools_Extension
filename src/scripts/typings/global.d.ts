@@ -4,11 +4,12 @@ import Popup from "@/popup/controllers/Popup";
 
 declare global {
   var popup: Popup;
-  var selectors: { [x: string]: string };
   var System: _System;
   var isPageProcessing: boolean;
   var coloring: ThemeColorChanger;
-  var sitePassedParams: string | { [x: string]: any };
+  var myData: { [x: string]: any };
   var performanceStartTiming: number;
-  var myData: { [x: string]: any }
+  var Zadanium: { [x: string]: any };
+  var selectors: { [x: string]: string };
+  var sitePassedParams: string | { [x: string]: any };
 }

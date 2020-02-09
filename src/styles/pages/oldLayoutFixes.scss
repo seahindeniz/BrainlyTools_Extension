@@ -165,3 +165,23 @@ form.pretty fieldset legend {
     }
   }
 }
+
+select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input{
+  margin: unset;
+}
+
+#html .mint #tabs-doj #main_menu:empty {
+  display: none;
+}
+
+#moderate-functions-panel .content-scroll {
+  a {
+    padding-left: unset;
+    color: #323c45;
+  }
+
+  li>a {
+    padding-left: 5px;
+    color: #8F8E8E;
+  }
+}

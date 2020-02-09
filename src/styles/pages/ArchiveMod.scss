@@ -6,10 +6,8 @@ $arrow-pos: -0.4em;
   }
 }
 
-.ext-action-buttons {
-  &.is-deleting {
-    pointer-events: none;
-  }
+.off {
+  pointer-events: none;
 }
 
 #moderation-all {
@@ -41,7 +39,7 @@ $arrow-pos: -0.4em;
         }
 
         &>.footer {
-          padding-bottom: 0;
+          padding: 2px 0;
 
           &>.row:last-child {
             margin-bottom: 0 !important;
@@ -69,8 +67,8 @@ $arrow-pos: -0.4em;
           width: 19rem;
           height: 32px;
           min-height: 32px;
-          top: -1.85rem;
-          right: 4em;
+          top: -27px;
+          right: 0em;
           border: 0;
 
           .zadane-green {

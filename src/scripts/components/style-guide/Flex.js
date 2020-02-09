@@ -37,6 +37,8 @@ import AddChildren from "@style-guide/helpers/AddChildren"
  * | 'xxxxl'
  * } FlexMarginsType
  *
+ * @typedef {"div"} DefaultTagNamesType
+ *
  * @typedef {{
  *  fullWidth?: boolean,
  *  fullHeight?: boolean,
@@ -55,15 +57,16 @@ import AddChildren from "@style-guide/helpers/AddChildren"
  *  marginLeft?: FlexMarginsType,
  *  marginRight?: FlexMarginsType,
  *  children?: import('./helpers/AddChildren').ChildrenParamType,
- *  tag?: string,
+ *  tag?: DefaultTagNamesType | keyof HTMLElementTagNameMap,
  *  [x: string]: *
  * }} Properties
  */
 
 /**
- * @param {Properties} param0
+ * @template {keyof HTMLElementTagNameMap} T
+ * @param {{tag?: DefaultTagNamesType | T} & Properties} param0
  */
-export default ({
+export default function({
   fullWidth,
   fullHeight,
   noShrink,
@@ -84,9 +87,8 @@ export default ({
   className,
   tag = "div",
   ...props
-} = {}) => {
-  const flexClass = classnames(
-    'sg-flex', {
+} = {}) {
+  const flexClass = classnames('sg-flex', {
       'sg-flex--full-width': fullWidth,
       'sg-flex--full-height': fullHeight,
       'sg-flex--no-shrink': noShrink,
@@ -110,6 +112,10 @@ export default ({
     className
   );
 
+  /**
+   * @type {HTMLElementTagNameMap[T]}
+   */
+  // @ts-ignore
   let element = document.createElement(tag);
   element.className = flexClass;
 

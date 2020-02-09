@@ -1,6 +1,9 @@
 import Action from "../../../controllers/Req/Brainly/Action";
 import WaitForObject from "../../../helpers/WaitForObject";
 
+/**
+ * @type {string}
+ */
 let RoutesFetchURL;
 
 export default async function SetBrainlyData() {
@@ -56,9 +59,14 @@ function FetchDefaultConfig() {
         sourcePageHTML);
       let matchSecondConfig = (/\.config \= (.*)\;/gmi).exec(
         sourcePageHTML);
+
       let matchAuthJSFile = sourcePageHTML.match(
         /(\/sf\/js\/bundle\/include_auth\_[a-z\_\-]{1,}\-[a-z0-9]{1,}\.min\.js)/gmi
       );
+
+      if (!matchAuthJSFile)
+        reject("Can't find auth js file link");
+
       RoutesFetchURL = matchAuthJSFile[matchAuthJSFile.length - 1];
       //RoutesFetchURL = ExtractRoutesFetchURL(res);
 
@@ -134,14 +142,18 @@ async function GetRoutingData() {
 
 async function FetchRouting() {
   let action = new Action();
-  action.path = RoutesFetchURL;
+
+  if (!RoutesFetchURL.includes("http"))
+    RoutesFetchURL = location.origin + RoutesFetchURL;
+
+  action.url = new URL(RoutesFetchURL);
   let resJS = await action.GET();
 
   if (resJS) {
     let matchRoutes = resJS.match(/(routes:.*scheme\:\"http\")/gmi);
 
     if (!matchRoutes || matchRoutes.length < 1) {
-      throw new Error("Routes not found", resJS);
+      throw { msg: "Routes not found", resJS };
     } else {
       let routing = new Function(
         `return {${matchRoutes[matchRoutes.length - 1]}}`)();

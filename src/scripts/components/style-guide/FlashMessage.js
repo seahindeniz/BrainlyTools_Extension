@@ -57,17 +57,19 @@ export default function({
       [
         Flex({
           fullWidth: true,
-          alignItems: "center",
           direction: "row",
+          alignItems: "center",
           justifyContent: "center",
         }),
         [
           [
             Flex({
-              marginRight: "xs",
+              marginRight: "s",
+              marginBottom: "xxs",
             }),
             Icon({
-              type: "ext-icon"
+              size: 22,
+              type: "ext-icon",
             })
           ],
           textElement

@@ -14,7 +14,7 @@ const MetaGet = function() {
         await PrepareDeleteReasons(true);
         await System.ShareSystemDataToBackground();
 
-        var evtSharingDone = new Event("contentscript>Share System.data to background.js:DONE", { "bubbles": true, "cancelable": false });
+        var evtSharingDone = new Event("contentScript>Share System.data to background.js:DONE", { "bubbles": true, "cancelable": false });
         document.dispatchEvent(evtSharingDone);
       }
     });

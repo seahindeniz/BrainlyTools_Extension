@@ -15,7 +15,6 @@ export default class {
      * @type {import("@style-guide/helpers/AddChildren").ChildrenParamType}
      */
     this.liLinkContent = undefined;
-    this.liContent = undefined;
   }
   RenderListItem() {
     this.li = MenuListItem({
@@ -28,8 +27,15 @@ export default class {
 
     this.RenderLiContent();
 
-    if (this.liContent)
-      this.li.append(this.liContent);
+    // @ts-ignore
+    this.liContent && this.li.append(this.liContent);
   }
   RenderLiContent() {}
+  /**
+   * @param {HTMLElement} element
+   */
+  HideElement(element) {
+    if (element && element.parentNode)
+      element.parentNode.removeChild(element);
+  }
 }

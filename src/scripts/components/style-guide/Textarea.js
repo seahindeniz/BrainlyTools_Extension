@@ -5,20 +5,25 @@ import classnames from 'classnames';
  *
  * @typedef {true | "vertical" | "horizontal" | "both"} Direction
  *
+ * @typedef {'default' | 'white'} TextareaColorType
+ *
+ * @typedef {"textarea"} DefaultTagNamesType
+ *
  * @typedef {{
- * tag?: string,
- * placeholder?: string,
- * value?: string | number,
- * size?: Size,
- * valid?: boolean,
- * invalid?: boolean,
- * fullWidth?: boolean,
- * simple?: boolean,
- * noPadding?: boolean,
- * autoHeight?: boolean,
- * resizable?: Direction,
- * className?: string,
- * contentEditable?: boolean,
+ *  tag?: DefaultTagNamesType | keyof HTMLElementTagNameMap,
+ *  placeholder?: string,
+ *  value?: string | number,
+ *  color?: TextareaColorType,
+ *  size?: Size,
+ *  valid?: boolean,
+ *  invalid?: boolean,
+ *  fullWidth?: boolean,
+ *  simple?: boolean,
+ *  noPadding?: boolean,
+ *  autoHeight?: boolean,
+ *  resizable?: Direction,
+ *  className?: string,
+ *  contentEditable?: boolean,
  * } & {[x: string]: *}} Properties
  */
 
@@ -27,21 +32,22 @@ const SGD = `${SG}--`;
 
 /**
  * @template {keyof HTMLElementTagNameMap} T
- * @param {{tag?: T} & Properties} param0
+ * @param {{tag?: DefaultTagNamesType | T} & Properties} param0
  */
 export default function({
-  tag,
-  placeholder,
-  value = "",
-  size = "normal",
   valid,
   invalid,
+  size = "normal",
+  color = "default",
   fullWidth,
   simple,
   noPadding,
   autoHeight,
-  resizable,
+  value = "",
   className,
+  tag = "textarea",
+  resizable,
+  placeholder,
   contentEditable,
   ...props
 } = {}) {
@@ -50,19 +56,22 @@ export default function({
 
   const textareaClass = classnames(SG, {
     [SGD + size]: size !== "normal",
+    [SGD + color]: color !== "default",
     [`${SGD}valid`]: valid,
     [`${SGD}invalid`]: invalid,
     [`${SGD}full-width`]: fullWidth,
     [`${SGD}simple`]: simple,
     [`${SGD}no-padding`]: noPadding,
     [`${SGD}auto-height`]: autoHeight,
+
     [`${SGD}resizable`]: resizable === true,
     [`${SGD}resizable-${resizable}`]: resizable && resizable !== true
   }, className);
 
+  /**
+   * @type {HTMLElementTagNameMap[T]}
+   */
   // @ts-ignore
-  if (!tag) tag = "textarea";
-
   let textarea = document.createElement(tag);
 
   textarea.className = textareaClass;

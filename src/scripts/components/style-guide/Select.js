@@ -1,42 +1,46 @@
 import classnames from 'classnames';
 
 /**
- * @typedef {"normal" | "tall" | "xtall"} Size
+ * @typedef {'large' | 'normal'} SelectSizeType
+ *
+ * @typedef {'default' | 'white'} SelectColorType
  *
  * @typedef {{
- * value?: string | number,
- * text?: string,
- * title?: string,
- * } & Object<string, *>} OptionProperties
+ *  value?: string | number,
+ *  text?: string,
+ *  title?: string,
+ * } & {[x: string]: *}} OptionProperties
  *
  * @typedef {{
- * value?: string | number | string[] | number[],
- * valid?: boolean,
- * invalid?: boolean,
- * capitalized?: boolean,
- * fullWidth?: boolean,
- * multiple?: boolean,
- * size?: Size,
- * className?: string,
- * options?: OptionProperties[],
- * }} Properties
+ *  value?: string | number | string[] | number[],
+ *  valid?: boolean,
+ *  invalid?: boolean,
+ *  capitalized?: boolean,
+ *  fullWidth?: boolean,
+ *  multiple?: boolean,
+ *  size?: SelectSizeType,
+ *  color?: SelectColorType,
+ *  className?: string,
+ *  options?: OptionProperties[],
+ * } & {[x: string]: *}} SelectProperties
  */
 const SG = "sg-select";
 const SGD = `${SG}--`
 const SG_ = `${SG}__`
 
 /**
- * @param {Properties} param0
+ * @param {SelectProperties} param0
  */
 export default function({
-  value,
   valid,
   invalid,
   capitalized,
   fullWidth,
-  multiple,
+  value,
   size = "normal",
+  color,
   className,
+  multiple,
   options = [],
   ...props
 } = {}) {
@@ -48,8 +52,10 @@ export default function({
     [`${SGD}invalid`]: invalid,
     [`${SGD}capitalized`]: capitalized,
     [`${SGD}full-width`]: fullWidth,
+
     [`${SGD}multiple`]: multiple,
     [SGD + size]: multiple === true && size !== "normal",
+    [SGD + color]: color,
   }, className);
 
   let container = document.createElement("div");
@@ -59,7 +65,7 @@ export default function({
     let icon = document.createElement("div");
     icon.className = `${SG_}icon`;
 
-    container.appendChild(icon);
+    container.append(icon);
   }
 
   let select = document.createElement("select");
@@ -67,7 +73,7 @@ export default function({
 
   RenderOptions(select, options, value);
 
-  container.appendChild(select);
+  container.append(select);
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))

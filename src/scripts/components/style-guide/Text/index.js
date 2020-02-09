@@ -1,39 +1,55 @@
 import classnames from 'classnames';
 import AddChildren from '../helpers/AddChildren';
 
-export const TEXT_ALIGN = Object.freeze({
+/**
+ * @typedef {TEXT_ALIGN} TextAlignType
+ */
+const TEXT_ALIGN = {
   LEFT: 'to-left',
   CENTER: 'to-center',
   RIGHT: 'to-right',
   JUSTIFY: 'justify'
-});
+};
 
 /**
- * @typedef {"xsmall" | "small" | "normal" | "large" | "xlarge" | "xxlarge"} Size
+ * @typedef {'xsmall'
+ * | 'small'
+ * | 'normal'
+ * | 'large'
+ * | 'xlarge'
+ * | 'xxlarge'
+ * } TextSizeType
  *
- * @typedef {"" | "white" | "gray" | "gray-secondary" | "gray-secondary-light" |
- * "mint-dark" | "peach-dark" | "mustard-dark" | "lavender-dark" | "blue-dark"
- * } Color
+ * @typedef {'default'
+ * | 'white'
+ * | 'gray'
+ * | 'gray-secondary'
+ * | 'gray-secondary-light'
+ * | 'mint-dark'
+ * | 'peach-dark'
+ * | 'mustard-dark'
+ * | 'lavender-dark'
+ * | 'blue-dark'
+ * } TextColorType
  *
  * @typedef {"mustard" | "mint" | "peach" | "light-gray" | "blue-dark" |
- * "blue-light"} BgColor
+ * "blue-light"} TextBgColorType
  *
- * @typedef {"regular" | "bold" | "extraBold"} Weight
+ * @typedef {"regular" | "bold" | "extraBold"} TextWeightType
  *
- * @typedef {"uppercase" | "lowercase" | "capitalize"} Transform
+ * @typedef {"uppercase" | "lowercase" | "capitalize"} TextTransformType
  *
- * @typedef {"LEFT" | "CENTER" | "RIGHT" | "JUSTIFY"} Align
+ * @typedef {"div" | "a"} TextDefaultTagNamesType
  *
  * @typedef {{
- *  tag?: keyof HTMLElementTagNameMap,
  *  children?: import("@style-guide/helpers/AddChildren").ChildrenParamType,
  *  text?: string | number,
  *  html?: string,
- *  size?: Size,
- *  weight?: Weight,
- *  color?: Color,
- *  transform?: Transform,
- *  align?: Align,
+ *  size?: TextSizeType,
+ *  weight?: TextWeightType,
+ *  color?: TextColorType,
+ *  transform?: TextTransformType,
+ *  align?: keyof TextAlignType,
  *  noWrap?: boolean,
  *  asContainer?: boolean,
  *  full?: boolean,
@@ -43,17 +59,19 @@ export const TEXT_ALIGN = Object.freeze({
  *  underlined?: boolean,
  *  unstyled?: boolean,
  *  className?: string,
- *  bgColor?: BgColor,
- * } & Object<string, *>} Properties
+ *  bgColor?: TextBgColorType,
+ *  tag?: TextDefaultTagNamesType | keyof HTMLElementTagNameMap,
+ *  [x: string]: *
+ * }} TextProperties
  *
- * @typedef {function(Color): TextElement} ChangeColor
+ * @typedef {function(TextColorType): TextElement} ChangeColor
  *
  * @typedef {{
- *  color: Color,
+ *  color: TextColorType,
  *  ChangeColor: ChangeColor,
- * }} CustomProperties
+ * }} TextCustomProperties
  *
- * @typedef {CustomProperties & HTMLElement} TextElement
+ * @typedef {TextCustomProperties & HTMLElement} TextElement
  */
 
 const SG = "sg-text";
@@ -61,10 +79,9 @@ const SGD = `${SG}--`;
 
 /**
  * @template {keyof HTMLElementTagNameMap} T
- * @param {{tag?: T} & Properties} param0
+ * @param {{tag?: TextDefaultTagNamesType | T} & TextProperties} param0
  */
 export default function({
-  tag,
   children,
   text,
   html,
@@ -83,29 +100,27 @@ export default function({
   unstyled,
   className,
   bgColor,
+  tag = "div",
   ...props
 } = {}) {
   const textClass = classnames('sg-text', {
-    [SGD + size]: size !== "normal",
-    [SGD + color]: color,
-    [`${SGD}background-${bgColor}`]: bgColor,
-    [SGD + weight]: weight !== "regular",
-    [SGD + transform]: transform,
-    [SGD + TEXT_ALIGN[align]]: TEXT_ALIGN[align],
-    [`${SGD}container`]: asContainer,
-    [`${SGD}full`]: full,
-    [`${SGD}no-wrap`]: noWrap,
-    [`${SGD}break-words`]: breakWords,
-    [`${SGD}underlined`]: underlined,
-    [`${SGD}unstyled`]: unstyled,
+    [`sg-text--${String(size)}`]: size !== "normal",
+    [`sg-text--${String(color)}`]: color !== "default",
+    [`sg-text--${String(weight)}`]: weight !== "regular",
+    [`sg-text--${transform || ''}`]: transform,
+    [`sg-text--${TEXT_ALIGN[align] || ''}`]: TEXT_ALIGN[align],
+    'sg-text--container': asContainer,
+    'sg-text--full': full,
+    'sg-text--no-wrap': noWrap,
+    'sg-text--break-words': breakWords,
+
+    [`sg-text--background-${bgColor}`]: bgColor,
+    [`sg-text--underlined`]: underlined,
+    [`sg-text--unstyled`]: unstyled,
   }, className);
 
   if (href !== undefined && href !== "")
-    // @ts-ignore
     tag = "a";
-  else if (!tag)
-    // @ts-ignore
-    tag = "div";
 
   /**
    * @type {HTMLElementTagNameMap[T] & TextElement}
@@ -117,10 +132,10 @@ export default function({
   // @ts-ignore
   textElement.ChangeColor = _ChangeColor;
 
-  if (textElement instanceof HTMLAnchorElement) {
-    textElement.classList.add(`${SGD}link`);
+  if (tag === "a" || href !== undefined) {
+    textElement.classList.add(`sg-text--link`);
 
-    if (href)
+    if (textElement instanceof HTMLAnchorElement && href)
       textElement.href = href;
   }
 
@@ -130,8 +145,13 @@ export default function({
   if (text !== undefined)
     textElement.innerText = String(text);
 
-  if (html !== undefined)
-    textElement.innerHTML = html;
+  /* if (html !== undefined)
+    textElement.innerHTML = html; */
+  if (html && children)
+    console.error("Alert: Text component has html and children");
+
+  if (html)
+    children = html;
 
   AddChildren(textElement, children);
 
@@ -144,7 +164,7 @@ export default function({
 
 /**
  * @this {TextElement}
- * @param {Color} color
+ * @param {TextColorType} color
  */
 function _ChangeColor(color) {
   this.classList.remove(SGD + this.color);

@@ -4,7 +4,7 @@ import Text from '../Text';
 import mergeDeep from "merge-deep";
 
 /**
- * @typedef {import("../Text").Properties} TextPropsType
+ * @typedef {import("../Text").TextProperties} TextPropsType
  * @typedef {boolean
  * | "xxsmall"
  * | "xsmall"

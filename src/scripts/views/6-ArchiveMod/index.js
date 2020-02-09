@@ -1,3 +1,4 @@
+import { ButtonRound, Flex, Text } from "@/scripts/components/style-guide";
 import Button from "../../components/Button";
 import notification from "../../components/notification2";
 import Action from "../../controllers/Req/Brainly/Action";
@@ -5,12 +6,6 @@ import WaitForElement from "../../helpers/WaitForElement";
 import WaitForObject from "../../helpers/WaitForObject";
 import layoutChanger from "./_/layoutChanger";
 import Pagination from "./_/Pagination";
-import { ButtonRound, Text, Flex } from "@/scripts/components/style-guide";
-
-let System = require("../../helpers/System");
-
-if (typeof System == "function")
-  System = System();
 
 window.selectors = {
   moderationItemParent: "#moderation-all > div.content",
@@ -57,7 +52,7 @@ async function ArciveMod() {
           /**
            * @type {{
            *  button: import("@style-guide/ButtonRound").RoundButtonColorType,
-           *  text: import("@style-guide/Text").Color,
+           *  text: import("@style-guide/Text").TextColorType,
            * }}
            */
           let color = {

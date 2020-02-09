@@ -9,7 +9,7 @@ import Text from './Text';
  * @typedef {"small" | "normal" | "large"} Size
  *
  * @typedef {{
- *  text?: import("./Text").Properties,
+ *  text?: import("./Text").TextProperties,
  *  color?: Color, size?: Size,
  *  rounded?: boolean,
  *  withAnimation?: boolean,

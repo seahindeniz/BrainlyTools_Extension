@@ -121,6 +121,7 @@ import classnames from 'classnames';
  *  size?: Size,
  *  color?: Color,
  *  className?: string,
+ *  reverse?: boolean,
  * } & Object<string, *>} Properties
  *
  * @typedef {function(Color): IconElement} ChangeSize
@@ -150,6 +151,7 @@ export default function Icon({
   size = 24,
   color,
   className,
+  reverse,
   ...props
 }) {
   if (!type)
@@ -157,7 +159,8 @@ export default function Icon({
 
   const iconClass = classnames(sg, {
     [SGD + color]: color,
-    [`${SGD}x${size}`]: size
+    [`${SGD}x${size}`]: size,
+    [`${SGD}reverse`]: reverse,
   }, className);
 
   /**

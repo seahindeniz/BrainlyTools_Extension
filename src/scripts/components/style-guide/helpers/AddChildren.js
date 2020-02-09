@@ -10,14 +10,12 @@ export default function AddChildren(target, children) {
   if (!target || !children)
     return;
 
-  if (children instanceof Array && children.length > 0)
-    children.forEach(child => AddChildren(target, child));
-  else if (typeof children == "string")
+  if (children instanceof Array) {
+    if (children.length > 0)
+      children.forEach(child => AddChildren(target, child));
+  } else
+  if (typeof children == "string")
     target.insertAdjacentHTML("beforeend", children);
-  else if (
-    children instanceof Text ||
-    children instanceof Element ||
-    children instanceof HTMLElement
-  )
+  else
     target.append(children);
 }

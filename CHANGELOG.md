@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.32.3] - 2020.02.12
+
+### Changed
+
+- [#88] Mass-Message sender is not working correctly
+- [#89] Extension doesn't work on Android
+
+[#88]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/88
+[#89]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/89
+
 ## [6.32.2] - 2020.02.12
 
 ### Changed

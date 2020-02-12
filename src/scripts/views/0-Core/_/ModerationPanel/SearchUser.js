@@ -2,6 +2,7 @@ import { Avatar, Flex, Input, Text } from "@/scripts/components/style-guide";
 import Action from "@/scripts/controllers/Req/Brainly/Action";
 import Build from "@/scripts/helpers/Build";
 import debounce from "debounce";
+import RemoveJunkNotifications from "../RemoveJunkNotifications";
 import Components from "./Components";
 
 /**
@@ -232,6 +233,7 @@ export default class extends Components {
     let usersData = tempDiv.querySelectorAll("table div.user-data");
 
     this.ChangeStatusText();
+    RemoveJunkNotifications();
 
     if (!usersData || usersData.length === 0)
       return this.ChangeStatusText(

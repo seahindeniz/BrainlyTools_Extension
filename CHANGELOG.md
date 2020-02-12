@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.32.2] - 2020.02.12
+
+### Changed
+
+- [#83] "Find user" option on moderation panel is not working correctly
+- [#84] Notification message appears after searching user and refreshing the
+  page
+- [#85] Checkboxes always in loading state
+- [#86] Different colors for different type of quick delete buttons
+- [#87] Empty "More" label
+
+[#83]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/83
+[#84]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/84
+[#85]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/85
+[#86]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/86
+[#87]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/87
+
 ## [6.32.1] - 2020.02.04
 
 ### Changed

@@ -1,16 +1,19 @@
+import ServerReq from "@ServerReq";
 import {
   Button,
   ContentBox,
   ContentBoxContent,
+  Flex,
+  Icon,
   Spinner,
-  SpinnerContainer
+  SpinnerContainer,
+  Text
 } from "@style-guide";
 import md5 from "js-md5";
 import linkifyHtml from 'linkifyjs/html';
 // @ts-ignore
 import moment from "moment";
 import notification from "../../../components/notification";
-import ServerReq from "@ServerReq";
 import Build from "../../../helpers/Build";
 
 /**
@@ -272,7 +275,7 @@ export default class ActionEntry {
       if (!!event)
         await this.InformModerator();
 
-      let res = /* { success: true } // */ await new ServerReq()
+      let res = await new ServerReq()
         .DisapproveActionHistoryEntry(this.main.moderator._id, {
           hashList: this.hash,
           content: this.entryContent,
@@ -428,40 +431,68 @@ export default class ActionEntry {
     }
   }
   RenderTimer() {
-    this.$timerContainer = $(`
-    <div class="sg-content-box__content">
-      <div class="sg-spinner-container">
-        <div class="sg-content-box">
-          <div class="sg-content-box__content sg-content-box__content--with-centered-text sg-content-box__content--full">
-            <div class="sg-label sg-label--small sg-label--secondary sg-actions-list--centered">
-              <div class="sg-label__icon">
-                <div class="sg-icon sg-icon--gray-secondary sg-icon--x14 sg-icon--reverse">
-                  <svg class="sg-icon__svg">
-                    <use xlink:href="#icon-reload"></use>
-                  </svg>
-                </div>
-              </div>
-              <div class="sg-text sg-text--xsmall sg-text--link sg-text--bold sg-text--peach-dark">${System.data.locale.moderatorActionHistory.revert}</div>
-            </div>
-          </div>
-          <div class="sg-content-box__content sg-content-box__content--with-centered-text sg-content-box__content--full">
-            <span class="sg-text sg-text--xsmall sg-text--gray-secondary sg-text--bold">00:00</span>
-          </div>
-        </div>
-      </div>
-    </div>`);
-    this.$timer = $(".sg-content-box__content:nth-child(2) .sg-text", this
-      .$timerContainer);
-    this.$revert = $(".sg-label > .sg-text", this.$timerContainer);
-    this.$revertSpinnerContainer = $(".sg-spinner-container", this
-      .$timerContainer);
+    this.timerContainer = Build(Flex, [
+      [
+        this.revertSpinnerContainer =
+        SpinnerContainer({ fullWidth: true, }),
+        [
+          [
+            Flex({
+              direction: "column",
+            }),
+            [
+              [
+                Flex({ fullWidth: true, }),
+                [
+                  [
+                    Flex({
+                      marginRight: "xxs",
+                      alignItems: "center",
+                    }),
+                    Icon({
+                      size: 14,
+                      reverse: true,
+                      type: "reload",
+                      color: "gray-secondary",
+                    })
+                  ],
+                  [
+                    Flex({
+                      alignItems: "center",
+                    }),
+                    this.revert = Text({
+                      tag: "div",
+                      href: null,
+                      size: "xsmall",
+                      weight: "bold",
+                      color: "peach-dark",
+                      html: System.data.locale.moderatorActionHistory
+                        .revert
+                    })
+                  ]
+                ]
+              ],
+              [
+                Flex({ fullWidth: true, justifyContent: "center" }),
+                this.timer = Text({
+                  text: "00:00",
+                  size: "xsmall",
+                  weight: "bold",
+                  color: "gray-secondary",
+                })
+              ],
+            ]
+          ]
+        ]
+      ]
+    ]);
 
-    this.$timerContainer.appendTo(this.$flagContainer);
+    this.$flagContainer.append(this.timerContainer);
 
     this.BindTimerHandler();
   }
   BindTimerHandler() {
-    this.$revert.click(this.RevertReport.bind(this));
+    this.revert.addEventListener("click", this.RevertReport.bind(this));
   }
   async RevertReport(event) {
     await this.ShowRevertSpinner();
@@ -501,18 +532,18 @@ export default class ActionEntry {
     this.RenderDetails();
   }
   RenderRevertSpinner() {
-    this.$revertSpinner = $(`
-    <div class="sg-spinner-container__overlay">
-      <div class="sg-spinner sg-spinner--xsmall"></div>
-    </div>`);
+    this.revertSpinner = Spinner({
+      overlay: true,
+      size: "xsmall",
+    });
   }
   ShowRevertSpinner() {
-    this.$revertSpinner.appendTo(this.$revertSpinnerContainer);
+    this.revertSpinnerContainer.append(this.revertSpinner);
 
     return System.Delay(10);
   }
   HideRevertSpinner() {
-    this.main.HideElement(this.$revertSpinner);
+    this.main.HideElement(this.revertSpinner);
   }
   StartTimer() {
     if (this.runTimer && this.details) {
@@ -521,7 +552,7 @@ export default class ActionEntry {
       if (!timeLeft)
         return this.StopTimer();
 
-      this.$timer.text(timeLeft);
+      this.timer.innerText = timeLeft;
     }
   }
   IsReportCanReversible() {
@@ -539,10 +570,10 @@ export default class ActionEntry {
   }
   FinishTimer() {
     this.StopTimer();
-    this.main.HideElement(this.$timerContainer);
+    this.main.HideElement(this.timerContainer);
   }
   HideTimer() {
-    this.main.HideElement(this.$timerContainer);
+    this.main.HideElement(this.timerContainer);
   }
   Show() {
     this.$tr.removeClass("js-hidden");

@@ -49,9 +49,7 @@
   },
   "permissions": [
     "tabs",
-    "storage"
-  ],
-  "optional_permissions": [
+    "storage",
     "*://eodev.com/*",
     "*://znanija.com/*",
     "*://nosdevoirs.fr/*",
@@ -66,5 +64,7 @@
   ],
   "short_name": "__MSG_btnTooltip__",
   "version": "gulp-fill-this",
-  "web_accessible_resources": ["*/*"]
+  "web_accessible_resources": [
+    "*/*"
+  ]
 }

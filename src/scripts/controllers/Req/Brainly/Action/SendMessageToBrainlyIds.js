@@ -25,7 +25,7 @@ export default class SendMessageToBrainlyIds {
    * @param {string} content
    */
   Start(idList, content) {
-    this.idList = this.FixIdList(idList).slice();
+    this.idList = this.FixIdList(idList);
     this.processedIdList = [];
     this.content = content;
 
@@ -39,9 +39,10 @@ export default class SendMessageToBrainlyIds {
     if (!(idList instanceof Array)) {
       let range = idList.split(":");
       idList = FillRange(...range);
-    }
+    } else
+      idList = idList.map(Number).filter(Boolean);
 
-    return idList
+    return [...new Set(idList)]; // Remove duplicates and return
   }
   StartSending() {
     this._loop = setInterval(this.TryToSend.bind(this));

@@ -148,6 +148,7 @@ $baseline: 1.5rem;
   content: attr(data-placeholder);
   font-weight: bold;
   color: #ff796b;
+  display: flex;
 }
 
 div.counter {

@@ -1,8 +1,12 @@
 import classnames from 'classnames';
 import AddChildren from './helpers/AddChildren';
-import Icon, * as IconModule from "./Icon";
+import Icon from "./Icon";
+import mergeDeep from "merge-deep";
 
 /**
+ * @typedef {import("./Icon").Type} IconTypeType
+ * @typedef {import("./Icon").IconElement} IconElement
+ * @typedef {import("./Icon").Properties} IconProperties
  *
  * @typedef {"primary" | "primary-inverted" | "primary-blue" | "primary-mint" |
  * "secondary" | "link-button" | "link-button-inverted" | "link-button-peach" |
@@ -30,12 +34,12 @@ import Icon, * as IconModule from "./Icon";
  * @typedef {function(): ButtonElement} IsDisabled
  * @typedef {function(Type): ButtonElement} ChangeType
  * @typedef {function(Type): ButtonElement} ToggleType
- * @typedef {function(IconModule.IconElement=): ButtonElement} ChangeIcon
+ * @typedef {function(IconElement=): ButtonElement} ChangeIcon
  *
  * @typedef {{
  *  _type: Type,
  *  mainType:Type,
- *  icon: IconModule.IconElement,
+ *  icon: IconElement,
  *  Hide: Hide,
  *  Show: Show,
  *  Enable: Enable,
@@ -55,7 +59,7 @@ import Icon, * as IconModule from "./Icon";
  *  tag?: "button" | "a" | "label",
  *  size?: Size,
  *  type?: Type,
- *  icon?: IconModule.Properties | HTMLElement,
+ *  icon?: IconTypeType | IconProperties | HTMLElement,
  *  href?: string,
  *  fullWidth?: boolean,
  *  disabled?: boolean,
@@ -168,20 +172,27 @@ export default function({
   }
 
   if (icon) {
-    let iconElement;
-
-    if (icon instanceof HTMLElement)
-      iconElement = icon;
-    else {
-      iconElement = Icon({
+    if (icon instanceof HTMLElement) {
+      // @ts-ignore
+      button.icon = icon;
+    } else {
+      /**
+       * @type {IconProperties}
+       */
+      let iconProps = {
         size: size == "xsmall" ? 18 : 24,
         color: "adaptive",
-        ...icon
-      });
-      button.icon = iconElement;
+      };
+
+      if (typeof icon === "string")
+        iconProps.type = icon;
+      else
+        iconProps = mergeDeep(iconProps, icon);
+
+      button.icon = Icon(iconProps);
     }
 
-    _AddIcon.bind(button)(iconElement);
+    _AddIcon.bind(button)(button.icon);
   }
 
   button._type = type;

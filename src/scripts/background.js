@@ -181,6 +181,21 @@ class Background {
 
         return promise;
       }
+
+      if (request.action === "switch or open tab") {
+        let window = await ext.windows.getCurrent({ populate: true });
+        let targetTab = window.tabs.find(tab => {
+          return tab.url.includes(request.data)
+        });
+
+        if (targetTab)
+          return ext.tabs.update(targetTab.id, { selected: true });
+
+        return ext.tabs.create({
+          url: request.data,
+          selected: true,
+        });
+      }
     }
   }
   /**

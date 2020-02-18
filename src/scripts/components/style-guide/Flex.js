@@ -57,6 +57,7 @@ import AddChildren from "@style-guide/helpers/AddChildren"
  *  marginLeft?: FlexMarginsType,
  *  marginRight?: FlexMarginsType,
  *  children?: import('./helpers/AddChildren').ChildrenParamType,
+ *  className?: string,
  *  tag?: DefaultTagNamesType | keyof HTMLElementTagNameMap,
  *  [x: string]: *
  * }} Properties

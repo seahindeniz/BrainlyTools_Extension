@@ -35,3 +35,23 @@
     }
   }
 }
+
+.freelancerButton {
+  position: fixed;
+  z-index: 3;
+  top: 80px;
+  left: 10px;
+}
+
+@media (max-width: 767px) {
+  .freelancerButton {
+    top: 62px;
+    width: 100%;
+    left: unset;
+    justify-content: center;
+
+    >button {
+      width: 98%;
+    }
+  }
+}

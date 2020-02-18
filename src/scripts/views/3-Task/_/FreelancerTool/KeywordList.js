@@ -1,19 +1,17 @@
 import Build from "@/scripts/helpers/Build";
 import IsVisible from "@/scripts/helpers/IsVisible";
-import ServerReq from "@ServerReq";
 import { Box, Flex, Spinner, SpinnerContainer, Text } from "@style-guide";
 
 export default class KeywordList {
-  constructor() {
+  /**
+   * @param {import("./").default} main
+   */
+  constructor(main) {
+    this.main = main;
     /**
      * @type {HTMLDivElement}
      */
     this.answeringLayer;
-    /**
-     * @type {string[]}
-     */
-    this.keywords = [];
-    this.dataFetched = false;
 
     this.ObserveAnswerPanel();
   }
@@ -71,10 +69,10 @@ export default class KeywordList {
       if (!this.container) {
         this.Render();
         this.RenderKeywordList();
-        this.FetchKeywords();
+        this.RenderKeywords();
       }
 
-      if (!this.dataFetched || this.keywords.length > 0)
+      if (!this.main.data || this.main.data.keywordList.length > 0)
         this.answeringLayer.append(this.container);
     }
   }
@@ -118,25 +116,18 @@ export default class KeywordList {
       ]
     ]);
   }
-  async FetchKeywords() {
-    let questionId = System.ExtractId(location.pathname);
-    let resKeywords = await new ServerReq()
-      .GetKeywordsForFreelancer(questionId);
+  async RenderKeywords() {
+    await this.main.dataPromise;
 
-    this.dataFetched = true;
-
-    if (resKeywords.success)
-      this.keywords = resKeywords.data;
-
-    this.RenderKeywords();
-  }
-  RenderKeywords() {
-    if (!this.keywords || this.keywords.length == 0)
+    if (
+      !this.main.data.keywordList ||
+      this.main.data.keywordList.length == 0
+    )
       return this.HideContainer();
 
     this.HideSpinner();
     this.ShowKeywordListContainer();
-    this.keywords.forEach(this.RenderKeyword.bind(this));
+    this.main.data.keywordList.forEach(this.RenderKeyword.bind(this));
   }
   HideContainer() {
     this.HideElement(this.container);

@@ -1,8 +1,7 @@
-"use strict";
-
-import taskSection from "./_/taskSection";
+import ElementCleanerForFreelancer from "./_/ElementCleanerForFreelancer";
+import FreelancerTool from "./_/FreelancerTool";
 import responseSection from "./_/responseSection";
-import KeywordList from "./_/KeywordList";
+import taskSection from "./_/taskSection";
 
 System.pageLoaded("Task inject OK!");
 
@@ -16,14 +15,18 @@ window.selectors = {
   responseHeader: "js-react-answer-header-",
   responseModerateButtonContainer: `div.sg-actions-list > div.sg-actions-list__hole:nth-child(2) > div.sg-actions-list`,
 }
+
 if (System.checkBrainlyP(102)) {
   if (System.checkUserP(1)) {
     taskSection();
   }
+
   if (System.checkUserP(2)) {
     responseSection();
   }
 
-  if (System.checkUserP(35, true))
-    new KeywordList();
+  if (System.checkUserP(35, true)) {
+    ElementCleanerForFreelancer();
+    new FreelancerTool();
+  }
 }

@@ -16,11 +16,11 @@ export default function taskSection() {
 
   moderateButtonContainer.after(extButtonsContainer);
 
-  System.data.config.quickDeleteButtonsReasons.task.forEach(
+  System.data.config.quickDeleteButtonsReasons.question.forEach(
     (id, i) => {
       let reason = System.DeleteReason({
         id,
-        type: "task",
+        type: "question",
       });
       let button = Button({
         type: "warning",
@@ -57,7 +57,7 @@ export default function taskSection() {
 
     let reason = System.DeleteReason({
       id: this.reasonId,
-      type: "task",
+      type: "question",
       noRandom: true,
     });
 

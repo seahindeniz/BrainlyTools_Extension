@@ -5,8 +5,8 @@
     "handle": "brainlycoid"
   },
   "quickDeleteButtonsDefaultReasons": {
-    "task": [51, 49, 25],
-    "response": [58, 60, 63],
+    "question": [51, 49, 25],
+    "answer": [58, 60, 63],
     "comment": [3, 56, 57]
   },
   "default": {}

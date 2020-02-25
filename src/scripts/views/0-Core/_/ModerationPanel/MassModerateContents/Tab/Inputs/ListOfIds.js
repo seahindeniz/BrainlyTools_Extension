@@ -136,13 +136,13 @@ export default class ListOfIds extends Inputs {
                         tag: "div",
                         size: "xsmall",
                         html: System.createBrainlyLink(
-                          "task", { id: 1234567 })
+                          "question", { id: 1234567 })
                       }),
                       Text({
                         tag: "div",
                         size: "xsmall",
                         html: System.createBrainlyLink(
-                          "task", { id: 2345678 })
+                          "question", { id: 2345678 })
                       }),
                       Text({
                         tag: "div",

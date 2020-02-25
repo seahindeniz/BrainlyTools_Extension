@@ -341,7 +341,7 @@ class _System {
       } else
         _return = "";
     }
-    if (type === "task") {
+    if (type === "question") {
       if (!this.routeMasks.task) {
         this.routeMasks.task = ArrayLast(ArrayLast(this.data.Brainly.Routing
           .routes[this.data.Brainly.Routing.prefix + "task_view"].tokens));
@@ -605,7 +605,7 @@ class _System {
    * @param {{
    *  id?: number | string,
    *  name?: string,
-   *  type: "task" | "response" | "comment",
+   *  type: "question" | "answer" | "comment",
    *  noRandom?: boolean
    * }} param0
    */

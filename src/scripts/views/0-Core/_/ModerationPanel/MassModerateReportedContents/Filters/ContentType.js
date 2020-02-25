@@ -8,8 +8,8 @@ class ContentType {
 			<div class="sg-select__icon"></div>
 			<select class="sg-select__element">
 				<option selected value="">${System.data.locale.core.massModerateReportedContents.selectAFilter}</option>
-				<option value="QUESTION">${System.data.locale.popup.extensionOptions.quickDeleteButtons.task}</option>
-				<option value="ANSWER">${System.data.locale.popup.extensionOptions.quickDeleteButtons.response}</option>
+				<option value="QUESTION">${System.data.locale.popup.extensionOptions.quickDeleteButtons.question}</option>
+				<option value="ANSWER">${System.data.locale.popup.extensionOptions.quickDeleteButtons.answer}</option>
 			</select>
     </div>`);
 

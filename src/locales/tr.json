@@ -61,16 +61,6 @@
       "selectReason": "Silim sebebi seçmelisin",
       "editInPanel": "Moderatör panelinde düzenle",
       "point": "puan",
-      "takePoints": {
-        "task": {
-          "text": "Cevap verenlerin puanlarını al",
-          "title": "Soruya cevap verenlerden puanları geri al"
-        },
-        "response": {
-          "text": "Kazandığı puanları geri al",
-          "title": "Kişinin sorudan kazandığı puanları geri al"
-        }
-      },
       "returnPoints": {
         "text": "Puanları geri iade et-me",
         "title": "Puanları sahibine geri iade etmemek"
@@ -83,7 +73,17 @@
       "approved": "Doğrulandı",
       "unapprove": "Doğrulamayı kaldır",
       "unapproved": "Doğrulanmamış",
-      "doYouWantToDeleteWithReason": "Silmek istiyor musun?\n\n%{reason_title}:\n%{reason_message}"
+      "doYouWantToDeleteWithReason": "Silmek istiyor musun?\n\n%{reason_title}:\n%{reason_message}",
+      "takePoints": {
+        "question": {
+          "text": "Cevap verenlerin kazandığı puanları geri al",
+          "title": "Soruya cevap verenlerden puanları geri al"
+        },
+        "answer": {
+          "text": "Kazandığı puanları geri al",
+          "title": "Kişinin sorudan kazandığı puanları geri al"
+        }
+      }
     },
     "personalNote": {
       "text": "Kişisel not",
@@ -156,9 +156,9 @@
       "quickDeleteButtons": {
         "text": "Hızlı Silim Butonları",
         "title": "Butonların silim sebeplerini belirleyebilirsin",
-        "task": "Soru",
-        "response": "Cevap",
-        "comment": "Yorum"
+        "comment": "Yorum",
+        "question": "Soru",
+        "answer": "Cevap"
       },
       "otherOptions": {
         "title": "Diğer Seçenekler",
@@ -772,6 +772,9 @@
   "moderateAll": {
     "wrongContentConfirmer": {
       "text": "Düzenlenmiş tüm içerikleri onayla"
+    },
+    "notificationMessage": {
+      "questionRemovedPanelClosing": "Soru siliindi. Panel birkaç saniye içinde kapanacak"
     }
   },
   "moderatorActionHistory": {

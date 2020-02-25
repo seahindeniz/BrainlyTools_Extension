@@ -29,8 +29,8 @@ class QuickDeleteButtonsOptions {
 
     reasonTypes.forEach(reasonTypeKey => {
       let reasonTypeKeyCode =
-        reasonTypeKey == "task" ? 1 :
-        reasonTypeKey == "response" ? 2 :
+        reasonTypeKey == "question" ? 1 :
+        reasonTypeKey == "answer" ? 2 :
         reasonTypeKey == "comment" ? 45 :
         null;
 

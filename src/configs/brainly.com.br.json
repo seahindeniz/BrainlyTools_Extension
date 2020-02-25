@@ -5,8 +5,8 @@
     "handle": "brainlylat"
   },
   "quickDeleteButtonsDefaultReasons": {
-    "task": [292, 290, 289],
-    "response": [277, 275, 319],
+    "question": [292, 290, 289],
+    "answer": [277, 275, 319],
     "comment": [309, 295, 300]
   },
   "default": {}

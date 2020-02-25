@@ -13,7 +13,7 @@ class QuickDeleteButton {
     this.index = index;
     this.reason = System.DeleteReason({
       id: reasonId,
-      type: "task",
+      type: "question",
     });
 
     this.RenderSpinnerContainer();

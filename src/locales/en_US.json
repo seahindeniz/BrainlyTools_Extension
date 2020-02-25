@@ -61,16 +61,6 @@
       "selectReason": "Please select a reason",
       "editInPanel": "Edit in moderation panel",
       "point": "point",
-      "takePoints": {
-        "task": {
-          "text": "Take back respondent's points",
-          "title": "Remove the points received by the respondent's, when they answered the question"
-        },
-        "response": {
-          "text": "Take points back",
-          "title": "Take points back from user"
-        }
-      },
       "returnPoints": {
         "text": "Don't give the points back",
         "title": "Don't give the points back to owner"
@@ -83,7 +73,17 @@
       "approved": "Approved",
       "unapprove": "Unapprove",
       "unapproved": "Unapproved",
-      "doYouWantToDeleteWithReason": "Do you want to delete it?\n\n%{reason_title}:\n%{reason_message}"
+      "doYouWantToDeleteWithReason": "Do you want to delete it?\n\n%{reason_title}:\n%{reason_message}",
+      "takePoints": {
+        "question": {
+          "text": "Take back respondent's points",
+          "title": "Remove the points received by the respondent's, when they answered the question"
+        },
+        "answer": {
+          "text": "Take points back",
+          "title": "Take points back from user"
+        }
+      }
     },
     "personalNote": {
       "text": "Personal note",
@@ -156,9 +156,9 @@
       "quickDeleteButtons": {
         "text": "Quick Delete Buttons",
         "title": "You can set delete reasons of the quick delete buttons",
-        "task": "Question",
-        "response": "Answer",
-        "comment": "Comment"
+        "comment": "Comment",
+        "question": "Question",
+        "answer": "Answer"
       },
       "otherOptions": {
         "title": "Other Options",
@@ -772,6 +772,9 @@
   "moderateAll": {
     "wrongContentConfirmer": {
       "text": "Confirm all corrected contents"
+    },
+    "notificationMessage": {
+      "questionRemovedPanelClosing": "Question has been removed. Panel will close in few seconds"
     }
   },
   "moderatorActionHistory": {

@@ -54,7 +54,7 @@ class ModerateSection {
     this.selectAll = this.selectAllContainer.querySelector("input");
   }
   RenderDeleteSection() {
-    this.deleteSection = new DeleteSection({ type: "task" });
+    this.deleteSection = new DeleteSection({ type: "question" });
     this.deleteSectionContainer = ContentBoxContent({
       children: this.deleteSection.container
     });

@@ -19,12 +19,12 @@ class DeleteReasonsPreferences {
 				<div class="message-body">
 					<div class="field">
 						<div class="field-label has-text-centered">
-							<label class="label">${System.data.locale.popup.extensionOptions.quickDeleteButtons.task}</label>
-							<div class="field is-grouped is-grouped-multiline" data-type="task"></div>
+							<label class="label">${System.data.locale.popup.extensionOptions.quickDeleteButtons.question}</label>
+							<div class="field is-grouped is-grouped-multiline" data-type="question"></div>
 						</div>
 						<div class="field-label has-text-centered">
-							<label class="label">${System.data.locale.popup.extensionOptions.quickDeleteButtons.response}</label>
-							<div class="field is-grouped is-grouped-multiline" data-type="response"></div>
+							<label class="label">${System.data.locale.popup.extensionOptions.quickDeleteButtons.answer}</label>
+							<div class="field is-grouped is-grouped-multiline" data-type="answer"></div>
 						</div>
 						<div class="field-label has-text-centered">
 							<label class="label">${System.data.locale.popup.extensionOptions.quickDeleteButtons.comment}</label>
@@ -103,7 +103,7 @@ class DeleteReasonsPreferences {
               let typeT = System.data.locale.popup
                 .extensionOptions.quickDeleteButtons[
                   type
-                ]; //type == "task" ? "Q" : type == "response" ? "A" : "C";
+                ];
               let categoryName = System.data.Brainly
                 .deleteReasons.__withIds[type].__categories[
                   reason.category_id].text;

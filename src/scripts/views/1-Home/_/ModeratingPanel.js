@@ -48,7 +48,7 @@ class ModeratingPanel {
     });
   }
   RenderModal() {
-    let questionLink = System.createBrainlyLink("task", { id: this.ticket.data.task.id });
+    let questionLink = System.createBrainlyLink("question", { id: this.ticket.data.task.id });
     let questionOwner = this.ticket.users_data.find(user => user.id == this.ticket.data.task.user.id);
     let ownerProfileLink = System.createBrainlyLink("profile", { nick: questionOwner.nick, id: questionOwner.id });
 
@@ -193,7 +193,7 @@ class ModeratingPanel {
     }
   }
   RenderDeleteSection() {
-    this.deleteSection = new DeleteSection({ type: "task", reasons: this.ticket.data.delete_reasons.task });
+    this.deleteSection = new DeleteSection({ type: "question", reasons: this.ticket.data.delete_reasons.task });
     let $toplayerContentBox = $(".sg-toplayer__wrapper > .sg-content-box > div:nth-child(2)", this.modal.$modal);
 
     this.deleteSection.$.appendTo($toplayerContentBox);

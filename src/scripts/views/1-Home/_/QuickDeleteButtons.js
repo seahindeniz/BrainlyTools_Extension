@@ -133,7 +133,7 @@ class QuickDeleteButtons {
     );
   }
   RenderDeleteButtons() {
-    System.data.config.quickDeleteButtonsReasons.task.forEach(this
+    System.data.config.quickDeleteButtonsReasons.question.forEach(this
       .RenderDeleteButton.bind(this));
   }
   /**

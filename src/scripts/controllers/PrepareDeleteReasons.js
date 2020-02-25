@@ -39,6 +39,11 @@ async function GetAndPrepareDeleteReasons() {
       .cantFetchDeleteReasons);
   }
 
+  data.deleteReasons.question = data.deleteReasons.task;
+  data.deleteReasons.answer = data.deleteReasons.response;
+  delete data.deleteReasons.task;
+  delete data.deleteReasons.response;
+
   let deleteReasonsKeys = Object.keys(data.deleteReasons);
   data.deleteReasons.__withTitles = {};
   data.deleteReasons.__withIds = { __all: {} };

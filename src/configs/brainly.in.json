@@ -5,8 +5,8 @@
     "handle": "brainlyin"
   },
   "quickDeleteButtonsDefaultReasons": {
-    "task": [7, 40, 5],
-    "response": [17, 14, 20],
+    "question": [7, 40, 5],
+    "answer": [17, 14, 20],
     "comment": [3, 28, 31]
   },
   "default": {}

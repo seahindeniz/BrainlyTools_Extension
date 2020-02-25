@@ -10,7 +10,7 @@ export default class Answer extends ContentType {
 
     let renderDetails = {
       tabButton: {
-        text: System.data.locale.popup.extensionOptions.quickDeleteButtons.response
+        text: System.data.locale.popup.extensionOptions.quickDeleteButtons.answer
       }
     };
     super(main, renderDetails);

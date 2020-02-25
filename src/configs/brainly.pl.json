@@ -5,8 +5,8 @@
     "handle": "brainlypl"
   },
   "quickDeleteButtonsDefaultReasons": {
-    "task": [89, 97, 108],
-    "response": [127, 118, 133],
+    "question": [89, 97, 108],
+    "answer": [127, 118, 133],
     "comment": [109, 110, 112]
   },
   "default": {}

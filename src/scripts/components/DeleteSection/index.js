@@ -14,10 +14,11 @@ const noop = (...params) => {};
 
 class DeleteSection {
   /**
+   * @typedef {"question" | "answer" | "comment"} ContentTypeType
    * @param {{
-   *  type?: "task"|"response"|"comment",
+   *  type?: ContentTypeType,
    *  reasons?: *[],
-   *  hideReasons?: ("task" | "response" | "comment" | string)[],
+   *  hideReasons?: ContentTypeType[],
    *  handlers?: {
    *    contentTypeChange?: function,
    *    reasonChange?: function,
@@ -75,14 +76,8 @@ class DeleteSection {
    * @param {string} type
    */
   set type(type) {
-    if (typeof type == "string") {
+    if (typeof type == "string")
       type = type.toLowerCase();
-
-      if (type == "question")
-        type = "task";
-      if (type == "answer")
-        type = "response";
-    }
 
     this._type = type;
   }
@@ -123,8 +118,8 @@ class DeleteSection {
       "> .sg-content-box__actions:eq(0) > .sg-content-box", this.$);
   }
   RenderTakePoints() {
-    let takePointsLocale =
-      System.data.locale.common.moderating.takePoints[this.type || "task"];
+    let takePointsLocale = System.data.locale.common.moderating
+      .takePoints[this.type || "question"];
 
     if (takePointsLocale) {
       this.$takePointsContainer = this.RenderOption(
@@ -196,7 +191,7 @@ class DeleteSection {
       items: []
     };
 
-    ["task", "response", "comment"].forEach(type => {
+    ["question", "answer", "comment"].forEach(type => {
       if (!this.hideReasons.includes(type))
         sectionData.items.push({
           id: type,
@@ -282,11 +277,11 @@ class DeleteSection {
   ShowOptions() {
     this.HideOptions();
 
-    if (this.type == "task") {
+    if (this.type == "question") {
       this.ShowTakePoints();
       this.ShowReturnPoints();
       this.ShowGiveWarning();
-    } else if (this.type == "response") {
+    } else if (this.type == "answer") {
       this.ShowTakePoints();
       this.ShowGiveWarning();
     } else if (this.type == "comment") {

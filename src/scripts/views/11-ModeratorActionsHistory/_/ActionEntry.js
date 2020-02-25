@@ -37,7 +37,7 @@ export default class ActionEntry {
     /**
      * @type {string}
      */
-    this.questionLink = System.createBrainlyLink("task", {
+    this.questionLink = System.createBrainlyLink("question", {
       id: this
         .questionId
     });

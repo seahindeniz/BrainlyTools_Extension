@@ -15,11 +15,11 @@ export default async function responseSection() {
 
       moderateButtonContainer.after(extButtonsContainer);
 
-      System.data.config.quickDeleteButtonsReasons.response.forEach(
+      System.data.config.quickDeleteButtonsReasons.answer.forEach(
         (id, i) => {
           let reason = System.DeleteReason({
             id,
-            type: "response",
+            type: "answer",
           });
           let button = Button({
             type: "destructive",
@@ -99,8 +99,8 @@ async function responseModerateButtonsClickHandler() {
   let btn_index = $(this).parent().index();
   let reason = System.DeleteReason({
     id: System
-      .data.config.quickDeleteButtonsReasons.response[btn_index],
-    type: "response",
+      .data.config.quickDeleteButtonsReasons.answer[btn_index],
+    type: "answer",
     noRandom: true,
   });
 

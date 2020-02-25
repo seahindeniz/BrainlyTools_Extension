@@ -61,16 +61,6 @@
       "selectReason": "Pilih sebuah alasan",
       "editInPanel": "Edit pada panel moderasi",
       "point": "poin",
-      "takePoints": {
-        "task": {
-          "text": "Ambil kembali poin responden",
-          "title": "Menghapus poin yang diterima oleh responden, ketika mereka menjawab pertanyaan"
-        },
-        "response": {
-          "text": "Mengambil poin kembali",
-          "title": "Mengambil kembali poin dari user"
-        }
-      },
       "returnPoints": {
         "text": "Jangan mengembalikan poin",
         "title": "Jangan mengembalikan poin ke penanya"
@@ -83,7 +73,17 @@
       "approved": "Disetujui",
       "unapprove": "Tidak disetujui",
       "unapproved": "Tidak disetujui",
-      "doYouWantToDeleteWithReason": "Apakah kamu ingin menghapus?\n\n%{reason_title}:\n%{reason_message}"
+      "doYouWantToDeleteWithReason": "Apakah kamu ingin menghapus?\n\n%{reason_title}:\n%{reason_message}",
+      "takePoints": {
+        "question": {
+          "text": "Ambil kembali poin responden",
+          "title": "Menghapus poin yang diterima oleh responden, ketika mereka menjawab pertanyaan"
+        },
+        "answer": {
+          "text": "Mengambil poin kembali",
+          "title": "Mengambil kembali poin dari user"
+        }
+      }
     },
     "personalNote": {
       "text": "Catatan pribadi",
@@ -156,9 +156,9 @@
       "quickDeleteButtons": {
         "text": "Tombol hapus cepat",
         "title": "Kamu dapat mengatur alasan penghapusan di tombol cepat",
-        "task": "Pertanyaan",
-        "response": "Jawaban",
-        "comment": "Komentar"
+        "comment": "Komentar",
+        "question": "Pertanyaan",
+        "answer": "Jawaban"
       },
       "otherOptions": {
         "title": "Pilihan Lain",
@@ -772,6 +772,9 @@
   "moderateAll": {
     "wrongContentConfirmer": {
       "text": "Mengkonfirmasi semua konten yang telah dikoreksi"
+    },
+    "notificationMessage": {
+      "questionRemovedPanelClosing": "Question has been removed. Panel will close in few seconds"
     }
   },
   "moderatorActionHistory": {

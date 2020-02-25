@@ -37,7 +37,7 @@ class Answers extends UserContent {
       }
 
       if (System.checkUserP(15)) {
-        this.RenderDeleteSection("response");
+        this.RenderDeleteSection("answer");
         this.RenderCheckboxes();
         this.RenderButtonContainer();
         this.RenderModerateButton();

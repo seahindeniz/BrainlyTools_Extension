@@ -5,8 +5,8 @@
     "handle": "znanijacom"
   },
   "quickDeleteButtonsDefaultReasons": {
-    "task": [2, 3, 4],
-    "response": [15, 60, 16],
+    "question": [2, 3, 4],
+    "answer": [15, 60, 16],
     "comment": [44]
   },
   "default": {}

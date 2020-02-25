@@ -65,7 +65,7 @@ class MassContentDeleter extends Components {
 					</div>
 				</div>
 				<div class="sg-content-box__content sg-content-box__content--spaced-top-large">
-					<blockquote class="sg-text sg-text--small">${System.data.locale.core.MassContentDeleter.containerExplanation}<br>${System.createBrainlyLink("task", { id: 1234567 })}<br>${System.createBrainlyLink("task", { id: 2345678 })}<br>1234567<br>53453<br>xy545645<br>xy423423</blockquote>
+					<blockquote class="sg-text sg-text--small">${System.data.locale.core.MassContentDeleter.containerExplanation}<br>${System.createBrainlyLink("question", { id: 1234567 })}<br>${System.createBrainlyLink("question", { id: 2345678 })}<br>1234567<br>53453<br>xy545645<br>xy423423</blockquote>
 				</div>
 				<div class="sg-content-box__actions deleteSection"></div>
 			</div>`,
@@ -271,12 +271,12 @@ class MassContentDeleter extends Components {
       give_warning: this.deleteSection.giveWarning,
     };
 
-    if (this.deleteSection.type == "task")
+    if (this.deleteSection.type == "question")
       this.contentData.return_points = this.deleteSection.returnPoints;
 
     if (
-      this.deleteSection.type == "task" ||
-      this.deleteSection.type == "response"
+      this.deleteSection.type == "question" ||
+      this.deleteSection.type == "answer"
     )
       this.contentData.take_points = this.deleteSection.takePoints;
   }
@@ -305,10 +305,10 @@ class MassContentDeleter extends Components {
     this.contentData.model_id = id;
     let action = new Action();
 
-    if (this.deleteSection.type == "task")
+    if (this.deleteSection.type == "question")
       Method = action.RemoveQuestion;
 
-    if (this.deleteSection.type == "response")
+    if (this.deleteSection.type == "answer")
       Method = action.RemoveAnswer;
 
     if (this.deleteSection.type == "comment")

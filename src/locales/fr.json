@@ -61,16 +61,6 @@
       "selectReason": "Merci de sélectionner une raison",
       "editInPanel": "Editer dans le panneau de modération",
       "point": "Point",
-      "takePoints": {
-        "task": {
-          "text": "Reprendre les points",
-          "title": "Reprendre les points des utilisateurs ayant répondu à la question"
-        },
-        "response": {
-          "text": "Reprendre les points",
-          "title": "Reprendre les points"
-        }
-      },
       "returnPoints": {
         "text": "Ne pas redonner les points",
         "title": "Ne pas redonner les points au propriétaire"
@@ -83,7 +73,17 @@
       "approved": "Approuvée",
       "unapprove": "Désapprouver",
       "unapproved": "Désapprouvé",
-      "doYouWantToDeleteWithReason": "Voulez-vous supprimer ceci ?\n%{reason_title} :\n%{reason_message}"
+      "doYouWantToDeleteWithReason": "Voulez-vous supprimer ceci ?\n%{reason_title} :\n%{reason_message}",
+      "takePoints": {
+        "question": {
+          "text": "Reprendre les points",
+          "title": "Reprendre les points des utilisateurs ayant répondu à la question"
+        },
+        "answer": {
+          "text": "Reprendre les points",
+          "title": "Reprendre les points"
+        }
+      }
     },
     "personalNote": {
       "text": "Note personnelle",
@@ -156,9 +156,9 @@
       "quickDeleteButtons": {
         "text": "Boutons de suppression rapide des questions",
         "title": "Tu peux ajouter les raisons de suppression aux boutons de suppression rapide",
-        "task": "Question",
-        "response": "Réponse",
-        "comment": "Commentaires"
+        "comment": "Commentaires",
+        "question": "Question",
+        "answer": "Réponse"
       },
       "otherOptions": {
         "title": "Autres options",
@@ -772,6 +772,9 @@
   "moderateAll": {
     "wrongContentConfirmer": {
       "text": "Approuver tous les contenus corrigés"
+    },
+    "notificationMessage": {
+      "questionRemovedPanelClosing": "Question has been removed. Panel will close in few seconds"
     }
   },
   "moderatorActionHistory": {

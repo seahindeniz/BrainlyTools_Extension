@@ -10,7 +10,7 @@ class Questions extends UserContent {
       System.checkUserP(14) &&
       System.data.Brainly.userData.user.id != sitePassedParams[0]
     ) {
-      this.RenderDeleteSection("task");
+      this.RenderDeleteSection("question");
       this.RenderCheckboxes();
       this.ShowDeleteSection();
       this.BindHandlers();

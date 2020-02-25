@@ -4,7 +4,7 @@ export default class Question extends ContentType {
   constructor(main) {
     let renderDetails = {
       tabButton: {
-        text: System.data.locale.popup.extensionOptions.quickDeleteButtons.task
+        text: System.data.locale.popup.extensionOptions.quickDeleteButtons.question
       }
     };
     super(main, renderDetails);

@@ -699,10 +699,10 @@ class ConditionSection {
     this.$filterSelect.val("CONTENT_TYPE").change();
     let type = this.deleteSection.type;
 
-    if (type == "task")
+    if (type == "question")
       type = "QUESTION";
 
-    if (type == "response")
+    if (type == "answer")
       type = "ANSWER";
 
     if (this.filter.$select)

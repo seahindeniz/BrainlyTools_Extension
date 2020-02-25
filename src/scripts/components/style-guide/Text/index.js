@@ -87,7 +87,7 @@ export default function({
   html,
   size = "normal",
   weight = "regular",
-  color,
+  color = "default",
   transform,
   align,
   noWrap,

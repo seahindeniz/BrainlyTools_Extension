@@ -12,7 +12,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Moderate all:
-  - Change view button behavior
+  - Change view button behavior (<https://ibb.co/p0GfLmK>)
   - Toggle quick delete buttons (<https://ibb.co/Zhb8ZSR>)
   - Moderate panel (<https://ibb.co/jWzjS8J>):
     - Mustard colored quick delete buttons for question

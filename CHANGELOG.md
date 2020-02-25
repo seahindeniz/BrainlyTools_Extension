@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.33.0] - 2020.02.25
+
+### Added
+
+- Unnecessary component cleaner for Freelancers (<https://ibb.co/JnMck6p>)
+- Button for freelancers to return back specific page (<https://ibb.co/j5kCH0D>)
+
+### Changed
+
+- Moderate all:
+  - Change view button behavior
+  - Toggle quick delete buttons (<https://ibb.co/Zhb8ZSR>)
+  - Moderate panel (<https://ibb.co/jWzjS8J>):
+    - Mustard colored quick delete buttons for question
+    - Confirm only button for approvers
+    - New navigation buttons
+    - Better error handling. Workaround for [#90]
+
+[#90]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/90
+
 ## [6.32.3] - 2020.02.12
 
 ### Changed

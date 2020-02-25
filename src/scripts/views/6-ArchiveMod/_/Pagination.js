@@ -35,7 +35,6 @@ class Pagination {
     this.RenderPageNumbers();
     this.Show();
     this.$filtersList.change(this.Toggle.bind(this));
-    $(this.loadMoreButton).addClass("sg-box--full");
   }
   RenderPageNumbers() {
     let data = this.resPagination.data;

@@ -1,4 +1,4 @@
-$arrow-pos: -0.4em;
+$arrow-pos: -84px;
 
 .js-pagination {
   button {
@@ -54,34 +54,37 @@ $arrow-pos: -0.4em;
 
     &.listView .moderation-item {
       height: 89px;
-      width: 98%;
+      width: 100%;
+      margin: 10px 0;
 
       .header {
         height: 26px;
       }
 
       .content {
-        height: 60px;
+        width: 100%;
+        height: 61px;
+        flex-direction: row;
+        display: inline-flex;
+
+        .body {
+          width: 100%;
+          display: flex;
+          height: unset;
+        }
 
         .footer {
-          width: 19rem;
-          height: 32px;
-          min-height: 32px;
-          top: -27px;
-          right: 0em;
           border: 0;
+          width: 600px;
+          display: flex;
+          height: unset;
+          position: unset;
+          flex-direction: column;
+          justify-content: center;
+          border-left: solid 1px #dedede;
 
           .zadane-green {
             margin: 3px 20px 0 0;
-          }
-
-          .ext-action-buttons {
-            text-align: right;
-
-            .sg-button {
-              padding: 0 14px;
-              height: 24px;
-            }
           }
         }
       }
@@ -98,22 +101,23 @@ $arrow-pos: -0.4em;
     &>.content {
       background-color: #eaa !important;
     }
-
-    div.content>div.footer {
-      min-height: 0 !important;
-      padding: 0 !important;
-      height: 0;
-      border: 0;
-    }
   }
 }
 
-.quickDeleteButtons {
-  clear: both;
-  margin-top: 1em;
+.switch-button {
+  position: absolute;
+  top: 45%;
+
+  &--right {
+    right: $arrow-pos;
+  }
+
+  &--left {
+    left: $arrow-pos;
+  }
 }
 
-#toplayer>div.contener-center.mod>div.contener.mod.moderation {
+/* #toplayer>div.contener-center.mod>div.contener.mod.moderation {
 
   &:before,
   &:after {
@@ -132,5 +136,16 @@ $arrow-pos: -0.4em;
   &:after {
     content: "›";
     right: $arrow-pos;
+  }
+} */
+
+.moderation-toplayer {
+  .removed {
+
+    .actions,
+    .action-box,
+    .contents>.report {
+      display: none !important;
+    }
   }
 }

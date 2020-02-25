@@ -14,7 +14,9 @@ class RankManager {
   }
   async Find_DeleteRanksForm() {
     this.deleteAllRanksForm = await WaitForElement(
-      `[action="/ranks/delete_user_special_ranks"]`, 1, true);
+      `[action="/ranks/delete_user_special_ranks"]`, {
+        noError: true
+      });
     this.deleteAllRanksLi = $(this.deleteAllRanksForm).parent();
 
     this.Init();

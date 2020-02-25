@@ -7,7 +7,9 @@ export default async function startObservingForDeleteButtons(feeds_parent) {
       e.addedNodes.forEach(node => new QuickDeleteButtons(node));
   });
 
-  let feed_item = await WaitForElement(`${selectors.feed_item}:not(.js-extension)`, true);
+  let feed_item = await WaitForElement(`${selectors.feed_item}:not(.js-extension)`, {
+    noError: true
+  });
 
   if (feed_item)
     feed_item.forEach(node => new QuickDeleteButtons(node));

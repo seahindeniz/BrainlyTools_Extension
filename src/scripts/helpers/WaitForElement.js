@@ -3,16 +3,18 @@ import MakeExpire from "./MakeExpire";
 /**
  * A function for, do something when the element's are found on DOM
  * @param {string} query - Element selector string
- * @param {(number | boolean)=} atLeast - If you want to find elements at least n
- * @param {boolean=} noError - Set it true to avoid errors when specified element wasn't found
+ * @param {{
+ *  parent?: HTMLElement | Document,
+ *  atLeast?: number,
+ *  noError?: boolean,
+ * }} [param1]
  * @returns {Promise<NodeListOf<Element>>}
  **/
-export default function WaitForElement(query, atLeast = 1, noError = false) {
-  if (typeof atLeast == "boolean") {
-    noError = atLeast;
-    atLeast = 1;
-  }
-
+export default function WaitForElement(query, {
+  atLeast = 1,
+  noError = false,
+  parent = document
+} = {}) {
   return new Promise((resolve, reject) => {
     let elements,
       _loop_expireTime = MakeExpire();
@@ -27,7 +29,7 @@ export default function WaitForElement(query, atLeast = 1, noError = false) {
         return false;
       }
 
-      elements = document.querySelectorAll(query);
+      elements = parent.querySelectorAll(query);
 
       if (elements.length >= atLeast) {
         clearInterval(_loop);

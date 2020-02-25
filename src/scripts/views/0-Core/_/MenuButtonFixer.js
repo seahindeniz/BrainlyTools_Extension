@@ -1,7 +1,9 @@
 import WaitForElement from "../../../helpers/WaitForElement";
 
 async function MenuButtonFixer() {
-  let menuButton = await WaitForElement(".mint-hide-for-desktop", true);
+  let menuButton = await WaitForElement(".mint-hide-for-desktop", {
+    noError: true
+  });
   let $menuButton = $(menuButton);
   let $menu = $menuButton.prev();
   //let $searchInput = $menu.prev();

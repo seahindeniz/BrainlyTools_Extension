@@ -154,7 +154,9 @@ class Core {
       window.sitePassedParams = JSON.parse(window.sitePassedParams);
 
     let RemoveSVG_Titles = async (stop) => {
-      let titles = await WaitForElement("svg > symbol > title", true);
+      let titles = await WaitForElement("svg > symbol > title", {
+        noError: true
+      });
 
       titles.forEach(title => title.remove());
       !stop && RemoveSVG_Titles(true);

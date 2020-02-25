@@ -124,15 +124,18 @@ import classnames from 'classnames';
  *  reverse?: boolean,
  * } & Object<string, *>} Properties
  *
- * @typedef {function(Color): IconElement} ChangeSize
+ * @typedef {function(Size): IconElement} ChangeSize
  * @typedef {function(Color): IconElement} ChangeColor
+ * @typedef {function(Type): IconElement} ChangeType
  * @typedef {function(): IconElement} TogglePulse
  *
  * @typedef {{
  *  size: Size,
+ *  type: Type,
  *  color: Color,
  *  ChangeSize: ChangeSize,
  *  ChangeColor: ChangeColor,
+ *  ChangeType: ChangeType,
  *  TogglePulse: TogglePulse,
  * }} CustomProperties
  *
@@ -170,11 +173,14 @@ export default function Icon({
   let div = document.createElement(tag);
   div.className = iconClass;
   div.size = size;
+  div.type = type;
   div.color = color;
   // @ts-ignore
   div.ChangeSize = _ChangeSize;
   // @ts-ignore
   div.ChangeColor = _ChangeColor;
+  // @ts-ignore
+  div.ChangeType = _ChangeType;
   div.TogglePulse = _TogglePulse;
 
   let svg = document.createElementNS('http://www.w3.org/2000/svg', "svg");
@@ -219,6 +225,24 @@ function _ChangeColor(color) {
   this.classList.add(SGD + color);
 
   this.color = color;
+
+  return this;
+}
+
+/**
+ * @this {IconElement}
+ * @param {Type} type
+ */
+function _ChangeType(type) {
+  let use = this.querySelector("use");
+
+  use.setAttributeNS(
+    'http://www.w3.org/1999/xlink',
+    "xlink:href",
+    `#icon-${type}`
+  );
+
+  this.type = type;
 
   return this;
 }

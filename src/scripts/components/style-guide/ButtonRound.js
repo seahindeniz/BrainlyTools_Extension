@@ -4,7 +4,7 @@ import Icon from './Icon';
 
 /**
  * @typedef {"xsmall" |
- * "small" | "medium" | "large"} RoundButtonSizeType
+ * "small" | "medium" | "large" | "xlarge"} RoundButtonSizeType
  *
  * @typedef {import("./Icon").Properties} IconProperties
  *
@@ -59,6 +59,7 @@ const ICON_SIZE_MAP = {
   xsmall: 14,
   small: 16,
   large: 32,
+  xlarge: 46,
   default: 24,
 }
 /**

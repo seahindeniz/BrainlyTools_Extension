@@ -11,9 +11,11 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- Moderate all:
+- Moderate all [BETA]:
   - Change view button behavior (<https://ibb.co/p0GfLmK>)
-  - Toggle quick delete buttons (<https://ibb.co/Zhb8ZSR>)
+  - Report box (<https://ibb.co/Zhb8ZSR>):
+    - Toggle quick delete buttons
+    - Relative time on detail section
   - Moderate panel (<https://ibb.co/jWzjS8J>):
     - Mustard colored quick delete buttons for question
     - Confirm only button for approvers

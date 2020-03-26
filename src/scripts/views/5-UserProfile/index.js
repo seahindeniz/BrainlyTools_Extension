@@ -125,7 +125,7 @@ export default class UserProfile {
 
     elements.forEach(element => {
       if (element.parentElement)
-        element.parentElement.remove();
+        element.parentElement.classList.add("always-hidden");
     });
   }
   async LoadComponentsAfterExtensionResolve() {

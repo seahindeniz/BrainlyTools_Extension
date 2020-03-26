@@ -53,7 +53,7 @@ export default class AnswerSection extends ModerationSection {
         !confirm(System.data.locale.userContent.notificationMessages
           .doYouWantToConfirmThisContent)
       )
-        return;
+        return super.HideSpinner();
 
       this.processing = true;
       let resConfirm = await new Action().ConfirmAnswer(this.data.id);
@@ -72,7 +72,7 @@ export default class AnswerSection extends ModerationSection {
         .locale.common.notificationMessages.operationError, "failure");
     }
 
-    this.HideSpinner();
+    super.HideSpinner();
   }
   ShowConfirmButtonSpinner() {
     return super.ShowSpinner(this.confirmButtonSpinnerContainer);

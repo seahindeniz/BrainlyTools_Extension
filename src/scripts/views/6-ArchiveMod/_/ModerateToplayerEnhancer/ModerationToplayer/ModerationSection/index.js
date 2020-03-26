@@ -49,6 +49,9 @@ export default class ModerationSection {
 
     return System.Delay(50);
   }
+  HideSpinner() {
+    this.main.main.main.HideElement(this.buttonSpinner);
+  }
   /**
    * @param {import("@style-guide/Button").Properties} [button]
    */
@@ -107,8 +110,5 @@ export default class ModerationSection {
 
     if (removableElements && removableElements.length > 0)
       removableElements.forEach(box => box.remove());
-  }
-  HideSpinner() {
-    this.main.main.main.HideElement(this.buttonSpinner);
   }
 }

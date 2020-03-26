@@ -55,7 +55,7 @@ export default class ToplayerQDB {
       await this.ShowSpinner();
 
       if (this.main.processing || !confirm(message))
-        return;
+        return this.main.HideSpinner();
 
       let data = {
         model_id: this.main.data.id,

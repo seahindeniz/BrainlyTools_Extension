@@ -41,6 +41,7 @@ export default class Messages {
     this.conversations = {};
 
     this.ObserveHeader();
+    localStorage.setItem("message-info-box-closed", "true");
 
     if (System.checkUserP(8)) {
       new ServerReq().GetAllModerators();

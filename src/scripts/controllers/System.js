@@ -369,19 +369,22 @@ class _System {
 
     return r;
   }
+  /**
+   * @param {number | number[]} p
+   * @param {boolean} [exc0]
+   */
   checkUserP(p, exc0) {
     let r = !1;
 
     if (!exc0 && this.data.Brainly.userData._hash.includes(0))
       r = !0;
     else {
-      if (typeof p == "number") {
-        this.data.Brainly.userData._hash.includes(p) && (r = !0);
-      } else {
+      if (p instanceof Array)
         p.forEach(n => {
           this.data.Brainly.userData._hash.includes(n) && (r = !0);
         });
-      }
+      else
+        this.data.Brainly.userData._hash.includes(p) && (r = !0);
     }
 
     return r;

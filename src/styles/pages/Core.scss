@@ -15,10 +15,12 @@ $baseline: 1.5rem;
     }
   }
 }
+
 ::placeholder {
   position: relative;
   top: 1px;
 }
+
 .resizeOverlay {
   position: fixed;
   top: 0;
@@ -27,6 +29,10 @@ $baseline: 1.5rem;
   z-index: -99999;
   visibility: hidden;
   background: transparent;
+}
+
+.always-hidden {
+  display: none !important;
 }
 
 .halloween {

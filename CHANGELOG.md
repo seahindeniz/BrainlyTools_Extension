@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.34.0] - 2020.03.27
+
+### Added
+
+- Hide content delete options from profile [#99]
+- Open more panel as default [#100]
+- One click account deletion [#101]
+
+### Changed
+
+- Hızlı Silim Butonu [#94]
+
+[#94]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/94
+[#99]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/99
+[#100]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/100
+[#101]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/101
+
 ## [6.33.0] - 2020.02.25
 
 ### Added

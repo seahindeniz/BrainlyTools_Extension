@@ -6,17 +6,35 @@ import ServerReq from "@ServerReq";
 import FileIcon from "../../../helpers/FileIcon";
 import Button from "../../../components/Button";
 
-class AccountDeleteReporter {
+export default class AccountDeleteReporter {
   constructor() {
     this.evidencePool = {};
+    this.$deleteForm = $(`#DelUserAddForm`);
+    this.$deleteLink = this.$deleteForm.prev();
+
+    if (System.checkUserP(0)) {
+      this.$deleteForm.addClass("always-hidden");
+      this.BindOneClickDeleteListener();
+
+      return this;
+    }
+
     this.Render();
     this.RenderAddFileInput();
     this.RenderAddFileButton();
     this.RenderProgress();
     this.BindHandlers();
   }
+  BindOneClickDeleteListener() {
+    this.$deleteLink.on("click", this.OneClickDelete.bind(this));
+  }
+  OneClickDelete() {
+    if (!confirm("Do you want to delete this profile?"))
+      return;
+
+    this.$deleteForm.submit();
+  }
   Render() {
-    this.$deleteForm = $(`#DelUserAddForm`);
     let $deleteButtonContainer = $(`> div.submit`, this.$deleteForm);
 
     if (this.$deleteForm.length > 0) {
@@ -40,7 +58,8 @@ class AccountDeleteReporter {
 
       this.$comment = $("textarea#comment", this.$evidences);
       this.$addFileButtonWrapper = $(".sg-content-box", this.$evidences);
-      this.$addFileButtonContainer = $(".sg-content-box__content", this.$addFileButtonWrapper);
+      this.$addFileButtonContainer = $(".sg-content-box__content", this
+        .$addFileButtonWrapper);
       this.$progressHole = $(".container.progress", this.$evidences);
 
       this.$evidences.insertBefore($deleteButtonContainer);
@@ -109,22 +128,28 @@ class AccountDeleteReporter {
   async DeleteFormSubmited(form) {
     this.$progressHole.html("");
 
-    if (this.IsFormFilled() || confirm(System.data.locale.userProfile.notificationMessages.confirmNoEvidenceOrComment)) {
+    if (this.IsFormFilled() || confirm(System.data.locale.userProfile
+        .notificationMessages.confirmNoEvidenceOrComment)) {
       try {
         this.ShowProgress();
         await this.PrepareForm();
 
-        let resAccountDeleteReport = await this.SendFormDataToExtensionServer();
+        let resAccountDeleteReport = await this
+          .SendFormDataToExtensionServer();
 
         if (!resAccountDeleteReport || !resAccountDeleteReport.success) {
-          return notification(System.data.locale.userProfile.notificationMessages.unableToReportAccountDeleting + (resAccountDeleteReport.message ? (`\n${resAccountDeleteReport.message}`) : ""), "error");
+          return notification(System.data.locale.userProfile
+            .notificationMessages.unableToReportAccountDeleting + (
+              resAccountDeleteReport.message ? (
+                `\n${resAccountDeleteReport.message}`) : ""), "error");
         }
 
         this.progress.UpdateLabel(System.data.locale.common.done);
         form.submit();
       } catch (error) {
         console.error(error);
-        notification(System.data.locale.userProfile.notificationMessages.unableToReportAccountDeleting, "error");
+        notification(System.data.locale.userProfile.notificationMessages
+          .unableToReportAccountDeleting, "error");
       }
     }
   }
@@ -150,12 +175,16 @@ class AccountDeleteReporter {
   }
   ProcessFile(file) {
     if (file.size > System.constants.config.MAX_FILE_SIZE_OF_EVIDENCE) {
-      notification(System.data.locale.userProfile.notificationMessages.fileSizeExceeded.replace("%{file_name}", file.name).replace("%{file_size}", `${System.constants.config.MAX_FILE_SIZE_OF_EVIDENCE_IN_MB} MB`));
+      notification(System.data.locale.userProfile.notificationMessages
+        .fileSizeExceeded.replace("%{file_name}", file.name).replace(
+          "%{file_size}",
+          `${System.constants.config.MAX_FILE_SIZE_OF_EVIDENCE_IN_MB} MB`));
     } else {
       let fileExtension = file.name.split('.').pop();
       let isShortcut = /lnk|url|xnk/.test(fileExtension);
 
-      if (!isShortcut || confirm(System.data.locale.userProfile.notificationMessages.aShortcutFile)) {
+      if (!isShortcut || confirm(System.data.locale.userProfile
+          .notificationMessages.aShortcutFile)) {
         let evidenceId = `${Date.now()}_${System.randomNumber(0,9999)}`;
 
         this.evidencePool[evidenceId] = {
@@ -184,7 +213,8 @@ class AccountDeleteReporter {
 			</div>
     </div>`);
 
-    let $buttonContainer = $(".sg-actions-list__hole:nth-child(1)", $evidence);
+    let $buttonContainer = $(".sg-actions-list__hole:nth-child(1)",
+      $evidence);
     let $button = Button({
       type: "destructive",
       size: "small",
@@ -219,7 +249,8 @@ class AccountDeleteReporter {
     $("a use", $evidence).attr("xlink:href", "#icon-trash");
   }
   SendFormDataToExtensionServer() {
-    return new ServerReq().AccountDeleteReport(this.formData, this.UpdateUploadProgress.bind(this));
+    return new ServerReq().AccountDeleteReport(this.formData, this
+      .UpdateUploadProgress.bind(this));
   }
   UpdateUploadProgress(event) {
     var percent = 0;
@@ -231,7 +262,8 @@ class AccountDeleteReporter {
     }
 
     this.progress.update(percent);
-    this.progress.UpdateLabel(System.data.locale.userProfile.accountDelete.uploading.replace("%{percentage_value}", ` ${Math.ceil(percent)} `));
+    this.progress.UpdateLabel(System.data.locale.userProfile.accountDelete
+      .uploading.replace("%{percentage_value}", ` ${Math.ceil(percent)} `));
   }
   async PrepareForm() {
     this.formData = new FormData();
@@ -279,7 +311,8 @@ class AccountDeleteReporter {
       zip.file(evidence.file.name, evidence.file, { binary: true });
     });
 
-    this.progress.UpdateLabel(System.data.locale.userProfile.accountDelete.compressingTheFiles);
+    this.progress.UpdateLabel(System.data.locale.userProfile.accountDelete
+      .compressingTheFiles);
 
     return zip.generateAsync({
       type: "blob",
@@ -294,9 +327,9 @@ class AccountDeleteReporter {
     this.progress.update(metadata.percent);
 
     if (metadata.currentFile) {
-      this.progress.UpdateLabel(System.data.locale.userProfile.accountDelete.compressingTheFile.replace("%{file_name}", ` ${metadata.currentFile} `));
+      this.progress.UpdateLabel(System.data.locale.userProfile.accountDelete
+        .compressingTheFile.replace("%{file_name}",
+          ` ${metadata.currentFile} `));
     }
   }
 }
-
-export default AccountDeleteReporter

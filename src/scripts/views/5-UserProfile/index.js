@@ -1,3 +1,4 @@
+import IsVisible from "@/scripts/helpers/IsVisible";
 import ServerReq from "@ServerReq";
 import { ActionList, ActionListHole, ContentBox } from "@style-guide";
 import UserBio from "../../components/UserBio";
@@ -87,6 +88,8 @@ export default class UserProfile {
   LoadComponents() {
     this.morePanel = new MorePanel(this);
 
+    this.MakeProfileMorePanelAlwaysVisible();
+    this.HideDeleteOptions();
     new AccountDeleteReporter();
 
     this.RenderFriendsManager();
@@ -95,6 +98,35 @@ export default class UserProfile {
     this.LoadComponentsAfterBrainlyResolve();
     this.LoadComponentsAfterModeratorsResolved();
     this.LoadComponentsAfterAllResolved();
+  }
+  async MakeProfileMorePanelAlwaysVisible() {
+    let panel = document.querySelector("#profile-mod-panel");
+    let showMoreButton = panel.previousElementSibling;
+
+    if (!panel)
+      return;
+
+    if (!IsVisible(panel) && showMoreButton instanceof HTMLSpanElement)
+      showMoreButton.click();
+  }
+  HideDeleteOptions() {
+    let query =
+      `#DelUserReason, span[id^="DelUserReasonsShort"]:first-child, ` +
+      `input[id^="DelUser"]:not([id$="_"])`;
+
+    if (System.checkUserP(36, true))
+      query +=
+      `, form[action^="/admin/users/delete_"]:not([action$="avatar"])`;
+
+    let elements = document.querySelectorAll(query);
+
+    if (elements.length == 0)
+      return;
+
+    elements.forEach(element => {
+      if (element.parentElement)
+        element.parentElement.remove();
+    });
   }
   async LoadComponentsAfterExtensionResolve() {
     let resUser = await this.promise.extension;

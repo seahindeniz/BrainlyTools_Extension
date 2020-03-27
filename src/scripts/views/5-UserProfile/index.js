@@ -38,8 +38,7 @@ export default class UserProfile {
     /**
      * @type {{id: number, nick: string}}
      */
-    // @ts-ignore
-    let data = window.profileData;
+    let data = window["profileData"];
 
     if (!data || !data.id || !data.nick)
       throw "Can't find the profile data of user";
@@ -114,7 +113,7 @@ export default class UserProfile {
       `#DelUserReason, span[id^="DelUserReasonsShort"]:first-child, ` +
       `input[id^="DelUser"]:not([id$="_"])`;
 
-    if (System.checkUserP(36, true))
+    if (!System.checkUserP(36))
       query +=
       `, form[action^="/admin/users/delete_"]:not([action$="avatar"])`;
 

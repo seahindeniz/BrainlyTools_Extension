@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.35.0] - 2020.03.28
+
+### Added
+
+- Arrow keys function for moderate all panel [#103]
+
+### Changed
+
+- Evidences input for admins [#104]
+
+[#103]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/103
+[#104]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/104
+
 ## [6.34.0] - 2020.03.27
 
 ### Added

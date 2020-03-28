@@ -113,7 +113,7 @@ export default class UserProfile {
       `#DelUserReason, span[id^="DelUserReasonsShort"]:first-child, ` +
       `input[id^="DelUser"]:not([id$="_"])`;
 
-    if (!System.checkUserP(36))
+    if (!System.checkBrainlyP([141, 142]) && !System.checkUserP(36))
       query +=
       `, form[action^="/admin/users/delete_"]:not([action$="avatar"])`;
 

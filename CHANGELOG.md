@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.35.2] - 2020.03.28
+
+### Changed
+
+- Delete options fixed
+
 ## [6.35.0] - 2020.03.28
 
 ### Added

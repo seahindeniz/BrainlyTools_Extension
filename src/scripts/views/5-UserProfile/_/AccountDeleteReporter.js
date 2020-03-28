@@ -1,6 +1,6 @@
 import JSZip from "jszip";
 import prettysize from "prettysize";
-import notification from "../../../components/notification";
+import notification from "../../../components/notification2";
 import Progress from "../../../components/Progress";
 import ServerReq from "@ServerReq";
 import FileIcon from "../../../helpers/FileIcon";
@@ -12,27 +12,11 @@ export default class AccountDeleteReporter {
     this.$deleteForm = $(`#DelUserAddForm`);
     this.$deleteLink = this.$deleteForm.prev();
 
-    if (System.checkUserP(0)) {
-      this.$deleteForm.addClass("always-hidden");
-      this.BindOneClickDeleteListener();
-
-      return this;
-    }
-
     this.Render();
     this.RenderAddFileInput();
     this.RenderAddFileButton();
     this.RenderProgress();
     this.BindHandlers();
-  }
-  BindOneClickDeleteListener() {
-    this.$deleteLink.on("click", this.OneClickDelete.bind(this));
-  }
-  OneClickDelete() {
-    if (!confirm("Do you want to delete this profile?"))
-      return;
-
-    this.$deleteForm.submit();
   }
   Render() {
     let $deleteButtonContainer = $(`> div.submit`, this.$deleteForm);
@@ -93,9 +77,13 @@ export default class AccountDeleteReporter {
   BindHandlers() {
     let that = this;
 
-    this.$addFileButton.click(() => {
-      this.$addFileInput.click();
-    });
+    if (System.checkUserP(0)) {
+      this.$deleteLink.on("click", this.DeleteLinkClicked.bind(this));
+      this.$deleteLink.on("dblclick", this.DeleteLinkDoubleClicked.bind(
+        this));
+    }
+
+    this.$addFileButton.click(() => this.$addFileInput.click());
     this.$deleteForm.on('submit', function(event) {
       event.preventDefault();
 
@@ -124,6 +112,39 @@ export default class AccountDeleteReporter {
           }
         });
     }
+
+  }
+  /**
+   * @param {JQuery.ClickEvent} event
+   */
+  DeleteLinkClicked(event) {
+    if (!event.shiftKey)
+      return;
+
+    this.DeleteAccount();
+  }
+  /**
+   * @param {JQuery.DoubleClickEvent} event
+   */
+  DeleteLinkDoubleClicked(event) {
+    if (
+      event.shiftKey ||
+      !confirm(System.data.locale.userProfile.notificationMessages
+        .confirmAccountDeletion)
+    )
+      return;
+
+    this.DeleteAccount();
+  }
+  async DeleteAccount() {
+    notification({
+      type: "info",
+      permanent: true,
+      html: `${System.data.locale.core.reportedCommentsDeleter.deleting}..`,
+    });
+    await System.Delay(500);
+    this.$deleteForm.addClass("always-hidden");
+    this.$deleteForm.submit();
   }
   async DeleteFormSubmited(form) {
     this.$progressHole.html("");
@@ -138,18 +159,24 @@ export default class AccountDeleteReporter {
           .SendFormDataToExtensionServer();
 
         if (!resAccountDeleteReport || !resAccountDeleteReport.success) {
-          return notification(System.data.locale.userProfile
-            .notificationMessages.unableToReportAccountDeleting + (
-              resAccountDeleteReport.message ? (
-                `\n${resAccountDeleteReport.message}`) : ""), "error");
+          return notification({
+            html: System.data.locale.userProfile
+              .notificationMessages.unableToReportAccountDeleting + (
+                resAccountDeleteReport.message ? (
+                  `\n${resAccountDeleteReport.message}`) : ""),
+            type: "error"
+          });
         }
 
         this.progress.UpdateLabel(System.data.locale.common.done);
         form.submit();
       } catch (error) {
         console.error(error);
-        notification(System.data.locale.userProfile.notificationMessages
-          .unableToReportAccountDeleting, "error");
+        notification({
+          html: System.data.locale.userProfile.notificationMessages
+            .unableToReportAccountDeleting,
+          type: "error"
+        });
       }
     }
   }
@@ -175,10 +202,13 @@ export default class AccountDeleteReporter {
   }
   ProcessFile(file) {
     if (file.size > System.constants.config.MAX_FILE_SIZE_OF_EVIDENCE) {
-      notification(System.data.locale.userProfile.notificationMessages
-        .fileSizeExceeded.replace("%{file_name}", file.name).replace(
-          "%{file_size}",
-          `${System.constants.config.MAX_FILE_SIZE_OF_EVIDENCE_IN_MB} MB`));
+      notification({
+        html: System.data.locale.userProfile.notificationMessages
+          .fileSizeExceeded.replace("%{file_name}", file.name).replace(
+            "%{file_size}",
+            `${System.constants.config.MAX_FILE_SIZE_OF_EVIDENCE_IN_MB} MB`
+          )
+      });
     } else {
       let fileExtension = file.name.split('.').pop();
       let isShortcut = /lnk|url|xnk/.test(fileExtension);

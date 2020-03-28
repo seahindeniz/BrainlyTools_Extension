@@ -85,9 +85,9 @@ export default class ReportSwitcher {
 
     if (event.code == "Escape")
       this.CloseToplayer();
-    else if (event.code == "KeyA")
+    else if (event.code == "KeyA" || event.code == "ArrowLeft")
       this.SwitchPreviousReport();
-    else if (event.code == "KeyD")
+    else if (event.code == "KeyD" || event.code == "ArrowRight")
       this.SwitchNextReport();
   }
   CloseToplayer() {

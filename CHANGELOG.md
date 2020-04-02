@@ -16,7 +16,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- Evidences input for admins [#104]
+- Evidence and comment inputs for admins [#104]
 
 [#103]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/103
 [#104]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/104

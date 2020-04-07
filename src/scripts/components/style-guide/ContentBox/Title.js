@@ -79,7 +79,7 @@ export default function({
       let textProps = {
         tag: "td",
         color: "gray",
-        weight: "extraBold",
+        weight: "extra-bold",
         size: "large",
       };
 

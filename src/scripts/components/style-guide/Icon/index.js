@@ -1,9 +1,14 @@
 import classnames from 'classnames';
+import SetProps from '@style-guide/helpers/SetProps';
+import AddChildren from '@style-guide/helpers/AddChildren';
 
 /**
  * @typedef {"ext-trash"
  * | "ext-info"
  * | "ext-icon"
+ * | "ext-csv"
+ * | "ext-ods"
+ * | "ext-xlsx"
  * } ExtensionTypes
  *
  * @typedef {ExtensionTypes
@@ -74,7 +79,7 @@ import classnames from 'classnames';
  * | 'underlined'
  * | 'verified'
  * | 'youtube'
- * } Type
+ * } IconTypeType
  *
  * @typedef {120
  * | 118
@@ -115,23 +120,23 @@ import classnames from 'classnames';
  * | 'peach'
  * } Color
  *
- * @typedef {{
- *  tag?: string,
- *  type?: Type,
- *  size?: Size,
- *  color?: Color,
- *  className?: string,
- *  reverse?: boolean,
- * } & Object<string, *>} Properties
+ * @typedef {Object} Properties
+ * @property {string} [Properties.tag="div"] - Default "div"
+ * @property {IconTypeType} [Properties.type]
+ * @property {Size} [Properties.size=24] - Default 24
+ * @property {Color} [Properties.color]
+ * @property {string} [Properties.className]
+ * @property {boolean} [Properties.reverse]
+ * @property {import('../helpers/AddChildren').ChildrenParamType} [Properties.children]
  *
  * @typedef {function(Size): IconElement} ChangeSize
  * @typedef {function(Color): IconElement} ChangeColor
- * @typedef {function(Type): IconElement} ChangeType
+ * @typedef {function(IconTypeType): IconElement} ChangeType
  * @typedef {function(): IconElement} TogglePulse
  *
  * @typedef {{
  *  size: Size,
- *  type: Type,
+ *  type: IconTypeType,
  *  color: Color,
  *  ChangeSize: ChangeSize,
  *  ChangeColor: ChangeColor,
@@ -145,7 +150,7 @@ const sg = "sg-icon";
 const SGD = `${sg}--`;
 
 /**
- * @param {Properties} param0
+ * @param {Properties & {[x: string]: *}} param0
  * @returns {IconElement}
  */
 export default function Icon({
@@ -155,11 +160,9 @@ export default function Icon({
   color,
   className,
   reverse,
+  children,
   ...props
 }) {
-  if (!type)
-    throw "Icon type cannot be empty";
-
   const iconClass = classnames(sg, {
     [SGD + color]: color,
     [`${SGD}x${size}`]: size,
@@ -169,38 +172,35 @@ export default function Icon({
   /**
    * @type {IconElement}
    */
-  // @ts-ignore
-  let div = document.createElement(tag);
+  let div = (document.createElement(tag));
   div.className = iconClass;
   div.size = size;
   div.type = type;
   div.color = color;
-  // @ts-ignore
-  div.ChangeSize = _ChangeSize;
-  // @ts-ignore
-  div.ChangeColor = _ChangeColor;
-  // @ts-ignore
-  div.ChangeType = _ChangeType;
-  div.TogglePulse = _TogglePulse;
+  props.ChangeSize = _ChangeSize;
+  props.ChangeColor = _ChangeColor;
+  props.ChangeType = _ChangeType;
+  props.TogglePulse = _TogglePulse;
 
-  let svg = document.createElementNS('http://www.w3.org/2000/svg', "svg");
-  let use = document.createElementNS('http://www.w3.org/2000/svg', "use");
+  if (type) {
+    let svg = document.createElementNS('http://www.w3.org/2000/svg', "svg");
+    let use = document.createElementNS('http://www.w3.org/2000/svg', "use");
 
-  svg.appendChild(use);
-  div.appendChild(svg);
+    svg.appendChild(use);
+    div.appendChild(svg);
 
-  svg.classList.add(`${sg}__svg`);
-  use.setAttributeNS(
-    'http://www.w3.org/1999/xlink',
-    "xlink:href",
-    `#icon-${type}`
-  );
+    svg.classList.add(`${sg}__svg`);
+    use.setAttributeNS(
+      'http://www.w3.org/1999/xlink',
+      "xlink:href",
+      `#icon-${type}`
+    );
+  }
 
-  if (props)
-    for (let [propName, propVal] of Object.entries(props))
-      div[propName] = propVal;
+  AddChildren(div, children);
+  SetProps(div, props);
 
-  return div
+  return div;
 };
 
 /**
@@ -231,7 +231,7 @@ function _ChangeColor(color) {
 
 /**
  * @this {IconElement}
- * @param {Type} type
+ * @param {IconTypeType} type
  */
 function _ChangeType(type) {
   let use = this.querySelector("use");

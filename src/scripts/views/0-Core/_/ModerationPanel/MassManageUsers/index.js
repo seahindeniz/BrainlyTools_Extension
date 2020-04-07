@@ -77,7 +77,7 @@ export default class MassManageUsers extends Components {
 
     this.modal = new Modal({
       overlay: true,
-      className: "sg-toplayer--90prc sg-toplayer--fit-content",
+      size: "fit-content",
       title: System.data.locale.core.massManageUsers.text,
       content: {
         children: Build(this.sectionContainer = ContentBox(), [

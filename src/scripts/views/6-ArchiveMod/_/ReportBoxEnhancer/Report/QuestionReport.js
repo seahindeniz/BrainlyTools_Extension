@@ -16,6 +16,9 @@ export default class QuestionReport extends Report {
     });
   }
   Delete(data) {
+    data.take_points = data.give_warning;
+    data.return_points = !data.give_warning;
+
     return new Action().RemoveQuestion(data);
   }
 }

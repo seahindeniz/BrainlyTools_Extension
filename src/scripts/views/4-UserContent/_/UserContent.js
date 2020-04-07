@@ -1,6 +1,6 @@
 import Button from "../../../components/Button";
 import DeleteSection from "../../../components/DeleteSection";
-import WaitForElement from "../../../helpers/WaitForElement";
+import WaitForElements from "../../../helpers/WaitForElements";
 import UserContentRow from "./UserContentRow";
 
 class UserContent {
@@ -23,7 +23,7 @@ class UserContent {
     this.Init();
   }
   async Init() {
-    this.table = await WaitForElement(this.selectors.table);
+    this.table = await WaitForElements(this.selectors.table);
     //this.checkboxes = new Checkboxes();
     /**
      * @type {UserContentRow[]}

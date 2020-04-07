@@ -5,7 +5,7 @@ import Modal from "../../components/Modal";
 import Action from "../../controllers/Req/Brainly/Action";
 import ServerReq from "@ServerReq";
 import IsKeyAlphaNumeric from "../../helpers/IsKeyAlphaNumeric";
-import WaitForElement from "../../helpers/WaitForElement";
+import WaitForElements from "../../helpers/WaitForElements";
 import ActionEntry from "./_/ActionEntry";
 import notification from "../../components/notification";
 import Button from "../../components/Button";
@@ -44,7 +44,7 @@ export default class ModeratorActionHistory {
   async Init() {
     try {
       if (System.checkUserP(28)) {
-        let activities = await WaitForElement(".activities");
+        let activities = await WaitForElements(".activities");
 
         if (activities && activities.length > 0) {
           this.$actionRows = $(".activities tr");

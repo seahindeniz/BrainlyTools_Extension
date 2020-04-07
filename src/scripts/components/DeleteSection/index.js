@@ -14,7 +14,7 @@ const noop = (...params) => {};
 
 class DeleteSection {
   /**
-   * @typedef {"question" | "answer" | "comment"} ContentTypeType
+   * @typedef {"question" | "answer" | "comment" | "Question" | "Answer" | "Comment"} ContentTypeType
    * @param {{
    *  type?: ContentTypeType,
    *  reasons?: *[],
@@ -24,7 +24,8 @@ class DeleteSection {
    *    reasonChange?: function,
    *    subReasonChange?: function
    *  },
-   *  noSpacedTop?: boolean
+   *  noSpacedTop?: boolean,
+   *  verticalOptions?: boolean,
    * }} param0
    */
   constructor({
@@ -32,8 +33,8 @@ class DeleteSection {
     reasons,
     hideReasons = [],
     handlers = {},
-    noSpacedTop =
-    false
+    noSpacedTop = false,
+    verticalOptions,
   } = {}) {
     this.type = type;
     this.reasons = reasons;
@@ -47,6 +48,7 @@ class DeleteSection {
     this.subReasonSections = {};
     this.hideReasons = hideReasons;
     this.noSpacedTop = noSpacedTop;
+    this.verticalOptions = verticalOptions;
     this.handlers = {
       contentTypeChange: noop,
       reasonChange: noop,
@@ -108,7 +110,9 @@ class DeleteSection {
       ],
       [
         ContentBoxActions(),
-        this.optionsSection = Flex(),
+        this.optionsSection = Flex({
+          direction: this.verticalOptions ? "column" : "",
+        }),
       ],
     ]);
     this.$ = $(this.container);
@@ -127,7 +131,9 @@ class DeleteSection {
         takePointsLocale.text,
         takePointsLocale.title
       );
-      this.takePointsSeparator = this.RenderHoleSeparator();
+
+      if (!this.verticalOptions)
+        this.$takePointsContainer.append(this.RenderHoleSeparator());
 
       this.$takePointsTitle = $(".sg-label__icon", this.$takePointsContainer);
       this.$takePointsLabel = $(".sg-label__text", this.$takePointsContainer);
@@ -135,7 +141,9 @@ class DeleteSection {
     }
   }
   RenderOption(id, label, title) {
-    let option = Build(Flex(), [
+    let option = Build(Flex({
+      marginTop: this.verticalOptions ? "xs" : "",
+    }), [
       [
         Flex({ marginRight: "xs", }),
         Checkbox({ id: id, }),
@@ -173,8 +181,12 @@ class DeleteSection {
     this.$returnPointsContainer = this.RenderOption("return_points", System
       .data.locale.common.moderating.returnPoints.text, System.data.locale
       .common.moderating.returnPoints.title);
-    this.returnPointsSeparator = this.RenderHoleSeparator();
+
     this.$returnPoints = $("input", this.$returnPointsContainer);
+
+    if (!this.verticalOptions) {
+      this.$returnPointsContainer.append(this.RenderHoleSeparator());
+    }
   }
   RenderGiveWarning() {
     this.$giveWarningContainer = this.RenderOption("give_warning", System.data
@@ -188,7 +200,8 @@ class DeleteSection {
       text: System.data.locale.core.MassModerateContents.contentType,
       warning: System.data.locale.common.moderating.selectContentType,
       changeHandler: this.ContentTypeRadioChange.bind(this),
-      items: []
+      items: [],
+      verticalOptions: this.verticalOptions,
     };
 
     ["question", "answer", "comment"].forEach(type => {
@@ -253,6 +266,7 @@ class DeleteSection {
     if (!reasonSection) {
       reasonSection = this.reasonSections[this.type] = new RadioSection({
         name: "reason",
+        verticalOptions: this.verticalOptions,
         text: System.data.locale.core.MassContentDeleter.select["reason"],
         warning: System.data.locale.common.moderating.selectReason,
         items: this.reasons.map(reason => {
@@ -290,11 +304,9 @@ class DeleteSection {
   }
   HideTakePoints() {
     this.HideElement(this.$takePointsContainer);
-    this.HideElement(this.takePointsSeparator);
   }
   HideReturnPoints() {
     this.HideElement(this.$returnPointsContainer);
-    this.HideElement(this.returnPointsSeparator);
   }
   HideGiveWarning() {
     this.HideElement(this.$giveWarningContainer);
@@ -313,7 +325,6 @@ class DeleteSection {
   }
   ShowTakePoints() {
     this.$takePointsContainer.appendTo(this.optionsSection);
-    this.optionsSection.append(this.takePointsSeparator);
     this.$takePointsLabel.text(System.data.locale.common.moderating
       .takePoints[this.type].text);
     this.$takePointsTitle.attr("title", System.data.locale.common.moderating
@@ -321,7 +332,6 @@ class DeleteSection {
   }
   ShowReturnPoints() {
     this.$returnPointsContainer.appendTo(this.optionsSection);
-    this.optionsSection.append(this.returnPointsSeparator);
   }
   ShowGiveWarning() {
     this.$giveWarningContainer.appendTo(this.optionsSection);
@@ -342,6 +352,7 @@ class DeleteSection {
         subReasonSection = this.subReasonSections[reasonId] =
           new RadioSection({
             name: "subReason",
+            verticalOptions: this.verticalOptions,
             text: System.data.locale.core.MassContentDeleter.select[
               "subReason"],
             items: this.reason.subcategories.map(reason => {

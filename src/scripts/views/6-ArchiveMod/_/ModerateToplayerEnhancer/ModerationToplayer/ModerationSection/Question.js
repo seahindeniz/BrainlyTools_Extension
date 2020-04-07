@@ -15,6 +15,8 @@ export default class QuestionSection extends ModerationSection {
     });
   }
   Delete(data) {
+    data.return_points = !data.give_warning;
+
     return new Action().RemoveQuestion(data);
   }
   Deleted() {

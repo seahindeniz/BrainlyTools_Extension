@@ -59,12 +59,12 @@ class FileIcon {
           src: source
         });
     } else if (this.iconFileType == "video") {
-      let $video = $(`<video class="sg-avatar__image" src="${source}" title="${System.data.locale.popup.extensionManagement.accountDeleteReports.play}"></video>`);
+      let $video = $(`<video class="sg-avatar__image" src="${source}" title="${System.data.locale.popup.extensionManagement.accountDeleteReports.playOrPause}"></video>`);
 
       $video.insertAfter(this.$img);
       this.$img.remove();
     } else if (this.iconFileType == "audio") {
-      let $video = $(`<video class="sg-avatar__image" poster="${this.icon}" src="${source}" title="${System.data.locale.popup.extensionManagement.accountDeleteReports.play}"></video>`);
+      let $video = $(`<video class="sg-avatar__image" poster="${this.icon}" src="${source}" title="${System.data.locale.popup.extensionManagement.accountDeleteReports.playOrPause}"></video>`);
 
       $video.insertAfter(this.$img);
       this.$img.remove();

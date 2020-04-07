@@ -4,7 +4,7 @@ import Button from "../../../components/Button";
 import notification from "../../../components/notification";
 import Progress from "../../../components/Progress";
 import Action from "../../../controllers/Req/Brainly/Action";
-import WaitForElement from "../../../helpers/WaitForElement";
+import WaitForElements from "../../../helpers/WaitForElements";
 
 class RankManager {
   constructor(user) {
@@ -13,7 +13,7 @@ class RankManager {
     this.Find_DeleteRanksForm();
   }
   async Find_DeleteRanksForm() {
-    this.deleteAllRanksForm = await WaitForElement(
+    this.deleteAllRanksForm = await WaitForElements(
       `[action="/ranks/delete_user_special_ranks"]`, {
         noError: true
       });

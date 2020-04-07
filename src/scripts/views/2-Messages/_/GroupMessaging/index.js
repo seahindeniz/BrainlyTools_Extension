@@ -1,7 +1,7 @@
 import moment from "moment";
 import notification from "../../../../components/notification";
 import ServerReq from "@ServerReq";
-import WaitForElement from "../../../../helpers/WaitForElement";
+import WaitForElements from "../../../../helpers/WaitForElements";
 import GroupChatbox from "./GroupChatbox";
 import groupLi from "./groupLi";
 import renderGroupModal from "./groupModal";
@@ -25,7 +25,7 @@ class GroupMessaging {
     this.RenderGroupsLink();
   }
   async RenderGroupsLink() {
-    this.$conversationsHeader = await WaitForElement(selectors.conversationsHeader);
+    this.$conversationsHeader = await WaitForElements(selectors.conversationsHeader);
     let $groupMessageLink = $(`<h2 class="sg-text sg-text--bold sg-text--link">${__groups.title}</h2>`);
     let $topMessagesHeaderText = $("h2", this.$conversationsHeader);
 

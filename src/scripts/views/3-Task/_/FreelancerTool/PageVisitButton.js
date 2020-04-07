@@ -1,6 +1,6 @@
 import { Button, Flex } from "@/scripts/components/style-guide";
 import InsertAfter from "@/scripts/helpers/InsertAfter";
-import WaitForElement from "@/scripts/helpers/WaitForElement";
+import WaitForElements from "@/scripts/helpers/WaitForElements";
 
 /**
  * @param {import("./").default} main
@@ -13,7 +13,7 @@ export default async function PageVisitButton(main) {
   )
     return;
 
-  let mainHeaders = await WaitForElement(".js-main-header");
+  let mainHeaders = await WaitForElements(".js-main-header");
   let mainHeader = mainHeaders[0];
 
   let button = Button({

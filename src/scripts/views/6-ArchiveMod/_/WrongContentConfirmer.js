@@ -1,4 +1,4 @@
-import WaitForElement from "../../../helpers/WaitForElement";
+import WaitForElements from "../../../helpers/WaitForElements";
 import Action from "../../../controllers/Req/Brainly/Action";
 import Button from "../../../components/Button";
 
@@ -29,7 +29,7 @@ class WrongContentConfirmer {
     });
   }
   async BindHandlers() {
-    let filters = await WaitForElement("#moderation-all > div.top > div.sub-header.row > div.span5 > select.filters");
+    let filters = await WaitForElements("#moderation-all > div.top > div.sub-header.row > div.span5 > select.filters");
     this.$filters = $(filters);
     this.$pendingWrongLink = $(".pending-wrong");
 

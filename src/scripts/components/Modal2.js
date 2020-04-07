@@ -87,7 +87,7 @@ export default class Modal {
       ...this.props
     });
 
-    this.modalContainer.appendChild(this.toplayer);
+    //this.modalContainer.appendChild(this.toplayer);
   }
   /**
    * @param {TitleProperties} [props]
@@ -230,10 +230,6 @@ export default class Modal {
 
     this.flashContainer = document.createElement("div");
     this.flashContainer.className = "js-flash-container";
-    this.flashContainer.style.top = "0";
-    this.flashContainer.style.width = "100%";
-    this.flashContainer.style.zIndex = "99999";
-    this.flashContainer.style.position = "fixed";
 
     this.container.appendChild(this.flashContainer);
 
@@ -258,13 +254,16 @@ export default class Modal {
     return modalContainer;
   }
   Open() {
-    this.modalContainer.appendChild(this.container);
+    if (!this.modalContainer)
+      console.error(".js-modal-container is undefined");
+
+    this.modalContainer.append(this.container || this.toplayer);
   }
   Close() {
     this.HideElement(this.container);
   }
   /**
-   * @param {import("./notification2").Properties} options
+   * @param {import("./notification2").NotificationPropertiesType} options
    */
   Notification(options) {
     let notificationElement = notification(options);

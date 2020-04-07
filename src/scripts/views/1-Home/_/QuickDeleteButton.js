@@ -63,7 +63,9 @@ class QuickDeleteButton {
       reason_title: this.reason.title,
       reason_id: this.reason.category_id,
     };
-    taskData.give_warning = System.canBeWarned(this.reason.id);
+    taskData.take_points = taskData.give_warning =
+      System.canBeWarned(this.reason.id);
+    taskData.return_points = !taskData.give_warning;
 
     let resRemove = await new Action().RemoveQuestion(taskData);
 

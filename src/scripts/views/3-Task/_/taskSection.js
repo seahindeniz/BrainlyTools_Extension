@@ -76,7 +76,9 @@ export default function taskSection() {
         reason: reason.text,
         reason_title: reason.title
       };
-      taskData.give_warning = System.canBeWarned(reason.id);
+      taskData.take_points = taskData.give_warning =
+        System.canBeWarned(reason.id);
+      taskData.return_points = !taskData.give_warning;
       let svg = $("svg", this);
       let spinner = $(
         `<div class="sg-spinner sg-spinner--xxsmall sg-spinner--light"></div>`

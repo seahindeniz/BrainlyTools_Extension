@@ -1,6 +1,6 @@
 "use strict";
 
-import WaitForElement from "./WaitForElement";
+import WaitForElements from "./WaitForElements";
 
 const resizeIt = (elm) => {
   let wh = window.innerHeight;
@@ -35,7 +35,7 @@ const resizeIt = (elm) => {
 }
 let $cssExtendMessagesLayout;
 const resizer = async status => {
-  let head = await WaitForElement("head");
+  let head = await WaitForElements("head");
 
   if (head) {
     head = head[0];

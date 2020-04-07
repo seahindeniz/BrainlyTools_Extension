@@ -1,5 +1,5 @@
 import TimedLoop from "../../helpers/TimedLoop";
-import WaitForElement from "../../helpers/WaitForElement";
+import WaitForElements from "../../helpers/WaitForElements";
 import WaitForObject from "../../helpers/WaitForObject";
 import startObservingForDeleteButtons from "./_/startObservingForDeleteButtons";
 import TodaysActions from "./_/TodaysActions";
@@ -32,7 +32,7 @@ async function Home() {
     let _$_observe = await WaitForObject("$().observe");
 
     if (_$_observe) {
-      let feeds_parent = await WaitForElement(selectors.feeds_parent);
+      let feeds_parent = await WaitForElements(selectors.feeds_parent);
 
       if (feeds_parent && feeds_parent.length > 0) {
         feeds_parent[0].classList.add("quickDelete");

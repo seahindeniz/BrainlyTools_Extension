@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import HelloWorld from "./_/hello-world.jsx";
-import WaitForElement from '../../helpers/WaitForElement.js';
+import WaitForElements from '../../helpers/WaitForElements.js';
 
 (async () => {
-  let _contentOld = await WaitForElement("#content-old");
+  let _contentOld = await WaitForElements("#content-old");
 
   if (_contentOld.length > 0) {
     let contentOld = _contentOld[0];

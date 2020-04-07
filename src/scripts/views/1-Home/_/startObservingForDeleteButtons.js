@@ -1,4 +1,4 @@
-import WaitForElement from "../../../helpers/WaitForElement";
+import WaitForElements from "../../../helpers/WaitForElements";
 import QuickDeleteButtons from "./QuickDeleteButtons";
 
 export default async function startObservingForDeleteButtons(feeds_parent) {
@@ -7,7 +7,7 @@ export default async function startObservingForDeleteButtons(feeds_parent) {
       e.addedNodes.forEach(node => new QuickDeleteButtons(node));
   });
 
-  let feed_item = await WaitForElement(`${selectors.feed_item}:not(.js-extension)`, {
+  let feed_item = await WaitForElements(`${selectors.feed_item}:not(.js-extension)`, {
     noError: true
   });
 

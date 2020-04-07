@@ -1,7 +1,7 @@
 import Button from "../../components/Button";
 import notification from "../../components/notification";
 import Action from "../../controllers/Req/Brainly/Action";
-import WaitForElement from "../../helpers/WaitForElement";
+import WaitForElements from "../../helpers/WaitForElements";
 
 let System = require("../../helpers/System");
 
@@ -15,7 +15,7 @@ if (window.sitePassedParams[0] != myData.id) {
 }
 
 async function UserWarnings() {
-  let rows = await WaitForElement("#content-old > table > tbody > tr");
+  let rows = await WaitForElements("#content-old > table > tbody > tr");
   let firstRow = rows[0];
 
   $("th:nth-child(1)", firstRow).css("width", "7%");

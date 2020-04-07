@@ -1,7 +1,7 @@
 import { Button, ContentBox, ContentBoxContent, Text } from "@style-guide";
 import notification from "../../../components/notification2";
 import Action from "../../../controllers/Req/Brainly/Action";
-import WaitForElement from "../../../helpers/WaitForElement";
+import WaitForElements from "../../../helpers/WaitForElements";
 
 export default async function responseSection() {
   /**
@@ -68,7 +68,7 @@ export default async function responseSection() {
     })
   });
 
-  let responseParentContainer = await WaitForElement(window.selectors
+  let responseParentContainer = await WaitForElements(window.selectors
     .responseParentContainer);
   observer.observe(responseParentContainer[0], {
     childList: true,
@@ -116,7 +116,9 @@ async function responseModerateButtonsClickHandler() {
       reason: reason.text,
       reason_title: reason.title
     };
-    responseData.give_warning = System.canBeWarned(reason.id);
+    responseData.take_points = responseData.give_warning =
+      System.canBeWarned(reason.id);
+
     let svg = $("svg", this);
 
     $(`<div class="sg-spinner sg-spinner--xxsmall sg-spinner--light"></div>`)

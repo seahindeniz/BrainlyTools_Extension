@@ -1,6 +1,6 @@
 import Button from "../../../components/Button";
 import ServerReq from "@ServerReq";
-import WaitForElement from "../../../helpers/WaitForElement";
+import WaitForElements from "../../../helpers/WaitForElements";
 
 class Pagination {
   constructor() {
@@ -29,7 +29,7 @@ class Pagination {
   }
   async GetModerateAllPages() {
     this.resPagination = await new ServerReq().GetModerateAllPages();
-    this.loadMoreButton = await WaitForElement("#moderation-all > div.content > div.loader.calm");
+    this.loadMoreButton = await WaitForElements("#moderation-all > div.content > div.loader.calm");
     this.$filtersList = $("#moderation-all > div.top > div.sub-header.row > div.span5 > select.filters");
 
     this.RenderPageNumbers();

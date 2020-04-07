@@ -17,7 +17,8 @@ class RadioSection {
    *  warning?: string,
    *  items?: Item[],
    *  changeHandler?: function,
-   *  noHorizontalSeparator?: boolean
+   *  noHorizontalSeparator?: boolean,
+   *  verticalOptions?: boolean,
    * }} param0
    */
   constructor({
@@ -26,7 +27,8 @@ class RadioSection {
     warning,
     items,
     changeHandler,
-    noHorizontalSeparator = false
+    noHorizontalSeparator = false,
+    verticalOptions,
   }) {
     this.name = name;
     this.text = text;
@@ -34,6 +36,7 @@ class RadioSection {
     this.items = items;
     this.changeHandler = changeHandler;
     this.noHorizontalSeparator = noHorizontalSeparator;
+    this.verticalOptions = verticalOptions;
 
     this.Render();
     this.RenderHorizontalSeparator();
@@ -52,6 +55,7 @@ class RadioSection {
       [
         Flex({
           marginTop: "xs",
+          marginRight: this.verticalOptions ? "l" : "",
         }),
         [
           [
@@ -67,7 +71,10 @@ class RadioSection {
             }),
           ],
           [
-            this.list = Flex({ wrap: true }),
+            this.list = Flex({
+              wrap: true,
+              direction: this.verticalOptions ? "column" : "row",
+            }),
           ]
         ]
       ]
@@ -82,15 +89,17 @@ class RadioSection {
     this.container.prepend(this.separator);
   }
   RenderWarning() {
+    let type = this.verticalOptions ? "column" : "row";
+    let position = this.verticalOptions ? "left fixedTop" : "top"
     this.$warning = $(
-      `<div class="sg-bubble sg-bubble--top sg-bubble--row-start sg-bubble--peach sg-text--white" style="z-index: 1;">${this.warning}</div>`
+      `<div class="sg-bubble sg-bubble--${position} sg-bubble--${type}-start sg-bubble--peach sg-text--white" style="z-index: 1;">${this.warning}</div>`
     );
   }
   RenderItems() {
     this.items.forEach((item, i) => {
       this.RenderItem(item);
 
-      if (i + 1 < this.items.length)
+      if (i + 1 < this.items.length && !this.verticalOptions)
         this.RenderSeparator();
     });
   }

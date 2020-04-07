@@ -1,8 +1,8 @@
 import { FlashMessage } from "./style-guide";
 
 /**
- * @typedef {import("./style-guide/FlashMessage").Properties & {permanent?: boolean}} Properties
- * @param {Properties} param0
+ * @typedef {import("./style-guide/FlashMessage").Properties & {permanent?: boolean}} NotificationPropertiesType
+ * @param {NotificationPropertiesType} param0
  */
 export default function notification({ permanent = false, ...props }) {
   let flash = FlashMessage(props);

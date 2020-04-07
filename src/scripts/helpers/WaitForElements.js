@@ -5,16 +5,18 @@ import MakeExpire from "./MakeExpire";
  * @param {string} query - Element selector string
  * @param {{
  *  parent?: HTMLElement | Document,
+ *  atLeast?: number,
  *  noError?: boolean,
  * }} [param1]
- * @returns {Promise<Element>}
+ * @returns {Promise<NodeListOf<Element>>}
  **/
-export default function WaitForElement(query, {
+export default function WaitForElements(query, {
+  atLeast = 1,
   noError,
   parent = document,
 } = {}) {
   return new Promise((resolve, reject) => {
-    let element,
+    let elements,
       _loop_expireTime = MakeExpire();
 
     let _loop = setInterval(() => {
@@ -27,11 +29,11 @@ export default function WaitForElement(query, {
         return false;
       }
 
-      element = parent.querySelector(query);
+      elements = parent.querySelectorAll(query);
 
-      if (element) {
+      if (elements.length >= atLeast) {
         clearInterval(_loop);
-        resolve(element);
+        resolve(elements);
       }
     });
   });

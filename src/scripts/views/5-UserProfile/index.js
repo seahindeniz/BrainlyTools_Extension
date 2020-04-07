@@ -5,7 +5,7 @@ import UserBio from "../../components/UserBio";
 import UserHat from "../../components/UserHat";
 import UserNoteBox from "../../components/UserNoteBox";
 import Action from "../../controllers/Req/Brainly/Action";
-import WaitForElement from "../../helpers/WaitForElement";
+import WaitForElements from "../../helpers/WaitForElements";
 import AccountDeleteReporter from "./_/AccountDeleteReporter";
 import FriendsManager from "./_/FriendsManager";
 import MorePanel from "./_/MorePanel";
@@ -19,7 +19,7 @@ export default class UserProfile {
   }
   async Init() {
     try {
-      let mainRight = await WaitForElement("#main-right");
+      let mainRight = await WaitForElements("#main-right");
       this.mainRight = mainRight[0];
       this.profileData = this.GetProfileData();
       this.promise = {

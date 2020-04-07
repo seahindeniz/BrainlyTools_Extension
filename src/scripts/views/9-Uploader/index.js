@@ -1,5 +1,5 @@
 import prettysize from "prettysize";
-import WaitForElement from "../../helpers/WaitForElement";
+import WaitForElements from "../../helpers/WaitForElements";
 import notification from "../../components/notification";
 import Action from "../../controllers/Req/Brainly/Action";
 import Button from "../../components/Button";
@@ -70,7 +70,7 @@ class Uploader {
     this.Init();
   }
   async Init() {
-    this.mainRight = await WaitForElement("#main-right");
+    this.mainRight = await WaitForElements("#main-right");
 
     this.RenderUploadPanel();
     this.RenderFileInput();

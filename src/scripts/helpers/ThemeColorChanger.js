@@ -1,5 +1,5 @@
 import Color from "color";
-import WaitForElement from "./WaitForElement";
+import WaitForElements from "./WaitForElements";
 import TimedLoop from "./TimedLoop";
 
 const MAX_LUMINOSITY = 0.52
@@ -21,7 +21,7 @@ class ThemeColorChanger {
   async Init() {
     this.StoreColor();
 
-    let head = await WaitForElement("head");
+    let head = await WaitForElements("head");
     this.head = head[0];
 
     this.PrepareStyleElement();

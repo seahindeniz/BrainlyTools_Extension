@@ -1,7 +1,7 @@
 import notification from "../../components/notification";
 import Progress from "../../components/Progress";
 import SendMessageToBrainlyIds from "../../controllers/Req/Brainly/Action/SendMessageToBrainlyIds";
-import WaitForElement from "../../helpers/WaitForElement";
+import WaitForElements from "../../helpers/WaitForElements";
 import Button from "../../components/Button";
 
 let System = require("../../helpers/System");
@@ -22,7 +22,7 @@ async function Supervisors() {
     }
   }
 
-  let usersLi = await WaitForElement(".connectedSortable > li");
+  let usersLi = await WaitForElements(".connectedSortable > li");
   let usersID = [];
 
   usersLi.forEach(userLi => {

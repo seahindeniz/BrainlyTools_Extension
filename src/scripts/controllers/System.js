@@ -35,6 +35,7 @@ class _System {
             "?treat=.ext_js",
         },
         githubHighlight: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css",
+        marketRequestLimit: 8,
       },
       config: {
         reasonSign: "߷",
@@ -176,6 +177,10 @@ class _System {
     }
     return result;
   }
+  /**
+   * @param {string} action
+   * @param {*} [data]
+   */
   toBackground(action, data) {
     let messageData = {
       action,
@@ -287,7 +292,7 @@ class _System {
   }
   /**
    * @typedef {number|string} idType
-   * @param {idType | {id?: idType, brainlyID?: idType, nick: string}} [id]
+   * @param {idType | {id?: idType, brainlyID?: idType, nick?: string}} [id]
    * @param {string} [nick]
    * @param {boolean} [noOrigin]
    */
@@ -431,6 +436,11 @@ class _System {
       console.warn("Asking too frequently. It's throttled");
     }
   }
+  /**
+   * @param {string} language
+   * @param {(value: any)=> void} [_resolve]
+   * @param {(value: any)=> void} [_reject]
+   */
   prepareLangFile(language, _resolve, _reject) {
     return new Promise(async (resolve, reject) => {
       resolve = _resolve || resolve;

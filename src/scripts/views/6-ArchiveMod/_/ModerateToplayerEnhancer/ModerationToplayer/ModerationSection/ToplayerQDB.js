@@ -64,6 +64,7 @@ export default class ToplayerQDB {
         reason_id: this.reason.category_id,
         give_warning: System.canBeWarned(this.reason.id),
       };
+      data.take_points = data.give_warning;
       this.main.processing = true;
       let resDelete = await this.main.Delete(data);
       this.main.processing = false;

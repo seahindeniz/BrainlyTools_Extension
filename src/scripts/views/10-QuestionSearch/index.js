@@ -1,4 +1,4 @@
-import WaitForElement from "../../helpers/WaitForElement";
+import WaitForElements from "../../helpers/WaitForElements";
 import WaitForObject from "../../helpers/WaitForObject";
 import ModerateSection from "./_/ModerateSection";
 import QuestionBox from "./_/QuestionBox";
@@ -23,14 +23,14 @@ export class QuestionSearch {
         let _$_observe = await WaitForObject("$().observe");
 
         if (_$_observe) {
-          this.searchResults = await WaitForElement(
+          this.searchResults = await WaitForElements(
             ".js-react-search-results");
 
           if (this.searchResults && this.searchResults.length > 0) {
             this.searchResults = this.searchResults[0];
             this.ObserveResults();
 
-            let questionBoxContainer = await WaitForElement(
+            let questionBoxContainer = await WaitForElements(
               ".sg-layout__box");
 
             this.PrepareQuestionBoxes(questionBoxContainer[0]);

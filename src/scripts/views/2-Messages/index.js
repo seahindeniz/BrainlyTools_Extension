@@ -1,4 +1,4 @@
-import WaitForElement from "@/scripts/helpers/WaitForElement";
+import WaitForElements from "@/scripts/helpers/WaitForElements";
 import ServerReq from "@ServerReq";
 import Conversation from "./_/Conversation";
 import renderGroupMessaging from "./_/GroupMessaging";
@@ -70,7 +70,7 @@ export default class Messages {
 
     observer.observe(pmc, { childList: true, subtree: true });
 
-    let chatBoxes = await WaitForElement(
+    let chatBoxes = await WaitForElements(
       "#private-messages-container .js-chatbox");
 
     if (chatBoxes && chatBoxes.length > 0) {

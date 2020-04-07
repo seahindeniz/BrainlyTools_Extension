@@ -1,4 +1,6 @@
 import classnames from 'classnames';
+import AddChildren from './helpers/AddChildren';
+import SetProps from './helpers/SetProps';
 
 /**
  * @typedef {'large' | 'normal'} SelectSizeType
@@ -22,6 +24,7 @@ import classnames from 'classnames';
  *  color?: SelectColorType,
  *  className?: string,
  *  options?: OptionProperties[],
+ *  children?: import('./helpers/AddChildren').ChildrenParamType,
  * } & {[x: string]: *}} SelectProperties
  */
 const SG = "sg-select";
@@ -42,6 +45,7 @@ export default function({
   className,
   multiple,
   options = [],
+  children,
   ...props
 } = {}) {
   if (valid === true && invalid === true)
@@ -72,12 +76,10 @@ export default function({
   select.className = `${SG_}element`;
 
   RenderOptions(select, options, value);
+  AddChildren(select, children);
+  SetProps(select, props);
 
   container.append(select);
-
-  if (props)
-    for (let [propName, propVal] of Object.entries(props))
-      select[propName] = propVal;
 
   return container;
 }

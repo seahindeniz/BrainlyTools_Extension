@@ -17,7 +17,7 @@ class Preference {
     this.$ = $(`
 		<div class="control">
 			<div class="tags has-addons">
-				<a class="tag" data-value="${this.reason.title}">${this.label}</a>
+				<a class="tag fixReasonWidth" data-value="${this.reason.title}">${this.label}</a>
 			</div>
 		</div>`);
 

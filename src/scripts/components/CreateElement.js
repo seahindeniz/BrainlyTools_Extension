@@ -1,30 +1,31 @@
 import classnames from 'classnames';
+import AddChildren from '@style-guide/helpers/AddChildren';
+import SetProps from '@style-guide/helpers/SetProps';
 
 /**
  * @typedef {{
- *  tag: string,
+ *  tag?: keyof HTMLElementTagNameMap,
+ *  children?: import('@style-guide/helpers/AddChildren').ChildrenParamType,
  *  className?: string,
  *  fullWidth?: boolean,
  *  [x: string]: *
- * }} Properties
+ * }} CreateElementPropertiesType
  */
 /**
  * @template {keyof HTMLElementTagNameMap} T
- * @param {{tag?: T} & Properties} param0
+ * @param {{tag?: T | "div"} & CreateElementPropertiesType} param0
  */
 export default function CreateElement({
-  tag,
+  tag = "div",
   children,
   className,
   fullWidth,
   ...props
 }) {
-  if (!tag)
-    // @ts-ignore
-    tag = "div";
-
-  let element = document.createElement(tag);
-
+  /**
+   * @type {HTMLElementTagNameMap[T]}
+   */
+  let element = (document.createElement(tag));
   let classNames = classnames(className, {
     "sg--full": fullWidth,
   });
@@ -32,14 +33,8 @@ export default function CreateElement({
   if (classNames)
     element.className = classNames;
 
-  if (children instanceof Array && children.length > 0)
-    element.append(...children);
-  else if (children instanceof HTMLElement)
-    element.append(children);
-
-  if (props)
-    for (let [propName, propVal] of Object.entries(props))
-      element[propName] = propVal;
+  AddChildren(element, children);
+  SetProps(element, props);
 
   return element;
 }

@@ -222,7 +222,7 @@ img.userHat {
       padding: 0;
     }
 
-    >div {
+    >div.container {
       width: 100%;
       display: inline-block;
       margin-top: 5px;
@@ -232,7 +232,7 @@ img.userHat {
         text-align: center;
       }
 
-      &.container>label {
+      >label {
         font-size: 12px;
         width: initial;
         font-weight: bold;
@@ -372,4 +372,29 @@ img.userHat {
       }
     }
   }
+}
+
+.attachmentGrabberContainer {
+  z-index: 999;
+  width: 270px;
+  height: 216px;
+  border-radius: 6px;
+  position: absolute;
+  background: #4fb3f65c;
+  border: 4px dashed #4fb3f6;
+  margin: 22px 0 0;
+
+  * {
+    pointer-events: none;
+  }
+}
+
+.file-dragging {
+  filter: blur(4px);
+}
+
+.ext-evidence-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: -webkit-fill-available;
 }

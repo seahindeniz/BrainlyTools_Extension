@@ -1,0 +1,81 @@
+.fright {
+  float: right;
+
+  .via,
+  .mobile-ico {
+    float: none;
+  }
+
+  .via,
+  .via>* {
+    vertical-align: top;
+  }
+
+  .endtime {
+    vertical-align: top;
+  }
+
+  .mobile-ico {
+    margin: 2px 2px 0;
+  }
+
+}
+
+.fleft {
+  float: left
+}
+
+input.onlylink {
+  border: none;
+  background-color: inherit;
+  color: #FF8700;
+  font-weight: bold;
+  margin-left: -3px;
+}
+
+.red {
+  color: #dc0000;
+}
+
+.pseudolink {
+  border: none;
+  color: #ff8700;
+  cursor: pointer;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.huge {
+  font-size: 1.5em;
+}
+
+div#footer ul li {
+  display: block;
+  float: left;
+  font-family: "Arial";
+  font-size: 12px;
+  line-height: 20px;
+  list-style-position: inside;
+  list-style-type: none;
+
+  &:last-child {
+    border-right: none;
+  }
+}
+
+#html .mint #profile #main-left .tasks-list .task .task-content {
+  padding-top: 0;
+  padding-bottom: 0;
+
+  a {
+    margin-left: 42px;
+    font-size: 15px;
+    display: inline-block;
+  }
+
+}
+
+div#tabs-doj ul#main_menu li span span {
+  background: url(/img/verB/tab_r.png) right no-repeat;
+  padding: 0 8px;
+}

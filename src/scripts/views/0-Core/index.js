@@ -1,6 +1,6 @@
 window.performanceStartTiming = performance.now();
 
-import WaitForElement from "@/scripts/helpers/WaitForElement";
+import WaitForElements from "@/scripts/helpers/WaitForElements";
 import ServerReq from "@ServerReq";
 import notification from "../../components/notification2";
 import PrepareDeleteReasons from "../../controllers/PrepareDeleteReasons";
@@ -17,6 +17,8 @@ import RemoveJunkNotifications from "./_/RemoveJunkNotifications";
 import SetBrainlyData from "./_/SetBrainlyData";
 import SetMetaData from "./_/SetMetaData";
 import SetUserData from "./_/SetUserData";
+import WaitForElement from "@/scripts/helpers/WaitForElement";
+import InsertBefore from "@/scripts/helpers/InsertBefore";
 
 window.selectors = {
   toplayerContainer: "body > div.js-page-wrapper"
@@ -154,7 +156,7 @@ class Core {
       window.sitePassedParams = JSON.parse(window.sitePassedParams);
 
     let RemoveSVG_Titles = async (stop) => {
-      let titles = await WaitForElement("svg > symbol > title", {
+      let titles = await WaitForElements("svg > symbol > title", {
         noError: true
       });
 
@@ -218,6 +220,7 @@ class Core {
         System.checkRoute(2, "view")
       )
     ) {
+      this.RemoveOldLayoutCSSFile();
       InjectToDOM([
         "/scripts/views/5-UserProfile/index.js",
         "/styles/pages/UserProfile.css"
@@ -269,6 +272,25 @@ class Core {
         "/styles/pages/QuestionSearch.css"
       ])
     }
+  }
+  async RemoveOldLayoutCSSFile() {
+    /**
+     * @type {HTMLLinkElement}
+     */
+    let oldLinkElement = (await WaitForElement(`[href^="/min/b=css"]`, {
+      noError: true,
+    }));
+    let newLinkElement = document.createElement("link");
+    newLinkElement.type = "text/css";
+    newLinkElement.rel = "stylesheet";
+    newLinkElement.href = oldLinkElement.href.replace("zadane_dynamic.css,",
+      "");
+
+    InsertBefore(newLinkElement, oldLinkElement);
+
+    newLinkElement.addEventListener("load", () => {
+      oldLinkElement.remove();
+    });
   }
 }
 new Core();

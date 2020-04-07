@@ -3,7 +3,14 @@ import AddChildren from './helpers/AddChildren';
 import Icon from './Icon';
 
 /**
- * @typedef {"small" | "medium" | "large"} Size
+ * @typedef {"small" | "medium" | "large" | "90prc" | "fit-content"} Size
+ *
+ * @typedef {{
+ *  wrapper: HTMLDivElement,
+ * }} CustomProperties
+ *
+ * @typedef {HTMLDivElement & CustomProperties} ToplayerElement
+ *
  * @typedef {{
  *  children?: import("@style-guide/helpers/AddChildren").ChildrenParamType,
  *  onClose?: EventListenerOrEventListenerObject,
@@ -62,11 +69,16 @@ export default function({
     [`${SG_}wrapper--no-padding`]: noPadding
   });
 
+  /**
+   * @type {ToplayerElement}
+   */
+  // @ts-ignore
   let toplayer = document.createElement("div");
   toplayer.className = topLayerClassName;
 
   let wrapper = document.createElement("div");
   wrapper.className = toplayerWrapperClassName;
+  toplayer.wrapper = wrapper;
 
   if (props)
     for (let [propName, propVal] of Object.entries(props))

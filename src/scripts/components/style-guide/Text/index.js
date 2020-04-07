@@ -1,5 +1,6 @@
 import classnames from 'classnames';
 import AddChildren from '../helpers/AddChildren';
+import SetProps from '@style-guide/helpers/SetProps';
 
 /**
  * @typedef {TEXT_ALIGN} TextAlignType
@@ -35,7 +36,7 @@ const TEXT_ALIGN = {
  * @typedef {"mustard" | "mint" | "peach" | "light-gray" | "blue-dark" |
  * "blue-light"} TextBgColorType
  *
- * @typedef {"regular" | "bold" | "extraBold"} TextWeightType
+ * @typedef {"regular" | "bold" | "extra-bold"} TextWeightType
  *
  * @typedef {"uppercase" | "lowercase" | "capitalize"} TextTransformType
  *
@@ -61,14 +62,15 @@ const TEXT_ALIGN = {
  *  className?: string,
  *  bgColor?: TextBgColorType,
  *  tag?: TextDefaultTagNamesType | keyof HTMLElementTagNameMap,
+ *  fixPosition?: boolean,
  *  [x: string]: *
  * }} TextProperties
  *
  * @typedef {function(TextColorType): TextElement} ChangeColor
  *
  * @typedef {{
- *  color: TextColorType,
- *  ChangeColor: ChangeColor,
+ *  color?: TextColorType,
+ *  ChangeColor?: ChangeColor,
  * }} TextCustomProperties
  *
  * @typedef {TextCustomProperties & HTMLElement} TextElement
@@ -101,8 +103,9 @@ export default function({
   className,
   bgColor,
   tag = "div",
+  fixPosition,
   ...props
-} = {}) {
+}) {
   const textClass = classnames('sg-text', {
     [`sg-text--${String(size)}`]: size !== "normal",
     [`sg-text--${String(color)}`]: color !== "default",
@@ -117,20 +120,19 @@ export default function({
     [`sg-text--background-${bgColor}`]: bgColor,
     [`sg-text--underlined`]: underlined,
     [`sg-text--unstyled`]: unstyled,
+    [`sg-text--fix-position`]: fixPosition,
   }, className);
 
-  if (href !== undefined && href !== "")
+  if (href !== undefined /*  && href !== "" */ )
     tag = "a";
 
   /**
    * @type {HTMLElementTagNameMap[T] & TextElement}
    */
-  // @ts-ignore
-  let textElement = document.createElement(tag);
+  let textElement = (document.createElement(tag));
   textElement.className = textClass;
   textElement.color = color;
-  // @ts-ignore
-  textElement.ChangeColor = _ChangeColor;
+  props.ChangeColor = _ChangeColor;
 
   if (tag === "a" || href !== undefined) {
     textElement.classList.add(`sg-text--link`);
@@ -145,19 +147,14 @@ export default function({
   if (text !== undefined)
     textElement.innerText = String(text);
 
-  /* if (html !== undefined)
-    textElement.innerHTML = html; */
   if (html && children)
     console.error("Alert: Text component has html and children");
 
-  if (html)
-    children = html;
+  if (html !== undefined)
+    textElement.innerHTML = html;
 
   AddChildren(textElement, children);
-
-  if (props)
-    for (let [propName, propVal] of Object.entries(props))
-      textElement[propName] = propVal;
+  SetProps(textElement, props);
 
   return textElement;
 }

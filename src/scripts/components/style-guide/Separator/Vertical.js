@@ -1,12 +1,14 @@
+import SetProps from '@style-guide/helpers/SetProps';
 import classnames from 'classnames';
 
 /**
  * @typedef {"normal"  | "small"  | "large"  | "full"} Size
  * @typedef {{
- * size?: Size,
- * white?: boolean,
- * grayDark?: boolean,
- * className?: string,
+ *  size?: Size,
+ *  white?: boolean,
+ *  grayDark?: boolean,
+ *  className?: string,
+ *  [x: string]: *,
  * }} Properties
  */
 const SG = "sg-vertical-separator";
@@ -31,9 +33,7 @@ export default function({
   let separator = document.createElement("div");
   separator.className = separatorClass;
 
-  if (props)
-    for (let [propName, propVal] of Object.entries(props))
-      separator[propName] = propVal;
+  SetProps(separator, props);
 
   return separator;
 }

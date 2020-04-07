@@ -1,0 +1,13 @@
+.sg-flex {
+  &--grow {
+    flex-grow: 1;
+  }
+
+  &--fit-content {
+    width: fit-content;
+  }
+
+  &--min-content {
+    inline-size: min-content;
+  }
+}

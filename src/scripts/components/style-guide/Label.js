@@ -6,7 +6,7 @@ import Text from './Text';
 
 /**
  * @typedef {import("./Icon").Properties} IconProperties
- * @typedef {import("./Icon").Type} IconType
+ * @typedef {import("./Icon").IconTypeType} IconType
  * @typedef {IconType | IconProperties | HTMLElement} LabelIconType
  *
  * @typedef {'strong'} LabelType

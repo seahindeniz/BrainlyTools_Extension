@@ -19,6 +19,7 @@ import AddChildren from './helpers/AddChildren';
  * | "peach"
  * | "peach-secondary"
  * | "peach-secondary-light"
+ * | "transparent"
  * )} Color
  *
  * @typedef {(
@@ -41,7 +42,7 @@ import AddChildren from './helpers/AddChildren';
  *  padding?: Padding,
  *  full?: boolean,
  *  children?: import('./helpers/AddChildren').ChildrenParamType,
- *  border?: boolean,
+ *  border?: "default" | "no" | "light",
  *  imgSrc?: string,
  *  noMinHeight?: boolean,
  *  shadow?: boolean,
@@ -79,7 +80,7 @@ export default function({
   padding,
   full,
   children,
-  border = !color,
+  border = color ? "no" : "default",
   imgSrc,
   noMinHeight,
   shadow,
@@ -92,7 +93,7 @@ export default function({
   const boxClass = classnames(
     SG, {
       [SGD + color]: color,
-      [`${SGD}no-border`]: !border,
+      [`${SGD + border}-border`]: border && border != "default",
       [`${SGD}full`]: full,
       [SGD + PADDING[padding]]: PADDING[padding],
       [`${SGD}image-wrapper`]: imgSrc,

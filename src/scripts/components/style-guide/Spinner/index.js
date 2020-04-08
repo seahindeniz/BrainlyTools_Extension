@@ -1,21 +1,39 @@
 import classnames from 'classnames';
+import SetProps from '@style-guide/helpers/SetProps';
 
 /**
- * @typedef {"xxsmall" | "xsmall" | "small"} Size
+ * @typedef {'small'
+ * | 'xsmall'
+ * | 'xxsmall'
+ * | "large"
+ * | "xlarge"
+ * | "xxlarge"
+ * | "xxxlarge"
+ * } SpinnerSizeType
+ *
  * @typedef {{
- * light?: boolean,
- * size?: Size,
- * className?: string,
- * overlay?: boolean,
- * }} Properties
+ *  light?: boolean,
+ *  size?: SpinnerSizeType,
+ *  className?: string,
+ *  overlay?: boolean,
+ *  opaque?: boolean,
+ *  [x: string]: *,
+ * }} SpinnerProperties
  */
 const SG = "sg-spinner";
 const SGD = `${SG}--`
 
 /**
- * @param {Properties} param0
+ * @param {SpinnerProperties} param0
  */
-export default function({ light, size, className, overlay, ...props } = {}) {
+export default function({
+  light,
+  size,
+  className,
+  overlay,
+  opaque,
+  ...props
+} = {}) {
   const spinnerClassNames = classnames('sg-spinner', {
     [`${SGD}light`]: light,
     [SGD + size]: size
@@ -24,17 +42,20 @@ export default function({ light, size, className, overlay, ...props } = {}) {
   let spinner = document.createElement("div");
   spinner.className = spinnerClassNames;
 
-  if (props)
-    for (let [propName, propVal] of Object.entries(props))
-        spinner[propName] = propVal;
+  SetProps(spinner, props);
 
   if (overlay) {
+    const spinnerOverlayClassNames = classnames(`${SG}-container__overlay`, {
+      [`${SGD}opaque`]: opaque,
+    }, className);
+
     let overlay = document.createElement("div");
-    overlay.className = `${SG}-container__overlay`;
+    overlay.className = spinnerOverlayClassNames;
 
     overlay.appendChild(spinner);
 
     return overlay;
   }
+
   return spinner;
 }

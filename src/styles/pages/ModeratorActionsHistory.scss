@@ -34,7 +34,7 @@ div#content-old tr {
 
   &.confirmed,
   &.disapproved {
-    .dataTime a {
+    .dataTime>a {
       color: #fff;
     }
   }
@@ -49,5 +49,9 @@ div#content-old tr {
     .dataTime {
       background-color: #f17868;
     }
+  }
+
+  .sg-text--peach-dark {
+    color: #ff604b;
   }
 }

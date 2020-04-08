@@ -79,3 +79,59 @@ div#tabs-doj ul#main_menu li span span {
   background: url(/img/verB/tab_r.png) right no-repeat;
   padding: 0 8px;
 }
+
+form.pretty {
+  div {
+    clear: both;
+    padding: .5em;
+    vertical-align: text-top;
+
+    &.submit {
+      text-align: center;
+      border: 0;
+      clear: both;
+      margin: auto;
+      margin-top: 10px;
+      display: block;
+    }
+  }
+
+  label {
+    display: block;
+    float: left;
+    line-height: 24px;
+    padding-right: 10px;
+    text-align: right;
+    width: 150px;
+  }
+
+  input {
+    border: 1px solid #ff8700;
+    font-family: "Trebuchet MS", "Verdana", "Helvetica";
+    padding: 2px;
+  }
+
+  input[type=submit] {
+    border: 1px solid #ccc;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    padding: 4px 10px 4px;
+  }
+}
+
+#html .mint .mod-profile-panel .pretty input {
+  border-color: #FF8073;
+}
+
+#html form.pretty div.submit input[type="submit"] {
+  margin: auto;
+  text-align: center;
+}
+
+div.text {
+  font-size: 12px;
+  line-height: normal;
+}
+
+.hidden {
+  display: none;
+}

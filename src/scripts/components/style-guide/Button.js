@@ -1,8 +1,8 @@
 import classnames from 'classnames';
-import AddChildren from './helpers/AddChildren';
-import Icon from "./Icon";
 import mergeDeep from "merge-deep";
+import AddChildren from './helpers/AddChildren';
 import SetProps from './helpers/SetProps';
+import Icon from "./Icon";
 
 /**
  * @typedef {import("./Icon").IconTypeType} IconTypeType
@@ -13,8 +13,10 @@ import SetProps from './helpers/SetProps';
  * | 'solid-inverted'
  * | 'solid-blue'
  * | 'solid-mint'
+ * | 'solid-light'
  * | 'outline'
  * | 'transparent'
+ * | 'transparent-light'
  * | 'transparent-inverted'
  * | 'transparent-peach'
  * | 'transparent-mustard'
@@ -33,10 +35,10 @@ import SetProps from './helpers/SetProps';
  * "xxlarge"} sizeList
  *
  * @typedef {boolean | {
- * top?: sizeList,
- * left?: sizeList,
- * bottom?: sizeList,
- * right?: sizeList,
+ *  top?: sizeList,
+ *  left?: sizeList,
+ *  bottom?: sizeList,
+ *  right?: sizeList,
  * }} cornerSpaces
  *
  * @typedef {function(): ButtonElement} Hide
@@ -55,7 +57,7 @@ import SetProps from './helpers/SetProps';
  *  size: ButtonSizeType,
  *  _type: ButtonTypeType,
  *  mainType:ButtonTypeType,
- *  icon: IconElement,
+ *  icon: IconElement | HTMLElement,
  *  Hide: Hide,
  *  Show: Show,
  *  Enable: Enable,
@@ -73,7 +75,7 @@ import SetProps from './helpers/SetProps';
  * CustomProperties} ButtonElement
  *
  * @typedef {{
- *  tag?: "button" | "a" | "label",
+ *  tag?: "button" | "a" | "label" | "input",
  *  size?: ButtonSizeType,
  *  type?: ButtonTypeType,
  *  icon?: IconTypeType | IconProperties | HTMLElement,
@@ -132,9 +134,23 @@ export default function({
   /**
    * @type {ButtonElement}
    */
-  // @ts-ignore
-  let button = document.createElement(tag);
+  let button = (document.createElement(tag));
   button.className = btnClass;
+
+  props.size = size;
+  props._type = type;
+  props.mainType = type;
+  props.Hide = _Hide;
+  props.Show = _Show;
+  props.Enable = _Enable;
+  props.Disable = _Disable;
+  props.Active = _Active;
+  props.Inactive = _Inactive;
+  props.ChangeType = _ChangeType;
+  props.ToggleType = _ToggleType;
+  props.IsDisabled = _IsDisabled;
+  props.ChangeIcon = _ChangeIcon;
+  props.ChangeSize = _ChangeSize;
 
   if (spaced) {
     let styles = [];
@@ -149,13 +165,6 @@ export default function({
         else {
           styles.push(`${SGD}spaced-${corner}-${size}`);
         }
-        /* if (typeof sizeName == "object") {
-          let sizes = Object.keys(sizeName);
-
-          sizes.forEach(size => {
-            styles.push(`${SGD}spaced-${corner}-${size}`);
-          });
-        } */
       }
 
     button.classList.add(...styles);
@@ -187,10 +196,7 @@ export default function({
   }
 
   if (icon) {
-    if (icon instanceof HTMLElement) {
-      // @ts-ignore
-      button.icon = icon;
-    } else {
+    if (typeof icon == "string" || !("innerText" in icon)) {
       /**
        * @type {IconProperties}
        */
@@ -205,32 +211,11 @@ export default function({
         iconProps = mergeDeep(iconProps, icon);
 
       button.icon = Icon(iconProps);
-    }
+    } else
+      button.icon = icon;
 
     _AddIcon.bind(button)(button.icon);
   }
-
-  button.size = size;
-  button._type = type;
-  button.mainType = type;
-  button.Hide = _Hide;
-  button.Show = _Show;
-  // @ts-ignore
-  button.Enable = _Enable;
-  // @ts-ignore
-  button.Disable = _Disable;
-  button.Active = _Active;
-  button.Inactive = _Inactive;
-  // @ts-ignore
-  button.ChangeType = _ChangeType;
-  // @ts-ignore
-  button.ToggleType = _ToggleType;
-  // @ts-ignore
-  button.IsDisabled = _IsDisabled;
-  // @ts-ignore
-  button.ChangeIcon = _ChangeIcon;
-  // @ts-ignore
-  button.ChangeSize = _ChangeSize;
 
   return button;
 }

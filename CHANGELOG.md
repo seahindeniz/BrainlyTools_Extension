@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.35.3] - 2020.03.28
+
+### Changed
+
+- Cache issue on delete reason preferences
+- "Drag and Drop" not working for Evidence "add files" box [#107]
+- Breaking changes in brainly style-guide [#109]
+
+[#107]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/107
+[#109]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/109
+
 ## [6.35.2] - 2020.03.28
 
 ### Changed

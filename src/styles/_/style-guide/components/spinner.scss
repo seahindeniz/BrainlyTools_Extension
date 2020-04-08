@@ -1,0 +1,28 @@
+.sg-spinner {
+  &--large {
+    width: 30px;
+    height: 30px;
+  }
+
+  &--xlarge {
+    width: 40px;
+    height: 40px;
+    border-width: 4px;
+  }
+
+  &--xxlarge {
+    width: 48px;
+    height: 48px;
+    border-width: 5px;
+  }
+
+  &--xxxlarge {
+    width: 120px;
+    height: 120px;
+    border-width: 7px;
+  }
+
+  &--opaque {
+    background-color: #54b5f221;
+  }
+}

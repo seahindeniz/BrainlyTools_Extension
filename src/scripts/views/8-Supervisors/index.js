@@ -128,7 +128,7 @@ async function Supervisors() {
     let $toListedButtonSpinnerContainer = $(".sg-spinner-container:nth-child(2)", $sendMessage);
     let $toAllButtonSpinnerContainer = $(".sg-spinner-container:nth-child(3)", $sendMessage);
     let $toListedButton = Button({
-      type: "primary-blue",
+      type: "solid-blue",
       size: "small",
       text: `⇐ ${System.data.locale.supervisors.sendMessagesToListedMods.text}`,
       title: System.data.locale.supervisors.sendMessagesToListedMods.title

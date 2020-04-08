@@ -51,7 +51,7 @@ class Answers extends UserContent {
   }
   RenderApproveButton() {
     let button = this.RenderButton({
-      type: "primary-mint",
+      type: "solid-mint",
       text: System.data.locale.common.moderating.approve
     });
     this.$approveButtonContainer = button.$container;
@@ -66,7 +66,7 @@ class Answers extends UserContent {
   }
   RenderCorrectionButton() {
     let button = this.RenderButton({
-      type: "link-button-blue",
+      type: "transparent-blue",
       text: System.data.locale.userContent.askForCorrection.text
     });
     this.$correctionButtonContainer = button.$container;
@@ -74,7 +74,7 @@ class Answers extends UserContent {
   }
   RenderModerateButton() {
     let button = this.RenderButton({
-      type: "link-button-peach",
+      type: "transparent-peach",
       text: System.data.locale.common.moderating.moderate
     });
     this.$moderateButtonContainer = button.$container;

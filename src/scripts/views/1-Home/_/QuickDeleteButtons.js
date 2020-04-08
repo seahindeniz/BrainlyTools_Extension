@@ -117,7 +117,7 @@ class QuickDeleteButtons {
   }
   RenderMoreOptionsButton() {
     this.$moreOptionsButton = Button({
-      type: "primary-blue",
+      type: "solid-blue",
       size: "xsmall",
       icon: {
         type: "menu"

@@ -313,7 +313,7 @@ class NoticeBoard extends Components {
   }
   RenderSaveButton() {
     this.$saveButton = Button({
-      type: "primary-mint",
+      type: "solid-mint",
       text: System.data.locale.common.save
     });
   }

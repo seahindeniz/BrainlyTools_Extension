@@ -91,7 +91,7 @@ export default class MassMessageSender extends Components {
       `<div class="sg-actions-list__hole"></div>`);
 
     this.$sendButton = Button({
-      type: "primary-mint",
+      type: "solid-mint",
       text: System.data.locale.common.send
     });
 
@@ -102,7 +102,7 @@ export default class MassMessageSender extends Components {
       `<div class="sg-actions-list__hole"></div>`);
 
     this.$continueButton = Button({
-      type: "primary-blue",
+      type: "solid-blue",
       text: System.data.locale.common.continue
     });
 

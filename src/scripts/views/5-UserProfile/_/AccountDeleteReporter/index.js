@@ -61,7 +61,7 @@ export default class AccountDeleteReporter {
           [
             Flex(),
             this.addFileButton = Button({
-              type: "secondary",
+              type: "outline",
               size: "small",
               fullWidth: true,
               html: System.data.locale.userProfile.accountDelete
@@ -78,7 +78,7 @@ export default class AccountDeleteReporter {
         Flex({ marginTop: "m", justifyContent: "center", }),
         this.deleteButton = Button({
           size: "small",
-          type: "primary-peach",
+          type: "solid-peach",
           html: `${System.data.locale.common.delete}!`,
         })
       ],

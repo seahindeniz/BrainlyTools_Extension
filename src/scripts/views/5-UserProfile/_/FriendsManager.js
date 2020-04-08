@@ -20,7 +20,7 @@ function FriendsManager() {
 
     let $showAllFriendsButtonContainer = $("> div:nth-child(1)", $buttonsContainer);
     let $showAllFriendsButton = Button({
-      type: "primary-blue",
+      type: "solid-blue",
       size: "small",
       text: _locale.showAllFriends.text,
       title: _locale.showAllFriends.title,
@@ -41,7 +41,7 @@ function FriendsManager() {
 
     let $selectAllButtonContainer = $("> div:nth-child(3)", $buttonsContainer);
     let $selectAllButton = Button({
-      type: "primary-blue",
+      type: "solid-blue",
       size: "small",
       text: System.data.locale.common.selectAll
     });

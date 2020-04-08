@@ -20,7 +20,7 @@ class WrongContentConfirmer {
       }
     });
     this.$confirmButton = Button({
-      type: "primary-blue",
+      type: "solid-blue",
       size: "small",
       text: System.data.locale.moderateAll.wrongContentConfirmer.text,
       spaced: {

@@ -83,7 +83,7 @@ class GroupChatbox {
   }
   RenderSendButton() {
     this.$sendButton = Button({
-      type: "primary-blue",
+      type: "solid-blue",
       size: "small",
       text: System.data.locale.common.send
     });
@@ -104,7 +104,7 @@ class GroupChatbox {
   }
   RenderEditGroupButton() {
     this.$editGroupButton = Button({
-      type: "primary-blue",
+      type: "solid-blue",
       size: "xsmall",
       icon: {
         type: "pencil"

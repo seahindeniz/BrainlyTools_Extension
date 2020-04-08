@@ -112,7 +112,7 @@ class Uploader {
   }
   RenderSelectFileButton() {
     this.$selectFileButton = Button({
-      type: "primary-blue",
+      type: "solid-blue",
       text: System.data.locale.uploader.selectFiles,
       fullWidth: true
     });

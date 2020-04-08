@@ -19,7 +19,7 @@ class Pagination {
   }
   RenderFirstButton() {
     this.$firstButton = Button({
-      type: "primary-mint",
+      type: "solid-mint",
       size: "small",
       text: 1
     });
@@ -44,7 +44,7 @@ class Pagination {
   }
   RenderPageNumber(last_id, i) {
     let $numberButton = Button({
-      type: "primary-inverted",
+      type: "solid-inverted",
       size: "small",
       text: i + 2
     });
@@ -87,7 +87,7 @@ class Pagination {
       $Z.moderation.all.getContent();
       $button
         .Disable()
-        .ChangeType("primary-mint")
+        .ChangeType("solid-mint")
         .focus();
       $('#moderation-all > div.content > .moderation-item').remove();
     }
@@ -98,7 +98,7 @@ class Pagination {
      */
     let $clickedButtons = $("button[disabled]", this.$numberButtonContainer);
 
-    $clickedButtons.each((i, button) => button.Enable().ChangeType("secondary"));
+    $clickedButtons.each((i, button) => button.Enable().ChangeType("outline"));
   }
 }
 

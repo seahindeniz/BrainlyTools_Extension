@@ -13,7 +13,7 @@ $colorList in $colorMap {
     $dark: nth($colorList, 2);
 
     .sg-button {
-      &-secondary {
+      &-outline {
         &--#{$colorName} {
           background-color: $normal;
 
@@ -40,6 +40,34 @@ $colorList in $colorMap {
           }
         }
       }
+
+      @if $colorName !="mint" {
+        &--solid {
+          &-#{$colorName} {
+            background-color: $normal;
+
+            &:hover,
+            &:focus,
+            &:active {
+              background-color: $dark;
+            }
+          }
+        }
+      }
+
+      &--outline {
+        &-#{$colorName} {
+          background-color: rgba(255, 255, 255, 0);
+          border: 2px solid $normal;
+          color: #000;
+
+          &:hover,
+          &:focus,
+          &:active {
+            background-color: unquote($normal + "1f");
+          }
+        }
+      }
     }
   }
 }
@@ -60,7 +88,7 @@ $colorList in $colorMap {
     box-shadow: inset 0px 0px 0px 2px rgba(0, 0, 0, 0.1);
   }
 
-  &--link-button {
+  &--transparent {
 
     &-mint {
       color: #60d399;

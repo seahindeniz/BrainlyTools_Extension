@@ -1,9 +1,9 @@
 import Icon from "./style-guide/Icon";
 
 /**
- * @typedef {"primary"|"primary-inverted"|"primary-blue"|"primary-mint"} PrimaryType
- * @typedef {"link-button"|"link-button-inverted"|"link-button-peach"|"link-button-mustard"|"link-button-mint"|"link-button-blue"} LinkType
- * @typedef {""|PrimaryType|"secondary"|LinkType|"destructive"|"warning"|"facebook"} Types
+ * @typedef {"solid"|"solid-inverted"|"solid-blue"|"solid-mint"} PrimaryType
+ * @typedef {"transparent"|"transparent-inverted"|"transparent-peach"|"transparent-mustard"|"transparent-mint"|"transparent-blue"} LinkType
+ * @typedef {""|PrimaryType|"outline"|LinkType|"destructive"|"warning"|"facebook"} Types
  * @typedef {Types|Types[]} Type
  *
  * @typedef {""|"large"|"medium"|"small"|"xsmall"} Size

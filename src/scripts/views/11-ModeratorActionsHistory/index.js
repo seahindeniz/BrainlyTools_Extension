@@ -113,7 +113,7 @@ export default class ModeratorActionHistory {
   }
   RenderActionButtons() {
     this.$confirmButton = Button({
-      type: "primary-mint",
+      type: "solid-mint",
       size: "small",
       text: System.data.locale.moderatorActionHistory.confirmAll
     });
@@ -539,7 +539,7 @@ export default class ModeratorActionHistory {
   }
   RenderSendButton() {
     this.$sendButton = Button({
-      type: "primary-mint",
+      type: "solid-mint",
       size: "small",
       text: System.data.locale.common.send
     });

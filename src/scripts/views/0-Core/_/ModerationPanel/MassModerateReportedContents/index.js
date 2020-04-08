@@ -74,7 +74,7 @@ export default class MassModerateReportedContents extends Components {
   }
   RenderAddUniqueConditionSectionButton() {
     this.$addUniqueConditionSectionButton = Button({
-      type: "primary-blue",
+      type: "solid-blue",
       size: "small",
       icon: {
         type: "plus"
@@ -119,7 +119,7 @@ export default class MassModerateReportedContents extends Components {
     this.$startButtonContainer = $(
       `<div class="sg-spinner-container"></div>`);
     this.$startButton = Button({
-      type: "primary-mint",
+      type: "solid-mint",
       text: System.data.locale.common.startAll
     });
 

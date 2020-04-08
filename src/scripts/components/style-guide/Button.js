@@ -2,18 +2,34 @@ import classnames from 'classnames';
 import AddChildren from './helpers/AddChildren';
 import Icon from "./Icon";
 import mergeDeep from "merge-deep";
-
+import SetProps from './helpers/SetProps';
+//TODO the destructive and warning modifiers needs to be changed with primary
 /**
- * @typedef {import("./Icon").Type} IconTypeType
+ * @typedef {import("./Icon").IconTypeType} IconTypeType
  * @typedef {import("./Icon").IconElement} IconElement
  * @typedef {import("./Icon").Properties} IconProperties
  *
- * @typedef {"primary" | "primary-inverted" | "primary-blue" | "primary-mint" |
- * "secondary" | "link-button" | "link-button-inverted" | "link-button-peach" |
- * "link-button-mustard" | "link-button-mint" | "link-button-blue" |
- * "destructive" | "warning" | "facebook"} Type
+ * @typedef {'solid'
+ * | 'solid-inverted'
+ * | 'solid-blue'
+ * | 'solid-mint'
+ * | 'outline'
+ * | 'transparent'
+ * | 'transparent-inverted'
+ * | 'transparent-peach'
+ * | 'transparent-mustard'
+ * | 'destructive'
+ * | 'warning'
+ * | 'facebook'
+ * | "solid-peach"
+ * | "solid-mustard"
+ * | "transparent-mint"
+ * | "transparent-blue"
+ * | "outline-mint"
+ * | "outline-peach"
+ * | "outline-mustard"} ButtonTypeType
  *
- * @typedef {"large" | "medium" | "small" | "xsmall"} Size
+ * @typedef {"large" | "medium" | "small" | "xsmall"} ButtonSizeType
  *
  * @typedef {boolean | "small" | "xsmall" | "xxsmall" | "large" | "xlarge" |
  * "xxlarge"} sizeList
@@ -32,13 +48,15 @@ import mergeDeep from "merge-deep";
  * @typedef {function(): ButtonElement} Active
  * @typedef {function(): ButtonElement} Inactive
  * @typedef {function(): ButtonElement} IsDisabled
- * @typedef {function(Type): ButtonElement} ChangeType
- * @typedef {function(Type): ButtonElement} ToggleType
+ * @typedef {function(ButtonTypeType): ButtonElement} ChangeType
+ * @typedef {function(ButtonTypeType): ButtonElement} ToggleType
  * @typedef {function(IconElement=): ButtonElement} ChangeIcon
+ * @typedef {function(ButtonSizeType=): ButtonElement} ChangeSize
  *
  * @typedef {{
- *  _type: Type,
- *  mainType:Type,
+ *  size: ButtonSizeType,
+ *  _type: ButtonTypeType,
+ *  mainType:ButtonTypeType,
  *  icon: IconElement,
  *  Hide: Hide,
  *  Show: Show,
@@ -50,6 +68,7 @@ import mergeDeep from "merge-deep";
  *  ToggleType: ToggleType,
  *  IsDisabled: IsDisabled,
  *  ChangeIcon: ChangeIcon,
+ *  ChangeSize: ChangeSize,
  * }} CustomProperties
  *
  * @typedef {(HTMLAnchorElement | HTMLButtonElement | HTMLLabelElement) &
@@ -57,8 +76,8 @@ import mergeDeep from "merge-deep";
  *
  * @typedef {{
  *  tag?: "button" | "a" | "label",
- *  size?: Size,
- *  type?: Type,
+ *  size?: ButtonSizeType,
+ *  type?: ButtonTypeType,
  *  icon?: IconTypeType | IconProperties | HTMLElement,
  *  href?: string,
  *  fullWidth?: boolean,
@@ -153,9 +172,7 @@ export default function({
   if (title)
     button.title = title;
 
-  if (props)
-    for (let [propName, propVal] of Object.entries(props))
-      button[propName] = propVal;
+  SetProps(button, props);
 
   if (text || html || children) {
     let textElement = document.createElement("span");
@@ -195,6 +212,7 @@ export default function({
     _AddIcon.bind(button)(button.icon);
   }
 
+  button.size = size;
   button._type = type;
   button.mainType = type;
   button.Hide = _Hide;
@@ -213,6 +231,8 @@ export default function({
   button.IsDisabled = _IsDisabled;
   // @ts-ignore
   button.ChangeIcon = _ChangeIcon;
+  // @ts-ignore
+  button.ChangeSize = _ChangeSize;
 
   return button;
 }
@@ -286,7 +306,7 @@ function _Inactive() {
 /**
  * typedef {ChangeType} ChangeType
  * @this {ButtonElement}
- * @param {Type} type
+ * @param {ButtonTypeType} type
  * returns {ButtonElement}
  */
 function _ChangeType(type) {
@@ -301,9 +321,27 @@ function _ChangeType(type) {
 }
 
 /**
+ * typedef {ChangeType} ChangeType
+ * @this {ButtonElement}
+ * @param {ButtonSizeType} [size]
+ * returns {ButtonElement}
+ */
+function _ChangeSize(size) {
+  if (this.size)
+    this.classList.remove(SGD + this.size);
+
+  if (size)
+    this.classList.add(SGD + size);
+
+  this.size = size;
+
+  return this;
+}
+
+/**
  * typedef {ToggleType} ToggleType
  * @this {ButtonElement}
- * @param {Type} type
+ * @param {ButtonTypeType} type
  * @returns {ButtonElement}
  */
 function _ToggleType(type) {

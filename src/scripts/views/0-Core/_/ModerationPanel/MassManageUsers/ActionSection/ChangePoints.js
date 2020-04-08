@@ -17,7 +17,7 @@ export default class ChangePoints extends ActionSection {
       },
       actionButton: {
         ...System.data.locale.core.massManageUsers.sections.changePoints.actionButton,
-        type: "link-button"
+        type: "transparent"
       }
     }
 
@@ -81,7 +81,7 @@ export default class ChangePoints extends ActionSection {
   }
   RenderApplyToAllButton() {
     this.$applyToAllButton = Button({
-      type: "primary-blue",
+      type: "solid-blue",
       size: "small",
       text: System.data.locale.core.massManageUsers.sections.changePoints.applyToAll
     });
@@ -90,7 +90,7 @@ export default class ChangePoints extends ActionSection {
   }
   RenderApplyToSelectedButton() {
     this.$applyToSelectedButton = Button({
-      type: "primary-mint",
+      type: "solid-mint",
       size: "small",
       text: `${System.data.locale.core.massManageUsers.sections.changePoints.applyToSelected}&nbsp;&nbsp;`
     });

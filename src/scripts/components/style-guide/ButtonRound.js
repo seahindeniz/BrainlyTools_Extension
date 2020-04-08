@@ -8,7 +8,7 @@ import Icon from './Icon';
  *
  * @typedef {import("./Icon").Properties} IconProperties
  *
- * @typedef {import("./Icon").Type} IconType
+ * @typedef {import("./Icon").IconTypeType} IconType
  *
  * @typedef {import("./Icon").Color} IconColor
  *

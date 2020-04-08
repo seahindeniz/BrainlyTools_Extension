@@ -35,7 +35,7 @@ export default class AnswerSection extends ModerationSection {
         this.confirmButton = Button({
           size: "xsmall",
           text: System.data.locale.common.confirm,
-          type: "primary-mint",
+          type: "solid-mint",
         })
       ]
     ]);

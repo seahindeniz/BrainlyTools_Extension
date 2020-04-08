@@ -60,7 +60,7 @@ class RankManager {
   }
   RenderSaveButton() {
     this.$saveButton = Button({
-      type: "primary-mint",
+      type: "solid-mint",
       size: "small",
       fullWidth: true,
       text: System.data.locale.common.save

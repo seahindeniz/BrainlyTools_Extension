@@ -238,7 +238,7 @@ export default class MassManageUsers extends Components {
     this.numberOfSelectedUsers = badge.querySelector("*");
 
     this.removeSelectedButton = Button({
-      type: "secondary",
+      type: "outline",
       size: "small",
       html: `${System.data.locale.core.massManageUsers.removeSelected}&nbsp;`,
       title: System.data.locale.core.massManageUsers

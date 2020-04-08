@@ -43,7 +43,7 @@ async function UserWarnings() {
   });
 
   let $button = Button({
-    type: "primary-blue",
+    type: "solid-blue",
     size: "small",
     text: System.data.locale.userWarnings.cancelWarnings
   });

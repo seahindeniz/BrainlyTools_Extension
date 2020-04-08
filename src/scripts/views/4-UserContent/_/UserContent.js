@@ -163,7 +163,7 @@ class UserContent {
 			<div class="sg-content-box__actions"></div>
     </div>`);
     this.$reportButton = Button({
-      type: "primary-blue",
+      type: "solid-blue",
       size: "small",
       text: System.data.locale.userContent.askForCorrection.ask
     });

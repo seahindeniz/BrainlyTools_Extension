@@ -2,6 +2,7 @@ import Button from "../../../../components/Button";
 import Modal from "../../../../components/Modal";
 import Action from "../../../../controllers/Req/Brainly/Action";
 import Components from "./Components";
+import { SpinnerContainer } from "@style-guide";
 
 const spinner =
   `<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`;
@@ -84,7 +85,7 @@ class PointChanger extends Components {
   }
   RenderAddUserButton() {
     this.$addUserButton = Button({
-      type: "primary-blue",
+      type: "solid-blue",
       size: "small",
       icon: {
         type: "profile_view"
@@ -94,13 +95,16 @@ class PointChanger extends Components {
     this.$addUserButton.appendTo(this.$addUserButtonContainer);
   }
   RenderAddPointToAllButton() {
+    this.addPointToAllButtonContainer = SpinnerContainer();
     this.$addPointToAllButton = Button({
-      type: "primary-mint",
+      type: "solid-mint",
       size: "small",
       icon: {
         type: "check"
       }
     });
+
+    this.$addPointToAllButton.appendTo(this.addPointToAllButtonContainer);
   }
   BindHandler() {
     this.modal.$close.click(this.modal.Close.bind(this.modal));
@@ -127,9 +131,26 @@ class PointChanger extends Components {
     })
   }
   AddPointToAll() {
-    let $buttons = $(`button.js-add-point`, this.$userList);
+    let $spinner = $(spinner).insertAfter(this.$addPointToAllButton);
+    let buttons = $(`.js-node button`, this.$userList).toArray();
+    this.$addPointToAllButton.Disable();
 
-    $buttons.click();
+    let _loop = setInterval(() => {
+      if (buttons.length == 0) {
+        $spinner.remove();
+        this.$addPointToAllButton.Enable();
+        return clearInterval(_loop);
+      }
+
+      for (let i = 0; i < 8; i++) {
+        let button = buttons.shift();
+
+        if (!button)
+          break;
+
+        button.click();
+      }
+    }, 1000);
   }
   IdInputPasteEvtHandle(event) {
     event.preventDefault();
@@ -146,7 +167,7 @@ class PointChanger extends Components {
 
       if (texts && texts.length > 0) {
         texts.forEach(text => {
-          let splittedText = text.trim().split(" ");
+          let splittedText = text.trim().split(/ {1,}/);
 
           if (splittedText.length == 0 || !splittedText[0]) {
             if (text)
@@ -191,7 +212,7 @@ class PointChanger extends Components {
     let value = this.$idInput.val();
 
     if (value) {
-      let idList = System.ExtractIds(String(value).split(" "));
+      let idList = System.ExtractIds(String(value));
 
       if (idList)
         return idList;
@@ -277,7 +298,7 @@ class PointChanger extends Components {
 
     let $addPointButtonContainer = $(".sg-spinner-container", $node);
     let $addPointButton = Button({
-      type: "primary-mint",
+      type: "solid-mint",
       size: "small",
       title: System.data.locale.core.pointChanger.addPoint,
       icon: {
@@ -337,7 +358,8 @@ class PointChanger extends Components {
     $pointInput.val("").trigger("input");
   }
   ShowAddPointToAllButton() {
-    this.$addPointToAllButton.appendTo(this.$addPointToAllButtonContainer);
+    this.$addPointToAllButtonContainer
+      .append(this.addPointToAllButtonContainer);
   }
 }
 

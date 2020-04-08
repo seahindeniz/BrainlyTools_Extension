@@ -17,7 +17,7 @@ export default async function PageVisitButton(main) {
   let mainHeader = mainHeaders[0];
 
   let button = Button({
-    type: "primary-blue",
+    type: "solid-blue",
     html: main.data.groupData.button_content,
     icon: main.data.groupData.button_icon
   });

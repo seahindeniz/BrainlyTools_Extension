@@ -114,7 +114,7 @@ class ConditionSection {
     this.$matchedButtonContainer = $("> .sg-actions-list__hole", this
       .$footerActionList);
     this.matchedButton = Button({
-      type: "primary-blue",
+      type: "solid-blue",
       size: "small",
       icon: {
         type: "lightning"
@@ -183,7 +183,7 @@ class ConditionSection {
   }
   RenderStartButton() {
     this.startButton = Button({
-      type: "primary-mint",
+      type: "solid-mint",
       size: "small",
       html: System.data.locale.common.start
     });
@@ -264,7 +264,7 @@ class ConditionSection {
     this.$buttonContainer = $("> .sg-actions-list__hole:nth-child(2)", this
       .$filterContainer);
     this.addFilterButton = Button({
-      type: "primary-blue",
+      type: "solid-blue",
       size: "small",
       icon: {
         type: "check"
@@ -275,7 +275,7 @@ class ConditionSection {
   }
   RenderRegexpButton() {
     this.regexpButton = Button({
-      type: "primary",
+      type: "solid",
       size: "small",
       text: ".*",
       spaced: {
@@ -321,7 +321,7 @@ class ConditionSection {
   }
   ToggleDarkButton() {
     window.RegexColorizer.addStyleSheet();
-    this.regexpButton.ToggleType("primary-blue");
+    this.regexpButton.ToggleType("solid-blue");
   }
   UpdateFilterValueContainer() {
     let value = this.$filterSelect.val();
@@ -440,7 +440,7 @@ class ConditionSection {
     return $condition.length > 0
   }
   IsRegexSelected() {
-    return this.regexpButton._type == "primary-blue";
+    return this.regexpButton._type == "solid-blue";
   }
   FilterReports() {
     this.ToggleConditionContainer();

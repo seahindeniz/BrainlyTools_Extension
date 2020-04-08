@@ -149,7 +149,7 @@ class ThemeColorChanger {
 
 		.sg-box--blue,
 		.sg-header__container,
-    .sg-button--primary-blue,
+    .sg-button--solid-blue,
 		.mint-tabs__tab--active,
 		#html .mint .mint-header,
 		#html .mint #tabs-doj #main_menu>li.active,
@@ -180,7 +180,7 @@ class ThemeColorChanger {
 			color: ${this.fontColor} !important;
 		}
 
-    .sg-button--link-button-blue,
+    .sg-button--transparent-blue,
 		.sg-sticker__front {
 			color: ${this.primaryColor} !important;
 			fill: ${this.primaryColor} !important;

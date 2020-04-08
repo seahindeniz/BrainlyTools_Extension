@@ -19,7 +19,7 @@ export default class ApproveAnswers extends ActionSection {
       },
       actionButton: {
         ...System.data.locale.core.massManageUsers.sections.approveAnswers.actionButton,
-        type: "link-button-mint"
+        type: "transparent-mint"
       }
     }
 
@@ -54,7 +54,7 @@ export default class ApproveAnswers extends ActionSection {
   }
   RenderStartButton() {
     this.$startButton = Button({
-      type: "primary-mint",
+      type: "solid-mint",
       size: "small",
       text: System.data.locale.common.start
     });
@@ -70,7 +70,7 @@ export default class ApproveAnswers extends ActionSection {
   }
   RenderContinueButton() {
     this.$continueButton = Button({
-      type: "primary-blue",
+      type: "solid-blue",
       size: "small",
       text: System.data.locale.common.continue
     });

@@ -97,7 +97,7 @@ class ReportedCommentsDeleter extends Components {
   }
   RenderStartButton() {
     this.$startButton = Button({
-      type: "primary-blue",
+      type: "solid-blue",
       size: "small",
       text: System.data.locale.common.start
     });

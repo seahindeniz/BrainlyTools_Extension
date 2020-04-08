@@ -178,7 +178,7 @@ class GroupModal {
   }
   RenderSaveButton() {
     this.$saveButton = Button({
-      type: "primary-blue",
+      type: "solid-blue",
       size: "small",
       text: System.data.locale.common.save
     });
@@ -190,7 +190,7 @@ class GroupModal {
   }
   RenderRemoveAllButton() {
     this.$removeAllButton = Button({
-      type: "primary-blue",
+      type: "solid-blue",
       size: "small",
       text: System.data.locale.common.removeAll
     });
@@ -199,7 +199,7 @@ class GroupModal {
   }
   RenderAddAllButton() {
     this.$addAllButton = Button({
-      type: "primary-blue",
+      type: "solid-blue",
       size: "small",
       text: this.locale.addAll
     });

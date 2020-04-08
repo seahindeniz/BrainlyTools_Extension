@@ -8,7 +8,7 @@ import Button from "style-guide/src/components/buttons/Button";
 class HelloWorld extends React.Component {
   render() {
     return <div>
-      <Button type="primary-blue" size="small">
+      <Button type="solid-blue" size="small">
         I am primary small button
       </Button>
     </div>;

@@ -1,0 +1,11 @@
+.sg-toplayer {
+  &--90prc {
+    width: 90%;
+    max-width: 90%;
+  }
+
+  &--fit-content {
+    width: fit-content;
+    max-width: 95vw;
+  }
+}

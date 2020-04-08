@@ -11,7 +11,7 @@ export default class QuestionSection extends ModerationSection {
     this.contentType = "question";
 
     this.RenderDeleteButtons({
-      type: "warning",
+      type: "solid-mustard",
     });
   }
   Delete(data) {

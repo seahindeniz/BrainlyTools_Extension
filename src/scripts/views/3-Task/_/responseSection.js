@@ -22,7 +22,7 @@ export default async function responseSection() {
             type: "answer",
           });
           let button = Button({
-            type: "destructive",
+            type: "solid-peach",
             size: "small",
             icon: Text({
               text: i + 1,

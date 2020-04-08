@@ -134,7 +134,7 @@ export default class MassModerateReportedContents extends Components {
     this.$stopButtonContainer = $(
       `<div class="sg-actions-list__hole"></div>`);
     this.$stopButton = Button({
-      type: "destructive",
+      type: "solid-peach",
       text: System.data.locale.common.stop
     });
 

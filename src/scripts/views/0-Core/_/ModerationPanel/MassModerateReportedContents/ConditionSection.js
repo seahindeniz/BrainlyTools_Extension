@@ -190,7 +190,7 @@ class ConditionSection {
   }
   RenderStopButton() {
     this.stopButton = Button({
-      type: "destructive",
+      type: "solid-peach",
       size: "small",
       html: System.data.locale.common.stop
     });

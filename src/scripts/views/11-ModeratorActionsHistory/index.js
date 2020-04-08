@@ -118,7 +118,7 @@ export default class ModeratorActionHistory {
       text: System.data.locale.moderatorActionHistory.confirmAll
     });
     this.$disapproveButton = Button({
-      type: "destructive",
+      type: "solid-peach",
       size: "small",
       text: System.data.locale.moderatorActionHistory.disapproveAll
     });

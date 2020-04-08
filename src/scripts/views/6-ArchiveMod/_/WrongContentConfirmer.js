@@ -12,7 +12,7 @@ class WrongContentConfirmer {
   }
   RenderButtons() {
     this.$stopButton = Button({
-      type: "destructive",
+      type: "solid-peach",
       size: "small",
       text: System.data.locale.common.stop,
       spaced: {

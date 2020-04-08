@@ -131,7 +131,7 @@ class UserContent {
   }
   RenderDeleteButton() {
     this.$deleteButton = Button({
-      type: "destructive",
+      type: "solid-peach",
       size: "small",
       text: `${System.data.locale.common.delete} !`
     });

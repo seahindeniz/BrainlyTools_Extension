@@ -72,7 +72,7 @@ export default class ChangePoints extends ActionSection {
     </div>`);
     this.$stopButtonSpinnerContainer = $(".sg-spinner-container", this.$stopButtonContainer);
     this.$stopButton = Button({
-      type: "destructive",
+      type: "solid-peach",
       size: "small",
       text: System.data.locale.common.stop
     });

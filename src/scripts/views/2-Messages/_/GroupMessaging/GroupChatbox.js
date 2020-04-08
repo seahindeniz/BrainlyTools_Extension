@@ -115,7 +115,7 @@ class GroupChatbox {
   }
   RenderDeleteGroupButton() {
     this.$deleteGroupButton = Button({
-      type: "destructive",
+      type: "solid-peach",
       size: "xsmall",
       icon: {
         type: "close"

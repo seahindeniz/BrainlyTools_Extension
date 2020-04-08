@@ -106,7 +106,7 @@ class ReportedCommentsDeleter extends Components {
   }
   RenderStopButton() {
     this.$stopButton = Button({
-      type: "destructive",
+      type: "solid-peach",
       size: "small",
       text: System.data.locale.common.stop
     });

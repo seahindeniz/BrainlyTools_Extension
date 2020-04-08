@@ -3,7 +3,7 @@ import AddChildren from './helpers/AddChildren';
 import Icon from "./Icon";
 import mergeDeep from "merge-deep";
 import SetProps from './helpers/SetProps';
-//TODO the destructive and warning modifiers needs to be changed with primary
+
 /**
  * @typedef {import("./Icon").IconTypeType} IconTypeType
  * @typedef {import("./Icon").IconElement} IconElement
@@ -18,8 +18,6 @@ import SetProps from './helpers/SetProps';
  * | 'transparent-inverted'
  * | 'transparent-peach'
  * | 'transparent-mustard'
- * | 'destructive'
- * | 'warning'
  * | 'facebook'
  * | "solid-peach"
  * | "solid-mustard"

@@ -68,7 +68,7 @@ class ModerateSection {
     this.deleteButtonNumberBadge = this.deleteButtonNumberBadgeContainer
       .querySelector("div");
     this.deleteButton = Button({
-      type: "destructive",
+      type: "solid-peach",
       size: "small",
       html: `${System.data.locale.common.delete}&nbsp;`,
     });
@@ -99,7 +99,7 @@ class ModerateSection {
     this.deleteAllButtonNumberBadge = this.deleteAllButtonNumberBadgeContainer
       .querySelector("div");
     this.deleteAllButton = Button({
-      type: "destructive",
+      type: "solid-peach",
       size: "small",
       html: `${System.data.locale.common.deleteAll}&nbsp;`,
     });
@@ -162,7 +162,7 @@ class ModerateSection {
   }
   RenderStopButton() {
     this.stopButton = Button({
-      type: "destructive",
+      type: "solid-peach",
       size: "small",
       text: System.data.locale.common.stop
     })

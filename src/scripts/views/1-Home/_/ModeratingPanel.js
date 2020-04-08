@@ -137,7 +137,7 @@ class ModeratingPanel {
   }
   RenderDeleteButton() {
     this.$deleteButton = Button({
-      type: "destructive",
+      type: "solid-peach",
       text: System.data.locale.common.delete
     });
 

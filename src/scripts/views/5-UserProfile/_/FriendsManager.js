@@ -30,7 +30,7 @@ function FriendsManager() {
 
     let $removeAllButtonContainer = $("> div:nth-child(2)", $buttonsContainer);
     let $removeAllButton = Button({
-      type: "destructive",
+      type: "solid-peach",
       size: "small",
       text: _locale.removeAllFriends.text,
       title: _locale.removeAllFriends.title

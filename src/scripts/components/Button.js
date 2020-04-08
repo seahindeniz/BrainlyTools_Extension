@@ -1,7 +1,7 @@
 import Icon from "./style-guide/Icon";
 
 /**
- * @typedef {"solid"|"solid-inverted"|"solid-blue"|"solid-mint"} PrimaryType
+ * @typedef {"solid"|"solid-inverted"|"solid-blue"|"solid-mint"|"solid-peach"|"solid-mustard"} PrimaryType
  * @typedef {"transparent"|"transparent-inverted"|"transparent-peach"|"transparent-mustard"|"transparent-mint"|"transparent-blue"} LinkType
  * @typedef {""|PrimaryType|"outline"|LinkType|"destructive"|"warning"|"facebook"} Types
  * @typedef {Types|Types[]} Type

@@ -19,7 +19,7 @@ export default class AnswerSection extends ModerationSection {
     this.contentType = "answer";
 
     this.RenderDeleteButtons({
-      type: "destructive",
+      type: "solid-peach",
     });
 
     if (this.report && System.checkBrainlyP(146))

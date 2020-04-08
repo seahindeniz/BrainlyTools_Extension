@@ -25,7 +25,7 @@ class QuickDeleteButton {
   }
   Render() {
     this.button = Button({
-      type: "destructive",
+      type: "solid-peach",
       size: "xsmall",
       icon: Text({
         text: this.index + 1,

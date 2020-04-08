@@ -23,7 +23,7 @@ export default function taskSection() {
         type: "question",
       });
       let button = Button({
-        type: "warning",
+        type: "solid-mustard",
         size: "small",
         icon: Text({
           text: i + 1,

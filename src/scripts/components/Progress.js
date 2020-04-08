@@ -1,9 +1,23 @@
+/**
+ * @typedef {"loading" | "success" | "warning" | "danger"} ProgressTypeType
+ */
+
 class Progress {
-  constructor(options) {
+  /**
+   * @param {{
+   *  type: ProgressTypeType,
+   *  max: number,
+   *  label: string,
+   * }} param0
+   */
+  constructor({ type, max, label }) {
+    this.type = "is-" + type;
+    this.max = max;
+    this.label = label;
     // sg-content-box--spaced-top-large  sg-content-box--spaced-bottom-large
     this.$container = $(`
 		<div class="progress-container">
-			<progress class="progress ${options.type}" value="0" max="${options.max || 1}" data-label="${options.label}"></progress>
+			<progress class="progress ${this.type}" value="0" max="${max || 1}" data-label="${label}"></progress>
 		</div>`);
     this.$bar = $("progress", this.$container);
 
@@ -28,12 +42,22 @@ class Progress {
     setTimeout(() => this.forceClose(), 3000);
   }
   /**
-   * @param {boolean} ignoreValue
+   * @param {boolean} [ignoreValue]
    */
   forceClose(ignoreValue) {
     if (ignoreValue || this.$bar.val() == ~~this.$bar.attr("max")) {
       this.$container.remove();
     }
+  }
+  /**
+   * @param {ProgressTypeType} type
+   */
+  ChangeType(type) {
+    this.$bar
+      .removeClass(this.type)
+      .addClass("is-" + type);
+
+    this.type = "is-" + type;
   }
 }
 export default Progress;

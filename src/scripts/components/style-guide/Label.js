@@ -1,15 +1,17 @@
-import classnames from 'classnames';
+/* eslint-disable no-underscore-dangle */
+import classnames from "classnames";
 import mergeDeep from "merge-deep";
-import AddChildren from './helpers/AddChildren';
-import Icon from './Icon';
-import Text from './Text';
+import AddChildren from "./helpers/AddChildren";
+import Icon from "./Icon";
+import Text from "./Text";
+import SetProps from "./helpers/SetProps";
 
 /**
  * @typedef {import("./Icon").Properties} IconProperties
  * @typedef {import("./Icon").IconTypeType} IconType
  * @typedef {IconType | IconProperties | HTMLElement} LabelIconType
  *
- * @typedef {'strong'} LabelType
+ * @typedef {"" | 'default' | 'strong'} LabelType
  *
  * @typedef {'blue'
  * | 'mint'
@@ -51,93 +53,24 @@ const SGD = `${SG}--`;
 const SG_ = `${SG}__`;
 
 export const COLORS_STRONG_MAP = {
-  blue: 'blue-primary',
-  mint: 'mint-primary',
-  lavender: 'lavender-primary',
-  peach: 'peach-primary',
-  mustard: 'mustard-primary',
-  gray: 'gray-primary',
-  mono: 'black',
+  blue: "blue-primary",
+  mint: "mint-primary",
+  lavender: "lavender-primary",
+  peach: "peach-primary",
+  mustard: "mustard-primary",
+  gray: "gray-primary",
+  mono: "black",
 };
 
 export const COLORS_DEFAULT_MAP = {
-  blue: 'blue-secondary-light',
-  mint: 'mint-secondary-light',
-  lavender: 'lavender-secondary-light',
-  peach: 'peach-secondary-light',
-  mustard: 'mustard-secondary-light',
-  gray: 'gray-secondary-light',
-  mono: 'white',
+  blue: "blue-secondary-light",
+  mint: "mint-secondary-light",
+  lavender: "lavender-secondary-light",
+  peach: "peach-secondary-light",
+  mustard: "mustard-secondary-light",
+  gray: "gray-secondary-light",
+  mono: "white",
 };
-
-/**
- * @param {Properties} param0
- */
-export default function({
-  children,
-  type,
-  icon,
-  onClose,
-  color,
-  className,
-  text,
-  ...props
-} = {}) {
-  /**
-   * @type {string}
-   */
-  const filteredColor = !type ? COLORS_DEFAULT_MAP[color] : COLORS_STRONG_MAP[
-    color];
-
-  const labelClass = classnames(SG, {
-    [SGD + filteredColor]: color,
-    [SGD + type]: type,
-    [`${SGD}closable`]: !!onClose,
-  }, className);
-
-  /**
-   * @type {LabelElement}
-   */
-  // @ts-ignore
-  let labelContainer = document.createElement("div");
-  labelContainer.className = labelClass;
-  labelContainer.color = color;
-  labelContainer.type = type;
-  labelContainer.ChangeText = _ChangeText;
-  labelContainer.ChangeIcon = _ChangeIcon;
-  // @ts-ignore
-  labelContainer.ChangeColor = _ChangeColor;
-
-  if (icon)
-    AddIcon(labelContainer, icon, type)
-
-  if (text || children) {
-    AddTextChildren(labelContainer, { text, children });
-  }
-
-  if (onClose) {
-    let closeButton = document.createElement("button");
-    closeButton.className = `${SG_}close-button`;
-
-    if (typeof onClose == "function")
-      closeButton.addEventListener("click", onClose);
-
-    let closeButtonIcon = Icon({
-      size: 16,
-      type: "close",
-      color: !type ? "dark" : "light",
-    });
-
-    closeButton.append(closeButtonIcon);
-    labelContainer.append(closeButton);
-  }
-
-  if (props)
-    for (let [propName, propVal] of Object.entries(props))
-      labelContainer[propName] = propVal;
-
-  return labelContainer;
-}
 
 /**
  * @param {LabelElement} labelContainer
@@ -154,8 +87,7 @@ function AddIcon(labelContainer, icon, type) {
   if (!iconContainer) {
     iconContainer = document.createElement("div");
     iconContainer.className = `${SG_}icon`;
-  } else
-    iconContainer.innerHTML = "";
+  } else iconContainer.innerHTML = "";
 
   if (icon instanceof HTMLElement)
     // @ts-ignore
@@ -169,10 +101,8 @@ function AddIcon(labelContainer, icon, type) {
       color: !type ? "dark" : "light",
     };
 
-    if (typeof icon == "string")
-      iconProps.type = icon;
-    else
-      iconProps = mergeDeep(iconProps, icon);
+    if (typeof icon === "string") iconProps.type = icon;
+    else iconProps = mergeDeep(iconProps, icon);
 
     iconElement = Icon(iconProps);
   }
@@ -194,15 +124,14 @@ function AddTextChildren(labelContainer, { text, children }) {
   if (!textContainer) {
     textContainer = document.createElement("span");
     textContainer.className = `${SG_}text`;
-  } else
-    textContainer.innerHTML = "";
+  } else textContainer.innerHTML = "";
 
   if (text) {
-    let textElement = Text({
+    const textElement = Text({
       text,
       size: "small",
       weight: "bold",
-      color: labelContainer.type && "white",
+      color: labelContainer.type ? "white" : "default",
     });
 
     textContainer.append(textElement);
@@ -231,13 +160,15 @@ function _ChangeColor(color) {
   /**
    * @type {string}
    */
-  const filteredOldColor = !this.type ? COLORS_DEFAULT_MAP[this.color] :
-    COLORS_STRONG_MAP[this.color];
+  const filteredOldColor = !this.type
+    ? COLORS_DEFAULT_MAP[this.color]
+    : COLORS_STRONG_MAP[this.color];
   /**
    * @type {string}
    */
-  const filteredColor = !this.type ? COLORS_DEFAULT_MAP[color] :
-    COLORS_STRONG_MAP[color];
+  const filteredColor = !this.type
+    ? COLORS_DEFAULT_MAP[color]
+    : COLORS_STRONG_MAP[color];
 
   this.classList.remove(SGD + filteredOldColor);
   this.classList.add(SGD + filteredColor);
@@ -255,4 +186,74 @@ function _ChangeText(text) {
   AddTextChildren(this, { text });
 
   return this;
+}
+
+/**
+ * @param {Properties} param0
+ */
+export default function ({
+  children,
+  type = "default",
+  icon,
+  onClose,
+  color,
+  className,
+  text,
+  ...props
+} = {}) {
+  /**
+   * @type {string}
+   */
+  const filteredColor = !type
+    ? COLORS_DEFAULT_MAP[color]
+    : COLORS_STRONG_MAP[color];
+
+  const labelClass = classnames(
+    SG,
+    {
+      [SGD + filteredColor]: color,
+      [SGD + type]: type !== "default",
+      [`${SGD}closable`]: !!onClose,
+    },
+    className,
+  );
+
+  /**
+   * @type {LabelElement}
+   */
+  const labelContainer = Object.assign(document.createElement("div"));
+  labelContainer.className = labelClass;
+  labelContainer.color = color;
+  labelContainer.type = type;
+  labelContainer.ChangeText = _ChangeText;
+  labelContainer.ChangeIcon = _ChangeIcon;
+  // @ts-ignore
+  labelContainer.ChangeColor = _ChangeColor;
+
+  if (icon) AddIcon(labelContainer, icon, type);
+
+  if (text || children) {
+    AddTextChildren(labelContainer, { text, children });
+  }
+
+  if (onClose) {
+    const closeButton = document.createElement("button");
+    closeButton.className = `${SG_}close-button`;
+
+    if (typeof onClose === "function")
+      closeButton.addEventListener("click", onClose);
+
+    const closeButtonIcon = Icon({
+      size: 16,
+      type: "close",
+      color: !type ? "dark" : "light",
+    });
+
+    closeButton.append(closeButtonIcon);
+    labelContainer.append(closeButton);
+  }
+
+  SetProps(labelContainer, props);
+
+  return labelContainer;
 }

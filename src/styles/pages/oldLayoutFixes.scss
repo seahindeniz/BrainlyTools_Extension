@@ -10,6 +10,9 @@
     width: 100%;
   }
 }
+.avatarContainer {
+  box-sizing: content-box;
+}
 
 #html .mint {
   font-family: "ProximaNova", "Helvetica", "Arial", sans-serif;
@@ -38,21 +41,21 @@ form.pretty fieldset legend {
     -webkit-transform: scale(1);
     transform: scale(1);
     -webkit-box-shadow: 0 0 0 0 #ff7968;
-    box-shadow: 0 0 0 0 #ff7968
+    box-shadow: 0 0 0 0 #ff7968;
   }
 
   50% {
     -webkit-transform: scale(1.2);
     transform: scale(1.2);
     -webkit-box-shadow: 0 0 0 8px rgba(255, 121, 104, 0);
-    box-shadow: 0 0 0 8px rgba(255, 121, 104, 0)
+    box-shadow: 0 0 0 8px rgba(255, 121, 104, 0);
   }
 
   100% {
     -webkit-transform: scale(1);
     transform: scale(1);
     -webkit-box-shadow: 0 0 0 0 rgba(255, 121, 104, 0);
-    box-shadow: 0 0 0 0 rgba(255, 121, 104, 0)
+    box-shadow: 0 0 0 0 rgba(255, 121, 104, 0);
   }
 }
 
@@ -73,7 +76,6 @@ form.pretty fieldset legend {
   }
 
   .panel {
-
     .covering-text,
     .content-scroll {
       min-height: 200px;
@@ -85,8 +87,8 @@ form.pretty fieldset legend {
   }
 }
 
-#main-panel .menu-right #panel-messages>a .count,
-#main-panel .menu-right .menu-element#panel-notifications>a .count {
+#main-panel .menu-right #panel-messages > a .count,
+#main-panel .menu-right .menu-element#panel-notifications > a .count {
   width: unset;
   height: unset;
   min-width: 18px;
@@ -95,10 +97,9 @@ form.pretty fieldset legend {
 }
 
 #content-old {
-
   &,
-  >.grid_16 {
-    >h1.alignCenter.marginTop.marginBottom {
+  > .grid_16 {
+    > h1.alignCenter.marginTop.marginBottom {
       margin-bottom: 30px;
     }
   }
@@ -121,8 +122,8 @@ form.pretty fieldset legend {
     font-weight: 400;
   }
 
-  >div,
-  #main-left>div.personal_info>div.header {
+  > div,
+  #main-left > div.personal_info > div.header {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -149,19 +150,18 @@ form.pretty fieldset legend {
     flex-wrap: nowrap;
   }
 
-  #main-left>div.personal_info>div.header {
+  #main-left > div.personal_info > div.header {
     div.avatar {
       margin: unset;
     }
   }
 
-  >div>div {
+  > div > div {
     max-width: 100%;
     float: unset;
   }
 
   #profile-mod-panel {
-
     input.onlylink {
       margin-left: 0;
     }
@@ -209,8 +209,8 @@ input[type="color"],
     color: #323c45;
   }
 
-  li>a {
+  li > a {
     padding-left: 5px;
-    color: #8F8E8E;
+    color: #8f8e8e;
   }
 }

@@ -1,5 +1,6 @@
-import classnames from 'classnames';
-import { MenuListItem } from '../..';
+import SetProps from "@style-guide/helpers/SetProps";
+import classnames from "classnames";
+import MenuListItem from "./Item";
 
 /**
  * @typedef {"small" | "normal" | "large"} Size
@@ -12,27 +13,25 @@ import { MenuListItem } from '../..';
 
 const SG = "sg-menu-list";
 const SGD = `${SG}--`;
-const SG_ = `${SG}__`;
 
 /**
  * @param {Properties} param0
  */
-export default function({ items, size = "normal", className, ...props } = {}) {
-  const listClass = classnames(SG, {
+export default function ({ items, size = "normal", className, ...props } = {}) {
+  const listClass = classnames(
+    SG,
+    {
       [SGD + size]: size !== "normal",
     },
-    className
+    className,
   );
 
-  let list = document.createElement("ul");
+  const list = document.createElement("ul");
   list.className = listClass;
 
-  if (props)
-    for (let [propName, propVal] of Object.entries(props))
-        list[propName] = propVal;
+  SetProps(list, props);
 
-  if (items)
-    items.forEach(item => list.append(MenuListItem(item)));
+  if (items) items.forEach(item => list.append(MenuListItem(item)));
 
   return list;
 }

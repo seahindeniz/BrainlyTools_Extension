@@ -7,9 +7,6 @@
     "module": "commonjs",
     "noEmit": true,
     "paths": {
-      "@/*": [
-        "src/*"
-      ],
       "@BrainlyAction": [
         "src/scripts/controllers/Req/Brainly/Action"
       ],
@@ -21,6 +18,9 @@
       ],
       "@style-guide/*": [
         "src/scripts/components/style-guide/*"
+      ],
+      "@/*": [
+        "src/*"
       ]
     },
     "target": "es6",

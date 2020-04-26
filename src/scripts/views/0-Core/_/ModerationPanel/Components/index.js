@@ -1,4 +1,5 @@
 import { MenuListItem } from "@/scripts/components/style-guide";
+import IsVisible from "@/scripts/helpers/IsVisible";
 
 export default class {
   /**
@@ -16,6 +17,7 @@ export default class {
      */
     this.liLinkContent = undefined;
   }
+
   RenderListItem() {
     this.li = MenuListItem({
       children: this.liLinkContent,
@@ -28,14 +30,19 @@ export default class {
     this.RenderLiContent();
 
     // @ts-ignore
-    this.liContent && this.li.append(this.liContent);
+    if (this.liContent) this.li.append(this.liContent);
   }
+
+  // eslint-disable-next-line class-methods-use-this
   RenderLiContent() {}
+
   /**
    * @param {HTMLElement} element
    */
+  // eslint-disable-next-line class-methods-use-this
   HideElement(element) {
-    if (element && element.parentNode)
-      element.parentNode.removeChild(element);
+    if (!element || !IsVisible(element)) return;
+
+    element.parentElement.removeChild(element);
   }
 }

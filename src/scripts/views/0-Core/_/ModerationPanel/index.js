@@ -31,7 +31,7 @@ const SELECTOR = {
   OLD_PANEL_COVERING_TEXT: `
   #moderate-functions-panel > div.panel > div.covering-text`,
   PANELS: ".brn-moderation-panel__list, #moderate-functions",
-}
+};
 
 class ModerationPanel {
   constructor() {
@@ -41,15 +41,15 @@ class ModerationPanel {
     this.$oldPanel = $(SELECTOR.OLD_PANEL);
     this.$oldPanelCoveringText = $(SELECTOR.OLD_PANEL_COVERING_TEXT);
     this.components = {
-      immediately: [{
+      immediately: [
+        {
           constructor: SearchUser,
         },
         {
           constructor: NoticeBoard,
-          condition: (
+          condition:
             System.checkUserP(20) ||
-            System.data.Brainly.userData.extension.noticeBoard !== null
-          )
+            System.data.Brainly.userData.extension.noticeBoard !== null,
         },
         {
           constructor: MassMessageSender,
@@ -62,9 +62,10 @@ class ModerationPanel {
         {
           constructor: MassManageUsers,
           condition: [27, 30, 31, 32],
-        }
+        },
       ],
-      afterDeleteReasons: [{
+      afterDeleteReasons: [
+        {
           constructor: ReportedCommentsDeleter,
           condition: 17,
         },
@@ -80,7 +81,7 @@ class ModerationPanel {
           constructor: MassModerateReportedContents,
           condition: 18,
         },
-      ]
+      ],
     };
 
     this.RenderList();
@@ -89,26 +90,29 @@ class ModerationPanel {
     this.RenderResizeTrackingElement();
     this.BindHandlers();
   }
+
   RenderList() {
     this.listContainer = Flex({
       marginBottom: "s",
-      children: (
-        this.ul = MenuList({
-          size: "small",
-        })
-      )
+      children: (this.ul = MenuList({
+        size: "small",
+      })),
     });
 
-    let panel = document.querySelector(SELECTOR.PANELS);
+    const panel = document.querySelector(SELECTOR.PANELS);
 
-    if (panel)
-      panel.prepend(this.listContainer);
+    if (panel) panel.prepend(this.listContainer);
   }
+
   /**
    * @param {"immediately" | "afterDeleteReasons"} [groupName]
    */
   InitComponents(groupName = "immediately") {
-    this.components[groupName].forEach(
+    const group = this.components[groupName];
+
+    if (!group) return;
+
+    group.forEach(
       /**
        * @param {{
        *  constructor: ComponentsType,
@@ -118,29 +122,28 @@ class ModerationPanel {
       componentLayer => {
         if (
           !("condition" in componentLayer) ||
-          (
-            componentLayer.condition === true ||
-            (
-              (
-                typeof componentLayer.condition == "number" ||
-                componentLayer.condition instanceof Array
-              ) &&
-              System.checkUserP(componentLayer.condition)
-            )
-          )
+          componentLayer.condition === true ||
+          ((typeof componentLayer.condition === "number" ||
+            componentLayer.condition instanceof Array) &&
+            System.checkUserP(componentLayer.condition))
         ) {
+          // eslint-disable-next-line no-new
           new componentLayer.constructor(this);
         }
-      });
+      },
+    );
   }
+
   async InitComponentsAfterDeleteReasonsLoaded() {
     await WaitForObject(
-      "System.data.Brainly.deleteReasons.__withTitles.comment", {
-        noError: true
-      }
+      "System.data.Brainly.deleteReasons.__withTitles.comment",
+      {
+        noError: true,
+      },
     );
     this.InitComponents("afterDeleteReasons");
   }
+
   RenderResizeTrackingElement() {
     this.$resizeOverlay = $(`
 		<div class="resizeOverlay">
@@ -150,27 +153,32 @@ class ModerationPanel {
     this.$resizeStyle = $("style", this.$resizeOverlay);
     this.$resizeOverlay.appendTo(document.body);
   }
+
   BindHandlers() {
     this.$newPanelButton.click(this.DelayedHeightFix.bind(this));
     this.$oldPanelCoveringText.click(this.DelayedHeightFix.bind(this));
     window.addEventListener("load", this.FixPanelsHeight.bind(this));
-    window.addEventListener('scroll', this.FixPanelsHeight.bind(this))
+    window.addEventListener("scroll", this.FixPanelsHeight.bind(this));
 
-    if ("ResizeObserver" in window) {
-      new ResizeObserver(this.FixPanelsHeight.bind(this))
-        .observe(this.$resizeOverlay[0])
+    if (window.ResizeObserver) {
+      new ResizeObserver(this.FixPanelsHeight.bind(this)).observe(
+        this.$resizeOverlay[0],
+      );
     } else {
-      window.addEventListener('resize', this.FixPanelsHeight.bind(this))
+      window.addEventListener("resize", this.FixPanelsHeight.bind(this));
     }
   }
+
   async DelayedHeightFix() {
     await System.Delay(15);
     this.FixPanelsHeight();
   }
+
   FixPanelsHeight() {
     this.FixNewPanelsHeight();
     this.FixOldPanelsHeight();
   }
+
   FixNewPanelsHeight() {
     if (this.$newPanel.length > 0) {
       let height = window.innerHeight - 226;
@@ -181,12 +189,12 @@ class ModerationPanel {
       this.$newPanel.css("cssText", `height: ${height}px`);
     }
   }
+
   FixOldPanelsHeight() {
     if (this.$oldPanel.length > 0) {
       let height = window.innerHeight - 115;
 
-      if (this.$statistics.is(":visible"))
-        height -= 160;
+      if (this.$statistics.is(":visible")) height -= 160;
 
       if (this.$oldPanel[0].scrollHeight < height)
         height = this.$oldPanel[0].scrollHeight;
@@ -200,4 +208,4 @@ class ModerationPanel {
   }
 }
 
-export default ModerationPanel
+export default ModerationPanel;

@@ -12,4 +12,5 @@ declare global {
   var Zadanium: { [x: string]: any };
   var selectors: { [x: string]: string };
   var sitePassedParams: string | { [x: string]: any };
+  var profileData: { id: number; nick: string };
 }

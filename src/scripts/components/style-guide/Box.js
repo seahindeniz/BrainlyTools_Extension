@@ -1,6 +1,8 @@
-import classnames from 'classnames';
-import Icon from './Icon';
-import AddChildren from './helpers/AddChildren';
+/* eslint-disable no-underscore-dangle */
+import classnames from "classnames";
+import Icon from "./Icon";
+import AddChildren from "./helpers/AddChildren";
+import SetProps from "./helpers/SetProps";
 
 /**
  * @typedef {(
@@ -62,20 +64,32 @@ import AddChildren from './helpers/AddChildren';
 
 const SG = "sg-box";
 const SGD = `${SG}--`;
-const SG_ = `${SG}__`;
 
 export const PADDING = {
-  no: 'no-padding',
-  small: 'small-padding',
-  xsmall: 'xsmall-padding',
-  xxsmall: 'xxsmall-padding',
-  large: 'large-padding',
+  no: "no-padding",
+  small: "small-padding",
+  xsmall: "xsmall-padding",
+  xxsmall: "xxsmall-padding",
+  large: "large-padding",
 };
+
+/**
+ * @this {BoxElement}
+ * @param {Color} color
+ */
+function _ChangeColor(color) {
+  this.classList.remove(SGD + this.color);
+  this.classList.add(SGD + color);
+
+  this.color = color;
+
+  return this;
+}
 
 /**
  * @param {Properties} param0
  */
-export default function({
+export default function ({
   color,
   padding,
   full,
@@ -91,9 +105,10 @@ export default function({
   ...props
 } = {}) {
   const boxClass = classnames(
-    SG, {
+    SG,
+    {
       [SGD + color]: color,
-      [`${SGD + border}-border`]: border && border != "default",
+      [`${SGD + border}-border`]: border && border !== "default",
       [`${SGD}full`]: full,
       [SGD + PADDING[padding]]: PADDING[padding],
       [`${SGD}image-wrapper`]: imgSrc,
@@ -101,24 +116,24 @@ export default function({
       [`${SGD}with-shadow`]: shadow,
       [`${SGD}no-border-radius`]: noBorderRadius,
     },
-    className
+    className,
   );
 
   /**
    * @type {BoxElement}
    */
   // @ts-ignore
-  let box = document.createElement("div");
+  const box = document.createElement("div");
   box.className = boxClass;
 
   if (onClose) {
-    let close = document.createElement("div");
-    close.className = `${SG_}close`;
+    const close = document.createElement("div");
+    close.className = `${SG}__close`;
     close.addEventListener("click", onClose);
 
     box.append(close);
 
-    let icon = Icon({
+    const icon = Icon({
       size: 16,
       type: "close",
       color: closeIconColor,
@@ -131,37 +146,22 @@ export default function({
 
   if (imgSrc !== undefined && imgSrc !== null) {
     content = document.createElement("img");
-    content.className = `${SG_}image`;
+    content.className = `${SG}__image`;
     content.src = imgSrc;
   } else {
     content = document.createElement("div");
-    content.className = `${SG_}hole`;
+    content.className = `${SG}__hole`;
 
     AddChildren(content, children);
   }
 
   box.append(content);
 
-  if (props)
-    for (let [propName, propVal] of Object.entries(props))
-      box[propName] = propVal;
+  SetProps(box, props);
 
   box.color = color;
   // @ts-ignore
   box.ChangeColor = _ChangeColor;
 
   return box;
-}
-
-/**
- * @this {BoxElement}
- * @param {Color} color
- */
-function _ChangeColor(color) {
-  this.classList.remove(SGD + this.color);
-  this.classList.add(SGD + color);
-
-  this.color = color;
-
-  return this;
 }

@@ -12,39 +12,47 @@ export default class SubReasonSection {
     this.Render();
     this.BindHandler();
   }
+
   Render() {
-    this.selectContainer = Select({
+    this.selectComponent = Select({
       options: this.reason.map(reason => {
-        let subReason = new SubReason(this, reason);
+        const subReason = new SubReason(this, reason);
 
         return {
           text: reason.text,
-          subReason
-        }
-      })
+          subReason,
+        };
+      }),
     });
-    this.selectElement = this.selectContainer.querySelector("select");
     this.container = ContentBox({
       children: ContentBoxContent({
         spacedTop: "small",
         spacedBottom: true,
-        children: this.selectContainer
-      })
+        children: this.selectComponent.container,
+      }),
     });
 
     this.Selected();
   }
+
   BindHandler() {
-    this.selectElement.addEventListener("change", this.Selected.bind(this));
+    this.selectComponent.select.addEventListener(
+      "change",
+      this.Selected.bind(this),
+    );
   }
+
   Selected() {
     this.HideSelectedSubReason();
-    if (this.selectElement.selectedOptions && this.selectElement.selectedOptions.length > 0) {
+    if (
+      this.selectComponent.select.selectedOptions &&
+      this.selectComponent.select.selectedOptions.length > 0
+    ) {
       /**
        * @type {SubReason}
        */
       // @ts-ignore
-      let subReason = this.selectElement.selectedOptions[0].subReason;
+      const { subReason } = this.selectComponent.select.selectedOptions[0];
 
       if (subReason) {
         this.main.selectedSubReason = subReason;
@@ -53,8 +61,8 @@ export default class SubReasonSection {
       }
     }
   }
+
   HideSelectedSubReason() {
-    if (this.main.selectedSubReason)
-      this.main.selectedSubReason.HideInput();
+    if (this.main.selectedSubReason) this.main.selectedSubReason.HideInput();
   }
 }

@@ -1,6 +1,6 @@
-import classnames from 'classnames';
-import AddChildren from './helpers/AddChildren';
-import SetProps from './helpers/SetProps';
+import classnames from "classnames";
+import AddChildren from "./helpers/AddChildren";
+import SetProps from "./helpers/SetProps";
 
 /**
  * @typedef {'large' | 'normal'} SelectSizeType
@@ -11,7 +11,8 @@ import SetProps from './helpers/SetProps';
  *  value?: string | number,
  *  text?: string,
  *  title?: string,
- * } & {[x: string]: *}} OptionProperties
+ *  [x: string]: *
+ * }} OptionProperties
  *
  * @typedef {{
  *  value?: string | number | string[] | number[],
@@ -23,96 +24,104 @@ import SetProps from './helpers/SetProps';
  *  size?: SelectSizeType,
  *  color?: SelectColorType,
  *  className?: string,
- *  options?: OptionProperties[],
+ *  options?: (OptionProperties | HTMLOptionElement)[],
  *  children?: import('./helpers/AddChildren').ChildrenParamType,
- * } & {[x: string]: *}} SelectProperties
+ *  [propName: string]: *
+ * }} SelectProperties
  */
 const SG = "sg-select";
-const SGD = `${SG}--`
-const SG_ = `${SG}__`
+const SGD = `${SG}--`;
 
-/**
- * @param {SelectProperties} param0
- */
-export default function({
-  valid,
-  invalid,
-  capitalized,
-  fullWidth,
-  value,
-  size = "normal",
-  color,
-  className,
-  multiple,
-  options = [],
-  children,
-  ...props
-} = {}) {
-  if (valid === true && invalid === true)
-    throw "Select can be either valid or invalid!";
+class Select {
+  /**
+   * @param {SelectProperties} param0
+   */
+  constructor({
+    valid,
+    invalid,
+    capitalized,
+    fullWidth,
+    value,
+    size = "normal",
+    color,
+    className,
+    multiple,
+    options = [],
+    children,
+    ...props
+  } = {}) {
+    if (valid === true && invalid === true)
+      throw Error("Select can be either valid or invalid!");
 
-  const selectClass = classnames(SG, {
-    [`${SGD}valid`]: valid,
-    [`${SGD}invalid`]: invalid,
-    [`${SGD}capitalized`]: capitalized,
-    [`${SGD}full-width`]: fullWidth,
+    this.value = value;
+    this.options = options;
 
-    [`${SGD}multiple`]: multiple,
-    [SGD + size]: multiple === true && size !== "normal",
-    [SGD + color]: color,
-  }, className);
+    const selectClass = classnames(
+      SG,
+      {
+        [`${SGD}valid`]: valid,
+        [`${SGD}invalid`]: invalid,
+        [`${SGD}capitalized`]: capitalized,
+        [`${SGD}full-width`]: fullWidth,
 
-  let container = document.createElement("div");
-  container.className = selectClass;
+        [`${SGD}multiple`]: multiple,
+        [SGD + size]: multiple === true && size !== "normal",
+        [SGD + color]: color,
+      },
+      className,
+    );
 
-  if (!multiple) {
-    let icon = document.createElement("div");
-    icon.className = `${SG_}icon`;
+    this.container = document.createElement("div");
+    this.container.className = selectClass;
 
-    container.append(icon);
+    if (!multiple) {
+      this.icon = document.createElement("div");
+      this.icon.className = `${SG}__icon`;
+
+      this.container.append(this.icon);
+    }
+
+    this.select = document.createElement("select");
+    this.select.className = `${SG}__element`;
+
+    this.RenderOptions();
+    AddChildren(this.select, children);
+    SetProps(this.select, props);
+
+    this.container.append(this.select);
   }
 
-  let select = document.createElement("select");
-  select.className = `${SG_}element`;
+  RenderOptions() {
+    this.optionElements = this.options.map(option => {
+      if (option instanceof HTMLElement) return option;
 
-  RenderOptions(select, options, value);
-  AddChildren(select, children);
-  SetProps(select, props);
+      const { value, text, title, ...props } = option;
+      const optionElement = document.createElement("option");
 
-  container.append(select);
+      if (title) optionElement.title = title;
 
-  return container;
+      if (text) optionElement.innerHTML = text;
+
+      if (value) optionElement.value = String(value);
+
+      if (this.value)
+        if (this.value instanceof Array)
+          // @ts-ignore
+          optionElement.selected = this.value.includes(value);
+        else optionElement.selected = this.value === value;
+
+      SetProps(optionElement, props);
+
+      this.select.appendChild(optionElement);
+
+      return optionElement;
+    });
+  }
 }
 
 /**
- * @param {HTMLSelectElement} select
- * @param {OptionProperties[]} options
- * @param {string | number | string[] | number[]} [values]
+ * @param {SelectProperties} props
  */
-function RenderOptions(select, options, values) {
-  options.forEach(({ value, text, title, ...props }) => {
-    let optionElement = document.createElement("option");
-
-    if (title)
-      optionElement.title = title;
-
-    if (text)
-      optionElement.innerHTML = text;
-
-    if (value)
-      optionElement.value = String(value);
-
-    if (values)
-      if (values instanceof Array)
-        // @ts-ignore
-        optionElement.selected = values.includes(value);
-      else
-        optionElement.selected = values === value;
-
-    if (props)
-      for (let [propName, propVal] of Object.entries(props))
-        optionElement[propName] = propVal;
-
-    select.appendChild(optionElement);
-  });
+export default function (props) {
+  return new Select(props);
 }

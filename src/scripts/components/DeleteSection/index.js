@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-param-reassign */
 import Build from "../../helpers/Build";
 import {
   Checkbox,
@@ -6,11 +8,11 @@ import {
   Flex,
   SeparatorVertical,
   Text,
-  Textarea
+  Textarea,
 } from "../style-guide";
 import RadioSection from "./RadioSection";
 
-const noop = (...params) => {};
+const noop = () => {};
 
 class DeleteSection {
   /**
@@ -53,15 +55,14 @@ class DeleteSection {
       contentTypeChange: noop,
       reasonChange: noop,
       subReasonChange: noop,
-      ...handlers
+      ...handlers,
     };
     /**
      * @type {RadioSection}
      */
-    this.selectedReasonSection;
+    this.selectedReasonSection = undefined;
 
-    if (this.type && !this.reasons)
-      this.SetReasons();
+    if (this.type && !this.reasons) this.SetReasons();
 
     this.Render();
     this.RenderTakePoints();
@@ -74,62 +75,68 @@ class DeleteSection {
       this.UpdateReasonSection();
     }
   }
+
   /**
    * @param {string} type
    */
   set type(type) {
-    if (typeof type == "string")
-      type = type.toLowerCase();
+    if (typeof type === "string") type = type.toLowerCase();
 
     this._type = type;
   }
+
   get type() {
     return this._type;
   }
+
   SetReasons() {
     this.reasons = System.data.Brainly.deleteReasons[this.type];
   }
+
   Render() {
-    this.container = Build(ContentBox({
-      spacedTop: !this.noSpacedTop,
-      spacedBottom: true,
-      full: true
-    }), [
+    this.container = Build(
+      ContentBox({
+        spacedTop: !this.noSpacedTop,
+        spacedBottom: true,
+        full: true,
+      }),
       [
-        ContentBoxActions(),
-        ContentBox({ full: true })
+        [ContentBoxActions(), ContentBox({ full: true })],
+        [
+          ContentBoxActions(),
+          Textarea({
+            tag: "textarea",
+            invalid: true,
+            fullWidth: true,
+            className: "sg-text--small",
+          }),
+        ],
+        [
+          ContentBoxActions(),
+          (this.optionsSection = Flex({
+            direction: this.verticalOptions ? "column" : "",
+          })),
+        ],
       ],
-      [
-        ContentBoxActions(),
-        Textarea({
-          tag: "textarea",
-          invalid: true,
-          fullWidth: true,
-          className: "sg-text--small"
-        })
-      ],
-      [
-        ContentBoxActions(),
-        this.optionsSection = Flex({
-          direction: this.verticalOptions ? "column" : "",
-        }),
-      ],
-    ]);
+    );
     this.$ = $(this.container);
 
-    this.$textarea = $('textarea', this.$);
+    this.$textarea = $("textarea", this.$);
     this.$listSection = $(
-      "> .sg-content-box__actions:eq(0) > .sg-content-box", this.$);
+      "> .sg-content-box__actions:eq(0) > .sg-content-box",
+      this.$,
+    );
   }
+
   RenderTakePoints() {
-    let takePointsLocale = System.data.locale.common.moderating
-      .takePoints[this.type || "question"];
+    const takePointsLocale =
+      System.data.locale.common.moderating.takePoints[this.type || "question"];
 
     if (takePointsLocale) {
       this.$takePointsContainer = this.RenderOption(
         "take_points",
         takePointsLocale.text,
-        takePointsLocale.title
+        takePointsLocale.title,
       );
 
       if (!this.verticalOptions)
@@ -140,26 +147,27 @@ class DeleteSection {
       this.$takePoints = $("input", this.$takePointsContainer);
     }
   }
+
   RenderOption(id, label, title) {
-    let option = Build(Flex({
-      marginTop: this.verticalOptions ? "xs" : "",
-    }), [
+    const option = Build(
+      Flex({
+        marginTop: this.verticalOptions ? "xs" : "",
+      }),
       [
-        Flex({ marginRight: "xs", }),
-        Checkbox({ id: id, }),
+        [Flex({ marginRight: "xs" }), Checkbox({ id })],
+        [
+          Flex(),
+          Text({
+            tag: "label",
+            htmlFor: id,
+            html: label,
+            weight: "bold",
+            size: "xsmall",
+            title,
+          }),
+        ],
       ],
-      [
-        Flex(),
-        Text({
-          tag: "label",
-          htmlFor: id,
-          html: label,
-          weight: "bold",
-          size: "xsmall",
-          title: title,
-        })
-      ],
-    ]);
+    );
     /* let $checkboxGhost = $(".sg-checkbox__ghost", $option);
     let icon = Icon({
       type: "check",
@@ -170,6 +178,8 @@ class DeleteSection {
 
     return $(option);
   }
+
+  // eslint-disable-next-line class-methods-use-this
   RenderHoleSeparator() {
     return Flex({
       children: SeparatorVertical({
@@ -177,10 +187,13 @@ class DeleteSection {
       }),
     });
   }
+
   RenderReturnPoints() {
-    this.$returnPointsContainer = this.RenderOption("return_points", System
-      .data.locale.common.moderating.returnPoints.text, System.data.locale
-      .common.moderating.returnPoints.title);
+    this.$returnPointsContainer = this.RenderOption(
+      "return_points",
+      System.data.locale.common.moderating.returnPoints.text,
+      System.data.locale.common.moderating.returnPoints.title,
+    );
 
     this.$returnPoints = $("input", this.$returnPointsContainer);
 
@@ -188,14 +201,18 @@ class DeleteSection {
       this.$returnPointsContainer.append(this.RenderHoleSeparator());
     }
   }
+
   RenderGiveWarning() {
-    this.$giveWarningContainer = this.RenderOption("give_warning", System.data
-      .locale.common.moderating.giveWarning.text, System.data.locale.common
-      .moderating.giveWarning.title);
+    this.$giveWarningContainer = this.RenderOption(
+      "give_warning",
+      System.data.locale.common.moderating.giveWarning.text,
+      System.data.locale.common.moderating.giveWarning.title,
+    );
     this.$giveWarning = $("input", this.$giveWarningContainer);
   }
+
   RenderContentTypeSection() {
-    let sectionData = {
+    const sectionData = {
       name: "contentType",
       text: System.data.locale.core.MassModerateContents.contentType,
       warning: System.data.locale.common.moderating.selectContentType,
@@ -208,15 +225,16 @@ class DeleteSection {
       if (!this.hideReasons.includes(type))
         sectionData.items.push({
           id: type,
-          label: System.data.locale.popup.extensionOptions
-            .quickDeleteButtons[type]
+          label:
+            System.data.locale.popup.extensionOptions.quickDeleteButtons[type],
         });
-    })
+    });
 
     this.contentTypeSection = new RadioSection(sectionData);
 
-    this.$listSection.append(this.contentTypeSection.container)
+    this.$listSection.append(this.contentTypeSection.container);
   }
+
   /**
    * @param {Event} event
    */
@@ -224,14 +242,13 @@ class DeleteSection {
     this.HideOptions();
     this.ShowContentType();
 
-    if (event.target instanceof HTMLElement)
-      this.type = event.target.id;
+    if (event.target instanceof HTMLElement) this.type = event.target.id;
 
-    let status = this.handlers.contentTypeChange(event);
+    const status = this.handlers.contentTypeChange(event);
 
     if (status === false) {
       this.type = this.lastSelectedContentType;
-      let input = $(`#${this.type}`, this.contentTypeSection.container);
+      const input = $(`#${this.type}`, this.contentTypeSection.container);
 
       input.prop("checked", true);
       input.change();
@@ -243,10 +260,12 @@ class DeleteSection {
 
     this.ShowReasons();
   }
+
   ShowReasons() {
     this.SetReasons();
     this.UpdateReasonSection();
   }
+
   ShowContentType() {
     this.type = undefined;
     this.reason = undefined;
@@ -255,9 +274,11 @@ class DeleteSection {
     this.HideSections(this.subReasonSections);
     this.$listSection.append(this.contentTypeSection.container);
   }
+
   HideSections(sections) {
-    $.each(sections, (key, section) => section.Hide())
+    $.each(sections, (key, section) => section.Hide());
   }
+
   UpdateReasonSection() {
     this.ShowOptions();
 
@@ -267,15 +288,15 @@ class DeleteSection {
       reasonSection = this.reasonSections[this.type] = new RadioSection({
         name: "reason",
         verticalOptions: this.verticalOptions,
-        text: System.data.locale.core.MassContentDeleter.select["reason"],
+        text: System.data.locale.core.MassContentDeleter.select.reason,
         warning: System.data.locale.common.moderating.selectReason,
         items: this.reasons.map(reason => {
           return {
             id: `r-${reason.id}`,
-            label: reason.title || reason.text
-          }
+            label: reason.title || reason.text,
+          };
         }),
-        changeHandler: this.ReasonRadioChange.bind(this)
+        changeHandler: this.ReasonRadioChange.bind(this),
       });
     }
 
@@ -283,11 +304,13 @@ class DeleteSection {
 
     this.$listSection.append(reasonSection.container);
   }
+
   HideOptions() {
     this.HideTakePoints();
     this.HideReturnPoints();
     this.HideGiveWarning();
   }
+
   ShowOptions() {
     this.HideOptions();
 
@@ -302,15 +325,19 @@ class DeleteSection {
       this.ShowGiveWarning();
     }
   }
+
   HideTakePoints() {
     this.HideElement(this.$takePointsContainer);
   }
+
   HideReturnPoints() {
     this.HideElement(this.$returnPointsContainer);
   }
+
   HideGiveWarning() {
     this.HideElement(this.$giveWarningContainer);
   }
+
   /**
    * @param {HTMLElement | JQuery<HTMLElement>} $element
    */
@@ -319,23 +346,29 @@ class DeleteSection {
       if ($element instanceof HTMLElement) {
         if ($element.parentElement)
           $element.parentElement.removeChild($element);
-      } else
-        $element.detach();
+      } else $element.detach();
     }
   }
+
   ShowTakePoints() {
     this.$takePointsContainer.appendTo(this.optionsSection);
-    this.$takePointsLabel.text(System.data.locale.common.moderating
-      .takePoints[this.type].text);
-    this.$takePointsTitle.attr("title", System.data.locale.common.moderating
-      .takePoints[this.type].title);
+    this.$takePointsLabel.text(
+      System.data.locale.common.moderating.takePoints[this.type].text,
+    );
+    this.$takePointsTitle.attr(
+      "title",
+      System.data.locale.common.moderating.takePoints[this.type].title,
+    );
   }
+
   ShowReturnPoints() {
     this.$returnPointsContainer.appendTo(this.optionsSection);
   }
+
   ShowGiveWarning() {
     this.$giveWarningContainer.appendTo(this.optionsSection);
   }
+
   /**
    * @param {Event} event
    */
@@ -344,30 +377,29 @@ class DeleteSection {
     this.HideSections(this.subReasonSections);
 
     if (event.target instanceof HTMLElement) {
-      let reasonId = System.ExtractId(event.target.id);
+      const reasonId = System.ExtractId(event.target.id);
       this.reason = this.reasons.find(reason => reason.id == reasonId);
       let subReasonSection = this.subReasonSections[reasonId];
 
       if (!subReasonSection) {
-        subReasonSection = this.subReasonSections[reasonId] =
-          new RadioSection({
-            name: "subReason",
-            verticalOptions: this.verticalOptions,
-            text: System.data.locale.core.MassContentDeleter.select[
-              "subReason"],
-            items: this.reason.subcategories.map(reason => {
-              return {
-                id: `sr-${reason.id}`,
-                label: reason.title || reason.text
-              }
-            }),
-            changeHandler: this.SubReasonRadioChange.bind(this)
-          });
+        subReasonSection = this.subReasonSections[reasonId] = new RadioSection({
+          name: "subReason",
+          verticalOptions: this.verticalOptions,
+          text: System.data.locale.core.MassContentDeleter.select.subReason,
+          items: this.reason.subcategories.map(reason => {
+            return {
+              id: `sr-${reason.id}`,
+              label: reason.title || reason.text,
+            };
+          }),
+          changeHandler: this.SubReasonRadioChange.bind(this),
+        });
       }
 
       this.$listSection.append(subReasonSection.container);
     }
   }
+
   /**
    * @param {Event} event
    */
@@ -375,38 +407,40 @@ class DeleteSection {
     this.handlers.subReasonChange(event);
 
     if (event.target instanceof HTMLElement) {
-      let subReasonId = System.ExtractId(event.target.id);
-      let subReason = this.reason.subcategories.find(reason => reason.id ==
-        subReasonId);
+      const subReasonId = System.ExtractId(event.target.id);
+      const subReason = this.reason.subcategories.find(
+        reason => reason.id == subReasonId,
+      );
 
       this.$textarea.val(subReason.text);
     }
   }
+
   /**
    * @returns {{id: number, category_id: number, text: string, title: string}}
    */
   get selectedReason() {
-    if (!this.type)
-      this.contentTypeSection.ShowWarning();
-    else if (!this.reason)
-      this.selectedReasonSection.ShowWarning();
-    else
-      return this.reason;
+    if (!this.type) this.contentTypeSection.ShowWarning();
+    else if (!this.reason) this.selectedReasonSection.ShowWarning();
+    else return this.reason;
   }
+
   get reasonText() {
     return String(this.$textarea.val());
   }
+
   get takePoints() {
-    if (this.$takePoints.is(":visible"))
-      return this.$takePoints.is(':checked');
+    if (this.$takePoints.is(":visible")) return this.$takePoints.is(":checked");
   }
+
   get returnPoints() {
     if (this.$returnPoints.is(":visible"))
-      return this.$returnPoints.is(':checked');
+      return this.$returnPoints.is(":checked");
   }
+
   get giveWarning() {
-    return this.$giveWarning.is(':checked');
+    return this.$giveWarning.is(":checked");
   }
 }
 
-export default DeleteSection
+export default DeleteSection;

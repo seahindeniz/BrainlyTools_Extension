@@ -5,7 +5,7 @@ import {
   Radio,
   SeparatorHorizontal,
   SeparatorVertical,
-  Text
+  Text,
 } from "../style-guide";
 
 class RadioSection {
@@ -42,59 +42,64 @@ class RadioSection {
     this.RenderHorizontalSeparator();
     this.RenderWarning();
 
-    if (items.length > 0)
-      this.RenderItems();
+    if (items.length > 0) this.RenderItems();
 
     this.BindHandler();
   }
+
   Render() {
-    this.container = Build(ContentBoxActions({
-      spacedTop: "small",
-      spacedBottom: "small",
-    }), [
+    this.container = Build(
+      ContentBoxActions({
+        spacedTop: "small",
+        spacedBottom: "small",
+      }),
       [
-        Flex({
-          marginTop: "xs",
-          marginRight: this.verticalOptions ? "l" : "",
-        }),
         [
+          Flex({
+            marginTop: "xs",
+            marginRight: this.verticalOptions ? "l" : "",
+          }),
           [
-            Flex({
-              marginTop: "xs",
-              marginRight: "s",
-              marginBottom: "xs",
-              noShrink: true,
-            }),
-            Text({
-              size: "small",
-              html: `${this.text}:`,
-            }),
+            [
+              Flex({
+                marginTop: "xs",
+                marginRight: "s",
+                marginBottom: "xs",
+                noShrink: true,
+              }),
+              Text({
+                size: "small",
+                html: `${this.text}:`,
+              }),
+            ],
+            [
+              (this.list = Flex({
+                wrap: true,
+                direction: this.verticalOptions ? "column" : "row",
+              })),
+            ],
           ],
-          [
-            this.list = Flex({
-              wrap: true,
-              direction: this.verticalOptions ? "column" : "row",
-            }),
-          ]
-        ]
-      ]
-    ]);
+        ],
+      ],
+    );
   }
+
   RenderHorizontalSeparator() {
-    if (this.noHorizontalSeparator)
-      return;
+    if (this.noHorizontalSeparator) return;
 
     this.separator = SeparatorHorizontal();
 
     this.container.prepend(this.separator);
   }
+
   RenderWarning() {
-    let type = this.verticalOptions ? "column" : "row";
-    let position = this.verticalOptions ? "left fixedTop" : "top"
+    const type = this.verticalOptions ? "column" : "row";
+    const position = this.verticalOptions ? "left fixedTop" : "top";
     this.$warning = $(
-      `<div class="sg-bubble sg-bubble--${position} sg-bubble--${type}-start sg-bubble--peach sg-text--white" style="z-index: 1;">${this.warning}</div>`
+      `<div class="sg-bubble sg-bubble--${position} sg-bubble--${type}-start sg-bubble--peach sg-text--white" style="z-index: 1;">${this.warning}</div>`,
     );
   }
+
   RenderItems() {
     this.items.forEach((item, i) => {
       this.RenderItem(item);
@@ -103,6 +108,7 @@ class RadioSection {
         this.RenderSeparator();
     });
   }
+
   /**
    * @param {Item} data
    */
@@ -121,11 +127,8 @@ class RadioSection {
         </label>
       </div>
     </div>`); */
-    let item = Build(Flex({ marginTop: "xs", marginBottom: "xs", }), [
-      [
-        Flex({ marginRight: "xs", }),
-        Radio({ id: data.id, name: this.name }),
-      ],
+    const item = Build(Flex({ marginTop: "xs", marginBottom: "xs" }), [
+      [Flex({ marginRight: "xs" }), Radio({ id: data.id, name: this.name })],
       [
         Flex(),
         Text({
@@ -134,14 +137,15 @@ class RadioSection {
           html: data.label,
           weight: "bold",
           size: "xsmall",
-        })
+        }),
       ],
     ]);
 
-    this.list.append(item)
+    this.list.append(item);
   }
+
   RenderSeparator() {
-    let separator = Flex({
+    const separator = Flex({
       marginTop: "xs",
       marginBottom: "xs",
       children: SeparatorVertical({
@@ -151,18 +155,22 @@ class RadioSection {
 
     this.list.append(separator);
   }
+
   BindHandler() {
     $("input", this.list).change(this.InputChanged.bind(this));
   }
+
   InputChanged(event) {
     this.HideWarning();
 
-    if (this.changeHandler)
-      this.changeHandler(event);
+    if (this.changeHandler) this.changeHandler(event);
   }
+
   Hide() {
+    $("input", this.list).prop("checked", false);
     this.HideElement(this.container);
   }
+
   /**
    * @param {HTMLElement | JQuery<HTMLElement>} $element
    */
@@ -171,28 +179,29 @@ class RadioSection {
       if ($element instanceof HTMLElement) {
         if ($element.parentElement)
           $element.parentElement.removeChild($element);
-      } else
-        $element.detach();
+      } else $element.detach();
     }
   }
+
   ShowWarning() {
     if (!this.$warning.is(":visible")) {
-      this.container.append(this.$warning[0])
+      this.container.append(this.$warning[0]);
     } else {
       this.$warning
-        .fadeTo('fast', 0.5)
-        .fadeTo('fast', 1)
-        .fadeTo('fast', 0.5)
-        .fadeTo('fast', 1);
+        .fadeTo("fast", 0.5)
+        .fadeTo("fast", 1)
+        .fadeTo("fast", 0.5)
+        .fadeTo("fast", 1);
     }
 
     this.$warning.focus();
   }
+
   async HideWarning() {
-    await this.$warning.slideUp('fast').promise();
+    await this.$warning.slideUp("fast").promise();
     this.HideElement(this.$warning);
     this.$warning.show();
   }
 }
 
-export default RadioSection
+export default RadioSection;

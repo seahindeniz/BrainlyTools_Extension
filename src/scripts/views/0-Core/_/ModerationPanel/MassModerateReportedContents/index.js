@@ -1,411 +1,559 @@
+import Modal from "@/scripts/components/Modal2";
+import notification from "@/scripts/components/notification2";
+import Build from "@/scripts/helpers/Build";
+import InsertBefore from "@/scripts/helpers/InsertBefore";
+import Action from "@BrainlyAction";
 import ServerReq from "@ServerReq";
-import template from "backtick-template";
+import {
+  Button,
+  ContentBox,
+  ContentBoxActions,
+  ContentBoxContent,
+  Flex,
+  Icon,
+  Spinner,
+  Text,
+} from "@style-guide";
+import Excel from "exceljs";
+import { saveAs } from "file-saver";
+import moment from "moment";
 import Components from "../Components";
-import Button from "../../../../../components/Button";
-import Modal from "../../../../../components/Modal";
-import Action from "../../../../../controllers/Req/Brainly/Action";
-import ConditionSection from "./ConditionSection";
-// @ts-ignore
-import templateModalContent from "./templates/ModalContent.html";
+import Moderator from "./Moderator";
+import Report from "./Report";
 
-export default class MassModerateReportedContents extends Components {
+export default class extends Components {
   constructor(main) {
     super(main);
-
-    this.users = [];
-    this.lastIds = [];
+    this.liLinkContent =
+      System.data.locale.core.massModerateReportedContents.text;
     /**
-     * @typedef {{id: number, warnings_count: number, reports_count: number, successfull_reports_count: number, removed_contents_count:number}} ReportedUser
-     * @type {{model_id: number, model_type_id: number, subject_id: 5, task_id: number, content_short: string, created: string, report: {created: string, abuse: {category_id: number, data: string, name: string, subcategory_id: number}, user: ReportedUser}, user: ReportedUser}[]}
+     * @type {{
+     *  all: Moderator[],
+     *  moderating: Moderator[],
+     * }}
      */
-    this.reports = [];
-    this.requestLimit = 1;
-    this.conditionCount = 0;
-    this.isModerating = false;
-    this.matchedSections = [];
-    this.moderatedReports = [];
-    this.commonConditionSection;
-    this.openedFetchingConnections = 0;
-    this.liLinkContent = System.data.locale.core.massModerateReportedContents
-      .text;
+    this.moderators = {
+      all: [],
+      moderating: [],
+    };
+    this.loop = {};
+    this.numberOfActiveConnections = 0;
+    this.users = {
+      /**
+       * @typedef {import("@BrainlyAction").UsersDataInReportedContentsType} UsersDataInReportedContentsType
+       *
+       * @type {UsersDataInReportedContentsType[]}
+       */
+      all: [],
+      /**
+       * @type {{[x: number]: UsersDataInReportedContentsType}}
+       */
+      byId: {},
+    };
+    this.contentTypes = {
+      Question: {
+        model_type_id: 1,
+      },
+      Answer: {
+        model_type_id: 2,
+      },
+    };
+    /**
+     * @type {("Question"| "Answer")[]}
+     */
+    this.contentTypeNames = ["Question", "Answer"];
+    /**
+     * @type {{
+     *  icon: import("@style-guide/Icon").IconTypeType,
+     *  extension: string,
+     *  type: string,
+     * }}
+     */
+    this.exportSpreadsheetFile = {
+      icon: "ext-xlsx",
+      extension: "xlsx",
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    };
 
+    this.ResetReports();
     this.RenderListItem();
-    this.RenderModal();
-    this.RenderAddUniqueConditionSectionButton();
-    this.RenderCommonConditionSection();
-    this.RenderStartButton();
-    this.RenderStartButtonSpinner();
-    this.RenderStopButton();
     this.BindHandlers();
   }
+
+  ResetReports() {
+    /**
+     * @type {Report[]}
+     */
+    this.reports = [];
+  }
+
+  BindHandlers() {
+    this.li.addEventListener("click", this.Open.bind(this));
+  }
+
+  Open() {
+    if (!this.modal) {
+      this.RenderModal();
+      this.RenderFetcherSpinner();
+      this.CollectReports();
+    }
+
+    this.modal.Open();
+  }
+
   RenderModal() {
     this.modal = new Modal({
-      header: `<div class="sg-actions-list sg-actions-list--space-between">
-				<div class="sg-actions-list__hole">
-					<div class="sg-label sg-label--small sg-label--secondary">
-						<div class="sg-text sg-text--peach">${System.data.locale.core.massModerateReportedContents.text}</div>
-					</div>
-				</div>
-			</div>`,
-      content: template(templateModalContent),
-      size: "large"
-    });
-    this.$modal = this.modal.$modal;
-    this.$idInput = $(".id input", this.$modal);
-    this.$spinnerOfFetching = $(".sg-spinner-container", this.$modal);
-    this.$totalReportsCount = $(".js-total-reports-count", this.$modal);
-    this.$fetchedReportsCount = $(".js-fetched-reports-count", this.$modal);
-    this.$conditionSectionsContainer = $(
-      "> .sg-content-box > .sg-content-box__content > .sg-content-box:eq(0)",
-      this.modal.$content);
-    this.$addUniqueConditionSectionButtonContainer = $(
-      "> .sg-content-box > .sg-content-box__content > .sg-content-box:nth-child(2) .sg-actions-list__hole",
-      this.modal.$content);
-    this.$counterContainer = $(
-      ".sg-content-box__actions > .sg-actions-list > .sg-actions-list__hole:eq(1)",
-      this.modal.$content);
-    this.$buttonsMainContainer = $(
-      ".sg-content-box__actions > .sg-actions-list > .sg-actions-list__hole:eq(2)",
-      this.modal.$content);
-    this.$buttonsListContainer = $("> .sg-actions-list", this
-      .$buttonsMainContainer);
-    this.$buttonsContainer = $("> .sg-actions-list__hole", this
-      .$buttonsListContainer);
-  }
-  RenderAddUniqueConditionSectionButton() {
-    this.$addUniqueConditionSectionButton = Button({
-      type: "solid-blue",
-      size: "small",
-      icon: {
-        type: "plus"
+      overlay: true,
+      size: "fit-content",
+      title: System.data.locale.core.massModerateReportedContents.text,
+      content: {
+        children: Build(ContentBox(), [
+          [
+            ContentBoxContent({
+              spacedTop: true,
+            }),
+            [
+              [
+                (this.addModeratorButton = Button({
+                  fullWidth: true,
+                  icon: "plus",
+                  type: "solid-blue",
+                  size: "small",
+                  html:
+                    System.data.locale.core.massModerateReportedContents
+                      .addModerator,
+                })),
+              ],
+            ],
+          ],
+          [
+            ContentBoxActions({
+              spacedBottom: true,
+            }),
+            [
+              [
+                Flex({
+                  fullWidth: true,
+                  justifyContent: "space-between",
+                }),
+                [
+                  [
+                    (this.counterContainer = Flex({
+                      title:
+                        System.data.locale.core.massModerateReportedContents
+                          .fetchedReports,
+                    })),
+                    [
+                      [
+                        Flex({
+                          marginRight: "xxs",
+                          alignItems: "center",
+                        }),
+                        Icon({
+                          type: "report_flag",
+                          size: 22,
+                          color: "peach",
+                        }),
+                      ],
+                      [
+                        Flex({
+                          alignItems: "center",
+                        }),
+                        /* Text({
+                          weight: "bold",
+                          color: "gray-secondary",
+                          children: [
+                            this.fetchedReportsCount =
+                            document
+                            .createTextNode("0"),
+                            "/",
+                            this.totalReportsCount = document
+                            .createTextNode("0"),
+                          ]
+                        }) */
+                        [
+                          [
+                            Flex({ marginRight: "s" }),
+                            Text({
+                              size: "small",
+                              weight: "bold",
+                              color: "gray-secondary",
+                              text: `${System.data.locale.core.massModerateReportedContents.collectedReports}: `,
+                              children: (this.fetchedReportsCount = document.createTextNode(
+                                "0",
+                              )),
+                            }),
+                          ],
+                          [
+                            Flex({}),
+                            Text({
+                              size: "small",
+                              weight: "bold",
+                              color: "gray-secondary",
+                              text: `${System.data.locale.core.massModerateReportedContents.totalReportedContents}: `,
+                              children: (this.totalReportsCount = document.createTextNode(
+                                "0",
+                              )),
+                            }),
+                          ],
+                        ],
+                      ],
+                    ],
+                  ],
+                ],
+              ],
+            ],
+          ],
+        ]),
       },
-      fullWidth: true,
-      text: System.data.locale.core.massModerateReportedContents
-        .addConditionBlock
+      actions: {
+        children: Flex({
+          tag: "blockquote",
+          grow: true,
+          minContent: true,
+          direction: "column",
+          children: System.data.locale.core.massModerateReportedContents.informationText.map(
+            (text, index, arr) => {
+              return Flex({
+                marginBottom: index + 1 < arr.length ? "s" : "",
+                children: Text({
+                  size: "xsmall",
+                  html: text.replace(
+                    "%{addModerator}",
+                    `<b>${System.data.locale.core.massModerateReportedContents.addModerator.toUpperCase()}</b>`,
+                  ),
+                }),
+              });
+            },
+          ),
+        }),
+      },
     });
 
-    this.$addUniqueConditionSectionButton.appendTo(this
-      .$addUniqueConditionSectionButtonContainer);
+    this.BindModalItemListeners();
   }
-  RenderCommonConditionSection() {
-    this.commonConditionSection = this.AddConditionSection(System.data.locale
-      .core.massModerateReportedContents.commonConditions.text, System.data
-      .locale.core.massModerateReportedContents.commonConditions
-      .title, { isCommon: true });
 
-    this.HideElement(this.commonConditionSection.$section);
-  }
-  /**
-   * @param {HTMLElement | JQuery<HTMLElement>} element
-   */
-  HideElement(element) {
-    if (element instanceof HTMLElement)
-      element.parentElement && element.parentElement.removeChild(element);
-    else
-      return element.appendTo("<div />");
-  }
-  AddConditionSection(text, title, options) {
-    if (!text)
-      throw "Title not specified";
-
-    let conditionSection = new ConditionSection(this, text, title, options);
-
-    conditionSection.$section.prop("ConditionSection", conditionSection);
-    conditionSection.$section.appendTo(this.$conditionSectionsContainer);
-
-    return conditionSection;
-  }
-  RenderStartButton() {
-    this.$startButtonContainer = $(
-      `<div class="sg-spinner-container"></div>`);
-    this.$startButton = Button({
-      type: "solid-mint",
-      text: System.data.locale.common.startAll
-    });
-
-    this.$startButton.prependTo(this.$startButtonContainer);
-  }
-  RenderStartButtonSpinner() {
-    this.$startButtonSpinner = $(
-      `<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`
+  BindModalItemListeners() {
+    this.addModeratorButton.addEventListener(
+      "click",
+      this.AddModeratorSection.bind(this),
     );
   }
-  RenderStopButton() {
-    this.$stopButtonContainer = $(
-      `<div class="sg-actions-list__hole"></div>`);
-    this.$stopButton = Button({
-      type: "solid-peach",
-      text: System.data.locale.common.stop
+
+  AddModeratorSection() {
+    if (!this.moderatorContainer) this.RenderModeratorContainer();
+
+    const moderator = new Moderator(this, this.moderators.all.length);
+
+    this.moderatorContainer.append(moderator.toplayer);
+    this.moderators.all.push(moderator);
+  }
+
+  RenderModeratorContainer() {
+    this.moderatorContainer = Flex({
+      direction: "column",
+      fullWidth: true,
     });
 
-    this.$stopButton.prependTo(this.$stopButtonContainer);
+    InsertBefore(this.moderatorContainer, this.addModeratorButton);
   }
-  BindHandlers() {
-    this.modal.$close.click(this.modal.Close.bind(this.modal));
-    this.li.addEventListener("click", this.OpenModal.bind(this));
-    this.$addUniqueConditionSectionButton.click(this.AddUniqeCondition.bind(
-      this));
-    this.$startButton.click(this.StartModerating.bind(this));
-    this.$stopButton.click(this.StopModerating.bind(this));
-    /* this.$stop.click(this.Stop.bind(this));
-    this.$start.click(this.Start.bind(this)); */
-  }
-  OpenModal() {
-    this.modal.Open();
 
-    if (!this.IsFetchStartedBefore) {
-      //this.FetchReportedContents(); // If something wents wrong with the fetched last_id's from the extension server, use this method instead of this.GetLastIds
-      this.reports = [];
-
-      this.GetLastIds();
-    }
+  RenderFetcherSpinner() {
+    this.fetcherSpinnerContainer = Flex({
+      marginLeft: "xs",
+      alignItems: "center",
+      children: Spinner({
+        size: "xxsmall",
+      }),
+    });
   }
+
+  async CollectReports() {
+    /**
+     * @type {number[]}
+     */
+    this.lastIds = [];
+
+    this.ResetReports();
+    await this.GetLastIds();
+  }
+
   async GetLastIds() {
-    let resLastIds = await new ServerReq().GetModerateAllPages();
+    const resLastIds = await new ServerReq().GetModerateAllPages();
 
-    if (resLastIds.success) {
-      this.lastIds = resLastIds.data;
-
-      this.lastIds.unshift(null);
-
-      this.StartFetching();
-    }
-  }
-  StartFetching() {
-    this.IsFetchStartedBefore = true;
-
-    this._loop_fetch = setInterval(this.QuickFetchReportedContents.bind(this),
-      10);
-    this._loop_resetFetchLimiter = setInterval(() => (this
-      .openedFetchingConnections = 0), 1000);
-  }
-  async QuickFetchReportedContents() {
-    if (this.openedFetchingConnections < 8) {
-      this.openedFetchingConnections++;
-      let last_id = this.lastIds.shift();
-
-      if (typeof last_id == "undefined") {
-        this.IsFetchStartedBefore = false;
-
-        this.StopFetching();
-        this.HideFetchingSpinner();
-        this.UpdateCountLabels(this.reports.length);
-      } else {
-        let resReports = await new Action().GetReportedContents(last_id);
-
-        if (resReports && resReports.success && resReports.data) {
-          this.StoreFetchedReports(resReports.data.items);
-          this.StoreUsers(resReports.users_data);
-          this.UpdateCountLabels(resReports.data.total_count);
-          this.UpdateConditionSections();
-        }
-      }
-    }
-  }
-  StopFetching() {
-    clearInterval(this._loop_fetch);
-    clearInterval(this._loop_resetFetchLimiter);
-  }
-  async FetchReportedContents(last_id) {
-    this.IsFetchStartedBefore = true;
-    let resReports = await new Action().GetReportedContents(last_id);
-
-    if (resReports && resReports.success && resReports.data) {
-      this.StoreFetchedReports(resReports.data.items);
-      this.StoreUsers(resReports.users_data);
-      this.UpdateCountLabels(resReports.data.total_count);
-      this.UpdateConditionSections();
-
-      if (resReports.data.last_id > 0 && resReports.data.items.length !=
-        resReports.data.total_count) {
-        this.FetchReportedContents(resReports.data.last_id);
-      } else {
-        this.HideFetchingSpinner();
-        this.UpdateCountLabels(this.reports.length);
-      }
-    }
-  }
-  HideFetchingSpinner() {
-    this.HideElement(this.$spinnerOfFetching);
-  }
-  ShowElement($element) {
-    $element.removeClass("js-hidden");
-  }
-  ToggleElement($element) {
-    $element.toggleClass("js-hidden");
-  }
-  StoreFetchedReports(items) {
-    if (items && items.length > 0)
-      this.reports = [...this.reports, ...items];
-  }
-  RemoveReportFromStore(_report) {
-    this.reports = this.reports.filter(report => !(report.model_id == _report
-      .model_id && report.model_type_id == _report.model_type_id));
-
-    this.UpdateCountLabels(this.reports.length);
-  }
-  StoreUsers(users) {
-    if (users && users.length > 0)
-      this.users = [...this.users, ...users];
-  }
-  UpdateCountLabels(total_count) {
-    this.totalReports = total_count;
-    this.$totalReportsCount.text(total_count);
-    this.$fetchedReportsCount.text(this.reports.length);
-  }
-  UpdateConditionSections() {
-    let $uniqueConditionSections = this.UniqueConditionSections();
-
-    if ($uniqueConditionSections.length > 0) {
-      $uniqueConditionSections.each((i, section) => {
-        section.ConditionSection.FilterReports();
+    if (!resLastIds || !resLastIds.success) {
+      notification({
+        type: "error",
+        html:
+          System.data.locale.core.massModerateReportedContents
+            .notificationMessages.cantFetchDetailsFromExtensionServer,
       });
+      throw Error("Can't fetch last ids from extension server");
+    }
+
+    this.lastIds = resLastIds.data;
+
+    if (!this.lastIds || !(this.lastIds instanceof Array)) {
+      this.modal.Notification({
+        type: "error",
+        html: "Can't fetch last ids from extension server",
+      });
+
+      return;
+    }
+
+    this.StartFetching();
+  }
+
+  async StartFetching() {
+    this.fetching = true;
+
+    this.ShowFetcherSpinner();
+    try {
+      await this.FetchReportedContents(null);
+      this.loop.TryToFetchReportedContents = setInterval(() => {
+        this.TryToFetchReportedContents();
+      }, 1000 / System.constants.Brainly.marketRequestLimit);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
     }
   }
-  UniqueConditionSections() {
-    return $("> .sg-box:not(.is-common)", this.$conditionSectionsContainer);
+
+  StopFetching() {
+    clearInterval(this.loop.TryToFetchReportedContents);
   }
-  AddUniqeCondition() {
-    let $uniqueConditionSections = this.UniqueConditionSections();
 
-    if ($uniqueConditionSections.length == 8)
-      this.modal.notification(System.data.locale.core.notificationMessages
-        .youCantAddMoreThan8Sections, "info");
-    else {
-      let title = System.data.locale.core.massModerateReportedContents
-        .conditionN.title;
-      let text = System.data.locale.core.massModerateReportedContents
-        .conditionN.text.replace("%{amount_of_conditions}",
-          ` ${++this.conditionCount} `);
+  ShowFetcherSpinner() {
+    this.counterContainer.append(this.fetcherSpinnerContainer);
+  }
 
-      this.ShowCommonConditionSection();
-      this.AddConditionSection(text);
+  HideFetcherSpinner() {
+    if (this.lastIds.length > 0 || this.numberOfActiveConnections > 0) return;
+
+    this.HideElement(this.fetcherSpinnerContainer);
+  }
+
+  TryToFetchReportedContents() {
+    const lastId = this.lastIds.shift();
+
+    if (lastId === undefined) {
+      this.StopFetching();
+
+      return undefined;
     }
-  }
-  ShowCommonConditionSection() {
-    if (false)
-      this.commonConditionSection.$section.prependTo(this
-        .$conditionSectionsContainer);
-  }
-  StartModerating() {
-    if (this.IsOKToModerate()) {
-      this.isModerating = true;
 
-      this.SetRequestLimit();
-      this.ShowActionButtonSpinner();
-      this.ShowStopButton();
-      this.matchedSections.forEach(section => section.ConditionSection &&
-        section.ConditionSection.StartModerating());
-    } else if (this.matchedSections.length == 0) {
-      this.modal.notification(System.data.locale.core.notificationMessages
-        .conditionsDoesntMatchAnything, "info");
+    return this.FetchReportedContents(lastId);
+  }
+
+  TryToFetchReportedContents2() {
+    // TODO remove this
+    for (let i = 0; i < System.constants.Brainly.marketRequestLimit; i++)
+      if (this.numberOfActiveConnections < 8) {
+        const lastId = this.lastIds.shift();
+        console.log(lastId, i);
+
+        if (lastId === undefined) {
+          this.StopFetching();
+
+          return;
+        }
+
+        // this.FetchReportedContents(lastId);
+      }
+  }
+
+  LetModeratorsFilterReports() {
+    this.moderators.all.forEach(moderator => moderator.FilterReports());
+  }
+
+  /**
+   * @param {number} lastId
+   */
+  async FetchReportedContents(lastId) {
+    this.numberOfActiveConnections++;
+    const resReports = await new Action().GetReportedContents(lastId);
+    this.numberOfActiveConnections--;
+
+    if (!resReports && !resReports.success && !resReports.data) {
+      // eslint-disable-next-line no-throw-literal
+      throw { msg: "Brainly sent empty data", res: resReports };
     }
-  }
-  IsOKToModerate() {
-    return !this.isModerating && this.matchedSections.length > 0;
-  }
-  SetRequestLimit() {
-    let length = this.matchedSections.length;
 
-    if (length == 1)
-      this.requestLimit = 8;
-    if (length == 2)
-      this.requestLimit = 4;
-    if (length == 3)
-      this.requestLimit = 3;
-    if (length == 4)
-      this.requestLimit = 2;
-    if (length >= 5)
-      this.requestLimit = 1;
-  }
-  ShowActionButtonSpinner() {
-    this.$startButton.Disable()
-    this.$startButtonSpinner.appendTo(this.$startButtonContainer);
-  }
-  StopModerating() {
-    this.isModerating = false;
+    this.HideFetcherSpinner();
+    this.StoreUsers(resReports.users_data);
+    this.StoreReports(resReports.data.items);
+    this.LetModeratorsFilterReports();
+    this.UpdateCounters(resReports.data.total_count);
 
-    if (this.matchedSections.length > 0) {
-      this.HideStopButton();
-      this.HideActionButtonSpinner();
-      this.matchedSections.forEach(section => section.ConditionSection &&
-        section.ConditionSection.StopModerating(true));
-    }
+    return true;
   }
-  HideActionButtonSpinner() {
-    this.$startButton.Enable()
-    this.HideElement(this.$startButtonSpinner);
-  }
-  HideActionButtons() {
-    this.HideActionButtonSpinner();
-    this.HideElement(this.$startButtonContainer);
-  }
-  ShowActionButtons() {
-    this.$startButtonContainer.appendTo(this.$buttonsContainer);
-  }
-  ToggleActionButtons() {
-    this.matchedSections = this.SectionsHasMatchedReports();
 
-    if (this.matchedSections.length > 0 && this.reports.length >= this
-      .totalReports) {
-      this.isModerating = false;
+  /**
+   * @param {import("@BrainlyAction").UsersDataInReportedContentsType[]} usersData
+   */
+  StoreUsers(usersData) {
+    if (!usersData || usersData.length === 0) return;
 
-      this.ShowActionButtons();
-      this.HideStopButton();
-    } else
-      this.HideActionButtons();
-  }
-  ShowStopButton() {
-    this.$stopButtonContainer.appendTo(this.$buttonsListContainer);
-  }
-  HideStopButton() {
-    this.HideElement(this.$stopButtonContainer);
-  }
-  ToggleStopButton() {
-    let matchedSections = this.SectionsStillModerating();
+    usersData.forEach(data => {
+      this.users.byId[data.id] = data;
 
-    if (matchedSections.length)
-      this.ShowStopButton();
-    else {
-      this.HideStopButton();
-      this.ToggleActionButtons();
-    }
-  }
-  SectionsHasMatchedReports() {
-    let $uniqueConditionSections = this.UniqueConditionSections().toArray();
-
-    return $uniqueConditionSections.filter((section) => {
-      /**
-       * @type {ConditionSection}
-       */
-      let conditionSection = section.ConditionSection;
-
-      if (conditionSection.filteredReports.length)
-        return section;
+      this.users.all.push(data);
     });
   }
-  SectionsStillModerating() {
-    let $uniqueConditionSections = this.UniqueConditionSections().toArray();
-    if ($uniqueConditionSections.length) {
-      $uniqueConditionSections = $uniqueConditionSections.filter((
-        section) => {
-        /**
-         * @type {ConditionSection}
-         */
-        let conditionSection = section.ConditionSection;
 
-        if (conditionSection.moderatingStarted)
-          return section;
-      });
-    }
+  /**
+   * @param {import("@BrainlyAction").ReportedContentDataType[]} items
+   */
+  StoreReports(items) {
+    if (!items || items.length === 0) return;
 
-    return $uniqueConditionSections;
+    this.reports.push(...items.map(item => new Report(this, item)));
   }
-  TryToStopModerating() {
-    let moderatingSections = this.matchedSections.filter(section => !section
-      .moderatingStarted);
 
-    if (moderatingSections.length > 0)
-      this.StopModerating()
+  /**
+   * @param {number} [_totalCount]
+   */
+  UpdateCounters(_totalCount) {
+    let totalCount = _totalCount;
+    let filteredReportsLength = 0;
+
+    if (!totalCount)
+      totalCount = this.reports.reduce((length, report) => {
+        return length + (report.deleted ? 0 : 1);
+      }, 0);
+
+    if (this.moderators.all.length > 0)
+      filteredReportsLength = this.moderators.all.reduce(
+        (length, moderator) => {
+          const filteredReports = moderator.filteredReports.filter(report => {
+            return !report.deleted;
+          });
+
+          return length + filteredReports.length;
+        },
+        0,
+      );
+
+    this.fetchedReportsCount.data = `${
+      this.reports.length + filteredReportsLength
+    }`;
+    this.totalReportsCount.data = `${totalCount}`;
+  }
+
+  /**
+   * @param {Report[]} [reports]
+   * @param {string} [_fileName]
+   */
+  async ExportReports(reports = this.reports, _fileName) {
+    let fileName = _fileName;
+
+    const workbook = new Excel.Workbook();
+    const questionSheet = workbook.addWorksheet("Question");
+    const answerSheet = workbook.addWorksheet("Answer");
+    const questionHeaders = [
+      { key: "moderated", header: "Moderated" },
+      { key: "questionId", header: "Question id" },
+      { key: "reportedUserId", header: "Reported user id" },
+      { key: "reporterUserId", header: "Reporter user id" },
+      { key: "date", header: "Reported on" },
+      { key: "reason", header: "Reason" },
+      { key: "content", header: "Content(short)" },
+    ];
+    const answerHeaders = questionHeaders.slice();
+
+    answerHeaders.splice(2, 0, {
+      key: "answerId",
+      header: "Answer id",
+    });
+
+    questionSheet.columns = questionHeaders;
+    answerSheet.columns = answerHeaders;
+
+    /**
+     * @typedef {{
+     *  [x: string]: number,
+     * }} ColumnsWidthType
+     * @type {{
+     *  Question: ColumnsWidthType,
+     *  Answer: ColumnsWidthType,
+     * }}
+     */
+    const sheetsColumnWidths = {
+      Question: {},
+      Answer: {},
+    };
+
+    if (reports.length > 0)
+      reports.forEach(report => {
+        const rowData = {
+          moderated: report.deleted
+            ? "Deleted"
+            : report.confirmed
+            ? "Confirmed"
+            : false,
+          questionId: report.data.task_id,
+          reportedUserId: report.user.reported.id,
+          reporterUserId: report.user.reporter.id,
+          date: report.reportDate.tzFormatted,
+          reason: report.data.report.abuse.name,
+          content: report.data.content_short,
+        };
+
+        if (report.data.model_type_id === 2)
+          rowData.answerId = report.data.model_id;
+
+        const contentType =
+          report.data.model_type_id === 1 ? "Question" : "Answer";
+
+        Object.entries(rowData).forEach(([header, data]) => {
+          let { length } = String(data);
+
+          if (length < header.length) length = header.length + 2;
+
+          if (
+            !sheetsColumnWidths[contentType][header] ||
+            sheetsColumnWidths[contentType][header] < length + 2
+          )
+            sheetsColumnWidths[contentType][header] = length + 2;
+        });
+
+        if (report.data.model_type_id === 1) questionSheet.addRow(rowData);
+        else answerSheet.addRow(rowData);
+      });
+
+    Object.entries(sheetsColumnWidths).forEach(([contentType, columns]) => {
+      const sheet = workbook.getWorksheet(contentType);
+
+      Object.entries(columns).forEach(([columnName, width]) => {
+        const details = sheet.getColumn(columnName);
+        details.width = width < 5 ? 5 : width;
+      });
+    });
+
+    workbook.worksheets.forEach(sheet => {
+      if (sheet.rowCount < 2) {
+        workbook.removeWorksheet(sheet.name);
+        return;
+      }
+
+      const firstRow = sheet.getRow(1);
+      firstRow.height = 30;
+      firstRow.font = { bold: true, size: 12 };
+      firstRow.alignment = { vertical: "middle", horizontal: "center" };
+    });
+
+    const xls64 = await workbook.xlsx.writeBuffer();
+
+    if (!fileName) {
+      const sheetNames = workbook.worksheets.map(sheet => `${sheet.name}s`);
+      fileName = `${reports.length} Reported ${sheetNames
+        .join(" and ")
+        .toLocaleLowerCase()} - ${moment().format("L LTS")}`;
+    }
+    saveAs(
+      new Blob([xls64]),
+      `${fileName}.${this.exportSpreadsheetFile.extension}`,
+    );
   }
 }

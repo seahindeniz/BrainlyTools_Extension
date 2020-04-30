@@ -1,112 +1,120 @@
-import { Button, ContentBox, ContentBoxContent, Text } from "@style-guide";
+import { Button, Flex, Spinner, Text } from "@style-guide";
 import notification from "../../../components/notification2";
 import Action from "../../../controllers/Req/Brainly/Action";
 
 export default function taskSection() {
-  // @ts-ignore
-  let moderateButtonContainer = document.querySelector(window.selectors
-    .taskModerateButtonContainer);
+  /**
+   * @type {HTMLDivElement}
+   */
+  const mainQuestionArticle = document.querySelector(`.js-main-question`);
 
-  if (!moderateButtonContainer)
+  if (
+    !mainQuestionArticle ||
+    mainQuestionArticle.classList.contains("brn-question--deleted")
+  )
     return;
 
-  let extButtonsContainer = ContentBox({
+  const extButtonsContainer = Flex({
+    direction: "column",
+    marginLeft: "xs",
     className: "ext_actions",
   });
+  const mainContainer = Flex({
+    noShrink: true,
+    children: extButtonsContainer,
+  });
 
-  moderateButtonContainer.after(extButtonsContainer);
+  mainQuestionArticle.after(mainContainer);
+  mainContainer.prepend(mainQuestionArticle);
 
-  System.data.config.quickDeleteButtonsReasons.question.forEach(
-    (id, i) => {
-      let reason = System.DeleteReason({
-        id,
-        type: "question",
-      });
-      let button = Button({
-        type: "solid-mustard",
-        size: "small",
-        icon: Text({
-          text: i + 1,
-          weight: "bold",
-          color: "gray",
-        }),
-        text: reason.title,
-        title: reason.text,
-        reasonId: reason.id,
-      });
-      let buttonContainer = ContentBoxContent({
-        children: button,
-        spacedTop: "small",
-      });
-
-      extButtonsContainer.append(buttonContainer);
+  System.data.config.quickDeleteButtonsReasons.question.forEach((id, i) => {
+    const reason = System.DeleteReason({
+      id,
+      type: "question",
+    });
+    const button = Button({
+      type: "solid-mustard",
+      size: "small",
+      icon: Text({
+        text: i + 1,
+        weight: "bold",
+        color: "gray",
+      }),
+      text: reason.title,
+      title: reason.text,
+      reasonId: reason.id,
+    });
+    const buttonContainer = Flex({
+      children: button,
+      marginBottom: "xs",
     });
 
-  let taskModerateButtonsClickHandler = async function() {
-    // @ts-ignore
-    let $parentArticle = $(this).parents(window.selectors.articleQuestion);
-    let question_id = Number($parentArticle.data("question-id"));
+    extButtonsContainer.append(buttonContainer);
+  });
 
-    if (!question_id)
-      throw "Cannot find the question id";
+  async function taskModerateButtonsClickHandler() {
+    const questionId = Number(mainQuestionArticle.dataset.questionId);
 
-    let userData = ($(".user-fiche-wrapper", $parentArticle).data("z"));
+    if (!questionId) throw Error("Cannot find the question id");
 
-    if (!userData)
-      throw "Cannot find the user data";
+    const userData = $(".user-fiche-wrapper", mainQuestionArticle).data("z");
 
-    let reason = System.DeleteReason({
+    if (!userData) throw Error("Cannot find the user data");
+
+    const reason = System.DeleteReason({
       id: this.reasonId,
       type: "question",
       noRandom: true,
     });
 
-    if (!reason || !reason.id)
-      throw "Can't find the reason";
+    if (!reason || !reason.id) throw Error("Can't find the reason");
 
-    let confirmDeleting = System.data.locale.common.moderating
-      .doYouWantToDeleteWithReason
+    const confirmDeleting = System.data.locale.common.moderating.doYouWantToDeleteWithReason
       .replace("%{reason_title}", reason.title)
       .replace("%{reason_message}", reason.text);
 
     if (confirm(confirmDeleting)) {
-      let taskData = {
-        model_id: question_id,
+      const taskData = {
+        model_id: questionId,
         reason_id: reason.category_id,
         reason: reason.text,
-        reason_title: reason.title
+        reason_title: reason.title,
       };
-      taskData.take_points = taskData.give_warning =
-        System.canBeWarned(reason.id);
+      taskData.give_warning = System.canBeWarned(reason.id);
+      taskData.take_points = taskData.give_warning;
       taskData.return_points = !taskData.give_warning;
-      let svg = $("svg", this);
-      let spinner = $(
-        `<div class="sg-spinner sg-spinner--xxsmall sg-spinner--light"></div>`
-      ).insertBefore(svg);
+      const icon = $(".sg-button__icon > div", this);
+      const spinner = Spinner({ size: "xxsmall", light: true });
 
-      svg.hide();
+      icon.before(spinner);
+      icon.detach();
 
-      let res = await new Action().RemoveQuestion(taskData);
-      //let res = { success: true }; await System.Delay();
+      try {
+        const res = await new Action().RemoveQuestion(taskData);
 
-      new Action().CloseModerationTicket(question_id);
+        new Action().CloseModerationTicket(questionId);
 
-      if (!res || !res.success)
-        return notification({
+        if (!res || !res.success)
+          // eslint-disable-next-line no-throw-literal
+          throw { msg: res?.message };
+
+        System.log(5, { user: userData, data: [questionId] });
+        mainQuestionArticle.classList.add("brn-question--deleted");
+        // @ts-ignore
+        $(window.selectors.taskModerateButton).remove();
+        extButtonsContainer.remove();
+      } catch (error) {
+        console.error(error);
+        icon.insertBefore(spinner);
+        spinner.remove();
+        notification({
           type: "error",
-          html: (res && res.message) || System.data.locale
-            .common.notificationMessages.somethingWentWrong,
+          html:
+            error.msg ||
+            System.data.locale.common.notificationMessages.somethingWentWrong,
         });
-
-      System.log(5, { user: userData, data: [question_id] });
-      $parentArticle.addClass("brn-question--deleted");
-      // @ts-ignore
-      $(window.selectors.taskModerateButton).remove();
-      extButtonsContainer.remove();
-
-      spinner.remove();
-      svg.show();
+      }
     }
-  };
+  }
   $("button", extButtonsContainer).on("click", taskModerateButtonsClickHandler);
 }

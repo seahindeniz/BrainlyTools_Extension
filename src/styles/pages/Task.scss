@@ -1,13 +1,21 @@
-.brn-question--deleted .ext_actions {
-  display: none;
-}
-
 .ext_actions {
-  height: 0;
-  width: 35px;
-  float: right;
-  position: relative;
+  $p: &;
   z-index: 2;
+
+  @at-root .brn-question {
+    width: 100%;
+
+    #{$p} {
+      width: 35px;
+    }
+  }
+
+  @at-root .brn-answer & {
+    height: 0;
+    width: 35px;
+    float: right;
+    position: relative;
+  }
 
   button {
     min-width: 35px;
@@ -17,7 +25,9 @@
     }
 
     &:hover {
-      .sg-button__icon {
+      min-width: unset;
+
+      .sg-button__icon > .sg-text {
         display: none;
       }
 
@@ -50,7 +60,7 @@
     left: unset;
     justify-content: center;
 
-    >button {
+    > button {
       width: 98%;
     }
   }

@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.35.4] - 2020.04.27
+
+### Changed
+
+- Reconstruction of Mass-moderate reported contents
+- Toplu silim bölümündeki düzenlede hata. [#112]
+- Robot hatası. [#113]
+
+[#112]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/112
+[#113]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/113
+
 ## [6.35.3] - 2020.04.08
 
 ### Changed

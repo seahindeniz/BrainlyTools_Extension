@@ -1,11 +1,14 @@
+import { SpinnerContainer } from "@style-guide";
 import Button from "../../../../components/Button";
 import Modal from "../../../../components/Modal";
 import Action from "../../../../controllers/Req/Brainly/Action";
 import Components from "./Components";
-import { SpinnerContainer } from "@style-guide";
 
-const spinner =
-  `<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`;
+const spinner = `<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`;
+
+function PrintText(text = "") {
+  document.execCommand("insertText", false, text);
+}
 
 class PointChanger extends Components {
   constructor(main) {
@@ -21,9 +24,12 @@ class PointChanger extends Components {
     this.RenderAddPointToAllButton();
     this.BindHandler();
   }
+
   RenderModal() {
-    let nUsers = System.data.locale.common.nUsers.replace("%{n}",
-      ` <span>0</span> `);
+    const nUsers = System.data.locale.common.nUsers.replace(
+      "%{n}",
+      ` <span>0</span> `,
+    );
     this.modal = new Modal({
       header: `<div class="sg-actions-list sg-actions-list--space-between">
 				<div class="sg-actions-list__hole">
@@ -39,7 +45,9 @@ class PointChanger extends Components {
 						<div class="sg-content-box__content sg-content-box__content--with-centered-text sg-content-box__content--spaced-top">
 							<div class="sg-actions-list sg-actions-list--no-wrap">
 								<div class="sg-actions-list__hole sg-actions-list__hole--grow">
-									<textarea class="sg-textarea sg-textarea--full-width sg-textarea--resizable-vertical" placeholder="${System.data.locale.common.profileID}"></textarea>
+									<textarea class="sg-textarea sg-textarea--full-width sg-textarea--resizable-vertical" placeholder="${
+                    System.data.locale.common.profileID
+                  }"></textarea>
 								</div>
 								<div class="sg-actions-list__hole"></div>
 								<div class="sg-actions-list__hole"></div>
@@ -70,42 +78,50 @@ class PointChanger extends Components {
 					</blockquote>
 				</div>
 			</div>`,
-      size: "medium"
+      size: "medium",
     });
     this.$idInput = $(".id textarea", this.modal.$modal);
     this.$userList = $(".js-user-list", this.modal.$modal);
     this.$idInputContainer = $(".sg-content-box.id", this.modal.$modal);
-    this.$addUserButtonContainer = $(".id .sg-actions-list__hole:eq(1)", this
-      .modal.$modal);
-    this.$addPointToAllButtonContainer = $(".id .sg-actions-list__hole:eq(2)",
-      this.modal.$modal);
+    this.$addUserButtonContainer = $(
+      ".id .sg-actions-list__hole:eq(1)",
+      this.modal.$modal,
+    );
+    this.$addPointToAllButtonContainer = $(
+      ".id .sg-actions-list__hole:eq(2)",
+      this.modal.$modal,
+    );
     this.$amountOfUsers = $(
       ".sg-content-box__actions .sg-actions-list > .sg-actions-list__hole > .sg-text > span",
-      this.modal.$modal);
+      this.modal.$modal,
+    );
   }
+
   RenderAddUserButton() {
     this.$addUserButton = Button({
       type: "solid-blue",
       size: "small",
       icon: {
-        type: "profile_view"
-      }
+        type: "profile_view",
+      },
     });
 
     this.$addUserButton.appendTo(this.$addUserButtonContainer);
   }
+
   RenderAddPointToAllButton() {
     this.addPointToAllButtonContainer = SpinnerContainer();
     this.$addPointToAllButton = Button({
       type: "solid-mint",
       size: "small",
       icon: {
-        type: "check"
-      }
+        type: "check",
+      },
     });
 
     this.$addPointToAllButton.appendTo(this.addPointToAllButtonContainer);
   }
+
   BindHandler() {
     this.modal.$close.click(this.modal.Close.bind(this.modal));
     this.li.addEventListener("click", this.modal.Open.bind(this.modal));
@@ -113,13 +129,13 @@ class PointChanger extends Components {
     this.$idInput.on("paste", this.IdInputPasteEvtHandle.bind(this));
 
     this.$addUserButton.click(() => {
-      let idList = this.GetID()
+      const idList = this.GetID();
 
       this.FindIDs(idList);
     });
 
-    this.$userList.on("input", `input[type="number"]`, function() {
-      let value = this.value;
+    this.$userList.on("input", `input[type="number"]`, function () {
+      const { value } = this;
 
       this.classList.remove("sg-input--valid", "sg-input--invalid");
 
@@ -128,147 +144,162 @@ class PointChanger extends Components {
       } else if (value > 0) {
         this.classList.add("sg-input--valid");
       }
-    })
+    });
   }
+
   AddPointToAll() {
-    let $spinner = $(spinner).insertAfter(this.$addPointToAllButton);
-    let buttons = $(`.js-node button`, this.$userList).toArray();
+    const $spinner = $(spinner).insertAfter(this.$addPointToAllButton);
+    const buttons = $(`.js-node button`, this.$userList).toArray();
     this.$addPointToAllButton.Disable();
 
-    let _loop = setInterval(() => {
-      if (buttons.length == 0) {
+    const loop = setInterval(() => {
+      if (buttons.length === 0) {
         $spinner.remove();
         this.$addPointToAllButton.Enable();
-        return clearInterval(_loop);
+        clearInterval(loop);
+
+        return;
       }
 
       for (let i = 0; i < 8; i++) {
-        let button = buttons.shift();
+        const button = buttons.shift();
 
-        if (!button)
-          break;
+        if (!button) break;
 
         button.click();
       }
     }, 1000);
   }
+
   IdInputPasteEvtHandle(event) {
     event.preventDefault();
 
     /**
      * @type {string}
      */
-    let saltText = (event.originalEvent || event).clipboardData.getData(
-      "text/plain");
+    const saltText = (event.originalEvent || event).clipboardData.getData(
+      "text/plain",
+    );
 
-    if (saltText) {
-      let texts = saltText.split(/\r\n|\n/);
-      let idList = [];
+    if (!saltText) return;
 
-      if (texts && texts.length > 0) {
-        texts.forEach(text => {
-          let splittedText = text.trim().split(/ {1,}/);
+    const texts = saltText.split(/\r\n|\n/);
+    let idList = [];
 
-          if (splittedText.length == 0 || !splittedText[0]) {
-            if (text)
-              this.Paste(`${text}\n`);
-          } else {
-            let id = System.ExtractId(splittedText[0]);
+    if (!texts && texts.length > 0) return;
 
-            if (!id) {
-              this.Paste(`${splittedText[0]}\n`);
-            } else {
-              idList.push(id);
+    texts.forEach(text => {
+      const splittedText = text.trim().split(/ {1,}/);
 
-              if (splittedText.length > 1) {
-                let points = splittedText[1];
+      if (splittedText.length === 0 || !splittedText[0]) {
+        if (text) PrintText(`${text}\n`);
 
-                if (points[0] == "+" || points[0] == "-") {
-                  this.usersWithPoints[id] = points.replace("+", "");
-                } else {
-                  idList = [...idList, ...System.ExtractIds(
-                    splittedText)];
-                }
-              }
-            }
-          }
-        });
-
-        idList = Array.from(new Set(idList));
-        idList = this.FilterFetchedUsers(idList);
-
-        if (idList.length == 1) {
-          this.FindID(idList[0]);
-        } else if (idList.length > 1) {
-          this.FindIDs(idList);
-        }
+        return;
       }
+
+      // eslint-disable-next-line prefer-const
+      let [id, points] = splittedText;
+      id = System.ExtractId(id);
+
+      if (!id) {
+        PrintText(`${splittedText[0]}\n`);
+
+        return;
+      }
+
+      idList.push(id);
+
+      if (!points) return;
+
+      if (points[0] === "+" || points[0] === "-") {
+        this.usersWithPoints[id] = points.replace("+", "");
+
+        // return;
+      }
+
+      // idList = [...idList, ...System.ExtractIds(splittedText)];
+    });
+
+    idList = Array.from(new Set(idList));
+    idList = this.FilterFetchedUsers(idList);
+
+    if (idList.length === 1) {
+      this.FindID(idList[0]);
+    } else if (idList.length > 1) {
+      this.FindIDs(idList);
     }
   }
-  Paste(text = "") {
-    document.execCommand("insertText", false, text);
-  }
+
   GetID() {
-    let value = this.$idInput.val();
+    const value = this.$idInput.val();
 
-    if (value) {
-      let idList = System.ExtractIds(String(value));
+    if (!value) return [];
 
-      if (idList)
-        return idList;
-    }
+    return System.ExtractIds(String(value));
   }
+
   /**
    * @param {number} id
    */
   IsNotFetched(id) {
-    return !this.users.includes(id)
+    return !this.users.includes(id);
   }
+
   /**
    * @param {number[]} idList
    */
   FilterFetchedUsers(idList) {
     return idList.filter(this.IsNotFetched.bind(this));
   }
+
   /**
-   * @param {number[]} idList
+   * @param {number[]} _idList
    */
-  async FindIDs(idList) {
-    //idList = idList.filter(this.IsNotFetched.bind(this));
-    idList = this.FilterFetchedUsers(idList);
+  async FindIDs(_idList) {
+    // idList = idList.filter(this.IsNotFetched.bind(this));
+    const idList = this.FilterFetchedUsers(_idList);
 
     if (idList.length > 0) {
-      let res = await new Action().GetUsers(idList);
+      const res = await new Action().GetUsers(idList);
 
       if (!res || !res.success) {
-        this.modal.notification(res.message || System.data.locale.common
-          .notificationMessages.somethingWentWrong, "error");
+        this.modal.notification(
+          res.message ||
+            System.data.locale.common.notificationMessages.somethingWentWrong,
+          "error",
+        );
       } else {
         this.ClearIdInput();
         res.data.forEach(this.AddUser.bind(this));
       }
     }
   }
+
   async FindID(id) {
-    let res = await new Action().GetUserProfile(id);
+    const res = await new Action().GetUserProfile(id);
 
     if (!res || !res.success) {
-      this.modal.notification(res.message || System.data.locale.common
-        .notificationMessages.somethingWentWrong, "error");
+      this.modal.notification(
+        res.message ||
+          System.data.locale.common.notificationMessages.somethingWentWrong,
+        "error",
+      );
     } else {
       this.AddUser(res.data);
       this.ClearIdInput();
     }
   }
+
   ClearIdInput() {
     this.$idInput.val("");
   }
+
   AddUser(user) {
-    let avatar = System.prepareAvatar(user);
-    let profileLink = System.createProfileLink(user);
-    let $lastAddedUser = $(".js-node:last", this.$userList);
-    let preDefinedPoints = this.usersWithPoints[user.id];
-    let $node = $(`
+    const avatar = System.prepareAvatar(user);
+    const profileLink = System.createProfileLink(user);
+    const $lastAddedUser = $(".js-node:last", this.$userList);
+    const preDefinedPoints = this.usersWithPoints[user.id];
+    const $node = $(`
 		<div class="sg-content-box sg-content-box--full js-node">
 			<div class="sg-content-box__content sg-content-box__content--spaced-top-small">
 				<div class="sg-actions-list">
@@ -281,29 +312,35 @@ class PointChanger extends Components {
 					</div>
 					<div class="sg-actions-list__hole sg-actions-list__hole--grow">
 						<a href="${profileLink}" class="sg-text sg-text--link-unstyled sg-text--bold">
-							<span class="sg-text sg-text--small sg-text--gray sg-text--bold">${user.nick}</span>
+							<span class="sg-text sg-text--small sg-text--gray sg-text--bold">${
+                user.nick
+              }</span>
 							<div class="sg-text sg-text--xsmall sg-text--gray">${user.id}</div>
 						</a>
 					</div>
 					<div class="sg-actions-list__hole">
-						<span class="sg-text sg-text--small sg-text--gray sg-text--bold js-points">${user.points} + </span>
-						<input type="number" class="sg-input sg-input--small" placeholder="${System.data.locale.common.shortPoints}.." tabindex="${$lastAddedUser.index() + 2}">
+						<span class="sg-text sg-text--small sg-text--gray sg-text--bold js-points">${
+              user.points
+            } + </span>
+						<input type="number" class="sg-input sg-input--small" placeholder="${
+              System.data.locale.common.shortPoints
+            }.." tabindex="${$lastAddedUser.index() + 2}">
 						<div class="sg-spinner-container"></div>
 					</div>
 				</div>
 			</div>
 		</div>`);
 
-    let $ptsInput = $(`input[type="number"]`, $node);
+    const $ptsInput = $(`input[type="number"]`, $node);
 
-    let $addPointButtonContainer = $(".sg-spinner-container", $node);
-    let $addPointButton = Button({
+    const $addPointButtonContainer = $(".sg-spinner-container", $node);
+    const $addPointButton = Button({
       type: "solid-mint",
       size: "small",
       title: System.data.locale.core.pointChanger.addPoint,
       icon: {
-        type: "check"
-      }
+        type: "check",
+      },
     });
 
     $addPointButton.click(this.AddPointToUser.bind(this));
@@ -315,16 +352,15 @@ class PointChanger extends Components {
     $node.insertBefore(this.$idInputContainer);
     this.ShowAddPointToAllButton();
 
-    if (preDefinedPoints)
-      $ptsInput
-      .val(preDefinedPoints)
-      .trigger("input");
+    if (preDefinedPoints) $ptsInput.val(preDefinedPoints).trigger("input");
   }
+
   ChangeAmountOfUser(amount) {
-    let currentAmount = this.$amountOfUsers.text();
+    const currentAmount = this.$amountOfUsers.text();
 
     this.$amountOfUsers.text(Number(currentAmount) + amount);
   }
+
   /**
    * @param {Event} event
    */
@@ -333,34 +369,38 @@ class PointChanger extends Components {
      * @type {import("../../../../components/Button").ButtonElement}
      */
     // @ts-ignore
-    let button = event.currentTarget;
-    let $userNode = $(button).parents(".js-node");
-    let $pointInput = $(`input[type="number"]`, $userNode);
-    let diffPoint = Number($pointInput.val());
+    const button = event.currentTarget;
+    const $userNode = $(button).parents(".js-node");
+    const $pointInput = $(`input[type="number"]`, $userNode);
+    const diffPoint = Number($pointInput.val());
 
     if (diffPoint) {
-      let user = $userNode.prop("userData");
-      let $spinner = $(spinner).insertAfter(button);
-      let $pointsLabel = $(".js-points", $userNode);
+      const user = $userNode.prop("userData");
+      const $spinner = $(spinner).insertAfter(button);
+      const $pointsLabel = $(".js-points", $userNode);
 
       button.Disable();
       await new Action().AddPoint(user.id, diffPoint);
       button.Enable();
-      this.modal.notification(System.data.locale.core.notificationMessages
-        .pointsAdded, "success");
+      this.modal.notification(
+        System.data.locale.core.notificationMessages.pointsAdded,
+        "success",
+      );
 
       user.points += diffPoint;
 
       $spinner.remove();
-      $pointsLabel.text(user.points + " + ");
+      $pointsLabel.text(`${user.points} + `);
     }
 
     $pointInput.val("").trigger("input");
   }
+
   ShowAddPointToAllButton() {
-    this.$addPointToAllButtonContainer
-      .append(this.addPointToAllButtonContainer);
+    this.$addPointToAllButtonContainer.append(
+      this.addPointToAllButtonContainer,
+    );
   }
 }
 
-export default PointChanger
+export default PointChanger;

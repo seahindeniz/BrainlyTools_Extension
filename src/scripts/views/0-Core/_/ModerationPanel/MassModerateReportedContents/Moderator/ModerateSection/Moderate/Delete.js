@@ -88,7 +88,7 @@ export default class Delete extends Moderate {
       marginBottom: "xs",
       justifyContent: "center",
       fullWidth: true,
-      children: (this.startButton = Button({
+      children: (this.startButton = new Button({
         type: "solid-peach",
         text: `${System.data.locale.common.start}!`,
       })),
@@ -96,7 +96,10 @@ export default class Delete extends Moderate {
   }
 
   BindStartButtonListener() {
-    this.startButton.addEventListener("click", this.StartModerating.bind(this));
+    this.startButton.element.addEventListener(
+      "click",
+      this.StartModerating.bind(this),
+    );
   }
 
   StartModerating() {

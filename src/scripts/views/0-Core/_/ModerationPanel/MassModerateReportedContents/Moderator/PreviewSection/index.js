@@ -118,14 +118,14 @@ export default class PreviewSection {
   RenderMoreButton() {
     this.moreButtonContainer = ContentBoxActions({
       align: "center",
-      children: (this.moreButton = Button({
+      children: (this.moreButton = new Button({
         type: "solid-mint",
         text: "Show more..",
         size: "small",
       })),
     });
 
-    this.moreButton.addEventListener("click", () => {
+    this.moreButton.element.addEventListener("click", () => {
       const lastScrollPosition = this.reportsContainer.scrollTop;
 
       this.moreButton.Disable();

@@ -26,7 +26,7 @@ export default async function responseSection() {
           id,
           type: "answer",
         });
-        const button = Button({
+        const button = new Button({
           type: "solid-peach",
           size: "small",
           icon: Text({
@@ -39,10 +39,13 @@ export default async function responseSection() {
         });
 
         // eslint-disable-next-line no-use-before-define
-        button.addEventListener("click", responseModerateButtonsClickHandler);
+        button.element.addEventListener(
+          "click",
+          responseModerateButtonsClickHandler,
+        );
 
         const buttonContainer = ContentBoxContent({
-          children: button,
+          children: button.element,
           spacedTop: "small",
         });
 

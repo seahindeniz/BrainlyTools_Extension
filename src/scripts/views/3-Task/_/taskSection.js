@@ -32,7 +32,7 @@ export default function taskSection() {
       id,
       type: "question",
     });
-    const button = Button({
+    const button = new Button({
       type: "solid-mustard",
       size: "small",
       icon: Text({
@@ -45,7 +45,7 @@ export default function taskSection() {
       reasonId: reason.id,
     });
     const buttonContainer = Flex({
-      children: button,
+      children: button.element,
       marginBottom: "xs",
     });
 

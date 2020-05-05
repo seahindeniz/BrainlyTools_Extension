@@ -27,7 +27,7 @@ export default class Moderate {
 
   RenderButton() {
     this.buttonContainer = Flex({
-      children: (this.button = Button({
+      children: (this.button = new Button({
         type: this.props.buttonType,
         text:
           System.data.locale.core.massModerateReportedContents.moderateActions[
@@ -40,7 +40,7 @@ export default class Moderate {
   }
 
   BindListener() {
-    this.button.addEventListener("click", this.Clicked.bind(this));
+    this.button.element.addEventListener("click", this.Clicked.bind(this));
   }
 
   Clicked() {
@@ -66,13 +66,13 @@ export default class Moderate {
   }
 
   Select() {
-    this.button.ChangeType(this.props.selectedButtonType);
+    this.button.ChangeType({ type: this.props.selectedButtonType });
   }
 
   Unselect() {
     this.main.selectedModerateAction = undefined;
 
-    this.button.ChangeType(this.props.buttonType);
+    this.button.ChangeType({ type: this.props.buttonType });
   }
 
   CheckReports() {

@@ -10,7 +10,7 @@ import {
   Spinner,
   SpinnerContainer,
   Text,
-  Textarea
+  Textarea,
 } from "@style-guide";
 import debounce from "debounce";
 import Modal from "../../../../../components/Modal2";
@@ -67,32 +67,39 @@ export default class MassManageUsers extends Components {
     this.RenderRemoveSelectedButton();
     this.BindHandlers();
   }
+
   RenderModal() {
-    let nIds = System.data.locale.common.nIds.replace("%{n}",
-      ` <span class="sg-text--bold">0</span> `);
-    let nUsers = System.data.locale.common.nUsers.replace("%{n}",
-      ` <span class="sg-text--bold">0</span> `);
-    let nNotFound = System.data.locale.common.nNotFound.replace("%{n}",
-      ` <span class="sg-text--bold">0</span> `);
+    const nIds = System.data.locale.common.nIds.replace(
+      "%{n}",
+      ` <span class="sg-text--bold">0</span> `,
+    );
+    const nUsers = System.data.locale.common.nUsers.replace(
+      "%{n}",
+      ` <span class="sg-text--bold">0</span> `,
+    );
+    const nNotFound = System.data.locale.common.nNotFound.replace(
+      "%{n}",
+      ` <span class="sg-text--bold">0</span> `,
+    );
 
     this.modal = new Modal({
       overlay: true,
       size: "fit-content",
       title: System.data.locale.core.massManageUsers.text,
       content: {
-        children: Build(this.sectionContainer = ContentBox(), [
+        children: Build((this.sectionContainer = ContentBox()), [
           [
             ContentBoxContent(),
             [
               [
-                this.inputActionList = ActionList({
+                (this.inputActionList = ActionList({
                   noWrap: true,
                   toTop: true,
-                }),
+                })),
                 [
                   [
                     ActionListHole({
-                      className: "sg-actions-list__hole--22-em"
+                      className: "sg-actions-list__hole--22-em",
                     }),
                     [
                       [
@@ -100,16 +107,14 @@ export default class MassManageUsers extends Components {
                         [
                           [
                             ContentBoxContent(),
-                            this.idInput = Textarea({
+                            (this.idInput = Textarea({
                               tag: "textarea",
                               fullWidth: true,
                               size: "tall",
                               resizable: "vertical",
-                              placeholder: (
-                                System.data.locale.common
-                                .profileLinksOrIds
-                              )
-                            })
+                              placeholder:
+                                System.data.locale.common.profileLinksOrIds,
+                            })),
                           ],
                           [
                             ContentBoxActions(),
@@ -124,144 +129,145 @@ export default class MassManageUsers extends Components {
                                     ActionListHole(),
                                     [
                                       [
-                                        this
-                                        .numberOfIdsSpinnerContainer =
-                                        SpinnerContainer(),
-                                        this.numberOfIdsText = Text({
+                                        (this.numberOfIdsSpinnerContainer = SpinnerContainer()),
+                                        (this.numberOfIdsText = Text({
                                           size: "xsmall",
                                           html: nIds,
-                                        })
-                                      ]
-                                    ]
+                                        })),
+                                      ],
+                                    ],
                                   ],
                                   [
                                     ActionListHole(),
-                                    this.numberOfUsersText = Text({
+                                    (this.numberOfUsersText = Text({
                                       size: "xsmall",
                                       color: "blue-dark",
-                                      html: nUsers
-                                    })
+                                      html: nUsers,
+                                    })),
                                   ],
                                   [
                                     ActionListHole(),
-                                    this.numberOfNotFoundText = Text({
+                                    (this.numberOfNotFoundText = Text({
                                       size: "xsmall",
                                       color: "peach-dark",
-                                      html: nNotFound
-                                    })
+                                      html: nNotFound,
+                                    })),
                                   ],
-                                ]
-                              ]
-                            ]
+                                ],
+                              ],
+                            ],
                           ],
-                        ]
-                      ]
-                    ]
-                  ]
-                ]
-              ]
-            ]
-          ]
-        ])
-      }
+                        ],
+                      ],
+                    ],
+                  ],
+                ],
+              ],
+            ],
+          ],
+        ]),
+      },
     });
 
     this.numberOfIds = this.numberOfIdsText.querySelector("span");
     this.numberOfUsers = this.numberOfUsersText.querySelector("span");
     this.numberOfNotFound = this.numberOfNotFoundText.querySelector("span");
   }
+
   RenderNumberOfIdsSpinner() {
     this.numberOfIdsSpinner = Spinner({
       size: "small",
       overlay: true,
     });
   }
+
   RenderRemoveAllButton() {
-    this.removeAllButton = Button({
+    this.removeAllButton = new Button({
       size: "small",
       text: System.data.locale.common.removeAll,
-      title: System.data.locale.core.massManageUsers
-        .removeAllUsersFromTheList
+      title: System.data.locale.core.massManageUsers.removeAllUsersFromTheList,
     });
 
     this.removeAllButtonContainer = ActionListHole({
-      children: this.removeAllButton
+      children: this.removeAllButton.element,
     });
   }
+
   RenderUserList() {
     this.userList = ActionList({ direction: "space-evenly" });
     this.removeButtonList = ActionList({ direction: "space-around" });
-    this.userListContainer = Build(ActionListHole({
-      asContainer: true,
-      grow: true
-    }), [
+    this.userListContainer = Build(
+      ActionListHole({
+        asContainer: true,
+        grow: true,
+      }),
       [
-        ContentBox({
-          full: true
-        }),
         [
+          ContentBox({
+            full: true,
+          }),
           [
-            Textarea({
-              tag: "div",
-              size: "tall",
-              fullWidth: true,
-              resizable: "vertical",
-            }),
             [
-              [
-                ContentBoxActions({ style: "height: 100%;" }),
-                this.userList
-              ]
-            ]
-          ],
-          [
-            ContentBoxActions(),
+              Textarea({
+                tag: "div",
+                size: "tall",
+                fullWidth: true,
+                resizable: "vertical",
+              }),
+              [[ContentBoxActions({ style: "height: 100%;" }), this.userList]],
+            ],
             [
-              [
-                this.removeButtonList,
-                this.removeAllButtonContainer
-              ]
-            ]
+              ContentBoxActions(),
+              [[this.removeButtonList, this.removeAllButtonContainer]],
+            ],
           ],
-        ]
-      ]
-    ]);
+        ],
+      ],
+    );
   }
+
   RenderRemoveSelectedButton() {
-    let badge = Badge({
+    const badge = Badge({
       text: {
         text: 0,
         size: "xsmall",
         weight: "bold",
-      }
+      },
     });
     this.numberOfSelectedUsers = badge.querySelector("*");
 
-    this.removeSelectedButton = Button({
+    this.removeSelectedButton = new Button({
       type: "outline",
       size: "small",
       html: `${System.data.locale.core.massManageUsers.removeSelected}&nbsp;`,
-      title: System.data.locale.core.massManageUsers
-        .removeSelectedUsersFromTheList,
+      title:
+        System.data.locale.core.massManageUsers.removeSelectedUsersFromTheList,
+      children: badge,
     });
     this.removeSelectedButtonContainer = ActionListHole({
-      children: this.removeSelectedButton
+      children: this.removeSelectedButton.element,
     });
-
-    this.removeSelectedButton.append(badge);
   }
+
   BindHandlers() {
     this.li.addEventListener("click", this.Open.bind(this));
-    this.idInput.addEventListener("input", debounce(() => this.UpdateInput(),
-      1000));
-    this.removeAllButton.addEventListener("click", this.RemoveAllUsers.bind(
-      this));
-    this.removeSelectedButton.addEventListener("click", this
-      .RemoveSelectedUsers.bind(this));
+    this.idInput.addEventListener(
+      "input",
+      debounce(() => this.UpdateInput(), 1000),
+    );
+    this.removeAllButton.element.addEventListener(
+      "click",
+      this.RemoveAllUsers.bind(this),
+    );
+    this.removeSelectedButton.element.addEventListener(
+      "click",
+      this.RemoveSelectedUsers.bind(this),
+    );
   }
+
   Open() {
     this.modal.Open();
-    /*this.idInput.value = ([901322, 996887, 1016288].join("\n")) //"1\n2\n3\n4");
+    /* this.idInput.value = ([901322, 996887, 1016288].join("\n")) //"1\n2\n3\n4");
     $(this.idInput).trigger("input");
     /**
      * 14818 40016
@@ -270,9 +276,10 @@ export default class MassManageUsers extends Components {
      * 996887 155
      */
   }
+
   UpdateInput() {
-    //this.FixNumberLines();
-    let value = this.idInput.value.trim();
+    // this.FixNumberLines();
+    const value = this.idInput.value.trim();
 
     if (value != this.lastIdInputValue) {
       this.lastIdInputValue = value;
@@ -282,13 +289,14 @@ export default class MassManageUsers extends Components {
       this.FetchUserDetails();
     }
   }
+
   FixNumberLines() {
-    let value = this.idInput.value;
+    const { value } = this.idInput;
 
     if (!value) return;
 
-    let cursorPosition = ~~(this.idInput.selectionStart + 1);
-    let newValue = value.replace(/(\d{1,})+(?:([a-z])| {1,})/gm, "$1\n$2");
+    const cursorPosition = ~~(this.idInput.selectionStart + 1);
+    const newValue = value.replace(/(\d{1,})+(?:([a-z])| {1,})/gm, "$1\n$2");
 
     if (value == newValue) return;
 
@@ -296,32 +304,38 @@ export default class MassManageUsers extends Components {
     this.idInput.selectionStart = cursorPosition;
     this.idInput.selectionEnd = cursorPosition;
   }
+
   ParseIds() {
-    let idList = System.ExtractIds(this.idInput.value);
+    const idList = System.ExtractIds(this.idInput.value);
     this.idList = [...new Set(idList)];
   }
+
   UpdateNumberOfIds() {
     this.numberOfIds.innerText = String(this.idList.length);
   }
+
   async FetchUserDetails() {
     if (this.idList.length > 0) {
       let idList = this.FilterFetchedUserIds();
 
       if (idList.length > 0) {
-        let removedIds = this.CheckIfIdListContainsAnyRemovedIds(idList);
+        const removedIds = this.CheckIfIdListContainsAnyRemovedIds(idList);
 
         if (removedIds.length > 0) {
-          if (confirm(System.data.locale.core.massManageUsers
-              .notificationMessages.tryingToAddPreviouslyRemovedIds))
+          if (
+            confirm(
+              System.data.locale.core.massManageUsers.notificationMessages
+                .tryingToAddPreviouslyRemovedIds,
+            )
+          )
             this.RemoveIdsFromRemovedIdsList(removedIds);
-          else
-            idList = this.FilterRemovedIds(idList);
+          else idList = this.FilterRemovedIds(idList);
         }
 
         try {
           this.ShowNumberOfUsersSpinner();
 
-          let resUsers = await new Action().GetUsers(idList);
+          const resUsers = await new Action().GetUsers(idList);
 
           if (resUsers && resUsers.success) {
             this.fetchedUsers = resUsers.data;
@@ -338,43 +352,48 @@ export default class MassManageUsers extends Components {
       }
     }
   }
+
   FilterFetchedUserIds() {
-    if (this.Users().length == 0)
-      return this.idList;
+    if (this.Users().length == 0) return this.idList;
 
     return this.idList.filter(id => {
-      let _user = this.users[id];
+      const _user = this.users[id];
 
-      if (!_user)
-        this.users[id] = true;
+      if (!_user) this.users[id] = true;
 
-      return !_user
+      return !_user;
     });
   }
+
   /**
    * @param {number[]} idList
    */
   CheckIfIdListContainsAnyRemovedIds(idList) {
     return idList.filter(id => this.removedIds.includes(id));
   }
+
   /**
    * @param {number[]} idList
    */
   RemoveIdsFromRemovedIdsList(idList) {
     this.removedIds = this.removedIds.filter(id => !idList.includes(id));
   }
+
   /**
    * @param {number[]} idList
    */
   FilterRemovedIds(idList) {
     return idList.filter(id => !this.removedIds.includes(id));
   }
+
   ShowNumberOfUsersSpinner() {
     this.numberOfIdsSpinnerContainer.append(this.numberOfIdsSpinner);
   }
+
   HideNumberOfUsersSpinner() {
     this.HideElement(this.numberOfIdsSpinner);
   }
+
   /**
    * @param {HTMLElement | JQuery<HTMLElement>} $element
    */
@@ -383,24 +402,26 @@ export default class MassManageUsers extends Components {
       if ($element instanceof HTMLElement) {
         if ($element.parentElement)
           $element.parentElement.removeChild($element);
-      } else
-        $element.detach();
+      } else $element.detach();
     }
   }
+
   /**
    * @param {number[]} idList
    */
   RemoveIdsFromIdList(idList) {
-    idList.forEach(id => (delete this.users[id]));
+    idList.forEach(id => delete this.users[id]);
   }
+
   RenderUsers() {
     this.fetchedUsers.forEach(this.RenderUser.bind(this));
   }
+
   /**
    * @param {UserProfile} details
    */
   RenderUser(details) {
-    let user = this.users[details.id] = new User(details, this);
+    const user = (this.users[details.id] = new User(details, this));
 
     /* let promise = new Action().GetUserProfile(details.id);
     promise.then(resProfil => {
@@ -409,21 +430,25 @@ export default class MassManageUsers extends Components {
     }) */
     this.userList.append(user.container);
   }
+
   UpdateNumbers() {
     this.UpdateNumberOfNotFound();
     this.UpdateNumberOfUsers();
   }
+
   UpdateNumberOfUsers() {
     this.numberOfUsers.innerText = String(this.Users().length);
   }
+
   UpdateNumberOfNotFound() {
-    let count = this.RemoveNotFoundUsersFromStore();
+    const count = this.RemoveNotFoundUsersFromStore();
 
     this.numberOfNotFound.innerText = String(count);
   }
+
   RemoveNotFoundUsersFromStore() {
     let count = 0;
-    let idList = this.Users();
+    const idList = this.Users();
 
     idList.forEach(id => {
       if (this.users[id] === true) {
@@ -434,43 +459,48 @@ export default class MassManageUsers extends Components {
 
     return count;
   }
+
   ToggleSections() {
-    if (this.Users().length > 0)
-      this.ShowSections();
-    else
-      this.HideSections();
+    if (this.Users().length > 0) this.ShowSections();
+    else this.HideSections();
   }
+
   ShowSections() {
     this.ShowUserList();
     this.ShowActionsSection();
   }
+
   HideSections() {
     this.HideUserList();
     this.HideActionsSection();
   }
+
   ShowUserList() {
     this.inputActionList.append(this.userListContainer);
   }
+
   HideUserList() {
     this.HideElement(this.userListContainer);
   }
-  ToggleUserList() {
-    let idList = this.Users();
 
-    if (idList.length == 0)
-      this.HideUserList();
+  ToggleUserList() {
+    const idList = this.Users();
+
+    if (idList.length == 0) this.HideUserList();
   }
+
   async ShowActionsSection() {
-    if (!this.actionsSection)
-      this.RenderActionsSection();
+    if (!this.actionsSection) this.RenderActionsSection();
 
     await System.Delay(50);
 
     this.sectionContainer.append(this.actionsSection);
   }
+
   HideActionsSection() {
     this.HideElement(this.actionsSection);
   }
+
   RenderActionsSection() {
     this.actionsList = ActionList({ direction: "space-around" });
     this.actionsSection = ContentBoxContent({
@@ -481,27 +511,30 @@ export default class MassManageUsers extends Components {
     this.RenderActionsSectionSeparator();
     this.RenderActions();
   }
+
   RenderActionsSectionSeparator() {
-    this.actionsSectionSeparator =
-      SeparatorHorizontal({ type: "short-spaced" });
+    this.actionsSectionSeparator = SeparatorHorizontal({
+      type: "short-spaced",
+    });
   }
+
   ShowActionsSectionSeparator() {
-    this.actionsSection.append(this.actionsSectionSeparator)
+    this.actionsSection.append(this.actionsSectionSeparator);
   }
+
   HideActionsSectionSeparator() {
     this.HideElement(this.actionsSectionSeparator);
   }
+
   RenderActions() {
     this.actions = [];
 
     if (System.checkUserP([27, 30]))
       this.actions.push(new ApproveAnswers(this));
 
-    if (System.checkUserP([27, 31]))
-      this.actions.push(new DeleteUsers(this));
+    if (System.checkUserP([27, 31])) this.actions.push(new DeleteUsers(this));
 
-    if (System.checkUserP([27, 32]))
-      this.actions.push(new ChangePoints(this));
+    if (System.checkUserP([27, 32])) this.actions.push(new ChangePoints(this));
 
     /* if (System.checkUserP([27, 33]))
       this.actions.push(new ChangeRanks(this)); */
@@ -509,6 +542,7 @@ export default class MassManageUsers extends Components {
     if (this.actions.length > 0)
       this.actions.forEach(this.RenderAction.bind(this));
   }
+
   /**
    * @param {import("./ActionSection/index").default} Section
    */
@@ -516,28 +550,31 @@ export default class MassManageUsers extends Components {
     if (Section && Section.actionButtonContainer)
       this.actionsList.append(Section.actionButtonContainer);
   }
+
   ShowRemoveSelectedButton() {
     this.removeButtonList.prepend(this.removeSelectedButtonContainer);
   }
+
   HideRemoveSelectedButton() {
     this.HideElement(this.removeSelectedButtonContainer);
   }
+
   /**
    * @param {User} user
    */
   UserCheckboxChanged(user) {
-    let idsOfSelectedUsers = this.ToggleRemoveSelectedButton();
+    const idsOfSelectedUsers = this.ToggleRemoveSelectedButton();
 
     this.actions.forEach(action => {
       if ("UserCheckboxChanged" in action)
         action.UserCheckboxChanged(user, idsOfSelectedUsers);
-    })
+    });
   }
-  ToggleRemoveSelectedButton() {
-    let filteredIds = this.SelectedUsers();
 
-    if (filteredIds.length == 0)
-      this.HideRemoveSelectedButton();
+  ToggleRemoveSelectedButton() {
+    const filteredIds = this.SelectedUsers();
+
+    if (filteredIds.length == 0) this.HideRemoveSelectedButton();
     else {
       this.ShowRemoveSelectedButton();
       this.numberOfSelectedUsers.innerHTML = String(filteredIds.length);
@@ -545,43 +582,55 @@ export default class MassManageUsers extends Components {
 
     return filteredIds;
   }
+
   SelectedUsers() {
-    let idList = this.Users();
+    const idList = this.Users();
 
     return idList.filter(id => {
-      let user = this.users[id];
+      const user = this.users[id];
 
-      if (user instanceof User)
-        return user.checkbox.checked;
+      if (user instanceof User) return user.checkbox.checked;
     });
   }
+
   Users() {
     return Object.keys(this.users);
   }
+
   RemoveAllUsers() {
-    if (confirm(System.data.locale.core.massManageUsers.notificationMessages
-        .doYouReallyWantToRemoveAllUsers)) {
-      let idList = this.Users();
+    if (
+      confirm(
+        System.data.locale.core.massManageUsers.notificationMessages
+          .doYouReallyWantToRemoveAllUsers,
+      )
+    ) {
+      const idList = this.Users();
 
       this.RemoveUsersById(idList);
     }
   }
+
   RemoveSelectedUsers() {
-    if (confirm(System.data.locale.core.massManageUsers.notificationMessages
-        .doYouWantToRemoveSelectedUsers)) {
-      let idList = this.SelectedUsers();
+    if (
+      confirm(
+        System.data.locale.core.massManageUsers.notificationMessages
+          .doYouWantToRemoveSelectedUsers,
+      )
+    ) {
+      const idList = this.SelectedUsers();
 
       this.RemoveUsersById(idList);
     }
   }
+
   /**
    * @param {string[]} idList
    */
   RemoveUsersById(idList) {
-    idList.forEach(async (id) => {
+    idList.forEach(async id => {
       this.removedIds.push(~~id);
-      //this.HideElement();
-      let user = this.users[id];
+      // this.HideElement();
+      const user = this.users[id];
 
       if (user instanceof User) {
         this.HideElement(user.container);
@@ -596,35 +645,35 @@ export default class MassManageUsers extends Components {
     this.ToggleRemoveSelectedButton();
     this.ToggleSections();
   }
+
   MakeListedUsersBusy(onlySelected = false) {
     let idList;
 
-    if (!onlySelected)
-      idList = this.Users();
-    else
-      idList = this.SelectedUsers();
+    if (!onlySelected) idList = this.Users();
+    else idList = this.SelectedUsers();
 
     if (idList.length == 0) {
       this.modal.Notification({
-        text: System.data.locale.core.massManageUsers.notificationMessages
-          .thereIsNoUserLeft,
-        type: "info"
+        text:
+          System.data.locale.core.massManageUsers.notificationMessages
+            .thereIsNoUserLeft,
+        type: "info",
       });
 
       return null;
     }
 
     return idList.map(id => {
-      let user = this.users[id];
+      const user = this.users[id];
 
-      if (user instanceof User)
-        user.BeBusy();
+      if (user instanceof User) user.BeBusy();
 
       return Number(id);
     });
   }
+
   UnBusyListedUsers() {
-    let keys = this.Users();
+    const keys = this.Users();
     /**
      * @type {number[]}
      */
@@ -632,10 +681,9 @@ export default class MassManageUsers extends Components {
 
     if (keys.length > 0)
       idList = keys.map(id => {
-        let user = this.users[id];
+        const user = this.users[id];
 
-        if (user instanceof User)
-          user.UnBusy();
+        if (user instanceof User) user.UnBusy();
 
         return Number(id);
       });

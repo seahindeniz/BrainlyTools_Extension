@@ -26,6 +26,7 @@ export default class ActionSection {
     this.RenderUserList();
     this.BindButtonHandler();
   }
+
   Render() {
     this.$ = $(`
     <div class="sg-content-box">
@@ -39,16 +40,18 @@ export default class ActionSection {
     this.$contentContainer = $("> .sg-content-box__content", this.$);
     this.$actionsContainer = $("> .sg-content-box__actions", this.$);
   }
+
   RenderTabButton() {
-    this.tabButton = Button({
+    this.tabButton = new Button({
       size: "small",
-      ...this.renderDetails.actionButton
+      ...this.renderDetails.actionButton,
     });
     this.actionButtonContainer = ActionListHole({
       spaceBellow: true,
-      children: this.tabButton,
+      children: this.tabButton.element,
     });
   }
+
   RenderUserList() {
     this.$userListContainer = $(`
     <div class="sg-actions-list__hole sg-actions-list__hole--grow">
@@ -57,9 +60,14 @@ export default class ActionSection {
 
     this.$userList = $(".sg-content-box__actions", this.$userListContainer);
   }
+
   BindButtonHandler() {
-    this.tabButton.addEventListener("click", this.ShowSection.bind(this));
+    this.tabButton.element.addEventListener(
+      "click",
+      this.ShowSection.bind(this),
+    );
   }
+
   ShowSection() {
     if (this.main.activeAction) {
       this.main.activeAction.HideSection();
@@ -77,27 +85,27 @@ export default class ActionSection {
     this.main.ShowActionsSectionSeparator();
     this.$.appendTo(this.main.actionsSection);
 
-    if ("SectionOpened" in this)
-      this.SectionOpened();
+    if ("SectionOpened" in this) this.SectionOpened();
   }
+
   HideSection() {
     this.main.HideElement(this.$);
     this.tabButton.Inactive();
   }
+
   /* SetUserIdList() {
     this.userIdList = this.main.MakeListedUsersBusy();
   } */
   PickUser() {
-    let id = this.userIdList.shift();
+    const id = this.userIdList.shift();
 
-    if (id)
-      return this.main.users[id];
+    if (id) return this.main.users[id];
   }
-  SetUsers(onlySelected = false) {
-    let listedUserIdList = this.main.MakeListedUsersBusy(onlySelected);
 
-    if (!listedUserIdList)
-      return this.userIdList = null;
+  SetUsers(onlySelected = false) {
+    const listedUserIdList = this.main.MakeListedUsersBusy(onlySelected);
+
+    if (!listedUserIdList) return (this.userIdList = null);
 
     this.userIdList = [...new Set(listedUserIdList)];
   }

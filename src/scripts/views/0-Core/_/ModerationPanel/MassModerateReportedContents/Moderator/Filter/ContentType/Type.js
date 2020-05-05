@@ -26,7 +26,7 @@ export default class Type {
   }
 
   RenderButton() {
-    this.button = Button({
+    this.button = new Button({
       size: "small",
       type: "solid",
       text:
@@ -35,11 +35,11 @@ export default class Type {
         ],
     });
 
-    this.container.append(this.button);
+    this.container.append(this.button.element);
   }
 
   BindListener() {
-    this.button.addEventListener("click", this.Clicked.bind(this));
+    this.button.element.addEventListener("click", this.Clicked.bind(this));
   }
 
   Clicked() {
@@ -52,12 +52,12 @@ export default class Type {
   Select() {
     this.selected = true;
 
-    this.button.ChangeType(this.buttonType);
+    this.button.ChangeType({ type: this.buttonType });
   }
 
   UnSelect() {
     this.selected = false;
 
-    this.button.ChangeType("solid");
+    this.button.ChangeType({ type: "solid" });
   }
 }

@@ -87,7 +87,7 @@ export default class StatusBar {
       marginLeft: "m",
       justifyContent: "flex-end",
       alignItems: "center",
-      children: (this.stopButton = Button({
+      children: (this.stopButton = new Button({
         size: "medium",
         type: "solid-peach",
         text: System.data.locale.common.stop,
@@ -120,7 +120,7 @@ export default class StatusBar {
               this.main.main.exportSpreadsheetFile.extension,
             ),
           })),
-          Icon({
+          new Icon({
             size: 54,
             color: "mint",
             type: this.main.main.exportSpreadsheetFile.icon,
@@ -131,7 +131,7 @@ export default class StatusBar {
   }
 
   BindListener() {
-    this.stopButton.addEventListener(
+    this.stopButton.element.addEventListener(
       "click",
       this.main.StopModeration.bind(this.main),
     );

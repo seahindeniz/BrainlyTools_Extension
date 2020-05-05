@@ -1,379 +1,333 @@
+// @flow strict
 /* eslint-disable no-underscore-dangle */
-import classnames from "classnames";
-import mergeDeep from "merge-deep";
-import AddChildren from "./helpers/AddChildren";
-import SetProps from "./helpers/SetProps";
-import Icon from "./Icon";
 
-/**
- * @typedef {import("./Icon").IconTypeType} IconTypeType
- * @typedef {import("./Icon").IconElement} IconElement
- * @typedef {import("./Icon").Properties} IconProperties
- *
- * @typedef {'solid'
- * | 'solid-inverted'
- * | 'solid-blue'
- * | 'solid-mint'
- * | 'solid-light'
- * | 'outline'
- * | 'transparent'
- * | 'transparent-light'
- * | 'transparent-peach'
- * | 'transparent-mustard'
- * | 'transparent-inverted'
- * | 'facebook'
- * | "solid-peach"
- * | "solid-mustard"
- * | "transparent-mint"
- * | "transparent-blue"
- * | "outline-mint"
- * | "outline-peach"
- * | "outline-mustard"} ButtonTypeType
- *
- * @typedef {"large" | "medium" | "small" | "xsmall"} ButtonSizeType
- *
- * @typedef {boolean | "small" | "xsmall" | "xxsmall" | "large" | "xlarge" |
- * "xxlarge"} sizeList
- *
- * @typedef {boolean | {
- *  top?: sizeList,
- *  left?: sizeList,
- *  bottom?: sizeList,
- *  right?: sizeList,
- * }} cornerSpaces
- *
- * @typedef {function(): ButtonElement} Hide
- * @typedef {function(): ButtonElement} Show
- * @typedef {function(): ButtonElement} Enable
- * @typedef {function(): ButtonElement} Disable
- * @typedef {function(): ButtonElement} Active
- * @typedef {function(): ButtonElement} Inactive
- * @typedef {function(): ButtonElement} IsDisabled
- * @typedef {function(ButtonTypeType): ButtonElement} ChangeType
- * @typedef {function(ButtonTypeType): ButtonElement} ToggleType
- * @typedef {function(IconElement=): ButtonElement} ChangeIcon
- * @typedef {function(ButtonSizeType=): ButtonElement} ChangeSize
- *
- * @typedef {{
- *  size: ButtonSizeType,
- *  type: ButtonTypeType,
- *  mainType:ButtonTypeType,
- *  icon?: IconElement | HTMLElement,
- *  Hide: Hide,
- *  Show: Show,
- *  Enable: Enable,
- *  Disable: Disable,
- *  Active: Active,
- *  Inactive: Inactive,
- *  ChangeType: ChangeType,
- *  ToggleType: ToggleType,
- *  IsDisabled: IsDisabled,
- *  ChangeIcon: ChangeIcon,
- *  ChangeSize: ChangeSize,
- * }} CustomProperties
- *
- * @typedef {(HTMLAnchorElement | HTMLButtonElement | HTMLLabelElement) &
- * CustomProperties} ButtonElement
- *
- * @typedef {{
- *  tag?: "button" | "a" | "label" | "input",
- *  size?: ButtonSizeType,
- *  type?: ButtonTypeType,
- *  icon?: IconTypeType | IconProperties | HTMLElement,
- *  href?: string,
- *  fullWidth?: boolean,
- *  disabled?: boolean,
- *  children?: import("@style-guide/helpers/AddChildren").ChildrenParamType,
- *  className?: string,
- *  text?: string,
- *  html?: string,
- *  title?: string,
- *  spaced?: cornerSpaces,
- *  [x: string]: *,
- * }} Properties
- */
+import AddChildren from "@style-guide/helpers/AddChildren";
+import type { ChildrenParamType } from "@style-guide/helpers/AddChildren";
+import SetProps from "@style-guide/helpers/SetProps";
+import type Icon from "@style-guide/Icon";
+import classnames from "classnames";
 
 const sg = "sg-button";
 const SGD = `${sg}--`;
 
-/**
- * @this {ButtonElement}
- * @returns {ButtonElement}
- */
-function _Hide() {
-  this.classList.add("js-hidden");
+type ButtonSizeType = "large" | "medium" | "small" | "xsmall";
 
-  return this;
-}
+type ButtonColorType =
+  | {
+      type:
+        | "solid"
+        | "solid-inverted"
+        | "solid-blue"
+        | "solid-mint"
+        | "transparent-inverted"
+        | "facebook",
+      toggle?: null,
+    }
+  | {
+      type: "solid-light" | "outline" | "transparent" | "transparent-light",
+      toggle?: "peach" | "mustard" | null,
+    }
+  | {
+      type: "transparent-peach",
+      toggle?: "peach" | null,
+    }
+  | {
+      type: "transparent-mustard",
+      toggle?: "mustard" | null,
+    };
 
-/**
- * @this {ButtonElement}
- * @returns {ButtonElement}
- */
-function _Show() {
-  this.classList.remove("js-hidden");
+type ButtonCornerSpaceSize =
+  | boolean
+  | "small"
+  | "xsmall"
+  | "xxsmall"
+  | "large"
+  | "xlarge"
+  | "xxlarge";
 
-  return this;
-}
+type ButtonCornerSpaces =
+  | boolean
+  | {
+      top?: ButtonCornerSpaceSize,
+      left?: ButtonCornerSpaceSize,
+      bottom?: ButtonCornerSpaceSize,
+      right?: ButtonCornerSpaceSize,
+    };
 
-/**
- * @this {ButtonElement}
- * @returns {ButtonElement}
- */
-function _Disable() {
-  if (this instanceof HTMLButtonElement) this.disabled = true;
+export type ButtonPropsType = {
+  children?: ChildrenParamType,
+  icon?: HTMLElement,
+  size?: ButtonSizeType,
+  href?: string,
+  disabled?: boolean,
+  fullWidth?: boolean,
+  className?: string,
+  tag: "button" | "a" | "label" | "input",
+  text?: string,
+  html?: string,
+  title?: string,
+  spaced?: ButtonCornerSpaces,
+  ...
+} & ButtonColorType;
 
-  this.classList.add(`${SGD}disabled`);
+// : $Keys<typeof HTMLElementTagNameMap2>
+class Button {
+  element: HTMLElement;
 
-  return this;
-}
+  textElement: ?HTMLSpanElement;
+  iconContainer: HTMLSpanElement;
+  size: ?ButtonSizeType;
+  type: string;
+  mainType: string;
+  icon: ?HTMLElement;
+  toggle: ?string;
+  mainToggle: ?string;
 
-/**
- * @this {ButtonElement}
- * @returns {ButtonElement}
- */
-function _Enable() {
-  if (this instanceof HTMLButtonElement) this.disabled = false;
-
-  this.classList.remove(`${SGD}disabled`);
-
-  return this;
-}
-
-/**
- * @this {ButtonElement}
- * @returns {ButtonElement}
- */
-function _Active() {
-  this.classList.add(`${SGD}active`);
-
-  return this;
-}
-
-/**
- * @this {ButtonElement}
- * @returns {ButtonElement}
- */
-function _Inactive() {
-  this.classList.remove(`${SGD}active`);
-
-  return this;
-}
-
-/**
- * typedef {ChangeType} ChangeType
- * @this {ButtonElement}
- * @param {ButtonTypeType} type
- * returns {ButtonElement}
- */
-function _ChangeType(type) {
-  this.classList.remove(SGD + this.type);
-  this.classList.remove(SGD + this.mainType);
-  this.classList.add(SGD + type);
-
-  this.type = type;
-  this.mainType = type;
-
-  return this;
-}
-
-/**
- * typedef {ChangeType} ChangeType
- * @this {ButtonElement}
- * @param {ButtonSizeType} [size]
- * returns {ButtonElement}
- */
-function _ChangeSize(size) {
-  if (this.size) this.classList.remove(SGD + this.size);
-
-  if (size) this.classList.add(SGD + size);
-
-  this.size = size;
-
-  return this;
-}
-
-/**
- * typedef {ToggleType} ToggleType
- * @this {ButtonElement}
- * @param {ButtonTypeType} type
- * @returns {ButtonElement}
- */
-function _ToggleType(type) {
-  this.classList.toggle(SGD + this.mainType);
-
-  const hasNewClass = this.classList.toggle(SGD + type);
-  this.type = hasNewClass ? type : this.mainType;
-
-  return this;
-}
-
-/**
- * @this {ButtonElement}
- */
-function _IsDisabled() {
-  return this.classList.contains(`${SGD}disabled`);
-}
-
-/**
- * @this {ButtonElement}
- */
-function _DeleteIcon() {
-  this.icon = undefined;
-  const icon = this.querySelector(`.${sg}__icon`);
-
-  if (icon) icon.remove();
-}
-
-/**
- * @this {ButtonElement}
- * @param {IconElement} icon
- */
-function _AddIcon(icon) {
-  this.icon = icon;
-  const iconContainer = document.createElement("span");
-
-  iconContainer.appendChild(icon);
-  iconContainer.classList.add(`${sg}__icon`);
-
-  this.insertBefore(iconContainer, this.firstChild);
-
-  return this;
-}
-
-/**
- * @this {ButtonElement}
- * @param {IconElement} [icon]
- */
-function _ChangeIcon(icon) {
-  if (!icon) return _DeleteIcon.bind(this)();
-
-  if (!this.icon) return _AddIcon.bind(this)(icon);
-
-  const iconContainer = this.querySelector(`.${sg}__icon`);
-
-  this.icon.remove();
-  /* iconContainer.childNodes.forEach(node => node.remove()); */
-  iconContainer.appendChild(icon);
-
-  this.icon = icon;
-
-  return this;
-}
-
-/**
- * @param {Properties} param0
- * @returns {ButtonElement}
- */
-export default function ({
-  tag = "button",
-  size,
-  type,
-  icon,
-  href,
-  fullWidth,
-  disabled,
-  children,
-  className,
-  text,
-  html,
-  title,
-  spaced,
-  ...props
-} = {}) {
-  if (text && html)
-    throw Error("Content should be filled either with text or html");
-
-  const btnClass = classnames(
-    sg,
-    {
-      [SGD + size]: size,
-      [SGD + type]: type,
-      [`${SGD}disabled`]: disabled,
-      [`${SGD}full-width`]: fullWidth,
-    },
+  constructor({
+    size,
+    type,
+    icon,
+    href,
+    fullWidth,
+    disabled,
+    children,
     className,
-  );
+    toggle,
+    tag = "button",
+    text,
+    html,
+    title,
+    spaced,
+    ...props
+  }: ButtonPropsType) {
+    this.size = size;
+    this.type = type;
+    this.mainType = type;
+    this.toggle = toggle;
+    this.mainToggle = toggle;
 
-  let tagName = tag;
+    const btnClass = classnames(
+      sg,
+      {
+        [SGD + String(size)]: size,
+        [SGD + type]: type,
+        [`${SGD}disabled`]: disabled,
+        [`${SGD}full-width`]: fullWidth,
+        [`sg-button--${String(type)}-toggle-${String(toggle)}`]: toggle,
+      },
+      className,
+    );
 
-  if (href) tagName = "a";
+    let tagName = tag;
 
-  /**
-   * @type {ButtonElement}
-   */
-  const button = Object.assign(document.createElement(tagName));
-  button.className = btnClass;
-  props.size = size;
-  props._type = type;
-  props.mainType = type;
-  props.Hide = _Hide;
-  props.Show = _Show;
-  props.Enable = _Enable;
-  props.Disable = _Disable;
-  props.Active = _Active;
-  props.Inactive = _Inactive;
-  props.ChangeType = _ChangeType;
-  props.ToggleType = _ToggleType;
-  props.IsDisabled = _IsDisabled;
-  props.ChangeIcon = _ChangeIcon;
-  props.ChangeSize = _ChangeSize;
+    if (href !== undefined && href !== null && href !== "") tagName = "a";
 
-  if (spaced) {
-    const styles = [];
+    this.element = document.createElement(tagName);
+    this.element.className = btnClass;
 
-    if (typeof spaced === "boolean") styles.push(`${SGD}spaced`);
+    if (spaced !== undefined && spaced !== null) {
+      const styles = [];
 
-    if (typeof spaced === "object")
-      Object.entries(spaced).forEach(([corner, cornerSize]) => {
-        if (typeof cornerSize === "boolean")
-          styles.push(`${SGD}spaced-${corner}`);
-        else {
-          styles.push(`${SGD}spaced-${corner}-${cornerSize}`);
-        }
+      if (typeof spaced === "boolean") styles.push(`${SGD}spaced`);
+
+      if (typeof spaced === "object")
+        Object.entries(spaced).forEach(([corner, cornerSize]) => {
+          if (typeof cornerSize === "boolean")
+            styles.push(`${SGD}spaced-${corner}`);
+          else {
+            styles.push(`${SGD}spaced-${corner}-${String(cornerSize)}`);
+          }
+        });
+
+      this.element.classList.add(...styles);
+    }
+
+    if (disabled === true && this.element instanceof HTMLButtonElement)
+      this.element.disabled = true;
+
+    if (
+      href !== undefined &&
+      href !== null &&
+      href !== "" &&
+      this.element instanceof HTMLAnchorElement
+    )
+      this.element.href = href;
+
+    if (title !== undefined && title !== null && title !== "")
+      this.element.title = title;
+
+    SetProps(this.element, props);
+
+    if (
+      (text !== undefined && text !== null && text !== "") ||
+      (html !== undefined && html !== null && html !== "") ||
+      (children !== undefined && children !== null)
+    ) {
+      this.textElement = document.createElement("span");
+      this.textElement.className = `${sg}__text`;
+
+      if (html !== undefined && html !== null && html !== "")
+        AddChildren(this.textElement, html);
+      else if (text !== undefined && text !== null && text !== "")
+        this.textElement.innerText = text;
+
+      if (children !== undefined && children !== null)
+        AddChildren(this.textElement, children);
+
+      if (this.textElement) this.element.appendChild(this.textElement);
+    }
+
+    if (icon) {
+      this.AddIcon(icon);
+    }
+  }
+
+  Hide() {
+    this.element.classList.add("js-hidden");
+
+    return this;
+  }
+
+  Show() {
+    this.element.classList.remove("js-hidden");
+
+    return this;
+  }
+
+  Disable() {
+    if (this.element instanceof HTMLButtonElement) this.element.disabled = true;
+
+    this.element.classList.add(`${SGD}disabled`);
+
+    return this;
+  }
+
+  Enable() {
+    if (this.element instanceof HTMLButtonElement)
+      this.element.disabled = false;
+
+    this.element.classList.remove(`${SGD}disabled`);
+
+    return this;
+  }
+
+  Active() {
+    this.element.classList.add(`${SGD}active`);
+
+    return this;
+  }
+
+  Inactive() {
+    this.element.classList.remove(`${SGD}active`);
+
+    return this;
+  }
+
+  ChangeType({ type, toggle }: ButtonColorType) {
+    this.element.classList.remove(SGD + String(this.type));
+    this.element.classList.remove(SGD + String(this.mainType));
+    this.element.classList.remove(
+      `sg-button--${String(this.type)}-toggle-${String(this.toggle)}`,
+    );
+    this.element.classList.remove(
+      `sg-button--${String(this.mainType)}-toggle-${String(this.mainToggle)}`,
+    );
+    this.element.classList.add(SGD + type);
+    this.element.classList.add(
+      `sg-button--${String(type)}-toggle-${String(toggle)}`,
+    );
+
+    this.type = type;
+    this.mainType = type;
+    this.toggle = toggle;
+    this.mainToggle = toggle;
+
+    return this;
+  }
+
+  ChangeSize(size: ButtonSizeType) {
+    if (this.size) {
+      this.element.classList.remove(SGD + this.size);
+
+      if (this.icon)
+        this.iconContainer.classList.remove(
+          `sg-button__icon--${this.size || ""}`,
+        );
+    }
+
+    if (size) {
+      this.element.classList.add(SGD + size);
+
+      if (this.icon)
+        this.iconContainer.classList.add(`sg-button__icon--${size || ""}`);
+    }
+
+    this.size = size;
+
+    return this;
+  }
+
+  ToggleType({ type, toggle }: ButtonColorType) {
+    this.element.classList.toggle(SGD + String(this.mainType));
+    this.element.classList.toggle(
+      `sg-button--${String(this.mainType)}-toggle-${String(this.mainToggle)}`,
+    );
+    this.element.classList.toggle(
+      `sg-button--${String(type)}-toggle-${String(toggle)}`,
+    );
+
+    const hasTypeToggled = this.element.classList.toggle(SGD + type);
+    this.type = hasTypeToggled ? type : this.mainType;
+    this.toggle = hasTypeToggled ? toggle : this.mainToggle;
+
+    return this;
+  }
+
+  IsDisabled() {
+    return this.element.classList.contains(`${SGD}disabled`);
+  }
+
+  AddIcon(icon: HTMLElement | Icon) {
+    if (this.icon) this.icon.remove();
+    else if (this.iconContainer === null || this.iconContainer === undefined) {
+      this.iconContainer = document.createElement("span");
+
+      const iconClass = classnames("sg-button__icon", {
+        [`sg-button__icon--${this.size || ""}`]: this.size,
       });
 
-    button.classList.add(...styles);
+      this.iconContainer.className = iconClass;
+      this.element.prepend(this.iconContainer);
+    }
+
+    let iconElement;
+
+    if (!(icon instanceof HTMLElement)) {
+      if (!icon.size) icon.ChangeSize(this.size === "xsmall" ? 18 : 24);
+
+      iconElement = icon.element;
+    } else iconElement = icon;
+
+    this.iconContainer.appendChild(iconElement);
+
+    this.icon = iconElement;
+
+    return this;
   }
 
-  if (disabled && button instanceof HTMLButtonElement) button.disabled = true;
+  ChangeIcon(icon?: HTMLElement) {
+    if (!icon) return this.DeleteIcon();
 
-  if (href && button instanceof HTMLAnchorElement) button.href = href;
-
-  if (title) button.title = title;
-
-  SetProps(button, props);
-
-  if (text || html || children) {
-    const textElement = document.createElement("span");
-    textElement.className = `${sg}__text`;
-
-    if (html) textElement.innerHTML = html;
-    else if (text) textElement.innerText = text;
-
-    AddChildren(textElement, children);
-
-    button.appendChild(textElement);
+    return this.AddIcon(icon);
   }
 
-  if (icon) {
-    if (typeof icon === "string" || !("innerText" in icon)) {
-      /**
-       * @type {IconProperties}
-       */
-      let iconProps = {
-        size: size === "xsmall" ? 18 : 24,
-        color: "adaptive",
-      };
+  DeleteIcon() {
+    this.icon = undefined;
 
-      if (typeof icon === "string") iconProps.type = icon;
-      else iconProps = mergeDeep(iconProps, icon);
+    if (this.iconContainer) this.iconContainer.remove();
 
-      button.icon = Icon(iconProps);
-    } else button.icon = icon;
-
-    _AddIcon.bind(button)(button.icon);
+    return this;
   }
-
-  return button;
 }
+
+export default Button;

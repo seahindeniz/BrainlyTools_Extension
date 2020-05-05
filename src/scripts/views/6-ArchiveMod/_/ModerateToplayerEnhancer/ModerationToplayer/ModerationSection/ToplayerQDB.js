@@ -2,7 +2,7 @@ import notification from "@/scripts/components/notification2";
 import {
   Button,
   Flex,
-  SpinnerContainer
+  SpinnerContainer,
 } from "@/scripts/components/style-guide";
 
 export default class ToplayerQDB {
@@ -22,33 +22,37 @@ export default class ToplayerQDB {
     this.RenderButton();
     this.BindHandler();
   }
+
+  RenderButton() {
+    this.button = new Button({
+      size: "xsmall",
+      text: this.reason.title,
+      title: `${this.reason.title}:\n${this.reason.text}`,
+      ...this.buttonProps,
+    });
+  }
+
   RenderButtonContainer() {
-    this.spinnerContainer = SpinnerContainer();
+    this.spinnerContainer = SpinnerContainer({
+      children: this.button.element,
+    });
     this.container = Flex({
       marginLeft: "xs",
       children: this.spinnerContainer,
     });
   }
-  RenderButton() {
-    this.button = Button({
-      size: "xsmall",
-      text: this.reason.title,
-      title: `${this.reason.title}:\n${this.reason.text}`,
-      ...this.buttonProps
-    });
 
-    this.spinnerContainer.append(this.button);
-  }
   BindHandler() {
-    this.button.addEventListener("click", this.Delete.bind(this));
+    this.button.element.addEventListener("click", this.Delete.bind(this));
   }
+
   ShowSpinner() {
     return this.main.ShowSpinner(this.spinnerContainer);
   }
+
   async Delete() {
     try {
-      let message = System.data.locale.common.moderating
-        .doYouWantToDeleteWithReason
+      const message = System.data.locale.common.moderating.doYouWantToDeleteWithReason
         .replace("%{reason_title}", this.reason.title)
         .replace("%{reason_message}", this.reason.text);
 
@@ -57,7 +61,7 @@ export default class ToplayerQDB {
       if (this.main.processing || !confirm(message))
         return this.main.HideSpinner();
 
-      let data = {
+      const data = {
         model_id: this.main.data.id,
         reason: this.reason.text,
         reason_title: this.reason.title,
@@ -66,20 +70,21 @@ export default class ToplayerQDB {
       };
       data.take_points = data.give_warning;
       this.main.processing = true;
-      let resDelete = await this.main.Delete(data);
+      const resDelete = await this.main.Delete(data);
       this.main.processing = false;
 
-      if (!resDelete)
-        throw "Empty response";
+      if (!resDelete) throw "Empty response";
 
-      if (!resDelete.success)
-        throw { msg: resDelete.message, res: resDelete };
+      if (!resDelete.success) throw { msg: resDelete.message, res: resDelete };
 
       this.main.Deleted();
     } catch (error) {
       console.error(error);
-      this.main.main.main.toplayerZdnObject.setMessage(error.msg || System
-        .data.locale.common.notificationMessages.operationError, "failure");
+      this.main.main.main.toplayerZdnObject.setMessage(
+        error.msg ||
+          System.data.locale.common.notificationMessages.operationError,
+        "failure",
+      );
     }
 
     this.main.HideSpinner();

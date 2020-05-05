@@ -1,5 +1,5 @@
-/* eslint-disable class-methods-use-this */
-/* eslint-disable camelcase */
+// @flow
+/* eslint-disable class-methods-use-this, camelcase */
 import InsertBefore from "@/scripts/helpers/InsertBefore";
 import WaitForElement from "@/scripts/helpers/WaitForElement";
 import WaitForElements from "@/scripts/helpers/WaitForElements";
@@ -43,8 +43,10 @@ window.addEventListener("beforeunload", event => {
 });
 
 class Core {
+  userData: {};
+
   constructor() {
-    window.System = new _System(this);
+    window.System = new _System();
 
     this.Pipeline();
   }
@@ -118,7 +120,7 @@ class Core {
       storage("set", { language });
     }
 
-    System.data.locale = await System.prepareLangFile(language);
+    System.data.locale = await System.PrepareLanguageFile(language);
     System.Log("Locale inject OK!");
 
     return Promise.resolve();

@@ -1,0 +1,22 @@
+[ignore]
+<PROJECT_ROOT>/node_modules/module-deps
+<PROJECT_ROOT>/build
+
+[include]
+
+[libs]
+
+[lints]
+
+[options]
+module.name_mapper='^@BrainlyAction' -> '<PROJECT_ROOT>/src/scripts/controllers/Req/Brainly/Action'
+module.name_mapper='^@ServerReq' -> '<PROJECT_ROOT>/src/scripts/controllers/Req/Server'
+module.name_mapper='^@style-guide' -> '<PROJECT_ROOT>/src/scripts/components/style-guide'
+module.name_mapper='^@' ->'<PROJECT_ROOT>/src'
+esproposal.optional_chaining=enable
+
+[strict]
+nonstrict-import
+;untyped-import
+untyped-type-import
+sketchy-null

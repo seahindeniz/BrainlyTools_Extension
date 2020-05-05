@@ -1,3 +1,4 @@
+// @flow
 /* eslint-disable no-underscore-dangle, no-param-reassign, class-methods-use-this */
 import locale from "@/locales";
 import ServerReq from "@ServerReq";
@@ -8,19 +9,97 @@ import ArrayLast from "../helpers/ArrayLast";
 import storage from "../helpers/extStorage";
 import InjectToDOM from "../helpers/InjectToDOM";
 import Action from "./Req/Brainly/Action";
-// @ts-ignore
 
-/**
- * @param {Avatar} entry
- */
-function _ExtractAvatarURL(entry) {
+type AvatarType = {
+  src?: string,
+  small?: string,
+  medium?: string,
+  "64"?: string,
+  "100"?: string,
+};
+
+type IdType = number | string;
+
+function _ExtractAvatarURL(entry: AvatarType) {
   return entry[64] || entry[100] || entry.src || entry.small || entry.medium;
 }
 
 class _System {
-  constructor(main) {
+  logStyle: string;
+  constants: {
+    Brainly: {
+      regexp_BrainlyMarkets: RegExp,
+      brainlyMarkets: string[],
+      style_guide: {
+        icons: string,
+      },
+      githubHighlight: string,
+      marketRequestLimit: number,
+    },
+    config: {
+      MAX_FILE_SIZE_OF_EVIDENCE: number,
+      MAX_FILE_SIZE_OF_EVIDENCE_IN_MB: number,
+      RAINBOW_COLORS: string,
+      availableLanguages: {
+        key: string,
+        title: string,
+      }[],
+      idExtractRegex: RegExp,
+      pinIcon: string,
+      reasonSign: string,
+    },
+  };
+
+  data: {
+    Brainly: {
+      apiURL: string,
+      nullAvatar: string,
+      tokenLong: string,
+      Routing: {
+        prefix: any,
+        routes: any,
+      },
+      userData: any,
+    },
+    meta: {
+      marketTitle: string,
+      extension: {
+        id: string,
+        URL: string,
+      },
+      marketName: string,
+      location: {
+        href: string,
+        ancestorOrigins: {},
+        origin: string,
+        protocol: string,
+        host: string,
+        hostname: string,
+        port: string,
+        pathname: string,
+        search: string,
+        hash: string,
+      },
+      manifest: {
+        URL: string,
+        id: string,
+      } & browser._manifest.WebExtensionManifest,
+      storageKey: string,
+    },
+    config: {},
+  };
+
+  routeMasks: {
+    profile: any,
+    task: any,
+  };
+
+  friends: any[];
+
+  profileLinkRoute: string;
+
+  constructor() {
     this.logStyle = `font-size: 11px;color: #4fb3f6;font-family:century gothic;`;
-    this.main = main;
     const that = this;
     this.constants = {
       Brainly: {
@@ -51,9 +130,7 @@ class _System {
         reasonSign: "߷",
         idExtractRegex: /((?:.*?[-/])(?=\d))|(?:[?/].*)|(?:[a-z]{1,})/gi,
         MAX_FILE_SIZE_OF_EVIDENCE_IN_MB: 22,
-        get MAX_FILE_SIZE_OF_EVIDENCE() {
-          return this.MAX_FILE_SIZE_OF_EVIDENCE_IN_MB * 1024 * 1024;
-        },
+        MAX_FILE_SIZE_OF_EVIDENCE: 22 * 1024 * 1024,
         RAINBOW_COLORS: "#F15A5A,#F0C419,#4EBA6F,#2D95BF,#955BA5",
         availableLanguages: [
           {
@@ -83,14 +160,13 @@ class _System {
             that.data.meta.location.origin || document.location.origin
           }/api/28`;
         },
-        get nullAvatar() {
-          return `/img/avatars/100-ON.png`;
-        },
+        nullAvatar: `/img/avatars/100-ON.png`,
         tokenLong: cookie.get("Zadanepl_cookie[Token][Long]"),
         Routing: {
           prefix: undefined,
           routes: undefined,
         },
+        userData: undefined,
       },
       meta: {},
       locale,
@@ -107,11 +183,7 @@ class _System {
     console.log(`%cSystem library initialized`, this.logStyle);
   }
 
-  /**
-   * A colorizing proxy of console.log method
-   * @param  {...any} args
-   */
-  Log(...args) {
+  Log(...args: any) {
     const isContainsObject = args.filter(
       arg => typeof arg !== "string" || typeof arg !== "number",
     );
@@ -125,11 +197,7 @@ class _System {
       });
   }
 
-  /**
-   * @param {number} milliseconds - Specify delay in milliseconds
-   * @return {Promise<number>} - milliseconds
-   */
-  Delay(milliseconds = this.randomNumber(1000, 4000)) {
+  Delay(milliseconds: number = this.randomNumber(1000, 4000)): Promise<number> {
     return new Promise(resolve =>
       setTimeout(() => resolve(milliseconds), milliseconds),
     );
@@ -139,18 +207,13 @@ class _System {
     return this.Delay(this.randomNumber(100, 500));
   }
 
-  /**
-   * Generates a number between the maximum number including min and max
-   * @param {number} min
-   * @param {number} max
-   */
-  randomNumber(min = 0, max = 10) {
+  randomNumber(min: number = 0, max: number = 10) {
     if (min > max) [min, max] = [max, min];
 
     return Math.floor(Math.random() * ++max + min);
   }
 
-  pageLoaded(loadMessage) {
+  pageLoaded(loadMessage: string) {
     this.Log(loadMessage);
     this.Log(
       // @ts-ignore
@@ -160,8 +223,8 @@ class _System {
     );
   }
 
-  checkRoute(index, str) {
-    const currPath = this.data.meta.location.pathname.split("/");
+  checkRoute(index: number, str: string) {
+    const currPath: string[] = this.data.meta.location.pathname.split("/");
     let result = false;
 
     if (currPath.length >= 2) {
@@ -199,30 +262,19 @@ class _System {
     return result;
   }
 
-  /**
-   * @param {string} action
-   * @param {*} [data]
-   */
-  toBackground(action, data) {
+  toBackground(action: string, data?: any) {
     const messageData = {
       action,
       marketName: this.data.meta.marketName,
       data,
     };
 
-    return new Promise((resolve, reject) => {
-      const handler = response => {
-        try {
-          resolve(response);
-        } catch (error) {
-          reject(error);
-        }
-      };
+    return new Promise<void>((resolve, reject) => {
       try {
         window.chrome.runtime.sendMessage(
           this.data.meta.extension && this.data.meta.extension.id,
           messageData,
-          handler,
+          resolve,
         );
       } catch (error) {
         reject(error);
@@ -250,15 +302,18 @@ class _System {
     this.toBackground("enableExtensionIcon");
   }
 
-  changeBadgeColor(status) {
+  changeBadgeColor(status: string) {
     this.toBackground("changeBadgeColor", status);
   }
 
-  /**
-   * @param {{avatar?: Avatar, avatars: Avatar} & Avatar} user
-   * @param {*} param1
-   */
-  prepareAvatar(user, { returnIcon, noOrigin, replaceOrigin } = {}) {
+  prepareAvatar(
+    user: { avatar?: AvatarType, avatars?: AvatarType } & AvatarType,
+    {
+      returnIcon,
+      noOrigin,
+      replaceOrigin,
+    }: { returnIcon: boolean, noOrigin: boolean, replaceOrigin: string } = {},
+  ): string {
     let avatar = "";
 
     if (user) {
@@ -270,6 +325,7 @@ class _System {
           user.avatar.small ||
           user.avatar.medium;
       }
+
       if (user.avatars) {
         avatar =
           user.avatars[64] ||
@@ -278,9 +334,9 @@ class _System {
           user.avatars.small ||
           user.avatars.medium;
       }
-      if (user[64] || user[100] || user.src || user.small || user.medium) {
+
+      if (user[64] || user[100] || user.src || user.small || user.medium)
         avatar = user[64] || user[100] || user.src || user.small || user.medium;
-      }
     }
 
     if (avatar && returnIcon) {
@@ -296,18 +352,17 @@ class _System {
         if (replaceOrigin) avatar = `https://${replaceOrigin}`;
         else if (!noOrigin) avatar = `https://${this.data.meta.marketName}`;
 
-        avatar += this.data.Brainly.nullAvatar;
+        if (avatar !== undefined) avatar += this.data.Brainly.nullAvatar;
+        else avatar = "";
       }
     }
 
     return avatar;
   }
 
-  /**
-   * @typedef {{src?: string, small?: string, medium?: string, 64?: string, 100?: string}} Avatar
-   * @param {{avatar?: Avatar, avatars?: Avatar} & Avatar} entry
-   */
-  ExtractAvatarURL(entry) {
+  ExtractAvatarURL(
+    entry: { avatar?: AvatarType, avatars?: AvatarType } & AvatarType,
+  ) {
     let avatarURL = "";
 
     if (entry) {
@@ -323,13 +378,11 @@ class _System {
     return avatarURL;
   }
 
-  /**
-   * @typedef {number|string} idType
-   * @param {idType | {id?: idType, brainlyID?: idType, nick?: string}} [id]
-   * @param {string} [nick]
-   * @param {boolean} [noOrigin]
-   */
-  createProfileLink(id, nick = "a", noOrigin) {
+  createProfileLink(
+    id: IdType | { id?: IdType, brainlyID?: IdType, nick?: string },
+    nick?: string = "a",
+    noOrigin?: boolean,
+  ) {
     let origin = "";
 
     if (id instanceof Object && id.nick) {
@@ -362,13 +415,16 @@ class _System {
       origin = this.data.meta.location.origin;
     }
 
-    if (this.profileLinkRoute)
-      return `${origin + this.profileLinkRoute}/${nick}-${id}`;
+    if (this.profileLinkRoute && id)
+      return `${origin + this.profileLinkRoute}/${nick}-${String(id)}`;
 
     return "";
   }
 
-  createBrainlyLink(type, data) {
+  createBrainlyLink(
+    type: "profile" | "question",
+    data?: { id?: IdType; brainlyID: IdType; nick: string },
+  ) {
     let _return = "";
 
     if (type === "profile") {
@@ -381,7 +437,7 @@ class _System {
           ),
         );
 
-      if (this.routeMasks.profile) {
+        if (this.routeMasks.profile && data?.nick) {
         /* console.log(System.data.meta.location.origin);
         console.log(this.routeMasks.profile);
         console.log(data.nick);
@@ -402,7 +458,7 @@ class _System {
         );
       }
 
-      if (this.routeMasks.task)
+      if (this.routeMasks.task && data?.nick)
         _return = `${this.data.meta.location.origin + this.routeMasks.task}/${
           data.id || data.brainlyID
         }`;
@@ -412,7 +468,7 @@ class _System {
     return _return;
   }
 
-  checkBrainlyP(p) {
+  checkBrainlyP(p: number | number[]) {
     let r = !1;
 
     if (typeof p === "number") {
@@ -426,11 +482,7 @@ class _System {
     return r;
   }
 
-  /**
-   * @param {number | number[]} p
-   * @param {boolean} [exc0]
-   */
-  checkUserP(p, exc0) {
+  checkUserP(p: number | number[], exc0?: boolean) {
     let r = !1;
 
     if (!exc0 && this.data.Brainly.userData._hash.includes(0)) r = !0;
@@ -453,7 +505,7 @@ class _System {
     }('4.3.2.5.6.7(8)>-1&&(0&&0());', 9, 9, 'c||Brainly|data|System|userData|_hash|indexOf|p'.split('|'), 0, {})) */
   }
 
-  async log(type, log) {
+  async log(type: number, log: any) {
     if (
       log &&
       log.user &&
@@ -481,43 +533,22 @@ class _System {
     }
   }
 
-  /**
-   * @param {string} language
-   * @param {(value: any)=> void} [_resolve]
-   * @param {(value: any)=> void} [_reject]
-   */
-  prepareLangFile(language, _resolve, _reject) {
-    return new Promise(async (resolve, reject) => {
-      resolve = _resolve || resolve;
-      reject = _reject || reject;
+  async PrepareLanguageFile(langName: string): Promise<boolean> {
+    if (langName.match(/\ben[-_](?:us|au|ca|in|nz|gb|za)|en\b/i))
+      langName = "en_US";
 
-      if (language.match(/\ben[-_](?:us|au|ca|in|nz|gb|za)|en\b/i)) {
-        language = "en_US";
-      } // else if (language.indexOf("-")) { language = language.replace(/[-_].*/, ""); }
+    try {
+      const data = await InjectToDOM(`/locales/${langName}.json`);
 
-      try {
-        const fileType = "json";
-        /**
-         * @type {HTMLScriptElement}
-         */
-        const localeData = await InjectToDOM(
-          `/locales/${language}.${fileType}`,
-        );
+      return data;
+    } catch (error) {
+      if (langName === "en_US")
+        throw Error("Cannot find the default language file of extension");
 
-        resolve(localeData);
-      } catch (error) {
-        if (language !== "en_US") {
-          console.warn("Missing language file, switching to default language");
-          this.prepareLangFile("en_US", resolve, reject);
-        } else {
-          reject("Cannot find the default language file of extension");
-        }
-      }
-
-      /* if (fileType == "yml") {
-      	localeData = yaml.load(localeData);
-      } */
-    });
+      // eslint-disable-next-line no-console
+      console.warn("Missing language file, switching to default language");
+      return this.PrepareLanguageFile("en_US");
+    }
   }
 
   canBeWarned(reasonID) {

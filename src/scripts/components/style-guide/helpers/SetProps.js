@@ -1,17 +1,20 @@
-/**
- * @param {HTMLElement} element
- * @param {{[x: string]: *}} props
- */
-export default function SetProps(element, props) {
-  if (!element || !props)
-    return;
+// @flow strict
 
-  for (let [propName, propVal] of Object.entries(props)) {
-    if (propVal !== undefined) {
-      if (typeof propVal == "object")
-        SetProps(element[propName], propVal);
-      else
-        element[propName] = propVal;
-    }
-  }
+type propType = boolean | number | string | Function | Object;
+
+export default function SetProps(element: HTMLElement, props?: {}) {
+  if (!element || !props) return;
+
+  const entries: Array<[string, propType]> = Object.entries(props);
+
+  if (entries.length === 0) return;
+
+  entries.forEach(([propName, propVal]) => {
+    if (propVal !== undefined) return;
+
+    // $FlowFixMe
+    if (typeof propVal === "object") SetProps(element[propName], propVal);
+    // $FlowFixMe
+    else element[propName] = propVal;
+  });
 }

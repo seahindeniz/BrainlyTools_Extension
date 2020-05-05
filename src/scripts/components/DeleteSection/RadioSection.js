@@ -127,19 +127,20 @@ class RadioSection {
         </label>
       </div>
     </div>`); */
-    const item = Build(Flex({ marginTop: "xs", marginBottom: "xs" }), [
-      [Flex({ marginRight: "xs" }), Radio({ id: data.id, name: this.name })],
+    const item = Build(
+      Flex({ tag: "label", marginTop: "xs", marginBottom: "xs" }),
       [
-        Flex(),
-        Text({
-          tag: "label",
-          htmlFor: data.id,
-          html: data.label,
-          weight: "bold",
-          size: "xsmall",
-        }),
+        [Flex({ marginRight: "xs" }), Radio({ id: data.id, name: this.name })],
+        [
+          Flex(),
+          Text({
+            html: data.label,
+            weight: "bold",
+            size: "xsmall",
+          }),
+        ],
       ],
-    ]);
+    );
 
     this.list.append(item);
   }

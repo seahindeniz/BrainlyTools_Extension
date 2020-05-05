@@ -1,12 +1,13 @@
-import classnames from 'classnames';
-import Icon, * as IconModule from '.';
-import AddChildren from '../helpers/AddChildren';
-
+import classnames from "classnames";
+import SetProps from "@style-guide/helpers/SetProps";
+import Icon, * as IconModule from ".";
+import AddChildren from "../helpers/AddChildren";
+// TODO Change all AsButton usages with ButtonRound
 /**
  * @typedef {{
  *  color?: IconModule.Color,
  *  size?: keyof SIZE,
- *  type?: IconModule.Type,
+ *  type?: IconModule.IconTypeType,
  *  children?: import("@style-guide/helpers/AddChildren").ChildrenParamType,
  *  action?: boolean,
  *  transparent?: boolean,
@@ -43,17 +44,17 @@ const SG = "sg-icon-as-button";
 const SGD = `${SG}--`;
 const SG_ = `${SG}__`;
 const SIZE = {
-  "normal": 26,
-  "small": 18,
-  "xsmall": 14,
-  "xxsmall": 10,
+  normal: 26,
+  small: 18,
+  xsmall: 14,
+  xxsmall: 10,
 };
 
 /**
  * @param {Properties} param0
  * @returns {ButtonElement}
  */
-export default function({
+export default function ({
   color,
   size = "normal",
   type,
@@ -69,7 +70,9 @@ export default function({
   iconSize,
   ...props
 } = {}) {
-  const buttonClass = classnames(SG, {
+  const buttonClass = classnames(
+    SG,
+    {
       [SGD + color]: color,
       [SGD + size]: size,
       [`${SGD}with-border`]: border,
@@ -84,14 +87,14 @@ export default function({
 
   let RenderTag = "button";
 
-  if (props.href !== undefined && props.href !== null && props.href !== '')
+  if (props.href !== undefined && props.href !== null && props.href !== "")
     RenderTag = "a";
 
   /**
    * @type {ButtonElement}
    */
   // @ts-ignore
-  let button = document.createElement(RenderTag);
+  const button = document.createElement(RenderTag);
   button.className = buttonClass;
   button.color = color;
   // @ts-ignore
@@ -103,17 +106,13 @@ export default function({
   // @ts-ignore
   button.ToggleBorder = _ToggleBorder;
 
-  if (title)
-    button.title = title;
+  if (title) button.title = title;
 
-  if (disabled && button instanceof HTMLButtonElement)
-    button.disabled = true;
+  if (disabled && button instanceof HTMLButtonElement) button.disabled = true;
 
-  if (props)
-    for (let [propName, propVal] of Object.entries(props))
-      button[propName] = propVal;
+  SetProps(button, props);
 
-  let hole = document.createElement("div");
+  const hole = document.createElement("div");
   hole.className = `${SG_}hole`;
 
   button.append(hole);
@@ -121,7 +120,7 @@ export default function({
   let content;
 
   if (type) {
-    content = Icon({
+    const icon = new Icon({
       type,
       color: "adaptive",
       // @ts-ignore
@@ -129,9 +128,9 @@ export default function({
       title,
       pulsing,
     });
+    content = icon.element;
     button.icon = content;
-  } else
-    content = children;
+  } else content = children;
 
   AddChildren(hole, content);
 
@@ -143,8 +142,7 @@ export default function({
  * @returns {ButtonElement}
  */
 function _Enable() {
-  if (this instanceof HTMLButtonElement)
-    this.disabled = false;
+  if (this instanceof HTMLButtonElement) this.disabled = false;
 
   this.classList.remove(`${SGD}disabled`);
 
@@ -156,8 +154,7 @@ function _Enable() {
  * @returns {ButtonElement}
  */
 function _Disable() {
-  if (this instanceof HTMLButtonElement)
-    this.disabled = true;
+  if (this instanceof HTMLButtonElement) this.disabled = true;
 
   this.classList.add(`${SGD}disabled`);
 
@@ -179,7 +176,7 @@ function _ChangeColor(color) {
  * @this {ButtonElement}
  */
 function _ToggleBorder() {
-  this.classList.toggle(`${SGD}with-border`)
+  this.classList.toggle(`${SGD}with-border`);
 
   this.className = this.className;
 

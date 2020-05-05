@@ -7,10 +7,10 @@ import {
   Icon,
   Spinner,
   SpinnerContainer,
-  Text
+  Text,
 } from "@style-guide";
 import md5 from "js-md5";
-import linkifyHtml from 'linkifyjs/html';
+import linkifyHtml from "linkifyjs/html";
 // @ts-ignore
 import moment from "moment";
 import notification from "../../../components/notification";
@@ -38,8 +38,7 @@ export default class ActionEntry {
      * @type {string}
      */
     this.questionLink = System.createBrainlyLink("question", {
-      id: this
-        .questionId
+      id: this.questionId,
     });
     /**
      * @type {{_id?: string, time: string, target: {hash: string, action: string, message?: string}, user: {_id?: string, brainlyID: number, nick: string}}}
@@ -48,32 +47,40 @@ export default class ActionEntry {
 
     this.GenerateHash();
   }
+
   get moderatedContentOwner() {
     return {
       nick: this.$moderatedContentOwnerLink.text(),
-      link: location.origin + this.$moderatedContentOwnerLink.attr("href")
-    }
+      link: location.origin + this.$moderatedContentOwnerLink.attr("href"),
+    };
   }
-  get moderatorAction() {
-    return this.$moderatedContentOwnerLink.prev().text()
-  }
-  get moderatorActionDate() {
-    let childNodes = this.$buttonContainer.prop("childNodes");
 
-    return String(childNodes ? childNodes[childNodes.length - 1].data.trim() :
-      "");
+  get moderatorAction() {
+    return this.$moderatedContentOwnerLink.prev().text();
   }
+
+  get moderatorActionDate() {
+    const childNodes = this.$buttonContainer.prop("childNodes");
+
+    return String(
+      childNodes ? childNodes[childNodes.length - 1].data.trim() : "",
+    );
+  }
+
   get entryContent() {
-    let content = Array.from(this.$entryContent.prop("childNodes")).find(
-      node => node.nodeName == "#text" && node.length > 1 && node
-      .nextSibling != null)
+    const content = Array.from(this.$entryContent.prop("childNodes")).find(
+      node =>
+        node.nodeName == "#text" && node.length > 1 && node.nextSibling != null,
+    );
     return content ? content.data.trim() : "";
   }
-  GenerateHash() {
-    let idText = this.$buttonContainer.text().trim();
 
-    this.hash = md5(idText + this.entryContent)
+  GenerateHash() {
+    const idText = this.$buttonContainer.text().trim();
+
+    this.hash = md5(idText + this.entryContent);
   }
+
   RenderDetails() {
     if (!this.details) {
       if (this.main.moderator.id != System.data.Brainly.userData.user.id) {
@@ -88,26 +95,26 @@ export default class ActionEntry {
       this.RenderDetailsCell();
     }
   }
+
   RenderActionButtons() {
     this.actionButtonsContainer = Build(ContentBox(), [
       [
         ContentBoxContent(),
         [
           [
-            this.confirmButtonSpinnerContainer = SpinnerContainer(),
-            this.confirmButton = Button({
+            (this.confirmButtonSpinnerContainer = SpinnerContainer()),
+            (this.confirmButton = new Button({
               type: "solid-inverted",
               size: "small",
-              title: System.data.locale.moderatorActionHistory
-                .confirm,
-              icon: {
+              title: System.data.locale.moderatorActionHistory.confirm,
+              icon: new Icon({
                 type: "check",
                 size: 32,
                 color: "mint",
-              }
-            }),
-          ]
-        ]
+              }),
+            })),
+          ],
+        ],
       ],
       [
         ContentBoxContent({
@@ -115,66 +122,81 @@ export default class ActionEntry {
         }),
         [
           [
-            this.disapproveButtonSpinnerContainer = SpinnerContainer(),
-            this.disapproveButton = Button({
+            (this.disapproveButtonSpinnerContainer = SpinnerContainer()),
+            (this.disapproveButton = new Button({
               type: "solid-inverted",
               size: "small",
-              title: System.data.locale.moderatorActionHistory
-                .disapprove,
-              icon: {
+              title: System.data.locale.moderatorActionHistory.disapprove,
+              icon: new Icon({
                 type: "close",
                 size: 30,
                 color: "peach",
-              }
-            }),
-          ]
-        ]
-      ]
+              }),
+            })),
+          ],
+        ],
+      ],
     ]);
 
     this.$buttonContainer.prepend(this.actionButtonsContainer);
   }
+
   RenderButtonSpinner() {
     this.spinner = Spinner({
       overlay: true,
       size: "xsmall",
     });
   }
+
   BindHandlers() {
-    this.confirmButton.addEventListener("click", this.confirm.bind(this));
-    this.disapproveButton.addEventListener("click", this.disapprove.bind(
-      this));
+    this.confirmButton.element.addEventListener(
+      "click",
+      this.confirm.bind(this),
+    );
+    this.disapproveButton.element.addEventListener(
+      "click",
+      this.disapprove.bind(this),
+    );
   }
+
   /**
    * @param {MouseEvent} event
    */
   async confirm(event) {
     await this.Confirming();
 
-    if (event.ctrlKey || !event.ctrlKey && confirm(System.data.locale
-        .moderatorActionHistory.notificationMessages.doYouWantToConfirm)) {
-      let res = await new ServerReq().ConfirmActionHistoryEntry(this.main
-        .moderator._id, {
+    if (
+      event.ctrlKey ||
+      (!event.ctrlKey &&
+        confirm(
+          System.data.locale.moderatorActionHistory.notificationMessages
+            .doYouWantToConfirm,
+        ))
+    ) {
+      const res = await new ServerReq().ConfirmActionHistoryEntry(
+        this.main.moderator._id,
+        {
           hashList: this.hash,
           content: this.entryContent,
           questionLink: this.questionLink,
           moderatorAction: this.moderatorAction,
           moderatorActionDate: this.moderatorActionDate,
-          contentOwner: this.moderatedContentOwner
-        });
+          contentOwner: this.moderatedContentOwner,
+        },
+      );
 
       this.CheckResponse(res);
-    } else
-      this.FinishProgress();
+    } else this.FinishProgress();
   }
+
   Confirming() {
-    if (this.details)
-      return Promise.reject();
+    if (this.details) return Promise.reject();
 
     this.action = "confirm";
 
     return this.InProgress();
   }
+
   InProgress() {
     window.isPageProcessing = true;
 
@@ -184,6 +206,7 @@ export default class ActionEntry {
 
     return System.Delay(50);
   }
+
   ShowSpinner() {
     let spinnerContainer;
 
@@ -192,13 +215,14 @@ export default class ActionEntry {
     else if (this.action == "disapprove")
       spinnerContainer = this.disapproveButtonSpinnerContainer;
 
-    if (spinnerContainer)
-      spinnerContainer.append(this.spinner);
+    if (spinnerContainer) spinnerContainer.append(this.spinner);
   }
+
   DisableButtons() {
     this.confirmButton.Disable();
     this.disapproveButton.Disable();
   }
+
   FinishProgress() {
     window.isPageProcessing = false;
 
@@ -211,29 +235,33 @@ export default class ActionEntry {
 
     this.$tr.removeClass("processing");
   }
+
   HideButtons() {
     this.main.HideElement(this.actionButtonsContainer);
   }
+
   HideSpinner() {
     this.main.HideElement(this.spinner);
 
     this.$spinnerContainer = undefined;
   }
+
   ActivateButtons() {
     this.confirmButton.Enable();
     this.disapproveButton.Enable();
   }
+
   /**
    * @typedef {{_id: string, time: string, hash: string}} Details
    * @param {{success: boolean, data: Details[]}} res
    */
   async CheckResponse(res) {
-    if (!res || !res.success)
-      this.FinishProgress();
+    if (!res || !res.success) this.FinishProgress();
     else {
       this.SetDetails(res.data[0]);
     }
   }
+
   /**
    * @param {Details} data
    */
@@ -243,16 +271,15 @@ export default class ActionEntry {
       time: String(data.time || new Date().toISOString()),
       target: {
         hash: this.hash,
-        action: this.action
+        action: this.action,
       },
       user: {
         brainlyID: System.data.Brainly.userData.user.id,
-        nick: System.data.Brainly.userData.user.nick
-      }
+        nick: System.data.Brainly.userData.user.nick,
+      },
     };
 
-    if (this.action == "confirm")
-      this.Confirmed();
+    if (this.action == "confirm") this.Confirmed();
     else if (this.action == "disapprove") {
       if (this.main.fixedMessage)
         this.details.target.message = this.main.fixedMessage;
@@ -260,56 +287,67 @@ export default class ActionEntry {
       this.Disapproved();
     }
   }
+
   Confirmed() {
     this.FinishProgress();
     this.RenderDetails();
   }
+
   /**
    * @param {MouseEvent} event
    */
   async disapprove(event) {
     await this.Disapproving();
 
-    if (event.ctrlKey || !event.ctrlKey && confirm(System.data.locale
-        .moderatorActionHistory.notificationMessages.doYouWantToDisapprove)) {
-      if (!!event)
-        await this.InformModerator();
+    if (
+      event.ctrlKey ||
+      (!event.ctrlKey &&
+        confirm(
+          System.data.locale.moderatorActionHistory.notificationMessages
+            .doYouWantToDisapprove,
+        ))
+    ) {
+      if (event) await this.InformModerator();
 
-      let res = await new ServerReq()
-        .DisapproveActionHistoryEntry(this.main.moderator._id, {
+      const res = await new ServerReq().DisapproveActionHistoryEntry(
+        this.main.moderator._id,
+        {
           hashList: this.hash,
           content: this.entryContent,
           questionLink: this.questionLink,
           message: this.main.fixedMessage,
           moderatorAction: this.moderatorAction,
           moderatorActionDate: this.moderatorActionDate,
-          contentOwner: this.moderatedContentOwner
-        });
+          contentOwner: this.moderatedContentOwner,
+        },
+      );
 
       this.CheckResponse(res);
-    } else
-      this.FinishProgress();
+    } else this.FinishProgress();
   }
+
   Disapproving() {
     this.action = "disapprove";
 
     return this.InProgress();
   }
+
   async InformModerator() {
     await this.TakeScreenshot();
 
     return this.main.OpenModal({
       actionLink: `${System.data.config.extension.shortenedLinkURL}/${this.shortCodeOfScreenshot}`,
-      questionLink: this.questionLink
+      questionLink: this.questionLink,
     });
   }
+
   TakeScreenshot() {
     return new Promise(async (resolve, reject) => {
       try {
         this.main.ChangeVisibilityOfAllEntries(false, this.hash);
         this.main.ChangeVisibilityOtherElementsForScreenshot("hide");
 
-        let shortCode = await this.main.TakeScreenshot(this.hash);
+        const shortCode = await this.main.TakeScreenshot(this.hash);
 
         this.main.ChangeVisibilityOfAllEntries(true, this.hash);
         this.main.ChangeVisibilityOtherElementsForScreenshot("show");
@@ -322,18 +360,22 @@ export default class ActionEntry {
       }
     });
   }
+
   Disapproved() {
     this.FinishProgress();
     this.RenderDetails();
   }
+
   RenderDetailsCell() {
-    let time = new Date(this.details.time).toLocaleString();
-    let reviewerProfileLink = System.createProfileLink(this.details.user);
-    let reviwedOnBy = System.data.locale.moderatorActionHistory.reviewedOn[
-        this.details.target.action]
+    const time = new Date(this.details.time).toLocaleString();
+    const reviewerProfileLink = System.createProfileLink(this.details.user);
+    const reviwedOnBy = System.data.locale.moderatorActionHistory.reviewedOn[
+      this.details.target.action
+    ]
       .replace("%{date}", time)
-      .replace("%{nick}",
-        `<a href="${reviewerProfileLink}" target="_blank">${this.details.user.nick}</a>`
+      .replace(
+        "%{nick}",
+        `<a href="${reviewerProfileLink}" target="_blank">${this.details.user.nick}</a>`,
       );
 
     this.$detailsRow = $(`
@@ -352,23 +394,26 @@ export default class ActionEntry {
     this.ShowDetailsCell();
     this.RenderPM();
   }
+
   ShowDetailsCell() {
     if (this.$detailsRow) {
       this.$detailsRow.insertAfter(this.$tr);
       this.$buttonContainer.attr("rowspan", 2);
     }
   }
+
   HideDetailsCell() {
     if (this.$detailsRow) {
       this.main.HideElement(this.$detailsRow);
       this.$buttonContainer.removeAttr("rowspan");
     }
   }
+
   RenderPM() {
     if (this.details.target.message) {
       let message = linkifyHtml(this.details.target.message, {
         target: "_blank",
-        className: "sg-text sg-text--link sg-text--xsmall sg-text--blue-dark"
+        className: "sg-text sg-text--link sg-text--xsmall sg-text--blue-dark",
       });
       message = message.replace(/\n/gi, "<br />");
       this.$pmContainer = $(`
@@ -381,16 +426,18 @@ export default class ActionEntry {
       this.$pmContainer.prependTo(this.$detailsContainer);
     }
   }
+
   AddStatusClass() {
-    if (this.details.target.action == "confirm")
-      this.$tr.addClass("confirmed");
+    if (this.details.target.action == "confirm") this.$tr.addClass("confirmed");
 
     if (this.details.target.action == "disapprove")
       this.$tr.addClass("disapproved");
   }
+
   RemoveStatusClass() {
     this.$tr.removeClass("confirmed disapproved");
   }
+
   RenderFlagIcon() {
     let icon;
     let color;
@@ -416,12 +463,16 @@ export default class ActionEntry {
 
     this.$flagContainer.prependTo(this.$buttonContainer);
   }
+
   HideFlagIcon() {
     this.main.HideElement(this.$flagContainer);
   }
+
   InitTimer() {
-    if (this.details.user.brainlyID == System.data.Brainly.userData.user.id &&
-      this.IsReportCanReversible()) {
+    if (
+      this.details.user.brainlyID == System.data.Brainly.userData.user.id &&
+      this.IsReportCanReversible()
+    ) {
       this.runTimer = true;
 
       this.RenderTimer();
@@ -430,11 +481,11 @@ export default class ActionEntry {
       this.main.InitTimer();
     }
   }
+
   RenderTimer() {
     this.timerContainer = Build(Flex, [
       [
-        this.revertSpinnerContainer =
-        SpinnerContainer({ fullWidth: true, }),
+        (this.revertSpinnerContainer = SpinnerContainer({ fullWidth: true })),
         [
           [
             Flex({
@@ -442,79 +493,83 @@ export default class ActionEntry {
             }),
             [
               [
-                Flex({ fullWidth: true, }),
+                Flex({ fullWidth: true }),
                 [
                   [
                     Flex({
                       marginRight: "xxs",
                       alignItems: "center",
                     }),
-                    Icon({
+                    new Icon({
                       size: 14,
                       reverse: true,
                       type: "reload",
                       color: "gray-secondary",
-                    })
+                    }),
                   ],
                   [
                     Flex({
                       alignItems: "center",
                     }),
-                    this.revert = Text({
+                    (this.revert = Text({
                       tag: "div",
                       href: null,
                       size: "xsmall",
                       weight: "bold",
                       color: "peach-dark",
-                      html: System.data.locale.moderatorActionHistory
-                        .revert
-                    })
-                  ]
-                ]
+                      html: System.data.locale.moderatorActionHistory.revert,
+                    })),
+                  ],
+                ],
               ],
               [
                 Flex({ fullWidth: true, justifyContent: "center" }),
-                this.timer = Text({
+                (this.timer = Text({
                   text: "00:00",
                   size: "xsmall",
                   weight: "bold",
                   color: "gray-secondary",
-                })
+                })),
               ],
-            ]
-          ]
-        ]
-      ]
+            ],
+          ],
+        ],
+      ],
     ]);
 
     this.$flagContainer.append(this.timerContainer);
 
     this.BindTimerHandler();
   }
+
   BindTimerHandler() {
     this.revert.addEventListener("click", this.RevertReport.bind(this));
   }
+
   async RevertReport(event) {
     await this.ShowRevertSpinner();
 
     if (
-      (
-        !event ||
-        (
-          event && confirm(System.data.locale.moderatorActionHistory
-            .notificationMessages.doYouWantToRevertThisReport)
-        )
-      ) && this.IsReportCanReversible()
+      (!event ||
+        (event &&
+          confirm(
+            System.data.locale.moderatorActionHistory.notificationMessages
+              .doYouWantToRevertThisReport,
+          ))) &&
+      this.IsReportCanReversible()
     ) {
-      let resRevert = await new ServerReq().RevertActionHistoryReport(this
-        .details._id);
+      const resRevert = await new ServerReq().RevertActionHistoryReport(
+        this.details._id,
+      );
 
       if (!resRevert || !resRevert.success) {
-        if (resRevert.exception == 408)
-          this.CloseTimer();
+        if (resRevert.exception == 408) this.CloseTimer();
 
-        return notification(System.data.locale.moderatorActionHistory
-          .notificationMessages.iCouldntRevertThisReport, "error");
+        return notification(
+          System.data.locale.moderatorActionHistory.notificationMessages
+            .iCouldntRevertThisReport,
+          "error",
+        );
       }
 
       this.CloseTimer();
@@ -522,6 +577,7 @@ export default class ActionEntry {
 
     this.HideRevertSpinner();
   }
+
   CloseTimer() {
     this.details = undefined;
 
@@ -531,54 +587,63 @@ export default class ActionEntry {
     this.RemoveStatusClass();
     this.RenderDetails();
   }
+
   RenderRevertSpinner() {
     this.revertSpinner = Spinner({
       overlay: true,
       size: "xsmall",
     });
   }
+
   ShowRevertSpinner() {
     this.revertSpinnerContainer.append(this.revertSpinner);
 
     return System.Delay(10);
   }
+
   HideRevertSpinner() {
     this.main.HideElement(this.revertSpinner);
   }
+
   StartTimer() {
     if (this.runTimer && this.details) {
-      let timeLeft = this.IsReportCanReversible();
+      const timeLeft = this.IsReportCanReversible();
 
-      if (!timeLeft)
-        return this.StopTimer();
+      if (!timeLeft) return this.StopTimer();
 
       this.timer.innerText = timeLeft;
     }
   }
+
   IsReportCanReversible() {
-    let now = moment();
-    let end = moment(this.details.time).add(...REPORT_EDIT_TIME_LIMIT);
-    let duration = moment.duration(end.diff(now));
+    const now = moment();
+    const end = moment(this.details.time).add(...REPORT_EDIT_TIME_LIMIT);
+    const duration = moment.duration(end.diff(now));
 
     return now < end ? `${duration.minutes()}:${duration.seconds()}` : false;
   }
+
   StopTimer() {
     this.runTimer = false;
 
     this.HideTimer();
     this.main.TryToStopTimer();
   }
+
   FinishTimer() {
     this.StopTimer();
     this.main.HideElement(this.timerContainer);
   }
+
   HideTimer() {
     this.main.HideElement(this.timerContainer);
   }
+
   Show() {
     this.$tr.removeClass("js-hidden");
     this.ShowDetailsCell();
   }
+
   Hide() {
     this.$tr.addClass("js-hidden");
     this.HideDetailsCell();

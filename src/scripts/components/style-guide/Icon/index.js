@@ -1,266 +1,255 @@
-import classnames from 'classnames';
-import SetProps from '@style-guide/helpers/SetProps';
-import AddChildren from '@style-guide/helpers/AddChildren';
+// @flow strict
 
-/**
- * @typedef {"ext-trash"
- * | "ext-info"
- * | "ext-icon"
- * | "ext-csv"
- * | "ext-ods"
- * | "ext-xlsx"
- * } ExtensionTypes
- *
- * @typedef {ExtensionTypes
- * | 'all_questions'
- * | 'answer'
- * | 'arrow_double_down'
- * | 'arrow_down'
- * | 'arrow_left'
- * | 'arrow_right'
- * | 'arrow_up'
- * | 'ask_parent_to_pay'
- * | 'attachment'
- * | 'bell_checked'
- * | 'bell_outlined'
- * | 'bold'
- * | 'bulleted_list'
- * | 'camera'
- * | 'check'
- * | 'close'
- * | 'counter'
- * | 'credit_card'
- * | 'crown_outlined'
- * | 'equation'
- * | 'excellent'
- * | 'exclamation_mark'
- * | 'facebook'
- * | 'friend_add'
- * | 'friend_checked'
- * | 'friends'
- * | 'heading'
- * | 'heart'
- * | 'heart_outlined'
- * | 'image'
- * | 'influence'
- * | 'instagram'
- * | 'italic'
- * | 'less'
- * | 'linkedin'
- * | 'lock_with_play'
- * | 'logout'
- * | 'medium'
- * | 'menu'
- * | 'messages'
- * | 'mic'
- * | 'money_transfer'
- * | 'more'
- * | 'notifications'
- * | 'numbered_list'
- * | 'open_in_new_tab'
- * | 'padlock'
- * | 'pencil'
- * | 'play'
- * | 'plus'
- * | 'points'
- * | 'profile'
- * | 'profile_view'
- * | 'question'
- * | 'recent_questions'
- * | 'reload'
- * | 'report_flag'
- * | 'report_flag_outlined'
- * | 'rotate'
- * | 'search'
- * | 'seen'
- * | 'settings'
- * | 'share'
- * | 'sms'
- * | 'star'
- * | 'star_half'
- * | 'star_half_outlined'
- * | 'star_outlined'
- * | 'subtitle'
- * | 'symbols'
- * | 'title'
- * | 'toughest_questions'
- * | 'twitter'
- * | 'underlined'
- * | 'verified'
- * | 'youtube'
- * } IconTypeType
- *
- * @typedef {120
- * | 118
- * | 104
- * | 102
- * | 80
- * | 78
- * | 64
- * | 62
- * | 56
- * | 54
- * | 48
- * | 46
- * | 40
- * | 32
- * | 30
- * | 26
- * | 24
- * | 22
- * | 20
- * | 18
- * | 16
- * | 14
- * | 10
- * } Size
- *
- * @typedef {'adaptive'
- * | 'blue'
- * | 'dark'
- * | 'gray'
- * | 'gray-light'
- * | 'gray-secondary'
- * | 'lavender'
- * | 'light'
- * | 'mint'
- * | 'mustard'
- * | 'navy-blue'
- * | 'peach'
- * } Color
- *
- * @typedef {Object} Properties
- * @property {string} [Properties.tag="div"] - Default "div"
- * @property {IconTypeType} [Properties.type]
- * @property {Size} [Properties.size=24] - Default 24
- * @property {Color} [Properties.color]
- * @property {string} [Properties.className]
- * @property {boolean} [Properties.reverse]
- * @property {import('../helpers/AddChildren').ChildrenParamType} [Properties.children]
- *
- * @typedef {function(Size): IconElement} ChangeSize
- * @typedef {function(Color): IconElement} ChangeColor
- * @typedef {function(IconTypeType): IconElement} ChangeType
- * @typedef {function(): IconElement} TogglePulse
- *
- * @typedef {{
- *  size: Size,
- *  type: IconTypeType,
- *  color: Color,
- *  ChangeSize: ChangeSize,
- *  ChangeColor: ChangeColor,
- *  ChangeType: ChangeType,
- *  TogglePulse: TogglePulse,
- * }} CustomProperties
- *
- * @typedef {CustomProperties & HTMLElement} IconElement
- */
+import AddChildren from "@style-guide/helpers/AddChildren";
+import type { ChildrenParamType } from "@style-guide/helpers/AddChildren";
+import SetProps from "@style-guide/helpers/SetProps";
+import classnames from "classnames";
+
+type ExtensionIconTypeType =
+  | "ext-trash"
+  | "ext-info"
+  | "ext-icon"
+  | "ext-csv"
+  | "ext-ods"
+  | "ext-xlsx";
+
+export type IconTypeType =
+  | "all_questions"
+  | "answer"
+  | "arrow_double_down"
+  | "arrow_down"
+  | "arrow_left"
+  | "arrow_right"
+  | "arrow_up"
+  | "ask_parent_to_pay"
+  | "attachment"
+  | "bell_checked"
+  | "bell_outlined"
+  | "bold"
+  | "bulleted_list"
+  | "camera"
+  | "check"
+  | "close"
+  | "counter"
+  | "credit_card"
+  | "crown_outlined"
+  | "equation"
+  | "excellent"
+  | "exclamation_mark"
+  | "facebook"
+  | "friend_add"
+  | "friend_checked"
+  | "friends"
+  | "heading"
+  | "heart"
+  | "heart_outlined"
+  | "image"
+  | "influence"
+  | "instagram"
+  | "italic"
+  | "less"
+  | "linkedin"
+  | "lock_with_play"
+  | "logout"
+  | "medium"
+  | "menu"
+  | "messages"
+  | "mic"
+  | "money_transfer"
+  | "more"
+  | "notifications"
+  | "numbered_list"
+  | "open_in_new_tab"
+  | "padlock"
+  | "pencil"
+  | "play"
+  | "plus"
+  | "points"
+  | "profile"
+  | "profile_view"
+  | "question"
+  | "recent_questions"
+  | "reload"
+  | "report_flag"
+  | "report_flag_outlined"
+  | "rotate"
+  | "search"
+  | "seen"
+  | "settings"
+  | "share"
+  | "sms"
+  | "star"
+  | "star_half"
+  | "star_half_outlined"
+  | "star_outlined"
+  | "subtitle"
+  | "symbols"
+  | "title"
+  | "toughest_questions"
+  | "twitter"
+  | "underlined"
+  | "unseen"
+  | "verified"
+  | "youtube"
+  | ExtensionIconTypeType;
+
+export type IconColorType =
+  | "adaptive"
+  | "blue"
+  | "dark"
+  | "gray"
+  | "gray-light"
+  | "gray-secondary"
+  | "lavender"
+  | "light"
+  | "mint"
+  | "mustard"
+  | "navy-blue"
+  // Additional
+  | "peach";
+
+export type IconTagType = "div" | "span";
+
+export type IconSizeType =
+  | 120
+  | 118
+  | 104
+  | 102
+  | 80
+  | 78
+  | 64
+  | 62
+  | 56
+  | 54
+  | 48
+  | 46
+  | 40
+  | 32
+  | 30
+  | 26
+  | 24
+  | 22
+  | 20
+  | 18
+  | 16
+  | 14
+  | 10;
+
+export type IconPropsType = {
+  color?: ?IconColorType,
+  size?: ?IconSizeType,
+  tag?: IconTagType,
+  className?: ?string,
+  // Additional
+  reverse?: boolean,
+  ...
+} & (
+  | {
+      type?: IconTypeType,
+      children?: ?null,
+    }
+  | {
+      type?: null,
+      children?: ?ChildrenParamType,
+    }
+);
+
 const sg = "sg-icon";
 const SGD = `${sg}--`;
 
-/**
- * @param {Properties & {[x: string]: *}} param0
- * @returns {IconElement}
- */
-export default function Icon({
-  tag = "div",
-  type,
-  size = 24,
-  color,
-  className,
-  reverse,
-  children,
-  ...props
-}) {
-  const iconClass = classnames(sg, {
-    [SGD + color]: color,
-    [`${SGD}x${size}`]: size,
-    [`${SGD}reverse`]: reverse,
-  }, className);
+class Icon {
+  type: ?IconTypeType;
 
-  /**
-   * @type {IconElement}
-   */
-  let div = (document.createElement(tag));
-  div.className = iconClass;
-  div.size = size;
-  div.type = type;
-  div.color = color;
-  props.ChangeSize = _ChangeSize;
-  props.ChangeColor = _ChangeColor;
-  props.ChangeType = _ChangeType;
-  props.TogglePulse = _TogglePulse;
+  size: ?IconSizeType;
 
-  if (type) {
-    let svg = document.createElementNS('http://www.w3.org/2000/svg', "svg");
-    let use = document.createElementNS('http://www.w3.org/2000/svg', "use");
+  color: ?IconColorType;
 
-    svg.appendChild(use);
-    div.appendChild(svg);
+  element: HTMLElement;
 
-    svg.classList.add(`${sg}__svg`);
-    use.setAttributeNS(
-      'http://www.w3.org/1999/xlink',
-      "xlink:href",
-      `#icon-${type}`
+  use: Element;
+
+  constructor({
+    type,
+    size = 24,
+    color,
+    className,
+    tag = "div",
+    reverse,
+    // $FlowFixMe
+    children,
+    ...props
+  }: IconPropsType) {
+    this.type = type;
+    this.size = size;
+    this.color = color;
+
+    const iconClass = classnames(
+      sg,
+      {
+        [SGD + String(color)]: color,
+        [`${SGD}x${String(size)}`]: size,
+        [`${SGD}reverse`]: reverse,
+      },
+      className,
     );
+
+    this.element = document.createElement(tag);
+    this.element.className = iconClass;
+
+    if (type) {
+      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      this.use = document.createElementNS("http://www.w3.org/2000/svg", "use");
+
+      svg.appendChild(this.use);
+      this.element.appendChild(svg);
+
+      svg.classList.add(`${sg}__svg`);
+      this.use.setAttributeNS(
+        "http://www.w3.org/1999/xlink",
+        "xlink:href",
+        `#icon-${type}`,
+      );
+    }
+
+    AddChildren(this.element, children);
+    SetProps(this.element, props);
   }
 
-  AddChildren(div, children);
-  SetProps(div, props);
+  ChangeSize(size: IconSizeType) {
+    this.element.classList.add(`${SGD}x${size}`);
+    this.element.classList.remove(`${SGD}x${String(this.size)}`);
 
-  return div;
-};
+    this.size = size;
 
-/**
- * @this {IconElement}
- * @param {Size} size
- */
-function _ChangeSize(size) {
-  this.classList.add(`${SGD}x${size}`);
-  this.classList.remove(`${SGD}x${this.size}`);
+    return this;
+  }
 
-  this.size = size;
+  ChangeColor(color: IconColorType) {
+    this.element.classList.remove(SGD + String(this.color));
+    this.element.classList.add(SGD + color);
 
-  return this;
+    this.color = color;
+
+    return this;
+  }
+
+  ChangeType(type: IconTypeType) {
+    this.use.setAttributeNS(
+      "http://www.w3.org/1999/xlink",
+      "xlink:href",
+      `#icon-${type}`,
+    );
+
+    this.type = type;
+
+    return this;
+  }
+
+  TogglePulse() {
+    this.element.classList.toggle(`${SGD}pulse`);
+
+    return this;
+  }
 }
 
-/**
- * @this {IconElement}
- * @param {Color} color
- */
-function _ChangeColor(color) {
-  this.classList.remove(SGD + this.color);
-  this.classList.add(SGD + color);
-
-  this.color = color;
-
-  return this;
-}
-
-/**
- * @this {IconElement}
- * @param {IconTypeType} type
- */
-function _ChangeType(type) {
-  let use = this.querySelector("use");
-
-  use.setAttributeNS(
-    'http://www.w3.org/1999/xlink',
-    "xlink:href",
-    `#icon-${type}`
-  );
-
-  this.type = type;
-
-  return this;
-}
-
-/**
- * @this {IconElement}
- */
-function _TogglePulse() {
-  this.classList.toggle(`${SGD}pulse`)
-
-  return this;
-}
+export default Icon;

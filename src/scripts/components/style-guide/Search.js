@@ -1,32 +1,31 @@
 import Input from "./Input";
 import Icon from "./Icon";
 
-const sg = "sg-search";
-const SG_ = `${sg}__`;
+const SG = "sg-search";
 
 /**
  * @param {{adaptiveIco?: boolean} & import("./Input").Properties} param0
  */
-export default function({ adaptiveIco, ...props } = {}) {
-  let input = Input({
+export default function ({ adaptiveIco, ...props } = {}) {
+  const input = Input({
     type: "search",
-    className: `${SG_}input`,
+    className: `${SG}__input`,
     withIcon: true,
-    ...props
+    ...props,
   });
-  let icon = Icon({
+  const icon = new Icon({
     type: "search",
     size: 18,
-    color: adaptiveIco ? "adaptive" : "gray-secondary"
+    color: adaptiveIco ? "adaptive" : "gray-secondary",
   });
-  let container = document.createElement("div");
-  let iconContainer = document.createElement("div");
+  const container = document.createElement("div");
+  const iconContainer = document.createElement("div");
 
-  container.className = sg;
-  iconContainer.className = `${SG_}icon`;
+  container.className = SG;
+  iconContainer.className = `${SG}__icon`;
 
   container.appendChild(input);
-  iconContainer.appendChild(icon);
+  iconContainer.appendChild(icon.element);
   container.appendChild(iconContainer);
 
   return container;

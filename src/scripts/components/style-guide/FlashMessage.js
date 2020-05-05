@@ -1,8 +1,9 @@
-import classnames from 'classnames';
-import Build from '../../helpers/Build';
-import Flex from './Flex';
-import Icon from './Icon';
-import Text from './Text';
+import classnames from "classnames";
+import Build from "../../helpers/Build";
+import Flex from "./Flex";
+import Icon from "./Icon";
+import Text from "./Text";
+import SetProps from "./helpers/SetProps";
 
 /**
  * @typedef {"success" | "error" | "info"} Type - Default is blue
@@ -20,7 +21,7 @@ const SGD = `${SG}--`;
 /**
  * @param {Properties} param0
  */
-export default function({
+export default function ({
   text,
   html,
   type,
@@ -28,21 +29,23 @@ export default function({
   noIcon,
   ...props
 } = {}) {
-  const messageClass = classnames(SG, {
-    [SGD + type]: type
-  }, className);
+  const messageClass = classnames(
+    SG,
+    {
+      [SGD + type]: type,
+    },
+    className,
+  );
 
-  let flash = document.createElement("div");
+  const flash = document.createElement("div");
   flash.className = "sg-flash";
 
-  if (props)
-    for (let [propName, propVal] of Object.entries(props))
-      flash[propName] = propVal;
+  SetProps(flash, props);
 
   let message = document.createElement("div");
   message.className = messageClass;
 
-  let textElement = Text({
+  const textElement = Text({
     html,
     text,
     size: "small",
@@ -50,8 +53,7 @@ export default function({
     align: "CENTER",
   });
 
-  if (noIcon)
-    message.appendChild(textElement);
+  if (noIcon) message.appendChild(textElement);
   else
     message = Build(message, [
       [
@@ -67,14 +69,14 @@ export default function({
               marginRight: "s",
               marginBottom: "xxs",
             }),
-            Icon({
+            new Icon({
               size: 22,
               type: "ext-icon",
-            })
+            }),
           ],
-          textElement
-        ]
-      ]
+          textElement,
+        ],
+      ],
     ]);
 
   flash.appendChild(message);

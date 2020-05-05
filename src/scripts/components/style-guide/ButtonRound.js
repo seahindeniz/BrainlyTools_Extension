@@ -1,6 +1,6 @@
-import classnames from 'classnames';
-import mergeDeep from "merge-deep";
-import Icon from './Icon';
+import classnames from "classnames";
+import SetProps from "./helpers/SetProps";
+import Icon from "./Icon";
 
 /**
  * @typedef {"xsmall" |
@@ -61,38 +61,42 @@ const ICON_SIZE_MAP = {
   large: 32,
   xlarge: 46,
   default: 24,
-}
+};
 /**
  * @param {Properties} param0
  * @returns {ButtonElement}
  */
-export default function({
-  size = 'medium',
-  icon = 'heart',
+export default function ({
+  size = "medium",
+  icon = "heart",
   color,
   filled,
   className,
   title,
   ...props
 } = {}) {
-  const buttonClass = classnames(SG, {
-    [SGD + color]: color,
-    [SGD + size]: size,
-    [`${SGD}filled`]: filled,
-  }, className);
+  const buttonClass = classnames(
+    SG,
+    {
+      [SGD + color]: color,
+      [SGD + size]: size,
+      [`${SGD}filled`]: filled,
+    },
+    className,
+  );
   /**
    * @type {"button" | "a"}
    */
   let buttonTagName = "button";
 
-  if (props.href !== undefined && props.href !== null && props.href !== '')
+  if (props.href !== undefined && props.href !== null && props.href !== "")
     buttonTagName = "a";
 
   /**
    * @type {ButtonElement}
    */
   // @ts-ignore
-  let button = document.createElement(buttonTagName);
+  const button = document.createElement(buttonTagName);
   button.className = buttonClass;
   button.filled = filled;
   button.color = color;
@@ -105,40 +109,35 @@ export default function({
   // @ts-ignore
   button.ToggleBorder = _ToggleBorder;
 
-  if (title)
-    button.title = title;
+  if (title) button.title = title;
 
-  if (props)
-    for (let [propName, propVal] of Object.entries(props))
-      button[propName] = propVal;
+  SetProps(button, props);
 
-  let span = document.createElement("span");
+  const span = document.createElement("span");
   span.className = `${SG_}hole`;
 
   button.append(span);
 
   if (icon instanceof HTMLElement) {
-    // @ts-ignore
     button.icon = icon;
+    span.append(icon);
   } else {
-    /**
-     * @type {IconProperties}
-     */
-    let iconProps = {
-      size: ICON_SIZE_MAP[size] || ICON_SIZE_MAP.default,
-      color: filled !== undefined ? 'light' : color === 'black' ? 'dark' :
-        color,
-    };
+    if (icon instanceof Icon) button.icon = icon;
+    else {
+      let iconProps = {
+        size: ICON_SIZE_MAP[size] || ICON_SIZE_MAP.default,
+        color:
+          filled !== undefined ? "light" : color === "black" ? "dark" : color,
+      };
 
-    if (typeof icon === "string")
-      iconProps.type = icon;
-    else
-      iconProps = mergeDeep(iconProps, icon);
+      if (typeof icon === "string") iconProps.type = icon;
+      else iconProps = Object.assign(iconProps, icon);
 
-    button.icon = Icon(iconProps);
+      button.icon = new Icon(iconProps);
+    }
+
+    span.append(button.icon.element);
   }
-
-  span.append(button.icon);
 
   return button;
 }
@@ -148,8 +147,7 @@ export default function({
  * @returns {ButtonElement}
  */
 function _Enable() {
-  if (this instanceof HTMLButtonElement)
-    this.disabled = false;
+  if (this instanceof HTMLButtonElement) this.disabled = false;
 
   this.classList.remove(`${SGD}disabled`);
 
@@ -161,8 +159,7 @@ function _Enable() {
  * @returns {ButtonElement}
  */
 function _Disable() {
-  if (this instanceof HTMLButtonElement)
-    this.disabled = true;
+  if (this instanceof HTMLButtonElement) this.disabled = true;
 
   this.classList.add(`${SGD}disabled`);
 
@@ -177,7 +174,7 @@ function _ChangeColor(color) {
   this.classList.remove(SGD + this.color);
   this.classList.add(SGD + color);
   this.icon.ChangeColor(
-    this.filled !== undefined ? 'light' : color === 'black' ? 'dark' : color
+    this.filled !== undefined ? "light" : color === "black" ? "dark" : color,
   );
 
   this.color = color;
@@ -189,7 +186,7 @@ function _ChangeColor(color) {
  * @this {ButtonElement}
  */
 function _ToggleBorder() {
-  this.classList.toggle(`${SGD}with-border`)
+  this.classList.toggle(`${SGD}with-border`);
 
   this.className = this.className;
 

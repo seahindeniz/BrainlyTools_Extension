@@ -231,7 +231,7 @@ export default class Report {
                       Flex({
                         alignItems: "center",
                       }),
-                      Icon({
+                      new Icon({
                         type: "report_flag",
                         color: "peach",
                       }),

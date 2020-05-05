@@ -1,6 +1,6 @@
-import classnames from 'classnames';
-import Icon from './Icon';
-import AddChildren from './helpers/AddChildren';
+import classnames from "classnames";
+import Icon from "./Icon";
+import AddChildren from "./helpers/AddChildren";
 
 /**
  * @typedef {import("./Icon").Properties} IconProperties
@@ -21,11 +21,11 @@ import AddChildren from './helpers/AddChildren';
  *  className?: string,
  * }} Properties
  *
- * @typedef {function(HTMLElement | IconProperties): Element} ChangeIcon
+ * @typedef {function(HTMLElement | IconProperties): LabelDeprecatedElement} ChangeIcon
  *
  * @typedef {{size: Size, ChangeIcon: ChangeIcon}} CustomProperties
  *
- * @typedef {HTMLDivElement & CustomProperties} Element
+ * @typedef {HTMLDivElement & CustomProperties} LabelDeprecatedElement
  */
 
 const SG = "sg-label-deprecated";
@@ -35,7 +35,7 @@ const SG_ = `${SG}__`;
 /**
  * @param {Properties} param0
  */
-export default function({
+export default function ({
   size = "normal",
   text,
   html,
@@ -50,16 +50,20 @@ export default function({
   className,
   ...props
 } = {}) {
-  const labelClass = classnames(SG, {
-    [SGD + size]: size !== "normal",
-    [`${SGD}secondary`]: secondary,
-    [`${SGD}unstyled`]: unstyled,
-    [`${SGD}emphasised`]: emphasised,
-    [`${SGD}elements-to-the-top`]: elementsToTop
-  }, className);
+  const labelClass = classnames(
+    SG,
+    {
+      [SGD + size]: size !== "normal",
+      [`${SGD}secondary`]: secondary,
+      [`${SGD}unstyled`]: unstyled,
+      [`${SGD}emphasised`]: emphasised,
+      [`${SGD}elements-to-the-top`]: elementsToTop,
+    },
+    className,
+  );
 
   /**
-   * @type {Element}
+   * @type {LabelDeprecatedElement}
    */
   // @ts-ignore
   let container = document.createElement("div");
@@ -73,13 +77,13 @@ export default function({
     let iconContainer = document.createElement("div");
     iconContainer.className = `${SG_}icon`;
 
-    if (icon instanceof HTMLElement)
-      iconElement = icon;
+    if (icon instanceof HTMLElement) iconElement = icon;
     else {
-      iconElement = Icon({
+      const iconObj = new Icon({
         ...icon,
-        size: size == "small" ? 18 : size == "large" ? 24 : 16
+        size: size == "small" ? 18 : size == "large" ? 24 : 16,
       });
+      iconElement = iconObj.element;
     }
 
     // @ts-ignore
@@ -95,15 +99,11 @@ export default function({
     let label = document.createElement("label");
     label.className = `${SG_}text`;
 
-    if (text)
-      label.innerText = text;
-    else if (html instanceof HTMLElement)
-      label.append(html);
-    else
-      label.innerHTML = html;
+    if (text) label.innerText = text;
+    else if (html instanceof HTMLElement) label.append(html);
+    else label.innerHTML = html;
 
-    if (htmlFor)
-      label.htmlFor = htmlFor;
+    if (htmlFor) label.htmlFor = htmlFor;
 
     container.appendChild(label);
   }
@@ -130,7 +130,7 @@ export default function({
 }
 
 /**
- * @this {Element}
+ * @this {LabelDeprecatedElement}
  * @param {HTMLElement | IconProperties} icon
  */
 function _ChangeIcon(icon) {
@@ -141,16 +141,16 @@ function _ChangeIcon(icon) {
   let iconContainer = this.querySelector(`.${SG_}icon`);
   let oldIcon = iconContainer.firstElementChild;
 
-  if (oldIcon)
-    iconContainer.removeChild(oldIcon);
+  if (oldIcon) iconContainer.removeChild(oldIcon);
 
-  if (icon instanceof HTMLElement)
-    iconElement = icon;
+  if (icon instanceof HTMLElement) iconElement = icon;
   else {
-    iconElement = Icon({
+    const iconObj = new Icon({
       ...icon,
-      size: this.size == "small" ? 18 : this.size == "large" ? 24 : 16
+      size: this.size == "small" ? 18 : this.size == "large" ? 24 : 16,
     });
+
+    iconElement = iconObj.element;
   }
 
   iconContainer.appendChild(iconElement);

@@ -133,13 +133,13 @@ export default function ({
 
     box.append(close);
 
-    const icon = Icon({
+    const icon = new Icon({
       size: 16,
       type: "close",
       color: closeIconColor,
     });
 
-    close.append(icon);
+    close.append(icon.element);
   }
 
   let content;

@@ -1,7 +1,8 @@
-import classnames from 'classnames';
-import Icon from './Icon';
+import classnames from "classnames";
 import isValidPath from "is-valid-path";
 import { isUri } from "valid-url";
+import Icon from "./Icon";
+import SetProps from "./helpers/SetProps";
 
 /**
  * @typedef {import("./Icon").Properties} IconProperties
@@ -41,11 +42,11 @@ const SG_ = `${SG}__`;
  * }}
  */
 const ICON_SIZE_FOR_AVATARS_WITH_BORDER = {
-  "small": 22,
-  "normal": 30,
-  "large": 54,
-  "xlarge": 78,
-  "xxlarge": 102,
+  small: 22,
+  normal: 30,
+  large: 54,
+  xlarge: 78,
+  xxlarge: 102,
 };
 
 /**
@@ -58,17 +59,17 @@ const ICON_SIZE_FOR_AVATARS_WITH_BORDER = {
  * }}
  */
 const ICON_SIZE = {
-  "small": 24,
-  "normal": 32,
-  "large": 56,
-  "xlarge": 80,
-  "xxlarge": 104,
+  small: 24,
+  normal: 32,
+  large: 56,
+  xlarge: 80,
+  xxlarge: 104,
 };
 
 /**
  * @param {Properties} param0
  */
-export default function({
+export default function ({
   size = "normal",
   border = false,
   spaced,
@@ -79,49 +80,49 @@ export default function({
   ...props
 } = {}) {
   const avatarClass = classnames(
-    SG, {
+    SG,
+    {
       [SGD + size]: size !== "normal",
       [`${SGD}with-border`]: border,
       [`${SGD}spaced`]: spaced,
     },
-    className
+    className,
   );
 
   /**
    * @type {AvatarElement}
    */
   // @ts-ignore
-  let container = document.createElement("div");
+  const container = document.createElement("div");
   container.className = avatarClass;
   container.size = size;
   container.border = border;
 
-  if (props)
-    for (let [propName, propVal] of Object.entries(props))
-      container[propName] = propVal;
+  SetProps(container, props);
 
   let avatar;
   let linkElement;
 
-  if (link !== undefined && link !== '') {
+  if (link !== undefined && link !== "") {
     linkElement = document.createElement("a");
     linkElement.href = link;
 
-    if (title)
-      linkElement.title = title;
+    if (title) linkElement.title = title;
 
     container.append(linkElement);
   }
 
   if (
-    imgSrc !== undefined && imgSrc !== null && imgSrc !== '' &&
+    imgSrc !== undefined &&
+    imgSrc !== null &&
+    imgSrc !== "" &&
     (isUri(imgSrc) || isValidPath(imgSrc))
   ) {
     avatar = document.createElement("img");
     avatar.className = `${SG_}image`;
     avatar.src = imgSrc;
 
-    avatar.addEventListener("error", ReplaceIcon.bind(container))
+    avatar.addEventListener("error", ReplaceIcon.bind(container));
 
     if (title) {
       avatar.title = title;
@@ -131,29 +132,10 @@ export default function({
     avatar = GenerateAvatarElement(size, border);
   }
 
-  if (linkElement)
-    linkElement.append(avatar);
-  else
-    container.append(avatar);
+  if (linkElement) linkElement.append(avatar);
+  else container.append(avatar);
 
   return container;
-}
-
-/**
- * @this {AvatarElement}
- */
-function ReplaceIcon() {
-  let oldAvatarImage = this.querySelector(`.${SG_}image`);
-
-  if (oldAvatarImage)
-    oldAvatarImage.remove();
-
-  let avatar = GenerateAvatarElement(this.size, this.border);
-
-  if (!this.firstElementChild)
-    this.append(avatar);
-  else
-    this.firstElementChild.append(avatar);
 }
 
 /**
@@ -161,16 +143,29 @@ function ReplaceIcon() {
  * @param {boolean} border
  */
 function GenerateAvatarElement(size, border) {
-  let avatar = document.createElement("div");
+  const avatar = document.createElement("div");
   avatar.className = `${SG_}image ${SG_}image--icon`;
-  let icon = Icon({
+  const icon = new Icon({
     type: "profile",
     color: "gray-light",
-    size: border ? ICON_SIZE_FOR_AVATARS_WITH_BORDER[size] : ICON_SIZE[
-      size]
+    size: border ? ICON_SIZE_FOR_AVATARS_WITH_BORDER[size] : ICON_SIZE[size],
   });
 
-  avatar.append(icon);
+  avatar.append(icon.element);
 
   return avatar;
+}
+
+/**
+ * @this {AvatarElement}
+ */
+function ReplaceIcon() {
+  const oldAvatarImage = this.querySelector(`.${SG_}image`);
+
+  if (oldAvatarImage) oldAvatarImage.remove();
+
+  const avatar = GenerateAvatarElement(this.size, this.border);
+
+  if (!this.firstElementChild) this.append(avatar);
+  else this.firstElementChild.append(avatar);
 }

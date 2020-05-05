@@ -1,6 +1,7 @@
-import classnames from 'classnames';
-import generateRandomString from '../../helpers/generateRandomString';
-import Icon from './Icon';
+import classnames from "classnames";
+import generateRandomString from "../../helpers/generateRandomString";
+import Icon from "./Icon";
+import SetProps from "./helpers/SetProps";
 
 /**
  * @typedef {"small" | "normal" | "large"} Size
@@ -27,7 +28,7 @@ const SG_ = `${SG}__`;
 /**
  * @param {Properties} param0
  */
-export default function({
+export default function ({
   checked,
   id = generateRandomString(),
   className,
@@ -39,38 +40,34 @@ export default function({
    * @type {Element}
    */
   // @ts-ignore
-  let container = document.createElement("div");
+  const container = document.createElement("div");
   container.className = checkboxClass;
 
-  let input = document.createElement("input");
+  const input = document.createElement("input");
   input.type = "checkbox";
   input.checked = checked;
   input.className = `${SG_}element`;
 
-  if (id)
-    input.id = id;
+  if (id) input.id = id;
 
-  if (props)
-    for (let [propName, propVal] of Object.entries(props))
-      input[propName] = propVal;
+  SetProps(input, props);
 
   container.append(input);
 
-  let label = document.createElement("label");
+  const label = document.createElement("label");
   label.className = `${SG_}ghost`;
 
-  if (id)
-    label.htmlFor = id;
+  if (id) label.htmlFor = id;
 
   container.append(label);
 
-  let icon = Icon({
+  const icon = new Icon({
     type: "check",
     color: "adaptive",
-    size: 16
+    size: 16,
   });
 
-  label.append(icon);
+  label.append(icon.element);
 
   container.inputId = id;
   // @ts-ignore
@@ -84,8 +81,8 @@ export default function({
  * @param {string} id
  */
 function _ChangeId(id) {
-  let input = this.querySelector("input");
-  let label = this.querySelector("label");
+  const input = this.querySelector("input");
+  const label = this.querySelector("label");
   this.inputId = label.htmlFor = input.id = id;
 
   return this;

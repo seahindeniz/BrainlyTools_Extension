@@ -1,6 +1,13 @@
-import { Button, Flex } from "@/scripts/components/style-guide";
+import { Button, Flex, Icon } from "@/scripts/components/style-guide";
 import InsertAfter from "@/scripts/helpers/InsertAfter";
 import WaitForElements from "@/scripts/helpers/WaitForElements";
+
+/**
+ * @param {import("./").default} main
+ */
+function ButtonClicked(main) {
+  System.toBackground("switch or open tab", main.data.groupData.button_link);
+}
 
 /**
  * @param {import("./").default} main
@@ -13,28 +20,23 @@ export default async function PageVisitButton(main) {
   )
     return;
 
-  let mainHeaders = await WaitForElements(".js-main-header");
-  let mainHeader = mainHeaders[0];
+  const mainHeaders = await WaitForElements(".js-main-header");
+  const mainHeader = mainHeaders[0];
 
-  let button = Button({
+  const button = new Button({
     type: "solid-blue",
     html: main.data.groupData.button_content,
-    icon: main.data.groupData.button_icon
+    icon: new Icon({
+      type: main.data.groupData.button_icon,
+    }),
   });
 
-  button.addEventListener("click", () => ButtonClicked(main));
+  button.element.addEventListener("click", () => ButtonClicked(main));
 
-  let buttonContainer = Flex({
+  const buttonContainer = Flex({
     children: button,
     className: "freelancerButton",
   });
 
   InsertAfter(buttonContainer, mainHeader);
-}
-
-/**
- * @param {import("./").default} main
- */
-function ButtonClicked(main) {
-  System.toBackground("switch or open tab", main.data.groupData.button_link);
 }

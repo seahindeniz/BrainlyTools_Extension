@@ -104,7 +104,8 @@ function AddIcon(labelContainer, icon, type) {
     if (typeof icon === "string") iconProps.type = icon;
     else iconProps = mergeDeep(iconProps, icon);
 
-    iconElement = Icon(iconProps);
+    const iconObj = new Icon(iconProps);
+    iconElement = iconObj.element;
   }
 
   iconContainer.appendChild(iconElement);
@@ -243,13 +244,13 @@ export default function ({
     if (typeof onClose === "function")
       closeButton.addEventListener("click", onClose);
 
-    const closeButtonIcon = Icon({
+    const closeButtonIcon = new Icon({
       size: 16,
       type: "close",
       color: !type ? "dark" : "light",
     });
 
-    closeButton.append(closeButtonIcon);
+    closeButton.append(closeButtonIcon.element);
     labelContainer.append(closeButton);
   }
 

@@ -1,6 +1,7 @@
-import classnames from 'classnames';
-import AddChildren from '../helpers/AddChildren';
-import Icon, * as IconModule from "../Icon";
+import SetProps from "@style-guide/helpers/SetProps";
+import classnames from "classnames";
+import AddChildren from "../helpers/AddChildren";
+import Icon from "../Icon";
 
 /**
  * @typedef {"small" | "normal" | "large"} Size
@@ -10,7 +11,7 @@ import Icon, * as IconModule from "../Icon";
  *  children?: import("@style-guide/helpers/AddChildren").ChildrenParamType,
  *  text?: string,
  *  html?: string,
- *  icon?: boolean | HTMLElement | IconModule.Properties,
+ *  icon?: boolean | HTMLElement | import("../Icon").IconPropsType,
  *  iconSmall?: boolean,
  * } & Object<string, *>} Properties
  */
@@ -22,7 +23,7 @@ const SG_ = `${SG}__`;
 /**
  * @param {Properties} param0
  */
-export default function({
+export default function ({
   children,
   className,
   text,
@@ -36,11 +37,9 @@ export default function({
   let item = document.createElement("li");
   item.className = listItemClass;
 
-  if (text)
-    item.innerText = text;
+  if (text) item.innerText = text;
 
-  if (html)
-    item.innerHTML = html;
+  if (html) item.innerHTML = html;
 
   if (icon) {
     let iconContainer = document.createElement("div");
@@ -50,36 +49,32 @@ export default function({
 
     let iconElement;
 
-    if (icon instanceof HTMLElement)
-      iconElement = icon;
-    else if (
-      icon === true ||
-      icon instanceof Object
-    ) {
-      iconElement = Icon(
-        icon !== true ? {
-          type: "arrow_right",
-          size: iconSmall ? 14 : 18,
-          ...icon
-        } : {
-          color: "adaptive",
-          type: "arrow_right",
-          size: iconSmall ? 14 : 18,
-        }
+    if (icon instanceof HTMLElement) iconElement = icon;
+    else if (icon === true || icon instanceof Object) {
+      const iconObj = new Icon(
+        icon !== true
+          ? {
+              type: "arrow_right",
+              size: iconSmall ? 14 : 18,
+              ...icon,
+            }
+          : {
+              color: "adaptive",
+              type: "arrow_right",
+              size: iconSmall ? 14 : 18,
+            },
       );
+      iconElement = iconObj.element;
     }
 
-    if (iconElement)
-      iconContainer.append(iconElement);
+    if (iconElement) iconContainer.append(iconElement);
 
     item.append(iconContainer);
   }
 
   AddChildren(item, children);
 
-  if (props)
-    for (let [propName, propVal] of Object.entries(props))
-      item[propName] = propVal;
+  SetProps(item, props);
 
   return item;
 }

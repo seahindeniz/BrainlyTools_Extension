@@ -5,16 +5,8 @@ import FileIcon from "@/scripts/helpers/FileIcon";
 import prettysize from "prettysize";
 import IsVisible from "@/scripts/helpers/IsVisible";
 
-const REVIEWABLE_ICON_NAMES = [
-  "video",
-  "audio",
-  "image",
-];
-const ICON_NAMES = [
-  "file",
-  "pdf",
-  ...REVIEWABLE_ICON_NAMES
-];
+const REVIEWABLE_ICON_NAMES = ["video", "audio", "image"];
+const ICON_NAMES = ["file", "pdf", ...REVIEWABLE_ICON_NAMES];
 
 export default class Evidence {
   /**
@@ -24,7 +16,7 @@ export default class Evidence {
   constructor(main, file) {
     this.main = main;
     this.file = file;
-    this.id = `${Date.now()}_${System.randomNumber(0,9999)}`;
+    this.id = `${Date.now()}_${System.randomNumber(0, 9999)}`;
 
     this.fileType = this.file.type.split("/").shift();
 
@@ -34,12 +26,13 @@ export default class Evidence {
     this.Render();
     this.BindListener();
   }
-  RenderFileIcon() {
-    let iconName = ICON_NAMES.includes(this.fileType) ? this.fileType :
-      "file";
 
-    this.iconSvg =
-      `${System.data.meta.extension.URL}/images/fileIcons/${iconName}.svg`;
+  RenderFileIcon() {
+    const iconName = ICON_NAMES.includes(this.fileType)
+      ? this.fileType
+      : "file";
+
+    this.iconSvg = `${System.data.meta.extension.URL}/images/fileIcons/${iconName}.svg`;
 
     this.iconImg = CreateElement({
       tag: "img",
@@ -47,20 +40,21 @@ export default class Evidence {
       className: "sg-avatar__image",
     });
   }
-  ReadFile() {
-    let reader = new FileReader();
 
-    //reader.onprogress = this.ReaderOnProgress.bind(this);
+  ReadFile() {
+    const reader = new FileReader();
+
+    // reader.onprogress = this.ReaderOnProgress.bind(this);
     reader.onload = event => this.FileRead(event.target.result);
 
     reader.readAsDataURL(this.file);
   }
+
   /**
    * @param {string | ArrayBuffer} source
    */
   FileRead(source) {
-    if (source instanceof ArrayBuffer)
-      return;
+    if (source instanceof ArrayBuffer) return;
 
     /**
      * @type {import("@/scripts/components/CreateElement")
@@ -82,22 +76,23 @@ export default class Evidence {
         muted: true,
         controls: true,
         className: "sg-avatar__image",
-        title: System.data.locale.popup.extensionManagement
-          .accountDeleteReports.playOrPause,
+        title:
+          System.data.locale.popup.extensionManagement.accountDeleteReports
+            .playOrPause,
       };
 
-      if (this.fileType == "audio")
-        data["poster"] = this.iconSvg;
+      if (this.fileType == "audio") data.poster = this.iconSvg;
     }
 
-    if (!data)
-      return;
+    if (!data) return;
 
     this.previewElement = CreateElement(data);
     this.previewContainer.append(this.previewElement);
   }
+
   Render() {
-    this.container = Build(Flex({
+    this.container = Build(
+      Flex({
         noShrink: true,
         fullWidth: true,
         marginBottom: "s",
@@ -108,13 +103,13 @@ export default class Evidence {
           Flex({ fullWidth: true }),
           [
             [
-              Flex({ alignItems: "center", }),
-              this.removeButton = ButtonRound({
+              Flex({ alignItems: "center" }),
+              (this.removeButton = ButtonRound({
                 filled: true,
                 color: "peach",
                 icon: "close",
                 size: "xsmall",
-              })
+              })),
             ],
             [
               Flex({
@@ -124,10 +119,10 @@ export default class Evidence {
                 marginRight: "xs",
                 style: {
                   minWidth: 0,
-                }
+                },
               }),
               [
-                this.fileLink = Text({
+                (this.fileLink = Text({
                   href: "",
                   color: "gray",
                   size: "small",
@@ -136,43 +131,46 @@ export default class Evidence {
                   title: this.file.name,
                   className: "ext-evidence-name",
                   text: this.file.name.replace(/\s{2,}/g, " ").trim(),
-                }),
+                })),
                 [
-                  Flex({ justifyContent: "flex-end", }),
+                  Flex({ justifyContent: "flex-end" }),
                   Text({
                     tag: "i",
                     size: "xsmall",
                     color: "gray-secondary",
                     text: prettysize(this.file.size),
-                  })
-                ]
-              ]
+                  }),
+                ],
+              ],
             ],
             [
-              this.thumbnailContainer = Flex({ alignItems: "center", }),
+              (this.thumbnailContainer = Flex({ alignItems: "center" })),
               [
                 [
-                  this.icon = Icon({
+                  new Icon({
                     size: 32,
                   }),
                   [
                     [
-                      this.iconLink = Text({
+                      (this.iconLink = Text({
                         href: "",
-                      }),
-                      this.iconImg
-                    ]
-                  ]
-                ]
-              ]
-            ]
-          ]
-        ]
-      ]);
+                      })),
+                      this.iconImg,
+                    ],
+                  ],
+                ],
+              ],
+            ],
+          ],
+        ],
+      ],
+    );
   }
+
   RenderPreviewContainer() {
     this.previewContainer = Flex();
   }
+
   BindListener() {
     this.removeButton.addEventListener("click", this.Remove.bind(this));
 
@@ -181,12 +179,14 @@ export default class Evidence {
       this.fileLink.addEventListener("click", this.TogglePreview.bind(this));
     }
   }
+
   Remove() {
-    let index = this.main.evidences.indexOf(this);
+    const index = this.main.evidences.indexOf(this);
 
     this.main.evidences.splice(index, 1);
     this.container.remove();
   }
+
   TogglePreview() {
     if (IsVisible(this.thumbnailContainer)) {
       this.main.HideElement(this.thumbnailContainer);
@@ -196,17 +196,18 @@ export default class Evidence {
       this.HidePreview();
     }
   }
+
   ShowPreview() {
     this.container.append(this.previewContainer);
 
     if (this.previewElement instanceof HTMLVideoElement)
       this.previewElement.play();
   }
+
   HidePreview() {
     this.main.HideElement(this.previewContainer);
 
     if (this.previewElement instanceof HTMLVideoElement)
       this.previewElement.pause();
-
   }
 }

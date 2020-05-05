@@ -114,9 +114,9 @@ export default class extends Components {
             }),
             [
               [
-                (this.addModeratorButton = Button({
+                (this.addModeratorButton = new Button({
                   fullWidth: true,
-                  icon: "plus",
+                  icon: new Icon({ type: "plus" }),
                   type: "solid-blue",
                   size: "small",
                   html:
@@ -149,7 +149,7 @@ export default class extends Components {
                           marginRight: "xxs",
                           alignItems: "center",
                         }),
-                        Icon({
+                        new Icon({
                           type: "report_flag",
                           size: 22,
                           color: "peach",
@@ -234,7 +234,7 @@ export default class extends Components {
   }
 
   BindModalItemListeners() {
-    this.addModeratorButton.addEventListener(
+    this.addModeratorButton.element.addEventListener(
       "click",
       this.AddModeratorSection.bind(this),
     );
@@ -255,7 +255,7 @@ export default class extends Components {
       fullWidth: true,
     });
 
-    InsertBefore(this.moderatorContainer, this.addModeratorButton);
+    InsertBefore(this.moderatorContainer, this.addModeratorButton.element);
   }
 
   RenderFetcherSpinner() {

@@ -89,12 +89,12 @@ export default class Moderator {
                           icon: Flex({
                             direction: "column",
                             children: [
-                              (this.firstArrow = Icon({
+                              (this.firstArrow = new Icon({
                                 type: "arrow_down",
                                 size: 24,
                                 color: "gray-secondary",
                               })),
-                              (this.secondArrow = Icon({
+                              (this.secondArrow = new Icon({
                                 type: "arrow_up",
                                 size: 24,
                                 color: "gray-secondary",

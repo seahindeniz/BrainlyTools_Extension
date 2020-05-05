@@ -1,4 +1,5 @@
-import classnames from 'classnames';
+import classnames from "classnames";
+import SetProps from "./helpers/SetProps";
 
 /**
  * @typedef {'button'
@@ -44,7 +45,9 @@ import classnames from 'classnames';
  *  fullWidth?: boolean,
  *  noBorder?: boolean,
  *  className?: string,
- *  withIcon?: boolean
+ *  withIcon?: boolean,
+ *  errorMessage?: string,
+ *  [x: string]: *
  * }} Properties
  */
 
@@ -55,7 +58,7 @@ const SGD = `${sg}--`;
  *
  * @param {Properties} param0
  */
-export default function({
+export default function ({
   type = "text",
   color = "default",
   size = "normal",
@@ -67,46 +70,55 @@ export default function({
   fullWidth,
   noBorder,
   className,
-  withIcon
+  withIcon,
+  errorMessage,
+  ...props
 } = {}) {
   if (valid === true && invalid === true)
     throw "Input can be either valid or invalid!";
 
-  const inputClass = classnames(sg, {
-    [SGD + size]: size !== "normal",
-    [SGD + color]: color !== "default",
-    [`${SGD}full-width`]: fullWidth,
-    [`${SGD}no-border`]: noBorder,
-    [`${SGD}with-icon`]: withIcon
-  }, className);
+  const inputClass = classnames(
+    sg,
+    {
+      [SGD + size]: size !== "normal",
+      [SGD + color]: color !== "default",
+      [`${SGD}full-width`]: fullWidth,
+      [`${SGD}no-border`]: noBorder,
+      [`${SGD}with-icon`]: withIcon,
+    },
+    className,
+  );
+
+  const wrapperClass = classnames("sg-input__wrapper", {
+    "sg-input__wrapper--full-width": fullWidth,
+  });
+  const errorMessageDisplayed =
+    invalid === true && errorMessage !== undefined && errorMessage !== "";
 
   /**
    * @type {InputElement}
    */
   // @ts-ignore
-  let input = document.createElement("input");
+  const input = document.createElement("input");
   input.type = type;
   input.Valid = _Valid;
   input.Invalid = _Invalid;
   input.Natural = _Natural;
   input.className = inputClass;
 
-  if (title)
-    input.title = title;
+  if (title) input.title = title;
 
-  if (value)
-    input.value = value;
+  if (value) input.value = value;
 
-  if (placeholder)
-    input.placeholder = placeholder;
+  if (placeholder) input.placeholder = placeholder;
 
-  if (valid)
-    input.Valid();
+  SetProps(input, props);
 
-  if (invalid)
-    input.Invalid();
+  if (valid) input.Valid();
 
-  return input;
+  if (invalid) input.Invalid();
+
+  if (!errorMessageDisplayed) return input;
 }
 
 /**

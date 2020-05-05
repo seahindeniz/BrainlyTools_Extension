@@ -1,5 +1,3 @@
-import Icon from "./style-guide/Icon";
-
 /**
  * @typedef {{size?: "small"|"medium"|"large", header?: string, content?: string, actions?: string, addAfter?: string}} options
  */
@@ -9,7 +7,13 @@ class Toplayer {
    * @param {options} param0
    */
   // @ts-ignore
-  constructor({ size = "medium", header = "", content = "", actions = "", addAfter = "" } = {}) {
+  constructor({
+    size = "medium",
+    header = "",
+    content = "",
+    actions = "",
+    addAfter = "",
+  } = {}) {
     this.size = size;
     this.header = header;
     this.content = content;
@@ -22,6 +26,7 @@ class Toplayer {
     this.RenderActions();
     this.RenderAdditionalElements();
   }
+
   RenderToplayer() {
     this.$toplayer = $(`
 		<div class="sg-toplayer">
@@ -45,45 +50,60 @@ class Toplayer {
     }); */
 
     this.$close = $(".sg-toplayer__close", this.$toplayer);
-    this.$contentContainer = $("> .sg-toplayer__wrapper > .sg-content-box", this.$toplayer);
+    this.$contentContainer = $(
+      "> .sg-toplayer__wrapper > .sg-content-box",
+      this.$toplayer,
+    );
 
-    //this.$close.append(iconX);
+    // this.$close.append(iconX);
   }
+
   RenderHeader() {
-    this.$header = $(`<div class="sg-content-box__header">${this.header}</div>`);
+    this.$header = $(
+      `<div class="sg-content-box__header">${this.header}</div>`,
+    );
 
     if (this.size) {
-      this.$header.addClass("sg-content-box__content--spaced-top sg-content-box__content--spaced-bottom-xlarge");
+      this.$header.addClass(
+        "sg-content-box__content--spaced-top sg-content-box__content--spaced-bottom-xlarge",
+      );
     }
 
-    if (this.header)
-      this.ShowHeader()
+    if (this.header) this.ShowHeader();
   }
+
   ShowHeader() {
     this.$header.appendTo(this.$contentContainer);
   }
+
   RenderContent() {
-    this.$content = $(`<div class="sg-content-box__content">${this.content}</div>`);
+    this.$content = $(
+      `<div class="sg-content-box__content">${this.content}</div>`,
+    );
 
     /* if (this.size) {
       this.$content.addClass("sg-content-box__content--spaced-bottom-large");
     } */
 
-    if (this.content)
-      this.ShowContent();
+    if (this.content) this.ShowContent();
   }
+
   ShowContent() {
     this.$content.appendTo(this.$contentContainer);
   }
-  RenderActions() {
-    this.$actions = $(`<div class="sg-content-box__actions">${this.actions}</div>`);
 
-    if (this.actions)
-      this.ShowActions();
+  RenderActions() {
+    this.$actions = $(
+      `<div class="sg-content-box__actions">${this.actions}</div>`,
+    );
+
+    if (this.actions) this.ShowActions();
   }
+
   ShowActions() {
     this.$actions.appendTo(this.$contentContainer);
   }
+
   RenderAdditionalElements() {
     if (this.addAfter) {
       this.$additionalElements = $(this.addAfter);
@@ -91,15 +111,19 @@ class Toplayer {
       this.$additionalElements.appendTo(this.$contentContainer);
     }
   }
+
   ShowCloseSpinner() {
-    let $svg = $("svg", this.$close);
+    const $svg = $("svg", this.$close);
 
     $(`<div class="sg-spinner sg-spinner--xxsmall"></div>`).insertBefore($svg);
     $svg.remove();
   }
+
   ChangeSize(size) {
-    this.$toplayer.removeClass("sg-toplayer--small sg-toplayer--medium sg-toplayer--large sg-toplayer--fill sg-toplayer--full");
+    this.$toplayer.removeClass(
+      "sg-toplayer--small sg-toplayer--medium sg-toplayer--large sg-toplayer--fill sg-toplayer--full",
+    );
     this.$toplayer.addClass(`sg-toplayer--${size}`);
   }
 }
-export default Toplayer
+export default Toplayer;

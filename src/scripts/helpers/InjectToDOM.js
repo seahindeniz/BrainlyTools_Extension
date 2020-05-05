@@ -8,19 +8,23 @@ import TimedLoop from "./TimedLoop";
  */
 function injectIt(path, { attachExtensionId, makeItLastElement } = {}) {
   return new Promise(async (resolve, reject) => {
-    let fileName = path.split(".");
+    const fileName = path.split(".");
 
     if (fileName.length < 2) {
       reject(["Injected file name is incorrect: ", path]);
     } else {
       let extensionURL;
-      let fileExtension = [...fileName].pop();
+      const fileExtension = [...fileName].pop();
 
-      if (window.System && window.System.data.meta && window.System.data.meta.extension) {
-        extensionURL = window.System.data.meta.extension.URL
+      if (
+        window.System &&
+        window.System.data.meta &&
+        window.System.data.meta.extension
+      ) {
+        extensionURL = System.data.meta.extension.URL;
       } else {
-        //console.warn("Be warned, no extension System class found");
-        extensionURL = "chrome-extension://" + window.chrome.runtime.id
+        // console.warn("Be warned, no extension System class found");
+        extensionURL = `chrome-extension://${window.chrome.runtime.id}`;
       }
 
       if (path.indexOf("http") < 0) {
@@ -39,19 +43,19 @@ function injectIt(path, { attachExtensionId, makeItLastElement } = {}) {
           .catch(reject);
       } else if (fileExtension == "js" || fileExtension == "ext_js") {
         try {
-          let html = document.documentElement;
-          let script = document.createElement('script');
+          const html = document.documentElement;
+          const script = document.createElement("script");
 
-          script.setAttribute('type', 'text/javascript');
-          script.setAttribute('src', path);
+          script.setAttribute("type", "text/javascript");
+          script.setAttribute("src", path);
           script.dataset.addedByExtension = "true";
 
           if (attachExtensionId) {
-            script.setAttribute('extension_URL', window.chrome.runtime.id);
+            script.setAttribute("extension_URL", window.chrome.runtime.id);
           }
 
           if (html) {
-            html.appendChild(script)
+            html.appendChild(script);
           }
 
           resolve(script);
@@ -60,31 +64,37 @@ function injectIt(path, { attachExtensionId, makeItLastElement } = {}) {
         }
       } else if (fileExtension == "css" || fileExtension == "ext_css") {
         try {
-          let link = document.createElement('link');
+          const link = document.createElement("link");
 
-          link.setAttribute('rel', 'stylesheet');
-          link.setAttribute('type', 'text/css');
-          link.setAttribute('href', path);
-          link.setAttribute('href', path);
+          link.setAttribute("rel", "stylesheet");
+          link.setAttribute("type", "text/css");
+          link.setAttribute("href", path);
+          link.setAttribute("href", path);
           link.dataset.addedByExtension = "true";
 
           if (fileExtension == "css") {
-            let head = await WaitForObject("document.head");
+            const head = await WaitForObject("document.head");
 
             head && head.append(link);
 
             if (makeItLastElement && head)
-              TimedLoop(() => {
-                /**
-                 * @type {HTMLElement}
-                 */
-                let nextElementSibling = (link.nextElementSibling);
+              TimedLoop(
+                () => {
+                  /**
+                   * @type {HTMLElement}
+                   */
+                  const { nextElementSibling } = link;
 
-                if (nextElementSibling && !nextElementSibling.dataset.addedByExtension)
-                  head && head.append(link);
-              }, { expireTime: 5 });
+                  if (
+                    nextElementSibling &&
+                    !nextElementSibling.dataset.addedByExtension
+                  )
+                    head && head.append(link);
+                },
+                { expireTime: 5 },
+              );
           } else {
-            let html = document.documentElement;
+            const html = document.documentElement;
 
             html && html.appendChild(link);
 
@@ -93,9 +103,12 @@ function injectIt(path, { attachExtensionId, makeItLastElement } = {}) {
                 /**
                  * @type {HTMLElement}
                  */
-                let nextElementSibling = (link.nextElementSibling);
+                const { nextElementSibling } = link;
 
-                if (nextElementSibling && !nextElementSibling.dataset.addedByExtension)
+                if (
+                  nextElementSibling &&
+                  !nextElementSibling.dataset.addedByExtension
+                )
                   html && html.appendChild(link);
               });
           }
@@ -116,7 +129,7 @@ function injectIt(path, { attachExtensionId, makeItLastElement } = {}) {
  * @param {string | string[]} filePath - Path of inject file
  * @param {Properties} options - To adding an attribute contains the id key of the extension
  * returns {Promise<>} - Check whether if file injected or not
- **/
+ * */
 export default function InjectToDOM(filePath, options = {}) {
   /**
    * @type {Promise | Promise[]}
@@ -124,8 +137,7 @@ export default function InjectToDOM(filePath, options = {}) {
   let result;
 
   if (filePath && filePath.length > 0) {
-    if (typeof filePath == "string")
-      result = injectIt(filePath, options);
+    if (typeof filePath === "string") result = injectIt(filePath, options);
     else if (filePath instanceof Array) {
       result = [];
 
@@ -136,8 +148,7 @@ export default function InjectToDOM(filePath, options = {}) {
     }
   }
 
-  if (!result)
-    result = Promise.reject("File path is required");
+  if (!result) result = Promise.reject("File path is required");
 
   return result;
 }

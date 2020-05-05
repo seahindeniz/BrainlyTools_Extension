@@ -1,37 +1,21 @@
 {
   "compilerOptions": {
+    "resolveJsonModule": true,
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
-    "baseUrl": ".",
     "checkJs": true,
     "module": "commonjs",
     "noEmit": true,
+    "baseUrl": ".",
     "paths": {
-      "@BrainlyAction": [
-        "src/scripts/controllers/Req/Brainly/Action"
-      ],
-      "@ServerReq": [
-        "src/scripts/controllers/Req/Server"
-      ],
-      "@style-guide": [
-        "src/scripts/components/style-guide"
-      ],
-      "@style-guide/*": [
-        "src/scripts/components/style-guide/*"
-      ],
-      "@/*": [
-        "src/*"
-      ]
+      "@BrainlyAction": ["src/scripts/controllers/Req/Brainly/Action"],
+      "@ServerReq": ["src/scripts/controllers/Req/Server"],
+      "@style-guide": ["src/scripts/components/style-guide"],
+      "@style-guide/*": ["src/scripts/components/style-guide/*"],
+      "@/*": ["src/*"]
     },
-    "target": "es6",
-    "typeRoots": [
-      "node_modules/@types",
-      "./src/scripts/typings"
-    ]
+    "target": "es5",
+    "typeRoots": ["node_modules/@types", "./src/scripts/typings"]
   },
-  "exclude": [
-    "build",
-    "node_modules",
-    "**/node_modules/*"
-  ]
+  "exclude": ["build", "node_modules", "**/node_modules/*"]
 }

@@ -126,5 +126,5 @@
     "watch": "cross-env TARGET=chrome gulp watch",
     "flow": "flow"
   },
-  "version": "6.35.5"
+  "version": "6.35.6"
 }

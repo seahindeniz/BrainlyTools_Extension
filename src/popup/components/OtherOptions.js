@@ -137,7 +137,7 @@ class OtherOptions {
   }
   async SetLanguage(language) {
     /* let localeData =  */
-    await System.prepareLangFile(language);
+    await System.PrepareLanguageFile(language);
     /* System.data.locale = localeData; */
 
     storage("set", { language });

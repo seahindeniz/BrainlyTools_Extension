@@ -18,8 +18,8 @@ export default class ToplayerQDB {
     this.reason = reason;
     this.buttonProps = button;
 
-    this.RenderButtonContainer();
     this.RenderButton();
+    this.RenderButtonContainer();
     this.BindHandler();
   }
 

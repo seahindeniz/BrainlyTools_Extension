@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [6.35.5] - 2020.04.30
+## [6.35.5] - 2020.05.05
 
 ### Changed
 

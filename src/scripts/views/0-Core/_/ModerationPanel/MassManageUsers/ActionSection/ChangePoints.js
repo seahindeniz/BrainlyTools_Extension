@@ -2,11 +2,8 @@ import ActionSection from ".";
 import Action from "../../../../../../controllers/Req/Brainly/Action";
 import Button from "../../../../../../components/Button";
 
-let System = require("../../../../../../helpers/System");
-
 export default class ChangePoints extends ActionSection {
   constructor(main) {
-    System = System();
     /**
      * @type {import("./index").renderDetails}
      */

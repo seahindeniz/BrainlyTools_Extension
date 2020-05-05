@@ -14,14 +14,8 @@ import rangeParser from "parse-numeric-range";
 import Inputs from ".";
 import Build from "../../../../../../../helpers/Build";
 
-let System = require("../../../../../../../helpers/System");
-
 export default class IdRange extends Inputs {
   constructor(main) {
-    if (typeof System == "function")
-      // @ts-ignore
-      System = System();
-
     super(main, {
       tabButton: {
         text: System.data.locale.core.MassModerateContents.targets.idRange
@@ -197,7 +191,7 @@ export default class IdRange extends Inputs {
                       Text({
                         tag: "span",
                         size: "xsmall",
-                        html: rangeParser.parse(sampleRange).join(", ")
+                        html: rangeParser(sampleRange).join(", ")
                       })
                     ]
                   ]
@@ -234,7 +228,7 @@ export default class IdRange extends Inputs {
   }
   ParseRangeValue() {
     let value = this.input.value.replace(/\s/g, "");
-    let rangeArr = rangeParser.parse(value);
+    let rangeArr = rangeParser(value);
     let rangeSet = new Set(rangeArr);
     rangeArr = Array.from(rangeSet);
     this.rangeLengthBeforeFilter = rangeArr.length;

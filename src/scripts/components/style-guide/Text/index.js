@@ -1,15 +1,16 @@
-import classnames from 'classnames';
-import AddChildren from '../helpers/AddChildren';
-import SetProps from '@style-guide/helpers/SetProps';
+/* eslint-disable no-underscore-dangle */
+import classnames from "classnames";
+import SetProps from "@style-guide/helpers/SetProps";
+import AddChildren from "../helpers/AddChildren";
 
 /**
  * @typedef {TEXT_ALIGN} TextAlignType
  */
 const TEXT_ALIGN = {
-  LEFT: 'to-left',
-  CENTER: 'to-center',
-  RIGHT: 'to-right',
-  JUSTIFY: 'justify'
+  LEFT: "to-left",
+  CENTER: "to-center",
+  RIGHT: "to-right",
+  JUSTIFY: "justify",
 };
 
 /**
@@ -33,6 +34,8 @@ const TEXT_ALIGN = {
  * | 'blue-dark'
  * } TextColorType
  *
+ * @typedef {'pre-wrap' | 'pre-line'} TextWhiteSpaceType
+ *
  * @typedef {"mustard" | "mint" | "peach" | "light-gray" | "blue-dark" |
  * "blue-light"} TextBgColorType
  *
@@ -55,6 +58,7 @@ const TEXT_ALIGN = {
  *  asContainer?: boolean,
  *  full?: boolean,
  *  breakWords?: boolean,
+ *  whiteSpace?: TextWhiteSpaceType,
  *  title?: string,
  *  href?: string,
  *  underlined?: boolean,
@@ -80,10 +84,23 @@ const SG = "sg-text";
 const SGD = `${SG}--`;
 
 /**
+ * @this {TextElement}
+ * @param {TextColorType} color
+ */
+function _ChangeColor(color) {
+  this.classList.remove(SGD + this.color);
+  this.classList.add(SGD + color);
+
+  this.color = color;
+
+  return this;
+}
+
+/**
  * @template {keyof HTMLElementTagNameMap} T
  * @param {{tag?: TextDefaultTagNamesType | T} & TextProperties} param0
  */
-export default function({
+export default function ({
   children,
   text,
   html,
@@ -96,6 +113,7 @@ export default function({
   asContainer,
   full,
   breakWords,
+  whiteSpace,
   title,
   href,
   underlined,
@@ -106,30 +124,36 @@ export default function({
   fixPosition,
   ...props
 }) {
-  const textClass = classnames('sg-text', {
-    [`sg-text--${String(size)}`]: size !== "normal",
-    [`sg-text--${String(color)}`]: color !== "default",
-    [`sg-text--${String(weight)}`]: weight !== "regular",
-    [`sg-text--${transform || ''}`]: transform,
-    [`sg-text--${TEXT_ALIGN[align] || ''}`]: TEXT_ALIGN[align],
-    'sg-text--container': asContainer,
-    'sg-text--full': full,
-    'sg-text--no-wrap': noWrap,
-    'sg-text--break-words': breakWords,
+  const textClass = classnames(
+    "sg-text",
+    {
+      [`sg-text--${String(size)}`]: size !== "normal",
+      [`sg-text--${String(color)}`]: color !== "default",
+      [`sg-text--${String(weight)}`]: weight !== "regular",
+      [`sg-text--${transform || ""}`]: transform,
+      [`sg-text--${TEXT_ALIGN[align] || ""}`]: TEXT_ALIGN[align],
+      "sg-text--container": asContainer,
+      "sg-text--full": full,
+      "sg-text--no-wrap": noWrap,
+      "sg-text--break-words": breakWords,
+      "sg-text--pre-wrap": whiteSpace === "pre-wrap",
+      "sg-text--pre-line": whiteSpace === "pre-line",
 
-    [`sg-text--background-${bgColor}`]: bgColor,
-    [`sg-text--underlined`]: underlined,
-    [`sg-text--unstyled`]: unstyled,
-    [`sg-text--fix-position`]: fixPosition,
-  }, className);
+      [`sg-text--background-${bgColor}`]: bgColor,
+      [`sg-text--underlined`]: underlined,
+      [`sg-text--unstyled`]: unstyled,
+      [`sg-text--fix-position`]: fixPosition,
+    },
+    className,
+  );
 
-  if (href !== undefined /*  && href !== "" */ )
-    tag = "a";
+  // eslint-disable-next-line no-param-reassign
+  if (href !== undefined /*  && href !== "" */) tag = "a";
 
   /**
    * @type {HTMLElementTagNameMap[T] & TextElement}
    */
-  let textElement = (document.createElement(tag));
+  const textElement = Object.assign(document.createElement(tag));
   textElement.className = textClass;
   textElement.color = color;
   props.ChangeColor = _ChangeColor;
@@ -141,33 +165,17 @@ export default function({
       textElement.href = href;
   }
 
-  if (title)
-    textElement.title = title;
+  if (title) textElement.title = title;
 
-  if (text !== undefined)
-    textElement.innerText = String(text);
+  if (text !== undefined) textElement.innerText = String(text);
 
   if (html && children)
     console.error("Alert: Text component has html and children");
 
-  if (html !== undefined)
-    textElement.innerHTML = html;
+  if (html !== undefined) textElement.innerHTML = html;
 
   AddChildren(textElement, children);
   SetProps(textElement, props);
 
   return textElement;
-}
-
-/**
- * @this {TextElement}
- * @param {TextColorType} color
- */
-function _ChangeColor(color) {
-  this.classList.remove(SGD + this.color);
-  this.classList.add(SGD + color);
-
-  this.color = color;
-
-  return this;
 }

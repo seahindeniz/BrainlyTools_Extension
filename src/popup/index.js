@@ -1,5 +1,3 @@
-"use strict"
-
 import ext from "../scripts/utils/ext";
 import _System from "../scripts/controllers/System";
 import Popup from "./controllers/Popup";

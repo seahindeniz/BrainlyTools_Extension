@@ -2,22 +2,21 @@ import ActionSection from ".";
 import Action from "../../../../../../controllers/Req/Brainly/Action";
 import Button from "../../../../../../components/Button";
 
-let System = require("../../../../../../helpers/System");
-
 export default class DeleteUsers extends ActionSection {
   constructor(main) {
-    System = System();
     /**
      * @type {import("./index").renderDetails}
      */
     let renderDetails = {
       content: {
-        text: System.data.locale.core.massManageUsers.sections.deleteUsers.actionButton.title,
+        text: System.data.locale.core.massManageUsers.sections.deleteUsers
+          .actionButton.title,
         style: " sg-text--peach-dark"
       },
       actionButton: {
-        ...System.data.locale.core.massManageUsers.sections.deleteUsers.actionButton,
-        type: "link-button-peach"
+        ...System.data.locale.core.massManageUsers.sections.deleteUsers
+        .actionButton,
+        type: "transparent-peach"
       }
     }
 
@@ -47,14 +46,14 @@ export default class DeleteUsers extends ActionSection {
   }
   RenderStopButton() {
     this.$stopButton = Button({
-      type: "destructive",
+      type: "solid-peach",
       size: "small",
       text: System.data.locale.common.stop
     });
   }
   RenderStartButton() {
     this.$startButton = Button({
-      type: "primary-mint",
+      type: "solid-mint",
       size: "small",
       text: System.data.locale.common.start
     });
@@ -68,11 +67,13 @@ export default class DeleteUsers extends ActionSection {
   StartDeleting() {
     this.SetUsers();
 
-    if (this.userIdList && confirm(System.data.locale.core.massManageUsers.notificationMessages.areYouSureAboutDeletingAllListedUsers)) {
+    if (this.userIdList && confirm(System.data.locale.core.massManageUsers
+        .notificationMessages.areYouSureAboutDeletingAllListedUsers)) {
       this.started = true;
 
       this.ShowUserList();
       this.ShowStopButton();
+      this.MoveDeletedAccountsFirst();
       this.TryToDelete();
       this._loop_TryToDelete = setInterval(this.TryToDelete.bind(this), 1000);
     }
@@ -94,40 +95,73 @@ export default class DeleteUsers extends ActionSection {
   ShowStartButton() {
     this.$startButton.appendTo(this.$startButtonContainer);
   }
+  MoveDeletedAccountsFirst() {
+    /**
+     * @type {number[]}
+     */
+    this.userIdList = this.userIdList.filter(id => {
+      let user = this.main.users[id];
+
+      if (!user || typeof user == "boolean")
+        return;
+
+      if (user.details.is_deleted)
+        return this.UserDeleted(user);
+
+      return true;
+    });
+  }
   TryToDelete() {
-    if (this.started)
-      for (let i = 0; i < 7; i++)
-        if (this.openedConnection < 7) {
-          this.openedConnection++;
-          let user = this.PickUser();
+    if (!this.started)
+      return;
 
-          if (!user)
-            return this.StopDeleting();
+    for (let i = 0; i < 7; i++)
+      if (this.openedConnection < 7) {
+        this.openedConnection++;
+        let user = this.PickUser();
 
-          this.DeleteUser(user);
-        }
+        if (!user)
+          return this.StopDeleting();
+
+        if (typeof user == "boolean")
+          return;
+
+        this.DeleteUser(user);
+      }
   }
   StopDeleting() {
     this.started = false;
 
     this.HideStopButton();
     clearInterval(this._loop_TryToDelete);
-    this.main.modal.notification(System.data.locale.common.allDone, "success");
+    this.main.modal.Notification({
+      type: "success",
+      html: System.data.locale.common.allDone,
+    });
   }
   /**
    * @param {import("../User").default} user
    */
   async DeleteUser(user) {
-    await new Action().DeleteAccount(user.details.id);
-    //await System.TestDelay();
-    this.UserDeleted(user);
+    try {
+      if (user.details.is_deleted) {
+        this.openedConnection--;
+        return this.UserDeleted(user);
+      }
+
+      await new Action().DeleteAccount(user.details.id);
+      //await System.TestDelay();
+      this.UserDeleted(user);
+    } catch (error) {
+      console.error(error);
+    }
+
+    this.openedConnection--;
   }
   /**
    * @param {import("../User").default} user
    */
   UserDeleted(user) {
-    this.openedConnection--;
-
     user.Move$To$(this.$userList);
     user.ChangeBoxColor("sg-box--peach");
   }

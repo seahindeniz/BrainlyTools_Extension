@@ -6,13 +6,8 @@ import ServerReq from "@ServerReq";
 import ScrollToDown from "../../../../helpers/ScrollToDown";
 import renderGroupModal from "./groupModal";
 
-let System = require("../../../../helpers/System");
-
 class GroupChatbox {
   constructor() {
-    if (typeof System == "function")
-      System = System();
-
     this.SendMessage = new SendMessageToBrainlyIds();
 
     this.Render();

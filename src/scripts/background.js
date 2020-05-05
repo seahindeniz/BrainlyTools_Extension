@@ -1,9 +1,9 @@
+import _System from "@/scripts/controllers/System";
+import storage from "@/scripts/utils/storage";
 import ext from "./utils/ext";
-import _System from "./controllers/System";
-import storage from "./utils/storage";
-//import NotifierSocket from "./controllers/NotifierSocket";
+// import NotifierSocket from "./controllers/NotifierSocket";
 
-const chrome = window.chrome;
+const { chrome } = window;
 const BROWSER_ACTION = ext.browserAction;
 /**
  * @type {browser.browserAction.ColorValue}
@@ -16,8 +16,7 @@ class Background {
     this.activeSessions = {};
     this.popupOpened = null;
     this.optionsPassedParameters = {};
-    this.blockedDomains =
-      /mc\.yandex\.ru|hotjar\.com|google(-analytics|tagmanager|adservices|tagservices)\.com|kissmetrics\.com|doubleclick\.net|ravenjs\.com|browser\.sentry-cdn\.com|datadome\.co/i;
+    this.blockedDomains = /mc\.yandex\.ru|hotjar\.com|google(-analytics|tagmanager|adservices|tagservices)\.com|kissmetrics\.com|doubleclick\.net|ravenjs\.com|browser\.sentry-cdn\.com|datadome\.co/i;
 
     this.manifest = ext.runtime.getManifest();
 
@@ -26,39 +25,45 @@ class Background {
     this.InitSystem();
     this.BindListeners();
   }
+
   InitSystem() {
     window.System = new _System();
   }
+
   BindListeners() {
     ext.runtime.onMessage.addListener(this.MessageRequestHandler.bind(this));
-    ext.runtime.onMessageExternal.addListener(this.MessageRequestHandler.bind(
-      this));
+    ext.runtime.onMessageExternal.addListener(
+      this.MessageRequestHandler.bind(this),
+    );
 
-    ext.windows.onRemoved.addListener(this.RemovedWindowHandler.bind(
-      this));
+    ext.windows.onRemoved.addListener(this.RemovedWindowHandler.bind(this));
 
     ext.tabs.onUpdated.addListener(this.TabUpdatedHandler.bind(this));
     ext.tabs.onRemoved.addListener(this.TabRemovedHandler.bind(this));
     ext.tabs.onActivated.addListener(this.TabActivatedHandler.bind(this));
-    //ext.tabs.getSelected(null, tabCreated);
-    //ext.tabs.onCreated.addListener(tabCreated);
+    // ext.tabs.getSelected(null, tabCreated);
+    // ext.tabs.onCreated.addListener(tabCreated);
 
     if (ext.webRequest)
-      ext.webRequest.onBeforeRequest.addListener(({ url, initiator }) => {
-        return {
-          cancel: this.IsBrainly(initiator) && this.blockedDomains.test(
-            url)
-        };
-      }, { urls: ["<all_urls>"] }, ["blocking"]);
+      ext.webRequest.onBeforeRequest.addListener(
+        ({ url, initiator }) => {
+          return {
+            cancel: this.IsBrainly(initiator) && this.blockedDomains.test(url),
+          };
+        },
+        { urls: ["<all_urls>"] },
+        ["blocking"],
+      );
   }
+
   /**
    * @param {browser.tabs.Tab & {[x: string]: *}} request
    * @param {{ tab: { id: number; }; }} sender
    */
   async MessageRequestHandler(request, sender) {
-    //console.log("bg:", request);
+    // console.log("bg:", request);
     if (request.marketName) {
-      let market = this.markets[request.marketName];
+      const market = this.markets[request.marketName];
 
       if (request.action === "setMarketData") {
         try {
@@ -87,7 +92,7 @@ class Background {
         let color = [0, 0, 0, 0];
 
         if (request.data === "loading") {
-          color = [254, 200, 60, 255]
+          color = [254, 200, 60, 255];
         }
 
         if (request.data === "loaded") {
@@ -103,18 +108,17 @@ class Background {
         this.UpdateBadge({
           id: sender.tab.id,
           text: " ",
-          color
+          color,
         });
 
         return true;
       }
       if (request.action === "xmlHttpRequest") {
-        let url = request.data.url;
+        const { url } = request.data;
 
         delete request.data.url;
 
-        if (!request.data.headers)
-          request.data.headers = {};
+        if (!request.data.headers) request.data.headers = {};
 
         request.data.headers.accept = "application/json";
         request.data.headers["Content-Type"] = "application/json";
@@ -122,7 +126,7 @@ class Background {
         if (request.data.body instanceof Object)
           request.data.body = JSON.stringify(request.data.body);
 
-        let res = await fetch(url, request.data);
+        const res = await fetch(url, request.data);
 
         return res.json();
         /* let ajaxData = {
@@ -137,8 +141,7 @@ class Background {
 
         return $.ajax(ajaxData); */
       }
-      if (request.action === "updateExtension")
-        return this.CheckUpdate();
+      if (request.action === "updateExtension") return this.CheckUpdate();
 
       if (request.action === "openCaptchaPopup") {
         if (!this.popupOpened) {
@@ -146,7 +149,7 @@ class Background {
             url: request.data,
             type: "popup",
             width: 500,
-            height: 388
+            height: 388,
           });
 
           return true;
@@ -161,35 +164,34 @@ class Background {
       if (request.action === "background>Inject content script anyway") {
         return this.InjectContentScript(request, true);
 
-        //return Promise.resolve(true);
+        // return Promise.resolve(true);
       }
       if (request.action === "OpenExtensionOptions") {
-
         ext.runtime.openOptionsPage();
 
         this.optionsPassedParameters[request.marketName] = {
           ...this.optionsPassedParameters[request.marketName],
-          ...request.data
+          ...request.data,
         };
 
         return Promise.resolve(true);
       }
       if (request.action === "INeedParameters") {
-        let promise = Promise.resolve(this.optionsPassedParameters[request
-          .marketName]);
+        const promise = Promise.resolve(
+          this.optionsPassedParameters[request.marketName],
+        );
         this.optionsPassedParameters[request.marketName] = {};
 
         return promise;
       }
 
       if (request.action === "switch or open tab") {
-        let window = await ext.windows.getCurrent({ populate: true });
-        let targetTab = window.tabs.find(tab => {
-          return tab.url.includes(request.data)
+        const window = await ext.windows.getCurrent({ populate: true });
+        const targetTab = window.tabs.find(tab => {
+          return tab.url.includes(request.data);
         });
 
-        if (targetTab)
-          return ext.tabs.update(targetTab.id, { selected: true });
+        if (targetTab) return ext.tabs.update(targetTab.id, { selected: true });
 
         return ext.tabs.create({
           url: request.data,
@@ -198,13 +200,15 @@ class Background {
       }
     }
   }
+
   /**
    * @param {{ meta: { marketName: string; }; }} data
    */
   InitMarket(data) {
-    let name = data.meta.marketName;
+    const name = data.meta.marketName;
     this.markets[name] = data;
   }
+
   /**
    * @param {{
    *  id?: number,
@@ -214,37 +218,39 @@ class Background {
    */
   UpdateBadge(options) {
     BROWSER_ACTION.setBadgeText({
-      text: options.text
+      text: options.text,
     });
 
     if (options.color) {
       BROWSER_ACTION.setBadgeBackgroundColor({
-        color: options.color
+        color: options.color,
       });
     }
   }
+
   async CheckUpdate() {
     System.Log("Update started");
-    let status = await ext.runtime.requestUpdateCheck();
+    const status = await ext.runtime.requestUpdateCheck();
 
-    if (status[0] == "update_available")
-      ext.runtime.reload();
-    else
-      console.warn(status);
+    if (status[0] == "update_available") ext.runtime.reload();
+    else console.warn(status);
 
     chrome.storage.local.clear();
 
     return status;
   }
+
   async CreateWindow(data) {
-    let detail = await ext.windows.create(data);
+    const detail = await ext.windows.create(data);
     this.popupOpened = detail.id;
   }
+
   RemovedWindowHandler(windowId) {
     if (windowId == this.popupOpened) {
       this.popupOpened = null;
     }
   }
+
   /**
    * @param {number} _tabId
    * @param {{ status: string; }} changeInfo
@@ -255,76 +261,76 @@ class Background {
       this.ManipulateTab(tab);
     }
   }
+
   /**
    * @param {{ tabId: number, }} activeInfo
    */
   async TabActivatedHandler(activeInfo) {
-    let tab = await ext.tabs.get(activeInfo.tabId);
+    const tab = await ext.tabs.get(activeInfo.tabId);
 
     this.ManipulateTab(tab);
   }
+
   async TabRemovedHandler(tabId) {
-    let tabs = await ext.tabs.query({});
-    let brainlyTabs = tabs.filter(tab => System.constants.Brainly
-      .regexp_BrainlyMarkets.test(tab.url));
+    const tabs = await ext.tabs.query({});
+    const brainlyTabs = tabs.filter(tab =>
+      System.constants.Brainly.regexp_BrainlyMarkets.test(tab.url),
+    );
 
     if (brainlyTabs.length == 0) {
       this.UpdateBadge({
         text: "",
-        color: ""
+        color: "",
       });
       BROWSER_ACTION.disable();
     }
   }
+
   /**
    * @param {browser.tabs.Tab} tab
    */
   async ManipulateTab(tab) {
     if (tab.url && this.IsBrainly(tab.url)) {
-      let tabId = tab.id;
+      const tabId = tab.id;
 
       await this.InjectContentScript(tab);
-      let badgeColor = await ext.browserAction
-        .getBadgeBackgroundColor({ tabId });
+      const badgeColor = await ext.browserAction.getBadgeBackgroundColor({
+        tabId,
+      });
 
       if (badgeColor.every((v, i) => v !== RED_BADGE_COLOR[i])) {
         this.UpdateBadge({
           text: " ",
-          color: RED_BADGE_COLOR
+          color: RED_BADGE_COLOR,
         });
       }
     }
   }
+
   /**
    * @param {string} _url
    */
   IsBrainly(_url) {
-    if (!_url)
-      return false;
+    if (!_url) return false;
 
-    let url = new URL(_url);
-    let index = System.constants.Brainly.brainlyMarkets.indexOf(url.hostname);
+    const url = new URL(_url);
+    const index = System.constants.Brainly.brainlyMarkets.indexOf(url.hostname);
 
     return index >= 0;
   }
+
   /**
    * @param {browser.tabs.Tab} tab
    * @param {boolean} [forceInject]
    */
   async InjectContentScript(tab, forceInject) {
     try {
-      if (
-        !forceInject &&
-        await this.IsTabHasContentScript(tab)
-      )
-        return;
+      if (!forceInject && (await this.IsTabHasContentScript(tab))) return;
 
-      let url = new URL(tab.url);
-      let permission = {
+      const url = new URL(tab.url);
+      const permission = {
         permissions: ["tabs"],
-        origins: [
-          `*://${url.hostname}/*`,
-        ]
+        origins: [`*://${url.hostname}/*`],
       };
 
       let hasAccess = await ext.permissions.contains(permission);
@@ -339,19 +345,20 @@ class Background {
       ext.tabs.executeScript(tab.id, {
         file: "scripts/contentScript.js",
         runAt: "document_start",
-        allFrames: false
+        allFrames: false,
       });
 
       System.Log("Content script injected OK!");
       System.Log(
-        `${this.manifest.short_name} running on ${tab.id} - ${tab.url}`);
+        `${this.manifest.short_name} running on ${tab.id} - ${tab.url}`,
+      );
 
       return Promise.resolve(true);
     } catch (error) {
-      if (error)
-        console.error(error.message || error);
+      if (error) console.error(error.message || error);
     }
   }
+
   /**
    * @param {browser.tabs.Tab} tab
    */
@@ -366,12 +373,13 @@ class Background {
      */
     try {
       status = await ext.tabs.sendMessage(tab.id, {
-        action: "contentScript>Check if content script injected"
+        action: "contentScript>Check if content script injected",
       });
     } catch (_) {}
 
     return status;
   }
+
   BrainlyNotificationSocket(market, isActive) {
     /* if (isActive === null || isActive) {
       let activeSession = this.activeSessions[market.meta.marketName];

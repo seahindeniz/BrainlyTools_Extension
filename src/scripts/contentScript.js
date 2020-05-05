@@ -1,4 +1,4 @@
-import _System from "./controllers/System";
+import _System from "@/scripts/controllers/System";
 import InjectToDOM from "./helpers/InjectToDOM";
 import IsBrainly from "./helpers/IsBrainly";
 import IsIgnoredPath from "./helpers/IsIgnoredPath";

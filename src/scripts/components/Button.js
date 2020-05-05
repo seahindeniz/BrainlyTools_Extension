@@ -32,40 +32,50 @@ const SGD = `${sg}--`;
  * @param {ButtonOptions} param0
  * @returns {JQueryButtonElement}
  */
-export default function ({ tag = "button", type, size, icon, disabled, fullWidth, href, title, moreClass, forInput, bold, text, spaced } = {}) {
-  if (!icon && typeof text == "undefined")
-    throw "Button cannot be empty";
+export default function ({
+  tag = "button",
+  type,
+  size,
+  icon,
+  disabled,
+  fullWidth,
+  href,
+  title,
+  moreClass,
+  forInput,
+  bold,
+  text,
+  spaced,
+} = {}) {
+  if (!icon && typeof text === "undefined") throw "Button cannot be empty";
 
-  if (typeof href !== "undefined")
-    tag = "a";
+  if (typeof href !== "undefined") tag = "a";
 
   /**
    * @type {ButtonElement}
    */
   // @ts-ignore
-  let element = document.createElement(tag);
+  const element = document.createElement(tag);
 
   element.classList.add(sg);
 
   if (type) {
-    if (typeof type == "string")
-      element.classList.add(SGD + type);
+    if (typeof type === "string") element.classList.add(SGD + type);
     else if (type instanceof Array)
       element.classList.add(SGD + type.join(` ${SGD}`));
   }
 
-  if (size)
-    element.classList.add(SGD + size);
+  if (size) element.classList.add(SGD + size);
 
   if (icon) {
-    let iconElement = Icon({
-      size: size == "xsmall" ? 22 : 24,
+    const iconObj = new Icon({
+      size: size === "xsmall" ? 22 : 24,
       color: "adaptive",
-      ...icon
+      ...icon,
     });
-    let spanElement = document.createElement("span");
+    const spanElement = document.createElement("span");
 
-    spanElement.appendChild(iconElement);
+    spanElement.appendChild(iconObj.element);
     spanElement.classList.add(`${sg}__icon`);
 
     element.appendChild(spanElement);
@@ -76,48 +86,43 @@ export default function ({ tag = "button", type, size, icon, disabled, fullWidth
     element.classList.add(`${SGD}disabled`);
   }
 
-  if (fullWidth)
-    element.classList.add(`${SGD}full-width`);
+  if (fullWidth) element.classList.add(`${SGD}full-width`);
 
-  if (href)
-    element.setAttribute("href", href);
+  if (href) element.setAttribute("href", href);
 
-  if (title)
-    element.setAttribute("title", title);
+  if (title) element.setAttribute("title", title);
 
   if (moreClass)
     element.classList.add(...moreClass.replace(/\&/g, SGD).split(" "));
 
   if (typeof text !== "undefined") {
-    let textElement = document.createElement("span");
+    const textElement = document.createElement("span");
     textElement.innerHTML = text;
 
     textElement.classList.add(`${sg}__text`);
     element.appendChild(textElement);
 
-    if (bold)
-      textElement.classList.add(`sg-text--bold`);
+    if (bold) textElement.classList.add(`sg-text--bold`);
   }
 
   if (spaced) {
-    let styles = [];
+    const styles = [];
 
-    if (typeof spaced == "boolean")
-      styles.push(`${SGD}spaced`);
+    if (typeof spaced === "boolean") styles.push(`${SGD}spaced`);
 
-    if (typeof spaced == "object")
-      for (let [corner, sizeName] of Object.entries(spaced)) {
-        if (typeof sizeName == "boolean")
+    if (typeof spaced === "object")
+      Object.entries(spaced).forEach(([corner, sizeName]) => {
+        if (typeof sizeName === "boolean")
           styles.push(`${SGD}spaced-${corner}`);
 
-        if (typeof sizeName == "object") {
-          let sizes = Object.keys(sizeName);
+        if (typeof sizeName === "object") {
+          const sizes = Object.keys(sizeName);
 
           sizes.forEach(size => {
             styles.push(`${SGD}spaced-${corner}-${size}`);
           });
         }
-      }
+      });
 
     element.classList.add(...styles);
   }
@@ -137,9 +142,9 @@ export default function ({ tag = "button", type, size, icon, disabled, fullWidth
   /**
    * @type {JQueryButtonElement}
    */
-  let $element = Identify$(element);
+  const $element = Identify$(element);
 
-  return $element
+  return $element;
 }
 
 /**
@@ -162,11 +167,11 @@ function Identify$(that) {
       Inactive: that.Inactive,
       ChangeType: that.ChangeType,
       ToggleType: that.ToggleType,
-      IsDisabled: that.IsDisabled
+      IsDisabled: that.IsDisabled,
     });
   }
 
-  return button
+  return button;
 }
 
 /**
@@ -174,7 +179,7 @@ function Identify$(that) {
  * @returns {JQueryButtonElement}
  */
 function Disable() {
-  let button = Identify$(this);
+  const button = Identify$(this);
 
   button.prop("disabled", true);
 
@@ -186,7 +191,7 @@ function Disable() {
  * @returns {JQueryButtonElement}
  */
 function Enable() {
-  let button = Identify$(this);
+  const button = Identify$(this);
 
   button.prop("disabled", false);
 
@@ -198,7 +203,7 @@ function Enable() {
  * @returns {JQueryButtonElement}
  */
 function Active() {
-  let button = Identify$(this);
+  const button = Identify$(this);
 
   return button.addClass(`${SGD}active`);
 }
@@ -208,7 +213,7 @@ function Active() {
  * @returns {JQueryButtonElement}
  */
 function Inactive() {
-  let button = Identify$(this);
+  const button = Identify$(this);
 
   return button.removeClass(`${SGD}active`);
 }
@@ -219,7 +224,7 @@ function Inactive() {
  * @returns {JQueryButtonElement}
  */
 function ChangeType(type) {
-  let button = Identify$(this);
+  const button = Identify$(this);
 
   button.removeClass(SGD + button._type);
   button.removeClass(SGD + button.mainType);
@@ -239,7 +244,7 @@ function ChangeType(type) {
  * @returns {JQueryButtonElement}
  */
 function ToggleType(type) {
-  let button = Identify$(this);
+  const button = Identify$(this);
 
   button.toggleClass(SGD + button.mainType).toggleClass(SGD + type);
   button._type = button.hasClass(SGD + type) ? type : button.mainType;
@@ -253,7 +258,7 @@ function ToggleType(type) {
  * @returns {JQueryButtonElement}
  */
 function Hide() {
-  let button = Identify$(this);
+  const button = Identify$(this);
 
   return button.addClass("js-hidden");
 }
@@ -263,7 +268,7 @@ function Hide() {
  * @returns {JQueryButtonElement}
  */
 function Show() {
-  let button = Identify$(this);
+  const button = Identify$(this);
 
   return button.removeClass("js-hidden");
 }
@@ -273,7 +278,7 @@ function Show() {
  * @returns {JQueryButtonElement}
  */
 function IsDisabled() {
-  let button = Identify$(this);
+  const button = Identify$(this);
 
   return button.prop("disabled");
 }

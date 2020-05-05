@@ -236,7 +236,7 @@ class AllUsers {
                               Text({
                                 tag: "span",
                                 size: "xsmall",
-                                html: rangeParser.parse(sampleRange)
+                                html: rangeParser(sampleRange)
                                   .join(
                                     ", ")
                               })
@@ -345,7 +345,7 @@ class AllUsers {
   }
   ParseRangeValue() {
     let value = this.input.value.replace(/\s/g, "");
-    let rangeArr = rangeParser.parse(value);
+    let rangeArr = rangeParser(value);
     let rangeSet = new Set(rangeArr);
     rangeArr = Array.from(rangeSet)
       .filter(x => x > 0);

@@ -3,14 +3,14 @@ import ThemeColorChanger from "../helpers/ThemeColorChanger";
 import Popup from "@/popup/controllers/Popup";
 
 declare global {
-  var popup: Popup;
-  var System: _System;
-  var isPageProcessing: boolean;
-  var coloring: ThemeColorChanger;
-  var myData: { [x: string]: any };
-  var performanceStartTiming: number;
-  var Zadanium: { [x: string]: any };
-  var selectors: { [x: string]: string };
-  var sitePassedParams: string | { [x: string]: any };
-  var profileData: { id: number; nick: string };
+  let popup: Popup;
+  let System: _System;
+  let isPageProcessing: boolean;
+  let coloring: ThemeColorChanger;
+  let myData: { [x: string]: any };
+  let performanceStartTiming: number;
+  let Zadanium: { [x: string]: any };
+  let selectors: { [x: string]: string };
+  let sitePassedParams: string | { [x: string]: any };
+  let profileData: { id: number; nick: string };
 }

@@ -2,11 +2,9 @@ import storage from "../../scripts/helpers/extStorage";
 import notification from "../components/notification";
 import send2AllBrainlyTabs from "../helpers/send2AllBrainlyTabs";
 import Dropdown from "../helpers/Dropdown";
-let System = require("../../scripts/helpers/System");
 
 class OtherOptions {
   constructor(storageData) {
-    System = System();
     this.storageData = storageData;
 
     this.Render();

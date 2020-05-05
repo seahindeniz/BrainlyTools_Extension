@@ -4,9 +4,6 @@ import SendMessageToBrainlyIds from "../../controllers/Req/Brainly/Action/SendMe
 import WaitForElements from "../../helpers/WaitForElements";
 import Button from "../../components/Button";
 
-let System = require("../../helpers/System");
-System = System();
-
 System.pageLoaded("Supervisors page OK!");
 
 Supervisors();

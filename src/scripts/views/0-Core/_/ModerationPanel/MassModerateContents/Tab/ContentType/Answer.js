@@ -1,12 +1,7 @@
 import ContentType from ".";
 
-let System = require("../../../../../../../helpers/System");
-
 export default class Answer extends ContentType {
   constructor(main) {
-    if (typeof System == "function")
-      // @ts-ignore
-      System = System();
 
     let renderDetails = {
       tabButton: {

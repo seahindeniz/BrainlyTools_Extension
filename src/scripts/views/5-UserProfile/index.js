@@ -13,20 +13,52 @@ import RankManager from "./_/RankManager";
 
 System.pageLoaded("User Profile inject OK!");
 
+function MakeProfileMorePanelAlwaysVisible() {
+  const panel = document.querySelector("#profile-mod-panel");
+  const showMoreButton = panel.previousElementSibling;
+
+  if (!panel) return;
+
+  if (!IsVisible(panel, true) && showMoreButton instanceof HTMLSpanElement)
+    showMoreButton.click();
+}
+
+function HideDeleteOptions() {
+  let query =
+    `#DelUserReason, span[id^="DelUserReasonsShort"]:first-child, ` +
+    `input[id^="DelUser"]:not([id$="_"])`;
+
+  if (!System.checkBrainlyP([141, 142]) && !System.checkUserP(36))
+    query += `, form[action^="/admin/users/delete_"]:not([action$="avatar"])`;
+
+  const elements = document.querySelectorAll(query);
+
+  if (elements.length === 0) return;
+
+  elements.forEach(element => {
+    if (element.parentElement)
+      element.parentElement.classList.add("always-hidden");
+  });
+}
+
 export default class UserProfile {
   constructor() {
     this.Init();
   }
+
   async Init() {
     try {
-      let mainRight = await WaitForElements("#main-right");
+      const mainRight = await WaitForElements("#main-right");
+      // eslint-disable-next-line prefer-destructuring
       this.mainRight = mainRight[0];
-      this.profileData = this.GetProfileData();
+
+      this.GetProfileData();
+
       this.promise = {
         profile: new Action().GetUserProfile(this.profileData.id),
         extension: new ServerReq().GetUser(this.profileData),
         moderators: new ServerReq().GetAllModerators(),
-      }
+      };
 
       this.FixInfoBottom();
       this.LoadComponents();
@@ -34,61 +66,65 @@ export default class UserProfile {
       console.error(error);
     }
   }
+
   GetProfileData() {
     /**
      * @type {{id: number, nick: string}}
      */
-    let data = window["profileData"];
+    const data = window.profileData;
 
     if (!data || !data.id || !data.nick)
-      throw "Can't find the profile data of user";
+      throw Error("Can't find the profile data of user");
 
-    return data;
+    this.profileData = data;
   }
-  FixInfoBottom() {
-    let contentOld = document.getElementById("content-old");
-    contentOld.id += "2";
-    let info_bottom = document.querySelector(".info_bottom");
 
-    if (!info_bottom)
-      throw "info_bottom element cannot be found";
+  FixInfoBottom() {
+    const contentOld = document.getElementById("content-old");
+    contentOld.id += "2";
+    const infoBottom = document.querySelector(".info_bottom");
+
+    if (!infoBottom) throw Error("info_bottom element cannot be found");
 
     this.infoBottomList = ActionList({
       direction: "space-between",
     });
 
-    Array.from(info_bottom.children).forEach(children => {
-      let hole = ActionListHole({
+    Array.from(infoBottom.children).forEach(children => {
+      const hole = ActionListHole({
         children,
       });
 
       this.infoBottomList.append(hole);
     });
 
-    info_bottom.after(this.infoBottomList);
-    info_bottom.remove();
+    infoBottom.after(this.infoBottomList);
+    infoBottom.remove();
   }
+
   RenderFriendsManager() {
-    if (window.myData.id == this.profileData.id)
+    if (Number(window.myData.id) === Number(this.profileData.id))
       FriendsManager();
   }
+
   RenderProfileInfoSection() {
     this.infoSection = ContentBox({
       full: true,
     });
 
-    let personal_info = document.body.querySelector(
-      "#main-left > div.personal_info > div.clear"
+    const personalInfo = document.body.querySelector(
+      "#main-left > div.personal_info > div.clear",
     );
 
-    if (personal_info)
-      personal_info.after(this.infoSection);
+    if (personalInfo) personalInfo.after(this.infoSection);
   }
+
   LoadComponents() {
     this.morePanel = new MorePanel(this);
 
-    this.MakeProfileMorePanelAlwaysVisible();
-    this.HideDeleteOptions();
+    MakeProfileMorePanelAlwaysVisible();
+    HideDeleteOptions();
+    // eslint-disable-next-line no-new
     new AccountDeleteReporter();
 
     this.RenderFriendsManager();
@@ -98,40 +134,11 @@ export default class UserProfile {
     this.LoadComponentsAfterModeratorsResolved();
     this.LoadComponentsAfterAllResolved();
   }
-  async MakeProfileMorePanelAlwaysVisible() {
-    let panel = document.querySelector("#profile-mod-panel");
-    let showMoreButton = panel.previousElementSibling;
 
-    if (!panel)
-      return;
-
-    if (!IsVisible(panel) && showMoreButton instanceof HTMLSpanElement)
-      showMoreButton.click();
-  }
-  HideDeleteOptions() {
-    let query =
-      `#DelUserReason, span[id^="DelUserReasonsShort"]:first-child, ` +
-      `input[id^="DelUser"]:not([id$="_"])`;
-
-    if (!System.checkBrainlyP([141, 142]) && !System.checkUserP(36))
-      query +=
-      `, form[action^="/admin/users/delete_"]:not([action$="avatar"])`;
-
-    let elements = document.querySelectorAll(query);
-
-    if (elements.length == 0)
-      return;
-
-    elements.forEach(element => {
-      if (element.parentElement)
-        element.parentElement.classList.add("always-hidden");
-    });
-  }
   async LoadComponentsAfterExtensionResolve() {
-    let resUser = await this.promise.extension;
+    const resUser = await this.promise.extension;
 
-    if (!resUser.success)
-      throw "User can't passed to extension server";
+    if (!resUser.success) throw Error("User can't passed to extension server");
 
     this.extensionUser = resUser.data;
 
@@ -142,6 +149,7 @@ export default class UserProfile {
       this.morePanel.RenderSectionsAfterExtensionResolved();
     }
   }
+
   RenderNoteSection() {
     this.noteSection = UserNoteBox(this.extensionUser);
     this.$noteContainer = $(`
@@ -152,10 +160,13 @@ export default class UserProfile {
     this.$noteContainer.append(this.noteSection);
     this.$noteContainer.prependTo(this.mainRight);
   }
+
   RenderPreviousNicks() {
-    let previousNicks = (this.extensionUser.previousNicks &&
-      this.extensionUser.previousNicks.join(", ")) || " -";
-    let $previousNickBox = $(`
+    const previousNicks =
+      (this.extensionUser.previousNicks &&
+        this.extensionUser.previousNicks.join(", ")) ||
+      " -";
+    const $previousNickBox = $(`
 		<div class="sg-content-box__actions sg-content-box__actions--spaced-top-large">
 			<div class="sg-actions-list sg-actions-list--no-wrap sg-actions-list--to-top sg-content-box__actions--spaced-bottom">
 				<div class="sg-actions-list__hole" title="${System.data.locale.userProfile.previousNicks.title}">
@@ -170,21 +181,29 @@ export default class UserProfile {
 
     $previousNickBox.prependTo(this.infoSection);
   }
-  async LoadComponentsAfterBrainlyResolve() {
-    let res = await this.promise.profile;
 
-    if (!res || !res.success || !res.data)
-      return console.error("Data is not correct: ", res);
+  async LoadComponentsAfterBrainlyResolve() {
+    const res = await this.promise.profile;
+
+    if (!res || !res.success || !res.data) {
+      console.error("Data is not correct: ", res);
+
+      return;
+    }
 
     this.brainlyUser = res.data;
 
     this.RenderUserBio();
+    // eslint-disable-next-line no-new
     new RankManager(res.data);
   }
+
   RenderUserBio() {
-    let userBio = new UserBio(this.brainlyUser.description, window.myData
-      .id == this.profileData.id);
-    let $bioContainer = $(`
+    const userBio = new UserBio(
+      this.brainlyUser.description,
+      Number(window.myData.id) === Number(this.profileData.id),
+    );
+    const $bioContainer = $(`
 		<div class="sg-content-box__actions">
 			<div class="sg-horizontal-separator"></div>
 		</div>`);
@@ -192,16 +211,17 @@ export default class UserProfile {
     userBio.$.prependTo($bioContainer);
     $bioContainer.appendTo(this.infoSection);
   }
+
   async LoadComponentsAfterModeratorsResolved() {
     await this.promise.moderators;
 
     this.morePanel.RenderSectionsAfterModeratorsResolved();
   }
+
   async LoadComponentsAfterAllResolved() {
     await Promise.all([this.promise.extension, this.promise.profile]);
 
     if (this.extensionUser && this.brainlyUser) {
-      this.RenderExtensionUserTag();
       this.morePanel.RenderSectionsAfterAllResolved();
 
       if (this.extensionUser.probatus) {
@@ -209,23 +229,23 @@ export default class UserProfile {
       }
     }
   }
+
   RenderUserHat() {
-    let $img = UserHat(this.brainlyUser.gender);
+    const $img = UserHat(this.brainlyUser.gender);
 
     $img.prependTo("#main-left > div.personal_info");
   }
-  RenderExtensionUserTag() {
-    /* let tag = new UserTag(this.profileData.id, this.extensionUser);
 
-    tag.$.insertAfter("#main-left span.ranking"); */
-  }
   /**
    * @param {HTMLElement} element
    */
+  // eslint-disable-next-line class-methods-use-this
   HideElement(element) {
-    if (element && element.parentElement)
-      element.parentElement.removeChild(element);
+    if (!IsVisible(element)) return;
+
+    element.parentElement.removeChild(element);
   }
 }
 
+// eslint-disable-next-line no-new
 new UserProfile();

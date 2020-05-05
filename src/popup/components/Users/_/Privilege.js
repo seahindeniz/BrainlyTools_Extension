@@ -1,7 +1,6 @@
 /**
  * @typedef {{isLead: boolean, isGroupElement: boolean}} options
  */
-let System = require("../../../../scripts/helpers/System");
 
 export default class Privilege {
   /**
@@ -10,9 +9,6 @@ export default class Privilege {
    * @param {options} options
    */
   constructor(main, key, { isLead, isGroupElement } = {}) {
-    if (typeof System == "function")
-      System = System();
-
     this.main = main;
     this.key = key;
     this.locale = System.data.locale.popup.extensionManagement.users.privilegeList[key];

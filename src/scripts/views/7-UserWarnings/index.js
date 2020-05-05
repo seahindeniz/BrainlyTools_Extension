@@ -3,11 +3,6 @@ import notification from "../../components/notification";
 import Action from "../../controllers/Req/Brainly/Action";
 import WaitForElements from "../../helpers/WaitForElements";
 
-let System = require("../../helpers/System");
-
-if (typeof System == "function")
-  System = System();
-
 System.pageLoaded("User's warnings page OK!");
 
 if (window.sitePassedParams[0] != myData.id) {

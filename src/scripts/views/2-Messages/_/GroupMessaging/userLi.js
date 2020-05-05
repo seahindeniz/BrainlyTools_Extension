@@ -1,9 +1,4 @@
-let System = require("../../../../helpers/System");
-
 export default (user, isGroupMember) => {
-  if (typeof System == "function")
-    System = System();
-
   let $conversation = $(`
 	<li class="sg-list__element js-conversation${isGroupMember ? "" : " new-user"}" data-user-id="${user.id}">
 		<div class="js-conversation-content sg-media sg-media--clickable ">

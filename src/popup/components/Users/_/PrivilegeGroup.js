@@ -1,5 +1,3 @@
-let System = require("../../../../scripts/helpers/System");
-
 import Privilege from "./Privilege";
 
 export default class PrivilegeGroup {
@@ -8,9 +6,6 @@ export default class PrivilegeGroup {
    * @param {0[]} keys
    */
   constructor(main, keys = []) {
-    if (typeof System == "function")
-      System = System();
-
     this.main = main;
     this.keys = keys;
     this.subPrivileges = [];

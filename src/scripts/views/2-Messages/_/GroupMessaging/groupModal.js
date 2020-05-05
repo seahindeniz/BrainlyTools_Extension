@@ -9,13 +9,8 @@ import userLi from "./userLi";
 import userSearch from "./userSearch";
 import Button from "../../../../components/Button";
 
-let System = require("../../../../helpers/System");
-
 class GroupModal {
   constructor(group, groupLi) {
-    if (typeof System == "function")
-      System = System();
-
     this.locale = System.data.locale.messages.groups;
     this.group = group;
     this.groupLi = groupLi;

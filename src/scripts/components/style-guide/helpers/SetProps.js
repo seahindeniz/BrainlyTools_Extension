@@ -10,7 +10,7 @@ export default function SetProps(element: HTMLElement, props?: {}) {
   if (entries.length === 0) return;
 
   entries.forEach(([propName, propVal]) => {
-    if (propVal !== undefined) return;
+    if (propVal === undefined) return;
 
     // $FlowFixMe
     if (typeof propVal === "object") SetProps(element[propName], propVal);

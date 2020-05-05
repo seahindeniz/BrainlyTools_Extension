@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.35.5] - 2020.04.30
+
+### Changed
+
+- Mass-Moderate contents isn't working
+- Quick Action Button covering edit option elements in Indonesia Website [#116]
+- Mass-point changer isn't parsing pasted details [#117]
+- Selective deletion is not working on the search page [#118]
+
+[#116]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/116
+[#117]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/117
+[#118]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/118
+
 ## [6.35.4] - 2020.04.27
 
 ### Changed

@@ -51,7 +51,7 @@
       "operationCompleted": "Opération effectuée",
       "unsavedChanges": "Vous avez des modifications non sauvegardées. Voulez-vous toujours quitter ?",
       "youNeedToSelectAtLeastOne": "Vous devez en sélectionner au moins un",
-      "cannotShareUserInfoWithServer_RefreshPage": "An unexpected error occurred while trying to communicate with extension's server. Could you refresh the page please?"
+      "cannotShareUserInfoWithServer_RefreshPage": "Une erreur inattendue s'est produite lors d'une tentative de communication avec le serveur de l'extension. Pourriez-vous rafraîchir la page s'il vous plaît ?"
     },
     "moderating": {
       "moreOptions": "Plus d'options",
@@ -102,7 +102,9 @@
     "ok": "OK",
     "cancel": "Annuler",
     "optional": "FACULTATIF",
-    "add": "Ajouter"
+    "add": "Ajouter",
+    "chooseAnOption": "Choose an option",
+    "deleteAcross": "Delete across"
   },
   "popup": {
     "notificationMessages": {
@@ -339,6 +341,10 @@
           "34": {
             "title": "Demande de transfert de points",
             "description": "User can use the \"Mark as point transferer\" button to mark a user that uses some point transferring methods to gain points"
+          },
+          "36": {
+            "title": "Masquer les options de suppression de contenu de la page de profil",
+            "description": "Masquer les options utilisées pour supprimer les questions, réponses et commentaires de la page de profil"
           }
         },
         "veryImportant": "Très important"
@@ -370,7 +376,7 @@
         "onModerators": "Sur les modérateurs",
         "onDeletedAccounts": "Sur les comptes supprimés",
         "download": "Télécharger",
-        "play": "Démarrer"
+        "playOrPause": "Démarrer/Pause"
       }
     }
   },
@@ -449,42 +455,60 @@
     },
     "massModerateReportedContents": {
       "text": "Modération de masse des contenus signalés",
-      "addConditionBlock": "Ajouter une section de condition",
-      "selectAFilter": "Sélectionner un filtre",
-      "reportReasonText": "Raison de signalement",
-      "fetchedReports": "Nombre de signalements correspondant à votre requête",
-      "matched": "Résultat : %{number_of_matched_reports}",
-      "regexp": "Expression",
-      "confirmAll": "Tout approuver",
-      "informationText1": "Vous pouvez approuver les contenus signalés depuis le Tout modérer en appliquant des filtres. Vous avez simplement à sélectionner et ajouter les conditions relatives aux contenus et cliquer sur démarrer et ne pas fermer cet onglet",
-      "informationText2": "Vous pouvez appliquer des conditions communes ou appliquer des conditions spécifiques",
-      "informationText3": "Mais ajouter toutes les conditions ne vous donnera aucun résultat.",
-      "informationText4": "Une fois que vous avez défini les conditions, merci de regarder les résultats avant de confirmer",
-      "commonConditions": {
-        "text": "Conditions communes",
-        "title": "Les conditions que vous ajouterez dans cette section seront appliquées en plus des conditions annexes"
+      "informationText": [
+        "Vous pouvez confirmer les contenus signalés à partir de Tout Modérer par un filtrage. Il vous suffit de sélectionner et d'ajouter des conditions liées au contenu et de cliquer sur démarrer et de garder cet onglet ouvert, c'est tout.",
+        "Vous pouvez utiliser la section des conditions communes pour appliquer des conditions spécifiques à toutes les conditions uniques.",
+        "Mais l'ajout de toutes les conditions à la section commune, ne correspondra à aucun rapport. Vous devez utiliser les conditions uniques pour les faire correspondre."
+      ],
+      "notificationMessages": {
+        "cantFetchDetailsFromExtensionServer": "Il y a un problème avec le serveur de l'extension lors de la recherche de détails sur le \"Tout modérer\"",
+        "noModeratableContentLeft": "There is no moderatable content remain"
       },
-      "profileId": {
-        "REPORTER": "ID de la personne ayant signalé",
-        "REPORTEE": "ID de la personne ayant été signalée"
-      },
-      "conditionN": {
-        "text": "%{amount_of_conditions} groupes de conditions",
-        "title": "La condition unique sera limité par les autres conditions uniques"
-      },
-      "filters": {
-        "byContentType": "par type de contenu",
-        "byReporter": {
-          "text": "par utilisateur ayant signalé",
-          "title": "Rapporteur signifie la personne qui a signalée la question ou réponse"
+      "addModerator": "Ajout d'une section pour les modérateurs",
+      "moderatorN": "Modérateur %{n}",
+      "filter": {
+        "ContentType": {
+          "text": "Type de contenu"
         },
-        "byReportee": {
-          "text": "par utilisateur ayant été sigalé",
-          "title": "Signalé signifie l'auteur de la question ou réponse"
+        "Reporter": {
+          "text": "Utilisateur signalé",
+          "title": "L'utilisateur qui a signalé le contenu"
         },
-        "byDateRange": "par date",
-        "byReportReason": "par raison (message)"
-      }
+        "Reported": {
+          "text": "Utilisateur signalé",
+          "title": "L'utilisateur dont le contenu est signalé"
+        },
+        "DateRange": {
+          "text": "Date du signalement",
+          "title": "Trouver le contenu signalé entre deux dates"
+        },
+        "Subject": {
+          "text": "Subject",
+          "title": "Find reports by subjects"
+        }
+      },
+      "filteredReports": "Signalement filtrés",
+      "userId": "Identifiant de l'utilisateur",
+      "moderateActions": {
+        "Confirm": {
+          "text": "Confirmer",
+          "confirmModeration": "Voulez-vous vraiment confirmer %{n} contenus signalés ?"
+        },
+        "Delete": {
+          "text": "Supprimer",
+          "choose": {
+            "Question": "Supprimer le motif des questions",
+            "Answer": "Supprimer le motif des réponses"
+          },
+          "confirmDeletion": "Voulez-vous vraiment supprimer %{n} contenus signalés ?"
+        }
+      },
+      "exportToSpreadsheet": "Exporter les signalements sous la forme d'un tableur (%{format_fichier})",
+      "failedToModerate": "Failed to moderate",
+      "findReports": "Find reports",
+      "moderatedReports": "Moderated reports",
+      "totalReportedContents": "Total reported contents",
+      "collectedReports": "Collected reports"
     },
     "noticeBoard": {
       "text": "Tableau d'information",
@@ -680,7 +704,8 @@
       "confirmNoEvidenceOrComment": "Vous n'avez ajouter aucune preuve ou commentaire. \nVoulez-vous toujours supprimer ce compte ?",
       "afterSavingCompletedIgnoreNotifications": "Une fois la sauvegarde effectuée, <br> ignorez les notifications quand vous rechargez ou quittez la page",
       "selectAtLeastOneUser": "Tu dois sélectionner au moins un utilisateur",
-      "youNeedToProvideSomeDetails": "You need to provide some details"
+      "youNeedToProvideSomeDetails": "Vous devez fournir quelques détails",
+      "confirmAccountDeletion": "Voulez-vous supprimer ce profil ?"
     },
     "previousNicks": {
       "text": "Pseudo précédent",
@@ -706,11 +731,11 @@
       "evidences": "Preuves",
       "willBeReviewedByCommunityManager": "sera vu par votre community manager",
       "addFiles": "Ajouter des fichiers",
-      "yourComment": "Votre commentaire",
       "compressingTheFile": "Compression de %{file_name}",
       "compressingTheFiles": "Compression des fichiers",
       "uploading": "Contenu ajouté %{percentage_value}",
-      "deletingContinues": "Poursuite des suppressions"
+      "deletingContinues": "Poursuite des suppressions",
+      "reasonForDeletion": "Aucune raison de suppression ?"
     },
     "rankManager": {
       "title": "Gérer les rangs spéciaux",
@@ -728,12 +753,12 @@
         "title": "Gérer les privilèges de l'extension"
       },
       "reportUser": {
-        "report": "Report this user",
-        "whatIsTheReason": "What is the reason?",
+        "report": "Signaler cet utilisateur",
+        "whatIsTheReason": "Quelle en est la raison ?",
         "reasons": {
-          "pointTransferer": "Point transferer",
-          "spammer": "Spammer",
-          "other": "Other"
+          "pointTransferer": "Transfert de points",
+          "spammer": "Spammeur",
+          "other": "Autre"
         }
       }
     }
@@ -774,7 +799,7 @@
       "text": "Approuver tous les contenus corrigés"
     },
     "notificationMessage": {
-      "questionRemovedPanelClosing": "Question has been removed. Panel will close in few seconds"
+      "questionRemovedPanelClosing": "La question a été supprimée. Le panneau se fermera dans quelques secondes"
     }
   },
   "moderatorActionHistory": {

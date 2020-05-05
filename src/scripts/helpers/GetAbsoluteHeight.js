@@ -1,16 +1,18 @@
 /**
- * @param {HTMLElement | keyof HTMLElementTagNameMap} element
+ * @param {HTMLElement | keyof HTMLElementTagNameMap} _element
  */
-export default function GetAbsoluteHeight(element) {
-  if (!element)
-    return 0;
+export default function GetAbsoluteHeight(_element) {
+  if (!_element) return 0;
 
-  if (typeof element === "string")
-    element = document.querySelector(element);
+  let element = _element;
 
-  var styles = window.getComputedStyle(element);
-  var margin = parseFloat(styles['marginTop']) +
-    parseFloat(styles['marginBottom']);
+  if (typeof element === "string") element = document.querySelector(element);
 
-  return Math.ceil(element.offsetHeight + margin);
+  const styles = window.getComputedStyle(element);
+  // const margin = parseFloat(styles.marginTop) + parseFloat(styles.marginBottom);
+  const margin =
+    Number(styles.marginTop.slice(0, -2)) +
+    Number(styles.marginBottom.slice(0, -2));
+
+  return element.offsetHeight + margin;
 }

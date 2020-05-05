@@ -102,7 +102,9 @@
     "ok": "Tamam",
     "cancel": "İptal",
     "optional": "İSTEĞE BAĞLI",
-    "add": "Ekle"
+    "add": "Ekle",
+    "chooseAnOption": "Bir seçenek seçin",
+    "deleteAcross": "Sayfalar arası sil"
   },
   "popup": {
     "notificationMessages": {
@@ -339,6 +341,10 @@
           "34": {
             "title": "Point transferer req.",
             "description": "User can use the \"Mark as point transferer\" button to mark a user that uses some point transferring methods to gain points"
+          },
+          "36": {
+            "title": "Profil sayfasındaki içerik silme seçenekleri",
+            "description": "Moderatörün, bir kullanıcının profil sayfasındaki tüm soruları, cevapları ve yorumları silmek için kullanılan bağlantıları görmesine izin ver"
           }
         },
         "veryImportant": "Çok önemli"
@@ -370,7 +376,7 @@
         "onModerators": "Sadece moderatörlerde",
         "onDeletedAccounts": "Silinmiş kullanıcılarda",
         "download": "İndir",
-        "play": "Oynat"
+        "playOrPause": "Oynat/Duraklat"
       }
     }
   },
@@ -449,42 +455,60 @@
     },
     "massModerateReportedContents": {
       "text": "Şikayet edilmiş içerik düzenleyici",
-      "addConditionBlock": "Koşul bloğu ekle",
-      "selectAFilter": "Filtre seç",
-      "reportReasonText": "Şikayet sebebi",
-      "fetchedReports": "Tümünü düzelt'ten çekilen şikayet edilmiş içerik sayısı",
-      "matched": "%{number_of_matched_reports} eşleşme",
-      "regexp": "Koşullu ifade",
-      "confirmAll": "Tümünü onayla",
-      "informationText1": "Tümünü düzelt'ten şikayet edilmiş içerikeri filtreleyerek onaylayabilirsin. Yapman gereken sadece içeriklerle alakalı koşulları seçmek ve başlata basmak ve işlem sırasında sekmeyi kapatmamak.",
-      "informationText2": "Ortak koşullar bölümünü kullanarak benzersiz koşullarla beraber kullanmak üzere koşul tanımlayabilirsin",
-      "informationText3": "Fakat koşulların tamamını ortak koşullar bloğuna eklersen, hiç bir şikayetle eşleşmeyecektir. Eşleşme yapabilmek için benzersiz koşul bloğu kullanmalısın.",
-      "informationText4": "Koşulları seçtikten sonra lütfen eşleşen şikayet raporlarını kontrol et ve onaylamadan önce doğru olduğundan emin ol",
-      "commonConditions": {
-        "text": "Ortak koşullar",
-        "title": "Bu bölüme ekleyeceğin koşullar, diğer tüm koşullara ortak olarak atanacaktır"
+      "informationText": [
+        "İçerikleri düzenleyebilmek için panelin, şikayet edilen tüm içeriklerin bulunduğu tüm sayfaları, Tümünü düzeltten çekmesi gerekiyor ve bu işlem biraz zaman alabilir.",
+        "Şikayet edilen içerikleri, Tümünü düzeltin yapısı gereği bir anda da toplayamaz",
+        "Panel içerikleri toplarken, aynı zamanda diğer moderatörler şikayet edilen içerikleri Tümünü düzeltten normal bir şekilde düzeltebilirler ve bu durum, \"%{addModerator}\" butonu altındaki sayıları da etkileyebilir."
+      ],
+      "notificationMessages": {
+        "cantFetchDetailsFromExtensionServer": "Eklenti sunucusundan Tümünü düzelt ile ilgili detayları almaya çalışırken bir hata oluştu",
+        "noModeratableContentLeft": "Düzenlenebilir içerik kalmadı"
       },
-      "profileId": {
-        "REPORTER": "Şikayet edenin id'si",
-        "REPORTEE": "Şikayet edilenin id'si"
-      },
-      "conditionN": {
-        "text": "Koşul grubu %{amount_of_conditions}",
-        "title": "Bu benzersiz koşul bölümü, diğer benzersiz koşullardan bağımsızdır"
-      },
-      "filters": {
-        "byContentType": "içerik tipine göre",
-        "byReporter": {
-          "text": "şikayet edene göre",
-          "title": "Şikayet eden; soruyu veya cevabı şikayet etmiş kişi anlamına gelir"
+      "addModerator": "Moderasyon alanı ekle",
+      "moderatorN": "Moderatör %{n}",
+      "filter": {
+        "ContentType": {
+          "text": "İçerik tipi"
         },
-        "byReportee": {
-          "text": "şikayet edilene göre",
-          "title": "Şikayet edilen; sorusu veya cevabı şikayet edilmiş kişi anlamına gelir"
+        "Reporter": {
+          "text": "Şikayet eden",
+          "title": "İçeriği şikayet eden kullanıcı"
         },
-        "byDateRange": "tarih aralığına göre",
-        "byReportReason": "şikayet sebebine(mesajına) göre"
-      }
+        "Reported": {
+          "text": "Şikayet edilen",
+          "title": "İçeriği şikayet edilmiş kullanıcı"
+        },
+        "DateRange": {
+          "text": "Şikayet tarihi",
+          "title": "İki tarih arasında şikayet edilen içerikleri bul"
+        },
+        "Subject": {
+          "text": "Konu",
+          "title": "Konu tipine göre şikayetleri bul"
+        }
+      },
+      "filteredReports": "Filtrelenen şikayet",
+      "userId": "Kullanıcı Id'si",
+      "moderateActions": {
+        "Confirm": {
+          "text": "Onayla",
+          "confirmModeration": "Şikayet edilen %{n} içeriği gerçekten onaylamak istiyor musun?"
+        },
+        "Delete": {
+          "text": "Sil",
+          "choose": {
+            "Question": "Sorular için silim sebebi",
+            "Answer": "Cevaplar için silim sebebi"
+          },
+          "confirmDeletion": "Şikayet edilen %{n} içeriği gerçekten silmek istiyor musun?"
+        }
+      },
+      "exportToSpreadsheet": "Şikayetleri e-tablo olarak dışa aktar (%{file_format})",
+      "failedToModerate": "Düzenlenemedi",
+      "findReports": "İçerikleri bul",
+      "moderatedReports": "Düzenlenen içerik",
+      "totalReportedContents": "Toplam şikayet",
+      "collectedReports": "Çekilen içerik"
     },
     "noticeBoard": {
       "text": "Duyuru panosu",
@@ -624,7 +648,7 @@
       "userCategories": {
         "findUsers": {
           "text": "Kullanıcı bul",
-          "nickOrID": "Nick veya Profil Id'si"
+          "nickOrID": "Nick veya profil id'si"
         },
         "friendsList": "Arkadaşların",
         "moderatorRanks": {
@@ -675,12 +699,13 @@
       "youHaveNoFriends": "Üzülme çünkü listeleyebileceğim bir arkadaşın yok :/ Sorry",
       "cannotChangeBio": "Üzgünüm, bio metnini değiştiremedim :/",
       "fileSizeExceeded": "%{file_name}dosyası %{file_size}olan dosya limitini aşıyor",
-      "aShortcutFile": "Bir dosyanın kısayolunu yüklemeye çalışıyorsun ve bu dosya eklemek istediğin dosya olmayabilir. Eklersende bir anlamı olmayacaktır.\nKısayolun hedefi olan orjinal dosyayı eklemeni öneririm.\nYine de bu kısayol dosyasını eklemek istiyor musun?",
+      "aShortcutFile": "Bir dosyanın kısayolunu yüklemeye çalışıyorsun ve bu dosya eklemek istediğin dosya olmayabilir. Eklesen de bir anlamı olmayacak.\nKısayolun hedeflendiği orjinal dosyayı eklemeni öneririm.\nBu kısayol dosyasını yine de eklemek istiyor musun?",
       "unableToReportAccountDeleting": "Hesap silimini Topluluk Yöneticisine bildiremediğim için silim işlemine devam edemiyorum. Üzgünüm :/<br>Eğer bu hata devam ederse, eklenti yöneticine bildir lütfen",
       "confirmNoEvidenceOrComment": "Kanıt veya yorum eklemedin.\nHalen silmek istiyor musun?",
       "afterSavingCompletedIgnoreNotifications": "Sıralamalar kaydedildikten sonra,<br>bu sayfadan çıktığında veya yenilediğinde karşılacağın bildirimleri, göz ardı edebilirsin",
       "selectAtLeastOneUser": "En az bir kullanıcı seçmelisin",
-      "youNeedToProvideSomeDetails": "Biraz daha detay ekleyebilir misin?"
+      "youNeedToProvideSomeDetails": "Biraz daha detay ekleyebilir misin?",
+      "confirmAccountDeletion": "Bu hesabı silmek istiyor musunuz?"
     },
     "previousNicks": {
       "text": "Önceki kullanıcı adları",
@@ -706,11 +731,11 @@
       "evidences": "Kanıtlar",
       "willBeReviewedByCommunityManager": "Topluluk Yöneticisi'ne iletilecek",
       "addFiles": "Dosya ekle",
-      "yourComment": "Yorumun",
       "compressingTheFile": "%{file_name} sıkıştırılıyor",
       "compressingTheFiles": "Dosyalar sıkıştırılıyor",
       "uploading": "İçerikler yükleniyor %{percentage_value}",
-      "deletingContinues": "Devam ediyor.."
+      "deletingContinues": "Devam ediyor..",
+      "reasonForDeletion": "Belirtmek istediğin bir sebep var mı?"
     },
     "rankManager": {
       "title": "Özel sıralamaları yönet",

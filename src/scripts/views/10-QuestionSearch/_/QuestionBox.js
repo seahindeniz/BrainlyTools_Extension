@@ -7,7 +7,7 @@ import {
   ContentBoxTitle,
   LabelDeprecated,
   Spinner,
-  SpinnerContainer
+  SpinnerContainer,
 } from "@style-guide";
 import Action from "../../../controllers/Req/Brainly/Action";
 import Build from "../../../helpers/Build";
@@ -35,11 +35,13 @@ class QuestionBox {
       this.BindHandlers();
     }
   }
+
   async GetQuestion() {
     this.question = await new Action().GetQuestion(this.id);
 
-    this.user = this.question.users_data.find(usr => usr.id == this.question
-      .data.task.user_id);
+    this.user = this.question.users_data.find(
+      usr => usr.id == this.question.data.task.user_id,
+    );
 
     this.RenderQuestionOwner();
 
@@ -49,23 +51,26 @@ class QuestionBox {
         questionId: this.id,
       });
   }
+
   RenderQuestionOwner() {
     this.PrepareAvatarHole();
     this.PrepareAvatarContentBox();
     this.RenderAttachments();
   }
+
   PrepareAvatarHole() {
     this.$questionLink = $("> .sg-content-box__content > a", this.$);
-    let $actionList = $("> .sg-actions-list", this.$questionLink);
+    const $actionList = $("> .sg-actions-list", this.$questionLink);
     this.$avatarHole = $("> .sg-actions-list__hole:eq(0)", $actionList);
 
-    if (this.$avatarHole.length == 0)
-      this.CreateAvatarHole();
+    if (this.$avatarHole.length == 0) this.CreateAvatarHole();
     else {
-      let $contentTextHole = $("> .sg-actions-list__hole:eq(1)", $actionList);
-      let $itemContent = $(`> [data-test="search-item-content"]`,
-        $contentTextHole);
-      let $contentText = $(`> div`, $itemContent);
+      const $contentTextHole = $("> .sg-actions-list__hole:eq(1)", $actionList);
+      const $itemContent = $(
+        `> [data-test="search-item-content"]`,
+        $contentTextHole,
+      );
+      const $contentText = $(`> div`, $itemContent);
 
       $contentText.appendTo(this.$questionLink);
       $actionList.appendTo($("> .sg-content-box__content", this.$));
@@ -73,27 +78,31 @@ class QuestionBox {
       $itemContent.remove();
     }
   }
+
   CreateAvatarHole() {
-    let $contentBox = $(`> .sg-content-box__content`, this.$questionLink);
-    let $contentText = $(`> [data-test="search-item-content-text"]`,
-      $contentBox);
-    let $actionList = $(`
+    const $contentBox = $(`> .sg-content-box__content`, this.$questionLink);
+    const $contentText = $(
+      `> [data-test="search-item-content-text"]`,
+      $contentBox,
+    );
+    const $actionList = $(`
     <div class="sg-actions-list sg-actions-list--to-top sg-actions-list--no-wrap">
       <div class="sg-actions-list__hole"></div>
       <div class="sg-actions-list__hole"></div>
     </div>`);
 
     this.$avatarHole = $(".sg-actions-list__hole:eq(0)", $actionList);
-    let $contentTextHole = $(".sg-actions-list__hole:eq(1)", $actionList);
+    const $contentTextHole = $(".sg-actions-list__hole:eq(1)", $actionList);
 
     $contentText.appendTo(this.$questionLink);
     this.$questionLink.appendTo($contentTextHole);
     $actionList.appendTo($("> .sg-content-box__content", this.$));
     $contentBox.remove();
   }
+
   PrepareAvatarContentBox() {
-    let avatarURL = System.ExtractAvatarURL(this.user);
-    let profileLink = System.createProfileLink(this.user);
+    const avatarURL = System.ExtractAvatarURL(this.user);
+    const profileLink = System.createProfileLink(this.user);
     this.iconContentBox = Build(ContentBox(), [
       [
         ContentBoxTitle(),
@@ -101,11 +110,11 @@ class QuestionBox {
           spaced: true,
           link: profileLink,
           imgSrc: avatarURL,
-        })
-      ]
+        }),
+      ],
     ]);
 
-    let $icon = $("> *", this.$avatarHole);
+    const $icon = $("> *", this.$avatarHole);
 
     if ($icon.length > 0) {
       this.approvedIconContainer = ContentBoxContent();
@@ -117,10 +126,11 @@ class QuestionBox {
 
     this.$avatarHole.append(this.iconContentBox);
   }
+
   RenderAttachments() {
     if (this.question.data.task.attachments.length > 0) {
-      let questionLink = this.$questionLink.attr("href");
-      let $attachmentContainer = $(`
+      const questionLink = this.$questionLink.attr("href");
+      const $attachmentContainer = $(`
       <div class="sg-content-box__content sg-content-box__content--spaced-top">
         <a data-test="feed-item-link" href="${questionLink}" class="sg-text sg-text--link-unstyled sg-text--bold">
           <div class="sg-box sg-box--gray-secondary-lightest sg-box--no-border sg-box--full sg-box--xxsmall-padding sg-box--no-min-height">
@@ -143,46 +153,56 @@ class QuestionBox {
       $attachmentContainer.appendTo(this.iconContentBox);
     }
   }
+
   RenderSelectBox() {
     this.checkBoxContainer = Checkbox();
     this.checkBox = this.checkBoxContainer.querySelector("input");
     this.checkBoxContainerHole = Build(ActionListHole(), [
       [
-        this.spinnerContainer = SpinnerContainer(),
+        (this.spinnerContainer = SpinnerContainer()),
         LabelDeprecated({
           icon: this.checkBoxContainer,
           htmlFor: this.checkBoxContainer.inputId,
           html: System.data.locale.common.select,
-        })
-      ]
+        }),
+      ],
     ]);
   }
+
   ShowSelectBox() {
     if (System.checkUserP([14, 26])) {
-      let $seeAnswerLinkContainer = $(
-        ".sg-content-box__actions > .sg-actions-list", this.$);
+      const $seeAnswerLinkContainer = $(
+        ".sg-content-box__actions > .sg-actions-list",
+        this.$,
+      );
 
       $seeAnswerLinkContainer.prepend(this.checkBoxContainerHole);
     }
   }
+
   RenderSpinner() {
     this.spinner = Spinner({
       overlay: true,
       size: "small",
-    })
+    });
   }
+
   BindHandlers() {
     this.checkBox.addEventListener("change", this.CheckBoxChanged.bind(this));
   }
+
   CheckBoxChanged() {
     this.main.moderateSection.UpdateDeleteButtonsNumber();
   }
+
   ShowSpinner() {
     this.spinnerContainer.append(this.spinner);
   }
+
   HideSpinner() {
     this.spinnerContainer.removeChild(this.spinner);
   }
+
   ShowQuickDeleteButtons() {
     if (System.checkUserP(1)) {
       this.quickDeleteButtons.target = this.$;
@@ -190,16 +210,18 @@ class QuestionBox {
       this.quickDeleteButtons.ShowContainer();
     }
   }
+
   CheckIsDeleted() {
-    if (this.deleted)
-      this.Deleted();
+    if (this.deleted) this.Deleted();
   }
+
   Deleted() {
     this.$.addClass("deleted");
   }
+
   DisableCheckbox() {
     this.checkBox.disabled = true;
   }
 }
 
-export default QuestionBox
+export default QuestionBox;

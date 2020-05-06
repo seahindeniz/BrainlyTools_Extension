@@ -146,8 +146,6 @@ export default class AccountDeleteReporter {
       "click",
       this.fileInput.click.bind(this.fileInput),
     );
-    /* this.deleteForm
-      .addEventListener("submit", this.DeleteFormSubmitted.bind(this)); */
     this.deleteButton.element.addEventListener(
       "click",
       this.SubmitDeleteForm.bind(this),
@@ -201,6 +199,7 @@ export default class AccountDeleteReporter {
   /**
    * @param {HTMLElement} element
    */
+  // eslint-disable-next-line class-methods-use-this
   HideElement(element) {
     if (!element || !element.parentNode) return;
 
@@ -269,7 +268,7 @@ export default class AccountDeleteReporter {
       const resAccountDeleteReport = await this.SendFormDataToExtensionServer();
 
       if (!resAccountDeleteReport || !resAccountDeleteReport.success) {
-        return notification({
+        notification({
           html:
             System.data.locale.userProfile.notificationMessages
               .unableToReportAccountDeleting +
@@ -278,6 +277,8 @@ export default class AccountDeleteReporter {
               : ""),
           type: "error",
         });
+
+        return;
       }
 
       this.progress.ChangeType("success");
@@ -315,17 +316,19 @@ export default class AccountDeleteReporter {
       this.HideAttachmentGrabber();
     }
 
-    if (!files || files.length == 0) return;
+    if (!files || files.length === 0) return;
 
-    for (let i = 0, file; (file = files[i]); i++) this.ProcessFile(file);
+    Array.from(files).forEach(this.ProcessFile.bind(this));
+
+    this.fileInput.value = "";
   }
 
   /**
    * @param {File} file
    */
   ProcessFile(file) {
-    if (file.size > System.constants.config.MAX_FILE_SIZE_OF_EVIDENCE)
-      return notification({
+    if (file.size > System.constants.config.MAX_FILE_SIZE_OF_EVIDENCE) {
+      notification({
         html: System.data.locale.userProfile.notificationMessages.fileSizeExceeded
           .replace("%{file_name}", file.name)
           .replace(
@@ -334,6 +337,9 @@ export default class AccountDeleteReporter {
           ),
       });
 
+      return;
+    }
+
     const fileExtension = file.name.split(".").pop();
     const isShortcut = /lnk|url|xnk/.test(fileExtension);
 
@@ -341,6 +347,22 @@ export default class AccountDeleteReporter {
       isShortcut &&
       !confirm(
         System.data.locale.userProfile.notificationMessages.aShortcutFile,
+      )
+    )
+      return;
+
+    if (
+      this.evidences.find(
+        evidence =>
+          evidence.file.name === file.name &&
+          evidence.file.size === file.size &&
+          evidence.file.lastModified === file.lastModified,
+      ) &&
+      !confirm(
+        System.data.locale.userProfile.accountDelete.fileAlreadySelected.replace(
+          "%{file_name}",
+          `"${file.name}"`,
+        ),
       )
     )
       return;
@@ -394,7 +416,7 @@ export default class AccountDeleteReporter {
   async PrepareFile() {
     let fileDetails;
 
-    if (this.evidences.length == 1) {
+    if (this.evidences.length === 1) {
       const { file } = this.evidences[0];
       fileDetails = {
         file,

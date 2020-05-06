@@ -1,9 +1,10 @@
-import Build from "@/scripts/helpers/Build";
-import { Flex, ButtonRound, Text, Avatar, Icon } from "@style-guide";
+// @ts-check
+
 import CreateElement from "@/scripts/components/CreateElement";
-import FileIcon from "@/scripts/helpers/FileIcon";
-import prettysize from "prettysize";
+import Build from "@/scripts/helpers/Build";
 import IsVisible from "@/scripts/helpers/IsVisible";
+import { ButtonRound, Flex, Icon, Text } from "@style-guide";
+import prettysize from "prettysize";
 
 const REVIEWABLE_ICON_NAMES = ["video", "audio", "image"];
 const ICON_NAMES = ["file", "pdf", ...REVIEWABLE_ICON_NAMES];
@@ -17,14 +18,48 @@ export default class Evidence {
     this.main = main;
     this.file = file;
     this.id = `${Date.now()}_${System.randomNumber(0, 9999)}`;
+    this.source = "";
 
     this.fileType = this.file.type.split("/").shift();
 
     this.RenderPreviewContainer();
     this.RenderFileIcon();
-    this.ReadFile();
     this.Render();
+    this.ReadFile();
     this.BindListener();
+  }
+
+  RenderPreviewContainer() {
+    /**
+     * @type {import("@/scripts/components/CreateElement")
+     * .CreateElementPropertiesType}
+     */
+    let data;
+
+    if (this.fileType === "image") {
+      data = {
+        tag: "img",
+        className: "sg-avatar__image",
+      };
+    } else if (this.fileType === "video" || this.fileType === "audio") {
+      data = {
+        tag: "video",
+        muted: true,
+        controls: true,
+        className: "sg-avatar__image",
+        title:
+          System.data.locale.popup.extensionManagement.accountDeleteReports
+            .playOrPause,
+      };
+
+      if (this.fileType === "audio") data.poster = this.iconSvg;
+    }
+
+    if (!data) return;
+
+    this.previewContainer = Flex({
+      children: (this.previewElement = CreateElement(data)),
+    });
   }
 
   RenderFileIcon() {
@@ -39,55 +74,6 @@ export default class Evidence {
       src: this.iconSvg,
       className: "sg-avatar__image",
     });
-  }
-
-  ReadFile() {
-    const reader = new FileReader();
-
-    // reader.onprogress = this.ReaderOnProgress.bind(this);
-    reader.onload = event => this.FileRead(event.target.result);
-
-    reader.readAsDataURL(this.file);
-  }
-
-  /**
-   * @param {string | ArrayBuffer} source
-   */
-  FileRead(source) {
-    if (source instanceof ArrayBuffer) return;
-
-    /**
-     * @type {import("@/scripts/components/CreateElement")
-     * .CreateElementPropertiesType}
-     */
-    let data;
-
-    if (this.fileType == "image") {
-      this.iconImg.src = source;
-      data = {
-        tag: "img",
-        src: source,
-        className: "sg-avatar__image",
-      };
-    } else if (this.fileType == "video" || this.fileType == "audio") {
-      data = {
-        tag: "video",
-        src: source,
-        muted: true,
-        controls: true,
-        className: "sg-avatar__image",
-        title:
-          System.data.locale.popup.extensionManagement.accountDeleteReports
-            .playOrPause,
-      };
-
-      if (this.fileType == "audio") data.poster = this.iconSvg;
-    }
-
-    if (!data) return;
-
-    this.previewElement = CreateElement(data);
-    this.previewContainer.append(this.previewElement);
   }
 
   Render() {
@@ -167,8 +153,13 @@ export default class Evidence {
     );
   }
 
-  RenderPreviewContainer() {
-    this.previewContainer = Flex();
+  ReadFile() {
+    const reader = new FileReader();
+
+    // reader.onprogress = this.ReaderOnProgress.bind(this);
+    reader.onload = event => this.FileLoaded(event.target.result);
+
+    reader.readAsDataURL(this.file);
   }
 
   BindListener() {
@@ -180,6 +171,15 @@ export default class Evidence {
     }
   }
 
+  FileLoaded(source) {
+    if (source instanceof ArrayBuffer) return;
+
+    this.source = source;
+
+    if (IsVisible(this.thumbnailContainer)) this.ShowThumbnail();
+    else this.ShowPreview();
+  }
+
   Remove() {
     const index = this.main.evidences.indexOf(this);
 
@@ -189,25 +189,44 @@ export default class Evidence {
 
   TogglePreview() {
     if (IsVisible(this.thumbnailContainer)) {
-      this.main.HideElement(this.thumbnailContainer);
       this.ShowPreview();
-    } else {
-      this.container.firstElementChild.append(this.thumbnailContainer);
-      this.HidePreview();
+      this.HideThumbnail();
+
+      return;
     }
+
+    this.ShowThumbnail();
+    this.HidePreview();
   }
 
   ShowPreview() {
     this.container.append(this.previewContainer);
+
+    this.previewElement.src = this.source;
 
     if (this.previewElement instanceof HTMLVideoElement)
       this.previewElement.play();
   }
 
   HidePreview() {
-    this.main.HideElement(this.previewContainer);
-
     if (this.previewElement instanceof HTMLVideoElement)
       this.previewElement.pause();
+
+    this.previewElement.src = "";
+
+    this.main.HideElement(this.previewContainer);
+  }
+
+  ShowThumbnail() {
+    if (this.fileType === "image") this.iconImg.src = this.source;
+    else this.iconImg.src = this.iconSvg;
+
+    this.container.firstElementChild.append(this.thumbnailContainer);
+  }
+
+  HideThumbnail() {
+    this.main.HideElement(this.thumbnailContainer);
+
+    this.iconImg.src = "";
   }
 }

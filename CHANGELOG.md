@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.35.7] - 2020.05.06
+
+### Changed
+
+- Toplu silim bölümündeki seçeneklerde hata. [#119]
+- Ödev içeriğinde soru silinmiyor. [#120]
+- Mass moderate reported contents cannot filter contents [#121]
+
+[#119]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/119
+[#120]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/120
+[#121]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/121
+
 ## [6.35.6] - 2020.05.05
 
 ### Changed

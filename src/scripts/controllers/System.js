@@ -40,10 +40,6 @@ class _System {
       MAX_FILE_SIZE_OF_EVIDENCE: number,
       MAX_FILE_SIZE_OF_EVIDENCE_IN_MB: number,
       RAINBOW_COLORS: string,
-      availableLanguages: {
-        key: string,
-        title: string,
-      }[],
       idExtractRegex: RegExp,
       pinIcon: string,
       reasonSign: string,
@@ -86,7 +82,19 @@ class _System {
       } & browser._manifest.WebExtensionManifest,
       storageKey: string,
     },
-    config: {},
+    config: {
+      extension: {
+        serverAPIURL: string,
+        serverURL: string,
+        shortenedLinkURL: string,
+        uploadedFilesURL: string,
+        languages: {
+          langName: string,
+          progress: number,
+        }[],
+      },
+      ...
+    },
   };
 
   routeMasks: {
@@ -132,24 +140,6 @@ class _System {
         MAX_FILE_SIZE_OF_EVIDENCE_IN_MB: 22,
         MAX_FILE_SIZE_OF_EVIDENCE: 22 * 1024 * 1024,
         RAINBOW_COLORS: "#F15A5A,#F0C419,#4EBA6F,#2D95BF,#955BA5",
-        availableLanguages: [
-          {
-            key: "en_US",
-            title: "English",
-          },
-          {
-            key: "id",
-            title: `Bahasa Indonesia <span class="is-pulled-right">Zuhh</span>`,
-          },
-          {
-            key: "fr",
-            title: `Français <span class="is-pulled-right">MichaelS, Its1tom</span>`,
-          },
-          {
-            key: "tr",
-            title: "Türkçe",
-          },
-        ],
         pinIcon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" class="sg-icon sg-icon--gray sg-icon--x{size}"><path d="M18.266 4.3l-9.192 9.192 5.237 5.237c.357-1.2.484-2.486.28-3.68l5.657-5.657c.86.01 1.8-.2 2.638-.473L18.266 4.3z" fill="#c0392b"></path><path d="M9.074 13.483L3.417 19.14 2.7 21.26l7.07-7.07-.707-.707z" fill="#bdc3c7"></path><path d="M9.78 14.2L2.7 21.26l2.12-.707 5.657-5.657-.707-.707z" fill="#7f8c8d"></path><path d="M15.062 1.086c-.282.85-.484 1.778-.473 2.638L8.932 9.38c-1.195-.205-2.483-.08-3.68.278l4.53 4.53 9.192-9.192-3.91-3.91z" fill="#e74c3c"></path></svg>`,
       },
     };
@@ -423,7 +413,7 @@ class _System {
 
   createBrainlyLink(
     type: "profile" | "question",
-    data?: { id?: IdType; brainlyID: IdType; nick: string },
+    data?: { id?: IdType, brainlyID: IdType, nick: string },
   ) {
     let _return = "";
 
@@ -437,7 +427,7 @@ class _System {
           ),
         );
 
-        if (this.routeMasks.profile && data?.nick) {
+      if (this.routeMasks.profile && data?.nick) {
         /* console.log(System.data.meta.location.origin);
         console.log(this.routeMasks.profile);
         console.log(data.nick);
@@ -458,7 +448,7 @@ class _System {
         );
       }
 
-      if (this.routeMasks.task && data?.nick)
+      if (this.routeMasks.task && (data?.id || data?.brainlyID))
         _return = `${this.data.meta.location.origin + this.routeMasks.task}/${
           data.id || data.brainlyID
         }`;

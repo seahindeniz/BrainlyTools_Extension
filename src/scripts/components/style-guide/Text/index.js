@@ -34,7 +34,7 @@ const TEXT_ALIGN = {
  * | 'blue-dark'
  * } TextColorType
  *
- * @typedef {'pre-wrap' | 'pre-line'} TextWhiteSpaceType
+ * @typedef {'pre-wrap' | 'pre-line' | 'nowrap'} TextWhiteSpaceType
  *
  * @typedef {"mustard" | "mint" | "peach" | "light-gray" | "blue-dark" |
  * "blue-light"} TextBgColorType
@@ -138,6 +138,7 @@ export default function ({
       "sg-text--break-words": breakWords,
       "sg-text--pre-wrap": whiteSpace === "pre-wrap",
       "sg-text--pre-line": whiteSpace === "pre-line",
+      "sg-text--nowrap": whiteSpace === "nowrap",
 
       [`sg-text--background-${bgColor}`]: bgColor,
       [`sg-text--underlined`]: underlined,

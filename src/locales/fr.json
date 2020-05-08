@@ -103,8 +103,8 @@
     "cancel": "Annuler",
     "optional": "FACULTATIF",
     "add": "Ajouter",
-    "chooseAnOption": "Choose an option",
-    "deleteAcross": "Delete across"
+    "chooseAnOption": "Choisis une option",
+    "deleteAcross": "Supprimer à travers"
   },
   "popup": {
     "notificationMessages": {
@@ -462,7 +462,7 @@
       ],
       "notificationMessages": {
         "cantFetchDetailsFromExtensionServer": "Il y a un problème avec le serveur de l'extension lors de la recherche de détails sur le \"Tout modérer\"",
-        "noModeratableContentLeft": "There is no moderatable content remain"
+        "noModeratableContentLeft": "Il n'y a plus de contenu à modérer"
       },
       "addModerator": "Ajout d'une section pour les modérateurs",
       "moderatorN": "Modérateur %{n}",
@@ -483,8 +483,8 @@
           "title": "Trouver le contenu signalé entre deux dates"
         },
         "Subject": {
-          "text": "Subject",
-          "title": "Find reports by subjects"
+          "text": "Matière",
+          "title": "Trouver des signalements par matière"
         }
       },
       "filteredReports": "Signalement filtrés",
@@ -504,11 +504,11 @@
         }
       },
       "exportToSpreadsheet": "Exporter les signalements sous la forme d'un tableur (%{format_fichier})",
-      "failedToModerate": "Failed to moderate",
-      "findReports": "Find reports",
-      "moderatedReports": "Moderated reports",
-      "totalReportedContents": "Total reported contents",
-      "collectedReports": "Collected reports"
+      "failedToModerate": "Échec lors de la modération",
+      "findReports": "Trouver des signalements",
+      "moderatedReports": "Signalements modérés",
+      "totalReportedContents": "Total des contenus signalés",
+      "collectedReports": "Signalements collectés"
     },
     "noticeBoard": {
       "text": "Tableau d'information",

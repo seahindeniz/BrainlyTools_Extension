@@ -1,1 +1,36 @@
-{"serverURL":"https://sahin.in","serverAPIURL":"https://sahin.in/BrainlyTools","shortenedLinkURL":"http://sahin.in/l","uploadedFilesURL":"http://sahin.in/files/uploaded/"}
+{
+  "serverURL": "https://sahin.in",
+  "serverAPIURL": "https://sahin.in/BrainlyTools",
+  "shortenedLinkURL": "http://sahin.in/l",
+  "uploadedFilesURL": "http://sahin.in/files/uploaded/",
+  "languages": [
+    {
+      "key": "en_US",
+      "progress": 100,
+      "name": "English"
+    },
+    {
+      "key": "fr",
+      "progress": 99,
+      "name": "Français",
+      "author": "MichaelS, Its1tom"
+    },
+    {
+      "key": "id",
+      "progress": 90,
+      "name": "Bahasa Indonesia",
+      "author": "Zuhh"
+    },
+    {
+      "key": "tr",
+      "progress": 98,
+      "name": "Türkçe"
+    },
+    {
+      "key": "es_ES",
+      "progress": 0,
+      "name": "Español",
+      "author": "aleksa1"
+    }
+  ]
+}

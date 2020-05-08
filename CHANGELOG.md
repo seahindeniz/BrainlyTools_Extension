@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.35.8] - 2020.05.06
+
+### Changed
+
+- Reported comments deleter is not working [#122]
+- Hesap Silme bölümündeki dosyalar kısmı tam çalışmıyor. [#123]
+- Can open question link in mass moderate reported contents [#125]
+
+[#122]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/122
+[#123]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/123
+[#125]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/125
+
 ## [6.35.7] - 2020.05.06
 
 ### Changed

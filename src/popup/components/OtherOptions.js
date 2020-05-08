@@ -1,5 +1,5 @@
 import storage from "../../scripts/helpers/extStorage";
-import notification from "../components/notification";
+import notification from "./notification";
 import send2AllBrainlyTabs from "../helpers/send2AllBrainlyTabs";
 import Dropdown from "../helpers/Dropdown";
 
@@ -11,6 +11,7 @@ class OtherOptions {
     this.SetInputsValues();
     this.BindHandlers();
   }
+
   Render() {
     this.$layout = $(`
 		<div id="otherOptions" class="column is-narrow">
@@ -24,8 +25,20 @@ class OtherOptions {
 							<!-- Messages layout extender -->
 							<div class="field">
 								<div class="control">
-									<label class="checkbox" title="${System.data.locale.popup.extensionOptions.otherOptions.extendMessagesLayout.title}">
-										<input id="extendMessagesLayout" type="checkbox"${this.storageData.extendMessagesLayout || typeof this.storageData.extendMessagesLayout == "undefined" ? " checked" : ""}> ${System.data.locale.popup.extensionOptions.otherOptions.extendMessagesLayout.text}
+									<label class="checkbox" title="${
+                    System.data.locale.popup.extensionOptions.otherOptions
+                      .extendMessagesLayout.title
+                  }">
+										<input id="extendMessagesLayout" type="checkbox"${
+                      this.storageData.extendMessagesLayout ||
+                      typeof this.storageData.extendMessagesLayout ===
+                        "undefined"
+                        ? " checked"
+                        : ""
+                    }> ${
+      System.data.locale.popup.extensionOptions.otherOptions
+        .extendMessagesLayout.text
+    }
 									</label>
 								</div>
 							</div>
@@ -33,8 +46,15 @@ class OtherOptions {
 							<!-- Browser notifications -->
 							<div class="field is-hidden">
 								<div class="control">
-									<label class="checkbox" title="${System.data.locale.popup.extensionOptions.otherOptions.notifier.title}">
-										<input id="notifier" type="checkbox"${this.storageData.notifier ? " checked" : ""}> ${System.data.locale.popup.extensionOptions.otherOptions.notifier.text}
+									<label class="checkbox" title="${
+                    System.data.locale.popup.extensionOptions.otherOptions
+                      .notifier.title
+                  }">
+										<input id="notifier" type="checkbox"${
+                      this.storageData.notifier ? " checked" : ""
+                    }> ${
+      System.data.locale.popup.extensionOptions.otherOptions.notifier.text
+    }
 									</label>
 								</div>
 							</div>
@@ -50,7 +70,10 @@ class OtherOptions {
 									<div class="dropdown">
 										<div class="dropdown-trigger">
 											<button class="button level" aria-haspopup="true" aria-controls="dropdown-menu">
-												<span>${System.data.locale.popup.extensionOptions.otherOptions.extensionLanguage.chooseLanguage}</span>
+												<span>${
+                          System.data.locale.popup.extensionOptions.otherOptions
+                            .extensionLanguage.chooseLanguage
+                        }</span>
 												<span class="icon is-small">
 													<i class="fas fa-angle-down" aria-hidden="true"></i>
 												</span>
@@ -74,75 +97,120 @@ class OtherOptions {
 
     this.$container = $("> .message > .message-body", this.$layout);
 
-    this.$extendMessageLayoutCheckbox = $("#extendMessagesLayout", this.$layout);
+    this.$extendMessageLayoutCheckbox = $(
+      "#extendMessagesLayout",
+      this.$layout,
+    );
     this.$notifierCheckbox = $("#notifier", this.$layout);
 
     this.$languageDropdown = Dropdown($(".dropdown", this.$layout));
-    this.$languagesContainer = $(".dropdown-menu > .dropdown-content", this.$languageDropdown);
-    this.$dropdownText = $(".dropdown-trigger > button.button > span:not(.icon)", this.$languageDropdown);
+    this.$languagesContainer = $(
+      ".dropdown-menu > .dropdown-content",
+      this.$languageDropdown,
+    );
+    this.$dropdownText = $(
+      ".dropdown-trigger > button.button > span:not(.icon)",
+      this.$languageDropdown,
+    );
   }
+
   SetInputsValues() {
-    if (typeof this.storageData.extendMessagesLayout == "boolean") {
-      this.$extendMessageLayoutCheckbox.prop("checked", this.storageData.extendMessagesLayout);
+    if (typeof this.storageData.extendMessagesLayout === "boolean") {
+      this.$extendMessageLayoutCheckbox.prop(
+        "checked",
+        this.storageData.extendMessagesLayout,
+      );
     }
 
-    if (typeof this.storageData.notifier == "boolean") {
+    if (typeof this.storageData.notifier === "boolean") {
       this.$notifierCheckbox.prop("checked", this.storageData.notifier);
     }
 
-    let selectedLanguage = this.storageData.language;
+    const selectedLanguage = this.storageData.language;
 
     if (selectedLanguage) {
-      let selected = System.constants.config.availableLanguages.find(lang => lang.key == selectedLanguage);
+      const selected = System.data.config.extension.languages.find(
+        lang => lang.key === selectedLanguage,
+      );
 
       if (selected) {
-        this.$dropdownText.html(selected.title.replace(/<.*>/, ""));
+        this.$dropdownText.html(selected.name);
       }
     }
 
-    System.constants.config.availableLanguages.forEach(language => {
-      let $option = `<a href="#" class="dropdown-item${selectedLanguage && selectedLanguage == language.key ? " is-active" : ""}" value="${language.key}">${language.title}</a>`;
+    System.data.config.extension.languages.forEach(
+      /**
+       * @param {{
+       *  key: string,
+       *  progress: number,
+       *  name: string,
+       *  author?: string,
+       * }} language
+       */
+      language => {
+        let { name } = language;
 
-      if (System.data.Brainly.defaultConfig.locale.LANGUAGE == language.key) {
-        this.$languagesContainer.prepend($option);
-      } else {
-        this.$languagesContainer.append($option);
-      }
-    });
+        if (language.key !== "en_US")
+          name += ` <i class="is-size-7">${language.progress}%</i>`;
+
+        if (language.author)
+          name += `<span class="is-pulled-right">${language.author}</span>`;
+
+        const $option = `<a href="#" class="dropdown-item fix-padding${
+          selectedLanguage === language.key ? " is-active" : ""
+        }" value="${language.key}">${name}</a>`;
+
+        if (System.data.Brainly.defaultConfig.locale.LANGUAGE === language.key)
+          this.$languagesContainer.prepend($option);
+        else this.$languagesContainer.append($option);
+      },
+    );
   }
+
   BindHandlers() {
-    let that = this;
-
-    this.$extendMessageLayoutCheckbox.change(function() {
-      that.ExtendMessagesLayout(this.checked);
-    });
-
-    this.$notifierCheckbox.change(function() {
-      that.NotifierChangeState(this.checked);
-    });
-
-    this.$languageDropdown.change(function() {
-      that.SetLanguage(this.value);
-    });
+    this.$extendMessageLayoutCheckbox.change(
+      this.ExtendMessagesLayout.bind(this),
+    );
+    this.$notifierCheckbox.change(this.NotifierChangeState.bind(this));
+    this.$languageDropdown.change(this.SetLanguage.bind(this));
   }
-  ExtendMessagesLayout(isChecked) {
+
+  ExtendMessagesLayout() {
+    const isChecked = this.$extendMessageLayoutCheckbox.prop("checked");
+
     storage("set", { extendMessagesLayout: isChecked });
     send2AllBrainlyTabs("extendMessagesLayout", isChecked);
-    notification(System.data.locale.popup.notificationMessages[isChecked ? "layoutExtended" : "switchedToNormal"]);
+    notification(
+      System.data.locale.popup.notificationMessages[
+        isChecked ? "layoutExtended" : "switchedToNormal"
+      ],
+    );
   }
-  NotifierChangeState(isChecked) {
+
+  NotifierChangeState() {
+    const isChecked = this.$notifierCheckbox.prop("checked");
+
     storage("set", { notifier: isChecked });
     System.toBackground("notifierChangeState", isChecked);
-    notification(System.data.locale.popup.notificationMessages[isChecked ? "notifierOn" : "notifierOff"]);
+    notification(
+      System.data.locale.popup.notificationMessages[
+        isChecked ? "notifierOn" : "notifierOff"
+      ],
+    );
   }
-  async SetLanguage(language) {
+
+  async SetLanguage() {
+    const language = this.$languageDropdown.val();
     /* let localeData =  */
     await System.PrepareLanguageFile(language);
     /* System.data.locale = localeData; */
 
     storage("set", { language });
-    notification(System.data.locale.popup.notificationMessages.languageChanged, "success");
+    notification(
+      System.data.locale.popup.notificationMessages.languageChanged,
+      "success",
+    );
   }
 }
 
-export default OtherOptions
+export default OtherOptions;

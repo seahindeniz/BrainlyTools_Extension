@@ -1,26 +1,55 @@
-import { Checkbox, Flex, Text } from "@/scripts/components/style-guide";
+/* eslint-disable no-await-in-loop */
+import {
+  ButtonRound,
+  Checkbox,
+  Flex,
+  Text,
+  Icon,
+} from "@/scripts/components/style-guide";
 import Build from "@/scripts/helpers/Build";
+import sortablejs from "sortablejs";
 import Button from "../../../components/Button";
-import notification from "../../../components/notification";
+import notification from "../../../components/notification2";
 import Progress from "../../../components/Progress";
 import Action from "../../../controllers/Req/Brainly/Action";
 import WaitForElements from "../../../helpers/WaitForElements";
 
 class RankManager {
+  /**
+   * @typedef {{
+   *  id?: number,
+   *  name?: string,
+   *  description?: string,
+   * }} RankType
+   *
+   * @param {*} user
+   */
   constructor(user) {
     this.user = user;
+    /**
+     * @type {{
+     *  data: RankType,
+     *  checkbox: HTMLInputElement,
+     *  rankContainer: HTMLLabelElement,
+     * }[]}
+     */
+    this.ranks = [];
 
-    this.Find_DeleteRanksForm();
+    this.FindTheDeleteRanksForm();
   }
-  async Find_DeleteRanksForm() {
+
+  async FindTheDeleteRanksForm() {
     this.deleteAllRanksForm = await WaitForElements(
-      `[action="/ranks/delete_user_special_ranks"]`, {
-        noError: true
-      });
+      `[action="/ranks/delete_user_special_ranks"]`,
+      {
+        noError: true,
+      },
+    );
     this.deleteAllRanksLi = $(this.deleteAllRanksForm).parent();
 
     this.Init();
   }
+
   Init() {
     this.RenderLink();
     this.RenderPanel();
@@ -31,15 +60,17 @@ class RankManager {
     this.BindHandlers();
     this.UpdateInputTitle();
   }
+
   RenderLink() {
     this.$manageLi = $(`<li></li>`);
     this.$manageLink = $(
-      `<a href="#"><font color="red">${System.constants.config.reasonSign}</font> ${System.data.locale.userProfile.rankManager.title}</a>`
+      `<a href="#"><font color="red">${System.constants.config.reasonSign}</font> ${System.data.locale.userProfile.rankManager.title}</a>`,
     );
 
     this.$manageLink.appendTo(this.$manageLi);
     this.$manageLi.insertBefore(this.deleteAllRanksLi);
   }
+
   RenderPanel() {
     this.$panel = $(`
 		<div class="sg-content-box rankManager">
@@ -58,84 +89,149 @@ class RankManager {
     this.$progressHole = $(".container.progress", this.$panel);
     this.$rankContainer = $(".sg-content-box__content", this.$panel);
   }
+
   RenderSaveButton() {
     this.$saveButton = Button({
       type: "solid-mint",
       size: "small",
       fullWidth: true,
-      text: System.data.locale.common.save
+      text: System.data.locale.common.save,
     });
 
     this.$saveButton.appendTo(this.$saveButtonContainer);
   }
+
   RenderProgressBar() {
     this.progress = new Progress({
       type: "is-success",
       label: "",
-      max: 2
+      max: 2,
     });
   }
+
   RenderSpinner() {
     this.$spinner = $(`
 		<div class="sg-spinner-container__overlay">
 			<div class="sg-spinner sg-spinner--xsmall"></div>
 		</div>`);
   }
-  RenderRanks() {
-    System.data.Brainly.defaultConfig.config.data.ranks.forEach((rank, i) => {
-      let userHasRank = this.user.ranks_ids.includes(rank.id);
 
-      if (rank && rank.type == 5) {
-        let checkboxContainer = Build(Flex({
-          wrap: false,
-          tag: "label",
-          marginBottom: (
-            i + 1 !== System.data.Brainly.defaultConfig.config
-            .data.ranks.length ? "s" : ""
-          ),
-        }), [
+  RenderRanks() {
+    /**
+     * @type {{ranks: RankType[]}}
+     */
+    let { ranks } = System.data.Brainly.defaultConfig.config.data;
+    ranks = ranks.sort((a, b) => {
+      return (
+        this.user.ranks_ids.indexOf(b.id) - this.user.ranks_ids.indexOf(a.id)
+      );
+    });
+    ranks = ranks.sort(a => (this.user.ranks_ids.includes(a.id) ? -1 : 1));
+
+    ranks.forEach(
+      /**
+       * @param {RankType} rank
+       */
+      (rank, i) => {
+        if (!rank || rank.type !== 5) return;
+
+        const userHasRank = this.user.ranks_ids.includes(rank.id);
+        const checkbox = Checkbox({
+          id: `p-${rank.id}`,
+          checked: userHasRank,
+        });
+
+        const rankContainer = Build(
+          Flex({
+            wrap: false,
+            tag: "label",
+            marginBottom:
+              i + 1 !==
+              System.data.Brainly.defaultConfig.config.data.ranks.length
+                ? "xs"
+                : "",
+          }),
           [
-            Flex({ marginRight: "s" }),
-            Checkbox({
-              id: `p-${rank.id}`,
-              checked: userHasRank
-            })
-          ],
-          [
-            Flex({ direction: "column", alignItems: "flex-start" }),
             [
+              Flex({ margin: "xxs", fullWidth: true }),
               [
-                Flex({ fullWidth: true, direction: "column" }),
-                Text({
-                  html: rank.name,
-                  weight: "bold",
-                  color: "blue-dark",
-                  href: `/admin/ranks/edit/${rank.id}`,
-                  size: "xsmall",
-                  title: rank.description,
-                  target: "_blank",
-                  /* style: {
+                [Flex({ marginRight: "xs", alignItems: "center" }), checkbox],
+                [
+                  Flex({
+                    direction:
+                      rank.description && rank.name !== rank.description
+                        ? "column"
+                        : "",
+                    alignItems:
+                      rank.description && rank.name !== rank.description
+                        ? "flex-start"
+                        : "center",
+                    fullWidth: true,
+                  }),
+                  [
+                    [
+                      Flex(),
+                      Text({
+                        html: rank.name,
+                        weight: "bold",
+                        color: "blue-dark",
+                        href: `/admin/ranks/edit/${rank.id}`,
+                        size: "xsmall",
+                        title: rank.description,
+                        target: "_blank",
+                        /* style: {
                     color: `#${rank.color}`
                   } */
-                })
+                      }),
+                    ],
+                    rank.description &&
+                      rank.name !== rank.description && [
+                        Flex({ fullWidth: true, direction: "column" }),
+                        Text({
+                          tag: "i",
+                          size: "xsmall",
+                          color: "gray",
+                          html: rank.description,
+                        }),
+                      ],
+                  ],
+                ],
+                [
+                  Flex({ alignItems: "center" }),
+                  ButtonRound({
+                    size: "xsmall",
+                    className: "dragger",
+                    icon: new Icon({
+                      type: "menu",
+                      color: "blue",
+                      size: 14,
+                    }),
+                  }),
+                ],
               ],
-              rank.name != rank.description && [
-                Flex({ fullWidth: true, direction: "column" }),
-                Text({
-                  tag: "i",
-                  size: "xsmall",
-                  color: "gray",
-                  html: rank.description
-                })
-              ],
-            ]
-          ]
-        ]);
+            ],
+          ],
+        );
 
-        this.$rankContainer.append(checkboxContainer);
-      }
+        this.ranks.push({
+          data: rank,
+          checkbox: checkbox.firstElementChild,
+          rankContainer,
+        });
+        this.$rankContainer.append(rankContainer);
+      },
+    );
+
+    // eslint-disable-next-line no-new, new-cap
+    new sortablejs(this.$rankContainer[0], {
+      animation: 200,
+      multiDrag: true,
+      handle: ".dragger",
+      fallbackTolerance: 3,
+      selectedClass: "sg-box--blue-secondary-light",
     });
   }
+
   BindHandlers() {
     this.$manageLink.click(e => {
       e.preventDefault();
@@ -149,6 +245,7 @@ class RankManager {
       }
     });
   }
+
   TogglePanel() {
     if (this.$panel.is(":visible")) {
       this.ClosePanel();
@@ -156,91 +253,134 @@ class RankManager {
       this.OpenPanel();
     }
   }
+
   ClosePanel() {
     this.$panel.appendTo("</ div>");
     this.progress.forceClose(true);
-
   }
+
   OpenPanel() {
     this.$panel.appendTo(this.$manageLi);
   }
+
   async SaveSelectedRank() {
-    let $selectedRanks = $(`input[type="checkbox"]:checked:not(:disabled)`,
-      this.$rankContainer);
-    let tokens = {
-      key: $(`input[name="data[_Token][key]"]`, this.deleteAllRanksLi)
-        .val(),
-      fields: $(`input[name="data[_Token][fields]"]`, this.deleteAllRanksLi)
-        .val(),
-      lock: $(`input[name="data[_Token][lock]"]`, this.deleteAllRanksLi)
-        .val()
+    let selectedRanks = this.ranks.filter(rank => rank.checkbox.checked);
+
+    if (!selectedRanks || selectedRanks.length === 0) {
+      notification({
+        type: "info",
+        html:
+          System.data.locale.common.notificationMessages
+            .youNeedToSelectAtLeastOne,
+      });
+
+      return;
     }
+
+    const getElementIndex = element => {
+      return Array.from(element.parentNode.children).indexOf(element);
+    };
+    selectedRanks = selectedRanks.sort((a, b) => {
+      return getElementIndex(a.rankContainer) > getElementIndex(b.rankContainer)
+        ? 1
+        : -1;
+    });
+
+    const tokens = {
+      key: $(`input[name="data[_Token][key]"]`, this.deleteAllRanksLi).val(),
+      fields: $(
+        `input[name="data[_Token][fields]"]`,
+        this.deleteAllRanksLi,
+      ).val(),
+      lock: $(`input[name="data[_Token][lock]"]`, this.deleteAllRanksLi).val(),
+    };
 
     this.ShowSpinner();
 
-    if (confirm(System.data.locale.common.notificationMessages.areYouSure)) {
-      this.progress.$container.appendTo(this.$progressHole);
+    if (!confirm(System.data.locale.common.notificationMessages.areYouSure))
+      return;
 
-      let removeAllRanksXHR = await new Action().RemoveAllRanks(window
-        .profileData.id, tokens);
-      let redirectedUserID = System.ExtractId(removeAllRanksXHR.url);
+    this.progress.$container.appendTo(this.$progressHole);
 
-      if (redirectedUserID != profileData.id) {
-        notification(System.data.locale.common.notificationMessages
-          .somethingWentWrongPleaseRefresh, "error");
+    const removeAllRanksXHR = await new Action().RemoveAllRanks(
+      window.profileData.id,
+      tokens,
+    );
+    const redirectedUserID = System.ExtractId(removeAllRanksXHR.url);
+
+    if (redirectedUserID !== profileData.id) {
+      notification(
+        System.data.locale.common.notificationMessages
+          .somethingWentWrongPleaseRefresh,
+        "error",
+      );
+    } else {
+      this.progress.update(1);
+      this.progress.UpdateLabel(
+        System.data.locale.userProfile.rankManager.allRanksDeleted,
+      );
+
+      if (selectedRanks.length === 0) {
+        this.progress.update(2);
+        this.SavingCompleted();
       } else {
-        this.progress.update(1);
-        this.progress.UpdateLabel(System.data.locale.userProfile.rankManager
-          .allRanksDeleted);
+        this.progress.setMax(selectedRanks.length + 2);
+        await System.Delay(500);
+        this.progress.update(2);
+        this.progress.UpdateLabel(
+          System.data.locale.userProfile.rankManager.updatingRanks,
+        );
+        await System.Delay(500);
 
-        if ($selectedRanks.length == 0) {
-          this.progress.update(2);
-          this.SavingCompleted();
-        } else {
-          this.progress.setMax($selectedRanks.length + 2);
-          await System.Delay(500);
-          this.progress.update(2);
-          this.progress.UpdateLabel(System.data.locale.userProfile.rankManager
-            .updatingRanks);
-          await System.Delay(500);
+        let i = 0;
+        // eslint-disable-next-line no-restricted-syntax
+        for (const selectedRank of selectedRanks) {
+          await new Action().AddRank(
+            window.profileData.id,
+            selectedRank.data.id,
+          );
 
-          $selectedRanks.each(async (i, rankCheckbox) => {
-            let rankId = rankCheckbox.id.replace("p-", "");
-            let rank = System.data.Brainly.defaultConfig.config.data
-              .ranksWithId[rankId];
-            await new Action().AddRank(window.profileData.id, rankId);
+          i++;
+          this.progress.update(i + 3);
+          this.progress.UpdateLabel(
+            System.data.locale.userProfile.rankManager.xHasAssigned.replace(
+              "%{rank_name}",
+              ` ${selectedRank.data.name} `,
+            ),
+          );
 
-            this.progress.update(i + 3);
-            this.progress.UpdateLabel(System.data.locale.userProfile
-              .rankManager.xHasAssigned.replace("%{rank_name}",
-                ` ${rank.name} `));
-
-            if ($selectedRanks.length == i + 1) {
-              await System.Delay(500);
-              this.SavingCompleted();
-            }
-          });
+          if (selectedRanks.length === i + 1) {
+            await System.Delay(500);
+            this.SavingCompleted();
+          }
         }
       }
     }
   }
+
   SavingCompleted() {
     this.HideSpinner();
     this.progress.UpdateLabel(System.data.locale.common.allDone);
-    notification(System.data.locale.userProfile.notificationMessages
-      .afterSavingCompletedIgnoreNotifications, "success");
+    notification(
+      System.data.locale.userProfile.notificationMessages
+        .afterSavingCompletedIgnoreNotifications,
+      "success",
+    );
   }
+
   ShowSpinner() {
     this.$spinner.appendTo(this.$saveButtonContainer);
   }
+
   HideSpinner() {
     this.$spinner.appendTo("</ div>");
   }
+
   UpdateInputTitle() {
-    let formTitle = $(`input[type="submit"]`, this.deleteAllRanksForm);
+    const formTitle = $(`input[type="submit"]`, this.deleteAllRanksForm);
 
     formTitle.val(System.data.locale.userProfile.rankManager.removeAllRanks);
   }
 }
 
-export default RankManager
+export default RankManager;

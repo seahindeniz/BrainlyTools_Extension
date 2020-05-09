@@ -12,13 +12,13 @@ import SetProps from "./helpers/SetProps";
  *  className?: string,
  * }} Properties
  *
- * @typedef {function(string):Element} ChangeId
+ * @typedef {function(string):CheckboxElement} ChangeId
  *
  * @typedef {{
  *  inputId: string,
  *  ChangeId: ChangeId
  * }} CustomProperties
- * @typedef {HTMLDivElement & CustomProperties} Element
+ * @typedef {HTMLDivElement & CustomProperties} CheckboxElement
  */
 
 const SG = "sg-checkbox";
@@ -37,7 +37,7 @@ export default function ({
   const checkboxClass = classnames(SG, className);
 
   /**
-   * @type {Element}
+   * @type {CheckboxElement}
    */
   // @ts-ignore
   const container = document.createElement("div");
@@ -77,7 +77,7 @@ export default function ({
 }
 /**
  *
- * @this {Element}
+ * @this {CheckboxElement}
  * @param {string} id
  */
 function _ChangeId(id) {

@@ -40,6 +40,7 @@
     "moment-timezone": "^0.5.28",
     "parse-numeric-range": "1.2.0",
     "prettysize": "^2.0.0",
+    "sortablejs": "^1.10.2",
     "throttle-debounce": "^2.1.0",
     "valid-url": "^1.0.9",
     "webextension-polyfill": "^0.6.0"

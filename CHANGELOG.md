@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.36.0] - 2020.05.11
+
+### Added
+
+- Ability to sort ranks [#127]
+
+### Changed
+
+- Quick delete buttons are not working on the corrected reports [#126]
+
+[#126]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/126
+[#127]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/127
+
 ## [6.35.8] - 2020.05.06
 
 ### Changed

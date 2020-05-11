@@ -83,7 +83,7 @@
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "download-file-sync": "^1.0.4",
-    "eslint": "^6.8.0",
+    "eslint": "^7.0.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-flowtype": "^4.7.0",
@@ -127,5 +127,5 @@
     "watch": "cross-env TARGET=chrome gulp watch",
     "flow": "flow"
   },
-  "version": "6.35.8"
+  "version": "6.36.0"
 }

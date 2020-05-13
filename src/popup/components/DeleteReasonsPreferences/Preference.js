@@ -13,6 +13,7 @@ class Preference {
     this.RenderDeleteButton();
     this.BindHandlers();
   }
+
   Render() {
     this.$ = $(`
 		<div class="control">
@@ -23,9 +24,15 @@ class Preference {
 
     this.$tags = $("> .tags", this.$);
   }
+
   RenderNoConfirmationButton() {
     this.$noConfirmationButton = $(`
-		<a class="button tag${this.confirmation === false?" is-danger":""}" data-is="danger" title="${System.data.locale.popup.extensionManagement.DeleteReasonsPreferences.withoutAsk}">
+		<a class="button tag${
+      this.confirmation === false ? " is-danger" : ""
+    }" data-is="danger" title="${
+      System.data.locale.popup.extensionManagement.DeleteReasonsPreferences
+        .withoutAsk
+    }">
 			<span class="icon is-small">
 				<i class="fas fa-exclamation-circle"></i>
 			</span>
@@ -33,9 +40,15 @@ class Preference {
 
     this.$noConfirmationButton.appendTo(this.$tags);
   }
+
   RenderAskConfirmationButton() {
     this.$askConfirmationButton = $(`
-		<a class="button tag${this.confirmation === true?" is-warning":""}" data-is="warning" title="${System.data.locale.popup.extensionManagement.DeleteReasonsPreferences.withAsk}">
+		<a class="button tag${
+      this.confirmation === true ? " is-warning" : ""
+    }" data-is="warning" title="${
+      System.data.locale.popup.extensionManagement.DeleteReasonsPreferences
+        .withAsk
+    }">
 			<span class="icon is-small">
 				<i class="fas fa-exclamation-triangle"></i>
 			</span>
@@ -43,40 +56,47 @@ class Preference {
 
     this.$askConfirmationButton.appendTo(this.$tags);
   }
+
   RenderDeleteButton() {
-    this.$deleteButton = $(`<a class="button tag is-delete is-info" title="${System.data.locale.common.delete}"></a>`);
+    this.$deleteButton = $(
+      `<a class="button tag is-delete is-info" title="${System.data.locale.common.delete}"></a>`,
+    );
 
     this.$deleteButton.appendTo(this.$tags);
   }
+
   BindHandlers() {
     this.$deleteButton.click(this.Delete.bind(this));
     this.$noConfirmationButton.click(this.NoConfirmation.bind(this));
     this.$askConfirmationButton.click(this.AskConfirmation.bind(this));
   }
-  async Delete() {
-    let resRemove = await new ServerReq().RemoveDeleteReasonPreference(this.reason.id);
 
-    await this.CheckResponse(resRemove);
+  async Delete() {
+    const resRemove = await new ServerReq().RemoveDeleteReasonPreference(
+      this.reason.id,
+    );
+
+    if (!resRemove?.success) {
+      notification(
+        System.data.locale.common.notificationMessages.somethingWentWrong,
+        "danger",
+      );
+
+      return;
+    }
+
     this.$.remove();
     notification(System.data.locale.popup.notificationMessages.removedMessage);
   }
-  async CheckResponse(res) {
-    if (!res || !res.success) {
-      notification(System.data.locale.common.notificationMessages.somethingWentWrong, "danger");
-      return Promise.reject();
-    }
 
-    return Promise.resolve();
-  }
   async NoConfirmation() {
-    console.log("no confirmation1");
     await this.ChangeState(false);
-    console.log("no confirmation2");
 
     this.RemoveStateColors();
     notification(System.data.locale.common.done);
     this.$noConfirmationButton.addClass("is-danger");
   }
+
   async AskConfirmation() {
     await this.ChangeState(true);
 
@@ -84,21 +104,33 @@ class Preference {
     notification(System.data.locale.common.done);
     this.$askConfirmationButton.addClass("is-warning");
   }
+
   async ChangeState(confirmation) {
-    let data = {
+    const data = {
       id: this.reason.id,
-      confirmation
+      confirmation,
     };
 
-    let resUpdate = await new ServerReq().UpdateDeleteReasonsPreferences(data);
+    const resUpdate = await new ServerReq().UpdateDeleteReasonsPreferences(
+      data,
+    );
 
-    return this.CheckResponse(resUpdate);
+    if (!resUpdate?.success) {
+      notification(
+        System.data.locale.common.notificationMessages.somethingWentWrong,
+        "danger",
+      );
 
+      throw Error(
+        System.data.locale.common.notificationMessages.somethingWentWrong,
+      );
+    }
   }
+
   RemoveStateColors() {
     this.$noConfirmationButton.removeClass("is-danger");
     this.$askConfirmationButton.removeClass("is-warning");
   }
 }
 
-export default Preference
+export default Preference;

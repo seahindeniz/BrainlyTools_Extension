@@ -84,7 +84,6 @@ export default class SubjectFilter extends Filter {
   }
 
   IsUsed() {
-    console.log("subjects in use", Object.keys(this.selectedSubjects).length);
     return Object.keys(this.selectedSubjects).length > 0;
   }
 }

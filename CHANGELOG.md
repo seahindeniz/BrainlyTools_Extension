@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.36.1] - 2020.05.06
+
+### Changed
+
+- Quick delete buttons not working on question page (brainly.com)
+
 ## [6.36.0] - 2020.05.11
 
 ### Added

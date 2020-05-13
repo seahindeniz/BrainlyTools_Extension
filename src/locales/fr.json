@@ -44,7 +44,7 @@
       "cannotShareUserInfoWithServer": "Une erreur inattendue s'est produite pendant l'envoi des informations de l'utilisateur vers le serveur de l'extension. Ré essaye dans 2 secondes",
       "ongoingProcess": "Quelques un des contenus sont toujours en cours d'éxecution. Es-tu certains de vouloir quitter la page ?",
       "areYouSure": "Es-tu sûr ?",
-      "mayRequireWarning": "Il semblerait approprié de donner un avertissement à l'auteur du contenu que vous voulez supprimer\nVoulez-vous donner un avertissement à l'auteur de ce contenu ?",
+      "mayRequireWarning": "Voulez-vous appliquer un avertissement à ce contenu ?",
       "ongoingProcessWait": "Quelques un des contenus sont toujours en cours d'éxecution. Es-tu certains de vouloir quitter la page ?",
       "xSendYouANewMessage": "%{userName} t'a envoyé un message",
       "newNotification": "Nouvelle notification",
@@ -344,7 +344,7 @@
           },
           "36": {
             "title": "Masquer les options de suppression de contenu de la page de profil",
-            "description": "Masquer les options utilisées pour supprimer les questions, réponses et commentaires de la page de profil"
+            "description": "Permettre à ce modérateur de voir les liens utilisés pour supprimer toutes les questions, réponses et commentaires de la page de profil d'un utilisateur"
           }
         },
         "veryImportant": "Très important"
@@ -389,7 +389,7 @@
       "extensionServerError": "Une erreur inattendue s'est produite pendant la connexion au serveur de l'extension. Ré essaye de nouveau dans 5 secondes",
       "ifErrorPersists": "Si l'erreur persiste, merci de contacter l'administrateur pour lui indiquer :)",
       "accessPermissionDenied": "Vous n'êtes pas autorisé à utiliser l'extension Brainly Tools.<br>Merci de contacter le responsable pour avoir la permission d'y accèder sinon veuillez retirer l'extension de votre navigateur.",
-      "updateNeeded": "L'extension a une nouvelle version et ton navigateur doit être mis à jour. Ceci sera fait automatiquement, réactualise la page dans 10 secondes",
+      "updateNeeded": "Une nouvelle version de l'extension est disponible.<br> Elle sera mise à jour en arrière-plan. Pourriez-vous attendre ~10 secondes et ensuite rafraîchir la page ?",
       "warningBeforeDelete": "Le processus va être exécuté et les questions indiquées seront supprimées. \n\nÊtes-vous sûr ?",
       "enterIdWarn": "Vous devez ajouter au moins un ID de question que vous voulez supprimer.",
       "youNeedToEnterValidId": "Vous devez entrer un ID valide",
@@ -456,9 +456,9 @@
     "massModerateReportedContents": {
       "text": "Modération de masse des contenus signalés",
       "informationText": [
-        "Vous pouvez confirmer les contenus signalés à partir de Tout Modérer par un filtrage. Il vous suffit de sélectionner et d'ajouter des conditions liées au contenu et de cliquer sur démarrer et de garder cet onglet ouvert, c'est tout.",
-        "Vous pouvez utiliser la section des conditions communes pour appliquer des conditions spécifiques à toutes les conditions uniques.",
-        "Mais l'ajout de toutes les conditions à la section commune, ne correspondra à aucun rapport. Vous devez utiliser les conditions uniques pour les faire correspondre."
+        "L'outil doit récupérer tous les contenus signalés de toutes les pages du \"Tout Modérer\" et la collecte des détails peut prendre un certain temps.",
+        "Il ne peut pas collecter instantanément tous les contenus signalés en raison des limites architecturales du \"Tout Modérer\"",
+        "Tout en collectant des détails, d'autres modérateurs peuvent également modérer les contenus signalés présents dans le \"Tout Modérer\", cela signifie que les chiffres sous le bouton \"%{addModerator}\", peuvent être affectés et peuvent ne pas correspondre."
       ],
       "notificationMessages": {
         "cantFetchDetailsFromExtensionServer": "Il y a un problème avec le serveur de l'extension lors de la recherche de détails sur le \"Tout modérer\"",
@@ -471,7 +471,7 @@
           "text": "Type de contenu"
         },
         "Reporter": {
-          "text": "Utilisateur signalé",
+          "text": "Utilisateur signaleur",
           "title": "L'utilisateur qui a signalé le contenu"
         },
         "Reported": {
@@ -505,7 +505,7 @@
       },
       "exportToSpreadsheet": "Exporter les signalements sous la forme d'un tableur (%{format_fichier})",
       "failedToModerate": "Échec lors de la modération",
-      "findReports": "Trouver des signalements",
+      "findReports": "Trier les signalements",
       "moderatedReports": "Signalements modérés",
       "totalReportedContents": "Total des contenus signalés",
       "collectedReports": "Signalements collectés"
@@ -699,7 +699,7 @@
       "youHaveNoFriends": "Ne sois pas triste car tu n'as pas d'amis dans ta liste :/",
       "cannotChangeBio": "Impossible de changer votre bio :/ Désolé ...",
       "fileSizeExceeded": "Le fichier %{file_name} excède la taille maximale de %{file_size}",
-      "aShortcutFile": "Vous essayer d'ajouter un raccourci d'un fichier mais celui-ci n'est pas considéré comme un fichier. Cela va être le bazarre si vous l'ajouter\nVous devriez sélectionner le fichier d'origine à la place\nVoulez-vous toujours ajouter ce raccourci ?",
+      "aShortcutFile": "Vous essayez d'ajouter un raccourci d'un fichier mais celui-ci n'est pas considéré comme un fichier. Cela va être le bazar si vous l'ajouter.\nVous devriez sélectionner le fichier d'origine à la place d'un lien vers celui-ci.\nVoulez-vous toujours ajouter ce raccourci ?",
       "unableToReportAccountDeleting": "Je ne suis pas en mesure de rapporter votre demande de suppression au community manager donc je ne peux pas effectuer la suppression. Désolé :/ <br> Si cette erreur persiste signalez la",
       "confirmNoEvidenceOrComment": "Vous n'avez ajouter aucune preuve ou commentaire. \nVoulez-vous toujours supprimer ce compte ?",
       "afterSavingCompletedIgnoreNotifications": "Une fois la sauvegarde effectuée, <br> ignorez les notifications quand vous rechargez ou quittez la page",

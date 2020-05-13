@@ -7,12 +7,10 @@ export default function taskSection() {
    * @type {HTMLDivElement}
    */
   const mainQuestionArticle = document.querySelector(`.js-main-question`);
+  const questionData = JSON.parse(mainQuestionArticle?.dataset?.z);
 
-  if (
-    !mainQuestionArticle ||
-    mainQuestionArticle.classList.contains("brn-question--deleted")
-  )
-    return;
+  // eslint-disable-next-line camelcase
+  if (!mainQuestionArticle || questionData?.is_deleted) return;
 
   const extButtonsContainer = Flex({
     direction: "column",

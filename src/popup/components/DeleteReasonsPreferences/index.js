@@ -110,7 +110,6 @@ class DeleteReasonsPreferences {
     if (this.preferences.length === 0) return;
 
     this.preferences.forEach(preference => {
-      console.log(preference);
       const reason =
         System.data.Brainly.deleteReasons.__withIds.__all[preference.reasonID];
 

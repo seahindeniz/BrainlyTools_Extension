@@ -38,9 +38,9 @@ export default async function responseSection() {
           title: reason.text,
         });
 
-        // eslint-disable-next-line no-use-before-define
         button.element.addEventListener(
           "click",
+          // eslint-disable-next-line no-use-before-define
           responseModerateButtonsClickHandler,
         );
 

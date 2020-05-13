@@ -57,7 +57,7 @@ export default function taskSection() {
 
     if (!questionId) throw Error("Cannot find the question id");
 
-    const userData = $(".user-fiche-wrapper", mainQuestionArticle).data("z");
+    const userData = window.jsData.question.author;
 
     if (!userData) throw Error("Cannot find the user data");
 

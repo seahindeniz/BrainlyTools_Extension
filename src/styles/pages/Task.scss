@@ -1,18 +1,13 @@
+.brn-question {
+  width: 100%;
+}
+
 .ext_actions {
-  $p: &;
   z-index: 2;
-
-  @at-root .brn-question {
-    width: 100%;
-
-    #{$p} {
-      width: 35px;
-    }
-  }
+  width: 35px;
 
   @at-root .brn-answer & {
     height: 0;
-    width: 35px;
     float: right;
     position: relative;
   }

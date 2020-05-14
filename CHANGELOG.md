@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.36.2] - 2020.05.14
+
+### Changed
+
+- Can't change delete reason preferences (brainly.lat)
+
 ## [6.36.1] - 2020.05.13
 
 ### Changed

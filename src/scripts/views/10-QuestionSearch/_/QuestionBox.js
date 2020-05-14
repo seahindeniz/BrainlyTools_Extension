@@ -40,7 +40,7 @@ class QuestionBox {
     this.question = await new Action().GetQuestion(this.id);
 
     this.user = this.question.users_data.find(
-      usr => usr.id == this.question.data.task.user_id,
+      usr => usr.id === this.question.data.task.user_id,
     );
 
     this.RenderQuestionOwner();
@@ -63,7 +63,7 @@ class QuestionBox {
     const $actionList = $("> .sg-actions-list", this.$questionLink);
     this.$avatarHole = $("> .sg-actions-list__hole:eq(0)", $actionList);
 
-    if (this.$avatarHole.length == 0) this.CreateAvatarHole();
+    if (this.$avatarHole.length === 0) this.CreateAvatarHole();
     else {
       const $contentTextHole = $("> .sg-actions-list__hole:eq(1)", $actionList);
       const $itemContent = $(

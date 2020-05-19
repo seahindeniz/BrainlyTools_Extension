@@ -14,6 +14,7 @@ type ExtensionIconTypeType =
   | "ext-xlsx";
 
 export type IconTypeType =
+  | "academic_cap"
   | "all_questions"
   | "answer"
   | "arrow_double_down"
@@ -27,6 +28,7 @@ export type IconTypeType =
   | "bell_outlined"
   | "bold"
   | "bulleted_list"
+  | "calendar"
   | "camera"
   | "check"
   | "close"

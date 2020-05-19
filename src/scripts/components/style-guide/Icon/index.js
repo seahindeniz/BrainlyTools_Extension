@@ -40,6 +40,8 @@ export type IconTypeType =
   | "exclamation_mark"
   | "facebook"
   | "friend_add"
+  | "friend_remove"
+  | "friend_pending"
   | "friend_checked"
   | "friends"
   | "heading"

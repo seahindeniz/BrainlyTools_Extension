@@ -25,7 +25,7 @@ type ButtonColorType =
     }
   | {
       type: "solid-light" | "outline" | "transparent" | "transparent-light",
-      toggle?: "peach" | "mustard" | null,
+      toggle?: "peach" | "mustard" | "blue" | null,
     }
   | {
       type: "transparent-peach",
@@ -34,6 +34,10 @@ type ButtonColorType =
   | {
       type: "transparent-mustard",
       toggle?: "mustard" | null,
+    }
+  | {
+      type: "transparent-blue",
+      toggle?: "blue" | null,
     };
 
 type ButtonIconType =

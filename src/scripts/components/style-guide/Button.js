@@ -36,6 +36,16 @@ type ButtonColorType =
       toggle?: "mustard" | null,
     };
 
+type ButtonIconType =
+  | {
+      icon?: Node,
+      iconOnly?: null,
+    }
+  | {
+      icon: Node,
+      iconOnly?: boolean,
+    };
+
 type ButtonCornerSpaceSize =
   | boolean
   | "small"
@@ -55,6 +65,7 @@ type ButtonCornerSpaces =
     };
 
 export type ButtonPropsType = {
+  ...ButtonIconType,
   children?: ChildrenParamType,
   icon?: HTMLElement,
   size?: ButtonSizeType,
@@ -73,7 +84,6 @@ export type ButtonPropsType = {
 // : $Keys<typeof HTMLElementTagNameMap2>
 class Button {
   element: HTMLElement;
-
   textElement: ?HTMLSpanElement;
   iconContainer: HTMLSpanElement;
   size: ?ButtonSizeType;
@@ -87,6 +97,7 @@ class Button {
     size,
     type,
     icon,
+    iconOnly,
     href,
     fullWidth,
     disabled,
@@ -113,6 +124,7 @@ class Button {
         [SGD + type]: type,
         [`${SGD}disabled`]: disabled,
         [`${SGD}full-width`]: fullWidth,
+        "sg-button--icon-only": Boolean(icon) && iconOnly,
         [`sg-button--${String(type)}-toggle-${String(toggle)}`]: toggle,
       },
       className,

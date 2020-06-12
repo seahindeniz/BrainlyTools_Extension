@@ -500,3 +500,15 @@ html[is="popup"] {
   text-overflow: ellipsis;
   justify-content: flex-start;
 }
+
+.loader-wrapper {
+  display: flex;
+  justify-content: center;
+
+  .loader {
+    height: 80px;
+    width: 80px;
+  border-bottom-color: #ccc;
+  border-left-color: #ccc;
+  }
+}

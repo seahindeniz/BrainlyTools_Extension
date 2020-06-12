@@ -1,6 +1,6 @@
 import ServerReq from "@ServerReq";
 import prettysize from "prettysize";
-import { debounce } from 'throttle-debounce';
+import { debounce } from "throttle-debounce";
 import FileIcon from "../../scripts/helpers/FileIcon";
 import Modal from "./Modal";
 
@@ -10,73 +10,109 @@ class AccountDeleteReports {
     this.storedReports = [];
 
     this.Render();
-    this.FetchReports();
+    this.RenderUserList();
     this.BindHandlers();
   }
+
   Render() {
     this.$layout = $(`
 		<div id="accountDeleteReports" class="column is-narrow">
 			<article class="message is-black">
 				<div class="message-header">
 					<p>${System.data.locale.popup.extensionManagement.accountDeleteReports.text}</p>
-				</div>
-				<div class="message-body">
-					<div class="field has-addons">
-						<p class="control">
-							<span class="select">
-								<select>
-									<option value="0">${System.data.locale.popup.extensionManagement.accountDeleteReports.listAllUsers}</option>
-									<option value="1">${System.data.locale.popup.extensionManagement.accountDeleteReports.onModerators}</option>
-									<option value="2">${System.data.locale.popup.extensionManagement.accountDeleteReports.onDeletedAccounts}</option>
-								</select>
-							</span>
-						</p>
-						<p class="control is-expanded">
-							<input class="input" type="text" placeholder="${System.data.locale.messages.groups.userCategories.findUsers.nickOrID}">
-						</p>
-					</div>
-					<div class="field is-horizontal">
-						<div class="field-body">
-							<table class="table table is-fullwidth reports">
-								<thead>
-									<tr>
-										<th>${System.data.locale.common.profileID}</th>
-										<th>${System.data.locale.common.nick}</th>
-										<th>${System.data.locale.common.moderator}</th>
-										<th>${System.data.locale.common.date}</th>
-									</tr>
-								</thead>
-								<tbody></tbody>
-							</table>
-						</div>
-					</div>
-				</div>
+        </div>
+        <div class="message-body">
+          <div class="field has-addons">
+            <p class="control">
+              <span class="select">
+                <select>
+                  <option value="0">${System.data.locale.popup.extensionManagement.accountDeleteReports.listAllUsers}</option>
+                  <option value="1">${System.data.locale.popup.extensionManagement.accountDeleteReports.onModerators}</option>
+                  <option value="2">${System.data.locale.popup.extensionManagement.accountDeleteReports.onDeletedAccounts}</option>
+                </select>
+              </span>
+            </p>
+            <p class="control is-expanded">
+              <input class="input" type="text" placeholder="${System.data.locale.messages.groups.userCategories.findUsers.nickOrID}">
+            </p>
+          </div>
+          <div class="field is-horizontal">
+            <div class="field-body">
+              <div class="loader-wrapper">
+                <div class="loader is-loading"></div>
+              </div>
+            </div>
+          </div>
+        </div>
 			</article>
 		</div>`);
 
     this.$searchInput = $("input", this.$layout);
     this.$filterSelect = $("select", this.$layout);
     this.$reportsTBody = $("table.reports > tbody", this.$layout);
+    this.$header = $(".message-header", this.$layout);
+    this.$body = $(".field-body", this.$layout);
+    this.$spinner = $(".loader-wrapper", this.$layout);
   }
-  async FetchReports() {
-    let resReports = await new ServerReq().GetAccountDeleteReports();
 
+  RenderUserList() {
+    this.$userList = $(`
+    <table class="table table is-fullwidth reports">
+      <thead>
+        <tr>
+          <th>${System.data.locale.common.profileID}</th>
+          <th>${System.data.locale.common.nick}</th>
+          <th>${System.data.locale.common.moderator}</th>
+          <th>${System.data.locale.common.date}</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>`);
+  }
+
+  async FetchReports() {
+    this.HideUserList();
+    this.ShowSpinner();
+    await System.Delay(50);
+
+    const resReports = await new ServerReq().GetAccountDeleteReports();
+
+    this.HideSpinner();
+    this.ShowUserList();
     this.RenderReports(resReports);
   }
+
+  ShowSpinner() {
+    this.$body.append(this.$spinner);
+  }
+
+  HideSpinner() {
+    this.$spinner.detach();
+  }
+
+  ShowUserList() {
+    this.$body.append(this.$userList);
+  }
+
+  HideUserList() {
+    this.$userList.detach();
+  }
+
   RenderReports(reports) {
-    if (
-      reports
-    ) {
+    if (reports) {
       this.reports = reports.data;
 
       this.$reportsTBody.html("");
       this.reports.forEach(this.RenderReport.bind(this));
     }
   }
+
   RenderReport(report) {
-    let targetUserProfileLink = System.createProfileLink(report.target.user
-      .brainlyID, report.target.user.nick);
-    let $report = $(`
+    const targetUserProfileLink = System.createProfileLink(
+      report.target.user.brainlyID,
+      report.target.user.nick,
+    );
+    const $report = $(`
 		<tr id="${report._id}">
 			<td><a href="${targetUserProfileLink}" target="_blank">${report.target.user.brainlyID}</a></td>
 			<td>${report.target.user.nick}</td>
@@ -86,19 +122,24 @@ class AccountDeleteReports {
 
     $report.appendTo(this.$reportsTBody);
   }
+
   BindHandlers() {
-    let that = this;
+    const that = this;
+    this.$header.on("click", this.FetchReports.bind(this));
 
-    this.$searchInput.on("input", debounce(500, function(e) {
-      that.FindUser(this.value);
-    }))
+    this.$searchInput.on(
+      "input",
+      debounce(700, function (e) {
+        that.FindUser(this.value);
+      }),
+    );
 
-    this.$reportsTBody.on("click", "figure img, figure video", function(e) {
+    this.$reportsTBody.on("click", "figure img, figure video", function (e) {
       e.preventDefault();
       new Modal(this);
     });
 
-    this.$reportsTBody.on("click", ">tr[id]", function() {
+    this.$reportsTBody.on("click", ">tr[id]", function () {
       if (this.classList.contains("is-selected")) {
         that.RemoveDetailBox(this);
       } else {
@@ -106,36 +147,46 @@ class AccountDeleteReports {
       }
     });
   }
+
   async FindUser(value) {
-    let filter = this.$filterSelect.val();
+    this.HideUserList();
+    this.ShowSpinner();
+    await System.Delay(50);
+
+    const filter = this.$filterSelect.val();
     let resReports = this.storedReports;
 
-    if (value && value != "") {
+    if (value) {
       resReports = await new ServerReq().FindDeleteReport(filter, value);
 
-      if (this.storedReports.length == 0) {
+      if (this.storedReports.length === 0) {
         this.storedReports = this.reports;
       }
     }
 
+    this.HideSpinner();
+    this.ShowUserList();
     this.RenderReports(resReports);
   }
+
   RemoveDetailBox(reportElement) {
-    let $reportDetailRow = $(`tr[data-id="${reportElement.id}"]`);
+    const $reportDetailRow = $(`tr[data-id="${reportElement.id}"]`);
 
     reportElement.classList.remove("is-selected");
     $reportDetailRow.remove();
   }
+
   ShowReportDetails(reportElement) {
     reportElement.classList.add("is-selected");
     this.RenderReportDetails($(reportElement));
   }
+
   RenderReportDetails($reportRow) {
-    let _id = $reportRow.attr("id");
-    let report = this.reports.find(_report => _report._id == _id);
+    const _id = $reportRow.attr("id");
+    const report = this.reports.find(_report => _report._id == _id);
     console.log(report);
 
-    let $detailRow = $(`
+    const $detailRow = $(`
 		<tr class="is-selected" data-id="${report._id}">
 			<td colspan="4">
 				<table class="table table is-fullwidth">
@@ -144,17 +195,19 @@ class AccountDeleteReports {
 			</td>
 		</tr>`);
 
-    let $evidenceContainer = $("tbody", $detailRow);
+    const $evidenceContainer = $("tbody", $detailRow);
 
     if (!report.target.evidences) {
-      $evidenceContainer.attr("data-empty", System.data.locale.popup
-        .notificationMessages.noEvidenceFound);
+      $evidenceContainer.attr(
+        "data-empty",
+        System.data.locale.popup.notificationMessages.noEvidenceFound,
+      );
     } else {
-      let file = report.target.evidences.file;
-      let comment = report.target.evidences.comment;
+      const { file } = report.target.evidences;
+      const { comment } = report.target.evidences;
 
       if (comment) {
-        let $commentRow = $(`
+        const $commentRow = $(`
 				<tr class="is-selected">
 					<td colspan="2">${comment}</td>
 				</tr>`);
@@ -163,17 +216,26 @@ class AccountDeleteReports {
       }
 
       if (file) {
-        let $fileRow = $(`
+        const $fileRow = $(`
 				<tr class="is-selected">
 					<td rowspan="2">
 						<figure class="image is-64x64">
-							<a href="${System.data.config.extension.uploadedFilesURL + file.name + file.extension}" download="${file.name}${file.extension}">
-									<img src="" title="${System.data.locale.popup.extensionManagement.accountDeleteReports.download}">
+							<a href="${
+                System.data.config.extension.uploadedFilesURL +
+                file.name +
+                file.extension
+              }" download="${file.name}${file.extension}">
+									<img src="" title="${
+                    System.data.locale.popup.extensionManagement
+                      .accountDeleteReports.download
+                  }">
 							</a>
 						</figure>
 					</td>
 					<td class="filename">
-						<div class="middleEllipsis" title="${file.name}${file.extension}" data-filetype="${file.extension}">
+						<div class="middleEllipsis" title="${file.name}${
+          file.extension
+        }" data-filetype="${file.extension}">
 							<p>${file.name}</p>
 						</div>
 					</td>
@@ -185,7 +247,7 @@ class AccountDeleteReports {
 					</td>
 				</tr>`);
 
-        let $iconImg = $("figure img", $fileRow);
+        const $iconImg = $("figure img", $fileRow);
         new FileIcon(file, $iconImg);
 
         $fileRow.appendTo($evidenceContainer);
@@ -196,4 +258,4 @@ class AccountDeleteReports {
   }
 }
 
-export default AccountDeleteReports
+export default AccountDeleteReports;

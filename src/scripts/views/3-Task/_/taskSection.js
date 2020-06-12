@@ -25,6 +25,16 @@ export default function taskSection() {
   mainQuestionArticle.after(mainContainer);
   mainContainer.prepend(mainQuestionArticle);
 
+  let tempFlexElement = Flex({
+    direction: "column",
+    fullWidth: true,
+  });
+  mainQuestionArticle.className += ` ${tempFlexElement.className}`;
+
+  tempFlexElement.remove();
+
+  tempFlexElement = null;
+
   System.data.config.quickDeleteButtonsReasons.question.forEach((id, i) => {
     const reason = System.DeleteReason({
       id,

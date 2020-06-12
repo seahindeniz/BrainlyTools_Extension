@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import classnames from "classnames";
 import SetProps from "./helpers/SetProps";
 
@@ -25,7 +26,7 @@ import SetProps from "./helpers/SetProps";
  * } Type
  *
  * @typedef {'default' | 'white'} Color
- * @typedef {'normal' | 'large'} Size
+ * @typedef {'m' | 'l'} Size
  *
  * @typedef {{
  *  Valid: _Valid,
@@ -55,13 +56,44 @@ const sg = "sg-input";
 const SGD = `${sg}--`;
 
 /**
+ * @this {InputElement}
+ */
+function _Valid() {
+  this.Natural();
+
+  this.classList.add(`${SGD}valid`);
+
+  return this;
+}
+
+/**
+ * @this {InputElement}
+ */
+function _Invalid() {
+  this.Natural();
+
+  this.classList.add(`${SGD}invalid`);
+
+  return this;
+}
+
+/**
+ * @this {InputElement}
+ */
+function _Natural() {
+  this.classList.remove(`${SGD}valid`, `${SGD}invalid`);
+
+  return this;
+}
+
+/**
  *
  * @param {Properties} param0
  */
-export default function ({
+export default ({
   type = "text",
   color = "default",
-  size = "normal",
+  size = "m",
   title,
   value,
   placeholder,
@@ -73,9 +105,9 @@ export default function ({
   withIcon,
   errorMessage,
   ...props
-} = {}) {
+} = {}) => {
   if (valid === true && invalid === true)
-    throw "Input can be either valid or invalid!";
+    throw Error("Input can be either valid or invalid!");
 
   const inputClass = classnames(
     sg,
@@ -119,35 +151,4 @@ export default function ({
   if (invalid) input.Invalid();
 
   if (!errorMessageDisplayed) return input;
-}
-
-/**
- * @this {InputElement}
- */
-function _Valid() {
-  this.Natural();
-
-  this.classList.add(`${SGD}valid`);
-
-  return this;
-}
-
-/**
- * @this {InputElement}
- */
-function _Invalid() {
-  this.Natural();
-
-  this.classList.add(`${SGD}invalid`);
-
-  return this;
-}
-
-/**
- * @this {InputElement}
- */
-function _Natural() {
-  this.classList.remove(`${SGD}valid`, `${SGD}invalid`);
-
-  return this;
-}
+};

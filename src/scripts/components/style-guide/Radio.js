@@ -1,9 +1,10 @@
-import classnames from 'classnames';
-import generateRandomString from '../../helpers/generateRandomString';
-import Label from './Label';
+import classnames from "classnames";
+import generateRandomString from "../../helpers/generateRandomString";
+import Label from "./Label";
+import SetProps from "./helpers/SetProps";
 
 /**
- * @typedef {"normal" | "large"} Size
+ * @typedef {'xxs' | 's'} Size
  * @typedef {{
  * checked?: boolean,
  * name?: string,
@@ -16,46 +17,48 @@ import Label from './Label';
 
 const SG = "sg-radio";
 const SGD = `${SG}--`;
-const SG_ = `${SG}__`;
 
 /**
  * @param {Properties} param0
  */
-export default function({
+export default ({
   checked,
   name,
-  size = "normal",
+  size = "xxs",
   className,
   id = generateRandomString(),
   label,
   ...props
-} = {}) {
-  const radioClass = classnames(SG, {
-    [SGD + size]: size !== "normal"
-  }, className);
+} = {}) => {
+  const radioClass = classnames(
+    SG,
+    {
+      [SGD + size]: size,
+    },
+    className,
+  );
 
-  let radioContainer = document.createElement("div");
+  const radioContainer = document.createElement("div");
   let container = radioContainer;
   radioContainer.className = radioClass;
 
-  let input = document.createElement("input");
-  input.className = `${SG_}element`;
+  const input = document.createElement("input");
+  input.className = `${SG}__element`;
   input.id = id;
   input.type = "radio";
   input.checked = checked;
 
-  if (name)
-    input.name = name;
+  if (name) input.name = name;
 
-  let labelElement = document.createElement("label");
-  labelElement.className = `${SG_}ghost`;
+  const labelElement = document.createElement("label");
+  labelElement.className = `${SG}__ghost`;
   labelElement.htmlFor = id;
 
   radioContainer.appendChild(input);
   radioContainer.appendChild(labelElement);
 
   if (label) {
-    let labelContainer = Label({
+    const labelContainer = Label({
       ...label,
       icon: radioContainer,
       htmlFor: id,
@@ -63,9 +66,7 @@ export default function({
     container = labelContainer;
   }
 
-  if (props)
-    for (let [propName, propVal] of Object.entries(props))
-      radioContainer[propName] = propVal;
+  SetProps(radioContainer, props);
 
   return container;
-}
+};

@@ -1,32 +1,74 @@
-import Input from "./Input";
+import { ButtonRound } from "@style-guide";
+import classnames from "classnames";
 import Icon from "./Icon";
+import Input from "./Input";
 
 const SG = "sg-search";
 
 /**
- * @param {{adaptiveIco?: boolean} & import("./Input").Properties} param0
+ * @param {{
+ *  className?: string,
+ *  fullWidth?: boolean,
+ *  withRoundButton?: boolean,
+ *  inputClassName?: string,
+ * } & import("./Input").Properties} param0
  */
-export default function ({ adaptiveIco, ...props } = {}) {
+export default ({
+  className,
+  fullWidth,
+  size,
+  withRoundButton = false,
+  inputClassName,
+  ...props
+} = {}) => {
+  const searchClassName = classnames(
+    SG,
+    {
+      [`${SG}--${String(size)}`]: size,
+      [`${SG}--full-width`]: fullWidth,
+    },
+    className,
+  );
+
+  const container = document.createElement("div");
+  container.className = searchClassName;
+
   const input = Input({
     type: "search",
-    className: `${SG}__input`,
+    className: className(`${SG}__input`, inputClassName),
     withIcon: true,
+    size,
     ...props,
   });
-  const icon = new Icon({
-    type: "search",
-    size: 18,
-    color: adaptiveIco ? "adaptive" : "gray-secondary",
-  });
-  const container = document.createElement("div");
-  const iconContainer = document.createElement("div");
-
-  container.className = SG;
-  iconContainer.className = `${SG}__icon`;
 
   container.appendChild(input);
-  iconContainer.appendChild(icon.element);
+
+  let iconContainer;
+
+  if (withRoundButton) {
+    iconContainer = document.createElement("div");
+    const button = ButtonRound({
+      icon: "search",
+      color: "black",
+      filled: true,
+      size: size === "l" ? "medium" : "small",
+    });
+
+    iconContainer.append(button);
+  } else {
+    iconContainer = document.createElement("button");
+    const icon = new Icon({
+      type: "search",
+      size: size === "l" ? 24 : 18,
+      color: "gray-secondary",
+    });
+
+    iconContainer.appendChild(icon.element);
+  }
+
+  iconContainer.className = `${SG}__icon`;
+
   container.appendChild(iconContainer);
 
   return container;
-}
+};

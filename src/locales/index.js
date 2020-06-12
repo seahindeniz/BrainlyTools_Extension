@@ -247,7 +247,7 @@ export default {
             description: "Can set warning level of delete reasons"
           },
           12: {
-            title: "Account delete reports",
+            title: "User deletion reports",
             description: "In the extension options, user can see account deletion reports"
           },
           13: {

@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.36.6] - 2020.06.12
+
+### Changed
+
+- Question container gets smaller after quick delete buttons appear
+
+## [6.36.5] - 2020.06.09
+
+### Changed
+
+- Possible fix for Mass-Moderate reported contents
+
 ## [6.36.4] - 2020.05.20
 
 ### Changed

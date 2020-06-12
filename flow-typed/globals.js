@@ -1,6 +1,7 @@
 // @flow
+import type SystemType from "@/scripts/controllers/System";
 
-declare var System: *;
+declare var System: SystemType;
 declare var popup: *;
 declare var isPageProcessing: boolean;
 declare var coloring: *;

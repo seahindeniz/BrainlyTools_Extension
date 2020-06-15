@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.36.7] - 2020.06.15
+
+### Changed
+
+- Possible fix for Brainly's 403 error
+
 ## [6.36.6] - 2020.06.12
 
 ### Changed

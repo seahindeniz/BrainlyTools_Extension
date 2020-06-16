@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import classnames from "classnames";
 import isValidPath from "is-valid-path";
 import { isUri } from "valid-url";
@@ -7,7 +8,7 @@ import SetProps from "./helpers/SetProps";
 /**
  * @typedef {import("./Icon").Properties} IconProperties
  *
- * @typedef {"small" | "normal" | "large" | "xlarge" | "xxlarge"} Size
+ * @typedef {'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl'} Size
  * @typedef {{
  * size?: Size,
  * border?: boolean,
@@ -16,7 +17,7 @@ import SetProps from "./helpers/SetProps";
  * link?: string,
  * title?: string,
  * className?: string,
- * } & Object<string, *>} Properties
+ * } & Object<string, *>} AvatarProperties
  *
  * @typedef {{
  *  size: Size,
@@ -34,43 +35,79 @@ const SG_ = `${SG}__`;
 
 /**
  * @type {{
- * "small": 22;
- * "normal": 30;
- * "large": 54;
- * "xlarge": 78;
- * "xxlarge": 102;
+ *  xs: 22;
+ *  s: 30;
+ *  m: 38;
+ *  l: 54;
+ *  xl: 78;
+ *  xxl: 102;
  * }}
  */
 const ICON_SIZE_FOR_AVATARS_WITH_BORDER = {
-  small: 22,
-  normal: 30,
-  large: 54,
-  xlarge: 78,
-  xxlarge: 102,
+  xs: 22,
+  s: 30,
+  m: 38,
+  l: 54,
+  xl: 78,
+  xxl: 102,
 };
 
 /**
  * @type {{
- * "small": 24;
- * "normal": 32;
- * "large": 56;
- * "xlarge": 80;
- * "xxlarge": 104;
+ *  xs: 24;
+ *  s: 32;
+ *  m: 40;
+ *  l: 56;
+ *  xl: 80;
+ *  xxl: 104;
  * }}
  */
 const ICON_SIZE = {
-  small: 24,
-  normal: 32,
-  large: 56,
-  xlarge: 80,
-  xxlarge: 104,
+  xs: 24,
+  s: 32,
+  m: 40,
+  l: 56,
+  xl: 80,
+  xxl: 104,
 };
 
 /**
- * @param {Properties} param0
+ * @param {Size} size
+ * @param {boolean} border
  */
-export default function ({
-  size = "normal",
+function GenerateAvatarElement(size, border) {
+  const avatar = document.createElement("div");
+  avatar.className = `${SG_}image ${SG_}image--icon`;
+  const icon = new Icon({
+    type: "profile",
+    color: "gray-light",
+    size: border ? ICON_SIZE_FOR_AVATARS_WITH_BORDER[size] : ICON_SIZE[size],
+  });
+
+  avatar.append(icon.element);
+
+  return avatar;
+}
+
+/**
+ * @this {AvatarElement}
+ */
+function ReplaceIcon() {
+  const oldAvatarImage = this.querySelector(`.${SG_}image`);
+
+  if (oldAvatarImage) oldAvatarImage.remove();
+
+  const avatar = GenerateAvatarElement(this.size, this.border);
+
+  if (!this.firstElementChild) this.append(avatar);
+  else this.firstElementChild.append(avatar);
+}
+
+/**
+ * @param {AvatarProperties} param0
+ */
+export default ({
+  size = "s",
   border = false,
   spaced,
   imgSrc,
@@ -78,11 +115,11 @@ export default function ({
   title,
   className,
   ...props
-} = {}) {
+} = {}) => {
   const avatarClass = classnames(
     SG,
     {
-      [SGD + size]: size !== "normal",
+      [SGD + size]: size !== "s",
       [`${SGD}with-border`]: border,
       [`${SGD}spaced`]: spaced,
     },
@@ -136,36 +173,4 @@ export default function ({
   else container.append(avatar);
 
   return container;
-}
-
-/**
- * @param {Size} size
- * @param {boolean} border
- */
-function GenerateAvatarElement(size, border) {
-  const avatar = document.createElement("div");
-  avatar.className = `${SG_}image ${SG_}image--icon`;
-  const icon = new Icon({
-    type: "profile",
-    color: "gray-light",
-    size: border ? ICON_SIZE_FOR_AVATARS_WITH_BORDER[size] : ICON_SIZE[size],
-  });
-
-  avatar.append(icon.element);
-
-  return avatar;
-}
-
-/**
- * @this {AvatarElement}
- */
-function ReplaceIcon() {
-  const oldAvatarImage = this.querySelector(`.${SG_}image`);
-
-  if (oldAvatarImage) oldAvatarImage.remove();
-
-  const avatar = GenerateAvatarElement(this.size, this.border);
-
-  if (!this.firstElementChild) this.append(avatar);
-  else this.firstElementChild.append(avatar);
-}
+};

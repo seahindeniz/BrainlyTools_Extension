@@ -2,11 +2,12 @@
 /* eslint-disable no-underscore-dangle */
 import notification from "@/scripts/components/notification2";
 import {
-  ButtonRound,
+  Button,
   Flex,
   Spinner,
   SpinnerContainer,
   Text,
+  Icon,
 } from "@/scripts/components/style-guide";
 import Action from "@/scripts/controllers/Req/Brainly/Action";
 import Build from "@/scripts/helpers/Build";
@@ -207,7 +208,6 @@ export default class Report {
   RenderButtonSpinner() {
     this.buttonSpinner = Spinner({
       overlay: true,
-      size: "small",
       light: true,
     });
   }
@@ -215,11 +215,11 @@ export default class Report {
   /**
    * @param {string} [reasonType]
    * @param {{
-   *  button: import("@style-guide/ButtonRound").RoundButtonColorType,
+   *  button: import("@style-guide/Button").ButtonPropsType,
    *  text: import("@style-guide/Text").TextColorType,
-   * }} [color]
+   * }} [components]
    */
-  RenderDeleteButtons(reasonType, color) {
+  RenderDeleteButtons(reasonType, components) {
     const reasonIds = System.data.config.quickDeleteButtonsReasons[reasonType];
     const reasons = System.data.Brainly.deleteReasons.__withIds[reasonType];
 
@@ -230,7 +230,7 @@ export default class Report {
 
       const quickActionButton = new FooterQDB(this, {
         reason,
-        color,
+        components,
         buttonText: i + 1,
       });
 
@@ -239,14 +239,14 @@ export default class Report {
   }
 
   RenderConfirmButton() {
-    this.confirmButton = ButtonRound({
-      icon: {
+    this.confirmButton = new Button({
+      iconOnly: true,
+      type: "solid-mint",
+      title: System.data.locale.common.confirm,
+      icon: new Icon({
         type: "check",
         size: 22,
-      },
-      color: "mint",
-      title: System.data.locale.common.confirm,
-      filled: true,
+      }),
     });
     this.confirmButtonContainer = Build(
       Flex({
@@ -256,12 +256,15 @@ export default class Report {
       [
         [
           (this.confirmButtonSpinnerContainer = SpinnerContainer()),
-          this.confirmButton,
+          this.confirmButton.element,
         ],
       ],
     );
 
-    this.confirmButton.addEventListener("click", this.Confirm.bind(this));
+    this.confirmButton.element.addEventListener(
+      "click",
+      this.Confirm.bind(this),
+    );
     this.buttonContainer.append(this.confirmButtonContainer);
   }
 

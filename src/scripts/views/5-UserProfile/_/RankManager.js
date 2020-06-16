@@ -1,6 +1,6 @@
 /* eslint-disable no-await-in-loop */
 import {
-  ButtonRound,
+  Button,
   Checkbox,
   Flex,
   Text,
@@ -8,7 +8,6 @@ import {
 } from "@/scripts/components/style-guide";
 import Build from "@/scripts/helpers/Build";
 import sortablejs from "sortablejs";
-import Button from "../../../components/Button";
 import notification from "../../../components/notification2";
 import Progress from "../../../components/Progress";
 import Action from "../../../controllers/Req/Brainly/Action";
@@ -91,14 +90,14 @@ class RankManager {
   }
 
   RenderSaveButton() {
-    this.$saveButton = Button({
-      type: "solid-mint",
+    this.saveButton = new Button({
       size: "small",
       fullWidth: true,
+      type: "solid-mint",
       text: System.data.locale.common.save,
     });
 
-    this.$saveButton.appendTo(this.$saveButtonContainer);
+    this.$saveButtonContainer.append(this.saveButton.element);
   }
 
   RenderProgressBar() {
@@ -198,9 +197,11 @@ class RankManager {
                 ],
                 [
                   Flex({ alignItems: "center" }),
-                  ButtonRound({
+                  new Button({
+                    iconOnly: true,
                     size: "xsmall",
                     className: "dragger",
+                    type: "transparent-blue",
                     icon: new Icon({
                       type: "menu",
                       color: "blue",
@@ -237,7 +238,10 @@ class RankManager {
       e.preventDefault();
       this.TogglePanel();
     });
-    this.$saveButton.click(this.SaveSelectedRank.bind(this));
+    this.saveButton.element.addEventListener(
+      "click",
+      this.SaveSelectedRank.bind(this),
+    );
     $("a", this.$rankContainer).click(event => {
       if (!event.ctrlKey) {
         event.preventDefault();

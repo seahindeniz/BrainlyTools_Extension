@@ -49,7 +49,7 @@ import SetProps from "./helpers/SetProps";
  *  withIcon?: boolean,
  *  errorMessage?: string,
  *  [x: string]: *
- * }} Properties
+ * }} InputPropertiesType
  */
 
 const sg = "sg-input";
@@ -87,8 +87,7 @@ function _Natural() {
 }
 
 /**
- *
- * @param {Properties} param0
+ * @param {InputPropertiesType} param0
  */
 export default ({
   type = "text",

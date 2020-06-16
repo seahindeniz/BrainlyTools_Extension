@@ -1,18 +1,21 @@
 import UserContent from "./_/UserContent";
-import UserContentRow from "./_/UserContentRow";
 import Action from "../../controllers/Req/Brainly/Action";
 import Button from "../../components/Button";
 
 class Answers extends UserContent {
+  /**
+   * @typedef {import("./_/UserContentRow").default} UserContentRow
+   */
   constructor() {
     super("Answers");
   }
+
   InitAnswers() {
     if (
       System.checkUserP([6, 15, 19]) &&
-      System.data.Brainly.userData.user.id != sitePassedParams[0]
+      Number(System.data.Brainly.userData.user.id) !==
+        Number(sitePassedParams[0])
     ) {
-
       if (System.checkUserP(6) && System.checkBrainlyP([146, 147])) {
         this.RenderCheckboxes();
         this.RenderButtonContainer();
@@ -45,49 +48,56 @@ class Answers extends UserContent {
       }
     }
   }
+
   RenderButtonHole() {
-    return $(`<div class="sg-actions-list__hole"></div>`)
-      .appendTo(this.$buttonList);
+    return $(`<div class="sg-actions-list__hole"></div>`).appendTo(
+      this.$buttonList,
+    );
   }
+
   RenderApproveButton() {
-    let button = this.RenderButton({
+    const button = this.RenderButton({
       type: "solid-mint",
-      text: System.data.locale.common.moderating.approve
+      text: System.data.locale.common.moderating.approve,
     });
     this.$approveButtonContainer = button.$container;
     this.$approveButton = button.$button;
   }
+
   RenderUnapproveButton() {
-    let button = this.RenderButton({
-      text: System.data.locale.common.moderating.unapprove
+    const button = this.RenderButton({
+      text: System.data.locale.common.moderating.unapprove,
     });
     this.$unApproveButtonContainer = button.$container;
     this.$unApproveButton = button.$button;
   }
+
   RenderCorrectionButton() {
-    let button = this.RenderButton({
+    const button = this.RenderButton({
       type: "transparent-blue",
-      text: System.data.locale.userContent.askForCorrection.text
+      text: System.data.locale.userContent.askForCorrection.text,
     });
     this.$correctionButtonContainer = button.$container;
     this.$correctionButton = button.$button;
   }
+
   RenderModerateButton() {
-    let button = this.RenderButton({
+    const button = this.RenderButton({
       type: "transparent-peach",
-      text: System.data.locale.common.moderating.moderate
+      text: System.data.locale.common.moderating.moderate,
     });
     this.$moderateButtonContainer = button.$container;
     this.$moderateButton = button.$button;
   }
+
   /**
    * @param {import("../../components/Button").ButtonOptions} options
    */
   RenderButton(options) {
-    let $container = $(`<div class="sg-actions-list__hole"></div>`);
-    let $button = Button({
+    const $container = $(`<div class="sg-actions-list__hole"></div>`);
+    const $button = Button({
       size: "small",
-      ...options
+      ...options,
     });
 
     $button.appendTo($container);
@@ -99,8 +109,9 @@ class Answers extends UserContent {
   BindApprovementHandlers() {
     this.$approveButton.click(this.ApproveSelectedAnswers.bind(this));
   }
+
   async ApproveSelectedAnswers() {
-    let rows = this.ApprovableRows();
+    const rows = this.ApprovableRows();
 
     if (rows.length == 0) {
       this.ShowSelectContentWarning();
@@ -108,12 +119,16 @@ class Answers extends UserContent {
       this.HideSelectContentWarning();
       await System.Delay(50);
 
-      if (confirm(System.data.locale.userContent.notificationMessages
-          .confirmApproving)) {
+      if (
+        confirm(
+          System.data.locale.userContent.notificationMessages.confirmApproving,
+        )
+      ) {
         rows.forEach(this.Row_ApproveAnswer.bind(this));
       }
     }
   }
+
   /**
    * @param {UserContentRow} row
    */
@@ -121,7 +136,7 @@ class Answers extends UserContent {
     if (row.IsApproved()) {
       row.Approved(true);
     } else {
-      let resApprove = await new Action().ApproveAnswer(row.answerID);
+      const resApprove = await new Action().ApproveAnswer(row.answerID);
 
       row.CheckApproveResponse(resApprove);
     }
@@ -130,8 +145,9 @@ class Answers extends UserContent {
   BindUnapprovementHandlers() {
     this.$unApproveButton.click(this.UnapproveSelectedAnswers.bind(this));
   }
+
   async UnapproveSelectedAnswers() {
-    let rows = this.UnapprovableRows();
+    const rows = this.UnapprovableRows();
 
     if (rows.length == 0) {
       this.ShowSelectContentWarning();
@@ -139,18 +155,23 @@ class Answers extends UserContent {
       this.HideSelectContentWarning();
       await System.Delay(50);
 
-      if (confirm(System.data.locale.userContent.notificationMessages
-          .confirmUnapproving)) {
+      if (
+        confirm(
+          System.data.locale.userContent.notificationMessages
+            .confirmUnapproving,
+        )
+      ) {
         rows.forEach(this.Row_UnapproveAnswer.bind(this));
       }
     }
   }
+
   /**
    * @param {UserContentRow} row
    */
   async Row_UnapproveAnswer(row) {
     if (row.IsApproved()) {
-      let resUnapprove = await new Action().UnapproveAnswer(row.answerID);
+      const resUnapprove = await new Action().UnapproveAnswer(row.answerID);
 
       row.CheckUnapproveResponse(resUnapprove);
     } else {
@@ -159,13 +180,16 @@ class Answers extends UserContent {
   }
 
   BindCorrectionHandlers() {
-    this.$correctionButton.click(this.ToggleReportForCorrectionSection.bind(
-      this));
-    this.$reportButton.click(this.ReportSelectedAnswersForCorrection.bind(
-      this));
+    this.$correctionButton.click(
+      this.ToggleReportForCorrectionSection.bind(this),
+    );
+    this.$reportButton.click(
+      this.ReportSelectedAnswersForCorrection.bind(this),
+    );
   }
+
   async ReportSelectedAnswersForCorrection() {
-    let rows = this.DeletableRows();
+    const rows = this.DeletableRows();
 
     if (rows.length == 0) {
       this.ShowSelectContentWarning();
@@ -173,19 +197,25 @@ class Answers extends UserContent {
       this.HideSelectContentWarning();
       await System.Delay(50);
 
-      if (confirm(System.data.locale.userContent.notificationMessages
-          .confirmReporting)) {
-        let postData = {
+      if (
+        confirm(
+          System.data.locale.userContent.notificationMessages.confirmReporting,
+        )
+      ) {
+        const postData = {
           reason: this.$correctionReason.val(),
         };
         console.log(postData);
 
-        rows.forEach(row => this.Row_ReportAnswerForCorrection(row, {
-          ...postData
-        }));
+        rows.forEach(row =>
+          this.Row_ReportAnswerForCorrection(row, {
+            ...postData,
+          }),
+        );
       }
     }
   }
+
   /**
    * @param {UserContentRow} row
    * @param {{reason:string}} postData
@@ -199,7 +229,7 @@ class Answers extends UserContent {
       row.checkbox.ShowSpinner();
 
       postData.model_id = row.answerID;
-      let resReport = await new Action().ReportForCorrection(postData);
+      const resReport = await new Action().ReportForCorrection(postData);
 
       row.CorrectReportResponse(resReport);
     }
@@ -209,8 +239,9 @@ class Answers extends UserContent {
     this.$moderateButton.click(this.ToggleDeleteSection.bind(this));
     this.$deleteButton.click(this.DeleteSelectedAnswers.bind(this));
   }
+
   async DeleteSelectedAnswers() {
-    let rows = this.DeletableRows();
+    const rows = this.DeletableRows();
 
     if (rows.length == 0) {
       this.ShowSelectContentWarning();
@@ -219,29 +250,30 @@ class Answers extends UserContent {
       await System.Delay(50);
 
       if (confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
-        let postData = {
+        const postData = {
           reason_id: this.deleteSection.selectedReason.id,
           reason: this.deleteSection.reasonText,
           give_warning: this.deleteSection.giveWarning,
-          take_points: this.deleteSection.takePoints
+          take_points: this.deleteSection.takePoints,
         };
 
         rows.forEach(row => this.Row_DeleteAnswer(row, { ...postData }));
       }
     }
   }
+
   /**
    * @param {UserContentRow} row
    * @param {{reason_id: number, reason: string, give_warning: boolean, take_points: boolean}} postData
    */
   async Row_DeleteAnswer(row, postData) {
     if (row.deleted) {
-      row.Deleted(true)
+      row.Deleted(true);
     } else {
       row.checkbox.ShowSpinner();
 
       postData.model_id = row.answerID;
-      let resRemove = await new Action().RemoveAnswer(postData);
+      const resRemove = await new Action().RemoveAnswer(postData);
 
       row.CheckDeleteResponse(resRemove);
     }

@@ -4,7 +4,6 @@ export { default as Avatar } from "./Avatar";
 export { default as Badge } from "./Badge";
 export { default as Box } from "./Box";
 export { default as Button } from "./Button";
-export { default as ButtonRound } from "./ButtonRound";
 export { default as Checkbox } from "./Checkbox";
 export { default as ContentBox } from "./ContentBox";
 export { default as ContentBoxActions } from "./ContentBox/Actions";

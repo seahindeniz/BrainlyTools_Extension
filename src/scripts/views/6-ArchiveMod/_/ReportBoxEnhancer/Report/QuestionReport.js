@@ -4,7 +4,9 @@ import Report from ".";
 export default class QuestionReport extends Report {
   RenderDeleteButtons() {
     super.RenderDeleteButtons("question", {
-      button: "mustard",
+      button: {
+        type: "solid-mustard",
+      },
       text: "gray",
     });
   }

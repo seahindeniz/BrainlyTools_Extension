@@ -1,18 +1,18 @@
-import { ButtonRound } from "@style-guide";
+// @flow
+import { Button } from "@style-guide";
 import classnames from "classnames";
 import Icon from "./Icon";
 import Input from "./Input";
+import type { InputPropertiesType } from "./Input";
 
 const SG = "sg-search";
 
-/**
- * @param {{
- *  className?: string,
- *  fullWidth?: boolean,
- *  withRoundButton?: boolean,
- *  inputClassName?: string,
- * } & import("./Input").Properties} param0
- */
+type PropsType = {
+  inputClassName?: string,
+  withRoundButton?: boolean,
+  ...
+} & InputPropertiesType;
+
 export default ({
   className,
   fullWidth,
@@ -20,7 +20,7 @@ export default ({
   withRoundButton = false,
   inputClassName,
   ...props
-} = {}) => {
+}: PropsType = {}) => {
   const searchClassName = classnames(
     SG,
     {
@@ -47,10 +47,14 @@ export default ({
 
   if (withRoundButton) {
     iconContainer = document.createElement("div");
-    const button = ButtonRound({
-      icon: "search",
-      color: "black",
-      filled: true,
+    const button = new Button({
+      type: "solid",
+      icon: new Icon({
+        type: "search",
+        size: size === "l" ? 24 : 16,
+        color: "adaptive",
+      }),
+      iconOnly: true,
       size: size === "l" ? "medium" : "small",
     });
 

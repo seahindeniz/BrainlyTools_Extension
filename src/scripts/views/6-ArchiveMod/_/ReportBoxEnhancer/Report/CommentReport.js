@@ -4,7 +4,9 @@ import Report from ".";
 export default class CommentReport extends Report {
   RenderDeleteButtons() {
     super.RenderDeleteButtons("comment", {
-      button: "black",
+      button: {
+        type: "solid",
+      },
       text: "white",
     });
   }

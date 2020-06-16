@@ -6,7 +6,6 @@ import SetProps from "@style-guide/helpers/SetProps";
 import classnames from "classnames";
 
 type ExtensionIconTypeType =
-  | "ext-trash"
   | "ext-info"
   | "ext-icon"
   | "ext-csv"
@@ -90,6 +89,7 @@ export type IconTypeType =
   | "symbols"
   | "title"
   | "toughest_questions"
+  | "trash"
   | "twitter"
   | "underlined"
   | "unseen"
@@ -128,6 +128,7 @@ export type IconSizeType =
   | 48
   | 46
   | 40
+  | 38
   | 32
   | 30
   | 26

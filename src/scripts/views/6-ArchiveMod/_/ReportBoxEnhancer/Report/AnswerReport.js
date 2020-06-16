@@ -4,7 +4,9 @@ import Report from ".";
 export default class AnswerReport extends Report {
   RenderDeleteButtons() {
     super.RenderDeleteButtons("answer", {
-      button: "peach",
+      button: {
+        type: "solid-peach",
+      },
       text: "white",
     });
   }

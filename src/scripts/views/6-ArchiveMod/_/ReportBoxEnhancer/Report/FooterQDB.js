@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import notification from "@/scripts/components/notification2";
 import {
-  ButtonRound,
+  Button,
   Flex,
   SpinnerContainer,
   Text,
@@ -12,17 +12,17 @@ export default class FooterQDB {
    * @param {import(".").default} main
    * @param {{
    *  reason: *,
-   *  color: {
-   *    button: import("@style-guide/ButtonRound").RoundButtonColorType,
+   *  components: {
+   *    button: import("@style-guide/Button").ButtonPropsType,
    *    text: import("@style-guide/Text").TextColorType,
    *  },
    *  buttonText: string,
    * }} param1
    */
-  constructor(main, { reason, color, buttonText }) {
+  constructor(main, { reason, components, buttonText }) {
     this.main = main;
     this.reason = reason;
-    this.color = color;
+    this.components = components;
     this.buttonText = buttonText;
 
     this.RenderButtonContainer();
@@ -39,23 +39,23 @@ export default class FooterQDB {
   }
 
   RenderButton() {
-    this.button = ButtonRound({
-      color: this.color.button,
-      filled: true,
+    this.button = new Button({
+      iconOnly: true,
       icon: Text({
         text: this.buttonText,
-        color: this.color.text,
+        color: this.components.text,
         size: "normal",
         weight: "bold",
       }),
       title: `${this.reason.title}:\n${this.reason.text}`,
+      ...this.components.button,
     });
 
-    this.container.append(this.button);
+    this.spinnerContainer.append(this.button.element);
   }
 
   BindHandler() {
-    this.button.addEventListener("click", this.Delete.bind(this));
+    this.button.element.addEventListener("click", this.Delete.bind(this));
   }
 
   async Delete() {
@@ -66,7 +66,11 @@ export default class FooterQDB {
 
       await this.ShowSpinner();
 
-      if (!confirm(message)) return;
+      if (!confirm(message)) {
+        this.main.HideSpinner();
+
+        return;
+      }
 
       const { model_id } = this.main.zdnObject.data;
       const { model_type_id } = this.main.zdnObject.data;
@@ -95,6 +99,7 @@ export default class FooterQDB {
         data: [model_id],
       });
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error(error);
       notification({
         html:

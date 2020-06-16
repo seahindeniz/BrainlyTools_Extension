@@ -1,14 +1,23 @@
 @import "./variables.scss";
 
-$colorMap: ("":"",
-  mint: (#60d399, #40bd7e),
-  peach:(#ff7968, #ff604b),
-  mustard:(#fbbe2e, #eda600),
+$colorMap: (
+  "": "",
+  mint: (
+    #60d399,
+    #40bd7e,
+  ),
+  peach: (
+    #ff7968,
+    #ff604b,
+  ),
+  mustard: (
+    #fbbe2e,
+    #eda600,
+  ),
 );
 
-@each $colorName,
-$colorList in $colorMap {
-  @if $colorName !="" {
+@each $colorName, $colorList in $colorMap {
+  @if $colorName != "" {
     $normal: nth($colorList, 1);
     $dark: nth($colorList, 2);
 
@@ -41,7 +50,7 @@ $colorList in $colorMap {
         }
       }
 
-      @if $colorName !="mint" {
+      @if $colorName != "mint" {
         &--solid {
           &-#{$colorName} {
             background-color: $normal;
@@ -56,7 +65,13 @@ $colorList in $colorMap {
       }
 
       &--outline {
-        &-#{$colorName} {
+        &-toggle {
+          &-mint {
+            border-color: #60d399;
+            fill: #60d399;
+          }
+        }
+        /* &-#{$colorName} {
           background-color: rgba(255, 255, 255, 0);
           border: 2px solid $normal;
           color: #000;
@@ -66,21 +81,31 @@ $colorList in $colorMap {
           &:active {
             background-color: unquote($normal + "1f");
           }
-        }
+        } */
       }
     }
   }
 }
 
 .sg-button {
+  $p: &;
   &--xsmall {
     height: 28px;
-    padding: 0 16px;
-    line-height: 10px;
     font-size: 12px;
+    line-height: 10px;
+
+    &#{$p}--icon-only {
+      width: 28px;
+    }
   }
 
-  &--disabled {
+  &--xlarge {
+    width: 72px;
+    height: 72px;
+  }
+
+  &--disabled,
+  &--no-click {
     pointer-events: none;
   }
 
@@ -89,7 +114,6 @@ $colorList in $colorMap {
   }
 
   &--transparent {
-
     &-mint {
       color: #60d399;
       background-color: #ffffff00;
@@ -115,13 +139,17 @@ $colorList in $colorMap {
     }
   }
 
-  & &__icon {
-    &:only-child {
-      margin-right: 0;
-    }
+  &--icon-only {
+    border-radius: 50%;
+  }
 
+  &__icon {
     &--xsmall {
       margin-right: 6px;
+    }
+
+    &--xlarge {
+      margin-right: 12px;
     }
   }
 
@@ -133,20 +161,15 @@ $colorList in $colorMap {
   &--spaced {
     margin: rhythm(0.2);
 
-    @each $cornerName,
-    $corner in $cornerSpaces {
-      @if $cornerName !="" {
+    @each $cornerName, $corner in $cornerSpaces {
+      @if $cornerName != "" {
         &-#{$cornerName} {
-
-          @each $sizeName,
-          $size in $sizeList {
+          @each $sizeName, $size in $sizeList {
             $size: rhythm($size);
 
-            @if $sizeName=="" {
+            @if $sizeName== "" {
               margin-#{$cornerName}: $size;
-            }
-
-            @else {
+            } @else {
               &-#{$sizeName} {
                 margin-#{$cornerName}: $size;
               }

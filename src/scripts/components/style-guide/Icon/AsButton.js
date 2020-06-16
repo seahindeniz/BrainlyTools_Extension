@@ -2,7 +2,6 @@ import classnames from "classnames";
 import SetProps from "@style-guide/helpers/SetProps";
 import Icon, * as IconModule from ".";
 import AddChildren from "../helpers/AddChildren";
-// TODO Change all AsButton usages with ButtonRound
 /**
  * @typedef {{
  *  color?: IconModule.Color,

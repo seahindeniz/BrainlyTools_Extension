@@ -3,7 +3,7 @@
 import CreateElement from "@/scripts/components/CreateElement";
 import Build from "@/scripts/helpers/Build";
 import IsVisible from "@/scripts/helpers/IsVisible";
-import { ButtonRound, Flex, Icon, Text } from "@style-guide";
+import { Button, Flex, Icon, Text } from "@style-guide";
 import prettysize from "prettysize";
 
 const REVIEWABLE_ICON_NAMES = ["video", "audio", "image"];
@@ -90,10 +90,10 @@ export default class Evidence {
           [
             [
               Flex({ alignItems: "center" }),
-              (this.removeButton = ButtonRound({
-                filled: true,
-                color: "peach",
-                icon: "close",
+              (this.removeButton = new Button({
+                iconOnly: true,
+                type: "solid-peach",
+                icon: new Icon({ type: "close" }),
                 size: "xsmall",
               })),
             ],
@@ -163,7 +163,7 @@ export default class Evidence {
   }
 
   BindListener() {
-    this.removeButton.addEventListener("click", this.Remove.bind(this));
+    this.removeButton.element.addEventListener("click", this.Remove.bind(this));
 
     if (REVIEWABLE_ICON_NAMES.includes(this.fileType)) {
       this.iconLink.addEventListener("click", this.TogglePreview.bind(this));

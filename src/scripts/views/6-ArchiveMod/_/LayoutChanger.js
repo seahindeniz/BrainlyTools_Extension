@@ -1,4 +1,4 @@
-import { ButtonRound } from "@/scripts/components/style-guide";
+import { Button, Icon } from "@/scripts/components/style-guide";
 import storage from "../../../helpers/extStorage";
 
 export default class LayoutChanger {
@@ -27,17 +27,20 @@ export default class LayoutChanger {
 
   RenderLayoutSwitcherButton() {
     const buttonContainer = this.subHeader.querySelector(".pull-right");
-    this.layoutSwitcherButton = ButtonRound({
-      icon: this.isLayoutSwitched ? "credit_card" : "bulleted_list",
-      filled: true,
-      color: "blue",
+    this.layoutSwitcherButton = new Button({
+      type: "solid-blue",
+      iconOnly: true,
+      icon: new Icon({
+        type: this.isLayoutSwitched ? "credit_card" : "bulleted_list",
+      }),
     });
 
-    if (buttonContainer) buttonContainer.append(this.layoutSwitcherButton);
+    if (buttonContainer)
+      buttonContainer.append(this.layoutSwitcherButton.element);
   }
 
   BindHandlers() {
-    this.layoutSwitcherButton.addEventListener(
+    this.layoutSwitcherButton.element.addEventListener(
       "click",
       this.SwitchLayout.bind(this),
     );

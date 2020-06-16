@@ -1,26 +1,16 @@
+/* eslint-disable camelcase */
 import Build from "@/scripts/helpers/Build";
 import IsVisible from "@/scripts/helpers/IsVisible";
-import {
-  ActionList,
-  ActionListHole,
-  Box,
-  ButtonRound,
-  ContentBox,
-  ContentBoxActions,
-  ContentBoxContent,
-  Text
-} from "@style-guide";
-import mergeDeep from "merge-deep";
+import { Box, Button, Icon, Text, Flex } from "@style-guide";
 import momentTz from "moment-timezone";
 import notification from "../../../components/notification";
 import Action from "../../../controllers/Req/Brainly/Action";
 import ContentViewer_Content from "./ContentViewer_Content";
 import SelectCheckbox from "./SelectCheckbox";
-import UserContent from "./UserContent";
 
 export default class UserContentRow {
   /**
-   * @param {UserContent} main
+   * @param {import("./UserContent").default} main
    * @param {number} id
    * @param {HTMLTableRowElement} element
    */
@@ -32,8 +22,8 @@ export default class UserContentRow {
     this.deleted = false;
     this.contents = {
       question: null,
-      answers: {}
-    }
+      answers: {},
+    };
     this.comment = undefined;
 
     $(element).prop("that", this);
@@ -45,64 +35,76 @@ export default class UserContentRow {
     this.RenderContentViewer();
     this.BindHandlers();
   }
+
   RenderLinkContainer() {
-    let questionLink = this.element.querySelector("a[href]");
+    const questionLink = this.element.querySelector("a[href]");
 
     if (questionLink instanceof HTMLAnchorElement) {
-      this.container = Build(ContentBox(), [
+      this.container = Build(
+        Flex({
+          direction: "column",
+          marginTop: "xs",
+          marginBottom: "xs",
+        }),
         [
-          ContentBoxActions(), [
+          [
+            (this.questionLinkContainerList = Flex()),
             [
-              this.questionLinkContainerList = ActionList({
-                noWrap: true
-              }),
               [
-                [
-                  ActionListHole(),
-                  this.questionLink = Text({
-                    tag: "a",
-                    size: "xsmall",
-                    color: "blue-dark",
-                    html: questionLink.innerHTML,
-                    href: questionLink.href,
-                    target: "_blank",
-                  })
-                ]
-              ]
-            ]
-          ]
-        ]
-      ]);
+                Flex({
+                  alignItems: "center",
+                }),
+                (this.questionLink = Text({
+                  tag: "a",
+                  size: "xsmall",
+                  color: "blue-dark",
+                  html: questionLink.innerHTML,
+                  href: questionLink.href,
+                  target: "_blank",
+                })),
+              ],
+            ],
+          ],
+        ],
+      );
 
       questionLink.after(this.container);
       questionLink.remove();
     }
   }
+
   AttachID() {
     if (this.questionLink instanceof HTMLAnchorElement) {
-      let url = this.questionLink.href
+      const url = this.questionLink.href;
       this.element.questionID = System.ExtractId(url);
     }
   }
+
   async FetchContentWithPromise(refreshContent) {
     if (refreshContent || !this.resPromise) {
       /* this.content = this.main.questions[this.element.questionID] = new Content(this.element.questionID);
       this.content.resPromise = this.content.Fetch(); */
-      if (!this.main.questions[this.element.questionID] || !this.main
-        .questions[this.element.questionID].resPromise) {
+      if (
+        !this.main.questions[this.element.questionID] ||
+        !this.main.questions[this.element.questionID].resPromise
+      ) {
         if (!this.main.questions[this.element.questionID])
           this.main.questions[this.element.questionID] = {};
 
-        this.main.questions[this.element.questionID].resPromise = this
-          .resPromise = new Action().GetQuestion(this.element.questionID);
+        this.resPromise = new Action().GetQuestion(this.element.questionID);
+        this.main.questions[
+          this.element.questionID
+        ].resPromise = this.resPromise;
       } else {
-        this.resPromise = this.main.questions[this.element.questionID]
-          .resPromise;
+        this.resPromise = this.main.questions[
+          this.element.questionID
+        ].resPromise;
       }
 
-      //return this.CheckContentPromise();
+      // return this.CheckContentPromise();
     }
   }
+
   async RenderAfterResolve() {
     await this.SetContentAfterResolve();
 
@@ -110,41 +112,39 @@ export default class UserContentRow {
       this.RenderQuestionContent();
       this.RenderAnswers();
 
-      if (this.res.data.task.settings.is_deleted)
-        this.Deleted(true);
+      if (this.res.data.task.settings.is_deleted) this.Deleted(true);
     }
 
-    if (this.main.caller == "Questions" || this.main.caller == "Answers") {
+    if (this.main.caller === "Questions" || this.main.caller === "Answers") {
       this.isBusy = false;
-      this.checkbox && this.checkbox.HideSpinner();
+      if (this.checkbox) this.checkbox.HideSpinner();
     }
   }
+
   async SetContentAfterResolve() {
     this.res = await this.resPromise;
 
     return Promise.resolve();
   }
+
   RenderContentViewer() {
-    this.viewer = Build(ContentBoxContent(), [
-      [
-        ContentBox({ spacedTop: true, spacedBottom: "large" }),
-        [
-          [
-            ContentBoxContent(),
-            this.contentContainer = Box({
-              border: false,
-              style: "width: 52em;"
-            })
-          ]
-        ]
-      ]
-    ]);
+    this.viewer = Flex({
+      marginTop: "xs",
+      marginBottom: "xs",
+      direction: "column",
+      children: (this.contentContainer = Box({
+        border: false,
+        style: "width: 52em;",
+      })),
+    });
   }
+
   RenderQuestionContent() {
     if (this.res && this.res.success) {
-      let user = this.res.users_data.find(user => user.id == this.res.data
-        .task.user_id);
-      let content = new ContentViewer_Content(this.res.data.task, user);
+      const user = this.res.users_data.find(
+        _user => _user.id === this.res.data.task.user_id,
+      );
+      const content = new ContentViewer_Content(this.res.data.task, user);
       this.contents.question = content;
 
       content.$.appendTo(this.contentContainer);
@@ -168,22 +168,31 @@ export default class UserContentRow {
 
     this.RenderAttachmentsIcon(question); */
   }
+
   RenderAnswers() {
-    if (this.res && this.res.success && this.res.data.responses && this.res
-      .data.responses.length > 0) {
+    if (
+      this.res &&
+      this.res.success &&
+      this.res.data.responses &&
+      this.res.data.responses.length > 0
+    ) {
       this.res.data.responses.forEach(this.RenderAnswer.bind(this));
     }
   }
+
   RenderAnswer(answer) {
-    let user = this.res.users_data.find(user => user.id == answer.user_id);
-    let content = new ContentViewer_Content(answer, user);
+    const user = this.res.users_data.find(_user => _user.id === answer.user_id);
+    const content = new ContentViewer_Content(answer, user);
     this.contents.answers[answer.id] = content;
 
-    this.RenderAnswerSeperator();
+    this.RenderAnswerSeparator();
     content.$.appendTo(this.contentContainer);
 
-    if (answer.user_id == window.sitePassedParams[0] && this.main.caller ==
-      "Answers") {
+    console.log(this.main.caller);
+    if (
+      Number(answer.user_id) === Number(window.sitePassedParams[0]) &&
+      this.main.caller === "Answers"
+    ) {
       this.AttachAnswerID(answer);
       this.RenderBestIcon(answer);
       this.RenderAttachmentsIcon(answer);
@@ -200,7 +209,7 @@ export default class UserContentRow {
     }
     let content = new ContentViewer_Content(contentData, answer);
 
-    this.RenderAnswerSeperator();
+    this.RenderAnswerSeparator();
     content.$.appendTo(this.$contentContainer);
     this.contentViewer_Contents.answers[answer.id] = content;
 
@@ -212,133 +221,134 @@ export default class UserContentRow {
     	this.RenderApproveIcon(answer);
     } */
   }
-  RenderAnswerSeperator() {
-    let $separator = $(
-      `<div class="sg-horizontal-separator sg-horizontal-separator--spaced"></div>`
+
+  RenderAnswerSeparator() {
+    const $separator = $(
+      `<div class="sg-horizontal-separator sg-horizontal-separator--spaced"></div>`,
     );
 
     $separator.appendTo(this.contentContainer);
   }
+
   AttachAnswerID(answer) {
-    let $dateCell = $("td:last", this.element);
-    let date = $dateCell.text().trim();
+    const $dateCell = $("td:last", this.element);
+    const date = $dateCell.text().trim();
 
     if (date) {
-      let date2 = momentTz(answer.created);
-      let date2Str = date2
+      const date2 = momentTz(answer.created);
+      const date2Str = date2
         /* .utcOffset(System.data.Brainly.defaultConfig.locale
                 .OFFSET) */
         .tz(System.data.Brainly.defaultConfig.config.data.config.timezone)
         .format("YYYY-MM-DD HH:mm:ss");
 
-      if (date == date2Str)
-        this.answerID = answer.id;
+      if (date === date2Str) this.answerID = answer.id;
       else {
         console.log(answer.created);
         console.log(date, date2Str);
       }
     }
   }
+
   RenderBestIcon(answer) {
-    if (answer.best) {
-      let icon = this.RenderIcon({
-        color: "mustard",
-        icon: "excellent",
-      });
+    console.log(answer);
+    if (!answer.best) return;
 
-      icon.title = System.data.locale.userContent.bestAnswer;
-    }
+    this.RenderIcon({
+      type: "solid-mustard",
+      icon: new Icon({ type: "excellent" }),
+      title: System.data.locale.userContent.bestAnswer,
+    });
   }
+
   RenderApproveIcon(answer) {
-    if ((this.approved || (answer.approved && answer.approved.date)) && !this
-      .approveIcon) {
+    if (
+      (this.approved || (answer.approved && answer.approved.date)) &&
+      !this.approveIcon
+    ) {
       this.approveIcon = this.RenderIcon({
-        color: "mint",
-        icon: {
+        type: "solid-mint",
+        icon: new Icon({
           type: "check",
-          size: 18
-        },
+          size: 18,
+        }),
+        title: System.data.locale.userContent.approvedAnswer,
       });
-
-      this.approveIcon.title = System.data.locale.userContent.approvedAnswer;
     }
   }
+
   HideApproveIcon() {
-    if (this.approveIcon)
-      this.HideElement(this.approveIcon);
+    if (this.approveIcon) this.HideElement(this.approveIcon.element);
   }
+
   /**
    * @param {HTMLElement} element
    */
+  // eslint-disable-next-line class-methods-use-this
   HideElement(element) {
     if (element && element.parentElement)
       element.parentElement.removeChild(element);
   }
+
   RenderAttachmentsIcon(content) {
     if (content.attachments && content.attachments.length > 0) {
       /**
-       * @type {import("@style-guide/ButtonRound").Properties}
+       * @type {import("@style-guide/Button").ButtonPropsType}
        */
-      let iconProps = {
-        color: "blue",
-        icon: "attachment",
+      const iconProps = {
+        type: "solid-blue",
+        icon: new Icon({ type: "attachment" }),
         title: System.data.locale.userContent.hasAttachment.question,
       };
 
-      if (
-        this.main.caller == "Answers" ||
-        this.main.caller == "Comments"
-      ) {
+      if (this.main.caller === "Answers" || this.main.caller === "Comments") {
         if (content.responses) {
-          iconProps.color = "black";
+          iconProps.type = "solid";
           iconProps.className = "separator";
         } else {
-          iconProps.title = System.data.locale.userContent.hasAttachment
-            .answer;
+          iconProps.title = System.data.locale.userContent.hasAttachment.answer;
         }
       }
 
       this.RenderIcon(iconProps);
     }
   }
+
   RenderReportedContentIcon(content) {
     if (
       content.is_marked_abuse ||
-      (
-        content.settings &&
-        content.settings.is_marked_abuse
-      )
+      (content.settings && content.settings.is_marked_abuse)
     ) {
       /**
-       * @type {import("@style-guide/ButtonRound").Properties}
+       * @type {import("@style-guide/Button").ButtonPropsType}
        */
-      let iconProps = {
-        color: "peach",
-        icon: "report_flag",
+      const iconProps = {
+        type: "solid-peach",
+        icon: new Icon({ type: "report_flag" }),
         title: System.data.locale.userContent.reported.question,
       };
 
-      if (
-        this.main.caller == "Answers" ||
-        this.main.caller == "Comments"
-      ) {
+      if (this.main.caller === "Answers" || this.main.caller === "Comments") {
         if (content.responses) {
-          iconProps.color = "black";
+          iconProps.type = "solid";
           iconProps.className = "separator";
         } else {
-          iconProps.title = System.data.locale.userContent.reported[this
-            .main.caller == "Answers" ? "answer" : "comment"];
+          iconProps.title =
+            System.data.locale.userContent.reported[
+              this.main.caller === "Answers" ? "answer" : "comment"
+            ];
         }
       }
 
       this.RenderIcon(iconProps);
     }
   }
+
   /**
    *
-   * @param {import("@style-guide/ButtonRound").Properties} param0
+   * @param {import("@style-guide/Button").ButtonPropsType} props
    */
-  RenderIcon({ className = "", ...props }) {
+  RenderIcon({ className, ...props }) {
     /* let icon = IconAsButton({
       action: true,
       active: true,
@@ -347,48 +357,58 @@ export default class UserContentRow {
       className: `sg-list__icon--spacing-right-small ${className}`,
       ...props
     }); */
-    let icon = ButtonRound(mergeDeep({
-      filled: true,
-      disabled: true,
+    /**
+     * @type {import("@style-guide/Button").ButtonPropsType}
+     */
+    const iconProps = {
+      noClick: true,
+      iconOnly: true,
       size: "xsmall",
       className: `sg-list__icon--spacing-right-small ${className}`,
-    }, props));
+      ...props,
+    };
+    const icon = new Button(iconProps);
 
-    if (!this.iconContainer)
-      this.RenderIconContainer();
+    if (!this.iconContainer) this.RenderIconContainer();
 
-    this.iconContainer.append(icon)
+    this.iconContainer.append(icon.element);
 
     return icon;
   }
+
   RenderIconContainer() {
-    this.iconContainer = ActionListHole({
-      noShrink: true,
+    this.iconContainer = Flex({
+      alignItems: "center",
+      marginRight: "xs",
     });
 
     this.questionLinkContainerList.prepend(this.iconContainer);
   }
+
   RenderCheckbox() {
     this.checkbox = new SelectCheckbox(this.element, this.id);
 
     this.isBusy = true;
     this.checkbox.ShowSpinner();
-    //this.main.checkboxes.elements.push(checkbox);
-    this.checkbox.onchange = this.main.HideSelectContentWarning.bind(this
-      .main);
+    // this.main.checkboxes.elements.push(checkbox);
+    this.checkbox.onchange = this.main.HideSelectContentWarning.bind(this.main);
   }
+
   BindHandlers() {
-    this.questionLink
-      .addEventListener("click", this.ToggleContentViewer.bind(this));
+    this.questionLink.addEventListener(
+      "click",
+      this.ToggleContentViewer.bind(this),
+    );
   }
+
   /**
    * @param {Event} event
    */
   async ToggleContentViewer(event) {
     if (this.res && this.res.success) {
-      event && event.preventDefault();
+      if (event) event.preventDefault();
 
-      if (this.contentContainer.childNodes.length == 0) {
+      if (this.contentContainer.childNodes.length === 0) {
         this.RenderQuestionContent();
         this.RenderAnswers();
       }
@@ -400,6 +420,7 @@ export default class UserContentRow {
       }
     }
   }
+
   Deleted(already) {
     this.deleted = true;
     this.isBusy = false;
@@ -409,9 +430,9 @@ export default class UserContentRow {
     this.element.classList.add("removed");
     this.element.classList.remove("already");
 
-    if (already)
-      this.element.classList.add("already");
+    if (already) this.element.classList.add("already");
   }
+
   UnDelete() {
     this.deleted = false;
     this.isBusy = false;
@@ -419,15 +440,17 @@ export default class UserContentRow {
     this.checkbox.Activate();
     this.element.classList.remove("removed", "already");
   }
+
   Reported(already) {
     this.reported = true;
 
     this.element.classList.add("reported");
     this.element.classList.remove("already");
 
-    if (already)
-      this.element.classList.add("already");
+    if (already) this.element.classList.add("already");
   }
+
+  // eslint-disable-next-line class-methods-use-this
   IsNotApproved() {
     /* if (this.approved || (this.contents.answers[this.answerID].source.approved && this.contents.answers[this.answerID].source.approved.date)) {
     	this.Approved();
@@ -435,15 +458,15 @@ export default class UserContentRow {
 
     return !(this.approved || (this.contents.answers[this.answerID].source.approved && this.contents.answers[this.answerID].source.approved.date)) */
   }
+
   IsApproved() {
     return (
       this.approved ||
-      (
-        this.contents.answers[this.answerID].source.approved &&
-        this.contents.answers[this.answerID].source.approved.date
-      )
+      (this.contents.answers[this.answerID].source.approved &&
+        this.contents.answers[this.answerID].source.approved.date)
     );
   }
+
   Approved(already) {
     this.approved = true;
 
@@ -451,9 +474,9 @@ export default class UserContentRow {
     this.element.classList.add("approved");
     this.element.classList.remove("unapproved", "already");
 
-    if (already)
-      this.element.classList.add("already");
+    if (already) this.element.classList.add("already");
   }
+
   Unapproved(already) {
     this.approved = false;
 
@@ -461,22 +484,27 @@ export default class UserContentRow {
     this.element.classList.add("unapproved");
     this.element.classList.remove("approved", "already");
 
-    if (already)
-      this.element.classList.add("already");
+    if (already) this.element.classList.add("already");
   }
+
   RowNumber() {
-    return Number(this.element.children && this.element.children.length > 1 ?
-      this.element.children[1].innerText : 0);
+    return Number(
+      this.element.children && this.element.children.length > 1
+        ? this.element.children[1].innerText
+        : 0,
+    );
   }
+
   CheckDeleteResponse(resRemove) {
-    let rowNumber = this.RowNumber();
+    const rowNumber = this.RowNumber();
 
     this.checkbox.HideSpinner();
 
     if (!resRemove || (!resRemove.success && !resRemove.message)) {
       notification(
         `#${rowNumber} > ${System.data.locale.common.notificationMessages.somethingWentWrong}`,
-        "error");
+        "error",
+      );
     } else {
       this.Deleted();
 
@@ -486,15 +514,17 @@ export default class UserContentRow {
       }
     }
   }
+
   async CheckApproveResponse(resApprove) {
-    let rowNumber = this.RowNumber();
+    const rowNumber = this.RowNumber();
 
     this.checkbox.HideSpinner();
 
     if (!resApprove) {
       notification(
         `#${rowNumber} > ${System.data.locale.common.notificationMessages.somethingWentWrong}`,
-        "error");
+        "error",
+      );
     } else if (!resApprove.success && resApprove.message) {
       notification(`#${rowNumber} > ${resApprove.message}`, "error");
     } else {
@@ -506,26 +536,32 @@ export default class UserContentRow {
 
       if (!resApprove.success && !resApprove.message) {
         this.element.classList.add("already");
-        let message = System.data.locale.userContent.notificationMessages
-          .xIsAlreadyApproved.replace("%{row_id}", ` #${rowNumber} `);
+        const message = System.data.locale.userContent.notificationMessages.xIsAlreadyApproved.replace(
+          "%{row_id}",
+          ` #${rowNumber} `,
+        );
         notification(`${message}`, "info");
       }
     }
   }
+
   UpdateAnswerContent() {
-    let answer = this.res.data.responses.find(response => response.id == this
-      .answerID);
+    const answer = this.res.data.responses.find(
+      response => response.id === this.answerID,
+    );
     this.contents.answers[this.answerID].source = answer;
   }
+
   async CheckUnapproveResponse(resUnapprove) {
-    let rowNumber = this.RowNumber();
+    const rowNumber = this.RowNumber();
 
     this.checkbox.HideSpinner();
 
     if (!resUnapprove) {
       notification(
         `#${rowNumber} > ${System.data.locale.common.notificationMessages.somethingWentWrong}`,
-        "error");
+        "error",
+      );
     } else if (!resUnapprove.success && resUnapprove.message) {
       notification(`#${rowNumber} > ${resUnapprove.message}`, "error");
     } else {
@@ -537,22 +573,26 @@ export default class UserContentRow {
 
       if (!resUnapprove.success && !resUnapprove.message) {
         this.element.classList.add("already");
-        let message = System.data.locale.userContent.notificationMessages
-          .xIsAlreadyUnapproved.replace("%{row_id}", `#${rowNumber} `);
+        const message = System.data.locale.userContent.notificationMessages.xIsAlreadyUnapproved.replace(
+          "%{row_id}",
+          `#${rowNumber} `,
+        );
         notification(`${message}`, "info");
       }
     }
   }
+
   CorrectReportResponse(resReport) {
-    let rowNumber = this.RowNumber();
+    const rowNumber = this.RowNumber();
 
     this.checkbox.HideSpinner();
 
     if (!resReport) {
       notification(
         `#${rowNumber} > ${System.data.locale.common.notificationMessages.somethingWentWrong}`,
-        "error");
-    } else if (!resReport.success && resReport.code == 3) {
+        "error",
+      );
+    } else if (!resReport.success && resReport.code === 3) {
       this.Deleted();
       notification(`#${rowNumber} > ${resReport.message}`, "error");
     } else {

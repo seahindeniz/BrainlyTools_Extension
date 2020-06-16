@@ -19,13 +19,15 @@ type ButtonColorType =
         | "solid-inverted"
         | "solid-blue"
         | "solid-mint"
+        | "solid-peach"
+        | "solid-mustard"
         | "transparent-inverted"
         | "facebook",
       toggle?: null,
     }
   | {
       type: "solid-light" | "outline" | "transparent" | "transparent-light",
-      toggle?: "peach" | "mustard" | "blue" | null,
+      toggle?: "peach" | "mustard" | "blue" | "mint" | null,
     }
   | {
       type: "transparent-peach",
@@ -69,7 +71,6 @@ type ButtonCornerSpaces =
     };
 
 export type ButtonPropsType = {
-  ...ButtonIconType,
   children?: ChildrenParamType,
   icon?: HTMLElement,
   size?: ButtonSizeType,
@@ -82,8 +83,10 @@ export type ButtonPropsType = {
   html?: string,
   title?: string,
   spaced?: ButtonCornerSpaces,
+  noClick?: Boolean,
   ...
-} & ButtonColorType;
+} & ButtonColorType &
+  ButtonIconType;
 
 // : $Keys<typeof HTMLElementTagNameMap2>
 class Button {
@@ -93,7 +96,8 @@ class Button {
   size: ?ButtonSizeType;
   type: string;
   mainType: string;
-  icon: ?HTMLElement;
+  icon: ?Icon;
+  iconElement: ?HTMLElement;
   toggle: ?string;
   mainToggle: ?string;
 
@@ -113,6 +117,7 @@ class Button {
     html,
     title,
     spaced,
+    noClick,
     ...props
   }: ButtonPropsType) {
     this.size = size;
@@ -130,6 +135,9 @@ class Button {
         [`${SGD}full-width`]: fullWidth,
         "sg-button--icon-only": Boolean(icon) && iconOnly,
         [`sg-button--${String(type)}-toggle-${String(toggle)}`]: toggle,
+      },
+      {
+        [`${SGD}no-click`]: noClick,
       },
       className,
     );
@@ -304,7 +312,9 @@ class Button {
   }
 
   AddIcon(icon: HTMLElement | Icon) {
-    if (this.icon) this.icon.remove();
+    if (typeof icon === "string" || !icon) throw Error("Invalid icon");
+
+    if (this.icon) this.icon.element.remove();
     else if (this.iconContainer === null || this.iconContainer === undefined) {
       this.iconContainer = document.createElement("span");
 
@@ -316,17 +326,18 @@ class Button {
       this.element.prepend(this.iconContainer);
     }
 
-    let iconElement;
+    if (icon instanceof HTMLElement) {
+      this.icon = undefined;
+      this.iconElement = icon;
 
-    if (!(icon instanceof HTMLElement)) {
-      if (!icon.size) icon.ChangeSize(this.size === "xsmall" ? 18 : 24);
+      this.iconContainer.appendChild(icon);
+    } else {
+      if (icon.size === 24) icon.ChangeSize(this.size === "xsmall" ? 18 : 24);
 
-      iconElement = icon.element;
-    } else iconElement = icon;
+      this.icon = icon;
 
-    this.iconContainer.appendChild(iconElement);
-
-    this.icon = iconElement;
+      this.iconContainer.appendChild(icon.element);
+    }
 
     return this;
   }

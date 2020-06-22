@@ -15,7 +15,7 @@ import QuickDeleteButtons from "../../1-Home/_/QuickDeleteButtons";
 
 class QuestionBox {
   /**
-   * @param {import("../index").QuestionSearch} main
+   * @param {import("../index").default} main
    * @param {HTMLElement} box
    * @param {number} id
    */

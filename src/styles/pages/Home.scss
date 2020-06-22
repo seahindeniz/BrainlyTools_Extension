@@ -50,7 +50,7 @@
     }
   }
 
-  &:hover:not(.deleted)>.sg-flex {
+  &:hover:not(.deleted){
     position: relative;
 
     .ext_actions {

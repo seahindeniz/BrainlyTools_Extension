@@ -16,7 +16,7 @@ import {
   SpinnerContainer,
   Text,
 } from "@style-guide";
-import type { QuestionSearch } from "..";
+import type QuestionSearch from "..";
 import DeleteSection from "../../../components/DeleteSection";
 import notification from "../../../components/notification2";
 import Action from "../../../controllers/Req/Brainly/Action";

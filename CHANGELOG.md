@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.36.8] - 2020.06.21
+
+### Changed
+
+- Ana sayfada soru yanındaki ikonlar gözükmüyor. [#136]
+
+[#136]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/136
+
 ## [6.36.7] - 2020.06.15
 
 ### Changed

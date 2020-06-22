@@ -9,32 +9,46 @@ import MakeExpire from "./MakeExpire";
  *  noError?: boolean,
  * }} [param1]
  * @returns {Promise<NodeListOf<Element>>}
- **/
-export default function WaitForElements(query, {
-  atLeast = 1,
-  noError,
-  parent = document,
-} = {}) {
-  return new Promise((resolve, reject) => {
-    let elements,
-      _loop_expireTime = MakeExpire();
+ * */
 
-    let _loop = setInterval(() => {
-      if (_loop_expireTime < Date.now()) {
-        clearInterval(_loop);
+/**
+ * @typedef {{
+ *  parent?: HTMLElement | Document,
+ *  atLeast?: number,
+ *  noError?: boolean,
+ * }} OptionsType
+ * @typedef {(query: string, param1: {single?: true} & OptionsType) => Promise<Element>} SingleType
+ * @typedef {(query: string, param1?: ({single?: false | undefined} & OptionsType) | undefined) => Promise<NodeListOf<Element>>} MultipleType
+ *
+ * @type {SingleType & MultipleType}
+ */
+const WaitForElements = (
+  query,
+  { atLeast = 1, single = false, noError, parent = document } = {},
+) => {
+  return new Promise((resolve, reject) => {
+    let elements;
+    const expireTime = MakeExpire();
+
+    const intervalId = setInterval(() => {
+      if (expireTime < Date.now()) {
+        clearInterval(intervalId);
         if (!noError) {
-          reject("Can't find anything with: " + query);
+          reject(Error(`Can't find anything with: ${query}`));
         }
 
-        return false;
+        return;
       }
 
-      elements = parent.querySelectorAll(query);
+      if (single) elements = parent.querySelector(query);
+      else elements = parent.querySelectorAll(query);
 
-      if (elements.length >= atLeast) {
-        clearInterval(_loop);
+      if (elements && (single || elements.length >= atLeast)) {
+        clearInterval(intervalId);
         resolve(elements);
       }
     });
   });
-}
+};
+
+export default WaitForElements;

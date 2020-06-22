@@ -1,7 +1,7 @@
+import { ContentBoxContent } from "@style-guide";
 import Button from "../../../components/Button";
 import ModeratingPanel from "./ModeratingPanel";
 import QuickDeleteButton from "./QuickDeleteButton";
-import { ContentBoxContent } from "@style-guide";
 
 class QuickDeleteButtons {
   /**
@@ -11,21 +11,20 @@ class QuickDeleteButtons {
   constructor(target, { user, questionId } = {}) {
     this.target = target;
     this.user = user;
-    this.questionId = questionId
+    this.questionId = questionId;
 
-    $(target).addClass("js-extension");
+    target.classList.add("js-extension");
 
     this.Init();
   }
+
   async Init() {
     try {
       this.RenderContainer();
 
-      if (!this.user)
-        this.user = this.FindOwner();
+      if (!this.user) this.user = this.FindOwner();
 
-      if (!this.questionId)
-        this.questionId = this.FindQuestionId();
+      if (!this.questionId) this.questionId = this.FindQuestionId();
 
       this.ShowContainer();
       this.RenderMoreOptionsButton();
@@ -36,6 +35,7 @@ class QuickDeleteButtons {
       console.error(error);
     }
   }
+
   RenderContainer() {
     this.$container = $(`
     <div class="sg-actions-list sg-actions-list--to-top ext_actions">
@@ -48,20 +48,22 @@ class QuickDeleteButtons {
     </div>`);
 
     this.$deleteButtonContainerBox = $(".sg-content-box", this.$container);
-    this.$moreOptionsButtonContainer = $(".sg-spinner-container", this
-      .$container);
+    this.$moreOptionsButtonContainer = $(
+      ".sg-spinner-container",
+      this.$container,
+    );
   }
+
   FindOwner() {
-    let $userLink = $(window.selectors.userLink, this.target);
+    const $userLink = $(window.selectors.userLink, this.target);
 
     if ($userLink.length == 0)
       throw {
         msg: "User link element not found from target",
-        element: this
-          .target
+        element: this.target,
       };
 
-    let link = $userLink.attr("href")
+    const link = $userLink.attr("href");
 
     if (!link)
       throw { msg: "User link not found from target", element: this.target };
@@ -78,90 +80,95 @@ class QuickDeleteButtons {
 
     return {
       id,
-      nick
-    }
+      nick,
+    };
   }
+
   /**
    * @returns {number}
    */
   FindQuestionId() {
-    let $questionLink = $(window.selectors.questionLink, this.target);
-    let questionLink = $questionLink.attr("href");
+    const $questionLink = $(window.selectors.questionLink, this.target);
+    const questionLink = $questionLink.attr("href");
 
     if (!questionLink)
       throw {
         msg: "Question link cannot be found",
-        element: $questionLink
+        element: $questionLink,
       };
 
-    let questionId = System.ExtractId(questionLink);
+    const questionId = System.ExtractId(questionLink);
 
     if (!questionId)
       throw {
         msg: "Question id is invalid",
         element: $questionLink,
         data: questionLink,
-        id: questionId
+        id: questionId,
       };
 
     return questionId;
   }
+
   ShowContainer() {
-    let $feedContentBox = $(this.target);
-
-    if (window.selectors.questionsBox_buttonList)
-      $feedContentBox = $(window.selectors.questionsBox_buttonList, this
-        .target);
-
-    this.$container.appendTo($feedContentBox);
+    this.$container.appendTo(this.target);
   }
+
   RenderMoreOptionsButton() {
     this.$moreOptionsButton = Button({
       type: "solid-blue",
       size: "xsmall",
       icon: {
-        type: "menu"
+        type: "menu",
       },
-      text: System.data.locale.common.moderating.moreOptions
+      text: System.data.locale.common.moderating.moreOptions,
     });
 
     this.$moreOptionsButton.appendTo(this.$moreOptionsButtonContainer);
   }
+
   RenderButtonSpinner() {
     this.$spinner = $(
-      `<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`
+      `<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`,
     );
   }
+
   RenderDeleteButtons() {
-    System.data.config.quickDeleteButtonsReasons.question.forEach(this
-      .RenderDeleteButton.bind(this));
+    System.data.config.quickDeleteButtonsReasons.question.forEach(
+      this.RenderDeleteButton.bind(this),
+    );
   }
+
   /**
    * @param {number} id
    * @param {number} index
    */
   RenderDeleteButton(id, index) {
-    let button = new QuickDeleteButton(id, index, this);
-    let buttonContainer = ContentBoxContent({
+    const button = new QuickDeleteButton(id, index, this);
+    const buttonContainer = ContentBoxContent({
       spacedBottom: "xsmall",
     });
 
     buttonContainer.append(button.spinnerContainer);
     this.$deleteButtonContainerBox.append(buttonContainer);
   }
+
   BindHandlers() {
     this.$moreOptionsButton.click(this.OpenPanel.bind(this));
   }
+
   async OpenPanel() {
     this.ShowMoreOptionsButtonSpinner();
     new ModeratingPanel(this);
   }
+
   ShowMoreOptionsButtonSpinner() {
     this.$spinner.appendTo(this.$moreOptionsButtonContainer);
   }
+
   HideSpinner() {
     this.$spinner.appendTo("<div />");
   }
 }
 
-export default QuickDeleteButtons
+export default QuickDeleteButtons;

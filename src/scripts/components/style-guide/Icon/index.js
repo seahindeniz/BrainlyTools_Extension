@@ -31,6 +31,8 @@ export type IconTypeType =
   | "camera"
   | "check"
   | "close"
+  | "comment"
+  | "comment_outlined"
   | "counter"
   | "credit_card"
   | "crown_outlined"

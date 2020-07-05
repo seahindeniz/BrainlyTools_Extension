@@ -46,10 +46,12 @@ type ButtonIconType =
   | {
       icon?: Node,
       iconOnly?: null,
+      reversedOrder?: boolean,
     }
   | {
       icon: Node,
       iconOnly?: boolean,
+      reversedOrder?: null,
     };
 
 type ButtonCornerSpaceSize =
@@ -106,6 +108,7 @@ class Button {
     type,
     icon,
     iconOnly,
+    reversedOrder,
     href,
     fullWidth,
     disabled,
@@ -135,6 +138,7 @@ class Button {
         [`${SGD}full-width`]: fullWidth,
         "sg-button--icon-only": Boolean(icon) && iconOnly,
         [`sg-button--${String(type)}-toggle-${String(toggle)}`]: toggle,
+        "sg-button--reversed-order": reversedOrder,
       },
       {
         [`${SGD}no-click`]: noClick,

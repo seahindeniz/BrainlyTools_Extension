@@ -1,5 +1,6 @@
-import classnames from 'classnames';
-import AddChildren from '../helpers/AddChildren';
+import classnames from "classnames";
+import SetProps from "@style-guide/helpers/SetProps";
+import AddChildren from "../helpers/AddChildren";
 
 /**
  * @typedef {{
@@ -11,31 +12,24 @@ import AddChildren from '../helpers/AddChildren';
 
 const SG = "sg-list";
 const SGD = `${SG}--`;
-const SG_ = `${SG}__`;
 
 /**
  * @param {Properties} param0
  */
-export default function({
-  spaced,
-  className,
-  children,
-  ...props
-} = {}) {
-  const listClass = classnames(SG, {
+export default ({ spaced, className, children, ...props } = {}) => {
+  const listClass = classnames(
+    SG,
+    {
       [`${SGD}spaced-elements`]: spaced,
     },
-    className
+    className,
   );
 
-  let list = document.createElement("ul");
+  const list = document.createElement("ul");
   list.className = listClass;
 
   AddChildren(list, children);
-
-  if (props)
-    for (let [propName, propVal] of Object.entries(props))
-      list[propName] = propVal;
+  SetProps(list, props);
 
   return list;
-}
+};

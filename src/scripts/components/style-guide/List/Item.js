@@ -34,7 +34,7 @@ export default function ({
 } = {}) {
   const listItemClass = classnames(`${SG_}element`, className);
 
-  let item = document.createElement("li");
+  const item = document.createElement("li");
   item.className = listItemClass;
 
   if (text) item.innerText = text;
@@ -42,7 +42,7 @@ export default function ({
   if (html) item.innerHTML = html;
 
   if (icon) {
-    let iconContainer = document.createElement("div");
+    const iconContainer = document.createElement("div");
     iconContainer.className = classnames(`${SG_}icon`, {
       [`${SG_}icon--spacing-right-small`]: iconSmall,
     });
@@ -69,7 +69,7 @@ export default function ({
 
     if (iconElement) iconContainer.append(iconElement);
 
-    item.append(iconContainer);
+    item.prepend(iconContainer);
   }
 
   AddChildren(item, children);

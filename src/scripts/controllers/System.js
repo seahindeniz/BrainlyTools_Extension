@@ -47,6 +47,7 @@ class _System {
   };
 
   data: {
+    locale: typeof locale,
     Brainly: {
       apiURL: string,
       nullAvatar: string,
@@ -193,8 +194,8 @@ class _System {
     );
   }
 
-  TestDelay() {
-    return this.Delay(this.randomNumber(100, 500));
+  TestDelay(min: number = 100, max: number = 500) {
+    return this.Delay(this.randomNumber(min, max));
   }
 
   randomNumber(min: number = 0, max: number = 10) {

@@ -1,5 +1,4 @@
-import { ContentBoxContent } from "@style-guide";
-import Button from "../../../components/Button";
+import { ContentBoxContent, Button, Icon } from "@style-guide";
 import ModeratingPanel from "./ModeratingPanel";
 import QuickDeleteButton from "./QuickDeleteButton";
 
@@ -39,7 +38,7 @@ class QuickDeleteButtons {
   RenderContainer() {
     this.$container = $(`
     <div class="sg-actions-list sg-actions-list--to-top ext_actions">
-      <div class="sg-actions-list__hole sg-actions-list__hole--spaced-xsmall">
+      <div class="sg-actions-list__hole sg-actions-list__hole--no-spacing">
         <div class="sg-spinner-container"></div>
       </div>
       <div class="sg-actions-list__hole sg-actions-list__hole--no-spacing">
@@ -115,14 +114,17 @@ class QuickDeleteButtons {
   }
 
   RenderMoreOptionsButton() {
-    this.$moreOptionsButton = Button({
+    this.moreOptionsButton = new Button({
       type: "solid-blue",
-      size: "xsmall",
-      icon: {
+      size: "m",
+      reversedOrder: true,
+      icon: new Icon({
         type: "menu",
-      },
+      }),
       text: System.data.locale.common.moderating.moreOptions,
     });
+
+    this.$moreOptionsButton = $(this.moreOptionsButton.element);
 
     this.$moreOptionsButton.appendTo(this.$moreOptionsButtonContainer);
   }

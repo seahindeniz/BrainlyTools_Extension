@@ -15,6 +15,7 @@ import SetProps from "./helpers/SetProps";
  * spaced?: boolean,
  * imgSrc?: string,
  * link?: string,
+ * target?: string,
  * title?: string,
  * className?: string,
  * } & Object<string, *>} AvatarProperties
@@ -112,6 +113,7 @@ export default ({
   spaced,
   imgSrc,
   link,
+  target,
   title,
   className,
   ...props
@@ -143,6 +145,8 @@ export default ({
   if (link !== undefined && link !== "") {
     linkElement = document.createElement("a");
     linkElement.href = link;
+
+    if (target) linkElement.target = target;
 
     if (title) linkElement.title = title;
 

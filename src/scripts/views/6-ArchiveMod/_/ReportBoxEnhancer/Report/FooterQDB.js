@@ -44,7 +44,6 @@ export default class FooterQDB {
       icon: Text({
         text: this.buttonText,
         color: this.components.text,
-        size: "normal",
         weight: "bold",
       }),
       title: `${this.reason.title}:\n${this.reason.text}`,

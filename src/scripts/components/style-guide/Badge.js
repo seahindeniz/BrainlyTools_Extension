@@ -87,7 +87,7 @@ export default function({
     weight: "bold",
     // @ts-ignore
     color: TEXT_COLOR_MAPPING[color],
-    size: size === "large" ? "normal" : "xsmall",
+    size: size === "large" ? "medium" : "xsmall",
     children,
     ...text
   });

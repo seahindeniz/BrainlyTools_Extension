@@ -16,7 +16,7 @@ const TEXT_ALIGN = {
 /**
  * @typedef {'xsmall'
  * | 'small'
- * | 'normal'
+ * | 'medium'
  * | 'large'
  * | 'xlarge'
  * | 'xxlarge'
@@ -89,7 +89,8 @@ const SGD = `${SG}--`;
  */
 function _ChangeColor(color) {
   this.classList.remove(SGD + this.color);
-  this.classList.add(SGD + color);
+
+  if (color !== "default") this.classList.add(SGD + color);
 
   this.color = color;
 
@@ -104,7 +105,7 @@ export default function ({
   children,
   text,
   html,
-  size = "normal",
+  size = "medium",
   weight = "regular",
   color = "default",
   transform,
@@ -127,7 +128,7 @@ export default function ({
   const textClass = classnames(
     "sg-text",
     {
-      [`sg-text--${String(size)}`]: size !== "normal",
+      [`sg-text--${String(size)}`]: size !== "medium",
       [`sg-text--${String(color)}`]: color !== "default",
       [`sg-text--${String(weight)}`]: weight !== "regular",
       [`sg-text--${transform || ""}`]: transform,

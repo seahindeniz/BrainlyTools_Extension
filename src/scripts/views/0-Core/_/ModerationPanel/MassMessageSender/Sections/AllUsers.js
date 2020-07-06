@@ -266,7 +266,6 @@ class AllUsers {
           [
             ContentBoxTitle({
               children: {
-                size: "normal",
                 html: "Result:",
               },
             })

@@ -10,7 +10,7 @@ import classnames from "classnames";
 const sg = "sg-button";
 const SGD = `${sg}--`;
 
-type ButtonSizeType = "large" | "medium" | "small" | "xsmall";
+type ButtonSizeType = "xl" | "l" | "m" | "s" | "xs";
 
 type ButtonColorType =
   | {
@@ -336,7 +336,7 @@ class Button {
 
       this.iconContainer.appendChild(icon);
     } else {
-      if (icon.size === 24) icon.ChangeSize(this.size === "xsmall" ? 18 : 24);
+      if (icon.size === 24) icon.ChangeSize(this.size === "xs" ? 18 : 24);
 
       this.icon = icon;
 

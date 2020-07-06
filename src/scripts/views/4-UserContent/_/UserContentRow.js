@@ -363,7 +363,7 @@ export default class UserContentRow {
     const iconProps = {
       noClick: true,
       iconOnly: true,
-      size: "xsmall",
+      size: "xs",
       className: `sg-list__icon--spacing-right-small ${className}`,
       ...props,
     };

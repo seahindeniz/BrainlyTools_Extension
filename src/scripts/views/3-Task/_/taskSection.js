@@ -42,7 +42,7 @@ export default function taskSection() {
     });
     const button = new Button({
       type: "solid-mustard",
-      size: "small",
+      size: "s",
       icon: Text({
         text: i + 1,
         weight: "bold",

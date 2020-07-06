@@ -103,7 +103,7 @@ class ModerateSection {
 
   RenderDeleteButton() {
     this.deleteButton = new Button({
-      size: "small",
+      size: "s",
       type: "solid-light",
       toggle: "peach",
       html: System.data.locale.common.delete,
@@ -135,7 +135,7 @@ class ModerateSection {
     this.deleteAllButton = new Button({
       type: "solid-light",
       toggle: "peach",
-      size: "small",
+      size: "s",
       html: System.data.locale.common.deleteAcross,
       icon: (this.deleteAllButtonCounter = Text({
         html: "0",
@@ -193,7 +193,7 @@ class ModerateSection {
   RenderStopButton() {
     this.stopButton = new Button({
       type: "solid-peach",
-      size: "small",
+      size: "s",
       text: System.data.locale.common.stop,
     });
     this.stopButtonSpinnerContainer = SpinnerContainer({

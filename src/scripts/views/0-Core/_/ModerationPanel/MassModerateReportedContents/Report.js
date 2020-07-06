@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { Flex, Text, Box, Icon, ButtonRound } from "@style-guide";
+import { Flex, Text, Box, Icon, Button } from "@style-guide";
 import Build from "@/scripts/helpers/Build";
 import moment from "moment-timezone";
 
@@ -124,11 +124,13 @@ export default class Report {
                       [
                         [
                           Flex({ alignItems: "center" }),
-                          ButtonRound({
-                            filled: true,
-                            size: "small",
-                            color:
-                              this.data.model_type_id === 1 ? "blue" : "mint",
+                          new Button({
+                            type:
+                              this.data.model_type_id === 1
+                                ? "solid-blue"
+                                : "solid-mint",
+                            size: "s",
+                            iconOnly: true,
                             icon: Text({
                               breakWords: true,
                               color: "white",

@@ -28,7 +28,7 @@ export default async function responseSection() {
         });
         const button = new Button({
           type: "solid-peach",
-          size: "small",
+          size: "s",
           icon: Text({
             text: i + 1,
             weight: "bold",

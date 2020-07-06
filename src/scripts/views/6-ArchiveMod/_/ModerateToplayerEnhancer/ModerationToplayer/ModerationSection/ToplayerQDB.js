@@ -25,7 +25,7 @@ export default class ToplayerQDB {
 
   RenderButton() {
     this.button = new Button({
-      size: "xsmall",
+      size: "xs",
       text: this.reason.title,
       title: `${this.reason.title}:\n${this.reason.text}`,
       ...this.buttonProps,

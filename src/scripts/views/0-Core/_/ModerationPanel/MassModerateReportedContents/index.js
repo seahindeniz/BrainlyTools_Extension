@@ -118,7 +118,7 @@ export default class extends Components {
                   fullWidth: true,
                   icon: new Icon({ type: "plus" }),
                   type: "solid-blue",
-                  size: "small",
+                  size: "s",
                   html:
                     System.data.locale.core.massModerateReportedContents
                       .addModerator,
@@ -313,7 +313,7 @@ export default class extends Components {
       await this.FetchReportedContents(null);
       this.loop.TryToFetchReportedContents = setInterval(() => {
         this.TryToFetchReportedContents();
-      }, 1000 / System.constants.Brainly.marketRequestLimit);
+      }, 1000);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);

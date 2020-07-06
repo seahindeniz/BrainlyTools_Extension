@@ -5,7 +5,7 @@ import {
   Icon,
   Text,
   TopLayer,
-  ButtonRound,
+  Button,
 } from "@/scripts/components/style-guide";
 import Build from "@/scripts/helpers/Build";
 import IsVisible from "@/scripts/helpers/IsVisible";
@@ -85,7 +85,9 @@ export default class Moderator {
                         (this.collapseToggleButton = Flex({
                           alignItems: "center",
                         })),
-                        ButtonRound({
+                        new Button({
+                          type: "transparent",
+                          iconOnly: true,
                           icon: Flex({
                             direction: "column",
                             children: [

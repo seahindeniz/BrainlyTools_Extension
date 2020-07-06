@@ -105,7 +105,7 @@ export default class ActionEntry {
             (this.confirmButtonSpinnerContainer = SpinnerContainer()),
             (this.confirmButton = new Button({
               type: "solid-inverted",
-              size: "small",
+              size: "s",
               title: System.data.locale.moderatorActionHistory.confirm,
               icon: new Icon({
                 type: "check",
@@ -125,7 +125,7 @@ export default class ActionEntry {
             (this.disapproveButtonSpinnerContainer = SpinnerContainer()),
             (this.disapproveButton = new Button({
               type: "solid-inverted",
-              size: "small",
+              size: "s",
               title: System.data.locale.moderatorActionHistory.disapprove,
               icon: new Icon({
                 type: "close",

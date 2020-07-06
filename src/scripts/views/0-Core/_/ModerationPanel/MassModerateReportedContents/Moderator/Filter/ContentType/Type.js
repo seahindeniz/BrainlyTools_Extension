@@ -27,7 +27,7 @@ export default class Type {
 
   RenderButton() {
     this.button = new Button({
-      size: "small",
+      size: "s",
       type: "solid",
       text:
         System.data.locale.popup.extensionOptions.quickDeleteButtons[

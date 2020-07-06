@@ -55,7 +55,7 @@ export default ({
         color: "adaptive",
       }),
       iconOnly: true,
-      size: size === "l" ? "medium" : "small",
+      size: size === "l" ? "m" : "s",
     });
 
     iconContainer.append(button);

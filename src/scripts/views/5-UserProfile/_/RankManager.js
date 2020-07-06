@@ -91,7 +91,7 @@ class RankManager {
 
   RenderSaveButton() {
     this.saveButton = new Button({
-      size: "small",
+      size: "s",
       fullWidth: true,
       type: "solid-mint",
       text: System.data.locale.common.save,
@@ -199,7 +199,7 @@ class RankManager {
                   Flex({ alignItems: "center" }),
                   new Button({
                     iconOnly: true,
-                    size: "xsmall",
+                    size: "xs",
                     className: "dragger",
                     type: "transparent-blue",
                     icon: new Icon({

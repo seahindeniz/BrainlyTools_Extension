@@ -24,14 +24,14 @@ export default class ReportSwitcher {
       iconOnly: true,
       type: "solid-blue",
       icon: new Icon({ type: "arrow_left", size: 46 }),
-      size: "xlarge",
+      size: "xl",
       className: "switch-button switch-button--left",
     });
     this.rightButton = new Button({
       iconOnly: true,
       type: "solid-blue",
       icon: new Icon({ type: "arrow_right", size: 46 }),
-      size: "xlarge",
+      size: "xl",
       className: "switch-button switch-button--right",
     });
 

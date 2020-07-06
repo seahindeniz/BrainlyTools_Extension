@@ -43,7 +43,7 @@ export default class ActionSection {
 
   RenderTabButton() {
     this.tabButton = new Button({
-      size: "small",
+      size: "s",
       ...this.renderDetails.actionButton,
     });
     this.actionButtonContainer = ActionListHole({

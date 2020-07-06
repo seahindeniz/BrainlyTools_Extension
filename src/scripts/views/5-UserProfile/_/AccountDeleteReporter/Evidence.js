@@ -94,7 +94,7 @@ export default class Evidence {
                 iconOnly: true,
                 type: "solid-peach",
                 icon: new Icon({ type: "close" }),
-                size: "xsmall",
+                size: "xs",
               })),
             ],
             [

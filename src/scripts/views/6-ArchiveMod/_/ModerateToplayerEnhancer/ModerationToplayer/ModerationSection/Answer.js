@@ -34,7 +34,7 @@ export default class AnswerSection extends ModerationSection {
         [
           (this.confirmButtonSpinnerContainer = SpinnerContainer()),
           (this.confirmButton = new Button({
-            size: "xsmall",
+            size: "xs",
             text: System.data.locale.common.confirm,
             type: "solid-mint",
           })),

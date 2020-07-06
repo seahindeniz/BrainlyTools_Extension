@@ -121,7 +121,7 @@ export default class PreviewSection {
       children: (this.moreButton = new Button({
         type: "solid-mint",
         text: "Show more..",
-        size: "small",
+        size: "s",
       })),
     });
 

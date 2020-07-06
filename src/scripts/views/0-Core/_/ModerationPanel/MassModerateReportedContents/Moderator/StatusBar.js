@@ -88,7 +88,7 @@ export default class StatusBar {
       justifyContent: "flex-end",
       alignItems: "center",
       children: (this.stopButton = new Button({
-        size: "medium",
+        size: "m",
         type: "solid-peach",
         text: System.data.locale.common.stop,
       })),

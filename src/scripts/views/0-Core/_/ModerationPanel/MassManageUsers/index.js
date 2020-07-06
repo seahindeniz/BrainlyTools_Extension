@@ -19,12 +19,12 @@ import Build from "../../../../../helpers/Build";
 import Components from "../Components";
 import ApproveAnswers from "./ActionSection/ApproveAnswers";
 import ChangePoints from "./ActionSection/ChangePoints";
-import ChangeRanks from "./ActionSection/ChangeRanks";
+// import ChangeRanks from "./ActionSection/ChangeRanks";
 import DeleteUsers from "./ActionSection/DeleteUsers";
 import User from "./User";
 
 /**
- * @typedef {import("../../../../../controllers/Req/Brainly/Action/index").User} UserProfile
+ * @typedef {import("../../../../../controllers/Req/Brainly/Action/index").UserType} UserProfile
  * @typedef {ApproveAnswers| DeleteUsers | ChangePoints | ChangeRanks} Actions
  */
 
@@ -47,11 +47,11 @@ export default class MassManageUsers extends Components {
     /**
      * @type {Actions}
      */
-    this.activeAction;
+    this.activeAction = undefined;
     /**
      * @type {Actions[]}
      */
-    this.actions;
+    this.actions = undefined;
     /**
      * @type {number[]}
      */
@@ -183,7 +183,7 @@ export default class MassManageUsers extends Components {
 
   RenderRemoveAllButton() {
     this.removeAllButton = new Button({
-      size: "small",
+      size: "s",
       text: System.data.locale.common.removeAll,
       title: System.data.locale.core.massManageUsers.removeAllUsersFromTheList,
     });
@@ -238,7 +238,7 @@ export default class MassManageUsers extends Components {
 
     this.removeSelectedButton = new Button({
       type: "outline",
-      size: "small",
+      size: "s",
       html: `${System.data.locale.core.massManageUsers.removeSelected}&nbsp;`,
       title:
         System.data.locale.core.massManageUsers.removeSelectedUsersFromTheList,

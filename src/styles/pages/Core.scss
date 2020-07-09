@@ -58,7 +58,7 @@ body {
   }
 }
 
-::placeholder {
+html:not(.win) ::placeholder {
   position: relative;
   top: 1px;
 }

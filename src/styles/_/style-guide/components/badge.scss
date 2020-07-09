@@ -1,5 +1,5 @@
 .sg-badge {
-  .sg-text {
+  @at-root html:not(.win) .sg-text {
     position: relative;
     top: 1px;
   }

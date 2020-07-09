@@ -8,8 +8,13 @@ export default class Confirm extends Moderate {
   constructor(main) {
     super(main, {
       actionName: "Confirm",
-      buttonType: "outline-mint",
-      selectedButtonType: "solid-mint",
+      buttonType: {
+        type: "outline",
+        toggle: "mint",
+      },
+      selectedButtonType: {
+        type: "solid-mint",
+      },
     });
   }
 

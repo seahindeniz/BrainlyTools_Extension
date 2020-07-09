@@ -22,33 +22,21 @@ $colorMap: (
     $dark: nth($colorList, 2);
 
     .sg-button {
-      &-outline {
-        &--#{$colorName} {
+      /* &--outline {
+        &-#{$colorName} {
           background-color: $normal;
+          background-color: rgba(255, 255, 255, 0);
+          border: 2px solid $normal;
+          color: $normal;
+          fill: $normal;
 
           &:hover,
           &:focus,
           &:active {
-            border-color: $dark !important;
-            background-color: $dark !important;
-          }
-
-          &-inverse {
-            color: $normal;
-            background: none;
-            border: 2px solid;
-            border-color: $normal;
-
-            &:hover,
-            &:focus,
-            &:active {
-              color: $dark;
-              border-color: $dark !important;
-              background-color: rgba(0, 0, 0, 0.12) !important;
-            }
+            background-color: rgba(104, 123, 140, 0.12);
           }
         }
-      }
+      } */
 
       @if $colorName != "mint" {
         &--solid {

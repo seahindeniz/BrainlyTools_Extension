@@ -1,22 +1,29 @@
+// @flow
+
 import { Button, Flex } from "@style-guide";
+import { type ButtonColorType } from "@style-guide/Button";
+import type ModerateSection from "..";
+import type Report from "../../../Report";
+
+type propsType = {
+  actionName: "Delete" | "Confirm",
+  buttonType: ButtonColorType,
+  selectedButtonType: ButtonColorType,
+};
 
 export default class Moderate {
-  /**
-   * @typedef {import("@style-guide/Button").ButtonTypeType} ButtonTypeType
-   *
-   * @param {import("..").default} main
-   * @param {{
-   *  actionName: "Delete" | "Confirm",
-   *  buttonType: ButtonTypeType,
-   *  selectedButtonType: ButtonTypeType,
-   * }} props
-   */
-  constructor(main, props) {
+  main: ModerateSection;
+  props: propsType;
+  reports: Report[];
+  numberOfModeratedReports: number;
+  numberOfReportsInModerating: number;
+  buttonContainer: HTMLElement;
+  button: Button;
+  loopTryToModerate: IntervalID;
+
+  constructor(main: ModerateSection, props: propsType) {
     this.main = main;
     this.props = props;
-    /**
-     * @type {import("../../../Report").default[]}
-     */
     this.reports = [];
     this.numberOfModeratedReports = 0;
     this.numberOfReportsInModerating = 0;
@@ -28,7 +35,7 @@ export default class Moderate {
   RenderButton() {
     this.buttonContainer = Flex({
       children: (this.button = new Button({
-        type: this.props.buttonType,
+        ...this.props.buttonType,
         text:
           System.data.locale.core.massModerateReportedContents.moderateActions[
             this.props.actionName
@@ -66,13 +73,13 @@ export default class Moderate {
   }
 
   Select() {
-    this.button.ChangeType({ type: this.props.selectedButtonType });
+    this.button.ChangeType(this.props.selectedButtonType);
   }
 
   Unselect() {
     this.main.selectedModerateAction = undefined;
 
-    this.button.ChangeType({ type: this.props.buttonType });
+    this.button.ChangeType(this.props.buttonType);
   }
 
   CheckReports() {
@@ -138,11 +145,8 @@ export default class Moderate {
     return moderatingModerators[0] !== this.main.main;
   }
 
-  /**
-   * @param {import("../../../Report").default} _
-   */
   // eslint-disable-next-line no-unused-vars
-  Moderate(_) {
+  Moderate(_: Report) {
     this.StopModerating();
     this.TryToFinishModerating();
   }
@@ -154,11 +158,7 @@ export default class Moderate {
     this.TryToFinishModerating();
   }
 
-  /**
-   *
-   * @param {import("../../../Report").default} report
-   */
-  FailedToModerate(report) {
+  FailedToModerate(report: Report) {
     this.numberOfReportsInModerating--;
 
     report.ChangeStatus("failed");

@@ -1,6 +1,6 @@
+import { Button } from "@style-guide";
 import UserContent from "./_/UserContent";
 import Action from "../../controllers/Req/Brainly/Action";
-import Button from "../../components/Button";
 
 class Answers extends UserContent {
   /**
@@ -74,7 +74,8 @@ class Answers extends UserContent {
 
   RenderCorrectionButton() {
     const button = this.RenderButton({
-      type: "transparent-blue",
+      type: "solid-light",
+      toggle: "blue",
       text: System.data.locale.userContent.askForCorrection.text,
     });
     this.$correctionButtonContainer = button.$container;
@@ -83,7 +84,8 @@ class Answers extends UserContent {
 
   RenderModerateButton() {
     const button = this.RenderButton({
-      type: "transparent-peach",
+      type: "solid-light",
+      toggle: "peach",
       text: System.data.locale.common.moderating.moderate,
     });
     this.$moderateButtonContainer = button.$container;
@@ -91,14 +93,16 @@ class Answers extends UserContent {
   }
 
   /**
-   * @param {import("../../components/Button").ButtonOptions} options
+   * @param {import("@style-guide/Button").ButtonPropsType} options
    */
   RenderButton(options) {
     const $container = $(`<div class="sg-actions-list__hole"></div>`);
-    const $button = Button({
+    const button = new Button({
       size: "small",
       ...options,
     });
+
+    const $button = $(button.element);
 
     $button.appendTo($container);
     $container.appendTo(this.$buttonList);

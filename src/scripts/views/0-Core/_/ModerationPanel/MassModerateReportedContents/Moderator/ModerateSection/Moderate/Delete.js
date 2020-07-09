@@ -1,18 +1,23 @@
+// @flow
+
 import DeleteSection from "@/scripts/components/DeleteSection";
 import Build from "@/scripts/helpers/Build";
 import Action from "@BrainlyAction";
 import { Button, Flex, Text } from "@style-guide";
 import Moderate from ".";
+import type ModerateSection from "..";
 
 export default class Delete extends Moderate {
-  /**
-   * @param {import("..").default} main
-   */
-  constructor(main) {
+  constructor(main: ModerateSection) {
     super(main, {
       actionName: "Delete",
-      buttonType: "outline-peach",
-      selectedButtonType: "solid-peach",
+      buttonType: {
+        type: "outline",
+        toggle: "peach",
+      },
+      selectedButtonType: {
+        type: "solid-peach",
+      },
     });
 
     this.deleteSections = {
@@ -44,42 +49,39 @@ export default class Delete extends Moderate {
   }
 
   RenderDeleteReasonSections() {
-    Object.entries(this.deleteSections).forEach(
-      /**
-       * @param {["Question" | "Answer", *]} param0
-       */
-      ([contentTypeName, entry]) => {
-        entry.container = Build(
-          Flex({
-            marginTop: "l",
-            direction: "column",
-          }),
-          [
-            [
-              Flex(),
-              Text({
-                size: "large",
-                text:
-                  System.data.locale.core.massModerateReportedContents
-                    .moderateActions.Delete.choose[contentTypeName],
-              }),
-            ],
-          ],
-        );
-        entry.deleteSection = new DeleteSection({
-          type: contentTypeName,
-          noSpacedTop: true,
-          verticalOptions: true,
-        });
+    Object.entries(this.deleteSections).forEach(([contentTypeName, entry]) => {
+      if (!entry) return;
 
-        entry.container.append(
-          Flex({
-            marginLeft: "xs",
-            children: entry.deleteSection.$[0],
-          }),
-        );
-      },
-    );
+      entry.container = Build(
+        Flex({
+          marginTop: "l",
+          direction: "column",
+        }),
+        [
+          [
+            Flex(),
+            Text({
+              size: "large",
+              text:
+                System.data.locale.core.massModerateReportedContents
+                  .moderateActions.Delete.choose[contentTypeName],
+            }),
+          ],
+        ],
+      );
+      entry.deleteSection = new DeleteSection({
+        type: contentTypeName,
+        noSpacedTop: true,
+        verticalOptions: true,
+      });
+
+      entry.container.append(
+        Flex({
+          marginLeft: "xs",
+          children: entry.deleteSection.$[0],
+        }),
+      );
+    });
   }
 
   RenderStartButton() {

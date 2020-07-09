@@ -15,7 +15,7 @@ import IsVisible from "../../../../../helpers/IsVisible";
 
 export default class User {
   /**
-   * @param {import("../../../../../controllers/Req/Brainly/Action/index").User} details
+   * @param {import("../../../../../controllers/Req/Brainly/Action/index").UserType} details
    * @param {import("./index").default} main
    */
   constructor(details, main) {

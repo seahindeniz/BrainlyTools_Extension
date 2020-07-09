@@ -12,7 +12,7 @@ const SGD = `${sg}--`;
 
 type ButtonSizeType = "xl" | "l" | "m" | "s" | "xs";
 
-type ButtonColorType =
+export type ButtonColorType =
   | {
       type:
         | "solid"
@@ -261,9 +261,11 @@ class Button {
       `sg-button--${String(this.mainType)}-toggle-${String(this.mainToggle)}`,
     );
     this.element.classList.add(SGD + type);
-    this.element.classList.add(
-      `sg-button--${String(type)}-toggle-${String(toggle)}`,
-    );
+
+    if (toggle)
+      this.element.classList.add(
+        `sg-button--${String(type)}-toggle-${String(toggle)}`,
+      );
 
     this.type = type;
     this.mainType = type;

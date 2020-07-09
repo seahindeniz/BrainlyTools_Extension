@@ -14,7 +14,8 @@ const TEXT_ALIGN = {
 };
 
 /**
- * @typedef {'xsmall'
+ * @typedef {'xxsmall'
+ * | 'xsmall'
  * | 'small'
  * | 'medium'
  * | 'large'

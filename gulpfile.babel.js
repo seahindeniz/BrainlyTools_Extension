@@ -11,6 +11,7 @@ import fs from "fs";
 import yaml from "js-yaml";
 import mergeDeep from "merge-deep";
 import globImporter from "node-sass-glob-importer";
+import packageImporter from "node-sass-package-importer";
 
 const $ = require("gulp-load-plugins")();
 
@@ -167,8 +168,8 @@ function compileScssFiles(files, path) {
         .sync({
           outputStyle: "compressed",
           precision: 10,
-          includePaths: ["."],
-          importer: globImporter(),
+          includePaths: ["./node_modules", "."],
+          importer: [globImporter(), packageImporter()],
         })
         .on("error", $.sass.logError),
     )

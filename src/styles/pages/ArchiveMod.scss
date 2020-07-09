@@ -1,8 +1,15 @@
+@import "~perfect-scrollbar";
+
+.ps__rail-x {
+  bottom: 0px;
+  top: auto !important;
+}
+
 $arrow-pos: -84px;
 
 .js-pagination {
   button {
-    margin: .5em .8em;
+    margin: 0.5em 0.8em;
   }
 }
 
@@ -11,7 +18,7 @@ $arrow-pos: -84px;
 }
 
 #moderation-all {
-  &>div.top>div.header>h1>span {
+  & > div.top > div.header > h1 > span {
     cursor: pointer;
   }
 
@@ -22,26 +29,26 @@ $arrow-pos: -84px;
       overflow: hidden;
       line-height: initial;
 
-      >.header {
+      > .header {
         height: 26px;
       }
 
-      >.content {
+      > .content {
         height: 14rem;
 
         .confirm label {
           font-size: 1.5em;
         }
 
-        &>.body {
+        & > .body {
           overflow: hidden;
           height: 11em;
         }
 
-        &>.footer {
+        & > .footer {
           padding: 2px 0;
 
-          &>.row:last-child {
+          & > .row:last-child {
             margin-bottom: 0 !important;
           }
         }
@@ -92,13 +99,13 @@ $arrow-pos: -84px;
   }
 
   .confirmed {
-    &>.content {
+    & > .content {
       background-color: #aea !important;
     }
   }
 
   .removed {
-    &>.content {
+    & > .content {
       background-color: #eaa !important;
     }
   }
@@ -141,10 +148,9 @@ $arrow-pos: -84px;
 
 .moderation-toplayer {
   .removed {
-
     .actions,
     .action-box,
-    .contents>.report {
+    .contents > .report {
       display: none !important;
     }
   }

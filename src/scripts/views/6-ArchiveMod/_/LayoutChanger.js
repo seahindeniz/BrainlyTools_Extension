@@ -52,6 +52,8 @@ export default class LayoutChanger {
       "click",
       this.SwitchToCommentFeed.bind(this),
     );
+
+    this.filterSelect.addEventListener("change", this.FilterChanged.bind(this));
   }
 
   SwitchLayout() {
@@ -87,5 +89,10 @@ export default class LayoutChanger {
   SwitchFeed(feedKey) {
     this.filterSelect.value = String(feedKey);
     this.filterSelect.dispatchEvent(new Event("change"));
+  }
+
+  FilterChanged() {
+    if (this.filterSelect.value < 998) this.main.pagination.Show();
+    else this.main.pagination.Hide();
   }
 }

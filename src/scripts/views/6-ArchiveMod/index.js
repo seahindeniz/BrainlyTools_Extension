@@ -1,3 +1,4 @@
+/* eslint-disable no-new */
 import LayoutChanger from "./_/LayoutChanger";
 import ModerateToplayerEnhancer from "./_/ModerateToplayerEnhancer";
 import Pagination from "./_/Pagination";
@@ -22,10 +23,11 @@ export default class ModerateAll {
      */
     this.top = document.querySelector("#moderation-all > .top");
     this.layoutChanger = new LayoutChanger(this);
-
     this.reportBoxEnhancer = new ReportBoxEnhancer(this);
+    this.pagination = new Pagination(this);
+
     new ModerateToplayerEnhancer(this);
-    new Pagination();
+
     this.ObserveTopSection();
   }
 

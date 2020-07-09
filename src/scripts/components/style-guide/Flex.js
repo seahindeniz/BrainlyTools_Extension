@@ -1,6 +1,6 @@
-import classnames from 'classnames';
-import AddChildren from "@style-guide/helpers/AddChildren"
-import SetProps from './helpers/SetProps';
+import classnames from "classnames";
+import AddChildren from "@style-guide/helpers/AddChildren";
+import SetProps from "./helpers/SetProps";
 
 /**
  * @typedef {'center'
@@ -80,10 +80,33 @@ import SetProps from './helpers/SetProps';
  */
 
 /**
+ * @this {FlexElementType}
+ * @param {MarginType} props
+ */
+// eslint-disable-next-line no-underscore-dangle
+function _ChangeMargin(props) {
+  Object.entries(props).forEach(([name, value]) => {
+    let cornerName = name.replace(/margin/, "").toLowerCase();
+
+    if (cornerName) cornerName += "-";
+
+    const regexp = new RegExp(
+      `sg-flex--margin-${cornerName}[a-z]{1,}(?: |$)`,
+      "g",
+    );
+    this.className = this.className.replace(regexp, "");
+
+    if (value) this.classList.add(`sg-flex--margin-${cornerName}${value}`);
+  });
+
+  return this;
+}
+
+/**
  * @template {keyof HTMLElementTagNameMap} T
  * @param {{tag?: DefaultTagNamesType | T} & Properties} param0
  */
-export default function({
+export default function ({
   fullWidth,
   fullHeight,
   noShrink,
@@ -108,37 +131,39 @@ export default function({
   minContent,
   ...props
 } = {}) {
-  const flexClass = classnames('sg-flex', {
-      'sg-flex--full-width': fullWidth,
-      'sg-flex--full-height': fullHeight,
-      'sg-flex--no-shrink': noShrink,
-      'sg-flex--inline': inlineFlex,
-      [`sg-flex--align-items-${alignItems || ''}`]: alignItems,
-      [`sg-flex--align-content-${alignContent || ''}`]: alignContent,
-      [`sg-flex--align-self-${alignSelf || ''}`]: alignSelf,
-      [`sg-flex--justify-content-${justifyContent || ''}`]: justifyContent,
-      'sg-flex--wrap': wrap,
-      'sg-flex--wrap-reverse': wrapReverse,
-      'sg-flex--column': direction === "column",
-      'sg-flex--column-reverse': direction === "column-reverse",
-      'sg-flex--row': direction === "row",
-      'sg-flex--row-reverse': direction === "row-reverse",
-      [`sg-flex--margin-${margin || ''}`]: margin,
-      [`sg-flex--margin-top-${marginTop || ''}`]: marginTop,
-      [`sg-flex--margin-right-${marginRight || ''}`]: marginRight,
-      [`sg-flex--margin-bottom-${marginBottom || ''}`]: marginBottom,
-      [`sg-flex--margin-left-${marginLeft || ''}`]: marginLeft,
-      'sg-flex--grow': grow,
-      'sg-flex--fit-content': fitContent,
-      'sg-flex--min-content': minContent,
+  const flexClass = classnames(
+    "sg-flex",
+    {
+      "sg-flex--full-width": fullWidth,
+      "sg-flex--full-height": fullHeight,
+      "sg-flex--no-shrink": noShrink,
+      "sg-flex--inline": inlineFlex,
+      [`sg-flex--align-items-${alignItems || ""}`]: alignItems,
+      [`sg-flex--align-content-${alignContent || ""}`]: alignContent,
+      [`sg-flex--align-self-${alignSelf || ""}`]: alignSelf,
+      [`sg-flex--justify-content-${justifyContent || ""}`]: justifyContent,
+      "sg-flex--wrap": wrap,
+      "sg-flex--wrap-reverse": wrapReverse,
+      "sg-flex--column": direction === "column",
+      "sg-flex--column-reverse": direction === "column-reverse",
+      "sg-flex--row": direction === "row",
+      "sg-flex--row-reverse": direction === "row-reverse",
+      [`sg-flex--margin-${margin || ""}`]: margin,
+      [`sg-flex--margin-top-${marginTop || ""}`]: marginTop,
+      [`sg-flex--margin-right-${marginRight || ""}`]: marginRight,
+      [`sg-flex--margin-bottom-${marginBottom || ""}`]: marginBottom,
+      [`sg-flex--margin-left-${marginLeft || ""}`]: marginLeft,
+      "sg-flex--grow": grow,
+      "sg-flex--fit-content": fitContent,
+      "sg-flex--min-content": minContent,
     },
-    className
+    className,
   );
 
   /**
    * @type {CustomPropertiesType & HTMLElementTagNameMap[T]}
    */
-  let element = (document.createElement(tag));
+  const element = document.createElement(tag);
   element.className = flexClass;
   props.ChangeMargin = _ChangeMargin;
 
@@ -146,28 +171,4 @@ export default function({
   SetProps(element, props);
 
   return element;
-}
-
-/**
- * @this {FlexElementType}
- * @param {MarginType} props
- */
-function _ChangeMargin(props) {
-  Object.entries(props).forEach(([name, value]) => {
-    let cornerName = name.replace(/margin/, "").toLowerCase();
-
-    if (cornerName)
-      cornerName += "-";
-
-    let regexp = new RegExp(
-      `sg-flex--margin-${cornerName}[a-z]{1,}(?: |$)`,
-      "g"
-    );
-    this.className = this.className.replace(regexp, "");
-
-    if (value)
-      this.classList.add(`sg-flex--margin-${cornerName}${value}`);
-  });
-
-  return this;
 }

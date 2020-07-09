@@ -3,34 +3,60 @@
   position: absolute;
   top: 0;
   right: 0;
-  width: 5.4em;
+  width: 118px;
   z-index: 2;
 
   /* padding: 0px 5px 7px; */
   /* border-radius: 5px; */
   /* box-shadow: 0px 0px 10px 0px #c5c5c5; */
-  >.sg-actions-list__hole {
-    width: 40px;
+  > .sg-actions-list__hole {
+    width: 56px;
+
+    &:last-child {
+      margin-left: 10px;
+      width: 52px;
+    }
 
     &:nth-child(1) .sg-spinner-container {
       float: right;
     }
 
     button {
-      min-width: 35px;
-      padding: 0 9px;
+      min-width: 51px;
 
       .sg-button__text {
         display: none;
       }
 
-      &:not(:hover) .sg-button__icon {
-        margin: 0;
+      .sg-button__icon {
+        justify-content: center;
+      }
+
+      &:not(.sg-button--reversed-order) {
+        .sg-button__icon {
+          width: 11px;
+        }
+      }
+
+      &:not(:hover) {
+        &:not(.sg-button--reversed-order) {
+          .sg-button__icon {
+            margin: 0;
+          }
+        }
+
+        &.sg-button--reversed-order {
+          .sg-button__icon {
+            margin-left: -4px;
+          }
+        }
       }
 
       &:hover {
-        .sg-button__icon {
-          display: none;
+        &:not(.sg-button--reversed-order) {
+          .sg-button__icon {
+            margin-left: 0;
+          }
         }
 
         .sg-button__text {
@@ -43,14 +69,13 @@
 
 .quickDelete div[data-test="feed-item"] {
   &.deleted .sg-content-box {
-
     &,
-    >.sg-box {
+    > .sg-box {
       background-color: #ffc8c0;
     }
   }
 
-  &:hover:not(.deleted){
+  &:hover:not(.deleted) {
     position: relative;
 
     .ext_actions {
@@ -67,7 +92,6 @@
 
 .js-modal {
   .taskContent {
-
     span {
       display: none;
     }

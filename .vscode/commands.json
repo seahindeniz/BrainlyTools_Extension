@@ -1,17 +1,18 @@
 {
-  "commands": [{
+  "commands": [
+    {
       "text": "$(sync) Refresh langs",
       "command": "workbench.action.terminal.sendSequence",
       "arguments": [{ "text": "npm run i18n\n" }],
       "color": "#bdc3c7",
-      "filterFileRegex": ".*/brainly_tools/extension"
+      "filterFileRegex": ".*/BrainlyTools_Extension"
     },
     {
       "text": "$(sync) Refresh English",
       "command": "workbench.action.terminal.sendSequence",
       "arguments": [{ "text": "npm run i18n en_US\n" }],
       "color": "#ecf0f1",
-      "filterFileRegex": ".*/brainly_tools/extension"
+      "filterFileRegex": ".*/BrainlyTools_Extension"
     }
   ]
 }

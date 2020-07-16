@@ -396,14 +396,9 @@
       "tryingToSendTheSameMessage": "Son mesajı tekrar göndermeye çalışıyorsun. Göndermek istediğine emin misin?",
       "alreadyStarted": "İşlem zaten başlatıldı",
       "pointsAdded": "Puanlar eklendi",
-      "thisConditionAlreadyAdded": "Koşul zaten eklenmiş",
-      "thisConditionAlreadyAddedInCommonConditions": "Ortak koşullar'da zaten bulunuyor",
-      "youNeedToRemoveThePreviousFilterFirst": "Önce filtre listesine eklediğin içerik tipi filtresini kaldırmalısın",
-      "conditionsDoesntMatchAnything": "Koşul herhangi bir şeyle eşleşmiyor",
       "doYouWantToContinue": "Devam etmek istiyor musun?",
       "couldntAbleToGetNoticeBoardContent": "Duyuru panosunun içeriğini sunucudan alamadım",
       "changesMayNotBeSaved": "Yaptığınız değişiklikler kaydedilmemiş olabilir",
-      "youCantAddMoreThan8Sections": "8 adetten fazla blok ekleyemezsin",
       "stillProcessing": "Bu blok halen işlem sürecinde. Bloğu silmek istiyor musun? (onay vermen, aktif işlemi durduracaktır)",
       "youNeedToChooseActionType": "Eylem tipi seçmelisin",
       "errorOccurredWhileDeletingTheN": "%{content_id} id'li soruyu silerken hata oluştu"
@@ -443,7 +438,9 @@
       "youNeedToEnterOrPaste": "Kullanıcı id'si ni girebilir veya daha önce kopyaladığın kullanıcı id'lerini kutucuğa yapıştırabilirsin",
       "pastingExample": "Örnek kullanıcı id listesi",
       "pastingExample2": "Kopyala yapıştır yapmadan önce, listen üzerinde puan ataması yapabilirsin",
-      "addPoint": "Puan ekle"
+      "addPoints": "Add points to this user",
+      "addPointsToAll": "Add points to all users",
+      "pointsNotSpecified": "You must enter a score value for at least 1 user"
     },
     "reportedCommentsDeleter": {
       "text": "TD > Toplu yorum silici",

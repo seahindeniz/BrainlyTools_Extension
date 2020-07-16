@@ -503,7 +503,7 @@ task("watchFiles", () => {
 task("zip", () => {
   return src(`./build/${target}/**/*`)
     .pipe($.zip(`${target}-${process.env.npm_package_version}.zip`))
-    .pipe(dest("./dists"));
+    .pipe(dest("./dist"));
 });
 
 task("default", series("build"));

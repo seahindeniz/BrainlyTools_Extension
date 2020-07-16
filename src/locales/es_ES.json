@@ -396,14 +396,9 @@
       "tryingToSendTheSameMessage": "You're trying to send the last message again. Do you still want to send?",
       "alreadyStarted": "Process has already started",
       "pointsAdded": "Points added",
-      "thisConditionAlreadyAdded": "This condition already added",
-      "thisConditionAlreadyAddedInCommonConditions": "This condition already added in the Common conditions",
-      "youNeedToRemoveThePreviousFilterFirst": "You need to remove previously added content type filter from the filter list first",
-      "conditionsDoesntMatchAnything": "Conditions doesn't match with anything",
       "doYouWantToContinue": "Do you want to continue?",
       "couldntAbleToGetNoticeBoardContent": "I couldn't able to get content of notice board",
       "changesMayNotBeSaved": "Changes you made may not be saved",
-      "youCantAddMoreThan8Sections": "You can't add more than 8 sections",
       "stillProcessing": "This section is still in process. Do you want to remove this block?\n(this will stop the moderating process)",
       "youNeedToChooseActionType": "You need to choose an action type",
       "errorOccurredWhileDeletingTheN": "An error occurred while deleting the %{content_id}"
@@ -443,7 +438,9 @@
       "youNeedToEnterOrPaste": "You need to enter user id or you can paste copied list of user ids into input",
       "pastingExample": "Example list of users ids",
       "pastingExample2": "Also, you can specify the points in the list before copy paste",
-      "addPoint": "Add point"
+      "addPoints": "Add points to this user",
+      "addPointsToAll": "Add points to all users",
+      "pointsNotSpecified": "You must enter a score value for at least 1 user"
     },
     "reportedCommentsDeleter": {
       "text": "Reported comments deleter",

@@ -8,10 +8,10 @@
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
-      "@BrainlyAction": ["src/scripts/controllers/Req/Brainly/Action"],
-      "@ServerReq": ["src/scripts/controllers/Req/Server"],
-      "@style-guide": ["src/scripts/components/style-guide"],
-      "@style-guide/*": ["src/scripts/components/style-guide/*"],
+      "@BrainlyAction": ["./src/scripts/controllers/Req/Brainly/Action"],
+      "@ServerReq": ["./src/scripts/controllers/Req/Server"],
+      "@style-guide": ["./src/scripts/components/style-guide"],
+      "@style-guide/*": ["./src/scripts/components/style-guide/*"],
       "@/*": ["src/*"]
     },
     "target": "es5",

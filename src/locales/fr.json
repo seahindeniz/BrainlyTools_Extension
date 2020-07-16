@@ -396,14 +396,9 @@
       "tryingToSendTheSameMessage": "Vous essayez d'envoyer le dernier message une autre fois. Voulez-vous continuer ?",
       "alreadyStarted": "Le processus a déjà commencé",
       "pointsAdded": "Les points ont été ajoutés",
-      "thisConditionAlreadyAdded": "La condition a déjà été ajoutée",
-      "thisConditionAlreadyAddedInCommonConditions": "La condition a déjà été ajoutée dans les conditions communes",
-      "youNeedToRemoveThePreviousFilterFirst": "Vous devez d'abord retirer le filtre précédent depuis la liste des filtres",
-      "conditionsDoesntMatchAnything": "Les conditions ne correspondent à aucun signalement",
       "doYouWantToContinue": "Voulez-vous continuer ?",
       "couldntAbleToGetNoticeBoardContent": "Je ne suis pas en mesure de d'obtenir le contenu du tableau d'information",
       "changesMayNotBeSaved": "Les changements effectués peuvent ne pas avoir été sauvegardés",
-      "youCantAddMoreThan8Sections": "Vous ne pouvez pas ajouter plus de 8 sections",
       "stillProcessing": "Cette section est toujours en cours. Voulez-vous enlever ce bloc ?\n(cela arrêtera le processus de modération)",
       "youNeedToChooseActionType": "Vous devez choisir un type d'action",
       "errorOccurredWhileDeletingTheN": "Une erreur est survenue lors de la suppression de %{content_id}"
@@ -443,7 +438,9 @@
       "youNeedToEnterOrPaste": "Vous devez entrer un ID d'utilisateur valide",
       "pastingExample": "Exemple de liste d'IDs utilisateurs",
       "pastingExample2": "Vous pouvez également spécifier le nombre de points dans la liste avant de copier-coller",
-      "addPoint": "Ajouter des points"
+      "addPoints": "Add points to this user",
+      "addPointsToAll": "Add points to all users",
+      "pointsNotSpecified": "You must enter a score value for at least 1 user"
     },
     "reportedCommentsDeleter": {
       "text": "Suppression des commentaires signalés",

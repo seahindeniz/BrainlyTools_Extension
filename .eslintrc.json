@@ -46,6 +46,11 @@
       "always",
       { "exceptAfterSingleLine": true }
     ],
-    "flowtype/space-after-type-colon": [2, "always", { "allowLineBreak": true }]
+    "flowtype/space-after-type-colon": [
+      2,
+      "always",
+      { "allowLineBreak": true }
+    ],
+    "no-console": ["warn", { "allow": ["warn", "error"] }]
   }
 }

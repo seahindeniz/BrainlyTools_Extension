@@ -396,14 +396,9 @@
       "tryingToSendTheSameMessage": "Kamu telah mencoba mengirim yang terakhir. Apakah kamu masih ingin mengirim?",
       "alreadyStarted": "Proses telah dimulai",
       "pointsAdded": "Poin ditambahkan",
-      "thisConditionAlreadyAdded": "Kondisi ini telah ditambahkan",
-      "thisConditionAlreadyAddedInCommonConditions": "Kondisi ini telah ditambahkan ke kondisi umum",
-      "youNeedToRemoveThePreviousFilterFirst": "Kamu harus menghapus filter tipe konten yang ditambahkan sebelumnya dari daftar filter yang pertama",
-      "conditionsDoesntMatchAnything": "Kondisinya tidak sesuai dengan lainnya",
       "doYouWantToContinue": "Apakah kamu ingin melanjutkan?",
       "couldntAbleToGetNoticeBoardContent": "Saya tidak bisa mendapatkan konten pada papan pengumuman",
       "changesMayNotBeSaved": "Perubahan yang kamu buat mungkin tidak tersimpan",
-      "youCantAddMoreThan8Sections": "Kamu tidak dapat menambah lebih dari 8 bagian",
       "stillProcessing": "Bagian ini masih dalam proses. Apakah kamu ingin menghapus blok ini?\n(ini akan menghentikan proses moderasi)",
       "youNeedToChooseActionType": "Kamu perlu memilih salah satu jenis tindakan",
       "errorOccurredWhileDeletingTheN": "Terjadi error saat penghapusan %{content_id}"
@@ -443,7 +438,9 @@
       "youNeedToEnterOrPaste": "Kamu harus memasukkan ID pengguna atau kamu dapat menempelkan daftar ID pengguna yang disalin ke dalam input",
       "pastingExample": "Contoh daftar ID pengguna",
       "pastingExample2": "Kamu juga dapat menentukan poin dalam daftar sebelum mengcopy paste",
-      "addPoint": "Poin ditambahkan"
+      "addPoints": "Add points to this user",
+      "addPointsToAll": "Add points to all users",
+      "pointsNotSpecified": "You must enter a score value for at least 1 user"
     },
     "reportedCommentsDeleter": {
       "text": "Menghapus komentar yang dilaporkan",

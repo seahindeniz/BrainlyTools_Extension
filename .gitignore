@@ -1,5 +1,5 @@
 .env
-dists
+dist
 build/*
 node_modules
 ep_list.json

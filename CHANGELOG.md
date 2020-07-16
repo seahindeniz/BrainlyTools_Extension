@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.37.0] - 2020.07.16
+
+### Added
+
+- Kullanıcı içeriğinde sayfalar arası hızlı geçiş [#149]
+
+### Changed
+
+- Some issues with the Mass-Point changer
+- Visual Change to Pages in Mod Panel [#139]
+- Anasayfada ders konusu seçildiğinde eklenti seçenekleri çıkmıyor. [#144]
+- Onayla butonu [#145]
+- Find Users, Notice Board & Mass Moderate Tools don't show up on the homepage
+  under the Moderation Panel. [#147]
+- Moderation tools under the "What Is your question?" tab doesn't show up.
+  [#148]
+- Bug while using Selective deletion tools after the "Ask for Correction" option
+  is used. [#150]
+
+[#139]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/139
+[#144]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/144
+[#145]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/145
+[#147]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/147
+[#148]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/148
+[#149]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/149
+[#150]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/150
+
 ## [6.36.8] - 2020.06.21
 
 ### Changed

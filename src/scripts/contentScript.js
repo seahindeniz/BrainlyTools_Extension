@@ -73,14 +73,10 @@ class ContentScript {
     // eslint-disable-next-line global-require
     require("./helpers/preExecuteScripts");
     document.documentElement.setAttribute("extension", MANIFEST.version);
-    InjectToDOM([
-      "/scripts/lib/prototypeOverrides.js",
-      "/scripts/lib/regex-colorizer.js",
-      "/scripts/views/0-Core/index.js",
-    ]);
 
     if (html.id !== "html") {
       InjectToDOM("/styles/pages/Core.css", { makeItLastElement: true });
+      InjectToDOM(["/scripts/lib/jquery-3.3.1.min.js"]);
     } else {
       InjectToDOM("/styles/pages/CoreWithStyleGuide.css", {
         makeItLastElement: true,
@@ -94,6 +90,12 @@ class ContentScript {
       if (isContains && !document.body.attributes.itemtype)
         InjectToDOM([System.constants.Brainly.style_guide.icons]);
     }
+
+    InjectToDOM([
+      "/scripts/lib/prototypeOverrides.js",
+      "/scripts/lib/regex-colorizer.js",
+      "/scripts/views/0-Core/index.js",
+    ]);
   }
 
   BindHandlers() {

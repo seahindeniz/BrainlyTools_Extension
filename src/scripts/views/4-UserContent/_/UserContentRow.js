@@ -188,7 +188,6 @@ export default class UserContentRow {
     this.RenderAnswerSeparator();
     content.$.appendTo(this.contentContainer);
 
-    console.log(this.main.caller);
     if (
       Number(answer.user_id) === Number(window.sitePassedParams[0]) &&
       this.main.caller === "Answers"
@@ -251,7 +250,6 @@ export default class UserContentRow {
   }
 
   RenderBestIcon(answer) {
-    console.log(answer);
     if (!answer.best) return;
 
     this.RenderIcon({

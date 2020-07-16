@@ -287,8 +287,8 @@ class UserContent {
   }
 
   ClearActionsTab() {
-    this.$moderateContent.html("");
-    this.$moderateActions.html("");
+    this.HideDeleteSection();
+    this.HideReportForCorrectionSection();
   }
 }
 

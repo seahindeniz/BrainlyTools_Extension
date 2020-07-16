@@ -1,4 +1,4 @@
-import { Button, Flex, Spinner, Text } from "@style-guide";
+import { Button, Flex, Icon, Spinner, Text } from "@style-guide";
 import notification from "../../../components/notification2";
 import Action from "../../../controllers/Req/Brainly/Action";
 
@@ -7,6 +7,9 @@ export default function taskSection() {
    * @type {HTMLDivElement}
    */
   const mainQuestionArticle = document.querySelector(`.js-main-question`);
+  const questionContainer = mainQuestionArticle.querySelector(
+    ":scope > div > .brn-qpage-next-question-box",
+  );
   const questionData = JSON.parse(mainQuestionArticle?.dataset?.z);
 
   // eslint-disable-next-line camelcase
@@ -107,7 +110,7 @@ export default function taskSection() {
           throw { msg: res?.message };
 
         System.log(5, { user: userData, data: [questionId] });
-        mainQuestionArticle.classList.add("brn-question--deleted");
+        questionContainer.classList.add("brn-content--deleted");
         // @ts-ignore
         $(window.selectors.taskModerateButton).remove();
         extButtonsContainer.remove();
@@ -125,4 +128,79 @@ export default function taskSection() {
     }
   }
   $("button", extButtonsContainer).on("click", taskModerateButtonsClickHandler);
+
+  if (questionData.isMarkedAbuse) {
+    const confirmButton = new Button({
+      size: "s",
+      type: "solid-mint",
+      title: System.data.locale.common.confirm,
+      html: System.data.locale.common.confirm,
+      icon: new Icon({
+        type: "check",
+        size: 22,
+      }),
+    });
+
+    confirmButton.element.addEventListener(
+      "click",
+      // eslint-disable-next-line no-use-before-define
+      async () => {
+        if (
+          !confirm(
+            System.data.locale.userContent.notificationMessages
+              .doYouWantToConfirmThisContent,
+          )
+        )
+          return;
+        const spinner = Spinner({ size: "xxsmall", light: true });
+        const icon = confirmButton.icon.element;
+
+        confirmButton.iconContainer.append(spinner);
+        confirmButton.iconContainer.removeChild(icon);
+
+        try {
+          const resConfirm = await new Action().ConfirmQuestion(
+            window.jsData.question.databaseId,
+          );
+
+          new Action().CloseModerationTicket(questionData.id);
+
+          // eslint-disable-next-line no-throw-literal
+          if (!resConfirm?.success) throw { msg: resConfirm?.message };
+
+          System.log(19, {
+            user: window.jsData.question.author,
+            data: [window.jsData.question.databaseId],
+          });
+
+          confirmButton.element.remove();
+          questionContainer.classList.add("brn-content--confirmed");
+
+          const options = document.querySelector(
+            ".brn-qpage-next-question-box__options",
+          );
+
+          if (options) options.remove();
+        } catch (error) {
+          console.error(error);
+
+          confirmButton.iconContainer.append(icon);
+          confirmButton.iconContainer.removeChild(spinner);
+          notification({
+            type: "error",
+            html:
+              error?.msg ||
+              System.data.locale.common.notificationMessages.somethingWentWrong,
+          });
+        }
+      },
+    );
+
+    const buttonContainer = Flex({
+      children: confirmButton.element,
+      marginBottom: "xs",
+    });
+
+    extButtonsContainer.append(buttonContainer);
+  }
 }

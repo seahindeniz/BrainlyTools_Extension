@@ -2,19 +2,35 @@ import {
   Button,
   ContentBox,
   ContentBoxContent,
-  Text,
+  Icon,
   Spinner,
+  Text,
 } from "@style-guide";
 import notification from "../../../components/notification2";
 import Action from "../../../controllers/Req/Brainly/Action";
 import WaitForElements from "../../../helpers/WaitForElements";
 
 export default async function responseSection() {
+  const questionArticle = document.querySelector(".js-question");
+
+  if (!questionArticle) throw Error("Cannot find question article element");
+
+  const questionData = JSON.parse(questionArticle.dataset.z);
   /**
    * @param {JQuery<HTMLElement>} [responseContainers]
    */
   const addButtons = responseContainers => {
     responseContainers.each((_, moderateButtonContainer) => {
+      const answerContainer = moderateButtonContainer.closest(".brn-answer");
+
+      if (!answerContainer) throw Error("Cannot find answer container");
+
+      const { answerId } = answerContainer.dataset;
+
+      const answerData = questionData.responses.find(response => {
+        return response.id === Number(answerId);
+      });
+
       const extButtonsContainer = ContentBox({
         className: "ext_actions",
       });
@@ -51,6 +67,32 @@ export default async function responseSection() {
 
         extButtonsContainer.append(buttonContainer);
       });
+
+      if (answerData.settings.isMarkedAbuse) {
+        const confirmButton = new Button({
+          size: "s",
+          type: "solid-mint",
+          title: System.data.locale.common.confirm,
+          html: System.data.locale.common.confirm,
+          icon: new Icon({
+            type: "check",
+            size: 22,
+          }),
+        });
+
+        confirmButton.element.addEventListener(
+          "click",
+          // eslint-disable-next-line no-use-before-define
+          ConfirmButtonClickHandler,
+        );
+
+        const buttonContainer = ContentBoxContent({
+          children: confirmButton.element,
+          spacedTop: "small",
+        });
+
+        extButtonsContainer.append(buttonContainer);
+      }
     });
   };
 
@@ -108,7 +150,6 @@ export default async function responseSection() {
     if (!answerId) throw Error("Cannot find the answer id");
 
     const usersData = $(".js-users-data").data("z");
-    const questionData = $(".js-main-question").data("z");
     const answer = questionData.responses.find(
       response => Number(response?.id) === answerId,
     );
@@ -171,5 +212,70 @@ export default async function responseSection() {
         });
       }
     }
+  }
+
+  /**
+   * @this {HTMLElement}
+   */
+  async function ConfirmButtonClickHandler() {
+    const parentResponseContainer = $(this).parents(
+      window.selectors.responseContainer,
+    );
+    const answerId = Number(parentResponseContainer.data("answer-id"));
+
+    const answerData = window.jsData.question.answers.find(answer => {
+      return answer.databaseId === Number(answerId);
+    });
+
+    if (
+      !confirm(
+        System.data.locale.userContent.notificationMessages
+          .doYouWantToConfirmThisContent,
+      )
+    )
+      return;
+
+    const icon = $(".sg-button__icon > div", this);
+    const spinner = Spinner({ size: "xxsmall", light: true });
+
+    icon.before(spinner);
+    icon.detach();
+
+    try {
+      const resConfirm = await new Action().ConfirmAnswer(answerId);
+
+      new Action().CloseModerationTicket(questionData.id);
+
+      // eslint-disable-next-line no-throw-literal
+      if (!resConfirm?.success) throw { msg: resConfirm?.message };
+
+      System.log(20, {
+        user: {
+          nick: answerData.user.nick,
+          id: answerData.userId,
+        },
+        data: [answerId],
+      });
+
+      this.remove();
+      parentResponseContainer.addClass("brn-content--confirmed");
+    } catch (error) {
+      console.error(error);
+      icon.insertBefore(spinner);
+      spinner.remove();
+      notification({
+        type: "error",
+        html:
+          error?.msg ||
+          System.data.locale.common.notificationMessages.somethingWentWrong,
+      });
+    }
+
+    const $reportedText = $(
+      "div > div:nth-child(3) > div.js-react-answer-footer-26339823 > div > div.sg-flex.sg-flex--justify-content-space-between.sg-flex--wrap > div.sg-flex.sg-flex--align-items-center.sg-flex--margin-bottom-m > div.sg-flex.sg-flex--margin-left-s",
+      responseParentContainer,
+    );
+
+    $reportedText.remove();
   }
 }

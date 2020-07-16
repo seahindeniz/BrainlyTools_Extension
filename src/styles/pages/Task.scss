@@ -2,6 +2,15 @@
   width: 100%;
 }
 
+.brn-content-- {
+  &confirmed {
+    background: #9ce8c2;
+  }
+  &deleted {
+    background: #ffc7bf;
+  }
+}
+
 .ext_actions {
   z-index: 2;
   width: 35px;

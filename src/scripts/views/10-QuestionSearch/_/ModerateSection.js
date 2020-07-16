@@ -23,6 +23,7 @@ import Action from "../../../controllers/Req/Brainly/Action";
 import Build from "../../../helpers/Build";
 import InsertAfter from "../../../helpers/InsertAfter";
 import IsVisible from "../../../helpers/IsVisible";
+import type QuestionBox from "./QuestionBox";
 
 function RenderSpinner(isLight?: boolean) {
   return Spinner({
@@ -47,10 +48,29 @@ class ModerateSection {
   deleteAllButtonSpinnerContainer: HTMLDivElement;
   deleteAllButtonContainer: HTMLDivElement;
   deleteAllButtonSpinner: HTMLDivElement;
-  container: HTMLDivElement;
+  container: HTMLElement;
+  counterContainer: HTMLElement;
+  counterIconContainer: HTMLElement;
+  counterText: HTMLElement;
 
-  $paginationContainer: any;
-  $pagination: any;
+  counter: {
+    n: number,
+    max: number,
+  };
+
+  idList: number[];
+
+  postData: {
+    reason_id: number,
+    reason_title: string,
+    reason: string,
+    give_warning: boolean,
+    take_points: boolean,
+    return_points: boolean,
+  };
+
+  loopStartDeleting: IntervalID;
+  started: boolean;
 
   deleteButton: Button;
   deleteAllButton: Button;
@@ -173,19 +193,22 @@ class ModerateSection {
     ]);
   }
 
-  Show() {
-    this.$paginationContainer = $(
-      "> .sg-content-box__content:eq(2)",
-      this.main.element,
+  async Show() {
+    const paginationContainer = this.main.element.querySelector(
+      ":scope > div > .sg-content-box__content:nth-child(3)",
     );
-    this.$pagination = $(`[data-test="pagination"]`, this.$paginationContainer);
+    const pagination = paginationContainer.querySelector(
+      `[data-test="pagination"]`,
+    );
 
-    if (this.$pagination.length === 0) {
+    if (!pagination) {
+      // eslint-disable-next-line no-console
       console.error("Pagination cannot be found");
+
       return;
     }
 
-    this.$paginationContainer.after(this.container);
+    InsertAfter(this.container, paginationContainer);
 
     this.selectAll.checked = false;
   }
@@ -271,7 +294,7 @@ class ModerateSection {
       );
   }
 
-  async HideStopButton(event) {
+  async HideStopButton(event?: Event) {
     this.EnableDeleteButtons();
 
     if (event) {
@@ -315,10 +338,12 @@ class ModerateSection {
   }
 
   ToggleCheckboxes() {
-    Object.values(this.main.questionBoxList).forEach(questionBox => {
-      if (!questionBox.deleted && IsVisible(questionBox.checkBox, true))
-        questionBox.checkBox.checked = this.selectAll.checked;
-    });
+    Object.values(this.main.questionBoxList).forEach(
+      (questionBox: QuestionBox) => {
+        if (!questionBox.deleted && IsVisible(questionBox.checkBox, true))
+          questionBox.checkBox.checked = this.selectAll.checked;
+      },
+    );
     this.UpdateDeleteButtonsNumber();
   }
 
@@ -333,14 +358,16 @@ class ModerateSection {
   SelectedQuestions(fromCurrentPage?: boolean) {
     const idList = [];
 
-    Object.entries(this.main.questionBoxList).forEach(([id, questionBox]) => {
-      if (
-        questionBox.checkBox.checked &&
-        !questionBox.deleted &&
-        (!fromCurrentPage || IsVisible(questionBox.checkBox, true))
-      )
-        idList.push(~~id);
-    });
+    Object.entries(this.main.questionBoxList).forEach(
+      ([id, questionBox]: [string, QuestionBox]) => {
+        if (
+          questionBox.checkBox.checked &&
+          !questionBox.deleted &&
+          (!fromCurrentPage || IsVisible(questionBox.checkBox, true))
+        )
+          idList.push(Number(id));
+      },
+    );
 
     return idList;
   }
@@ -357,32 +384,34 @@ class ModerateSection {
       return false;
     }
 
-    if (!this.deleteSection.selectedReason) return false;
+    if (
+      !this.deleteSection.selectedReason ||
+      !confirm(System.data.locale.common.moderating.doYouWantToDelete)
+    )
+      return false;
 
-    if (confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
-      window.isPageProcessing = true;
+    window.isPageProcessing = true;
 
-      this.postData = {
-        reason_id: this.deleteSection.selectedReason.id,
-        reason_title: this.deleteSection.selectedReason.title,
-        reason: this.deleteSection.reasonText,
-        give_warning: this.deleteSection.giveWarning,
-        take_points: this.deleteSection.takePoints,
-        return_points: this.deleteSection.returnPoints,
-      };
+    this.postData = {
+      reason_id: this.deleteSection.selectedReason.id,
+      reason_title: this.deleteSection.selectedReason.title,
+      reason: this.deleteSection.reasonText,
+      give_warning: this.deleteSection.giveWarning,
+      take_points: this.deleteSection.takePoints,
+      return_points: this.deleteSection.returnPoints,
+    };
 
-      this.ResetCounter();
+    this.ResetCounter();
 
-      this.counter.max = this.idList.length;
+    this.counter.max = this.idList.length;
 
-      this.ShowCounter();
-      this.UpdateCounterNumbers();
-      this.ShowStopButton();
-      this.StartDeleting();
-      this._loop = setInterval(this.StartDeleting.bind(this), 1000);
+    this.ShowCounter();
+    this.UpdateCounterNumbers();
+    this.ShowStopButton();
+    this.StartDeleting();
+    this.loopStartDeleting = setInterval(this.StartDeleting.bind(this), 1000);
 
-      return true;
-    }
+    return true;
   }
 
   ShowCounter() {
@@ -417,23 +446,20 @@ class ModerateSection {
     this.started = false;
     window.isPageProcessing = false;
 
-    clearInterval(this._loop);
+    clearInterval(this.loopStartDeleting);
     this.HideElement(this.counterSpinner);
     this.counterIconContainer.append(this.checkIcon.element);
   }
 
-  /**
-   * @param {number} model_id
-   */
-  async DeleteQuestion(model_id) {
+  async DeleteQuestion(modelId: number) {
     /**
      * @type {import("./QuestionBox").default}
      */
-    const questionBox = this.main.questionBoxList[model_id];
+    const questionBox = this.main.questionBoxList[modelId];
     questionBox.deleted = true;
     const postData = {
       ...this.postData,
-      model_id,
+      model_id: modelId,
     };
 
     questionBox.ShowSpinner();
@@ -454,12 +480,12 @@ class ModerateSection {
       questionBox.checkBox.disabled = false;
       notification({
         type: "error",
-        html: `#${model_id} > ${System.data.locale.common.notificationMessages.somethingWentWrong}`,
+        html: `#${modelId} > ${System.data.locale.common.notificationMessages.somethingWentWrong}`,
       });
     } else {
       questionBox.Deleted();
 
-      if (this.counter.n == this.counter.max) {
+      if (this.counter.n === this.counter.max) {
         this.HideStopButton();
         this.UpdateDeleteButtonsNumber();
       }

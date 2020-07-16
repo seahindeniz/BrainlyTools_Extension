@@ -23,7 +23,7 @@ export default class QuestionSearch {
         this.searchResults = await WaitForElements(".js-react-search-results");
 
         if (this.searchResults && this.searchResults.length > 0) {
-          this.searchResults = this.searchResults[0];
+          [this.searchResults] = this.searchResults;
           this.ObserveResults();
 
           const questionBoxContainer = await WaitForElements(".sg-layout__box");
@@ -38,34 +38,35 @@ export default class QuestionSearch {
 
   ObserveResults() {
     const observer = new MutationObserver(mutationsList => {
-      for (const mutation of mutationsList) {
+      mutationsList.forEach(mutation => {
         if (
           mutation.type === "childList" &&
           mutation.addedNodes &&
           mutation.addedNodes.length > 0
         ) {
-          /**
-           * @type {HTMLElement[]}
-           */
-          // @ts-ignore
-          const elements = Array.from(mutation.addedNodes);
-          const layout__box = elements.find(box => {
-            if (
-              box &&
-              box.classList.contains("sg-layout__box") &&
-              !box.classList.contains("quickDelete")
-            ) {
+          const layoutBox = Array.from(mutation.addedNodes).find(
+            /**
+             * @param {HTMLElement} box
+             */
+            box => {
+              if (
+                !box ||
+                !box.classList.contains("sg-layout__box") ||
+                box.classList.contains("quickDelete")
+              )
+                return undefined;
+
               const animationBox = Array.from(box.children).find(child =>
                 child.classList.contains("brn-placeholder__animation-box"),
               );
 
               return !animationBox;
-            }
-          });
+            },
+          );
 
-          if (layout__box) this.PrepareQuestionBoxes(layout__box);
+          if (layoutBox) this.PrepareQuestionBoxes(layoutBox);
         }
-      }
+      });
     });
 
     const config = { attributes: false, childList: true, subtree: false };
@@ -106,11 +107,8 @@ export default class QuestionSearch {
     let questionBox = this.questionBoxList[id];
 
     if (!questionBox) {
-      questionBox = this.questionBoxList[id] = new QuestionBox(
-        this,
-        question,
-        id,
-      );
+      questionBox = new QuestionBox(this, question, id);
+      this.questionBoxList[id] = questionBox;
       questionBox.checkBox.dispatchEvent(new Event("change"));
     } else {
       questionBox.$ = $(question);

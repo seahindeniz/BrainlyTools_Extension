@@ -1,3 +1,4 @@
+import WaitForElement from "@/scripts/helpers/WaitForElement";
 /* eslint-disable no-new */
 import LayoutChanger from "./_/LayoutChanger";
 import ModerateToplayerEnhancer from "./_/ModerateToplayerEnhancer";
@@ -12,10 +13,15 @@ export default class ModerateAll {
      * @type {import("./_/ReportBoxEnhancer/Report").ZdnObject}
      */
     this.lastActiveReport = undefined;
+
+    this.Init();
+  }
+
+  async Init() {
     /**
      * @type {HTMLDivElement}
      */
-    this.moderationItemContainer = document.querySelector(
+    this.moderationItemContainer = await WaitForElement(
       "#moderation-all > .content",
     );
     /**

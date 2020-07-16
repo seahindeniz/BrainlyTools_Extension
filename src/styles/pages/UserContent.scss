@@ -23,6 +23,14 @@ label.sg-label__text {
   font-weight: bold;
 }
 
+.page-buttons {
+  position: fixed;
+  top: 50%;
+  margin-left: -100px;
+  width: 1150px;
+  z-index: -999;
+}
+
 tbody tr {
   height: 40px;
 

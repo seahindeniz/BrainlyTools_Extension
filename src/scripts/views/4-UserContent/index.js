@@ -44,6 +44,7 @@ import InjectToDOM from "../../helpers/InjectToDOM";
       iconOnly: true,
       type: "solid-blue",
       icon: new Icon({
+        size: 46,
         type: "arrow_left",
       }),
     });
@@ -61,6 +62,7 @@ import InjectToDOM from "../../helpers/InjectToDOM";
       iconOnly: true,
       type: "solid-blue",
       icon: new Icon({
+        size: 46,
         type: "arrow_right",
       }),
     });

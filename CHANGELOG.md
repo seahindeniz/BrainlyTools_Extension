@@ -14,6 +14,7 @@ All notable changes to this project will be documented in this file.
 - Visual Change to Pages in Mod Panel [#139]
 - Anasayfada ders konusu seçildiğinde eklenti seçenekleri çıkmıyor. [#144]
 - Onayla butonu [#145]
+- Missing Quick Delete Options on Question Pages for Answers [#146]
 - Find Users, Notice Board & Mass Moderate Tools don't show up on the homepage
   under the Moderation Panel. [#147]
 - Moderation tools under the "What Is your question?" tab doesn't show up.
@@ -24,6 +25,7 @@ All notable changes to this project will be documented in this file.
 [#139]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/139
 [#144]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/144
 [#145]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/145
+[#146]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/146
 [#147]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/147
 [#148]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/148
 [#149]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/149

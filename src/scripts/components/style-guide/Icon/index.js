@@ -61,7 +61,7 @@ export type IconTypeType =
   | "messages"
   | "mic"
   | "money_transfer"
-  | "more"
+  | "add_more"
   | "notifications"
   | "numbered_list"
   | "open_in_new_tab"
@@ -97,6 +97,24 @@ export type IconTypeType =
   | "unseen"
   | "verified"
   | "youtube"
+  | "arrow_top_right"
+  | "circle"
+  | "crop"
+  | "cyrillic"
+  | "draw"
+  | "drawing_mode"
+  | "european"
+  | "greek"
+  | "highlight"
+  | "line"
+  | "more"
+  | "pause"
+  | "rectangle"
+  | "sup_sub"
+  | "triangle"
+  | "pi"
+  | "quote"
+  | "spark"
   | ExtensionIconTypeType;
 
 export type IconColorType =
@@ -111,7 +129,6 @@ export type IconColorType =
   | "mint"
   | "mustard"
   | "navy-blue"
-  // Additional
   | "peach";
 
 export type IconTagType = "div" | "span";

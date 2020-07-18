@@ -1,167 +1,131 @@
-/* eslint-disable no-underscore-dangle */
-import classnames from "classnames";
-import Icon from "./Icon";
-import AddChildren from "./helpers/AddChildren";
-import SetProps from "./helpers/SetProps";
+// @flow strict
 
-/**
- * @typedef {(
- * | "blue"
- * | "lavender"
- * | "dark"
- * | "mint"
- * | "mint-secondary"
- * | "mint-secondary-light"
- * | "navyblue-secondary"
- * | "blue-secondary"
- * | "blue-secondary-light"
- * | "gray-secondary-lightest"
- * | "gray-secondary-ultra-light"
- * | "mustard-primary"
- * | "peach"
- * | "peach-secondary"
- * | "peach-secondary-light"
- * | "transparent"
- * )} Color
- *
- * @typedef {(
- * | "light"
- * | "dark"
- * )} CloseIconColor
- *
- * @typedef {(
- * | "no"
- * | "small"
- * | "xsmall"
- * | "xxsmall"
- * | "large"
- * )} Padding
- *
- * @typedef {"small" | "normal" | "large"} Size
- *
- * @typedef {{
- *  color?: Color,
- *  padding?: Padding,
- *  full?: boolean,
- *  children?: import('./helpers/AddChildren').ChildrenParamType,
- *  border?: "default" | "no" | "light",
- *  imgSrc?: string,
- *  noMinHeight?: boolean,
- *  shadow?: boolean,
- *  noBorderRadius?: boolean,
- *  onClose?: EventListenerOrEventListenerObject,
- *  closeIconColor?: CloseIconColor,
- *  className?: ?string,
- *  [x: string]: *,
- * }} Properties
- *
- * @typedef {function(Color):BoxElement} ChangeColor
- *
- * @typedef {{color?: Color, ChangeColor?: ChangeColor}} CustomProps
- *
- * @typedef {HTMLDivElement & CustomProps} BoxElement
- */
+import AddChildren from "@style-guide/helpers/AddChildren";
+import type { ChildrenParamType } from "@style-guide/helpers/AddChildren";
+import SetProps from "@style-guide/helpers/SetProps";
+import classNames from "classnames";
 
-const SG = "sg-box";
-const SGD = `${SG}--`;
+type ColorType =
+  | "dark"
+  | "light"
+  | "blue"
+  | "lavender"
+  | "mint"
+  | "mint-secondary"
+  | "mint-secondary-light"
+  | "mint-secondary-ultra-light"
+  | "blue-secondary"
+  | "blue-secondary-light"
+  | "gray-secondary-lightest"
+  | "gray-secondary-ultra-light"
+  | "mustard-primary"
+  | "peach"
+  | "peach-secondary"
+  | "peach-secondary-light";
 
-export const PADDING = {
-  no: "no-padding",
-  small: "small-padding",
-  xsmall: "xsmall-padding",
-  xxsmall: "xxsmall-padding",
-  large: "large-padding",
-};
+type PaddingType = "xxs" | "xs" | "s" | "m" | "l" | "xl";
 
-/**
- * @this {BoxElement}
- * @param {Color} color
- */
-function _ChangeColor(color) {
-  this.classList.remove(SGD + this.color);
-  this.classList.add(SGD + color);
+type BoxBorderType =
+  | {
+      border: true,
+      borderColor?: ColorType,
+    }
+  | {
+      border?: false,
+      borderColor?: null,
+    };
 
-  this.color = color;
-
-  return this;
-}
-
-/**
- * @param {Properties} param0
- */
-export default function ({
-  color,
-  padding,
-  full,
-  children,
-  border = color ? "no" : "default",
-  imgSrc,
-  noMinHeight,
-  shadow,
-  noBorderRadius,
-  onClose,
-  closeIconColor,
-  className,
-  ...props
-} = {}) {
-  const boxClass = classnames(
-    SG,
-    {
-      [SGD + color]: color,
-      [`${SGD + border}-border`]: border && border !== "default",
-      [`${SGD}full`]: full,
-      [SGD + PADDING[padding]]: PADDING[padding],
-      [`${SGD}image-wrapper`]: imgSrc,
-      [`${SGD}no-min-height`]: noMinHeight,
-      [`${SGD}with-shadow`]: shadow,
-      [`${SGD}no-border-radius`]: noBorderRadius,
-    },
-    className,
-  );
+type BoxPropsType = {
+  /**
+   * Children to be rendered inside of the Box
+   * @example <Box>Text inside Box</Box>
+   */
+  children: ChildrenParamType,
 
   /**
-   * @type {BoxElement}
+   * Additional class names
    */
-  // @ts-ignore
-  const box = document.createElement("div");
-  box.className = boxClass;
+  className?: ?string,
 
-  if (onClose) {
-    const close = document.createElement("div");
-    close.className = `${SG}__close`;
-    close.addEventListener("click", onClose);
+  /**
+   * Box background color
+   * @example <Box color="mint-secondary">Text on a mint background</Box>
+   */
+  color?: ?ColorType,
 
-    box.append(close);
+  /**
+   * Box shadow
+   * @example <Box shadow>Text inside box with shadow</Box>
+   * @default false
+   */
+  shadow?: boolean,
 
-    const icon = new Icon({
-      size: 16,
-      type: "close",
-      color: closeIconColor,
-    });
+  /**
+   * Padding size. Defaults to 'm' size, pass null to set it to 0
+   * @example <Box padding="l">Text inside Box with large padding</Box>
+   */
+  padding?: PaddingType | null,
 
-    close.append(icon.element);
+  /**
+   * Disable border radius
+   * @example <Box noBorderRadius>Text inside Box with no border radius</Box>
+   * @default false
+   */
+  noBorderRadius?: boolean,
+
+  /**
+   * Box border and border color. Using borderColor without border will produce type error
+   * @example <Box border borderColor="mint">Text inside bordered Box</Box>
+   * @default false
+   */
+  ...BoxBorderType,
+
+  ...
+};
+
+export default class {
+  color: ?ColorType;
+  element: HTMLDivElement;
+
+  constructor({
+    children,
+    className,
+    color,
+    padding = "m",
+    border = false,
+    borderColor = "gray-secondary-lightest",
+    noBorderRadius = false,
+    shadow = false,
+    ...props
+  }: BoxPropsType) {
+    this.color = color;
+
+    const classes = classNames(
+      "sg-box",
+      {
+        [`sg-box--padding-${String(padding)}`]: padding !== null && padding,
+        [`sg-box--border-color-${String(borderColor)}`]: borderColor,
+        "sg-box--border": border,
+        "sg-box--shadow": shadow,
+        "sg-box--no-border-radius": noBorderRadius,
+      },
+      className,
+    );
+
+    this.element = document.createElement("div");
+    this.element.className = classes;
+
+    this.ChangeColor(color);
+    SetProps(this.element, props);
+    AddChildren(this.element, children);
   }
 
-  let content;
+  ChangeColor(color: ?ColorType) {
+    if (this.color)
+      this.element.classList.remove(`sg-box--${String(this.color)}`);
 
-  if (imgSrc !== undefined && imgSrc !== null) {
-    content = document.createElement("img");
-    content.className = `${SG}__image`;
-    content.src = imgSrc;
-  } else {
-    content = document.createElement("div");
-    content.className = `${SG}__hole`;
+    this.element.classList.add(`sg-box--${String(color)}`);
 
-    AddChildren(content, children);
+    this.color = color;
   }
-
-  box.append(content);
-
-  SetProps(box, props);
-
-  box.color = color;
-  // @ts-ignore
-  box.ChangeColor = _ChangeColor;
-
-  return box;
 }

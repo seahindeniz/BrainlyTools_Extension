@@ -48,6 +48,7 @@ export default function AddChildren(
     children instanceof Node
   )
     target.append(children);
-  // eslint-disable-next-line no-console
-  else console.error("Unsupported children", children);
+  else {
+    console.error("Unsupported children", children);
+  }
 }

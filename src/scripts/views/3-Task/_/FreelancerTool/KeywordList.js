@@ -1,6 +1,12 @@
 import Build from "@/scripts/helpers/Build";
 import IsVisible from "@/scripts/helpers/IsVisible";
-import { Box, Flex, Spinner, SpinnerContainer, Text } from "@style-guide";
+import {
+  BoxDeprecated,
+  Flex,
+  Spinner,
+  SpinnerContainer,
+  Text,
+} from "@style-guide";
 
 export default class KeywordList {
   /**
@@ -19,21 +25,20 @@ export default class KeywordList {
     let observer = new MutationObserver(mutations => {
       mutations.forEach(mutation => {
         if (
-          mutation && mutation.target &&
+          mutation &&
+          mutation.target &&
           mutation.target instanceof HTMLElement
         ) {
           /**
            * @type {HTMLDivElement}
            */
-          let answeringLayer = mutation.target
-            .querySelector(".brn-answering-layer");
+          let answeringLayer = mutation.target.querySelector(
+            ".brn-answering-layer",
+          );
 
           if (
             answeringLayer &&
-            (
-              !this.container ||
-              !IsVisible(this.container)
-            )
+            (!this.container || !IsVisible(this.container))
           ) {
             this.answeringLayer = answeringLayer;
 
@@ -41,19 +46,20 @@ export default class KeywordList {
             this.DesktopView();
           }
 
-          let targetsHasAnsweringEditor = mutation.target
-            .querySelector(".js-react-add-answer-editor");
+          let targetsHasAnsweringEditor = mutation.target.querySelector(
+            ".js-react-add-answer-editor",
+          );
 
           if (
             targetsHasAnsweringEditor &&
             targetsHasAnsweringEditor instanceof HTMLDivElement &&
             targetsHasAnsweringEditor.firstChild &&
-            targetsHasAnsweringEditor
-            .firstChild instanceof HTMLDivElement &&
-            targetsHasAnsweringEditor
-            .firstChild.classList.contains("sg-content-box")
+            targetsHasAnsweringEditor.firstChild instanceof HTMLDivElement &&
+            targetsHasAnsweringEditor.firstChild.classList.contains(
+              "sg-content-box",
+            )
           ) {
-            this.answeringLayer = targetsHasAnsweringEditor
+            this.answeringLayer = targetsHasAnsweringEditor;
 
             this.ShowContainer();
             this.MobileView();
@@ -83,46 +89,46 @@ export default class KeywordList {
       marginBottom: "xxs",
       children: SpinnerContainer({
         fullWidth: true,
-        children: box = Box({
+        children: (box = BoxDeprecated({
           padding: "xxsmall",
           color: "dark",
           full: true,
           noMinHeight: true,
           noBorderRadius: true,
-          children: this.spinner = Spinner({
+          children: (this.spinner = Spinner({
             overlay: true,
             size: "xsmall",
-          })
-        })
-      })
+          })),
+        })),
+      }),
     });
     this.boxHole = box.firstChild;
   }
   RenderKeywordList() {
-    this.keywordListContainer = Build(Flex({
-      justifyContent: "center",
-    }), [
+    this.keywordListContainer = Build(
+      Flex({
+        justifyContent: "center",
+      }),
       [
-        Flex({}),
-        Box({
-          noMinHeight: true,
-          padding: "no",
-          color: "dark",
-          children: Text({
-            html: `${System.data.locale.question.keywords}:`,
-            size: "small",
+        [
+          Flex({}),
+          BoxDeprecated({
+            noMinHeight: true,
+            padding: "no",
+            color: "dark",
+            children: Text({
+              html: `${System.data.locale.question.keywords}:`,
+              size: "small",
+            }),
           }),
-        })
-      ]
-    ]);
+        ],
+      ],
+    );
   }
   async RenderKeywords() {
     await this.main.dataPromise;
 
-    if (
-      !this.main.data.keywordList ||
-      this.main.data.keywordList.length == 0
-    )
+    if (!this.main.data.keywordList || this.main.data.keywordList.length == 0)
       return this.HideContainer();
 
     this.HideSpinner();
@@ -153,7 +159,7 @@ export default class KeywordList {
     let keywordBox = Flex({
       marginRight: "xxs",
       marginLeft: "xxs",
-      children: Box({
+      children: BoxDeprecated({
         noMinHeight: true,
         padding: "xxsmall",
         color: "blue-secondary-light",

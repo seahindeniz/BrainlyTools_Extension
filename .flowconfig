@@ -9,14 +9,17 @@
 [lints]
 
 [options]
+exact_by_default=true
+esproposal.optional_chaining=enable
 module.name_mapper='^@BrainlyAction' -> '<PROJECT_ROOT>/src/scripts/controllers/Req/Brainly/Action'
 module.name_mapper='^@ServerReq' -> '<PROJECT_ROOT>/src/scripts/controllers/Req/Server'
 module.name_mapper='^@style-guide' -> '<PROJECT_ROOT>/src/scripts/components/style-guide'
 module.name_mapper='^@' ->'<PROJECT_ROOT>/src'
-esproposal.optional_chaining=enable
 
 [strict]
 nonstrict-import
-;untyped-import
+unclear-type
+unsafe-getters-setters
+untyped-import
 untyped-type-import
 sketchy-null

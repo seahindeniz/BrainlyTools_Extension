@@ -2,13 +2,13 @@ import {
   ActionList,
   ActionListHole,
   Avatar,
-  Box,
+  BoxDeprecated,
   Checkbox,
   ContentBox,
   ContentBoxContent,
   Spinner,
   SpinnerContainer,
-  Text
+  Text,
 } from "@style-guide";
 import Build from "../../../../../helpers/Build";
 import IsVisible from "../../../../../helpers/IsVisible";
@@ -32,13 +32,13 @@ export default class User {
   }
   RenderSpinnerContainer() {
     this.spinnerContainer = SpinnerContainer({
-      className: "sg-spinner-container--spaced"
+      className: "sg-spinner-container--spaced",
     });
   }
   RenderCheckbox() {
     this.checkboxContainer = ActionListHole({
       children: Checkbox(),
-    })
+    });
     this.checkbox = this.checkboxContainer.querySelector("input");
   }
   Render() {
@@ -48,7 +48,7 @@ export default class User {
     this.container = Build(ActionListHole(), [
       [
         this.spinnerContainer,
-        (this.box = Box({
+        (this.box = BoxDeprecated({
           padding: "xxsmall",
           noMinHeight: true,
           color: "gray-secondary-lightest",
@@ -62,7 +62,7 @@ export default class User {
                 spaced: true,
                 imgSrc: avatar,
                 link: profileLink,
-              })
+              }),
             ],
             [
               ActionListHole({ grow: true }),
@@ -74,8 +74,7 @@ export default class User {
                       ContentBoxContent({ full: true }),
                       [
                         [
-                          (this.smallSpinnerContainer =
-                            ActionList()),
+                          (this.smallSpinnerContainer = ActionList()),
                           [
                             [
                               ActionListHole(),
@@ -85,11 +84,11 @@ export default class User {
                                 size: "small",
                                 href: profileLink,
                                 text: this.details.nick,
-                              })
-                            ]
-                          ]
-                        ]
-                      ]
+                              }),
+                            ],
+                          ],
+                        ],
+                      ],
                     ],
                     [
                       ContentBoxContent({ full: true }),
@@ -102,23 +101,24 @@ export default class User {
                               Text({
                                 color: "gray",
                                 size: "xsmall",
-                                title: System.data.locale.common
-                                  .userHasNPoints.replace(
-                                    " %{n}", separatedPoints),
+                                title: System.data.locale.common.userHasNPoints.replace(
+                                  " %{n}",
+                                  separatedPoints,
+                                ),
                                 html: `${System.data.locale.common.shortPoints}: ${separatedPoints}`,
                               }),
-                            ]
-                          ]
-                        ]
-                      ]
-                    ]
-                  ]
-                ]
-              ]
-            ]
-          ])
-        }))
-      ]
+                            ],
+                          ],
+                        ],
+                      ],
+                    ],
+                  ],
+                ],
+              ],
+            ],
+          ]),
+        })),
+      ],
     ]);
   }
   RenderInfoBar() {
@@ -134,8 +134,8 @@ export default class User {
   RenderSmallSpinner() {
     this.smallSpinner = ActionListHole({
       children: Spinner({
-        size: "xsmall"
-      })
+        size: "xsmall",
+      }),
     });
   }
   ShowSpinner() {
@@ -181,12 +181,14 @@ export default class User {
     this.main.UpdateNumbers();
     //this.main.ToggleUserList();
 
-    return this.container
+    return this.container;
   }
   FullBoxView() {
     this.box.classList.add("sg-box--full");
-    this.container.classList.add("sg-box--full",
-      "sg-spinner-container--spaced");
+    this.container.classList.add(
+      "sg-box--full",
+      "sg-spinner-container--spaced",
+    );
   }
   ShowSmallSpinner() {
     this.smallSpinnerContainer.append(this.smallSpinner);

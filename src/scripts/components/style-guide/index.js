@@ -1,8 +1,11 @@
+// @flow
+
 export { default as ActionList } from "./ActionList";
 export { default as ActionListHole } from "./ActionList/Hole";
 export { default as Avatar } from "./Avatar";
 export { default as Badge } from "./Badge";
 export { default as Box } from "./Box";
+export { default as BoxDeprecated } from "./BoxDeprecated";
 export { default as Button } from "./Button";
 export { default as Checkbox } from "./Checkbox";
 export { default as ContentBox } from "./ContentBox";

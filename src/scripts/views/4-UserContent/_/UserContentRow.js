@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import Build from "@/scripts/helpers/Build";
 import IsVisible from "@/scripts/helpers/IsVisible";
-import { Box, Button, Icon, Text, Flex } from "@style-guide";
+import { BoxDeprecated, Button, Icon, Text, Flex } from "@style-guide";
 import momentTz from "moment-timezone";
 import notification from "../../../components/notification";
 import Action from "../../../controllers/Req/Brainly/Action";
@@ -132,7 +132,7 @@ export default class UserContentRow {
       marginTop: "xs",
       marginBottom: "xs",
       direction: "column",
-      children: (this.contentContainer = Box({
+      children: (this.contentContainer = BoxDeprecated({
         border: false,
         style: "width: 52em;",
       })),

@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { Flex, Text, Box, Icon, Button } from "@style-guide";
+import { Flex, Text, BoxDeprecated, Icon, Button } from "@style-guide";
 import Build from "@/scripts/helpers/Build";
 import moment from "moment-timezone";
 
@@ -85,7 +85,7 @@ export default class Report {
         marginBottom: "s",
         direction: "column",
       }),
-      (this.colorBox = Box({
+      (this.colorBox = BoxDeprecated({
         border: "no",
         // @ts-ignore
         color: boxStatus.color,

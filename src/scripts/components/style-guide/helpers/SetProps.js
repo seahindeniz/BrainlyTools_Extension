@@ -1,11 +1,9 @@
 // @flow strict
 
-type propType = boolean | number | string | Function | Object;
-
-export default function SetProps(element: HTMLElement, props?: {}) {
+export default function SetProps(element: HTMLElement, props?: { ... }) {
   if (!element || !props) return;
 
-  const entries: Array<[string, propType]> = Object.entries(props);
+  const entries: Array<[string, mixed]> = Object.entries(props);
 
   if (entries.length === 0) return;
 

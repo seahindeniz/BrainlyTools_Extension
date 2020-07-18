@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.37.1] - 2020.07.18
+
+### Changed
+
+- 'Moderate' option doesn't appear under Questions while using Selective
+  deletion tools. [#151]
+- Moderate all page size has resized to be more size-friendly to different
+  screen sizes and to avoid horizontal scrolling.
+  - Desktop (<https://prnt.sc/tk3lmr>)
+  - Mobile (<https://prnt.sc/tk3n5j>)
+
+[#151]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/151
+
 ## [6.37.0] - 2020.07.16
 
 ### Added

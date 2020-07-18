@@ -114,27 +114,29 @@ async function UpdateStatuses() {
   );
   const extensionOptions = yaml.load(extensionOptionsRaw);
 
-  extensionOptions.common.languages = resDetails.statistics.languages
-    .map(
-      /**
-       * @param {{
-       *  language_id: number,
-       *  language_iso: string,
-       *  progress: number,
-       *  words_to_do: number
-       * }} language
-       */
-      language => {
-        if (language.language_iso === "en") return false;
+  resDetails.statistics.languages.forEach(
+    /**
+     * @param {{
+     *  language_id: number,
+     *  language_iso: string,
+     *  progress: number,
+     *  words_to_do: number
+     * }} language
+     */
+    language => {
+      const key = language.language_iso;
 
-        return {
-          key: language.language_iso,
-          progress: language.progress,
-          ...LANGUAGE_DETAILS[language.language_iso],
-        };
-      },
-    )
-    .filter(Boolean);
+      if (key === "en") return;
+
+      if (!extensionOptions.common.languages)
+        extensionOptions.common.languages = {};
+
+      extensionOptions.common.languages[key] = {
+        progress: language.progress,
+        ...LANGUAGE_DETAILS[language.language_iso],
+      };
+    },
+  );
 
   return yaml.dump(extensionOptions, { indent: 2 });
 }

@@ -90,9 +90,12 @@ class _System {
         shortenedLinkURL: string,
         uploadedFilesURL: string,
         languages: {
-          langName: string,
-          progress: number,
-        }[],
+          [key: string]: {
+            name: string,
+            progress: number,
+            author?: string,
+          },
+        },
       },
       ...
     },

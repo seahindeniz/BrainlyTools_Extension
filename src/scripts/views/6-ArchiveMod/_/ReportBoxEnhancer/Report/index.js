@@ -127,13 +127,20 @@ export default class Report {
             text: this.zdnObject.data.user.nick,
           }),
         ],
-        [Flex(), contentContainer],
+        [
+          Flex(),
+          Text({
+            size: "small",
+            color: "gray-secondary",
+            html: contentContainer.innerHTML,
+          }),
+        ],
       ],
     );
 
     InsertAfter(container, profileLinkContainer);
-
     profileLinkContainer.remove();
+    contentContainer.remove();
   }
 
   BindMouseHandler() {

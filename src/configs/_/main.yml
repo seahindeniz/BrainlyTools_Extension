@@ -1,20 +1,20 @@
 common:
   languages:
-    - key: en_US
+    en_US:
       progress: 100
       name: English
-    - key: fr
+    fr:
       progress: 98
       name: Français
       author: 'MichaelS, Its1tom'
-    - key: id
+    id:
       progress: 89
       name: Bahasa Indonesia
       author: Zuhh
-    - key: tr
+    tr:
       progress: 98
       name: Türkçe
-    - key: es_ES
+    es_ES:
       progress: 0
       name: Español
       author: aleksa1

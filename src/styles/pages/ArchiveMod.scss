@@ -62,7 +62,7 @@ $arrow-pos: -84px;
     &.listView .moderation-item {
       height: 89px;
       width: 100%;
-      margin: 10px 0;
+      margin: 10px;
 
       .header {
         height: 26px;
@@ -124,28 +124,6 @@ $arrow-pos: -84px;
   }
 }
 
-/* #toplayer>div.contener-center.mod>div.contener.mod.moderation {
-
-  &:before,
-  &:after {
-    cursor: pointer;
-    position: absolute;
-    top: 35%;
-    font-size: 20em;
-    color: #0075ff;
-  }
-
-  &:before {
-    content: "‹";
-    left: $arrow-pos;
-  }
-
-  &:after {
-    content: "›";
-    right: $arrow-pos;
-  }
-} */
-
 .moderation-toplayer {
   .removed {
     .actions,
@@ -154,4 +132,25 @@ $arrow-pos: -84px;
       display: none !important;
     }
   }
+}
+
+body {
+  min-width: unset;
+}
+
+.container_24 {
+  width: 100%;
+  padding: 0 35px;
+
+  .sub-header [class*="span"] {
+    width: unset;
+  }
+
+  #moderation-all .content:not(.listView) .moderation-item {
+    width: 280px;
+  }
+}
+
+#moderation-all .content .moderation-item .content .footer .row > .span {
+  min-width: unset;
 }

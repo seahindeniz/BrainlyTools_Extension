@@ -9,30 +9,32 @@ import Components from "./Components";
  * @param {number | string} n
  */
 function isPositiveInteger(n) {
-  return Number(n) >>> 0 === parseFloat(String(n));
+  return n % (!isNaN(parseFloat(n)) && ~~n >= 0) === 0;
 }
 
 export default class extends Components {
   constructor(main) {
     super(main);
 
-    this.liLinkContent =
-      `${System.data.locale.messages.groups.userCategories.findUsers.text}:`;
+    this.liLinkContent = `${System.data.locale.messages.groups.userCategories.findUsers.text}:`;
 
     this.RenderInput();
     this.RenderListItem();
     this.RenderUserList();
     this.BindHandler();
   }
+
   RenderInput() {
     this.input = Input({
       type: "search",
-      placeholder: System.data.locale.messages.groups
-        .userCategories.findUsers.nickOrID
-    })
+      placeholder:
+        System.data.locale.messages.groups.userCategories.findUsers.nickOrID,
+    });
   }
+
   RenderLiContent() {
-    this.liContent = Build(Flex({
+    this.liContent = Build(
+      Flex({
         direction: "column",
       }),
       [
@@ -41,7 +43,7 @@ export default class extends Components {
             marginBottom: "xxs",
             tag: "label",
           }),
-          [,
+          [
             Flex({
               marginRight: "xs",
               direction: "column",
@@ -53,13 +55,14 @@ export default class extends Components {
                 direction: "column",
                 justifyContent: "center",
               }),
-              this.input
-            ]
-          ]
-        ]
-      ]
+              this.input,
+            ],
+          ],
+        ],
+      ],
     );
   }
+
   RenderUserList() {
     this.userList = Flex({
       marginTop: "xs",
@@ -68,74 +71,89 @@ export default class extends Components {
     });
 
     // Fixed width to avoid too wide result box when a user has too much ranks
-    this.userList.style.width = `${this.main.ul.offsetWidth}px`;
+    this.userList.style.width = `${this.main.ul.offsetWidth || 293}px`;
   }
+
   BindHandler() {
-    this.input
-      .addEventListener("input", debounce(this.InputChanged.bind(this), 600));
+    this.input.addEventListener(
+      "input",
+      debounce(this.InputChanged.bind(this), 600),
+    );
   }
+
   InputChanged() {
     this.ShowUserList();
     this.ChangeStatusText(
-      System.data.locale.core.notificationMessages.searching
+      System.data.locale.core.notificationMessages.searching,
     );
 
-    if (!this.input.value || String(this.input.value).length < 2)
-      return this.HideUserList();
+    if (!this.input.value || String(this.input.value).length < 2) {
+      this.HideUserList();
+
+      return;
+    }
 
     this.StartSearching();
   }
+
   ShowUserList() {
     this.userList.innerHTML = "";
 
     this.liContent.append(this.userList);
   }
+
   HideUserList() {
     this.ChangeStatusText("");
     this.HideElement(this.userList);
   }
+
   /**
    * @param {string} name
    */
   ChangeStatusText(name = "") {
-    if (!name || this.userList.children.length > 0)
-      return delete this.userList.dataset.placeholder;
+    if (!name || this.userList.children.length > 0) {
+      delete this.userList.dataset.placeholder;
+
+      return;
+    }
 
     this.userList.dataset.placeholder = name;
   }
+
   async StartSearching() {
-    if (isPositiveInteger(this.input.value))
-      await this.FindUserId();
+    if (isPositiveInteger(this.input.value)) await this.FindUserId();
 
     this.FindUser();
   }
+
   async FindUserId() {
-    let user = await new Action().GetUserProfile(~~this.input.value);
+    const user = await new Action().GetUserProfile(~~this.input.value);
 
     this.ChangeStatusText();
 
     if (!user || !user.success || !user.data)
       return this.ChangeStatusText(
-        System.data.locale.core.notificationMessages.userNotFound
+        System.data.locale.core.notificationMessages.userNotFound,
       );
 
     this.RenderUser({
       id: user.data.id,
       nick: user.data.nick,
       avatar: System.ExtractAvatarURL(user.data.avatars),
-      ranks: user.data.ranks_ids.map(rank_id => {
-        let rank = System.data.Brainly.defaultConfig.config.data
-          .ranksWithId[rank_id];
+      ranks: user.data.ranks_ids.map(rankId => {
+        const rank =
+          System.data.Brainly.defaultConfig.config.data.ranksWithId[rankId];
 
         return {
           color: rank.color,
           name: rank.name,
-        }
-      })
+        };
+      }),
     });
 
     return true;
   }
+
   /**
    * @param {{
    *  id?: number,
@@ -148,20 +166,15 @@ export default class extends Components {
    *  }[]
    * }} data
    */
-  RenderUser({
-    id,
-    nick,
-    avatar,
-    profileUrl,
-    ranks = [],
-  }) {
-    if (!id && !profileUrl)
-      return;
+  RenderUser({ id, nick, avatar, _profileUrl, ranks = [] }) {
+    if (!id && !_profileUrl) return;
 
-    if (!profileUrl)
-      profileUrl = System.createProfileLink(id, nick);
+    let profileUrl = _profileUrl;
 
-    let userElement = Build(Flex({
+    if (!profileUrl) profileUrl = System.createProfileLink(id, nick);
+
+    const userElement = Build(
+      Flex({
         marginBottom: "xs",
         fullWidth: true,
       }),
@@ -171,7 +184,7 @@ export default class extends Components {
           Avatar({
             imgSrc: avatar,
             link: profileUrl,
-          })
+          }),
         ],
         [
           Flex({
@@ -190,67 +203,69 @@ export default class extends Components {
                 weight: "bold",
                 target: "_blank",
                 href: profileUrl,
-              })
+              }),
             ],
             ranks.length > 0 && [
-              Flex({ wrap: true, }),
+              Flex({ wrap: true }),
               ranks.map((rank, i) => {
-                let textElement = Text({
+                const textElement = Text({
                   html: rank.name + (i + 1 < ranks.length ? "," : ""),
                   size: "xsmall",
                 });
 
-                let color = rank.color;
+                let { color } = rank;
 
-                if (color &&
-                  (
-                    !color.includes("rgb") &&
-                    !color.startsWith("#")
-                  )
-                )
+                if (color && !color.includes("rgb") && !color.startsWith("#"))
                   color = `#${rank.color}`;
 
                 textElement.style.color = color;
 
                 return Flex({
-                  marginRight: (i + 1 < ranks.length ? "xxs" : ""),
-                  children: textElement
+                  marginRight: i + 1 < ranks.length ? "xxs" : "",
+                  children: textElement,
                 });
-              })
-            ]
-          ]
-        ]
-      ]
+              }),
+            ],
+          ],
+        ],
+      ],
     );
 
     this.userList.append(userElement);
   }
+
   async FindUser() {
-    let resUserResult = await new Action().FindUser(this.input.value);
-    let tempDiv = document.createElement("div");
+    const resUserResult = await new Action().FindUser(this.input.value);
+    const tempDiv = document.createElement("div");
     tempDiv.innerHTML = resUserResult.replace(
-      /onerror="imgError\(this, (?:'|\&\#039\;){1,}\);"/gmi, "");
-    let usersData = tempDiv.querySelectorAll("table div.user-data");
+      /onerror="imgError\(this, (?:'|&#039;){1,}\);"/gim,
+      "",
+    );
+    const usersData = tempDiv.querySelectorAll("table div.user-data");
 
     this.ChangeStatusText();
     RemoveJunkNotifications();
 
-    if (!usersData || usersData.length === 0)
-      return this.ChangeStatusText(
-        System.data.locale.core.notificationMessages.userNotFound
+    if (!usersData || usersData.length === 0) {
+      this.ChangeStatusText(
+        System.data.locale.core.notificationMessages.userNotFound,
       );
+
+      return;
+    }
 
     usersData.forEach(this.FindUserInDiv.bind(this));
   }
+
   /**
    * @param {HTMLDivElement} div
    */
   FindUserInDiv(div) {
-    let avatar = div.querySelector("img").src;
-    let divUserNick = div.querySelector(".user-nick");
-    let profileAnchor = divUserNick.querySelector("a");
-    let profileUrl = profileAnchor["href"];
-    let nick = profileAnchor.innerHTML;
+    const avatar = div.querySelector("img").src;
+    const divUserNick = div.querySelector(".user-nick");
+    const profileAnchor = divUserNick.querySelector("a");
+    const profileUrl = profileAnchor.href;
+    const nick = profileAnchor.innerHTML;
     /**
      * @type {* | NodeListOf<HTMLSpanElement | HTMLAnchorElement>[]}
      */
@@ -260,13 +275,13 @@ export default class extends Components {
       ranks = Array.from(ranks).map(rankSpan => ({
         color: rankSpan.style.color,
         name: rankSpan.innerText.trim(),
-      }))
+      }));
 
     this.RenderUser({
       avatar,
       nick,
       profileUrl,
       ranks,
-    })
+    });
   }
 }

@@ -12,9 +12,7 @@ import storage from "../../helpers/extStorage";
 import InjectToDOM from "../../helpers/InjectToDOM";
 import messagesLayoutExtender from "../../helpers/messagesLayoutExtender";
 import WaitForObject from "../../helpers/WaitForObject";
-// import renderAnnouncements from "./_/Announcements";
 import fetchFriends from "./_/fetchFriends";
-// import renderChatPanel from "./_/ChatPanel";
 import RenderMenuButtonFixer from "./_/MenuButtonFixer";
 import RemoveJunkNotifications from "./_/RemoveJunkNotifications";
 import SetBrainlyData from "./_/SetBrainlyData";
@@ -75,7 +73,7 @@ class Core {
     this.InitNotifier();
 
     await WaitForObject("jQuery");
-    System.Log("Jquery OK!");
+    System.Log("$ Lib OK!");
 
     this.RenderEventCelebrating();
     this.LoadComponentsForAllPages();

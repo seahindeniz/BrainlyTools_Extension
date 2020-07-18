@@ -68,6 +68,42 @@ form.pretty fieldset legend {
   animation: trackingProgressDotPulse 1.5s infinite;
 }
 
+/* #moderate-functions-panel {
+  .statistics {
+    height: unset;
+    min-height: 40px;
+
+    .covering-text,
+    .content-scroll {
+      height: unset;
+      min-height: unset;
+    }
+
+    .content-scroll {
+      min-height: 156px;
+    }
+  }
+
+  .panel {
+    .covering-text,
+    .content-scroll {
+      height: unset;
+      min-height: 55px;
+    }
+  }
+
+  .panel,
+  .statistics {
+    .content-scroll {
+      overflow-y: auto !important;
+    }
+
+    &:not(.show) .covering-text > .text {
+      display: none;
+    }
+  }
+} */
+
 #moderate-functions-panel {
   .statistics {
     .content-scroll {

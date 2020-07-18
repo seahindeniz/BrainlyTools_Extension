@@ -1,3 +1,5 @@
+// @flow
+
 import storage from "../../scripts/helpers/extStorage";
 import notification from "./notification";
 import send2AllBrainlyTabs from "../helpers/send2AllBrainlyTabs";
@@ -126,45 +128,35 @@ class OtherOptions {
       this.$notifierCheckbox.prop("checked", this.storageData.notifier);
     }
 
-    const selectedLanguage = this.storageData.language;
+    const selectedLanguage: string = this.storageData.language;
 
     if (selectedLanguage) {
-      const selected = System.data.config.extension.languages.find(
-        lang => lang.key === selectedLanguage,
-      );
+      const selected = System.data.config.extension.languages[selectedLanguage];
 
       if (selected) {
         this.$dropdownText.html(selected.name);
       }
     }
 
-    System.data.config.extension.languages.forEach(
-      /**
-       * @param {{
-       *  key: string,
-       *  progress: number,
-       *  name: string,
-       *  author?: string,
-       * }} language
-       */
-      language => {
+    Object.entries(System.data.config.extension.languages)
+      .sort(([, a], [, b]) => (a.name > b.name ? 1 : -1))
+      .forEach(([key, language]) => {
         let { name } = language;
 
-        if (language.key !== "en_US")
+        if (key !== "en_US")
           name += ` <i class="is-size-7">${language.progress}%</i>`;
 
         if (language.author)
           name += `<span class="is-pulled-right">${language.author}</span>`;
 
         const $option = `<a href="#" class="dropdown-item fix-padding${
-          selectedLanguage === language.key ? " is-active" : ""
-        }" value="${language.key}">${name}</a>`;
+          selectedLanguage === key ? " is-active" : ""
+        }" value="${key}">${name}</a>`;
 
-        if (System.data.Brainly.defaultConfig.locale.LANGUAGE === language.key)
+        if (System.data.Brainly.defaultConfig.locale.LANGUAGE === key)
           this.$languagesContainer.prepend($option);
         else this.$languagesContainer.append($option);
-      },
-    );
+      });
   }
 
   BindHandlers() {

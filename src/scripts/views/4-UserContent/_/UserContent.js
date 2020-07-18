@@ -217,7 +217,16 @@ class UserContent {
   /**
    * @param {JQuery<HTMLElement>} $element
    */
+  // eslint-disable-next-line class-methods-use-this
   HideElement($element) {
+    if (!$element) return;
+
+    if ($element instanceof HTMLElement) {
+      if ($element.parentElement) $element.parentElement.removeChild($element);
+
+      return;
+    }
+
     $element.appendTo("<div />");
   }
 

@@ -80,6 +80,10 @@ export default class ReportSwitcher {
     const toplayer = this.main.toplayerZdnObject.elements.main[0];
 
     if (
+      event.ctrlKey ||
+      event.altKey ||
+      event.shiftKey ||
+      event.metaKey ||
       !IsVisible(toplayer) ||
       (event.target && event.target instanceof HTMLInputElement) ||
       event.target instanceof HTMLSelectElement ||

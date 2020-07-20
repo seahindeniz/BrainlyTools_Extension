@@ -457,3 +457,14 @@ body {
   font-size: 18px;
   line-height: 24px;
 }
+
+table {
+  thead th:last-child,
+  tbody td:last-child {
+    white-space: nowrap;
+  }
+  thead th:nth-last-child(2),
+  tbody td:nth-last-child(2) {
+    padding: 0 5px;
+  }
+}

@@ -1,6 +1,6 @@
 import Button from "../../../components/Button";
 import DeleteSection from "../../../components/DeleteSection";
-import WaitForElements from "../../../helpers/WaitForElements";
+import WaitForElement from "../../../helpers/WaitForElement";
 import UserContentRow from "./UserContentRow";
 
 class UserContent {
@@ -24,20 +24,36 @@ class UserContent {
   }
 
   async Init() {
-    this.table = await WaitForElements(this.selectors.table);
-    // this.checkboxes = new Checkboxes();
+    this.table = await WaitForElement(this.selectors.table);
     /**
      * @type {UserContentRow[]}
      */
     this.rows = [];
 
     $(this.table).prop("that", this);
+    this.ResizeTableColumns();
     this.LookupContents();
     this.RenderModerationSection();
     this.RenderSelectContentWarning();
     this.BindPageCloseHandler();
 
     this[`Init${this.caller}`]();
+
+    window.addEventListener("resize", this.ResizeTableColumns.bind(this));
+  }
+
+  ResizeTableColumns() {
+    const columns = this.table.querySelectorAll("th");
+
+    columns.forEach((column, i) => {
+      if (!column.dataset.initialWidth)
+        column.dataset.initialWidth = column.style.width;
+
+      if (window.innerWidth > 1366)
+        column.style.width = column.dataset.initialWidth || column.style.width;
+      else if (i !== (columns.length === 5 ? 2 : 1)) column.style.width = "";
+      else column.style.width = "100%";
+    });
   }
 
   LookupContents() {
@@ -128,7 +144,7 @@ class UserContent {
   }
 
   BindPageCloseHandler() {
-    window.addEventListener("beforeunload", () => {
+    window.addEventListener("beforeunload", event => {
       const rows = this.rows.filter(row => row.isBusy);
 
       if (rows.length > 0) {
@@ -291,6 +307,7 @@ class UserContent {
     this.rows.forEach(this.RenderRowSelectCheckbox.bind(this));
   }
 
+  // eslint-disable-next-line class-methods-use-this
   RenderRowSelectCheckbox(row) {
     row.RenderCheckbox();
   }

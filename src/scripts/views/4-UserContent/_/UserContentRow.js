@@ -45,6 +45,7 @@ export default class UserContentRow {
           direction: "column",
           marginTop: "xs",
           marginBottom: "xs",
+          marginLeft: "xs",
         }),
         [
           [
@@ -153,7 +154,7 @@ export default class UserContentRow {
       const content = new ContentViewerContent(this, this.res.data.task, user);
       this.contents.question = content;
 
-      content.$.appendTo(this.contentContainer.element);
+      this.contentContainer.element.append(content.container.element);
 
       this.RenderAttachmentsIcon(content.source);
       this.RenderReportedContentIcon(content.source);
@@ -192,7 +193,7 @@ export default class UserContentRow {
     this.contents.answers[answer.id] = content;
 
     this.RenderAnswerSeparator();
-    content.$.appendTo(this.contentContainer.element);
+    this.contentContainer.element.append(content.container.element);
 
     if (
       Number(answer.user_id) === Number(window.sitePassedParams[0]) &&

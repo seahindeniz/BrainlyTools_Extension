@@ -106,10 +106,6 @@ export default class ContentViewerContent {
       padding: "s",
       border: true,
       borderColor: this.BoxBorderColor(),
-      /* color:
-        this.source.user_id === Number(window.sitePassedParams[0])
-          ? "blue-secondary-light"
-          : undefined, */
     });
 
     Build(this.container.element, [
@@ -129,17 +125,14 @@ export default class ContentViewerContent {
                 }),
               ],
             ],
-            // Icon side
           ],
           [
-            // Content side
             (this.contentContainer = Flex({
               grow: true,
               direction: "column",
             })),
             [
               [
-                // Nick container
                 Flex({
                   marginBottom: "s",
                   marginTop: "xxs",
@@ -180,12 +173,6 @@ export default class ContentViewerContent {
         ],
       ],
     ]);
-    this.$ = $(this.container.element);
-    this.$box = $("> .sg-box", this.$);
-    this.$attachmentsIconContainer = $(
-      ".sg-actions-list__hole:eq(0) .sg-content-box__content",
-      this.$,
-    );
 
     if (this.source.settings.is_marked_abuse) {
       this.RenderReportedContentIcon();

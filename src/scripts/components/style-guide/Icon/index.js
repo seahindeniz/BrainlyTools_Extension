@@ -159,37 +159,38 @@ export type IconSizeType =
   | 14
   | 10;
 
-export type IconPropsType = {
-  color?: ?IconColorType,
-  size?: ?IconSizeType,
-  tag?: IconTagType,
-  className?: ?string,
-  // Additional
-  reverse?: boolean,
-  ...
-} & (
+export type IconPropsType =
   | {
-      type?: IconTypeType,
-      children?: ?null,
+      className?: ?string,
+      color?: ?IconColorType,
+      size?: ?IconSizeType,
+      tag?: IconTagType,
+      children?: null,
+      type: IconTypeType,
+      // Additional
+      reverse?: boolean,
+      ...
     }
   | {
+      className?: ?string,
+      color?: ?IconColorType,
+      size?: ?IconSizeType,
+      tag?: IconTagType,
+      children: ChildrenParamType,
       type?: null,
-      children?: ?ChildrenParamType,
-    }
-);
+      // Additional
+      reverse?: boolean,
+      ...
+    };
 
 const sg = "sg-icon";
 const SGD = `${sg}--`;
 
 class Icon {
   type: ?IconTypeType;
-
   size: ?IconSizeType;
-
   color: ?IconColorType;
-
-  element: HTMLElement;
-
+  element: ?HTMLElement;
   use: Element;
 
   constructor({

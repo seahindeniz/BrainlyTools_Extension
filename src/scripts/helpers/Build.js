@@ -1,7 +1,11 @@
-// @flow
+// @flow strict
 /* eslint-disable no-param-reassign */
 
-function Append<T, Z>(parent: T, child: Z | string | HTMLElement | Function) {
+function Append<T, Z>(
+  parent: T | HTMLElement | DocumentFragment,
+  _child: Z | string | HTMLElement | DocumentFragment | Function,
+) {
+  let child = _child;
   // $FlowFixMe
   if (parent.element) parent = parent.element;
 
@@ -9,7 +13,7 @@ function Append<T, Z>(parent: T, child: Z | string | HTMLElement | Function) {
   if (typeof parent === "function") parent = parent();
 
   // $FlowFixMe
-  if (child.element) child = child.element;
+  if (child && child.element) child = child.element;
 
   // $FlowFixMe
   if (child instanceof Function) child = child();
@@ -17,14 +21,17 @@ function Append<T, Z>(parent: T, child: Z | string | HTMLElement | Function) {
   if (typeof child === "number") child = String(child);
 
   if (
-    parent instanceof HTMLElement &&
-    (child instanceof HTMLElement || typeof child === "string")
-  )
+    (parent instanceof HTMLElement || parent instanceof DocumentFragment) &&
+    (child instanceof HTMLElement ||
+      child instanceof DocumentFragment ||
+      typeof child === "string")
+  ) {
     parent.append(child);
+  }
 }
 
 export default function Build<T, Z>(parent: T, elements: Z) {
-  if (!parent) throw Error("Undefined parent");
+  if (parent === null || parent === undefined) throw Error("Undefined parent");
 
   // $FlowFixMe
   if (parent.element) parent = parent.element;
@@ -32,12 +39,14 @@ export default function Build<T, Z>(parent: T, elements: Z) {
   // $FlowFixMe
   if (parent instanceof Function) parent = parent();
 
-  if (!(parent instanceof HTMLElement))
-    throw Error("Parent element must be an HTMLElement");
+  if (!(parent instanceof HTMLElement) && !(parent instanceof DocumentFragment))
+    throw Error("Parent element must be an append-able element");
 
-  if (elements) {
+  if (elements !== null && elements !== undefined) {
     if (elements instanceof Array)
-      elements.forEach(element => {
+      elements.forEach(_element => {
+        let element = _element;
+
         if (element instanceof Array) element = Build(element[0], element[1]);
 
         Append(parent, element);

@@ -1,11 +1,11 @@
-// @flow strict
+// @flow
 
 import AddChildren from "@style-guide/helpers/AddChildren";
 import type { ChildrenParamType } from "@style-guide/helpers/AddChildren";
 import SetProps from "@style-guide/helpers/SetProps";
 import classNames from "classnames";
 
-type ColorType =
+export type ColorType =
   | "dark"
   | "light"
   | "blue"
@@ -36,55 +36,20 @@ type BoxBorderType =
     };
 
 type BoxPropsType = {
-  /**
-   * Children to be rendered inside of the Box
-   * @example <Box>Text inside Box</Box>
-   */
-  children: ChildrenParamType,
-
-  /**
-   * Additional class names
-   */
+  children?: ChildrenParamType,
   className?: ?string,
-
-  /**
-   * Box background color
-   * @example <Box color="mint-secondary">Text on a mint background</Box>
-   */
   color?: ?ColorType,
-
-  /**
-   * Box shadow
-   * @example <Box shadow>Text inside box with shadow</Box>
-   * @default false
-   */
   shadow?: boolean,
-
-  /**
-   * Padding size. Defaults to 'm' size, pass null to set it to 0
-   * @example <Box padding="l">Text inside Box with large padding</Box>
-   */
   padding?: PaddingType | null,
-
-  /**
-   * Disable border radius
-   * @example <Box noBorderRadius>Text inside Box with no border radius</Box>
-   * @default false
-   */
   noBorderRadius?: boolean,
-
-  /**
-   * Box border and border color. Using borderColor without border will produce type error
-   * @example <Box border borderColor="mint">Text inside bordered Box</Box>
-   * @default false
-   */
-  ...BoxBorderType,
-
+  border: boolean,
+  borderColor?: ColorType,
   ...
-};
+} /* & BoxBorderType */;
 
 export default class {
   color: ?ColorType;
+  borderColor: ?ColorType;
   element: HTMLDivElement;
 
   constructor({
@@ -99,13 +64,14 @@ export default class {
     ...props
   }: BoxPropsType) {
     this.color = color;
+    this.borderColor = borderColor;
 
     const classes = classNames(
       "sg-box",
       {
         [`sg-box--padding-${String(padding)}`]: padding !== null && padding,
-        [`sg-box--border-color-${String(borderColor)}`]: borderColor,
         "sg-box--border": border,
+        [`sg-box--border-color-${String(borderColor)}`]: border && borderColor,
         "sg-box--shadow": shadow,
         "sg-box--no-border-radius": noBorderRadius,
       },
@@ -127,5 +93,16 @@ export default class {
     this.element.classList.add(`sg-box--${String(color)}`);
 
     this.color = color;
+  }
+
+  ChangeBorderColor(borderColor: ?ColorType) {
+    if (this.borderColor)
+      this.element.classList.remove(
+        `sg-box--border-color-${String(this.borderColor)}`,
+      );
+
+    this.element.classList.add(`sg-box--border-color-${String(borderColor)}`);
+
+    this.borderColor = borderColor;
   }
 }

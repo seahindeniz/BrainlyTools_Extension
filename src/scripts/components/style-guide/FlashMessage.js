@@ -1,8 +1,7 @@
+import { Flex, Icon, Text } from "@style-guide";
+import AddChildren from "@style-guide/helpers/AddChildren";
 import classnames from "classnames";
 import Build from "../../helpers/Build";
-import Flex from "./Flex";
-import Icon from "./Icon";
-import Text from "./Text";
 import SetProps from "./helpers/SetProps";
 
 /**
@@ -21,14 +20,15 @@ const SGD = `${SG}--`;
 /**
  * @param {Properties} param0
  */
-export default function ({
+export default ({
   text,
   html,
   type,
   className,
   noIcon,
+  children,
   ...props
-} = {}) {
+} = {}) => {
   const messageClass = classnames(
     SG,
     {
@@ -53,7 +53,7 @@ export default function ({
     align: "CENTER",
   });
 
-  if (noIcon) message.appendChild(textElement);
+  if (noIcon) AddChildren(message, [textElement, children]);
   else
     message = Build(message, [
       [
@@ -74,7 +74,7 @@ export default function ({
               type: "ext-icon",
             }),
           ],
-          textElement,
+          [Flex({ direction: "column" }), [textElement, children]],
         ],
       ],
     ]);
@@ -82,4 +82,4 @@ export default function ({
   flash.appendChild(message);
 
   return flash;
-}
+};

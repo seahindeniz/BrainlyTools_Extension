@@ -1,20 +1,26 @@
-/* eslint-disable no-param-reassign */
 // @flow strict
-type ChildrenType = string | Text | Element | HTMLElement | Node;
 
-type ChildrenTypeWithObj =
+/* eslint-disable no-param-reassign */
+
+import type { Icon, Button } from "@style-guide";
+
+export type ChildrenParamType =
   | string
+  | number
+  | boolean
   | Text
   | Element
   | HTMLElement
+  | DocumentFragment
   | Node
-  | { element: ChildrenType };
-
-export type ChildrenParamType = ChildrenTypeWithObj | ChildrenTypeWithObj[];
+  | Icon
+  | Button
+  | { element: ChildrenParamType, ... }
+  | ChildrenParamType[];
 
 export default function AddChildren(
   target: HTMLElement | Element,
-  _children?: ChildrenParamType,
+  _children?: ?ChildrenParamType,
 ) {
   let children = _children;
 
@@ -22,7 +28,7 @@ export default function AddChildren(
 
   if (children instanceof Array) {
     if (children.length > 0)
-      children.forEach((child: ChildrenTypeWithObj) =>
+      children.forEach((child: ChildrenParamType) =>
         AddChildren(target, child),
       );
 
@@ -31,20 +37,24 @@ export default function AddChildren(
 
   if (
     typeof children !== "string" &&
-    !(children instanceof Text) &&
-    !(children instanceof Element) &&
-    !(children instanceof HTMLElement) &&
     !(children instanceof Node) &&
-    children.element
+    children &&
+    children.element !== undefined &&
+    children.element !== null
   )
     children = children.element;
 
-  if (typeof children === "string")
-    target.insertAdjacentHTML("beforeend", children);
+  if (
+    typeof children === "string" ||
+    typeof children === "number" ||
+    typeof children === "boolean"
+  )
+    target.insertAdjacentHTML("beforeend", String(children));
   else if (
     children instanceof Text ||
     children instanceof Element ||
     children instanceof HTMLElement ||
+    children instanceof DocumentFragment ||
     children instanceof Node
   )
     target.append(children);

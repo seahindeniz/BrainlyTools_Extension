@@ -125,7 +125,8 @@ class Answers extends UserContent {
 
       if (
         confirm(
-          System.data.locale.userContent.notificationMessages.confirmApproving,
+          System.data.locale.userContent.notificationMessages
+            .confirmApprovingSelected,
         )
       ) {
         rows.forEach(this.Row_ApproveAnswer.bind(this));

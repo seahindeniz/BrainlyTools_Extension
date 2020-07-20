@@ -1,11 +1,11 @@
 /* eslint-disable camelcase */
 import Build from "@/scripts/helpers/Build";
 import IsVisible from "@/scripts/helpers/IsVisible";
-import { BoxDeprecated, Button, Icon, Text, Flex } from "@style-guide";
+import { Box, Button, Icon, Text, Flex } from "@style-guide";
 import momentTz from "moment-timezone";
 import notification from "../../../components/notification";
 import Action from "../../../controllers/Req/Brainly/Action";
-import ContentViewer_Content from "./ContentViewer_Content";
+import ContentViewerContent from "./ContentViewer_Content";
 import SelectCheckbox from "./SelectCheckbox";
 
 export default class UserContentRow {
@@ -56,7 +56,8 @@ export default class UserContentRow {
                 }),
                 (this.questionLink = Text({
                   tag: "a",
-                  size: "xsmall",
+                  size: "small",
+                  weight: "bold",
                   color: "blue-dark",
                   html: questionLink.innerHTML,
                   href: questionLink.href,
@@ -131,10 +132,15 @@ export default class UserContentRow {
     this.viewer = Flex({
       marginTop: "xs",
       marginBottom: "xs",
+      marginRight: "xs",
       direction: "column",
-      children: (this.contentContainer = BoxDeprecated({
-        border: false,
-        style: "width: 52em;",
+      children: (this.contentContainer = new Box({
+        border: true,
+        borderColor: "gray-secondary-lightest",
+        color: "light",
+        // color: "gray-secondary-lightest",
+        padding: "xs",
+        // style: "width: 52em;",
       })),
     });
   }
@@ -144,10 +150,10 @@ export default class UserContentRow {
       const user = this.res.users_data.find(
         _user => _user.id === this.res.data.task.user_id,
       );
-      const content = new ContentViewer_Content(this.res.data.task, user);
+      const content = new ContentViewerContent(this, this.res.data.task, user);
       this.contents.question = content;
 
-      content.$.appendTo(this.contentContainer);
+      content.$.appendTo(this.contentContainer.element);
 
       this.RenderAttachmentsIcon(content.source);
       this.RenderReportedContentIcon(content.source);
@@ -182,11 +188,11 @@ export default class UserContentRow {
 
   RenderAnswer(answer) {
     const user = this.res.users_data.find(_user => _user.id === answer.user_id);
-    const content = new ContentViewer_Content(answer, user);
+    const content = new ContentViewerContent(this, answer, user);
     this.contents.answers[answer.id] = content;
 
     this.RenderAnswerSeparator();
-    content.$.appendTo(this.contentContainer);
+    content.$.appendTo(this.contentContainer.element);
 
     if (
       Number(answer.user_id) === Number(window.sitePassedParams[0]) &&
@@ -226,7 +232,7 @@ export default class UserContentRow {
       `<div class="sg-horizontal-separator sg-horizontal-separator--spaced"></div>`,
     );
 
-    $separator.appendTo(this.contentContainer);
+    $separator.appendTo(this.contentContainer.element);
   }
 
   AttachAnswerID(answer) {
@@ -260,19 +266,27 @@ export default class UserContentRow {
   }
 
   RenderApproveIcon(answer) {
-    if (
-      (this.approved || (answer.approved && answer.approved.date)) &&
-      !this.approveIcon
-    ) {
-      this.approveIcon = this.RenderIcon({
-        type: "solid-mint",
-        icon: new Icon({
-          type: "check",
-          size: 18,
-        }),
-        title: System.data.locale.userContent.approvedAnswer,
-      });
-    }
+    if (!answer.approved?.date) return;
+
+    /* this.approveIcon = this.RenderIcon({
+      type: "solid-mint",
+      icon: new Icon({
+        type: "check",
+        size: 18,
+      }),
+      title: System.data.locale.userContent.approvedAnswer,
+    }); */
+
+    this.approveIcon = new Icon({
+      type: "verified",
+      size: 32,
+      color: "mint",
+      title: System.data.locale.userContent.approvedAnswer,
+    });
+
+    if (!this.iconContainer) this.RenderIconContainer();
+
+    this.iconContainer.append(this.approveIcon.element);
   }
 
   HideApproveIcon() {
@@ -314,32 +328,35 @@ export default class UserContentRow {
 
   RenderReportedContentIcon(content) {
     if (
-      content.is_marked_abuse ||
-      (content.settings && content.settings.is_marked_abuse)
-    ) {
-      /**
-       * @type {import("@style-guide/Button").ButtonPropsType}
-       */
-      const iconProps = {
-        type: "solid-peach",
-        icon: new Icon({ type: "report_flag" }),
-        title: System.data.locale.userContent.reported.question,
-      };
+      !(
+        content.is_marked_abuse ||
+        (content.settings && content.settings.is_marked_abuse)
+      )
+    )
+      return;
 
-      if (this.main.caller === "Answers" || this.main.caller === "Comments") {
-        if (content.responses) {
-          iconProps.type = "solid";
-          iconProps.className = "separator";
-        } else {
-          iconProps.title =
-            System.data.locale.userContent.reported[
-              this.main.caller === "Answers" ? "answer" : "comment"
-            ];
-        }
+    /**
+     * @type {import("@style-guide/Button").ButtonPropsType}
+     */
+    const iconProps = {
+      type: "solid-peach",
+      icon: new Icon({ type: "report_flag" }),
+      title: System.data.locale.userContent.reported.question,
+    };
+
+    if (this.main.caller === "Answers" || this.main.caller === "Comments") {
+      if (content.responses) {
+        iconProps.type = "solid";
+        iconProps.className = "separator";
+      } else {
+        iconProps.title =
+          System.data.locale.userContent.reported[
+            this.main.caller === "Answers" ? "answer" : "comment"
+          ];
       }
-
-      this.RenderIcon(iconProps);
     }
+
+    this.reportedContentIcon = this.RenderIcon(iconProps);
   }
 
   /**
@@ -347,25 +364,13 @@ export default class UserContentRow {
    * @param {import("@style-guide/Button").ButtonPropsType} props
    */
   RenderIcon({ className, ...props }) {
-    /* let icon = IconAsButton({
-      action: true,
-      active: true,
-      disabled: true,
-      size: "xxsmall",
-      className: `sg-list__icon--spacing-right-small ${className}`,
-      ...props
-    }); */
-    /**
-     * @type {import("@style-guide/Button").ButtonPropsType}
-     */
-    const iconProps = {
+    const icon = new Button({
       noClick: true,
       iconOnly: true,
       size: "xs",
       className: `sg-list__icon--spacing-right-small ${className}`,
       ...props,
-    };
-    const icon = new Button(iconProps);
+    });
 
     if (!this.iconContainer) this.RenderIconContainer();
 
@@ -400,22 +405,22 @@ export default class UserContentRow {
   }
 
   /**
-   * @param {Event} event
+   * @param {MouseEvent} event
    */
   async ToggleContentViewer(event) {
-    if (this.res && this.res.success) {
-      if (event) event.preventDefault();
+    if (event?.ctrlKey || !this.res?.success) return;
 
-      if (this.contentContainer.childNodes.length === 0) {
-        this.RenderQuestionContent();
-        this.RenderAnswers();
-      }
+    if (event) event.preventDefault();
 
-      if (IsVisible(this.viewer)) {
-        this.HideElement(this.viewer);
-      } else {
-        this.container.append(this.viewer);
-      }
+    if (this.contentContainer.element.childNodes.length === 0) {
+      this.RenderQuestionContent();
+      this.RenderAnswers();
+    }
+
+    if (IsVisible(this.viewer)) {
+      this.HideElement(this.viewer);
+    } else {
+      this.container.append(this.viewer);
     }
   }
 

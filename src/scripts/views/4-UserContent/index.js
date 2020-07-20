@@ -13,12 +13,8 @@ import InjectToDOM from "../../helpers/InjectToDOM";
 
   if (type) InjectToDOM(`/scripts/views/4-UserContent/${type}.js`);
 
-  const contentOld = document.querySelector("#content-old");
-
-  if (!contentOld) return;
-
-  const selectedPageLink = contentOld.querySelector(
-    `:scope > div > p > a[style^="color"]`,
+  const selectedPageLink = document.querySelector(
+    `#content-old > div > p > a[style^="color"]`,
   );
 
   if (!selectedPageLink) return;
@@ -36,7 +32,7 @@ import InjectToDOM from "../../helpers/InjectToDOM";
     children: [previousPageButtonContainer, nextPageButtonContainer],
   });
 
-  contentOld.append(buttonContainer);
+  document.body.append(buttonContainer);
 
   if (previousPageLink instanceof HTMLAnchorElement) {
     const previousPageButton = new Button({

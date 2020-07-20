@@ -5,6 +5,7 @@ import WaitForElement from "@/scripts/helpers/WaitForElement";
 import WaitForElements from "@/scripts/helpers/WaitForElements";
 import Action from "@BrainlyAction";
 import ServerReq from "@ServerReq";
+import { Flex, Text } from "@style-guide";
 import notification from "../../components/notification2";
 import PrepareDeleteReasons from "../../controllers/PrepareDeleteReasons";
 import _System from "../../controllers/System";
@@ -18,6 +19,7 @@ import RemoveJunkNotifications from "./_/RemoveJunkNotifications";
 import SetBrainlyData from "./_/SetBrainlyData";
 import SetMetaData from "./_/SetMetaData";
 import SetUserData from "./_/SetUserData";
+
 // import renderAnnouncements from "./_/Announcements";
 // import renderChatPanel from "./_/ChatPanel";
 
@@ -50,37 +52,41 @@ class Core {
   }
 
   async Pipeline() {
-    RemoveJunkNotifications();
+    try {
+      RemoveJunkNotifications();
 
-    await SetMetaData();
+      await SetMetaData();
 
-    this.userData = await SetUserData();
-    this.UserDataLoaded();
+      this.userData = await SetUserData();
+      this.UserDataLoaded();
 
-    await SetBrainlyData();
+      await SetBrainlyData();
 
-    await this.SetMarketConfig();
+      await this.SetMarketConfig();
 
-    RemoveJunkNotifications();
+      RemoveJunkNotifications();
 
-    await this.PrepareLanguageData();
+      await this.PrepareLanguageData();
 
-    await System.ShareSystemDataToBackground();
+      await System.ShareSystemDataToBackground();
 
-    await new ServerReq().SetAuthData();
-    await this.CheckForNewUpdate();
+      await new ServerReq().SetAuthData();
+      await this.CheckForNewUpdate();
 
-    this.InitNotifier();
+      this.InitNotifier();
 
-    await WaitForObject("jQuery");
-    System.Log("$ Lib OK!");
+      await WaitForObject("jQuery");
+      System.Log("$ Lib OK!");
 
-    this.RenderEventCelebrating();
-    this.LoadComponentsForAllPages();
-    this.InjectFilesToPage();
-    this.InjectFilesToPageAfter_FriendsListLoaded();
-    this.InjectFilesToPageAfter_DeleteReasonsLoaded();
-    this.PingBrainly();
+      this.RenderEventCelebrating();
+      this.LoadComponentsForAllPages();
+      this.InjectFilesToPage();
+      this.InjectFilesToPageAfter_FriendsListLoaded();
+      this.InjectFilesToPageAfter_DeleteReasonsLoaded();
+      this.PingBrainly();
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   UserDataLoaded() {
@@ -124,20 +130,31 @@ class Core {
     return Promise.resolve();
   }
 
-  CheckForNewUpdate() {
-    return new Promise((resolve, reject) => {
-      if (System.data.Brainly.userData.extension.newUpdate) {
-        System.updateExtension();
-        notification({
-          type: "info",
-          permanent: true,
-          html: System.data.locale.core.notificationMessages.updateNeeded,
-        });
-        reject(System.data.locale.core.notificationMessages.updateNeeded);
-      } else {
-        resolve();
-      }
+  async CheckForNewUpdate() {
+    if (!System.data.Brainly.userData.extension.newUpdate) return;
+
+    System.updateExtension();
+    notification({
+      type: "info",
+      permanent: true,
+      html: System.data.locale.core.notificationMessages.updateNeeded.replace(
+        "\n",
+        "<br>",
+      ),
+      children: Flex({
+        marginTop: "xs",
+        justifyContent: "center",
+        children: Text({
+          size: "small",
+          weight: "bold",
+          target: "_blank",
+          href: "https://git.io/JJnG3",
+          html: `| ${System.data.locale.core.notificationMessages.clickHereToSeeTheChangelog} |`,
+        }),
+      }),
     });
+
+    throw Error(System.data.locale.core.notificationMessages.updateNeeded);
   }
 
   async InitNotifier() {
@@ -270,6 +287,7 @@ class Core {
     }
 
     if (System.checkRoute(2, "user_content")) {
+      this.RemoveOldLayoutCSSFile();
       InjectToDOM([
         "/scripts/views/4-UserContent/index.js",
         "/styles/pages/UserContent.css",

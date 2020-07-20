@@ -23,14 +23,6 @@ label.sg-label__text {
   font-weight: bold;
 }
 
-.page-buttons {
-  position: fixed;
-  top: 50%;
-  margin-left: -100px;
-  width: 1150px;
-  z-index: -999;
-}
-
 tbody tr {
   height: 40px;
 
@@ -53,12 +45,12 @@ tbody tr {
   }
 
   &:nth-child(odd) {
-    background: #f2eee7;
+    background: #f9f9f9;
   }
 
-  &:nth-child(even) {
-    background: #dddddd;
-  }
+  /* &:nth-child(even) {
+    border-bottom: solid 1px #000;
+  } */
 
   &.moderateActions {
     background: transparent;
@@ -413,4 +405,55 @@ button.separator + button:not(.separator) {
     vertical-align: inherit;
     margin-left: -20px;
   }
+}
+
+body {
+  min-width: unset;
+}
+
+.container_24 {
+  width: 86%;
+  /* padding: 0 30px; */
+  /* margin: 0; */
+}
+
+.page-buttons {
+  position: fixed;
+  top: 81%;
+  /* margin-left: 1%; */
+  width: 100%;
+  z-index: -999;
+}
+
+.brn-rich-content > h2,
+.brn-rich-content > h3,
+.brn-rich-content > ol,
+.brn-rich-content > p,
+.brn-rich-content > ul {
+  margin-bottom: 8px;
+}
+
+.brn-rich-content > h2,
+.brn-rich-content > h3,
+.brn-rich-content > p {
+  min-height: 24px;
+}
+
+.brn-rich-content > ol,
+.brn-rich-content > ul {
+  margin: 8px 0;
+}
+
+.brn-rich-content > h2,
+.brn-rich-content > h3 {
+  font-size: 21px;
+  line-height: 24px;
+  font-weight: 700;
+}
+
+.brn-rich-content > ol li,
+.brn-rich-content > p,
+.brn-rich-content > ul li {
+  font-size: 18px;
+  line-height: 24px;
 }

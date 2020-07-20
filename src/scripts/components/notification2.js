@@ -1,48 +1,46 @@
 import { FlashMessage } from "./style-guide";
 
 /**
- * @typedef {import("./style-guide/FlashMessage").Properties & {permanent?: boolean}} NotificationPropertiesType
- * @param {NotificationPropertiesType} param0
+ * @param { MouseEvent | HTMLElement | EventTarget} element
  */
-export default function notification({ permanent = false, ...props }) {
-  let flash = FlashMessage(props);
-  let container = Container();
+function Clear(element) {
+  // eslint-disable-next-line no-param-reassign
+  if (element instanceof MouseEvent) element = element.currentTarget;
 
-  container.append(flash);
-
-  flash.addEventListener("click", Clear, false);
-
-  if (!permanent)
-    setTimeout(() => Clear(flash), 10000);
-
-  return flash;
+  if ("remove" in element) element.remove();
 }
 
 function Container() {
   let container = document.querySelector(
-    ".flash-messages-container, body > #main-panel"
+    ".flash-messages-container, body > #main-panel",
   );
 
   if (!container) {
     container = document.createElement("div");
     container.className = "flash-messages-container";
 
-    let header = document.querySelector("body > #main-panel, body");
+    const header = document.querySelector("body > #main-panel, body");
 
-    if (header)
-      header.append(container);
+    if (header) header.append(container);
   }
 
   return container;
 }
 
 /**
- * @param { MouseEvent | HTMLElement | EventTarget} element
+ * @typedef {import("./style-guide/FlashMessage").Properties & {permanent?: boolean}} NotificationPropertiesType
+ * @param {NotificationPropertiesType} param0
  */
-function Clear(element) {
-  if (element instanceof MouseEvent)
-    element = element.currentTarget;
+export default function notification({ permanent = false, ...props }) {
+  const flash = FlashMessage(props);
+  const container = Container();
 
-  if ("remove" in element)
-    element.remove();
+  container.append(flash);
+
+  if (!permanent) {
+    flash.addEventListener("click", Clear, false);
+    setTimeout(() => Clear(flash), 10000);
+  }
+
+  return flash;
 }

@@ -62,7 +62,7 @@ import SetProps from "./helpers/SetProps";
  * @typedef {HTMLDivElement & CustomProps} BoxElement
  */
 
-const SG = "sg-box";
+const SG = "sg-box-deprecated";
 const SGD = `${SG}--`;
 
 export const PADDING = {

@@ -340,7 +340,7 @@ class Background {
         hasAccess = await ext.permissions.request(permission);
 
       if (!hasAccess)
-        throw `User doesn't allow extension to work on ${url.hostname}`;
+        throw Error(`User doesn't allow extension to work on ${url.hostname}`);
 
       ext.tabs.executeScript(tab.id, {
         file: "scripts/contentScript.js",

@@ -69,4 +69,29 @@ import InjectToDOM from "../../helpers/InjectToDOM";
       nextPageLink.click();
     });
   }
+
+  document.addEventListener("keyup", event => {
+    if (
+      event.ctrlKey ||
+      event.altKey ||
+      event.shiftKey ||
+      event.metaKey ||
+      (event.target && event.target instanceof HTMLInputElement) ||
+      event.target instanceof HTMLSelectElement ||
+      event.target instanceof HTMLOptionElement ||
+      event.target instanceof HTMLTextAreaElement
+    )
+      return;
+
+    if (
+      previousPageLink &&
+      (event.code === "KeyA" || event.code === "ArrowLeft")
+    )
+      previousPageLink.click();
+    else if (
+      nextPageLink &&
+      (event.code === "KeyD" || event.code === "ArrowRight")
+    )
+      nextPageLink.click();
+  });
 })();

@@ -44,12 +44,12 @@ export type ButtonColorType =
 
 type ButtonIconType =
   | {
-      icon?: Node,
+      icon?: HTMLElement | Icon,
       iconOnly?: null,
       reversedOrder?: boolean,
     }
   | {
-      icon: Node,
+      icon: HTMLElement | Icon,
       iconOnly?: boolean,
       reversedOrder?: null,
     };
@@ -74,13 +74,12 @@ type ButtonCornerSpaces =
 
 export type ButtonPropsType = {
   children?: ChildrenParamType,
-  icon?: HTMLElement,
   size?: ButtonSizeType,
   href?: string,
   disabled?: boolean,
   fullWidth?: boolean,
   className?: string,
-  tag: "button" | "a" | "label" | "input",
+  tag?: "button" | "a" | "label" | "input",
   text?: string,
   html?: string,
   title?: string,

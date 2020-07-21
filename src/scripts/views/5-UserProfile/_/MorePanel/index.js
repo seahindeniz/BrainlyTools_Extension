@@ -9,7 +9,7 @@ import {
 import Build from "../../../../helpers/Build";
 import IsVisible from "../../../../helpers/IsVisible";
 import ManageExtensionUser from "./ManageExtensionUser";
-import ReportUser from "./ReportUser";
+// import ReportUser from "./ReportUser";
 import PrivilegeList from "./PrivilegeList";
 
 export default class MorePanel {
@@ -92,8 +92,8 @@ export default class MorePanel {
       !System.allModerators.withID[this.main.profileData.id] &&
       this.main.profileData.id !== System.data.Brainly.userData.user.id
     ) */
-    if (false && System.checkUserP(34))
-      this.sections.pointTransferer = new ReportUser(this);
+    /* if (false && System.checkUserP(34))
+      this.sections.pointTransferer = new ReportUser(this); */
   }
 
   BindHandlers() {

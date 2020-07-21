@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.38.0] - 2020.07.22
+
+### Added
+
+- New confirm and approve buttons (<https://prnt.sc/tlbmt2>)
+- Kullanıcı içeriğinde sayfalar arası geçiş için olan butonlar yön tuşları ile
+  de kullanılabilir. [#152]
+
+### Changed
+
+- Users contents page size has resized to be more size-friendly to different
+  screen sizes and to avoid horizontal scrolling.
+  - Desktop (<https://prnt.sc/tlbnad>) (<https://prnt.sc/tlboms>)
+  - Mobile (<https://prnt.sc/tlbplt>) (<https://prnt.sc/tlbr7s>)
+- CTRL + click action isn't working on question link [#153]
+
+[#152]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/152
+[#153]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/153
+
 ## [6.37.1] - 2020.07.18
 
 ### Changed

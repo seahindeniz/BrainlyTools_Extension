@@ -18,22 +18,13 @@ export type ChildrenParamType =
   | { element: ChildrenParamType, ... }
   | ChildrenParamType[];
 
-export default function AddChildren(
+function appendChildren(
   target: HTMLElement | Element,
-  _children?: ?ChildrenParamType,
+  _children: ChildrenParamType,
 ) {
   let children = _children;
 
   if (!target || children === undefined || children === null) return;
-
-  if (children instanceof Array) {
-    if (children.length > 0)
-      children.forEach((child: ChildrenParamType) =>
-        AddChildren(target, child),
-      );
-
-    return;
-  }
 
   if (
     typeof children !== "string" &&
@@ -61,4 +52,25 @@ export default function AddChildren(
   else {
     console.error("Unsupported children", children);
   }
+}
+
+export default function AddChildren(
+  target: HTMLElement | Element,
+  children?: ChildrenParamType,
+) {
+  if (
+    !target ||
+    children === undefined ||
+    children === null ||
+    children.length === 0
+  )
+    return;
+
+  if (children instanceof Array) {
+    children.forEach(_children => appendChildren(target, _children));
+
+    return;
+  }
+
+  appendChildren(target, children);
 }

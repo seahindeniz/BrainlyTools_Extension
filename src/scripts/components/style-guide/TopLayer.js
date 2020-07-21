@@ -8,9 +8,9 @@ import SetProps from "./helpers/SetProps";
  *
  * @typedef {{
  *  wrapper: HTMLDivElement,
- * }} CustomProperties
+ * }} CustomToplayerPropsType
  *
- * @typedef {HTMLDivElement & CustomProperties} ToplayerElement
+ * @typedef {HTMLDivElement & CustomToplayerPropsType} ToplayerElement
  *
  * @typedef {{
  *  children?: import("@style-guide/helpers/AddChildren").ChildrenParamType,
@@ -27,14 +27,14 @@ import SetProps from "./helpers/SetProps";
  *  noPadding?: boolean,
  *  transparent?: boolean,
  *  className?: string,
- * }} Properties
+ * }} ToplayerPropsType
  */
 const SG = "sg-toplayer";
 const SGD = `${SG}--`;
 const SG_ = `${SG}__`;
 
 /**
- * @param {Properties} param0
+ * @param {ToplayerPropsType} param0
  */
 export default function ({
   children,

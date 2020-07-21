@@ -68,15 +68,15 @@ import SetProps from "./helpers/SetProps";
  *  fitContent?: boolean,
  *  minContent?: boolean,
  *  [x: string]: *
- * } & MarginType} Properties
+ * } & MarginType} FlexPropsType
  *
  * @typedef {function(MarginType): FlexElementType} ChangeMarginType
  *
  * @typedef {{
  *  ChangeMargin?: ChangeMarginType,
- * }} CustomPropertiesType
+ * }} CustomFlexPropsType
  *
- * @typedef {CustomPropertiesType & HTMLElement} FlexElementType
+ * @typedef {CustomFlexPropsType & HTMLElement} FlexElementType
  */
 
 /**
@@ -104,7 +104,7 @@ function _ChangeMargin(props) {
 
 /**
  * @template {keyof HTMLElementTagNameMap} T
- * @param {{tag?: DefaultTagNamesType | T} & Properties} param0
+ * @param {{tag?: DefaultTagNamesType | T} & FlexPropsType} param0
  */
 export default function ({
   fullWidth,
@@ -161,7 +161,7 @@ export default function ({
   );
 
   /**
-   * @type {CustomPropertiesType & HTMLElementTagNameMap[T]}
+   * @type {CustomFlexPropsType & HTMLElementTagNameMap[T]}
    */
   const element = document.createElement(tag);
   element.className = flexClass;

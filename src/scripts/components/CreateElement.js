@@ -10,7 +10,7 @@ type CreateElementPropsType<T> = {
   children?: ChildrenParamType,
   className?: string,
   fullWidth?: boolean,
-  onClick?: Event => mixed,
+  onClick?: Event => {},
   ...
 };
 

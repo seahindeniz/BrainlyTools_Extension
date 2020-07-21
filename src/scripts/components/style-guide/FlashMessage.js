@@ -1,25 +1,26 @@
+// @flow
+
 import { Flex, Icon, Text } from "@style-guide";
-import AddChildren from "@style-guide/helpers/AddChildren";
+import AddChildren, {
+  type ChildrenParamType,
+} from "@style-guide/helpers/AddChildren";
 import classnames from "classnames";
 import Build from "../../helpers/Build";
 import SetProps from "./helpers/SetProps";
 
-/**
- * @typedef {"success" | "error" | "info"} Type - Default is blue
- * @typedef {{
- * text?: string,
- * html?: string,
- * type?: Type,
- * className?: string,
- * noIcon?: boolean,
- * }} Properties
- */
 const SG = "sg-flash__message";
 const SGD = `${SG}--`;
 
-/**
- * @param {Properties} param0
- */
+type FlashMessageTypeType = "success" | "error" | "info";
+
+export type FlashMessageProps = {
+  text?: string,
+  html?: string,
+  type?: FlashMessageTypeType,
+  className?: string,
+  noIcon?: boolean,
+  children?: ChildrenParamType,
+};
 export default ({
   text,
   html,
@@ -28,11 +29,11 @@ export default ({
   noIcon,
   children,
   ...props
-} = {}) => {
+}: FlashMessageProps = {}) => {
   const messageClass = classnames(
     SG,
     {
-      [SGD + type]: type,
+      [SGD + String(type)]: type,
     },
     className,
   );
@@ -53,8 +54,11 @@ export default ({
     align: "CENTER",
   });
 
-  if (noIcon) AddChildren(message, [textElement, children]);
-  else
+  if (noIcon) {
+    AddChildren(message, textElement);
+
+    if (children) AddChildren(message, children);
+  } else
     message = Build(message, [
       [
         Flex({

@@ -1,13 +1,14 @@
-import { FlashMessage } from "./style-guide";
+// @flow
 
-/**
- * @param { MouseEvent | HTMLElement | EventTarget} element
- */
-function Clear(element) {
+import FlashMessage, {
+  type FlashMessageProps,
+} from "@style-guide/FlashMessage";
+
+function Clear(element: MouseEvent | HTMLElement | EventTarget) {
   // eslint-disable-next-line no-param-reassign
   if (element instanceof MouseEvent) element = element.currentTarget;
 
-  if ("remove" in element) element.remove();
+  if (element instanceof Element) element.remove();
 }
 
 function Container() {
@@ -27,11 +28,14 @@ function Container() {
   return container;
 }
 
-/**
- * @typedef {import("./style-guide/FlashMessage").Properties & {permanent?: boolean}} NotificationPropertiesType
- * @param {NotificationPropertiesType} param0
- */
-export default function notification({ permanent = false, ...props }) {
+export type NotificationPropsType = {
+  permanent?: boolean,
+} & FlashMessageProps;
+
+export default function notification({
+  permanent = false,
+  ...props
+}: NotificationPropsType) {
   const flash = FlashMessage(props);
   const container = Container();
 

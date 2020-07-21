@@ -3,7 +3,6 @@ import WaitForObject from "../../../../helpers/WaitForObject";
 import MassContentDeleter from "./MassContentDeleter";
 import MassManageUsers from "./MassManageUsers";
 import MassMessageSender from "./MassMessageSender";
-import MassModerateContents from "./MassModerateContents";
 import MassModerateReportedContents from "./MassModerateReportedContents";
 import NoticeBoard from "./NoticeBoard";
 import PointChanger from "./PointChanger";
@@ -15,7 +14,6 @@ import SearchUser from "./SearchUser";
  * typeof NoticeBoard |
  * typeof MassMessageSender |
  * typeof PointChanger |
- * typeof MassModerateContents |
  * typeof MassModerateReportedContents |
  * typeof MassManageUsers |
  * typeof ReportedCommentsDeleter |
@@ -72,10 +70,6 @@ class ModerationPanel {
         {
           constructor: MassContentDeleter,
           condition: 7,
-        },
-        {
-          constructor: MassModerateContents,
-          condition: 29,
         },
         {
           constructor: MassModerateReportedContents,

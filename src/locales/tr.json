@@ -388,8 +388,8 @@
       "userNotFound": "Kullanıcı bulunamadı",
       "extensionServerError": "Sunucuya bağlanırken beklenmedik bir hata oluştu. ~5 saniye sonra tekrar deneyin",
       "ifErrorPersists": "Hatanın devam etmesi halinde, lütfen eklenti yöneticisi ile iletişime geçin ve durumu bilgilendirin :)",
-      "accessPermissionDenied": "Brainly Tools eklentisini kullanma yetkisine sahip değilsin<br>Admin veya eklenti yöneticisi ile iletişime geç lütfen",
-      "updateNeeded": "Eklentinin yeni sürümü mevcut ve arka planda güncellenecek.<br>Bu yüzden lütfen ~10 saniye bekleyip sayfayı yeniler misin?",
+      "accessPermissionDenied": "Brainly Tools eklentisini kullanma yetkisine sahip değilsin\nAdmin veya eklenti yöneticisi ile iletişime geç lütfen",
+      "updateNeeded": "Eklentinin yeni sürümü mevcut ve arka planda güncellenecek.\nLütfen ~10 saniye bekleyip sayfayı yeniler misin?",
       "warningBeforeDelete": "İşlem, bu uyarıyı onayladığın anda başlar ve başladığı anda belirtmiş olduğun soruları silinmeye başlar.\n\nSilmek istediğinden üç kere emin misin?",
       "enterIdWarn": "Silimi başlatmak için en 1 soru id'si eklemelisin",
       "youNeedToEnterValidId": "Geçerli bir id numarası girmelisin",
@@ -401,7 +401,8 @@
       "changesMayNotBeSaved": "Yaptığınız değişiklikler kaydedilmemiş olabilir",
       "stillProcessing": "Bu blok halen işlem sürecinde. Bloğu silmek istiyor musun? (onay vermen, aktif işlemi durduracaktır)",
       "youNeedToChooseActionType": "Eylem tipi seçmelisin",
-      "errorOccurredWhileDeletingTheN": "%{content_id} id'li soruyu silerken hata oluştu"
+      "errorOccurredWhileDeletingTheN": "%{content_id} id'li soruyu silerken hata oluştu",
+      "clickHereToSeeTheChangelog": "Güncellenen içerikleri incelemek için buraya tıkla"
     },
     "MassContentDeleter": {
       "text": "Çoklu içerik silici",
@@ -438,9 +439,9 @@
       "youNeedToEnterOrPaste": "Kullanıcı id'si ni girebilir veya daha önce kopyaladığın kullanıcı id'lerini kutucuğa yapıştırabilirsin",
       "pastingExample": "Örnek kullanıcı id listesi",
       "pastingExample2": "Kopyala yapıştır yapmadan önce, listen üzerinde puan ataması yapabilirsin",
-      "addPoints": "Add points to this user",
-      "addPointsToAll": "Add points to all users",
-      "pointsNotSpecified": "You must enter a score value for at least 1 user"
+      "addPoints": "Bu kullanıcıya puanını ver",
+      "addPointsToAll": "Tüm kullanıcılara puanlarını ver",
+      "pointsNotSpecified": "Devam etmek için en az 1 kullanıcıya puan vermelisin"
     },
     "reportedCommentsDeleter": {
       "text": "TD > Toplu yorum silici",
@@ -662,7 +663,7 @@
       "alreadyUnapproved": "Bu cevap zaten doğrulanmamış",
       "someOfSelectedAnswersAreApproved": "Seçilmiş bazı cevaplar zaten doğrulanmış. O yüzden tekrar doğrulamaya gerek kalmıyor",
       "selectAnUnapprovedAnswerForApproving": "Doğrulamaya başlamadan önce doğrulanmamış cevapları seçmelisin",
-      "confirmApproving": "Seçili cevabı/cevapları doğrulamak istiyor musun?",
+      "confirmApproving": "Bu cevabı doğrulamak istiyor musun?",
       "someOfSelectedAnswersAreUnapproved": "Seçilen bazı içerikler doğrulanmamış. O yüzden doğrulama kaldırma işlemine gerek kalmıyor",
       "selectAnApprovedAnswerForUnapproving": "İşleme başlamadan önce doğrulanmış cevap/lar seçmelisin",
       "confirmUnapproving": "Seçilen cevap(lar)dan doğrulamayı kaldırmak istediğine emin misin?",
@@ -670,7 +671,8 @@
       "confirmReporting": "Seçili cevabı/cevapları hatalı olarak bildirmek istiyor musun?",
       "selectAtLeastOneContent": "En az bir içerik seçmelisin",
       "xIsAlreadyApproved": "%{row_id} zaten doğrulanmış",
-      "xIsAlreadyUnapproved": "%{row_id} doğrulaması zaten kaldırılmış"
+      "xIsAlreadyUnapproved": "%{row_id} doğrulaması zaten kaldırılmış",
+      "confirmApprovingSelected": "Seçilen cevapları doğrulamak istiyor musun?"
     },
     "approvedAnswer": "Onaylanmış cevap",
     "bestAnswer": "En iyi cevap",

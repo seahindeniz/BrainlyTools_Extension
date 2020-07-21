@@ -388,8 +388,8 @@
       "userNotFound": "User not found",
       "extensionServerError": "An unexpected error occurred while connecting the extension server. Please try again in ~5 sec.",
       "ifErrorPersists": "If this error persists, please contact with extension manager and explain what happened :)",
-      "accessPermissionDenied": "Your are not authorized to use Brainly Tools.<br>Please contact with an admin or extension manager",
-      "updateNeeded": "New version of extension is available.<br>It will be updated at background so, could you please wait ~10 seconds and then refresh the page?",
+      "accessPermissionDenied": "You are not authorized to use the Brainly Tools.\nPlease contact with an admin or community manager to ask permission",
+      "updateNeeded": "A new version of the extension is available.\nIt'll be updated in the background so could you wait ~10 seconds then refresh the page, please?",
       "warningBeforeDelete": "This process will be executed and the numbers of questions ids in the input will be deleted once you confirmed this warning. \n\n Are you triple times sure?",
       "enterIdWarn": "You need to add at least 1 id number of question that you want to delete",
       "youNeedToEnterValidId": "You need to enter a valid id number",
@@ -401,7 +401,8 @@
       "changesMayNotBeSaved": "Changes you made may not be saved",
       "stillProcessing": "This section is still in process. Do you want to remove this block?\n(this will stop the moderating process)",
       "youNeedToChooseActionType": "You need to choose an action type",
-      "errorOccurredWhileDeletingTheN": "An error occurred while deleting the %{content_id}"
+      "errorOccurredWhileDeletingTheN": "An error occurred while deleting the %{content_id}",
+      "clickHereToSeeTheChangelog": "Click here to see the changelog"
     },
     "MassContentDeleter": {
       "text": "Mass-Content deleter",
@@ -440,7 +441,7 @@
       "pastingExample2": "Also, you can specify the points in the list before copy paste",
       "addPoints": "Add points to this user",
       "addPointsToAll": "Add points to all users",
-      "pointsNotSpecified": "You must enter a score value for at least 1 user"
+      "pointsNotSpecified": "You must give points to at least 1 user in order to proceed"
     },
     "reportedCommentsDeleter": {
       "text": "Reported comments deleter",
@@ -662,7 +663,7 @@
       "alreadyUnapproved": "This answer is already unapproved",
       "someOfSelectedAnswersAreApproved": "Some of selected answers have already been approved, so you don't need to approve those answers again",
       "selectAnUnapprovedAnswerForApproving": "You need select some unapproved answers for start approving",
-      "confirmApproving": "Do you want to approve this answer/s?",
+      "confirmApproving": "Do you want to approve this answer?",
       "someOfSelectedAnswersAreUnapproved": "Some of selected answers isn't approved, so you don't need to unapprove those answers again",
       "selectAnApprovedAnswerForUnapproving": "You need select some approved answer/s for start",
       "confirmUnapproving": "Do you want to remove approvement from this answer/s?",
@@ -670,7 +671,8 @@
       "confirmReporting": "Do you want to report this answer/s for correction?",
       "selectAtLeastOneContent": "Select at least one content",
       "xIsAlreadyApproved": "%{row_id} has already approved",
-      "xIsAlreadyUnapproved": "%{row_id} has already unapproved"
+      "xIsAlreadyUnapproved": "%{row_id} has already unapproved",
+      "confirmApprovingSelected": "Do you want to approve selected answers?"
     },
     "approvedAnswer": "Approved answer",
     "bestAnswer": "Best answer",

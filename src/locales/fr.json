@@ -388,8 +388,8 @@
       "userNotFound": "Utilisateur non trouvé",
       "extensionServerError": "Une erreur inattendue s'est produite pendant la connexion au serveur de l'extension. Ré essaye de nouveau dans 5 secondes",
       "ifErrorPersists": "Si l'erreur persiste, merci de contacter l'administrateur pour lui indiquer :)",
-      "accessPermissionDenied": "Vous n'êtes pas autorisé à utiliser l'extension Brainly Tools.<br>Merci de contacter le responsable pour avoir la permission d'y accèder sinon veuillez retirer l'extension de votre navigateur.",
-      "updateNeeded": "Une nouvelle version de l'extension est disponible.<br> Elle sera mise à jour en arrière-plan. Pourriez-vous attendre ~10 secondes et ensuite rafraîchir la page ?",
+      "accessPermissionDenied": "Vous n'êtes pas autorisé à utiliser l'extension Brainly Tools.\nMerci de contacter le responsable pour avoir la permission d'y accéder sinon veuillez retirer l'extension de votre navigateur.",
+      "updateNeeded": "Une nouvelle version de l'extension est disponible.\nElle sera mise à jour en arrière-plan. Pourriez-vous attendre ~10 secondes et ensuite rafraîchir la page ?",
       "warningBeforeDelete": "Le processus va être exécuté et les questions indiquées seront supprimées. \n\nÊtes-vous sûr ?",
       "enterIdWarn": "Vous devez ajouter au moins un ID de question que vous voulez supprimer.",
       "youNeedToEnterValidId": "Vous devez entrer un ID valide",
@@ -401,7 +401,8 @@
       "changesMayNotBeSaved": "Les changements effectués peuvent ne pas avoir été sauvegardés",
       "stillProcessing": "Cette section est toujours en cours. Voulez-vous enlever ce bloc ?\n(cela arrêtera le processus de modération)",
       "youNeedToChooseActionType": "Vous devez choisir un type d'action",
-      "errorOccurredWhileDeletingTheN": "Une erreur est survenue lors de la suppression de %{content_id}"
+      "errorOccurredWhileDeletingTheN": "Une erreur est survenue lors de la suppression de %{content_id}",
+      "clickHereToSeeTheChangelog": "Click here to see the changelog"
     },
     "MassContentDeleter": {
       "text": "Suppression de masse des contenus",
@@ -440,7 +441,7 @@
       "pastingExample2": "Vous pouvez également spécifier le nombre de points dans la liste avant de copier-coller",
       "addPoints": "Add points to this user",
       "addPointsToAll": "Add points to all users",
-      "pointsNotSpecified": "You must enter a score value for at least 1 user"
+      "pointsNotSpecified": "You must give points to at least 1 user in order to proceed"
     },
     "reportedCommentsDeleter": {
       "text": "Suppression des commentaires signalés",
@@ -670,7 +671,8 @@
       "confirmReporting": "Voulez-vous demander la correction de cette/ces réponse(s) ?",
       "selectAtLeastOneContent": "Choisissez au moins un contenu",
       "xIsAlreadyApproved": "%{row_id} sont déjà approuvé",
-      "xIsAlreadyUnapproved": "%{row_id} ont déjà été approuvé"
+      "xIsAlreadyUnapproved": "%{row_id} ont déjà été approuvé",
+      "confirmApprovingSelected": "Do you want to approve selected answers?"
     },
     "approvedAnswer": "Réponse approuvée",
     "bestAnswer": "Meilleure réponse",

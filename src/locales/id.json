@@ -388,8 +388,8 @@
       "userNotFound": "Pengguna tidak ditemukan",
       "extensionServerError": "Terjadi kesalahan yang tidak terduga saat menghubungkan ke server ekstensi. Silakan coba lagi dalam ~5 detik.",
       "ifErrorPersists": "Jika kesalahan ini berlanjut, hubungi Mahapatih dan jelaskan apa yang terjadi :)",
-      "accessPermissionDenied": "Kamu tidak memiliki wewenang untuk menggunakan ekstensi Brainly tools..<br>Silahkan hubungi Community Manager untuk mendapatkan izin atau hapus ekstensi ini dari browser kamu.",
-      "updateNeeded": "Ekstensi memiliki sebuah versi baru dan browser kamu perlu diupdate. Proses ini akan dilakukan secara otomatis dan kamu perlu untuk menyegarkan halaman dalam ~`10 detik",
+      "accessPermissionDenied": "Kamu tidak memiliki wewenang untuk menggunakan ekstensi Brainly tools..\nSilahkan hubungi Community Manager untuk mendapatkan izin atau hapus ekstensi ini dari browser kamu.",
+      "updateNeeded": "Ekstensi memiliki sebuah versi baru dan browser kamu perlu diupdate.\nProses ini akan dilakukan secara otomatis dan kamu perlu untuk menyegarkan halaman dalam ~`10 detik",
       "warningBeforeDelete": "Proses ini akan dijalankan dan jumlah id pertanyaan di input akan dihapus setelah Anda mengkonfirmasi peringatan ini. \n\nApakah Anda tiga kali lipat yakin?",
       "enterIdWarn": "Kamu perlu untuk menambahkan setidaknya 1 nomor ID dari pertanyaan yang ingin kamu hapus",
       "youNeedToEnterValidId": "Kamu perlu unruk menginput nomor ID yang valid",
@@ -401,7 +401,8 @@
       "changesMayNotBeSaved": "Perubahan yang kamu buat mungkin tidak tersimpan",
       "stillProcessing": "Bagian ini masih dalam proses. Apakah kamu ingin menghapus blok ini?\n(ini akan menghentikan proses moderasi)",
       "youNeedToChooseActionType": "Kamu perlu memilih salah satu jenis tindakan",
-      "errorOccurredWhileDeletingTheN": "Terjadi error saat penghapusan %{content_id}"
+      "errorOccurredWhileDeletingTheN": "Terjadi error saat penghapusan %{content_id}",
+      "clickHereToSeeTheChangelog": "Click here to see the changelog"
     },
     "MassContentDeleter": {
       "text": "Penghapusan konten massal",
@@ -440,7 +441,7 @@
       "pastingExample2": "Kamu juga dapat menentukan poin dalam daftar sebelum mengcopy paste",
       "addPoints": "Add points to this user",
       "addPointsToAll": "Add points to all users",
-      "pointsNotSpecified": "You must enter a score value for at least 1 user"
+      "pointsNotSpecified": "You must give points to at least 1 user in order to proceed"
     },
     "reportedCommentsDeleter": {
       "text": "Menghapus komentar yang dilaporkan",
@@ -670,7 +671,8 @@
       "confirmReporting": "Aapakah kamu ingin melaporkan jawaban ini untuk dikoreksi?",
       "selectAtLeastOneContent": "Pilih setidaknya satu konten",
       "xIsAlreadyApproved": "%{row_id} telah disetujui",
-      "xIsAlreadyUnapproved": "%{row_id} telah batal disetujui"
+      "xIsAlreadyUnapproved": "%{row_id} telah batal disetujui",
+      "confirmApprovingSelected": "Do you want to approve selected answers?"
     },
     "approvedAnswer": "Jawaban disetujui",
     "bestAnswer": "Jawaban terbaik",

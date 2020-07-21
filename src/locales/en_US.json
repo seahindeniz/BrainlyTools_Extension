@@ -701,7 +701,6 @@
       "aShortcutFile": "You're trying to add a shortcut of a file and it's kind of garbage.\nYou may need to select the original file instead that is linked\nDo you still want to add this shortcut?",
       "unableToReportAccountDeleting": "I couldn't able report your delete request to community manager, so I can't continue to delete. Sorry :/<br>If this error persist, ask for help from your extension manager",
       "confirmNoEvidenceOrComment": "You didn't add any evidence or comment.\nDo you still want to delete this account?",
-      "afterSavingCompletedIgnoreNotifications": "After saving completed,<br>just ignore the notifications when you refresh or exit this page",
       "selectAtLeastOneUser": "You need to select at least one user",
       "youNeedToProvideSomeDetails": "You need to provide some details",
       "confirmAccountDeletion": "Do you want to delete this profile?"
@@ -741,7 +740,8 @@
       "removeAllRanks": "Remove all special ranks",
       "allRanksRemoved": "All special ranks are removed",
       "updatingRanks": "Updating ranks",
-      "xHasAssigned": "%{rank_name} has assigned"
+      "xHasAssigned": "%{rank_name} has assigned",
+      "removingAllSpecialRanks": "Removing all special ranks.."
     },
     "morePanel": {
       "title": "More..",

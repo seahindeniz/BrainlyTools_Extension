@@ -361,6 +361,10 @@ blockquote {
 }
 
 .progress-container {
+  &--full-width {
+    width: 100%;
+  }
+
   .progress {
     border: none;
     text-align: center;

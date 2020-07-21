@@ -170,7 +170,7 @@ async function Supervisors() {
         let previousProgressBars = $("#content-old > .progress-container");
         let $spinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--small sg-spinner--light"></div></div>`);
         let progress = new Progress({
-          type: "is-success",
+          type: "success",
           label: System.data.locale.common.progressing,
           max: idListLen
         });

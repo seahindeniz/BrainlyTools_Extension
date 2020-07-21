@@ -259,7 +259,7 @@ class GroupChatbox {
     let $groupLiMessateContent = $(".js-message-content", this.groupLi);
 
     let progress = new Progress({
-      type: "is-success",
+      type: "success",
       label: System.data.locale.common.progressing,
       max: membersLen
     });

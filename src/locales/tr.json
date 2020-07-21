@@ -701,7 +701,6 @@
       "aShortcutFile": "Bir dosyanın kısayolunu yüklemeye çalışıyorsun ve bu dosya eklemek istediğin dosya olmayabilir. Eklesen de bir anlamı olmayacak.\nKısayolun hedeflendiği orjinal dosyayı eklemeni öneririm.\nBu kısayol dosyasını yine de eklemek istiyor musun?",
       "unableToReportAccountDeleting": "Hesap silimini Topluluk Yöneticisine bildiremediğim için silim işlemine devam edemiyorum. Üzgünüm :/<br>Eğer bu hata devam ederse, eklenti yöneticine bildir lütfen",
       "confirmNoEvidenceOrComment": "Kanıt veya yorum eklemedin.\nHalen silmek istiyor musun?",
-      "afterSavingCompletedIgnoreNotifications": "Sıralamalar kaydedildikten sonra,<br>bu sayfadan çıktığında veya yenilediğinde karşılacağın bildirimleri, göz ardı edebilirsin",
       "selectAtLeastOneUser": "En az bir kullanıcı seçmelisin",
       "youNeedToProvideSomeDetails": "Biraz daha detay ekleyebilir misin?",
       "confirmAccountDeletion": "Bu hesabı silmek istiyor musunuz?"
@@ -741,7 +740,8 @@
       "removeAllRanks": "Tüm özel sıralamaları kaldır",
       "allRanksRemoved": "Tüm özel sıralamalar kaldırıldı",
       "updatingRanks": "Sıralamalar güncelleniyor",
-      "xHasAssigned": "%{rank_name} eklendi"
+      "xHasAssigned": "%{rank_name} eklendi",
+      "removingAllSpecialRanks": "Tüm özel rütbeler kaldırılıyor.."
     },
     "morePanel": {
       "title": "Daha fazla..",

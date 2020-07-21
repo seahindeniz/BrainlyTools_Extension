@@ -701,7 +701,6 @@
       "aShortcutFile": "Vous essayez d'ajouter un raccourci d'un fichier mais celui-ci n'est pas considéré comme un fichier. Cela va être le bazar si vous l'ajouter.\nVous devriez sélectionner le fichier d'origine à la place d'un lien vers celui-ci.\nVoulez-vous toujours ajouter ce raccourci ?",
       "unableToReportAccountDeleting": "Je ne suis pas en mesure de rapporter votre demande de suppression au community manager donc je ne peux pas effectuer la suppression. Désolé :/ <br> Si cette erreur persiste signalez la",
       "confirmNoEvidenceOrComment": "Vous n'avez ajouter aucune preuve ou commentaire. \nVoulez-vous toujours supprimer ce compte ?",
-      "afterSavingCompletedIgnoreNotifications": "Une fois la sauvegarde effectuée, <br> ignorez les notifications quand vous rechargez ou quittez la page",
       "selectAtLeastOneUser": "Tu dois sélectionner au moins un utilisateur",
       "youNeedToProvideSomeDetails": "Vous devez fournir quelques détails",
       "confirmAccountDeletion": "Voulez-vous supprimer ce profil ?"
@@ -741,7 +740,8 @@
       "removeAllRanks": "Supprimer tous les rangs spéciaux",
       "allRanksRemoved": "Tous les rangs spéciaux ont été supprimés",
       "updatingRanks": "Mise à jour des rangs",
-      "xHasAssigned": "%{rank_name} a été assigné"
+      "xHasAssigned": "%{rank_name} a été assigné",
+      "removingAllSpecialRanks": "Removing all special ranks.."
     },
     "morePanel": {
       "title": "Plus d'informations",

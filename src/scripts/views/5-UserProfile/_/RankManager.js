@@ -5,13 +5,17 @@ import {
   Flex,
   Text,
   Icon,
+  Spinner,
 } from "@/scripts/components/style-guide";
 import Build from "@/scripts/helpers/Build";
+import HideElement from "@/scripts/helpers/HideElement";
+import IsVisible from "@/scripts/helpers/IsVisible";
 import sortablejs from "sortablejs";
 import notification from "../../../components/notification2";
 import Progress from "../../../components/Progress";
 import Action from "../../../controllers/Req/Brainly/Action";
 import WaitForElements from "../../../helpers/WaitForElements";
+import RemoveJunkNotifications from "../../0-Core/_/RemoveJunkNotifications";
 
 class RankManager {
   /**
@@ -52,7 +56,6 @@ class RankManager {
   Init() {
     this.RenderLink();
     this.RenderPanel();
-    this.RenderSaveButton();
     this.RenderProgressBar();
     this.RenderSpinner();
     this.RenderRanks();
@@ -71,48 +74,45 @@ class RankManager {
   }
 
   RenderPanel() {
-    this.$panel = $(`
-		<div class="sg-content-box rankManager">
-			<div class="sg-content-box__title sg-content-box__title--spaced-bottom">
-				<h2 class="sg-header-secondary">${System.data.locale.userProfile.rankManager.title}</h2>
-			</div>
-			<div class="sg-content-box__content sg-content-box__content--spaced-bottom-large"></div>
-			<div class="sg-content-box__actions sg-content-box__actions--spaced-bottom">
-				<div class="sg-spinner-container sg-box--full"></div>
-			</div>
-			<div class="sg-content-box__actions sg-content-box__actions--spaced-bottom-large">
-				<div class="container progress sg-box--full"></div>
-			</div>
-		</div>`);
-    this.$saveButtonContainer = $(".sg-spinner-container", this.$panel);
-    this.$progressHole = $(".container.progress", this.$panel);
-    this.$rankContainer = $(".sg-content-box__content", this.$panel);
-  }
-
-  RenderSaveButton() {
-    this.saveButton = new Button({
-      size: "s",
-      fullWidth: true,
-      type: "solid-mint",
-      text: System.data.locale.common.save,
-    });
-
-    this.$saveButtonContainer.append(this.saveButton.element);
+    this.container = Build(Flex({ direction: "column" }), [
+      [
+        Flex({ marginTop: "s", marginBottom: "s" }),
+        Text({
+          weight: "bold",
+          html: System.data.locale.userProfile.rankManager.title,
+        }),
+      ],
+      (this.rankContainer = Flex({ direction: "column" })),
+      [
+        Flex({
+          marginTop: "s",
+          marginBottom: "s",
+        }),
+        (this.saveButton = new Button({
+          size: "s",
+          fullWidth: true,
+          type: "solid-mint",
+          text: System.data.locale.common.save,
+        })),
+      ],
+    ]);
   }
 
   RenderProgressBar() {
     this.progress = new Progress({
-      type: "is-success",
+      type: "success",
       label: "",
       max: 2,
+      fullWidth: true,
+    });
+    this.progressContainer = Flex({
+      marginBottom: "s",
+      children: this.progress.$container[0],
     });
   }
 
   RenderSpinner() {
-    this.$spinner = $(`
-		<div class="sg-spinner-container__overlay">
-			<div class="sg-spinner sg-spinner--xsmall"></div>
-		</div>`);
+    this.spinner = Spinner({ overlay: true });
   }
 
   RenderRanks() {
@@ -219,12 +219,12 @@ class RankManager {
           checkbox: checkbox.firstElementChild,
           rankContainer,
         });
-        this.$rankContainer.append(rankContainer);
+        this.rankContainer.append(rankContainer);
       },
     );
 
     // eslint-disable-next-line no-new, new-cap
-    new sortablejs(this.$rankContainer[0], {
+    new sortablejs(this.rankContainer, {
       animation: 200,
       multiDrag: true,
       handle: ".dragger",
@@ -242,16 +242,21 @@ class RankManager {
       "click",
       this.SaveSelectedRank.bind(this),
     );
-    $("a", this.$rankContainer).click(event => {
-      if (!event.ctrlKey) {
-        event.preventDefault();
-        event.currentTarget.parentNode.click();
-      }
-    });
+    const rankLinks = this.rankContainer.querySelectorAll("a");
+
+    if (rankLinks && rankLinks.length > 0)
+      rankLinks.forEach(rankLink =>
+        rankLink.addEventListener("click", event => {
+          if (event.ctrlKey) return;
+
+          event.preventDefault();
+          rankLink.parentNode.click();
+        }),
+      );
   }
 
   TogglePanel() {
-    if (this.$panel.is(":visible")) {
+    if (IsVisible(this.container)) {
       this.ClosePanel();
     } else {
       this.OpenPanel();
@@ -259,27 +264,16 @@ class RankManager {
   }
 
   ClosePanel() {
-    this.$panel.appendTo("</ div>");
+    HideElement(this.container);
     this.progress.forceClose(true);
   }
 
   OpenPanel() {
-    this.$panel.appendTo(this.$manageLi);
+    this.$manageLi.append(this.container);
   }
 
   async SaveSelectedRank() {
     let selectedRanks = this.ranks.filter(rank => rank.checkbox.checked);
-
-    if (!selectedRanks || selectedRanks.length === 0) {
-      notification({
-        type: "info",
-        html:
-          System.data.locale.common.notificationMessages
-            .youNeedToSelectAtLeastOne,
-      });
-
-      return;
-    }
 
     const getElementIndex = element => {
       return Array.from(element.parentNode.children).indexOf(element);
@@ -304,7 +298,15 @@ class RankManager {
     if (!confirm(System.data.locale.common.notificationMessages.areYouSure))
       return;
 
-    this.progress.$container.appendTo(this.$progressHole);
+    this.ShowProgressContainer();
+    this.progress.setMax(2);
+    this.progress.update(0);
+    this.progress.ChangeType("loading");
+    this.progress.UpdateLabel(
+      System.data.locale.userProfile.rankManager.removingAllSpecialRanks,
+    );
+
+    await System.Delay(50);
 
     const removeAllRanksXHR = await new Action().RemoveAllRanks(
       window.profileData.id,
@@ -312,72 +314,79 @@ class RankManager {
     );
     const redirectedUserID = System.ExtractId(removeAllRanksXHR.url);
 
+    RemoveJunkNotifications();
+
     if (redirectedUserID !== profileData.id) {
-      notification(
-        System.data.locale.common.notificationMessages
-          .somethingWentWrongPleaseRefresh,
-        "error",
-      );
-    } else {
-      this.progress.update(1);
-      this.progress.UpdateLabel(
-        System.data.locale.userProfile.rankManager.allRanksDeleted,
-      );
+      notification({
+        html:
+          System.data.locale.common.notificationMessages
+            .somethingWentWrongPleaseRefresh,
+        type: "error",
+      });
 
-      if (selectedRanks.length === 0) {
-        this.progress.update(2);
-        this.SavingCompleted();
-      } else {
-        this.progress.setMax(selectedRanks.length + 2);
-        await System.Delay(500);
-        this.progress.update(2);
-        this.progress.UpdateLabel(
-          System.data.locale.userProfile.rankManager.updatingRanks,
-        );
-        await System.Delay(500);
-
-        let i = 0;
-        // eslint-disable-next-line no-restricted-syntax
-        for (const selectedRank of selectedRanks) {
-          await new Action().AddRank(
-            window.profileData.id,
-            selectedRank.data.id,
-          );
-
-          i++;
-          this.progress.update(i + 3);
-          this.progress.UpdateLabel(
-            System.data.locale.userProfile.rankManager.xHasAssigned.replace(
-              "%{rank_name}",
-              ` ${selectedRank.data.name} `,
-            ),
-          );
-
-          if (selectedRanks.length === i + 1) {
-            await System.Delay(500);
-            this.SavingCompleted();
-          }
-        }
-      }
+      return;
     }
+    let currentProgress = 0;
+
+    this.progress.update(++currentProgress);
+    this.progress.UpdateLabel(
+      System.data.locale.userProfile.rankManager.allRanksRemoved,
+    );
+    await System.Delay(500);
+
+    this.progress.update(++currentProgress);
+
+    if (selectedRanks.length === 0) {
+      this.SavingCompleted();
+
+      return;
+    }
+
+    this.progress.setMax(selectedRanks.length + 3);
+    this.progress.UpdateLabel(
+      System.data.locale.userProfile.rankManager.updatingRanks,
+    );
+    await System.Delay(500);
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const selectedRank of selectedRanks) {
+      await new Action().AddRank(window.profileData.id, selectedRank.data.id);
+      // await System.Delay(500);
+
+      this.progress.update(++currentProgress);
+      this.progress.UpdateLabel(
+        System.data.locale.userProfile.rankManager.xHasAssigned.replace(
+          "%{rank_name}",
+          ` ${selectedRank.data.name} `,
+        ),
+      );
+    }
+
+    await System.Delay(500);
+
+    RemoveJunkNotifications();
+    this.progress.update(++currentProgress);
+    this.SavingCompleted();
+  }
+
+  ShowProgressContainer() {
+    this.container.append(this.progressContainer);
   }
 
   SavingCompleted() {
     this.HideSpinner();
+    this.progress.ChangeType("success");
     this.progress.UpdateLabel(System.data.locale.common.allDone);
-    notification(
-      System.data.locale.userProfile.notificationMessages
-        .afterSavingCompletedIgnoreNotifications,
-      "success",
-    );
   }
 
   ShowSpinner() {
-    this.$spinner.appendTo(this.$saveButtonContainer);
+    this.saveButton.Disable();
+    this.saveButton.element.append(this.spinner);
   }
 
   HideSpinner() {
-    this.$spinner.appendTo("</ div>");
+    this.saveButton.Enable();
+    HideElement(this.spinner);
   }
 
   UpdateInputTitle() {

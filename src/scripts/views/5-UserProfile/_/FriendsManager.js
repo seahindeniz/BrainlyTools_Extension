@@ -103,7 +103,7 @@ function FriendsManager() {
         notification(System.data.locale.userProfile.notificationMessages.selectAtLeastOneUser, "info");
       } else if (confirm(System.data.locale.userProfile.notificationMessages.areYouSureDeleteSelectedFriends)) {
         let progress = new Progress({
-          type: "is-success",
+          type: "success",
           label: System.data.locale.common.progressing,
           max: idList.length
         });
@@ -114,7 +114,7 @@ function FriendsManager() {
     $removeAllButton.click(() => {
       if (confirm(System.data.locale.userProfile.notificationMessages.areYouSureRemoveAllFriends)) {
         let progress = new Progress({
-          type: "is-success",
+          type: "success",
           label: System.data.locale.common.progressing,
           max: System.friends.length
         });

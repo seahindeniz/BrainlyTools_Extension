@@ -4,7 +4,7 @@ import {
   ContentBoxContent,
   ContentBoxTitle,
   Overlay,
-  TopLayer
+  TopLayer,
 } from "@style-guide";
 import IsVisible from "../helpers/IsVisible";
 import notification from "./notification2";
@@ -31,19 +31,13 @@ export default class Modal {
   /**
    * @param {Properties} param0
    */
-  constructor({
-    overlay,
-    title,
-    content,
-    actions,
-    ...props
-  } = {}) {
+  constructor({ overlay, title, content, actions, ...props } = {}) {
     this.hasOverlay = overlay;
     this.props = props;
     this.sections = {
       title,
       content,
-      actions
+      actions,
     };
 
     /**
@@ -61,22 +55,18 @@ export default class Modal {
 
     this.Render();
 
-    if (overlay)
-      this.RenderInOverlay();
+    if (overlay) this.RenderInOverlay();
   }
+
   Render() {
-    if (this.sections.title || this.sections.content || this.sections
-      .actions) {
+    if (this.sections.title || this.sections.content || this.sections.actions) {
       this.contentBox = ContentBox();
 
-      if (this.sections.title)
-        this.RenderTitle(this.sections.title);
+      if (this.sections.title) this.RenderTitle(this.sections.title);
 
-      if (this.sections.content)
-        this.RenderContent(this.sections.content);
+      if (this.sections.content) this.RenderContent(this.sections.content);
 
-      if (this.sections.actions)
-        this.RenderActions(this.sections.actions);
+      if (this.sections.actions) this.RenderActions(this.sections.actions);
     }
 
     this.toplayer = TopLayer({
@@ -84,11 +74,12 @@ export default class Modal {
       size: "medium",
       children: this.contentBox,
       onClose: this.Close.bind(this),
-      ...this.props
+      ...this.props,
     });
 
-    //this.modalContainer.appendChild(this.toplayer);
+    // this.modalContainer.appendChild(this.toplayer);
   }
+
   /**
    * @param {TitleProperties} [props]
    */
@@ -99,21 +90,21 @@ export default class Modal {
     else {
       if (typeof props === "string")
         props = {
-          children: props
+          children: props,
         };
 
       this._title = ContentBoxTitle({
         spacedTop: "normal",
         spacedBottom: "large",
-        ...props
+        ...props,
       });
     }
 
-    if (props.children)
-      this.contentBox.appendChild(this._title);
+    if (props.children) this.contentBox.appendChild(this._title);
 
     this.ObserveSection(this._title);
   }
+
   /**
    * @param {ContentProperties} [props]
    */
@@ -121,14 +112,13 @@ export default class Modal {
     if (props instanceof HTMLElement || props instanceof HTMLDivElement)
       // @ts-ignore
       this._content = props;
-    else
-      this._content = ContentBoxContent(props);
+    else this._content = ContentBoxContent(props);
 
-    if (props.children)
-      this.contentBox.appendChild(this._content);
+    if (props.children) this.contentBox.appendChild(this._content);
 
     this.ObserveSection(this._content);
   }
+
   /**
    * @param {ActionsProperties} [props]
    */
@@ -136,71 +126,72 @@ export default class Modal {
     if (props instanceof HTMLElement || props instanceof HTMLDivElement)
       // @ts-ignore
       this._actions = props;
-    else
-      this._actions = ContentBoxActions(props);
+    else this._actions = ContentBoxActions(props);
 
-    if (props.children)
-      this.contentBox.appendChild(this._actions);
+    if (props.children) this.contentBox.appendChild(this._actions);
 
     this.ObserveSection(this._actions);
   }
+
   /**
    * @param {HTMLDivElement} section
    */
   ObserveSection(section) {
-    let observer = new MutationObserver(mutations => {
+    const observer = new MutationObserver(mutations => {
       mutations.forEach(mutation => {
         if (mutation.target) {
           /**
            * @type {HTMLDivElement}
            */
           // @ts-ignore
-          let target = mutation.target;
+          const { target } = mutation;
 
-          if (target.children.length)
-            this.contentBox.appendChild(target);
-          else
-            this.HideElement(target);
+          if (target.children.length) this.contentBox.appendChild(target);
+          else this.HideElement(target);
         }
-      })
+      });
     });
 
     observer.observe(section, { childList: true });
   }
+
   /**
    * @param {HTMLElement} element
    */
   HideElement(element) {
-    if (element && element.parentNode)
-      element.parentNode.removeChild(element);
+    if (element && element.parentNode) element.parentNode.removeChild(element);
   }
+
   set title(container) {
     this._title = container;
   }
+
   get title() {
-    if (!this._title)
-      this.RenderTitle();
+    if (!this._title) this.RenderTitle();
 
     return this._title;
   }
+
   set content(container) {
     this._content = container;
   }
+
   get content() {
-    if (!this._content)
-      this.RenderContent();
+    if (!this._content) this.RenderContent();
 
     return this._content;
   }
+
   set actions(container) {
     this._actions = container;
   }
+
   get actions() {
-    if (!this._actions)
-      this.RenderActions();
+    if (!this._actions) this.RenderActions();
 
     return this._actions;
   }
+
   /**
    * param {import("./style-guide/ContentBox/Actions").Element} element
    */
@@ -238,9 +229,11 @@ export default class Modal {
     this.overlay.appendChild(this.toplayer);
     this.container.appendChild(this.overlay);
   }
+
   get IsOpen() {
     return IsVisible(this.container);
   }
+
   get modalContainer() {
     let modalContainer = document.querySelector(".js-modal-container");
 
@@ -253,20 +246,22 @@ export default class Modal {
 
     return modalContainer;
   }
+
   Open() {
-    if (!this.modalContainer)
-      console.error(".js-modal-container is undefined");
+    if (!this.modalContainer) console.error(".js-modal-container is undefined");
 
     this.modalContainer.append(this.container || this.toplayer);
   }
+
   Close() {
     this.HideElement(this.container);
   }
+
   /**
    * @param {import("./notification2").NotificationPropertiesType} options
    */
   Notification(options) {
-    let notificationElement = notification(options);
+    const notificationElement = notification(options);
 
     if (notificationElement)
       this.flashContainer.appendChild(notificationElement);

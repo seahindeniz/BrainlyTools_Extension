@@ -40,7 +40,7 @@ export default class SubjectFilter extends Filter {
   }
 
   Render() {
-    const selectComponent = Select({
+    const selectComponent = new Select({
       options: [
         {
           text: System.data.locale.common.chooseAnOption,
@@ -51,7 +51,7 @@ export default class SubjectFilter extends Filter {
     this.select = selectComponent.select;
     this.chooseAnOptionOption = this.select.querySelector("option");
     this.container = Build(Flex({ direction: "column" }), [
-      [Flex(), selectComponent.container],
+      [Flex(), selectComponent.element],
       (this.labelContainer = Flex({
         marginTop: "xxs",
         direction: "column-reverse",

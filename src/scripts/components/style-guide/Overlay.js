@@ -1,5 +1,6 @@
-import classnames from 'classnames';
-import AddChildren from './helpers/AddChildren';
+import classnames from "classnames";
+import AddChildren from "./helpers/AddChildren";
+import SetProps from "./helpers/SetProps";
 
 /**
  * @typedef {{
@@ -14,20 +15,20 @@ const SGD = `${SG}--`;
 /**
  * @param {Properties} param0
  */
-export default function({ partial, children, className, ...props } = {}) {
-  const overlayClass = classnames(SG, {
-      [`${SGD}partial`]: partial
+export default function ({ partial, children, className, ...props } = {}) {
+  const overlayClass = classnames(
+    SG,
+    {
+      [`${SGD}partial`]: partial,
     },
-    className);
+    className,
+  );
 
-  let container = document.createElement("div");
+  const container = document.createElement("div");
   container.className = overlayClass;
 
   AddChildren(container, children);
-
-  if (props)
-    for (let [propName, propVal] of Object.entries(props))
-      container[propName] = propVal;
+  SetProps(container, props);
 
   return container;
 }

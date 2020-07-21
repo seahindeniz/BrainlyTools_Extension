@@ -166,7 +166,7 @@ export default class extends Components {
    *  }[]
    * }} data
    */
-  RenderUser({ id, nick, avatar, _profileUrl, ranks = [] }) {
+  RenderUser({ id, nick, avatar, profileUrl: _profileUrl, ranks = [] }) {
     if (!id && !_profileUrl) return;
 
     let profileUrl = _profileUrl;

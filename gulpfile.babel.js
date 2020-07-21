@@ -229,8 +229,7 @@ task("assets", () => {
   return assets[assets.length - 1];
 });
 
-task("extensionConfig", () => {
-  // const extensionOptions = require("./src/configs/_/extension.js");
+task("extensionConfig", cb => {
   const extensionOptionsRaw = fs.readFileSync(
     "./src/configs/_/main.yml",
     "utf8",
@@ -245,13 +244,11 @@ task("extensionConfig", () => {
     ...extensionOptions.common,
   };
 
-  return src("./src/configs/_/extension.json")
-    .pipe(
-      $.change(() => {
-        return JSON.stringify(config, null, 2);
-      }),
-    )
-    .pipe(dest(`./src/configs/_`));
+  fs.writeFile(
+    "./src/configs/_/extension.json",
+    JSON.stringify(config, null, 2),
+    cb,
+  );
 });
 
 task("scss", () => {
@@ -434,7 +431,7 @@ task("watchFiles", () => {
 
       "!./src/**/*.js",
       "!./src/scripts/jsx/**/*.jsx",
-      "!./src/configs/_/extension.json",
+      "!./src/configs/_/*",
       "!src/styles/**/*.scss",
       "!src/scripts/views/**/*.scss",
       "!src/styles/_/style-guide.css",

@@ -1,41 +1,48 @@
+// @flow strict
+
 import classnames from "classnames";
-import AddChildren from "./helpers/AddChildren";
+import AddChildren, { type ChildrenParamType } from "./helpers/AddChildren";
 import SetProps from "./helpers/SetProps";
 
-/**
- * @typedef {'large' | 'normal'} SelectSizeType
- *
- * @typedef {'default' | 'white'} SelectColorType
- *
- * @typedef {{
- *  value?: string | number,
- *  text?: string,
- *  title?: string,
- *  [x: string]: *
- * }} OptionProperties
- *
- * @typedef {{
- *  value?: string | number | string[] | number[],
- *  valid?: boolean,
- *  invalid?: boolean,
- *  capitalized?: boolean,
- *  fullWidth?: boolean,
- *  multiple?: boolean,
- *  size?: SelectSizeType,
- *  color?: SelectColorType,
- *  className?: string,
- *  options?: (OptionProperties | HTMLOptionElement)[],
- *  children?: import('./helpers/AddChildren').ChildrenParamType,
- *  [propName: string]: *
- * }} SelectProperties
- */
 const SG = "sg-select";
 const SGD = `${SG}--`;
 
-class Select {
-  /**
-   * @param {SelectProperties} param0
-   */
+type SelectSizeType = "large" | "normal";
+
+type SelectColorType = "default" | "white";
+
+type OptionPropsType = {
+  value?: string | number,
+  text?: string,
+  title?: string,
+  [x: string]: *,
+};
+
+type SelectPropsType = {
+  value?: string | number | string[] | number[],
+  valid?: boolean,
+  invalid?: boolean,
+  capitalized?: boolean,
+  fullWidth?: boolean,
+  multiple?: boolean,
+  size?: SelectSizeType,
+  color?: SelectColorType,
+  className?: string,
+  options?: (OptionPropsType | HTMLOptionElement)[],
+  children?: ChildrenParamType,
+  ...
+};
+
+export default class Select {
+  value: ?(string | number | string[] | number[]);
+  options: (OptionPropsType | HTMLOptionElement)[];
+
+  element: HTMLDivElement;
+  select: HTMLSelectElement;
+  iconContainer: HTMLDivElement;
+
+  optionElements: HTMLOptionElement[];
+
   constructor({
     valid,
     invalid,
@@ -49,7 +56,7 @@ class Select {
     options = [],
     children,
     ...props
-  } = {}) {
+  }: SelectPropsType = {}) {
     if (valid === true && invalid === true)
       throw Error("Select can be either valid or invalid!");
 
@@ -66,19 +73,19 @@ class Select {
 
         [`${SGD}multiple`]: multiple,
         [SGD + size]: multiple === true && size !== "normal",
-        [SGD + color]: color,
+        [SGD + String(color)]: color,
       },
       className,
     );
 
-    this.container = document.createElement("div");
-    this.container.className = selectClass;
+    this.element = document.createElement("div");
+    this.element.className = selectClass;
 
-    if (!multiple) {
-      this.icon = document.createElement("div");
-      this.icon.className = `${SG}__icon`;
+    if (multiple !== null && multiple !== undefined) {
+      this.iconContainer = document.createElement("div");
+      this.iconContainer.className = `${SG}__icon`;
 
-      this.container.append(this.icon);
+      this.element.append(this.iconContainer);
     }
 
     this.select = document.createElement("select");
@@ -88,7 +95,7 @@ class Select {
     AddChildren(this.select, children);
     SetProps(this.select, props);
 
-    this.container.append(this.select);
+    this.element.append(this.select);
   }
 
   RenderOptions() {
@@ -98,13 +105,14 @@ class Select {
       const { value, text, title, ...props } = option;
       const optionElement = document.createElement("option");
 
-      if (title) optionElement.title = title;
+      if (title !== undefined && title !== null) optionElement.title = title;
 
-      if (text) optionElement.innerHTML = text;
+      if (text !== undefined && text !== null) optionElement.innerHTML = text;
 
-      if (value) optionElement.value = String(value);
+      if (value !== undefined && value !== null)
+        optionElement.value = String(value);
 
-      if (this.value)
+      if (this.value !== undefined && this.value !== null)
         if (this.value instanceof Array)
           // @ts-ignore
           optionElement.selected = this.value.includes(value);
@@ -117,11 +125,4 @@ class Select {
       return optionElement;
     });
   }
-}
-
-/**
- * @param {SelectProperties} props
- */
-export default function (props) {
-  return new Select(props);
 }

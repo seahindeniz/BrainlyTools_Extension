@@ -32,6 +32,10 @@ const LANGUAGE_DETAILS = {
     name: "Español",
     author: "aleksa1",
   },
+  pr_BR: {
+    name: "Portuguese",
+    author: "C",
+  },
 };
 
 let apiKey;

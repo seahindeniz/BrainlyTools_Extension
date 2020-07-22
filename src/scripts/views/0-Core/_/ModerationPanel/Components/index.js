@@ -1,21 +1,21 @@
+// @flow
 import { MenuListItem } from "@/scripts/components/style-guide";
-import IsVisible from "@/scripts/helpers/IsVisible";
+import HideElement from "@/scripts/helpers/HideElement";
+import type { ChildrenParamType } from "@style-guide/helpers/AddChildren";
+import type ModerationPanelType from "..";
 
 export default class {
-  /**
-   * @param {import("..").default} main
-   */
-  constructor(main) {
+  main: ModerationPanelType;
+  li: HTMLLIElement;
+  liLink: HTMLElement;
+  liLinkContent: ChildrenParamType;
+  liContent: HTMLElement;
+
+  HideElement: typeof HideElement;
+
+  constructor(main: ModerationPanelType) {
     this.main = main;
-    /**
-     * @type {HTMLLIElement}
-     */
-    this.li = undefined;
-    this.liLink = undefined;
-    /**
-     * @type {import("@style-guide/helpers/AddChildren").ChildrenParamType}
-     */
-    this.liLinkContent = undefined;
+    this.HideElement = HideElement;
   }
 
   RenderListItem() {
@@ -35,14 +35,4 @@ export default class {
 
   // eslint-disable-next-line class-methods-use-this
   RenderLiContent() {}
-
-  /**
-   * @param {HTMLElement} element
-   */
-  // eslint-disable-next-line class-methods-use-this
-  HideElement(element) {
-    if (!element || !IsVisible(element)) return;
-
-    element.parentElement.removeChild(element);
-  }
 }

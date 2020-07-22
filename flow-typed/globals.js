@@ -11,7 +11,7 @@ declare var Zadanium: { [x: string]: any };
 declare var selectors: { [x: string]: string };
 declare var sitePassedParams: string | { [x: string]: any };
 declare var profileData: { id: number, nick: string };
-declare var JQuery: any;
+// declare var JQuery: any;
 
 declare interface HTMLElementTagNameMap {
   a: HTMLAnchorElement;

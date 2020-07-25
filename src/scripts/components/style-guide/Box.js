@@ -5,7 +5,7 @@ import type { ChildrenParamType } from "@style-guide/helpers/AddChildren";
 import SetProps from "@style-guide/helpers/SetProps";
 import classNames from "classnames";
 
-export type ColorType =
+export type BoxColorType =
   | "dark"
   | "light"
   | "blue"
@@ -25,31 +25,23 @@ export type ColorType =
 
 type PaddingType = "xxs" | "xs" | "s" | "m" | "l" | "xl";
 
-type BoxBorderType =
-  | {
-      border: true,
-      borderColor?: ColorType,
-    }
-  | {
-      border?: false,
-      borderColor?: null,
-    };
-
 type BoxPropsType = {
   children?: ChildrenParamType,
   className?: ?string,
-  color?: ?ColorType,
+  color?: ?BoxColorType,
   shadow?: boolean,
   padding?: PaddingType | null,
   noBorderRadius?: boolean,
   border: boolean,
-  borderColor?: ColorType,
+  borderColor?: BoxColorType,
+  // additional
+  fullHeight?: boolean,
   ...
 } /* & BoxBorderType */;
 
 export default class {
-  color: ?ColorType;
-  borderColor: ?ColorType;
+  color: ?BoxColorType;
+  borderColor: ?BoxColorType;
   element: HTMLDivElement;
 
   constructor({
@@ -61,6 +53,7 @@ export default class {
     borderColor = "gray-secondary-lightest",
     noBorderRadius = false,
     shadow = false,
+    fullHeight,
     ...props
   }: BoxPropsType) {
     this.color = color;
@@ -69,11 +62,12 @@ export default class {
     const classes = classNames(
       "sg-box",
       {
-        [`sg-box--padding-${String(padding)}`]: padding !== null && padding,
+        [`sg-box--padding-${String(padding)}`]: padding,
         "sg-box--border": border,
         [`sg-box--border-color-${String(borderColor)}`]: border && borderColor,
         "sg-box--shadow": shadow,
         "sg-box--no-border-radius": noBorderRadius,
+        "sg-box--full-height": fullHeight,
       },
       className,
     );
@@ -86,16 +80,18 @@ export default class {
     AddChildren(this.element, children);
   }
 
-  ChangeColor(color: ?ColorType) {
+  ChangeColor(color?: ?BoxColorType) {
     if (this.color)
       this.element.classList.remove(`sg-box--${String(this.color)}`);
 
-    this.element.classList.add(`sg-box--${String(color)}`);
+    if (color) {
+      this.element.classList.add(`sg-box--${String(color)}`);
+    }
 
     this.color = color;
   }
 
-  ChangeBorderColor(borderColor: ?ColorType) {
+  ChangeBorderColor(borderColor: ?BoxColorType) {
     if (this.borderColor)
       this.element.classList.remove(
         `sg-box--border-color-${String(this.borderColor)}`,

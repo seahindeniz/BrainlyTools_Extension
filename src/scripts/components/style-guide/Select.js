@@ -28,20 +28,20 @@ type SelectPropsType = {
   size?: SelectSizeType,
   color?: SelectColorType,
   className?: string,
-  options?: (OptionPropsType | HTMLOptionElement)[],
+  options?: (OptionPropsType | HTMLOptionElement | HTMLOptGroupElement)[],
   children?: ChildrenParamType,
   ...
 };
 
 export default class Select {
   value: ?(string | number | string[] | number[]);
-  options: (OptionPropsType | HTMLOptionElement)[];
+  options: (OptionPropsType | HTMLOptionElement | HTMLOptGroupElement)[];
 
   element: HTMLDivElement;
   select: HTMLSelectElement;
   iconContainer: HTMLDivElement;
 
-  optionElements: HTMLOptionElement[];
+  optionElements: (HTMLOptionElement | HTMLOptGroupElement)[];
 
   constructor({
     valid,

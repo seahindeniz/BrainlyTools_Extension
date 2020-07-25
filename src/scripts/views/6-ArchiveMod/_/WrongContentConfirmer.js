@@ -10,26 +10,30 @@ class WrongContentConfirmer {
     this.RenderButtons();
     this.BindHandlers();
   }
+
   RenderButtons() {
     this.$stopButton = Button({
       type: "solid-peach",
       size: "small",
       text: System.data.locale.common.stop,
       spaced: {
-        left: true
-      }
+        left: true,
+      },
     });
     this.$confirmButton = Button({
       type: "solid-blue",
       size: "small",
       text: System.data.locale.moderateAll.wrongContentConfirmer.text,
       spaced: {
-        left: true
-      }
+        left: true,
+      },
     });
   }
+
   async BindHandlers() {
-    let filters = await WaitForElements("#moderation-all > div.top > div.sub-header.row > div.span5 > select.filters");
+    const filters = await WaitForElements(
+      "#moderation-all > div.top > div.sub-header.row > div.span5 > select.filters",
+    );
     this.$filters = $(filters);
     this.$pendingWrongLink = $(".pending-wrong");
 
@@ -38,6 +42,7 @@ class WrongContentConfirmer {
     this.$confirmButton.click(this.Start.bind(this));
     this.$stopButton.click(this.Stop.bind(this));
   }
+
   FiltersChanged() {
     if (this.$filters.val() == 999) {
       this.ShowConfirmButton();
@@ -45,12 +50,15 @@ class WrongContentConfirmer {
       this.HideConfirmButton();
     }
   }
+
   ShowConfirmButton() {
     this.$confirmButton.insertAfter(this.$pendingWrongLink);
   }
+
   HideConfirmButton() {
     this.$confirmButton.appendTo("<div />");
   }
+
   Start() {
     if (!this.started) {
       this.started = true;
@@ -60,29 +68,41 @@ class WrongContentConfirmer {
       this.StartFetching();
     }
   }
+
   Stop() {
     this.confirmingStopped = true;
 
     this.StopFetching();
   }
+
   ShowStopButton() {
     this.HideConfirmButton();
     this.$stopButton.insertAfter(this.$pendingWrongLink);
   }
+
   HideStopButton() {
     this.$stopButton.appendTo("<div />");
   }
+
   StopFetching() {
     this.started = false;
 
     this.ShowConfirmButton();
   }
+
   async StartFetching() {
     if (this.started) {
-      let resContents = await new Action().GetCorrectedContents(this.last_id);
+      const resContents = await new Action().GetCorrectedContents({
+        last_id: this.last_id,
+      });
       console.log(resContents);
 
-      if (resContents && resContents.success && resContents.data.items && resContents.data.items.length > 0) {
+      if (
+        resContents &&
+        resContents.success &&
+        resContents.data.items &&
+        resContents.data.items.length > 0
+      ) {
         this.last_id = resContents.data.last_id;
         this.StoreContents(resContents.data.items);
         this.StartFetching();
@@ -92,21 +112,26 @@ class WrongContentConfirmer {
       }
     }
   }
+
   /**
    * @param {[]} contents
    */
   StoreContents(contents) {
     this.contents = [...this.contents, ...contents];
   }
+
   async ConfirmContent() {
     try {
       if (!this.confirmingStopped) {
-        let content = this.PullContent();
+        const content = this.PullContent();
 
         if (!content) {
           this.confirmingStopped = true;
         } else {
-          let resConfirm = await new Action().ConfirmContent(content.model_id, content.model_type_id);
+          const resConfirm = await new Action().ConfirmContent(
+            content.model_id,
+            content.model_type_id,
+          );
           console.log(resConfirm);
           this.ConfirmContent();
         }
@@ -115,9 +140,10 @@ class WrongContentConfirmer {
       console.error(error);
     }
   }
+
   PullContent() {
     return this.contents.shift();
   }
 }
 
-export default WrongContentConfirmer
+export default WrongContentConfirmer;

@@ -146,6 +146,10 @@ $colorMap: (
     top: 1px;
   }
 
+  @at-root html.win &__text {
+    top: unset;
+  }
+
   &--spaced {
     margin: rhythm(0.2);
 

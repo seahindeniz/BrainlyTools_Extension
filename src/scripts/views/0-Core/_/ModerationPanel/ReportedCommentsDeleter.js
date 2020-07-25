@@ -216,7 +216,9 @@ class ReportedCommentsDeleter extends Components {
   }
 
   async LoadReportedComments(_lastId) {
-    const resReports = await new Action().GetReportedComments(_lastId);
+    const resReports = await new Action().GetReportedComments({
+      last_id: _lastId,
+    });
 
     if (!(resReports?.data?.items?.length > 0)) return;
 

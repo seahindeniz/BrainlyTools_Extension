@@ -372,7 +372,9 @@ export default class extends Components {
    */
   async FetchReportedContents(lastId) {
     this.numberOfActiveConnections++;
-    const resReports = await new Action().GetReportedContents(lastId);
+    const resReports = await new Action().GetReportedContents({
+      last_id: lastId,
+    });
     this.numberOfActiveConnections--;
 
     if (!resReports && !resReports.success && !resReports.data) {

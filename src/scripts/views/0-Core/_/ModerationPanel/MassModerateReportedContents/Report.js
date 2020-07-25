@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { Flex, Text, BoxDeprecated, Icon, Button } from "@style-guide";
+import { Flex, Text, Box, Icon, Button } from "@style-guide";
 import Build from "@/scripts/helpers/Build";
 import moment from "moment-timezone";
 
@@ -84,17 +84,16 @@ export default class Report {
         fullWidth: true,
         marginBottom: "s",
         direction: "column",
-      }),
-      (this.colorBox = BoxDeprecated({
-        border: "no",
-        // @ts-ignore
-        color: boxStatus.color,
-        padding: "small",
-        full: true,
         className: "r-c-b-c",
         dataset: {
           status: boxStatus.text,
         },
+      }),
+      (this.colorBox = new Box({
+        border: false,
+        color: boxStatus.color,
+        padding: "s",
+        full: true,
         children: Build(
           Flex({
             direction: "column",
@@ -294,6 +293,6 @@ export default class Report {
     // @ts-ignore
     this.colorBox.ChangeColor(BOX_STATUS[statusName].color);
 
-    this.colorBox.dataset.status = BOX_STATUS[statusName].text;
+    this.colorBox.element.dataset.status = BOX_STATUS[statusName].text;
   }
 }

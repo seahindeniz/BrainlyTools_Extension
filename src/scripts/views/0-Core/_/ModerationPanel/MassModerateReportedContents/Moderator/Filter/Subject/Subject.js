@@ -3,7 +3,7 @@ import { Label, Flex } from "@style-guide";
 import { COLORS_DEFAULT_MAP } from "@style-guide/Label";
 
 /**
- * @typedef {{
+ * typedef {{
  *  id?: number,
  *  name?: string,
  * }} SubjectDataType

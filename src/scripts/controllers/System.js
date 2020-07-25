@@ -9,6 +9,7 @@ import ArrayLast from "../helpers/ArrayLast";
 import storage from "../helpers/extStorage";
 import InjectToDOM from "../helpers/InjectToDOM";
 import Action from "./Req/Brainly/Action";
+import type { SubjectDataType } from "../views/12-QuestionAdd/_/ReportContents/Fetcher/Filters/Subjects/Subject";
 
 type AvatarType = {
   src?: string,
@@ -57,6 +58,13 @@ class _System {
         routes: any,
       },
       userData: any,
+      defaultConfig: {
+        config: {
+          data: {
+            subjects: SubjectDataType[],
+          },
+        },
+      },
     },
     meta: {
       marketTitle: string,
@@ -217,7 +225,7 @@ class _System {
     );
   }
 
-  checkRoute(index: number, str: string) {
+  checkRoute(index: number, str: string | RegExp) {
     const currPath: string[] = this.data.meta.location.pathname.split("/");
     let result = false;
 
@@ -227,6 +235,8 @@ class _System {
         result = currPath[index];
       } else if ((currPath[index] || "") === str) {
         result = true;
+      } else if (str instanceof RegExp) {
+        result = str.test(currPath[index]);
       } else {
         const route =
           this.data.Brainly.Routing.routes[str] ||

@@ -17,7 +17,7 @@ import {
   Spinner,
   Text,
 } from "@style-guide";
-import type { ColorType as BoxColorType } from "@style-guide/Box";
+import type { BoxColorType } from "@style-guide/Box";
 import type { Properties as BoxDeprecatedPropsType } from "@style-guide/BoxDeprecated";
 import mime from "mime-types";
 import type UserContentRowType from "./UserContentRow";

@@ -7,6 +7,7 @@ export { default as Badge } from "./Badge";
 export { default as Box } from "./Box";
 export { default as BoxDeprecated } from "./BoxDeprecated";
 export { default as Breadcrumb } from "./Breadcrumb";
+export { default as Bubble } from "./Bubble";
 export { default as Button } from "./Button";
 export { default as Checkbox } from "./Checkbox";
 export { default as ContentBox } from "./ContentBox";

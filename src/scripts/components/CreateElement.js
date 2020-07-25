@@ -29,7 +29,8 @@ export default function CreateElement<T: string>({
   });
 
   const element = document.createElement(tag);
-  element.className = classNames;
+
+  if (classNames) element.className = classNames;
 
   AddChildren(element, children);
   SetProps(element, props);

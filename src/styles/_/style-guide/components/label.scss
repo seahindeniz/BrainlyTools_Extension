@@ -1,0 +1,5 @@
+.sg-label {
+  @at-root html.win &__text {
+    top: unset;
+  }
+}

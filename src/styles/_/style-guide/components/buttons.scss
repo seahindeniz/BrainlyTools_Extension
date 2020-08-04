@@ -129,6 +129,10 @@ $colorMap: (
 
   &--icon-only {
     border-radius: 50%;
+
+    &:not(#{$p}--s):not(#{$p}--xs) {
+      min-width: 40px; // Reported contents > Options button : small screen-size
+    }
   }
 
   &__icon {

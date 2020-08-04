@@ -4,7 +4,7 @@
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "checkJs": true,
-    "module": "commonjs",
+    "module": "CommonJS",
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
@@ -14,8 +14,16 @@
       "@style-guide/*": ["./src/scripts/components/style-guide/*"],
       "@/*": ["src/*"]
     },
-    "target": "es5",
+    "target": "es6",
     "typeRoots": ["node_modules/@types", "./src/scripts/typings"]
   },
-  "exclude": ["build", "node_modules", "**/node_modules/*"]
+  "exclude": [
+    "build",
+    "temp",
+    "src/scripts/jsx",
+    "src/scripts/lib",
+    "src/scripts/views",
+    "node_modules",
+    "**/node_modules/*"
+  ]
 }

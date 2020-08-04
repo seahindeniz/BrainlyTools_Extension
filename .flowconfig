@@ -9,7 +9,9 @@
 [lints]
 
 [options]
-; exact_by_default=true
+; types_first=true
+; lazy_mode=ide
+exact_by_default=true
 esproposal.optional_chaining=enable
 module.name_mapper='^@BrainlyAction' -> '<PROJECT_ROOT>/src/scripts/controllers/Req/Brainly/Action'
 module.name_mapper='^@ServerReq' -> '<PROJECT_ROOT>/src/scripts/controllers/Req/Server'

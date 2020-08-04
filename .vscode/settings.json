@@ -1,5 +1,5 @@
 {
-  "javascript.validate.enable": false,
+  // "javascript.validate.enable": false,
   "cSpell.words": [
     "Bahasa",
     "Brainly's",
@@ -79,5 +79,26 @@
     "youtube",
     "zadane",
     "znanija"
-  ]
+  ],
+  "todo.embedded.exclude": [
+    "**/.!(todo|todos|task|tasks)/**",
+    "**/_output/**",
+    "**/bower_components/**",
+    "**/build/**",
+    "**/dist/**",
+    "**/node_modules/**",
+    "**/out/**",
+    "**/output/**",
+    "**/release/**",
+    "**/releases/**",
+    "**/static/**",
+    "**/target/**",
+    "**/third_party/**",
+    "**/vendor/**",
+    "**/flow-typed/**"
+  ],
+  "typescript.tsserver.experimental.enableProjectDiagnostics": false,
+  /* "javascript.suggest.enabled": false,
+  "typescript.suggest.enabled": false,
+  "typescript.validate.enable": false */
 }

@@ -12,13 +12,21 @@ import yaml from "js-yaml";
 import mergeDeep from "merge-deep";
 import globImporter from "node-sass-glob-importer";
 import packageImporter from "node-sass-package-importer";
+import ts from "gulp-typescript";
+import merge from "merge2";
+import babelrc from "./.babelrc";
+
+const browserify = require("browserify");
+const source = require("vinyl-source-stream");
+const tsify = require("tsify");
+const rename = require("gulp-rename");
+const es = require("event-stream");
+const debug = require("gulp-debug");
 
 const $ = require("gulp-load-plugins")();
 
 const STYLE_GUIDE_PATH = "src/styles/_/style-guide.css";
 
-let _presets;
-let _plugins;
 const isProduction = process.env.NODE_ENV === "production";
 const target = process.env.TARGET || "chrome";
 
@@ -88,8 +96,8 @@ fs.writeFileSync(`./${STYLE_GUIDE_PATH}.map`, styleGuideMapContent);
 task("clean", () => {
   return src(`./build/${target}`, { allowEmpty: true })
     .on("end", () => log("Waiting for 1 second before clean.."))
-    .pipe($.wait(1000))
-    .pipe($.clean());
+    .pipe($.wait(1000));
+  // .pipe($.clean());
 });
 
 /**
@@ -100,12 +108,13 @@ function compileJSFiles(files, path) {
     $.bro({
       transform: [
         babelify.configure({
-          get presets() {
+          /* get presets() {
             return _presets;
           },
           get plugins() {
             return _plugins;
-          },
+          }, */
+          overrides: babelrc.overrides,
           sourceMaps: false,
         }),
         // ['uglifyify', { global: true, sourceMap: false }]
@@ -125,6 +134,105 @@ function compileJSFiles(files, path) {
     );
   }
 
+  return process.pipe(dest(path, { overwrite: true }));
+}
+const tsProject = ts.createProject("tsconfig.json");
+
+function compileTSFiles(files, path) {
+  return src(files)
+    .pipe(debug({ title: "unicorn:" }))
+    .pipe(
+      $.bro({
+        plugin: [
+          [
+            "tsify",
+            {
+              resolveJsonModule: true,
+              allowSyntheticDefaultImports: true,
+              noImplicitAny: false,
+              target: "es6",
+              module: "CommonJS",
+              lib: ["es5", "es6", "dom"],
+              allowJs: true,
+              baseUrl: ".",
+              paths: {
+                "@BrainlyAction": [
+                  "./src/scripts/controllers/Req/Brainly/Action",
+                ],
+                "@ServerReq": ["./src/scripts/controllers/Req/Server"],
+                "@style-guide": ["./src/scripts/components/style-guide"],
+                "@style-guide/*": ["./src/scripts/components/style-guide/*"],
+                "@/*": ["src/*"],
+              },
+              typeRoots: ["node_modules/@types", "./src/scripts/typings"],
+
+              exclude: [
+                "build",
+                "temp",
+                "src/scripts/jsx",
+                "src/scripts/lib",
+                "src/scripts/views",
+                "node_modules",
+                "**/node_modules/*",
+              ],
+            },
+          ],
+        ],
+      }),
+    )
+    .pipe($.rename({ extname: ".js" }))
+    .pipe(dest(path, { overwrite: true }));
+}
+function compileTSFiles2(files, path) {
+  let process = src(files).pipe(
+    ts({
+      declaration: false,
+
+      target: "es5",
+      module: "none",
+      lib: ["es5", "es6", "dom"],
+      moduleResolution: "Node",
+      // allowJs: true,
+      downlevelIteration: true,
+      /* target: "ES2017",
+      module: "commonjs",
+      declaration: true,
+      noImplicitAny: false,
+      removeComments: true,
+      esModuleInterop: true,
+      experimentalDecorators: true,
+      newLine: "LF",
+      lib: [
+        "DOM",
+        "DOM.Iterable",
+        "ScriptHost",
+        "es2016",
+        "es2017.sharedmemory",
+      ], */
+      baseUrl: ".",
+      paths: {
+        "@BrainlyAction": ["./src/scripts/controllers/Req/Brainly/Action"],
+        "@ServerReq": ["./src/scripts/controllers/Req/Server"],
+        "@style-guide": ["./src/scripts/components/style-guide"],
+        "@style-guide/*": ["./src/scripts/components/style-guide/*"],
+        "@/*": ["src/*"],
+      },
+    }),
+  );
+
+  /* if (isProduction) {
+    process = process.pipe(
+      $.minify({
+        preserveComments: false,
+        noSource: true,
+        ext: {
+          min: ".js",
+        },
+      }),
+    );
+  } */
+
+  // return merge([process.dts.pipe(dest(path)), process.js.pipe(dest(path))]);
   return process.pipe(dest(path, { overwrite: true }));
 }
 
@@ -271,7 +379,10 @@ task("locales", () => {
 });
 
 task("popup", () => {
-  return compileJSFiles(["src/popup/*.js"], `build/${target}/popup`);
+  return compileJSFiles(
+    [/* "src/popup/*.js",  */ "src/popup/*.ts"],
+    `build/${target}/popup`,
+  );
 });
 
 task("js", () => {
@@ -287,6 +398,26 @@ task("js", () => {
       "!src/scripts/helpers/**/*.js",
       "!src/scripts/utils/*.js",
       "!src/scripts/lib/*.min.js",
+      "!src/scripts/jsx/*",
+      "!src/scripts/jsx/**/*",
+    ],
+    `build/${target}/scripts`,
+  );
+});
+
+task("ts", () => {
+  return compileTSFiles(
+    [
+      "src/scripts/*.ts",
+      "src/scripts/**/**/*.ts",
+
+      "!src/scripts/**/**/_/*",
+      "!src/scripts/**/**/_/**/*",
+      "!src/scripts/components/**/*.ts",
+      "!src/scripts/controllers/**/*.ts",
+      "!src/scripts/helpers/**/*.ts",
+      "!src/scripts/utils/*.ts",
+      "!src/scripts/lib/*.min.ts",
       "!src/scripts/jsx/*",
       "!src/scripts/jsx/**/*",
     ],
@@ -340,18 +471,18 @@ task("generateLocaleIndex", () => {
     )
     .pipe(dest(`src/locales`));
 });
-task("getBabelRC", next => {
+/* task("getBabelRC", next => {
   const configs = JSON.parse(fs.readFileSync("./.babelrc", "utf8"));
   _presets = configs.presets;
   _plugins = configs.plugins;
 
   next();
-});
+}); */
 task(
   "build",
   series(
     "clean",
-    "getBabelRC",
+    // "getBabelRC",
     "assets",
     "extensionConfig",
     "scss",
@@ -359,8 +490,10 @@ task(
     "locales",
     "generateLocaleIndex",
     "popup",
-    "js",
-    /* "jsx", */ "manifest",
+    "ts",
+    // "js",
+    // "jsx",
+    "manifest",
   ),
 );
 task("reloadExtension", next => {
@@ -372,15 +505,19 @@ task("watchFiles", () => {
   $.livereload.listen();
 
   /**
-   * JS Files
+   * JS/TS Files
    */
   const watchJSFilesNeedsOnlyReload = watch(
     [
       "./src/scripts/views/*/*.js",
       "./src/scripts/*.js",
+      "./src/scripts/views/*/*.ts",
+      "./src/scripts/*.ts",
 
       "!./src/scripts/views/**/_/*.js",
       "!./src/scripts/views/**/_/**/*.js",
+      "!./src/scripts/views/**/_/*.ts",
+      "!./src/scripts/views/**/_/**/*.ts",
     ],
     series("reloadExtension"),
   );
@@ -389,10 +526,16 @@ task("watchFiles", () => {
       "./src/**/*.js",
       "./src/scripts/views/**/_/*.js",
       "./src/scripts/views/**/_/**/*.js",
+      "./src/**/*.ts",
+      "./src/scripts/views/**/_/*.ts",
+      "./src/scripts/views/**/_/**/*.ts",
 
       "!./src/scripts/views/*/*.js",
       "!./src/scripts/*.js",
       "!src/locales/index.js",
+      "!./src/scripts/views/*/*.ts",
+      "!./src/scripts/*.ts",
+      "!src/locales/index.ts",
     ],
     series("build", "reloadExtension"),
   );

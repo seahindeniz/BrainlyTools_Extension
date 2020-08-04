@@ -15,6 +15,7 @@ export default {
     edit: "Edit",
     profileID: "Profile ID",
     profileLinksOrIds: "Profile links or ids..",
+    profileLinkOrId: "Profile link or id",
     nick: "Nick",
     moderator: "Moderator",
     date: "Date",
@@ -825,5 +826,62 @@ export default {
   },
   question: {
     keywords: "Keywords"
+  },
+  reportedContents: {
+    questionAnswerReports: {
+      text: "Questions/Answers (%{number_of_reports})",
+      title: "Click here to see reported questions and answers"
+    },
+    commentReports: {
+      text: "Comments (%{number_of_reports})",
+      title: "Click here to see reported comments"
+    },
+    correctionReports: {
+      text: "Correction Reports (%{number_of_reports})",
+      title: "Click here to see the contents which has reported for correction and waiting for to be confirmed"
+    },
+    subjectFilterFirstOption: "Subjects - ALL",
+    categoryFilterFirstOption: "Report reasons - ALL",
+    options: {
+      buttonVisibility: {
+        optionName: "Action buttons visibility",
+        default: "Default",
+        alwaysVisible: "Always visible",
+        onHoverOrTouch: "On hover/touch"
+      },
+      filter: {
+        optionName: "Filter reports",
+        description: "This filters can only be applied to reports that has already fetched",
+        filters: {
+          reporter: {
+            name: "Reporter user",
+            by: {
+              nick: "Reporter nick",
+              id: "Reporter user id"
+            }
+          },
+          reported: {
+            name: "Reported user",
+            by: {
+              nick: "Reported nick",
+              id: "Reported user id"
+            }
+          },
+          reportingDate: {
+            name: "Reports between",
+            startingDate: "Starting date",
+            endingDate: "Ending date"
+          }
+        }
+      }
+    },
+    queue: {
+      rating: "%{rating} points for %{ratesCount} votes",
+      numberOfRates: "%{rating} for %{ratesCount}"
+    }
+  },
+  moderationPanel: {
+    text: "Question Moderation"
   }
 }
+

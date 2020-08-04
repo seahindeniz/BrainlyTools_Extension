@@ -1,0 +1,103 @@
+.queue {
+  &:empty {
+    top: 50px;
+    position: relative;
+    left: calc(50% - 47px);
+    background-color: transparent;
+    border: 6px solid #323c45;
+    border-radius: 50%;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-animation: spinner-animation 0.65s infinite linear;
+    animation: spinner-animation 0.65s infinite linear;
+  }
+}
+.ext-rc-options {
+  position: absolute;
+
+  > .options-container {
+    z-index: 1;
+    margin: 46px -56px 0 0px;
+  }
+
+  &:not(:active):not(:focus):not(:focus-within) > .options-container {
+    &:not(:hover) {
+      display: none;
+    }
+  }
+}
+
+.report-item-wrapper {
+  border-bottom: 2px solid #ebf2f7;
+  padding: 5px 1px;
+
+  &:not(:hover) .footer > :first-child:not(:only-child) {
+    min-height: 48px;
+  }
+}
+
+.queue.buttons-visibility-on-hover {
+  .report-item-wrapper {
+    &:not(:hover):not(.operating) {
+      .footer > :last-child:not(:only-child) {
+        display: none;
+      }
+    }
+  }
+}
+
+@media (min-width: 1024px) {
+  .queue:not(.buttons-visibility-always) {
+    .report-item-wrapper {
+      &:not(:hover):not(.operating) {
+        .footer > :last-child:not(:only-child) {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .report-item-wrapper {
+    width: 100%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1365px) {
+  .report-item-wrapper {
+    width: 50%;
+    width: calc(100% / 2);
+
+    &:nth-child(odd) {
+      box-shadow: 1px 0px 0px 0px #ebf2f7;
+    }
+  }
+}
+
+@media (min-width: 1366px) and (max-width: 1919px) {
+  .report-item-wrapper {
+    width: 33.333%;
+    width: calc(100% / 3);
+
+    &:not(:nth-child(3n)) {
+      box-shadow: 1px 0px 0px 0px #ebf2f7;
+    }
+  }
+}
+
+@media (min-width: 1920px) {
+  .report-item-wrapper {
+    width: 25%;
+    width: calc(100% / 4);
+
+    &:not(:nth-child(4n)) {
+      box-shadow: 1px 0px 0px 0px #ebf2f7;
+    }
+  }
+}

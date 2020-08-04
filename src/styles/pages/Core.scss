@@ -21,11 +21,11 @@ body {
 
   .r-c-b-c {
     &:before {
-      top: 8px;
+      height: 0;
       color: #888;
+      margin: 0 auto;
       font-size: 0.8em;
       position: relative;
-      margin: -24px auto 0;
       counter-increment: reported-content-box-counter;
       content: "#" counter(reported-content-box-counter) " " attr(data-status);
 

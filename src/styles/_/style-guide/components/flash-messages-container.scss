@@ -1,0 +1,9 @@
+.sg-header {
+  &:not(&--fixed) {
+    .flash-messages-container {
+      top: 0;
+      z-index: 101;
+      position: fixed;
+    }
+  }
+}

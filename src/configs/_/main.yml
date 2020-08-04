@@ -20,6 +20,8 @@ common:
       author: aleksa1
     pt_BR:
       progress: 0
+      name: Portuguese
+      author: C
 dev:
   serverURL: 'http://localhost:3001'
   serverAPIURL: 'http://localhost:3001/BrainlyTools'

@@ -1,3 +1,4 @@
+// TODO delete this
 export default {
   set: function(key, value, time) {
     let expires;

@@ -1,4 +1,5 @@
 import { Flex, MenuList } from "@style-guide";
+import { FlexElementType } from "@style-guide/Flex";
 import WaitForObject from "../../../../helpers/WaitForObject";
 import MassContentDeleter from "./MassContentDeleter";
 import MassManageUsers from "./MassManageUsers";
@@ -32,6 +33,32 @@ const SELECTOR = {
 };
 
 class ModerationPanel {
+  $statistics: JQuery<HTMLElement>;
+  $newPanel: JQuery<HTMLElement>;
+  $newPanelButton: JQuery<HTMLElement>;
+  $oldPanel: JQuery<HTMLElement>;
+  $oldPanelCoveringText: JQuery<HTMLElement>;
+  components: {
+    [x in "immediately" | "afterDeleteReasons"]: {
+      constructor:
+        | typeof SearchUser
+        | typeof NoticeBoard
+        | typeof MassMessageSender
+        | typeof PointChanger
+        | typeof MassModerateReportedContents
+        | typeof MassManageUsers
+        | typeof ReportedCommentsDeleter
+        | typeof MassContentDeleter;
+      condition?: boolean | number | number[];
+    }[];
+  };
+
+  listContainer: FlexElementType;
+  ul: HTMLUListElement;
+
+  $resizeOverlay: JQuery<HTMLElement>;
+  $resizeStyle: JQuery<HTMLElement>;
+
   constructor() {
     this.$statistics = $(SELECTOR.STATISTICS);
     this.$newPanel = $(SELECTOR.NEW_PANEL);
@@ -88,9 +115,9 @@ class ModerationPanel {
   RenderList() {
     this.listContainer = Flex({
       marginBottom: "s",
-      children: (this.ul = MenuList({
+      children: this.ul = MenuList({
         size: "small",
-      })),
+      }),
     });
 
     const panel = document.querySelector(SELECTOR.PANELS);

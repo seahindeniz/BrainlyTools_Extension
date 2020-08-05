@@ -59,7 +59,8 @@
         "@typescript-eslint/ban-ts-comment": [0, { "ts-expect-error": false }],
         "@typescript-eslint/explicit-module-boundary-types": "off",
         "@typescript-eslint/no-explicit-any": "off",
-        "camelcase": "warn"
+        "camelcase": "warn",
+        "no-cond-assign": ["error", "except-parens"]
       }
     }
   ]

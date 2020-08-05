@@ -27,6 +27,7 @@ type BubblePropsType = {
   color?: BubbleColorType;
   full?: boolean;
   noShadow?: boolean;
+  [x: string]: any,
 };
 
 export default ({

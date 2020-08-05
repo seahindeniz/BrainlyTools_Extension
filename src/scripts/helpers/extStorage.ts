@@ -1,4 +1,4 @@
-//import ext from "../utils/ext";
+// import ext from "../utils/ext";
 
 /**
  *
@@ -8,15 +8,16 @@
  */
 export default function storage(method, data) {
   const marketKey = window.System.data.meta.storageKey;
-  let action = "storage";
-  let messageData = {
+  const action = "storage";
+  const messageData = {
     marketKey,
-    //action,
+    // action,
     method,
-    data
-  }
+    data,
+    local: undefined,
+  };
 
-  if (method.slice(-1) == "L") {
+  if (method.slice(-1) === "L") {
     messageData.method = method.slice(0, -1);
     messageData.local = true;
   }

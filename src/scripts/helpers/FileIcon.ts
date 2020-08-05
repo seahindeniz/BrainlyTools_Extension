@@ -7,7 +7,12 @@ class FileIcon {
   iconFileType: string;
   icon: string;
 
-  constructor(stream: File, $img) {
+  constructor(
+    stream: File & {
+      extension: string;
+    },
+    $img,
+  ) {
     this.stream = stream;
     this.$img = $img;
     this.iconFileType = "file";
@@ -39,7 +44,7 @@ class FileIcon {
   }
 
   Read() {
-    if (this.stream.constructor.name.toLowerCase() == "file") {
+    if (this.stream.constructor.name.toLowerCase() === "file") {
       this.ReadFile();
     } else {
       this.ReadURL();

@@ -1,9 +1,11 @@
+/* eslint-disable import/first */
+/* eslint-disable no-param-reassign */
 /* eslint-disable camelcase */
 
-// @flow
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const gql = (s = "") => s;
 
-import Brainly from "../";
+import Brainly from "..";
 import Chunkify from "../../../../helpers/Chunkify";
 import AnswerConnection from "./GraphQL/Answer/Connection.graphql";
 import AnswerConnection_With_Comments from "./GraphQL/Answer/Connection_With_Comments.graphql";
@@ -31,7 +33,7 @@ export type UserType = CommonUserProps & {
   registration_date: string;
 };
 
-type CommonProps = { success?: boolean; message?: string };
+export type CommonProps = { success?: boolean; message?: string };
 
 export type UserResponse = {
   data?: UserType;
@@ -43,98 +45,130 @@ export type UsersResponse = {
   message?: string;
 } & CommonProps;
 
-/**
- * @typedef {{id: number, nick: string}} CommonUserProps
- *
- * @typedef {CommonUserProps & {avatar:{medium: string, small: string}|null, avatar_id: number, category: number, client_type: number, current_best_answers_count: number, gender:number, is_deleted: boolean, points: number, primary_rank_id: number, ranks_ids: number[], registration_date: string}} UserType
- *
- * @typedef {CommonUserProps & {answers_by_subject: {subject_id: number, answers_count: number}[], avatars: null|{64: string, 100: string}, best_answers_from_30_days: number, description: string, followed_count: string, follower_count: string, gender: number, is_followed_by: boolean, is_following: boolean, points: number, ranks_ids: number[], total_questions: number, total_thanks: number}} UserProfile
- *
- * @typedef {{id: number, author_id: number, question_id: number, content: string, points: number, thanks_count: number, rating: number, rates_count: number, is_confirmed: boolean, is_excellent: boolean, is_best: boolean, can_comment: boolean, attachment_ids: [], created: string}[]} AnswersOfUser
- *
- * @typedef {{success?: boolean, message?: string}} CommonProps
- *
- * @typedef {{data?: UserType, message?: string} & CommonProps} UserResponse
- * @typedef {{data?: UserType[], message?: string} & CommonProps} UsersResponse
- * @typedef {{data?: UserProfile} & CommonProps} UserProfileResponse
- * @typedef {{pagination?: {first: string, prev: string, self: string, next: string, last: string}, data?: AnswersOfUser} & CommonProps} AnswersOfUserResponse
- *
- * @typedef {{
- *  avatar: null,
- *  gender: "MALE" | "FEMALE",
- *  id: string,
- *  nick: string,
- *  points: number,
- *  rank: {
- *    id: string,
- *    name: string,
- *  }
- * }} GQL_User
- *
- * @typedef {{
- *  id: string,
- *  thumbnailUrl: string,
- *  url: string,
- * }} GQL_Attachment
- *
- * @typedef {{
- *  id: string,
- *  content: string,
- *  author: GQL_User,
- * }} GQL_Comment
- *
- * @typedef {{
- *  cursor: string,
- *  node: GQL_Comment
- * }} GQL_CommentEdge
- *
- * @typedef {{
- *    count: number,
- *    edges: GQL_CommentEdge[]
- *  }} GQL_CommentEdges
- *
- * @typedef {{
- *  answers?: {
- *    nodes: GQL_Answer[],
- *  },
- *  attachments: GQL_Attachment[],
- *  author: GQL_User,
- *  content: string,
- *  created: string,
- *  id: string,
- *  points: number,
- *  subject: GQL_Subject,
- *  pointsForAnswer: number,
- *  pointsForBestAnswer: number,
- *  comments?: GQL_CommentEdges,
- * }} GQL_Question
- *
- * @typedef {{
- *  data: {
- *    question: GQL_Question
- *  }
- * }} GQL_ResQuestion
- *
- * @typedef {{
- *  attachments: string[],
- *  author: GQL_User,
- *  content: string,
- *  created: string,
- *  id: string,
- *  isBest: boolean,
- *  isConfirmed: boolean,
- *  thanksCount: number,
- *  verification: null | {
- *    approval: {
- *      approver: GQL_User,
- *      approvedTime: string,
- *    }
- *  },
- *  comments?: GQL_CommentEdges,
- * }} GQL_Answer
- *
- * @typedef {{icon: string, id: string, name: string}} GQL_Subject
- */
+export type UserProfile = CommonUserProps & {
+  answers_by_subject: {
+    subject_id: number;
+    answers_count: number;
+  }[];
+  avatars: null | { 64: string; 100: string };
+  best_answers_from_30_days: number;
+  description: string;
+  followed_count: string;
+  follower_count: string;
+  gender: number;
+  is_followed_by: boolean;
+  is_following: boolean;
+  points: number;
+  ranks_ids: number[];
+  total_questions: number;
+  total_thanks: number;
+};
+
+type AnswersOfUser = {
+  id: number;
+  author_id: number;
+  question_id: number;
+  content: string;
+  points: number;
+  thanks_count: number;
+  rating: number;
+  rates_count: number;
+  is_confirmed: boolean;
+  is_excellent: boolean;
+  is_best: boolean;
+  can_comment: boolean;
+  attachment_ids: [];
+  created: string;
+}[];
+
+type UserProfileResponse = { data?: UserProfile } & CommonProps;
+
+type AnswersOfUserResponse = {
+  pagination?: {
+    first: string;
+    prev: string;
+    self: string;
+    next: string;
+    last: string;
+  };
+  data?: AnswersOfUser;
+} & CommonProps;
+
+type GQL_User = {
+  avatar: null;
+  gender: "MALE" | "FEMALE";
+  id: string;
+  nick: string;
+  points: number;
+  rank: {
+    id: string;
+    name: string;
+  };
+};
+
+type GQL_Attachment = {
+  id: string;
+  thumbnailUrl: string;
+  url: string;
+};
+
+type GQL_Comment = {
+  id: string;
+  content: string;
+  author: GQL_User;
+};
+
+type GQL_CommentEdge = {
+  cursor: string;
+  node: GQL_Comment;
+};
+
+type GQL_CommentEdges = {
+  count: number;
+  edges: GQL_CommentEdge[];
+};
+
+type GQL_Question = {
+  answers?: {
+    nodes: GQL_Answer[];
+  };
+  attachments: GQL_Attachment[];
+  author: GQL_User;
+  content: string;
+  created: string;
+  id: string;
+  points: number;
+  subject: GQL_Subject;
+  pointsForAnswer: number;
+  pointsForBestAnswer: number;
+  comments?: GQL_CommentEdges;
+};
+
+type GQL_ResQuestion = {
+  data: {
+    question: GQL_Question;
+  };
+};
+
+type GQL_Answer = {
+  attachments: string[];
+  author: GQL_User;
+  content: string;
+  created: string;
+  id: string;
+  isBest: boolean;
+  isConfirmed: boolean;
+  thanksCount: number;
+  verification: null | {
+    approval: {
+      approver: GQL_User;
+      approvedTime: string;
+    };
+  };
+  comments?: GQL_CommentEdges;
+};
+
+type GQL_Subject = { icon: string; id: string; name: string };
 
 export type UsersDataInReportedContentsType = {
   avatar?: { "64": string; "100": string };
@@ -217,7 +251,9 @@ export type QuestionDataInTicketType = CommonDataInTicketType & {
 };
 
 export type TicketDataType = {
-  delete_reasons: {};
+  delete_reasons: {
+    [x: string]: any;
+  };
   responses: AnswerDataInTicketType[];
   task: QuestionDataInTicketType;
   ticket: {
@@ -235,43 +271,90 @@ const FAILED_RESPONSE = {
   },
 };
 
+function GetUsersInChunk(ids) {
+  return new Promise((resolve, reject) => {
+    let count = 0;
+    const chunkedIds = Chunkify(ids, USERS_PROFILE_REQ_CHUNK_SIZE);
+    const results: UsersResponse = {
+      success: true,
+      data: [],
+    };
+
+    chunkedIds.forEach(async idList => {
+      try {
+        // eslint-disable-next-line no-use-before-define
+        const resUsers = await new Action().GetUsers(idList);
+
+        if (resUsers && resUsers.success)
+          results.data = [...results.data, ...resUsers.data];
+
+        if (++count === chunkedIds.length) resolve(results);
+      } catch (error) {
+        console.log("err", error);
+        reject(error);
+        throw error;
+      }
+    });
+  });
+}
+
+function CancelWarnings(userId: number, ids: number[] = []) {
+  const promises = [];
+
+  ids.forEach(warningId => {
+    // eslint-disable-next-line no-use-before-define
+    const promise = new Action().CancelWarning(userId, warningId);
+
+    promises.push(promise);
+  });
+
+  return Promise.all(promises);
+}
+
 export default class Action extends Brainly {
-  /**
-   * @param {*} [data]
-   * @returns {Promise<{
-   *  success: boolean,
-   *  message?: string,
-   *  data: {
-   *    msg: string,
-   *  }
-   * }>}
-   */
-  HelloWorld(data) {
+  GetUsersInChunk: typeof GetUsersInChunk;
+  CancelWarnings: typeof CancelWarnings;
+
+  constructor() {
+    super();
+
+    this.GetUsersInChunk = GetUsersInChunk;
+    this.CancelWarnings = CancelWarnings;
+  }
+
+  HelloWorld(
+    data: any,
+  ): Promise<{
+    success: boolean;
+    message?: string;
+    data: {
+      msg: string;
+    };
+  }> {
     return this.Legacy().hello().world()[data ? "POST" : "GET"](data);
   }
 
-  /**
-   * @param {number | string} id
-   */
-  GetQuestion(id) {
-    if (~~id == 0) return Promise.reject("Invalid id");
+  GetQuestion(id: number | string) {
+    if (~~id === 0) return Promise.reject(Error("Invalid id"));
 
     return this.Legacy().api_tasks().main_view().P(String(id)).GET();
   }
 
-  /**
-   * @param {number | string} id
-   * @param {{excludeAnswer?: boolean, excludeComment?: boolean}} param1
-   * @returns {Promise<GQL_ResQuestion>}
-   */
-  GetQuestion2(id, { excludeAnswer, excludeComment } = {}) {
+  GetQuestion2(
+    id: number | string,
+    {
+      excludeAnswer,
+      excludeComment,
+    }: { excludeAnswer?: boolean; excludeComment?: boolean } = {},
+  ): Promise<GQL_ResQuestion> {
     try {
       const idData = atob(String(id));
 
-      if (!idData.includes("question")) throw "Invalid id";
+      if (!idData.includes("question")) throw Error("Invalid id");
     } catch (e) {
-      if (~~id == 0) return Promise.reject("Invalid id");
+      if (~~id === 0) return Promise.reject(Error("Invalid id"));
 
+      // eslint-disable-next-line no-param-reassign
       id = btoa(`question:${id}`);
     }
 
@@ -331,25 +414,26 @@ export default class Action extends Brainly {
     return this.POST();
   }
 
-  /**
-   * @param {number | string} id
-   * @param {{
-   *  includeQuestion?: boolean,
-   *  includeComments?: boolean,
-   * }} [param1]
-   * @returns {Promise<{
-   *  data: {
-   *    answer: GQL_Answer
-   *  }
-   * }>}
-   */
-  GetAnswer(id, { includeQuestion, includeComments } = {}) {
+  GetAnswer(
+    id: number | string,
+    {
+      includeQuestion,
+      includeComments,
+    }: {
+      includeQuestion?: boolean;
+      includeComments?: boolean;
+    } = {},
+  ): Promise<{
+    data: {
+      answer: GQL_Answer;
+    };
+  }> {
     try {
       const idData = atob(String(id));
 
-      if (!idData.includes("answer")) throw "Invalid id";
+      if (!idData.includes("answer")) throw Error("Invalid id");
     } catch (e) {
-      if (~~id == 0) return Promise.reject("Invalid id");
+      if (~~id === 0) return Promise.reject(Error("Invalid id"));
 
       id = btoa(`answer:${id}`);
     }
@@ -415,7 +499,7 @@ export default class Action extends Brainly {
     data.content += `<p></p><p>${System.constants.config.reasonSign}</p>`;
 
     const promiseAdd = this.Legacy().api_responses().add().POST(data);
-    let resAdd = await promiseAdd;
+    /* const resAdd = */ await promiseAdd;
 
     const resCloseTicket = await new Action().RemoveTicketForAnswering(
       task_id,
@@ -428,10 +512,7 @@ export default class Action extends Brainly {
     return promiseAdd;
   }
 
-  /**
-   * @param {number} task_id
-   */
-  GetTicketForAnswering(task_id) {
+  GetTicketForAnswering(task_id: number) {
     return this.Legacy().api_tickets().get().POST({ task_id });
   }
 
@@ -503,7 +584,7 @@ export default class Action extends Brainly {
         data.reason_title,
       );
 
-      if (!resReport || (!resReport.success && resReport.code != 10))
+      if (!resReport || (!resReport.success && resReport.code !== 10))
         return Promise.resolve(resReport || FAILED_RESPONSE);
     }
 
@@ -533,7 +614,7 @@ export default class Action extends Brainly {
         data.reason_title,
       );
 
-      if (!resReport || (!resReport.success && resReport.code != 10))
+      if (!resReport || (!resReport.success && resReport.code !== 10))
         return Promise.resolve(resReport || FAILED_RESPONSE);
     }
 
@@ -688,7 +769,9 @@ export default class Action extends Brainly {
   }
 
   GetUsers(ids: (string | number)[]): Promise<UsersResponse> {
-    if (!(ids instanceof Array)) return Promise.reject("Not an array");
+    if (!(ids instanceof Array)) {
+      return Promise.reject(Error("Not an array"));
+    }
 
     if (ids.length > USERS_PROFILE_REQ_CHUNK_SIZE)
       return this.GetUsersInChunk(ids);
@@ -700,59 +783,11 @@ export default class Action extends Brainly {
       .GET();
   }
 
-  GetUsersInChunk(ids) {
-    return new Promise((resolve, reject) => {
-      let count = 0;
-      const chunkedIds = Chunkify(ids, USERS_PROFILE_REQ_CHUNK_SIZE);
-      const results: UsersResponse = {
-        success: true,
-        data: [],
-      };
-
-      chunkedIds.forEach(async idList => {
-        try {
-          const resUsers = await new Action().GetUsers(idList);
-
-          if (resUsers && resUsers.success)
-            results.data = [...results.data, ...resUsers.data];
-
-          if (++count == chunkedIds.length) resolve(results);
-        } catch (error) {
-          console.log("err", error);
-          reject(error);
-          throw error;
-        }
-      });
-    });
-  }
-
-  /**
-   * Cancel user warning by warning id
-   * @param {number} userId
-   * @param {number | number[]} warningId
-   */
-  CancelWarning(userId, warningId) {
+  CancelWarning(userId: number, warningId: number | number[]) {
     if (warningId instanceof Array)
       return this.CancelWarnings(userId, warningId);
 
     return this.moderators().cancel_warning().P(userId).P(warningId).GET();
-  }
-
-  /**
-   * Cancel user warnings by ids
-   * @param {number} userId
-   * @param {number[]} ids - Warning ids
-   */
-  CancelWarnings(userId, ids = []) {
-    const promises = [];
-
-    ids.forEach(warningId => {
-      const promise = new Action().CancelWarning(userId, warningId);
-
-      promises.push(promise);
-    });
-
-    return Promise.all(promises);
   }
 
   AllFriends() {
@@ -775,7 +810,8 @@ export default class Action extends Brainly {
   RemoveFriends(ids, each) {
     let count = 0;
     const promises = [];
-    const profileLink = System.createProfileLink();
+    // TODO fix this
+    // const profileLink = System.createProfileLink();
 
     ids.forEach(async id => {
       const promise = new Action().RemoveFriend(id);
@@ -788,8 +824,9 @@ export default class Action extends Brainly {
         if (
           resRemove &&
           resRemove.url &&
-          (resRemove.url.indexOf("/users/view") >= 0 ||
-            resRemove.url.indexOf(profileLink) >= 0)
+          resRemove.url.indexOf("/users/view") >=
+            0 /*  ||
+            resRemove.url.indexOf(profileLink) >= 0 */
         ) {
           each(++count, id);
         }
@@ -810,20 +847,32 @@ export default class Action extends Brainly {
    * @returns {Promise<string>}
    */
   FindUser(nick) {
-    if (!nick) return Promise.reject("Empty nick");
+    if (!nick) return Promise.reject(Error("Empty nick"));
 
     return this.users().search().P(nick).GET();
   }
 
-  GetAllModerators(handlers) {
-    return new Promise(async (resolve, reject) => {
+  async GetAllModerators(handlers) {
+    const resSupervisors = await this.moderators()
+      .supervisors()
+      .P(System.data.Brainly.userData.user.id)
+      .GET();
+
+    if (!resSupervisors) throw Error("Can't fetch users from supervisors page");
+
+    // TODO test this
+    await System.StoreUsers(resSupervisors, handlers);
+
+    return System.allModerators;
+
+    /* return new Promise(async (resolve, reject) => {
       const resSupervisors = await this.moderators()
         .supervisors()
         .P(System.data.Brainly.userData.user.id)
         .GET();
 
       if (!resSupervisors)
-        return reject("Can't fetch users from supervisors page");
+        return reject(Error("Can't fetch users from supervisors page"));
 
       handlers = {
         done: resolve,
@@ -831,7 +880,7 @@ export default class Action extends Brainly {
       };
 
       System.StoreUsers(resSupervisors, handlers);
-    });
+    }); */
   }
 
   /**
@@ -841,11 +890,13 @@ export default class Action extends Brainly {
     return this.Legacy().api_messages().check().POST({ user_id });
   }
 
-  /**
-   * @param {{conversation_id?: number, user_id?: number}} param0
-   * @param {string} content
-   */
-  async SendMessage({ conversation_id, user_id }, content) {
+  async SendMessage(
+    {
+      conversation_id,
+      user_id,
+    }: { conversation_id?: number; user_id?: number },
+    content: string,
+  ) {
     const data = {
       content,
       conversation_id,
@@ -859,7 +910,7 @@ export default class Action extends Brainly {
 
       data.conversation_id = resConversation.data.conversation_id;
     }
-    //onError yerine function aç ve gelen isteğe göre conversation id oluştur. İstek conversation id hatası değilse on error devam ettir
+    // onError yerine function aç ve gelen isteğe göre conversation id oluştur. İstek conversation id hatası değilse on error devam ettir
     return this.Legacy().api_messages().send().POST(data);
   }
 
@@ -1073,15 +1124,13 @@ export default class Action extends Brainly {
     return this.X_Req_With().question().add().GET();
   }
 
-  /**
-   * @param {number} userId
-   * @param {number} page
-   * @returns {Promise<AnswersOfUserResponse>}
-   */
-  GetAnswersOfUser(userId, page) {
-    if (~~userId == 0) return Promise.reject("Invalid id");
+  GetAnswersOfUser(
+    userId: number,
+    page: number,
+  ): Promise<AnswersOfUserResponse> {
+    if (~~userId === 0) throw Error("Invalid id");
 
-    const data = { userId };
+    const data = { userId, page: undefined };
 
     if (page) data.page = page;
 
@@ -1132,33 +1181,40 @@ export default class Action extends Brainly {
    * @param {number} [subcategory_id]
    */
   ReportContent(model_type_id, model_id, reason, category_id, subcategory_id) {
-    if (typeof model_type_id == "string")
+    if (typeof model_type_id === "string")
       model_type_id =
-        model_type_id == "QUESTION"
+        model_type_id === "QUESTION"
           ? 1
-          : model_type_id == "ANSWER"
+          : model_type_id === "ANSWER"
           ? 2
-          : model_type_id == "COMMENT"
+          : model_type_id === "COMMENT"
           ? 45
           : undefined;
 
-    if (model_type_id != 1 && model_type_id != 2 && model_type_id != 45)
-      throw "Model type is not valid";
+    if (
+      ~~model_type_id !== 1 &&
+      ~~model_type_id !== 2 &&
+      ~~model_type_id !== 45
+    )
+      throw Error("Model type is not valid");
 
     const type =
-      model_type_id == 1
+      ~~model_type_id === 1
         ? "QUESTION"
-        : model_type_id == 2
+        : ~~model_type_id === 2
         ? "ANSWER"
         : "COMMENT";
 
     if (typeof category_id === "undefined")
-      category_id =
-        System.data.config.marketConfig.default.abuseReportReasons[type][0];
+      [
+        category_id,
+      ] = System.data.config.marketConfig.default.abuseReportReasons[type];
 
     if (typeof subcategory_id === "undefined")
-      subcategory_id =
-        System.data.config.marketConfig.default.abuseReportReasons[type][1];
+      [
+        ,
+        subcategory_id,
+      ] = System.data.config.marketConfig.default.abuseReportReasons[type];
 
     const data = {
       abuse: {
@@ -1235,17 +1291,17 @@ export default class Action extends Brainly {
    * @param {(1 | 2 | 45) | ("QUESTION" | "ANSWER" | "COMMENT")} model_type_id
    */
   GetAbuseReasons(model_type_id) {
-    if (typeof model_type_id == "string")
+    if (typeof model_type_id === "string")
       model_type_id =
-        model_type_id == "QUESTION"
+        model_type_id === "QUESTION"
           ? 1
-          : model_type_id == "ANSWER"
+          : model_type_id === "ANSWER"
           ? 2
-          : model_type_id == "COMMENT"
+          : model_type_id === "COMMENT"
           ? 45
           : undefined;
 
-    if (!model_type_id) throw "Model type should be specified";
+    if (!model_type_id) throw Error("Model type should be specified");
 
     return this.Legacy()
       .moderation_new()

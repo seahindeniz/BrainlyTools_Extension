@@ -33,10 +33,6 @@
     "nIds": "%{n} ids",
     "nNotFound": "%{n} not found",
     "removeAll": "Remove all",
-    "halloween": {
-      "imSorry": "I'm sorry if you were a bit scared!",
-      "happyHalloween": "Happy Halloween %{userNick}!!"
-    },
     "notificationMessages": {
       "operationError": "An error occurred during operation. Please try again",
       "somethingWentWrong": "Oops, something went wrong",

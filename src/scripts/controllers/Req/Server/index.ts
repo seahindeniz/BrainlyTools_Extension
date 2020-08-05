@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 // @flow
 
 import md5 from "js-md5";
@@ -5,32 +6,34 @@ import Request from "..";
 import notification from "../../../components/notification2";
 import storage from "../../../helpers/extStorage";
 
-/**
- * @typedef {{
- *  success: boolean,
- *  exception?: number,
- *  message?: string,
- * }} CommonResponsePropsType
- *
- * @typedef {{
- *  _id: string,
- *  probatus: boolean,
- *  previousNicks: string[],
- *  privileges?: number[],
- *  note: string,
- *  secretKey: string,
- *  hash: string,
- * }} UserDetailsType
- *
- * @typedef {{[x: string]: *}} QueryStringType
- */
+type ObjectAnyType = { [x: string]: any };
+
+export type CommonResponsePropsType = {
+  success: boolean;
+  exception?: number;
+  message?: string;
+};
+
+export type UserDetailsType = {
+  _id: string;
+  probatus: boolean;
+  previousNicks: string[];
+  privileges?: number[];
+  note: string;
+  secretKey: string;
+  hash: string;
+};
 
 export type ModerateAllPageNumbersType = {
-  success?: boolean,
-  data?: number[],
+  success?: boolean;
+  data?: number[];
 };
 
 export default class ServerReq {
+  url: URL;
+
+  request: Request;
+
   constructor() {
     /**
      * @type {URL}
@@ -38,39 +41,25 @@ export default class ServerReq {
     this.url = new URL(System.data.config.extension.serverAPIURL);
   }
 
-  /**
-   * @param {QueryStringType} [queryString]
-   */
-  GET(queryString) {
+  GET(queryString?: ObjectAnyType) {
     this.QueryString(queryString);
+
     return this.BackGate("GET");
   }
 
-  /**
-   * @param {{}} [data]
-   */
-  POST(data) {
+  POST(data?: ObjectAnyType) {
     return this.BackGate("POST", data);
   }
 
-  /**
-   * @param {{}} [data]
-   */
-  PUT(data) {
+  PUT(data?: ObjectAnyType) {
     return this.BackGate("PUT", data);
   }
 
-  /**
-   * @param {{}} [data]
-   */
-  DELETE(data) {
+  DELETE(data?: ObjectAnyType) {
     return this.BackGate("DELETE", data);
   }
 
-  /**
-   * @param {QueryStringType} queryString
-   */
-  QueryString(queryString) {
+  QueryString(queryString: ObjectAnyType) {
     if (queryString) {
       const qStrings = Object.entries(queryString);
 
@@ -81,11 +70,7 @@ export default class ServerReq {
     }
   }
 
-  /**
-   * @param {string} method
-   * @param {{}} [data]
-   */
-  BackGate(method, data) {
+  BackGate(method: string, data?: ObjectAnyType) {
     /* if (data)
       data = JSON.stringify(data); */
 
@@ -93,6 +78,7 @@ export default class ServerReq {
       method,
       url: this.url.href,
       body: data,
+      headers: undefined,
     };
 
     if (
@@ -115,10 +101,7 @@ export default class ServerReq {
     return this.request;
   }
 
-  /**
-   * @param {string | number} path
-   */
-  P(path) {
+  P(path: string | number) {
     if (this.url.pathname.endsWith("/") && String(path).startsWith("/"))
       path = String(path).substr(1);
     else if (!this.url.pathname.endsWith("/") && !String(path).startsWith("/"))
@@ -129,74 +112,70 @@ export default class ServerReq {
     return this;
   }
 
-  SetAuthData() {
-    return new Promise(async (resolve, reject) => {
-      try {
-        let authData = await storage("getL", "authData");
+  async SetAuthData() {
+    let authData = await storage("getL", "authData");
 
-        if (!authData || !authData.hash) {
-          authData = await this.Auth();
+    if (!authData || !authData.hash) {
+      authData = await this.Auth();
 
-          System.SetUserData(authData);
-        } else {
-          System.SetUserDataToSystem(authData);
-          this.Auth(true).then(System.SetUserData.bind(System));
-        }
+      System.SetUserData(authData);
+    } else {
+      System.SetUserDataToSystem(authData);
+      this.Auth(true).then(System.SetUserData.bind(System));
+    }
 
-        System.Log("Auth OK!");
-        resolve();
-      } catch (error) {
-        reject(error);
-      }
-    });
+    System.Log("Auth OK!");
   }
 
-  Auth(reLogin = false) {
-    return new Promise(async (resolve, reject) => {
-      const data = {
-        // clientID: System.data.meta.manifest.clientID,
-        clientVersion: System.data.meta.manifest.version,
-        // isoLocale: System.data.Brainly.userData.user.iso_locale,
-        marketName: System.data.meta.marketName,
-        crypted: md5(System.data.Brainly.tokenLong),
-        user: {
-          id: System.data.Brainly.userData.user.id,
-          nick: System.data.Brainly.userData.user.nick,
-        },
-      };
+  async Auth(reLogin = false) {
+    const data = {
+      // clientID: System.data.meta.manifest.clientID,
+      clientVersion: System.data.meta.manifest.version,
+      // isoLocale: System.data.Brainly.userData.user.iso_locale,
+      marketName: System.data.meta.marketName,
+      crypted: md5(System.data.Brainly.tokenLong),
+      user: {
+        id: System.data.Brainly.userData.user.id,
+        nick: System.data.Brainly.userData.user.nick,
+      },
+    };
 
-      storage("setL", { authData: null });
+    storage("setL", { authData: null });
 
-      const resAuth = await this.auth().POST(data);
+    const resAuth = await this.auth().POST(data);
 
-      if (!resAuth || !(resAuth instanceof Object) || !resAuth.data) {
-        System.changeBadgeColor("error");
-        notification({
-          type: "error",
-          permanent: true,
-          html: `${System.data.locale.core.notificationMessages.extensionServerError}<br>${System.data.locale.core.notificationMessages.ifErrorPersists}`,
-        });
-        reject();
-      } else if (!resAuth.data.probatus) {
-        System.changeBadgeColor("error");
-        notification({
-          type: "error",
-          permanent: true,
-          html: System.data.locale.core.notificationMessages.accessPermissionDenied.replace(
-            "\n",
-            "<br>",
-          ),
-        });
-        reLogin && location.reload(true);
-        reject(
-          System.data.locale.core.notificationMessages.accessPermissionDenied,
-        );
-      } else {
-        resAuth.data.hash = JSON.parse(atob(resAuth.data.hash));
+    if (!resAuth || !(resAuth instanceof Object) || !resAuth.data) {
+      System.changeBadgeColor("error");
+      notification({
+        type: "error",
+        permanent: true,
+        html: `${System.data.locale.core.notificationMessages.extensionServerError}<br>${System.data.locale.core.notificationMessages.ifErrorPersists}`,
+      });
 
-        resolve(resAuth.data);
-      }
-    });
+      return undefined;
+    }
+
+    if (!resAuth.data.probatus) {
+      System.changeBadgeColor("error");
+      notification({
+        type: "error",
+        permanent: true,
+        html: System.data.locale.core.notificationMessages.accessPermissionDenied.replace(
+          "\n",
+          "<br>",
+        ),
+      });
+
+      if (reLogin) location.reload();
+
+      throw Error(
+        System.data.locale.core.notificationMessages.accessPermissionDenied,
+      );
+    }
+
+    resAuth.data.hash = JSON.parse(atob(resAuth.data.hash));
+
+    return resAuth.data;
   }
 
   HelloWorld() {
@@ -209,33 +188,31 @@ export default class ServerReq {
       .GET();
   }
 
-  /**
-   * @param {number | {id: number, nick: string}} id
-   * @param {string} [nick]
-   * @returns {Promise<{data: UserDetailsType} & CommonResponsePropsType>}
-   */
-  GetUser(id, nick) {
-    if (id instanceof Object && id.hasOwnProperty("id")) {
+  GetUser(
+    id: number | { id: number; nick: string },
+    nick?: string,
+  ): Promise<{ data: UserDetailsType } & CommonResponsePropsType> {
+    if (id instanceof Object && "id" in id) {
       nick = id.nick;
       id = id.id;
     }
 
-    if (!id || isNaN(Number(id))) throw `Invalid user id: ${id}`;
+    if (!id || isNaN(Number(id))) throw Error(`Invalid user id: ${id}`);
 
-    if (typeof id === "number") {
-      const promise = this.user().P(id).P(nick).GET();
+    if (typeof id !== "number") return undefined;
 
-      promise.catch(() =>
-        notification({
-          type: "error",
-          html:
-            System.data.locale.common.notificationMessages
-              .cannotShareUserInfoWithServer,
-        }),
-      );
+    const promise = this.user().P(id).P(nick).GET();
 
-      return promise;
-    }
+    promise.catch(() =>
+      notification({
+        type: "error",
+        html:
+          System.data.locale.common.notificationMessages
+            .cannotShareUserInfoWithServer,
+      }),
+    );
+
+    return promise;
   }
 
   PutUser(data) {
@@ -380,11 +357,20 @@ export default class ServerReq {
     return this.noticeBoard().read().PUT();
   }
 
-  /**
-   * @param {{each?: function, done?: function}} [handlers]
-   */
-  GetAllModerators(handlers = {}) {
-    return new Promise(async (resolve, reject) => {
+  async GetAllModerators(
+    handlers: { each?: () => void; done?: () => void } = {},
+  ) {
+    const resSupervisors = await this.moderatorList().GET();
+
+    if (!resSupervisors)
+      throw Error("Can't fetch moderators list from extension server");
+
+    // TODO test this
+    await System.StoreUsers(resSupervisors, handlers);
+
+    return System.allModerators;
+
+    /* return new Promise(async (resolve, reject) => {
       const resSupervisors = await this.moderatorList().GET();
 
       if (!resSupervisors || !resSupervisors.success)
@@ -396,7 +382,7 @@ export default class ServerReq {
       };
 
       System.StoreUsers(resSupervisors.data, handlers);
-    });
+    }); */
   }
 
   /**
@@ -450,7 +436,7 @@ export default class ServerReq {
   }
 
   RevertActionHistoryReport(_id) {
-    if (!_id) throw "Id not found";
+    if (!_id) throw Error("Id not found");
 
     return this.actionsHistory().revert().P(_id).PUT();
   }

@@ -1,14 +1,30 @@
 /* eslint-disable camelcase */
 import * as gql from "gql-query-builder";
+import IQueryBuilderOptions from "gql-query-builder/build/IQueryBuilderOptions";
 import Request from "..";
 
-/**
- * @typedef {import("gql-query-builder/build/IQueryBuilderOptions").default} IQueryBuilderOptions
- * @typedef {IQueryBuilderOptions | IQueryBuilderOptions[]} GQL_OperationData
- */
+type GQL_OperationData = IQueryBuilderOptions | IQueryBuilderOptions[];
+
+type PHPTokens = {
+  key: string;
+  fields: string;
+  lock: string;
+};
+
+function GenerateCoupon() {
+  return btoa(
+    `[object Object]${System.data.Brainly.userData.user.id}-` +
+      `${new Date().getTime()}-${Math.floor(1 + Math.random() * 99999999)}`,
+  );
+}
+
 export default class Brainly extends Request {
+  GenerateCoupon: typeof GenerateCoupon;
+
   constructor() {
     super();
+
+    this.GenerateCoupon = GenerateCoupon;
 
     this.SetMarketURL();
     this.NoCache();
@@ -46,13 +62,6 @@ export default class Brainly extends Request {
     return this;
   }
 
-  GenerateCoupon() {
-    return btoa(
-      `[object Object]${System.data.Brainly.userData.user.id}-` +
-        `${new Date().getTime()}-${Math.floor(1 + Math.random() * 99999999)}`,
-    );
-  }
-
   GQL() {
     this.P(`/graphql/${System.data.Brainly.defaultConfig.MARKET}`);
     this.JSON();
@@ -70,90 +79,75 @@ export default class Brainly extends Request {
     return this;
   }
 
-  /**
-   * @param {GQL_OperationData} data
-   */
-  Mutation(data) {
+  Mutation(data: GQL_OperationData) {
     this.data = gql.mutation(data);
 
     return this;
   }
 
-  /**
-   * @typedef {{key: string, fields: string, lock: string}} PHPTokens
-   * @param {string} sourceURL
-   * @param {undefined|string|PHPTokens} [tokens] - Tokens or form selector
-   */
-  async SetFormTokens(sourceURL, tokens) {
+  async SetFormTokens(sourceURL: string, tokens?: string | PHPTokens) {
     if (!(tokens instanceof Object)) {
       const tempHeaders = JSON.parse(JSON.stringify(this.headers));
+      // eslint-disable-next-line no-param-reassign
       tokens = await this.X_Req_With().GetPHPTokens(sourceURL, tokens);
       this.headers = tempHeaders;
     }
 
-    return Promise.resolve({
+    if (!(tokens instanceof Object)) throw Error("Can't set tokens");
+
+    return {
       "data[_Token][key]": tokens.key,
       "data[_Token][fields]": tokens.fields,
       "data[_Token][lock]": tokens.lock,
-    });
+    };
   }
 
-  /**
-   * @param {string} sourceURL
-   * @param {string} [formSelector]
-   * @returns {Promise<PHPTokens>}
-   */
-  GetPHPTokens(sourceURL, formSelector) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        this.P(sourceURL);
+  async GetPHPTokens(
+    sourceURL: string,
+    formSelector?: string,
+  ): Promise<PHPTokens> {
+    this.P(sourceURL);
 
-        let HTML = await this.GET();
+    let HTML = await this.GET();
 
-        this.SetMarketURL();
-        /**
-         * @type {PHPTokens}
-         */
-        const tokens = {
-          key: undefined,
-          lock: undefined,
-          fields: undefined,
-        };
-        const tokensRegex = {
-          key: /\[key]" value="(.*?)" i/i,
-          lock: /\[lock]" value="(.*?)" i/i,
-          fields: /\[fields]" value="(.*?)" id="TokenF/i,
-        };
+    this.SetMarketURL();
+    /**
+     * @type {PHPTokens}
+     */
+    const tokens = {
+      key: undefined,
+      lock: undefined,
+      fields: undefined,
+    };
+    const tokensRegex = {
+      key: /\[key]" value="(.*?)" i/i,
+      lock: /\[lock]" value="(.*?)" i/i,
+      fields: /\[fields]" value="(.*?)" id="TokenF/i,
+    };
 
-        /**
-         * To avoid having the "imgError:undefined" error message on console
-         */
-        HTML = HTML.replace(
-          /onerror="imgError\(this, (?:'|\&\#039\;){1,}\);"/gim,
-          "",
-        );
+    /**
+     * To avoid having the "imgError:undefined" error message on console
+     */
+    HTML = HTML.replace(/onerror="imgError\(this, (?:'|&#039;){1,}\);"/gim, "");
 
-        if (formSelector) {
-          HTML = $(formSelector, HTML).html();
-        }
+    if (formSelector) {
+      HTML = $(formSelector, HTML).html();
+    }
 
-        if (!HTML)
-          return reject({
-            msg: `The "${formSelector}" cannot be found on profile page`,
-            error: 404,
-          });
+    if (!HTML)
+      // eslint-disable-next-line no-throw-literal
+      throw {
+        msg: `The "${formSelector}" cannot be found on profile page`,
+        error: 404,
+      };
 
-        for (const [tokenName, tokenRegex] of Object.entries(tokensRegex)) {
-          const tokenMatch = HTML.match(tokenRegex);
+    Object.entries(tokensRegex).forEach(([tokenName, tokenRegex]) => {
+      const tokenMatch = HTML.match(tokenRegex);
 
-          tokens[tokenName] = tokenMatch ? tokenMatch[1] : "";
-        }
-
-        resolve(tokens);
-      } catch (error) {
-        reject(error);
-      }
+      tokens[tokenName] = tokenMatch ? tokenMatch[1] : "";
     });
+
+    return tokens;
   }
 
   hello() {

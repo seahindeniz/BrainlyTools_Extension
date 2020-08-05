@@ -22,7 +22,6 @@
     "temp",
     "src/scripts/jsx",
     "src/scripts/lib",
-    "src/scripts/views",
     "node_modules",
     "**/node_modules/*"
   ]

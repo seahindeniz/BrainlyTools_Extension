@@ -97,6 +97,7 @@ class _System {
       };
       userData: any;
       defaultConfig?: {
+        MARKET: string;
         config: {
           data: {
             subjects: SubjectDataType[];
@@ -778,46 +779,42 @@ class _System {
     this.toBackground("OpenExtensionOptions", params);
   }
 
-  /**
-   * @param {number[]} users
-   * @param {{each?: function, done?: function}} handlers
-   */
-  async StoreUsers(users, handlers) {
+  async StoreUsers(users: number[], handlers?: { each?: (user: any) => void }) {
     if (typeof users === "string") users = this.ParseUsers(users);
 
-    if (users && users instanceof Array && users.length > 0) {
-      const resUsers = await new Action().GetUsers(users);
-      this.allModerators = {
-        list: resUsers.data,
-        withNicks: {},
-        withID: {},
-        withRanks: {},
-      };
+    if (!users?.length) return undefined;
 
-      if (resUsers.data && resUsers.data.length > 0) {
-        resUsers.data.forEach(user => {
-          this.allModerators.withNicks[user.nick] = user;
-          this.allModerators.withID[user.id] = user;
+    const resUsers = await new Action().GetUsers(users);
+    this.allModerators = {
+      list: resUsers.data,
+      withNicks: {},
+      withID: {},
+      withRanks: {},
+    };
 
-          if (handlers && handlers.each) handlers.each(user);
+    if (!resUsers.data.length) return undefined;
 
-          if (user.ranks_ids && user.ranks_ids.length > 0) {
-            user.ranks_ids.forEach(rank => {
-              let currentRank = this.allModerators.withRanks[rank];
+    resUsers.data.forEach(user => {
+      this.allModerators.withNicks[user.nick] = user;
+      this.allModerators.withID[user.id] = user;
 
-              if (!currentRank) {
-                currentRank = [];
-                this.allModerators.withRanks[rank] = currentRank;
-              }
+      if (handlers && handlers.each) handlers.each(user);
 
-              currentRank.push(user);
-            });
-          }
-        });
-      }
+      if (!user.ranks_ids.length) return;
 
-      if (handlers.done) handlers.done(this.allModerators);
-    }
+      user.ranks_ids.forEach(rank => {
+        let currentRank = this.allModerators.withRanks[rank];
+
+        if (!currentRank) {
+          currentRank = [];
+          this.allModerators.withRanks[rank] = currentRank;
+        }
+
+        currentRank.push(user);
+      });
+    });
+
+    return this.allModerators;
   }
 
   /**

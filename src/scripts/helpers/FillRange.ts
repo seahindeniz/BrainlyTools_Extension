@@ -1,19 +1,22 @@
-export default function FillRange(start, end) {
+/* eslint-disable no-param-reassign */
+
+export default function FillRange(
+  start?: number | string,
+  end?: number | string,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  ..._: undefined[]
+) {
   [start, end] = [Number(start), Number(end)];
 
-  if (isNaN(start))
-    throw "Invalid start number";
+  if (Number.isNaN(start)) throw Error("Invalid start number");
 
-  if (isNaN(end))
-    throw "Invalid end number";
+  if (Number.isNaN(end)) throw Error("Invalid end number");
 
-  if (start > end)
-    [start, end] = [~~end, ~~start];
+  if (start > end) [start, end] = [~~end, ~~start];
 
-    let range = [];
+  const range = [];
 
-  for (let i = start; i <= end; i++)
-    range.push(i);
+  for (let i = start; i <= end; i++) range.push(i);
 
   return range;
 }

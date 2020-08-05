@@ -8,15 +8,15 @@ function Append<T, Z>(
     | string
     | HTMLElement
     | DocumentFragment
-    | Function
+    | { element: HTMLElement }
     | (() => HTMLElement),
 ) {
   let child = _child;
-  // $FlowFixMe
-  if (child && child.element) child = child.element;
 
-  if (/* child instanceof Function  */ typeof child === "function")
-    // $FlowFixMe
+  if (child && typeof child === "object" && "element" in child)
+    child = child.element;
+
+  if (child instanceof Function /* typeof child === "function" */)
     child = child();
 
   if (typeof child === "number") child = String(child);
@@ -40,22 +40,26 @@ export default function Build<T, Z>(_parent: T, elements: Z): T {
   // $FlowFixMe
   if (
     parent &&
+    parent instanceof Object &&
+    // typeof parent === "object" &&
+    "element" in parent
     /* !(parent instanceof HTMLElement) &&
     !(parent instanceof DocumentFragment) && */
-    parent.element !== null &&
-    parent.element !== undefined
+    /* parent.element !== null &&
+    parent.element !== undefined */
   )
+    // @ts-expect-error
     parent = parent.element;
 
   if (parent instanceof Function /* typeof parent === "function" */)
-    // $FlowFixMe
     parent = parent();
 
   if (
     !parent ||
+    (!(parent instanceof HTMLElement) &&
+      !(parent instanceof DocumentFragment)) ||
     parent.append === null ||
-    parent.append === undefined ||
-    (!(parent instanceof HTMLElement) && !(parent instanceof DocumentFragment))
+    parent.append === undefined
   )
     throw Error("Parent element must be an append-able element");
 

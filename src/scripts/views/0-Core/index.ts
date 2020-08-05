@@ -166,11 +166,7 @@ class Core {
   }
 
   async RenderEventCelebrating() {
-    /* let _date = new Date();
-    if (_date.getMonth() == 9 && _date.getDate() == 31) {
-    	renderHalloween();
-    } */
-
+    // TODO add date range for actual christmas date range
     if (new Date() < new Date("2020-01-02")) {
       await InjectToDOM("/scripts/lib/snowstorm.min.js");
       await WaitForObject("snowStorm");

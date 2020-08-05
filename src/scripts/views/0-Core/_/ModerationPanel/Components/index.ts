@@ -2,10 +2,10 @@
 import { MenuListItem } from "@/scripts/components/style-guide";
 import HideElement from "@/scripts/helpers/HideElement";
 import type { ChildrenParamType } from "@style-guide/helpers/AddChildren";
-import type ModerationPanelType from "..";
+import type ModerationPanelClassType from "..";
 
 export default class {
-  main: ModerationPanelType;
+  main: ModerationPanelClassType;
   li: HTMLLIElement;
   liLink: HTMLElement;
   liLinkContent: ChildrenParamType;
@@ -13,7 +13,7 @@ export default class {
 
   HideElement: typeof HideElement;
 
-  constructor(main: ModerationPanelType) {
+  constructor(main: ModerationPanelClassType) {
     this.main = main;
     this.HideElement = HideElement;
   }
@@ -22,7 +22,7 @@ export default class {
     this.li = MenuListItem({
       children: this.liLinkContent,
     });
-    this.liLink = this.li.firstElementChild;
+    this.liLink = this.li.firstElementChild as HTMLElement;
 
     this.li.setAttribute("style", "display: table; width: 100%;");
     this.main.ul.append(this.li);
@@ -34,5 +34,7 @@ export default class {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  RenderLiContent() {}
+  RenderLiContent() {
+    //
+  }
 }

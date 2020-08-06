@@ -46,6 +46,7 @@ export type InputPropsType = {
 
 export default class {
   element: HTMLDivElement | HTMLInputElement;
+  input: HTMLInputElement;
 
   constructor({
     type = "text",
@@ -90,13 +91,13 @@ export default class {
           className: wrapperClass,
         }),
         [
-          CreateElement({
+          (this.input = CreateElement({
             tag: "input",
             ...props,
             type,
             className: inputClass,
             value,
-          }),
+          })),
           [
             Flex({
               marginTop: "xxs",
@@ -112,12 +113,13 @@ export default class {
         ],
       );
     } else {
-      this.element = CreateElement({
+      this.input = CreateElement({
         tag: "input",
         ...props,
         className: inputClass,
         value,
       });
+      this.element = this.input;
     }
   }
 }

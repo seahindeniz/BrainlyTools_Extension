@@ -23,7 +23,7 @@ export type BoxColorType =
 
 type PaddingType = "xxs" | "xs" | "s" | "m" | "l" | "xl";
 
-type BoxPropsType = {
+export type BoxPropsType = {
   children?: ChildrenParamType;
   className?: string;
   color?: BoxColorType;

@@ -1,17 +1,71 @@
+/* eslint-disable no-param-reassign */
 import ServerReq from "@ServerReq";
 import { OverlayedBox, SpinnerContainer, Text } from "@style-guide";
 import emojione from "emojione";
 import MarkdownIt from "markdown-it";
-import MarkdownItContainer from "markdown-it-container";
-import Components from "./Components";
-import Button from "../../../../components/Button";
-import Modal from "../../../../components/Modal";
-import notification from "../../../../components/notification2";
-import Action from "../../../../controllers/Req/Brainly/Action";
+import MDAbbr from "markdown-it-abbr";
+import MDAnchor from "markdown-it-anchor";
+import MDContainer from "markdown-it-container";
+import MDEmoji from "markdown-it-emoji";
+import MDHighlight from "markdown-it-highlightjs";
+import MDSub from "markdown-it-sub";
+import MDSup from "markdown-it-sup";
+import MDTaskList from "markdown-it-task-lists";
+import MDTOC from "markdown-it-toc-done-right";
+import Components from ".";
+import Button from "../../../../../components/Button";
+import Modal from "../../../../../components/Modal";
+import notification from "../../../../../components/notification2";
+import Action from "../../../../../controllers/Req/Brainly/Action";
 
+// TODO upgrade Emojione to https://github.com/joypixels/emoji-toolkit
+// @ts-expect-error
 emojione.emojiSize = "64";
 
+function FilterContent(content) {
+  if (!System.checkUserP(20)) {
+    if (System.checkBrainlyP(102))
+      content = content.replace(/::: moderator.*?:::/gis, "");
+    else content = content.replace(/::: normal.*?:::/gis, "");
+  }
+
+  return content;
+}
+
 class NoticeBoard extends Components {
+  users: {
+    element: JQuery<HTMLElement>;
+  }[];
+
+  noticeContent: string;
+  modalSize: string;
+  templateString: string;
+
+  overlayedBox: HTMLDivElement;
+  overlayedBoxOverlay: HTMLDivElement;
+
+  $badge: JQuery<HTMLElement>;
+  $md: JQuery<HTMLElement>;
+  $noticeBoard: JQuery<HTMLElement>;
+  $close: JQuery<HTMLElement>;
+  $lastUpdate: JQuery<HTMLElement>;
+  $headerActionList: JQuery<HTMLElement>;
+  $usersSection: JQuery<HTMLElement>;
+  $avatarContainer: JQuery<HTMLElement>;
+  $editSection: JQuery<HTMLElement>;
+  $editSectionContent: JQuery<HTMLElement>;
+  $spinner: JQuery<HTMLElement>;
+  $buttonContainer: JQuery<HTMLElement>;
+  $editButton: JQuery<HTMLElement>;
+  $saveButton: JQuery<HTMLElement>;
+
+  modal: Modal;
+  md: MarkdownIt;
+
+  readedBy: number[];
+
+  readTimeout: number;
+
   constructor(main) {
     super(main);
 
@@ -107,20 +161,21 @@ class NoticeBoard extends Components {
       typographer: true,
     });
 
-    this.md.use(require("markdown-it-sup"));
-    this.md.use(require("markdown-it-sub"));
-    this.md.use(require("markdown-it-abbr"));
-    this.md.use(require("markdown-it-emoji"));
-    this.md.use(require("markdown-it-anchor"));
-    this.md.use(require("markdown-it-task-lists"));
-    this.md.use(require("markdown-it-highlightjs"));
+    // Test this
+    this.md.use(MDSup);
+    this.md.use(MDSub);
+    this.md.use(MDAbbr);
+    this.md.use(MDEmoji);
+    this.md.use(MDAnchor);
+    this.md.use(MDTaskList);
+    this.md.use(MDHighlight);
     // this.md.use(require("markdown-it-imsize"));
     // this.md.use(require("markdown-it-table-of-contents"));
-    this.md.use(require("markdown-it-toc-done-right"), {
+    this.md.use(MDTOC, {
       itemClass: "sg-text sg-text--xsmall sg-text--gray",
       linkClass: "sg-text sg-text--link sg-text--blue-dark",
     });
-    this.md.use(MarkdownItContainer, "spoiler", {
+    this.md.use(MDContainer, "spoiler", {
       validate: params => params.trim().match(/^spoiler\s+(.*)$/),
       render: (tokens, idx) => {
         const m = tokens[idx].info.trim().match(/^spoiler\s+(.*)$/);
@@ -131,11 +186,11 @@ class NoticeBoard extends Components {
         return "</details>\n";
       },
     });
-    this.md.use(MarkdownItContainer, "moderator", {
+    this.md.use(MDContainer, "moderator", {
       validate: params => params.trim().match(/^moderator$/),
       render: () => "",
     });
-    this.md.use(MarkdownItContainer, "normal", {
+    this.md.use(MDContainer, "normal", {
       validate: params => params.trim().match(/^normal$/),
       render: () => "",
     });
@@ -210,13 +265,15 @@ class NoticeBoard extends Components {
   }
 
   BindHandlers() {
-    this.$close.click(this.CloseModal.bind(this));
+    this.$close.on("click", this.CloseModal.bind(this));
     this.li.addEventListener("click", this.OpenModal.bind(this));
   }
 
   CloseModal() {
     if (this.$editSection && this.$editSection.is(":visible")) {
-      return this.CloseEditSection();
+      this.CloseEditSection();
+
+      return;
     }
 
     if (this.IsEditorValSame()) {
@@ -228,7 +285,7 @@ class NoticeBoard extends Components {
   IsEditorValSame() {
     return (
       !this.$editSectionContent ||
-      this.$editSectionContent.val() ==
+      this.$editSectionContent.val() ===
         this.$editSectionContent.prop("defaultValue") ||
       confirm(System.data.locale.core.notificationMessages.changesMayNotBeSaved)
     );
@@ -239,19 +296,24 @@ class NoticeBoard extends Components {
 
     const data = await this.GetContent();
     this.readedBy = data.readedBy;
-    this.noticeContent = this.FilterContent(data.content);
-    const markdowned_noticeContent = this.md.render(
+    this.noticeContent = FilterContent(data.content);
+    const noticeContentInMDFormat = this.md.render(
       this.noticeContent || this.templateString,
     );
 
-    this.$md.html(markdowned_noticeContent);
-    data.lastModified && this.ChangeLastUpdate(data.lastModified);
+    this.$md.html(noticeContentInMDFormat);
+
+    if (data.lastModified) this.ChangeLastUpdate(data.lastModified);
+
     this.modal.Open();
     this.HideElement(this.$spinner);
     this.RenderUserAvatars();
 
     if (System.data.Brainly.userData.extension.noticeBoard === true)
-      this.readTimeout = setTimeout(this.ReadNoticeBoard.bind(this), 2500);
+      this.readTimeout = window.setTimeout(
+        this.ReadNoticeBoard.bind(this),
+        2500,
+      );
   }
 
   ShowLiSpinner() {
@@ -275,20 +337,10 @@ class NoticeBoard extends Components {
     return Promise.reject();
   }
 
-  FilterContent(content) {
-    if (!System.checkUserP(20)) {
-      if (System.checkBrainlyP(102))
-        content = content.replace(/\:\:\: moderator.*?\:\:\:/gis, "");
-      else content = content.replace(/\:\:\: normal.*?\:\:\:/gis, "");
-    }
+  ChangeLastUpdate(lastModified?: string) {
+    const date = lastModified ? new Date(lastModified) : new Date();
 
-    return content;
-  }
-
-  ChangeLastUpdate(date) {
-    date = date ? new Date(date) : new Date();
-
-    date = date.toLocaleDateString(
+    const dateString = date.toLocaleDateString(
       System.data.Brainly.defaultConfig.locale.COUNTRY.replace("_", "-"),
       {
         year: "numeric",
@@ -299,7 +351,7 @@ class NoticeBoard extends Components {
       },
     );
 
-    this.$lastUpdate.text(date);
+    this.$lastUpdate.text(dateString);
   }
 
   ReadNoticeBoard() {
@@ -358,8 +410,8 @@ class NoticeBoard extends Components {
   }
 
   BindModerateHandlers() {
-    this.$editButton.click(this.OpenEditSection.bind(this));
-    this.$saveButton.click(this.SaveContent.bind(this));
+    this.$editButton.on("click", this.OpenEditSection.bind(this));
+    this.$saveButton.on("click", this.SaveContent.bind(this));
     this.$editSectionContent.on("input", this.UpdateContent.bind(this));
 
     window.addEventListener("beforeunload", event => {
@@ -386,7 +438,7 @@ class NoticeBoard extends Components {
     $svg.removeClass(`sg-icon--${from}`);
     $svg.addClass(`sg-icon--${to}`);
 
-    if (to == "mint") {
+    if (to === "mint") {
       $svg.attr("style", "outline: 1px solid #60d399;outline-offset: 3px;");
     } else {
       $svg.removeAttr("style");
@@ -410,10 +462,6 @@ class NoticeBoard extends Components {
     this.HideElement(this.$saveButton);
   }
 
-  HideElement($element) {
-    $element.appendTo("<div />");
-  }
-
   async ResizeEditSection() {
     await System.Delay(50);
     this.$editSectionContent.css(
@@ -432,18 +480,17 @@ class NoticeBoard extends Components {
           System.data.locale.core.notificationMessages.doYouWantToContinue,
         )
       ) {
-        const noticeContent = this.$editSectionContent.val();
+        const noticeContent = this.$editSectionContent.val() as string;
 
         const resUpdate = await new ServerReq().UpdateNoticeBoard(
           noticeContent,
         );
 
         if (!resUpdate || !resUpdate.success) {
-          this.modal.notification({
-            html:
-              System.data.locale.common.notificationMessages.somethingWentWrong,
-            type: "error",
-          });
+          this.modal.notification(
+            System.data.locale.common.notificationMessages.somethingWentWrong,
+            "error",
+          );
         } else {
           this.noticeContent = noticeContent;
 

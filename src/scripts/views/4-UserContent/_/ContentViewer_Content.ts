@@ -7,7 +7,6 @@ import Action from "@BrainlyAction";
 import {
   Avatar,
   Box,
-  BoxDeprecated,
   Breadcrumb,
   Button,
   Counter,
@@ -17,8 +16,7 @@ import {
   Spinner,
   Text,
 } from "@style-guide";
-import type { BoxColorType } from "@style-guide/Box";
-import type { Properties as BoxDeprecatedPropsType } from "@style-guide/BoxDeprecated";
+import type { BoxColorType, BoxPropsType } from "@style-guide/Box";
 import mime from "mime-types";
 import type UserContentRowType from "./UserContentRow";
 
@@ -324,13 +322,14 @@ export default class ContentViewerContent {
 
     this.source.attachments.forEach(
       (attachment: {
-        type: string,
-        thumbnail: string,
-        full: string,
-        extension: string,
+        type: string;
+        thumbnail: string;
+        full: string;
+        extension: string;
       }) => {
-        const boxProps: BoxDeprecatedPropsType = {
+        const boxProps: BoxPropsType = {
           color: "dark",
+          border: false,
         };
 
         if (!attachment.thumbnail) {
@@ -355,7 +354,14 @@ export default class ContentViewerContent {
             text: (attachmentTypes || attachment.type).toLocaleUpperCase(),
           });
         } else {
-          boxProps.imgSrc = attachment.thumbnail;
+          boxProps.children = CreateElement({
+            tag: "a",
+            href: attachment.full,
+            children: CreateElement({
+              tag: "img",
+              src: attachment.thumbnail,
+            }),
+          });
         }
 
         const container = Build(
@@ -369,7 +375,8 @@ export default class ContentViewerContent {
                 target: "_blank",
                 href: attachment.full,
               }),
-              BoxDeprecated(boxProps),
+              // TODO test this
+              new Box(boxProps),
             ],
           ],
         );

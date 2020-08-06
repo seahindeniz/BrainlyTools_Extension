@@ -17,12 +17,38 @@
     "target": "es6",
     "typeRoots": ["node_modules/@types", "./src/scripts/typings"]
   },
+  "include": ["./src/scripts"],
   "exclude": [
-    "build",
-    "temp",
+    "temp/",
+    "build/",
+    "dist/",
+    "src/configs/",
+    "src/styles/",
     "src/scripts/jsx",
     "src/scripts/lib",
+    /* "src/scripts/views/0-Core/",
+    "src/scripts/views/1-Home/", */
+    "src/scripts/views/10-QuestionSearch/",
+    "src/scripts/views/11-ModeratorActionsHistory/",
+    "src/scripts/views/12-QuestionAdd/",
+    "src/scripts/views/2-Messages/",
+    "src/scripts/views/3-Task/",
+    "src/scripts/views/4-UserContent/",
+    "src/scripts/views/5-UserProfile/",
+    "src/scripts/views/6-ArchiveMod/",
+    "src/scripts/views/7-UserWarnings/",
+    "src/scripts/views/8-Supervisors/",
+    "src/scripts/views/9-Uploader/",
+
     "node_modules",
-    "**/node_modules/*"
+    "*/node_modules",
+    "**/node_modules",
+    "node_modules/*",
+    "node_modules/**",
+    "node_modules/**/*",
+    "*/node_modules/*",
+    "**/node_modules/*",
+    "*/node_modules/**",
+    "**/node_modules/**"
   ]
 }

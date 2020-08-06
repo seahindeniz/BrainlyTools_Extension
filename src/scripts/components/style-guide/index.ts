@@ -18,7 +18,6 @@ export { default as FileHandler } from "./FileHandler";
 export { default as FlashMessage } from "./FlashMessage";
 export { default as Flex } from "./Flex";
 export { default as Icon } from "./Icon";
-export { default as IconAsButton } from "./Icon/AsButton";
 export { default as Input } from "./Input";
 export { default as InputDeprecated } from "./InputDeprecated";
 export { default as Label } from "./Label";

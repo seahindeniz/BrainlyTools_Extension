@@ -40,7 +40,7 @@ type GradeDataType = {
 
 type IdType = number | string;
 
-type DeleteReasonType = {
+export type DeleteReasonType = {
   id: number;
   text: string;
 };
@@ -57,6 +57,133 @@ export type DeleteReasonSubCategoryType = DeleteReasonType & {
 
 type ObjectAnyType = {
   [x: string]: any;
+};
+
+type RankDataType = {
+  color?: string;
+  description?: string;
+  id?: number;
+  name?: string;
+  points?: number;
+  promoted_text?: string;
+  the_best_resps?: number;
+  type?: number;
+};
+
+export type DefaultConfigDataType = {
+  MARKET: string;
+  config: {
+    data: {
+      subjects: SubjectDataType[];
+      grades: GradeDataType[];
+      config: {
+        timezone: string;
+        cometSslServerAddress: string;
+        cometSslServerPort: number;
+      };
+      ranks: RankDataType[];
+    } & {
+      ranksWithId: RankDataType;
+      ranksWithName: {
+        [name: string]: RankDataType;
+      };
+    };
+  };
+  locale: {
+    LANGUAGE: string;
+    COUNTRY: string;
+  };
+  comet: {
+    AUTH_HASH: string;
+  };
+  user: {
+    ME: {
+      panel: {
+        messages: { count: 0; status: 1 };
+        notifications: { count: 0; status: 1 };
+        invitations: { count: 121; status: 3 };
+      };
+      user: {
+        id: number;
+        nick: string;
+        gender: number;
+        points: number;
+        ranks: { color: string; names: [string]; count: number };
+        ranksIds: number[];
+        fbId: number;
+        activated: string;
+        language: string;
+        isoLocale: string;
+        gradeId: number;
+        username: string;
+        registrationDatetime: string;
+        isDeleted: boolean;
+        primaryRankId: number;
+        avatarId: number;
+        category: number;
+        clientType: number;
+        modActionsCount: number;
+        avatars: {
+          "64": string;
+          "100": string;
+        };
+        avatar: string;
+        entry: null;
+      };
+      preferences: {
+        stream: {
+          subjectIds: [];
+          gradeIds: [];
+        };
+      };
+      auth: {
+        comet: {
+          hash: string;
+          authHash: string;
+          avatarUrl: string;
+        };
+      };
+      privileges: number[];
+      ban: { active: boolean; expires: null };
+      tasks: number;
+      responses: number;
+      comments: number;
+      conversationsNotRead: [];
+      userCategory: number;
+      currentBestAnswers: number;
+      subscription: null;
+      brainlyPlus: {
+        subscription: null;
+        trialAllowed: boolean;
+      };
+    };
+  };
+};
+
+export type MetaDataType = {
+  marketTitle: string;
+  extension: {
+    id: string;
+    URL: string;
+  };
+  marketName: string;
+  location: {
+    href: string;
+    ancestorOrigins: ObjectAnyType;
+    origin: string;
+    protocol: string;
+    host: string;
+    hostname: string;
+    port: string;
+    pathname: string;
+    search: string;
+    hash: string;
+  };
+  manifest: {
+    URL: string;
+    id: string;
+  } & browser._manifest.WebExtensionManifest;
+  storageKey: string;
 };
 
 function _ExtractAvatarURL(entry: AvatarType) {
@@ -96,88 +223,7 @@ class _System {
         routes: any;
       };
       userData: any;
-      defaultConfig?: {
-        MARKET: string;
-        config: {
-          data: {
-            subjects: SubjectDataType[];
-            grades: GradeDataType[];
-            config: {
-              timezone: string;
-              cometSslServerAddress: string;
-              cometSslServerPort: number;
-            };
-          };
-        };
-        locale: {
-          LANGUAGE: string;
-        };
-        comet: {
-          AUTH_HASH: string;
-        };
-        user: {
-          ME: {
-            panel: {
-              messages: { count: 0; status: 1 };
-              notifications: { count: 0; status: 1 };
-              invitations: { count: 121; status: 3 };
-            };
-            user: {
-              id: number;
-              nick: string;
-              gender: number;
-              points: number;
-              ranks: { color: string; names: [string]; count: number };
-              ranksIds: number[];
-              fbId: number;
-              activated: string;
-              language: string;
-              isoLocale: string;
-              gradeId: number;
-              username: string;
-              registrationDatetime: string;
-              isDeleted: boolean;
-              primaryRankId: number;
-              avatarId: number;
-              category: number;
-              clientType: number;
-              modActionsCount: number;
-              avatars: {
-                "64": string;
-                "100": string;
-              };
-              avatar: string;
-              entry: null;
-            };
-            preferences: {
-              stream: {
-                subjectIds: [];
-                gradeIds: [];
-              };
-            };
-            auth: {
-              comet: {
-                hash: string;
-                authHash: string;
-                avatarUrl: string;
-              };
-            };
-            privileges: number[];
-            ban: { active: boolean; expires: null };
-            tasks: number;
-            responses: number;
-            comments: number;
-            conversationsNotRead: [];
-            userCategory: number;
-            currentBestAnswers: number;
-            subscription: null;
-            brainlyPlus: {
-              subscription: null;
-              trialAllowed: boolean;
-            };
-          };
-        };
-      };
+      defaultConfig?: DefaultConfigDataType;
       deleteReasons?: {
         answer: DeleteReasonCategoryType[];
         comment: DeleteReasonCategoryType[];
@@ -212,31 +258,7 @@ class _System {
         };
       };
     };
-    meta?: {
-      marketTitle: string;
-      extension: {
-        id: string;
-        URL: string;
-      };
-      marketName: string;
-      location: {
-        href: string;
-        ancestorOrigins: ObjectAnyType;
-        origin: string;
-        protocol: string;
-        host: string;
-        hostname: string;
-        port: string;
-        pathname: string;
-        search: string;
-        hash: string;
-      };
-      manifest: {
-        URL: string;
-        id: string;
-      } & browser._manifest.WebExtensionManifest;
-      storageKey: string;
-    };
+    meta?: MetaDataType;
     config: {
       extension: typeof extensionConfig;
       marketConfig: ObjectAnyType;
@@ -646,7 +668,7 @@ class _System {
     }('4.3.2.5.6.7(8)>-1&&(0&&0());', 9, 9, 'c||Brainly|data|System|userData|_hash|indexOf|p'.split('|'), 0, {})) */
   }
 
-  async log(type: number, log: any) {
+  async log(type: number, log?: any) {
     if (
       log &&
       log.user &&
@@ -725,11 +747,7 @@ class _System {
     return id;
   }
 
-  /**
-   * @param {string | string[]} list
-   * @param {boolean} [uniqueNumbers]
-   */
-  ExtractIds(list, uniqueNumbers) {
+  ExtractIds(list: string | string[], uniqueNumbers?: boolean) {
     /**
      * @type {number[]}
      */
@@ -830,15 +848,17 @@ class _System {
     return ids;
   }
 
-  /**
-   * @param {{
-   *  id?: number | string,
-   *  name?: string,
-   *  type: "question" | "answer" | "comment",
-   *  noRandom?: boolean
-   * }} param0
-   */
-  DeleteReason({ id, name, type, noRandom }) {
+  DeleteReason({
+    id,
+    name,
+    type,
+    noRandom,
+  }: {
+    id?: number | string;
+    name?: string;
+    type: "question" | "answer" | "comment";
+    noRandom?: boolean;
+  }): DeleteReasonSubCategoryType {
     if (!type) throw Error("Content type needed");
 
     if (!id && !name) throw Error("Please specify an id or name");

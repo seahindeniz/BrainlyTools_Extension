@@ -1,40 +1,54 @@
+import { MetaDataType } from "@/scripts/controllers/System";
 import PrepareDeleteReasons from "../../../controllers/PrepareDeleteReasons";
 
-const MetaGet = function() {
-  return new Promise(function(resolve, reject) {
-    var evtMetaGet = new Event("metaGet", { "bubbles": true, "cancelable": false });
+const MetaGet = (): Promise<MetaDataType> => {
+  return new Promise((resolve, reject) => {
+    const evtMetaGet = new Event("metaGet", {
+      bubbles: true,
+      cancelable: false,
+    });
 
     document.dispatchEvent(evtMetaGet);
-    window.addEventListener('message', async e => {
+    window.addEventListener("message", async e => {
       if (!e) {
-        reject(null);
-      } else if (e.data.action == "metaSet") {
-        resolve(e.data.data)
-      } else if (e.data.action == "DOM>Share System.data to background.js") {
+        reject(Error("Didn't receive any event data"));
+        return;
+      }
+
+      if (e.data.action === "metaSet") {
+        resolve(e.data.data);
+
+        return;
+      }
+
+      if (e.data.action === "DOM>Share System.data to background.js") {
         await PrepareDeleteReasons(true);
         await System.ShareSystemDataToBackground();
 
-        var evtSharingDone = new Event("contentScript>Share System.data to background.js:DONE", { "bubbles": true, "cancelable": false });
+        const evtSharingDone = new Event(
+          "contentScript>Share System.data to background.js:DONE",
+          { bubbles: true, cancelable: false },
+        );
         document.dispatchEvent(evtSharingDone);
       }
     });
-  })
+  });
 };
 
 export default async function setMetaData() {
-  const scriptSrc = document.currentScript.src;
+  const scriptSrc = (document.currentScript as HTMLScriptElement).src;
   System.data.meta = await MetaGet();
 
-  return new Promise(function(resolve) {
-    let extension_URL = new URL(scriptSrc);
+  return new Promise(function (resolve) {
+    const extension_URL = new URL(scriptSrc);
     System.data.meta = {
       marketTitle: document.title,
       extension: {
         id: extension_URL.host,
-        URL: extension_URL.origin
+        URL: extension_URL.origin,
       },
-      ...System.data.meta
-    }
+      ...System.data.meta,
+    };
 
     resolve();
   });

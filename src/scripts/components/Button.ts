@@ -214,7 +214,7 @@ type ButtonElementCustomPropsType = {
 
 type ButtonElementType = HTMLButtonElement & ButtonElementCustomPropsType;
 
-type JQueryButtonElementType = JQuery<ButtonElementType> &
+export type JQueryButtonElementType = JQuery<ButtonElementType> &
   ButtonElementCustomPropsType;
 
 /**

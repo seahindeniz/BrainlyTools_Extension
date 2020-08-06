@@ -7,7 +7,7 @@
       "label": "echo",
       "type": "shell",
       "command": "tsc",
-      "args": ["-w", "-p", "."],
+      "args": ["-w", "--diagnostics", "-p", "./src/scripts"],
       "isBackground": true,
       "problemMatcher": "$tsc-watch",
       "presentation": {

@@ -22,7 +22,7 @@ const LANGUAGE_FOLDER = "src/locales";
 const LANGUAGE_DETAILS = {
   en_US: {
     name: "English",
-    author: undefined,
+    author: null,
   },
   id: {
     name: "Bahasa Indonesia",
@@ -34,7 +34,7 @@ const LANGUAGE_DETAILS = {
   },
   tr: {
     name: "Türkçe",
-    author: undefined,
+    author: null,
   },
   es_ES: {
     name: "Español",

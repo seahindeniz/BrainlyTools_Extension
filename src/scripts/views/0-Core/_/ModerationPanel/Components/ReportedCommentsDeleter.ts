@@ -1,17 +1,41 @@
-import Button from "../../../../components/Button";
-import notification from "../../../../components/notification2";
-import Action from "../../../../controllers/Req/Brainly/Action";
-import Components from "./Components";
+import { DeleteReasonSubCategoryType } from "@/scripts/controllers/System";
+import Components from ".";
+import Button, {
+  JQueryButtonElementType,
+} from "../../../../../components/Button";
+import notification from "../../../../../components/notification2";
+import Action, {
+  ReportedContentDataType,
+} from "../../../../../controllers/Req/Brainly/Action";
 
 const spinner = `<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`;
 
 class ReportedCommentsDeleter extends Components {
+  reports: ReportedContentDataType[];
+  started: boolean;
+  deletedReportsCount: number;
+  activeConnections: number;
+  deleteProcessInterval: number;
+  resetCounterInterval: number;
+
+  $panel: JQuery<HTMLElement>;
+  $spinner: JQuery<HTMLElement>;
+  $status: JQuery<HTMLElement>;
+  $reasons: JQuery<HTMLElement>;
+  $deleted: JQuery<HTMLElement>;
+  $pending: JQuery<HTMLElement>;
+  $processSection: JQuery<HTMLElement>;
+  $giveWarning: JQuery<HTMLElement>;
+  $startButtonSpinnerContainer: JQuery<HTMLElement>;
+  $stopButtonSpinnerContainer: JQuery<HTMLElement>;
+  $startButton: JQueryButtonElementType;
+  $stopButton: JQueryButtonElementType;
+
+  selectedReason: DeleteReasonSubCategoryType;
+
   constructor(main) {
     super(main);
 
-    /**
-     * @type {import("@BrainlyAction").ReportedContentDataType}
-     */
     this.reports = [];
     this.started = false;
     this.deletedReportsCount = 0;
@@ -215,7 +239,7 @@ class ReportedCommentsDeleter extends Components {
     }
   }
 
-  async LoadReportedComments(_lastId) {
+  async LoadReportedComments(_lastId?: number) {
     const resReports = await new Action().GetReportedComments({
       last_id: _lastId,
     });

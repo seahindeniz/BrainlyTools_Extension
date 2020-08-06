@@ -38,9 +38,9 @@ export default function RemoveJunkNotifications() {
 
   let infoBarStr = Base64.decode(infoBarBase64);
   let infoBar: {
-    text: string,
-    class: string,
-    layout: string,
+    text: string;
+    class: string;
+    layout: string;
   }[] = JSON.parse(infoBarStr);
 
   if (!infoBar) return;

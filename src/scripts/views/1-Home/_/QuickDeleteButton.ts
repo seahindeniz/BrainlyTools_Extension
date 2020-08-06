@@ -1,14 +1,22 @@
+import { DeleteReasonSubCategoryType } from "@/scripts/controllers/System";
 import { Button, Text, SpinnerContainer } from "@style-guide";
 import notification from "../../../components/notification2";
 import Action from "../../../controllers/Req/Brainly/Action";
+import type QuickDeleteButtonsClassType from "./QuickDeleteButtons";
 
 class QuickDeleteButton {
-  /**
-   * @param {number} reasonId
-   * @param {number} index
-   * @param {import("./QuickDeleteButtons").default} main
-   */
-  constructor(reasonId, index, main) {
+  main: QuickDeleteButtonsClassType;
+  index: number;
+  reason: DeleteReasonSubCategoryType;
+
+  spinnerContainer: HTMLDivElement;
+  button: Button;
+
+  constructor(
+    reasonId: number,
+    index: number,
+    main: QuickDeleteButtonsClassType,
+  ) {
     this.main = main;
     this.index = index;
     this.reason = System.DeleteReason({
@@ -66,15 +74,16 @@ class QuickDeleteButton {
   }
 
   async DeleteQuestion() {
+    const giveWarning = System.canBeWarned(this.reason.id);
     const taskData = {
       model_id: this.main.questionId,
       reason: this.reason.text,
       reason_title: this.reason.title,
       reason_id: this.reason.category_id,
+      give_warning: giveWarning,
+      take_points: giveWarning,
+      return_points: !giveWarning,
     };
-    taskData.give_warning = System.canBeWarned(this.reason.id);
-    taskData.take_points = taskData.give_warning;
-    taskData.return_points = !taskData.give_warning;
 
     const resRemove = await new Action().RemoveQuestion(taskData);
 

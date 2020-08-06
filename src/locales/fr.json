@@ -33,10 +33,6 @@
     "nIds": "%{n} IDs",
     "nNotFound": "%{n} non trouvé",
     "removeAll": "Tout retirer",
-    "halloween": {
-      "imSorry": "Je suis désolé de vous avoir effrayé !",
-      "happyHalloween": "Joyeux Halloween %{userNick} !!"
-    },
     "notificationMessages": {
       "operationError": "Une erreur s'est produite pendant l'opération. Réessaye.",
       "somethingWentWrong": "Oops, quelque chose n'a pas fonctionné",
@@ -104,7 +100,8 @@
     "optional": "FACULTATIF",
     "add": "Ajouter",
     "chooseAnOption": "Choisis une option",
-    "deleteAcross": "Supprimer à travers"
+    "deleteAcross": "Supprimer à travers",
+    "profileLinkOrId": "Profile link or id"
   },
   "popup": {
     "notificationMessages": {
@@ -825,5 +822,61 @@
   },
   "question": {
     "keywords": "Mots-clés"
+  },
+  "reportedContents": {
+    "questionAnswerReports": {
+      "text": "Questions/Answers (%{number_of_reports})",
+      "title": "Click here to see reported questions and answers"
+    },
+    "commentReports": {
+      "text": "Comments (%{number_of_reports})",
+      "title": "Click here to see reported comments"
+    },
+    "correctionReports": {
+      "text": "Correction Reports (%{number_of_reports})",
+      "title": "Click here to see the contents which has reported for correction and waiting for to be confirmed"
+    },
+    "subjectFilterFirstOption": "Subjects - ALL",
+    "categoryFilterFirstOption": "Report reasons - ALL",
+    "options": {
+      "buttonVisibility": {
+        "optionName": "Action buttons visibility",
+        "default": "Default",
+        "alwaysVisible": "Always visible",
+        "onHoverOrTouch": "On hover/touch"
+      },
+      "filter": {
+        "optionName": "Filter reports",
+        "description": "This filters can only be applied to reports that has already fetched",
+        "filters": {
+          "reporter": {
+            "name": "Reporter user",
+            "by": {
+              "nick": "Reporter nick",
+              "id": "Reporter user id"
+            }
+          },
+          "reported": {
+            "name": "Reported user",
+            "by": {
+              "nick": "Reported nick",
+              "id": "Reported user id"
+            }
+          },
+          "reportingDate": {
+            "name": "Reports between",
+            "startingDate": "Starting date",
+            "endingDate": "Ending date"
+          }
+        }
+      }
+    },
+    "queue": {
+      "rating": "%{rating} points for %{ratesCount} votes",
+      "numberOfRates": "%{rating} for %{ratesCount}"
+    }
+  },
+  "moderationPanel": {
+    "text": "Question Moderation"
   }
 }

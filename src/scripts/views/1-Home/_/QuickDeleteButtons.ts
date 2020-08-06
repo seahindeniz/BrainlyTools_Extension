@@ -1,13 +1,30 @@
+/* eslint-disable no-throw-literal */
 import { ContentBoxContent, Button, Icon } from "@style-guide";
 import ModeratingPanel from "./ModeratingPanel";
 import QuickDeleteButton from "./QuickDeleteButton";
 
+type OwnerType = {
+  id: number;
+  nick: string;
+};
+
 class QuickDeleteButtons {
-  /**
-   * @param {HTMLElement} target
-   * @param {{user?: {}, questionId?: number}} param1
-   */
-  constructor(target, { user, questionId } = {}) {
+  target: HTMLElement;
+  user: OwnerType;
+  questionId: number;
+
+  $container: JQuery<HTMLElement>;
+  $deleteButtonContainerBox: JQuery<HTMLElement>;
+  $moreOptionsButtonContainer: JQuery<HTMLElement>;
+  $moreOptionsButton: JQuery<HTMLElement>;
+  $spinner: JQuery<HTMLElement>;
+
+  moreOptionsButton: Button;
+
+  constructor(
+    target: HTMLElement,
+    { user, questionId }: { user?: OwnerType; questionId?: number } = {},
+  ) {
     this.target = target;
     this.user = user;
     this.questionId = questionId;
@@ -56,7 +73,7 @@ class QuickDeleteButtons {
   FindOwner() {
     const $userLink = $(window.selectors.userLink, this.target);
 
-    if ($userLink.length == 0)
+    if ($userLink.length === 0)
       throw {
         msg: "User link element not found from target",
         element: this.target,
@@ -67,7 +84,7 @@ class QuickDeleteButtons {
     if (!link)
       throw { msg: "User link not found from target", element: this.target };
 
-    let [nick, id] = link.replace(/.*\//, "").split("-");
+    const [nick, id] = link.replace(/.*\//, "").split("-");
 
     if (!nick)
       throw { msg: "User nick not found from target", element: this.target };
@@ -75,10 +92,8 @@ class QuickDeleteButtons {
     if (!id)
       throw { msg: "User id not found from target", element: this.target };
 
-    id = ~~id;
-
     return {
-      id,
+      id: Number(id),
       nick,
     };
   }
@@ -161,6 +176,7 @@ class QuickDeleteButtons {
 
   async OpenPanel() {
     this.ShowMoreOptionsButtonSpinner();
+    // eslint-disable-next-line no-new
     new ModeratingPanel(this);
   }
 

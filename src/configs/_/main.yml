@@ -3,17 +3,19 @@ common:
     en_US:
       progress: 100
       name: English
+      author: null
     fr:
-      progress: 97
+      progress: 94
       name: Français
       author: 'MichaelS, Its1tom'
     id:
-      progress: 88
+      progress: 86
       name: Bahasa Indonesia
       author: Zuhh
     tr:
-      progress: 98
+      progress: 96
       name: Türkçe
+      author: null
     es_ES:
       progress: 0
       name: Español

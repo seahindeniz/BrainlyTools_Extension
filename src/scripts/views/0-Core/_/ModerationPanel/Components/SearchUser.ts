@@ -1,18 +1,24 @@
-import { Avatar, Flex, InputDeprecated, Text } from "@/scripts/components/style-guide";
+import { Avatar, Flex, Input, Text } from "@/scripts/components/style-guide";
 import Action from "@/scripts/controllers/Req/Brainly/Action";
 import Build from "@/scripts/helpers/Build";
+import { FlexElementType } from "@style-guide/Flex";
 import debounce from "debounce";
-import RemoveJunkNotifications from "../RemoveJunkNotifications";
-import Components from "./Components";
+import RemoveJunkNotifications from "../../RemoveJunkNotifications";
+import Components from ".";
 
-/**
- * @param {number | string} n
- */
-function isPositiveInteger(n) {
+/* function isPositiveInteger(n: number) {
   return n % (!isNaN(parseFloat(n)) && ~~n >= 0) === 0;
+} */
+
+function isPositiveInteger(n) {
+  // eslint-disable-next-line no-bitwise
+  return n >>> 0 === parseFloat(n);
 }
 
 export default class extends Components {
+  input: Input;
+  userList: FlexElementType;
+
   constructor(main) {
     super(main);
 
@@ -25,7 +31,7 @@ export default class extends Components {
   }
 
   RenderInput() {
-    this.input = InputDeprecated({
+    this.input = new Input({
       type: "search",
       placeholder:
         System.data.locale.messages.groups.userCategories.findUsers.nickOrID,
@@ -75,7 +81,7 @@ export default class extends Components {
   }
 
   BindHandler() {
-    this.input.addEventListener(
+    this.input.element.addEventListener(
       "input",
       debounce(this.InputChanged.bind(this), 600),
     );
@@ -87,7 +93,7 @@ export default class extends Components {
       System.data.locale.core.notificationMessages.searching,
     );
 
-    if (!this.input.value || String(this.input.value).length < 2) {
+    if (!this.input.input.value || String(this.input.input.value).length < 2) {
       this.HideUserList();
 
       return;
@@ -121,13 +127,13 @@ export default class extends Components {
   }
 
   async StartSearching() {
-    if (isPositiveInteger(this.input.value)) await this.FindUserId();
+    if (isPositiveInteger(this.input.input.value)) await this.FindUserId();
 
     this.FindUser();
   }
 
   async FindUserId() {
-    const user = await new Action().GetUserProfile(~~this.input.value);
+    const user = await new Action().GetUserProfile(~~this.input.input.value);
 
     this.ChangeStatusText();
 
@@ -154,19 +160,22 @@ export default class extends Components {
     return true;
   }
 
-  /**
-   * @param {{
-   *  id?: number,
-   *  nick: string,
-   *  avatar: string,
-   *  profileUrl?: string,
-   *  ranks?: {
-   *    color: string,
-   *    name: string,
-   *  }[]
-   * }} data
-   */
-  RenderUser({ id, nick, avatar, profileUrl: _profileUrl, ranks = [] }) {
+  RenderUser({
+    id,
+    nick,
+    avatar,
+    profileUrl: _profileUrl,
+    ranks = [],
+  }: {
+    id?: number;
+    nick: string;
+    avatar: string;
+    profileUrl?: string;
+    ranks?: {
+      color: string;
+      name: string;
+    }[];
+  }) {
     if (!id && !_profileUrl) return;
 
     let profileUrl = _profileUrl;
@@ -235,7 +244,7 @@ export default class extends Components {
   }
 
   async FindUser() {
-    const resUserResult = await new Action().FindUser(this.input.value);
+    const resUserResult = await new Action().FindUser(this.input.input.value);
     const tempDiv = document.createElement("div");
     tempDiv.innerHTML = resUserResult.replace(
       /onerror="imgError\(this, (?:'|&#039;){1,}\);"/gim,
@@ -257,31 +266,24 @@ export default class extends Components {
     usersData.forEach(this.FindUserInDiv.bind(this));
   }
 
-  /**
-   * @param {HTMLDivElement} div
-   */
-  FindUserInDiv(div) {
+  FindUserInDiv(div: HTMLDivElement) {
     const avatar = div.querySelector("img").src;
     const divUserNick = div.querySelector(".user-nick");
     const profileAnchor = divUserNick.querySelector("a");
     const profileUrl = profileAnchor.href;
     const nick = profileAnchor.innerHTML;
-    /**
-     * @type {* | NodeListOf<HTMLSpanElement | HTMLAnchorElement>[]}
-     */
-    let ranks = divUserNick.querySelectorAll(":scope > [style]");
-
-    if (ranks && ranks.length > 0)
-      ranks = Array.from(ranks).map(rankSpan => ({
-        color: rankSpan.style.color,
-        name: rankSpan.innerText.trim(),
-      }));
+    const ranks: NodeListOf<
+      HTMLSpanElement | HTMLAnchorElement
+    > = divUserNick.querySelectorAll(":scope > [style]");
 
     this.RenderUser({
       avatar,
       nick,
       profileUrl,
-      ranks,
+      ranks: Array.from(ranks).map(rankSpan => ({
+        color: rankSpan.style.color,
+        name: rankSpan.innerText.trim(),
+      })),
     });
   }
 }

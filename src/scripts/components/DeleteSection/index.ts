@@ -52,7 +52,7 @@ type ReasonSections = {
 
 class DeleteSection {
   reasons: (DeleteReasonCategoryType | DeleteReasonSubCategoryType)[];
-  reason: DeleteReasonCategoryType | DeleteReasonSubCategoryType[];
+  reason: DeleteReasonCategoryType | DeleteReasonSubCategoryType;
   reasonSections: ReasonSections;
   subReasonSections: ReasonSections;
   hideReasons: ContentTypeType[];
@@ -413,7 +413,6 @@ class DeleteSection {
 
     if (event.target instanceof HTMLElement) {
       const reasonId = System.ExtractId(event.target.id);
-      // @ts-expect-error
       this.reason = this.reasons.find(reason => reason.id === reasonId);
       let subReasonSection = this.subReasonSections[reasonId];
 
@@ -455,9 +454,6 @@ class DeleteSection {
     }
   }
 
-  /**
-   * @returns {{id: number, category_id: number, text: string, title: string}}
-   */
   get selectedReason() {
     if (!this.type) {
       this.contentTypeSection.ShowWarning();

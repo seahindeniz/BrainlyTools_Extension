@@ -1,14 +1,14 @@
 import { Flex, MenuList } from "@style-guide";
 import { FlexElementType } from "@style-guide/Flex";
 import WaitForObject from "../../../../helpers/WaitForObject";
-import MassContentDeleter from "./MassContentDeleter";
+import MassContentDeleter from "./Components/MassContentDeleter";
 import MassManageUsers from "./MassManageUsers";
 import MassMessageSender from "./MassMessageSender";
 import MassModerateReportedContents from "./MassModerateReportedContents";
-import NoticeBoard from "./NoticeBoard";
+import NoticeBoard from "./Components/NoticeBoard";
 import PointChanger from "./PointChanger";
-import ReportedCommentsDeleter from "./ReportedCommentsDeleter";
-import SearchUser from "./SearchUser";
+import ReportedCommentsDeleter from "./Components/ReportedCommentsDeleter";
+import SearchUser from "./Components/SearchUser";
 
 /**
  * @typedef {typeof SearchUser |
@@ -32,26 +32,28 @@ const SELECTOR = {
   PANELS: ".brn-moderation-panel__list, #moderate-functions",
 };
 
+type ComponentsType = {
+  [x in "immediately" | "afterDeleteReasons"]: {
+    constructor:
+      | typeof SearchUser
+      | typeof NoticeBoard
+      | typeof MassMessageSender
+      | typeof PointChanger
+      | typeof MassModerateReportedContents
+      | typeof MassManageUsers
+      | typeof ReportedCommentsDeleter
+      | typeof MassContentDeleter;
+    condition?: boolean | number | number[];
+  }[];
+};
+
 class ModerationPanel {
   $statistics: JQuery<HTMLElement>;
   $newPanel: JQuery<HTMLElement>;
   $newPanelButton: JQuery<HTMLElement>;
   $oldPanel: JQuery<HTMLElement>;
   $oldPanelCoveringText: JQuery<HTMLElement>;
-  components: {
-    [x in "immediately" | "afterDeleteReasons"]: {
-      constructor:
-        | typeof SearchUser
-        | typeof NoticeBoard
-        | typeof MassMessageSender
-        | typeof PointChanger
-        | typeof MassModerateReportedContents
-        | typeof MassManageUsers
-        | typeof ReportedCommentsDeleter
-        | typeof MassContentDeleter;
-      condition?: boolean | number | number[];
-    }[];
-  };
+  components: ComponentsType;
 
   listContainer: FlexElementType;
   ul: HTMLUListElement;
@@ -128,31 +130,23 @@ class ModerationPanel {
   /**
    * @param {"immediately" | "afterDeleteReasons"} [groupName]
    */
-  InitComponents(groupName = "immediately") {
+  InitComponents(groupName: keyof ComponentsType = "immediately") {
     const group = this.components[groupName];
 
     if (!group) return;
 
-    group.forEach(
-      /**
-       * @param {{
-       *  constructor: ComponentsType,
-       *  condition?: number | number [] | boolean
-       * }} componentLayer
-       */
-      componentLayer => {
-        if (
-          !("condition" in componentLayer) ||
-          componentLayer.condition === true ||
-          ((typeof componentLayer.condition === "number" ||
-            componentLayer.condition instanceof Array) &&
-            System.checkUserP(componentLayer.condition))
-        ) {
-          // eslint-disable-next-line no-new
-          new componentLayer.constructor(this);
-        }
-      },
-    );
+    group.forEach(componentLayer => {
+      if (
+        !("condition" in componentLayer) ||
+        componentLayer.condition === true ||
+        ((typeof componentLayer.condition === "number" ||
+          componentLayer.condition instanceof Array) &&
+          System.checkUserP(componentLayer.condition))
+      ) {
+        // eslint-disable-next-line no-new
+        new componentLayer.constructor(this);
+      }
+    });
   }
 
   async InitComponentsAfterDeleteReasonsLoaded() {

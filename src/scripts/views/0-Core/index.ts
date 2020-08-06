@@ -1,4 +1,3 @@
-// @flow
 /* eslint-disable class-methods-use-this, camelcase */
 import InsertBefore from "@/scripts/helpers/InsertBefore";
 import WaitForElement from "@/scripts/helpers/WaitForElement";

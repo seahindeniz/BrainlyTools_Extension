@@ -2,44 +2,49 @@ import WaitForObject from "../../../helpers/WaitForObject";
 import storage from "../../../helpers/extStorage";
 
 async function fetchUserData() {
-  let response = await fetch("/api/28/api_users/me");
-  let data = await response.json();
+  const response = await fetch("/api/28/api_users/me");
+  const data = await response.json();
 
   return data;
 }
 
 async function PrepareUserData() {
-  let user = await fetchUserData();
-  let storageData = { user: user.data };
+  const user = await fetchUserData();
+  const storageData = { user: user.data };
 
   await storage("set", storageData);
 
   return storageData;
 }
 
-export default function SetUserData() {
-  return new Promise(async (resolve, reject) => {
+export default async function SetUserData() {
+  const dataLayer = await WaitForObject("window.dataLayer");
 
-    let _dataLayer = await WaitForObject("window.dataLayer");
+  if (!dataLayer[0]?.user?.isLoggedIn) {
+    console.error(dataLayer);
+    throw Error("User data error. Maybe not logged in");
+  }
 
-    if (_dataLayer && _dataLayer[0] && _dataLayer[0].user && _dataLayer[0].user.isLoggedIn) {
-      System.data.meta.storageKey = System.data.meta.marketName + "_" + ((window.dataLayer && window.dataLayer.length > 0 && window.dataLayer[0].user.id));
+  System.data.meta.storageKey = `${System.data.meta.marketName}_${
+    window.dataLayer &&
+    window.dataLayer.length > 0 &&
+    window.dataLayer[0].user.id
+  }`;
 
-      let res = await storage("get", ["user", "themeColor", "extendMessagesLayout"]);
+  let res = await storage("get", [
+    "user",
+    "themeColor",
+    "extendMessagesLayout",
+  ]);
 
-      if (!(res && res.user && res.user.user && res.user.user.id && res.user.user.id == _dataLayer[0].user.id)) {
-        res = await PrepareUserData();
-      } else {
-        PrepareUserData();
-      }
+  if (Number(res?.user?.user?.id) !== Number(dataLayer[0].user.id))
+    res = await PrepareUserData();
+  else {
+    PrepareUserData();
+  }
 
-      System.data.Brainly.userData = res.user;
+  System.data.Brainly.userData = res.user;
 
-      resolve(res);
-      System.Log("SetUserData OK!");
-    } else {
-      Console.error("User data error. Maybe not logged in", _dataLayer);
-      reject();
-    }
-  });
+  System.Log("SetUserData OK!");
+  return res;
 }

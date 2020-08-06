@@ -221,7 +221,11 @@ export type ReportedContentDataType = {
 };
 
 export type CommonDataInTicketType = {
-  attachments: [];
+  attachments: {
+    full: string;
+    type: string;
+    thumbnail: string;
+  }[];
   comments: [];
   content: string;
   created: string;
@@ -261,6 +265,11 @@ export type TicketDataType = {
     time_left: number;
     user_id: number;
   };
+};
+
+export type ModerationTicketDataType = CommonProps & {
+  data?: TicketDataType;
+  users_data?: UsersDataInReportedContentsType[];
 };
 
 const FAILED_RESPONSE = {
@@ -524,11 +533,20 @@ export default class Action extends Brainly {
     return this.Legacy().api_tickets().remove().POST({ task_id, ticket_id });
   }
 
-  /**
-   * @param {{model_id: number, reason: string, reason_title?: string, reason_id: number, model_type_id?: number, give_warning?: boolean, take_points?: boolean, return_points?:boolean, _coupon_?: string}} data
-   * @param {boolean} [dontReport]
-   */
-  async RemoveQuestion(data, dontReport) {
+  async RemoveQuestion(
+    data: {
+      model_id: number;
+      reason: string;
+      reason_title?: string;
+      reason_id: number;
+      model_type_id?: number;
+      give_warning?: boolean;
+      take_points?: boolean;
+      return_points?: boolean;
+      _coupon_?: string;
+    },
+    dontReport?: boolean,
+  ) {
     // eslint-disable-next-line no-param-reassign
     data = {
       model_type_id: 1,
@@ -591,11 +609,18 @@ export default class Action extends Brainly {
     return this.Legacy().moderation_new().delete_response_content().POST(data);
   }
 
-  /**
-   * @param {{model_id: number, reason?: string, reason_title?: string, reason_id?: number,  model_type_id?: number, give_warning?: boolean, _coupon_?: string}} data - Post data
-   * @param {boolean} [dontReport]
-   */
-  async RemoveComment(data, dontReport) {
+  async RemoveComment(
+    data: {
+      model_id: number;
+      reason?: string;
+      reason_title?: string;
+      reason_id?: number;
+      model_type_id?: number;
+      give_warning?: boolean;
+      _coupon_?: string;
+    },
+    dontReport?: boolean,
+  ) {
     data = {
       model_type_id: 45,
       give_warning: false,
@@ -707,12 +732,7 @@ export default class Action extends Brainly {
   async OpenModerationTicket(
     questionId: number,
     withActionsHistory = false,
-  ): Promise<
-    CommonProps & {
-      data?: TicketDataType;
-      users_data?: UsersDataInReportedContentsType[];
-    }
-  > {
+  ): Promise<ModerationTicketDataType> {
     const data = {
       model_id: questionId,
       model_type_id: 1,
@@ -1067,8 +1087,8 @@ export default class Action extends Brainly {
   GetReportedComments(
     data: {
       last_id?: number;
-      subject_id: number;
-      category_id: number;
+      subject_id?: number;
+      category_id?: number;
     } = { subject_id: 0, category_id: 0 },
   ): Promise<{
     success?: boolean;

@@ -1,16 +1,29 @@
+import HideElement from "@/scripts/helpers/HideElement";
+import Action, { ModerationTicketDataType } from "@BrainlyAction";
 import mime from "mime-types";
 import Button from "../../../components/Button";
 import DeleteSection from "../../../components/DeleteSection";
 import Modal from "../../../components/Modal";
 import notification from "../../../components/notification2";
-import Action from "../../../controllers/Req/Brainly/Action";
 import secondsToTime from "../../../helpers/secondsToTime";
+import type QuickDeleteButtonsClassType from "./QuickDeleteButtons";
 
 class ModeratingPanel {
-  /**
-   * @param {import("./QuickDeleteButtons").default} main
-   */
-  constructor(main) {
+  main: QuickDeleteButtonsClassType;
+  ticket: ModerationTicketDataType;
+
+  modal: Modal;
+  $counter: JQuery<HTMLElement>;
+  $deleteButtonSpinnerContainer: JQuery<HTMLElement>;
+  $deleteButton: JQuery<HTMLElement>;
+  $spinner: JQuery<HTMLElement>;
+  $taskContent: JQuery<HTMLElement>;
+  $showMoreLink: JQuery<HTMLElement>;
+
+  loopCounter: number;
+  deleteSection: DeleteSection;
+
+  constructor(main: QuickDeleteButtonsClassType) {
     this.main = main;
 
     try {
@@ -33,27 +46,25 @@ class ModeratingPanel {
     this.BindHandlers();
   }
 
-  OpenTicket() {
-    return new Promise(async (resolve, reject) => {
-      const resTicket = await new Action().OpenModerationTicket(
-        this.main.questionId,
-      );
+  async OpenTicket() {
+    const resTicket = await new Action().OpenModerationTicket(
+      this.main.questionId,
+    );
 
-      if (!resTicket) {
-        notification({
-          html:
-            System.data.locale.common.notificationMessages.somethingWentWrong,
-          type: "error",
-        });
-        reject("Server didn't respond");
-      } else if (!resTicket.success) {
-        resTicket.message &&
-          notification({ html: resTicket.message, type: "error" });
-        reject(resTicket.message || "Server didn't accepted");
-      } else {
-        resolve(resTicket);
-      }
-    });
+    if (!resTicket) {
+      notification({
+        html: System.data.locale.common.notificationMessages.somethingWentWrong,
+        type: "error",
+      });
+      throw Error("Server didn't respond");
+    } else if (!resTicket.success) {
+      if (resTicket.message)
+        notification({ html: resTicket.message, type: "error" });
+
+      throw Error(resTicket.message || "Server didn't accepted");
+    }
+
+    return resTicket;
   }
 
   RenderModal() {
@@ -61,7 +72,7 @@ class ModeratingPanel {
       id: this.ticket.data.task.id,
     });
     const questionOwner = this.ticket.users_data.find(
-      user => user.id == this.ticket.data.task.user.id,
+      user => user.id === this.ticket.data.task.user.id,
     );
     const ownerProfileLink = System.createBrainlyLink("profile", {
       nick: questionOwner.nick,
@@ -174,20 +185,17 @@ class ModeratingPanel {
 
   StartCounter() {
     this.UpdateCounter();
-    this._loop_counter = window.setInterval(
-      this.UpdateCounter.bind(this),
-      1000,
-    );
+    this.loopCounter = window.setInterval(this.UpdateCounter.bind(this), 1000);
   }
 
   StopCounter() {
-    window.clearInterval(this._loop_counter);
+    window.clearInterval(this.loopCounter);
   }
 
   UpdateCounter() {
     const time = secondsToTime(--this.ticket.data.ticket.time_left);
 
-    if (time.m == 0 && time.s == 0) {
+    if (time.m === 0 && time.s === 0) {
       this.ClosePanel();
     }
 
@@ -269,7 +277,7 @@ class ModeratingPanel {
     this.$deleteButton.click(this.DeleteQuestion.bind(this));
   }
 
-  async ClosePanel(ignoreTicket) {
+  async ClosePanel(ignoreTicket?: boolean) {
     this.modal.ShowCloseSpinner();
     this.modal.$close.off("click");
 
@@ -299,7 +307,10 @@ class ModeratingPanel {
         model_id: this.ticket.data.task.id,
         reason: this.deleteSection.reasonText,
         reason_id: this.deleteSection.selectedReason.id,
-        reason_title: this.deleteSection.selectedReason.title,
+        reason_title:
+          "title" in this.deleteSection.selectedReason
+            ? this.deleteSection.selectedReason.title
+            : "",
         give_warning: this.deleteSection.giveWarning,
         take_points: this.deleteSection.takePoints,
         return_points: this.deleteSection.returnPoints,
@@ -313,12 +324,13 @@ class ModeratingPanel {
         this.HideSpinner();
         this.modal.$overlay.scrollTop(0);
 
-        return this.modal.notification({
-          html:
-            resRemove.message ||
+        this.modal.notification(
+          resRemove.message ||
             System.data.locale.common.notificationMessages.somethingWentWrong,
-          type: "error",
-        });
+          "error",
+        );
+
+        return;
       }
 
       this.main.target.classList.add("deleted");
@@ -331,14 +343,7 @@ class ModeratingPanel {
   }
 
   HideSpinner() {
-    this.HideElement(this.$spinner);
-  }
-
-  /**
-   * @param {JQuery<HTMLElement>} $element
-   */
-  HideElement($element) {
-    $element.appendTo("<div/>");
+    HideElement(this.$spinner);
   }
 }
 

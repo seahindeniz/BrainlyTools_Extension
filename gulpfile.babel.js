@@ -96,8 +96,8 @@ fs.writeFileSync(`./${STYLE_GUIDE_PATH}.map`, styleGuideMapContent);
 task("clean", () => {
   return src(`./build/${target}`, { allowEmpty: true })
     .on("end", () => log("Waiting for 1 second before clean.."))
-    .pipe($.wait(1000));
-  // .pipe($.clean());
+    .pipe($.wait(1000))
+    .pipe($.clean());
 });
 
 /**
@@ -408,8 +408,11 @@ task("js", () => {
 task("ts", () => {
   return compileTSFiles(
     [
-      "src/scripts/*.ts",
-      "src/scripts/**/**/*.ts",
+      "!src/scripts/**/**/*.ts",
+      // "src/scripts/*.ts",
+      // "src/scripts/**/**/*.ts",
+      "src/scripts/views/0-Core/*.ts",
+      "src/scripts/views/1-Home/*.ts",
 
       "!src/scripts/**/**/_/*",
       "!src/scripts/**/**/_/**/*",
@@ -484,12 +487,12 @@ task(
     "clean",
     // "getBabelRC",
     "assets",
-    "extensionConfig",
+    // "extensionConfig", // TODO activate this
     "scss",
     "styleGuide",
     "locales",
     "generateLocaleIndex",
-    "popup",
+    // "popup", // TODO activate this
     "ts",
     // "js",
     // "jsx",
@@ -509,33 +512,50 @@ task("watchFiles", () => {
    */
   const watchJSFilesNeedsOnlyReload = watch(
     [
-      "./src/scripts/views/*/*.js",
-      "./src/scripts/*.js",
-      "./src/scripts/views/*/*.ts",
-      "./src/scripts/*.ts",
+      "!src/scripts/**/**/*.ts",
+      "src/scripts/views/0-Core/*.ts",
+      "src/scripts/views/1-Home/*.ts",
+      // "./src/scripts/views/*/*.js",
+      // "./src/scripts/*.js",
+      // "./src/scripts/views/*/*.ts",
+      // "./src/scripts/*.ts",
 
-      "!./src/scripts/views/**/_/*.js",
-      "!./src/scripts/views/**/_/**/*.js",
-      "!./src/scripts/views/**/_/*.ts",
-      "!./src/scripts/views/**/_/**/*.ts",
+      // "!src/scripts/views/10-QuestionSearch/",
+      // "!src/scripts/views/11-ModeratorActionsHistory/",
+      // "!src/scripts/views/12-QuestionAdd/",
+      // "!src/scripts/views/2-Messages/",
+      // "!src/scripts/views/3-Task/",
+      // "!src/scripts/views/4-UserContent/",
+      // "!src/scripts/views/5-UserProfile/",
+      // "!src/scripts/views/6-ArchiveMod/",
+      // "!src/scripts/views/7-UserWarnings/",
+      // "!src/scripts/views/8-Supervisors/",
+      // "!src/scripts/views/9-Uploader/",
+      // "!./src/scripts/views/**/_/*.js",
+      // "!./src/scripts/views/**/_/**/*.js",
+      // "!./src/scripts/views/**/_/*.ts",
+      // "!./src/scripts/views/**/_/**/*.ts",
     ],
     series("reloadExtension"),
   );
   const watchJSFilesNeedsToReBuild = watch(
     [
-      "./src/**/*.js",
-      "./src/scripts/views/**/_/*.js",
-      "./src/scripts/views/**/_/**/*.js",
-      "./src/**/*.ts",
-      "./src/scripts/views/**/_/*.ts",
-      "./src/scripts/views/**/_/**/*.ts",
+      "!src/scripts/**/**/*.ts",
+      "src/scripts/views/0-Core/**/*.ts",
+      "src/scripts/views/1-Home/**/*.ts",
+      // "./src/**/*.js",
+      // "./src/scripts/views/**/_/*.js",
+      // "./src/scripts/views/**/_/**/*.js",
+      // "./src/**/*.ts",
+      // "./src/scripts/views/**/_/*.ts",
+      // "./src/scripts/views/**/_/**/*.ts",
 
-      "!./src/scripts/views/*/*.js",
-      "!./src/scripts/*.js",
-      "!src/locales/index.js",
-      "!./src/scripts/views/*/*.ts",
-      "!./src/scripts/*.ts",
-      "!src/locales/index.ts",
+      // "!./src/scripts/views/*/*.js",
+      // "!./src/scripts/*.js",
+      // "!src/locales/index.js",
+      // "!./src/scripts/views/*/*.ts",
+      // "!./src/scripts/*.ts",
+      // "!src/locales/index.ts",
     ],
     series("build", "reloadExtension"),
   );

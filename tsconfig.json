@@ -1,23 +1,24 @@
 {
   "compilerOptions": {
-    "resolveJsonModule": true,
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
     "checkJs": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
     "module": "CommonJS",
     "noEmit": true,
-    "baseUrl": ".",
     "paths": {
+      "@/*": ["src/*"],
       "@BrainlyAction": ["./src/scripts/controllers/Req/Brainly/Action"],
       "@ServerReq": ["./src/scripts/controllers/Req/Server"],
       "@style-guide": ["./src/scripts/components/style-guide"],
-      "@style-guide/*": ["./src/scripts/components/style-guide/*"],
-      "@/*": ["src/*"]
+      "@style-guide/*": ["./src/scripts/components/style-guide/*"]
     },
+    "resolveJsonModule": true,
     "target": "es6",
     "typeRoots": ["node_modules/@types", "./src/scripts/typings"]
   },
-  "include": ["./src/scripts"],
   "exclude": [
     "temp/",
     "build/",
@@ -26,8 +27,6 @@
     "src/styles/",
     "src/scripts/jsx",
     "src/scripts/lib",
-    /* "src/scripts/views/0-Core/",
-    "src/scripts/views/1-Home/", */
     "src/scripts/views/10-QuestionSearch/",
     "src/scripts/views/11-ModeratorActionsHistory/",
     "src/scripts/views/12-QuestionAdd/",
@@ -39,7 +38,6 @@
     "src/scripts/views/7-UserWarnings/",
     "src/scripts/views/8-Supervisors/",
     "src/scripts/views/9-Uploader/",
-
     "node_modules",
     "*/node_modules",
     "**/node_modules",
@@ -50,5 +48,6 @@
     "**/node_modules/*",
     "*/node_modules/**",
     "**/node_modules/**"
-  ]
+  ],
+  "include": ["./src/scripts"]
 }

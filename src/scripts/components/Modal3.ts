@@ -44,7 +44,7 @@ export default class Modal {
   flashContainer: HTMLDivElement;
 
   titleContainer: FlexElementType;
-  titleText: TextElement;
+  titleText: TextElement<"div">;
 
   #contentContainer: FlexElementType;
 
@@ -124,6 +124,7 @@ export default class Modal {
       children:
         typeof this.title === "string"
           ? (this.titleText = Text({
+              tag: "div",
               size: "large",
               color: "gray",
               weight: "extra-bold",

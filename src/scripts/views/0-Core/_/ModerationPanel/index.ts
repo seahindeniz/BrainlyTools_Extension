@@ -2,11 +2,10 @@ import { Flex, MenuList } from "@style-guide";
 import { FlexElementType } from "@style-guide/Flex";
 import WaitForObject from "../../../../helpers/WaitForObject";
 import MassContentDeleter from "./Components/MassContentDeleter";
-import MassManageUsers from "./MassManageUsers";
-import MassMessageSender from "./MassMessageSender";
-import MassModerateReportedContents from "./MassModerateReportedContents";
+import MassManageUsers from "./Components/MassManageUsers";
+import MassMessageSender from "./Components/MassMessageSender";
 import NoticeBoard from "./Components/NoticeBoard";
-import PointChanger from "./PointChanger";
+import PointChanger from "./Components/PointChanger";
 import ReportedCommentsDeleter from "./Components/ReportedCommentsDeleter";
 import SearchUser from "./Components/SearchUser";
 
@@ -15,7 +14,6 @@ import SearchUser from "./Components/SearchUser";
  * typeof NoticeBoard |
  * typeof MassMessageSender |
  * typeof PointChanger |
- * typeof MassModerateReportedContents |
  * typeof MassManageUsers |
  * typeof ReportedCommentsDeleter |
  * typeof MassContentDeleter
@@ -39,7 +37,6 @@ type ComponentsType = {
       | typeof NoticeBoard
       | typeof MassMessageSender
       | typeof PointChanger
-      | typeof MassModerateReportedContents
       | typeof MassManageUsers
       | typeof ReportedCommentsDeleter
       | typeof MassContentDeleter;
@@ -99,10 +96,6 @@ class ModerationPanel {
         {
           constructor: MassContentDeleter,
           condition: 7,
-        },
-        {
-          constructor: MassModerateReportedContents,
-          condition: 18,
         },
       ],
     };

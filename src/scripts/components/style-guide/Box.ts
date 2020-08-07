@@ -23,6 +23,13 @@ export type BoxColorType =
 
 type PaddingType = "xxs" | "xs" | "s" | "m" | "l" | "xl";
 
+const CLASS_PROP_NAMES = {
+  border: "border",
+  shadow: "shadow",
+  noBorderRadius: "no-border-radius",
+  fullHeight: "full-height",
+};
+
 export type BoxPropsType = {
   children?: ChildrenParamType;
   className?: string;
@@ -97,5 +104,26 @@ export default class {
     this.element.classList.add(`sg-box--border-color-${String(borderColor)}`);
 
     this.borderColor = borderColor;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  ChangeProps(props: {
+    border?: boolean;
+    shadow?: boolean;
+    noBorderRadius?: boolean;
+    // additional
+    fullHeight?: boolean;
+  }) {
+    Object.entries(props).forEach(([propName, propValue]) => {
+      const className = CLASS_PROP_NAMES[propName];
+
+      if (!className) return;
+
+      if (propValue) {
+        this.element.classList.add(`sg-box--${className}`);
+      } else {
+        this.element.classList.remove(`sg-box--${className}`);
+      }
+    });
   }
 }

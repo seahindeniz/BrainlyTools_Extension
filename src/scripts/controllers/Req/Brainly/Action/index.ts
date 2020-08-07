@@ -7,13 +7,13 @@ const gql = (s = "") => s;
 
 import Brainly from "..";
 import Chunkify from "../../../../helpers/Chunkify";
-import AnswerConnection from "./GraphQL/Answer/Connection.graphql";
+/* import AnswerConnection from "./GraphQL/Answer/Connection.graphql";
 import AnswerConnection_With_Comments from "./GraphQL/Answer/Connection_With_Comments.graphql";
 import CommentConnection from "./GraphQL/Comment/Connection.graphql";
 import QuestionFragment from "./GraphQL/Question.graphql";
 import UserFragment from "./GraphQL/User.graphql";
 import SubjectFragment from "./GraphQL/Subject.graphql";
-import AttachmentFragment from "./GraphQL/Attachment.graphql";
+import AttachmentFragment from "./GraphQL/Attachment.graphql"; */
 
 const USERS_PROFILE_REQ_CHUNK_SIZE = 990;
 
@@ -349,7 +349,7 @@ export default class Action extends Brainly {
     return this.Legacy().api_tasks().main_view().P(String(id)).GET();
   }
 
-  GetQuestion2(
+  /* GetQuestion2(
     id: number | string,
     {
       excludeAnswer,
@@ -421,9 +421,9 @@ export default class Action extends Brainly {
     this.data.query += AttachmentFragment;
 
     return this.POST();
-  }
+  } */
 
-  GetAnswer(
+  /* GetAnswer(
     id: number | string,
     {
       includeQuestion,
@@ -484,7 +484,7 @@ export default class Action extends Brainly {
     else if (includeComments) this.data.query += CommentConnection;
 
     return this.POST();
-  }
+  } */
 
   /**
    * @param {number} task_id

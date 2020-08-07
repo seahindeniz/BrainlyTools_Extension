@@ -1,3 +1,4 @@
+// @ts-expect-error
 import IconsContent from "./_/icons.html";
 
 export default function InjectIcons() {

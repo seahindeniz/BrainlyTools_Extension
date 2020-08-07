@@ -26,7 +26,7 @@ export default class Question extends ContentSection {
       grade => grade.id === this.questionData.grade_id,
     );
 
-    const subjectLink = System.createBrainlyLink();
+    // const subjectLink = System.createBrainlyLink();
 
     this.userDetailsContainer.RenderChildren(
       Text({

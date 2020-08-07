@@ -1,7 +1,7 @@
 import Build from "@/scripts/helpers/Build";
 import IsVisible from "@/scripts/helpers/IsVisible";
 import {
-  BoxDeprecated,
+  Box,
   Flex,
   Spinner,
   SpinnerContainer,
@@ -83,23 +83,23 @@ export default class KeywordList {
     }
   }
   Render() {
-    let box;
+    const box = new Box({
+      padding: "xxsmall",
+      color: "dark",
+      full: true,
+      noMinHeight: true,
+      noBorderRadius: true,
+      children: (this.spinner = Spinner({
+        overlay: true,
+        size: "xsmall",
+      })),
+    });
     this.container = Flex({
       fullWidth: true,
       marginBottom: "xxs",
       children: SpinnerContainer({
         fullWidth: true,
-        children: (box = BoxDeprecated({
-          padding: "xxsmall",
-          color: "dark",
-          full: true,
-          noMinHeight: true,
-          noBorderRadius: true,
-          children: (this.spinner = Spinner({
-            overlay: true,
-            size: "xsmall",
-          })),
-        })),
+        children: box,
       }),
     });
     this.boxHole = box.firstChild;

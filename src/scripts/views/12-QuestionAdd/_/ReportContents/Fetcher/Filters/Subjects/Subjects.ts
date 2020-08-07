@@ -62,7 +62,7 @@ export default class Subjects {
   }
 
   AssignSelectedSubject() {
-    const [selectedOption] = this.subjectSelect.select.selectedOptions;
+    const selectedOption = this.subjectSelect.select.selectedOptions[0];
     this.selectedSubject = this.subjects.find(
       subject => subject.option === selectedOption,
     );

@@ -6,6 +6,7 @@ import type {
 } from "@BrainlyAction";
 import { Avatar, Box, Breadcrumb, Flex, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
+import { TextElement } from "@style-guide/Text";
 import type ModerationPanelClassType from "../ModerationPanel";
 
 export type ContentTypeType = "Question" | "Answer";
@@ -24,12 +25,13 @@ export default class ContentSection {
   container: Box;
   userDetailsContainer: Breadcrumb;
   contentDetailsContainer: FlexElementType;
-  creationDateText: Text;
+  creationDateText: TextElement<"span">;
 
   constructor(main: ModerationPanelClassType, contentType: ContentTypeType) {
     this.main = main;
     this.contentType = contentType;
 
+    // @ts-expect-error
     this.data = {};
   }
 

@@ -75,12 +75,15 @@ type TextCustomProperties = {
   ChangeColor?: typeof ChangeColor;
 };
 
-export type TextElement = TextCustomProperties & HTMLElement;
+// TODO change type name to TextElementType
+export type TextElement<
+  T extends keyof HTMLElementTagNameMap
+> = TextCustomProperties & HTMLElementTagNameMap[T];
 
 const SG = "sg-text";
 const SGD = `${SG}--`;
 
-function ChangeColor(this: TextElement, color: TextColorType) {
+function ChangeColor(this: TextElement<"div">, color: TextColorType) {
   this.classList.remove(SGD + this.color);
 
   if (color !== "default") this.classList.add(SGD + color);
@@ -117,7 +120,7 @@ const Text = <T extends keyof HTMLElementTagNameMap>({
   tag,
   fixPosition,
   ...props
-}: TextPropsType<T>): TextCustomProperties & HTMLElementTagNameMap[T] => {
+}: TextPropsType<T>): TextElement<T> => {
   const textClass = classnames(
     "sg-text",
     {

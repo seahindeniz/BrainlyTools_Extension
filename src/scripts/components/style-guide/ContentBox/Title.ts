@@ -18,7 +18,7 @@ type TitleSizeType =
   | "xxlarge";
 
 export type TitlePropsType = {
-  children?: ChildrenParamType;
+  children?: ChildrenParamType | TextPropsType<"td">;
   full?: boolean;
   spaced?: boolean;
   spacedSmall?: boolean;

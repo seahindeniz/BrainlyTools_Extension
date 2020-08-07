@@ -28,7 +28,8 @@ type TextareaPropsType<T> = {
 const SG = "sg-textarea";
 const SGD = `${SG}--`;
 
-export default function <T extends keyof HTMLElementTagNameMap>({
+// TODO add generic type for default tag name
+export default function Textarea<T extends keyof HTMLElementTagNameMap>({
   valid,
   invalid,
   size = "normal",
@@ -44,9 +45,9 @@ export default function <T extends keyof HTMLElementTagNameMap>({
   placeholder,
   contentEditable,
   ...props
-}: TextareaPropsType<T> = {}) {
+}: TextareaPropsType<T> = {}): HTMLElementTagNameMap[T] {
   if (valid === true && invalid === true)
-    throw "Textarea can be either valid or invalid!";
+    throw Error("Textarea can be either valid or invalid!");
 
   const textareaClass = classnames(
     SG,
@@ -70,8 +71,11 @@ export default function <T extends keyof HTMLElementTagNameMap>({
     tag: tag || "textarea",
     className: textareaClass,
     placeholder,
+    contentEditable,
+    value,
     ...props,
   });
 
+  // @ts-expect-error
   return textarea;
 }

@@ -10,6 +10,15 @@ type HandlersType = {
   Error?: NoopType;
 };
 
+export type SendMessageUserType = {
+  id: number;
+  conversation_id?: number;
+  time: number;
+  exception_type?: number;
+  message?: string;
+  validation_errors: string;
+};
+
 function FixIdList(idList: string | number[]) {
   if (!(idList instanceof Array)) {
     const range = idList.split(":");
@@ -77,7 +86,7 @@ export default class SendMessageToBrainlyIds {
   }
 
   async Send(id: number) {
-    const user = {
+    const user: SendMessageUserType = {
       id,
       time: undefined,
       message: undefined,

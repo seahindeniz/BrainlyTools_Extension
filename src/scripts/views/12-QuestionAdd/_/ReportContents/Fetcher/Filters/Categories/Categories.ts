@@ -177,7 +177,7 @@ export default class Categories {
   }
 
   AssignSelectedCategory(target: HTMLSelectElement) {
-    const [selectedOption] = target.selectedOptions;
+    const selectedOption = target.selectedOptions[0];
     this.selectedCategory = this.categories.all.find(
       category => category.option === selectedOption,
     );

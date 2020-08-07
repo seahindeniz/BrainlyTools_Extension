@@ -15,6 +15,8 @@ import packageImporter from "node-sass-package-importer";
 import ts from "gulp-typescript";
 import merge from "merge2";
 import babelrc from "./.babelrc";
+import pathmodify from "pathmodify";
+import path from "path";
 
 const browserify = require("browserify");
 const source = require("vinyl-source-stream");
@@ -23,6 +25,8 @@ const rename = require("gulp-rename");
 const es = require("event-stream");
 const debug = require("gulp-debug");
 
+/* console.log(path.join(__dirname, "./src/scripts/components/style-guide", ""));
+process.exit(0); */
 const $ = require("gulp-load-plugins")();
 
 const STYLE_GUIDE_PATH = "src/styles/_/style-guide.css";
@@ -103,7 +107,7 @@ task("clean", () => {
 /**
  * HELPERS
  */
-function compileJSFiles(files, path) {
+function compileJSFiles(files, destPath) {
   let process = src(files).pipe(
     $.bro({
       transform: [
@@ -134,16 +138,116 @@ function compileJSFiles(files, path) {
     );
   }
 
-  return process.pipe(dest(path, { overwrite: true }));
+  return process.pipe(dest(destPath, { overwrite: true }));
 }
-const tsProject = ts.createProject("tsconfig.json");
 
-function compileTSFiles(files, path) {
+function compileTSFiles(files, destPath) {
+  let process = src(files).pipe(
+    $.bro({
+      transform: [
+        babelify.configure({
+          presets: ["@babel/preset-typescript"],
+          plugins: [
+           /*  "@babel/plugin-transform-runtime",
+            "@babel/plugin-proposal-class-properties", */
+            [
+              "inline-import",
+              {
+                extensions: [".html"],
+              },
+            ],
+            [
+              "import-graphql",
+              {
+                runtime: true,
+              },
+            ],
+            [
+              "module-resolver",
+              {
+                alias: {
+                  "@BrainlyAction":
+                    "./src/scripts/controllers/Req/Brainly/Action",
+                  "@ServerReq": "./src/scripts/controllers/Req/Server",
+                  "@style-guide": "./src/scripts/components/style-guide",
+                  "@": "./src",
+                },
+              },
+            ],
+          ],
+          sourceMaps: false,
+        }),
+        // ['uglifyify', { global: true, sourceMap: false }]
+      ],
+    }),
+  );
+
+  /* if (isProduction) {
+    process = process.pipe(
+      $.minify({
+        preserveComments: false,
+        noSource: true,
+        ext: {
+          min: ".js",
+        },
+      }),
+    );
+  } */
+
+  return process.pipe(dest(destPath, { overwrite: true }));
+}
+
+const tsPaths = {
+  "@BrainlyAction": "./src/scripts/controllers/Req/Brainly/Action",
+  "@ServerReq": "./src/scripts/controllers/Req/Server",
+  "@style-guide": "./src/scripts/components/style-guide",
+  // "@style-guide/*": ["./src/scripts/components/style-guide"],
+  "@/": "src/",
+};
+const tsPathKeys = Object.keys(tsPaths);
+
+function compileTSFiles3(files, destPath) {
   return src(files)
     .pipe(debug({ title: "unicorn:" }))
     .pipe(
       $.bro({
         plugin: [
+          [
+            "pathmodify",
+            {
+              mods: [
+                /**
+                 * @param {{
+                 *  id: string,
+                 * }} rec
+                 */
+                function (rec) {
+                  const alias = {};
+
+                  tsPathKeys.some(pathKey => {
+                    if (rec.id.indexOf(pathKey) !== 0) return;
+
+                    alias.id = path.join(
+                      __dirname,
+                      tsPaths[pathKey],
+                      rec.id.replace(pathKey, ""),
+                    );
+
+                    return true;
+                  });
+
+                  return alias;
+                },
+              ],
+            },
+          ],
+          [
+            "stringify",
+            {
+              appliesTo: { includeExtensions: [".html"] },
+              minify: true,
+            },
+          ],
           [
             "tsify",
             {
@@ -155,35 +259,18 @@ function compileTSFiles(files, path) {
               lib: ["es5", "es6", "dom"],
               allowJs: true,
               baseUrl: ".",
-              paths: {
-                "@BrainlyAction": [
-                  "./src/scripts/controllers/Req/Brainly/Action",
-                ],
-                "@ServerReq": ["./src/scripts/controllers/Req/Server"],
-                "@style-guide": ["./src/scripts/components/style-guide"],
-                "@style-guide/*": ["./src/scripts/components/style-guide/*"],
-                "@/*": ["src/*"],
-              },
               typeRoots: ["node_modules/@types", "./src/scripts/typings"],
-
-              exclude: [
-                "build",
-                "temp",
-                "src/scripts/jsx",
-                "src/scripts/lib",
-                "src/scripts/views",
-                "node_modules",
-                "**/node_modules/*",
-              ],
             },
           ],
         ],
       }),
     )
     .pipe($.rename({ extname: ".js" }))
-    .pipe(dest(path, { overwrite: true }));
+    .pipe(dest(destPath, { overwrite: true }));
 }
-function compileTSFiles2(files, path) {
+
+// const tsProject = ts.createProject("tsconfig.json");
+function compileTSFiles2(files, destPath) {
   let process = src(files).pipe(
     ts({
       declaration: false,
@@ -232,11 +319,11 @@ function compileTSFiles2(files, path) {
     );
   } */
 
-  // return merge([process.dts.pipe(dest(path)), process.js.pipe(dest(path))]);
-  return process.pipe(dest(path, { overwrite: true }));
+  // return merge([process.dts.pipe(dest(destPath)), process.js.pipe(dest(destPath))]);
+  return process.pipe(dest(destPath, { overwrite: true }));
 }
 
-function compileJSXFiles(files, path) {
+function compileJSXFiles(files, destPath) {
   return src(files)
     .pipe(
       $.bro({
@@ -264,10 +351,10 @@ function compileJSXFiles(files, path) {
       }),
     )
     .pipe($.rename({ extname: ".js" }))
-    .pipe(dest(path, { overwrite: true }));
+    .pipe(dest(destPath, { overwrite: true }));
 }
 
-function compileScssFiles(files, path) {
+function compileScssFiles(files, destPath) {
   return src(files)
     .pipe($.plumber())
     .pipe($.sourcemaps.init())
@@ -282,7 +369,7 @@ function compileScssFiles(files, path) {
         .on("error", $.sass.logError),
     )
     .pipe($.sourcemaps.write(`./`))
-    .pipe(dest(path, { overwrite: true }));
+    .pipe(dest(destPath, { overwrite: true }));
 }
 
 function FetchStyleGuide() {
@@ -291,8 +378,8 @@ function FetchStyleGuide() {
   );
 }
 
-function PrintRebuilding(path) {
-  log.info(colors.green(path), "has changed, rebuilding");
+function PrintRebuilding(filePath) {
+  log.info(colors.green(filePath), "has changed, rebuilding");
 }
 
 /**
@@ -414,15 +501,15 @@ task("ts", () => {
       "src/scripts/views/0-Core/*.ts",
       "src/scripts/views/1-Home/*.ts",
 
-      "!src/scripts/**/**/_/*",
-      "!src/scripts/**/**/_/**/*",
-      "!src/scripts/components/**/*.ts",
-      "!src/scripts/controllers/**/*.ts",
-      "!src/scripts/helpers/**/*.ts",
-      "!src/scripts/utils/*.ts",
-      "!src/scripts/lib/*.min.ts",
-      "!src/scripts/jsx/*",
-      "!src/scripts/jsx/**/*",
+      // "!src/scripts/**/**/_/*",
+      // "!src/scripts/**/**/_/**/*",
+      // "!src/scripts/components/**/*.ts",
+      // "!src/scripts/controllers/**/*.ts",
+      // "!src/scripts/helpers/**/*.ts",
+      // "!src/scripts/utils/*.ts",
+      // "!src/scripts/lib/*.min.ts",
+      // "!src/scripts/jsx/*",
+      // "!src/scripts/jsx/**/*",
     ],
     `build/${target}/scripts`,
   );
@@ -604,50 +691,50 @@ task("watchFiles", () => {
   );
 
   watchJSFilesNeedsToReBuild.on("change", PrintRebuilding);
-  watchJSFilesNeedsOnlyReload.on("change", path => {
-    const filePath = path.split("/");
+  watchJSFilesNeedsOnlyReload.on("change", _path => {
+    const filePath = _path.split("/");
     const destPath = filePath.slice(1, -1).join("/");
     const fileName = filePath.pop();
     const destFullPath = `build/${target}/${destPath}/${fileName}`;
 
-    compileJSFiles(path, `build/${target}/${destPath}`);
+    compileJSFiles(_path, `build/${target}/${destPath}`);
 
     log.info(
       `${colors.yellow("JS")}: ${colors.green(
-        path,
+        _path,
       )} has replaced with ${colors.magenta(destFullPath)}`,
     );
   });
 
   watchJSXFilesNeedsToReBuild.on("change", PrintRebuilding);
-  watchJSXFilesNeedsOnlyReload.on("change", path => {
-    const filePath = path.split("/");
+  watchJSXFilesNeedsOnlyReload.on("change", _path => {
+    const filePath = _path.split("/");
     const destPath = filePath.slice(1, -1).join("/");
     const fileName = filePath.pop();
     const destFullPath = `build/${target}/${destPath}/${fileName}`;
 
-    compileJSXFiles(path, `build/${target}/${destPath}`);
+    compileJSXFiles(_path, `build/${target}/${destPath}`);
 
     log.info(
       `${colors.yellow("JSX")}: ${colors.green(
-        path,
+        _path,
       )} has replaced with ${colors.magenta(destFullPath)}`,
     );
   });
 
-  watchSCSSFilesNeedsOnlyReload.on("change", path => {
-    const filePath = path.split("/");
+  watchSCSSFilesNeedsOnlyReload.on("change", _path => {
+    const filePath = _path.split("/");
     const destPath = filePath.slice(1, -1).join("/");
     let fileName = filePath.pop().split(".");
     fileName.pop();
     fileName = fileName.join(".");
     const destFullPath = `build/${target}/${destPath}/${fileName}.css`;
 
-    compileScssFiles(path, `build/${target}/${destPath}`);
+    compileScssFiles(_path, `build/${target}/${destPath}`);
 
     log.info(
       `${colors.yellow("SCSS")}: ${colors.green(
-        path,
+        _path,
       )} has replaced with ${colors.magenta(destFullPath)}`,
     );
   });

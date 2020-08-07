@@ -6,17 +6,16 @@ import type {
   ReportedContentDataType,
   UsersDataInReportedContentsType,
 } from "@BrainlyAction";
-import Action from "@BrainlyAction";
 import { Avatar, Box, Button, Flex, Icon, Spinner, Text } from "@style-guide";
-import type { FlexElementType } from "@style-guide/Flex";
-import type { TextElement } from "@style-guide/Text";
-import type { ButtonColorType } from "@style-guide/Button";
 import type { BoxColorType } from "@style-guide/Box";
+import type { ButtonColorType } from "@style-guide/Button";
+import type { FlexElementType } from "@style-guide/Flex";
+import { IconColorType } from "@style-guide/Icon";
+import type { TextElement } from "@style-guide/Text";
 import moment from "moment-timezone";
+import type { ModeratorDataType } from "../LiveStatus/LiveStatus";
 import type ReportedContentsType from "../ReportedContents";
 import QuickDeleteButton from "./QuickDeleteButton";
-import type { ModeratorDataType } from "../LiveStatus/LiveStatus";
-import { IconColorType } from "@style-guide/Icon";
 
 type StatusNamesType =
   | "default"
@@ -93,8 +92,8 @@ export default class Content {
   box: Box;
   moderateActionContainer: FlexElementType;
   moderateButton: Button;
-  createDateText: TextElement;
-  reportDateText: TextElement;
+  createDateText: TextElement<"i">;
+  reportDateText: TextElement<"i">;
   reportDetailContainer: FlexElementType;
   quickDeleteButtonContainer: FlexElementType;
   confirmButtonContainer: FlexElementType;
@@ -412,7 +411,9 @@ export default class Content {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  RenderExtraDetails() {}
+  RenderExtraDetails() {
+    //
+  }
 
   RenderQuickDeleteButtons() {
     const thisIs = this.contentType.toLocaleLowerCase() as

@@ -13,12 +13,12 @@ import type { ToplayerElementType } from "@style-guide/ToplayerDeprecated";
 import { ToplayerDeprecatedPropsType } from "@style-guide/ToplayerDeprecated";
 import HideElement from "../helpers/HideElement";
 import IsVisible from "../helpers/IsVisible";
-import notification from "./notification2";
+import notification, { NotificationPropsType } from "./notification2";
 
 type ModalPropsType = ToplayerDeprecatedPropsType & {
   overlay?: boolean;
-  title?: ContentPropsType;
-  content?: TitlePropsType;
+  title?: string | TitlePropsType;
+  content?: ContentPropsType;
   actions?: ActionsPropsType;
 };
 
@@ -31,8 +31,8 @@ export default class Modal {
 
   sections: {
     actions: ActionsPropsType;
-    content: TitlePropsType;
-    title: ActionsPropsType;
+    content: ContentPropsType;
+    title: string | TitlePropsType;
   };
 
   contentBox: HTMLElement;
@@ -85,10 +85,10 @@ export default class Modal {
     // this.modalContainer.appendChild(this.toplayer);
   }
 
-  RenderTitle(props: TitlePropsType = {}) {
+  RenderTitle(props: string | TitlePropsType = {}) {
     if (props instanceof HTMLElement) {
       this.#title = props;
-    } else if (props.children) {
+    } else {
       if (typeof props === "string")
         // eslint-disable-next-line no-param-reassign
         props = {
@@ -239,10 +239,7 @@ export default class Modal {
     HideElement(this.container);
   }
 
-  /**
-   * @param {import("./notification2").NotificationPropertiesType} options
-   */
-  Notification(options) {
+  Notification(options: NotificationPropsType) {
     const notificationElement = notification(options);
 
     if (notificationElement)

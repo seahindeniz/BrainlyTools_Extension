@@ -2,9 +2,9 @@ import {
   Button,
   Flex,
   SpinnerContainer,
-} from "@/scripts/components/style-guide";
-import Action from "@/scripts/controllers/Req/Brainly/Action";
-import Build from "@/scripts/helpers/Build";
+} from "@root/scripts/components/style-guide";
+import Action from "@root/scripts/controllers/Req/Brainly/Action";
+import Build from "@root/scripts/helpers/Build";
 import ModerationSection from ".";
 
 export default class AnswerSection extends ModerationSection {

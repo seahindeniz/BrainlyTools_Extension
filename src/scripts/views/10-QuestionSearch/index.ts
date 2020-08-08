@@ -1,4 +1,4 @@
-import WaitForElement from "@/scripts/helpers/WaitForElement";
+import WaitForElement from "@root/scripts/helpers/WaitForElement";
 import ModerateSection from "./_/ModerateSection";
 import QuestionBox from "./_/QuestionBox";
 

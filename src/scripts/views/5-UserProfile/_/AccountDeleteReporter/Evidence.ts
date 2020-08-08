@@ -1,8 +1,8 @@
 // @ts-check
 
-import CreateElement from "@/scripts/components/CreateElement";
-import Build from "@/scripts/helpers/Build";
-import IsVisible from "@/scripts/helpers/IsVisible";
+import CreateElement from "@root/scripts/components/CreateElement";
+import Build from "@root/scripts/helpers/Build";
+import IsVisible from "@root/scripts/helpers/IsVisible";
 import { Button, Flex, Icon, Text } from "@style-guide";
 import prettysize from "prettysize";
 
@@ -31,7 +31,7 @@ export default class Evidence {
 
   RenderPreviewContainer() {
     /**
-     * @type {import("@/scripts/components/CreateElement")
+     * @type {import("@root/scripts/components/CreateElement")
      * .CreateElementPropertiesType}
      */
     let data;

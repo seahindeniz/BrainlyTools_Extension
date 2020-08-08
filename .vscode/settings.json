@@ -103,4 +103,10 @@
   /* "javascript.suggest.enabled": false,
   "typescript.suggest.enabled": false,
   "typescript.validate.enable": false */
+  /* "files.associations": {
+    "webpack.*.config.js": "webpack"
+  }, */
+  "material-icon-theme.files.associations": {
+    "webpack.assets.config.js": "webpack"
+  }
 }

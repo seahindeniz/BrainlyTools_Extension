@@ -1,4 +1,4 @@
-import WaitForElement from "@/scripts/helpers/WaitForElement";
+import WaitForElement from "@root/scripts/helpers/WaitForElement";
 import Button from "../../../components/Button";
 import Action from "../../../controllers/Req/Brainly/Action";
 

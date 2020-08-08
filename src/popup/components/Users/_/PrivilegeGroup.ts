@@ -1,4 +1,4 @@
-import HideElement from "@/scripts/helpers/HideElement";
+import HideElement from "@root/scripts/helpers/HideElement";
 import Privilege from "./Privilege";
 import type { PrivilegePropsType } from "./Privilege";
 import type PrivilegeCategoryClassType from "./PrivilegeCategory";

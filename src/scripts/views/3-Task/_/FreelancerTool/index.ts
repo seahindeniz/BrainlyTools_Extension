@@ -1,4 +1,4 @@
-import ServerReq from "@/scripts/controllers/Req/Server";
+import ServerReq from "@root/scripts/controllers/Req/Server";
 import KeywordList from "./KeywordList";
 import PageVisitButton from "./PageVisitButton";
 

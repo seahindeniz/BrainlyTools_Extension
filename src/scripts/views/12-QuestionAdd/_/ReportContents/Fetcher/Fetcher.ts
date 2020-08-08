@@ -1,4 +1,4 @@
-import HideElement from "@/scripts/helpers/HideElement";
+import HideElement from "@root/scripts/helpers/HideElement";
 import type {
   ReportedContentDataType,
   UsersDataInReportedContentsType,

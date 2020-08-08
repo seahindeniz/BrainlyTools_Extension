@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { QuickDeleteButtonReasonsType } from "@/scripts/controllers/System";
+import { QuickDeleteButtonReasonsType } from "@root/scripts/controllers/System";
 import storage from "../../scripts/helpers/extStorage";
 import notification from "./notification";
 

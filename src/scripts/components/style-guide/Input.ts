@@ -1,4 +1,4 @@
-import Build from "@/scripts/helpers/Build";
+import Build from "@root/scripts/helpers/Build";
 import classnames from "classnames";
 import CreateElement from "../CreateElement";
 import Flex from "./Flex";

@@ -1,4 +1,4 @@
-import { Button, Icon } from "@/scripts/components/style-guide";
+import { Button, Icon } from "@root/scripts/components/style-guide";
 import storage from "../../../helpers/extStorage";
 
 export default class LayoutChanger {

@@ -1,5 +1,5 @@
-import Build from "@/scripts/helpers/Build";
-import InsertAfter from "@/scripts/helpers/InsertAfter";
+import Build from "@root/scripts/helpers/Build";
+import InsertAfter from "@root/scripts/helpers/InsertAfter";
 import ServerReq from "@ServerReq";
 import { Button, Flex, InputDeprecated, Text, Textarea, Icon } from "@style-guide";
 import JSZip from "jszip";

@@ -1,4 +1,4 @@
-import WaitForElement from "@/scripts/helpers/WaitForElement";
+import WaitForElement from "@root/scripts/helpers/WaitForElement";
 import Button from "../../components/Button";
 import notification from "../../components/notification2";
 import Progress from "../../components/Progress";

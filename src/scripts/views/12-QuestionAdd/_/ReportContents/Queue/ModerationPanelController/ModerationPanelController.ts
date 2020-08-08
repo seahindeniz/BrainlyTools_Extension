@@ -1,5 +1,5 @@
-import ModerationPanel from "@/scripts/components/ModerationPanel/ModerationPanel";
-import notification from "@/scripts/components/notification2";
+import ModerationPanel from "@root/scripts/components/ModerationPanel/ModerationPanel";
+import notification from "@root/scripts/components/notification2";
 import Action from "@BrainlyAction";
 import type { ContentClassTypes } from "../../Fetcher/Fetcher";
 import type QueueClassType from "../Queue";

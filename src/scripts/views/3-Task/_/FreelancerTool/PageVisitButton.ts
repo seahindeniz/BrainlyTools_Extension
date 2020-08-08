@@ -1,6 +1,6 @@
-import { Button, Flex, Icon } from "@/scripts/components/style-guide";
-import InsertAfter from "@/scripts/helpers/InsertAfter";
-import WaitForElement from "@/scripts/helpers/WaitForElement";
+import { Button, Flex, Icon } from "@root/scripts/components/style-guide";
+import InsertAfter from "@root/scripts/helpers/InsertAfter";
+import WaitForElement from "@root/scripts/helpers/WaitForElement";
 
 /**
  * @param {import("./").default} main

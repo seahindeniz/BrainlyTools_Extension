@@ -1,7 +1,7 @@
-import CreateElement from "@/scripts/components/CreateElement";
-import notification from "@/scripts/components/notification2";
-import Build from "@/scripts/helpers/Build";
-import HideElement from "@/scripts/helpers/HideElement";
+import CreateElement from "@root/scripts/components/CreateElement";
+import notification from "@root/scripts/components/notification2";
+import Build from "@root/scripts/helpers/Build";
+import HideElement from "@root/scripts/helpers/HideElement";
 import type {
   ReportedContentDataType,
   UsersDataInReportedContentsType,

@@ -1,5 +1,5 @@
 import ModerationSection from ".";
-import Action from "@/scripts/controllers/Req/Brainly/Action";
+import Action from "@root/scripts/controllers/Req/Brainly/Action";
 
 export default class QuestionSection extends ModerationSection {
   /**

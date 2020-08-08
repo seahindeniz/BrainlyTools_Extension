@@ -1,6 +1,6 @@
 /* eslint-disable class-methods-use-this, camelcase */
-import InsertBefore from "@/scripts/helpers/InsertBefore";
-import WaitForElement from "@/scripts/helpers/WaitForElement";
+import InsertBefore from "@root/scripts/helpers/InsertBefore";
+import WaitForElement from "@root/scripts/helpers/WaitForElement";
 import Action from "@BrainlyAction";
 import ServerReq from "@ServerReq";
 import { Flex, Text } from "@style-guide";

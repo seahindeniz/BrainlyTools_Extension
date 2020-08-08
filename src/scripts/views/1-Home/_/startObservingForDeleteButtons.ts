@@ -1,4 +1,4 @@
-import WaitForElement from "@/scripts/helpers/WaitForElement";
+import WaitForElement from "@root/scripts/helpers/WaitForElement";
 import QuickDeleteButtons from "./QuickDeleteButtons";
 
 function processNodeElement(node: HTMLElement) {

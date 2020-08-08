@@ -2,9 +2,9 @@
 
 import { Flex, Spinner } from "@style-guide";
 import ServerReq, { ModerateAllPageNumbersType } from "@ServerReq";
-import InsertAfter from "@/scripts/helpers/InsertAfter";
+import InsertAfter from "@root/scripts/helpers/InsertAfter";
 import PerfectScrollbar from "perfect-scrollbar";
-import Build from "@/scripts/helpers/Build";
+import Build from "@root/scripts/helpers/Build";
 import Page from "./Page";
 import type ArchiveMod from "../..";
 

@@ -6,11 +6,11 @@ import {
   Icon,
   Spinner,
   Text,
-} from "@/scripts/components/style-guide";
-import Build from "@/scripts/helpers/Build";
-import HideElement from "@/scripts/helpers/HideElement";
-import IsVisible from "@/scripts/helpers/IsVisible";
-import WaitForElement from "@/scripts/helpers/WaitForElement";
+} from "@root/scripts/components/style-guide";
+import Build from "@root/scripts/helpers/Build";
+import HideElement from "@root/scripts/helpers/HideElement";
+import IsVisible from "@root/scripts/helpers/IsVisible";
+import WaitForElement from "@root/scripts/helpers/WaitForElement";
 import sortablejs from "sortablejs";
 import notification from "../../../components/notification2";
 import Progress from "../../../components/Progress";

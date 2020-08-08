@@ -1,5 +1,5 @@
-import { Flex, Spinner } from "@/scripts/components/style-guide";
-import InsertAfter from "@/scripts/helpers/InsertAfter";
+import { Flex, Spinner } from "@root/scripts/components/style-guide";
+import InsertAfter from "@root/scripts/helpers/InsertAfter";
 import ToplayerQDB from "./ToplayerQDB";
 
 export default class ModerationSection {

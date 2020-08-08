@@ -1,5 +1,5 @@
-import IsVisible from "@/scripts/helpers/IsVisible";
-import WaitForElement from "@/scripts/helpers/WaitForElement";
+import IsVisible from "@root/scripts/helpers/IsVisible";
+import WaitForElement from "@root/scripts/helpers/WaitForElement";
 import ServerReq from "@ServerReq";
 import { ActionList, ActionListHole, ContentBox } from "@style-guide";
 import UserBio from "../../components/UserBio";

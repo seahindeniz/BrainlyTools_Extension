@@ -1,9 +1,9 @@
-import notification from "@/scripts/components/notification2";
+import notification from "@root/scripts/components/notification2";
 import {
   Button,
   Flex,
   SpinnerContainer,
-} from "@/scripts/components/style-guide";
+} from "@root/scripts/components/style-guide";
 
 export default class ToplayerQDB {
   /**

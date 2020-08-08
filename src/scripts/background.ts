@@ -1,5 +1,5 @@
-import _System from "@/scripts/controllers/System";
-import storage from "@/scripts/utils/storage";
+import _System from "@root/scripts/controllers/System";
+import storage from "@root/scripts/utils/storage";
 import IsBrainly from "./helpers/IsBrainly";
 import ext from "./utils/ext";
 

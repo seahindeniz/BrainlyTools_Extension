@@ -7,10 +7,6 @@
   "overrides": [
     {
       "files": ["*.ts"],
-      "env": {
-        "browser": true,
-        "es6": true
-      },
       "extends": [
         "airbnb-typescript-prettier"
         /* "airbnb-base",
@@ -61,6 +57,40 @@
         "@typescript-eslint/no-explicit-any": "off",
         "camelcase": "warn",
         "no-cond-assign": ["error", "except-parens"]
+      }
+    },
+    {
+      "files": ["*.js"],
+      "extends": ["airbnb-base", "prettier"],
+      "plugins": ["prettier"],
+
+      "rules": {
+        // "prettier/prettier": ["error"],
+        "no-plusplus": 0,
+        "arrow-parens": [2, "as-needed", { "requireForBlockBody": false }],
+        "no-param-reassign": ["error", { "props": false }],
+        "no-bitwise": ["error", { "allow": ["~"] }],
+        "import/no-unresolved": [2, { "ignore": ["^@"] }],
+        "no-alert": "off",
+        "no-restricted-globals": ["error", "event"],
+        "no-nested-ternary": "off",
+        "lines-between-class-members": [
+          "error",
+          "always",
+          { "exceptAfterSingleLine": true }
+        ],
+        "no-console": ["warn", { "allow": ["warn", "error"] }],
+        "@typescript-eslint/ban-ts-comment": [0, { "ts-expect-error": false }],
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "camelcase": "warn",
+        "no-cond-assign": ["error", "except-parens"],
+        "import/no-extraneous-dependencies": [
+          "error",
+          {
+            "devDependencies": true
+          }
+        ]
       }
     }
   ]

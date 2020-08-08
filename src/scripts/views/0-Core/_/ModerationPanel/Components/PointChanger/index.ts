@@ -28,7 +28,7 @@ export default class MassManageUsers extends Components {
 
   lastTabIndex: number;
   numberOfActiveConnections: number;
-  loopId: NodeJS.Timeout;
+  loopId: number;
 
   numberOfTypedUsers: Text;
   modal: Modal;
@@ -398,7 +398,7 @@ export default class MassManageUsers extends Components {
     if (this.loopId) return;
 
     this.TryToAddPoints();
-    this.loopId = setInterval(this.TryToAddPoints.bind(this), 1000);
+    this.loopId = window.setInterval(this.TryToAddPoints.bind(this), 1000);
   }
 
   async TryToAddPoints() {

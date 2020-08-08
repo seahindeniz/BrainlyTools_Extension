@@ -1,4 +1,4 @@
-import { DeleteReasonSubCategoryType } from "@/scripts/controllers/System";
+import { DeleteReasonSubCategoryType } from "@root/scripts/controllers/System";
 import { Button, Text, SpinnerContainer } from "@style-guide";
 import notification from "../../../components/notification2";
 import Action from "../../../controllers/Req/Brainly/Action";

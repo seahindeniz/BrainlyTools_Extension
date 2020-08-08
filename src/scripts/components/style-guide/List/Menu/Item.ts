@@ -1,4 +1,4 @@
-import CreateElement from "@/scripts/components/CreateElement";
+import CreateElement from "@root/scripts/components/CreateElement";
 import { ChildrenParamType } from "@style-guide/helpers/AddChildren";
 import classNames from "classnames";
 

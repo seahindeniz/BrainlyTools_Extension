@@ -1,4 +1,4 @@
-import Popup from "@/popup/controllers/Popup";
+import Popup from "@root/popup/controllers/Popup";
 import _System from "../controllers/System";
 import ThemeColorChanger from "../helpers/ThemeColorChanger";
 

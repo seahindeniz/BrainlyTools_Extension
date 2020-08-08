@@ -30,7 +30,7 @@ export default class ModerationPanel {
   prolongTimeButton: Button;
   buttonSpinner: HTMLDivElement;
 
-  countdownIntervalId: NodeJS.Timeout;
+  countdownIntervalId: number;
 
   constructor(
     data: TicketDataType,
@@ -112,7 +112,10 @@ export default class ModerationPanel {
     if (inMilliseconds === 0) this.TimesUp();
 
     if (!this.countdownIntervalId)
-      this.countdownIntervalId = setInterval(this.Countdown.bind(this), 1000);
+      this.countdownIntervalId = window.setInterval(
+        this.Countdown.bind(this),
+        1000,
+      );
   }
 
   TimesUp() {

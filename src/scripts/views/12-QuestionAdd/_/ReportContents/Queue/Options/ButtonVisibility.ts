@@ -1,7 +1,7 @@
 // @flow
 
-import Build from "@/scripts/helpers/Build";
-import storage from "@/scripts/helpers/extStorage";
+import Build from "@root/scripts/helpers/Build";
+import storage from "@root/scripts/helpers/extStorage";
 import { Flex, Select, SeparatorHorizontal, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type OptionsClassType from "./Options";

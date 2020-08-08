@@ -1,4 +1,4 @@
-import Build from "@/scripts/helpers/Build";
+import Build from "@root/scripts/helpers/Build";
 import type {
   AnswerDataInTicketType,
   QuestionDataInTicketType,

@@ -3,7 +3,7 @@
 import {
   DeleteReasonCategoryType,
   DeleteReasonSubCategoryType,
-} from "@/scripts/controllers/System";
+} from "@root/scripts/controllers/System";
 import Build from "../../helpers/Build";
 import {
   Checkbox,

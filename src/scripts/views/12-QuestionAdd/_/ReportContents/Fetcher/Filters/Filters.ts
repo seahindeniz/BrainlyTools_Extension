@@ -1,6 +1,6 @@
 // @flow
 
-import Build from "@/scripts/helpers/Build";
+import Build from "@root/scripts/helpers/Build";
 import { Flex } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type FetcherType from "../Fetcher";

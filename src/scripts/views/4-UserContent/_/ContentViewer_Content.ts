@@ -1,8 +1,8 @@
 // @flow
 
-import CreateElement from "@/scripts/components/CreateElement";
-import notification from "@/scripts/components/notification2";
-import Build from "@/scripts/helpers/Build";
+import CreateElement from "@root/scripts/components/CreateElement";
+import notification from "@root/scripts/components/notification2";
+import Build from "@root/scripts/helpers/Build";
 import Action from "@BrainlyAction";
 import {
   Avatar,

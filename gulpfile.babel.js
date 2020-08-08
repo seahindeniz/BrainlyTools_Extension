@@ -202,7 +202,7 @@ const tsPaths = {
   "@ServerReq": "./src/scripts/controllers/Req/Server",
   "@style-guide": "./src/scripts/components/style-guide",
   // "@style-guide/*": ["./src/scripts/components/style-guide"],
-  "@/": "src/",
+  "@root/": "src/",
 };
 const tsPathKeys = Object.keys(tsPaths);
 
@@ -302,7 +302,7 @@ function compileTSFiles2(files, destPath) {
         "@ServerReq": ["./src/scripts/controllers/Req/Server"],
         "@style-guide": ["./src/scripts/components/style-guide"],
         "@style-guide/*": ["./src/scripts/components/style-guide/*"],
-        "@/*": ["src/*"],
+        "@root/*": ["src/*"],
       },
     }),
   );

@@ -1,4 +1,4 @@
-import WaitForElement from "@/scripts/helpers/WaitForElement";
+import WaitForElement from "@root/scripts/helpers/WaitForElement";
 /* eslint-disable no-new */
 import LayoutChanger from "./_/LayoutChanger";
 import ModerateToplayerEnhancer from "./_/ModerateToplayerEnhancer";

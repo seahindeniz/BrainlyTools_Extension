@@ -1,5 +1,4 @@
 import classnames from "classnames";
-import mergeDeep from "merge-deep";
 import CreateElement from "../../CreateElement";
 import { ChildrenParamType } from "../helpers/AddChildren";
 import Text from "../Text";
@@ -61,22 +60,20 @@ export default function ({
   const div = document.createElement("div");
   div.className = contentBoxClass;
 
-  if (
-    !(
-      children instanceof HTMLElement ||
-      children instanceof Array ||
-      children instanceof Node
-    )
-  ) {
-    let textProps: TextPropsType<"td"> = {
+  if (typeof children === "string") {
+    const textProps: TextPropsType<"td"> = {
       tag: "td",
       color: "gray",
       weight: "extra-bold",
       size: "large",
     };
 
-    if (typeof children === "string") textProps.html = children;
-    else textProps = mergeDeep(textProps, children);
+    /* if (typeof children === "string") textProps.html = children;
+    else if (typeof children === "object")
+      textProps = {
+        ...textProps,
+        ...children,
+      }; */
 
     // eslint-disable-next-line no-param-reassign
     children = Text(textProps);
@@ -85,6 +82,7 @@ export default function ({
   return CreateElement({
     tag: "div",
     className: contentBoxClass,
+    // @ts-expect-error
     children,
     ...props,
   });

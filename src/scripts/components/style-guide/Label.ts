@@ -1,8 +1,7 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-underscore-dangle */
 import classnames from "classnames";
-import mergeDeep from "merge-deep";
-import InsertAfter from "@/scripts/helpers/InsertAfter";
+import InsertAfter from "@root/scripts/helpers/InsertAfter";
 import Icon, { IconPropsType, IconColorType } from "./Icon";
 import Text, { TextColorType } from "./Text";
 import SetProps from "./helpers/SetProps";
@@ -125,7 +124,11 @@ function AddIcon(
     };
 
     if (!(icon instanceof Icon)) {
-      iconProps = mergeDeep(iconProps, icon);
+      // @ts-expect-error
+      iconProps = {
+        ...iconProps,
+        ...icon,
+      };
 
       const iconObj = new Icon(iconProps);
       iconInstance = iconObj;

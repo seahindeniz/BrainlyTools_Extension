@@ -1,7 +1,7 @@
 // @flow
 
-import HideElement from "@/scripts/helpers/HideElement";
-import IsVisible from "@/scripts/helpers/IsVisible";
+import HideElement from "@root/scripts/helpers/HideElement";
+import IsVisible from "@root/scripts/helpers/IsVisible";
 import type ReportedContentsType from "../ReportedContents";
 import Options from "./Options/Options";
 import Reporter from "./Filter/Reporter";

@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
-import Build from "@/scripts/helpers/Build";
-import IsVisible from "@/scripts/helpers/IsVisible";
+import Build from "@root/scripts/helpers/Build";
+import IsVisible from "@root/scripts/helpers/IsVisible";
 import { Box, Button, Icon, Text, Flex } from "@style-guide";
 import momentTz from "moment-timezone";
 import notification from "../../../components/notification2";

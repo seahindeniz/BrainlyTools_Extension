@@ -1,4 +1,4 @@
-import WaitForElement from "@/scripts/helpers/WaitForElement";
+import WaitForElement from "@root/scripts/helpers/WaitForElement";
 import ServerReq from "@ServerReq";
 import html2canvas from "html2canvas";
 import md5 from "js-md5";

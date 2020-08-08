@@ -1,6 +1,6 @@
 // @flow
 
-import { QuickDeleteButtonReasonsType } from "@/scripts/controllers/System";
+import { QuickDeleteButtonReasonsType } from "@root/scripts/controllers/System";
 import storage from "../../scripts/helpers/extStorage";
 import Dropdown from "../helpers/Dropdown";
 import send2AllBrainlyTabs from "../helpers/send2AllBrainlyTabs";

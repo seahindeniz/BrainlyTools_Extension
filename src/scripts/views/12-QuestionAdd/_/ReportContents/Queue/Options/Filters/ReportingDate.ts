@@ -1,6 +1,6 @@
 // @flow
 
-import Build from "@/scripts/helpers/Build";
+import Build from "@root/scripts/helpers/Build";
 import { Flex, InputDeprecated, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type { InputElementType } from "@style-guide/InputDeprecated";

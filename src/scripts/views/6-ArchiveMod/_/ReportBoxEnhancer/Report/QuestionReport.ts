@@ -1,4 +1,4 @@
-import Action from "@/scripts/controllers/Req/Brainly/Action";
+import Action from "@root/scripts/controllers/Req/Brainly/Action";
 import Report from ".";
 
 export default class QuestionReport extends Report {

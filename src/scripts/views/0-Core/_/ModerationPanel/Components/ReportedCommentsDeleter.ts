@@ -1,4 +1,4 @@
-import { DeleteReasonSubCategoryType } from "@/scripts/controllers/System";
+import { DeleteReasonSubCategoryType } from "@root/scripts/controllers/System";
 import Components from ".";
 import Button, {
   JQueryButtonElementType,

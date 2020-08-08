@@ -1,7 +1,7 @@
 import ServerReq from "@ServerReq";
-import notification from "@/scripts/components/notification2";
-import UserNoteBox from "@/scripts/components/UserNoteBox";
-import UserTag from "@/scripts/components/UserTag";
+import notification from "@root/scripts/components/notification2";
+import UserNoteBox from "@root/scripts/components/UserNoteBox";
+import UserTag from "@root/scripts/components/UserTag";
 
 export default class {
   /**

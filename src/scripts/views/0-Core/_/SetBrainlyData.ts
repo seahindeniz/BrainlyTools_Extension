@@ -1,4 +1,4 @@
-import { DefaultConfigDataType } from "@/scripts/controllers/System";
+import { DefaultConfigDataType } from "@root/scripts/controllers/System";
 /* eslint-disable no-param-reassign */
 import Action from "../../../controllers/Req/Brainly/Action";
 import WaitForObject from "../../../helpers/WaitForObject";

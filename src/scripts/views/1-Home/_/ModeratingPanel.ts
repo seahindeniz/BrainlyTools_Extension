@@ -1,4 +1,4 @@
-import HideElement from "@/scripts/helpers/HideElement";
+import HideElement from "@root/scripts/helpers/HideElement";
 import Action, { ModerationTicketDataType } from "@BrainlyAction";
 import mime from "mime-types";
 import Button from "../../../components/Button";

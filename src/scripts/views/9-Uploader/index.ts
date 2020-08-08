@@ -1,4 +1,4 @@
-import WaitForElement from "@/scripts/helpers/WaitForElement";
+import WaitForElement from "@root/scripts/helpers/WaitForElement";
 import prettysize from "prettysize";
 import Button from "../../components/Button";
 import notification from "../../components/notification2";

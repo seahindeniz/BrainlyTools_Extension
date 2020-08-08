@@ -3,23 +3,29 @@
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
-    "checkJs": true,
-    "esModuleInterop": true,
+    // "checkJs": true,
+    // "esModuleInterop": true,
     "isolatedModules": true,
-    "module": "CommonJS",
-    "noEmit": true,
+    "module": "esnext",
+    "downlevelIteration": true,
+    // "noEmit": true,
+    "lib": ["es5", "es6", "es2015.collection", "es2015.iterable", "dom"],
     "paths": {
-      "@/*": ["src/*"],
       "@BrainlyAction": ["./src/scripts/controllers/Req/Brainly/Action"],
       "@ServerReq": ["./src/scripts/controllers/Req/Server"],
       "@style-guide": ["./src/scripts/components/style-guide"],
-      "@style-guide/*": ["./src/scripts/components/style-guide/*"]
+      "@style-guide/*": ["./src/scripts/components/style-guide/*"],
+      "@root/*": ["./src/*"]
     },
+    "moduleResolution": "node",
     "resolveJsonModule": true,
-    "target": "es6",
-    "typeRoots": ["node_modules/@types", "./src/scripts/typings"]
+    "target": "ES6",
+    "typeRoots": ["node_modules/@types", "./src/scripts/typings"],
+    "outDir": "./build/"
   },
+  "include": ["src/scripts"],
   "exclude": [
+    "node_modules",
     "temp/",
     "build/",
     "dist/",
@@ -37,17 +43,15 @@
     "src/scripts/views/6-ArchiveMod/",
     "src/scripts/views/7-UserWarnings/",
     "src/scripts/views/8-Supervisors/",
-    "src/scripts/views/9-Uploader/",
-    "node_modules",
-    "*/node_modules",
-    "**/node_modules",
-    "node_modules/*",
-    "node_modules/**",
-    "node_modules/**/*",
-    "*/node_modules/*",
-    "**/node_modules/*",
-    "*/node_modules/**",
-    "**/node_modules/**"
-  ],
-  "include": ["./src/scripts"]
+    "src/scripts/views/9-Uploader/"
+    // "*/node_modules",
+    // "**/node_modules",
+    // "node_modules/*",
+    // "node_modules/**",
+    // "node_modules/**/*",
+    // "*/node_modules/*",
+    // "**/node_modules/*",
+    // "*/node_modules/**",
+    // "**/node_modules/**"
+  ]
 }

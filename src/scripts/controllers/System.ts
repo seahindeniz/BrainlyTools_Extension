@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-underscore-dangle, no-param-reassign, class-methods-use-this */
-import locale from "@/locales";
+import locale from "@root/locales";
 import ServerReq from "@ServerReq";
 import cookie from "js-cookie";
 import extensionConfig from "../../configs/_/extension.json";

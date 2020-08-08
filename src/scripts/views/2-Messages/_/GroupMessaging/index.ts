@@ -1,4 +1,4 @@
-import WaitForElement from "@/scripts/helpers/WaitForElement";
+import WaitForElement from "@root/scripts/helpers/WaitForElement";
 import ServerReq from "@ServerReq";
 import moment from "moment";
 import notification from "../../../../components/notification2";

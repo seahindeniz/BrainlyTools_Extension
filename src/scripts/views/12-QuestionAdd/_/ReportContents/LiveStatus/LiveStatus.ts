@@ -1,5 +1,5 @@
 // @flow
-import Request from "@/scripts/controllers/Req";
+import Request from "@root/scripts/controllers/Req";
 import type ReportedContentsType from "../ReportedContents";
 
 export type ModeratorDataType = {

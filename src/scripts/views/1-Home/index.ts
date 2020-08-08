@@ -1,4 +1,4 @@
-import WaitForElement from "@/scripts/helpers/WaitForElement";
+import WaitForElement from "@root/scripts/helpers/WaitForElement";
 import TimedLoop from "../../helpers/TimedLoop";
 import startObservingForDeleteButtons from "./_/startObservingForDeleteButtons";
 import TodaysActions from "./_/TodaysActions";

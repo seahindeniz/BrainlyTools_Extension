@@ -38,7 +38,7 @@ export default class SendMessageToBrainlyIds {
   content: string;
 
   #loop: number;
-  #loopResetLimit: NodeJS.Timeout;
+  #loopResetLimit: number;
 
   promise: Promise<any>;
 
@@ -58,7 +58,7 @@ export default class SendMessageToBrainlyIds {
 
   StartSending() {
     this.#loop = setInterval(this.TryToSend.bind(this));
-    this.#loopResetLimit = setInterval(() => {
+    this.#loopResetLimit = window.setInterval(() => {
       this.sendLimit = 0;
     }, 1000);
   }

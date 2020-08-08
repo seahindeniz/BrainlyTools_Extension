@@ -1,6 +1,6 @@
 // @flow
 
-import Build from "@/scripts/helpers/Build";
+import Build from "@root/scripts/helpers/Build";
 import { Bubble, Button, Flex, Icon } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type QueueClassType from "../Queue";

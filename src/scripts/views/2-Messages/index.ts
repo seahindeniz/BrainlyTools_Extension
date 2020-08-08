@@ -1,4 +1,4 @@
-import WaitForElement from "@/scripts/helpers/WaitForElement";
+import WaitForElement from "@root/scripts/helpers/WaitForElement";
 import ServerReq from "@ServerReq";
 import Conversation from "./_/Conversation";
 import renderGroupMessaging from "./_/GroupMessaging";

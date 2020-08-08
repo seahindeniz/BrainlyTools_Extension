@@ -1,6 +1,6 @@
 import { Button, Icon } from "@style-guide";
-import IsVisible from "@/scripts/helpers/IsVisible";
-import WaitForObject from "@/scripts/helpers/WaitForObject";
+import IsVisible from "@root/scripts/helpers/IsVisible";
+import WaitForObject from "@root/scripts/helpers/WaitForObject";
 
 export default class ReportSwitcher {
   /**

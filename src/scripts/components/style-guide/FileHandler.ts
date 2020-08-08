@@ -1,4 +1,4 @@
-import Build from "@/scripts/helpers/Build";
+import Build from "@root/scripts/helpers/Build";
 import { Spinner, Icon, Text } from "@style-guide";
 import type { ChildrenParamType } from "@style-guide/helpers/AddChildren";
 import type { IconTypeType } from "@style-guide/Icon";

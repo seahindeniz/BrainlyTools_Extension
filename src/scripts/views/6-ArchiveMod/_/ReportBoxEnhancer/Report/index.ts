@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-underscore-dangle */
-import notification from "@/scripts/components/notification2";
+import notification from "@root/scripts/components/notification2";
 import {
   Button,
   Flex,
@@ -8,11 +8,11 @@ import {
   SpinnerContainer,
   Text,
   Icon,
-} from "@/scripts/components/style-guide";
-import Action from "@/scripts/controllers/Req/Brainly/Action";
-import Build from "@/scripts/helpers/Build";
-import IsVisible from "@/scripts/helpers/IsVisible";
-import InsertAfter from "@/scripts/helpers/InsertAfter";
+} from "@root/scripts/components/style-guide";
+import Action from "@root/scripts/controllers/Req/Brainly/Action";
+import Build from "@root/scripts/helpers/Build";
+import IsVisible from "@root/scripts/helpers/IsVisible";
+import InsertAfter from "@root/scripts/helpers/InsertAfter";
 import FooterQDB from "./FooterQDB";
 
 /**

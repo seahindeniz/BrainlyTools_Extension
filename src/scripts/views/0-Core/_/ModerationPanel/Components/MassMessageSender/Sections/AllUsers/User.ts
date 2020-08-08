@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 // @ts-ignore
-import CreateElement from "@/scripts/components/CreateElement";
-import { SendMessageUserType } from "@/scripts/controllers/Req/Brainly/Action/SendMessageToBrainlyIds";
+import CreateElement from "@root/scripts/components/CreateElement";
+import { SendMessageUserType } from "@root/scripts/controllers/Req/Brainly/Action/SendMessageToBrainlyIds";
 import { Text } from "@style-guide";
 import { TextColorType } from "@style-guide/Text";
 import type AllUsersClassType from "./AllUsers";

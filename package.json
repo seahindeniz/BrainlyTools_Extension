@@ -87,6 +87,7 @@
     "browserify": "^16.5.1",
     "clean-webpack-plugin": "^3.0.0",
     "colors": "^1.4.0",
+    "concurrently": "^5.3.0",
     "copy-webpack-plugin": "^6.0.3",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
@@ -125,6 +126,8 @@
     "prettier": "^2.0.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "sass": "^1.26.10",
+    "sass-loader": "^9.0.3",
     "stringify": "^5.2.0",
     "sync-request": "^6.1.0",
     "ts-loader": "^8.0.2",
@@ -135,7 +138,10 @@
     "vinyl-source-stream": "^2.0.0",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
-    "webpack-glob-entry": "^2.1.1"
+    "webpack-dev-server": "^3.11.0",
+    "webpack-glob-entry": "^2.1.1",
+    "webpack-watched-glob-entries-plugin": "^2.1.7",
+    "yaml-loader": "^0.6.0"
   },
   "homepage": "https://github.com/seahindeniz/BrainlyTools_Extension",
   "license": "SEE LICENSE IN LICENSE.md",
@@ -145,16 +151,24 @@
     "url": "https://github.com/seahindeniz/BrainlyTools_Extension"
   },
   "scripts": {
-    "build": "cross-env NODE_ENV=production TARGET=chrome gulp",
-    "dist": "cross-env NODE_ENV=production cross-env TARGET=chrome gulp dist",
+    "build_": "cross-env NODE_ENV=production TARGET=chrome gulp",
+    "dist_": "cross-env NODE_ENV=production cross-env TARGET=chrome gulp dist",
     "i18n1": "node -r dotenv/config -r @babel/register src/scripts/helpers/UpdateLangFiles.js",
     "i18n": "ts-node src/scripts/helpers/UpdateLangFiles.ts",
     "i18n:dev": "node --inspect -r dotenv/config -r @babel/register src/scripts/helpers/UpdateLangFiles.js",
-    "watch": "cross-env TARGET=chrome gulp watch",
+    "watch_": "cross-env TARGET=chrome gulp watch",
     "flow": "flow",
     "lint:script": "eslint . --ext .ts",
     "lint:script:fix": "eslint . --ext .ts --fix",
-    "dev": "cross-env APP_ENV=dev webpack --mode=development --config-register @babel/register"
+    "---": "",
+    "build:gulp": "gulp",
+    "dist:gulp": "cross-env NODE_ENV=production gulp dist",
+    "watch:gulp": "gulp watch",
+    "build:webpack": "webpack --config-register @babel/register",
+    "dist:webpack": "cross-env NODE_ENV=production npm run build:webpack",
+    "watch:webpack:": "npm run build:webpack -- -w",
+    "watch": "concurrently -n w: npm:watch:*",
+    "dist": "concurrently -n w: npm:dist:*"
   },
   "version": "6.38.0"
 }

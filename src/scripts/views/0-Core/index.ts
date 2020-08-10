@@ -242,6 +242,7 @@ class Core {
 
     if (System.checkRoute(1, "messages")) {
       InjectToDOM([
+        // TODO get rid of $.observe
         "/scripts/lib/jquery-observe-2.0.3.min.js",
         "/scripts/lib/jquery-ui.min.js",
         "/scripts/views/2-Messages/index.js",

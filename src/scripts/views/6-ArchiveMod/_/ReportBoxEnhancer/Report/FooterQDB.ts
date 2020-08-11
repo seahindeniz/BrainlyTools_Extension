@@ -6,20 +6,48 @@ import {
   SpinnerContainer,
   Text,
 } from "@root/scripts/components/style-guide";
+import type { ButtonPropsType } from "@style-guide/Button";
+import type { TextColorType } from "@style-guide/Text";
+import type AnswerReportClassType from "./AnswerReport";
+import type CommentReportClassType from "./CommentReport";
+import type QuestionReportClassType from "./QuestionReport";
 
 export default class FooterQDB {
-  /**
-   * @param {import(".").default} main
-   * @param {{
-   *  reason: *,
-   *  components: {
-   *    button: import("@style-guide/Button").ButtonPropsType,
-   *    text: import("@style-guide/Text").TextColorType,
-   *  },
-   *  buttonText: string,
-   * }} param1
-   */
-  constructor(main, { reason, components, buttonText }) {
+  main:
+    | AnswerReportClassType
+    | CommentReportClassType
+    | QuestionReportClassType;
+
+  reason: any;
+  components: {
+    button: ButtonPropsType;
+    text: TextColorType;
+  };
+
+  buttonText: string;
+  spinnerContainer: HTMLDivElement;
+  container: import("@style-guide/Flex").FlexElementType;
+  button: Button;
+  processing: boolean;
+
+  constructor(
+    main:
+      | AnswerReportClassType
+      | CommentReportClassType
+      | QuestionReportClassType,
+    {
+      reason,
+      components,
+      buttonText,
+    }: {
+      reason: any;
+      components: {
+        button: ButtonPropsType;
+        text: TextColorType;
+      };
+      buttonText: string;
+    },
+  ) {
     this.main = main;
     this.reason = reason;
     this.components = components;

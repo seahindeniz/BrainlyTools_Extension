@@ -1,12 +1,34 @@
+/* eslint-disable no-underscore-dangle */
+import HideElement from "@root/scripts/helpers/HideElement";
+import ServerReq from "@ServerReq";
 import autosize from "autosize";
-import Button from "../../../../components/Button";
+import Button, { JQueryButtonElementType } from "../../../../components/Button";
 import Progress from "../../../../components/Progress";
 import SendMessageToBrainlyIds from "../../../../controllers/Req/Brainly/Action/SendMessageToBrainlyIds";
-import ServerReq from "@ServerReq";
 import ScrollToDown from "../../../../helpers/ScrollToDown";
-import renderGroupModal from "./groupModal";
+import RenderGroupModal from "./groupModal";
 
 class GroupChatbox {
+  SendMessage: SendMessageToBrainlyIds;
+  $: JQuery<HTMLElement>;
+  $messagesContainer: JQuery<HTMLElement>;
+  $title: JQuery<HTMLElement>;
+  $progressHole: JQuery<HTMLElement>;
+  $buttonsContainer: JQuery<HTMLElement>;
+  $editGroupButtonContainer: JQuery<HTMLElement>;
+  $deleteGroupButtonContainer: JQuery<HTMLElement>;
+  $groupsButtonContainer: JQuery<HTMLElement>;
+  $messageInputSection: JQuery<HTMLElement>;
+  $messageInput: JQuery<HTMLElement>;
+  $sendButtonSpinnerContainer: JQuery<HTMLElement>;
+  $sendButton: JQueryButtonElementType;
+  $sendButtonSpinner: JQuery<HTMLElement>;
+  $groupsButton: JQueryButtonElementType;
+  $editGroupButton: JQueryButtonElementType;
+  $deleteGroupButton: JQueryButtonElementType;
+  group: any;
+  groupLi: any;
+
   constructor() {
     this.SendMessage = new SendMessageToBrainlyIds();
 
@@ -19,6 +41,7 @@ class GroupChatbox {
     this.RenderDeleteGroupButton();
     this.BindHandlers();
   }
+
   Render() {
     this.$ = $(`
     <div class="sg-content-box">
@@ -45,12 +68,28 @@ class GroupChatbox {
 
     this.$messagesContainer = $(".js-group-chat", this.$);
     this.$title = $(".sg-actions-list__hole:nth-child(2) > .sg-text", this.$);
-    this.$progressHole = $(".sg-actions-list > .sg-actions-list__hole.progress", this.$);
-    this.$buttonsContainer = $("> .sg-content-box__header > .sg-actions-list > .sg-actions-list__hole:nth-child(3)", this.$);
-    this.$editGroupButtonContainer = $(".sg-actions-list__hole:nth-child(1)", this.$buttonsContainer);
-    this.$deleteGroupButtonContainer = $(".sg-actions-list__hole:nth-child(2)", this.$buttonsContainer);
-    this.$groupsButtonContainer = $("> .sg-content-box__header > .sg-actions-list > .sg-actions-list__hole:nth-child(1)", this.$);
+    this.$progressHole = $(
+      ".sg-actions-list > .sg-actions-list__hole.progress",
+      this.$,
+    );
+    this.$buttonsContainer = $(
+      "> .sg-content-box__header > .sg-actions-list > .sg-actions-list__hole:nth-child(3)",
+      this.$,
+    );
+    this.$editGroupButtonContainer = $(
+      ".sg-actions-list__hole:nth-child(1)",
+      this.$buttonsContainer,
+    );
+    this.$deleteGroupButtonContainer = $(
+      ".sg-actions-list__hole:nth-child(2)",
+      this.$buttonsContainer,
+    );
+    this.$groupsButtonContainer = $(
+      "> .sg-content-box__header > .sg-actions-list > .sg-actions-list__hole:nth-child(1)",
+      this.$,
+    );
   }
+
   RenderMessageInput() {
     this.$messageInputSection = $(`
     <div class="sg-content-box__content">
@@ -72,82 +111,92 @@ class GroupChatbox {
     </div>`);
 
     this.$messageInput = $("textarea", this.$messageInputSection);
-    this.$sendButtonSpinnerContainer = $(".sg-spinner-container", this.$messageInputSection);
+    this.$sendButtonSpinnerContainer = $(
+      ".sg-spinner-container",
+      this.$messageInputSection,
+    );
 
     autosize(this.$messageInput);
   }
+
   RenderSendButton() {
     this.$sendButton = Button({
       type: "solid-blue",
       size: "small",
-      text: System.data.locale.common.send
+      text: System.data.locale.common.send,
     });
 
     this.$sendButton.prependTo(this.$sendButtonSpinnerContainer);
   }
+
   RenderSendButtonSpinner() {
-    this.$sendButtonSpinner = $(`<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--small"></div></div>`)
+    this.$sendButtonSpinner = $(
+      `<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--small"></div></div>`,
+    );
   }
+
   RenderGroupsButton() {
     this.$groupsButton = Button({
       size: "xsmall",
       text: System.data.locale.messages.groups.title,
-      moreClass: "js-open-conversation-list"
+      moreClass: "js-open-conversation-list",
     });
 
     this.$groupsButton.appendTo(this.$groupsButtonContainer);
   }
+
   RenderEditGroupButton() {
     this.$editGroupButton = Button({
       type: "solid-blue",
       size: "xsmall",
       icon: {
-        type: "pencil"
+        type: "pencil",
       },
       text: System.data.locale.common.edit,
-      title: System.data.locale.messages.groups.editGroup
+      title: System.data.locale.messages.groups.editGroup,
     });
   }
+
   RenderDeleteGroupButton() {
     this.$deleteGroupButton = Button({
       type: "solid-peach",
       size: "xsmall",
       icon: {
-        type: "close"
+        type: "close",
       },
       text: System.data.locale.common.delete,
-      title: System.data.locale.messages.groups.deleteGroup
+      title: System.data.locale.messages.groups.deleteGroup,
     });
   }
+
   BindHandlers() {
-    this.$editGroupButton.click(this.EditGroup.bind(this));
-    this.$deleteGroupButton.click(this.DeleteGroup.bind(this));
+    this.$editGroupButton.on("click", this.EditGroup.bind(this));
+    this.$deleteGroupButton.on("click", this.DeleteGroup.bind(this));
 
     this.$messageInput.on({
-      "keydown": e => {
-        if (e.keyCode == 13) {
-          if (!e.shiftKey) {
-            e.preventDefault();
+      keydown: e => {
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+        }
+      },
+      keyup: e => {
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+
+          if (!window.isPageProcessing) {
+            this.Send();
           }
         }
       },
-      "keyup": e => {
-        if (e.keyCode == 13) {
-          if (!e.shiftKey) {
-            e.preventDefault();
-
-            if (!window.isPageProcessing) {
-              this.Send();
-            }
-          }
-        }
-      }
     });
-    this.$sendButton.click(this.Send.bind(this));
+    this.$sendButton.on("click", this.Send.bind(this));
   }
+
   EditGroup() {
-    new renderGroupModal(this.group, this.groupLi);
+    // eslint-disable-next-line no-new
+    new RenderGroupModal(this.group, this.groupLi);
   }
+
   InitGroup(group, groupLi) {
     this.group = group;
     this.groupLi = groupLi;
@@ -155,6 +204,7 @@ class GroupChatbox {
     this.HideChatbox();
     this.PrepareChatbox();
   }
+
   PrepareChatbox() {
     this.$title.html(this.group.title);
 
@@ -162,38 +212,48 @@ class GroupChatbox {
     this.ShowChatbox();
     this.PrepareMessageMedia(this.group.messages);
   }
+
   HideChatbox() {
     this.HideEditGroupButton();
     this.HideDeleteGroupButton();
     this.HideMessageInputSection();
   }
+
   HideEditGroupButton() {
-    this.HideElement(this.$editGroupButton);
+    HideElement(this.$editGroupButton);
   }
+
   HideDeleteGroupButton() {
-    this.HideElement(this.$deleteGroupButton);
+    HideElement(this.$deleteGroupButton);
   }
+
   HideMessageInputSection() {
-    this.HideElement(this.$messageInputSection);
+    HideElement(this.$messageInputSection);
   }
+
   ShowChatbox() {
     this.ShowEditGroupButton();
     this.ShowDeleteGroupButton();
     this.ShowMessageInputSection();
   }
+
   ShowEditGroupButton() {
     this.$editGroupButton.appendTo(this.$editGroupButtonContainer);
   }
+
   ShowDeleteGroupButton() {
     this.$deleteGroupButton.appendTo(this.$deleteGroupButtonContainer);
   }
+
   ShowMessageInputSection() {
     this.$messageInputSection.appendTo(this.$);
   }
+
   RefreshChatbox() {
     this.$messagesContainer.html("");
     this.$progressHole.html("");
   }
+
   PrepareMessageMedia(message) {
     if (message) {
       if (message instanceof Array) {
@@ -201,17 +261,18 @@ class GroupChatbox {
           message.forEach(this.RenderMessageMedia.bind(this));
         }
       } else {
-        this.RenderMessageMedia(message)
+        this.RenderMessageMedia(message);
       }
     }
   }
-  RenderMessageMedia(data) {
-    let user = System.data.Brainly.userData.user;
-    let avatar = System.prepareAvatar(user);
-    let profileLink = System.createProfileLink(user);
-    let message = data.message;
 
-    if (message && message != "") {
+  RenderMessageMedia(data) {
+    const { user } = System.data.Brainly.userData;
+    const avatar = System.prepareAvatar(user);
+    const profileLink = System.createProfileLink(user);
+    const { message } = data;
+
+    if (message) {
       message.replace(/\r\n|\n/gm, "<br>");
     }
 
@@ -250,47 +311,46 @@ class GroupChatbox {
 
     ScrollToDown(this.$messagesContainer.get(0));
   }
+
   async Send() {
     window.isPageProcessing = true;
 
     let sendedMessagesCount = 0;
-    let message = this.$messageInput.val();
-    let membersLen = this.group.members.length;
-    let $groupLiMessateContent = $(".js-message-content", this.groupLi);
+    const message = String(this.$messageInput.val());
+    const membersLen = this.group.members.length;
+    const $groupLiMessateContent = $(".js-message-content", this.groupLi);
 
-    let progress = new Progress({
+    const progress = new Progress({
       type: "success",
       label: System.data.locale.common.progressing,
-      max: membersLen
+      max: membersLen,
     });
 
     this.ShowSendButtonSpinner();
     this.$messageInput.prop("disabled", true);
     progress.$container.appendTo(this.$progressHole.html(""));
 
-    let doInEachSending = () => {
+    const doInEachSending = () => {
       progress.update(++sendedMessagesCount);
       progress.UpdateLabel(`${sendedMessagesCount} - ${membersLen}`);
     };
 
     this.SendMessage.handlers.Each = doInEachSending;
-    let idList = this.group.members.map(member => ~~member.brainlyID)
+    const idList = this.group.members.map(member => ~~member.brainlyID);
     this.SendMessage.Start(idList, message);
-    let membersWithConversationIds = await this.SendMessage.Promise();
+    const membersWithConversationIds = await this.SendMessage.Promise();
     console.log("membersWithConversationIds:", membersWithConversationIds);
 
-    //this.CheckForImproperMember(membersWithConversationIds);
+    // this.CheckForImproperMember(membersWithConversationIds);
 
     window.isPageProcessing = false;
 
     this.HideSendButtonSpinner();
-    progress.UpdateLabel(`(${membersLen}) - ${System.data.locale.common.allDone}`);
-
-    autosize.update(
-      this.$messageInput
-      .val("")
-      .prop("disabled", false)
+    progress.UpdateLabel(
+      `(${membersLen}) - ${System.data.locale.common.allDone}`,
     );
+
+    autosize.update(this.$messageInput.val("").prop("disabled", false));
 
     this.RenderMessageMedia({ message, time: new Date().toISOString() });
 
@@ -301,37 +361,37 @@ class GroupChatbox {
     new ServerReq().MessageSended({
       _id: this.group._id,
       message,
-      members: membersWithConversationIds
+      members: membersWithConversationIds,
     });
   }
+
   ShowSendButtonSpinner() {
     this.$sendButtonSpinner.appendTo(this.$sendButtonSpinnerContainer);
   }
+
   HideSendButtonSpinner() {
-    this.HideElement(this.$sendButtonSpinner);
+    HideElement(this.$sendButtonSpinner);
   }
-  /**
-   * @param {JQuery<HTMLElement>} $element
-   */
-  HideElement($element) {
-    if ($element)
-      $element.appendTo("<div/>");
-  }
+
   async DeleteGroup() {
     if (confirm(System.data.locale.common.notificationMessages.areYouSure)) {
-      let resUpdated = await new ServerReq().UpdateMessageGroup(this.group._id, { remove: true });
+      const resUpdated = await new ServerReq().UpdateMessageGroup(
+        this.group._id,
+        { remove: true },
+      );
 
       if (resUpdated && resUpdated.success) {
-        this.HideChatbox()
+        this.HideChatbox();
         this.groupLi.remove();
       }
     }
   }
-  CheckForImproperMember(members) {
+
+  /* CheckForImproperMember(members) {
     // dönen listeyi kontrol et ve eğer içerisinde mesaj gönderilemeyen bir kullanıcı varsa, olası sebebini exception koduyla veya deleted olarak kullanıcıdan gruptan kaldırmasını iste.
     // 500 kullanılmayan veya silinen hesaplar için. 504 engellenmiş hesaplar için
-    //new renderGroupModal(this.group, this.groupLi);
-    let improperMembers = [];
+    // new renderGroupModal(this.group, this.groupLi);
+    const improperMembers = [];
 
     if (member && members.length > 0) {
       members.forEach(member => {
@@ -342,9 +402,8 @@ class GroupChatbox {
     }
 
     if (improperMembers.length > 0) {
-
     }
-  }
+  } */
 }
 
-export default GroupChatbox
+export default GroupChatbox;

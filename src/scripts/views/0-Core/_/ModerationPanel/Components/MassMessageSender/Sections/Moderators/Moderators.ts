@@ -124,7 +124,7 @@ class RankSection {
   }
 
   BindHandlers() {
-    this.$rankSelect.change(this.ChangeRank.bind(this));
+    this.$rankSelect.on("change", this.ChangeRank.bind(this));
   }
 
   ChangeRank() {

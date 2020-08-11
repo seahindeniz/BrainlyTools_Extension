@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle */
+import HideElement from "@root/scripts/helpers/HideElement";
 import ServerReq from "@ServerReq";
 import {
   Button,
@@ -7,26 +9,58 @@ import {
   Icon,
   Spinner,
   SpinnerContainer,
-  Text,
+  Text as TextComponent,
 } from "@style-guide";
+import { FlexElementType } from "@style-guide/Flex";
+import { TextElement } from "@style-guide/Text";
 import md5 from "js-md5";
 import linkifyHtml from "linkifyjs/html";
 // @ts-ignore
 import moment from "moment";
+import type ModeratorActionsHistoryClassType from "..";
 import notification from "../../../components/notification2";
 import Build from "../../../helpers/Build";
 
-/**
- * @see actionsHistory/index.js
- */
 const REPORT_EDIT_TIME_LIMIT = ["1", "hour"];
 
 export default class ActionEntry {
-  /**
-   * @param {import("../index").default} main
-   * @param {HTMLTableRowElement | HTMLElement} tr
-   */
-  constructor(main, tr) {
+  main: ModeratorActionsHistoryClassType;
+  $tr: JQuery<HTMLElement>;
+  $buttonContainer: JQuery<HTMLTableDataCellElement>;
+  $entryContent: JQuery<HTMLTableDataCellElement>;
+  $moderatedContentOwnerLink: JQuery<HTMLAnchorElement>;
+  $questionLink: JQuery<HTMLAnchorElement>;
+  questionId: string;
+  questionLink: string;
+  details: {
+    _id?: string;
+    time: string;
+    target: { hash: string; action: string; message?: string };
+    user: { _id?: string; brainlyID: number; nick: string };
+  };
+
+  hash: string;
+  actionButtonsContainer: HTMLDivElement;
+  confirmButtonSpinnerContainer: HTMLDivElement;
+  confirmButton: Button;
+  disapproveButtonSpinnerContainer: HTMLDivElement;
+  disapproveButton: Button;
+  spinner: HTMLDivElement;
+  action: "confirm" | "disapprove";
+  $spinnerContainer: JQuery<HTMLElement>;
+  shortCodeOfScreenshot: string;
+  $detailsRow: JQuery<HTMLElement>;
+  $detailsContainer: JQuery<HTMLElement>;
+  $pmContainer: JQuery<HTMLElement>;
+  $flagContainer: JQuery<HTMLElement>;
+  runTimer: boolean;
+  timerContainer: FlexElementType;
+  revertSpinnerContainer: HTMLElement;
+  revert: TextElement<"div">;
+  timer: TextElement<"div">;
+  revertSpinner: HTMLElement;
+
+  constructor(main: ModeratorActionsHistoryClassType, tr: HTMLElement) {
     this.main = main;
     this.$tr = $(tr);
     this.$buttonContainer = $("> td.dataTime", tr);
@@ -40,10 +74,6 @@ export default class ActionEntry {
     this.questionLink = System.createBrainlyLink("question", {
       id: this.questionId,
     });
-    /**
-     * @type {{_id?: string, time: string, target: {hash: string, action: string, message?: string}, user: {_id?: string, brainlyID: number, nick: string}}}
-     */
-    this.details;
 
     this.GenerateHash();
   }
@@ -68,11 +98,14 @@ export default class ActionEntry {
   }
 
   get entryContent() {
-    const content = Array.from(this.$entryContent.prop("childNodes")).find(
+    const content = Array.from(
+      this.$entryContent.prop("childNodes") as Text[],
+    ).find(
       node =>
-        node.nodeName == "#text" && node.length > 1 && node.nextSibling != null,
+        node instanceof Text && node.length > 1 && node.nextSibling != null,
     );
-    return content ? content.data.trim() : "";
+
+    return content ? content.nodeValue.trim() : "";
   }
 
   GenerateHash() {
@@ -83,7 +116,7 @@ export default class ActionEntry {
 
   RenderDetails() {
     if (!this.details) {
-      if (this.main.moderator.id != System.data.Brainly.userData.user.id) {
+      if (this.main.moderator.id !== System.data.Brainly.userData.user.id) {
         this.RenderActionButtons();
         this.RenderButtonSpinner();
         this.BindHandlers();
@@ -210,9 +243,9 @@ export default class ActionEntry {
   ShowSpinner() {
     let spinnerContainer;
 
-    if (this.action == "confirm")
+    if (this.action === "confirm")
       spinnerContainer = this.confirmButtonSpinnerContainer;
-    else if (this.action == "disapprove")
+    else if (this.action === "disapprove")
       spinnerContainer = this.disapproveButtonSpinnerContainer;
 
     if (spinnerContainer) spinnerContainer.append(this.spinner);
@@ -237,11 +270,11 @@ export default class ActionEntry {
   }
 
   HideButtons() {
-    this.main.HideElement(this.actionButtonsContainer);
+    HideElement(this.actionButtonsContainer);
   }
 
   HideSpinner() {
-    this.main.HideElement(this.spinner);
+    HideElement(this.spinner);
 
     this.$spinnerContainer = undefined;
   }
@@ -279,8 +312,8 @@ export default class ActionEntry {
       },
     };
 
-    if (this.action == "confirm") this.Confirmed();
-    else if (this.action == "disapprove") {
+    if (this.action === "confirm") this.Confirmed();
+    else if (this.action === "disapprove") {
       if (this.main.fixedMessage)
         this.details.target.message = this.main.fixedMessage;
 
@@ -341,24 +374,16 @@ export default class ActionEntry {
     });
   }
 
-  TakeScreenshot() {
-    return new Promise(async (resolve, reject) => {
-      try {
-        this.main.ChangeVisibilityOfAllEntries(false, this.hash);
-        this.main.ChangeVisibilityOtherElementsForScreenshot("hide");
+  async TakeScreenshot() {
+    this.main.ChangeVisibilityOfAllEntries(false, this.hash);
+    this.main.ChangeVisibilityOtherElementsForScreenshot("hide");
 
-        const shortCode = await this.main.TakeScreenshot(this.hash);
+    const shortCode = await this.main.TakeScreenshot(this.hash);
 
-        this.main.ChangeVisibilityOfAllEntries(true, this.hash);
-        this.main.ChangeVisibilityOtherElementsForScreenshot("show");
+    this.main.ChangeVisibilityOfAllEntries(true, this.hash);
+    this.main.ChangeVisibilityOtherElementsForScreenshot("show");
 
-        this.shortCodeOfScreenshot = shortCode;
-
-        resolve();
-      } catch (error) {
-        reject(error);
-      }
-    });
+    this.shortCodeOfScreenshot = shortCode;
   }
 
   Disapproved() {
@@ -404,7 +429,7 @@ export default class ActionEntry {
 
   HideDetailsCell() {
     if (this.$detailsRow) {
-      this.main.HideElement(this.$detailsRow);
+      HideElement(this.$detailsRow);
       this.$buttonContainer.removeAttr("rowspan");
     }
   }
@@ -428,9 +453,10 @@ export default class ActionEntry {
   }
 
   AddStatusClass() {
-    if (this.details.target.action == "confirm") this.$tr.addClass("confirmed");
+    if (this.details.target.action === "confirm")
+      this.$tr.addClass("confirmed");
 
-    if (this.details.target.action == "disapprove")
+    if (this.details.target.action === "disapprove")
       this.$tr.addClass("disapproved");
   }
 
@@ -442,12 +468,12 @@ export default class ActionEntry {
     let icon;
     let color;
 
-    if (this.details.target.action == "confirm") {
+    if (this.details.target.action === "confirm") {
       icon = "check";
       color = "mint";
     }
 
-    if (this.details.target.action == "disapprove") {
+    if (this.details.target.action === "disapprove") {
       icon = "x";
       color = "peach";
     }
@@ -465,12 +491,12 @@ export default class ActionEntry {
   }
 
   HideFlagIcon() {
-    this.main.HideElement(this.$flagContainer);
+    HideElement(this.$flagContainer);
   }
 
   InitTimer() {
     if (
-      this.details.user.brainlyID == System.data.Brainly.userData.user.id &&
+      this.details.user.brainlyID === System.data.Brainly.userData.user.id &&
       this.IsReportCanReversible()
     ) {
       this.runTimer = true;
@@ -483,7 +509,7 @@ export default class ActionEntry {
   }
 
   RenderTimer() {
-    this.timerContainer = Build(Flex, [
+    this.timerContainer = Build(Flex(), [
       [
         (this.revertSpinnerContainer = SpinnerContainer({ fullWidth: true })),
         [
@@ -511,7 +537,7 @@ export default class ActionEntry {
                     Flex({
                       alignItems: "center",
                     }),
-                    (this.revert = Text({
+                    (this.revert = TextComponent({
                       tag: "div",
                       href: null,
                       size: "xsmall",
@@ -524,7 +550,8 @@ export default class ActionEntry {
               ],
               [
                 Flex({ fullWidth: true, justifyContent: "center" }),
-                (this.timer = Text({
+                (this.timer = TextComponent({
+                  tag: "div",
                   text: "00:00",
                   size: "xsmall",
                   weight: "bold",
@@ -563,14 +590,16 @@ export default class ActionEntry {
       );
 
       if (!resRevert || !resRevert.success) {
-        if (resRevert.exception == 408) this.CloseTimer();
+        if (resRevert.exception === 408) this.CloseTimer();
 
-        return notification({
+        notification({
           html:
             System.data.locale.moderatorActionHistory.notificationMessages
               .iCouldntRevertThisReport,
           type: "error",
         });
+
+        return;
       }
 
       this.CloseTimer();
@@ -603,17 +632,21 @@ export default class ActionEntry {
   }
 
   HideRevertSpinner() {
-    this.main.HideElement(this.revertSpinner);
+    HideElement(this.revertSpinner);
   }
 
   StartTimer() {
-    if (this.runTimer && this.details) {
-      const timeLeft = this.IsReportCanReversible();
+    if (!this.runTimer || !this.details) return;
 
-      if (!timeLeft) return this.StopTimer();
+    const timeLeft = this.IsReportCanReversible();
 
-      this.timer.innerText = timeLeft;
+    if (!timeLeft) {
+      this.StopTimer();
+
+      return;
     }
+
+    this.timer.innerText = timeLeft;
   }
 
   IsReportCanReversible() {
@@ -633,11 +666,11 @@ export default class ActionEntry {
 
   FinishTimer() {
     this.StopTimer();
-    this.main.HideElement(this.timerContainer);
+    HideElement(this.timerContainer);
   }
 
   HideTimer() {
-    this.main.HideElement(this.timerContainer);
+    HideElement(this.timerContainer);
   }
 
   Show() {

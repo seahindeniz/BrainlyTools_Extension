@@ -8,29 +8,45 @@ const reloadExtension = next => {
   next();
 };
 
+function watchScssFiles() {
+  const scssWatcher = watch(
+    [
+      "./src/styles/**/*.scss",
+
+      "!src/styles/_/style-guide.css",
+      "!src/styles/_/style-guide.css.map",
+    ],
+    series("scss"),
+  );
+
+  scssWatcher.on("change", filePath => {
+    log.info(colors.green(filePath), "has changed");
+  });
+}
+
 export default () => {
   gulpLiveReload.listen();
 
-  const watchAllFilesNeedsToReBuild = watch(
+  watchScssFiles();
+
+  const watcher = watch(
     [
       "./manifest.json",
       "./src/**/*",
-      "./src/styles/**/*.scss",
 
+      "!./src/styles/*",
       "!./src/**/*.ts",
       // "!./src/**/*.js",
       "!./src/locales/*.js",
       "!./src/scripts/jsx/**/*.jsx",
       "!./src/configs/_/*",
-      "!src/styles/_/style-guide.css",
-      "!src/styles/_/style-guide.css.map",
     ],
     series("build", reloadExtension),
   );
 
-  watchAllFilesNeedsToReBuild.on("change", filePath => {
+  watcher.on("change", filePath => {
     log.info(colors.green(filePath), "has changed, rebuilding");
   });
 
-  return watchAllFilesNeedsToReBuild;
+  return watcher;
 };

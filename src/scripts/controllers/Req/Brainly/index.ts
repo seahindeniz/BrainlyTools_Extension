@@ -5,11 +5,13 @@ import Request from "..";
 
 type GQL_OperationData = IQueryBuilderOptions | IQueryBuilderOptions[];
 
-type PHPTokens = {
+export type PHPTokens = {
   key: string;
   fields: string;
   lock: string;
 };
+
+export type TokensPropsType = { tokens?: PHPTokens; tokenSelector?: string };
 
 function GenerateCoupon() {
   return btoa(
@@ -85,11 +87,16 @@ export default class Brainly extends Request {
     return this;
   }
 
-  async SetFormTokens(sourceURL: string, tokens?: string | PHPTokens) {
-    if (!(tokens instanceof Object)) {
+  async SetFormTokens(
+    sourceURL: string,
+    { tokens, tokenSelector }: TokensPropsType = {},
+  ) {
+    // if (!tokens && !tokenSelector) throw Error("Can't set tokens");
+
+    if (!tokens) {
       const tempHeaders = JSON.parse(JSON.stringify(this.headers));
       // eslint-disable-next-line no-param-reassign
-      tokens = await this.X_Req_With().GetPHPTokens(sourceURL, tokens);
+      tokens = await this.X_Req_With().GetPHPTokens(sourceURL, tokenSelector);
       this.headers = tempHeaders;
     }
 

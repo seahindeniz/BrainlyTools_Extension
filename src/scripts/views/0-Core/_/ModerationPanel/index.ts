@@ -163,8 +163,8 @@ class ModerationPanel {
   }
 
   BindHandlers() {
-    this.$newPanelButton.click(this.DelayedHeightFix.bind(this));
-    this.$oldPanelCoveringText.click(this.DelayedHeightFix.bind(this));
+    this.$newPanelButton.on("click", this.DelayedHeightFix.bind(this));
+    this.$oldPanelCoveringText.on("click", this.DelayedHeightFix.bind(this));
     window.addEventListener("load", this.FixPanelsHeight.bind(this));
     window.addEventListener("scroll", this.FixPanelsHeight.bind(this));
 

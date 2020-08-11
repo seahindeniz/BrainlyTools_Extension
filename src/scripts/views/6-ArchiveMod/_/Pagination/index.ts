@@ -1,17 +1,16 @@
-// @flow
-
-import { Flex, Spinner } from "@style-guide";
-import ServerReq, { ModerateAllPageNumbersType } from "@ServerReq";
-import InsertAfter from "@root/scripts/helpers/InsertAfter";
-import PerfectScrollbar from "perfect-scrollbar";
 import Build from "@root/scripts/helpers/Build";
+import HideElement from "@root/scripts/helpers/HideElement";
+import InsertAfter from "@root/scripts/helpers/InsertAfter";
+import ServerReq, { ModerateAllPageNumbersType } from "@ServerReq";
+import { Flex, Spinner } from "@style-guide";
+import PerfectScrollbar from "perfect-scrollbar";
+import type ArchiveModClassType from "../..";
 import Page from "./Page";
-import type ArchiveMod from "../..";
 
 const PAGE_NUMBER_RENDER_LIMIT = 500;
 
 export default class Pagination {
-  main: ArchiveMod;
+  main: ArchiveModClassType;
   promisePageNumbers: Promise<ModerateAllPageNumbersType>;
   loaderBar: Element;
   container: HTMLElement;
@@ -26,7 +25,7 @@ export default class Pagination {
   selectedPageNumber: Page;
   pScrollBar: PerfectScrollbar;
 
-  constructor(main: ArchiveMod) {
+  constructor(main: ArchiveModClassType) {
     this.main = main;
     this.pages = [];
     this.selectedPageNumber = undefined;
@@ -164,7 +163,7 @@ export default class Pagination {
   }
 
   HideSpinner() {
-    this.main.HideElement(this.spinner);
+    HideElement(this.spinner);
   }
 
   Show() {
@@ -172,6 +171,6 @@ export default class Pagination {
   }
 
   Hide() {
-    this.main.HideElement(this.container);
+    HideElement(this.container);
   }
 }

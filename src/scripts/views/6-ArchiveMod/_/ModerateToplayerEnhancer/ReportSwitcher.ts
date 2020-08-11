@@ -1,19 +1,21 @@
-import { Button, Icon } from "@style-guide";
+/* eslint-disable no-param-reassign */
 import IsVisible from "@root/scripts/helpers/IsVisible";
 import WaitForObject from "@root/scripts/helpers/WaitForObject";
+import { Button, Icon } from "@style-guide";
+import type ModerateToplayerEnhancerClassType from ".";
 
 export default class ReportSwitcher {
-  /**
-   * @param {import(".").default} main
-   */
-  constructor(main) {
+  main: ModerateToplayerEnhancerClassType;
+  switching: boolean;
+  leftButton: Button;
+  rightButton: Button;
+  buttonContainer: HTMLDivElement;
+
+  constructor(main: ModerateToplayerEnhancerClassType) {
     this.main = main;
     this.switching = false;
-    /**
-     * @type {HTMLDivElement}
-     */
-    // @ts-ignore
-    this.buttonContainer = main.containerCenterMod.firstElementChild;
+    this.buttonContainer = main.containerCenterMod
+      .firstElementChild as HTMLDivElement;
 
     this.RenderButtons();
     this.BindHandlers();
@@ -55,15 +57,11 @@ export default class ReportSwitcher {
     });
   }
 
-  /**
-   * @param {JQueryXHR} jqXHR
-   * @param {JQueryAjaxSettings} settings
-   */
-  async CheckConnection(jqXHR, settings) {
+  async CheckConnection(jqXHR: JQueryXHR, settings: JQueryAjaxSettings) {
     jqXHR.always((_jqXHR, status) => {
       if (
-        status == "success" &&
-        settings.url == "/api/28/moderation_new/get_content"
+        status === "success" &&
+        settings.url === "/api/28/moderation_new/get_content"
       ) {
         this.switching = false;
 
@@ -76,7 +74,14 @@ export default class ReportSwitcher {
   /**
    * @param {KeyboardEvent} event
    */
-  KeyPressed(event) {
+  KeyPressed(event: {
+    ctrlKey: any;
+    altKey: any;
+    shiftKey: any;
+    metaKey: any;
+    target: any;
+    code: string;
+  }) {
     const toplayer = this.main.toplayerZdnObject.elements.main[0];
 
     if (
@@ -92,15 +97,15 @@ export default class ReportSwitcher {
     )
       return;
 
-    if (event.code == "Escape") this.CloseToplayer();
-    else if (event.code == "KeyA" || event.code == "ArrowLeft")
+    if (event.code === "Escape") this.CloseToplayer();
+    else if (event.code === "KeyA" || event.code === "ArrowLeft")
       this.SwitchPreviousReport();
-    else if (event.code == "KeyD" || event.code == "ArrowRight")
+    else if (event.code === "KeyD" || event.code === "ArrowRight")
       this.SwitchNextReport();
   }
 
   CloseToplayer() {
-    this.main.toplayerZdnObject.elements.close.click();
+    this.main.toplayerZdnObject.elements.close.trigger("click");
   }
 
   SwitchPreviousReport() {
@@ -114,7 +119,7 @@ export default class ReportSwitcher {
   /**
    * @param {"previous" | "next"} target
    */
-  async SwitchReport(target) {
+  async SwitchReport(target: string) {
     const { lastActiveReport } = this.main.main;
 
     if (this.switching || !lastActiveReport) return;
@@ -125,12 +130,16 @@ export default class ReportSwitcher {
       "objecthash",
     );
     const lastActiveReportIndex = Zadanium.moderation.all.createdObjects.findIndex(
-      /**
-       * @param {import("../ReportBoxEnhancer/Report").ZdnObject} object
-       */
-      object => {
+      (
+        /**
+         * @param {import("../ReportBoxEnhancer/Report").ZdnObject} object
+         */
+        object: {
+          elements: { main: { getAttribute: (arg0: string) => any }[] };
+        },
+      ) => {
         const currentHash = object.elements.main[0].getAttribute("objecthash");
-        return lastActiveReportHash == currentHash;
+        return lastActiveReportHash === currentHash;
       },
     );
 
@@ -142,7 +151,9 @@ export default class ReportSwitcher {
     if (!switchableReport) {
       this.switching = false;
 
-      return this.main.toplayerZdnObject.setMessage("There is no report left");
+      this.main.toplayerZdnObject.setMessage("There is no report left");
+
+      return;
     }
 
     this.CloseToplayer();
@@ -150,39 +161,19 @@ export default class ReportSwitcher {
     switchableReport.elements.openToplayerButton.click();
   }
 
-  GetActiveModerationToplayer() {
-    /**
-     * @type {import("../ReportBoxEnhancer/Report").ZdnObject}
-     */
-    const activeModerationToplayer = Zadanium.toplayer.createdObjects.find(
-      /**
-       * @param {import("../ReportBoxEnhancer/Report").ZdnObject} object
-       */
-      object => {
-        return object.data.visible && !!object.data.timeInterval;
-      },
-    );
-
-    return activeModerationToplayer;
-  }
-
-  /**
-   * @param {number} activeReportIndex
-   * @param {"previous" | "next"} target
-   */
-  async GetSwitchableReport(activeReportIndex, target) {
+  async GetSwitchableReport(activeReportIndex: number, target: string) {
     /**
      * @type {import("../ReportBoxEnhancer/Report").ZdnObject}
      */
     const report =
       Zadanium.moderation.all.createdObjects[
-        target == "previous" ? --activeReportIndex : ++activeReportIndex
+        target === "previous" ? --activeReportIndex : ++activeReportIndex
       ];
 
     if (report && (report.data.removed || report.data.disabled))
       return this.GetSwitchableReport(activeReportIndex, target);
 
-    if (!report && target == "next") {
+    if (!report && target === "next") {
       const previousLastId = Zadanium.moderation.all.data.lastId;
 
       Zadanium.moderation.all.getContent();
@@ -193,7 +184,7 @@ export default class ReportSwitcher {
 
       if (
         isNewItemLoad &&
-        previousLastId != Zadanium.moderation.all.data.lastId
+        previousLastId !== Zadanium.moderation.all.data.lastId
       )
         return this.GetSwitchableReport(--activeReportIndex, target);
     }

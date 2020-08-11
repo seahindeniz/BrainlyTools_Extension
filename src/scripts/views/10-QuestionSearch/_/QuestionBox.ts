@@ -5,21 +5,39 @@ import {
   ContentBox,
   ContentBoxContent,
   ContentBoxTitle,
-  LabelDeprecated,
+  Label,
   Spinner,
   SpinnerContainer,
 } from "@style-guide";
 import Action from "../../../controllers/Req/Brainly/Action";
 import Build from "../../../helpers/Build";
 import QuickDeleteButtons from "../../1-Home/_/QuickDeleteButtons";
+import type QuestionSearchClassType from "..";
 
 class QuestionBox {
-  /**
-   * @param {import("../index").default} main
-   * @param {HTMLElement} box
-   * @param {number} id
-   */
-  constructor(main, box, id) {
+  main: QuestionSearchClassType;
+  container: HTMLElement;
+  $: JQuery<HTMLElement>;
+  id: number;
+  deleted: boolean;
+  question: any;
+  user: any;
+  quickDeleteButtons: QuickDeleteButtons;
+  $questionLink: JQuery<HTMLElement>;
+  $avatarHole: JQuery<HTMLElement>;
+  iconContentBox: HTMLDivElement;
+  approvedIconContainer: HTMLDivElement;
+  checkBoxContainer: HTMLDivElement & {
+    inputId: string;
+    ChangeId: (id: string) => HTMLDivElement;
+  };
+
+  checkBox: any;
+  checkBoxContainerHole: HTMLDivElement;
+  spinnerContainer: HTMLDivElement;
+  spinner: HTMLDivElement;
+
+  constructor(main: QuestionSearchClassType, box: HTMLElement, id: number) {
     this.main = main;
     this.container = box;
     this.$ = $(box);
@@ -160,10 +178,12 @@ class QuestionBox {
     this.checkBoxContainerHole = Build(ActionListHole(), [
       [
         (this.spinnerContainer = SpinnerContainer()),
-        LabelDeprecated({
+        Label({
+          type: "transparent",
+          containerTag: "label",
           icon: this.checkBoxContainer,
           htmlFor: this.checkBoxContainer.inputId,
-          html: System.data.locale.common.select,
+          text: System.data.locale.common.select,
         }),
       ],
     ]);
@@ -205,7 +225,7 @@ class QuestionBox {
 
   ShowQuickDeleteButtons() {
     if (System.checkUserP(1)) {
-      this.quickDeleteButtons.target = this.$;
+      this.quickDeleteButtons.target = this.container;
 
       this.quickDeleteButtons.ShowContainer();
     }

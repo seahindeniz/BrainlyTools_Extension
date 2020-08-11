@@ -74,8 +74,8 @@ export default class DeleteUsers extends ActionSection {
   }
 
   BindHandlers() {
-    this.$startButton.click(this.StartDeleting.bind(this));
-    this.$stopButton.click(this.StopDeleting.bind(this));
+    this.$startButton.on("click", this.StartDeleting.bind(this));
+    this.$stopButton.on("click", this.StopDeleting.bind(this));
   }
 
   StartDeleting() {

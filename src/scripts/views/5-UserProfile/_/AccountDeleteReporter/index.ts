@@ -1,7 +1,9 @@
 import Build from "@root/scripts/helpers/Build";
 import InsertAfter from "@root/scripts/helpers/InsertAfter";
 import ServerReq from "@ServerReq";
-import { Button, Flex, InputDeprecated, Text, Textarea, Icon } from "@style-guide";
+import { Button, Flex, Icon, Input, Text, Textarea } from "@style-guide";
+import type { FlexElementType } from "@style-guide/Flex";
+import type { TextElement } from "@style-guide/Text";
 import JSZip from "jszip";
 import notification from "../../../../components/notification2";
 import Progress from "../../../../components/Progress";
@@ -13,22 +15,29 @@ const PREVENT_FN = event => {
 };
 
 export default class AccountDeleteReporter {
+  evidences: Evidence[];
+  deleteForm: HTMLFormElement;
+  deleteLink: HTMLElement;
+  container: FlexElementType;
+  reasonMessage: HTMLTextAreaElement;
+  fileContainer: FlexElementType;
+  addFileButton: Button;
+  deleteButton: Button;
+  fileInput: Input;
+  attachmentGrabberContainer: FlexElementType;
+  attachmentGrabberTextContainer: FlexElementType;
+  attachmentGrabberText: TextElement<"div">;
+  progressContainer: FlexElementType;
+  progress: Progress;
+  formData: FormData;
+
   constructor() {
-    /**
-     * @type {Evidence[]}
-     */
     this.evidences = [];
-    /**
-     * @type {HTMLFormElement}
-     */
     this.deleteForm = document.querySelector("#DelUserAddForm");
 
     if (!this.deleteForm) return this;
 
-    /**
-     * @type {HTMLElement}
-     */
-    this.deleteLink = this.deleteForm.previousElementSibling;
+    this.deleteLink = this.deleteForm.previousElementSibling as HTMLElement;
 
     this.Render();
     this.RenderAddFileInput();
@@ -92,7 +101,7 @@ export default class AccountDeleteReporter {
   }
 
   RenderAddFileInput() {
-    this.fileInput = InputDeprecated({
+    this.fileInput = new Input({
       type: "file",
       multiple: true,
     });
@@ -109,6 +118,7 @@ export default class AccountDeleteReporter {
         [
           (this.attachmentGrabberTextContainer = Flex()),
           (this.attachmentGrabberText = Text({
+            tag: "div",
             weight: "bold",
             size: "large",
             html: "Drop files here",
@@ -144,14 +154,17 @@ export default class AccountDeleteReporter {
 
     this.addFileButton.element.addEventListener(
       "click",
-      this.fileInput.click.bind(this.fileInput),
+      this.fileInput.input.click.bind(this.fileInput),
     );
     this.deleteButton.element.addEventListener(
       "click",
       this.SubmitDeleteForm.bind(this),
     );
 
-    this.fileInput.addEventListener("change", this.ProcessFiles.bind(this));
+    this.fileInput.input.addEventListener(
+      "change",
+      this.ProcessFiles.bind(this),
+    );
 
     const container = document.getElementById("container");
     ["dragenter", "dragover", "dragleave", "dragend", "drop"].forEach(
@@ -308,7 +321,7 @@ export default class AccountDeleteReporter {
    * @param {DragEvent} event
    */
   ProcessFiles(event) {
-    let { files } = this.fileInput;
+    let { files } = this.fileInput.input;
 
     if (event && event.dataTransfer && event.dataTransfer.files) {
       files = event.dataTransfer.files;
@@ -320,7 +333,7 @@ export default class AccountDeleteReporter {
 
     Array.from(files).forEach(this.ProcessFile.bind(this));
 
-    this.fileInput.value = "";
+    this.fileInput.input.value = "";
   }
 
   /**
@@ -357,12 +370,6 @@ export default class AccountDeleteReporter {
           evidence.file.name === file.name &&
           evidence.file.size === file.size &&
           evidence.file.lastModified === file.lastModified,
-      ) &&
-      !confirm(
-        System.data.locale.userProfile.accountDelete.fileAlreadySelected.replace(
-          "%{file_name}",
-          `"${file.name}"`,
-        ),
       )
     )
       return;

@@ -1,13 +1,9 @@
+import Action from "@BrainlyAction";
 import WaitForElement from "@root/scripts/helpers/WaitForElement";
 import Button from "../../components/Button";
 import notification from "../../components/notification2";
-import Action from "../../controllers/Req/Brainly/Action";
 
 System.pageLoaded("User's warnings page OK!");
-
-if (window.sitePassedParams[0] != myData.id) {
-  UserWarnings();
-}
 
 async function UserWarnings() {
   const rows = await WaitForElement("#content-old > table > tbody > tr", {
@@ -58,13 +54,16 @@ async function UserWarnings() {
       rows,
     );
 
-    if ($checkedBoxes.length == 0)
-      return notification({
+    if ($checkedBoxes.length === 0) {
+      notification({
         html:
           System.data.locale.common.notificationMessages
             .youNeedToSelectAtLeastOne,
         type: "info",
       });
+
+      return;
+    }
 
     const idList = [];
     const userID = window.sitePassedParams[0];
@@ -97,4 +96,8 @@ async function UserWarnings() {
       type: "info",
     });
   });
+}
+
+if (Number(window.sitePassedParams[0]) !== myData.id) {
+  UserWarnings();
 }

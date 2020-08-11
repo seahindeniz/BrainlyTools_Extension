@@ -1,7 +1,10 @@
 import Action from "@BrainlyAction";
 
 export default class FileUpload {
-  constructor(file, $box) {
+  file: File;
+  $box: JQuery<HTMLElement>;
+
+  constructor(file: File, $box: JQuery<HTMLElement>) {
     this.file = file;
     this.$box = $box;
   }

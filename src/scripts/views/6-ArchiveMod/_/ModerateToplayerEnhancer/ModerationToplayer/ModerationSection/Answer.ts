@@ -1,18 +1,17 @@
-import {
-  Button,
-  Flex,
-  SpinnerContainer,
-} from "@root/scripts/components/style-guide";
-import Action from "@root/scripts/controllers/Req/Brainly/Action";
+/* eslint-disable import/no-duplicates */
+import { Button, Flex, SpinnerContainer } from "@style-guide";
+import Action from "@BrainlyAction";
 import Build from "@root/scripts/helpers/Build";
 import ModerationSection from ".";
+import type ModerationToplayerClassType from "..";
+import type { AnswerEntryType } from "..";
 
 export default class AnswerSection extends ModerationSection {
-  /**
-   * @param {import("..").default} main
-   * @param {import("..").AnswerEntryType} data
-   */
-  constructor(main, data) {
+  confirmButtonContainer: import("@style-guide/Flex").FlexElementType;
+  confirmButtonSpinnerContainer: HTMLElement;
+  confirmButton: Button;
+
+  constructor(main: ModerationToplayerClassType, data: AnswerEntryType) {
     super(main, data);
 
     this.contentType = "answer";

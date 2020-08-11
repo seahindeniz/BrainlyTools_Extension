@@ -1,4 +1,6 @@
-import Action from "@root/scripts/controllers/Req/Brainly/Action";
+import Action, {
+  RemoveAnswerReqDataType,
+} from "@root/scripts/controllers/Req/Brainly/Action";
 import Report from ".";
 
 export default class AnswerReport extends Report {
@@ -12,7 +14,7 @@ export default class AnswerReport extends Report {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  Delete(data) {
+  Delete(data: RemoveAnswerReqDataType) {
     data.take_points = data.give_warning;
 
     return new Action().RemoveAnswer(data, true);

@@ -47,6 +47,7 @@ export default class {
   color: BoxColorType;
   borderColor: BoxColorType;
   element: HTMLDivElement;
+  firstChild: any;
 
   constructor({
     children,

@@ -1,8 +1,75 @@
+import Action, { RemoveAnswerReqDataType } from "@BrainlyAction";
 import { Button } from "@style-guide";
 import UserContent from "./_/UserContent";
-import Action from "../../controllers/Req/Brainly/Action";
+import type UserContentRowClassType from "./_/UserContentRow";
+
+async function Row_ApproveAnswer(row: UserContentRowClassType) {
+  if (row.IsApproved()) {
+    row.Approved(true);
+
+    return;
+  }
+
+  const resApprove = await new Action().ApproveAnswer(row.answerID);
+
+  row.CheckApproveResponse(resApprove);
+}
+
+async function Row_UnapproveAnswer(row: UserContentRowClassType) {
+  if (!row.IsApproved()) {
+    row.Unapproved();
+
+    return;
+  }
+
+  const resUnapprove = await new Action().UnapproveAnswer(row.answerID);
+
+  row.CheckUnapproveResponse(resUnapprove);
+}
+
+async function Row_ReportAnswerForCorrection(
+  row: UserContentRowClassType,
+  postData: { reason?: string; [x: string]: any },
+) {
+  if (row.deleted) {
+    row.Deleted(true);
+  } else if (row.reported) {
+    row.Reported(true);
+  } else {
+    row.checkbox.ShowSpinner();
+
+    postData.model_id = row.answerID;
+    const resReport = await new Action().ReportForCorrection(postData);
+
+    row.CorrectReportResponse(resReport);
+  }
+}
+
+async function Row_DeleteAnswer(
+  row: UserContentRowClassType,
+  postData: RemoveAnswerReqDataType,
+) {
+  if (row.deleted) {
+    row.Deleted(true);
+  } else {
+    row.checkbox.ShowSpinner();
+
+    postData.model_id = row.answerID;
+    const resRemove = await new Action().RemoveAnswer(postData);
+
+    row.CheckDeleteResponse(resRemove);
+  }
+}
 
 class Answers extends UserContent {
+  $approveButtonContainer: JQuery<HTMLElement>;
+  $approveButton: JQuery<HTMLElement>;
+  $unApproveButtonContainer: JQuery<HTMLElement>;
+  $unApproveButton: JQuery<HTMLElement>;
+  $correctionButtonContainer: JQuery<HTMLElement>;
+  $correctionButton: JQuery<HTMLElement>;
+  $moderateButtonContainer: JQuery<HTMLElement>;
+  $moderateButton: JQuery<HTMLElement>;
   /**
    * @typedef {import("./_/UserContentRow").default} UserContentRow
    */
@@ -111,13 +178,13 @@ class Answers extends UserContent {
   }
 
   BindApprovementHandlers() {
-    this.$approveButton.click(this.ApproveSelectedAnswers.bind(this));
+    this.$approveButton.on("click", this.ApproveSelectedAnswers.bind(this));
   }
 
   async ApproveSelectedAnswers() {
     const rows = this.ApprovableRows();
 
-    if (rows.length == 0) {
+    if (rows.length === 0) {
       this.ShowSelectContentWarning();
     } else {
       this.HideSelectContentWarning();
@@ -129,32 +196,19 @@ class Answers extends UserContent {
             .confirmApprovingSelected,
         )
       ) {
-        rows.forEach(this.Row_ApproveAnswer.bind(this));
+        rows.forEach(Row_ApproveAnswer);
       }
     }
   }
 
-  /**
-   * @param {UserContentRow} row
-   */
-  async Row_ApproveAnswer(row) {
-    if (row.IsApproved()) {
-      row.Approved(true);
-    } else {
-      const resApprove = await new Action().ApproveAnswer(row.answerID);
-
-      row.CheckApproveResponse(resApprove);
-    }
-  }
-
   BindUnapprovementHandlers() {
-    this.$unApproveButton.click(this.UnapproveSelectedAnswers.bind(this));
+    this.$unApproveButton.on("click", this.UnapproveSelectedAnswers.bind(this));
   }
 
   async UnapproveSelectedAnswers() {
     const rows = this.UnapprovableRows();
 
-    if (rows.length == 0) {
+    if (rows.length === 0) {
       this.ShowSelectContentWarning();
     } else {
       this.HideSelectContentWarning();
@@ -166,29 +220,18 @@ class Answers extends UserContent {
             .confirmUnapproving,
         )
       ) {
-        rows.forEach(this.Row_UnapproveAnswer.bind(this));
+        rows.forEach(Row_UnapproveAnswer);
       }
     }
   }
 
-  /**
-   * @param {UserContentRow} row
-   */
-  async Row_UnapproveAnswer(row) {
-    if (row.IsApproved()) {
-      const resUnapprove = await new Action().UnapproveAnswer(row.answerID);
-
-      row.CheckUnapproveResponse(resUnapprove);
-    } else {
-      row.Unapproved();
-    }
-  }
-
   BindCorrectionHandlers() {
-    this.$correctionButton.click(
+    this.$correctionButton.on(
+      "click",
       this.ToggleReportForCorrectionSection.bind(this),
     );
-    this.$reportButton.click(
+    this.$reportButton.on(
+      "click",
       this.ReportSelectedAnswersForCorrection.bind(this),
     );
   }
@@ -196,7 +239,7 @@ class Answers extends UserContent {
   async ReportSelectedAnswersForCorrection() {
     const rows = this.DeletableRows();
 
-    if (rows.length == 0) {
+    if (rows.length === 0) {
       this.ShowSelectContentWarning();
     } else {
       this.HideSelectContentWarning();
@@ -208,12 +251,12 @@ class Answers extends UserContent {
         )
       ) {
         const postData = {
-          reason: this.$correctionReason.val(),
+          reason: String(this.$correctionReason.val()),
         };
         console.log(postData);
 
         rows.forEach(row =>
-          this.Row_ReportAnswerForCorrection(row, {
+          Row_ReportAnswerForCorrection(row, {
             ...postData,
           }),
         );
@@ -221,34 +264,15 @@ class Answers extends UserContent {
     }
   }
 
-  /**
-   * @param {UserContentRow} row
-   * @param {{reason:string}} postData
-   */
-  async Row_ReportAnswerForCorrection(row, postData) {
-    if (row.deleted) {
-      row.Deleted(true);
-    } else if (row.reported) {
-      row.Reported(true);
-    } else {
-      row.checkbox.ShowSpinner();
-
-      postData.model_id = row.answerID;
-      const resReport = await new Action().ReportForCorrection(postData);
-
-      row.CorrectReportResponse(resReport);
-    }
-  }
-
   BindModerateHandlers() {
-    this.$moderateButton.click(this.ToggleDeleteSection.bind(this));
-    this.$deleteButton.click(this.DeleteSelectedAnswers.bind(this));
+    this.$moderateButton.on("click", this.ToggleDeleteSection.bind(this));
+    this.$deleteButton.on("click", this.DeleteSelectedAnswers.bind(this));
   }
 
   async DeleteSelectedAnswers() {
     const rows = this.DeletableRows();
 
-    if (rows.length == 0) {
+    if (rows.length === 0) {
       this.ShowSelectContentWarning();
     } else if (this.deleteSection.selectedReason) {
       this.HideSelectContentWarning();
@@ -260,29 +284,14 @@ class Answers extends UserContent {
           reason: this.deleteSection.reasonText,
           give_warning: this.deleteSection.giveWarning,
           take_points: this.deleteSection.takePoints,
+          model_id: undefined,
         };
 
-        rows.forEach(row => this.Row_DeleteAnswer(row, { ...postData }));
+        rows.forEach(row => Row_DeleteAnswer(row, { ...postData }));
       }
-    }
-  }
-
-  /**
-   * @param {UserContentRow} row
-   * @param {{reason_id: number, reason: string, give_warning: boolean, take_points: boolean}} postData
-   */
-  async Row_DeleteAnswer(row, postData) {
-    if (row.deleted) {
-      row.Deleted(true);
-    } else {
-      row.checkbox.ShowSpinner();
-
-      postData.model_id = row.answerID;
-      const resRemove = await new Action().RemoveAnswer(postData);
-
-      row.CheckDeleteResponse(resRemove);
     }
   }
 }
 
+// eslint-disable-next-line no-new
 new Answers();

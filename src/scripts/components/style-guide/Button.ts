@@ -84,7 +84,7 @@ export type ButtonPropsType = {
   html?: string;
   title?: number | string;
   spaced?: ButtonCornerSpaces;
-  noClick?: Boolean;
+  noClick?: boolean;
   [x: string]: any;
 } & ButtonColorType &
   ButtonIconType;
@@ -345,15 +345,13 @@ class Button {
 
       this.icon = icon;
 
-      if (icon.element) {
-        this.iconContainer.appendChild(icon.element);
-      }
+      this.iconContainer.appendChild(icon.element);
     }
 
     return this;
   }
 
-  ChangeIcon(icon?: HTMLElement) {
+  ChangeIcon(icon?: HTMLElement | Icon) {
     if (!icon) return this.DeleteIcon();
 
     return this.AddIcon(icon);

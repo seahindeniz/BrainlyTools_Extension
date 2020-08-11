@@ -1,38 +1,45 @@
+/* eslint-disable no-new */
 import ModerationToplayer from "./ModerationToplayer";
 import ReportSwitcher from "./ReportSwitcher";
+import type ArchiveModClassType from "../..";
+import type { ZdnObject } from "../ReportBoxEnhancer/Report";
 
 export default class ModerateToplayerEnhancer {
-  /**
-   * @param {import("../../").default} main
-   */
-  constructor(main) {
+  main: ArchiveModClassType;
+  toplayerContainer: HTMLDivElement;
+  containerCenterMod: HTMLDivElement;
+  moderationToplayerContainer: any;
+
+  toplayerZdnObject: {
+    show: () => void;
+    setMessage: (msg: string, type?: string) => void;
+  } & ZdnObject;
+
+  constructor(main: ArchiveModClassType) {
     this.main = main;
     this.toplayerContainer = document.querySelector("#toplayer");
 
     this.ObserveToplayerContainer();
   }
+
   ObserveToplayerContainer() {
-    let observer = new MutationObserver(mutations => {
-      if (!mutations || mutations.length == 0)
-        return;
+    const observer = new MutationObserver(mutations => {
+      if (!mutations || mutations.length === 0) return;
 
       mutations.forEach(this.InitToplayerContainerComponents.bind(this));
     });
 
     observer.observe(this.toplayerContainer, { childList: true });
   }
+
   /**
    * @param {MutationRecord} mutation
    */
   InitToplayerContainerComponents(mutation) {
-    if (
-      !mutation ||
-      !mutation.addedNodes ||
-      mutation.addedNodes.length == 0
-    )
+    if (!mutation || !mutation.addedNodes || mutation.addedNodes.length === 0)
       return;
 
-    let containerCenterMod = mutation.addedNodes[0];
+    const containerCenterMod = mutation.addedNodes[0];
 
     if (
       !(containerCenterMod instanceof HTMLDivElement) ||
@@ -41,43 +48,36 @@ export default class ModerateToplayerEnhancer {
       return;
 
     this.containerCenterMod = containerCenterMod;
-    let containerCenterModHash = containerCenterMod
-      .getAttribute("objecthash");
-    /**
-     * @type {{
-     *  show: () => void,
-     *  setMessage: (msg: string, type?: string) => void,
-     * } & import("../ReportBoxEnhancer/Report").ZdnObject}
-     */
+    const containerCenterModHash = containerCenterMod.getAttribute(
+      "objecthash",
+    );
     this.toplayerZdnObject = Zadanium.getObject(containerCenterModHash);
-    this.moderationToplayerContainer = containerCenterMod
-      .querySelector(":scope > div.moderation > div.content");
+    this.moderationToplayerContainer = containerCenterMod.querySelector(
+      ":scope > div.moderation > div.content",
+    );
 
     this.ObserveModerationToplayerContainer();
     new ReportSwitcher(this);
   }
+
   ObserveModerationToplayerContainer() {
-    let observer = new MutationObserver(mutations => {
-      if (!mutations || mutations.length == 0)
-        return;
+    const observer = new MutationObserver(mutations => {
+      if (!mutations || mutations.length === 0) return;
 
       mutations.forEach(this.InitSections.bind(this));
     });
 
     observer.observe(this.moderationToplayerContainer, { childList: true });
   }
+
   /**
    * @param {MutationRecord} mutation
    */
   async InitSections(mutation) {
-    if (
-      !mutation ||
-      !mutation.addedNodes ||
-      mutation.addedNodes.length == 0
-    )
+    if (!mutation || !mutation.addedNodes || mutation.addedNodes.length === 0)
       return;
 
-    let moderationToplayer = mutation.addedNodes[0];
+    const moderationToplayer = mutation.addedNodes[0];
 
     if (
       !(moderationToplayer instanceof HTMLDivElement) ||

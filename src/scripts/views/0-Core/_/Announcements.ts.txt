@@ -61,7 +61,7 @@ export default () => {
 
   let $closeIcon = $(".sg-toplayer__close", announcementToplayer.$toplayer);
 
-  $closeIcon.click(() => {
+  $closeIcon.on("click", () => {
     $overlay.toggleClass("js-closed");
   });
 

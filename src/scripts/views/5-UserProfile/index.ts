@@ -42,6 +42,26 @@ function HideDeleteOptions() {
 }
 
 export default class UserProfile {
+  mainRight: HTMLElement;
+  promise: {
+    profile: Promise<any>;
+    extension: Promise<
+      {
+        data: import("@ServerReq").UserDetailsType;
+      } & import("@ServerReq").CommonResponsePropsType
+    >;
+    moderators: Promise<any>;
+  };
+
+  profileData: any;
+  infoBottomList: HTMLDivElement;
+  infoSection: HTMLDivElement;
+  morePanel: MorePanel;
+  extensionUser: any;
+  noteSection: HTMLDivElement;
+  $noteContainer: JQuery<HTMLElement>;
+  brainlyUser: any;
+
   constructor() {
     this.Init();
   }

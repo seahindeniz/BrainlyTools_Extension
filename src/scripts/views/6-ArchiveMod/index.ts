@@ -1,32 +1,31 @@
-import WaitForElement from "@root/scripts/helpers/WaitForElement";
 /* eslint-disable no-new */
+import WaitForElement from "@root/scripts/helpers/WaitForElement";
 import LayoutChanger from "./_/LayoutChanger";
 import ModerateToplayerEnhancer from "./_/ModerateToplayerEnhancer";
 import Pagination from "./_/Pagination";
 import ReportBoxEnhancer from "./_/ReportBoxEnhancer";
+import type { ZdnObject } from "./_/ReportBoxEnhancer/Report";
 
 export default class ModerateAll {
+  lastActiveReport: ZdnObject;
+  moderationItemContainer: HTMLElement;
+  top: HTMLDivElement;
+  layoutChanger: LayoutChanger;
+  reportBoxEnhancer: ReportBoxEnhancer;
+  pagination: Pagination;
+
   constructor() {
     if (!Zadanium || !Zadanium.getObject) throw Error("Can't find Zadanium");
 
-    /**
-     * @type {import("./_/ReportBoxEnhancer/Report").ZdnObject}
-     */
     this.lastActiveReport = undefined;
 
     this.Init();
   }
 
   async Init() {
-    /**
-     * @type {HTMLDivElement}
-     */
     this.moderationItemContainer = await WaitForElement(
       "#moderation-all > .content",
     );
-    /**
-     * @type {HTMLDivElement}
-     */
     this.top = document.querySelector("#moderation-all > .top");
     this.layoutChanger = new LayoutChanger(this);
     this.reportBoxEnhancer = new ReportBoxEnhancer(this);
@@ -50,16 +49,6 @@ export default class ModerateAll {
   InitTopComponents() {
     this.layoutChanger.Init();
   }
-
-  /**
-   * @param {HTMLElement} element
-   */
-  // eslint-disable-next-line class-methods-use-this
-  HideElement(element) {
-    if (element && element.parentNode && element.parentNode.removeChild)
-      element.parentNode.removeChild(element);
-  }
 }
 
-// eslint-disable-next-line no-unused-vars
-const moderateAll = new ModerateAll();
+new ModerateAll();

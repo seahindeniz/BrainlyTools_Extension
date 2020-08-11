@@ -80,6 +80,7 @@ export type DefaultConfigDataType = {
         timezone: string;
         cometSslServerAddress: string;
         cometSslServerPort: number;
+        serviceLatexUrlHttps: string;
       };
       ranks: RankDataType[];
     } & {
@@ -160,14 +161,16 @@ export type DefaultConfigDataType = {
   };
 };
 
+export type DeleteReasonContentTypeNameType = "answer" | "comment" | "question";
+
 export type MetaDataType = {
-  marketTitle: string;
-  extension: {
+  marketTitle?: string;
+  extension?: {
     id: string;
     URL: string;
   };
-  marketName: string;
-  location: {
+  marketName?: string;
+  location?: {
     href: string;
     ancestorOrigins: ObjectAnyType;
     origin: string;
@@ -179,11 +182,11 @@ export type MetaDataType = {
     search: string;
     hash: string;
   };
-  manifest: {
+  manifest?: {
     URL: string;
     id: string;
   } & browser._manifest.WebExtensionManifest;
-  storageKey: string;
+  storageKey?: string;
 };
 
 function _ExtractAvatarURL(entry: AvatarType) {
@@ -240,19 +243,19 @@ class _System {
             };
           };
         } & {
-          [x in "answer" | "comment" | "question"]: {
+          [x in DeleteReasonContentTypeNameType]: {
             __categories: {
               [id: number]: DeleteReasonCategoryType;
             };
           };
         } &
           {
-            [x in "__all" | "answer" | "comment" | "question"]: {
+            [x in "__all" | DeleteReasonContentTypeNameType]: {
               [id: number]: DeleteReasonSubCategoryType;
             };
           };
         __withTitles: {
-          [x in "answer" | "comment" | "question"]: {
+          [x in DeleteReasonContentTypeNameType]: {
             [title: string]: DeleteReasonSubCategoryType;
           };
         };
@@ -341,6 +344,7 @@ class _System {
         extension: extensionConfig,
         marketConfig: {},
       },
+      meta: {},
     };
     this.routeMasks = {};
     this.friends = [];
@@ -856,7 +860,7 @@ class _System {
   }: {
     id?: number | string;
     name?: string;
-    type: "question" | "answer" | "comment";
+    type: DeleteReasonContentTypeNameType;
     noRandom?: boolean;
   }): DeleteReasonSubCategoryType {
     if (!type) throw Error("Content type needed");

@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 import {
   ActionListHole,
   Button,
@@ -11,14 +12,22 @@ import IsVisible from "../../../../helpers/IsVisible";
 import ManageExtensionUser from "./ManageExtensionUser";
 // import ReportUser from "./ReportUser";
 import PrivilegeList from "./PrivilegeList";
+import type UserProfileClassType from "../..";
 
 export default class MorePanel {
-  /**
-   * @param {import("../../index").default} main
-   */
-  constructor(main) {
+  main: UserProfileClassType;
+  #sections: {
+    privilegeList?: PrivilegeList;
+    manageExtensionUser?: ManageExtensionUser;
+  };
+
+  iconButton: Button;
+  iconContainer: HTMLDivElement;
+  container: HTMLDivElement;
+
+  constructor(main: UserProfileClassType) {
     this.main = main;
-    this._sections = {};
+    this.#sections = {};
 
     this.RenderIconButton();
     this.Render();
@@ -27,13 +36,13 @@ export default class MorePanel {
   }
 
   set sections(sections) {
-    this._sections = sections;
+    this.#sections = sections;
   }
 
   get sections() {
     this.ShowPanel();
 
-    return this._sections;
+    return this.#sections;
   }
 
   ShowPanel() {
@@ -77,8 +86,14 @@ export default class MorePanel {
     );
   }
 
-  RenderSections() {}
-  async RenderSectionsAfterModeratorsResolved() {}
+  RenderSections() {
+    //
+  }
+
+  async RenderSectionsAfterModeratorsResolved() {
+    //
+  }
+
   async RenderSectionsAfterExtensionResolved() {
     if (this.main.extensionUser.probatus && this.main.extensionUser.privileges)
       this.sections.privilegeList = new PrivilegeList(this);
@@ -101,7 +116,7 @@ export default class MorePanel {
   }
 
   TogglePanel() {
-    if (IsVisible(this.container) || Object.keys(this.sections).length == 0)
+    if (IsVisible(this.container) || Object.keys(this.sections).length === 0)
       $(this.container).slideUp("fast", () => {
         this.main.HideElement(this.container);
       });

@@ -1,27 +1,72 @@
 import path from "path";
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
-import entry from "webpack-glob-entry";
+import ExtensionReloader from "webpack-extension-reloader";
+import WebpackWatchedGlobEntries from "webpack-watched-glob-entries-plugin";
 
-const mode =
-  process.env.NODE_ENV === "production" ? "production" : "development";
+const nodeEnv = process.env.NODE_ENV || "development";
 
-// import assetsConfig from "./webpack/webpack.assets.config";
-// console.log(entry("src/styles/*/*.scss"));
-// console.log(entry(entry.basePath("src"), "src/styles/*/*.scss"));
-// console.log(
-//   WebpackWatchedGlobEntries.getEntries(["./src/styles/**/*.scss"], {
-//     ignore: ["./**/_/**"],
-//     // cwd: __dirname,
-//   })(),
-// );
+// const entriesOnlyToWatch = WebpackWatchedGlobEntries.getEntries(
+//   ["src/styles/**/*.scss"],
+//   {
+//     ignore: ["**/_/**"],
+//     cwd: __dirname,
+//   },
+// )();
 
-// process.exit(1);
+const contentScriptEntries = WebpackWatchedGlobEntries.getEntries(
+  ["src/*/views/{0,1,2}-*/*.ts"],
+  {
+    ignore: ["**/_/**"],
+    cwd: __dirname,
+  },
+)();
+
+/**
+ * @param {{ [x: string]: string }} entries
+ * @param {string | RegExp} searchValue
+ */
+function cleanEntries(entries, searchValue = ".ts") {
+  return Object.values(entries).map(entry => {
+    return entry.replace(searchValue, "");
+  });
+}
+
+// process.exit();
+
+/**
+ * @type {ExtensionReloader}
+ */
+const extensionReloaderPlugin =
+  nodeEnv === "development"
+    ? new ExtensionReloader({
+        port: 9090,
+        reloadPage: true,
+        entries: {
+          contentScript: [
+            "scripts/contentScript",
+            ...cleanEntries(contentScriptEntries),
+            // ...cleanEntries(entriesOnlyToWatch, /src\/|\.ts/i),
+          ],
+          background: "scripts/background",
+          extensionPage: ["scripts/popup", "scripts/options"],
+        },
+      })
+    : undefined; /* () => {
+        this.apply = () => {};
+      } */
 
 const mainConfig = {
-  mode,
-  entry: entry(entry.basePath("src"), "src/scripts/views/0-Core/*.ts"),
-  // entry: entry(entry.basePath("src"), "src/scripts/views/*/*.ts"),
-  // ["src/scripts/views/0-Core/*.ts", "src/scripts/views/1-Home/*.ts"],
+  mode: nodeEnv,
+  entry: {
+    ...contentScriptEntries,
+    ...WebpackWatchedGlobEntries.getEntries(
+      ["src/*/*.ts", "src/*/lib/*.js"], // , "src/*/views/0-Core/*.ts"
+      {
+        ignore: ["./**/_/**", "src/locales/*", "src/*/lib/*.min.js"],
+        cwd: __dirname,
+      },
+    )(),
+  },
   module: {
     rules: [
       {
@@ -33,16 +78,39 @@ const mainConfig = {
         },
       },
       {
+        test: /\.js$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: [
+              [
+                "@babel/preset-env",
+                {
+                  targets: { chrome: "58", ie: "11" },
+                },
+              ],
+            ],
+            plugins: [
+              "@babel/plugin-transform-runtime",
+              "@babel/plugin-proposal-class-properties",
+            ],
+          },
+        },
+      },
+      {
         test: /\.tsx?$/,
         use: "ts-loader",
         exclude: /node_modules/,
+        parser: { system: false },
       },
     ],
   },
+  plugins: [extensionReloaderPlugin],
   output: {
-    filename: "[name].js",
-    path: path.resolve(process.cwd(), "build"),
-    // path: path.resolve(__dirname, "build"),
+    // filename: "[name].js",
+    // path: path.resolve(process.cwd(), "build"),
+    path: path.resolve(__dirname, "build"),
   },
   resolve: {
     extensions: [".js", ".ts" /* , ".json" */],
@@ -58,4 +126,4 @@ const mainConfig = {
   // watch: true,
 };
 
-export default [mainConfig];
+export default [/* libConfig, */ mainConfig];

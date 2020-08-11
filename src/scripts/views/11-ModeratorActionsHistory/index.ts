@@ -1,9 +1,11 @@
+/* eslint-disable no-underscore-dangle */
+import HideElement from "@root/scripts/helpers/HideElement";
 import WaitForElement from "@root/scripts/helpers/WaitForElement";
 import ServerReq from "@ServerReq";
 import html2canvas from "html2canvas";
 import md5 from "js-md5";
 import linkifyHtml from "linkifyjs/html";
-import Button from "../../components/Button";
+import Button, { JQueryButtonElementType } from "../../components/Button";
 import Modal from "../../components/Modal";
 import notification from "../../components/notification2";
 import Action from "../../controllers/Req/Brainly/Action";
@@ -13,22 +15,46 @@ import ActionEntry from "./_/ActionEntry";
 const MAX_MESSAGE_LENGTH = 512;
 
 export default class ModeratorActionHistory {
+  details: any[];
+  entries: any[];
+  moderator: { id: number; nick: string; _id?: string };
+  message: string;
+  fixedMessage: string;
+  actionLink: string;
+  $actionRows: JQuery<HTMLElement>;
+  actionRows: any;
+  $confirmButton: JQueryButtonElementType;
+  $disapproveButton: JQueryButtonElementType;
+  $actionButtonsContainer: JQuery<HTMLElement>;
+  $confirmButtonSpinnerContainer: JQuery<HTMLElement>;
+  $disapproveButtonSpinnerContainer: JQuery<HTMLElement>;
+  $spinner: JQuery<HTMLElement>;
+  questionLink: any;
+  action: string;
+  reportableEntries: any;
+  shortCodeOfScreenshot: string;
+  screenshot: Blob;
+  modal: any;
+  modalResolve: (value?: unknown) => void;
+  modalReject: (reason?: any) => void;
+  $textarea: any;
+  $preview: JQuery<HTMLElement>;
+  $counter: JQuery<HTMLElement>;
+  $noButtonContainer: JQuery<HTMLElement>;
+  $sendButtonSpinnerContainer: JQuery<HTMLElement>;
+  $noButton: JQueryButtonElementType;
+  $sendButton: JQueryButtonElementType;
+  $sendButtonSpinner: JQuery<HTMLElement>;
+  loopTimer: any;
+
   constructor() {
     this.details = [];
     /**
      * @type {ActionEntry[]}
      */
     this.entries = [];
-    /**
-     * @type {{id: number, nick: string, _id?: string} & Object<string, *>}
-     */
-    this.moderator;
     this.message = "";
     this.fixedMessage = "";
-    /**
-     * @type {string}
-     */
-    this.actionLink;
 
     this.Init();
   }
@@ -102,13 +128,13 @@ export default class ModeratorActionHistory {
    * @param {string} hash
    */
   GetEntry(hash) {
-    return this.entries.find(entry => entry.hash == hash);
+    return this.entries.find(entry => entry.hash === hash);
   }
 
   RenderDetails() {
     this.entries.forEach(entry => {
       entry.details = this.details.find(
-        detail => detail.target.hash == entry.hash,
+        detail => detail.target.hash === entry.hash,
       );
 
       entry.RenderDetails();
@@ -118,7 +144,7 @@ export default class ModeratorActionHistory {
   RenderActions() {
     if (
       this.details.length < this.$actionRows.length &&
-      this.moderator.id != System.data.Brainly.userData.user.id
+      this.moderator.id !== System.data.Brainly.userData.user.id
     ) {
       this.RenderActionButtons();
       this.RenderSpinner();
@@ -173,8 +199,8 @@ export default class ModeratorActionHistory {
   }
 
   BindHandlers() {
-    this.$confirmButton.click(this.Confirm.bind(this));
-    this.$disapproveButton.click(this.Disapprove.bind(this));
+    this.$confirmButton.on("click", this.Confirm.bind(this));
+    this.$disapproveButton.on("click", this.Disapprove.bind(this));
   }
 
   async Confirm() {
@@ -212,14 +238,14 @@ export default class ModeratorActionHistory {
   InProgress(method) {
     this.reportableEntries = this.ReportableEntries();
 
-    if (this.reportableEntries.length == 0) return Promise.reject();
+    if (this.reportableEntries.length === 0) return Promise.reject();
 
-    if (this.reportableEntries.length == 1) {
+    if (this.reportableEntries.length === 1) {
       this.entries.forEach(
         entry =>
-          entry.hash == this.reportableEntries[0].hash && entry[this.action],
+          entry.hash === this.reportableEntries[0].hash && entry[this.action],
       );
-      throw 0;
+      throw Error("No entry");
     }
 
     window.isPageProcessing = true;
@@ -234,9 +260,9 @@ export default class ModeratorActionHistory {
   ShowSpinner() {
     let $spinnerContainer;
 
-    if (this.action == "confirm")
+    if (this.action === "confirm")
       $spinnerContainer = this.$confirmButtonSpinnerContainer;
-    else if (this.action == "disapprove")
+    else if (this.action === "disapprove")
       $spinnerContainer = this.$disapproveButtonSpinnerContainer;
 
     if ($spinnerContainer) this.$spinner.appendTo($spinnerContainer);
@@ -258,19 +284,7 @@ export default class ModeratorActionHistory {
   }
 
   HideSpinner() {
-    this.HideElement(this.$spinner);
-  }
-
-  /**
-   * @param {HTMLElement | JQuery<HTMLElement>} $element
-   */
-  HideElement($element) {
-    if ($element) {
-      if ($element instanceof HTMLElement) {
-        if ($element.parentElement)
-          $element.parentElement.removeChild($element);
-      } else $element.detach();
-    }
+    HideElement(this.$spinner);
   }
 
   ActivateButtons() {
@@ -302,8 +316,8 @@ export default class ModeratorActionHistory {
       entry.SetDetails(log);
     });
 
-    if (this.action == "confirm") this.Confirmed();
-    else if (this.action == "disapprove") this.Disapproved();
+    if (this.action === "confirm") this.Confirmed();
+    else if (this.action === "disapprove") this.Disapproved();
   }
 
   Confirmed() {
@@ -357,15 +371,10 @@ export default class ModeratorActionHistory {
   }
 
   async PrepareReportDetails() {
-    try {
-      this.questionLink = await this.PrepareQuestionLinks();
+    this.questionLink = await this.PrepareQuestionLinks();
 
-      if (!this.questionLink)
-        throw { message: `Storing question links has failed` };
-
-      return Promise.resolve();
-    } catch (error) {
-      return Promise.reject(error);
+    if (!this.questionLink) {
+      throw Error(`Storing question links has failed`);
     }
   }
 
@@ -373,11 +382,7 @@ export default class ModeratorActionHistory {
     this.shortCodeOfScreenshot = await this.TakeScreenshot();
 
     if (!this.shortCodeOfScreenshot)
-      throw {
-        message: `Taking screenshot has failed ${
-          this.shortCodeOfScreenshot.message || ""
-        }`,
-      };
+      throw Error(`Taking screenshot has failed`);
 
     this.actionLink = `${System.data.config.extension.shortenedLinkURL}/${this.shortCodeOfScreenshot}`;
 
@@ -387,7 +392,8 @@ export default class ModeratorActionHistory {
     });
   }
 
-  TakeScreenshot(hash) {
+  TakeScreenshot(hash?: string): Promise<string> {
+    // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (resolve, reject) => {
       try {
         this.ChangeVisibilityOtherElementsForScreenshot("hide");
@@ -402,6 +408,7 @@ export default class ModeratorActionHistory {
           y: 0,
         });
 
+        // eslint-disable-next-line no-param-reassign
         if (!hash) hash = md5(this.reportableHashList.join());
 
         canvas.toBlob(async blob => {
@@ -428,15 +435,17 @@ export default class ModeratorActionHistory {
    * @param {"hide"|"show"} method
    */
   ChangeVisibilityOtherElementsForScreenshot(method) {
-    if (method == "hide")
+    if (method === "hide")
       $("#container").css({
         padding: 0,
         margin: 0,
       });
     else $("#container").removeAttr("style");
 
+    // @ts-expect-error
     this.$actionButtonsContainer[method]();
-    this.ChangeVisibilityOfReportedEntries(method == "show");
+    this.ChangeVisibilityOfReportedEntries(method === "show");
+    // @ts-expect-error
     $(
       "#main-panel, #moderate-functions-panel, #footer, .tasksPagination, noscript",
     )[method]();
@@ -460,41 +469,30 @@ export default class ModeratorActionHistory {
    */
   ChangeVisibilityOfAllEntries(makeItVisible, excludedHash) {
     this.entries.forEach(entry => {
-      if (excludedHash != entry.hash) {
+      if (excludedHash !== entry.hash) {
         if (makeItVisible) entry.Show();
         else entry.Hide();
       }
     });
   }
 
-  PrepareQuestionLinks() {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const links = [];
+  async PrepareQuestionLinks() {
+    const links = [];
 
-        this.reportableEntries.forEach(entry => {
-          const link = entry.questionLink;
+    this.reportableEntries.forEach(entry => {
+      const link = entry.questionLink;
 
-          if (!links.includes(link)) links.push(link);
-        });
-
-        if (links.length == 1) return resolve(links[0]);
-
-        const resLinks = await new ServerReq().ActionHistoryEntryLinks(links);
-
-        resolve(
-          `${System.data.config.extension.shortenedLinkURL}/${resLinks.shortCode}`,
-        );
-      } catch (error) {
-        reject(error);
-      }
+      if (!links.includes(link)) links.push(link);
     });
+
+    if (links.length === 1) return links[0];
+
+    const resLinks = await new ServerReq().ActionHistoryEntryLinks(links);
+
+    return `${System.data.config.extension.shortenedLinkURL}/${resLinks.shortCode}`;
   }
 
-  /**
-   * @param {Blob} blob
-   */
-  PreviewScreenshot(blob) {
+  /* PreviewScreenshot(blob: Blob) {
     const $imgcontainer = $("<div></div>");
     $imgcontainer.attr(
       "style",
@@ -511,7 +509,7 @@ export default class ModeratorActionHistory {
 
     newImg.src = url;
     $imgcontainer.append(newImg);
-  }
+  } */
 
   OpenModal({ actionLink = undefined, questionLink = undefined } = {}) {
     return new Promise((resolve, reject) => {
@@ -623,9 +621,9 @@ export default class ModeratorActionHistory {
   }
 
   BindModalHandlers() {
-    this.$noButton.click(this.CancelModal.bind(this));
-    this.modal.$close.click(this.CancelModal.bind(this));
-    this.$sendButton.click(() => {
+    this.$noButton.on("click", this.CancelModal.bind(this));
+    this.modal.$close.on("click", this.CancelModal.bind(this));
+    this.$sendButton.on("click", () => {
       this.FixMessage();
       this.SendMessage();
     });
@@ -664,32 +662,32 @@ export default class ModeratorActionHistory {
   }
 
   ComputeVariableLength() {
-    if (this.message) {
-      const typedLen = {
-        nick: (this.message.match(/\$n/gi) || []).length,
-        action: (this.message.match(/\$a/gi) || []).length,
-        question: (this.message.match(/\$q/gi) || []).length,
-      };
-      const valuesLen = {
-        nick: this.moderator.nick.length,
-        action: this.actionLink.length,
-        question: this.questionLink.length,
-      };
-      console.log(typedLen);
-      console.log(valuesLen);
+    if (!this.message) return 0;
 
-      return (
-        typedLen.nick * valuesLen.nick +
-        typedLen.action * valuesLen.action +
-        typedLen.question * valuesLen.question
-      );
-    }
+    const typedLen = {
+      nick: (this.message.match(/\$n/gi) || []).length,
+      action: (this.message.match(/\$a/gi) || []).length,
+      question: (this.message.match(/\$q/gi) || []).length,
+    };
+    const valuesLen = {
+      nick: this.moderator.nick.length,
+      action: this.actionLink.length,
+      question: this.questionLink.length,
+    };
+    console.log(typedLen);
+    console.log(valuesLen);
+
+    return (
+      typedLen.nick * valuesLen.nick +
+      typedLen.action * valuesLen.action +
+      typedLen.question * valuesLen.question
+    );
   }
 
   /**
-   * @param {JQuery.KeyDownEvent} event
+   * @param {} event
    */
-  LimitMessage(event) {
+  LimitMessage(event: JQuery.KeyDownEvent) {
     if (
       this.fixedMessage.length >= MAX_MESSAGE_LENGTH &&
       IsKeyAlphaNumeric(event)
@@ -698,12 +696,14 @@ export default class ModeratorActionHistory {
 
       return true;
     }
+
+    return false;
   }
 
   UpdatePreview(event) {
     this.FixMessage();
 
-    if (this.LimitMessage(event)) return false;
+    if (this.LimitMessage(event)) return;
 
     let message = this.fixedMessage.replace(/\n/g, "<br>");
 
@@ -744,12 +744,12 @@ export default class ModeratorActionHistory {
   }
 
   HideSendButtonSpinner() {
-    this.HideElement(this.$sendButtonSpinner);
+    HideElement(this.$sendButtonSpinner);
   }
 
   InitTimer() {
-    if (!this._loop_timer)
-      this._loop_timer = setInterval(this.RunTimer.bind(this), 1000);
+    if (!this.loopTimer)
+      this.loopTimer = setInterval(this.RunTimer.bind(this), 1000);
   }
 
   RunTimer() {
@@ -761,12 +761,13 @@ export default class ModeratorActionHistory {
       entry => !!entry.runTimer,
     );
 
-    if (entriesHasTimersRunning.length == 0) {
-      clearInterval(this._loop_timer);
+    if (entriesHasTimersRunning.length === 0) {
+      clearInterval(this.loopTimer);
 
-      this._loop_timer = undefined;
+      this.loopTimer = undefined;
     }
   }
 }
 
+// eslint-disable-next-line no-new
 new ModeratorActionHistory();

@@ -1,5 +1,3 @@
-// @flow
-
 import { Flex, Button } from "@style-guide";
 import { FlexElementType } from "@style-guide/Flex";
 import Build from "@root/scripts/helpers/Build";

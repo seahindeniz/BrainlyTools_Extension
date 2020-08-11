@@ -1,28 +1,42 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable import/no-duplicates */
 import { Flex, Spinner } from "@root/scripts/components/style-guide";
+import type { DeleteReasonContentTypeNameType } from "@root/scripts/controllers/System";
+import HideElement from "@root/scripts/helpers/HideElement";
 import InsertAfter from "@root/scripts/helpers/InsertAfter";
+import type ModerationToplayerClassType from "..";
+import type { AnswerEntryType, QuestionEntryType } from "..";
 import ToplayerQDB from "./ToplayerQDB";
 
 export default class ModerationSection {
-  /**
-   * @param {import("..").default} main
-   * @param {import("..").QuestionEntryType | import("..").AnswerEntryType} data
-   */
-  constructor(main, data) {
+  main: ModerationToplayerClassType;
+  data: QuestionEntryType | AnswerEntryType;
+  contentType: DeleteReasonContentTypeNameType;
+  deleted: boolean;
+  processing: boolean;
+  container: HTMLElement;
+  header: HTMLElement;
+  report: HTMLElement;
+  buttonContainer: import("@style-guide/Flex").FlexElementType;
+  buttonSpinner: HTMLDivElement;
+
+  constructor(
+    main: ModerationToplayerClassType,
+    data: QuestionEntryType | AnswerEntryType,
+  ) {
     this.main = main;
     this.data = data;
-    /**
-     * @type {string}
-     */
-    this.contentType;
+
     this.deleted = false;
     this.processing = false;
-    this.container = this.data.element[0];
-    this.header = this.container.firstElementChild;
+    this.container = data?.element[0];
+    this.header = this.container.firstElementChild as HTMLElement;
     this.report = this.container.querySelector(".report");
 
     this.RenderButtonContainer();
     this.RenderButtonSpinner();
   }
+
   RenderButtonContainer() {
     this.buttonContainer = Flex({
       justifyContent: "flex-end",
@@ -32,26 +46,26 @@ export default class ModerationSection {
 
     InsertAfter(this.buttonContainer, this.header);
   }
+
   RenderButtonSpinner() {
     this.buttonSpinner = Spinner({
       overlay: true,
       size: "small",
     });
   }
-  /**
-   * @param {HTMLElement} targetElement
-   */
-  ShowSpinner(targetElement) {
-    if (!targetElement)
-      return;
+
+  ShowSpinner(targetElement?: HTMLElement) {
+    if (!targetElement) return undefined;
 
     targetElement.append(this.buttonSpinner);
 
     return System.Delay(50);
   }
+
   HideSpinner() {
-    this.main.main.main.HideElement(this.buttonSpinner);
+    HideElement(this.buttonSpinner);
   }
+
   /**
    * @param {import("@style-guide/Button").Properties} [button]
    */
@@ -59,22 +73,21 @@ export default class ModerationSection {
     /**
      * @type {number[]}
      */
-    let reasonIds = System.data.config.quickDeleteButtonsReasons[this
-      .contentType];
+    const reasonIds =
+      System.data.config.quickDeleteButtonsReasons[this.contentType];
 
-    if (!reasonIds || reasonIds.length == 0)
-      return;
+    if (!reasonIds || reasonIds.length === 0) return;
 
-    let reasons = System.data.Brainly.deleteReasons.__withIds[this
-      .contentType];
+    const reasons =
+      System.data.Brainly.deleteReasons.__withIds[this.contentType];
 
     reasonIds.forEach(reasonId => {
-      let reason = reasons[reasonId];
+      const reason = reasons[reasonId];
 
-      if (!reason)
-        return;
+      if (!reason) return;
 
-      let quickActionButton = new ToplayerQDB(this, {
+      // @ts-expect-error
+      const quickActionButton = new ToplayerQDB(this, {
         reason,
         button,
       });
@@ -82,19 +95,7 @@ export default class ModerationSection {
       this.buttonContainer.append(quickActionButton.container);
     });
   }
-  /**
-   * @param {{
-   *  model_id?: number,
-   *  reason: any,
-   *  reason_title: any,
-   *  reason_id: any,
-   *  give_warning: boolean,
-   * }} _
-   * @returns {Promise<*>}
-   */
-  Delete(_) {
-    throw "No content type specified";
-  }
+
   Deleted() {
     this.deleted = true;
 
@@ -102,11 +103,11 @@ export default class ModerationSection {
     this.container.classList.add("removed");
     this.container.classList.remove("reported");
 
-    if (this.report)
-      this.report.remove();
+    if (this.report) this.report.remove();
 
-    let removableElements = this.container
-      .querySelectorAll(".actions, .action-box");
+    const removableElements = this.container.querySelectorAll(
+      ".actions, .action-box",
+    );
 
     if (removableElements && removableElements.length > 0)
       removableElements.forEach(box => box.remove());

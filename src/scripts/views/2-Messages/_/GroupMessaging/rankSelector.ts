@@ -1,45 +1,50 @@
-"use strict";
-
 import Dropdown from "../../../../components/Dropdown";
 import userLi from "./userLi";
 
 export default $findUsersList => {
-  let ranks = System.data.Brainly.defaultConfig.config.data.ranks.map((rank) => {
-    return {
-      value: rank.id,
-      text: rank.name
-    }
-  });
-  let $rankSelector = Dropdown({
-    label: System.data.locale.messages.groups.userCategories.moderatorRanks.selectRank,
+  const ranks = System.data.Brainly.defaultConfig.config.data.ranks.map(
+    rank => {
+      return {
+        value: rank.id,
+        text: rank.name,
+      };
+    },
+  );
+  const $rankSelector = Dropdown({
+    label:
+      System.data.locale.messages.groups.userCategories.moderatorRanks
+        .selectRank,
     class: "sg-dropdown--full-width",
-    items: ranks
-  });
+    items: ranks,
+  }) as JQuery<HTMLSelectElement>;
 
-  $rankSelector.on("change", function() {
+  $rankSelector.on("change", function () {
     if (this.value) {
       $findUsersList.html("");
 
-      let selectedRank = System.data.Brainly.defaultConfig.config.data.ranksWithId[this.value];
-      let users = System.allModerators.withRanks[this.value];
+      /* const selectedRank =
+        System.data.Brainly.defaultConfig.config.data.ranksWithId[this.value]; */
+      const users = System.allModerators.withRanks[this.value];
 
       if (users && users.length > 0) {
         users.forEach(({ id, nick, ranks_ids, avatar }) => {
-
-          let userRanks = [];
-          let buddyUrl = System.createBrainlyLink("profile", { nick, id });
+          const userRanks = [];
+          const buddyUrl = System.createBrainlyLink("profile", { nick, id });
+          // eslint-disable-next-line no-param-reassign
           avatar = System.prepareAvatar(avatar);
 
           ranks_ids.forEach(rankId => {
-            userRanks.push(System.data.Brainly.defaultConfig.config.data.ranksWithId[rankId]);
+            userRanks.push(
+              System.data.Brainly.defaultConfig.config.data.ranksWithId[rankId],
+            );
           });
 
-          let $li = userLi({
+          const $li = userLi({
             id,
             nick,
             avatar,
             buddyUrl,
-            ranks: userRanks
+            ranks: userRanks,
           });
 
           $findUsersList.append($li);
@@ -49,4 +54,4 @@ export default $findUsersList => {
   });
 
   return $rankSelector;
-}
+};

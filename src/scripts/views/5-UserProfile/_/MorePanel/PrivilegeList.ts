@@ -3,16 +3,24 @@ import {
   ContentBoxContent,
   List,
   ListItem,
-  Text
+  Text,
 } from "@style-guide";
 import Build from "../../../../helpers/Build";
 import IsVisible from "../../../../helpers/IsVisible";
+import type MorePanelClassType from ".";
 
 export default class PrivilegeList {
-  /**
-   * @param {import(".").default} main
-   */
-  constructor(main) {
+  main: MorePanelClassType;
+  container: HTMLDivElement;
+  wrapper: HTMLDivElement;
+  link: import("@style-guide/Text").TextElement<
+    "a"
+  >;
+
+  privilegeListContainer: HTMLDivElement;
+  privilegeList: HTMLUListElement;
+
+  constructor(main: MorePanelClassType) {
     this.main = main;
 
     this.Render();
@@ -20,47 +28,55 @@ export default class PrivilegeList {
     this.RenderPrivileges();
     this.BindHandlers();
   }
+
   Render() {
-    this.container = Build(ContentBoxContent({
-      spacedBottom: true,
-    }), [
+    this.container = Build(
+      ContentBoxContent({
+        spacedBottom: true,
+      }),
       [
-        this.wrapper = ContentBox(), [
+        [
+          (this.wrapper = ContentBox()),
           [
-            ContentBoxContent(),
-            this.link = Text({
-              tag: "a",
-              size: "small",
-              weight: "bold",
-              color: "blue-dark",
-              html: System.data.locale.userProfile.morePanel.privileges
-                .title,
-            })
+            [
+              ContentBoxContent(),
+              (this.link = Text({
+                tag: "a",
+                size: "small",
+                weight: "bold",
+                color: "blue-dark",
+                html: System.data.locale.userProfile.morePanel.privileges.title,
+              })),
+            ],
           ],
-        ]
-      ]
-    ]);
+        ],
+      ],
+    );
 
     this.main.container.append(this.container);
   }
+
   RenderList() {
     this.privilegeListContainer = ContentBoxContent({
       children: this.privilegeList = List(),
     });
   }
+
   RenderPrivileges() {
     this.main.main.extensionUser.privileges.forEach(
-      this.RenderPrivilege.bind(this)
+      this.RenderPrivilege.bind(this),
     );
   }
+
   /**
    * @param {0} id
    */
   RenderPrivilege(id) {
-    let privilege = System.data.locale.popup.extensionManagement.users
-      .privilegeList[id];
+    const privilege =
+      System.data.locale.popup.extensionManagement.users.privilegeList[id];
 
-    let privilegeItem = ListItem({
+    const privilegeItem = ListItem({
+      // @ts-expect-error
       icon: {
         color: "lavender",
       },
@@ -69,14 +85,16 @@ export default class PrivilegeList {
         size: "xsmall",
         html: privilege.title,
         title: privilege.description,
-      })
+      }),
     });
 
     this.privilegeList.append(privilegeItem);
   }
+
   BindHandlers() {
     this.link.addEventListener("click", this.TogglePrivilegesList.bind(this));
   }
+
   TogglePrivilegesList() {
     if (IsVisible(this.privilegeListContainer))
       $(this.privilegeListContainer).slideUp("fast", () => {

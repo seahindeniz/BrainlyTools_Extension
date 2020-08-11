@@ -25,6 +25,7 @@ export type LabelPropsType = {
   children?: ChildrenParamType;
   className?: string;
   text?: string;
+  containerTag?: "div" | "label";
   [x: string]: any;
 };
 
@@ -221,6 +222,7 @@ export default function ({
   color = "mono",
   className,
   text,
+  containerTag = "div",
   ...props
 }: LabelPropsType) {
   const filteredColor: string =
@@ -258,7 +260,7 @@ export default function ({
       : TRANSPARENT_ICON_COLOR_MAP[color];
 
   const labelContainer: LabelElementType = Object.assign(
-    document.createElement("div"),
+    document.createElement(containerTag),
   );
   labelContainer.className = labelClass;
   props.color = color;

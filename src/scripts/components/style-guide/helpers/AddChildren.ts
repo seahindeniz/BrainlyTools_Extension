@@ -32,6 +32,13 @@ function appendChildren(
     children = children();
   }
 
+  if (children instanceof Array) {
+    if (children.length > 0)
+      children.forEach(__children => appendChildren(target, __children));
+
+    return;
+  }
+
   if (
     typeof children !== "string" &&
     !(children instanceof Node) &&
@@ -70,12 +77,12 @@ export default function AddChildren(
 ) {
   if (!target || children === undefined || children === null) return;
 
-  if (children instanceof Array) {
+  /* if (children instanceof Array) {
     if (children.length > 0)
       children.forEach(_children => appendChildren(target, _children));
 
     return;
-  }
+  } */
 
   appendChildren(target, children);
 }

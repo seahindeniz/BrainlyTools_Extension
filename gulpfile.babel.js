@@ -39,7 +39,6 @@ task(
     "styleGuide",
     "locales",
     "generateLocaleIndex",
-    // "popup", // TODO activate this
     "manifest",
   ),
 );

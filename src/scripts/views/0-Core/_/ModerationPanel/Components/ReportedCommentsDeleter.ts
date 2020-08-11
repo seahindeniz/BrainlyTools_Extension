@@ -165,8 +165,8 @@ class ReportedCommentsDeleter extends Components {
 
   BindHandlers() {
     this.liLink.addEventListener("click", this.TogglePanel.bind(this));
-    this.$stopButton.click(this.ManuelStop.bind(this));
-    this.$startButton.click(this.StartDeleting.bind(this));
+    this.$stopButton.on("click", this.ManuelStop.bind(this));
+    this.$startButton.on("click", this.StartDeleting.bind(this));
   }
 
   TogglePanel() {

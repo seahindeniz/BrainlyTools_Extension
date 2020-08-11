@@ -1,20 +1,56 @@
 /* eslint-disable camelcase */
 import Build from "@root/scripts/helpers/Build";
 import IsVisible from "@root/scripts/helpers/IsVisible";
-import { Box, Button, Icon, Text, Flex } from "@style-guide";
+import { Box, Button, Flex, Icon, Text } from "@style-guide";
+import type { ButtonPropsType } from "@style-guide/Button";
+import type { FlexElementType } from "@style-guide/Flex";
+import type { TextElement } from "@style-guide/Text";
 import momentTz from "moment-timezone";
 import notification from "../../../components/notification2";
 import Action from "../../../controllers/Req/Brainly/Action";
 import ContentViewerContent from "./ContentViewer_Content";
 import SelectCheckbox from "./SelectCheckbox";
+import type UserContentClassType from "./UserContent";
 
 export default class UserContentRow {
-  /**
-   * @param {import("./UserContent").default} main
-   * @param {number} id
-   * @param {HTMLTableRowElement} element
-   */
-  constructor(main, id, element) {
+  main: UserContentClassType;
+  id: number;
+  element: HTMLTableRowElement & {
+    questionID: number;
+  };
+
+  isBusy: boolean;
+  deleted: boolean;
+  contents: {
+    question: ContentViewerContent;
+    answers: {
+      [id: number]: ContentViewerContent;
+    };
+  };
+
+  comment: any;
+  container: FlexElementType;
+  questionLinkContainerList: FlexElementType;
+  questionLink: TextElement<"a">;
+  resPromise: any;
+  res: any;
+  checkbox: any;
+  viewer: FlexElementType;
+  contentContainer: Box;
+  answerID: number;
+  approveIcon: Icon;
+  iconContainer: any;
+  reportedContentIcon: Button;
+  reported: boolean;
+  approved: any;
+
+  constructor(
+    main: UserContentClassType,
+    id: number,
+    element: HTMLTableRowElement & {
+      questionID: number;
+    },
+  ) {
     this.main = main;
     this.id = id;
     this.element = element;
@@ -82,29 +118,25 @@ export default class UserContentRow {
     }
   }
 
-  async FetchContentWithPromise(refreshContent) {
-    if (refreshContent || !this.resPromise) {
-      /* this.content = this.main.questions[this.element.questionID] = new Content(this.element.questionID);
+  async FetchContentWithPromise(refreshContent?: boolean) {
+    if (!refreshContent && this.resPromise) return;
+
+    /* this.content = this.main.questions[this.element.questionID] = new Content(this.element.questionID);
       this.content.resPromise = this.content.Fetch(); */
-      if (
-        !this.main.questions[this.element.questionID] ||
-        !this.main.questions[this.element.questionID].resPromise
-      ) {
-        if (!this.main.questions[this.element.questionID])
-          this.main.questions[this.element.questionID] = {};
+    if (
+      !this.main.questions[this.element.questionID] ||
+      !this.main.questions[this.element.questionID].resPromise
+    ) {
+      if (!this.main.questions[this.element.questionID])
+        this.main.questions[this.element.questionID] = {};
 
-        this.resPromise = new Action().GetQuestion(this.element.questionID);
-        this.main.questions[
-          this.element.questionID
-        ].resPromise = this.resPromise;
-      } else {
-        this.resPromise = this.main.questions[
-          this.element.questionID
-        ].resPromise;
-      }
-
-      // return this.CheckContentPromise();
+      this.resPromise = new Action().GetQuestion(this.element.questionID);
+      this.main.questions[this.element.questionID].resPromise = this.resPromise;
+    } else {
+      this.resPromise = this.main.questions[this.element.questionID].resPromise;
     }
+
+    // return this.CheckContentPromise();
   }
 
   async RenderAfterResolve() {
@@ -266,8 +298,8 @@ export default class UserContentRow {
     });
   }
 
-  RenderApproveIcon(answer) {
-    if (!answer.approved?.date) return;
+  RenderApproveIcon(answer?) {
+    if (!answer?.approved?.date) return;
 
     /* this.approveIcon = this.RenderIcon({
       type: "solid-mint",
@@ -305,10 +337,7 @@ export default class UserContentRow {
 
   RenderAttachmentsIcon(content) {
     if (content.attachments && content.attachments.length > 0) {
-      /**
-       * @type {import("@style-guide/Button").ButtonPropsType}
-       */
-      const iconProps = {
+      const iconProps: ButtonPropsType = {
         type: "solid-blue",
         icon: new Icon({ type: "attachment" }),
         title: System.data.locale.userContent.hasAttachment.question,
@@ -336,10 +365,7 @@ export default class UserContentRow {
     )
       return;
 
-    /**
-     * @type {import("@style-guide/Button").ButtonPropsType}
-     */
-    const iconProps = {
+    const iconProps: ButtonPropsType = {
       type: "solid-peach",
       icon: new Icon({ type: "report_flag" }),
       title: System.data.locale.userContent.reported.question,
@@ -360,11 +386,7 @@ export default class UserContentRow {
     this.reportedContentIcon = this.RenderIcon(iconProps);
   }
 
-  /**
-   *
-   * @param {import("@style-guide/Button").ButtonPropsType} props
-   */
-  RenderIcon({ className, ...props }) {
+  RenderIcon({ className, ...props }: ButtonPropsType) {
     const icon = new Button({
       noClick: true,
       iconOnly: true,
@@ -425,7 +447,7 @@ export default class UserContentRow {
     }
   }
 
-  Deleted(already) {
+  Deleted(already?: boolean) {
     this.deleted = true;
     this.isBusy = false;
 
@@ -445,7 +467,7 @@ export default class UserContentRow {
     this.element.classList.remove("removed", "already");
   }
 
-  Reported(already) {
+  Reported(already?: boolean) {
     this.reported = true;
 
     this.element.classList.add("reported");
@@ -471,7 +493,7 @@ export default class UserContentRow {
     );
   }
 
-  Approved(already) {
+  Approved(already?: boolean) {
     this.approved = true;
 
     this.RenderApproveIcon();
@@ -481,7 +503,7 @@ export default class UserContentRow {
     if (already) this.element.classList.add("already");
   }
 
-  Unapproved(already) {
+  Unapproved(already?: boolean) {
     this.approved = false;
 
     this.HideApproveIcon();
@@ -494,7 +516,7 @@ export default class UserContentRow {
   RowNumber() {
     return Number(
       this.element.children && this.element.children.length > 1
-        ? this.element.children[1].innerText
+        ? (this.element.children[1] as HTMLElement).innerText
         : 0,
     );
   }
@@ -542,7 +564,8 @@ export default class UserContentRow {
       await this.SetContentAfterResolve();
       this.UpdateAnswerContent();
       this.Approved();
-      this.contents.answers[this.answerID].RenderApproveIcon();
+      // TODO test this
+      this.contents.answers[this.answerID].main.RenderApproveIcon();
 
       if (!resApprove.success && !resApprove.message) {
         this.element.classList.add("already");

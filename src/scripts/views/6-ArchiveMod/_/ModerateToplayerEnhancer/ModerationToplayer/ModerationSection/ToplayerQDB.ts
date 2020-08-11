@@ -1,19 +1,26 @@
-import notification from "@root/scripts/components/notification2";
-import {
-  Button,
-  Flex,
-  SpinnerContainer,
-} from "@root/scripts/components/style-guide";
+import { Button, Flex, SpinnerContainer } from "@style-guide";
+import { ButtonPropsType } from "@style-guide/Button";
+import type AnswerSectionClassType from "./Answer";
+import type QuestionSectionClassType from "./Question";
 
 export default class ToplayerQDB {
-  /**
-   * @param {import(".").default} main
-   * @param {{
-   *  reason: *,
-   *  button: import("@style-guide/Button").Properties,
-   * }} param1
-   */
-  constructor(main, { reason, button }) {
+  main: AnswerSectionClassType | QuestionSectionClassType;
+  reason: any;
+  buttonProps: ButtonPropsType;
+  button: Button;
+  spinnerContainer: HTMLDivElement;
+  container: import("@style-guide/Flex").FlexElementType;
+
+  constructor(
+    main: AnswerSectionClassType | QuestionSectionClassType,
+    {
+      reason,
+      button,
+    }: {
+      reason: any;
+      button: ButtonPropsType;
+    },
+  ) {
     this.main = main;
     this.reason = reason;
     this.buttonProps = button;
@@ -58,23 +65,29 @@ export default class ToplayerQDB {
 
       await this.ShowSpinner();
 
-      if (this.main.processing || !confirm(message))
-        return this.main.HideSpinner();
+      if (this.main.processing || !confirm(message)) {
+        this.main.HideSpinner();
 
+        return;
+      }
+
+      const giveWarning = System.canBeWarned(this.reason.id);
       const data = {
         model_id: this.main.data.id,
         reason: this.reason.text,
         reason_title: this.reason.title,
         reason_id: this.reason.category_id,
-        give_warning: System.canBeWarned(this.reason.id),
+        give_warning: giveWarning,
+        take_points: giveWarning,
       };
-      data.take_points = data.give_warning;
+
       this.main.processing = true;
       const resDelete = await this.main.Delete(data);
       this.main.processing = false;
 
-      if (!resDelete) throw "Empty response";
+      if (!resDelete) throw Error("Empty response");
 
+      // eslint-disable-next-line no-throw-literal
       if (!resDelete.success) throw { msg: resDelete.message, res: resDelete };
 
       this.main.Deleted();

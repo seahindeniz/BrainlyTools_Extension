@@ -4,17 +4,29 @@ import moment from "moment";
 import notification from "../../../../components/notification2";
 import GroupChatbox from "./GroupChatbox";
 import groupLi from "./groupLi";
-import renderGroupModal from "./groupModal";
+import RenderGroupModal from "./groupModal";
 
-const __groups = System.data.locale.messages.groups;
+const groupsLocale = System.data.locale.messages.groups;
 
 class GroupMessaging {
+  selectors: {
+    conversationsList: string;
+    groupLiNotPinnedFirst: string;
+    chatbox: string;
+    chatboxContent: string;
+    tipText: string;
+  };
+
+  $conversationsHeader: HTMLElement;
+  groupChatbox: GroupChatbox;
+  $conversationsList: JQuery<HTMLElement>;
+
   constructor() {
     this.selectors = {
       conversationsList: "ul.js-conversations",
       groupLiNotPinnedFirst: "ul.js-conversations > li:not(.pinned):first",
       chatbox: "section.brn-chatbox",
-      chatbox_content: "section.brn-chatbox > .sg-content-box",
+      chatboxContent: "section.brn-chatbox > .sg-content-box",
       tipText: ".brn-messages__conversations .brn-messages__tip",
     };
     window.selectors = {
@@ -30,13 +42,13 @@ class GroupMessaging {
       selectors.conversationsHeader,
     );
     const $groupMessageLink = $(
-      `<h2 class="sg-text sg-text--bold sg-text--link">${__groups.title}</h2>`,
+      `<h2 class="sg-text sg-text--bold sg-text--link">${groupsLocale.title}</h2>`,
     );
     const $topMessagesHeaderText = $("h2", this.$conversationsHeader);
 
     $groupMessageLink.appendTo(this.$conversationsHeader);
 
-    $groupMessageLink.click(() => {
+    $groupMessageLink.on("click", () => {
       this.RefreshTimeElements(true);
       this.RenderCreateAGroupLink();
       this.RenderConversationsList();
@@ -52,12 +64,13 @@ class GroupMessaging {
     const $time = $(".js-time");
 
     $time.each((i, element) => {
-      const time = element.dateTime;
+      // eslint-disable-next-line dot-notation
+      const time = element["dateTime"];
 
-      if (time && time != "") {
-        const _moment = moment(element.dateTime);
-        element.innerText = _moment.fromNow();
-        element.title = _moment.format("LLLL");
+      if (time && time !== "") {
+        const timeInstance = moment(time);
+        element.innerText = timeInstance.fromNow();
+        element.title = timeInstance.format("LLLL");
       }
     });
 
@@ -69,14 +82,14 @@ class GroupMessaging {
 
   RenderCreateAGroupLink() {
     const $createGroupLink = $(
-      `<h2 class="sg-text sg-text--bold sg-text--link">${__groups.createGroup}</h2>`,
+      `<h2 class="sg-text sg-text--bold sg-text--link">${groupsLocale.createGroup}</h2>`,
     );
 
     $createGroupLink.appendTo(this.$conversationsHeader);
 
-    $createGroupLink.click(async () => {
+    $createGroupLink.on("click", async () => {
       try {
-        const groupData = await new renderGroupModal();
+        const groupData = new RenderGroupModal();
         const $groupLi = groupLi(groupData);
 
         $groupLi.insertBefore(window.selectors.groupLiNotPinnedFirst);
@@ -88,6 +101,7 @@ class GroupMessaging {
   }
 
   async RenderConversationsList() {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const that = this;
     this.$conversationsList = $(selectors.conversationsList);
 
@@ -95,20 +109,20 @@ class GroupMessaging {
     this.$conversationsList.off("scroll");
     this.$conversationsList.attr(
       "data-empty-message",
-      __groups.notificationMessages.youHaventCreatedAGroupYet,
+      groupsLocale.notificationMessages.youHaventCreatedAGroupYet,
     );
     $(`${selectors.chatbox}>*`).remove();
     $(selectors.tipText).html(
-      __groups.pinTip.replace(
+      groupsLocale.pinTip.replace(
         "%{pin}",
-        ` ${System.constants.config.pinIcon.replace(/\{size\}/g, 16)} `,
+        ` ${System.constants.config.pinIcon.replace(/\{size\}/g, "16")} `,
       ),
     );
 
     $(this.$conversationsList).on(
       "click",
       ">li.js-group-conversation",
-      async function (e) {
+      function (e) {
         const { groupId } = this.dataset;
 
         if (groupId) {
@@ -144,16 +158,19 @@ class GroupMessaging {
     }
   }
 
-  async GroupMessages(group_id, groupLi) {
+  async GroupMessages(group_id, _groupLi) {
     const resMessages = await new ServerReq().GetMessages(group_id);
 
-    if (!resMessages || !resMessages.success || !resMessages.data)
-      return notification({
-        html: __groups.notificationMessages.cantFetchGroupData,
+    if (!resMessages || !resMessages.success || !resMessages.data) {
+      notification({
+        html: groupsLocale.notificationMessages.cantFetchGroupData,
         type: "error",
       });
 
-    this.OpenChatbox(resMessages.data, groupLi);
+      return;
+    }
+
+    this.OpenChatbox(resMessages.data, _groupLi);
   }
 
   async PinConversationListItem(group_id, element) {
@@ -185,8 +202,8 @@ class GroupMessaging {
       .addClass("js-group-chatbox");
   }
 
-  OpenChatbox(data, groupLi) {
-    this.groupChatbox.InitGroup(data, groupLi);
+  OpenChatbox(data, _groupLi) {
+    this.groupChatbox.InitGroup(data, _groupLi);
     this.RefreshTimeElements();
   }
 }

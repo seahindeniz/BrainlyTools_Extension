@@ -13,8 +13,8 @@ const CSS = `
 `;
 
 export default async function ElementCleanerForFreelancer() {
-  let cssNode = document.createTextNode(CSS);
-  let styleElement = document.createElement("style");
+  const cssNode = document.createTextNode(CSS);
+  const styleElement = document.createElement("style");
   styleElement.type = "text/css";
 
   styleElement.append(cssNode);

@@ -3,10 +3,9 @@ import notification from "../../../components/notification2";
 import Action from "../../../controllers/Req/Brainly/Action";
 
 export default function taskSection() {
-  /**
-   * @type {HTMLDivElement}
-   */
-  const mainQuestionArticle = document.querySelector(`.js-main-question`);
+  const mainQuestionArticle = document.querySelector(
+    `.js-main-question`,
+  ) as HTMLDivElement;
   const questionContainer = mainQuestionArticle.querySelector(
     ":scope > div > .brn-qpage-next-question-box",
   );
@@ -85,15 +84,16 @@ export default function taskSection() {
       .replace("%{reason_message}", reason.text);
 
     if (confirm(confirmDeleting)) {
+      const giveWarning = System.canBeWarned(reason.id);
       const taskData = {
         model_id: questionId,
         reason_id: reason.category_id,
         reason: reason.text,
         reason_title: reason.title,
+        give_warning: giveWarning,
+        take_points: giveWarning,
+        return_points: giveWarning,
       };
-      taskData.give_warning = System.canBeWarned(reason.id);
-      taskData.take_points = taskData.give_warning;
-      taskData.return_points = !taskData.give_warning;
       const icon = $(".sg-button__icon > div", this);
       const spinner = Spinner({ size: "xxsmall", light: true });
 
@@ -112,7 +112,9 @@ export default function taskSection() {
         System.log(5, { user: userData, data: [questionId] });
         questionContainer.classList.add("brn-content--deleted");
         // @ts-ignore
-        $(window.selectors.taskModerateButton).remove();
+        $(
+          ".question-header > .sg-actions-list > .sg-actions-list__hole:last-child > .sg-actions-list > .sg-actions-list__hole:first-child",
+        ).remove();
         extButtonsContainer.remove();
       } catch (error) {
         console.error(error);

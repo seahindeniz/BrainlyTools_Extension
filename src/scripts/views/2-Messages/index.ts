@@ -1,7 +1,8 @@
+/* eslint-disable no-new */
 import WaitForElement from "@root/scripts/helpers/WaitForElement";
-import ServerReq from "@ServerReq";
 import Conversation from "./_/Conversation";
-import renderGroupMessaging from "./_/GroupMessaging";
+// import ServerReq from "@ServerReq";
+// import RenderGroupMessaging from "./_/GroupMessaging";
 
 System.pageLoaded("Messages inject OK!");
 
@@ -24,29 +25,32 @@ window.addEventListener("beforeunload", event => {
   if (textarea instanceof HTMLTextAreaElement) {
     const value = textarea.value || "";
 
-    if (value.trim() != "") {
-      event.returnValue =
-        System.data.locale.messages.notificationMessages.unsendedMessage;
+    if (value.trim() === "") return;
 
-      event.preventDefault();
-    }
+    event.returnValue =
+      System.data.locale.messages.notificationMessages.unsendedMessage;
+
+    event.preventDefault();
   }
 });
 
 export default class Messages {
+  conversations: {
+    [conversationId: number]: Conversation;
+  };
+
   constructor() {
-    /**
-     * @type {{[x: string]: Conversation}}
-     */
     this.conversations = {};
 
     this.ObserveHeader();
     localStorage.setItem("message-info-box-closed", "true");
 
-    if (System.checkUserP(8)) {
-      new ServerReq().GetAllModerators();
-      new renderGroupMessaging();
-    }
+    /* if (System.checkUserP(8)) {
+      (async () => {
+        await new ServerReq().GetAllModerators();
+        new RenderGroupMessaging();
+      })();
+    } */
   }
 
   async ObserveHeader() {

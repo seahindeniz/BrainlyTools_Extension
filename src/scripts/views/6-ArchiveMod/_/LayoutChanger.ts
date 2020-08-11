@@ -1,22 +1,26 @@
 import { Button, Icon } from "@root/scripts/components/style-guide";
 import storage from "../../../helpers/extStorage";
+import type ArchiveModClassType from "..";
 
 export default class LayoutChanger {
-  /**
-   * @param {import("../").default} main
-   */
-  constructor(main) {
+  main: ArchiveModClassType;
+  header: HTMLElement;
+  subHeader: HTMLElement;
+  totalReportsSpan: HTMLElement;
+  totalCommentsSpan: HTMLElement;
+  filterSelect: HTMLSelectElement;
+  isLayoutSwitched: boolean;
+  layoutSwitcherButton: Button;
+
+  constructor(main: ArchiveModClassType) {
     this.main = main;
   }
 
   async Init() {
-    this.header = this.main.top.firstElementChild;
-    this.subHeader = this.main.top.lastElementChild;
+    this.header = this.main.top.firstElementChild as HTMLElement;
+    this.subHeader = this.main.top.lastElementChild as HTMLElement;
     this.totalReportsSpan = this.header.querySelector(".total");
     this.totalCommentsSpan = this.header.querySelector(".total-comment");
-    /**
-     * @type {HTMLSelectElement}
-     */
     this.filterSelect = this.subHeader.querySelector(".filters");
     this.isLayoutSwitched = await storage("get", "archive_mod_layout");
 
@@ -83,16 +87,13 @@ export default class LayoutChanger {
     this.SwitchFeed(998);
   }
 
-  /**
-   * @param {number} feedKey
-   */
-  SwitchFeed(feedKey) {
+  SwitchFeed(feedKey: number) {
     this.filterSelect.value = String(feedKey);
     this.filterSelect.dispatchEvent(new Event("change"));
   }
 
   FilterChanged() {
-    if (this.filterSelect.value < 998) this.main.pagination.Show();
+    if (Number(this.filterSelect.value) < 998) this.main.pagination.Show();
     else this.main.pagination.Hide();
   }
 }

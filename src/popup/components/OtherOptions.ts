@@ -179,11 +179,11 @@ class OtherOptions {
   }
 
   BindHandlers() {
-    this.$extendMessageLayoutCheckbox.change(
+    this.$extendMessageLayoutCheckbox.on("change",
       this.ExtendMessagesLayout.bind(this),
     );
-    this.$notifierCheckbox.change(this.NotifierChangeState.bind(this));
-    this.$languageDropdown.change(this.SetLanguage.bind(this));
+    this.$notifierCheckbox.on("change", this.NotifierChangeState.bind(this));
+    this.$languageDropdown.on("change", this.SetLanguage.bind(this));
   }
 
   ExtendMessagesLayout() {

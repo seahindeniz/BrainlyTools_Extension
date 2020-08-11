@@ -1,13 +1,31 @@
 import WaitForElement from "@root/scripts/helpers/WaitForElement";
 import prettysize from "prettysize";
-import Button from "../../components/Button";
+import Button, { JQueryButtonElementType } from "../../components/Button";
 import notification from "../../components/notification2";
 import Chunk from "./_/Chunk";
 import FileUpload from "./_/FileUpload";
 
 System.pageLoaded("Supervisors page OK!");
 
+function IsExist(file: File) {
+  const $nameColumns = $(
+    `#uploader_table > tbody > tr > td.name:contains("${file.name}")`,
+  );
+
+  return $nameColumns.length > 0;
+}
+
 class Uploader {
+  ServerFileURL: string;
+  Chunk: Chunk;
+  mainRight: HTMLElement;
+  $panel: JQuery<HTMLElement>;
+  $counterLabel: JQuery<HTMLElement>;
+  $progressBoxContainer: JQuery<HTMLElement>;
+  $selectFileButtonContainer: JQuery<HTMLElement>;
+  $fileInput: JQuery<HTMLInputElement>;
+  $selectFileButton: JQueryButtonElementType;
+
   constructor() {
     this.ServerFileURL = "";
     this.Chunk = new Chunk(this);
@@ -75,12 +93,10 @@ class Uploader {
   }
 
   BindHandlers() {
-    const that = this;
-
-    this.$selectFileButton.click(() => this.$fileInput.click());
-    this.$fileInput.change(function () {
-      that.ProcessFiles(this.files);
-      this.value = "";
+    this.$selectFileButton.on("click", () => this.$fileInput.trigger("click"));
+    this.$fileInput.on("change", () => {
+      this.ProcessFiles(this.$fileInput.prop("files"));
+      this.$fileInput.val("");
     });
   }
 
@@ -92,8 +108,8 @@ class Uploader {
     }
   }
 
-  async ProcessFile(file) {
-    if (this.IsExist(file)) {
+  async ProcessFile(file: File) {
+    if (IsExist(file)) {
       notification({
         html: System.data.locale.uploader.notificationMessages.alreadyExist.replace(
           "%{file_name}",
@@ -114,14 +130,6 @@ class Uploader {
       const uploader = new FileUpload(file, $box);
       this.Chunk.AddToQueue(uploader);
     }
-  }
-
-  IsExist(file) {
-    const $nameColumns = $(
-      `#uploader_table > tbody > tr > td.name:contains("${file.name}")`,
-    );
-
-    return $nameColumns.length > 0;
   }
 
   AddProgressBox(file) {
@@ -149,4 +157,5 @@ class Uploader {
   }
 }
 
+// eslint-disable-next-line no-new
 new Uploader();

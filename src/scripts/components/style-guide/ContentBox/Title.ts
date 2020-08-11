@@ -61,11 +61,12 @@ export default function ({
   div.className = contentBoxClass;
 
   if (typeof children === "string") {
-    const textProps: TextPropsType<"td"> = {
-      tag: "td",
+    const textProps: TextPropsType<"div"> = {
+      tag: "div",
       color: "gray",
       weight: "extra-bold",
       size: "large",
+      children,
     };
 
     /* if (typeof children === "string") textProps.html = children;

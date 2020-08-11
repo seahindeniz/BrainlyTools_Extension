@@ -1,40 +1,39 @@
 import Build from "@root/scripts/helpers/Build";
+import HideElement from "@root/scripts/helpers/HideElement";
 import IsVisible from "@root/scripts/helpers/IsVisible";
-import {
-  Box,
-  Flex,
-  Spinner,
-  SpinnerContainer,
-  Text,
-} from "@style-guide";
+import { Box, Button, Flex, Icon, SpinnerContainer, Text } from "@style-guide";
+import type { FlexElementType } from "@style-guide/Flex";
+import type FreelancerToolClassType from ".";
 
 export default class KeywordList {
-  /**
-   * @param {import("./").default} main
-   */
-  constructor(main) {
+  main: FreelancerToolClassType;
+  answeringLayer: HTMLDivElement;
+  container: any;
+  spinner: HTMLDivElement;
+  boxHole: any;
+  keywordListContainer: FlexElementType;
+  toggleButton: Button;
+  rightArrowIcon: Icon;
+  leftArrowIcon: Icon;
+  listContainer: FlexElementType;
+
+  constructor(main: FreelancerToolClassType) {
     this.main = main;
-    /**
-     * @type {HTMLDivElement}
-     */
-    this.answeringLayer;
 
     this.ObserveAnswerPanel();
   }
+
   ObserveAnswerPanel() {
-    let observer = new MutationObserver(mutations => {
+    const observer = new MutationObserver(mutations => {
       mutations.forEach(mutation => {
         if (
           mutation &&
           mutation.target &&
           mutation.target instanceof HTMLElement
         ) {
-          /**
-           * @type {HTMLDivElement}
-           */
-          let answeringLayer = mutation.target.querySelector(
+          const answeringLayer = mutation.target.querySelector(
             ".brn-answering-layer",
-          );
+          ) as HTMLDivElement;
 
           if (
             answeringLayer &&
@@ -46,7 +45,7 @@ export default class KeywordList {
             this.DesktopView();
           }
 
-          let targetsHasAnsweringEditor = mutation.target.querySelector(
+          const targetsHasAnsweringEditor = mutation.target.querySelector(
             ".js-react-add-answer-editor",
           );
 
@@ -70,6 +69,7 @@ export default class KeywordList {
 
     observer.observe(document.body, { childList: true, subtree: true });
   }
+
   ShowContainer() {
     if (this.answeringLayer) {
       if (!this.container) {
@@ -82,101 +82,144 @@ export default class KeywordList {
         this.answeringLayer.append(this.container);
     }
   }
+
   Render() {
-    const box = new Box({
-      padding: "xxsmall",
-      color: "dark",
-      full: true,
-      noMinHeight: true,
-      noBorderRadius: true,
-      children: (this.spinner = Spinner({
-        overlay: true,
-        size: "xsmall",
-      })),
+    this.rightArrowIcon = new Icon({
+      color: "adaptive",
+      type: "arrow_right",
     });
-    this.container = Flex({
-      fullWidth: true,
-      marginBottom: "xxs",
-      children: SpinnerContainer({
+    this.leftArrowIcon = new Icon({
+      color: "adaptive",
+      type: "arrow_left",
+    });
+    this.container = Build(
+      Flex({
         fullWidth: true,
-        children: box,
+        marginBottom: "xxs",
       }),
-    });
-    this.boxHole = box.firstChild;
+      [
+        [
+          (this.listContainer = Flex({ grow: true })),
+          (this.boxHole = SpinnerContainer({
+            fullWidth: true,
+          })),
+        ],
+        [
+          Flex(),
+          (this.toggleButton = new Button({
+            iconOnly: true,
+            type: "outline",
+            icon: this.rightArrowIcon,
+          })),
+        ],
+      ],
+    );
+
+    this.toggleButton.element.addEventListener("click", this.Toggle.bind(this));
   }
+
+  Toggle() {
+    if (IsVisible(this.boxHole)) {
+      HideElement(this.boxHole);
+      this.toggleButton.ChangeIcon(this.leftArrowIcon);
+    } else {
+      this.listContainer.append(this.boxHole);
+      this.toggleButton.ChangeIcon(this.rightArrowIcon);
+    }
+  }
+
   RenderKeywordList() {
     this.keywordListContainer = Build(
       Flex({
         justifyContent: "center",
+        fullWidth: true,
       }),
       [
         [
-          Flex({}),
-          BoxDeprecated({
-            noMinHeight: true,
-            padding: "no",
-            color: "dark",
-            children: Text({
-              html: `${System.data.locale.question.keywords}:`,
-              size: "small",
-            }),
+          Flex({
+            margin: "xxs",
+            alignItems: "center",
+          }),
+          Text({
+            size: "small",
+            weight: "bold",
+            noWrap: true,
+            html: `${System.data.locale.question.keywords}:`,
           }),
         ],
       ],
     );
   }
+
   async RenderKeywords() {
     await this.main.dataPromise;
 
-    if (!this.main.data.keywordList || this.main.data.keywordList.length == 0)
-      return this.HideContainer();
+    if (
+      !this.main.data.keywordList ||
+      this.main.data.keywordList.length === 0
+    ) {
+      this.HideContainer();
+
+      return;
+    }
 
     this.HideSpinner();
     this.ShowKeywordListContainer();
     this.main.data.keywordList.forEach(this.RenderKeyword.bind(this));
   }
+
   HideContainer() {
-    this.HideElement(this.container);
+    HideElement(this.container);
   }
-  /**
-   * @param {HTMLElement} element
-   */
-  HideElement(element) {
-    if (element && element.parentElement)
-      element.parentElement.removeChild(element);
-  }
+
   HideSpinner() {
-    this.HideElement(this.spinner);
+    HideElement(this.spinner);
   }
+
   ShowKeywordListContainer() {
     this.boxHole.appendChild(this.keywordListContainer);
   }
-  /**
-   * @param {string} keyword
-   * @param {number} index
-   */
-  RenderKeyword(keyword, index) {
-    let keywordBox = Flex({
-      marginRight: "xxs",
-      marginLeft: "xxs",
-      children: BoxDeprecated({
-        noMinHeight: true,
-        padding: "xxsmall",
-        color: "blue-secondary-light",
-        children: Text({
-          html: keyword,
-          size: "xsmall",
-          weight: index == 0 ? "bold" : "regular",
-        }),
+
+  RenderKeyword(keyword: string, index: number) {
+    const keywordBox = Build(
+      Flex({
+        marginLeft: "xs",
       }),
-    });
+      [
+        [
+          new Box({
+            // noMinHeight: true,
+            border: false,
+            padding: null,
+            color: "blue-secondary",
+          }),
+          [
+            [
+              Flex({
+                marginTop: "xxs",
+                marginRight: "xs",
+                marginBottom: "xxs",
+                marginLeft: "xs",
+              }),
+              Text({
+                html: keyword,
+                size: "small",
+                weight: index === 0 ? "bold" : "regular",
+              }),
+            ],
+          ],
+        ],
+      ],
+    );
 
     this.keywordListContainer.append(keywordBox);
   }
+
   DesktopView() {
     this.container.style.bottom = "0";
     this.container.style.position = "fixed";
   }
+
   MobileView() {
     this.container.style.position = "unset";
   }

@@ -11,31 +11,40 @@ import Build from "@root/scripts/helpers/Build";
 import HideElement from "@root/scripts/helpers/HideElement";
 import IsVisible from "@root/scripts/helpers/IsVisible";
 import WaitForElement from "@root/scripts/helpers/WaitForElement";
+import type { FlexElementType } from "@style-guide/Flex";
 import sortablejs from "sortablejs";
 import notification from "../../../components/notification2";
 import Progress from "../../../components/Progress";
 import Action from "../../../controllers/Req/Brainly/Action";
 import RemoveJunkNotifications from "../../0-Core/_/RemoveJunkNotifications";
 
+type RankType = {
+  id?: number;
+  name?: string;
+  description?: string;
+};
+
 class RankManager {
-  /**
-   * @typedef {{
-   *  id?: number,
-   *  name?: string,
-   *  description?: string,
-   * }} RankType
-   *
-   * @param {*} user
-   */
-  constructor(user) {
+  user: any;
+  ranks: {
+    data: RankType;
+    checkbox: HTMLInputElement;
+    rankContainer: FlexElementType;
+  }[];
+
+  deleteAllRanksForm: HTMLElement;
+  deleteAllRanksLi: JQuery<any>;
+  $manageLi: JQuery<HTMLElement>;
+  $manageLink: JQuery<HTMLElement>;
+  container: FlexElementType;
+  rankContainer: FlexElementType;
+  saveButton: Button;
+  progress: Progress;
+  progressContainer: FlexElementType;
+  spinner: HTMLDivElement;
+
+  constructor(user: any) {
     this.user = user;
-    /**
-     * @type {{
-     *  data: RankType,
-     *  checkbox: HTMLInputElement,
-     *  rankContainer: HTMLLabelElement,
-     * }[]}
-     */
     this.ranks = [];
 
     this.FindTheDeleteRanksForm();
@@ -216,7 +225,7 @@ class RankManager {
 
         this.ranks.push({
           data: rank,
-          checkbox: checkbox.firstElementChild,
+          checkbox: checkbox.firstElementChild as HTMLInputElement,
           rankContainer,
         });
         this.rankContainer.append(rankContainer);
@@ -234,7 +243,7 @@ class RankManager {
   }
 
   BindHandlers() {
-    this.$manageLink.click(e => {
+    this.$manageLink.on("click", e => {
       e.preventDefault();
       this.TogglePanel();
     });
@@ -250,7 +259,7 @@ class RankManager {
           if (event.ctrlKey) return;
 
           event.preventDefault();
-          rankLink.parentNode.click();
+          (rankLink.parentNode as HTMLElement).click();
         }),
       );
   }
@@ -284,15 +293,6 @@ class RankManager {
         : -1;
     });
 
-    const tokens = {
-      key: $(`input[name="data[_Token][key]"]`, this.deleteAllRanksLi).val(),
-      fields: $(
-        `input[name="data[_Token][fields]"]`,
-        this.deleteAllRanksLi,
-      ).val(),
-      lock: $(`input[name="data[_Token][lock]"]`, this.deleteAllRanksLi).val(),
-    };
-
     this.ShowSpinner();
 
     if (!confirm(System.data.locale.common.notificationMessages.areYouSure))
@@ -310,7 +310,22 @@ class RankManager {
 
     const removeAllRanksXHR = await new Action().RemoveAllRanks(
       window.profileData.id,
-      tokens,
+      {
+        tokens: {
+          key: String(
+            $(`input[name="data[_Token][key]"]`, this.deleteAllRanksLi).val(),
+          ),
+          fields: String(
+            $(
+              `input[name="data[_Token][fields]"]`,
+              this.deleteAllRanksLi,
+            ).val(),
+          ),
+          lock: String(
+            $(`input[name="data[_Token][lock]"]`, this.deleteAllRanksLi).val(),
+          ),
+        },
+      },
     );
     const redirectedUserID = System.ExtractId(removeAllRanksXHR.url);
 

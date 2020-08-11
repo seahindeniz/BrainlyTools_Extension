@@ -1,26 +1,38 @@
-// @ts-check
-
 import CreateElement from "@root/scripts/components/CreateElement";
 import Build from "@root/scripts/helpers/Build";
 import IsVisible from "@root/scripts/helpers/IsVisible";
 import { Button, Flex, Icon, Text } from "@style-guide";
+import { FlexElementType } from "@style-guide/Flex";
+import { TextElement } from "@style-guide/Text";
 import prettysize from "prettysize";
+import type AccountDeleteReporterClassType from ".";
 
 const REVIEWABLE_ICON_NAMES = ["video", "audio", "image"];
 const ICON_NAMES = ["file", "pdf", ...REVIEWABLE_ICON_NAMES];
 
 export default class Evidence {
-  /**
-   * @param {import(".").default} main
-   * @param {File} file
-   */
-  constructor(main, file) {
+  main: AccountDeleteReporterClassType;
+  file: File;
+  id: string;
+  source: string;
+  fileType: string;
+  previewContainer: FlexElementType;
+  previewElement: HTMLVideoElement | HTMLImageElement;
+  iconSvg: string;
+  iconImg: HTMLImageElement;
+  container: FlexElementType;
+  removeButton: Button;
+  fileLink: TextElement<"div">;
+  thumbnailContainer: FlexElementType;
+  iconLink: TextElement<"div">;
+
+  constructor(main: AccountDeleteReporterClassType, file: File) {
     this.main = main;
     this.file = file;
     this.id = `${Date.now()}_${System.randomNumber(0, 9999)}`;
     this.source = "";
 
-    this.fileType = this.file.type.split("/").shift();
+    this.fileType = file.type.split("/").shift();
 
     this.RenderPreviewContainer();
     this.RenderFileIcon();
@@ -58,7 +70,8 @@ export default class Evidence {
     if (!data) return;
 
     this.previewContainer = Flex({
-      children: (this.previewElement = CreateElement(data)),
+      // @ts-expect-error
+      children: this.previewElement = CreateElement(data),
     });
   }
 
@@ -109,6 +122,7 @@ export default class Evidence {
               }),
               [
                 (this.fileLink = Text({
+                  tag: "div",
                   href: "",
                   color: "gray",
                   size: "small",
@@ -135,10 +149,12 @@ export default class Evidence {
                 [
                   new Icon({
                     size: 32,
+                    children: null,
                   }),
                   [
                     [
                       (this.iconLink = Text({
+                        tag: "div",
                         href: "",
                       })),
                       this.iconImg,

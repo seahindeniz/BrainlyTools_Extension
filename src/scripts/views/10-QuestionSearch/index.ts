@@ -32,7 +32,9 @@ export default class QuestionSearch {
 
         this.ObserveResults();
 
-        const questionBoxContainer = await WaitForElement(".sg-layout__box");
+        const questionBoxContainer = await WaitForElement(
+          `.sg-box[class*="LayoutBox__box"]`,
+        );
 
         this.PrepareQuestionBoxes(questionBoxContainer);
       }
@@ -51,9 +53,10 @@ export default class QuestionSearch {
         ) {
           const nodes = Array.from(mutation.addedNodes) as HTMLElement[];
           const layoutBox = nodes.find(box => {
+            console.log(box);
             if (
               !box ||
-              !box.classList.contains("sg-layout__box") ||
+              !box.className.includes(`LayoutBox__box`) ||
               box.classList.contains("quickDelete")
             )
               return undefined;
@@ -70,8 +73,11 @@ export default class QuestionSearch {
       });
     });
 
-    const config = { attributes: false, childList: true, subtree: false };
-    observer.observe(this.searchResults, config);
+    observer.observe(this.searchResults, {
+      attributes: false,
+      childList: true,
+      subtree: false,
+    });
   }
 
   PrepareQuestionBoxes(element: HTMLElement) {

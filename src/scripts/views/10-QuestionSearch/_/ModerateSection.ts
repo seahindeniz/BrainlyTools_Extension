@@ -1,5 +1,3 @@
-// @flow
-
 import {
   ActionList,
   ActionListHole,
@@ -11,7 +9,7 @@ import {
   ContentBoxTitle,
   Flex,
   Icon,
-  LabelDeprecated,
+  Label,
   Spinner,
   SpinnerContainer,
   Text,
@@ -19,7 +17,9 @@ import {
 import type QuestionSearch from "..";
 import DeleteSection from "../../../components/DeleteSection";
 import notification from "../../../components/notification2";
-import Action from "../../../controllers/Req/Brainly/Action";
+import Action, {
+  RemoveQuestionReqDataType,
+} from "../../../controllers/Req/Brainly/Action";
 import Build from "../../../helpers/Build";
 import InsertAfter from "../../../helpers/InsertAfter";
 import IsVisible from "../../../helpers/IsVisible";
@@ -54,22 +54,15 @@ class ModerateSection {
   counterText: HTMLElement;
 
   counter: {
-    n: number,
-    max: number,
+    n: number;
+    max: number;
   };
 
   idList: number[];
 
-  postData: {
-    reason_id: number,
-    reason_title: string,
-    reason: string,
-    give_warning: boolean,
-    take_points: boolean,
-    return_points: boolean,
-  };
+  postData: RemoveQuestionReqDataType;
 
-  loopStartDeleting: IntervalID;
+  loopStartDeleting: number;
   started: boolean;
 
   deleteButton: Button;
@@ -105,10 +98,12 @@ class ModerateSection {
 
   RenderSelectAll() {
     const checkboxContainer = Checkbox();
-    this.selectAllContainer = LabelDeprecated({
-      html: System.data.locale.common.selectAll,
-      htmlFor: checkboxContainer.inputId,
+    this.selectAllContainer = Label({
+      type: "transparent",
+      containerTag: "label",
       icon: checkboxContainer,
+      htmlFor: checkboxContainer.inputId,
+      text: System.data.locale.common.selectAll,
     });
 
     this.selectAll = this.selectAllContainer.querySelector("input");
@@ -127,11 +122,11 @@ class ModerateSection {
       type: "solid-light",
       toggle: "peach",
       html: System.data.locale.common.delete,
-      icon: (this.deleteButtonCounter = Text({
+      icon: this.deleteButtonCounter = Text({
         html: "0",
         weight: "bold",
         fixPosition: true,
-      })),
+      }),
     });
 
     this.deleteButtonSpinnerContainer = SpinnerContainer({
@@ -157,11 +152,11 @@ class ModerateSection {
       toggle: "peach",
       size: "s",
       html: System.data.locale.common.deleteAcross,
-      icon: (this.deleteAllButtonCounter = Text({
+      icon: this.deleteAllButtonCounter = Text({
         html: "0",
         weight: "bold",
         fixPosition: true,
-      })),
+      }),
     });
 
     this.deleteAllButtonSpinnerContainer = SpinnerContainer({
@@ -393,7 +388,9 @@ class ModerateSection {
     window.isPageProcessing = true;
 
     this.postData = {
+      model_id: undefined,
       reason_id: this.deleteSection.selectedReason.id,
+      // @ts-expect-error
       reason_title: this.deleteSection.selectedReason.title,
       reason: this.deleteSection.reasonText,
       give_warning: this.deleteSection.giveWarning,
@@ -409,7 +406,10 @@ class ModerateSection {
     this.UpdateCounterNumbers();
     this.ShowStopButton();
     this.StartDeleting();
-    this.loopStartDeleting = setInterval(this.StartDeleting.bind(this), 1000);
+    this.loopStartDeleting = window.setInterval(
+      this.StartDeleting.bind(this),
+      1000,
+    );
 
     return true;
   }

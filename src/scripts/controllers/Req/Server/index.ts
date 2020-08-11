@@ -1,6 +1,8 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-param-reassign */
 // @flow
 
+import { IconTypeType } from "@style-guide/Icon";
 import md5 from "js-md5";
 import Request from "..";
 import notification from "../../../components/notification2";
@@ -28,6 +30,16 @@ export type ModerateAllPageNumbersType = {
   success?: boolean;
   data?: number[];
 };
+
+export type KeywordsForFreelancerDataType = {
+  keywordList: string[];
+  groupData?: {
+    group_id: number;
+    button_content: string;
+    button_link: string;
+    button_icon: IconTypeType;
+  };
+}
 
 export default class ServerReq {
   url: URL;
@@ -441,10 +453,7 @@ export default class ServerReq {
     return this.actionsHistory().revert().P(_id).PUT();
   }
 
-  /**
-   * @param {File | Blob} screenshot
-   */
-  ActionHistoryEntryImage(screenshot) {
+  ActionHistoryEntryImage(screenshot: File | Blob) {
     const formData = new FormData();
 
     if ("name" in screenshot)
@@ -472,22 +481,12 @@ export default class ServerReq {
     return this.user().report().POST({ user_id, report_id, message });
   }
 
-  /**
-   * @param {number | string} id
-   * @returns {Promise<{
-   *  success?: boolean,
-   *  data?: {
-   *    keywordList: string[],
-   *    groupData?: {
-   *      group_id: number,
-   *      button_content: string,
-   *      button_link: string,
-   *      button_icon: import("@style-guide/Icon").IconTypeType
-   *    }
-   *  },
-   * }>}
-   */
-  GetKeywordsForFreelancer(id) {
+  GetKeywordsForFreelancer(
+    id: number | string,
+  ): Promise<{
+    success?: boolean;
+    data?: KeywordsForFreelancerDataType;
+  }> {
     return this.freelancerData().P(id).GET();
   }
 

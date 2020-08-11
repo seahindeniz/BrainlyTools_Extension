@@ -49,7 +49,7 @@ function RenderDeleteReasonsPreferences() {
 } */
 
 function RenderUsers() {
-  if (System.checkUserP([5, 22, 23, 24, 25])) return undefined;
+  if (!System.checkUserP([5, 22, 23, 24, 25])) return undefined;
 
   const users = new Users();
 
@@ -276,7 +276,7 @@ class Popup {
     return quickDeleteButtonsOptions.$layout;
   }
 
-  async GetStoredUser(brainlyID: string) {
+  async GetStoredUser(brainlyID: number) {
     const user = this.fetchedUsers[brainlyID];
 
     if (user?.brainlyData) return user;
@@ -335,7 +335,7 @@ class Popup {
 
   refreshUsersInformation() {
     Object.keys(this.fetchedUsers).forEach(async brainlyID => {
-      const user = await this.GetStoredUser(brainlyID);
+      const user = await this.GetStoredUser(Number(brainlyID));
       const avatar = System.prepareAvatar(user.brainlyData);
 
       if (avatar) {

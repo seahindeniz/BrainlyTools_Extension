@@ -1,4 +1,7 @@
+/* eslint-disable no-underscore-dangle */
+import HideElement from "@root/scripts/helpers/HideElement";
 import ServerReq from "@ServerReq";
+import Button, { JQueryButtonElementType } from "../../../../components/Button";
 import Dropdown from "../../../../components/Dropdown";
 import Modal from "../../../../components/Modal";
 import notification from "../../../../components/notification2";
@@ -7,11 +10,36 @@ import renderGroupLi from "./groupLi";
 import rankSelector from "./rankSelector";
 import userLi from "./userLi";
 import userSearch from "./userSearch";
-import Button from "../../../../components/Button";
+
+const locale = System.data.locale.messages.groups;
 
 class GroupModal {
-  constructor(group, groupLi) {
-    this.locale = System.data.locale.messages.groups;
+  group: any;
+  groupLi: any;
+  modal: Modal;
+  $saveButtonContainer: JQuery<HTMLElement>;
+  $groupMembersContainerHole: JQuery<HTMLElement>;
+  $searchResultsContainerHole: JQuery<HTMLElement>;
+  $removeAllButtonContainer: JQuery<HTMLElement>;
+  $addAllButtonContainer: JQuery<HTMLElement>;
+  $firstLetter: JQuery<HTMLElement>;
+  $closeIcon: JQuery<HTMLElement>;
+  $closeIconSVG: JQuery<HTMLElement>;
+  $color: JQuery<HTMLElement>;
+  $groupName: JQuery<HTMLInputElement>;
+  $userCategorySelectorContainer: JQuery<HTMLElement>;
+  $groupMembersList: JQuery<HTMLElement>;
+  $searchResultsList: JQuery<HTMLElement>;
+  $removeAll: JQuery<HTMLElement>;
+  $addAll: JQuery<HTMLElement>;
+  $userCategoryList: JQuery<HTMLElement>;
+  $saveButton: JQueryButtonElementType;
+  $saveButtonSpinner: JQuery<HTMLElement>;
+  $removeAllButton: JQueryButtonElementType;
+  $addAllButton: JQueryButtonElementType;
+  $newGroupMembersLi: JQuery<HTMLElement>;
+
+  constructor(group?, groupLi?) {
     this.group = group;
     this.groupLi = groupLi;
 
@@ -23,17 +51,17 @@ class GroupModal {
     this.OpenModal();
     this.BindHandlers();
 
-    return new Promise((resolve, reject) => {
+    /* return new Promise((resolve, reject) => {
       this.resolve = resolve;
       this.reject = reject;
-    });
+    }); */
   }
 
   async Render() {
     // if (true) {
-    let title = this.locale.createGroup;
+    let title = locale.createGroup;
 
-    if (this.group) title = this.locale.editGroup;
+    if (this.group) title = locale.editGroup;
 
     this.modal = new Modal({
       header: `
@@ -55,7 +83,7 @@ class GroupModal {
               }>G</label>
 						</div>
 						<div class="sg-actions-list__hole">
-							<div class="color-container" title="${this.locale.groupColor}">
+							<div class="color-container" title="${locale.groupColor}">
 								<datalist id="flatColors">
 									<option value="#1abc9c">Turquoise</option><option value="#2ecc71">Emerland</option><option value="#3498db">Peterriver</option><option value="#9b59b6">Amethyst</option><option value="#34495e">Wetasphalt</option><option value="#16a085">Greensea</option><option value="#27ae60">Nephritis</option><option value="#2980b9">Belizehole</option><option value="#8e44ad">Wisteria</option><option value="#2c3e50">Midnightblue</option><option value="#f1c40f">Sunflower</option><option value="#e67e22">Carrot</option><option value="#e74c3c">Alizarin</option><option value="#ecf0f1">Clouds</option><option value="#95a5a6">Concrete</option><option value="#f39c12">Orange</option><option value="#d35400">Pumpkin</option><option value="#c0392b">Pomegranate</option><option value="#bdc3c7">Silver</option><option value="#7f8c8d">Asbestos</option>
 								</datalist>
@@ -66,7 +94,7 @@ class GroupModal {
 						</div>
 						<div class="sg-actions-list__hole">
 							<input type="text" class="sg-input sg-input--light-alt sg-input--full-width sg-input--large js-group-name" placeholder="${
-                this.locale.groupName
+                locale.groupName
               }"${
         this.group
           ? ` style="color:${this.group.color};" value="${this.group.title}"`
@@ -86,7 +114,7 @@ class GroupModal {
 					<div class="sg-actions-list sg-actions-list--space-between">
 						<div class="sg-actions-list__hole">
 							<h2 class="sg-headline sg-headline--normal sg-headline--gray sg-headline--justify">${
-                this.locale.groupMembers
+                locale.groupMembers
               }</h2>
 						</div>
 						<div class="sg-actions-list__hole"></div>
@@ -97,7 +125,7 @@ class GroupModal {
 					<div class="sg-actions-list sg-actions-list--space-between">
 						<div class="sg-actions-list__hole">
 							<h2 class="sg-headline sg-headline--normal sg-headline--gray sg-headline--justify">${
-                this.locale.searchResults
+                locale.searchResults
               }</h2>
 						</div>
 						<div class="sg-actions-list__hole"></div>
@@ -149,24 +177,24 @@ class GroupModal {
     );
 
     this.$userCategoryList = Dropdown({
-      label: this.locale.selectGroupType,
+      label: locale.selectGroupType,
       class: "sg-dropdown--full-width",
       items: [
         {
           value: "findUsers",
-          text: this.locale.userCategories.findUsers.text,
+          text: locale.userCategories.findUsers.text,
         },
         {
           value: "moderatorRanks",
-          text: this.locale.userCategories.moderatorRanks.text,
+          text: locale.userCategories.moderatorRanks.text,
         },
         {
           value: "allModerators",
-          text: this.locale.userCategories.allModerators,
+          text: locale.userCategories.allModerators,
         },
         {
           value: "friendsList",
-          text: this.locale.userCategories.friendsList,
+          text: locale.userCategories.friendsList,
         },
       ],
     });
@@ -187,6 +215,8 @@ class GroupModal {
       if (user && user.success && user.data.length > 0) {
         user.data.forEach(({ id, nick, avatar, ranks_ids }) => {
           const buddyUrl = System.createBrainlyLink("profile", { nick, id });
+          // @ts-expect-error
+          // eslint-disable-next-line no-param-reassign
           avatar = System.prepareAvatar(avatar);
           const ranks = [];
 
@@ -247,7 +277,7 @@ class GroupModal {
     this.$addAllButton = Button({
       type: "solid-blue",
       size: "small",
-      text: this.locale.addAll,
+      text: locale.addAll,
     });
 
     this.$addAllButton.appendTo(this.$addAllButtonContainer);
@@ -258,11 +288,12 @@ class GroupModal {
   }
 
   BindHandlers() {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const that = this;
     /**
      * Modal close
      */
-    window.addEventListener("beforeunload", () => {
+    window.addEventListener("beforeunload", event => {
       if (this.modal.isOpen) {
         const $newUsers = $(
           "> li.new-user[data-user-id]",
@@ -270,7 +301,7 @@ class GroupModal {
         );
 
         if (
-          this.$groupName.val() != this.$groupName.prop("defaultValue") ||
+          this.$groupName.val() !== this.$groupName.prop("defaultValue") ||
           $newUsers.length > 0
         ) {
           event.returnValue =
@@ -284,18 +315,21 @@ class GroupModal {
     /**
      * Add and Remove all buttons
      */
-    this.$addAll.click(this.AddAllUsersToGroupMembersList.bind(this));
-    this.$removeAll.click(this.RemoveAllUsersToGroupMembersList.bind(this));
+    this.$addAll.on("click", this.AddAllUsersToGroupMembersList.bind(this));
+    this.$removeAll.on(
+      "click",
+      this.RemoveAllUsersToGroupMembersList.bind(this),
+    );
 
     /**
      * Save button
      */
-    this.$saveButton.click(this.SaveGroup.bind(this));
+    this.$saveButton.on("click", this.SaveGroup.bind(this));
 
     /**
      * Close button
      */
-    this.$closeIcon.click(this.CloseModal.bind(this));
+    this.$closeIcon.on("click", this.CloseModal.bind(this));
 
     /**
      * Bind the jQuery UI Sortable
@@ -307,7 +341,7 @@ class GroupModal {
       revert: true,
       start: (e, ui) => {
         if (
-          $(ui.item).parents(".sg-card__hole:nth-child(1) > ul").length == 0
+          $(ui.item).parents(".sg-card__hole:nth-child(1) > ul").length === 0
         ) {
           const userID = $(ui.item).attr("data-user-id");
 
@@ -316,16 +350,18 @@ class GroupModal {
             0
           ) {
             $(ui.item).remove();
-            this.modal.notification({
-              html: this.locale.notificationMessages.alreadyExist,
-              type: "error",
-            });
+            this.modal.notification(
+              locale.notificationMessages.userAlreadyAdded,
+              "error",
+            );
           }
         }
       },
     };
 
+    // @ts-expect-error
     this.$searchResultsList.sortable(sortableOptions).disableSelection();
+    // @ts-expect-error
     this.$groupMembersList.sortable(sortableOptions).disableSelection();
 
     /**
@@ -364,7 +400,7 @@ class GroupModal {
       this.$firstLetter.css(color);
       that.$groupName.css(color);
     };
-    this.$color.change(colorChangeHandler);
+    this.$color.on("change", colorChangeHandler);
 
     /**
      * User category list
@@ -379,7 +415,7 @@ class GroupModal {
 
       that.$searchResultsList.html("");
 
-      if (this.value == "findUsers") {
+      if (this.value === "findUsers") {
         $subActionListHole = $(
           `<div class="sg-actions-list__hole sg-box--full"></div>`,
         );
@@ -388,7 +424,7 @@ class GroupModal {
         $input.appendTo($subActionListHole);
         $subActionListHole.appendTo(that.$userCategorySelectorContainer);
         // $userCategoryList.removeClass("sg-dropdown--full-width");
-      } else if (this.value == "moderatorRanks") {
+      } else if (this.value === "moderatorRanks") {
         $subActionListHole = $(
           `<div class="sg-actions-list__hole sg-box--full"></div>`,
         );
@@ -398,9 +434,10 @@ class GroupModal {
         $subActionListHole.appendTo(that.$userCategorySelectorContainer);
         // $userCategoryList.removeClass("sg-dropdown--full-width");
       } else {
-        if (this.value == "allModerators") {
+        if (this.value === "allModerators") {
           System.allModerators.list.forEach(
             ({ id, nick, avatar, ranks_ids }) => {
+              // eslint-disable-next-line no-param-reassign
               avatar = System.prepareAvatar(avatar);
               const buddyUrl = System.createBrainlyLink("profile", {
                 nick,
@@ -428,11 +465,13 @@ class GroupModal {
             },
           );
         }
-        if (this.value == "friendsList") {
+        if (this.value === "friendsList") {
           System.friends.forEach(({ id, nick, buddyUrl, avatar, ranks }) => {
+            // eslint-disable-next-line no-param-reassign
             avatar = System.prepareAvatar(avatar);
 
             if (ranks && ranks.names && ranks.names.length > 0) {
+              // eslint-disable-next-line no-param-reassign
               ranks = ranks.names.map(rank => {
                 return System.data.Brainly.defaultConfig.config.data
                   .ranksWithName[rank];
@@ -459,14 +498,16 @@ class GroupModal {
   AddAllUsersToGroupMembersList() {
     const $users = $(">li", this.$searchResultsList);
 
-    $users.each((i, userLi) => {
+    $users.each((i, _userLi) => {
       if (
-        $(`li[data-user-id="${userLi.dataset.userId}"]`, this.$groupMembersList)
-          .length == 0
+        $(
+          `li[data-user-id="${_userLi.dataset.userId}"]`,
+          this.$groupMembersList,
+        ).length === 0
       ) {
-        $(userLi).appendTo(this.$groupMembersList);
+        $(_userLi).appendTo(this.$groupMembersList);
       } else {
-        userLi.remove();
+        _userLi.remove();
       }
     });
   }
@@ -476,7 +517,7 @@ class GroupModal {
 
     if (
       $users.length > 0 &&
-      confirm(this.locale.notificationMessages.doYouWantToRemoveMembers)
+      confirm(locale.notificationMessages.doYouWantToRemoveMembers)
     ) {
       this.$searchResultsList.html("");
 
@@ -492,7 +533,7 @@ class GroupModal {
     );
     const groupData = {
       color: this.$color.val(),
-      title: this.$groupName.val().trim(),
+      title: String(this.$groupName.val()).trim(),
       members: [],
     };
 
@@ -501,17 +542,17 @@ class GroupModal {
     this.$closeIcon.off("click");
 
     if (this.group) {
-      if ($groupMembersLi.length == 0) {
-        notification(
-          this.locale.notificationMessages.youNeedToAddMembers,
-          "info",
-        );
+      if ($groupMembersLi.length === 0) {
+        notification({
+          html: locale.notificationMessages.youNeedToAddMembers,
+          type: "info",
+        });
       } else {
         console.log(this.group);
         $groupMembersLi.each((i, li) => {
           const brainlyID = li.dataset.userId;
           const member = this.group.members.find(
-            member => member.brainlyID == brainlyID,
+            _member => _member.brainlyID === brainlyID,
           );
 
           if (member) {
@@ -540,12 +581,12 @@ class GroupModal {
       this.CreateGroup(groupData);
     } else {
       this.modal.notification(
-        this.locale.notificationMessages.youNeedToAddMembers,
+        locale.notificationMessages.youNeedToAddMembers,
         "info",
       );
       this.HideSaveButtonSpinner();
       this.$saveButton.Enable();
-      this.$closeIcon.click(this.CloseModal.bind(this));
+      this.$closeIcon.on("click", this.CloseModal.bind(this));
     }
   }
 
@@ -554,14 +595,7 @@ class GroupModal {
   }
 
   HideSaveButtonSpinner() {
-    this.HideElement(this.$saveButtonSpinner);
-  }
-
-  /**
-   * @param {JQuery<HTMLElement>} $element
-   */
-  HideElement($element) {
-    if ($element) $element.appendTo("<div/>");
+    HideElement(this.$saveButtonSpinner);
   }
 
   async CreateGroup(groupData) {
@@ -570,26 +604,23 @@ class GroupModal {
     if (!resCreatedGroup || !resCreatedGroup.success) {
       this.$saveButton.Enable();
       this.HideSaveButtonSpinner();
-      this.$closeIcon.click(this.CloseModal.bind(this));
-      this.modal.notification(
-        this.locale.notificationMessages.cantCreate,
-        "error",
-      );
-      this.reject("Can't create group");
+      this.$closeIcon.on("click", this.CloseModal.bind(this));
+      this.modal.notification(locale.notificationMessages.cantCreate, "error");
+      // this.reject("Can't create group");
     } else {
       groupData.time = Date();
       groupData.pinned = false;
       groupData._id = resCreatedGroup.data._id;
 
-      this.resolve(groupData);
+      // this.resolve(groupData);
       this.CloseModal(true);
-      notification(
-        this.locale.notificationMessages.groupCreated.replace(
+      notification({
+        html: locale.notificationMessages.groupCreated.replace(
           "%{groupName}",
           ` ${groupData.title} `,
         ),
-        "success",
-      );
+        type: "success",
+      });
     }
   }
 
@@ -600,10 +631,7 @@ class GroupModal {
     );
 
     if (!resUpdatedGroup || !resUpdatedGroup.success) {
-      this.modal.notification(
-        this.locale.notificationMessages.cantCreate,
-        "error",
-      );
+      this.modal.notification(locale.notificationMessages.cantCreate, "error");
     } else {
       const $groupLi = renderGroupLi(this.group);
 
@@ -613,7 +641,7 @@ class GroupModal {
       this.$groupName.prop("defaultValue", groupData.title);
 
       this.modal.notification(
-        this.locale.notificationMessages.groupUpdated.replace(
+        locale.notificationMessages.groupUpdated.replace(
           "%{groupName}",
           ` ${groupData.title} `,
         ),
@@ -623,7 +651,7 @@ class GroupModal {
 
     this.HideSaveButtonSpinner();
     this.$saveButton.Enable();
-    this.$closeIcon.click(this.CloseModal.bind(this));
+    this.$closeIcon.on("click", this.CloseModal.bind(this));
     this.$newGroupMembersLi.removeClass("new-user");
   }
 
@@ -638,17 +666,17 @@ class GroupModal {
     await System.Delay(50);
 
     if (
-      forceClose == true ||
-      (this.$groupName.val() == this.$groupName.prop("defaultValue") &&
-        $newUsers.length == 0) ||
+      forceClose === true ||
+      (this.$groupName.val() === this.$groupName.prop("defaultValue") &&
+        $newUsers.length === 0) ||
       confirm(System.data.locale.common.notificationMessages.unsavedChanges)
     ) {
-      this.reject();
+      // this.reject();
       this.modal.Close();
     } else {
       $spinner.remove();
       this.$closeIconSVG.show();
-      this.$closeIcon.click(this.CloseModal.bind(this));
+      this.$closeIcon.on("click", this.CloseModal.bind(this));
     }
   }
 }

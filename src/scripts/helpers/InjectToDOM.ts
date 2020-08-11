@@ -20,12 +20,8 @@ function injectIt(
       let extensionURL;
       const fileExtension = [...fileName].pop();
 
-      if (
-        window.System &&
-        window.System.data.meta &&
-        window.System.data.meta.extension
-      ) {
-        extensionURL = System.data.meta.extension.URL;
+      if (window.System?.data?.meta?.extension) {
+        extensionURL = window.System.data.meta.extension.URL;
       } else {
         // console.warn("Be warned, no extension System class found");
         extensionURL = `chrome-extension://${window.chrome.runtime.id}`;

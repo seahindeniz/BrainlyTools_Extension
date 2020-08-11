@@ -19,8 +19,8 @@ import InjectToDOM from "../../helpers/InjectToDOM";
 
   if (!selectedPageLink) return;
 
-  const nextPageLink = selectedPageLink.nextElementSibling;
-  const previousPageLink = selectedPageLink.previousElementSibling;
+  const nextPageLink = selectedPageLink.nextElementSibling as HTMLElement;
+  const previousPageLink = selectedPageLink.previousElementSibling as HTMLElement;
 
   if (!nextPageLink && !previousPageLink) return;
 

@@ -1,59 +1,71 @@
-import ServerReq from "@ServerReq";
+import ServerReq, { UserDetailsType } from "@ServerReq";
 import notification from "@root/scripts/components/notification2";
 import UserNoteBox from "@root/scripts/components/UserNoteBox";
 import UserTag from "@root/scripts/components/UserTag";
+import type MessagesClassType from "..";
 
 export default class {
-  /**
-   * @param {import("../index").default} main
-   * @param {number} conversationId
-   * @param {HTMLElement} chatBox
-   */
-  constructor(main, conversationId, chatBox) {
+  main: MessagesClassType;
+  conversationId: number;
+  chatBox: HTMLElement;
+  user: {
+    details: {
+      id: number;
+      nick: string;
+    };
+    data: {
+      extension: UserDetailsType;
+      brainly: any;
+    };
+  };
+
+  headerBox: HTMLElement;
+  headerSubList: HTMLElement;
+  userNoteBox: HTMLDivElement;
+
+  constructor(
+    main: MessagesClassType,
+    conversationId: number,
+    chatBox: HTMLElement,
+  ) {
     this.main = main;
     this.conversationId = conversationId;
     this.chatBox = chatBox;
     this.user = {
       details: {
-        /**
-         * @type {number}
-         */
         id: undefined,
-        /**
-         * @type {string}
-         */
         nick: undefined,
       },
       data: {
-        /**
-         * @type {import("@ServerReq").UserDetailsType}
-         */
         extension: undefined,
         brainly: undefined,
-      }
+      },
     };
 
     if (!this.headerBox) {
       this.headerBox = chatBox.querySelector(".sg-content-box__header");
-      this.headerSubList = this.headerBox.firstElementChild;
+      this.headerSubList = this.headerBox.firstElementChild as HTMLElement;
 
       this.SetUserDetails();
     }
 
     this.LoadComponents();
   }
+
   SetUserDetails() {
     if (this.headerBox && this.headerBox instanceof HTMLElement) {
-      let profileLink = this.headerBox.querySelector("a");
+      const profileLink = this.headerBox.querySelector("a");
       this.user.details = {
         nick: profileLink.title,
         id: System.ExtractId(profileLink.href),
       };
     }
   }
+
   LoadComponents() {
     this.LoadComponentsAfterExtensionUserLoad();
   }
+
   async LoadComponentsAfterExtensionUserLoad() {
     try {
       await this.SetExtensionUserDetails();
@@ -70,41 +82,47 @@ export default class {
       console.error(error);
     }
   }
+
   async SetExtensionUserDetails() {
-    let resExtUser = await new ServerReq().GetUser(this.user.details);
+    const resExtUser = await new ServerReq().GetUser(this.user.details);
 
     if (!resExtUser || !resExtUser.data)
+      // eslint-disable-next-line no-throw-literal
       throw {
-        msg: resExtUser.message ||
+        msg:
+          resExtUser.message ||
           System.data.locale.common.notificationMessages
-          .cannotShareUserInfoWithServer_RefreshPage
-      }
+            .cannotShareUserInfoWithServer_RefreshPage,
+      };
 
     this.user.data.extension = resExtUser.data;
 
     return Promise.resolve();
   }
+
   RenderUserNoteBox() {
     if (!this.userNoteBox) {
       this.userNoteBox = UserNoteBox(this.user.data.extension);
 
       this.headerSubList.append(this.userNoteBox);
     } else {
-      /**
-       * @type {HTMLTextAreaElement}
-       */
-      // @ts-ignore
-      let textarea = this.userNoteBox.firstElementChild;
+      const textarea = this.userNoteBox
+        .firstElementChild as HTMLTextAreaElement;
 
       textarea.value = this.user.data.extension.note || "";
     }
   }
-  RenderStatusLabel() {
-    let statusLabel = new UserTag(this.user.details.id, this.user.data
-      .extension);
 
-    let reportButtonContainer = this.headerSubList.children[2];
-    this.headerSubList.insertBefore(statusLabel.container,
-      reportButtonContainer)
+  RenderStatusLabel() {
+    const statusLabel = new UserTag(
+      this.user.details.id,
+      this.user.data.extension,
+    );
+
+    const reportButtonContainer = this.headerSubList.children[2];
+    this.headerSubList.insertBefore(
+      statusLabel.container,
+      reportButtonContainer,
+    );
   }
 }

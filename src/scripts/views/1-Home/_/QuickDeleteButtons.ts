@@ -171,7 +171,7 @@ class QuickDeleteButtons {
   }
 
   BindHandlers() {
-    this.$moreOptionsButton.click(this.OpenPanel.bind(this));
+    this.$moreOptionsButton.on("click", this.OpenPanel.bind(this));
   }
 
   async OpenPanel() {

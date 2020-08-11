@@ -5,7 +5,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const gql = (s = "") => s;
 
-import Brainly from "..";
+import Brainly, { TokensPropsType } from "..";
 import Chunkify from "../../../../helpers/Chunkify";
 /* import AnswerConnection from "./GraphQL/Answer/Connection.graphql";
 import AnswerConnection_With_Comments from "./GraphQL/Answer/Connection_With_Comments.graphql";
@@ -272,6 +272,39 @@ export type ModerationTicketDataType = CommonProps & {
   users_data?: UsersDataInReportedContentsType[];
 };
 
+export type RemoveQuestionReqDataType = {
+  model_id: number;
+  reason: string;
+  reason_title?: string;
+  reason_id: number;
+  model_type_id?: number;
+  give_warning?: boolean;
+  take_points?: boolean;
+  return_points?: boolean;
+  _coupon_?: string;
+};
+
+export type RemoveAnswerReqDataType = {
+  model_id: number;
+  reason: string;
+  reason_title?: string;
+  reason_id: number;
+  model_type_id?: number;
+  give_warning?: boolean;
+  take_points?: boolean;
+  _coupon_?: string;
+};
+
+export type RemoveCommentReqDataType = {
+  model_id: number;
+  reason?: string;
+  reason_title?: string;
+  reason_id?: number;
+  model_type_id?: number;
+  give_warning?: boolean;
+  _coupon_?: string;
+};
+
 const FAILED_RESPONSE = {
   success: false,
   get message() {
@@ -533,20 +566,7 @@ export default class Action extends Brainly {
     return this.Legacy().api_tickets().remove().POST({ task_id, ticket_id });
   }
 
-  async RemoveQuestion(
-    data: {
-      model_id: number;
-      reason: string;
-      reason_title?: string;
-      reason_id: number;
-      model_type_id?: number;
-      give_warning?: boolean;
-      take_points?: boolean;
-      return_points?: boolean;
-      _coupon_?: string;
-    },
-    dontReport?: boolean,
-  ) {
+  async RemoveQuestion(data: RemoveQuestionReqDataType, dontReport?: boolean) {
     // eslint-disable-next-line no-param-reassign
     data = {
       model_type_id: 1,
@@ -579,11 +599,7 @@ export default class Action extends Brainly {
     }
   }
 
-  /**
-   * @param {{model_id: number, reason: string, reason_title?: string, reason_id: number, model_type_id?: number, give_warning?: boolean, take_points?: boolean, _coupon_?: string}} data
-   * @param {boolean} [dontReport]
-   */
-  async RemoveAnswer(data, dontReport) {
+  async RemoveAnswer(data: RemoveAnswerReqDataType, dontReport?: boolean) {
     data = {
       model_type_id: 2,
       give_warning: false,
@@ -609,18 +625,7 @@ export default class Action extends Brainly {
     return this.Legacy().moderation_new().delete_response_content().POST(data);
   }
 
-  async RemoveComment(
-    data: {
-      model_id: number;
-      reason?: string;
-      reason_title?: string;
-      reason_id?: number;
-      model_type_id?: number;
-      give_warning?: boolean;
-      _coupon_?: string;
-    },
-    dontReport?: boolean,
-  ) {
+  async RemoveComment(data: RemoveCommentReqDataType, dontReport?: boolean) {
     data = {
       model_type_id: 45,
       give_warning: false,
@@ -715,10 +720,6 @@ export default class Action extends Brainly {
     return this.Legacy().api_content_quality().unconfirm().POST(data);
   }
 
-  /**
-   * Report answer for correction
-   * @param {object} data - Post data
-   */
   ReportForCorrection(data) {
     data = {
       model_type_id: 2,
@@ -958,17 +959,15 @@ export default class Action extends Brainly {
     return this.GQL().Mutation(data).POST();
   }
 
-  /**
-   * @param {number} user_id
-   * @param {string|{key: string, fields: string, lock: string}} tokens
-   */
   async RemoveAllRanks(
-    user_id,
-    tokens = `[action="/ranks/delete_user_special_ranks"]`,
+    user_id: number,
+    tokenProps: TokensPropsType = {
+      tokenSelector: `[action="/ranks/delete_user_special_ranks"]`,
+    },
   ) {
     const data = await this.SetFormTokens(
       System.createProfileLink(user_id, "a", true),
-      tokens,
+      tokenProps,
     );
     data["data[uid]"] = user_id;
 
@@ -993,28 +992,20 @@ export default class Action extends Brainly {
       .POST(data);
   }
 
-  /**
-   * @param {number} user_id
-   * @param {number} point
-   */
-  async AddPoint(user_id, point) {
+  async AddPoint(user_id: number, point: number) {
     const data = await this.SetFormTokens(
       System.createProfileLink(user_id, "a", true),
-      "#ChangePointsAddForm",
+      { tokenSelector: "#ChangePointsAddForm" },
     );
     data["data[ChangePoints][diff]"] = point;
 
     return this.admin().users().change_points().P(user_id).Form().POST(data);
   }
 
-  /**
-   * @param {number} user_id
-   * @param {string} reason
-   */
-  async DeleteAccount(user_id, reason = "") {
+  async DeleteAccount(user_id: number, reason = "") {
     const data = await this.SetFormTokens(
       System.createProfileLink(user_id, "a", true),
-      "#DelUserAddForm",
+      { tokenSelector: "#DelUserAddForm" },
     );
     data["data[DelUser][delTasks]"] = 1;
     data["data[DelUser][delComments]"] = 1;

@@ -26,11 +26,12 @@ export default ({
     },
     className,
   );
+  console.log("items", items);
 
   return CreateElement({
     tag: "ul",
     className: listClass,
-    children: items.map(item => MenuListItem(item)),
+    children: items?.map(item => MenuListItem(item)),
     ...props,
   });
 };

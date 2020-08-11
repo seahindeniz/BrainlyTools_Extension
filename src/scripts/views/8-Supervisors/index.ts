@@ -1,12 +1,10 @@
+import SendMessageToBrainlyIds from "@root/scripts/controllers/Req/Brainly/Action/SendMessageToBrainlyIds";
 import WaitForElement from "@root/scripts/helpers/WaitForElement";
 import Button from "../../components/Button";
 import notification from "../../components/notification2";
 import Progress from "../../components/Progress";
-import SendMessageToBrainlyIds from "../../controllers/Req/Brainly/Action/SendMessageToBrainlyIds";
 
 System.pageLoaded("Supervisors page OK!");
-
-Supervisors();
 
 const SendMessages = new SendMessageToBrainlyIds();
 
@@ -14,7 +12,7 @@ async function Supervisors() {
   let currentColumn = 0;
   const sortIt = userLi => {
     $(`.connectedSortable:eq(${currentColumn++})`).append(userLi);
-    if (currentColumn == 5) {
+    if (currentColumn === 5) {
       currentColumn = 0;
     }
   };
@@ -43,7 +41,7 @@ async function Supervisors() {
         user.ranks_ids.forEach(rankId => {
           const current_rank =
             System.data.Brainly.defaultConfig.config.data.ranksWithId[rankId];
-          if (current_rank || rankId == 12) {
+          if (current_rank || rankId === 12) {
             ranks.push(
               `<span class="" style="color:#${current_rank.color || "000"};">${
                 current_rank.name
@@ -113,14 +111,11 @@ async function Supervisors() {
     });
   };
 
-  $rankSelect.change(rankSelectHandler);
+  $rankSelect.on("change", rankSelectHandler);
 
-  /**
-   * Table layout
-   */
-  const tableLayoutHandler = () => {};
-
-  $tableLayout.click(tableLayoutHandler);
+  $tableLayout.on("click", () => {
+    //
+  });
 
   /**
    * Message sender
@@ -184,19 +179,19 @@ async function Supervisors() {
             System.data.locale.common.notificationMessages.ongoingProcessWait,
           type: "info",
         });
-      } else if ($messageInput.val() == "") {
+      } else if ($messageInput.val() === "") {
         notification({
           html:
             System.data.locale.supervisors.notificationMessages.emptyMessage,
           type: "info",
         });
-        $messageInput.focus();
-      } else if (users.length == 0) {
+        $messageInput.trigger("focus");
+      } else if (users.length === 0) {
         notification({
           html: System.data.locale.supervisors.notificationMessages.noUser,
           type: "info",
         });
-        $rankSelect.focus();
+        $rankSelect.trigger("focus");
       } else {
         window.isPageProcessing = true;
         const message = $messageInput.val();
@@ -226,7 +221,7 @@ async function Supervisors() {
         };
 
         SendMessages.handlers.Each = doInEachSending;
-        SendMessages.Start(idList, message);
+        SendMessages.Start(idList, String(message));
         await SendMessages.Promise();
 
         window.isPageProcessing = false;
@@ -241,7 +236,9 @@ async function Supervisors() {
       }
     };
 
-    $toListedButton.click(() => SendMessage(listedUsers));
-    $toAllButton.click(() => SendMessage(System.allModerators.list));
+    $toListedButton.on("click", () => SendMessage(listedUsers));
+    $toAllButton.on("click", () => SendMessage(System.allModerators.list));
   }
 }
+
+Supervisors();

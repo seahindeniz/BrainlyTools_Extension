@@ -1,13 +1,42 @@
-import Button from "../../../components/Button";
+import Button, { JQueryButtonElementType } from "../../../components/Button";
 import DeleteSection from "../../../components/DeleteSection";
 import WaitForElement from "../../../helpers/WaitForElement";
 import UserContentRow from "./UserContentRow";
 
 class UserContent {
-  /**
-   * @param {string} caller
-   */
-  constructor(caller) {
+  caller: string;
+  questions: {
+    [x: string]: any;
+  };
+
+  selectedInputs: any[];
+  selectors: {
+    table: string;
+    tableHeaderRow: string;
+    tableContentBody: string;
+    contentRows: string;
+    contentLinks: string;
+  };
+
+  table: HTMLElement;
+  rows: UserContentRow[];
+  $moderateSection: JQuery<HTMLElement>;
+  $moderateHeader: JQuery<HTMLElement>;
+  $moderateContent: JQuery<HTMLElement>;
+  $moderateActions: JQuery<HTMLElement>;
+  $selectAllContainer: JQuery<HTMLElement>;
+  $selectAll: JQuery<HTMLElement>;
+  $selectContentWarning: JQuery<HTMLElement>;
+  deleteSection: DeleteSection;
+  $deleteButton: JQueryButtonElementType;
+  $correctionReasonContainer: JQuery<HTMLElement>;
+  $reportButton: JQueryButtonElementType;
+  $correctionReason: JQuery<HTMLElement>;
+  $reportButtonContainer: JQuery<HTMLElement>;
+  $buttonContainer: any;
+  $buttonList: JQuery<HTMLElement>;
+
+  constructor(caller: string) {
     this.caller = caller;
     this.questions = {};
     this.selectedInputs = [];
@@ -123,7 +152,7 @@ class UserContent {
 
     this.$selectAll = $("input", this.$selectAllContainer);
 
-    this.$selectAll.change(this.ToggleCheckboxSelectedState.bind(this));
+    this.$selectAll.on("change", this.ToggleCheckboxSelectedState.bind(this));
     this.$selectAllContainer.appendTo(this.$moderateHeader);
   }
 
@@ -266,7 +295,7 @@ class UserContent {
     return this.FilterRows(true);
   }
 
-  FilterRows(checkIsApproved) {
+  FilterRows(checkIsApproved?: boolean) {
     return this.rows.filter(
       row =>
         !row.deleted &&

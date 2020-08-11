@@ -1,5 +1,5 @@
 export default $dropdown => {
-  $("body").click(() => {
+  $("body").on("click", () => {
     $dropdown.removeClass("is-active");
   });
   $dropdown

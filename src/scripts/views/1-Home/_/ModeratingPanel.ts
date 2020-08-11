@@ -272,9 +272,9 @@ class ModeratingPanel {
   }
 
   BindHandlers() {
-    this.modal.$close.click(this.ClosePanel.bind(this));
-    this.$showMoreLink.click(this.ExpandContentContainer.bind(this));
-    this.$deleteButton.click(this.DeleteQuestion.bind(this));
+    this.modal.$close.on("click", this.ClosePanel.bind(this));
+    this.$showMoreLink.on("click", this.ExpandContentContainer.bind(this));
+    this.$deleteButton.on("click", this.DeleteQuestion.bind(this));
   }
 
   async ClosePanel(ignoreTicket?: boolean) {

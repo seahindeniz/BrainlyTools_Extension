@@ -1,9 +1,7 @@
-// @flow
-
+import Action from "@BrainlyAction";
 import CreateElement from "@root/scripts/components/CreateElement";
 import notification from "@root/scripts/components/notification2";
 import Build from "@root/scripts/helpers/Build";
-import Action from "@BrainlyAction";
 import {
   Avatar,
   Box,
@@ -17,6 +15,7 @@ import {
   Text,
 } from "@style-guide";
 import type { BoxColorType, BoxPropsType } from "@style-guide/Box";
+import type { FlexElementType } from "@style-guide/Flex";
 import mime from "mime-types";
 import type UserContentRowType from "./UserContentRow";
 
@@ -28,6 +27,27 @@ function HideElement(element: HTMLElement) {
 
 export default class ContentViewerContent {
   main: UserContentRowType;
+  container: any;
+  source: any;
+  contentData: {
+    content: any;
+    user: any;
+    userProfileLink: string;
+    avatar: string;
+    type: string;
+  };
+
+  #buttonSpinner: any;
+  iconContainer: FlexElementType;
+  contentContainer: FlexElementType;
+  nickContainer: FlexElementType;
+  actionsContainer: FlexElementType;
+  approvedIcon: FlexElementType;
+  reportedContentIcon: FlexElementType;
+  confirmButton: Button;
+  confirmButtonContainer: FlexElementType;
+  approveButton: Button;
+  approveButtonContainer: FlexElementType;
 
   constructor(main: UserContentRowType, source, user) {
     this.main = main;
@@ -37,7 +57,7 @@ export default class ContentViewerContent {
       user,
       userProfileLink: System.createProfileLink(user),
       avatar: System.ExtractAvatarURL(user),
-      type: source.hasOwnProperty("responses") ? "Question" : "Answer",
+      type: "responses" in source ? "Question" : "Answer",
     };
 
     this.CheckLatex();
@@ -45,13 +65,13 @@ export default class ContentViewerContent {
   }
 
   get buttonSpinner() {
-    if (!this._buttonSpinner) this.RenderButtonSpinner();
+    if (!this.#buttonSpinner) this.RenderButtonSpinner();
 
-    return this._buttonSpinner;
+    return this.#buttonSpinner;
   }
 
   RenderButtonSpinner() {
-    this._buttonSpinner = Spinner({ overlay: true });
+    this.#buttonSpinner = Spinner({ overlay: true });
   }
 
   CheckLatex() {

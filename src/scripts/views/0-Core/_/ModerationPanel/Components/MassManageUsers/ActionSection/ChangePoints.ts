@@ -308,7 +308,7 @@ export default class ChangePoints extends ActionSection {
     const { points } = this;
 
     // await System.Delay();
-    await new Action().AddPoint(user.details.id, points);
+    await new Action().AddPoint(user.details.id, Number(points));
     this.PointsApplied(user);
   }
 

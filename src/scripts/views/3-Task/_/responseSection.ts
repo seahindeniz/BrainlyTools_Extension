@@ -10,8 +10,21 @@ import {
 import notification from "../../../components/notification2";
 import Action from "../../../controllers/Req/Brainly/Action";
 
+const SELECTORS = {
+  articleQuestion: "article.brn-question",
+  taskModerateButtonContainer:
+    "article.js-main-question:not(.brn-question--deleted) .question-header > .sg-actions-list > .sg-actions-list__hole:last-child > .sg-actions-list",
+
+  responseParentContainer: ".js-react-answers",
+  responseContainer: ".brn-answer",
+  responseHeader: "js-react-answer-header-",
+  responseModerateButtonContainer: `div.sg-actions-list > div.sg-actions-list__hole:nth-child(2) > div.sg-actions-list`,
+};
+
 export default async function responseSection() {
-  const questionArticle = document.querySelector(".js-question");
+  const questionArticle = document.querySelector(
+    ".js-question",
+  ) as HTMLDivElement;
 
   if (!questionArticle) throw Error("Cannot find question article element");
 
@@ -99,19 +112,13 @@ export default async function responseSection() {
   const observer = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
       if (mutation.target) {
-        /**
-         * @type {HTMLDivElement}
-         */
-        // @ts-ignore
-        const { target } = mutation;
+        const target = mutation.target as HTMLDivElement;
 
-        if (target.className.includes(window.selectors.responseHeader)) {
+        if (target.className.includes(SELECTORS.responseHeader)) {
           const extActions = target.querySelector(".ext_actions");
 
           if (!extActions) {
-            addButtons(
-              $(window.selectors.responseModerateButtonContainer, target),
-            );
+            addButtons($(SELECTORS.responseModerateButtonContainer, target));
           }
         }
       }
@@ -119,7 +126,7 @@ export default async function responseSection() {
   });
 
   const responseParentContainer = await WaitForElement(
-    window.selectors.responseParentContainer,
+    SELECTORS.responseParentContainer,
   );
 
   const mainQuestionArticle = document.querySelector(`.js-main-question`);
@@ -132,7 +139,7 @@ export default async function responseSection() {
 
   addButtons(
     $(
-      `${window.selectors.responseContainer} ${window.selectors.responseModerateButtonContainer}`,
+      `${SELECTORS.responseContainer} ${SELECTORS.responseModerateButtonContainer}`,
     ),
   );
 
@@ -143,7 +150,7 @@ export default async function responseSection() {
 
   async function responseModerateButtonsClickHandler() {
     const parentResponseContainer = $(this).parents(
-      window.selectors.responseContainer,
+      SELECTORS.responseContainer,
     );
     const answerId = Number(parentResponseContainer.data("answer-id"));
 
@@ -169,14 +176,15 @@ export default async function responseSection() {
       .replace("%{reason_message}", reason.text);
 
     if (confirm(confirmDeleting)) {
+      const giveWarning = System.canBeWarned(reason.id);
       const responseData = {
         model_id: answerId,
         reason_id: reason.category_id,
         reason: reason.text,
         reason_title: reason.title,
+        give_warning: giveWarning,
+        take_points: giveWarning,
       };
-      responseData.give_warning = System.canBeWarned(reason.id);
-      responseData.take_points = responseData.give_warning;
 
       const icon = $(".sg-button__icon > div", this);
       const spinner = Spinner({ size: "xxsmall", light: true });
@@ -196,7 +204,7 @@ export default async function responseSection() {
         System.log(6, { user, data: [answerId] });
         parentResponseContainer.addClass("brn-question--deleted");
         $(
-          window.selectors.responseModerateButtonContainer,
+          SELECTORS.responseModerateButtonContainer,
           parentResponseContainer,
         ).remove();
         $(this).parents(".ext_actions").remove();
@@ -219,7 +227,7 @@ export default async function responseSection() {
    */
   async function ConfirmButtonClickHandler() {
     const parentResponseContainer = $(this).parents(
-      window.selectors.responseContainer,
+      SELECTORS.responseContainer,
     );
     const answerId = Number(parentResponseContainer.data("answer-id"));
 

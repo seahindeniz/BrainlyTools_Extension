@@ -5,12 +5,18 @@ import "moment/min/locales";
 import QuestionReport from "./Report/QuestionReport";
 import AnswerReport from "./Report/AnswerReport";
 import CommentReport from "./Report/CommentReport";
+import type ArchiveModClassType from "../..";
 
 export default class ReportBoxEnhancer {
-  /**
-   * @param {import("../../").default} main
-   */
-  constructor(main) {
+  main: ArchiveModClassType;
+  queueContainer: import("@style-guide/Flex").FlexElementType;
+  reportControllers: {
+    1: typeof QuestionReport;
+    2: typeof AnswerReport;
+    45: typeof CommentReport;
+  };
+
+  constructor(main: ArchiveModClassType) {
     this.main = main;
     this.queueContainer = Flex({
       justifyContent: "space-evenly",
@@ -86,13 +92,9 @@ export default class ReportBoxEnhancer {
   }
 
   ReplaceTimeStrings() {
-    /**
-     * @type {HTMLSpanElement[]}
-     */
-    // @ts-ignore
-    const timeContainers = this.queueContainer.querySelectorAll(
+    const timeContainers: HTMLSpanElement[] = this.queueContainer.querySelectorAll(
       "div.moderation-item > div.content > div.footer span.span.pull-right",
-    );
+    ) as any;
 
     if (!timeContainers || timeContainers.length === 0) return;
 

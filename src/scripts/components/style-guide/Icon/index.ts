@@ -156,7 +156,10 @@ export type IconSizeType =
   | 14
   | 10;
 
-export type IconPropsType =
+// TODO Move common props to common object
+export type IconPropsType = {
+  [x: string]: any;
+} & (
   | {
       className?: string;
       color?: IconColorType;
@@ -176,7 +179,8 @@ export type IconPropsType =
       type?: null;
       // Additional
       reverse?: boolean;
-    };
+    }
+);
 
 const sg = "sg-icon";
 const SGD = `${sg}--`;

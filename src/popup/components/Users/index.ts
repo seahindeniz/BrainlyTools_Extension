@@ -100,7 +100,7 @@ class Users {
         // prettier-ignore
         privileges: [
           12,
-          8,
+          // 8,
           28,
           1,
           2,
@@ -403,10 +403,11 @@ class Users {
   }
 
   BindHandlers() {
+    // console.log($(".level-item > a", this.$level));
     this.$level.on("click", ".level-item > a", event => {
       event.preventDefault();
 
-      const id = event.target.dataset.userId;
+      const id = event.currentTarget.dataset.userId;
 
       this.$idInput.val(id).trigger("input").trigger("focus");
     });
@@ -431,20 +432,22 @@ class Users {
   async UserSearch() {
     const id = this.GetIdFromInput();
 
-    if (id === 0) {
+    if (Number.isNaN(id)) {
       this.HideEditingForm();
-    } else {
-      try {
-        const user = await window.popup.GetStoredUser(String(id));
 
-        this.FillEditingForm(user);
-      } catch (error) {
-        notification(
-          System.data.locale.popup.notificationMessages.cannotFindUser,
-          "danger",
-        );
-        this.HideEditingForm();
-      }
+      return;
+    }
+
+    try {
+      const user = await window.popup.GetStoredUser(id);
+
+      this.FillEditingForm(user);
+    } catch (error) {
+      notification(
+        System.data.locale.popup.notificationMessages.cannotFindUser,
+        "danger",
+      );
+      this.HideEditingForm();
     }
   }
 
@@ -524,7 +527,7 @@ class Users {
       );
     } else {
       try {
-        const user = await window.popup.GetStoredUser(String(id));
+        const user = await window.popup.GetStoredUser(id);
 
         this.SaveUser(user);
       } catch (error) {

@@ -1,50 +1,67 @@
+/* eslint-disable class-methods-use-this */
 /* eslint-disable camelcase */
 /* eslint-disable no-underscore-dangle */
 import notification from "@root/scripts/components/notification2";
 import {
   Button,
   Flex,
+  Icon,
   Spinner,
   SpinnerContainer,
   Text,
-  Icon,
 } from "@root/scripts/components/style-guide";
 import Action from "@root/scripts/controllers/Req/Brainly/Action";
 import Build from "@root/scripts/helpers/Build";
-import IsVisible from "@root/scripts/helpers/IsVisible";
+import HideElement from "@root/scripts/helpers/HideElement";
 import InsertAfter from "@root/scripts/helpers/InsertAfter";
+import IsVisible from "@root/scripts/helpers/IsVisible";
+import { FlexElementType } from "@style-guide/Flex";
+import type ReportBoxEnhancerClassType from "..";
 import FooterQDB from "./FooterQDB";
 
-/**
- * @typedef {{
- *  elements: {
- *    main: JQuery<HTMLElement>,
- *    openToplayerButton: JQuery<HTMLElement>,
- *    close: JQuery<HTMLElement>
- *  },
- *  data: {
- *    model_type_id: 1 | 2 | 45,
- *    model_id: number,
- *    user: {
- *      id: number,
- *      nick: string,
- *    }
- *    disabled: boolean,
- *    removed: boolean,
- *    visible: boolean,
- *    timeInterval: number,
- *  },
- *  events: {},
- *  root: {}
- * }} ZdnObject
- */
+type ObjectAnyType = {
+  [x: string]: any;
+};
+
+export type ZdnObject = {
+  elements: {
+    main: JQuery<HTMLElement>;
+    openToplayerButton: JQuery<HTMLElement>;
+    close: JQuery<HTMLElement>;
+  };
+  data: {
+    model_type_id: 1 | 2 | 45;
+    model_id: number;
+    user: {
+      id: number;
+      nick: string;
+    };
+    disabled: boolean;
+    removed: boolean;
+    visible: boolean;
+    timeInterval: number;
+  };
+  events: ObjectAnyType;
+  root: ObjectAnyType;
+};
 
 export default class Report {
-  /**
-   * @param {import("../").default} main
-   * @param {ZdnObject} zdnObject
-   */
-  constructor(main, zdnObject) {
+  main: ReportBoxEnhancerClassType;
+  zdnObject: ZdnObject;
+  container: HTMLElement;
+  footer: HTMLDivElement;
+  processing: boolean;
+  deleted: boolean;
+  openToplayerButton: HTMLElement;
+  reporterDetailRow: HTMLElement;
+  buttonSpinner: HTMLDivElement;
+  confirmButton: Button;
+  confirmButtonContainer: FlexElementType;
+  confirmButtonSpinnerContainer: HTMLDivElement;
+  buttonContainer: FlexElementType;
+  contentOwnerDetailRow: HTMLElement;
+
+  constructor(main: ReportBoxEnhancerClassType, zdnObject: ZdnObject) {
     this.main = main;
     this.zdnObject = zdnObject;
     this.container = zdnObject.elements.main.get(0);
@@ -72,16 +89,10 @@ export default class Report {
   }
 
   FindFooterDetails() {
-    const footerChildElements = Array.from(this.footer.children);
-    /**
-     * @type {HTMLDivElement}
-     */
-    // @ts-ignore
+    const footerChildElements = Array.from(
+      this.footer.children,
+    ) as HTMLElement[];
     this.contentOwnerDetailRow = footerChildElements.shift();
-    /**
-     * @type {HTMLDivElement}
-     */
-    // @ts-ignore
     this.reporterDetailRow = footerChildElements.shift();
   }
 
@@ -90,13 +101,9 @@ export default class Report {
   }
 
   AttachTimeAttribute() {
-    /**
-     * @type {HTMLSpanElement[]}
-     */
-    // @ts-ignore
-    const elements = this.container.querySelectorAll(
+    const elements: HTMLSpanElement[] = this.container.querySelectorAll(
       "div.content > div.footer span.span.pull-right",
-    );
+    ) as any;
 
     if (!elements || elements.length === 0) return;
 
@@ -170,7 +177,7 @@ export default class Report {
 
     this.HideSpinner();
     this.ShowUserDetailRows();
-    this.main.main.HideElement(this.buttonContainer);
+    HideElement(this.buttonContainer);
   }
 
   ShowUserDetailRows() {
@@ -200,10 +207,9 @@ export default class Report {
   }
 
   HideUserDetailRows() {
-    if (this.reporterDetailRow)
-      this.main.main.HideElement(this.reporterDetailRow);
+    if (this.reporterDetailRow) HideElement(this.reporterDetailRow);
 
-    this.main.main.HideElement(this.contentOwnerDetailRow);
+    HideElement(this.contentOwnerDetailRow);
   }
 
   RenderButtonContainer() {
@@ -219,14 +225,13 @@ export default class Report {
     });
   }
 
-  /**
-   * @param {string} [reasonType]
-   * @param {{
-   *  button: import("@style-guide/Button").ButtonPropsType,
-   *  text: import("@style-guide/Text").TextColorType,
-   * }} [components]
-   */
-  RenderDeleteButtons(reasonType, components) {
+  RenderDeleteButtons(
+    reasonType?: string,
+    components?: {
+      button: import("@style-guide/Button").ButtonPropsType;
+      text: import("@style-guide/Text").TextColorType;
+    },
+  ) {
     const reasonIds = System.data.config.quickDeleteButtonsReasons[reasonType];
     const reasons = System.data.Brainly.deleteReasons.__withIds[reasonType];
 
@@ -235,6 +240,7 @@ export default class Report {
 
       if (!reason) return;
 
+      // @ts-expect-error
       const quickActionButton = new FooterQDB(this, {
         reason,
         components,
@@ -320,7 +326,7 @@ export default class Report {
   }
 
   HideSpinner() {
-    this.main.main.HideElement(this.buttonSpinner);
+    HideElement(this.buttonSpinner);
   }
 
   /**
@@ -335,20 +341,5 @@ export default class Report {
     let button = event.target;
 
     if (button.tagName !== "BUTTON") button = button.closest("button");
-  }
-
-  /**
-   * @param {{
-   *  model_id: number,
-   *  reason: any,
-   *  reason_title: any,
-   *  reason_id: any,
-   *  give_warning: boolean,
-   * }} _
-   * @returns {Promise<*>}
-   */
-  // eslint-disable-next-line class-methods-use-this, no-unused-vars
-  Delete(_) {
-    throw Error("No content type specified");
   }
 }

@@ -204,9 +204,7 @@ class AllUsers {
           [
             [
               ContentBoxTitle({
-                children: {
-                  html: "Result:",
-                },
+                children: "Result:",
               }),
             ],
             [

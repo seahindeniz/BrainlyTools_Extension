@@ -20,23 +20,12 @@ export default async function startObservingForDeleteButtons(
       mutation.addedNodes.forEach(node => {
         if (!(node instanceof HTMLDivElement)) return;
 
-        if (node.classList.contains("brn-feed-items")) {
-          node.childNodes.forEach(processNodeElement);
-
-          if (!node.classList.contains("observing")) {
-            node.classList.add("observing");
-            startObservingForDeleteButtons(node);
-          }
-
-          return;
-        }
-
         processNodeElement(node);
       });
     });
   });
 
-  observer.observe(feedsParent, { childList: true });
+  observer.observe(feedsParent, { childList: true, subtree: true });
 
   const feedItem = await WaitForElement(
     `${selectors.feed_item}:not(.js-extension)`,

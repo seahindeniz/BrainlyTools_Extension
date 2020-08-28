@@ -101,7 +101,8 @@
     "add": "Ekle",
     "chooseAnOption": "Bir seçenek seçin",
     "deleteAcross": "Sayfalar arası sil",
-    "profileLinkOrId": "Profile link or id"
+    "profileLinkOrId": "Profil linki veya id'si",
+    "beta": "Beta"
   },
   "popup": {
     "notificationMessages": {
@@ -665,7 +666,7 @@
       "selectAnApprovedAnswerForUnapproving": "İşleme başlamadan önce doğrulanmış cevap/lar seçmelisin",
       "confirmUnapproving": "Seçilen cevap(lar)dan doğrulamayı kaldırmak istediğine emin misin?",
       "doYouWantToConfirmThisContent": "İçeriği onaylamak istiyor musun?",
-      "confirmReporting": "Seçili cevabı/cevapları hatalı olarak bildirmek istiyor musun?",
+      "confirmReporting": "Seçili cevapları hatalı olarak bildirmek istiyor musun?",
       "selectAtLeastOneContent": "En az bir içerik seçmelisin",
       "xIsAlreadyApproved": "%{row_id} zaten doğrulanmış",
       "xIsAlreadyUnapproved": "%{row_id} doğrulaması zaten kaldırılmış",
@@ -825,58 +826,114 @@
   },
   "reportedContents": {
     "questionAnswerReports": {
-      "text": "Questions/Answers (%{number_of_reports})",
-      "title": "Click here to see reported questions and answers"
+      "text": "Sorular/Cevaplar (%{number_of_reports})",
+      "title": "Şikayet edilen soruları ve cevapları görmek için buraya tıklayın"
     },
     "commentReports": {
-      "text": "Comments (%{number_of_reports})",
-      "title": "Click here to see reported comments"
+      "text": "Yorumlar (%{number_of_reports})",
+      "title": "Şikayet edilen yorumları görmek için buraya tıklayın"
     },
     "correctionReports": {
-      "text": "Correction Reports (%{number_of_reports})",
-      "title": "Click here to see the contents which has reported for correction and waiting for to be confirmed"
+      "text": "Düzeltme bildirimleri",
+      "title": "Düzenlenmesi için bildirilen ve onaylanmayı bekleyen içerikleri görmek için buraya tıklayın"
     },
-    "subjectFilterFirstOption": "Subjects - ALL",
-    "categoryFilterFirstOption": "Report reasons - ALL",
+    "subjectFilterFirstOption": "Konular - TÜMÜ",
     "options": {
       "buttonVisibility": {
-        "optionName": "Action buttons visibility",
-        "default": "Default",
-        "alwaysVisible": "Always visible",
-        "onHoverOrTouch": "On hover/touch"
+        "optionName": "Hızlı eylem buton görünürlüğü",
+        "alwaysVisible": "Her zaman görünür",
+        "onHoverOrTouch": "Üzerine gelindiğinde/dokunulduğunda",
+        "defaultVisibility": "Varsayılan"
       },
       "filter": {
-        "optionName": "Filter reports",
-        "description": "This filters can only be applied to reports that has already fetched",
+        "optionName": "Şikayetleri filtrele",
+        "description": "Filtreler yalnızca yüklenen raporlara uygulanabilir",
         "filters": {
           "reporter": {
-            "name": "Reporter user",
+            "name": "Şikayet eden",
             "by": {
-              "nick": "Reporter nick",
-              "id": "Reporter user id"
+              "nick": "Bildirenin nicki",
+              "id": "Bildirenin id'si"
             }
           },
           "reported": {
-            "name": "Reported user",
+            "name": "Bildirilen kullanıcı",
             "by": {
-              "nick": "Reported nick",
-              "id": "Reported user id"
+              "nick": "Bildirilen nick",
+              "id": "Bildirilen kullanıcı idsi"
             }
           },
           "reportingDate": {
-            "name": "Reports between",
-            "startingDate": "Starting date",
-            "endingDate": "Ending date"
+            "name": "Tarihler arası",
+            "startingDate": "Başlangıç tarihi",
+            "endingDate": "Bitiş tarihi"
+          },
+          "contentType": {
+            "name": "İçerik tipi",
+            "Question": "Soru",
+            "Answer": "Cevap",
+            "Comment": "Yorum"
           }
         }
+      },
+      "name": "Seçenekler",
+      "density": {
+        "optionName": "Yoğunluk",
+        "defaultDensity": "Varsayılan"
       }
     },
     "queue": {
-      "rating": "%{rating} points for %{ratesCount} votes",
-      "numberOfRates": "%{rating} for %{ratesCount}"
-    }
+      "rating": "%{ratesCount} oy için %{rating} puan",
+      "bestAnswer": "En iyi cevap",
+      "popularQuestion": "Popüler soru!"
+    },
+    "loadAll": "Tüm şikayetleri getir",
+    "loadAllConfirmationMessage": "Brainly'den bildirilen tüm içerikleri çekmeye çalışacağım. Ancak bu işlem, çok fazla uzadığı zaman bağlantılar Brainly tarafından kesintiye uğrayabilir. \nLütfen işlemi başlatmak için onaylayın",
+    "massModerate": {
+      "name": "Çoklu içerik düzenleme",
+      "description": "Yalnızca yüklenen içeriği düzenleyebilirsin",
+      "confirm": {
+        "text": "Onayla",
+        "noContentToConfirm": "Onaylanabilir içerik kalmadı",
+        "confirmModeration": "Şikayet edilen %{n} içeriği gerçekten onaylamak istiyor musun?"
+      },
+      "delete": {
+        "text": "Sil",
+        "choose": {
+          "Question": "Sorular için silim nedeni",
+          "Answer": "Cevaplar için silim nedeni",
+          "Comment": "Yorumlar için silim nedeni"
+        },
+        "noContentToDelete": "Silinebilir içerik kalmadı",
+        "confirmDeletion": "Şikayet edilen %{n} içeriği gerçekten silmek istiyor musun?"
+      },
+      "status": {
+        "fetched": "%{count} yüklendi",
+        "filtered": "%{count} filtrelendi",
+        "visible": "%{count} görüntülenen",
+        "moderated": "%{count} düzenlendi",
+        "failed": "%{count} hatalı"
+      }
+    },
+    "categoryFilterFirstOption": {
+      "name": "Şikayet sebepleri - TÜMÜ",
+      "reasonsFor": {
+        "Question": "Sorular için silim sebebi",
+        "Answer": "Cevaplar için silim sebebi",
+        "Comment": "Yorumlar için silim sebebi"
+      }
+    },
+    "name": "Şikayet edilen içerikler"
   },
   "moderationPanel": {
-    "text": "Question Moderation"
+    "text": "Ödev Düzenle",
+    "answers": "Cevaplar (%{number_of_answers})",
+    "log": "Geçmiş",
+    "panelWillClose": "Panel %{remain_N} saniye içerisinde kapanacak",
+    "showAllComments": "Tüm yorumları göster",
+    "failedToGetLogs": "Sorunun eylem geçmişini gösterirken bir sorun oluştu",
+    "seeMoreDeleteOptions": "Daha fazla silim seçeneği",
+    "confirmReportingForCorrection": "Cevabı düzenlemesi için bildirmek istiyor musun?",
+    "thereIsNoReportLeft": "Şikayet edilmiş içerik kalmadı"
   }
 }

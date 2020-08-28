@@ -33,17 +33,17 @@ export type UserType = CommonUserProps & {
   registration_date: string;
 };
 
-export type CommonProps = { success?: boolean; message?: string };
+export type CommonResponseDataType = { success?: boolean; message?: string };
 
 export type UserResponse = {
   data?: UserType;
   message?: string;
-} & CommonProps;
+} & CommonResponseDataType;
 
 export type UsersResponse = {
   data?: UserType[];
   message?: string;
-} & CommonProps;
+} & CommonResponseDataType;
 
 export type UserProfile = CommonUserProps & {
   answers_by_subject: {
@@ -81,7 +81,7 @@ type AnswersOfUser = {
   created: string;
 }[];
 
-type UserProfileResponse = { data?: UserProfile } & CommonProps;
+type UserProfileResponse = { data?: UserProfile } & CommonResponseDataType;
 
 type AnswersOfUserResponse = {
   pagination?: {
@@ -92,7 +92,7 @@ type AnswersOfUserResponse = {
     last: string;
   };
   data?: AnswersOfUser;
-} & CommonProps;
+} & CommonResponseDataType;
 
 type GQL_User = {
   avatar: null;
@@ -198,6 +198,17 @@ export type UserDataInReportType = {
   removed_contents_count?: number;
 };
 
+type ReportDetailsDataType = {
+  user?: UserDataInReportType;
+  created?: string;
+  abuse?: {
+    category_id?: number;
+    subcategory_id?: number;
+    name?: string;
+    data?: string;
+  };
+};
+
 export type ReportedContentDataType = {
   model_type_id: 1 | 2 | 45;
   model_id: number;
@@ -207,31 +218,39 @@ export type ReportedContentDataType = {
   content_short?: string;
   created?: string;
   user?: UserDataInReportType;
-  report?: {
-    user?: UserDataInReportType;
-    created?: string;
-    abuse?: {
-      category_id?: number;
-      subcategory_id?: number;
-      name?: string;
-    };
-  };
+  report?: ReportDetailsDataType;
   // correction report
   corrected: boolean;
 };
 
+export type CommentDataInTicketType = {
+  content: string;
+  created: string;
+  deleted: boolean;
+  id: number;
+  user_id: number;
+  report?: ReportDetailsDataType;
+};
+
+export type AttachmentDataInTicketType = {
+  extension: string;
+  full: string;
+  hash: string;
+  id: number;
+  size: number;
+  thumbnail: string;
+  type: string;
+};
+
 export type CommonDataInTicketType = {
-  attachments: {
-    full: string;
-    type: string;
-    thumbnail: string;
-  }[];
-  comments: [];
+  attachments: AttachmentDataInTicketType[];
+  comments: CommentDataInTicketType[];
   content: string;
   created: string;
   id: number;
   user: UserDataInReportType;
   user_id: number;
+  report?: ReportDetailsDataType;
 };
 
 export type AnswerDataInTicketType = CommonDataInTicketType & {
@@ -240,6 +259,11 @@ export type AnswerDataInTicketType = CommonDataInTicketType & {
   points: number;
   task_id: number;
   thanks: number;
+  wrong_report?: {
+    reason: string;
+    reported: string;
+    user: UserDataInReportType;
+  };
 };
 
 export type QuestionDataInTicketType = CommonDataInTicketType & {
@@ -267,7 +291,7 @@ export type TicketDataType = {
   };
 };
 
-export type ModerationTicketDataType = CommonProps & {
+export type ModerationTicketDataType = CommonResponseDataType & {
   data?: TicketDataType;
   users_data?: UsersDataInReportedContentsType[];
 };
@@ -297,12 +321,36 @@ export type RemoveAnswerReqDataType = {
 
 export type RemoveCommentReqDataType = {
   model_id: number;
-  reason?: string;
+  reason: string;
   reason_title?: string;
-  reason_id?: number;
+  reason_id: number;
   model_type_id?: number;
   give_warning?: boolean;
   _coupon_?: string;
+};
+
+export type QuestionLogEntryClassType =
+  | "accepted"
+  | "added"
+  | "best"
+  | "deleted"
+  | "edited"
+  | "info"
+  | "reported";
+
+export type QuestionLogEntryType = {
+  class: QuestionLogEntryClassType;
+  date: string;
+  descriptions?: {
+    subject: string;
+    text: string;
+  }[];
+  owner_id: number;
+  text: string;
+  time: string;
+  type: number;
+  user_id: number;
+  warn: boolean;
 };
 
 const FAILED_RESPONSE = {
@@ -313,7 +361,7 @@ const FAILED_RESPONSE = {
   },
 };
 
-function GetUsersInChunk(ids) {
+function GetUsersInChunk(ids: (number | string)[]) {
   return new Promise((resolve, reject) => {
     let count = 0;
     const chunkedIds = Chunkify(ids, USERS_PROFILE_REQ_CHUNK_SIZE);
@@ -566,7 +614,10 @@ export default class Action extends Brainly {
     return this.Legacy().api_tickets().remove().POST({ task_id, ticket_id });
   }
 
-  async RemoveQuestion(data: RemoveQuestionReqDataType, dontReport?: boolean) {
+  async RemoveQuestion(
+    data: RemoveQuestionReqDataType,
+    dontReport?: boolean,
+  ): Promise<CommonResponseDataType> {
     // eslint-disable-next-line no-param-reassign
     data = {
       model_type_id: 1,
@@ -599,7 +650,10 @@ export default class Action extends Brainly {
     }
   }
 
-  async RemoveAnswer(data: RemoveAnswerReqDataType, dontReport?: boolean) {
+  async RemoveAnswer(
+    data: RemoveAnswerReqDataType,
+    dontReport?: boolean,
+  ): Promise<CommonResponseDataType> {
     data = {
       model_type_id: 2,
       give_warning: false,
@@ -625,7 +679,10 @@ export default class Action extends Brainly {
     return this.Legacy().moderation_new().delete_response_content().POST(data);
   }
 
-  async RemoveComment(data: RemoveCommentReqDataType, dontReport?: boolean) {
+  async RemoveComment(
+    data: RemoveCommentReqDataType,
+    dontReport?: boolean,
+  ): Promise<CommonResponseDataType> {
     data = {
       model_type_id: 45,
       give_warning: false,
@@ -675,29 +732,30 @@ export default class Action extends Brainly {
     return this.ConfirmContent(model_id, 45);
   }
 
-  /**
-   * @param {number} model_id
-   * @param {"Question" | "Answer" | "Comment" | 1 | 2 | 45} model_type - 1 = Question, 2 = Answer, 45 = Comment
-   */
-  ConfirmContent(model_id, model_type) {
-    let model_type_id = model_type;
+  ConfirmContent(
+    contentId: number,
+    contentType: "Question" | "Answer" | "Comment" | 1 | 2 | 45,
+  ) {
+    let model_type_id = contentType;
 
-    if (typeof model_type === "string" && isNaN(Number(model_type)))
+    if (!contentId) throw Error(`Invalid content id ${contentId}`);
+
+    if (typeof contentType === "string" && isNaN(Number(contentType)))
       model_type_id =
-        model_type === "Question" ? 1 : model_type === "Answer" ? 2 : 45;
+        contentType === "Question" ? 1 : contentType === "Answer" ? 2 : 45;
+
+    if (model_type_id !== 1 && model_type_id !== 2 && model_type_id === 45)
+      throw Error(`Invalid content type ${contentId}`);
 
     const data = {
-      model_id,
+      model_id: contentId,
       model_type_id,
     };
 
     return this.Legacy().moderation_new().accept().POST(data);
   }
 
-  /**
-   * @param {number} model_id - Answer id
-   */
-  ApproveAnswer(model_id) {
+  ApproveAnswer(model_id: number) {
     const data = {
       model_type: 2,
       model_id,
@@ -720,11 +778,15 @@ export default class Action extends Brainly {
     return this.Legacy().api_content_quality().unconfirm().POST(data);
   }
 
-  ReportForCorrection(data) {
-    data = {
+  ReportForCorrection(_data: {
+    model_id: number;
+    reason?: string;
+  }): Promise<CommonResponseDataType> {
+    const data = {
       model_type_id: 2,
-      ...data,
+      ..._data,
     };
+
     data.reason += ` ${System.constants.config.reasonSign}`;
 
     return this.Legacy().moderation_new().wrong_report().POST(data);
@@ -754,7 +816,14 @@ export default class Action extends Brainly {
     return resTicket;
   }
 
-  ActionsHistory(questionId: number) {
+  ActionsHistory(
+    questionId: number,
+  ): Promise<
+    CommonResponseDataType & {
+      data: QuestionLogEntryType[];
+      users_data: UsersDataInReportedContentsType[];
+    }
+  > {
     return this.Legacy().api_task_lines().big().P(questionId).GET();
   }
 
@@ -1325,10 +1394,46 @@ export default class Action extends Brainly {
       .moderation_new()
       .get_abuse_filters()
       .POST({ model_type_id: 1 });
-    // different ids, returns the same filters
+    // no need to set different type id. All returns the same filters
   }
 
   Me() {
     return this.Legacy().api_users().me().GET();
+  }
+
+  DeleteAttachment(data: {
+    attachment_id: number;
+    model_id: number;
+    model_type_id: 1 | 2 | "Answer" | "Question";
+    task_id: number;
+  }) {
+    if (data.model_type_id === "Question") data.model_type_id = 1;
+
+    if (data.model_type_id === "Answer") data.model_type_id = 2;
+
+    return this.Legacy().moderation_new().delete_attachment().POST(data);
+  }
+
+  ProlongModerationTicket(data: {
+    model_id: number;
+    model_type_id: 1 | 2 | "Answer" | "Question";
+    ticket_id: number;
+    time?: number;
+  }): Promise<
+    CommonResponseDataType & {
+      data: {
+        id: number;
+        time_left: number;
+        user_id: number;
+      };
+    }
+  > {
+    if (data.model_type_id === "Question") data.model_type_id = 1;
+
+    if (data.model_type_id === "Answer") data.model_type_id = 2;
+
+    if (!data.time) data.time = 900;
+
+    return this.Legacy().moderate_tickets().prolong().POST(data);
   }
 }

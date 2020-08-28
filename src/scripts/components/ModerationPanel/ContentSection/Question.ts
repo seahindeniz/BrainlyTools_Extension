@@ -1,7 +1,8 @@
 import type { QuestionDataInTicketType } from "@BrainlyAction";
-import { Counter, Text } from "@style-guide";
+import { Counter, Flex, Text } from "@style-guide";
 import type ModerationPanelClassType from "../ModerationPanel";
 import ContentSection from "./ContentSection";
+import QuickActionButtonsForQuestion from "./QuickActionButtons/Question";
 
 export default class Question extends ContentSection {
   questionData: QuestionDataInTicketType;
@@ -16,6 +17,8 @@ export default class Question extends ContentSection {
     this.Render();
     this.RenderUserDetails();
     this.RenderContentDetails();
+    // this.RenderPopularIcon();
+    this.RenderQuickActionButtons();
   }
 
   RenderUserDetails() {
@@ -46,19 +49,28 @@ export default class Question extends ContentSection {
 
   RenderContentDetails() {
     this.contentDetailsContainer.append(
-      Counter({
-        icon: "points",
-        children: [
-          `+${this.questionData.points.ptsForResp} `,
-          Text({
-            tag: "span",
-            size: "small",
-            weight: "bold",
-            color: "gray-secondary",
-            text: System.data.locale.common.shortPoints.toLowerCase(),
-          }),
-        ],
+      Flex({
+        marginLeft: "xs",
+        children: Counter({
+          icon: "points",
+          children: [
+            `+${this.questionData.points.ptsForResp} `,
+            Text({
+              tag: "span",
+              size: "small",
+              weight: "bold",
+              color: "gray-secondary",
+              text: System.data.locale.common.shortPoints.toLowerCase(),
+            }),
+          ],
+        }),
       }),
     );
+  }
+
+  RenderQuickActionButtons() {
+    this.quickActionButtons = new QuickActionButtonsForQuestion(this);
+
+    this.contentContainer.append(this.quickActionButtons.container);
   }
 }

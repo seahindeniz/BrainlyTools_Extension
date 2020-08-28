@@ -1,6 +1,6 @@
-// @flow
-import { Button, Flex } from "@style-guide";
+import { Button, Flex, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
+import tippy from "tippy.js";
 import type ReportTypesType from "./ReportTypes";
 
 type ReportTypeNameType =
@@ -41,6 +41,16 @@ export default class ReportType {
       }),
     });
 
+    tippy(this.button.element, {
+      theme: "light",
+      allowHTML: true,
+      content: Text({
+        size: "small",
+        weight: "bold",
+        children: System.data.locale.reportedContents[this.typeName].title,
+      }),
+    });
+
     this.main.main.reportTypeFilterContainer.append(this.container);
   }
 
@@ -49,14 +59,19 @@ export default class ReportType {
   }
 
   Selected() {
-    if (this.main.selectedReportType)
-      this.main.selectedReportType.button.ChangeType({ type: "outline" });
+    if (this.main.selectedReportType) {
+      this.main.selectedReportType.Deselected();
+    }
 
     this.main.selectedReportType = this;
 
     this.button.ChangeType({ type: "outline", toggle: "blue" });
 
     this.main.main.main.main.queue.HideContents();
-    this.main.main.main.FetchReports(true);
+    this.main.main.main.FetchReports({ resetStore: true });
+  }
+
+  Deselected() {
+    this.main.selectedReportType.button.ChangeType({ type: "outline" });
   }
 }

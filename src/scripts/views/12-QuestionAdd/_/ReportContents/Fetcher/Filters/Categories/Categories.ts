@@ -1,5 +1,3 @@
-// @flow
-
 import CreateElement from "@root/scripts/components/CreateElement";
 import HideElement from "@root/scripts/helpers/HideElement";
 import Action from "@BrainlyAction";
@@ -36,10 +34,15 @@ export default class Categories {
 
   Render() {
     this.container = Flex({
+      grow: true,
       margin: "xxs",
     });
-    this.questionAnswerCategorySelect = new Select();
-    this.commentCategorySelect = new Select();
+    this.questionAnswerCategorySelect = new Select({
+      fullWidth: true,
+    });
+    this.commentCategorySelect = new Select({
+      fullWidth: true,
+    });
 
     this.main.filtersContainer.append(this.container);
   }
@@ -47,7 +50,7 @@ export default class Categories {
   async InitQuestionAnswerCategories() {
     const allQuestionAnswerReportsCategory = new Category(this, {
       id: 0,
-      text: System.data.locale.reportedContents.categoryFilterFirstOption,
+      text: System.data.locale.reportedContents.categoryFilterFirstOption.name,
     });
 
     this.selectedCategory = allQuestionAnswerReportsCategory;
@@ -56,11 +59,15 @@ export default class Categories {
 
     const questionOptGroup = CreateElement({
       tag: "optgroup",
-      label: "Reasons for questions",
+      label:
+        System.data.locale.reportedContents.categoryFilterFirstOption.reasonsFor
+          .Question,
     });
     const answerOptGroup = CreateElement({
       tag: "optgroup",
-      label: "Reasons for answers",
+      label:
+        System.data.locale.reportedContents.categoryFilterFirstOption.reasonsFor
+          .Answer,
     });
 
     this.questionAnswerCategorySelect.select.append(
@@ -112,7 +119,7 @@ export default class Categories {
   async InitCommentCategories() {
     const allCommentReportsCategory = new Category(this, {
       id: 998,
-      text: System.data.locale.reportedContents.categoryFilterFirstOption,
+      text: System.data.locale.reportedContents.categoryFilterFirstOption.name,
     });
 
     this.selectedCategory = allCommentReportsCategory;
@@ -121,7 +128,9 @@ export default class Categories {
 
     const commentOptGroup = CreateElement({
       tag: "optgroup",
-      label: "Reasons for questions",
+      label:
+        System.data.locale.reportedContents.categoryFilterFirstOption.reasonsFor
+          .Comment,
     });
 
     this.commentCategorySelect.select.append(
@@ -173,7 +182,7 @@ export default class Categories {
     if (!this.selectedCategory) return;
 
     this.selectedCategory.Selected();
-    this.main.main.FetchReports(true);
+    this.main.main.FetchReports({ resetStore: true });
   }
 
   AssignSelectedCategory(target: HTMLSelectElement) {

@@ -5,6 +5,97 @@ $baseline: 1.5rem;
 }
 
 @import "../_/style-guide/components/*";
+@import "../_/extension/main.scss";
+@import "~viewerjs";
+@import "~tippy.js/dist/tippy", "~tippy.js/themes/light";
+
+.tippy-box[data-theme~="light"] {
+  padding: 12px 24px;
+  border-radius: 8px;
+  z-index: 1;
+  // box-shadow: 0 3px 32px 0 rgba(2, 10, 27, 0.15);
+}
+
+.viewer-toolbar > ul > li {
+  width: 33px;
+  height: 33px;
+  margin: 0 3px;
+}
+.viewer-zoom-in::before,
+.viewer-zoom-out::before,
+.viewer-one-to-one::before,
+.viewer-reset::before,
+.viewer-prev::before,
+.viewer-play::before,
+.viewer-next::before,
+.viewer-rotate-left::before,
+.viewer-rotate-right::before,
+.viewer-flip-horizontal::before,
+.viewer-flip-vertical::before,
+.viewer-fullscreen::before,
+.viewer-fullscreen-exit::before {
+  position: relative;
+  top: 5px;
+  left: 5px;
+}
+
+.ext {
+  &-image-gallery {
+    > div {
+      height: 100px;
+      width: 100px;
+      padding: 5px;
+
+      > *:first-child {
+        width: 100%;
+        cursor: pointer;
+        border-radius: 8px;
+        border: 2px solid #ebf2f7;
+      }
+
+      > img {
+        cursor: zoom-in;
+        object-fit: contain;
+      }
+    }
+  }
+
+  &-action-buttons {
+    width: auto;
+    right: 0;
+    position: absolute;
+  }
+
+  &-attachment-delete-button {
+    position: absolute;
+    right: -4px;
+    top: -6px;
+  }
+
+  @media (min-width: 800px) {
+    &-switch-button {
+      position: fixed;
+      z-index: 1;
+      top: 40%;
+
+      &--right {
+        margin-left: 30px;
+      }
+
+      &--left {
+        margin-left: -102px;
+      }
+    }
+  }
+
+  @media (max-width: 799px) {
+    &-switch-button {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 30px;
+    }
+  }
+}
 
 .sg {
   &--full {

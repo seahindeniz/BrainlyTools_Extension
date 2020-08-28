@@ -1,5 +1,3 @@
-// @flow
-
 import Build from "@root/scripts/helpers/Build";
 import storage from "@root/scripts/helpers/extStorage";
 import { Flex, Select, SeparatorHorizontal, Text } from "@style-guide";
@@ -16,7 +14,6 @@ export default class ButtonVisibility {
     this.main = main;
 
     this.Render();
-    this.BindListener();
   }
 
   Render() {
@@ -24,7 +21,8 @@ export default class ButtonVisibility {
       {
         value: 0,
         text:
-          System.data.locale.reportedContents.options.buttonVisibility.default,
+          System.data.locale.reportedContents.options.buttonVisibility
+            .defaultVisibility,
       },
     ];
 
@@ -65,20 +63,21 @@ export default class ButtonVisibility {
           (this.buttonVisibilitySelect = new Select({
             options,
             fullWidth: true,
+            onChange: this.ChangeVisibility.bind(this),
           })),
         ],
       ],
     );
 
-    this.SetValue();
+    this.main.optionContainer.append(
+      SeparatorHorizontal({
+        type: "spaced",
+      }),
+      this.container,
+    );
 
-    const separator = Flex({
-      marginTop: "s",
-      marginBottom: "s",
-      margin: "xs",
-      children: SeparatorHorizontal,
-    });
-    this.main.optionContainer.append(this.container, separator);
+    this.SetValue();
+    this.main.optionContainer.append(this.container);
   }
 
   async SetValue() {
@@ -87,13 +86,6 @@ export default class ButtonVisibility {
     this.buttonVisibilitySelect.select.value = value;
 
     this.ChangeVisibility();
-  }
-
-  BindListener() {
-    this.buttonVisibilitySelect.select.addEventListener(
-      "change",
-      this.ChangeVisibility.bind(this),
-    );
   }
 
   ChangeVisibility(event?: Event) {

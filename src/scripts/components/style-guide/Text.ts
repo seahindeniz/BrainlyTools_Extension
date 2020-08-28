@@ -47,7 +47,7 @@ type TextTransformType = "uppercase" | "lowercase" | "capitalize";
 
 export type TextPropsType<T> = {
   children?: ChildrenParamType;
-  text?: string | number;
+  text?: ChildrenParamType;
   html?: string;
   size?: TextSizeType;
   weight?: TextWeightType;
@@ -67,6 +67,7 @@ export type TextPropsType<T> = {
   bgColor?: TextBgColorType;
   tag?: T;
   fixPosition?: boolean;
+  blockquote?: boolean;
   [x: string]: any;
 };
 type TextCustomProperties = {
@@ -119,6 +120,7 @@ const Text = <T extends keyof HTMLElementTagNameMap>({
   bgColor,
   tag,
   fixPosition,
+  blockquote,
   ...props
 }: TextPropsType<T>): TextElement<T> => {
   const textClass = classnames(
@@ -142,6 +144,7 @@ const Text = <T extends keyof HTMLElementTagNameMap>({
       [`sg-text--unstyled`]: unstyled,
       [`sg-text--fix-position`]: fixPosition,
       "sg-text--link": tag === "a" || href !== undefined,
+      [`sg-text--blockquote`]: blockquote,
     },
     className,
   );

@@ -28,9 +28,4 @@ export default class Subject {
 
     this.main.subjectSelect.select.append(this.option);
   }
-
-  Selected() {
-    console.log(this);
-    this.main;
-  }
 }

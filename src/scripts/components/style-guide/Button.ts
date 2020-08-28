@@ -2,14 +2,16 @@
 
 import AddChildren from "@style-guide/helpers/AddChildren";
 import type { ChildrenParamType } from "@style-guide/helpers/AddChildren";
-import SetProps from "@style-guide/helpers/SetProps";
+import SetProps, {
+  CommonComponentPropsType,
+} from "@style-guide/helpers/SetProps";
 import type Icon from "@style-guide/Icon";
 import classnames from "classnames";
 
 const sg = "sg-button";
 const SGD = `${sg}--`;
 
-type ButtonSizeType = "xl" | "l" | "m" | "s" | "xs";
+export type ButtonSizeType = "xl" | "l" | "m" | "s" | "xs";
 
 export type ButtonColorType =
   | {
@@ -39,6 +41,11 @@ export type ButtonColorType =
   | {
       type: "transparent-blue";
       toggle?: "blue" | null;
+    }
+  | {
+      type: "outline";
+      toggle?: "peach" | "mustard" | "blue" | "mint" | null;
+      whiteBg?: boolean;
     };
 
 type ButtonIconType =
@@ -87,7 +94,8 @@ export type ButtonPropsType = {
   noClick?: boolean;
   [x: string]: any;
 } & ButtonColorType &
-  ButtonIconType;
+  ButtonIconType &
+  CommonComponentPropsType;
 
 // : $Keys<typeof HTMLElementTagNameMap2>
 class Button {
@@ -120,6 +128,7 @@ class Button {
     title,
     spaced,
     noClick,
+    whiteBg,
     ...props
   }: ButtonPropsType) {
     this.size = size;
@@ -138,6 +147,8 @@ class Button {
         "sg-button--icon-only": Boolean(icon) && iconOnly,
         [`sg-button--${String(type)}-toggle-${String(toggle)}`]: toggle,
         "sg-button--reversed-order": reversedOrder,
+
+        "sg-button--outline-white": whiteBg,
       },
       {
         [`${SGD}no-click`]: noClick,

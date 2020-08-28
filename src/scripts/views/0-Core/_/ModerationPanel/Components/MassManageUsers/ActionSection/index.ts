@@ -1,4 +1,4 @@
-import { ActionListHole, Button } from "@style-guide";
+import { ActionListHole, Button, Textarea } from "@style-guide";
 import { ButtonPropsType } from "@style-guide/Button";
 import type MassManageUsersClassType from "..";
 import type UserClassType from "../User";
@@ -68,12 +68,23 @@ export default class ActionSection {
   }
 
   RenderUserList() {
-    this.$userListContainer = $(`
-    <div class="sg-actions-list__hole sg-actions-list__hole--grow">
-      <div class="sg-content-box__actions sg-textarea sg-textarea--tall sg-textarea--resizable-vertical sg-actions-list--space-evenly sg-textarea--max1000 sg-textarea--min-width-25em"></div>
-    </div>`);
+    const userList = Textarea({
+      tag: "div",
+      size: "tall",
+      color: "white",
+      resizable: "vertical",
+      className:
+        "sg-actions-list--space-evenly sg-textarea--max1000 sg-textarea--min-width-25em",
+    });
 
-    this.$userList = $(".sg-content-box__actions", this.$userListContainer);
+    this.$userListContainer = $(
+      ActionListHole({
+        grow: true,
+        children: userList,
+      }),
+    );
+
+    this.$userList = $(userList);
   }
 
   BindButtonHandler() {

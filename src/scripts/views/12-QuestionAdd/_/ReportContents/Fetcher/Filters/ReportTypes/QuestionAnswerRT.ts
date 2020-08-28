@@ -1,4 +1,3 @@
-// @flow
 import ReportType from "./ReportType";
 import type ReportTypesType from "./ReportTypes";
 
@@ -8,7 +7,13 @@ export default class QuestionAnswerRT extends ReportType {
   }
 
   Selected() {
+    this.main.main.main.main.queue.options.option.contentFilters.filter.contentType.Show();
     this.main.main.categoryFilter.ShowQuestionAnswerSelector();
     super.Selected();
+  }
+
+  Deselected() {
+    super.Deselected();
+    this.main.main.main.main.queue.options.option.contentFilters.filter.contentType.Hide();
   }
 }

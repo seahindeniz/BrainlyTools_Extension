@@ -175,7 +175,7 @@ export default class ApproveAnswers extends ActionSection {
         }
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
 
       if (error.msg)
         this.main.modal.Notification({ html: error.msg, type: "error" });

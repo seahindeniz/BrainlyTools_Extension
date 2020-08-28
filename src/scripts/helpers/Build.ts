@@ -1,4 +1,3 @@
-// @flow strict
 /* eslint-disable no-param-reassign */
 
 function Append<T, Z>(
@@ -37,8 +36,7 @@ export default function Build<T, Z>(_parent: T, elements: Z): T {
 
   let parent = _parent;
 
-  // $FlowFixMe
-  if (
+    if (
     parent &&
     parent instanceof Object &&
     // typeof parent === "object" &&

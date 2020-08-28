@@ -1,7 +1,5 @@
 /* eslint-disable no-param-reassign */
 
-import type { Icon, Button, Select } from "@style-guide";
-
 export type ChildrenParamType =
   | string
   | number
@@ -9,20 +7,18 @@ export type ChildrenParamType =
   | Text
   | Element
   | HTMLElement
-  | HTMLElementTagNameMap[keyof HTMLElementTagNameMap]
+  // | HTMLElementTagNameMap[keyof HTMLElementTagNameMap]
   | DocumentFragment
   | Node
-  | Icon
-  | Button
-  | Select
   | { element: ChildrenParamType }
   | (() => ChildrenParamType)
   | ChildrenParamType[]
+  | { [x: string]: any }
   | null;
 
-function appendChildren(
+export default function AddChildren(
   target: HTMLElement | Element,
-  _children: ChildrenParamType,
+  _children?: ChildrenParamType,
 ) {
   let children = _children;
 
@@ -34,7 +30,7 @@ function appendChildren(
 
   if (children instanceof Array) {
     if (children.length > 0)
-      children.forEach(__children => appendChildren(target, __children));
+      children.forEach(__children => AddChildren(target, __children));
 
     return;
   }
@@ -69,20 +65,4 @@ function appendChildren(
   else {
     console.error("Unsupported children", children);
   }
-}
-
-export default function AddChildren(
-  target: HTMLElement | Element,
-  children?: ChildrenParamType,
-) {
-  if (!target || children === undefined || children === null) return;
-
-  /* if (children instanceof Array) {
-    if (children.length > 0)
-      children.forEach(_children => appendChildren(target, _children));
-
-    return;
-  } */
-
-  appendChildren(target, children);
 }

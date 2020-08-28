@@ -1,4 +1,4 @@
-// @flow
+/* eslint-disable camelcase */
 import Request from "@root/scripts/controllers/Req";
 import type ReportedContentsType from "../ReportedContents";
 
@@ -64,11 +64,12 @@ export default class LiveStatus {
     );
 
     this.ws.onmessage = this.IdentifyMessage.bind(this);
-    this.ws.onclose = async () => {
+    // TODO fix this
+    /* this.ws.onclose = async () => {
       await new Request().URL("https://httpstat.us/200").GET();
       console.warn("Connection is closed, restarting..");
       this.ConnectToSocketServer();
-    };
+    }; */
   }
 
   IdentifyMessage(event: MessageEvent & { data: string }) {
@@ -88,7 +89,7 @@ export default class LiveStatus {
     }
   }
 
-  SendData(caseName: string, ...data: {}[]) {
+  SendData(caseName: string, ...data: { [x: string]: any }[]) {
     this.ws.send(
       `5:::${JSON.stringify({
         name: caseName,
@@ -174,7 +175,7 @@ export default class LiveStatus {
       _content => _content.data.task_id === questionId,
     );
 
-    if (!content || content.has) return;
+    if (!content || (content.has && content.has !== "default")) return;
 
     content.has = "reserved";
 

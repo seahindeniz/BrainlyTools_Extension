@@ -4,7 +4,7 @@ import gulpRename from "gulp-rename";
 
 export default () => {
   return src("src/locales/en_US.json")
-    .pipe(gulpRename("index.js"))
+    .pipe(gulpRename("index.ts"))
     .pipe(
       gulpChange(_content => {
         const start = "export default ";

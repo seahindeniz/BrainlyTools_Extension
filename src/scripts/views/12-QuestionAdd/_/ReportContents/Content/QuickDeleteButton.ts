@@ -1,9 +1,8 @@
-// @flow
-
 import notification from "@root/scripts/components/notification2";
 import { Button, Flex, Text } from "@style-guide";
 import type { ButtonColorType } from "@style-guide/Button";
 import type { FlexElementType } from "@style-guide/Flex";
+import tippy from "tippy.js";
 import type ContentClassType from "./Content";
 
 const BUTTON_COLOR: {
@@ -60,6 +59,12 @@ export default class QuickDeleteButton {
         title: `${this.reason.title}:\n\n${this.reason.text}`,
       }),
     });
+
+    tippy(this.button.element, {
+      theme: "light",
+      allowHTML: true,
+      content: `<b>${this.reason.title}</b>:<br><br>${this.reason.text}`,
+    });
   }
 
   BindListener() {
@@ -83,19 +88,21 @@ export default class QuickDeleteButton {
         return;
       }
 
-      const resDelete = { success: true, message: undefined };
-      await System.TestDelay();
+      const giveWarning = System.canBeWarned(this.reason.id);
+      const resDelete = await this.main.ExpressDelete({
+        model_id: undefined,
+        reason: this.reason.text,
+        reason_title: this.reason.title,
+        reason_id: this.reason.id,
+        give_warning: giveWarning,
+      });
 
-      console.log(resDelete);
-
-      this.main.has = "failed";
-
-      if (!resDelete)
+      if (!resDelete) {
         notification({
           html: System.data.locale.common.notificationMessages.operationError,
           type: "error",
         });
-      else if (!resDelete.success) {
+      } else if (!resDelete.success) {
         notification({
           html:
             resDelete.message ||
@@ -103,9 +110,7 @@ export default class QuickDeleteButton {
           type: "error",
         });
       } else {
-        this.main.has = "deleted";
-
-        this.main.quickDeleteButtonContainer.remove();
+        this.main.Deleted();
 
         System.log(
           this.main.data.model_type_id === 1
@@ -126,8 +131,7 @@ export default class QuickDeleteButton {
       console.error(error);
     }
 
-    this.main.ChangeBoxColor();
-    this.main.NotConfirming();
+    this.NotDeleting();
   }
 
   Deleting() {

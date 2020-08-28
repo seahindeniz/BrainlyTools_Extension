@@ -7,18 +7,8 @@ import MassMessageSender from "./Components/MassMessageSender";
 import NoticeBoard from "./Components/NoticeBoard";
 import PointChanger from "./Components/PointChanger";
 import ReportedCommentsDeleter from "./Components/ReportedCommentsDeleter";
+import ReportedContentsLink from "./Components/ReportedContentsLink";
 import SearchUser from "./Components/SearchUser";
-
-/**
- * @typedef {typeof SearchUser |
- * typeof NoticeBoard |
- * typeof MassMessageSender |
- * typeof PointChanger |
- * typeof MassManageUsers |
- * typeof ReportedCommentsDeleter |
- * typeof MassContentDeleter
- * } ComponentsType
- */
 
 const SELECTOR = {
   STATISTICS: "#moderate-functions-panel > div.statistics",
@@ -39,7 +29,8 @@ type ComponentsType = {
       | typeof PointChanger
       | typeof MassManageUsers
       | typeof ReportedCommentsDeleter
-      | typeof MassContentDeleter;
+      | typeof MassContentDeleter
+      | typeof ReportedContentsLink;
     condition?: boolean | number | number[];
   }[];
 };
@@ -68,6 +59,10 @@ class ModerationPanel {
       immediately: [
         {
           constructor: SearchUser,
+        },
+        {
+          constructor: ReportedContentsLink,
+          condition: 99,
         },
         {
           constructor: NoticeBoard,

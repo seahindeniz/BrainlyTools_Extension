@@ -116,6 +116,7 @@ export default class {
       this.input = CreateElement({
         tag: "input",
         ...props,
+        type,
         className: inputClass,
         value,
       });

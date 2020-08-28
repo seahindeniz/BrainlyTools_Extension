@@ -23,11 +23,11 @@ type BubblePropsType = {
   children?: ChildrenParamType;
   className?: string;
   alignment?: AlignmentType;
-  direction: DirectionType;
+  direction?: DirectionType;
   color?: BubbleColorType;
   full?: boolean;
   noShadow?: boolean;
-  [x: string]: any,
+  [x: string]: any;
 };
 
 export default ({

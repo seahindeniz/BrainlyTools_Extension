@@ -1,9 +1,15 @@
 import { src, dest } from "gulp";
-import syncReq from "sync-request";
-import downloadFileSync from "download-file-sync";
-import fs from "fs";
+// import syncReq from "sync-request";
+// import downloadFileSync from "download-file-sync";
+// import fs from "fs";
 
-const STYLE_GUIDE_PATH = "src/styles/_/style-guide.css";
+export default () => {
+  return src("node_modules/brainly-style-guide/src/fonts/*").pipe(
+    dest(`build/styles/pages/fonts`, { overwrite: true }),
+  );
+};
+
+/* const STYLE_GUIDE_PATH = "src/styles/_/style-guide.css";
 
 const styleGuidePJBody = syncReq(
   "GET",
@@ -37,4 +43,4 @@ export default () => {
   return src([STYLE_GUIDE_PATH, `${STYLE_GUIDE_PATH}.map`]).pipe(
     dest(`build/styles`, { overwrite: true }),
   );
-};
+}; */

@@ -19,10 +19,7 @@ class QuickDeleteButton {
   ) {
     this.main = main;
     this.index = index;
-    this.reason = System.DeleteReason({
-      id: reasonId,
-      type: "question",
-    });
+    this.reason = System.DeleteReason({ id: reasonId });
 
     this.RenderSpinnerContainer();
     this.Render();

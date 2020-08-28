@@ -51,10 +51,7 @@ export default async function responseSection() {
       moderateButtonContainer.after(extButtonsContainer);
 
       System.data.config.quickDeleteButtonsReasons.answer.forEach((id, i) => {
-        const reason = System.DeleteReason({
-          id,
-          type: "answer",
-        });
+        const reason = System.DeleteReason({ id });
         const button = new Button({
           type: "solid-peach",
           size: "s",
@@ -167,7 +164,6 @@ export default async function responseSection() {
     const btnIndex = $(this).parent().index();
     const reason = System.DeleteReason({
       id: System.data.config.quickDeleteButtonsReasons.answer[btnIndex],
-      type: "answer",
       noRandom: true,
     });
 

@@ -1,4 +1,3 @@
-// @flow
 import HideElement from "@root/scripts/helpers/HideElement";
 import { Flex, Label } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
@@ -45,14 +44,11 @@ export default class Reported {
       ),
     };
 
-    // $FlowFixMe
     if (this.query.startingDateMoment > this.query.endingDateMoment) {
-      // $FlowFixMe
       [this.query.startingDate, this.query.endingDate] = [
         this.query.endingDate,
         this.query.startingDate,
       ];
-      // $FlowFixMe
       [this.query.startingDateMoment, this.query.endingDateMoment] = [
         this.query.endingDateMoment,
         this.query.startingDateMoment,
@@ -102,6 +98,9 @@ export default class Reported {
     this.labelContainer = Flex({
       margin: "xxs",
       children: this.label = Label({
+        icon: {
+          type: "calendar",
+        },
         onClose: this.HideLabel.bind(this),
         children: [
           `${
@@ -111,7 +110,7 @@ export default class Reported {
           }:&nbsp; `,
           (this.labelText = document.createTextNode("")),
         ],
-        color: "mint",
+        color: "lavender",
       }),
     });
   }
@@ -122,14 +121,12 @@ export default class Reported {
       !this.query?.endingDateMoment ||
       !content.dates.report?.moment
     )
-      return false;
+      return true;
 
     const reportDate = content.dates.report.moment;
 
     return (
-      // $FlowFixMe
       reportDate >= this.query.startingDateMoment &&
-      // $FlowFixMe
       reportDate <= this.query.endingDateMoment
     );
   }

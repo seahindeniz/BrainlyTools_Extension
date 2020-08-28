@@ -2,6 +2,7 @@ import classnames from "classnames";
 import type { ChildrenParamType } from "@style-guide/helpers/AddChildren";
 import CreateElement from "../CreateElement";
 import Icon from "./Icon";
+import { CommonComponentPropsType } from "./helpers/SetProps";
 
 const SG = "sg-toplayer";
 const SGD = `${SG}--`;
@@ -11,7 +12,7 @@ type ToplayerSizeType = "small" | "medium" | "large" | "90prc" | "fit-content";
 
 export type ToplayerPropsType = {
   children?: ChildrenParamType;
-  onClose?: EventListenerOrEventListenerObject;
+  onClose?: (event: MouseEvent) => void;
   size?: ToplayerSizeType;
   lead?: boolean;
   fill?: boolean;
@@ -24,7 +25,8 @@ export type ToplayerPropsType = {
   noPadding?: boolean;
   transparent?: boolean;
   className?: string;
-};
+  [x: string]: any;
+} & CommonComponentPropsType;
 
 export default class Toplayer {
   closeIconContainer: HTMLDivElement;

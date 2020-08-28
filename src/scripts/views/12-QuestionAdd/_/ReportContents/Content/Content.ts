@@ -1,11 +1,15 @@
+import Action, {
+  RemoveAnswerReqDataType,
+  RemoveCommentReqDataType,
+  RemoveQuestionReqDataType,
+  ReportedContentDataType,
+  UsersDataInReportedContentsType,
+} from "@BrainlyAction";
 import CreateElement from "@root/scripts/components/CreateElement";
 import notification from "@root/scripts/components/notification2";
 import Build from "@root/scripts/helpers/Build";
 import HideElement from "@root/scripts/helpers/HideElement";
-import type {
-  ReportedContentDataType,
-  UsersDataInReportedContentsType,
-} from "@BrainlyAction";
+import IsVisible from "@root/scripts/helpers/IsVisible";
 import { Avatar, Box, Button, Flex, Icon, Spinner, Text } from "@style-guide";
 import type { BoxColorType } from "@style-guide/Box";
 import type { ButtonColorType } from "@style-guide/Button";
@@ -13,6 +17,7 @@ import type { FlexElementType } from "@style-guide/Flex";
 import { IconColorType } from "@style-guide/Icon";
 import type { TextElement } from "@style-guide/Text";
 import moment from "moment-timezone";
+import tippy from "tippy.js";
 import type { ModeratorDataType } from "../LiveStatus/LiveStatus";
 import type ReportedContentsType from "../ReportedContents";
 import QuickDeleteButton from "./QuickDeleteButton";
@@ -35,12 +40,12 @@ const STATUS_COLOR: {
 } = {
   deleted: "peach-secondary-light",
   confirmed: "mint-secondary-light",
-  failed: "mustard-primary",
-  reserved: "dark",
+  failed: "dark",
+  reserved: "gray-secondary-lightest",
   moderating: "blue-secondary-light",
 };
 
-export type ContentType = "Question" | "Answer" | "Comment";
+export type ContentNameType = "Question" | "Answer" | "Comment";
 
 const CONTENT_TYPE_ICON_COLOR: {
   Question: ButtonColorType;
@@ -56,7 +61,7 @@ export default class Content {
   main: ReportedContentsType;
   data: ReportedContentDataType;
   globalId: string;
-  contentType: ContentType;
+  contentType: ContentNameType;
 
   users: {
     reporter?: {
@@ -93,7 +98,7 @@ export default class Content {
   moderateActionContainer: FlexElementType;
   moderateButton: Button;
   createDateText: TextElement<"i">;
-  reportDateText: TextElement<"i">;
+  reportDateText: TextElement<"span">;
   reportDetailContainer: FlexElementType;
   quickDeleteButtonContainer: FlexElementType;
   confirmButtonContainer: FlexElementType;
@@ -109,7 +114,7 @@ export default class Content {
   }: {
     main: ReportedContentsType;
     data: ReportedContentDataType;
-    contentType: ContentType;
+    contentType: ContentNameType;
   }) {
     this.main = main;
     this.data = data;
@@ -185,6 +190,7 @@ export default class Content {
       CreateElement({
         tag: "div",
         className: "report-item-wrapper",
+        onMouseenter: this.RenderButtons.bind(this),
       }),
       [
         [
@@ -287,8 +293,8 @@ export default class Content {
                                     alignItems: "center",
                                   }),
                                   (this.createDateText = Text({
-                                    tag: "i",
-                                    size: "small",
+                                    tag: "span",
+                                    size: "xsmall",
                                     weight: "bold",
                                     breakWords: true,
                                     color: "gray-secondary",
@@ -308,6 +314,7 @@ export default class Content {
                                 type: "outline",
                                 toggle: "blue",
                                 iconOnly: true,
+                                onClick: this.Moderate.bind(this),
                                 icon: new Icon({
                                   type: "pencil",
                                   color: "adaptive",
@@ -346,13 +353,15 @@ export default class Content {
 
                     [
                       Flex({
+                        wrap: true,
+                        relative: true,
                         className: "footer",
                         justifyContent: "space-between",
                       }),
                       [
                         [
                           (this.reportDetailContainer = Flex({
-                            className: "footer-left-side", // TODO remove this
+                            className: "footer-left-side", // TODO remove this className
                           })),
                           [
                             [
@@ -370,9 +379,10 @@ export default class Content {
                         ],
                         [
                           (this.quickDeleteButtonContainer = Flex({
+                            grow: true,
                             alignItems: "center",
-                            justifyContent: "center",
-                            className: "footer-right-side", // TODO remove this
+                            justifyContent: "flex-end",
+                            className: "footer-right-side", // TODO remove this className
                           })),
                         ],
                       ],
@@ -391,15 +401,20 @@ export default class Content {
     }
 
     this.RenderExtraDetails();
-    this.RenderQuickDeleteButtons();
-    this.RenderConfirmButton();
     this.RenderButtonSpinner();
 
     if (this.data.report) {
       this.RenderReportDetails();
     }
 
-    this.BindListener();
+    tippy(this.moderateButton.element, {
+      theme: "light",
+      content: Text({
+        size: "small",
+        weight: "bold",
+        children: System.data.locale.common.moderating.moderate,
+      }),
+    });
   }
 
   ChangeBoxColor() {
@@ -415,7 +430,26 @@ export default class Content {
     //
   }
 
+  RenderButtons() {
+    if (this.confirmButtonContainer) return;
+
+    this.RenderQuickDeleteButtons();
+    this.RenderConfirmButton();
+  }
+
   RenderQuickDeleteButtons() {
+    if (
+      !System.checkUserP(
+        this.contentType === "Question"
+          ? 1
+          : this.contentType === "Answer"
+          ? 2
+          : 45,
+      ) ||
+      !System.checkBrainlyP(102)
+    )
+      return;
+
     const thisIs = this.contentType.toLocaleLowerCase() as
       | "answer"
       | "comment"
@@ -429,13 +463,20 @@ export default class Content {
       reasonIds.length === 0 ||
       !reasons ||
       Object.keys(reasons).length === 0
-    )
+    ) {
+      console.error("Cannot find reasons", reasonIds, reasons);
+
       return;
+    }
 
     reasonIds.forEach((reasonId, i) => {
       const reason = reasons[reasonId];
 
-      if (!reason) return;
+      if (!reason) {
+        console.error("Cannot find reason", reasonId);
+
+        return;
+      }
 
       const quickDeleteButton = new QuickDeleteButton(this, reason, i + 1);
 
@@ -453,6 +494,16 @@ export default class Content {
         type: "solid-mint",
         iconOnly: true,
         icon: new Icon({ type: "check" }),
+        onClick: this.Confirm.bind(this),
+      }),
+    });
+
+    tippy(this.confirmButton.element, {
+      theme: "light",
+      content: Text({
+        size: "small",
+        weight: "bold",
+        children: System.data.locale.common.confirm,
       }),
     });
 
@@ -469,7 +520,6 @@ export default class Content {
         Flex({
           marginRight: "s",
           direction: "column",
-          alignItems: "center",
           justifyContent: "center",
         }),
         [
@@ -491,8 +541,8 @@ export default class Content {
               alignItems: "center",
             }),
             (this.reportDateText = Text({
-              tag: "i",
-              size: "small",
+              tag: "span",
+              size: "xsmall",
               color: "gray-secondary",
               weight: "bold",
               breakWords: true,
@@ -521,26 +571,40 @@ export default class Content {
     this.reportDetailContainer.append(container);
   }
 
-  BindListener() {
-    this.moderateButton.element.addEventListener(
-      "click",
-      this.Moderate.bind(this),
-    );
-    this.confirmButton.element.addEventListener(
-      "click",
-      this.Confirm.bind(this),
-    );
+  RenderTimes() {
+    if (!this.container || !IsVisible(this.container)) return;
+
+    const currentCreationTime = this.dates.create.moment.fromNow();
+
+    if (this.dates.create.lastPrintedRelativeTime !== currentCreationTime) {
+      this.createDateText.innerText = currentCreationTime;
+      this.dates.create.lastPrintedRelativeTime = currentCreationTime;
+    }
+
+    if (this.reportDateText && this.dates.report) {
+      const currentReportingTime = this.dates.report.moment.fromNow();
+
+      if (
+        this.dates.report &&
+        this.dates.report.lastPrintedRelativeTime !== currentReportingTime
+      ) {
+        this.dates.report.lastPrintedRelativeTime = currentReportingTime;
+        this.reportDateText.innerText = currentReportingTime;
+      }
+    }
   }
 
   Moderate() {
-    this.has = "moderating";
+    if (this.has !== "deleted") {
+      this.has = "moderating";
 
-    this.ChangeBoxColor();
+      this.ChangeBoxColor();
+    }
+
     this.DisableActions();
     this.moderateButton.Disable();
     this.moderateButton.element.append(this.buttonSpinner);
 
-    // $FlowFixMe
     this.main.queue.moderationPanelController.ModerateContent(this);
   }
 
@@ -559,16 +623,7 @@ export default class Content {
         return;
       }
 
-      /* const resConfirm = await new Action().ConfirmContent(
-        this.data.model_id,
-        this.data.model_type_id,
-      ); */
-      const resConfirm = { success: true, message: undefined };
-      await System.TestDelay();
-
-      console.log(resConfirm);
-
-      this.has = "failed";
+      const resConfirm = await this.ExpressConfirm();
 
       if (!resConfirm)
         notification({
@@ -583,10 +638,6 @@ export default class Content {
           type: "error",
         });
       } else {
-        this.has = "confirmed";
-
-        this.confirmButtonContainer.remove();
-
         System.log(
           this.data.model_type_id === 1
             ? 19
@@ -605,20 +656,58 @@ export default class Content {
     } catch (error) {
       console.error(error);
     }
+  }
 
-    this.ChangeBoxColor();
-    this.NotConfirming();
+  async ExpressConfirm() {
+    try {
+      await this.Confirming();
+
+      // const resConfirm = await new Action().ConfirmContent(
+      //   this.data.model_id,
+      //   this.data.model_type_id,
+      // );
+      const resConfirm = {
+        success: !!Math.floor(Math.random() * 2),
+        message: "Failed",
+      };
+      await System.TestDelay(1, 50);
+
+      console.log(resConfirm);
+
+      this.has = "failed";
+
+      if (resConfirm?.success) {
+        this.Confirmed();
+      }
+
+      this.ChangeBoxColor();
+      this.NotConfirming();
+
+      return resConfirm;
+    } catch (error) {
+      console.error(error);
+      this.ChangeBoxColor();
+      this.NotConfirming();
+
+      return Promise.reject(error);
+    }
   }
 
   Confirming() {
-    this.confirmButton.Disable();
-    this.confirmButton.element.append(this.buttonSpinner);
+    this.confirmButton?.Disable();
+    this.confirmButton?.element.append(this.buttonSpinner);
 
     return this.DisableActions();
   }
 
+  Confirmed() {
+    this.has = "confirmed";
+
+    this.confirmButtonContainer?.remove();
+  }
+
   NotConfirming() {
-    this.confirmButton.Enable();
+    this.confirmButton?.Enable();
     this.NotOperating();
   }
 
@@ -633,15 +722,15 @@ export default class Content {
   }
 
   DisableActions() {
-    this.container.classList.add("operating");
-    this.quickDeleteButtonContainer.classList.add("js-disabled");
+    this.container?.classList.add("operating");
+    this.quickDeleteButtonContainer?.classList.add("js-disabled");
 
     return System.Delay(50);
   }
 
   EnableActions() {
-    this.container.classList.remove("operating");
-    this.quickDeleteButtonContainer.classList.remove("js-disabled");
+    this.container?.classList.remove("operating");
+    this.quickDeleteButtonContainer?.classList.remove("js-disabled");
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -688,5 +777,53 @@ export default class Content {
     );
 
     this.moderateActionContainer.prepend(this.moderatorContainer);
+  }
+
+  async ExpressDelete(
+    data:
+      | RemoveQuestionReqDataType
+      | RemoveAnswerReqDataType
+      | RemoveCommentReqDataType,
+    methodName?: "RemoveQuestion" | "RemoveAnswer" | "RemoveComment",
+  ) {
+    try {
+      await this.DisableActions();
+
+      const resDelete = await new Action()[methodName]({
+        model_id: this.data.model_id,
+        ...data,
+      });
+      /* console.log(methodName, {
+        ...data,
+        model_id: this.data.model_id,
+      });
+      const resDelete = { success: false, message: "Failed" };
+      await System.TestDelay(1, 50); */
+
+      this.has = "failed";
+
+      if (resDelete?.success) {
+        this.Deleted();
+      }
+
+      this.ChangeBoxColor();
+      this.NotOperating();
+
+      return resDelete;
+    } catch (error) {
+      console.error(error);
+
+      this.ChangeBoxColor();
+      this.NotOperating();
+
+      return Promise.reject(error);
+    }
+  }
+
+  Deleted() {
+    this.has = "deleted";
+
+    this.ChangeBoxColor();
+    this.quickDeleteButtonContainer.remove();
   }
 }

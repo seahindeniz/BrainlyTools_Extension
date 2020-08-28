@@ -1,8 +1,8 @@
+import CreateElement from "@components/CreateElement";
 import classnames from "classnames";
 import generateRandomString from "../../helpers/generateRandomString";
-import Label from "./Label";
 import type { LabelPropsType } from "./Label";
-import SetProps from "./helpers/SetProps";
+import Label from "./Label";
 
 type RadioSizeType = "xxs" | "s";
 
@@ -17,53 +17,70 @@ type RadioPropsType = {
 
 const SG = "sg-radio";
 const SGD = `${SG}--`;
+const event = new Event("change");
 
-export default ({
-  checked,
-  name,
-  size = "xxs",
-  className,
-  id = generateRandomString(),
-  label,
-  ...props
-}: RadioPropsType = {}) => {
-  const radioClass = classnames(
-    SG,
-    {
-      [SGD + size]: size,
-    },
+export default class Radio {
+  element: HTMLDivElement | HTMLLabelElement;
+  ghost: HTMLLabelElement;
+  input: HTMLInputElement;
+  #checked: boolean;
+
+  constructor({
+    checked,
+    name,
+    size = "xxs",
     className,
-  );
+    id = generateRandomString(),
+    label,
+    ...props
+  }: RadioPropsType = {}) {
+    const radioClass = classnames(
+      SG,
+      {
+        [SGD + size]: size,
+      },
+      className,
+    );
 
-  const radioContainer = document.createElement("div");
-  let container = radioContainer;
-  radioContainer.className = radioClass;
-
-  const input = document.createElement("input");
-  input.className = `${SG}__element`;
-  input.id = id;
-  input.type = "radio";
-  input.checked = checked;
-
-  if (name) input.name = name;
-
-  const labelElement = document.createElement("label");
-  labelElement.className = `${SG}__ghost`;
-  labelElement.htmlFor = id;
-
-  radioContainer.appendChild(input);
-  radioContainer.appendChild(labelElement);
-
-  if (label) {
-    const labelContainer = Label({
-      ...label,
-      icon: radioContainer,
-      htmlFor: id,
+    this.input = CreateElement({
+      id,
+      name,
+      checked,
+      tag: "input",
+      type: "radio",
+      className: `${SG}__element`,
     });
-    container = labelContainer;
+
+    this.ghost = CreateElement({
+      htmlFor: id,
+      tag: "label",
+      className: `${SG}__ghost`,
+    });
+
+    this.element = CreateElement({
+      tag: "div",
+      className: radioClass,
+      children: [this.input, this.ghost],
+      ...props,
+    });
+
+    if (label)
+      this.element = Label({
+        containerTag: "label",
+        ...label,
+        icon: this.element,
+        htmlFor: id || undefined,
+      });
   }
 
-  SetProps(radioContainer, props);
+  get checked() {
+    return this.#checked;
+  }
 
-  return container;
-};
+  set checked(state) {
+    this.#checked = state;
+    this.input.checked = state;
+
+    this.input.dispatchEvent(event);
+  }
+}

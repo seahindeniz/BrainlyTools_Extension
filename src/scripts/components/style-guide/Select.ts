@@ -1,6 +1,7 @@
 import classnames from "classnames";
 import CreateElement from "../CreateElement";
 import { ChildrenParamType } from "./helpers/AddChildren";
+import { CommonComponentPropsType } from "./helpers/SetProps";
 
 const SG = "sg-select";
 const SGD = `${SG}--`;
@@ -29,7 +30,7 @@ type SelectPropsType = {
   options?: (OptionPropsType | HTMLOptionElement | HTMLOptGroupElement)[];
   children?: ChildrenParamType;
   [x: string]: any;
-};
+} & CommonComponentPropsType;
 
 export default class Select {
   value: string | number | string[] | number[];
@@ -77,12 +78,19 @@ export default class Select {
     );
 
     if (multiple !== null && multiple !== undefined) {
-      this.iconContainer = document.createElement("div");
-      this.iconContainer.className = `${SG}__icon`;
+      this.iconContainer = CreateElement({
+        tag: "div",
+        className: `${SG}__icon`,
+      });
     }
 
-    this.select = document.createElement("select");
-    this.select.className = `${SG}__element`;
+    this.select = CreateElement({
+      tag: "select",
+      className: `${SG}__element`,
+      onChange: props.onChange,
+    });
+
+    delete props.onChange;
 
     this.element = CreateElement({
       tag: "div",

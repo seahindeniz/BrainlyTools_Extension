@@ -12,10 +12,9 @@ const BRAINLY_MARKETS = [
   "brainly.ro",
 ];
 
-/**
- * @param {URL} url
- */
 export default function IsBrainly(url: URL | string) {
+  if (!url) return false;
+
   // eslint-disable-next-line no-param-reassign
   if (typeof url === "string") url = new URL(url);
 

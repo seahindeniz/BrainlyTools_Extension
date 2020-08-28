@@ -7,7 +7,7 @@ type PropsType = {
   adaptive?: boolean;
   short?: boolean;
   inlineItems?: boolean;
-  elements: ChildrenParamType[];
+  elements?: ChildrenParamType[];
 };
 
 export default class Breadcrumb {
@@ -20,7 +20,7 @@ export default class Breadcrumb {
     inlineItems,
     elements = [],
     ...props
-  }: PropsType) {
+  }: PropsType = {}) {
     const breadcrumbClass = classNames(
       "sg-breadcrumb-list",
       {

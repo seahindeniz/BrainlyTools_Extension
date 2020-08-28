@@ -1,11 +1,11 @@
+import Action from "@BrainlyAction";
 import type ApproveAnswersClassType from ".";
-import Action from "../../../../../../../../controllers/Req/Brainly/Action";
 import type UserClassType from "../../User";
 
 function ExtractPageNumber(link: string) {
   if (!link) return undefined;
 
-  return ~~link.replace(/(?:.*page=|&limit.*)/gi, "");
+  return Number(link.replace(/.*?page=|&\w+=.*/gi, ""));
 }
 
 export default class InfoBar {

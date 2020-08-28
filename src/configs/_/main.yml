@@ -5,25 +5,25 @@ common:
       name: English
       author: null
     fr:
-      progress: 94
+      progress: 99
       name: Français
       author: 'MichaelS, Its1tom'
     id:
-      progress: 86
+      progress: 82
       name: Bahasa Indonesia
       author: Zuhh
     tr:
-      progress: 96
+      progress: 99
       name: Türkçe
       author: null
     es_ES:
       progress: 0
       name: Español
-      author: aleksa1
+      author: null
     pt_BR:
       progress: 0
       name: Portuguese
-      author: C
+      author: null
 dev:
   serverURL: 'http://localhost:3001'
   serverAPIURL: 'http://localhost:3001/BrainlyTools'

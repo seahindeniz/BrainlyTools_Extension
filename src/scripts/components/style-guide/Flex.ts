@@ -1,6 +1,5 @@
-// @flow
-
 import type { ChildrenParamType } from "@style-guide/helpers/AddChildren";
+import { CommonComponentPropsType } from "@style-guide/helpers/SetProps";
 import classnames from "classnames";
 import CreateElement from "../CreateElement";
 
@@ -28,7 +27,7 @@ type FlexDirectionType =
   | "row"
   | "row-reverse";
 
-type FlexMarginsType =
+export type FlexMarginsType =
   | ""
   | "xxs"
   | "xs"
@@ -66,8 +65,15 @@ export type FlexPropsType = {
   grow?: boolean;
   fitContent?: boolean;
   minContent?: boolean;
+  relative?: boolean;
+  border?: boolean;
+  borderTop?: boolean;
+  borderRight?: boolean;
+  borderBottom?: boolean;
+  borderLeft?: boolean;
   [x: string]: any;
-} & MarginType;
+} & CommonComponentPropsType &
+  MarginType;
 
 type FlexGenericPropsType<T> = FlexPropsType & {
   tag?: T;
@@ -133,6 +139,12 @@ const Flex = <T extends keyof HTMLElementTagNameMap>({
   grow,
   fitContent,
   minContent,
+  relative,
+  border,
+  borderTop,
+  borderRight,
+  borderBottom,
+  borderLeft,
   ...props
 }: FlexGenericPropsType<T> = {}): FlexElementType => {
   const flexClass = classnames(
@@ -160,6 +172,12 @@ const Flex = <T extends keyof HTMLElementTagNameMap>({
       "sg-flex--grow": grow,
       "sg-flex--fit-content": fitContent,
       "sg-flex--min-content": minContent,
+      "sg-flex--relative": relative,
+      "sg-flex--border": border,
+      "sg-flex--border-top": borderTop,
+      "sg-flex--border-right": borderRight,
+      "sg-flex--border-bottom": borderBottom,
+      "sg-flex--border-left": borderLeft,
     },
     className,
   );

@@ -1,0 +1,77 @@
+$sizes: (
+  s: 0 4px,
+  m: 0 6px,
+  l: 0 8px,
+);
+
+.ext-breadcrumb-list {
+  $name: &;
+
+  display: inline-flex;
+  position: relative;
+  text-overflow: ellipsis;
+  line-height: 1.5rem;
+  min-height: 1.5rem;
+  overflow: visible;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: $grayPrimary;
+  flex-wrap: wrap;
+
+  &--reverse {
+    flex-direction: row-reverse;
+    flex-wrap: wrap-reverse;
+  }
+
+  &__element {
+    display: inline-flex;
+    align-items: center;
+
+    &:not(:last-child) {
+      $element: &;
+
+      @at-root #{$name} {
+        &:not(#{$name}--reverse) #{$element}:after,
+        &#{$name}--reverse #{$element}:before {
+          $beforeAfter: &;
+
+          content: "\2022";
+          display: inline-flex;
+          color: $graySecondary;
+          padding: 0 2px;
+        }
+
+        @each $size, $padding in $sizes {
+          &#{$name}--padding-#{$size} {
+            &#{$name}--reverse #{$element}:before,
+            &:not(#{$name}--reverse) #{$element}:after {
+              padding: $padding;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &--padding {
+    &-m {
+      padding: 0 4px;
+    }
+  }
+
+  &--short {
+    line-height: 1rem;
+    min-height: 1rem;
+  }
+
+  &--adaptive {
+    color: inherit;
+
+    #{$name}__element {
+      &::after {
+        color: inherit;
+      }
+    }
+  }
+}

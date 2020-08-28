@@ -34,7 +34,7 @@ export default class ContentViewerContent {
     user: any;
     userProfileLink: string;
     avatar: string;
-    type: string;
+    type?: "Question" | "Answer";
   };
 
   #buttonSpinner: any;
@@ -57,8 +57,10 @@ export default class ContentViewerContent {
       user,
       userProfileLink: System.createProfileLink(user),
       avatar: System.ExtractAvatarURL(user),
-      type: "responses" in source ? "Question" : "Answer",
+      // type: "responses" in source ? "Question" : "Answer",
     };
+
+    this.contentData.type = "responses" in source ? "Question" : "Answer";
 
     this.CheckLatex();
     this.RenderContent();

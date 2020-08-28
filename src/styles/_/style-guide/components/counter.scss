@@ -1,0 +1,5 @@
+.sg-counter {
+  @at-root html.win &__text {
+    top: unset;
+  }
+}

@@ -70,6 +70,9 @@ export default class Reporter {
     this.labelContainer = Flex({
       margin: "xxs",
       children: this.label = Label({
+        icon: {
+          type: "profile_view",
+        },
         onClose: this.HideLabel.bind(this),
         children: [
           `${
@@ -89,7 +92,7 @@ export default class Reporter {
       !this.query?.target ||
       Number.isNaN(this.query.value)
     )
-      return false;
+      return true;
 
     if (this.query.target === "id")
       return content.users.reporter?.data.id === this.query.value;

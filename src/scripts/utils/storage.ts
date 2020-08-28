@@ -1,4 +1,4 @@
-import ext from "./ext";
+import ext from "webextension-polyfill";
 
 //module.exports = (ext.storage.sync ? ext.storage.sync : ext.storage.local);
 const storageS = ext.storage.sync,

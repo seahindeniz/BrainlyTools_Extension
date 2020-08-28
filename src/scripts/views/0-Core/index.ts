@@ -179,7 +179,9 @@ class Core {
   }
 
   LoadComponentsForAllPages() {
-    InjectToDOM("/scripts/views/0-Core/ModerationPanel.js");
+    if (!System.checkRoute(1, "question") && !System.checkRoute(2, "add")) {
+      InjectToDOM("/scripts/views/0-Core/ModerationPanel.js");
+    }
     // renderAnnouncements();
     // renderChatPanel();
     RenderMenuButtonFixer();
@@ -242,8 +244,6 @@ class Core {
 
     if (System.checkRoute(1, "messages")) {
       InjectToDOM([
-        // TODO get rid of $.observe
-        "/scripts/lib/jquery-observe-2.0.3.min.js",
         "/scripts/lib/jquery-ui.min.js",
         "/scripts/views/2-Messages/index.js",
         "/styles/pages/Messages.css",
@@ -270,19 +270,11 @@ class Core {
       System.checkRoute(1, "") ||
       System.checkRoute(1, "task_subject_dynamic")
     ) {
-      InjectToDOM([
-        "/scripts/lib/jquery-observe-2.0.3.min.js",
-        "/scripts/views/1-Home/index.js",
-        "/styles/pages/Home.css",
-      ]);
+      InjectToDOM(["/scripts/views/1-Home/index.js", "/styles/pages/Home.css"]);
     }
 
     if (System.checkRoute(1, "task_view") && System.checkRoute(2, /\b\d+\b/)) {
-      InjectToDOM([
-        "/scripts/lib/jquery-observe-2.0.3.min.js",
-        "/scripts/views/3-Task/index.js",
-        "/styles/pages/Task.css",
-      ]);
+      InjectToDOM(["/scripts/views/3-Task/index.js", "/styles/pages/Task.css"]);
     }
 
     if (System.checkRoute(2, "user_content")) {
@@ -295,7 +287,6 @@ class Core {
 
     if (System.checkRoute(2, "archive_mod")) {
       InjectToDOM([
-        "/scripts/lib/jquery-observe-2.0.3.min.js",
         "/scripts/views/6-ArchiveMod/index.js",
         "/styles/pages/ArchiveMod.css",
       ]);
@@ -303,7 +294,6 @@ class Core {
 
     if (System.checkRoute(1, "app") && System.checkRoute(2, "ask")) {
       InjectToDOM([
-        "/scripts/lib/jquery-observe-2.0.3.min.js",
         "/scripts/views/10-QuestionSearch/index.js",
         "/styles/pages/QuestionSearch.css",
       ]);

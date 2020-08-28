@@ -54,8 +54,12 @@ export default class Privilege {
 
   Render() {
     this.$ = $(`
-    <div class="field" title="${this.locale.description}">
-      <input class="is-checkradio is-block is-info" id="p-${this.key}" type="checkbox">
+    <div class="field"${
+      this.locale.description ? ` title="${this.locale.description}"` : ""
+    }>
+      <input class="is-checkradio is-block is-info" id="p-${
+        this.key
+      }" type="checkbox">
       <label for="p-${this.key}">${this.locale.title}</label>
     </div>`);
     this.$input = $("input", this.$);

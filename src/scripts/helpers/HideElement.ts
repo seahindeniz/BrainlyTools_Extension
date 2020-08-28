@@ -1,5 +1,3 @@
-// @flow strict
-
 export default (element: HTMLElement | JQuery) => {
   if (!element) return;
 

@@ -38,8 +38,10 @@ async function Row_ReportAnswerForCorrection(
   } else {
     row.checkbox.ShowSpinner();
 
-    postData.model_id = row.answerID;
-    const resReport = await new Action().ReportForCorrection(postData);
+    const resReport = await new Action().ReportForCorrection({
+      ...postData,
+      model_id: row.answerID,
+    });
 
     row.CorrectReportResponse(resReport);
   }

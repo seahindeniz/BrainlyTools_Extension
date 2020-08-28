@@ -1,5 +1,5 @@
 import FlashMessage, { FlashMessageProps } from "@style-guide/FlashMessage";
-
+// TODO rename this file
 function Clear(element: MouseEvent | HTMLElement | EventTarget) {
   // eslint-disable-next-line no-param-reassign
   if (element instanceof MouseEvent) element = element.currentTarget;
@@ -26,10 +26,12 @@ function Container() {
 
 export type NotificationPropsType = {
   permanent?: boolean;
+  timeOut?: number;
 } & FlashMessageProps;
 
 export default function notification({
   permanent,
+  timeOut,
   ...props
 }: NotificationPropsType) {
   const flash = FlashMessage(props);
@@ -39,7 +41,7 @@ export default function notification({
 
   if (!permanent) {
     flash.addEventListener("click", Clear, false);
-    setTimeout(() => Clear(flash), 10000);
+    setTimeout(() => Clear(flash), timeOut || 10000);
   }
 
   return flash;

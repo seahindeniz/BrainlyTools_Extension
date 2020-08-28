@@ -1,5 +1,3 @@
-// @flow
-
 import Build from "@root/scripts/helpers/Build";
 import { Flex, InputDeprecated, Select, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";

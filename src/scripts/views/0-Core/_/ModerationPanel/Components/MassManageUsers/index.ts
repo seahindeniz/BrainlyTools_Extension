@@ -232,6 +232,7 @@ export default class MassManageUsers extends Components {
               Textarea({
                 tag: "div",
                 size: "tall",
+                color: "white",
                 fullWidth: true,
                 resizable: "vertical",
               }),

@@ -5,16 +5,17 @@ import WebpackWatchedGlobEntries from "webpack-watched-glob-entries-plugin";
 
 const nodeEnv = process.env.NODE_ENV || "development";
 
-// const entriesOnlyToWatch = WebpackWatchedGlobEntries.getEntries(
-//   ["src/styles/**/*.scss"],
-//   {
-//     ignore: ["**/_/**"],
-//     cwd: __dirname,
-//   },
-// )();
+const entriesOnlyToWatch = WebpackWatchedGlobEntries.getEntries(
+  ["src/styles/**/*.scss", "src/*/views/{0,12}-*/*.ts"],
+  {
+    ignore: ["**/_/**"],
+    cwd: __dirname,
+  },
+)();
 
 const contentScriptEntries = WebpackWatchedGlobEntries.getEntries(
-  ["src/*/views/{0,1,2}-*/*.ts"],
+  // ["src/*/views/{0,1,2,3,4,5}-*/*.ts"],
+  ["src/*/views/*/*.ts"],
   {
     ignore: ["**/_/**"],
     cwd: __dirname,
@@ -26,11 +27,10 @@ const contentScriptEntries = WebpackWatchedGlobEntries.getEntries(
  * @param {string | RegExp} searchValue
  */
 function cleanEntries(entries, searchValue = ".ts") {
-  return Object.values(entries).map(entry => {
-    return entry.replace(searchValue, "");
-  });
+  return Object.values(entries).map(entry => entry.replace(searchValue, ""));
 }
 
+// console.log(contentScriptEntries);
 // process.exit();
 
 /**
@@ -45,7 +45,7 @@ const extensionReloaderPlugin =
           contentScript: [
             "scripts/contentScript",
             ...cleanEntries(contentScriptEntries),
-            // ...cleanEntries(entriesOnlyToWatch, /src\/|\.ts/i),
+            ...cleanEntries(entriesOnlyToWatch, /src\/|\.ts/i),
           ],
           background: "scripts/background",
           extensionPage: ["scripts/popup", "scripts/options"],

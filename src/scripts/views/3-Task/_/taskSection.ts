@@ -38,10 +38,7 @@ export default function taskSection() {
   tempFlexElement = null;
 
   System.data.config.quickDeleteButtonsReasons.question.forEach((id, i) => {
-    const reason = System.DeleteReason({
-      id,
-      type: "question",
-    });
+    const reason = System.DeleteReason({ id });
     const button = new Button({
       type: "solid-mustard",
       size: "s",
@@ -71,11 +68,7 @@ export default function taskSection() {
 
     if (!userData) throw Error("Cannot find the user data");
 
-    const reason = System.DeleteReason({
-      id: this.reasonId,
-      type: "question",
-      noRandom: true,
-    });
+    const reason = System.DeleteReason({ id: this.reasonId, noRandom: true });
 
     if (!reason || !reason.id) throw Error("Can't find the reason");
 
@@ -92,7 +85,7 @@ export default function taskSection() {
         reason_title: reason.title,
         give_warning: giveWarning,
         take_points: giveWarning,
-        return_points: giveWarning,
+        return_points: !giveWarning,
       };
       const icon = $(".sg-button__icon > div", this);
       const spinner = Spinner({ size: "xxsmall", light: true });

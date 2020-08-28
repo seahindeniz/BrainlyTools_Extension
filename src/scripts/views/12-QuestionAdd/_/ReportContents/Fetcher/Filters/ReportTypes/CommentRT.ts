@@ -1,4 +1,3 @@
-// @flow
 import ReportType from "./ReportType";
 import type ReportTypesType from "./ReportTypes";
 

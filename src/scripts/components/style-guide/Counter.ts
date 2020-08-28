@@ -43,6 +43,7 @@ export default ({
     container.append(
       Text({
         children,
+        noWrap: true,
         weight: "bold",
         color: "white",
         className:
@@ -73,6 +74,7 @@ export default ({
         Text({
           children,
           tag: "span",
+          noWrap: true,
           weight: "bold",
           className: "sg-counter__text",
           size:

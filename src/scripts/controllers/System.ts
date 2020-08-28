@@ -11,6 +11,7 @@ import Action from "./Req/Brainly/Action";
 import type { SubjectDataType } from "../views/12-QuestionAdd/_/ReportContents/Fetcher/Filters/Subjects/Subject";
 
 const ROUTES = {
+  root: "root",
   profile: "user_profile",
   question: "task_view",
   subject: "subject_dynamic",
@@ -210,6 +211,7 @@ class _System {
       MAX_FILE_SIZE_OF_EVIDENCE_IN_MB: number;
       RAINBOW_COLORS: string;
       idExtractRegex: RegExp;
+      // TODO replace this with a shadow
       pinIcon: string;
       reasonSign: string;
     };
@@ -225,7 +227,29 @@ class _System {
         prefix: any;
         routes: any;
       };
-      userData: any;
+      userData: {
+        _hash: number[];
+        privileges: number[];
+        extension: {
+          deleteReasonLastModifiedTime: number;
+          hash: number[];
+          noticeBoard?: boolean;
+          previousNicks: string[];
+          probatus: boolean;
+          secretKey: string;
+          newUpdate?: boolean;
+        };
+        user: {
+          id: number;
+          nick: string;
+          gender: number;
+          mod_actions_count: number;
+        } & {
+          [x in "avatar" | "avatars"]: {
+            [x in 64 | 100]?: string;
+          };
+        };
+      };
       defaultConfig?: DefaultConfigDataType;
       deleteReasons?: {
         answer: DeleteReasonCategoryType[];
@@ -599,8 +623,14 @@ class _System {
 
   createBrainlyLink(
     type: keyof typeof ROUTES,
-    data?: { id?: IdType; brainlyID?: IdType; nick?: string },
+    data?: { id?: IdType; brainlyID?: IdType; nick?: string } | string,
   ) {
+    if (type === "root") {
+      return `${this.data.meta.location.origin}${data}`;
+    }
+
+    if (typeof data !== "object") return undefined;
+
     let route = this.routeMasks[type];
 
     if (!route) {
@@ -858,44 +888,56 @@ class _System {
     type,
     noRandom,
   }: {
-    id?: number | string;
-    name?: string;
-    type: DeleteReasonContentTypeNameType;
     noRandom?: boolean;
-  }): DeleteReasonSubCategoryType {
-    if (!type) throw Error("Content type needed");
-
+  } & (
+    | {
+        id: number | string;
+        name?: never;
+        type?: never;
+      }
+    | {
+        id?: never;
+        name: string;
+        type: DeleteReasonContentTypeNameType;
+      }
+  )): DeleteReasonSubCategoryType {
     if (!id && !name) throw Error("Please specify an id or name");
+
+    if (name && !type) throw Error("Content type needed");
 
     if (id && name) throw Error("You can't specify both id and name fields");
 
     const { deleteReasons } = System.data.Brainly;
-    let reasonGroup;
+    let reasons;
 
-    if (id) reasonGroup = deleteReasons.__withIds;
+    if (id) {
+      reasons = deleteReasons.__withIds.__all;
+    } else if (name) {
+      const reasonGroup = deleteReasons.__withTitles;
+      reasons = reasonGroup[type];
+    }
 
-    if (name) reasonGroup = deleteReasons.__withTitles;
+    if (!reasons) {
+      if (id) throw Error("Unknown delete reason id");
 
-    const reasons = reasonGroup[type];
-
-    if (!reasons) throw Error("Unknown content type");
+      if (name) throw Error("Unknown delete reason name");
+    }
 
     const reasonKey = id || name;
-    let reason = reasons[reasonKey];
+    let reason: DeleteReasonSubCategoryType = reasons[reasonKey];
 
     if (!reason) {
       if (noRandom) throw Error(`Can't find a reason entry with: ${reasonKey}`);
-      else {
-        const reasonKeys = Object.keys(reasons).filter(
-          key => !key.includes("__"),
-        );
 
-        if (reasonKeys.length === 0)
-          throw Error(`Market doesn't have any delete reasons for ${type}`);
+      const reasonKeys = Object.keys(reasons).filter(
+        key => !key.includes("__"),
+      );
 
-        const randomN = Math.floor(Math.random() * reasonKeys.length);
-        reason = reasons[reasonKeys[randomN]];
-      }
+      if (reasonKeys.length === 0)
+        throw Error(`Market doesn't have any delete reasons for ${type}`);
+
+      const randomN = Math.floor(Math.random() * reasonKeys.length);
+      reason = reasons[reasonKeys[randomN]];
     }
 
     return reason;

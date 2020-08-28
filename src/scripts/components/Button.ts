@@ -221,7 +221,7 @@ export type JQueryButtonElementType = JQuery<ButtonElementType> &
  * @param {ButtonOptions} param0
  * @returns {JQueryButtonElement}
  */
-export default function ({
+export default function JqueryButton({
   tag = "button",
   type,
   size,

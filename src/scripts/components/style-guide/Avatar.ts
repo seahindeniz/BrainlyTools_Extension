@@ -2,9 +2,8 @@
 import classnames from "classnames";
 import isValidPath from "is-valid-path";
 import { isUri } from "valid-url";
-import Icon from "./Icon";
-import SetProps from "./helpers/SetProps";
 import CreateElement from "../CreateElement";
+import Icon from "./Icon";
 
 type Size = "xs" | "s" | "m" | "l" | "xl" | "xxl";
 
@@ -14,7 +13,7 @@ type AvatarPropsType = {
   spaced?: boolean;
   imgSrc?: string;
   link?: string;
-  target?: string;
+  target?: "_blank" | "_self" | "_parent" | "_top";
   title?: string;
   className?: string;
   [x: string]: any;

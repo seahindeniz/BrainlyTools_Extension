@@ -23,9 +23,12 @@ export default class Subjects {
 
   Render() {
     this.container = Flex({
+      grow: true,
       margin: "xxs",
-      marginRight: "s",
-      children: this.subjectSelect = new Select(),
+      // marginRight: "s",
+      children: this.subjectSelect = new Select({
+        fullWidth: true,
+      }),
     });
 
     this.main.filtersContainer.append(this.container);
@@ -57,8 +60,7 @@ export default class Subjects {
 
     if (!this.selectedSubject) return;
 
-    this.selectedSubject.Selected();
-    this.main.main.FetchReports(true);
+    this.main.main.FetchReports({ resetStore: true });
   }
 
   AssignSelectedSubject() {

@@ -139,7 +139,10 @@ class RadioSection {
     const item = Build(
       Flex({ tag: "label", marginTop: "xs", marginBottom: "xs" }),
       [
-        [Flex({ marginRight: "xs" }), Radio({ id: data.id, name: this.name })],
+        [
+          Flex({ marginRight: "xs" }),
+          new Radio({ id: data.id, name: this.name }),
+        ],
         [
           Flex(),
           Text({

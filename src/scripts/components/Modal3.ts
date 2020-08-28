@@ -1,5 +1,3 @@
-// @flow
-
 import { Flex, Overlay, Text, Toplayer } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type { ChildrenParamType } from "@style-guide/helpers/AddChildren";
@@ -7,20 +5,8 @@ import type { TextElement } from "@style-guide/Text";
 import type { ToplayerPropsType } from "@style-guide/Toplayer";
 import HideElement from "../helpers/HideElement";
 import CreateElement from "./CreateElement";
+import getModalContainer from "./helpers/getModalContainer";
 import notification, { NotificationPropsType } from "./notification2";
-
-function getModalContainer() {
-  let modalContainer = document.querySelector(".js-modal-container");
-
-  if (!modalContainer) {
-    modalContainer = document.createElement("div");
-    modalContainer.className = "js-modal-container";
-
-    if (document.body) document.body.appendChild(modalContainer);
-  }
-
-  return modalContainer;
-}
 
 type ModalPropsType = {
   overlay?: boolean;
@@ -118,6 +104,7 @@ export default class Modal {
 
   RenderTitle() {
     this.titleContainer = Flex({
+      wrap: true,
       marginTop: "s",
       marginBottom: "m",
       justifyContent: "space-between",

@@ -11,10 +11,7 @@
         "airbnb-typescript-prettier"
         /* "airbnb-base",
         "prettier" */
-        // "plugin:flowtype/recommended",
-        // "prettier/flowtype"
       ],
-      // "plugins": ["prettier" /* , "flowtype" */],
       "globals": {
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly",

@@ -1,4 +1,3 @@
-// @flow
 import { MenuListItem } from "@root/scripts/components/style-guide";
 import HideElement from "@root/scripts/helpers/HideElement";
 import type { ChildrenParamType } from "@style-guide/helpers/AddChildren";
@@ -8,6 +7,7 @@ export default class {
   main: ModerationPanelClassType;
   li: HTMLLIElement;
   liLink: HTMLElement;
+  liLinkHref: string;
   liLinkContent: ChildrenParamType;
   liContent: HTMLElement;
 
@@ -20,6 +20,7 @@ export default class {
 
   RenderListItem() {
     this.li = MenuListItem({
+      href: this.liLinkHref,
       children: this.liLinkContent,
     });
     this.liLink = this.li.firstElementChild as HTMLElement;

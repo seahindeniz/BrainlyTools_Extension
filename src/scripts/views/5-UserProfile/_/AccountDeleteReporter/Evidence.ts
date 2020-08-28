@@ -117,7 +117,7 @@ export default class Evidence {
                 marginLeft: "xs",
                 marginRight: "xs",
                 style: {
-                  minWidth: 0,
+                  minWidth: "0",
                 },
               }),
               [

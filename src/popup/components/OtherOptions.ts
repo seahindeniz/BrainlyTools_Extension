@@ -1,5 +1,3 @@
-// @flow
-
 import { QuickDeleteButtonReasonsType } from "@root/scripts/controllers/System";
 import storage from "../../scripts/helpers/extStorage";
 import Dropdown from "../helpers/Dropdown";

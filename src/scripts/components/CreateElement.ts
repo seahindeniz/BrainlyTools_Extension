@@ -1,8 +1,8 @@
-// @flow strict
-
 import classnames from "classnames";
 import AddChildren from "@style-guide/helpers/AddChildren";
-import SetProps from "@style-guide/helpers/SetProps";
+import SetProps, {
+  CommonComponentPropsType,
+} from "@style-guide/helpers/SetProps";
 import type { ChildrenParamType } from "@style-guide/helpers/AddChildren";
 
 type CreateElementPropsType<T> = {
@@ -11,7 +11,18 @@ type CreateElementPropsType<T> = {
   className?: string;
   fullWidth?: boolean;
   [x: string]: any;
-};
+} & CommonComponentPropsType;
+
+/* interface CreateElementPropsType<T> {
+  tag: T;
+  children?: ChildrenParamType;
+  className?: string;
+  fullWidth?: boolean;
+  // [x: string]: any;
+}
+interface CreateElementPropsType<T> {
+  [type in ("onClick" | "onChange")]: EventListenerOrEventListenerObject;
+} */
 
 export default function CreateElement<T extends keyof HTMLElementTagNameMap>({
   tag,
@@ -30,6 +41,7 @@ export default function CreateElement<T extends keyof HTMLElementTagNameMap>({
 
   if (classNames) element.className = classNames;
 
+  // element.addEventListener("click");
   AddChildren(element, children);
   SetProps(element, props);
 

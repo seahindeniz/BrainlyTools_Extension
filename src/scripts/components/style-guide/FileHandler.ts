@@ -5,7 +5,7 @@ import type { IconTypeType } from "@style-guide/Icon";
 import classNames from "classnames";
 import CreateElement from "../CreateElement";
 
-type FileHandlerColorType = "gray" | "mono";
+type FileHandlerColorType = "gray" | "white";
 
 type PropsType = {
   color?: FileHandlerColorType;
@@ -22,7 +22,7 @@ type PropsType = {
 
 const COLORS_MAP = {
   gray: "gray-secondary-light",
-  mono: "white",
+  white: "white",
 };
 
 export default function FileHandler({

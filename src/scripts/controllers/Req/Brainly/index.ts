@@ -245,6 +245,10 @@ export default class Brainly extends Request {
     return this.P("expire");
   }
 
+  prolong() {
+    return this.P("prolong");
+  }
+
   api_user_profiles() {
     return this.P("api_user_profiles");
   }
@@ -375,5 +379,9 @@ export default class Brainly extends Request {
 
   remove() {
     return this.P("remove");
+  }
+
+  delete_attachment() {
+    return this.P("delete_attachment");
   }
 }

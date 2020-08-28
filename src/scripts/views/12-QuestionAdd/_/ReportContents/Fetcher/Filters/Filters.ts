@@ -1,5 +1,3 @@
-// @flow
-
 import Build from "@root/scripts/helpers/Build";
 import { Flex } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
@@ -30,20 +28,25 @@ export default class Filters {
   }
 
   Render() {
-    this.container = Build(Flex({ direction: "column" }), [
-      (this.reportTypeFilterContainer = Flex({
-        wrap: true,
-        marginBottom: "xxs",
-        justifyContent: "space-around",
-        className: "reportTypeFilterContainer", // TODO remove this
-      })),
-      (this.filtersContainer = Flex({
-        wrap: true,
-        justifyContent: "center",
-        className: "filtersContainer", // TODO remove this
-      })),
-    ]);
+    this.container = Build(
+      Flex({
+        direction: "column",
+      }),
+      [
+        (this.reportTypeFilterContainer = Flex({
+          wrap: true,
+          marginBottom: "xxs",
+          justifyContent: "space-around",
+          className: "reportTypeFilterContainer", // TODO remove this className
+        })),
+        (this.filtersContainer = Flex({
+          wrap: true,
+          justifyContent: "center",
+          className: "filtersContainer", // TODO remove this className
+        })),
+      ],
+    );
 
-    this.main.container.append(this.container);
+    this.main.container.prepend(this.container);
   }
 }

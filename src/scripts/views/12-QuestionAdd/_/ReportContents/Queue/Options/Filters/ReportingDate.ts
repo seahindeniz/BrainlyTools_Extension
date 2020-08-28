@@ -1,17 +1,14 @@
-// @flow
-
 import Build from "@root/scripts/helpers/Build";
-import { Flex, InputDeprecated, Text } from "@style-guide";
+import { Flex, Input, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
-import type { InputElementType } from "@style-guide/InputDeprecated";
 import type FiltersClassType from "./Filters";
 
 export default class Reporter {
   main: FiltersClassType;
 
   container: FlexElementType;
-  startingDateInput: InputElementType;
-  endingDateInput: InputElementType;
+  startingDateInput: Input;
+  endingDateInput: Input;
 
   constructor(main: FiltersClassType) {
     this.main = main;
@@ -47,14 +44,14 @@ export default class Reporter {
                 marginTop: "xxs",
                 marginBottom: "xxs",
               }),
-              (this.startingDateInput = InputDeprecated({
+              (this.startingDateInput = new Input({
                 type: "date",
                 fullWidth: true,
+                title: `${System.data.locale.reportedContents.options.filter.filters.reportingDate.startingDate}..`,
                 onChange: [
                   this.StartingDateChanged.bind(this),
                   this.InputChanged.bind(this),
                 ],
-                title: `${System.data.locale.reportedContents.options.filter.filters.reportingDate.startingDate}..`,
               })),
             ],
             [
@@ -62,14 +59,14 @@ export default class Reporter {
                 grow: true,
                 alignItems: "center",
               }),
-              (this.endingDateInput = InputDeprecated({
+              (this.endingDateInput = new Input({
                 type: "date",
                 fullWidth: true,
+                placeholder: `${System.data.locale.reportedContents.options.filter.filters.reportingDate.endingDate}..`,
                 onChange: [
                   this.EndingDateChanged.bind(this),
                   this.InputChanged.bind(this),
                 ],
-                placeholder: `${System.data.locale.reportedContents.options.filter.filters.reportingDate.endingDate}..`,
               })),
             ],
           ],
@@ -82,23 +79,24 @@ export default class Reporter {
   }
 
   ResetDates() {
-    this.endingDateInput.valueAsDate = new Date();
-    this.startingDateInput.max = this.endingDateInput.value;
-    this.endingDateInput.max = this.endingDateInput.value;
+    this.startingDateInput.input.value = "";
+    this.endingDateInput.input.valueAsDate = new Date();
+    this.startingDateInput.input.max = this.endingDateInput.input.value;
+    this.endingDateInput.input.max = this.endingDateInput.input.value;
   }
 
   StartingDateChanged() {
-    this.endingDateInput.min = this.startingDateInput.value;
+    this.endingDateInput.input.min = this.startingDateInput.input.value;
   }
 
   EndingDateChanged() {
-    this.startingDateInput.max = this.endingDateInput.value;
+    this.startingDateInput.input.max = this.endingDateInput.input.value;
   }
 
   InputChanged() {
     this.main.main.main.filter.byName.reportingDate.SetQuery(
-      this.startingDateInput.value,
-      this.endingDateInput.value,
+      this.startingDateInput.input.value,
+      this.endingDateInput.input.value,
     );
   }
 }

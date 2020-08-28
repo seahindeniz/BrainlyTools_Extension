@@ -41,6 +41,7 @@ export type BoxPropsType = {
   borderColor?: BoxColorType;
   // additional
   fullHeight?: boolean;
+  thinBorder?: boolean;
 } /* & BoxBorderType */;
 
 export default class {
@@ -59,6 +60,7 @@ export default class {
     noBorderRadius = false,
     shadow = false,
     fullHeight,
+    thinBorder,
     ...props
   }: BoxPropsType) {
     this.color = color;
@@ -73,6 +75,7 @@ export default class {
         "sg-box--shadow": shadow,
         "sg-box--no-border-radius": noBorderRadius,
         "sg-box--full-height": fullHeight,
+        "sg-box--border-thin": thinBorder,
       },
       className,
     );
@@ -96,13 +99,14 @@ export default class {
     this.color = color;
   }
 
-  ChangeBorderColor(borderColor: BoxColorType) {
+  ChangeBorderColor(borderColor?: BoxColorType) {
     if (this.borderColor)
       this.element.classList.remove(
         `sg-box--border-color-${String(this.borderColor)}`,
       );
 
-    this.element.classList.add(`sg-box--border-color-${String(borderColor)}`);
+    if (borderColor)
+      this.element.classList.add(`sg-box--border-color-${String(borderColor)}`);
 
     this.borderColor = borderColor;
   }
@@ -126,5 +130,17 @@ export default class {
         this.element.classList.remove(`sg-box--${className}`);
       }
     });
+  }
+
+  ToggleThinBorder() {
+    this.element.classList.toggle("sg-box--border-thin");
+  }
+
+  ShowBorder() {
+    this.element.classList.add("sg-box--border");
+  }
+
+  HideBorder() {
+    this.element.classList.remove("sg-box--border");
   }
 }

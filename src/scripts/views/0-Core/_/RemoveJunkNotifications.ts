@@ -2,8 +2,6 @@
 import { Base64 } from "js-base64";
 import cookie from "js-cookie";
 
-// @flow strict
-
 const notifications = [
   // en
   "Too many users meet",

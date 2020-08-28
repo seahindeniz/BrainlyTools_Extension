@@ -3,13 +3,13 @@ import generateRandomString from "../../helpers/generateRandomString";
 import CreateElement from "../CreateElement";
 import Icon from "./Icon";
 
-type CheckboxPropsType = {
+export type CheckboxPropsType = {
   checked?: boolean;
   id?: string;
   className?: string;
 };
 
-type CheckboxElementType = HTMLDivElement & {
+export type CheckboxElementType = HTMLDivElement & {
   inputId: string;
   ChangeId: (id: string) => CheckboxElementType;
 };
@@ -27,9 +27,6 @@ function ChangeId(this: CheckboxElementType, id: string) {
   return this;
 }
 
-/**
- * @param {Properties} param0
- */
 export default ({
   checked,
   id = generateRandomString(),
@@ -43,7 +40,7 @@ export default ({
     type: "checkbox",
     checked,
     className: `${SGL}element`,
-    id,
+    id: id || undefined,
     ...props,
   });
 
@@ -56,7 +53,7 @@ export default ({
   const labelElement = CreateElement({
     tag: "label",
     className: `${SGL}ghost`,
-    htmlFor: id,
+    htmlFor: id || undefined,
     children: icon.element,
   });
 
@@ -65,7 +62,7 @@ export default ({
     tag: "div",
     className: checkboxClass,
     children: [inputElement, labelElement],
-    inputId: id,
+    inputId: id || undefined,
     ChangeId,
   });
 

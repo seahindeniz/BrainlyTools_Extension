@@ -1,30 +1,33 @@
-// @flow
-
+import CreateElement from "@components/CreateElement";
 import HideElement from "@root/scripts/helpers/HideElement";
 import IsVisible from "@root/scripts/helpers/IsVisible";
+import { Flex } from "@style-guide";
 import type ReportedContentsType from "../ReportedContents";
-import Options from "./Options/Options";
-import Reporter from "./Filter/Reporter";
+import ContentType from "./Filter/ContentType";
 import Reported from "./Filter/Reported";
+import Reporter from "./Filter/Reporter";
 import ReportingDate from "./Filter/ReportingDate";
 import ModerationPanelController from "./ModerationPanelController/ModerationPanelController";
+import Options from "./Options/Options";
 
-const REPORT_PREVIEW_LIMIT = 50;
+const REPORT_PREVIEW_LIMIT = 20;
 
 export default class Queue {
   main: ReportedContentsType;
   options: Options;
 
   filter: {
-    all: (Reporter | Reported | ReportingDate)[],
+    all: (Reporter | Reported | ReportingDate | ContentType)[];
     byName: {
-      reporter: Reporter,
-      reported: Reported,
-      reportingDate: ReportingDate,
-    },
+      reporter: Reporter;
+      reported: Reported;
+      reportingDate: ReportingDate;
+      contentType: ContentType;
+    };
   };
 
   moderationPanelController: ModerationPanelController;
+  emptyFeedAnimation: import("@style-guide/Flex").FlexElementType;
 
   constructor(main: ReportedContentsType) {
     this.main = main;
@@ -35,13 +38,13 @@ export default class Queue {
         reporter: new Reporter(this),
         reported: new Reported(this),
         reportingDate: new ReportingDate(this),
+        contentType: new ContentType(this),
       },
       all: [],
     };
 
     this.moderationPanelController = new ModerationPanelController(this);
 
-    // $FlowFixMe
     this.filter.all = Object.values(this.filter.byName);
 
     this.BindListener();
@@ -51,30 +54,7 @@ export default class Queue {
   RenderTimes() {
     if (this.main.queueContainer.childElementCount === 0) return;
 
-    this.main.contents.filtered.forEach(content => {
-      if (!content.container || !IsVisible(content.container)) return;
-
-      const currentCreationTime = content.dates.create.moment.fromNow(true);
-
-      if (
-        content.dates.create.lastPrintedRelativeTime !== currentCreationTime
-      ) {
-        content.createDateText.innerText = currentCreationTime;
-        content.dates.create.lastPrintedRelativeTime = currentCreationTime;
-      }
-
-      if (content.reportDateText && content.dates.report) {
-        const currentReportingTime = content.dates.report.moment.fromNow();
-
-        if (
-          content.dates.report &&
-          content.dates.report.lastPrintedRelativeTime !== currentReportingTime
-        ) {
-          content.dates.report.lastPrintedRelativeTime = currentReportingTime;
-          content.reportDateText.innerText = currentReportingTime;
-        }
-      }
-    });
+    this.main.contents.filtered.forEach(content => content.RenderTimes());
   }
 
   BindListener() {
@@ -90,54 +70,89 @@ export default class Queue {
 
     if (percent < 90) return;
 
-    this.ShowContents(true);
-  }
+    const { childElementCount } = this.main.queueContainer;
 
-  ShowContents(increase?: boolean) {
-    console.log("show contents", this.main.contents.filtered.length);
+    if (childElementCount < REPORT_PREVIEW_LIMIT) return;
+
     if (
       this.main.contents.filtered.length === 0 ||
-      this.main.queueContainer.childElementCount ===
-        this.main.contents.filtered.length
+      childElementCount === this.main.contents.filtered.length
+    ) {
+      this.main.fetcher.FetchReports();
+
+      return;
+    }
+
+    this.ShowContents();
+  }
+
+  ShowContents(showLimitedAggressive?: boolean) {
+    let { childElementCount } = this.main.queueContainer;
+
+    if (
+      showLimitedAggressive === true &&
+      childElementCount >= REPORT_PREVIEW_LIMIT
     )
       return;
 
-    let increaseBy = 0;
+    this.HideContents();
 
-    if (increase)
-      increaseBy = Math.trunc(
-        this.main.queueContainer.childElementCount / REPORT_PREVIEW_LIMIT,
-      );
+    const nextThreshold = REPORT_PREVIEW_LIMIT + childElementCount;
 
-    let reportIndex = REPORT_PREVIEW_LIMIT * increaseBy;
+    this.main.contents.filtered.some((content, index) => {
+      if (index >= nextThreshold) return true;
 
-    console.log(
-      this.main.queueContainer.childElementCount,
-      REPORT_PREVIEW_LIMIT,
-      increaseBy,
-      reportIndex,
-    );
+      if (!IsVisible(content.container)) {
+        if (!content.container) {
+          content.Render();
+        }
 
-    for (
-      ;
-      reportIndex < REPORT_PREVIEW_LIMIT * (1 + increaseBy);
-      reportIndex++
-    ) {
-      let content = this.main.contents.filtered[reportIndex];
+        this.main.queueContainer.append(content.container);
 
-      if (!content) break;
+        content.RenderTimes();
+      }
 
-      if (!content.container) content.Render();
+      return false;
+    });
 
-      this.main.queueContainer.append(content.container);
+    childElementCount = this.main.queueContainer.childElementCount;
 
-      content = null;
+    if (childElementCount > 0) {
+      this.main.moderator?.ShowPanelButton();
     }
 
-    this.RenderTimes();
+    this.main.statusBar.visibleContentsCount.nodeValue = String(
+      childElementCount,
+    );
   }
 
   HideContents() {
+    this.main.statusBar.visibleContentsCount.nodeValue = "0";
+
+    this.main.moderator?.HidePanelButton();
     this.main.contents.all.forEach(content => HideElement(content.container));
+  }
+
+  ShowEmptyFeedAnimation() {
+    if (!this.emptyFeedAnimation) {
+      this.RenderEmptyFeedAnimation();
+    }
+
+    this.main.container.append(this.emptyFeedAnimation);
+  }
+
+  EmptyFeedAnimation() {
+    HideElement(this.emptyFeedAnimation);
+  }
+
+  RenderEmptyFeedAnimation() {
+    this.emptyFeedAnimation = Flex({
+      fullWidth: true,
+      justifyContent: "center",
+      children: CreateElement({
+        tag: "img",
+        src: `${System.data.meta.extension.URL}/images/all-good.png`,
+      }),
+    });
   }
 }

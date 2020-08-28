@@ -12,7 +12,7 @@ const SGD = `${SG}--`;
 export type FlashMessageTypeType = "success" | "error" | "info";
 
 export type FlashMessageProps = {
-  text?: string;
+  text?: ChildrenParamType;
   html?: string;
   type?: FlashMessageTypeType;
   className?: string;
@@ -79,7 +79,7 @@ export default ({
               type: "ext-icon",
             }),
           ],
-          [Flex({ direction: "column" }), [textElement, children]],
+          Flex({ direction: "column", children: [textElement, children] }),
         ],
       ],
     ]);

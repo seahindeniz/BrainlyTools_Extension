@@ -1,14 +1,11 @@
-// @flow
-
-import type { ReportedContentDataType } from "@BrainlyAction";
-import { Flex, Icon, Label } from "@style-guide";
+import type {
+  RemoveAnswerReqDataType,
+  ReportedContentDataType,
+} from "@BrainlyAction";
+import { Flex, Icon, Label, Text } from "@style-guide";
+import tippy from "tippy.js";
 import type ReportedContentsType from "../ReportedContents";
 import Content from "./Content";
-
-function truncateToDecimals(num: number, decimal: number = 1) {
-  const calcDec = 10 ** decimal;
-  return Math.trunc(num * calcDec) / calcDec;
-}
 
 export type AnswerExtraDataType = {
   id: string;
@@ -40,8 +37,9 @@ export default class Answer extends Content {
   RenderBestIcon() {
     if (!this.extraData.isBest) return;
 
-    const bestIconContainer = Flex({
+    const iconContainer = Flex({
       marginBottom: "xs",
+      title: System.data.locale.reportedContents.queue.bestAnswer,
       children: new Icon({
         type: "excellent",
         color: "mustard",
@@ -49,7 +47,17 @@ export default class Answer extends Content {
       }),
     });
 
-    this.extraDetailsContainer.append(bestIconContainer);
+    tippy(iconContainer, {
+      theme: "light",
+      allowHTML: true,
+      content: Text({
+        size: "small",
+        weight: "bold",
+        children: System.data.locale.reportedContents.queue.bestAnswer,
+      }),
+    });
+
+    this.extraDetailsContainer.append(iconContainer);
   }
 
   RenderAttachmentsIcon() {
@@ -70,7 +78,7 @@ export default class Answer extends Content {
   RenderThanksIcon() {
     if (!this.extraData.thanksCount) return;
 
-    const thanksIconContainer = Flex({
+    const labelContainer = Flex({
       marginBottom: "xs",
       children: Label({
         type: "solid",
@@ -80,28 +88,43 @@ export default class Answer extends Content {
       }),
     });
 
-    this.extraDetailsContainer.append(thanksIconContainer);
+    this.extraDetailsContainer.append(labelContainer);
   }
 
   RenderRatingIcon() {
     if (!this.extraData.rating) return;
 
-    const rating = truncateToDecimals(this.extraData.rating);
+    const rating = (Math.round(this.extraData.rating * 2) / 2).toFixed(1);
+    const title = System.data.locale.reportedContents.queue.rating
+      .replace("%{rating}", String(this.extraData.rating))
+      .replace("%{ratesCount}", String(this.extraData.ratesCount));
 
-    const ratingIconContainer = Flex({
-      title: System.data.locale.reportedContents.queue.rating
-        .replace("%{rating}", String(this.extraData.rating))
-        .replace("%{ratesCount}", String(this.extraData.ratesCount)),
+    const labelContainer = Flex({
+      title,
       children: Label({
         type: "solid",
         color: "mustard",
         icon: { type: "star_half_outlined" },
-        text: System.data.locale.reportedContents.queue.numberOfRates
-          .replace("%{rating}", String(rating))
-          .replace("%{ratesCount}", String(this.extraData.ratesCount)),
+        text: `${rating}/${this.extraData.ratesCount}`,
       }),
     });
 
-    this.extraDetailsContainer.append(ratingIconContainer);
+    tippy(labelContainer, {
+      theme: "light",
+      allowHTML: true,
+      content: Text({
+        size: "small",
+        weight: "bold",
+        children: title,
+      }),
+    });
+
+    this.extraDetailsContainer.append(labelContainer);
+  }
+
+  ExpressDelete(data: RemoveAnswerReqDataType) {
+    data.take_points = data.give_warning;
+
+    return super.ExpressDelete(data, "RemoveAnswer");
   }
 }

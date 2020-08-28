@@ -26,7 +26,6 @@ export default ({
     },
     className,
   );
-  console.log("items", items);
 
   return CreateElement({
     tag: "ul",

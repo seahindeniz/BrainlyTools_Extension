@@ -1,11 +1,11 @@
-// @flow
 import Build from "@root/scripts/helpers/Build";
-import { Flex, Text } from "@style-guide";
+import { Flex, SeparatorHorizontal, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type OptionsClassType from "../Options";
 import Reporter from "./Reporter";
 import Reported from "./Reported";
 import ReportingDate from "./ReportingDate";
+import ContentTypeFilter from "./ContentTypeFilter/ContentTypeFilter";
 
 export default class Filters {
   main: OptionsClassType;
@@ -13,9 +13,10 @@ export default class Filters {
   container: FlexElementType;
 
   filter: {
-    reporter: Reporter,
-    reported: Reported,
-    reportingDate: ReportingDate,
+    contentType: ContentTypeFilter;
+    reporter: Reporter;
+    reported: Reported;
+    reportingDate: ReportingDate;
   };
 
   constructor(main: OptionsClassType) {
@@ -24,6 +25,7 @@ export default class Filters {
     this.Render();
 
     this.filter = {
+      contentType: new ContentTypeFilter(this),
       reporter: new Reporter(this),
       reported: new Reported(this),
       reportingDate: new ReportingDate(this),
@@ -80,6 +82,18 @@ export default class Filters {
       ],
     );
 
-    this.main.optionContainer.append(this.container);
+    /* const separator = Flex({
+      marginTop: "s",
+      marginBottom: "s",
+      margin: "xs",
+      children: SeparatorHorizontal,
+    }); */
+
+    this.main.optionContainer.append(
+      SeparatorHorizontal({
+        type: "spaced",
+      }),
+      this.container,
+    );
   }
 }

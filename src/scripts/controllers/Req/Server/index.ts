@@ -1,7 +1,5 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-param-reassign */
-// @flow
-
 import { IconTypeType } from "@style-guide/Icon";
 import md5 from "js-md5";
 import Request from "..";

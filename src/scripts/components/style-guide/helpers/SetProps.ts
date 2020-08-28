@@ -1,3 +1,11 @@
+export type CommonComponentPropsType = {
+  dataset?: DOMStringMap;
+  onChange?: (event: Event) => void;
+  onClick?: (event: MouseEvent) => void;
+  onInput?: (event: Event) => void;
+  style?: Partial<CSSStyleDeclaration>;
+};
+
 export default function SetProps(
   element: HTMLElement,
   props?: { [x: string]: any },
@@ -28,11 +36,15 @@ export default function SetProps(
         return;
       }
 
-      element.addEventListener(propName.substring(2).toLowerCase(), propVal);
+      if (propVal)
+        element.addEventListener(propName.substring(2).toLowerCase(), propVal);
     } else if (typeof propVal === "object") {
       SetProps(element[propName], propVal);
-    } else {
-      element[propName] = propVal;
-    }
+    } else
+      try {
+        element[propName] = propVal;
+      } catch (error) {
+        element.setAttribute(propName, propVal);
+      }
   });
 }

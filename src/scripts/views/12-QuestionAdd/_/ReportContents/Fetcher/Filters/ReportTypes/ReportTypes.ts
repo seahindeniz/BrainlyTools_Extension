@@ -1,5 +1,3 @@
-// @flow
-
 import type FiltersType from "../Filters";
 import QuestionAnswerRT from "./QuestionAnswerRT";
 import CommentRT from "./CommentRT";
@@ -12,9 +10,9 @@ export default class ReportTypes {
   selectedReportType: ReportTypeType;
 
   reportTypes: {
-    questionAnswer: QuestionAnswerRT,
-    comment: CommentRT,
-    correction: CorrectionRT,
+    questionAnswer: QuestionAnswerRT;
+    comment: CommentRT;
+    correction: CorrectionRT;
   };
 
   constructor(main: FiltersType) {

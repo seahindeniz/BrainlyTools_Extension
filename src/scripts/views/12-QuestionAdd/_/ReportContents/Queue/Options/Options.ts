@@ -1,10 +1,9 @@
-// @flow
-
-import Build from "@root/scripts/helpers/Build";
-import { Bubble, Button, Flex, Icon } from "@style-guide";
+import { Button, Flex, Icon, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
+import tippy from "tippy.js";
 import type QueueClassType from "../Queue";
 import ButtonVisibility from "./ButtonVisibility";
+import Density from "./Density";
 import Filters from "./Filters/Filters";
 
 export default class Options {
@@ -17,8 +16,9 @@ export default class Options {
   optionContainer: FlexElementType;
 
   option: {
-    buttonVisibility: ButtonVisibility,
-    contentFilters: Filters,
+    buttonVisibility?: ButtonVisibility;
+    density: Density;
+    contentFilters: Filters;
   };
 
   constructor(main: QueueClassType) {
@@ -27,47 +27,49 @@ export default class Options {
     this.RenderOptionsButton();
 
     this.option = {
-      buttonVisibility: new ButtonVisibility(this), // TODO Restrict this for QDB users
+      density: new Density(this),
+      buttonVisibility:
+        System.checkUserP([1, 2, 45]) && new ButtonVisibility(this),
       contentFilters: new Filters(this),
     };
   }
 
   RenderOptionsButton() {
-    this.optionsButtonContainer = Build(
-      Flex({
-        direction: "row-reverse",
-        className: "ext-rc-options",
+    this.optionsButtonContainer = Flex({
+      children: this.optionsButton = new Button({
+        size: "l",
+        iconOnly: true,
+        type: "solid-blue",
+        icon: new Icon({
+          type: "settings",
+          color: "adaptive",
+        }),
       }),
-      [
-        (this.optionsButton = new Button({
-          iconOnly: true,
-          type: "solid-blue",
-          icon: new Icon({
-            type: "settings",
-            color: "adaptive",
-          }),
-        })),
-        [
-          (this.container = Flex({
-            className: "options-container",
-          })),
-          [
-            [
-              Bubble({
-                direction: "top",
-                alignment: "end",
-              }),
-              (this.optionContainer = Flex({
-                marginTop: "xs",
-                marginBottom: "s",
-                direction: "column",
-              })),
-            ],
-          ],
-        ],
-      ],
-    );
+    });
 
-    this.main.main.actionContainerOnRight.append(this.optionsButtonContainer);
+    tippy(this.optionsButton.element, {
+      theme: "light",
+      trigger: "click",
+      maxWidth: "none",
+      interactive: true,
+      placement: "bottom",
+      content: this.optionContainer = Flex({
+        marginTop: "xs",
+        marginBottom: "s",
+        direction: "column",
+      }),
+    });
+
+    tippy(this.optionsButton.element, {
+      theme: "light",
+      maxWidth: "none",
+      content: Text({
+        size: "small",
+        weight: "bold",
+        children: System.data.locale.reportedContents.options.name,
+      }),
+    });
+
+    this.main.main.popupMenuContainer.append(this.optionsButtonContainer);
   }
 }

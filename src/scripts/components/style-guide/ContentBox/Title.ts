@@ -83,7 +83,6 @@ export default function ({
   return CreateElement({
     tag: "div",
     className: contentBoxClass,
-    // @ts-expect-error
     children,
     ...props,
   });

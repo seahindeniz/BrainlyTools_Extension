@@ -38,11 +38,11 @@ const LANGUAGE_DETAILS = {
   },
   es_ES: {
     name: "Español",
-    author: "aleksa1",
+    author: null, // "aleksa1",
   },
   pt_BR: {
     name: "Portuguese",
-    author: "C",
+    author: null, // "C",
   },
 };
 

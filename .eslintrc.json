@@ -54,6 +54,11 @@
         "@typescript-eslint/no-explicit-any": "off",
         "camelcase": "warn",
         "no-cond-assign": ["error", "except-parens"]
+      },
+      "settings": {
+        "import/resolver": {
+          "typescript": {}
+        }
       }
     },
     {

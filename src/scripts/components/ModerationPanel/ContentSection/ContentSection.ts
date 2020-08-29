@@ -354,15 +354,17 @@ export default class ContentSection {
                     }),
                     [
                       TextComponent({
+                        breakWords: true,
+                        html: report.abuse.name,
                         size: "small",
                         weight: "bold",
-                        html: report.abuse.name,
                       }),
                       report.abuse.data &&
                         TextComponent({
+                          breakWords: true,
+                          html: report.abuse.data,
                           size: "small",
                           blockquote: true,
-                          html: report.abuse.data,
                         }),
                     ],
                   ],
@@ -371,6 +373,7 @@ export default class ContentSection {
               [
                 Flex(),
                 TextComponent({
+                  noWrap: true,
                   size: "xsmall",
                   children: reportTimeEntry.node,
                 }),

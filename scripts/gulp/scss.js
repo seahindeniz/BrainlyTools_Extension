@@ -34,6 +34,6 @@ export default () => {
       "src/styles/**/**/*.scss",
       "!src/styles/_/**/*.scss",
     ],
-    `build/styles`,
+    `${process.env.BUILD_FOLDER}/styles`,
   );
 };

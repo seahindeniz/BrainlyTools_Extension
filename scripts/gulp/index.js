@@ -7,4 +7,4 @@ export { default as manifest } from "./manifest";
 export { default as scss } from "./scss";
 export { default as styleGuide } from "./styleGuide";
 export { default as watchFiles } from "./watchFiles";
-
+export { default as zip } from "./zip";

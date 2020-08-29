@@ -3,9 +3,13 @@ import glob from "glob";
 
 export default next => {
   try {
-    const files = glob.sync("build/**/*", {
+    const files = glob.sync(`${process.env.BUILD_FOLDER}/**/*`, {
       nodir: true,
-      ignore: ["build/*", "build/icons/**", "build/scripts/*.js"],
+      ignore: [
+        `${process.env.BUILD_FOLDER}/*`,
+        `${process.env.BUILD_FOLDER}/icons/**`,
+        `${process.env.BUILD_FOLDER}/scripts/*.js`,
+      ],
     });
 
     // console.log(JSON.stringify(files, null, 2));

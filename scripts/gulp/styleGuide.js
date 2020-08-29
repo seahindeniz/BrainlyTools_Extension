@@ -5,7 +5,7 @@ import { src, dest } from "gulp";
 
 export default () => {
   return src("node_modules/brainly-style-guide/src/fonts/*").pipe(
-    dest(`build/styles/pages/fonts`, { overwrite: true }),
+    dest(`${process.env.BUILD_FOLDER}/styles/pages/fonts`, { overwrite: true }),
   );
 };
 
@@ -41,6 +41,6 @@ fs.writeFileSync(`./${STYLE_GUIDE_PATH}.map`, styleGuideMapContent);
 
 export default () => {
   return src([STYLE_GUIDE_PATH, `${STYLE_GUIDE_PATH}.map`]).pipe(
-    dest(`build/styles`, { overwrite: true }),
+    dest(`${process.env.BUILD_FOLDER}/styles`, { overwrite: true }),
   );
 }; */

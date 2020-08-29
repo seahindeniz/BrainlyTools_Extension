@@ -43,5 +43,5 @@ export default () => {
         return JSON.stringify(data);
       }),
     )
-    .pipe(dest(`./build`));
+    .pipe(dest(process.env.BUILD_FOLDER));
 };

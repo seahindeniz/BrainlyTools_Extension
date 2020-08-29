@@ -1,5 +1,4 @@
-import { dest, series, src, task } from "gulp";
-import gulpZip from "gulp-zip";
+import { series, task } from "gulp";
 import {
   assets,
   clean,
@@ -10,7 +9,13 @@ import {
   scss,
   styleGuide,
   watchFiles,
+  zip,
 } from "./scripts/gulp";
+
+require("dotenv").config();
+
+if (process.env.NODE_ENV === "production")
+  process.env.BUILD_FOLDER = process.env.PROD_BUILD_FOLDER;
 
 task("clean", clean);
 task("assets", assets);
@@ -21,6 +26,7 @@ task("generateLocaleIndex", generateLocaleIndex);
 task("manifest", manifest);
 task("scss", scss);
 task("watchFiles", watchFiles);
+task("zip", zip);
 
 task(
   "build",
@@ -41,9 +47,6 @@ task("default", series("cleanBuild"));
 
 task("watch", series("cleanBuild", "watchFiles"));
 
-task("zip", () => {
-  return src(`./build/**/*`)
-    .pipe(gulpZip(`${process.env.npm_package_version}.zip`))
-    .pipe(dest("./dist"));
-});
-task("dist", series("cleanBuild", "zip"));
+task("zip", zip);
+
+task("dist", series("build"));

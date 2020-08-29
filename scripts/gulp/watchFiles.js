@@ -41,7 +41,7 @@ export default () => {
       "!./src/scripts/jsx/**/*.jsx",
       "!./src/configs/_/*",
     ],
-    series("build", reloadExtension),
+    series(process.env.BUILD_FOLDER, reloadExtension),
   );
 
   watcher.on("change", filePath => {

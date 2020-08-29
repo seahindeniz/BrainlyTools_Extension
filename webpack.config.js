@@ -33,28 +33,6 @@ function cleanEntries(entries, searchValue = ".ts") {
 // console.log(contentScriptEntries);
 // process.exit();
 
-/**
- * @type {ExtensionReloader}
- */
-const extensionReloaderPlugin =
-  nodeEnv === "development"
-    ? new ExtensionReloader({
-        port: 9090,
-        reloadPage: true,
-        entries: {
-          contentScript: [
-            "scripts/contentScript",
-            ...cleanEntries(contentScriptEntries),
-            ...cleanEntries(entriesOnlyToWatch, /src\/|\.ts/i),
-          ],
-          background: "scripts/background",
-          extensionPage: ["scripts/popup", "scripts/options"],
-        },
-      })
-    : undefined; /* () => {
-        this.apply = () => {};
-      } */
-
 const mainConfig = {
   mode: nodeEnv,
   entry: {
@@ -106,14 +84,16 @@ const mainConfig = {
       },
     ],
   },
-  plugins: [extensionReloaderPlugin],
+  plugins: [],
   output: {
     // filename: "[name].js",
-    // path: path.resolve(process.cwd(), "build"),
-    path: path.resolve(__dirname, "build"),
+    path: path.resolve(
+      __dirname,
+      `${nodeEnv === "development" ? "." : "./dist"}/build`,
+    ),
   },
   resolve: {
-    extensions: [".js", ".ts" /* , ".json" */],
+    extensions: [".js", ".ts"],
     plugins: [
       new TsconfigPathsPlugin(),
       //
@@ -125,5 +105,23 @@ const mainConfig = {
   },
   // watch: true,
 };
+
+if (nodeEnv === "development") {
+  mainConfig.plugins.shift(
+    new ExtensionReloader({
+      port: 9090,
+      reloadPage: true,
+      entries: {
+        contentScript: [
+          "scripts/contentScript",
+          ...cleanEntries(contentScriptEntries),
+          ...cleanEntries(entriesOnlyToWatch, /src\/|\.ts/i),
+        ],
+        background: "scripts/background",
+        extensionPage: ["scripts/popup", "scripts/options"],
+      },
+    }),
+  );
+}
 
 export default [/* libConfig, */ mainConfig];

@@ -4,36 +4,38 @@ export default () => {
   let assets = [
     {
       src: "./src/icons/**/*",
-      dest: `./build/icons`,
+      dest: `/icons`,
     },
     {
       src: "./src/_locales/**/*",
-      dest: `./build/_locales`,
+      dest: `/_locales`,
     },
     {
       src: `./src/images/**/*`,
-      dest: `./build/images`,
+      dest: `/images`,
     },
     {
       src: "./src/images/shared/**/*",
-      dest: `./build/images`,
+      dest: `/images`,
     },
     {
       src: ["./src/**/*.html", "!./src/scripts/**/*.html"],
-      dest: `./build`,
+      dest: ``,
     },
     {
       src: "src/scripts/**/*.min.js",
-      dest: `build/scripts`,
+      dest: `/scripts`,
     },
     {
       src: "src/configs/*.json",
-      dest: `build/configs`,
+      dest: `/configs`,
     },
   ];
 
   assets = assets.map(asset => {
-    return src(asset.src).pipe(dest(asset.dest));
+    return src(asset.src).pipe(
+      dest(`${process.env.BUILD_FOLDER}${asset.dest}`),
+    );
   });
 
   return assets[assets.length - 1];

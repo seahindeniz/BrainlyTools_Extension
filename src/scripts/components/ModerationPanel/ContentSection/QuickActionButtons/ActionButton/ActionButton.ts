@@ -49,6 +49,9 @@ export default class ActionButton {
 
     if (this.#tooltipContent) {
       // const tp =
+      if (typeof this.#tooltipContent === "string")
+        this.#tooltipContent = this.#tooltipContent.replace(/\n/gi, "<br>");
+
       tippy(this.button.element, {
         allowHTML: true,
         content: this.#tooltipContent,

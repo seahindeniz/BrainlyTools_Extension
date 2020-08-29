@@ -1,6 +1,6 @@
 import Build from "@root/scripts/helpers/Build";
 import HideElement from "@root/scripts/helpers/HideElement";
-import { Button, Flex } from "@style-guide";
+import { Button, Flex, Icon } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type ContentSectionClassType from "../ContentSection";
 import Comment from "./Comment";
@@ -46,6 +46,10 @@ export default class CommentSection {
         toggle: "blue",
         onClick: this.ShowAllComments.bind(this),
         text: System.data.locale.moderationPanel.showAllComments,
+        icon: new Icon({
+          color: "adaptive",
+          type: "comment",
+        }),
       }),
     });
 

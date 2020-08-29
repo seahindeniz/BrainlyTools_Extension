@@ -4,7 +4,6 @@ All notable changes to this project will be documented in this file.
 
 ## [7.0.0] - 2020.08.29
 
-Extension will be written in Typescript now
 
 ### Added
 
@@ -13,6 +12,7 @@ Extension will be written in Typescript now
 
 ### Changed
 
+- Extension will be written in Typescript now
 - Quick delete buttons [#164]
 - Disappearing Quick Delete Options on Home Page [#166]
 - Kullanıcı içeriğinde sayfa çok kayıyor. [#167]

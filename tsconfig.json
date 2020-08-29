@@ -25,7 +25,12 @@
     "typeRoots": ["node_modules/@types", "./src/scripts/typings"],
     "outDir": "./build/"
   },
-  "include": ["src/scripts", "src/scripts/lib/moment-with-locales.min.js", "scripts/UpdateLangFiles.ts"],
+  "include": [
+    "src/background",
+    "src/scripts",
+    "src/scripts/lib/moment-with-locales.min.js",
+    "scripts/UpdateLangFiles.ts"
+  ],
   "exclude": [
     "node_modules",
     "temp/",

@@ -7,9 +7,8 @@ const manifest = {
     version: process.env.npm_package_version,
     background: {
       scripts: [
-        "scripts/livereload.js",
-        "scripts/lib/jquery-3.3.1.min.js",
-        "scripts/background.js",
+        "background/livereload.js",
+        "background/background.js",
       ],
     },
     permissions: [

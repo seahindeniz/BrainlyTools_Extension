@@ -30,7 +30,6 @@ function cleanEntries(entries, searchValue = ".ts") {
   return Object.values(entries).map(entry => entry.replace(searchValue, ""));
 }
 
-// console.log(contentScriptEntries);
 // process.exit();
 
 const mainConfig = {
@@ -38,7 +37,11 @@ const mainConfig = {
   entry: {
     ...contentScriptEntries,
     ...WebpackWatchedGlobEntries.getEntries(
-      ["src/*/*.ts", "src/*/lib/*.js"], // , "src/*/views/0-Core/*.ts"
+      [
+        //
+        "src/*/*.ts",
+        "src/*/lib/*.js",
+      ],
       {
         ignore: ["./**/_/**", "src/locales/*", "src/*/lib/*.min.js"],
         cwd: __dirname,
@@ -117,7 +120,7 @@ if (nodeEnv === "development") {
           ...cleanEntries(contentScriptEntries),
           ...cleanEntries(entriesOnlyToWatch, /src\/|\.ts/i),
         ],
-        background: "scripts/background",
+        background: "background",
         extensionPage: ["scripts/popup", "scripts/options"],
       },
     }),

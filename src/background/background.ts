@@ -1,9 +1,8 @@
 import _System from "@root/scripts/controllers/System";
 import storage from "@root/scripts/utils/storage";
-import IsBrainly from "./helpers/IsBrainly";
-import ext from "./utils/ext";
+import ext from "webextension-polyfill";
+import IsBrainly from "../scripts/helpers/IsBrainly";
 
-// const { chrome } = window;
 const BROWSER_ACTION = ext.browserAction;
 const RED_BADGE_COLOR: browser.browserAction.ColorValue = [255, 121, 107, 255];
 
@@ -112,8 +111,6 @@ class Background {
     ext.tabs.onUpdated.addListener(this.TabUpdatedHandler.bind(this));
     ext.tabs.onRemoved.addListener(TabRemovedHandler);
     ext.tabs.onActivated.addListener(this.TabActivatedHandler.bind(this));
-    // ext.tabs.getSelected(null, tabCreated);
-    // ext.tabs.onCreated.addListener(tabCreated);
 
     if (ext.webRequest)
       ext.webRequest.onBeforeRequest.addListener(
@@ -204,17 +201,6 @@ class Background {
         const res = await fetch(url, request.data);
 
         return res.json();
-        /* let ajaxData = {
-          type: request.data.method,
-          ...request.data
-        };
-
-        if (request.data.data) {
-          ajaxData.dataType = "json";
-          ajaxData.contentType = "application/json; charset=utf-8";
-        }
-
-        return $.ajax(ajaxData); */
       }
       if (request.action === "updateExtension") return CheckUpdate();
 

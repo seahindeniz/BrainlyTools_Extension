@@ -1,21 +1,39 @@
 {
   "compilerOptions": {
-    "resolveJsonModule": true,
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
-    "checkJs": true,
-    "module": "commonjs",
-    "noEmit": true,
     "baseUrl": ".",
+    // "checkJs": true,
+    // "esModuleInterop": true,
+    "isolatedModules": true,
+    "module": "ESNext",
+    "downlevelIteration": true,
+    // "noEmit": true,
+    "lib": ["es5", "es6", "es2015.collection", "es2015.iterable", "dom"],
     "paths": {
       "@BrainlyAction": ["./src/scripts/controllers/Req/Brainly/Action"],
       "@ServerReq": ["./src/scripts/controllers/Req/Server"],
       "@style-guide": ["./src/scripts/components/style-guide"],
       "@style-guide/*": ["./src/scripts/components/style-guide/*"],
-      "@/*": ["src/*"]
+      "@components": ["./src/scripts/components"],
+      "@components/*": ["./src/scripts/components/*"],
+      "@root/*": ["./src/*"]
     },
-    "target": "es5",
-    "typeRoots": ["node_modules/@types", "./src/scripts/typings"]
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "target": "ES6",
+    "typeRoots": ["node_modules/@types", "./src/scripts/typings"],
+    "outDir": "./build/"
   },
-  "exclude": ["build", "node_modules", "**/node_modules/*"]
+  "include": ["src/scripts", "src/scripts/lib/moment-with-locales.min.js", "scripts/UpdateLangFiles.ts"],
+  "exclude": [
+    "node_modules",
+    "temp/",
+    "build/",
+    "dist/",
+    "src/configs/",
+    "src/styles/",
+    "src/scripts/jsx",
+    "src/scripts/lib"
+  ]
 }

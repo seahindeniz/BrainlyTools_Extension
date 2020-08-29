@@ -1,7 +1,8 @@
 {
-  "javascript.validate.enable": false,
+  // "javascript.validate.enable": false,
   "cSpell.words": [
     "Bahasa",
+    "Brainliest",
     "Brainly's",
     "Bugbox",
     "Captcha",
@@ -9,6 +10,7 @@
     "Cintia",
     "Français",
     "Lokalise",
+    "MDTOC",
     "Overlayed",
     "Reportee",
     "Türkçe",
@@ -30,24 +32,28 @@
     "contenteditable",
     "datetime",
     "deleter",
+    "downlevel",
     "emojione",
     "emphasised",
     "eodev",
     "exceljs",
-    "flowtype",
     "highlightjs",
     "imsize",
     "jszip",
     "linkedin",
     "linkify",
     "linkifyjs",
+    "maxdepth",
     "maxlength",
     "moderatable",
+    "nanogallery",
     "navyblue",
     "nbsp",
+    "nodir",
     "nosdevoirs",
     "objecthash",
     "parens",
+    "photoswipe",
     "plusplus",
     "polyfill",
     "prettysize",
@@ -64,6 +70,7 @@
     "unreviewed",
     "unstyled",
     "uploader",
+    "viewerjs",
     "webext",
     "webextension",
     "xlarge",
@@ -73,11 +80,38 @@
     "xtall",
     "xxlarge",
     "xxsmall",
+    "xxtall",
     "xxxl",
     "xxxlarge",
     "xxxxl",
     "youtube",
     "zadane",
     "znanija"
-  ]
+  ],
+  "todo.embedded.exclude": [
+    "**/.!(todo|todos|task|tasks)/**",
+    "**/_output/**",
+    "**/bower_components/**",
+    "**/build/**",
+    "**/dist/**",
+    "**/node_modules/**",
+    "**/out/**",
+    "**/output/**",
+    "**/release/**",
+    "**/releases/**",
+    "**/static/**",
+    "**/target/**",
+    "**/third_party/**",
+    "**/vendor/**"
+  ],
+  "typescript.tsserver.experimental.enableProjectDiagnostics": false,
+  /* "javascript.suggest.enabled": false,
+  "typescript.suggest.enabled": false,
+  "typescript.validate.enable": false */
+  /* "files.associations": {
+    "webpack.*.config.js": "webpack"
+  }, */
+  "material-icon-theme.files.associations": {
+    "webpack.assets.config.js": "webpack"
+  }
 }

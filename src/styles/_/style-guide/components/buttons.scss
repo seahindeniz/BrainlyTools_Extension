@@ -22,22 +22,6 @@ $colorMap: (
     $dark: nth($colorList, 2);
 
     .sg-button {
-      /* &--outline {
-        &-#{$colorName} {
-          background-color: $normal;
-          background-color: rgba(255, 255, 255, 0);
-          border: 2px solid $normal;
-          color: $normal;
-          fill: $normal;
-
-          &:hover,
-          &:focus,
-          &:active {
-            background-color: rgba(104, 123, 140, 0.12);
-          }
-        }
-      } */
-
       @if $colorName != "mint" {
         &--solid {
           &-#{$colorName} {
@@ -50,26 +34,6 @@ $colorMap: (
             }
           }
         }
-      }
-
-      &--outline {
-        &-toggle {
-          &-mint {
-            border-color: #60d399;
-            fill: #60d399;
-          }
-        }
-        /* &-#{$colorName} {
-          background-color: rgba(255, 255, 255, 0);
-          border: 2px solid $normal;
-          color: #000;
-
-          &:hover,
-          &:focus,
-          &:active {
-            background-color: unquote($normal + "1f");
-          }
-        } */
       }
     }
   }
@@ -101,6 +65,42 @@ $colorMap: (
     box-shadow: inset 0px 0px 0px 2px rgba(0, 0, 0, 0.1);
   }
 
+  &--outline {
+    &-toggle {
+      &-mint {
+        border-color: #60d399;
+        fill: #60d399;
+      }
+    }
+
+    & &-white {
+      background-color: #fff;
+
+      &:hover:not([disabled]),
+      &:focus:not([disabled]),
+      &:active:not([disabled]),
+      &:active:focus:not([disabled]) {
+        background-color: #ebf2f7;
+      }
+    }
+  }
+
+  &--solid-light {
+    &-toggle {
+      &-mint {
+        background-color: #e3f7ed;
+        fill: #60d399;
+
+        &:hover:not([disabled]),
+        &:focus:not([disabled]),
+        &:active:not([disabled]),
+        &:active:focus:not([disabled]) {
+          background-color: #d7f4e6;
+        }
+      }
+    }
+  }
+
   &--transparent {
     &-mint {
       color: #60d399;
@@ -129,6 +129,10 @@ $colorMap: (
 
   &--icon-only {
     border-radius: 50%;
+
+    &:not(#{$p}--s):not(#{$p}--xs) {
+      min-width: 40px; // Reported contents > Options button : small screen-size
+    }
   }
 
   &__icon {

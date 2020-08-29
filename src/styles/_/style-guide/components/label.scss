@@ -1,0 +1,9 @@
+.sg-label {
+  @at-root html.win &__text {
+    top: unset;
+  }
+
+  &__icon:only-child {
+    margin: 0;
+  }
+}

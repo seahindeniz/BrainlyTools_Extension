@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.0.0] - 2020.07.22
+
+Extension will be written in Typescript now
+
+### Added
+
+- Introduce the beta version of the new Reported contents page - Moderate all
+  replacement [M#4]
+
+### Changed
+
+- Quick delete buttons [#164]
+- Disappearing Quick Delete Options on Home Page [#166]
+- Kullanıcı içeriğinde sayfa çok kayıyor. [#167]
+- User notes not saving [#168]
+
+[M#4]: https://github.com/seahindeniz/BrainlyTools_Extension/milestone/4
+[#164]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/164
+[#166]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/166
+[#167]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/167
+[#168]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/168
+
 ## [6.38.0] - 2020.07.22
 
 ### Added

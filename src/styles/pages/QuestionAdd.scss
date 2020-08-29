@@ -1,0 +1,145 @@
+@use "sass:map";
+@import "~perfect-scrollbar";
+
+.ps__rail-x {
+  bottom: 0px;
+  top: auto !important;
+}
+
+.ext {
+  &-rc-options {
+    position: absolute;
+
+    > .options-container {
+      z-index: 1;
+      margin: 46px -56px 0 0px;
+    }
+
+    &:not(:active):not(:focus):not(:focus-within) > .options-container {
+      &:not(:hover) {
+        display: none;
+      }
+    }
+  }
+
+  &-page-number {
+    margin: 8px 4px 16px;
+  }
+}
+
+@media (max-width: 767px) {
+  .ext-density-container {
+    display: none;
+  }
+}
+
+.report-item-wrapper {
+  border-bottom: 2px solid #ebf2f7;
+  padding: 5px 1px;
+}
+
+.queue.buttons-visibility-on-hover {
+  .report-item-wrapper {
+    &:not(:hover):not(.operating) {
+      .footer > :last-child:not(:only-child) {
+        display: none;
+      }
+    }
+  }
+}
+
+@media (min-width: 1024px) {
+  .queue:not(.buttons-visibility-always) {
+    .report-item-wrapper {
+      &:not(:hover):not(.operating) {
+        .footer > :last-child:not(:only-child) {
+          display: none;
+        }
+      }
+
+      &:hover .footer > :last-child:not(:only-child) {
+        position: absolute;
+        right: 0;
+      }
+    }
+  }
+}
+
+$densities: (
+    size: 1,
+    maxWidth: 767px,
+  ),
+  (
+    size: 2,
+    minWidth: 768px,
+    maxWidth: 1365px,
+  ),
+  (
+    size: 3,
+    minWidth: 1366px,
+    maxWidth: 1919px,
+  ),
+  (
+    size: 4,
+    minWidth: 1920px,
+  ),
+  (
+    size: 5,
+  ),
+  (
+    size: 6,
+  ),
+  (
+    size: 7,
+  ),
+  (
+    size: 8,
+  );
+
+@mixin generateMediaQuery($minWidth, $maxWidth) {
+  @if $minWidth and $maxWidth {
+    @media (min-width: $minWidth) and (max-width: $maxWidth) {
+      @content;
+    }
+  } @else if $minWidth {
+    @media (min-width: $minWidth) {
+      @content;
+    }
+  } @else if $maxWidth {
+    @media (max-width: $maxWidth) {
+      @content;
+    }
+  }
+}
+
+@mixin reportItemDensity($size) {
+  .report-item-wrapper {
+    width: if($size == 1, 100%, calc(100% / #{$size}));
+
+    @if $size != 1 {
+      &:not(:nth-child(#{$size}n)) {
+        box-shadow: 1px 0px 0px 0px #ebf2f7;
+      }
+    }
+  }
+}
+
+@each $density in $densities {
+  $size: map-get($density, size);
+  $minWidth: map-get($density, minWidth);
+  $maxWidth: map-get($density, maxWidth);
+
+  .queue[data-density="#{$size}"] {
+    @include reportItemDensity($size);
+  }
+
+  @include generateMediaQuery($minWidth, $maxWidth) {
+    .queue {
+      &:not([data-density]),
+      &[data-density=""],
+      &[data-density="0"] {
+        @include reportItemDensity($size);
+      }
+    }
+  }
+}

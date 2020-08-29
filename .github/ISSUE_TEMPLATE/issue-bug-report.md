@@ -7,11 +7,16 @@ assignees: seahindeniz
 
 ---
 
-**Describe the issue/bug [a clear and concise description of what the bug is.] :**
+**Describe the issue/bug :**
 ...
 
-**To Reproduce [add steps to reproduce the behavior below] :**
-...
+**To Reproduce :**
+1. 
+2. 
+3. 
 
-**Screenshots [paste below]**
-...
+**Screenshots [paste below, optional]:**
+<!-- ... -->
+
+<!--
+Profile link [paste below] -->

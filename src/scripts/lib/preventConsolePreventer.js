@@ -1,16 +1,22 @@
-import MakeExpire from "../helpers/MakeExpire";
-
 const Console = console;
 Object.freeze(console);
 
-function preventConsolePreventer() {
-  let _loopConsole_expire = MakeExpire();
-  let _loopConsole = setInterval(() => {
-    if (_loopConsole_expire < new Date().getTime())
-      return clearInterval(_loopConsole);
+function MakeExpire(expireTime = 30) {
+  return Date.now() + expireTime * 1000;
+}
 
+function preventConsolePreventer() {
+  const loopConsoleExpire = MakeExpire();
+  const loopConsole = setInterval(() => {
+    if (loopConsoleExpire < new Date().getTime()) {
+      clearInterval(loopConsole);
+
+      return;
+    }
+
+    // eslint-disable-next-line no-global-assign
     console = Console;
   });
 }
 
-export default preventConsolePreventer()
+export default preventConsolePreventer();

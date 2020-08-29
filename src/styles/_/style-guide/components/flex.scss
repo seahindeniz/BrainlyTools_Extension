@@ -10,4 +10,37 @@
   &--min-content {
     inline-size: min-content;
   }
+
+  &--relative {
+    position: relative;
+  }
+
+  &--border {
+    border-style: solid;
+
+    &,
+    &-top,
+    &-right,
+    &-bottom,
+    &-left {
+      border-color: #ebf2f7;
+      border-width: 2px;
+    }
+
+    &-top {
+      border-top-style: solid;
+    }
+
+    &-right {
+      border-right-style: solid;
+    }
+
+    &-bottom {
+      border-bottom-style: solid;
+    }
+
+    &-left {
+      border-left-style: solid;
+    }
+  }
 }

@@ -3,54 +3,97 @@
     "browser": true,
     "es6": true
   },
-  "extends": [
-    "airbnb-base",
-    "prettier",
-    "plugin:flowtype/recommended",
-    "prettier/flowtype"
-  ],
-  "plugins": ["prettier", "flowtype"],
-  "globals": {
-    "Atomics": "readonly",
-    "SharedArrayBuffer": "readonly",
-    "$": "readonly",
-    "JQuery": "readonly",
-    "System": "readonly",
-    "popup": "readonly",
-    "isPageProcessing": "readonly",
-    "coloring": "readonly",
-    "myData": "readonly",
-    "performanceStartTiming": "readonly",
-    "Zadanium": "readonly",
-    "selectors": "readonly",
-    "sitePassedParams": "readonly",
-    "profileData": "readonly",
-    "browser": "readonly"
-  },
-  "parserOptions": {
-    "ecmaVersion": 2018
-  },
-  "parser": "babel-eslint",
-  "rules": {
-    "prettier/prettier": ["error"],
-    "no-plusplus": 0,
-    "arrow-parens": [2, "as-needed", { "requireForBlockBody": false }],
-    "no-param-reassign": ["error", { "props": false }],
-    "no-bitwise": ["error", { "allow": ["~"] }],
-    "import/no-unresolved": [2, { "ignore": ["^@"] }],
-    "no-alert": "off",
-    "no-restricted-globals": ["error", "event"],
-    "no-nested-ternary": "off",
-    "lines-between-class-members": [
-      "error",
-      "always",
-      { "exceptAfterSingleLine": true }
-    ],
-    "flowtype/space-after-type-colon": [
-      2,
-      "always",
-      { "allowLineBreak": true }
-    ],
-    "no-console": ["warn", { "allow": ["warn", "error"] }]
-  }
+  "ignorePatterns": ["src/scripts/jsx"],
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "extends": [
+        "airbnb-typescript-prettier"
+        /* "airbnb-base",
+        "prettier" */
+      ],
+      "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly",
+        "$": "readonly",
+        "JQuery": "readonly",
+        "System": "readonly",
+        "popup": "readonly",
+        "isPageProcessing": "readonly",
+        "coloring": "readonly",
+        "myData": "readonly",
+        "performanceStartTiming": "readonly",
+        "Zadanium": "readonly",
+        "selectors": "readonly",
+        "sitePassedParams": "readonly",
+        "profileData": "readonly",
+        "browser": "readonly"
+      },
+      /* "parserOptions": {
+        "ecmaVersion": 2018
+      },
+      "parser": "babel-eslint", */
+      "rules": {
+        // "prettier/prettier": ["error"],
+        "no-plusplus": 0,
+        "arrow-parens": [2, "as-needed", { "requireForBlockBody": false }],
+        "no-param-reassign": ["error", { "props": false }],
+        "no-bitwise": ["error", { "allow": ["~"] }],
+        "import/no-unresolved": [2, { "ignore": ["^@"] }],
+        "no-alert": "off",
+        "no-restricted-globals": ["error", "event"],
+        "no-nested-ternary": "off",
+        "lines-between-class-members": [
+          "error",
+          "always",
+          { "exceptAfterSingleLine": true }
+        ],
+        "no-console": ["warn", { "allow": ["warn", "error"] }],
+        "@typescript-eslint/ban-ts-comment": [0, { "ts-expect-error": false }],
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "camelcase": "warn",
+        "no-cond-assign": ["error", "except-parens"]
+      },
+      "settings": {
+        "import/resolver": {
+          "typescript": {}
+        }
+      }
+    },
+    {
+      "files": ["*.js"],
+      "extends": ["airbnb-base", "prettier"],
+      "plugins": ["prettier"],
+
+      "rules": {
+        // "prettier/prettier": ["error"],
+        "no-plusplus": 0,
+        "arrow-parens": [2, "as-needed", { "requireForBlockBody": false }],
+        "no-param-reassign": ["error", { "props": false }],
+        "no-bitwise": ["error", { "allow": ["~"] }],
+        "import/no-unresolved": [2, { "ignore": ["^@"] }],
+        "no-alert": "off",
+        "no-restricted-globals": ["error", "event"],
+        "no-nested-ternary": "off",
+        "lines-between-class-members": [
+          "error",
+          "always",
+          { "exceptAfterSingleLine": true }
+        ],
+        "no-console": ["warn", { "allow": ["warn", "error"] }],
+        "@typescript-eslint/ban-ts-comment": [0, { "ts-expect-error": false }],
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "camelcase": "warn",
+        "no-cond-assign": ["error", "except-parens"],
+        "import/no-extraneous-dependencies": [
+          "error",
+          {
+            "devDependencies": true
+          }
+        ]
+      }
+    }
+  ]
 }

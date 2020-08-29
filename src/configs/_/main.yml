@@ -3,23 +3,27 @@ common:
     en_US:
       progress: 100
       name: English
+      author: null
     fr:
-      progress: 97
+      progress: 99
       name: Français
       author: 'MichaelS, Its1tom'
     id:
-      progress: 88
+      progress: 82
       name: Bahasa Indonesia
       author: Zuhh
     tr:
-      progress: 98
+      progress: 99
       name: Türkçe
+      author: null
     es_ES:
       progress: 0
       name: Español
-      author: aleksa1
+      author: null
     pt_BR:
       progress: 0
+      name: Portuguese
+      author: null
 dev:
   serverURL: 'http://localhost:3001'
   serverAPIURL: 'http://localhost:3001/BrainlyTools'

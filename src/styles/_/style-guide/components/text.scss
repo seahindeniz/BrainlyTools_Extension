@@ -33,6 +33,23 @@
       background: #d9f0ff;
     }
   }
+
+  &--blockquote {
+    &:before,
+    &:after {
+      color: #687b8c;
+    }
+
+    &:before {
+      padding-right: 3px;
+      content: "“";
+    }
+
+    &:after {
+      padding-left: 3px;
+      content: "”";
+    }
+  }
   // https://codepen.io/vkjgr/pen/gbPaVx
   &--loading {
     &:after {

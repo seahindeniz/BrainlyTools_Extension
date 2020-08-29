@@ -33,10 +33,6 @@
     "nIds": "%{n} id",
     "nNotFound": "%{n} tidak ditemukan",
     "removeAll": "Hapus semua",
-    "halloween": {
-      "imSorry": "Mohon maaf jika kamu sedikit takut!",
-      "happyHalloween": "Happy Halloween %{userNick}!!"
-    },
     "notificationMessages": {
       "operationError": "Terjadi kesalahan selama proses operasi. Silahkan mencoba kembali",
       "somethingWentWrong": "Oops, terjadi kesalahan",
@@ -104,7 +100,9 @@
     "optional": "PILIHAN",
     "add": "Menambahkan",
     "chooseAnOption": "Choose an option",
-    "deleteAcross": "Delete across"
+    "deleteAcross": "Delete across",
+    "profileLinkOrId": "Profile link or id",
+    "beta": "Beta"
   },
   "popup": {
     "notificationMessages": {
@@ -825,5 +823,117 @@
   },
   "question": {
     "keywords": "Keywords"
+  },
+  "reportedContents": {
+    "questionAnswerReports": {
+      "text": "Questions/Answers (%{number_of_reports})",
+      "title": "Click here to see reported questions and answers"
+    },
+    "commentReports": {
+      "text": "Comments (%{number_of_reports})",
+      "title": "Click here to see reported comments"
+    },
+    "correctionReports": {
+      "text": "Correction Reports (%{number_of_reports})",
+      "title": "Click here to see the contents which has reported for correction and waiting for to be confirmed"
+    },
+    "subjectFilterFirstOption": "Subjects - ALL",
+    "options": {
+      "buttonVisibility": {
+        "optionName": "Action buttons visibility",
+        "alwaysVisible": "Always visible",
+        "onHoverOrTouch": "On hover/touch",
+        "defaultVisibility": "Default"
+      },
+      "filter": {
+        "optionName": "Filter reports",
+        "description": "Filters can only be applied to reports that has been load",
+        "filters": {
+          "reporter": {
+            "name": "Reporter user",
+            "by": {
+              "nick": "Reporter nick",
+              "id": "Reporter user id"
+            }
+          },
+          "reported": {
+            "name": "Reported user",
+            "by": {
+              "nick": "Reported nick",
+              "id": "Reported user id"
+            }
+          },
+          "reportingDate": {
+            "name": "Reported between",
+            "startingDate": "Starting date",
+            "endingDate": "Ending date"
+          },
+          "contentType": {
+            "name": "Content type",
+            "Question": "Question",
+            "Answer": "Answer",
+            "Comment": "Comment"
+          }
+        }
+      },
+      "name": "Options",
+      "density": {
+        "optionName": "Density",
+        "defaultDensity": "Default"
+      }
+    },
+    "queue": {
+      "rating": "%{rating} points for %{ratesCount} votes",
+      "bestAnswer": "This is Brainliest Answer",
+      "popularQuestion": "Popular question!"
+    },
+    "loadAll": "Load all reports",
+    "loadAllConfirmationMessage": "I'll try to fetch all reported contents from Brainly but the process can be interrupted by Brainly because of elevated requests.\nPlease confirm to start the process",
+    "massModerate": {
+      "name": "Mass-Moderate contents",
+      "description": "You can only moderate contents that has been load",
+      "confirm": {
+        "text": "Confirm",
+        "noContentToConfirm": "There is no content available for to confirm",
+        "confirmModeration": "Do you really want to confirm %{n} reported contents?"
+      },
+      "delete": {
+        "text": "Delete",
+        "choose": {
+          "Question": "Choose a reason for questions",
+          "Answer": "Choose a reason for answers",
+          "Comment": "Choose a reason for comments"
+        },
+        "noContentToDelete": "There is no content available for to delete",
+        "confirmDeletion": "Do you really want to delete %{n} reported contents?"
+      },
+      "status": {
+        "fetched": "%{count} fetched",
+        "filtered": "%{count} filtered",
+        "visible": "%{count} visible",
+        "moderated": "%{count} moderated",
+        "failed": "%{count} failed"
+      }
+    },
+    "categoryFilterFirstOption": {
+      "name": "Report reasons - ALL",
+      "reasonsFor": {
+        "Question": "Reasons for questions",
+        "Answer": "Reasons for answers",
+        "Comment": "Reasons for comments"
+      }
+    },
+    "name": "Reported contents"
+  },
+  "moderationPanel": {
+    "text": "Question Moderation",
+    "answers": "Answers (%{number_of_answers})",
+    "log": "Log",
+    "panelWillClose": "Moderation panel will close in %{remain_N}",
+    "showAllComments": "Show all comments",
+    "failedToGetLogs": "Cannot fetch logs of question",
+    "seeMoreDeleteOptions": "See more delete options",
+    "confirmReportingForCorrection": "Do you want to report this answer for correction?",
+    "thereIsNoReportLeft": "There is no report left"
   }
 }

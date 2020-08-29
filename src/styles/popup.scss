@@ -1,3 +1,20 @@
+@import "~bulma/bulma.sass";
+@import "~bulma-checkradio";
+@import "~bulma-switch";
+@import "~@creativebulma/bulma-divider";
+
+.is-checkradio[type="radio"].is-block + label::before,
+.is-checkradio[type="radio"].is-block + label:before,
+.is-checkradio[type="checkbox"].is-block + label::before,
+.is-checkradio[type="checkbox"].is-block + label:before {
+  border: none !important;
+}
+.is-checkradio[type="checkbox"].is-block + label::after,
+.is-checkradio[type="checkbox"].is-block + label:after {
+  top: 0.5rem;
+  left: 0.78rem;
+}
+
 $bodyWidth: 42rem;
 
 html,
@@ -6,6 +23,10 @@ body {
   font-size: 14px;
   font-weight: 300;
   overflow: auto;
+}
+
+.media-content {
+  overflow-x: unset;
 }
 
 a.dropdown-item.fix-padding {
@@ -508,7 +529,7 @@ html[is="popup"] {
   .loader {
     height: 80px;
     width: 80px;
-  border-bottom-color: #ccc;
-  border-left-color: #ccc;
+    border-bottom-color: #ccc;
+    border-left-color: #ccc;
   }
 }

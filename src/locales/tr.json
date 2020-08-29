@@ -343,6 +343,9 @@
           "36": {
             "title": "Profil sayfasındaki içerik silme seçenekleri",
             "description": "Moderatörün, bir kullanıcının profil sayfasındaki tüm soruları, cevapları ve yorumları silmek için kullanılan bağlantıları görmesine izin ver"
+          },
+          "99": {
+            "title": "Şikayet edilen içerikler (Beta)"
           }
         },
         "veryImportant": "Çok önemli"

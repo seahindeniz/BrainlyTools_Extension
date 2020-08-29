@@ -343,6 +343,9 @@
           "36": {
             "title": "Masquer les options de suppression de contenu de la page de profil",
             "description": "Permettre à ce modérateur de voir les liens utilisés pour supprimer toutes les questions, réponses et commentaires de la page de profil d'un utilisateur"
+          },
+          "99": {
+            "title": "Contenus signalés (bêta)"
           }
         },
         "veryImportant": "Très important"

@@ -343,6 +343,9 @@
           "36": {
             "title": "Content delete options on profile page",
             "description": "Allow this moderator to see the links used to delete all questions, answers, and comments from profile page of a user"
+          },
+          "99": {
+            "title": "Reported contents (Beta)"
           }
         },
         "veryImportant": "Very important"

@@ -2,7 +2,7 @@
 name: Issue/Bug report
 about: Create a report to help us improve
 title: ''
-labels: issue/bug
+labels: 🐞 issue/bug
 assignees: seahindeniz
 
 ---

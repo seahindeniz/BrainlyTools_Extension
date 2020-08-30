@@ -1,13 +1,13 @@
 /* eslint-disable camelcase */
-import Build from "@root/scripts/helpers/Build";
-import IsVisible from "@root/scripts/helpers/IsVisible";
+import Build from "@root/helpers/Build";
+import IsVisible from "@root/helpers/IsVisible";
 import { Box, Button, Flex, Icon, Text } from "@style-guide";
 import type { ButtonPropsType } from "@style-guide/Button";
 import type { FlexElementType } from "@style-guide/Flex";
 import type { TextElement } from "@style-guide/Text";
 import momentTz from "moment-timezone";
-import notification from "../../../components/notification2";
-import Action from "../../../controllers/Req/Brainly/Action";
+import notification from "@components/notification2";
+import Action from "../../../../controllers/Req/Brainly/Action";
 import ContentViewerContent from "./ContentViewer_Content";
 import SelectCheckbox from "./SelectCheckbox";
 import type UserContentClassType from "./UserContent";

@@ -1,7 +1,7 @@
 import type {
   RemoveAnswerReqDataType,
   ReportedContentDataType,
-} from "@BrainlyAction";
+} from "@root/controllers/Req/Brainly/Action";
 import { Flex, Icon, Label, Text } from "@style-guide";
 import tippy from "tippy.js";
 import type ReportedContentsType from "../ReportedContents";

@@ -1,5 +1,5 @@
 import { Button, Flex, Icon } from "@style-guide";
-import InjectToDOM from "../../helpers/InjectToDOM";
+import InjectToDOM from "../../../helpers/InjectToDOM";
 
 (() => {
   let type;

@@ -1,6 +1,6 @@
-import type { UsersDataInReportedContentsType } from "@BrainlyAction";
-import Build from "@root/scripts/helpers/Build";
-import InsertAfter from "@root/scripts/helpers/InsertAfter";
+import type { UsersDataInReportedContentsType } from "@root/controllers/Req/Brainly/Action";
+import Build from "@root/helpers/Build";
+import InsertAfter from "@root/helpers/InsertAfter";
 import { Flex } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type AnswerClassType from "./Content/Answer";

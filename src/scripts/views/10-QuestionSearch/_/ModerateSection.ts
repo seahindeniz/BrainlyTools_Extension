@@ -15,14 +15,14 @@ import {
   Text,
 } from "@style-guide";
 import type QuestionSearch from "..";
-import DeleteSection from "../../../components/DeleteSection";
-import notification from "../../../components/notification2";
+import DeleteSection from "@components/DeleteSection";
+import notification from "@components/notification2";
 import Action, {
   RemoveQuestionReqDataType,
-} from "../../../controllers/Req/Brainly/Action";
-import Build from "../../../helpers/Build";
-import InsertAfter from "../../../helpers/InsertAfter";
-import IsVisible from "../../../helpers/IsVisible";
+} from "../../../../controllers/Req/Brainly/Action";
+import Build from "@root/helpers/Build";
+import InsertAfter from "../../../../helpers/InsertAfter";
+import IsVisible from "../../../../helpers/IsVisible";
 import type QuestionBox from "./QuestionBox";
 
 function RenderSpinner(isLight?: boolean) {

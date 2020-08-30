@@ -1,7 +1,7 @@
 import CreateElement from "@components/CreateElement";
-import Build from "@root/scripts/helpers/Build";
-import storage from "@root/scripts/helpers/extStorage";
-import FillRange from "@root/scripts/helpers/FillRange";
+import Build from "@root/helpers/Build";
+import storage from "@root/helpers/extStorage";
+import FillRange from "@root/helpers/FillRange";
 import { Flex, Text } from "@style-guide";
 import type { TextElement } from "@style-guide/Text";
 import type OptionsClassType from "./Options";

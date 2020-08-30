@@ -1,4 +1,4 @@
-import HideElement from "@root/scripts/helpers/HideElement";
+import HideElement from "@root/helpers/HideElement";
 import { Spinner } from "@style-guide";
 import AnswerSection from "./AnswerSection";
 import type { QuestionDataType } from "./QuestionData";

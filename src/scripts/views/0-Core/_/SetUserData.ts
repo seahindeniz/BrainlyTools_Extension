@@ -1,5 +1,5 @@
-import WaitForObject from "../../../helpers/WaitForObject";
-import storage from "../../../helpers/extStorage";
+import WaitForObject from "../../../../helpers/WaitForObject";
+import storage from "../../../../helpers/extStorage";
 
 async function fetchUserData() {
   const response = await fetch("/api/28/api_users/me");

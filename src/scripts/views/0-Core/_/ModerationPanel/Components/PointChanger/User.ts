@@ -1,5 +1,5 @@
-import Action, { UserType } from "@BrainlyAction";
-import Build from "@root/scripts/helpers/Build";
+import Action, { UserType } from "@root/controllers/Req/Brainly/Action";
+import Build from "@root/helpers/Build";
 import {
   Flex,
   Avatar,
@@ -12,7 +12,7 @@ import {
 } from "@style-guide";
 import { InputElementType } from "@style-guide/InputDeprecated";
 import { TextElement } from "@style-guide/Text";
-import IsVisible from "@root/scripts/helpers/IsVisible";
+import IsVisible from "@root/helpers/IsVisible";
 import type PointChanger from ".";
 
 export default class User {

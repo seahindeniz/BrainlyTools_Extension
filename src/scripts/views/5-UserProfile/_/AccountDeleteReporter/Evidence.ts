@@ -1,6 +1,6 @@
-import CreateElement from "@root/scripts/components/CreateElement";
-import Build from "@root/scripts/helpers/Build";
-import IsVisible from "@root/scripts/helpers/IsVisible";
+import CreateElement from "@components/CreateElement";
+import Build from "@root/helpers/Build";
+import IsVisible from "@root/helpers/IsVisible";
 import { Button, Flex, Icon, Text } from "@style-guide";
 import { FlexElementType } from "@style-guide/Flex";
 import { TextElement } from "@style-guide/Text";
@@ -43,7 +43,7 @@ export default class Evidence {
 
   RenderPreviewContainer() {
     /**
-     * @type {import("@root/scripts/components/CreateElement")
+     * @type {import("@components/CreateElement")
      * .CreateElementPropertiesType}
      */
     let data;

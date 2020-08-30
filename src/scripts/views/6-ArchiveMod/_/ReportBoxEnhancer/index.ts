@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { Flex } from "@root/scripts/components/style-guide";
+import { Flex } from "@style-guide";
 import moment from "moment";
 import "moment/min/locales";
 import QuestionReport from "./Report/QuestionReport";

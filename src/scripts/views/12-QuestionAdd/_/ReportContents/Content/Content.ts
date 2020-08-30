@@ -4,12 +4,12 @@ import Action, {
   RemoveQuestionReqDataType,
   ReportedContentDataType,
   UsersDataInReportedContentsType,
-} from "@BrainlyAction";
-import CreateElement from "@root/scripts/components/CreateElement";
-import notification from "@root/scripts/components/notification2";
-import Build from "@root/scripts/helpers/Build";
-import HideElement from "@root/scripts/helpers/HideElement";
-import IsVisible from "@root/scripts/helpers/IsVisible";
+} from "@root/controllers/Req/Brainly/Action";
+import CreateElement from "@components/CreateElement";
+import notification from "@components/notification2";
+import Build from "@root/helpers/Build";
+import HideElement from "@root/helpers/HideElement";
+import IsVisible from "@root/helpers/IsVisible";
 import { Avatar, Box, Button, Flex, Icon, Spinner, Text } from "@style-guide";
 import type { BoxColorType } from "@style-guide/Box";
 import type { ButtonColorType } from "@style-guide/Button";

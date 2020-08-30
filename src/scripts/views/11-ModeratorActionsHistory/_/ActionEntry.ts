@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
-import HideElement from "@root/scripts/helpers/HideElement";
-import ServerReq from "@ServerReq";
+import HideElement from "@root/helpers/HideElement";
+import ServerReq from "@root/controllers/Req/Server";
 import {
   Button,
   ContentBox,
@@ -18,8 +18,8 @@ import linkifyHtml from "linkifyjs/html";
 // @ts-ignore
 import moment from "moment";
 import type ModeratorActionsHistoryClassType from "..";
-import notification from "../../../components/notification2";
-import Build from "../../../helpers/Build";
+import notification from "@components/notification2";
+import Build from "@root/helpers/Build";
 
 const REPORT_EDIT_TIME_LIMIT = ["1", "hour"];
 

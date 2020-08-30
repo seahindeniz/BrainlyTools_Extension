@@ -1,5 +1,5 @@
-import { MenuListItem } from "@root/scripts/components/style-guide";
-import HideElement from "@root/scripts/helpers/HideElement";
+import { MenuListItem } from "@style-guide";
+import HideElement from "@root/helpers/HideElement";
 import type { ChildrenParamType } from "@style-guide/helpers/AddChildren";
 import type ModerationPanelClassType from "..";
 

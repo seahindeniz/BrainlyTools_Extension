@@ -1,8 +1,8 @@
 /* eslint-disable no-underscore-dangle */
-import ServerReq from "@ServerReq";
+import ServerReq from "@root/controllers/Req/Server";
 import prettysize from "prettysize";
 import { debounce } from "throttle-debounce";
-import FileIcon from "../../scripts/helpers/FileIcon";
+import FileIcon from "../../helpers/FileIcon";
 import Modal from "./Modal";
 
 function RemoveDetailBox(reportElement: HTMLElement) {

@@ -1,4 +1,4 @@
-import Dropdown from "../../../../components/Dropdown";
+import Dropdown from "@components/Dropdown";
 import userLi from "./userLi";
 
 export default $findUsersList => {

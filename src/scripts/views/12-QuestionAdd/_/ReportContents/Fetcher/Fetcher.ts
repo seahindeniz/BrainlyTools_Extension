@@ -1,9 +1,9 @@
 import type {
   ReportedContentDataType,
   UsersDataInReportedContentsType,
-} from "@BrainlyAction";
-import Action from "@BrainlyAction";
-import notification from "@root/scripts/components/notification2";
+} from "@root/controllers/Req/Brainly/Action";
+import Action from "@root/controllers/Req/Brainly/Action";
+import notification from "@components/notification2";
 import Chunkify from "@root/scripts/helpers/Chunkify";
 import HideElement from "@root/scripts/helpers/HideElement";
 import IsVisible from "@root/scripts/helpers/IsVisible";

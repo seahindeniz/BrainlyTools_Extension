@@ -1,7 +1,7 @@
-import ext from "../scripts/utils/ext";
-import _System from "../scripts/controllers/System";
+import ext from "webextension-polyfill";
+import _System from "../controllers/System";
 import Popup from "./controllers/Popup";
-import CheckIfSameDomain from "../scripts/helpers/CheckIfSameDomain";
+import CheckIfSameDomain from "../helpers/CheckIfSameDomain";
 
 const System = new _System();
 window.System = System;

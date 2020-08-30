@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable camelcase */
 /* eslint-disable no-underscore-dangle */
-import notification from "@root/scripts/components/notification2";
+import notification from "@components/notification2";
 import {
   Button,
   Flex,
@@ -9,12 +9,12 @@ import {
   Spinner,
   SpinnerContainer,
   Text,
-} from "@root/scripts/components/style-guide";
-import Action from "@root/scripts/controllers/Req/Brainly/Action";
-import Build from "@root/scripts/helpers/Build";
-import HideElement from "@root/scripts/helpers/HideElement";
-import InsertAfter from "@root/scripts/helpers/InsertAfter";
-import IsVisible from "@root/scripts/helpers/IsVisible";
+} from "@style-guide";
+import Action from "@root/controllers/Req/Brainly/Action";
+import Build from "@root/helpers/Build";
+import HideElement from "@root/helpers/HideElement";
+import InsertAfter from "@root/helpers/InsertAfter";
+import IsVisible from "@root/helpers/IsVisible";
 import { FlexElementType } from "@style-guide/Flex";
 import type ReportBoxEnhancerClassType from "..";
 import FooterQDB from "./FooterQDB";

@@ -1,9 +1,9 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable import/no-duplicates */
-import { Flex, Spinner } from "@root/scripts/components/style-guide";
-import type { DeleteReasonContentTypeNameType } from "@root/scripts/controllers/System";
-import HideElement from "@root/scripts/helpers/HideElement";
-import InsertAfter from "@root/scripts/helpers/InsertAfter";
+import { Flex, Spinner } from "@components/style-guide";
+import type { DeleteReasonContentTypeNameType } from "@root/controllers/System";
+import HideElement from "@root/helpers/HideElement";
+import InsertAfter from "@root/helpers/InsertAfter";
 import type ModerationToplayerClassType from "..";
 import type { AnswerEntryType, QuestionEntryType } from "..";
 import ToplayerQDB from "./ToplayerQDB";

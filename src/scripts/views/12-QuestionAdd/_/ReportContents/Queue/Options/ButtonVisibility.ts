@@ -1,5 +1,5 @@
-import Build from "@root/scripts/helpers/Build";
-import storage from "@root/scripts/helpers/extStorage";
+import Build from "@root/helpers/Build";
+import storage from "@root/helpers/extStorage";
 import { Flex, Select, SeparatorHorizontal, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type OptionsClassType from "./Options";

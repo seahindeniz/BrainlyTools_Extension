@@ -1,7 +1,7 @@
-import WaitForElement from "@root/scripts/helpers/WaitForElement";
+import WaitForElement from "@root/helpers/WaitForElement";
 import prettysize from "prettysize";
-import Button, { JQueryButtonElementType } from "../../components/Button";
-import notification from "../../components/notification2";
+import Button, { JQueryButtonElementType } from "@components/Button";
+import notification from "@components/notification2";
 import Chunk from "./_/Chunk";
 import FileUpload from "./_/FileUpload";
 

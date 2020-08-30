@@ -1,7 +1,7 @@
-import { DefaultConfigDataType } from "@root/scripts/controllers/System";
+import { DefaultConfigDataType } from "@root/controllers/System";
 /* eslint-disable no-param-reassign */
-import Action from "../../../controllers/Req/Brainly/Action";
-import WaitForObject from "../../../helpers/WaitForObject";
+import Action from "../../../../controllers/Req/Brainly/Action";
+import WaitForObject from "../../../../helpers/WaitForObject";
 
 let RoutesFetchURL: string;
 

@@ -1,7 +1,7 @@
-import Action from "@BrainlyAction";
-import CreateElement from "@root/scripts/components/CreateElement";
-import notification from "@root/scripts/components/notification2";
-import Build from "@root/scripts/helpers/Build";
+import Action from "@root/controllers/Req/Brainly/Action";
+import CreateElement from "@components/CreateElement";
+import notification from "@components/notification2";
+import Build from "@root/helpers/Build";
 import {
   Avatar,
   Box,

@@ -1,4 +1,4 @@
-import Action from "../../../controllers/Req/Brainly/Action";
+import Action from "../../../../controllers/Req/Brainly/Action";
 
 /**
  * Prepare and fetch friends for System

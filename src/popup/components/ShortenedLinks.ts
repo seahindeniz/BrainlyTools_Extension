@@ -1,7 +1,6 @@
-/* eslint-disable no-underscore-dangle */
+import ext from "webextension-polyfill";
 import { debounce } from "throttle-debounce";
-import ServerReq from "@ServerReq";
-import ext from "../../scripts/utils/ext";
+import ServerReq from "@root/controllers/Req/Server";
 
 class ShortenedLinks {
   $layout: JQuery<HTMLElement>;

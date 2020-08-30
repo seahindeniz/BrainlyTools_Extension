@@ -1,18 +1,17 @@
 /* eslint-disable no-underscore-dangle */
-import ext from "../../scripts/utils/ext";
-import LinkShortener from "../components/LinkShortener";
-import ShortenedLinks from "../components/ShortenedLinks";
-import ThemeColorChanger from "../components/ThemeColorChanger";
-import QuickDeleteButtonsOptions from "../components/QuickDeleteButtonsOptions";
-import OtherOptions from "../components/OtherOptions";
-import AccountDeleteReports from "../components/AccountDeleteReports";
-import DeleteReasonsPreferences from "../components/DeleteReasonsPreferences";
-// import Announcements from "../components/Announcements";
-import Users from "../components/Users";
-import storage from "../../scripts/helpers/extStorage";
-import TimedLoop from "../../scripts/helpers/TimedLoop";
-import Action from "../../scripts/controllers/Req/Brainly/Action";
-import type { StorageDataType } from "../components/OtherOptions";
+import AccountDeleteReports from "@root/popup/components/AccountDeleteReports";
+import DeleteReasonsPreferences from "@root/popup/components/DeleteReasonsPreferences";
+import LinkShortener from "@root/popup/components/LinkShortener";
+import type { StorageDataType } from "@root/popup/components/OtherOptions";
+import OtherOptions from "@root/popup/components/OtherOptions";
+import QuickDeleteButtonsOptions from "@root/popup/components/QuickDeleteButtonsOptions";
+import ShortenedLinks from "@root/popup/components/ShortenedLinks";
+import ThemeColorChanger from "@root/popup/components/ThemeColorChanger";
+import Users from "@root/popup/components/Users";
+import ext from "webextension-polyfill";
+import Action from "../../controllers/Req/Brainly/Action";
+import storage from "../../helpers/extStorage";
+import TimedLoop from "../../helpers/TimedLoop";
 
 type ObjectAnyType = {
   [x: string]: any;

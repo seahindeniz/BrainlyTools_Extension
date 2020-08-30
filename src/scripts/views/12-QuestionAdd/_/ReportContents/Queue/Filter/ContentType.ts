@@ -1,5 +1,5 @@
 import { ContentTypeType } from "@components/ModerationPanel/ContentSection/ContentSection";
-import HideElement from "@root/scripts/helpers/HideElement";
+import HideElement from "@root/helpers/HideElement";
 import { Flex, Label } from "@style-guide";
 import type QueueClassType from "../Queue";
 import type ContentClassType from "../../Content/Content";

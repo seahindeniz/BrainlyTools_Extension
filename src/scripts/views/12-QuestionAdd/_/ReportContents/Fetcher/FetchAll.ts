@@ -1,4 +1,4 @@
-import HideElement from "@root/scripts/helpers/HideElement";
+import HideElement from "@root/helpers/HideElement";
 import { Button, Flex } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type FetcherClassType from "./Fetcher";

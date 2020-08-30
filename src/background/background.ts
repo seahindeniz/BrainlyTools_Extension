@@ -1,7 +1,7 @@
-import _System from "@root/scripts/controllers/System";
-import storage from "@root/scripts/utils/storage";
+import _System from "@root/controllers/System";
+import storage from "@root/background/_/storage";
 import ext from "webextension-polyfill";
-import IsBrainly from "../scripts/helpers/IsBrainly";
+import IsBrainly from "../helpers/IsBrainly";
 
 const BROWSER_ACTION = ext.browserAction;
 const RED_BADGE_COLOR: browser.browserAction.ColorValue = [255, 121, 107, 255];

@@ -1,12 +1,12 @@
-import Build from "@root/scripts/helpers/Build";
-import InsertAfter from "@root/scripts/helpers/InsertAfter";
-import ServerReq from "@ServerReq";
+import Build from "@root/helpers/Build";
+import InsertAfter from "@root/helpers/InsertAfter";
+import ServerReq from "@root/controllers/Req/Server";
 import { Button, Flex, Icon, Input, Text, Textarea } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type { TextElement } from "@style-guide/Text";
 import JSZip from "jszip";
-import notification from "../../../../components/notification2";
-import Progress from "../../../../components/Progress";
+import notification from "@components/notification2";
+import Progress from "@components/Progress";
 import Evidence from "./Evidence";
 
 const PREVENT_FN = event => {

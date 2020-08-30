@@ -1,5 +1,5 @@
-import { Button, Icon } from "@root/scripts/components/style-guide";
-import storage from "../../../helpers/extStorage";
+import { Button, Icon } from "@components/style-guide";
+import storage from "../../../../helpers/extStorage";
 import type ArchiveModClassType from "..";
 
 export default class LayoutChanger {

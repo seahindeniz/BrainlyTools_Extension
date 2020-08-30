@@ -1,8 +1,8 @@
 import debounce from "debounce";
-import Button from "../../../../../components/Button";
-import DeleteSection from "../../../../../components/DeleteSection";
-import Modal from "../../../../../components/Modal";
-import Action from "../../../../../controllers/Req/Brainly/Action";
+import Button from "@components/Button";
+import DeleteSection from "@components/DeleteSection";
+import Modal from "@components/Modal";
+import Action from "../../../../../../controllers/Req/Brainly/Action";
 import Components from ".";
 
 function RenderSpinner() {

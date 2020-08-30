@@ -1,4 +1,4 @@
-import Action, { UserType } from "@BrainlyAction";
+import Action, { UserType } from "@root/controllers/Req/Brainly/Action";
 import {
   Button,
   Flex,
@@ -13,8 +13,8 @@ import {
 import { FlexElementType } from "@style-guide/Flex";
 import Components from "..";
 import type ModerationPanel from "../..";
-import Modal from "../../../../../../components/Modal2";
-import Build from "../../../../../../helpers/Build";
+import Modal from "@components/Modal2";
+import Build from "@root/helpers/Build";
 import User from "./User";
 
 export default class MassManageUsers extends Components {

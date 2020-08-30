@@ -1,8 +1,8 @@
 import ActionSection, { RenderDetailsType } from ".";
-import Action from "../../../../../../../controllers/Req/Brainly/Action";
+import Action from "../../../../../../../../controllers/Req/Brainly/Action";
 import Button, {
   JQueryButtonElementType,
-} from "../../../../../../../components/Button";
+} from "@components/Button";
 import type UserClassType from "../User";
 
 export default class DeleteUsers extends ActionSection {

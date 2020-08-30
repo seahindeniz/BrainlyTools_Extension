@@ -1,5 +1,5 @@
-import { RemoveQuestionReqDataType } from "@BrainlyAction";
-import type { ReportedContentDataType } from "@BrainlyAction";
+import { RemoveQuestionReqDataType } from "@root/controllers/Req/Brainly/Action";
+import type { ReportedContentDataType } from "@root/controllers/Req/Brainly/Action";
 import { Flex, Icon, Label } from "@style-guide";
 import type ReportedContentsType from "../ReportedContents";
 import Content from "./Content";

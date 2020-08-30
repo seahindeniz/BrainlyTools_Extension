@@ -1,4 +1,4 @@
-import notification from "@root/scripts/components/notification2";
+import notification from "@components/notification2";
 import { Button, Flex, Text } from "@style-guide";
 import type { ButtonColorType } from "@style-guide/Button";
 import type { FlexElementType } from "@style-guide/Flex";

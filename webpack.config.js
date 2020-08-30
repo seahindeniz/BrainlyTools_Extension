@@ -39,11 +39,18 @@ const mainConfig = {
     ...WebpackWatchedGlobEntries.getEntries(
       [
         //
-        "src/*/*.ts",
+        // "src/*/*.ts",
+        "src/{background,popup,scripts}/*.ts",
         "src/*/lib/*.js",
       ],
       {
-        ignore: ["./**/_/**", "src/locales/*", "src/*/lib/*.min.js"],
+        ignore: [
+          //
+          "./**/_/**",
+          "src/locales/*",
+          "src/*/lib/*.min.js",
+          // "**/*.d.ts",
+        ],
         cwd: __dirname,
       },
     )(),

@@ -1,4 +1,4 @@
-import HideElement from "@root/scripts/helpers/HideElement";
+import HideElement from "@root/helpers/HideElement";
 import { Flex, Label } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type { LabelElementType } from "@style-guide/Label";

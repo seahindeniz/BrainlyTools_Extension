@@ -1,8 +1,8 @@
-import SendMessageToBrainlyIds from "@root/scripts/controllers/Req/Brainly/Action/SendMessageToBrainlyIds";
-import WaitForElement from "@root/scripts/helpers/WaitForElement";
-import Button from "../../components/Button";
-import notification from "../../components/notification2";
-import Progress from "../../components/Progress";
+import SendMessageToBrainlyIds from "@root/controllers/Req/Brainly/Action/SendMessageToBrainlyIds";
+import WaitForElement from "@root/helpers/WaitForElement";
+import Button from "@components/Button";
+import notification from "@components/notification2";
+import Progress from "@components/Progress";
 
 System.pageLoaded("Supervisors page OK!");
 

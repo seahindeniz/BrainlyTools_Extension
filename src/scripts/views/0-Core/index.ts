@@ -1,16 +1,16 @@
 /* eslint-disable class-methods-use-this, camelcase */
-import InsertBefore from "@root/scripts/helpers/InsertBefore";
-import WaitForElement from "@root/scripts/helpers/WaitForElement";
-import Action from "@BrainlyAction";
-import ServerReq from "@ServerReq";
+import InsertBefore from "@root/helpers/InsertBefore";
+import WaitForElement from "@root/helpers/WaitForElement";
+import Action from "@root/controllers/Req/Brainly/Action";
+import ServerReq from "@root/controllers/Req/Server";
 import { Flex, Text } from "@style-guide";
-import notification from "../../components/notification2";
-import PrepareDeleteReasons from "../../controllers/PrepareDeleteReasons";
-import _System from "../../controllers/System";
-import storage from "../../helpers/extStorage";
-import InjectToDOM from "../../helpers/InjectToDOM";
-import messagesLayoutExtender from "../../helpers/messagesLayoutExtender";
-import WaitForObject from "../../helpers/WaitForObject";
+import notification from "@components/notification2";
+import PrepareDeleteReasons from "../../../controllers/PrepareDeleteReasons";
+import _System from "../../../controllers/System";
+import storage from "../../../helpers/extStorage";
+import InjectToDOM from "../../../helpers/InjectToDOM";
+import messagesLayoutExtender from "../../../helpers/messagesLayoutExtender";
+import WaitForObject from "../../../helpers/WaitForObject";
 import fetchFriends from "./_/fetchFriends";
 import RenderMenuButtonFixer from "./_/MenuButtonFixer";
 import RemoveJunkNotifications from "./_/RemoveJunkNotifications";

@@ -840,7 +840,7 @@
       "text": "Correction Reports (%{number_of_reports})",
       "title": "Click here to see the contents which has reported for correction and waiting for to be confirmed"
     },
-    "subjectFilterFirstOption": "Subjects - ALL",
+    "subjectFilterFirstOption": "Subject - ALL",
     "options": {
       "buttonVisibility": {
         "optionName": "Action buttons visibility",
@@ -919,7 +919,7 @@
       }
     },
     "categoryFilterFirstOption": {
-      "name": "Report reasons - ALL",
+      "name": "Report reason - ALL",
       "reasonsFor": {
         "Question": "Reasons for questions",
         "Answer": "Reasons for answers",

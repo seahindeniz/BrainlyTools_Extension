@@ -1,11 +1,11 @@
 /* eslint-disable no-underscore-dangle */
-import HideElement from "@root/scripts/helpers/HideElement";
-import ServerReq from "@ServerReq";
+import HideElement from "@root/helpers/HideElement";
+import ServerReq from "@root/controllers/Req/Server";
 import autosize from "autosize";
-import Button, { JQueryButtonElementType } from "../../../../components/Button";
-import Progress from "../../../../components/Progress";
-import SendMessageToBrainlyIds from "../../../../controllers/Req/Brainly/Action/SendMessageToBrainlyIds";
-import ScrollToDown from "../../../../helpers/ScrollToDown";
+import Button, { JQueryButtonElementType } from "@components/Button";
+import Progress from "@components/Progress";
+import SendMessageToBrainlyIds from "../../../../../controllers/Req/Brainly/Action/SendMessageToBrainlyIds";
+import ScrollToDown from "../../../../../helpers/ScrollToDown";
 import RenderGroupModal from "./groupModal";
 
 class GroupChatbox {

@@ -1,12 +1,12 @@
-import { DeleteReasonSubCategoryType } from "@root/scripts/controllers/System";
+import { DeleteReasonSubCategoryType } from "@root/controllers/System";
 import Components from ".";
 import Button, {
   JQueryButtonElementType,
-} from "../../../../../components/Button";
-import notification from "../../../../../components/notification2";
+} from "@components/Button";
+import notification from "@components/notification2";
 import Action, {
   ReportedContentDataType,
-} from "../../../../../controllers/Req/Brainly/Action";
+} from "../../../../../../controllers/Req/Brainly/Action";
 
 const spinner = `<div class="sg-spinner-container__overlay"><div class="sg-spinner sg-spinner--xsmall"></div></div>`;
 

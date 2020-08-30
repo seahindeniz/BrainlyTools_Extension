@@ -1,4 +1,4 @@
-import WaitForElement from "@root/scripts/helpers/WaitForElement";
+import WaitForElement from "@root/helpers/WaitForElement";
 
 async function MenuButtonFixer() {
   const menuButton = await WaitForElement(".mint-hide-for-desktop", {

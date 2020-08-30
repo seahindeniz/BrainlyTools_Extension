@@ -1,18 +1,18 @@
-import ext from "../../scripts/utils/ext";
-import CheckIfSameDomain from "../../scripts/helpers/CheckIfSameDomain";
+import ext from "webextension-polyfill";
+import CheckIfSameDomain from "../../helpers/CheckIfSameDomain";
 
 export default async (action, data) => {
-  let tabs = await ext.tabs.query({});
+  const tabs = await ext.tabs.query({});
 
   tabs.forEach(tab => {
     if (CheckIfSameDomain(tab.url, System.data.meta.location.href)) {
-      let message = {
+      const message = {
         action,
         url: tab.url,
-        data
+        data,
       };
 
       ext.tabs.sendMessage(tab.id, message);
     }
   });
-}
+};

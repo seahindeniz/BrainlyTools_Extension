@@ -6,16 +6,16 @@ import {
   Icon,
   Spinner,
   Text,
-} from "@root/scripts/components/style-guide";
-import Build from "@root/scripts/helpers/Build";
-import HideElement from "@root/scripts/helpers/HideElement";
-import IsVisible from "@root/scripts/helpers/IsVisible";
-import WaitForElement from "@root/scripts/helpers/WaitForElement";
+} from "@components/style-guide";
+import Build from "@root/helpers/Build";
+import HideElement from "@root/helpers/HideElement";
+import IsVisible from "@root/helpers/IsVisible";
+import WaitForElement from "@root/helpers/WaitForElement";
 import type { FlexElementType } from "@style-guide/Flex";
 import sortablejs from "sortablejs";
-import notification from "../../../components/notification2";
-import Progress from "../../../components/Progress";
-import Action from "../../../controllers/Req/Brainly/Action";
+import notification from "@components/notification2";
+import Progress from "@components/Progress";
+import Action from "../../../../controllers/Req/Brainly/Action";
 import RemoveJunkNotifications from "../../0-Core/_/RemoveJunkNotifications";
 
 type RankType = {

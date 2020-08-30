@@ -1,5 +1,5 @@
 /* eslint-disable no-new */
-import WaitForElement from "@root/scripts/helpers/WaitForElement";
+import WaitForElement from "@root/helpers/WaitForElement";
 import LayoutChanger from "./_/LayoutChanger";
 import ModerateToplayerEnhancer from "./_/ModerateToplayerEnhancer";
 import Pagination from "./_/Pagination";

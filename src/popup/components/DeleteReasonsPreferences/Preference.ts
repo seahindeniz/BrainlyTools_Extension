@@ -1,5 +1,5 @@
-import ServerReq from "@ServerReq";
-import { DeleteReasonSubCategoryType } from "@root/scripts/controllers/System";
+import ServerReq from "@root/controllers/Req/Server";
+import { DeleteReasonSubCategoryType } from "@root/controllers/System";
 import notification from "../notification";
 
 class Preference {

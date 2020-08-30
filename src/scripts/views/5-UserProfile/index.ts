@@ -1,11 +1,11 @@
-import IsVisible from "@root/scripts/helpers/IsVisible";
-import WaitForElement from "@root/scripts/helpers/WaitForElement";
-import ServerReq from "@ServerReq";
+import IsVisible from "@root/helpers/IsVisible";
+import WaitForElement from "@root/helpers/WaitForElement";
+import ServerReq from "@root/controllers/Req/Server";
 import { ActionList, ActionListHole, ContentBox } from "@style-guide";
-import UserBio from "../../components/UserBio";
-import UserHat from "../../components/UserHat";
-import UserNoteBox from "../../components/UserNoteBox";
-import Action from "../../controllers/Req/Brainly/Action";
+import UserBio from "@components/UserBio";
+import UserHat from "@components/UserHat";
+import UserNoteBox from "@components/UserNoteBox";
+import Action from "../../../controllers/Req/Brainly/Action";
 import AccountDeleteReporter from "./_/AccountDeleteReporter";
 import FriendsManager from "./_/FriendsManager";
 import MorePanel from "./_/MorePanel";
@@ -47,8 +47,8 @@ export default class UserProfile {
     profile: Promise<any>;
     extension: Promise<
       {
-        data: import("@ServerReq").UserDetailsType;
-      } & import("@ServerReq").CommonResponsePropsType
+        data: import("@root/controllers/Req/Server").UserDetailsType;
+      } & import("@root/controllers/Req/Server").CommonResponsePropsType
     >;
     moderators: Promise<any>;
   };

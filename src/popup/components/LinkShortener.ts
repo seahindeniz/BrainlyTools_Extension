@@ -1,5 +1,5 @@
-import ServerReq from "@ServerReq";
-import ext from "../../scripts/utils/ext";
+import ServerReq from "@root/controllers/Req/Server";
+import ext from "webextension-polyfill";
 import PopupNotification from "./notification";
 
 async function GetActiveTab() {

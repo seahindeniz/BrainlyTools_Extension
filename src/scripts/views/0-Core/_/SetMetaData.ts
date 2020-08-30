@@ -1,5 +1,5 @@
-import { MetaDataType } from "@root/scripts/controllers/System";
-import PrepareDeleteReasons from "../../../controllers/PrepareDeleteReasons";
+import { MetaDataType } from "@root/controllers/System";
+import PrepareDeleteReasons from "../../../../controllers/PrepareDeleteReasons";
 
 const MetaGet = (): Promise<MetaDataType> => {
   return new Promise((resolve, reject) => {

@@ -1,5 +1,5 @@
 import { ContentTypeType } from "@components/ModerationPanel/ContentSection/ContentSection";
-import HideElement from "@root/scripts/helpers/HideElement";
+import HideElement from "@root/helpers/HideElement";
 import { Button, Flex } from "@style-guide";
 import { ButtonColorType } from "@style-guide/Button";
 import type ContentTypeFilterClassType from "./ContentTypeFilter";

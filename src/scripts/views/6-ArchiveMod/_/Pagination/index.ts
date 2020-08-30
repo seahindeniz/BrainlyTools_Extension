@@ -1,7 +1,7 @@
-import Build from "@root/scripts/helpers/Build";
-import HideElement from "@root/scripts/helpers/HideElement";
-import InsertAfter from "@root/scripts/helpers/InsertAfter";
-import ServerReq, { ModerateAllPageNumbersType } from "@ServerReq";
+import Build from "@root/helpers/Build";
+import HideElement from "@root/helpers/HideElement";
+import InsertAfter from "@root/helpers/InsertAfter";
+import ServerReq, { ModerateAllPageNumbersType } from "@root/controllers/Req/Server";
 import { Flex, Spinner } from "@style-guide";
 import PerfectScrollbar from "perfect-scrollbar";
 import type ArchiveModClassType from "../..";

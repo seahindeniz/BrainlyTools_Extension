@@ -1,4 +1,4 @@
-import type { DeleteReasonSubCategoryType } from "@root/scripts/controllers/System";
+import type { DeleteReasonSubCategoryType } from "@root/controllers/System";
 import { Button, Flex, Text } from "@style-guide";
 import { ButtonColorType } from "@style-guide/Button";
 import type { FlexElementType } from "@style-guide/Flex";

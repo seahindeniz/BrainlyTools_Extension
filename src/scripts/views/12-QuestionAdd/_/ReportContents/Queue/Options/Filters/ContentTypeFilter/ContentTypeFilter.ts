@@ -1,6 +1,6 @@
 import type { ContentTypeType } from "@components/ModerationPanel/ContentSection/ContentSection";
-import Build from "@root/scripts/helpers/Build";
-import HideElement from "@root/scripts/helpers/HideElement";
+import Build from "@root/helpers/Build";
+import HideElement from "@root/helpers/HideElement";
 import { Flex, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type FiltersClassType from "../Filters";

@@ -5,8 +5,8 @@ import {
   ListItem,
   Text,
 } from "@style-guide";
-import Build from "../../../../helpers/Build";
-import IsVisible from "../../../../helpers/IsVisible";
+import Build from "@root/helpers/Build";
+import IsVisible from "../../../../../helpers/IsVisible";
 import type MorePanelClassType from ".";
 
 export default class PrivilegeList {

@@ -1,6 +1,6 @@
 import CreateElement from "@components/CreateElement";
-import HideElement from "@root/scripts/helpers/HideElement";
-import IsVisible from "@root/scripts/helpers/IsVisible";
+import HideElement from "@root/helpers/HideElement";
+import IsVisible from "@root/helpers/IsVisible";
 import { Flex } from "@style-guide";
 import type ReportedContentsType from "../ReportedContents";
 import ContentType from "./Filter/ContentType";
@@ -10,7 +10,7 @@ import ReportingDate from "./Filter/ReportingDate";
 import ModerationPanelController from "./ModerationPanelController/ModerationPanelController";
 import Options from "./Options/Options";
 
-const REPORT_PREVIEW_LIMIT = 20;
+const REPORT_PREVIEW_LIMIT = 12;
 
 export default class Queue {
   main: ReportedContentsType;

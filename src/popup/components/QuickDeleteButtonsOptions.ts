@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
-import { QuickDeleteButtonReasonsType } from "@root/scripts/controllers/System";
-import storage from "../../scripts/helpers/extStorage";
+import { QuickDeleteButtonReasonsType } from "@root/controllers/System";
+import storage from "../../helpers/extStorage";
 import notification from "./notification";
 
 function OrderDropdownItems($dropdown) {

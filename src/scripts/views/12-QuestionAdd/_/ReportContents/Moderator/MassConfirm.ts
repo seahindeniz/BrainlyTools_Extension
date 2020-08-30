@@ -1,4 +1,4 @@
-import notification from "@root/scripts/components/notification2";
+import notification from "@components/notification2";
 import ActionSection from "./ActionSection";
 import type ModeratorClassType from "./Moderator";
 

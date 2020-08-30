@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import ServerReq from "@ServerReq";
+import ServerReq from "@root/controllers/Req/Server";
 import { OverlayedBox, SpinnerContainer, Text } from "@style-guide";
 import emojione from "emojione";
 import MarkdownIt from "markdown-it";
@@ -13,10 +13,10 @@ import MDSup from "markdown-it-sup";
 import MDTaskList from "markdown-it-task-lists";
 import MDTOC from "markdown-it-toc-done-right";
 import Components from ".";
-import Button from "../../../../../components/Button";
-import Modal from "../../../../../components/Modal";
-import notification from "../../../../../components/notification2";
-import Action from "../../../../../controllers/Req/Brainly/Action";
+import Button from "@components/Button";
+import Modal from "@components/Modal";
+import notification from "@components/notification2";
+import Action from "../../../../../../controllers/Req/Brainly/Action";
 
 // TODO upgrade Emojione to https://github.com/joypixels/emoji-toolkit
 // @ts-expect-error

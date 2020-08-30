@@ -1,9 +1,9 @@
-import Action from "@BrainlyAction";
+import Action from "@root/controllers/Req/Brainly/Action";
 import notification from "@components/notification2";
-import { DeleteReasonSubCategoryType } from "@root/scripts/controllers/System";
-import HideElement from "@root/scripts/helpers/HideElement";
-import InsertAfter from "@root/scripts/helpers/InsertAfter";
-import WaitForElement from "@root/scripts/helpers/WaitForElement";
+import { DeleteReasonSubCategoryType } from "@root/controllers/System";
+import HideElement from "@root/helpers/HideElement";
+import InsertAfter from "@root/helpers/InsertAfter";
+import WaitForElement from "@root/helpers/WaitForElement";
 import { Button, Flex, Icon, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import tippy from "tippy.js";

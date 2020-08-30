@@ -1,6 +1,6 @@
 import { Flex, Button } from "@style-guide";
 import { FlexElementType } from "@style-guide/Flex";
-import Build from "@root/scripts/helpers/Build";
+import Build from "@root/helpers/Build";
 import type Pagination from ".";
 
 function DeleteModerationBoxes() {

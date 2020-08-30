@@ -1,5 +1,5 @@
 import DeleteSection from "@components/DeleteSection2/DeleteSection";
-import Build from "@root/scripts/helpers/Build";
+import Build from "@root/helpers/Build";
 import { Flex, Text } from "@style-guide";
 import type { ContentNameType } from "../../Content/Content";
 import type MassDeleteSectionClassType from "./MassDelete";

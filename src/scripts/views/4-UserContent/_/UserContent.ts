@@ -1,6 +1,6 @@
-import Button, { JQueryButtonElementType } from "../../../components/Button";
-import DeleteSection from "../../../components/DeleteSection";
-import WaitForElement from "../../../helpers/WaitForElement";
+import Button, { JQueryButtonElementType } from "@components/Button";
+import DeleteSection from "@components/DeleteSection";
+import WaitForElement from "../../../../helpers/WaitForElement";
 import UserContentRow from "./UserContentRow";
 
 class UserContent {

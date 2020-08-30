@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
-import IsVisible from "@root/scripts/helpers/IsVisible";
-import WaitForObject from "@root/scripts/helpers/WaitForObject";
+import IsVisible from "@root/helpers/IsVisible";
+import WaitForObject from "@root/helpers/WaitForObject";
 import { Button, Icon } from "@style-guide";
 import type ModerateToplayerEnhancerClassType from ".";
 

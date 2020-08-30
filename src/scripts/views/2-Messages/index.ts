@@ -1,5 +1,5 @@
 /* eslint-disable no-new */
-import WaitForElement from "@root/scripts/helpers/WaitForElement";
+import WaitForElement from "@root/helpers/WaitForElement";
 import Conversation from "./_/Conversation";
 // import ServerReq from "@ServerReq";
 // import RenderGroupMessaging from "./_/GroupMessaging";

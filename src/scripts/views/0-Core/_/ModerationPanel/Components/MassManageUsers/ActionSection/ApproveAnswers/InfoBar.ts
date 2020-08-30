@@ -1,4 +1,4 @@
-import Action from "@BrainlyAction";
+import Action from "@root/controllers/Req/Brainly/Action";
 import type ApproveAnswersClassType from ".";
 import type UserClassType from "../../User";
 

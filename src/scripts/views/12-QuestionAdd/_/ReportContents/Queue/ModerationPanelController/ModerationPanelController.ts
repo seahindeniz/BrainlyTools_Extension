@@ -1,8 +1,8 @@
-import Action from "@BrainlyAction";
-import getModalContainer from "@root/scripts/components/helpers/getModalContainer";
-import ModerationPanel from "@root/scripts/components/ModerationPanel/ModerationPanel";
-import notification from "@root/scripts/components/notification2";
-import HideElement from "@root/scripts/helpers/HideElement";
+import Action from "@root/controllers/Req/Brainly/Action";
+import getModalContainer from "@components/helpers/getModalContainer";
+import ModerationPanel from "@components/ModerationPanel/ModerationPanel";
+import notification from "@components/notification2";
+import HideElement from "@root/helpers/HideElement";
 import { Overlay, Spinner } from "@style-guide";
 import type * as ContentTypes from "../../Content/Content";
 import type { ContentClassTypes } from "../../Fetcher/Fetcher";

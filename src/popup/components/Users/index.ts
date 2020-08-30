@@ -1,6 +1,6 @@
 /* eslint-disable no-new */
 /* eslint-disable no-underscore-dangle */
-import ServerReq from "@ServerReq";
+import ServerReq from "@root/controllers/Req/Server";
 import moment from "moment";
 import notification from "../notification";
 import PrivilegeCategory from "./_/PrivilegeCategory";

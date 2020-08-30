@@ -1,4 +1,4 @@
-import ServerReq from "@ServerReq";
+import ServerReq from "@root/controllers/Req/Server";
 import type MassMessageSenderClassType from "../..";
 import User from "./User";
 

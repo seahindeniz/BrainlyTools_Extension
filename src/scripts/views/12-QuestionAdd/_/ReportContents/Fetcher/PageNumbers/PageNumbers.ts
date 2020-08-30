@@ -2,7 +2,7 @@ import Build from "@root/scripts/helpers/Build";
 import HideElement from "@root/scripts/helpers/HideElement";
 import InsertAfter from "@root/scripts/helpers/InsertAfter";
 import IsVisible from "@root/scripts/helpers/IsVisible";
-import ServerReq from "@ServerReq";
+import ServerReq from "@root/controllers/Req/Server";
 import { Flex } from "@style-guide";
 import { FlexElementType } from "@style-guide/Flex";
 import PerfectScrollbar from "perfect-scrollbar";

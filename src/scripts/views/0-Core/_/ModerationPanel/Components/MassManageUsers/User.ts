@@ -1,4 +1,4 @@
-import type { UserType } from "@BrainlyAction";
+import type { UserType } from "@root/controllers/Req/Brainly/Action";
 import {
   ActionList,
   ActionListHole,
@@ -12,8 +12,8 @@ import {
   Text,
 } from "@style-guide";
 import type MassManageUsersClassType from ".";
-import Build from "../../../../../../helpers/Build";
-import IsVisible from "../../../../../../helpers/IsVisible";
+import Build from "@root/helpers/Build";
+import IsVisible from "../../../../../../../helpers/IsVisible";
 import type InfoBarClassType from "./ActionSection/ApproveAnswers/InfoBar";
 
 export default class User {

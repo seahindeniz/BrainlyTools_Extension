@@ -1,11 +1,11 @@
-import HideElement from "@root/scripts/helpers/HideElement";
-import Action, { ModerationTicketDataType } from "@BrainlyAction";
+import HideElement from "@root/helpers/HideElement";
+import Action, { ModerationTicketDataType } from "@root/controllers/Req/Brainly/Action";
 import mime from "mime-types";
-import Button from "../../../components/Button";
-import DeleteSection from "../../../components/DeleteSection";
-import Modal from "../../../components/Modal";
-import notification from "../../../components/notification2";
-import secondsToTime from "../../../helpers/secondsToTime";
+import Button from "@components/Button";
+import DeleteSection from "@components/DeleteSection";
+import Modal from "@components/Modal";
+import notification from "@components/notification2";
+import secondsToTime from "../../../../helpers/secondsToTime";
 import type QuickDeleteButtonsClassType from "./QuickDeleteButtons";
 
 class ModeratingPanel {

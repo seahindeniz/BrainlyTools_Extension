@@ -1,15 +1,15 @@
 /* eslint-disable no-underscore-dangle */
-import HideElement from "@root/scripts/helpers/HideElement";
-import WaitForElement from "@root/scripts/helpers/WaitForElement";
-import ServerReq from "@ServerReq";
+import HideElement from "@root/helpers/HideElement";
+import WaitForElement from "@root/helpers/WaitForElement";
+import ServerReq from "@root/controllers/Req/Server";
 import html2canvas from "html2canvas";
 import md5 from "js-md5";
 import linkifyHtml from "linkifyjs/html";
-import Button, { JQueryButtonElementType } from "../../components/Button";
-import Modal from "../../components/Modal";
-import notification from "../../components/notification2";
-import Action from "../../controllers/Req/Brainly/Action";
-import IsKeyAlphaNumeric from "../../helpers/IsKeyAlphaNumeric";
+import Button, { JQueryButtonElementType } from "@components/Button";
+import Modal from "@components/Modal";
+import notification from "@components/notification2";
+import Action from "../../../controllers/Req/Brainly/Action";
+import IsKeyAlphaNumeric from "../../../helpers/IsKeyAlphaNumeric";
 import ActionEntry from "./_/ActionEntry";
 
 const MAX_MESSAGE_LENGTH = 512;

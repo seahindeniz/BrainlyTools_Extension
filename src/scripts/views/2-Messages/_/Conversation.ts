@@ -1,7 +1,7 @@
-import ServerReq, { UserDetailsType } from "@ServerReq";
-import notification from "@root/scripts/components/notification2";
-import UserNoteBox from "@root/scripts/components/UserNoteBox";
-import UserTag from "@root/scripts/components/UserTag";
+import ServerReq, { UserDetailsType } from "@root/controllers/Req/Server";
+import notification from "@components/notification2";
+import UserNoteBox from "@components/UserNoteBox";
+import UserTag from "@components/UserTag";
 import type MessagesClassType from "..";
 
 export default class {

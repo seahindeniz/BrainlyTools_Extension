@@ -1,5 +1,5 @@
-import notification from "../../../components/notification2";
-import Toplayer from "../../../components/Toplayer";
+import notification from "@components/notification2";
+import Toplayer from "@components/Toplayer";
 import ServerReq from "@ServerReq";
 
 export default () => {

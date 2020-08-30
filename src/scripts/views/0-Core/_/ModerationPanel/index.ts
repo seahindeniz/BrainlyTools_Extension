@@ -1,6 +1,6 @@
 import { Flex, MenuList } from "@style-guide";
 import { FlexElementType } from "@style-guide/Flex";
-import WaitForObject from "../../../../helpers/WaitForObject";
+import WaitForObject from "../../../../../helpers/WaitForObject";
 import MassContentDeleter from "./Components/MassContentDeleter";
 import MassManageUsers from "./Components/MassManageUsers";
 import MassMessageSender from "./Components/MassMessageSender";

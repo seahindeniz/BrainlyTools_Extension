@@ -1,5 +1,5 @@
 /* eslint-disable import/no-duplicates */
-import { SendMessageUserType } from "@root/scripts/controllers/Req/Brainly/Action/SendMessageToBrainlyIds";
+import { SendMessageUserType } from "@root/controllers/Req/Brainly/Action/SendMessageToBrainlyIds";
 import debounce from "debounce";
 import type MassMessageSenderClassType from "..";
 

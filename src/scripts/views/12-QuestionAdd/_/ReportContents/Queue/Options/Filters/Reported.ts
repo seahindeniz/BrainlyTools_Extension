@@ -1,4 +1,4 @@
-import Build from "@root/scripts/helpers/Build";
+import Build from "@root/helpers/Build";
 import { Flex, InputDeprecated, Select, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type { InputElementType } from "@style-guide/InputDeprecated";

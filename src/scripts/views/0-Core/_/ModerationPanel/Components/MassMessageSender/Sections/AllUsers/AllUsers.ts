@@ -1,6 +1,6 @@
-import CreateElement from "@root/scripts/components/CreateElement";
-import Build from "@root/scripts/helpers/Build";
-import IsVisible from "@root/scripts/helpers/IsVisible";
+import CreateElement from "@components/CreateElement";
+import Build from "@root/helpers/Build";
+import IsVisible from "@root/helpers/IsVisible";
 import {
   ActionList,
   ActionListHole,

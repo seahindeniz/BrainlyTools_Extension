@@ -1,7 +1,7 @@
-import Action from "@BrainlyAction";
-import Button from "../../../components/Button";
-import notification from "../../../components/notification2";
-import Progress from "../../../components/Progress";
+import Action from "@root/controllers/Req/Brainly/Action";
+import Button from "@components/Button";
+import notification from "@components/notification2";
+import Progress from "@components/Progress";
 
 function FriendsManager() {
   const $profileFriends = $("#profile-friends");

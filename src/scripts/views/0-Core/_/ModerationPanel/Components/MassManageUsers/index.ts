@@ -1,4 +1,4 @@
-import Action, { UserType } from "@BrainlyAction";
+import Action, { UserType } from "@root/controllers/Req/Brainly/Action";
 import {
   ActionList,
   ActionListHole,
@@ -16,8 +16,8 @@ import {
 import { TextElement } from "@style-guide/Text";
 import debounce from "debounce";
 import Components from "..";
-import Modal from "../../../../../../components/Modal2";
-import Build from "../../../../../../helpers/Build";
+import Modal from "@components/Modal2";
+import Build from "@root/helpers/Build";
 import type ActionSectionClassType from "./ActionSection";
 import ApproveAnswers from "./ActionSection/ApproveAnswers";
 import ChangePoints from "./ActionSection/ChangePoints";

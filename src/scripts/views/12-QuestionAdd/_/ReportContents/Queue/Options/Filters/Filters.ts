@@ -1,4 +1,4 @@
-import Build from "@root/scripts/helpers/Build";
+import Build from "@root/helpers/Build";
 import { Flex, SeparatorHorizontal, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type OptionsClassType from "../Options";

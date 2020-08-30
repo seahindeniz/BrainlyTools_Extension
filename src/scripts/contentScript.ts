@@ -1,20 +1,14 @@
-import _System from "@root/scripts/controllers/System";
-import InjectToDOM from "./helpers/InjectToDOM";
-import IsBrainly from "./helpers/IsBrainly";
-import IsIgnoredPath from "./helpers/IsIgnoredPath";
-import messagesLayoutExtender from "./helpers/messagesLayoutExtender";
-import ThemeColorChanger from "./helpers/ThemeColorChanger";
-import WaitForObject from "./helpers/WaitForObject";
-import ext from "./utils/ext";
+import _System from "@root/controllers/System";
+import ext from "webextension-polyfill";
+import InjectToDOM from "../helpers/InjectToDOM";
+import IsBrainly from "../helpers/IsBrainly";
+import IsIgnoredPath from "../helpers/IsIgnoredPath";
+import messagesLayoutExtender from "../helpers/messagesLayoutExtender";
+import ThemeColorChanger from "../helpers/ThemeColorChanger";
+import WaitForObject from "../helpers/WaitForObject";
 
-function InitConsolePreventerPreventer() {
-  InjectToDOM("/scripts/lib/preventConsolePreventer.js");
-}
+let System: _System;
 
-/**
- * @type {_System}
- */
-let System;
 const manifestData = ext.runtime.getManifest();
 const MANIFEST = {
   ...manifestData,
@@ -24,6 +18,34 @@ const MANIFEST = {
 // manifest.clientID = Math.random().toString(36).slice(2);
 
 let html = document.documentElement;
+
+function Init() {
+  System = new _System();
+  System.data.meta.marketName = location.hostname;
+  System.data.meta.location = JSON.parse(JSON.stringify(location));
+  System.data.meta.manifest = MANIFEST;
+
+  System.data.meta.marketTitle = document.title;
+  System.data.meta.extension = {
+    id: ext.runtime.id,
+    URL: ext.runtime.getURL("").replace(/\/$/, ""),
+  };
+  window.System = System;
+}
+
+function InitConsolePreventerPreventer() {
+  InjectToDOM("/scripts/lib/preventConsolePreventer.js");
+}
+
+function SendMetaData(event) {
+  window.postMessage(
+    {
+      action: "metaSet",
+      data: System.data.meta,
+    },
+    event.target.URL,
+  );
+}
 
 class ContentScript {
   constructor() {
@@ -39,23 +61,9 @@ class ContentScript {
     html.dataset.brainly_tools = MANIFEST.version;
     // html.brainly_tools = MANIFEST.version;
 
-    this.Init();
+    Init();
     this.InjectCoreIfNotInjected();
     this.BindHandlers();
-  }
-
-  Init() {
-    System = new _System();
-    System.data.meta.marketName = location.hostname;
-    System.data.meta.location = JSON.parse(JSON.stringify(location));
-    System.data.meta.manifest = MANIFEST;
-
-    System.data.meta.marketTitle = document.title;
-    System.data.meta.extension = {
-      id: ext.runtime.id,
-      URL: ext.runtime.getURL("").replace(/\/$/, ""),
-    };
-    window.System = System;
   }
 
   InjectCoreIfNotInjected() {
@@ -72,7 +80,7 @@ class ContentScript {
   // eslint-disable-next-line class-methods-use-this
   async InjectCore() {
     // eslint-disable-next-line global-require
-    require("./helpers/preExecuteScripts");
+    require("../helpers/preExecuteScripts");
     document.documentElement.setAttribute("extension", MANIFEST.version);
 
     if (html.id !== "html") {
@@ -88,8 +96,9 @@ class ContentScript {
         { noError: true },
       );
 
-      if (isContains && !document.body.attributes["itemtype"])
+      if (isContains && !("itemtype" in document.body.attributes)) {
         InjectToDOM([System.constants.Brainly.style_guide.icons]);
+      }
     }
 
     InjectToDOM([
@@ -100,7 +109,7 @@ class ContentScript {
   }
 
   BindHandlers() {
-    window.addEventListener("metaGet", this.SendMetaData.bind(this));
+    window.addEventListener("metaGet", SendMetaData.bind(this));
     ext.runtime.onMessage.addListener(this.MessageHandler.bind(this));
     window.addEventListener("message", this.SecondaryMessageHandler.bind(this));
     window.addEventListener(
@@ -111,18 +120,8 @@ class ContentScript {
     );
   }
 
-  SendMetaData(event) {
-    window.postMessage(
-      {
-        action: "metaSet",
-        data: System.data.meta,
-      },
-      event.target.URL,
-    );
-  }
-
   MessageHandler(request) {
-    if (request.action == "manifest") {
+    if (request.action === "manifest") {
       return MANIFEST;
     }
     if (request.action === "previewColor") {
@@ -148,19 +147,24 @@ class ContentScript {
       messagesLayoutExtender(request.data);
     }
 
-    if (request.action == "contentScript>Check if content script injected") {
+    if (request.action === "contentScript>Check if content script injected") {
       html = document.documentElement;
 
       return Promise.resolve(true);
     }
+
+    return Promise.resolve();
   }
 
   SecondaryMessageHandler(event) {
-    if (event.source != window) return;
+    if (event.source !== window) return;
 
     this.MessageHandler(event.data);
   }
 }
 
 // if (!html.brainly_tools || html.brainly_tools !== MANIFEST.version)
-if (html.dataset.brainly_tools !== MANIFEST.version) new ContentScript();
+if (html.dataset.brainly_tools !== MANIFEST.version) {
+  // eslint-disable-next-line no-new
+  new ContentScript();
+}

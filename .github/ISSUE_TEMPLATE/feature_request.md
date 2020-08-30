@@ -2,7 +2,7 @@
 name: Feature request
 about: Suggest an idea/solution for this project
 title: ''
-labels: enhancement
+labels: 💎 enhancement
 assignees: seahindeniz
 
 ---

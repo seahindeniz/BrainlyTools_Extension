@@ -118,7 +118,6 @@ export default class Fetcher {
         return;
       }
 
-      console.error("continue to fetch");
       this.isFetching = true;
 
       this.ShowFilterSpinner();

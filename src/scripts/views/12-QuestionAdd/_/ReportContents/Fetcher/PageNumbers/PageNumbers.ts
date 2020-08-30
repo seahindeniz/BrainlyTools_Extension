@@ -74,7 +74,6 @@ export default class PageNumbers {
   }
 
   async FetchPageNumbers() {
-    console.error("FetchPageNumbers");
     const resPageNumbers = await new ServerReq().GetModerateAllPages();
 
     if (!resPageNumbers || !resPageNumbers.success || !resPageNumbers.data)

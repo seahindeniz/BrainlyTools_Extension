@@ -837,10 +837,10 @@
       "title": "Şikayet edilen yorumları görmek için buraya tıklayın"
     },
     "correctionReports": {
-      "text": "Düzeltme bildirimleri",
+      "text": "Düzeltme bildirimleri (%{number_of_reports})",
       "title": "Düzenlenmesi için bildirilen ve onaylanmayı bekleyen içerikleri görmek için buraya tıklayın"
     },
-    "subjectFilterFirstOption": "Konular - TÜMÜ",
+    "subjectFilterFirstOption": "Konu - TÜMÜ",
     "options": {
       "buttonVisibility": {
         "optionName": "Hızlı eylem buton görünürlüğü",
@@ -877,7 +877,8 @@
             "Answer": "Cevap",
             "Comment": "Yorum"
           }
-        }
+        },
+        "pageNumberInputTitle": "%{MIN_N} ile %{MAX_N} arasında bir sayfa numarası girin"
       },
       "name": "Seçenekler",
       "density": {
@@ -919,7 +920,7 @@
       }
     },
     "categoryFilterFirstOption": {
-      "name": "Şikayet sebepleri - TÜMÜ",
+      "name": "Şikayet sebebi - TÜMÜ",
       "reasonsFor": {
         "Question": "Sorular için silim sebebi",
         "Answer": "Cevaplar için silim sebebi",

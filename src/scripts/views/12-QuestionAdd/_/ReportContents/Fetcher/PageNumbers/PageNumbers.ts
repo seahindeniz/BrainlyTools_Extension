@@ -1,13 +1,16 @@
-import Build from "@root/scripts/helpers/Build";
-import HideElement from "@root/scripts/helpers/HideElement";
-import InsertAfter from "@root/scripts/helpers/InsertAfter";
-import IsVisible from "@root/scripts/helpers/IsVisible";
 import ServerReq from "@root/controllers/Req/Server";
-import { Flex } from "@style-guide";
+import Build from "@root/helpers/Build";
+import HideElement from "@root/helpers/HideElement";
+import InsertAfter from "@root/helpers/InsertAfter";
+import IsVisible from "@root/helpers/IsVisible";
+import { Flex, Input, Text } from "@style-guide";
 import { FlexElementType } from "@style-guide/Flex";
 import PerfectScrollbar from "perfect-scrollbar";
+import tippy from "tippy.js";
 import type FetcherClassType from "../Fetcher";
 import PageNumber from "./PageNumber";
+
+const PAGE_NUMBER_THRESHOLD = 200;
 
 export default class PageNumbers {
   main: FetcherClassType;
@@ -15,12 +18,12 @@ export default class PageNumbers {
   container: FlexElementType;
   firstPageNumber: PageNumber;
   pageNumbersWrapper: FlexElementType;
-  lastPageNumber: PageNumber;
   pScrollBar: PerfectScrollbar;
   lastIds: number[];
   pageNumbers: PageNumber[];
   selectedPageNumber: PageNumber;
   pageNumbersContainer: FlexElementType;
+  pageNumberInput: Input;
 
   constructor(main: FetcherClassType) {
     this.main = main;
@@ -42,10 +45,11 @@ export default class PageNumbers {
         },
       }),
       [
-        this.firstPageNumber.button.element,
+        [Flex(), this.firstPageNumber.button.element],
         [
           (this.pageNumbersWrapper = Flex({
             style: {
+              overflow: "hidden",
               position: "relative",
             },
           })),
@@ -57,7 +61,6 @@ export default class PageNumbers {
     );
 
     this.firstPageNumber.Highlight();
-    this.Show();
   }
 
   Show() {
@@ -71,6 +74,7 @@ export default class PageNumbers {
   }
 
   async FetchPageNumbers() {
+    console.error("FetchPageNumbers");
     const resPageNumbers = await new ServerReq().GetModerateAllPages();
 
     if (!resPageNumbers || !resPageNumbers.success || !resPageNumbers.data)
@@ -81,32 +85,98 @@ export default class PageNumbers {
     if (this.lastIds.length === 0) return;
 
     if (this.lastIds.length > 1) {
-      this.RenderLastPageNumber();
+      if (this.lastIds.length < PAGE_NUMBER_THRESHOLD) {
+        this.RenderLastPageNumber();
+      } else {
+        this.RenderPageNumberInput();
+      }
     }
-
-    this.RenderPageNumbers();
 
     this.pScrollBar = new PerfectScrollbar(this.pageNumbersWrapper, {
       suppressScrollY: false,
     });
+
+    this.RenderPageNumbers();
+
+    this.Show();
   }
 
   RenderLastPageNumber() {
     const lastPageId = this.lastIds.pop();
-    this.lastPageNumber = new PageNumber(
+    const lastPageNumber = new PageNumber(
       this,
       this.lastIds.length + 2,
       lastPageId,
     );
 
-    this.container.append(this.lastPageNumber.button.element);
+    const lastPageContainer = Flex({
+      children: lastPageNumber.button.element,
+    });
+
+    this.container.append(lastPageContainer);
+  }
+
+  RenderPageNumberInput() {
+    const title = System.data.locale.reportedContents.options.filter.pageNumberInputTitle
+      .replace("%{MIN_N}", "1")
+      .replace("%{MAX_N}", String(this.lastIds.length + 2));
+
+    this.pageNumberInput = new Input({
+      title,
+      type: "number",
+      min: 1,
+      max: this.lastIds.length + 2,
+      placeholder: "...",
+      onChange: this.PageNumberChanged.bind(this),
+    });
+
+    tippy(this.pageNumberInput.input, {
+      theme: "light",
+      content: Text({
+        weight: "bold",
+        children: title,
+      }),
+    });
+
+    const lastPageContainer = Flex({
+      alignItems: "center",
+      marginBottom: "xs",
+      children: this.pageNumberInput.element,
+    });
+
+    this.container.append(lastPageContainer);
+  }
+
+  PageNumberChanged() {
+    const givenPageNumber = Number(this.pageNumberInput.input.value);
+
+    if (Number.isNaN(givenPageNumber)) return;
+
+    this.main.FetchReports({
+      resetStore: true,
+      lastId: this.lastIds[givenPageNumber - 2],
+    });
   }
 
   RenderPageNumbers() {
-    this.lastIds.forEach((lastId, index) => {
+    // interval loop used here to avoid having event blocked rendering
+    let index = 0;
+    const loop = setInterval(() => {
+      const lastId = this.lastIds[index];
+
+      if (!lastId || index > PAGE_NUMBER_THRESHOLD - 2) {
+        clearInterval(loop);
+
+        return;
+      }
+
+      this.pScrollBar.update();
+
       const pageNumber = new PageNumber(this, index + 2, lastId);
 
       this.pageNumbers.push(pageNumber);
-    });
+
+      index++;
+    }, 0);
   }
 }

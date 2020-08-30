@@ -29,6 +29,7 @@ export default class PageNumber {
       type: "solid-inverted",
       className: "ext-page-number",
       onClick: this.Select.bind(this),
+      // title: this.lastId, // TODO remove this
     });
 
     this.main.pageNumbersContainer?.append(this.button.element);
@@ -37,9 +38,10 @@ export default class PageNumber {
   Select() {
     this.Highlight();
 
-    this.main.main.lastId = Number.isNaN(this.lastId) ? undefined : this.lastId;
-
-    this.main.main.FetchReports({ resetStore: true });
+    this.main.main.FetchReports({
+      resetStore: true,
+      lastId: Number.isNaN(this.lastId) ? undefined : this.lastId,
+    });
   }
 
   Unselect() {

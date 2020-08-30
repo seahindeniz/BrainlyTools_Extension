@@ -4,9 +4,9 @@ import type {
 } from "@root/controllers/Req/Brainly/Action";
 import Action from "@root/controllers/Req/Brainly/Action";
 import notification from "@components/notification2";
-import Chunkify from "@root/scripts/helpers/Chunkify";
-import HideElement from "@root/scripts/helpers/HideElement";
-import IsVisible from "@root/scripts/helpers/IsVisible";
+import Chunkify from "@root/helpers/Chunkify";
+import HideElement from "@root/helpers/HideElement";
+import IsVisible from "@root/helpers/IsVisible";
 import { Flex, Spinner } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import Answer from "../Content/Answer";
@@ -88,16 +88,22 @@ export default class Fetcher {
     fetchOnly,
     keepFetching,
     resetStore,
+    lastId,
   }: {
     fetchOnly?: boolean;
     keepFetching?: boolean;
     resetStore?: boolean;
+    lastId?: number;
   } = {}) {
     try {
       const { selectedReportType } = this.filters.reportTypeFilter;
 
       if (resetStore) {
         this.RemoveContents();
+      }
+
+      if (lastId) {
+        this.lastId = lastId;
       }
 
       if (

@@ -877,7 +877,8 @@ export default {
             Answer: "Answer",
             Comment: "Comment"
           }
-        }
+        },
+        pageNumberInputTitle: "Enter a page number between %{MIN_N} and %{MAX_N}"
       },
       name: "Options",
       density: {
@@ -940,4 +941,3 @@ export default {
     thereIsNoReportLeft: "There is no report left"
   }
 }
-

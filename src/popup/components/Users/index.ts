@@ -189,6 +189,8 @@ class Users {
       "> article > .message-body > div",
       this.$layout,
     );
+
+    moment.locale(navigator.language);
   }
 
   RenderEditAllUsersPrivilegesSection() {

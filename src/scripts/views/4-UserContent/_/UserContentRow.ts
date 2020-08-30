@@ -5,7 +5,7 @@ import { Box, Button, Flex, Icon, Text } from "@style-guide";
 import type { ButtonPropsType } from "@style-guide/Button";
 import type { FlexElementType } from "@style-guide/Flex";
 import type { TextElement } from "@style-guide/Text";
-import momentTz from "moment-timezone";
+import moment from "moment-timezone";
 import notification from "@components/notification2";
 import Action from "../../../../controllers/Req/Brainly/Action";
 import ContentViewerContent from "./ContentViewer_Content";
@@ -273,7 +273,9 @@ export default class UserContentRow {
     const date = $dateCell.text().trim();
 
     if (date) {
-      const date2 = momentTz(answer.created);
+      moment.locale(navigator.language);
+
+      const date2 = moment(answer.created);
       const date2Str = date2
         /* .utcOffset(System.data.Brainly.defaultConfig.locale
                 .OFFSET) */

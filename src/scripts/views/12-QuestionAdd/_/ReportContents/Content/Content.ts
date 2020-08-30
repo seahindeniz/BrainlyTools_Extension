@@ -148,6 +148,8 @@ export default class Content {
   }
 
   SetDates() {
+    moment.locale(navigator.language);
+
     const createDate = moment(this.data?.created);
     const createDateTz = moment(this.data?.created).tz(
       System.data.Brainly.defaultConfig.config.data.config.timezone,

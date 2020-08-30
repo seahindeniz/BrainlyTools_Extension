@@ -269,6 +269,8 @@ export default class ContentSection {
   }
 
   CreateTimeEntry(date: string) {
+    moment.locale(navigator.language);
+
     const timeInstance = moment(date);
     const lastPrintedTime = timeInstance.fromNow();
 

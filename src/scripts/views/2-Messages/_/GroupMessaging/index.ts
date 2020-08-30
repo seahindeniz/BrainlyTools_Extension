@@ -34,6 +34,7 @@ class GroupMessaging {
       ...this.selectors,
     };
 
+    moment.locale(navigator.language);
     this.RenderGroupsLink();
   }
 

@@ -840,7 +840,7 @@
       "text": "Demande de correction (%{number_of_reports})",
       "title": "Cliquez ici pour voir le contenu qui a fait l'objet d'une demande de correction et qui attend d'être confirmé"
     },
-    "subjectFilterFirstOption": "Matières - TOUS",
+    "subjectFilterFirstOption": "Matières - TOUTES",
     "options": {
       "buttonVisibility": {
         "optionName": "Visibilité des boutons d'action",
@@ -857,14 +857,16 @@
             "by": {
               "nick": "Pseudo du signaleur",
               "id": "ID utilisateur du signaleur"
-            }
+            },
+            "lookFor": "Look for"
           },
           "reported": {
             "name": "Utilisateur signalé",
             "by": {
               "nick": "Pseudo signalé",
               "id": "Identifiant de l'utilisateur signalé"
-            }
+            },
+            "lookFor": "Look for"
           },
           "reportingDate": {
             "name": "Signalements entre",

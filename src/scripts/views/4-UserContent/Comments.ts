@@ -1,5 +1,7 @@
-import Action, { RemoveCommentReqDataType } from "@root/controllers/Req/Brainly/Action";
-import momentTz from "moment-timezone";
+import Action, {
+  RemoveCommentReqDataType,
+} from "@root/controllers/Req/Brainly/Action";
+import moment from "moment-timezone";
 import UserContent from "./_/UserContent";
 import type UserContentRowClassType from "./_/UserContentRow";
 
@@ -89,7 +91,9 @@ function AttachCommentToRow(
   const cellText = $contentCell.text().trim().slice(0, -3);
 
   if (date) {
-    const date2 = momentTz(comment.created);
+    moment.locale(navigator.language);
+
+    const date2 = moment(comment.created);
     const date2Str = date2
       /* .utcOffset(System.data.Brainly.defaultConfig.locale
               .OFFSET) */

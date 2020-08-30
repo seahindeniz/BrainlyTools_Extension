@@ -857,14 +857,16 @@
             "by": {
               "nick": "Bildirenin nicki",
               "id": "Bildirenin id'si"
-            }
+            },
+            "lookFor": "Seçim yap"
           },
           "reported": {
             "name": "Bildirilen kullanıcı",
             "by": {
               "nick": "Bildirilen nick",
               "id": "Bildirilen kullanıcı idsi"
-            }
+            },
+            "lookFor": "Seçim yap"
           },
           "reportingDate": {
             "name": "Tarihler arası",

@@ -1,4 +1,6 @@
-import Action, { UsersDataInReportedContentsType } from "@root/controllers/Req/Brainly/Action";
+import Action, {
+  UsersDataInReportedContentsType,
+} from "@root/controllers/Req/Brainly/Action";
 import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
 import { Box, Flex, Spinner, Text } from "@style-guide";
@@ -23,6 +25,8 @@ export default class LogSection {
     this.main = main;
 
     this.dateSection = {};
+
+    moment.locale(navigator.language);
 
     this.Render();
     this.FetchLogData();

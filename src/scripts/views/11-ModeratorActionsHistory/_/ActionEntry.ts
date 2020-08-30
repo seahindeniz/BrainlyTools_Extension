@@ -1,6 +1,8 @@
 /* eslint-disable no-underscore-dangle */
-import HideElement from "@root/helpers/HideElement";
+import notification from "@components/notification2";
 import ServerReq from "@root/controllers/Req/Server";
+import Build from "@root/helpers/Build";
+import HideElement from "@root/helpers/HideElement";
 import {
   Button,
   ContentBox,
@@ -18,8 +20,6 @@ import linkifyHtml from "linkifyjs/html";
 // @ts-ignore
 import moment from "moment";
 import type ModeratorActionsHistoryClassType from "..";
-import notification from "@components/notification2";
-import Build from "@root/helpers/Build";
 
 const REPORT_EDIT_TIME_LIMIT = ["1", "hour"];
 
@@ -650,6 +650,8 @@ export default class ActionEntry {
   }
 
   IsReportCanReversible() {
+    moment.locale(navigator.language);
+
     const now = moment();
     const end = moment(this.details.time).add(...REPORT_EDIT_TIME_LIMIT);
     const duration = moment.duration(end.diff(now));

@@ -53,7 +53,9 @@ export default class Reporter {
                     value: "",
                     selected: true,
                     disabled: true,
-                    text: "Look for",
+                    text:
+                      System.data.locale.reportedContents.options.filter.filters
+                        .reporter.lookFor,
                   },
                   {
                     value: 0,

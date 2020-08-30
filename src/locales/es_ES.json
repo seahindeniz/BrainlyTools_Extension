@@ -857,14 +857,16 @@
             "by": {
               "nick": "Reporter nick",
               "id": "Reporter user id"
-            }
+            },
+            "lookFor": "Look for"
           },
           "reported": {
             "name": "Reported user",
             "by": {
               "nick": "Reported nick",
               "id": "Reported user id"
-            }
+            },
+            "lookFor": "Look for"
           },
           "reportingDate": {
             "name": "Reported between",

@@ -31,6 +31,8 @@ export default class Reported {
       return;
     }
 
+    moment.locale(navigator.language);
+
     this.query = {
       startingDate,
       endingDate,

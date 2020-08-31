@@ -858,7 +858,7 @@
               "nick": "Pseudo du signaleur",
               "id": "ID utilisateur du signaleur"
             },
-            "lookFor": "Look for"
+            "lookFor": "Rechercher"
           },
           "reported": {
             "name": "Utilisateur signalé",
@@ -866,7 +866,7 @@
               "nick": "Pseudo signalé",
               "id": "Identifiant de l'utilisateur signalé"
             },
-            "lookFor": "Look for"
+            "lookFor": "Rechercher"
           },
           "reportingDate": {
             "name": "Signalements entre",
@@ -880,7 +880,7 @@
             "Comment": "Commentaire"
           }
         },
-        "pageNumberInputTitle": "Enter a page number between %{MIN_N} and %{MAX_N}"
+        "pageNumberInputTitle": "Entre un numéro de page entre %{MIN_N} et %{MAX_N}"
       },
       "name": "Options",
       "density": {

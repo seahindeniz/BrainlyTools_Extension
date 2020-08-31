@@ -2,8 +2,49 @@
 
 All notable changes to this project will be documented in this file.
 
-## [7.0.0] - 2020.08.29
+## [7.0.1] - 2020.08.31
 
+### Changed
+
+- Quick delete buttons [#164]
+- Lack of translations [#172]
+- Incorrect reason for deletion [#173]
+- Page numbers are working incorrectly [#174]
+- A black patch beside usernames in inbox. [#175]
+- Quick delete buttons used to delete answers are displaying incorrect reasons.
+  [#176]
+- Page numbers rendering time is too much [#177]
+- QDB's in 'Always fixed mode' in the new mod panel load only when the cursor is
+  placed over the report. [#178]
+- Unable to confirm a reported comment [#179]
+- Quick delete buttons (that appear over reports) in the new mod panel do not
+  perform the moderation when used. [#180]
+- Quick delete reasons on buttons are not saved. [#181]
+- Points need to be taken back by default when invalid answers are deleted.
+  [#183]
+- Unable to confirm reported content in the Reported contents page [#185]
+- Mass-Content deleter isn't working [#186]
+- Unable to see moderators in the Mass-Message sender [#187]
+- Unable to send messages to moderators from the supervisors page [#188]
+
+[#164]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/164
+[#172]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/172
+[#173]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/173
+[#174]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/174
+[#175]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/175
+[#176]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/176
+[#177]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/177
+[#178]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/178
+[#179]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/179
+[#180]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/180
+[#181]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/181
+[#183]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/183
+[#185]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/185
+[#186]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/186
+[#187]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/187
+[#188]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/188
+
+## [7.0.0] - 2020.08.29
 
 ### Added
 

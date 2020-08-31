@@ -10,7 +10,7 @@ import {
   Counter,
   Flex,
   Icon,
-  Label,
+  LabelDeprecated,
   Spinner,
   Text,
 } from "@style-guide";
@@ -325,7 +325,7 @@ export default class ContentViewerContent {
   RenderAttachmentsIcon() {
     const attachmentIconContainer = Flex({
       marginTop: "xs",
-      children: Label({
+      children: LabelDeprecated({
         color: "gray",
         icon: { type: "attachment" },
         text: this.source.attachments.length,

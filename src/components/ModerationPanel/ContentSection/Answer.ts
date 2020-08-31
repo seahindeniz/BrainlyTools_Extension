@@ -9,7 +9,7 @@ import {
   Button,
   Flex,
   Icon,
-  Label,
+  LabelDeprecated,
   Text,
   Textarea,
 } from "@style-guide";
@@ -60,7 +60,7 @@ export default class Answer extends ContentSection {
     const iconContainer = Flex({
       marginLeft: "xs",
       title: System.data.locale.reportedContents.queue.bestAnswer,
-      children: Label({
+      children: LabelDeprecated({
         icon: {
           type: "excellent",
           color: "mustard",
@@ -77,7 +77,7 @@ export default class Answer extends ContentSection {
 
     const iconContainer = Flex({
       marginLeft: "xs",
-      children: Label({
+      children: LabelDeprecated({
         type: "solid",
         color: "peach",
         icon: { type: "heart" },
@@ -93,7 +93,7 @@ export default class Answer extends ContentSection {
 
     const iconContainer = Flex({
       marginLeft: "xs",
-      children: Label({
+      children: LabelDeprecated({
         type: "solid",
         color: "mustard",
         icon: { type: "star_half_outlined" },
@@ -109,7 +109,7 @@ export default class Answer extends ContentSection {
 
     const iconContainer = Flex({
       marginLeft: "xs",
-      children: Label({
+      children: LabelDeprecated({
         type: "solid",
         color: "mint",
         icon: {

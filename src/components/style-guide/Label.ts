@@ -1,14 +1,12 @@
-/* eslint-disable no-use-before-define */
-/* eslint-disable no-underscore-dangle */
-import classnames from "classnames";
-import InsertAfter from "@root/helpers/InsertAfter";
-import Icon, { IconPropsType, IconColorType } from "./Icon";
-import Text, { TextColorType } from "./Text";
-import SetProps from "./helpers/SetProps";
 import CreateElement from "@components/CreateElement";
-import type { ChildrenParamType } from "./helpers/AddChildren";
+import InsertAfter from "@root/helpers/InsertAfter";
+import classnames from "classnames";
+import AddChildren, { ChildrenParamType } from "./helpers/AddChildren";
+import Icon, { IconColorType } from "./Icon";
+import Text, { TextColorType, TextElement } from "./Text";
 
 type LabelType = "" | "default" | "solid" | "transparent" | "transparent-color";
+
 type LabelColorType =
   | "blue"
   | "mint"
@@ -17,31 +15,24 @@ type LabelColorType =
   | "mustard"
   | "gray"
   | "mono";
+
+type LabelIconType = Icon | HTMLElement;
+
 export type LabelPropsType = {
   type?: LabelType;
   color?: LabelColorType;
-  icon?: Icon | IconPropsType | HTMLElement;
+  icon?: LabelIconType;
   onClose?: (event: MouseEvent) => HTMLButtonElement;
   children?: ChildrenParamType;
   className?: string;
   text?: string;
-  containerTag?: "div" | "label";
+  tag?: "div" | "label";
   [x: string]: any;
 };
 
-type CustomProperties = {
-  type: LabelType;
-  color: LabelColorType;
-  ChangeText: typeof ChangeText;
-  ChangeIcon: typeof ChangeIcon;
-  ChangeColor: typeof ChangeColor;
-};
-
-export type LabelElementType = HTMLDivElement & CustomProperties;
-
 const SG = "sg-label";
 const SGD = `${SG}--`;
-const SG_ = `${SG}__`;
+const SGL = `${SG}__`;
 
 export const COLORS_SOLID_MAP = {
   blue: "blue-primary",
@@ -49,7 +40,7 @@ export const COLORS_SOLID_MAP = {
   lavender: "lavender-primary",
   peach: "peach-primary",
   mustard: "mustard-primary",
-  gray: "gray-primary",
+  gray: "gray-secondary",
   mono: "black",
 };
 
@@ -101,208 +92,192 @@ const TRANSPARENT_ICON_COLOR_MAP: {
   mono: "dark",
 };
 
-function AddIcon(
-  labelContainer: LabelElementType,
-  icon: Icon | IconPropsType | HTMLElement,
-  color: IconColorType,
-) {
-  let iconInstance: Icon;
-  let iconContainer = labelContainer.querySelector(`.${SG_}icon`);
+export default class Label {
+  type: LabelType;
+  color: LabelColorType;
 
-  if (!iconContainer) {
-    iconContainer = document.createElement("div");
-    iconContainer.className = `${SG_}icon`;
-  } else iconContainer.innerHTML = "";
+  element: HTMLDivElement | HTMLLabelElement;
+  icon: LabelIconType;
+  iconContainer: HTMLDivElement;
+  childrenContainer: HTMLSpanElement;
+  textElement: TextElement<"div">;
+  closeButton: HTMLButtonElement;
+  #closeIconColor: IconColorType;
+  #textColor: TextColorType;
+  #iconColor: IconColorType;
 
-  if (icon instanceof HTMLElement) {
-    // @ts-expect-error
-    iconInstance = { element: icon };
-  } else {
-    let iconProps: IconPropsType = {
-      size: 16,
-      color,
-      type: "arrow_down",
-    };
-
-    if (!(icon instanceof Icon)) {
-      // @ts-expect-error
-      iconProps = {
-        ...iconProps,
-        ...icon,
-      };
-
-      const iconObj = new Icon(iconProps);
-      iconInstance = iconObj;
-    }
-  }
-
-  if (iconInstance && iconInstance.element)
-    iconContainer.appendChild(iconInstance.element);
-
-  labelContainer.appendChild(iconContainer);
-}
-
-function AddTextChildren(
-  labelContainer: HTMLElement,
-  {
-    text,
+  constructor({
     children,
-    textColor,
-  }: {
-    text?: string;
-    children?: ChildrenParamType;
-    textColor?: TextColorType;
-  },
-) {
-  let textContainer = labelContainer.querySelector(`.${SG_}text`);
-
-  if (!textContainer) {
-    textContainer = document.createElement("span");
-    textContainer.className = `${SG_}text`;
-
-    const iconContainer = labelContainer.firstElementChild;
-
-    if (iconContainer && iconContainer.classList.contains(`${SG_}icon`)) {
-      InsertAfter(textContainer, iconContainer);
-    } else {
-      labelContainer.prepend(textContainer);
-    }
-  } else textContainer.innerHTML = "";
-
-  const textElement = Text({
-    noWrap: true,
-    size: "small",
-    weight: "bold",
-    color: textColor,
-    text,
-    children,
-  });
-
-  textContainer.append(textElement);
-}
-
-/**
- * @this {LabelElementType}
- * @param {Icon | IconPropsType} icon
- */
-function ChangeIcon(icon) {
-  AddIcon(this, icon, this.type);
-
-  return this;
-}
-
-function ChangeColor(this: LabelElementType, color: LabelColorType) {
-  const filteredOldColor: string = !this.type
-    ? COLORS_DEFAULT_MAP[this.color]
-    : COLORS_SOLID_MAP[this.color];
-
-  const filteredColor: string = !this.type
-    ? COLORS_DEFAULT_MAP[color]
-    : COLORS_SOLID_MAP[color];
-
-  this.classList.remove(SGD + filteredOldColor);
-  this.classList.add(SGD + filteredColor);
-
-  this.color = color;
-
-  return this;
-}
-
-function ChangeText(this: LabelElementType, children: string) {
-  AddTextChildren(this, { children });
-
-  return this;
-}
-
-export default function ({
-  children,
-  type = "default",
-  icon,
-  onClose,
-  color = "mono",
-  className,
-  text,
-  containerTag = "div",
-  ...props
-}: LabelPropsType) {
-  const filteredColor: string =
-    type === "default" ? COLORS_DEFAULT_MAP[color] : COLORS_SOLID_MAP[color];
-
-  const labelClass = classnames(
-    SG,
-    {
-      [SGD + filteredColor]: (color && type === "solid") || type === "default",
-      [SGD + type]: type && type !== "default",
-      [`${SGD}closable`]: !!onClose,
-    },
+    type = "default",
+    icon,
+    onClose,
+    color = "mono",
     className,
-  );
+    tag = "div",
+    ...props
+  }: LabelPropsType) {
+    this.type = type;
 
-  const textColor: TextColorType =
-    type === "default" || type === "transparent"
-      ? "default"
-      : type === "solid"
-      ? "white"
-      : TRANSPARENT_COLOR_TEXT_MAP[color];
+    // const filteredColor: string =
+    //   type === "default" ? COLORS_DEFAULT_MAP[color] : COLORS_SOLID_MAP[color];
 
-  const iconColor =
-    type === "default"
-      ? "dark"
-      : type === "solid"
-      ? "light"
-      : TRANSPARENT_ICON_COLOR_MAP[color];
+    const labelClass = classnames(
+      SG,
+      {
+        // [SGD + filteredColor]:
+        //   (color && type === "solid") || type === "default",
+        [SGD + type]: type && type !== "default",
+        [`${SGD}closable`]: !!onClose,
+      },
+      className,
+    );
 
-  const closeIconColor: IconColorType =
-    type === "default" || type === "transparent"
-      ? "dark"
-      : type === "solid"
-      ? "light"
-      : TRANSPARENT_ICON_COLOR_MAP[color];
-
-  const labelContainer: LabelElementType = Object.assign(
-    document.createElement(containerTag),
-  );
-  labelContainer.className = labelClass;
-  props.color = color;
-  props.type = type;
-  props.ChangeText = ChangeText;
-  props.ChangeIcon = ChangeIcon;
-  props.ChangeColor = ChangeColor;
-
-  if (icon) AddIcon(labelContainer, icon, iconColor);
-
-  if (text || children) {
-    AddTextChildren(labelContainer, { text, children, textColor });
-  }
-
-  if (onClose) {
-    const closeButton = CreateElement({
-      tag: "button",
-      className: `${SG_}close-button`,
-      onClick: onClose,
-      children: new Icon({
-        size: 16,
-        type: "close",
-        color: closeIconColor,
-      }),
-    });
-    /* const closeButton = document.createElement("button");
-    closeButton.className = `${SG_}close-button`;
-
-    if (typeof onClose === "function")
-      closeButton.addEventListener("click", onClose);
-
-    const closeButtonIcon = new Icon({
-      size: 16,
-      type: "close",
-      color: closeIconColor,
+    this.element = CreateElement({
+      tag,
+      className: labelClass,
+      ...props,
     });
 
-    closeButton.append(closeButtonIcon.element); */
-    labelContainer.append(closeButton);
+    this.ChangeColor(color);
+
+    if (icon) {
+      this.ChangeIconColor();
+      this.ChangeIcon(icon);
+    }
+
+    if (children) {
+      this.ChangeTextColor();
+      this.ChangeChildren(children);
+    }
+
+    if (onClose) {
+      this.ChangeCloseIconColor();
+
+      this.closeButton = CreateElement({
+        tag: "button",
+        className: `${SGL}close-button`,
+        onClick: onClose,
+        children: new Icon({
+          size: 16,
+          type: "close",
+          color: this.#closeIconColor,
+        }),
+      });
+
+      this.element.append(this.closeButton);
+    }
   }
 
-  SetProps(labelContainer, props);
+  ChangeIcon(icon: LabelIconType) {
+    if (icon) {
+      if (!this.iconContainer) {
+        this.iconContainer = CreateElement({
+          tag: "div",
+          className: `${SGL}icon`,
+        });
 
-  return labelContainer;
+        this.element.prepend(this.iconContainer);
+      } else
+        while (this.iconContainer.firstChild)
+          this.iconContainer.removeChild(this.iconContainer.lastChild);
+
+      if (icon instanceof HTMLElement)
+        // @ts-expect-error
+        // eslint-disable-next-line no-param-reassign
+        icon = { element: icon };
+
+      if (!(icon instanceof HTMLElement))
+        this.iconContainer.appendChild(icon.element);
+    } else {
+      this.iconContainer?.remove();
+
+      this.iconContainer = null;
+    }
+
+    this.icon = icon;
+  }
+
+  ChangeChildren(children: ChildrenParamType) {
+    if (children) {
+      if (!this.textElement) {
+        this.ChangeTextColor();
+
+        this.textElement = Text({
+          tag: "div",
+          noWrap: true,
+          size: "small",
+          weight: "bold",
+          color: this.#textColor,
+          children,
+        });
+      } else {
+        while (this.textElement.firstChild)
+          this.textElement.removeChild(this.textElement.lastChild);
+
+        AddChildren(this.textElement, children);
+      }
+
+      if (!this.childrenContainer) {
+        this.childrenContainer = CreateElement({
+          tag: "span",
+          class: `${SGL}text`,
+          children: this.textElement,
+        });
+
+        if (this.iconContainer)
+          InsertAfter(this.childrenContainer, this.iconContainer);
+        else {
+          this.element.prepend(this.childrenContainer);
+        }
+      }
+    }
+  }
+
+  private ChangeCloseIconColor() {
+    this.#closeIconColor =
+      this.type === "default" || this.type === "transparent"
+        ? "dark"
+        : this.type === "solid"
+        ? "light"
+        : TRANSPARENT_ICON_COLOR_MAP[this.color];
+  }
+
+  ChangeTextColor() {
+    this.#textColor =
+      this.type === "default" || this.type === "transparent"
+        ? "default"
+        : this.type === "solid"
+        ? "white"
+        : TRANSPARENT_COLOR_TEXT_MAP[this.color];
+  }
+
+  ChangeIconColor() {
+    this.#iconColor =
+      this.type === "default"
+        ? "dark"
+        : this.type === "solid"
+        ? "light"
+        : TRANSPARENT_ICON_COLOR_MAP[this.color];
+
+    if ("ChangeColor" in this.icon) {
+      this.icon.ChangeColor(this.#iconColor);
+    }
+  }
+
+  ChangeColor(color: LabelColorType) {
+    const filteredOldColor: string =
+      !this.type || this.type === "default"
+        ? COLORS_DEFAULT_MAP[this.color]
+        : COLORS_SOLID_MAP[this.color];
+
+    const filteredColor: string =
+      !this.type || this.type === "default"
+        ? COLORS_DEFAULT_MAP[color]
+        : COLORS_SOLID_MAP[color];
+
+    this.element.classList.remove(SGD + filteredOldColor);
+    this.element.classList.add(SGD + filteredColor);
+
+    this.color = color;
+  }
 }

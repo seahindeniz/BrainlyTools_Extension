@@ -1,8 +1,8 @@
 import CreateElement from "@components/CreateElement";
 import classnames from "classnames";
 import generateRandomString from "@root/helpers/generateRandomString";
-import type { LabelPropsType } from "./Label";
-import Label from "./Label";
+import type { LabelPropsType } from "./LabelDeprecated";
+import Label from "./LabelDeprecated";
 
 type RadioSizeType = "xxs" | "s";
 

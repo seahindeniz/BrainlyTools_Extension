@@ -9,7 +9,7 @@ import {
   ContentBoxTitle,
   Flex,
   Icon,
-  Label,
+  LabelDeprecated,
   Spinner,
   SpinnerContainer,
   Text,
@@ -98,7 +98,7 @@ class ModerateSection {
 
   RenderSelectAll() {
     const checkboxContainer = Checkbox();
-    this.selectAllContainer = Label({
+    this.selectAllContainer = LabelDeprecated({
       type: "transparent",
       containerTag: "label",
       icon: checkboxContainer,

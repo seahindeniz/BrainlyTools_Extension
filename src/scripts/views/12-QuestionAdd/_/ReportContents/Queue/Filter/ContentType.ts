@@ -1,6 +1,6 @@
 import { ContentTypeType } from "@components/ModerationPanel/ContentSection/ContentSection";
 import HideElement from "@root/helpers/HideElement";
-import { Flex, Label } from "@style-guide";
+import { Flex, LabelDeprecated } from "@style-guide";
 import type QueueClassType from "../Queue";
 import type ContentClassType from "../../Content/Content";
 
@@ -12,7 +12,7 @@ export default class ContentType {
   };
 
   labelContainer: import("@style-guide/Flex").FlexElementType;
-  label: import("@style-guide/Label").LabelElementType;
+  label: import("@style-guide/LabelDeprecated").LabelElementType;
   labelText: Text;
 
   constructor(main: QueueClassType) {
@@ -56,7 +56,7 @@ export default class ContentType {
   RenderLabel() {
     this.labelContainer = Flex({
       margin: "xxs",
-      children: this.label = Label({
+      children: this.label = LabelDeprecated({
         color: "mustard",
         onClose: this.HideLabel.bind(this),
         icon: {

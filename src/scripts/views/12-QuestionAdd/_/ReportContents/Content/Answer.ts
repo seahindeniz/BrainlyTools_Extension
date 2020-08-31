@@ -2,7 +2,7 @@ import type {
   RemoveAnswerReqDataType,
   ReportedContentDataType,
 } from "@root/controllers/Req/Brainly/Action";
-import { Flex, Icon, Label, Text } from "@style-guide";
+import { Flex, Icon, LabelDeprecated, Text } from "@style-guide";
 import tippy from "tippy.js";
 import type ReportedContentsType from "../ReportedContents";
 import Content from "./Content";
@@ -65,7 +65,7 @@ export default class Answer extends Content {
 
     const attachmentIconContainer = Flex({
       marginBottom: "xs",
-      children: Label({
+      children: LabelDeprecated({
         color: "gray",
         icon: { type: "attachment" },
         children: this.extraData.attachments.length,
@@ -80,7 +80,7 @@ export default class Answer extends Content {
 
     const labelContainer = Flex({
       marginBottom: "xs",
-      children: Label({
+      children: LabelDeprecated({
         type: "solid",
         color: "peach",
         icon: { type: "heart" },
@@ -101,7 +101,7 @@ export default class Answer extends Content {
 
     const labelContainer = Flex({
       title,
-      children: Label({
+      children: LabelDeprecated({
         type: "solid",
         color: "mustard",
         icon: { type: "star_half_outlined" },

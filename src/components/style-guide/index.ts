@@ -1,3 +1,5 @@
+/* eslint-disable import/no-cycle */
+
 export { default as ActionList } from "./ActionList";
 export { default as ActionListHole } from "./ActionList/Hole";
 export { default as Avatar } from "./Avatar";
@@ -20,6 +22,7 @@ export { default as Icon } from "./Icon";
 export { default as Input } from "./Input";
 export { default as InputDeprecated } from "./InputDeprecated";
 export { default as Label } from "./Label";
+export { default as LabelDeprecated } from "./LabelDeprecated";
 export { default as List } from "./List";
 export { default as ListItem } from "./List/Item";
 export { default as MenuList } from "./List/Menu";

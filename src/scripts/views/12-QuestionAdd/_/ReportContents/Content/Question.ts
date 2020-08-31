@@ -1,6 +1,6 @@
 import { RemoveQuestionReqDataType } from "@root/controllers/Req/Brainly/Action";
 import type { ReportedContentDataType } from "@root/controllers/Req/Brainly/Action";
-import { Flex, Icon, Label } from "@style-guide";
+import { Flex, Icon, LabelDeprecated } from "@style-guide";
 import type ReportedContentsType from "../ReportedContents";
 import Content from "./Content";
 
@@ -31,7 +31,7 @@ export default class Question extends Content {
 
     const attachmentIconContainer = Flex({
       marginTop: "xs",
-      children: Label({
+      children: LabelDeprecated({
         color: "gray",
         icon: { type: "attachment" },
         children: this.extraData.attachments.length,

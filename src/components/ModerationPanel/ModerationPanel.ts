@@ -10,7 +10,7 @@ import {
   Button,
   Flex,
   Icon,
-  Label,
+  LabelDeprecated,
   SeparatorHorizontal,
   Spinner,
   Text as TextComponent,
@@ -154,7 +154,7 @@ export default class ModerationPanel {
       marginRight: "s",
       alignItems: "center",
       children: [
-        Label({
+        LabelDeprecated({
           color: "peach",
           type: "transparent-color",
           icon: {

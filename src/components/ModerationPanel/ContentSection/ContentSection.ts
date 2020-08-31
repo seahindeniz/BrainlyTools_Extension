@@ -15,7 +15,7 @@ import {
   Breadcrumb,
   Flex,
   Icon,
-  Label,
+  LabelDeprecated,
   SeparatorHorizontal,
   Text as TextComponent,
 } from "@style-guide";
@@ -459,7 +459,7 @@ export default class ContentSection {
 
     this.attachmentLabelContainer = Flex({
       marginLeft: "xs",
-      children: Label({
+      children: LabelDeprecated({
         color: "gray",
         icon: { type: "attachment" },
         children: this.numberOfAttachments,

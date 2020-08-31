@@ -1,7 +1,7 @@
 import HideElement from "@root/helpers/HideElement";
-import { Flex, Label } from "@style-guide";
+import { Flex, LabelDeprecated } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
-import type { LabelElementType } from "@style-guide/Label";
+import type { LabelElementType } from "@style-guide/LabelDeprecated";
 import type ContentClassType from "../../Content/Content";
 import type QueueClassType from "../Queue";
 
@@ -69,7 +69,7 @@ export default class Reporter {
   RenderLabel() {
     this.labelContainer = Flex({
       margin: "xxs",
-      children: this.label = Label({
+      children: this.label = LabelDeprecated({
         icon: {
           type: "profile_view",
         },

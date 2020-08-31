@@ -1,6 +1,6 @@
-import { Checkbox, Flex, Label } from "@style-guide";
+import { Checkbox, Flex, LabelDeprecated } from "@style-guide";
 import type { CheckboxElementType } from "@style-guide/Checkbox";
-import type { LabelPropsType } from "@style-guide/Label";
+import type { LabelPropsType } from "@style-guide/LabelDeprecated";
 import type OptionsSectionClassType from "./OptionsSection";
 
 export default class OptionChild {
@@ -20,7 +20,7 @@ export default class OptionChild {
 
   Render() {
     this.container = Flex({
-      children: Label({
+      children: LabelDeprecated({
         type: "transparent",
         containerTag: "label",
         icon: this.checkboxContainer = Checkbox({

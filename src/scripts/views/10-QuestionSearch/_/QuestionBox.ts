@@ -5,7 +5,7 @@ import {
   ContentBox,
   ContentBoxContent,
   ContentBoxTitle,
-  Label,
+  LabelDeprecated,
   Spinner,
   SpinnerContainer,
 } from "@style-guide";
@@ -178,7 +178,7 @@ class QuestionBox {
     this.checkBoxContainerHole = Build(ActionListHole(), [
       [
         (this.spinnerContainer = SpinnerContainer()),
-        Label({
+        LabelDeprecated({
           type: "transparent",
           containerTag: "label",
           icon: this.checkBoxContainer,

@@ -384,7 +384,7 @@ export default class Comment {
     if (!this.quickActionButtons.selectedButton) return;
 
     if (
-      confirm(
+      !confirm(
         System.data.locale.userContent.notificationMessages
           .doYouWantToConfirmThisContent,
       )
@@ -399,15 +399,7 @@ export default class Comment {
 
   async Confirm() {
     try {
-      const resConfirm = await new Action().ConfirmContent(
-        this.data.id,
-        "Comment",
-      );
-
-      // TODO remove these lines
-      /* console.log(this.data.id);
-      const resConfirm = { success: true, message: "" };
-      await System.TestDelay(); */
+      const resConfirm = await new Action().ConfirmComment(this.data.id);
 
       if (!resConfirm?.success) {
         throw resConfirm.message

@@ -664,17 +664,17 @@ export default class Content {
     try {
       await this.Confirming();
 
-      // const resConfirm = await new Action().ConfirmContent(
-      //   this.data.model_id,
-      //   this.data.model_type_id,
-      // );
-      const resConfirm = {
-        success: !!Math.floor(Math.random() * 2),
-        message: "Failed",
-      };
-      await System.TestDelay(1, 50);
+      const resConfirm = await new Action().ConfirmContent(
+        this.data.model_id,
+        this.data.model_type_id,
+      );
+      // const resConfirm = {
+      //   success: !!Math.floor(Math.random() * 2),
+      //   message: "Failed",
+      // };
+      // await System.TestDelay(1, 50);
 
-      console.log(resConfirm);
+      // console.log(resConfirm);
 
       this.has = "failed";
 

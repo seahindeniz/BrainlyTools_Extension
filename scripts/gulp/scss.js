@@ -8,23 +8,24 @@ import sass from "sass";
 gulpSass.compiler = sass;
 
 function compileScssFiles(files, destPath) {
-  return src(files)
-    .pipe(gulpPlumber())
-    // .pipe(gulpSourceMaps.init())
-    .pipe(
-      gulpSass
-        .sync({
-          outputStyle: "compressed",
-          precision: 10,
-          includePaths: ["node_modules", "."],
-          importer: [
-            magicImporter(),
-          ],
-        })
-        .on("error", gulpSass.logError),
-    )
-    // .pipe(gulpSourceMaps.write(`./`))
-    .pipe(dest(destPath, { overwrite: true }));
+  return (
+    src(files)
+      .pipe(gulpPlumber())
+      // .pipe(gulpSourceMaps.init())
+      .pipe(
+        gulpSass
+          .sync({
+            outputStyle:
+              process.env.NODE_ENV === "production" ? "compressed" : "expanded",
+            precision: 10,
+            includePaths: ["node_modules", "."],
+            importer: [magicImporter()],
+          })
+          .on("error", gulpSass.logError),
+      )
+      // .pipe(gulpSourceMaps.write(`./`))
+      .pipe(dest(destPath, { overwrite: true }))
+  );
 }
 
 export default () => {

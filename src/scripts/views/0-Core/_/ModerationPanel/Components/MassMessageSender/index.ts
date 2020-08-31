@@ -1,10 +1,9 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
+import Button, { JQueryButtonElementType } from "@components/Button";
+import Modal from "@components/Modal";
+// eslint-disable-next-line import/no-extraneous-dependencies
 import template from "backtick-template";
 import Components from "..";
-import Button, {
-  JQueryButtonElementType,
-} from "@components/Button";
-import Modal from "@components/Modal";
 import SendMessageToBrainlyIds from "../../../../../../../controllers/Req/Brainly/Action/SendMessageToBrainlyIds";
 import IsKeyAlphaNumeric from "../../../../../../../helpers/IsKeyAlphaNumeric";
 import AllUsersSection from "./Sections/AllUsers/AllUsers";

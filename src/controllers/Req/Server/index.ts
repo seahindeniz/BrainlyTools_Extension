@@ -1,10 +1,10 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-param-reassign */
+import notification from "@components/notification2";
+import storage from "@root/helpers/extStorage";
 import { IconTypeType } from "@style-guide/Icon";
 import md5 from "js-md5";
 import Request from "..";
-import notification from "@components/notification2";
-import storage from "@root/helpers/extStorage";
 
 type ObjectAnyType = { [x: string]: any };
 
@@ -37,7 +37,7 @@ export type KeywordsForFreelancerDataType = {
     button_link: string;
     button_icon: IconTypeType;
   };
-}
+};
 
 export default class ServerReq {
   url: URL;
@@ -372,11 +372,11 @@ export default class ServerReq {
   ) {
     const resSupervisors = await this.moderatorList().GET();
 
-    if (!resSupervisors)
+    if (!resSupervisors?.success)
       throw Error("Can't fetch moderators list from extension server");
 
     // TODO test this
-    await System.StoreUsers(resSupervisors, handlers);
+    await System.StoreUsers(resSupervisors.data, handlers);
 
     return System.allModerators;
 

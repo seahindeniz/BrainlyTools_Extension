@@ -151,7 +151,7 @@ async function Supervisors() {
     });
     const $toAllButton = Button({
       size: "small",
-      ...System.data.locale.supervisors.sendMessagesToListedMods,
+      ...System.data.locale.supervisors.sendMessagesToAllMods,
     });
 
     $toAllButton.appendTo($toAllButtonSpinnerContainer);
@@ -215,8 +215,9 @@ async function Supervisors() {
           previousProgressBars.remove();
         }
 
-        const doInEachSending = i => {
-          progress.update(i);
+        let i = 0;
+        const doInEachSending = () => {
+          progress.update(++i);
           progress.UpdateLabel(`${i} - ${idListLen}`);
         };
 

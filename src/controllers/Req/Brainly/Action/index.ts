@@ -942,7 +942,7 @@ export default class Action extends Brainly {
     return this.users().search().P(nick).GET();
   }
 
-  async GetAllModerators(handlers) {
+  async GetAllModerators(handlers?) {
     const resSupervisors = await this.moderators()
       .supervisors()
       .P(System.data.Brainly.userData.user.id)

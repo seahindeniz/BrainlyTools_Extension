@@ -128,10 +128,9 @@ class RankSection {
   }
 
   ChangeRank() {
-    /**
-     * @type {HTMLCollection[]}
-     */
-    let selectedRankOptions = this.$rankSelect.prop("selectedOptions");
+    let selectedRankOptions: HTMLOptionElement[] = this.$rankSelect.prop(
+      "selectedOptions",
+    );
 
     if (selectedRankOptions.length > 0) {
       selectedRankOptions = [...selectedRankOptions];
@@ -156,15 +155,15 @@ class RankSection {
     $("> *", this.$userSection).appendTo("<div />");
   }
 
-  RenderUsersOfRank(rankId?: number) {
-    if (System.allModerators) {
-      System.allModerators.list.forEach(user => {
-        if (!rankId || user.ranks_ids.includes(rankId)) {
-          this.ShowUser(user);
-          this.selectedUsersFromRanks.push(user.id);
-        }
-      });
-    }
+  async RenderUsersOfRank(rankId?: number) {
+    if (!System.allModerators) return;
+
+    System.allModerators.list.forEach(user => {
+      if (!rankId || user.ranks_ids.includes(rankId)) {
+        this.ShowUser(user);
+        this.selectedUsersFromRanks.push(user.id);
+      }
+    });
   }
 
   ShowUser(userData) {

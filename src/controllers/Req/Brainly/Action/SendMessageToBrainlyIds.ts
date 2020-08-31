@@ -95,7 +95,11 @@ export default class SendMessageToBrainlyIds {
       validation_errors: undefined,
     };
 
-    this.handlers.EachBefore(user);
+    if (
+      this.handlers.EachBefore &&
+      typeof this.handlers?.EachBefore === "function"
+    )
+      this.handlers?.EachBefore(user);
 
     try {
       const resConversation = await new Action().GetConversationID(user.id);

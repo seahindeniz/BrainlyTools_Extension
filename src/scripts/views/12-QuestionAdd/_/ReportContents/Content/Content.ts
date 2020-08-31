@@ -1,3 +1,5 @@
+import CreateElement from "@components/CreateElement";
+import notification from "@components/notification2";
 import Action, {
   RemoveAnswerReqDataType,
   RemoveCommentReqDataType,
@@ -5,8 +7,6 @@ import Action, {
   ReportedContentDataType,
   UsersDataInReportedContentsType,
 } from "@root/controllers/Req/Brainly/Action";
-import CreateElement from "@components/CreateElement";
-import notification from "@components/notification2";
 import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
 import IsVisible from "@root/helpers/IsVisible";
@@ -409,6 +409,8 @@ export default class Content {
       this.RenderReportDetails();
     }
 
+    this.TryToRenderButtons();
+
     tippy(this.moderateButton.element, {
       theme: "light",
       content: Text({
@@ -430,6 +432,19 @@ export default class Content {
   // eslint-disable-next-line class-methods-use-this
   RenderExtraDetails() {
     //
+  }
+
+  async TryToRenderButtons() {
+    if (
+      this.main.queueContainer.classList.contains(
+        "buttons-visibility-always",
+      ) ||
+      (document.documentElement.classList.contains("mobile") &&
+        !this.main.queueContainer.classList.contains(
+          "buttons-visibility-on-hover",
+        ))
+    )
+      this.RenderButtons();
   }
 
   RenderButtons() {

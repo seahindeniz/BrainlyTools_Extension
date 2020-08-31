@@ -1,5 +1,5 @@
-import Action from "@root/controllers/Req/Brainly/Action";
 import notification from "@components/notification2";
+import Action from "@root/controllers/Req/Brainly/Action";
 import { DeleteReasonSubCategoryType } from "@root/controllers/System";
 import HideElement from "@root/helpers/HideElement";
 import InsertAfter from "@root/helpers/InsertAfter";
@@ -107,7 +107,6 @@ export default class AnswerSection {
   }
 
   RenderConfirmButton() {
-    console.log(this.main.data);
     if (!this.main.data.isMarkedAbuse) return;
 
     this.confirmButtonContainer = Flex({

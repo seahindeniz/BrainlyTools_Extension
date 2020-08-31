@@ -3,7 +3,7 @@ import { Button, Flex, Text } from "@style-guide";
 import { ButtonColorType } from "@style-guide/Button";
 import type { FlexElementType } from "@style-guide/Flex";
 import tippy from "tippy.js";
-import AnswerSectionClassType from "./AnswerSection";
+import type AnswerSectionClassType from "./AnswerSection";
 import type QuestionSectionClassType from "./QuestionSection";
 
 export default class QuickDeleteButton {

@@ -21,8 +21,7 @@ function RenderDropdownItems(reasonTypeKey, selectedReason, $dropdown) {
   $.each(reasons, (reasonId, reason) => {
     if (String(reasonId).indexOf("__") < 0) {
       const category = reasons.__categories[reason.category_id];
-      // TODO check selected reason is selected on the dropdown
-      const isSelected = selectedReason === reasonId ? " selected" : "";
+      const isSelected = selectedReason === Number(reasonId) ? " selected" : "";
       const title =
         category.text === reason.title
           ? reason.title
@@ -112,6 +111,7 @@ class QuickDeleteButtonsOptions {
     ) {
       defaultReasons.forEach((defaultReason, i) => {
         const selectedReason = selectedReasons[i] || defaultReason;
+
         const $dropdownContainer = $(`
 				<div class="control title is-6 has-text-centered">
 					<div class="select">
@@ -148,6 +148,8 @@ class QuickDeleteButtonsOptions {
           reasonTypeKey
         ];
     }
+
+    console.log("selectedReasons", selectedReasons);
 
     return selectedReasons || [];
   }

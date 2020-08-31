@@ -23,7 +23,11 @@ export default class SubReasonSection extends RadioSection {
   }
 
   get deleteReason() {
-    return System.data.Brainly.deleteReasons.__withIds.__all[
+    const { contentType } = this.main.contentTypeSection;
+
+    if (contentType) return undefined;
+
+    return System.data.Brainly.deleteReasons.__withIds[contentType][
       Number(this.value)
     ];
   }
@@ -31,7 +35,6 @@ export default class SubReasonSection extends RadioSection {
   Selected() {
     this.main.listeners?.onSubReasonChange?.();
     // this.main.RenderSubReasonSection();
-    console.log(this.deleteReason);
 
     this.main.textarea.value = this.deleteReason.text;
   }

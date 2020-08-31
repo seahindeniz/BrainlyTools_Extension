@@ -91,7 +91,7 @@ export default class AnswerSection {
       this.moderationBox.firstElementChild,
     );
 
-    System.data.config.quickDeleteButtonsReasons.question.forEach(
+    System.data.config.quickDeleteButtonsReasons.answer.forEach(
       (reasonId, index) => {
         const qdb = new QuickDeleteButton(
           this,

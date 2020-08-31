@@ -119,6 +119,8 @@ export default class {
       this.user.data.extension,
     );
 
+    if (!statusLabel.container) return;
+
     const reportButtonContainer = this.headerSubList.children[2];
     this.headerSubList.insertBefore(
       statusLabel.container,

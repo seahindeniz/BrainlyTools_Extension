@@ -1,5 +1,4 @@
 import { UserDetailsType } from "@root/controllers/Req/Server";
-import { LabelElementType } from "@style-guide/Label";
 import HideElement from "../helpers/HideElement";
 import {
   ActionListHole,
@@ -16,7 +15,7 @@ class UserTag {
   user: UserDetailsType;
 
   container: HTMLElement;
-  label: LabelElementType;
+  label: Label;
   privilegeList: HTMLUListElement;
   bubble: HTMLDivElement;
 
@@ -25,11 +24,13 @@ class UserTag {
     this.userId = userId;
     this.user = user;
 
-    this.Render();
-
     if (!this.user.probatus) {
-      if (System.checkUserP([5, 22])) this.RenderAssignPermission();
+      if (System.checkUserP([5, 22])) {
+        this.Render();
+        this.RenderAssignPermission();
+      }
     } else {
+      this.Render();
       this.RenderExtensionUser();
 
       if (this.user.privileges) {
@@ -44,7 +45,7 @@ class UserTag {
   Render() {
     this.container = ActionListHole({
       className: "userTag",
-      children: this.label = Label({
+      children: this.label = new Label({
         type: "solid",
       }),
     });
@@ -52,12 +53,14 @@ class UserTag {
 
   RenderExtensionUser() {
     this.label.ChangeColor("mint");
-    this.label.ChangeText(System.data.locale.common.extensionUser);
+    this.label.ChangeChildren(System.data.locale.common.extensionUser);
   }
 
   RenderAssignPermission() {
     this.label.ChangeColor("gray");
-    this.label.ChangeText(System.data.locale.core.assignExtensionPermission);
+    this.label.ChangeChildren(
+      System.data.locale.core.assignExtensionPermission,
+    );
   }
 
   RenderPrivilegeList() {
@@ -71,8 +74,8 @@ class UserTag {
       style: {
         position: "absolute",
         zIndex: 3,
-        top: "-10px",
-        marginLeft: "-4px",
+        top: "-7px",
+        marginLeft: "3px",
       },
       children: this.privilegeList,
     });
@@ -134,8 +137,8 @@ class UserTag {
 
   BindHandlers() {
     if (System.checkUserP([5, 22, 23, 24, 25])) {
-      this.label.addEventListener("click", this.EditUser.bind(this));
-      this.label.classList.add("sg-media--clickable");
+      this.label.element.addEventListener("click", this.EditUser.bind(this));
+      this.label.element.classList.add("sg-media--clickable");
     }
   }
 

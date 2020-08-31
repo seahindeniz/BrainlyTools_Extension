@@ -5,15 +5,18 @@ import type OptionsSectionClassType from "./OptionsSection";
 
 export default class OptionChild {
   main: OptionsSectionClassType;
-  #checkBoxProps: LabelPropsType;
+  #checkBoxLabelProps: LabelPropsType;
 
   container: import("@style-guide/Flex").FlexElementType;
   checkboxContainer: CheckboxElementType;
   checkbox: HTMLInputElement;
 
-  constructor(main: OptionsSectionClassType, checkBoxProps: LabelPropsType) {
+  constructor(
+    main: OptionsSectionClassType,
+    checkBoxLabelProps: LabelPropsType,
+  ) {
     this.main = main;
-    this.#checkBoxProps = checkBoxProps;
+    this.#checkBoxLabelProps = checkBoxLabelProps;
 
     this.Render();
   }
@@ -26,7 +29,7 @@ export default class OptionChild {
         icon: this.checkboxContainer = Checkbox({
           id: null,
         }),
-        ...this.#checkBoxProps,
+        ...this.#checkBoxLabelProps,
       }),
     });
 

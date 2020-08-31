@@ -43,6 +43,8 @@ export default class OptionsSection {
       ...System.data.locale.common.moderating.takePoints[contentType],
     });
 
+    this.takePoints.checkbox.checked = true;
+
     this.container.append(this.takePoints.container);
   }
 

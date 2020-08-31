@@ -1,8 +1,10 @@
-import debounce from "debounce";
+import Action from "@BrainlyAction";
 import Button from "@components/Button";
 import DeleteSection from "@components/DeleteSection";
 import Modal from "@components/Modal";
-import Action from "../../../../../../controllers/Req/Brainly/Action";
+import { Text } from "@style-guide";
+import debounce from "debounce";
+import tippy from "tippy.js";
 import Components from ".";
 
 function RenderSpinner() {
@@ -33,12 +35,13 @@ class MassContentDeleter extends Components {
   $deleteButton: JQuery<HTMLElement>;
   $buttonSpinner: JQuery<HTMLElement>;
   $textareaSpinner: JQuery<HTMLElement>;
-  $textareaWarning: JQuery<HTMLElement>;
   deleteSection: DeleteSection;
 
   contentData: {
     [x: string]: any;
   };
+
+  warningTippy: any;
 
   constructor(main) {
     super(main);
@@ -173,9 +176,16 @@ class MassContentDeleter extends Components {
   }
 
   RenderTextareaWarning() {
-    this.$textareaWarning = $(
-      `<div class="sg-bubble sg-bubble--top sg-bubble--row-start sg-bubble--peach sg-text--white enterIdWarn">${System.data.locale.core.notificationMessages.enterIdWarn}</div>`,
-    );
+    this.warningTippy = tippy(this.$textarea.parent().get(0), {
+      theme: "light",
+      trigger: "manual",
+      placement: "bottom",
+      content: Text({
+        weight: "bold",
+        color: "peach-dark",
+        children: System.data.locale.core.notificationMessages.enterIdWarn,
+      }),
+    });
   }
 
   BindHandlers() {
@@ -305,6 +315,7 @@ class MassContentDeleter extends Components {
   }
 
   IsDataClear() {
+    // fix this
     if (!this.contentsToDelete || this.contentsToDelete.length !== 0) {
       this.$textarea.trigger("focus");
       this.ShowTextareaWarning();
@@ -366,8 +377,9 @@ class MassContentDeleter extends Components {
   }
 
   async DeleteContent(id) {
-    let Method;
     this.contentData.model_id = id;
+
+    let Method;
     const action = new Action();
 
     if (this.deleteSection.type === "question") Method = action.RemoveQuestion;
@@ -377,6 +389,9 @@ class MassContentDeleter extends Components {
     if (this.deleteSection.type === "comment") Method = action.RemoveComment;
 
     const resRemove = await Method.bind(action)(this.contentData);
+
+    // const resRemove = { success: true, message: "Failed" };
+    // await System.TestDelay();
 
     this.MarkContentID(id, !!resRemove.success);
 
@@ -424,23 +439,11 @@ class MassContentDeleter extends Components {
   }
 
   ShowTextareaWarning() {
-    if (this.$textareaWarning.parents("body").length === 0) {
-      this.$textareaWarning.insertAfter(this.$textarea.parent());
-    } else {
-      this.$textareaWarning
-        .fadeTo("fast", 0.5)
-        .fadeTo("fast", 1)
-        .fadeTo("fast", 0.5)
-        .fadeTo("fast", 1);
-    }
-
-    this.$textareaWarning.trigger("focus");
+    this.warningTippy.show();
   }
 
   async HideTextareaWarning() {
-    await this.$textareaWarning.slideUp("fast").promise();
-    this.HideElement(this.$textareaWarning);
-    this.$textareaWarning.show();
+    this.warningTippy.hide();
   }
 }
 

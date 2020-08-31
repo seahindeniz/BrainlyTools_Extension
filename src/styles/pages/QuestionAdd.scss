@@ -112,13 +112,69 @@ $densities: (
   }
 }
 
-@mixin reportItemDensity($size) {
+@function createNumberedSelectorText($className, $N1, $N2) {
+  $foo: $className + ":nth-child(" + $N1 + "):nth-last-child(" + $N2 + "),";
+
+  @return $foo;
+}
+
+@function createTextSelector($num, $className) {
+  $foo: "";
+  $threshold: $num + 1;
+
+  @for $N1 from 1 through $num {
+    @for $N2 from 1 through $num {
+      @if $N2 < $threshold {
+        $foo: $foo +
+          $className +
+          ":nth-child(" +
+          $N1 +
+          "):nth-last-child(" +
+          $N2 +
+          "),";
+      }
+    }
+
+    $threshold: $threshold - 1;
+  }
+
+  @return $foo;
+}
+
+@mixin createNumbered($num, $classNames) {
+  $foo: "";
+
+  @each $className in $classNames {
+    $foo: $foo + createTextSelector($num, $className);
+  }
+
+  @if $foo != "" {
+    #{$foo} {
+      @content;
+    }
+  }
+}
+
+@mixin reportItemDensity($size, $isMedia: false) {
   .report-item-wrapper {
     width: if($size == 1, 100%, calc(100% / #{$size}));
 
     @if $size != 1 {
       &:not(:nth-child(#{$size}n)) {
         box-shadow: 1px 0px 0px 0px #ebf2f7;
+      }
+    }
+
+    $className: &;
+
+    @if $isMedia == false and $size > 1 {
+      @at-root {
+        @include createNumbered(
+          $size - 1,
+          (".queue:not([data-density]) .report-item-wrapper", $className)
+        ) {
+          height: fit-content;
+        }
       }
     }
   }
@@ -138,7 +194,7 @@ $densities: (
       &:not([data-density]),
       &[data-density=""],
       &[data-density="0"] {
-        @include reportItemDensity($size);
+        @include reportItemDensity($size, true);
       }
     }
   }

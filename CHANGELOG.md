@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.1.0] - 2020.09.01
+
+### Added
+
+- (Partially) A way to directly close the ticket when viewing the log at the
+  very bottom of a ticket. [#184]
+- Hide next/prev buttons when there is one attachment [#191]
+
+### Changed
+
+- Incorrect reason for deletion [#173]
+- Mass-Content deleter isn't working [#186]
+- Unable to attach file while deleting accounts [#189]
+- Attachments don't open in new tab [#190]
+
+[#173]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/173
+[#184]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/184
+[#186]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/186
+[#189]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/189
+[#190]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/190
+[#191]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/191
+
 ## [7.0.1] - 2020.08.31
 
 ### Changed

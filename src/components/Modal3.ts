@@ -1,10 +1,10 @@
+import CreateElement from "@components/CreateElement";
 import { Flex, Overlay, Text, Toplayer } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type { ChildrenParamType } from "@style-guide/helpers/AddChildren";
 import type { TextElement } from "@style-guide/Text";
 import type { ToplayerPropsType } from "@style-guide/Toplayer";
 import HideElement from "../helpers/HideElement";
-import CreateElement from "@components/CreateElement";
 import getModalContainer from "./helpers/getModalContainer";
 import notification, { NotificationPropsType } from "./notification2";
 
@@ -85,6 +85,8 @@ export default class Modal {
       ...this.props,
     });
 
+    document.addEventListener("keyup", this.KeyPressed.bind(this));
+
     if (this.hasOverlay) this.RenderInOverlay();
 
     if (this.title) this.RenderTitle();
@@ -149,6 +151,13 @@ export default class Modal {
 
   Close() {
     HideElement(this.overlay || this.toplayer.element);
+  }
+
+  KeyPressed(event: KeyboardEvent) {
+    if (event.key !== "Escape") return;
+
+    if (this.props.onClose) this.props.onClose(event);
+    else this.Close();
   }
 
   Notification(props: NotificationPropsType) {

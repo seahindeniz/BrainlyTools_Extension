@@ -12,7 +12,7 @@ type ToplayerSizeType = "small" | "medium" | "large" | "90prc" | "fit-content";
 
 export type ToplayerPropsType = {
   children?: ChildrenParamType;
-  onClose?: (event: MouseEvent) => void;
+  onClose?: (event: MouseEvent | KeyboardEvent) => void;
   size?: ToplayerSizeType;
   lead?: boolean;
   fill?: boolean;

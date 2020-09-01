@@ -315,8 +315,7 @@ class MassContentDeleter extends Components {
   }
 
   IsDataClear() {
-    // fix this
-    if (!this.contentsToDelete || this.contentsToDelete.length !== 0) {
+    if (!this.contentsToDelete?.length) {
       this.$textarea.trigger("focus");
       this.ShowTextareaWarning();
 

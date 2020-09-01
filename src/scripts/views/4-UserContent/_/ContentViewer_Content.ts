@@ -373,11 +373,13 @@ export default class ContentViewerContent {
           boxProps.children = Text({
             weight: "bold",
             href: "",
+            target: "_blank",
             text: (attachmentTypes || attachment.type).toLocaleUpperCase(),
           });
         } else {
           boxProps.children = CreateElement({
             tag: "a",
+            target: "_blank",
             href: attachment.full,
             children: CreateElement({
               tag: "img",

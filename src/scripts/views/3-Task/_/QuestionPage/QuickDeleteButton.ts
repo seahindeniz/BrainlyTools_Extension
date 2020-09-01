@@ -18,12 +18,12 @@ export default class QuickDeleteButton {
   constructor(
     main: QuestionSectionClassType | AnswerSectionClassType,
     buttonColor: ButtonColorType,
-    reasonId: number,
+    reason: DeleteReasonSubCategoryType,
     index: number,
   ) {
     this.main = main;
     this.buttonColor = buttonColor;
-    this.reason = System.DeleteReason({ id: reasonId });
+    this.reason = reason;
     this.index = index;
 
     if (!this.reason) throw Error("Can't find the delete reason");

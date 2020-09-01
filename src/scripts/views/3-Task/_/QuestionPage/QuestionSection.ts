@@ -51,10 +51,16 @@ export default class QuestionSection {
 
     System.data.config.quickDeleteButtonsReasons.question.forEach(
       (reasonId, index) => {
+        const reason =
+          // eslint-disable-next-line no-underscore-dangle
+          System.data.Brainly.deleteReasons.__withIds.question[reasonId];
+
+        if (!reason) return;
+
         const qdb = new QuickDeleteButton(
           this,
           { type: "solid-mustard" },
-          reasonId,
+          reason,
           index + 1,
         );
 
@@ -65,7 +71,6 @@ export default class QuestionSection {
   }
 
   RenderConfirmButton() {
-    console.log(this.main.data);
     if (!this.main.data.isMarkedAbuse) return;
 
     this.confirmButtonContainer = Flex({

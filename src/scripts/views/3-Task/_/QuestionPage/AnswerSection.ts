@@ -93,10 +93,16 @@ export default class AnswerSection {
 
     System.data.config.quickDeleteButtonsReasons.answer.forEach(
       (reasonId, index) => {
+        const reason =
+          // eslint-disable-next-line no-underscore-dangle
+          System.data.Brainly.deleteReasons.__withIds.question[reasonId];
+
+        if (!reason) return;
+
         const qdb = new QuickDeleteButton(
           this,
           { type: "solid-peach" },
-          reasonId,
+          reason,
           index + 1,
         );
 

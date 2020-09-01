@@ -51,9 +51,7 @@ export default class QuestionSection {
 
     System.data.config.quickDeleteButtonsReasons.question.forEach(
       (reasonId, index) => {
-        const reason =
-          // eslint-disable-next-line no-underscore-dangle
-          System.data.Brainly.deleteReasons.__withIds.question[reasonId];
+        const reason = System.DeleteReason({ id: reasonId, type: "question" });
 
         if (!reason) return;
 

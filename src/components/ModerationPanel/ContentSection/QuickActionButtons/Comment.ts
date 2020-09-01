@@ -15,9 +15,14 @@ export default class QuickActionButtonsForComment extends QuickActionButtons {
 
     System.data.config.quickDeleteButtonsReasons.comment.forEach(
       (id, index) => {
-        const deleteButton = new DeleteButton(this, id, index, {
-          type: "solid",
-        });
+        const deleteButton = new DeleteButton(
+          this,
+          { id, type: "comment" },
+          index,
+          {
+            type: "solid",
+          },
+        );
 
         this.actionButtons.push(deleteButton);
       },

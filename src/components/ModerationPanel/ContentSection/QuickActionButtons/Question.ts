@@ -15,9 +15,14 @@ export default class QuickActionButtonsForQuestion extends QuickActionButtons {
 
     System.data.config.quickDeleteButtonsReasons.question.forEach(
       (id, index) => {
-        const deleteButton = new DeleteButton(this, id, index, {
-          type: "solid-mustard",
-        });
+        const deleteButton = new DeleteButton(
+          this,
+          { id, type: "question" },
+          index,
+          {
+            type: "solid-mustard",
+          },
+        );
 
         this.actionButtons.push(deleteButton);
       },

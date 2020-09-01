@@ -54,9 +54,14 @@ export default class QuickActionButtonsForAnswer extends QuickActionButtons {
     if (!System.checkUserP(2) || !System.checkBrainlyP(102)) return;
 
     System.data.config.quickDeleteButtonsReasons.answer.forEach((id, index) => {
-      const deleteButton = new DeleteButton(this, id, index, {
-        type: "solid-peach",
-      });
+      const deleteButton = new DeleteButton(
+        this,
+        { id, type: "answer" },
+        index,
+        {
+          type: "solid-peach",
+        },
+      );
 
       this.actionButtons.push(deleteButton);
     });

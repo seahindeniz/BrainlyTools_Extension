@@ -1,4 +1,7 @@
-import { DeleteReasonSubCategoryType } from "@root/controllers/System";
+import {
+  DeleteReasonPropsType,
+  DeleteReasonSubCategoryType,
+} from "@root/controllers/System";
 import { Text } from "@style-guide";
 import type { ButtonPropsType } from "@style-guide/Button";
 import type QuickActionButtonsClassType from "../QuickActionButtons";
@@ -9,11 +12,11 @@ export default class DeleteButton extends ActionButton {
 
   constructor(
     main: QuickActionButtonsClassType,
-    id: number,
+    deleteReasonProps: DeleteReasonPropsType,
     index: number,
     buttonProps: ButtonPropsType,
   ) {
-    const reason = System.DeleteReason({ id });
+    const reason = System.DeleteReason(deleteReasonProps);
     const title = `<b>${reason.title}</b>:\n\n${reason.text}`;
 
     super(

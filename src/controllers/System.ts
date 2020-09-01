@@ -190,6 +190,21 @@ export type MetaDataType = {
   storageKey?: string;
 };
 
+export type DeleteReasonPropsType = {
+  noRandom?: boolean;
+} & (
+  | {
+      id: number | string;
+      name?: never;
+      type: DeleteReasonContentTypeNameType;
+    }
+  | {
+      id?: never;
+      name: string;
+      type: DeleteReasonContentTypeNameType;
+    }
+);
+
 function _ExtractAvatarURL(entry: AvatarType) {
   return entry[64] || entry[100] || entry.src || entry.small || entry.medium;
 }
@@ -887,23 +902,10 @@ class _System {
     name,
     type,
     noRandom,
-  }: {
-    noRandom?: boolean;
-  } & (
-    | {
-        id: number | string;
-        name?: never;
-        type?: never;
-      }
-    | {
-        id?: never;
-        name: string;
-        type: DeleteReasonContentTypeNameType;
-      }
-  )): DeleteReasonSubCategoryType {
+  }: DeleteReasonPropsType): DeleteReasonSubCategoryType {
     if (!id && !name) throw Error("Please specify an id or name");
 
-    if (name && !type) throw Error("Content type needed");
+    if (!type) throw Error("Content type needed");
 
     if (id && name) throw Error("You can't specify both id and name fields");
 

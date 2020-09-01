@@ -154,8 +154,9 @@ export default class AccountDeleteReporter {
 
     this.addFileButton.element.addEventListener(
       "click",
-      this.fileInput.input.click.bind(this.fileInput),
+      this.fileInput.input.click.bind(this.fileInput.input),
     );
+
     this.deleteButton.element.addEventListener(
       "click",
       this.SubmitDeleteForm.bind(this),

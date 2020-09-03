@@ -23,13 +23,18 @@ export default class SubReasonSection extends RadioSection {
   }
 
   get deleteReason() {
-    const { contentType } = this.main.contentTypeSection;
+    const contentType = this.main.contentTypeSection.contentType || undefined;
 
-    if (contentType) return undefined;
+    if (!contentType) throw Error("Can't find content type");
 
-    return System.data.Brainly.deleteReasons.__withIds[contentType][
-      Number(this.value)
-    ];
+    const deleteReason =
+      System.data.Brainly.deleteReasons.__withIds[contentType][
+        Number(this.value)
+      ];
+
+    if (!deleteReason) throw Error("Can't find deleteReason");
+
+    return deleteReason;
   }
 
   Selected() {

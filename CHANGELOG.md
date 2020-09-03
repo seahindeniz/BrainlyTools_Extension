@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.1.1] - 2020.09.03
+
+### Changed
+
+- The text corresponding to the reasons for deletion is not displayed [#192]
+
+[#192]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/192
+
 ## [7.1.0] - 2020.09.01
 
 ### Added

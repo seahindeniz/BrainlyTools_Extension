@@ -1,5 +1,5 @@
 import CreateElement from "@components/CreateElement";
-import { Flex, Overlay, Text, Toplayer } from "@style-guide";
+import { Button, Flex, Icon, Overlay, Text, Toplayer } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type { ChildrenParamType } from "@style-guide/helpers/AddChildren";
 import type { TextElement } from "@style-guide/Text";
@@ -13,6 +13,7 @@ type ModalPropsType = {
   title?: string | ChildrenParamType;
   content?: ChildrenParamType;
   actions?: ChildrenParamType;
+  scrollToTop?: boolean;
 } & ToplayerPropsType;
 
 export default class Modal {
@@ -20,6 +21,7 @@ export default class Modal {
   title: string | ChildrenParamType;
   content: ChildrenParamType;
   actions: ChildrenParamType;
+  #scrollToTop: boolean;
   // eslint-disable-next-line react/static-property-placement
   props: ToplayerPropsType;
 
@@ -35,12 +37,14 @@ export default class Modal {
   #contentContainer: FlexElementType;
 
   #actionsContainer: FlexElementType;
+  #scrollToTopButtonContainer: FlexElementType;
 
   constructor({
     overlay,
     title,
     content,
     actions,
+    scrollToTop,
     ...props
   }: ModalPropsType = {}) {
     this.hasOverlay = overlay;
@@ -48,6 +52,7 @@ export default class Modal {
     this.content = content;
     this.actions = actions;
     this.props = props;
+    this.#scrollToTop = scrollToTop;
 
     this.Render();
   }
@@ -88,6 +93,8 @@ export default class Modal {
     document.addEventListener("keyup", this.KeyPressed.bind(this));
 
     if (this.hasOverlay) this.RenderInOverlay();
+
+    if (this.#scrollToTop && this.hasOverlay) this.RenderScrollToTopButton();
 
     if (this.title) this.RenderTitle();
     if (this.content) this.RenderContent();
@@ -139,6 +146,43 @@ export default class Modal {
     });
 
     this.container.append(this.actionsContainer);
+  }
+
+  RenderScrollToTopButton() {
+    this.#scrollToTopButtonContainer = Flex({
+      relative: true,
+      className: "ext-modal--to-top-button",
+      children: new Button({
+        size: "xl",
+        type: "solid-light",
+        iconOnly: true,
+        onClick: this.OverlayScrollToTop.bind(this),
+        icon: new Icon({
+          size: 46,
+          type: "arrow_up",
+          color: "adaptive",
+        }),
+      }),
+    });
+
+    this.overlay.addEventListener(
+      "scroll",
+      this.TryToShowScrollToTopButton.bind(this),
+    );
+  }
+
+  OverlayScrollToTop() {
+    this.overlay.scrollTop = 0;
+  }
+
+  TryToShowScrollToTopButton() {
+    if (this.overlay.scrollTop < 300) {
+      HideElement(this.#scrollToTopButtonContainer);
+
+      return;
+    }
+
+    this.toplayer.wrapper.append(this.#scrollToTopButtonContainer);
   }
 
   Open() {

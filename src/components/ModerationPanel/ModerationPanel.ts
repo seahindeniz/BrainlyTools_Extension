@@ -105,6 +105,7 @@ export default class ModerationPanel {
     this.modal = new Modal({
       size: "large",
       overlay: true,
+      scrollToTop: true,
       title: System.data.locale.moderationPanel.text,
       content: this.contentContainer = Flex({
         fullWidth: true,

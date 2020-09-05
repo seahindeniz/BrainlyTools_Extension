@@ -11,10 +11,20 @@ function WaitForElement(
   param1?: { multiple?: false } & CommonPropsType,
 ): Promise<HTMLElement>;
 
+function WaitForElement<T extends keyof HTMLElementTagNameMap>(
+  query?: string,
+  param1?: { multiple?: false } & CommonPropsType,
+): Promise<HTMLElementTagNameMap[T]>;
+
 function WaitForElement(
   query?: string,
   param1?: ({ multiple: true } & CommonPropsType) | undefined,
 ): Promise<NodeListOf<HTMLElement>>;
+
+function WaitForElement<T extends keyof HTMLElementTagNameMap>(
+  query?: string,
+  param1?: ({ multiple: true } & CommonPropsType) | undefined,
+): Promise<NodeListOf<HTMLElementTagNameMap[T]>>;
 
 function WaitForElement(
   query: string,

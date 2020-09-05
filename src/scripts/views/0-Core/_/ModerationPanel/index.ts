@@ -168,11 +168,18 @@ class ModerationPanel {
       "#moderate-functions-panel > div.panel > div.covering-text",
     );
 
-    newPanelButton.addEventListener("click", this.DelayedHeightFix.bind(this));
-    oldPanelCoveringText.addEventListener(
-      "click",
-      this.DelayedHeightFix.bind(this),
-    );
+    if (newPanelButton)
+      newPanelButton.addEventListener(
+        "click",
+        this.DelayedHeightFix.bind(this),
+      );
+
+    if (oldPanelCoveringText)
+      oldPanelCoveringText.addEventListener(
+        "click",
+        this.DelayedHeightFix.bind(this),
+      );
+
     window.addEventListener("load", this.FixPanelsHeight.bind(this));
     window.addEventListener("scroll", this.FixPanelsHeight.bind(this));
 

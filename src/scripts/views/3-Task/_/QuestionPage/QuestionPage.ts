@@ -75,6 +75,10 @@ export default class QuestionPage {
   RenderAnswerSections() {
     if (!this.data.responses?.length) return;
 
+    this.data.responses = this.data.responses.sort(answerData => {
+      return !answerData.approved.date ? 1 : -1;
+    });
+
     this.data.responses.forEach((answerData, index) => {
       this.answerSections.push(new AnswerSection(this, answerData, index));
     });

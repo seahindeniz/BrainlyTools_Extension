@@ -913,10 +913,9 @@ class _System {
     let reasons;
 
     if (id) {
-      reasons = deleteReasons.__withIds.__all;
+      reasons = deleteReasons.__withIds[type || "__all"];
     } else if (name) {
-      const reasonGroup = deleteReasons.__withTitles;
-      reasons = reasonGroup[type];
+      reasons = deleteReasons.__withTitles[type];
     }
 
     if (!reasons) {

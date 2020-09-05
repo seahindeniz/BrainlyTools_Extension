@@ -245,10 +245,7 @@ export default class AccountDeleteReporter {
     this.DeleteAccount(true);
   }
 
-  /**
-   * @param {boolean} [fastDelete]
-   */
-  async DeleteAccount(fastDelete) {
+  async DeleteAccount(fastDelete?: boolean) {
     notification({
       type: "info",
       permanent: true,
@@ -259,14 +256,11 @@ export default class AccountDeleteReporter {
     this.SubmitDeleteForm(fastDelete);
   }
 
-  /**
-   * @param {boolean} [fastDelete]
-   */
-  async SubmitDeleteForm(fastDelete) {
+  async SubmitDeleteForm(fastDelete?: boolean | Event) {
     this.progressContainer.innerHTML = "";
 
     if (
-      !fastDelete &&
+      fastDelete !== true &&
       !this.IsFormFilled() &&
       !confirm(
         System.data.locale.userProfile.notificationMessages

@@ -1,5 +1,7 @@
+import CreateElement from "@components/CreateElement";
+import IsVisible from "@root/helpers/IsVisible";
+import WaitForElement from "@root/helpers/WaitForElement";
 import { Flex, MenuList } from "@style-guide";
-import { FlexElementType } from "@style-guide/Flex";
 import WaitForObject from "../../../../../helpers/WaitForObject";
 import MassContentDeleter from "./Components/MassContentDeleter";
 import MassManageUsers from "./Components/MassManageUsers";
@@ -9,16 +11,6 @@ import PointChanger from "./Components/PointChanger";
 import ReportedCommentsDeleter from "./Components/ReportedCommentsDeleter";
 import ReportedContentsLink from "./Components/ReportedContentsLink";
 import SearchUser from "./Components/SearchUser";
-
-const SELECTOR = {
-  STATISTICS: "#moderate-functions-panel > div.statistics",
-  NEW_PANEL: ".brn-moderation-panel__list",
-  NEW_PANEL_BUTTON: ".brn-moderation-panel__button",
-  OLD_PANEL: "#moderate-functions-panel > div.panel > div.content-scroll",
-  OLD_PANEL_COVERING_TEXT: `
-  #moderate-functions-panel > div.panel > div.covering-text`,
-  PANELS: ".brn-moderation-panel__list, #moderate-functions",
-};
 
 type ComponentsType = {
   [x in "immediately" | "afterDeleteReasons"]: {
@@ -35,26 +27,32 @@ type ComponentsType = {
   }[];
 };
 
+function FixNewPanelsHeight() {
+  const newPanel: HTMLDivElement = document.querySelector(
+    ".brn-moderation-panel__list",
+  );
+
+  if (!newPanel) return;
+
+  let height = window.innerHeight - 226;
+
+  if (newPanel.scrollHeight < height) {
+    height = newPanel.scrollHeight;
+  }
+
+  newPanel.style.cssText = `height: ${height}px`;
+}
+
 class ModerationPanel {
-  $statistics: JQuery<HTMLElement>;
-  $newPanel: JQuery<HTMLElement>;
-  $newPanelButton: JQuery<HTMLElement>;
-  $oldPanel: JQuery<HTMLElement>;
-  $oldPanelCoveringText: JQuery<HTMLElement>;
   components: ComponentsType;
 
-  listContainer: FlexElementType;
+  panel: HTMLDivElement;
   ul: HTMLUListElement;
 
-  $resizeOverlay: JQuery<HTMLElement>;
-  $resizeStyle: JQuery<HTMLElement>;
+  resizeOverlay: HTMLDivElement;
+  resizeStyle: HTMLStyleElement;
 
   constructor() {
-    this.$statistics = $(SELECTOR.STATISTICS);
-    this.$newPanel = $(SELECTOR.NEW_PANEL);
-    this.$newPanelButton = $(SELECTOR.NEW_PANEL_BUTTON);
-    this.$oldPanel = $(SELECTOR.OLD_PANEL);
-    this.$oldPanelCoveringText = $(SELECTOR.OLD_PANEL_COVERING_TEXT);
     this.components = {
       immediately: [
         {
@@ -95,6 +93,14 @@ class ModerationPanel {
       ],
     };
 
+    this.Init();
+  }
+
+  async Init() {
+    this.panel = await WaitForElement<"div">(
+      ".brn-moderation-panel__list, #moderate-functions",
+    );
+
     this.RenderList();
     this.InitComponents();
     this.InitComponentsAfterDeleteReasonsLoaded();
@@ -103,21 +109,16 @@ class ModerationPanel {
   }
 
   RenderList() {
-    this.listContainer = Flex({
+    const listContainer = Flex({
       marginBottom: "s",
       children: this.ul = MenuList({
         size: "small",
       }),
     });
 
-    const panel = document.querySelector(SELECTOR.PANELS);
-
-    if (panel) panel.prepend(this.listContainer);
+    this.panel.prepend(listContainer);
   }
 
-  /**
-   * @param {"immediately" | "afterDeleteReasons"} [groupName]
-   */
   InitComponents(groupName: keyof ComponentsType = "immediately") {
     const group = this.components[groupName];
 
@@ -148,24 +149,36 @@ class ModerationPanel {
   }
 
   RenderResizeTrackingElement() {
-    this.$resizeOverlay = $(`
-		<div class="resizeOverlay">
-			<style></style>
-		</div>`);
+    this.resizeOverlay = CreateElement({
+      tag: "div",
+      className: "resizeOverlay",
+      children: this.resizeStyle = CreateElement({
+        tag: "style",
+      }),
+    });
 
-    this.$resizeStyle = $("style", this.$resizeOverlay);
-    this.$resizeOverlay.appendTo(document.body);
+    document.body.append(this.resizeOverlay);
   }
 
   BindHandlers() {
-    this.$newPanelButton.on("click", this.DelayedHeightFix.bind(this));
-    this.$oldPanelCoveringText.on("click", this.DelayedHeightFix.bind(this));
+    const newPanelButton = document.querySelector(
+      ".brn-moderation-panel__button",
+    );
+    const oldPanelCoveringText = document.querySelector(
+      "#moderate-functions-panel > div.panel > div.covering-text",
+    );
+
+    newPanelButton.addEventListener("click", this.DelayedHeightFix.bind(this));
+    oldPanelCoveringText.addEventListener(
+      "click",
+      this.DelayedHeightFix.bind(this),
+    );
     window.addEventListener("load", this.FixPanelsHeight.bind(this));
     window.addEventListener("scroll", this.FixPanelsHeight.bind(this));
 
     if (window.ResizeObserver) {
       new ResizeObserver(this.FixPanelsHeight.bind(this)).observe(
-        this.$resizeOverlay[0],
+        this.resizeOverlay,
       );
     } else {
       window.addEventListener("resize", this.FixPanelsHeight.bind(this));
@@ -178,36 +191,36 @@ class ModerationPanel {
   }
 
   FixPanelsHeight() {
-    this.FixNewPanelsHeight();
+    FixNewPanelsHeight();
     this.FixOldPanelsHeight();
   }
 
-  FixNewPanelsHeight() {
-    if (this.$newPanel.length > 0) {
-      let height = window.innerHeight - 226;
-
-      if (this.$newPanel[0].scrollHeight < height)
-        height = this.$newPanel[0].scrollHeight;
-
-      this.$newPanel.css("cssText", `height: ${height}px`);
-    }
-  }
-
   FixOldPanelsHeight() {
-    if (this.$oldPanel.length > 0) {
-      let height = window.innerHeight - 115;
+    const oldPanel = document.querySelector(
+      "#moderate-functions-panel > div.panel > div.content-scroll",
+    );
 
-      if (this.$statistics.is(":visible")) height -= 160;
+    if (!oldPanel) return;
 
-      if (this.$oldPanel[0].scrollHeight < height)
-        height = this.$oldPanel[0].scrollHeight;
+    let height = window.innerHeight - 115;
 
-      this.$resizeStyle.html(`
+    const statistics = document.querySelector(
+      "#moderate-functions-panel > div.statistics",
+    );
+
+    if (IsVisible(statistics)) {
+      height -= 160;
+    }
+
+    if (oldPanel.scrollHeight < height) {
+      height = oldPanel.scrollHeight;
+    }
+
+    this.resizeStyle.innerHTML = `
 #html .mint .panel .covering-text,
 #html .mint .panel .content-scroll {
 	height: ${height}px !important;
-}`);
-    }
+}`;
   }
 }
 

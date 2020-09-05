@@ -95,6 +95,7 @@ export default class UserContentRow {
                   tag: "a",
                   size: "small",
                   weight: "bold",
+                  breakWords: true,
                   color: "blue-dark",
                   html: questionLink.innerHTML,
                   href: questionLink.href,

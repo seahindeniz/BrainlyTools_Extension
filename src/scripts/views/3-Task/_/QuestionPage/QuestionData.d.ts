@@ -58,8 +58,19 @@ type Settings = {
 };
 
 type Approved = {
-  date: any;
-  approver: any;
+  date?: string;
+  approver?: {
+    avatars: {
+      64?: string;
+      100?: string;
+    };
+    contentApprovedCount: number;
+    gender: number;
+    grade: number;
+    id: number;
+    nickname: string;
+    points: number;
+  };
 };
 
 type Comments = {

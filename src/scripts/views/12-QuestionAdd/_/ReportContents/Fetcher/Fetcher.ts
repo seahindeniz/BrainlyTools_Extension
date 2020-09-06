@@ -1,5 +1,6 @@
 import type {
   ReportedContentDataType,
+  ReportedContentsDataType,
   UsersDataInReportedContentsType,
 } from "@root/controllers/Req/Brainly/Action";
 import Action from "@root/controllers/Req/Brainly/Action";
@@ -248,6 +249,8 @@ export default class Fetcher {
 
     this.lastId = resReports.data.last_id;
 
+    this.UpdateReportTypeCounts(resReports.data);
+
     if (resReports.users_data.length > 0)
       resReports.users_data.forEach(this.StoreUser.bind(this));
 
@@ -269,6 +272,8 @@ export default class Fetcher {
 
     this.lastId = resReports.data.last_id;
 
+    this.UpdateReportTypeCounts(resReports.data);
+
     if (resReports.users_data.length > 0)
       resReports.users_data.forEach(this.StoreUser.bind(this));
 
@@ -289,11 +294,25 @@ export default class Fetcher {
 
     this.lastId = resReports.data.last_id;
 
+    this.UpdateReportTypeCounts(resReports.data);
+
     if (resReports.users_data.length > 0)
       resReports.users_data.forEach(this.StoreUser.bind(this));
 
     if (resReports.data?.items?.length > 0)
       resReports.data.items.forEach(this.InitContent.bind(this));
+  }
+
+  UpdateReportTypeCounts(res: ReportedContentsDataType) {
+    this.filters.reportTypeFilter.reportTypes.questionAnswer.numberOfReports.nodeValue = String(
+      res.total_count,
+    );
+    this.filters.reportTypeFilter.reportTypes.comment.numberOfReports.nodeValue = String(
+      res.comment_count,
+    );
+    this.filters.reportTypeFilter.reportTypes.correction.numberOfReports.nodeValue = String(
+      res.corrected_count,
+    );
   }
 
   InitContent(data: ReportedContentDataType) {

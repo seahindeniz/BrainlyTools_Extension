@@ -353,6 +353,14 @@ export type QuestionLogEntryType = {
   warn: boolean;
 };
 
+export type ReportedContentsDataType = {
+  last_id?: number;
+  items?: ReportedContentDataType[];
+  corrected_count?: number;
+  total_count: number;
+  comment_count?: number;
+};
+
 const FAILED_RESPONSE = {
   success: false,
   get message() {
@@ -1104,13 +1112,7 @@ export default class Action extends Brainly {
     } = { subject_id: 0, category_id: 0 },
   ): Promise<{
     success?: boolean;
-    data?: {
-      last_id?: number;
-      items?: ReportedContentDataType[];
-      corrected_count?: number;
-      total_count: number;
-      comment_count?: number;
-    };
+    data?: ReportedContentsDataType;
     users_data?: UsersDataInReportedContentsType[];
   }> {
     return this.Legacy().NoCache().moderation_new().index().POST(data);

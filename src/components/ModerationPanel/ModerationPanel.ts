@@ -62,6 +62,7 @@ export default class ModerationPanel {
   logSection: LogSection;
   switcher: Switcher;
   smallSpinner: HTMLDivElement;
+  isClosing: boolean;
 
   constructor(
     data: TicketDataType,
@@ -88,6 +89,7 @@ export default class ModerationPanel {
     try {
       this.Render();
       this.Countdown();
+      this.FetchExtraDetails();
     } catch (error) {
       console.error(error);
 
@@ -329,6 +331,10 @@ export default class ModerationPanel {
   }
 
   async FinishModeration(ignoreTicketDelay?: boolean) {
+    if (this.isClosing) return;
+
+    this.isClosing = true;
+
     this.modal.toplayer.closeIconContainer.append(this.smallSpinner);
 
     if (ignoreTicketDelay === true) this.ExpireModerationTicket();
@@ -351,6 +357,8 @@ export default class ModerationPanel {
           System.data.locale.common.notificationMessages.somethingWentWrong,
       });
     } catch (error) {
+      this.isClosing = false;
+
       console.error(error);
       notification({
         type: "error",
@@ -378,6 +386,89 @@ export default class ModerationPanel {
       entry.node.nodeValue = currentTime;
       entry.lastPrintedTime = currentTime;
     });
+  }
+
+  async FetchExtraDetails() {
+    const questionGlobalId = btoa(`question:${this.data.task.id}`);
+    let query = `
+    q: question(id: "${questionGlobalId}") {
+      id
+      isPopular
+    }
+    `;
+
+    if (this.data.responses.length > 0) {
+      query += this.data.responses
+        .map((answerData, index) => {
+          const answerGlobalId = btoa(`answer:${answerData.id}`);
+
+          return `a${index}: answer(id: "${answerGlobalId}") {
+            ...AnswerFragment
+          }`;
+        })
+        .join("\n");
+    }
+
+    query = `query {
+      ${query}
+    }`;
+
+    if (this.data.responses.length > 0) {
+      query += `
+      fragment AnswerFragment on Answer {
+        id
+        verification {
+          approval {
+            approver {
+              id
+              nick
+            }
+          }
+        }
+      }`;
+    }
+
+    const data = {
+      operationName: "",
+      variables: {},
+      query,
+    };
+
+    const resExtraData: {
+      data: { [x: string]: any };
+    } = await new Action().GQL().POST(data);
+
+    if (!resExtraData?.data) return;
+
+    Object.entries(resExtraData.data).forEach(
+      ([key, extraData]: [string, any]) => {
+        if (!extraData?.id) return;
+
+        const id = System.DecryptId(extraData.id);
+
+        delete extraData.id;
+
+        if (key === "q") {
+          this.questionSection.extraData = extraData;
+
+          this.questionSection.RenderExtraDetails();
+
+          return;
+        }
+
+        const answerSection = this.answerSections.find(_answerSection => {
+          return _answerSection.data.id === id;
+        });
+
+        if (!answerSection) {
+          throw Error(`Can't find answer section of ${id}`);
+        }
+
+        answerSection.extraData = extraData;
+
+        answerSection.RenderExtraDetails();
+      },
+    );
   }
 
   CloseModerationSomeTimeLater() {

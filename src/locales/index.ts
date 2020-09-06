@@ -667,7 +667,7 @@ export default {
       confirmApproving: "Do you want to approve this answer?",
       someOfSelectedAnswersAreUnapproved: "Some of selected answers isn't approved, so you don't need to unapprove those answers again",
       selectAnApprovedAnswerForUnapproving: "You need select some approved answer/s for start",
-      confirmUnapproving: "Do you want to remove approvement from this answer/s?",
+      confirmUnapproving: "Do you want to remove approvement from this answer?",
       doYouWantToConfirmThisContent: "Do you want to confirm this content?",
       confirmReporting: "Do you want to report selected answers for correction?",
       selectAtLeastOneContent: "Select at least one content",

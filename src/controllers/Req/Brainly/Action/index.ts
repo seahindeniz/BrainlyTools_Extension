@@ -765,10 +765,7 @@ export default class Action extends Brainly {
     return this.Legacy().api_content_quality().confirm().POST(data);
   }
 
-  /**
-   * @param {number} model_id - answer id
-   */
-  UnapproveAnswer(model_id) {
+  UnapproveAnswer(model_id: number) {
     const data = {
       model_type: 2,
       model_id,

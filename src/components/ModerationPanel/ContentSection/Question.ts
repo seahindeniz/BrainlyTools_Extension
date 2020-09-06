@@ -1,11 +1,15 @@
 import type { QuestionDataInTicketType } from "@root/controllers/Req/Brainly/Action";
-import { Counter, Flex, Text } from "@style-guide";
+import { Counter, Flex, Icon, Label, Text } from "@style-guide";
 import type ModerationPanelClassType from "../ModerationPanel";
 import ContentSection from "./ContentSection";
 import QuickActionButtonsForQuestion from "./QuickActionButtons/Question";
 
 export default class Question extends ContentSection {
   questionData: QuestionDataInTicketType;
+  extraData: {
+    id: string;
+    isPopular: boolean;
+  };
 
   constructor(main: ModerationPanelClassType) {
     super(main, "Question");
@@ -72,5 +76,27 @@ export default class Question extends ContentSection {
     this.quickActionButtons = new QuickActionButtonsForQuestion(this);
 
     this.contentContainer.append(this.quickActionButtons.container);
+  }
+
+  RenderExtraDetails() {
+    this.RenderPopularLabel();
+  }
+
+  RenderPopularLabel() {
+    if (!this.extraData.isPopular) return;
+
+    this.contentDetailsContainer.append(
+      Flex({
+        marginLeft: "xs",
+        children: new Label({
+          type: "transparent",
+          title: System.data.locale.reportedContents.queue.popularQuestion,
+          icon: new Icon({
+            type: "friends",
+            color: "blue",
+          }),
+        }),
+      }),
+    );
   }
 }

@@ -9,7 +9,7 @@ import {
   Button,
   Flex,
   Icon,
-  LabelDeprecated,
+  Label,
   Text,
   Textarea,
 } from "@style-guide";
@@ -36,6 +36,8 @@ export default class Answer extends ContentSection {
   askForCorrectionTextarea: HTMLTextAreaElement;
   reportedForCorrectionFlagIconContainer: FlexElementType;
   correctionReportDetailsBox: FlexElementType;
+  approvedIconContainer: FlexElementType;
+  quickActionButtons: QuickActionButtonsForAnswer;
 
   constructor(main: ModerationPanelClassType, data: AnswerDataInTicketType) {
     super(main, "Answer");
@@ -60,12 +62,12 @@ export default class Answer extends ContentSection {
     const iconContainer = Flex({
       marginLeft: "xs",
       title: System.data.locale.reportedContents.queue.bestAnswer,
-      children: LabelDeprecated({
-        icon: {
+      children: new Label({
+        icon: new Icon({
           type: "excellent",
           color: "mustard",
           size: 24,
-        },
+        }),
       }),
     });
 
@@ -77,10 +79,10 @@ export default class Answer extends ContentSection {
 
     const iconContainer = Flex({
       marginLeft: "xs",
-      children: LabelDeprecated({
+      children: new Label({
         type: "solid",
         color: "peach",
-        icon: { type: "heart" },
+        icon: new Icon({ type: "heart" }),
         children: this.answerData.thanks,
       }),
     });
@@ -93,10 +95,10 @@ export default class Answer extends ContentSection {
 
     const iconContainer = Flex({
       marginLeft: "xs",
-      children: LabelDeprecated({
+      children: new Label({
         type: "solid",
         color: "mustard",
-        icon: { type: "star_half_outlined" },
+        icon: new Icon({ type: "star_half_outlined" }),
         children: this.answerData.mark,
       }),
     });
@@ -107,20 +109,30 @@ export default class Answer extends ContentSection {
   RenderApprovedIcon() {
     if (!this.extraData?.verification) return;
 
-    const iconContainer = Flex({
+    if (this.approvedIconContainer) {
+      this.ShowApprovedIcon();
+
+      return;
+    }
+
+    this.approvedIconContainer = Flex({
       marginLeft: "xs",
-      children: LabelDeprecated({
+      children: new Label({
         type: "solid",
         color: "mint",
-        icon: {
+        icon: new Icon({
           color: "adaptive",
           type: "verified",
           size: 20,
-        },
+        }),
       }),
     });
 
-    this.contentDetailsContainer.append(iconContainer);
+    this.ShowApprovedIcon();
+  }
+
+  private ShowApprovedIcon() {
+    this.contentDetailsContainer.append(this.approvedIconContainer);
   }
 
   RenderQuickActionButtons() {
@@ -412,6 +424,60 @@ export default class Answer extends ContentSection {
     this.quickActionButtons.selectedButton.Hide();
     this.Confirmed();
     this.RenderApprovedIcon();
+    this.quickActionButtons.RenderUnApproveButton();
+  }
+
+  ConfirmUnApproving() {
+    if (!this.quickActionButtons.selectedButton) return;
+
+    if (
+      !confirm(
+        System.data.locale.userContent.notificationMessages.confirmUnapproving,
+      )
+    ) {
+      this.quickActionButtons.EnableButtons();
+
+      return;
+    }
+
+    this.UnApprove();
+  }
+
+  async UnApprove() {
+    try {
+      const resUnApprove = await new Action().UnapproveAnswer(this.data.id);
+
+      // TODO remove these lines
+      // console.log(this.data.id);
+      // const resUnApprove = { success: true, message: "" };
+      // await System.TestDelay();
+
+      if (!resUnApprove?.success) {
+        throw resUnApprove.message
+          ? { msg: resUnApprove.message }
+          : resUnApprove || Error("No response");
+      }
+
+      this.UnApproved();
+    } catch (error) {
+      console.error(error);
+      this.main.modal.Notification({
+        type: "error",
+        html:
+          error.msg ||
+          System.data.locale.common.notificationMessages.somethingWentWrong,
+      });
+      this.quickActionButtons.EnableButtons();
+    }
+  }
+
+  UnApproved() {
+    this.extraData.verification = null;
+
+    this.quickActionButtons.selectedButton.Hide();
+    this.quickActionButtons.RenderApproveButton();
+    this.Confirmed();
+    HideElement(this.approvedIconContainer);
   }
 
   Confirmed() {
@@ -434,5 +500,10 @@ export default class Answer extends ContentSection {
 
     HideElement(this.correctionReportDetailsBox);
     HideElement(this.reportedForCorrectionFlagIconContainer);
+  }
+
+  RenderExtraDetails() {
+    this.RenderApprovedIcon();
+    this.quickActionButtons.RenderApproveButton();
   }
 }

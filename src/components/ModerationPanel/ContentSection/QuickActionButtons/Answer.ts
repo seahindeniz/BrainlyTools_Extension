@@ -3,6 +3,7 @@ import type AnswerClassType from "../Answer";
 import ApproveButton from "./ActionButton/ApproveButton";
 import AskForCorrectionButton from "./ActionButton/AskForCorrectionButton";
 import DeleteButton from "./ActionButton/DeleteButton";
+import UnApproveButton from "./ActionButton/UnApproveButton";
 import QuickActionButtons from "./QuickActionButtons";
 
 export default class QuickActionButtonsForAnswer extends QuickActionButtons {
@@ -11,7 +12,6 @@ export default class QuickActionButtonsForAnswer extends QuickActionButtons {
     super(main);
 
     this.RenderAskForCorrectionButton();
-    this.RenderApproveButton();
     this.RenderDeleteButtons();
     this.RenderConfirmButton();
   }
@@ -39,6 +39,12 @@ export default class QuickActionButtonsForAnswer extends QuickActionButtons {
   RenderApproveButton() {
     if (!System.checkBrainlyP(146)) return;
 
+    if ("Approved" in this.main && this.main.extraData.verification) {
+      this.RenderUnApproveButton();
+
+      return;
+    }
+
     const approveButton = new ApproveButton(this);
 
     approveButton.container.ChangeMargin({
@@ -48,6 +54,20 @@ export default class QuickActionButtonsForAnswer extends QuickActionButtons {
     InsertBefore(approveButton.container, this.moreButton.container);
 
     this.actionButtons.push(approveButton);
+  }
+
+  RenderUnApproveButton() {
+    if (!System.checkBrainlyP(147)) return;
+
+    const unApproveButton = new UnApproveButton(this);
+
+    unApproveButton.container.ChangeMargin({
+      marginRight: "xs",
+    });
+
+    InsertBefore(unApproveButton.container, this.moreButton.container);
+
+    this.actionButtons.push(unApproveButton);
   }
 
   RenderDeleteButtons() {

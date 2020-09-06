@@ -653,7 +653,7 @@ export default class ContentSection {
     this.contentBox.ChangeColor();
     this.contentBox.ChangeBorderColor();
     this.quickActionButtons.EnableButtons();
-    this.quickActionButtons.confirmButton.Hide();
+    this.quickActionButtons.confirmButton?.Hide();
   }
 
   HideReportDetails() {

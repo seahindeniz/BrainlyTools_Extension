@@ -23,7 +23,7 @@ export default class QuickActionButtons {
   spinner: HTMLDivElement;
 
   selectedButton: ButtonClassTypes;
-  confirmButton: ConfirmButton;
+  confirmButton?: ConfirmButton;
   buttonSize: ButtonSizeType;
   moreButton: MoreButton;
 

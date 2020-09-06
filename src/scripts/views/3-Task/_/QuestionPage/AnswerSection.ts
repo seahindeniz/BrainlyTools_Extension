@@ -111,7 +111,7 @@ export default class AnswerSection {
   }
 
   RenderConfirmButton() {
-    if (!this.main.data.isMarkedAbuse) return;
+    if (!this.data.settings.isMarkedAbuse) return;
 
     this.confirmButtonContainer = Flex({
       children: this.confirmButton = new Button({

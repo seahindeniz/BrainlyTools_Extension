@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.2.0] - 2020.09.06
+
+### Added
+
+- An option to un-approve approved answers in the mod panel. [#158]
+- A way to directly close the ticket when viewing the log at the very bottom of
+  a ticket. [#184]
+
+### Changed
+
+- (Possibly fixed, not enough samples to perform test) Hızlı silim butonlarında
+  hata [#194]
+- The 'Find users' & 'Notice Board' options do not appear when "M" is clicked
+  when question links are visited. [#196]
+- Quick delete buttons 1 and 3 are the same. [#197]
+- Content details display outside the box [#199]
+- Confirm button is visible on non-reported answers [#200]
+
+[#158]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/158
+[#184]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/184
+[#194]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/194
+[#196]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/196
+[#197]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/197
+[#199]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/199
+[#200]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/200
+
 ## [7.1.1] - 2020.09.03
 
 ### Changed

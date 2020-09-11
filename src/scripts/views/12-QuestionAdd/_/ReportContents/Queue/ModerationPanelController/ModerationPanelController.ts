@@ -20,6 +20,7 @@ export default class ModerationPanelController {
     this.main = main;
 
     this.RenderLoadingOverlay();
+    this.BindListener();
   }
 
   RenderLoadingOverlay() {
@@ -30,6 +31,29 @@ export default class ModerationPanelController {
         size: "xxxlarge",
       }),
     });
+  }
+
+  BindListener() {
+    document.addEventListener("keyup", this.SwitchHandler.bind(this));
+  }
+
+  SwitchHandler(event: KeyboardEvent) {
+    if (
+      event.ctrlKey ||
+      event.altKey ||
+      event.shiftKey ||
+      event.metaKey ||
+      !this.moderationPanel ||
+      (event.target && event.target instanceof HTMLInputElement) ||
+      event.target instanceof HTMLSelectElement ||
+      event.target instanceof HTMLOptionElement ||
+      event.target instanceof HTMLTextAreaElement
+    )
+      return;
+    if (event.code === "KeyA" || event.code === "ArrowLeft")
+      this.SwitchToPreviousReport();
+    else if (event.code === "KeyD" || event.code === "ArrowRight")
+      this.SwitchToNextReport();
   }
 
   // eslint-disable-next-line class-methods-use-this

@@ -1,12 +1,12 @@
-import classnames from "classnames";
 import CreateElement from "@components/CreateElement";
-import { ChildrenParamType } from "./helpers/AddChildren";
+import classnames from "classnames";
 import { CommonComponentPropsType } from "./helpers/SetProps";
+import Icon from "./Icon";
 
 const SG = "sg-select";
 const SGD = `${SG}--`;
 
-type SelectSizeType = "large" | "normal";
+type SelectSizeType = "m" | "l";
 
 type SelectColorType = "default" | "white";
 
@@ -28,7 +28,6 @@ type SelectPropsType = {
   color?: SelectColorType;
   className?: string;
   options?: (OptionPropsType | HTMLOptionElement | HTMLOptGroupElement)[];
-  children?: ChildrenParamType;
   [x: string]: any;
 } & CommonComponentPropsType;
 
@@ -48,12 +47,11 @@ export default class Select {
     capitalized,
     fullWidth,
     value,
-    size = "normal",
+    size,
     color,
     className,
     multiple,
     options = [],
-    children,
     ...props
   }: SelectPropsType = {}) {
     if (valid === true && invalid === true)
@@ -71,16 +69,21 @@ export default class Select {
         [`${SGD}full-width`]: fullWidth,
 
         [`${SGD}multiple`]: multiple,
-        [SGD + size]: multiple === true && size !== "normal",
+        [SGD + size]: size && size !== "m",
         [SGD + String(color)]: color,
       },
       className,
     );
 
-    if (multiple !== null && multiple !== undefined) {
+    if (!multiple) {
       this.iconContainer = CreateElement({
         tag: "div",
         className: `${SG}__icon`,
+        children: new Icon({
+          type: "arrow_down",
+          color: "gray-secondary",
+          size: size === "l" ? 24 : 16,
+        }),
       });
     }
 
@@ -95,7 +98,7 @@ export default class Select {
     this.element = CreateElement({
       tag: "div",
       className: selectClass,
-      children: [this.iconContainer, children, this.select],
+      children: [this.iconContainer, this.select],
       ...props,
     });
 

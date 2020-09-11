@@ -1,5 +1,6 @@
 import classnames from "classnames";
 import CreateElement from "@components/CreateElement";
+import { CommonComponentPropsType } from "./helpers/SetProps";
 
 type SizeType = "short" | "normal" | "tall" | "xtall";
 
@@ -23,7 +24,7 @@ type TextareaPropsType<T> = {
   className?: string;
   contentEditable?: boolean;
   [x: string]: any;
-};
+} & CommonComponentPropsType;
 
 const SG = "sg-textarea";
 const SGD = `${SG}--`;

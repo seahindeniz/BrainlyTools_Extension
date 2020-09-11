@@ -1,12 +1,13 @@
 import CreateElement from "@components/CreateElement";
 import notification from "@components/notification2";
 import Action, {
+  ModerationTicketDataType,
   RemoveAnswerReqDataType,
   RemoveCommentReqDataType,
   RemoveQuestionReqDataType,
   ReportedContentDataType,
   UsersDataInReportedContentsType,
-} from "@root/controllers/Req/Brainly/Action";
+} from "@BrainlyAction";
 import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
 import IsVisible from "@root/helpers/IsVisible";
@@ -611,7 +612,7 @@ export default class Content {
     }
   }
 
-  Moderate() {
+  Moderate(): Promise<ModerationTicketDataType> {
     if (this.has !== "deleted") {
       this.has = "moderating";
 
@@ -622,7 +623,7 @@ export default class Content {
     this.moderateButton?.Disable();
     this.moderateButton?.element.append(this.buttonSpinner);
 
-    this.main.queue.moderationPanelController.ModerateContent(this);
+    return this.main.queue.moderationPanelController.ModerateContent(this);
   }
 
   async Confirm() {

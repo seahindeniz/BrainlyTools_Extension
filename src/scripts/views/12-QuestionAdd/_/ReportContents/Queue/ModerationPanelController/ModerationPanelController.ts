@@ -35,7 +35,7 @@ export default class ModerationPanelController {
   // eslint-disable-next-line class-methods-use-this
   async ModerateContent(content: ContentClassTypes) {
     try {
-      if (!content.contentType) return;
+      if (!content.contentType) return undefined;
 
       this.contentCurrentlyModerating = content;
 
@@ -57,7 +57,7 @@ export default class ModerationPanelController {
             System.data.locale.common.notificationMessages.somethingWentWrong,
         });
 
-        return;
+        return resTicket;
       }
 
       this.moderationPanel = new ModerationPanel(
@@ -73,6 +73,8 @@ export default class ModerationPanelController {
 
       // TODO remove this ticket expire fn
       // new Action().CloseModerationTicket(content.data.task_id);
+
+      return resTicket;
     } catch (error) {
       console.error(error);
       notification({
@@ -82,6 +84,8 @@ export default class ModerationPanelController {
           System.data.locale.common.notificationMessages.somethingWentWrong,
       });
     }
+
+    return undefined;
   }
 
   ModerationPanelClosed() {
@@ -107,36 +111,43 @@ export default class ModerationPanelController {
   }
 
   async SwitchToReport(direction: "next" | "previous") {
-    console.log(this);
-    await this.moderationPanel.FinishModeration(true);
+    try {
+      if (this.moderationPanel)
+        await this.moderationPanel.FinishModeration(true);
 
-    if (!this.contentCurrentlyModerating) return;
+      if (!this.contentCurrentlyModerating) return;
 
-    this.ShowLoadingOverlay();
+      this.ShowLoadingOverlay();
 
-    const index = this.main.main.contents.filtered.indexOf(
-      this.contentCurrentlyModerating,
-    );
+      const index = this.main.main.contents.filtered.indexOf(
+        this.contentCurrentlyModerating,
+      );
 
-    if (index < 0) return;
+      if (index < 0) return;
 
-    const content = this.main.main.contents.filtered[
-      index + (direction === "next" ? 1 : -1)
-    ];
+      const content = this.main.main.contents.filtered[
+        index + (direction === "next" ? 1 : -1)
+      ];
 
-    if (!content) {
-      notification({
-        type: "info",
-        text: System.data.locale.moderationPanel.thereIsNoReportLeft,
-      });
+      if (!content) {
+        notification({
+          type: "info",
+          text: System.data.locale.moderationPanel.thereIsNoReportLeft,
+        });
 
-      this.HideLoadingOverlay();
+        this.HideLoadingOverlay();
 
-      return;
+        return;
+      }
+
+      const ticketData = await content.Moderate();
+
+      if (!ticketData.success) {
+        this.SwitchToReport(direction);
+      }
+    } catch (error) {
+      console.error(error);
     }
-
-    content.Moderate();
-    console.log(content);
   }
 
   ShowLoadingOverlay() {

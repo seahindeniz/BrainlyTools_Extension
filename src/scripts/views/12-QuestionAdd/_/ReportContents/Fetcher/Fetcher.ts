@@ -33,7 +33,7 @@ export default class Fetcher {
   filtersSpinner: HTMLDivElement;
 
   filters: Filters;
-  pagination: PageNumbers;
+  pageNumbers: PageNumbers;
   fetchAll: FetchAll;
 
   constructor(main: ReportedContentsType) {
@@ -43,7 +43,7 @@ export default class Fetcher {
     this.RenderSpinner();
 
     this.filters = new Filters(this);
-    this.pagination = new PageNumbers(this);
+    this.pageNumbers = new PageNumbers(this);
 
     if (System.checkUserP(18)) {
       this.fetchAll = new FetchAll(this);

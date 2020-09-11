@@ -878,6 +878,17 @@
             "Question": "Soru",
             "Answer": "Cevap",
             "Comment": "Yorum"
+          },
+          "contentLength": {
+            "name": "İçerik uzunluğu",
+            "equals": "eşittir =",
+            "graterThan": "büyüktür >",
+            "lowerThan": "küçüktür <",
+            "label": {
+              "equals": "eşittir = %{N}",
+              "graterThan": "büyüktür > %{N}",
+              "lowerThan": "küçüktür < %{N}"
+            }
           }
         },
         "pageNumberInputTitle": "%{MIN_N} ile %{MAX_N} arasında bir sayfa numarası girin"

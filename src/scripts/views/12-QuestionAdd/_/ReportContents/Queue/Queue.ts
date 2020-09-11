@@ -3,6 +3,7 @@ import HideElement from "@root/helpers/HideElement";
 import IsVisible from "@root/helpers/IsVisible";
 import { Flex } from "@style-guide";
 import type ReportedContentsType from "../ReportedContents";
+import ContentLength from "./Filter/ContentLength";
 import ContentType from "./Filter/ContentType";
 import Reported from "./Filter/Reported";
 import Reporter from "./Filter/Reporter";
@@ -17,12 +18,13 @@ export default class Queue {
   options: Options;
 
   filter: {
-    all: (Reporter | Reported | ReportingDate | ContentType)[];
+    all: (Reporter | Reported | ReportingDate | ContentType | ContentLength)[];
     byName: {
       reporter: Reporter;
       reported: Reported;
       reportingDate: ReportingDate;
       contentType: ContentType;
+      contentLength: ContentLength;
     };
   };
 
@@ -39,6 +41,7 @@ export default class Queue {
         reported: new Reported(this),
         reportingDate: new ReportingDate(this),
         contentType: new ContentType(this),
+        contentLength: new ContentLength(this),
       },
       all: [],
     };

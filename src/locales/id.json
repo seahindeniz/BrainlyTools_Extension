@@ -878,6 +878,17 @@
             "Question": "Question",
             "Answer": "Answer",
             "Comment": "Comment"
+          },
+          "contentLength": {
+            "name": "Content length",
+            "equals": "equals to",
+            "graterThan": "grater than",
+            "lowerThan": "lower than",
+            "label": {
+              "equals": "equals to %{N}",
+              "graterThan": "grater than %{N}",
+              "lowerThan": "lower than %{N}"
+            }
           }
         },
         "pageNumberInputTitle": "Enter a page number between %{MIN_N} and %{MAX_N}"

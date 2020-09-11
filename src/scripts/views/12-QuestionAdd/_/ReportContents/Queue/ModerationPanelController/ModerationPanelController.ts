@@ -44,7 +44,7 @@ export default class ModerationPanelController {
       event.shiftKey ||
       event.metaKey ||
       !this.moderationPanel ||
-      (event.target && event.target instanceof HTMLInputElement) ||
+      event.target instanceof HTMLInputElement ||
       event.target instanceof HTMLSelectElement ||
       event.target instanceof HTMLOptionElement ||
       event.target instanceof HTMLTextAreaElement

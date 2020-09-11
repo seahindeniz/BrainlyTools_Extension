@@ -7,6 +7,7 @@ export default class QuestionAnswerRT extends ReportType {
   }
 
   Selected() {
+    this.main.main.main.pageNumbers.Show();
     this.main.main.main.main.queue.options.option.contentFilters.filter.contentType.Show();
     this.main.main.categoryFilter.ShowQuestionAnswerSelector();
     super.Selected();
@@ -14,6 +15,7 @@ export default class QuestionAnswerRT extends ReportType {
 
   Deselected() {
     super.Deselected();
+    this.main.main.main.pageNumbers.Hide();
     this.main.main.main.main.queue.options.option.contentFilters.filter.contentType.Hide();
   }
 }

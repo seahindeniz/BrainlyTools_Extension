@@ -46,7 +46,7 @@ export default class ModerationPanelController {
       this.HideLoadingOverlay();
       content.HideSpinner();
       content.EnableActions();
-      content.moderateButton.Enable();
+      content.moderateButton?.Enable();
 
       // eslint-disable-next-line camelcase
       if (!resTicket?.success || !resTicket?.data || !resTicket?.users_data) {

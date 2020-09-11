@@ -619,8 +619,8 @@ export default class Content {
     }
 
     this.DisableActions();
-    this.moderateButton.Disable();
-    this.moderateButton.element.append(this.buttonSpinner);
+    this.moderateButton?.Disable();
+    this.moderateButton?.element.append(this.buttonSpinner);
 
     this.main.queue.moderationPanelController.ModerateContent(this);
   }

@@ -28,10 +28,10 @@ export default class Filters {
 
     this.filter = {
       contentType: new ContentTypeFilter(this),
-      reporter: new Reporter(this),
-      reported: new Reported(this),
-      reportingDate: new ReportingDate(this),
       contentLength: new ContentLength(this),
+      reported: new Reported(this),
+      reporter: new Reporter(this),
+      reportingDate: new ReportingDate(this),
     };
   }
 

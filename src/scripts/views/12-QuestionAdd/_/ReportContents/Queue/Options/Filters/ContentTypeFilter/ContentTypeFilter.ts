@@ -16,6 +16,7 @@ export default class ContentTypeFilter {
   };
 
   selectedOption?: ContentTypeOption;
+  contentWrapper: FlexElementType;
 
   constructor(main: FiltersClassType) {
     this.main = main;
@@ -30,7 +31,8 @@ export default class ContentTypeFilter {
   }
 
   Render() {
-    this.container = Build(
+    this.container = Flex();
+    this.contentWrapper = Build(
       Flex({
         marginTop: "s",
       }),
@@ -47,21 +49,22 @@ export default class ContentTypeFilter {
             text: `${System.data.locale.reportedContents.options.filter.filters.contentType.name}: `,
           }),
         ],
-
         (this.optionContainer = Flex({
           grow: true,
           wrap: true,
         })),
       ],
     );
-  }
 
-  Show() {
     this.main.container.append(this.container);
   }
 
+  Show() {
+    this.container.append(this.contentWrapper);
+  }
+
   Hide() {
-    HideElement(this.container);
+    HideElement(this.contentWrapper);
   }
 
   Changed() {

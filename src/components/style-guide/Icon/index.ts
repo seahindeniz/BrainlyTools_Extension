@@ -195,7 +195,7 @@ class Icon {
 
   constructor({
     type,
-    size = 24,
+    size,
     color,
     className,
     tag = "div",

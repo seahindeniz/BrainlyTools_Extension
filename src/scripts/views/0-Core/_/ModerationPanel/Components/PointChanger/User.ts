@@ -169,7 +169,7 @@ export default class User {
                       (this.addPointsButton = new Button({
                         type: "solid-mint",
                         iconOnly: true,
-                        tabIndex: String(++this.main.lastTabIndex),
+                        // tabIndex: String(++this.main.lastTabIndex),
                         title: System.data.locale.core.pointChanger.addPoints,
                         icon: new Icon({
                           type: "pencil",

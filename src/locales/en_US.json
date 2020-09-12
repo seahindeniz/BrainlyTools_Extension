@@ -102,7 +102,8 @@
     "chooseAnOption": "Choose an option",
     "deleteAcross": "Delete across",
     "profileLinkOrId": "Profile link or id",
-    "beta": "Beta"
+    "beta": "Beta",
+    "deletedUser": "Deleted user"
   },
   "popup": {
     "notificationMessages": {
@@ -902,7 +903,8 @@
     "queue": {
       "rating": "%{rating} points for %{ratesCount} votes",
       "bestAnswer": "This is Brainliest Answer",
-      "popularQuestion": "Popular question!"
+      "popularQuestion": "Popular question!",
+      "moderatorVerifiedSomeonesAnswer": "%{verifier} has verified %{author}'s answer"
     },
     "loadAll": "Load all reports",
     "loadAllConfirmationMessage": "I'll try to fetch all reported contents from Brainly but the process can be interrupted by Brainly because of elevated requests.\nPlease confirm to start the process",

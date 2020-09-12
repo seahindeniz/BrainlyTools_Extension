@@ -107,6 +107,7 @@ export default class Content {
   buttonSpinner: HTMLDivElement;
   moderatorContainer: FlexElementType;
   extraDetailsContainer: FlexElementType;
+  quickDeleteButtons: QuickDeleteButton[];
 
   constructor({
     main,
@@ -121,6 +122,7 @@ export default class Content {
     this.data = data;
     this.contentType = contentType;
 
+    this.quickDeleteButtons = [];
     this.globalId = btoa(`${contentType.toLowerCase()}:${data.model_id}`);
 
     this.users = {
@@ -499,6 +501,7 @@ export default class Content {
       const quickDeleteButton = new QuickDeleteButton(this, reason, i + 1);
 
       this.quickDeleteButtonContainer.append(quickDeleteButton.container);
+      this.quickDeleteButtons.push(quickDeleteButton);
     });
   }
 

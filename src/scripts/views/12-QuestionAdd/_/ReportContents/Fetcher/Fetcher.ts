@@ -393,6 +393,24 @@ export default class Fetcher {
         attachments {
           id
         }
+        answers {
+          hasVerified
+          nodes {
+            author {
+              id
+              nick
+            }
+            verification {
+              approval {
+                approvedTime
+                approver {
+                  id
+                  nick
+                }
+              }
+            }
+          }
+        }
       }`;
 
     if (queryContent.includes("AnswerFragment"))

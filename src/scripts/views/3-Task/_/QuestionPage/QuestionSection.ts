@@ -26,6 +26,12 @@ export default class QuestionSection {
     this.Init();
   }
 
+  get approvedAnswers() {
+    return this.main.data.responses.filter(
+      answerData => answerData.approved.approver,
+    );
+  }
+
   async Init() {
     await this.FindModerationBox();
     this.RenderQuickActionButtons();
@@ -48,6 +54,8 @@ export default class QuestionSection {
       this.quickActionButtonContainer,
       this.moderationBox.firstElementChild,
     );
+
+    if (this.approvedAnswers.length > 0) return;
 
     System.data.config.quickDeleteButtonsReasons.question.forEach(
       (reasonId, index) => {

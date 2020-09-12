@@ -275,13 +275,11 @@ export default class Comment {
   }
 
   ToggleDeleteSection() {
-    if (!IsVisible(this.deleteSection?.container)) {
+    if (!IsVisible(this.deleteSectionContainer)) {
       this.OpenDeleteSection();
-
-      return;
+    } else {
+      this.HideDeleteSection();
     }
-
-    this.HideDeleteSection();
   }
 
   OpenDeleteSection() {

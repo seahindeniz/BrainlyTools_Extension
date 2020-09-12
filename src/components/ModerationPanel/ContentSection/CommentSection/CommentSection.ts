@@ -4,14 +4,17 @@ import { Button, Flex, Icon } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type ContentSectionClassType from "../ContentSection";
 import Comment from "./Comment";
+import DeleteCommentsSection from "./DeleteCommentsSection";
 
 export default class CommentSection {
   main: ContentSectionClassType;
+
   container: FlexElementType;
   commentList: FlexElementType;
-  comments: any[];
+  comments: Comment[];
   showAllCommentsButtonContainer: FlexElementType;
   showAllCommentsButton: Button;
+  deleteCommentsSection?: DeleteCommentsSection;
 
   constructor(main: ContentSectionClassType) {
     this.main = main;
@@ -21,6 +24,9 @@ export default class CommentSection {
     this.Render();
     this.RenderShowAllCommentsButton();
     this.InitComments();
+
+    if (System.checkUserP(37))
+      this.deleteCommentsSection = new DeleteCommentsSection(this);
   }
 
   Render() {

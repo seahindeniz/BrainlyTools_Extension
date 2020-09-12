@@ -345,6 +345,10 @@ export default {
             title: "Content delete options on profile page",
             description: "Allow this moderator to see the links used to delete all questions, answers, and comments from profile page of a user"
           },
+          37: {
+            title: "Moderate Panel > Delete all comments",
+            description: "Ability to delete comments in bulk from the moderate panel"
+          },
           99: {
             title: "Reported contents (Beta)"
           }
@@ -953,6 +957,9 @@ export default {
     failedToGetLogs: "Cannot fetch logs of question",
     seeMoreDeleteOptions: "See more delete options",
     confirmReportingForCorrection: "Do you want to report this answer for correction?",
-    thereIsNoReportLeft: "There is no report left"
+    thereIsNoReportLeft: "There is no report left",
+    deleteAllComments: "Delete all comments",
+    confirmDeletingNComments: "Please confirm deleting %{N} comments"
   }
 }
+

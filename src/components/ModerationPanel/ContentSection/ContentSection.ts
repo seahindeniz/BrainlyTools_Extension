@@ -60,7 +60,7 @@ export default class ContentSection {
   contentContainer: FlexElementType;
   contentBox: Box;
   contentContainerBox: Box;
-  commentSection: CommentSection;
+  commentSection?: CommentSection;
   contentWrapper: FlexElementType;
   gallery?: Viewer;
   deleteSection?: DeleteSection;
@@ -597,6 +597,8 @@ export default class ContentSection {
 
     if (this.contentType === "Question")
       this.main.CloseModerationSomeTimeLater();
+
+    this.commentSection?.deleteCommentsSection?.Hide();
   }
 
   ConfirmConfirming() {

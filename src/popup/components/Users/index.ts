@@ -93,6 +93,7 @@ class Users {
           15,
           6,
           // 34,
+          37,
         ]
       },
       harmless: {
@@ -396,11 +397,7 @@ class Users {
   }
 
   RenderDivider(title) {
-    const $divider = $(
-      `<div class="is-divider"${
-        title ? ` data-content="${title}"` : ""
-      }></div>`,
-    );
+    const $divider = $(`<div class="divider">${title}</div>`);
 
     this.$privilegesContainer.append($divider);
   }

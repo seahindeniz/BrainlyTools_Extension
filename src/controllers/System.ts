@@ -347,7 +347,7 @@ class _System {
         ],
         style_guide: {
           icons:
-            "https://styleguide.brainly.com/images/icons-dbb19c2ba8.js" +
+            "https://styleguide.brainly.com/images/icons-a83c8be492.js" +
             "?treat=.ext_js",
         },
         githubHighlight:
@@ -356,7 +356,7 @@ class _System {
       },
       config: {
         reasonSign: "߷",
-        idExtractRegex: /((?:.*?[-/])(?=\d))|(?:[?/].*)|(?:[a-z]{1,})/gi,
+        idExtractRegex: /((?:.*?[-/])(?=\d))|(?:[?/].*)|(?:[a-z]{1,})|-/gi,
         MAX_FILE_SIZE_OF_EVIDENCE_IN_MB: 22,
         MAX_FILE_SIZE_OF_EVIDENCE: 22 * 1024 * 1024,
         RAINBOW_COLORS: "#F15A5A,#F0C419,#4EBA6F,#2D95BF,#955BA5",

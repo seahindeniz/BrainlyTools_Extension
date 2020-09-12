@@ -1,4 +1,6 @@
-import Action, { UserType } from "@root/controllers/Req/Brainly/Action";
+import Modal from "@components/Modal2";
+import Action, { UserType } from "@BrainlyAction";
+import Build from "@root/helpers/Build";
 import {
   Button,
   Flex,
@@ -13,8 +15,6 @@ import {
 import { FlexElementType } from "@style-guide/Flex";
 import Components from "..";
 import type ModerationPanel from "../..";
-import Modal from "@components/Modal2";
-import Build from "@root/helpers/Build";
 import User from "./User";
 
 export default class MassManageUsers extends Components {
@@ -338,6 +338,8 @@ export default class MassManageUsers extends Components {
   }
 
   InitUser(data: UserType) {
+    if (data.is_deleted) return;
+
     const user = new User(this, data);
 
     this.users.all.push(user);

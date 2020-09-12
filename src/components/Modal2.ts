@@ -24,7 +24,6 @@ type ModalPropsType = ToplayerDeprecatedPropsType & {
 
 export default class Modal {
   hasOverlay: boolean;
-  // eslint-disable-next-line react/static-property-placement
   props: {
     [x: string]: any;
   };

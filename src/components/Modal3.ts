@@ -22,7 +22,6 @@ export default class Modal {
   content: ChildrenParamType;
   actions: ChildrenParamType;
   #scrollToTop: boolean;
-  // eslint-disable-next-line react/static-property-placement
   props: ToplayerPropsType;
 
   container: FlexElementType;

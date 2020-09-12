@@ -345,12 +345,12 @@ export default {
             title: "Content delete options on profile page",
             description: "Allow this moderator to see the links used to delete all questions, answers, and comments from profile page of a user"
           },
+          99: {
+            title: "Reported contents (Beta)"
+          },
           37: {
             title: "Moderate Panel > Delete all comments",
             description: "Ability to delete comments in bulk from the moderate panel"
-          },
-          99: {
-            title: "Reported contents (Beta)"
           }
         },
         veryImportant: "Very important"
@@ -962,4 +962,3 @@ export default {
     confirmDeletingNComments: "Please confirm deleting %{N} comments"
   }
 }
-

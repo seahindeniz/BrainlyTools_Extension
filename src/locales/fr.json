@@ -347,6 +347,10 @@
           },
           "99": {
             "title": "Contenus signalés (bêta)"
+          },
+          "37": {
+            "title": "Moderate Panel > Delete all comments",
+            "description": "Ability to delete comments in bulk from the moderate panel"
           }
         },
         "veryImportant": "Très important"
@@ -953,6 +957,8 @@
     "failedToGetLogs": "Impossible de récupérer l'historique de la question",
     "seeMoreDeleteOptions": "Voir d'autres options de suppression",
     "confirmReportingForCorrection": "Veux-tu demander la correction de cette réponse ?",
-    "thereIsNoReportLeft": "Il n'y a plus de signalement"
+    "thereIsNoReportLeft": "Il n'y a plus de signalement",
+    "deleteAllComments": "Delete all comments",
+    "confirmDeletingNComments": "Please confirm deleting %{N} comments"
   }
 }

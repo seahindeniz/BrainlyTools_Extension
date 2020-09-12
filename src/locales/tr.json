@@ -347,6 +347,10 @@
           },
           "99": {
             "title": "Şikayet edilen içerikler (Beta)"
+          },
+          "37": {
+            "title": "Düzenle paneli > Tüm yorumları sil",
+            "description": "Düzenle panelinde yorumları toplu olarak silme özelliği"
           }
         },
         "veryImportant": "Çok önemli"
@@ -953,6 +957,8 @@
     "failedToGetLogs": "Sorunun eylem geçmişini gösterirken bir sorun oluştu",
     "seeMoreDeleteOptions": "Daha fazla silim seçeneği",
     "confirmReportingForCorrection": "Cevabı düzenlemesi için bildirmek istiyor musun?",
-    "thereIsNoReportLeft": "Şikayet edilmiş içerik kalmadı"
+    "thereIsNoReportLeft": "Şikayet edilmiş içerik kalmadı",
+    "deleteAllComments": "Tüm yorumları sil",
+    "confirmDeletingNComments": "Lütfen %{N} yorumun silinmesini onaylayın"
   }
 }

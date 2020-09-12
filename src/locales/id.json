@@ -347,6 +347,10 @@
           },
           "99": {
             "title": "Reported contents (Beta)"
+          },
+          "37": {
+            "title": "Moderate Panel > Delete all comments",
+            "description": "Ability to delete comments in bulk from the moderate panel"
           }
         },
         "veryImportant": "Sangat penting"
@@ -953,6 +957,8 @@
     "failedToGetLogs": "Cannot fetch logs of question",
     "seeMoreDeleteOptions": "See more delete options",
     "confirmReportingForCorrection": "Do you want to report this answer for correction?",
-    "thereIsNoReportLeft": "There is no report left"
+    "thereIsNoReportLeft": "There is no report left",
+    "deleteAllComments": "Delete all comments",
+    "confirmDeletingNComments": "Please confirm deleting %{N} comments"
   }
 }

@@ -6,7 +6,7 @@ import {
 import notification from "@components/notification2";
 import HideElement from "@root/helpers/HideElement";
 import { Button, Flex } from "@style-guide";
-import { ContentNameType } from "../../Content/Content";
+import type { ContentNameType } from "@components/ModerationPanel/ModeratePanelController";
 import ActionSection from "../ActionSection";
 import type ModeratorClassType from "../Moderator";
 import MassDeleteDeleteSection from "./MassDeleteDeleteSection";

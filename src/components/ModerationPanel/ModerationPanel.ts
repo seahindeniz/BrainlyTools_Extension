@@ -5,7 +5,7 @@ import type {
 import Action from "@root/controllers/Req/Brainly/Action";
 import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
-import { ContentNameType } from "@root/scripts/views/12-QuestionAdd/_/ReportContents/Content/Content";
+import type { ContentNameType } from "@components/ModerationPanel/ModeratePanelController";
 import {
   Button,
   Flex,

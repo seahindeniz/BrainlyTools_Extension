@@ -1,7 +1,7 @@
 import DeleteSection from "@components/DeleteSection2/DeleteSection";
 import Build from "@root/helpers/Build";
 import { Flex, Text } from "@style-guide";
-import type { ContentNameType } from "../../Content/Content";
+import type { ContentNameType } from "@components/ModerationPanel/ModeratePanelController";
 import type MassDeleteSectionClassType from "./MassDelete";
 
 export default class MassDeleteDeleteSection {

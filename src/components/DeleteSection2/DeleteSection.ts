@@ -7,7 +7,7 @@ import {
 import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
 import IsVisible from "@root/helpers/IsVisible";
-import { ContentNameType } from "@root/scripts/views/12-QuestionAdd/_/ReportContents/Content/Content";
+import type { ContentNameType } from "@components/ModerationPanel/ModeratePanelController";
 import { Button, Flex, Textarea } from "@style-guide";
 import { FlexElementType } from "@style-guide/Flex";
 import { ChildrenParamType } from "@style-guide/helpers/AddChildren";

@@ -1,5 +1,3 @@
-import CreateElement from "@components/CreateElement";
-import notification from "@components/notification2";
 import Action, {
   ModerationTicketDataType,
   RemoveAnswerReqDataType,
@@ -8,6 +6,9 @@ import Action, {
   ReportedContentDataType,
   UsersDataInReportedContentsType,
 } from "@BrainlyAction";
+import CreateElement from "@components/CreateElement";
+import type { ContentNameType } from "@components/ModerationPanel/ModeratePanelController";
+import notification from "@components/notification2";
 import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
 import IsVisible from "@root/helpers/IsVisible";
@@ -45,8 +46,6 @@ const STATUS_COLOR: {
   reserved: "gray-secondary-lightest",
   moderating: "blue-secondary-light",
 };
-
-export type ContentNameType = "Question" | "Answer" | "Comment";
 
 const CONTENT_TYPE_ICON_COLOR: {
   Question: ButtonColorType;

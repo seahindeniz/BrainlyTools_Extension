@@ -1,62 +1,24 @@
-import Action from "@root/controllers/Req/Brainly/Action";
-import getModalContainer from "@components/helpers/getModalContainer";
-import ModerationPanel from "@components/ModerationPanel/ModerationPanel";
+import type { ContentNameType } from "@components/ModerationPanel/ModeratePanelController";
+import ModeratePanelController from "@components/ModerationPanel/ModeratePanelController";
 import notification from "@components/notification2";
-import HideElement from "@root/helpers/HideElement";
-import { Overlay, Spinner } from "@style-guide";
-import type * as ContentTypes from "../../Content/Content";
+import Action from "@root/controllers/Req/Brainly/Action";
+import type ContentClassType from "../../Content/Content";
 import type { ContentClassTypes } from "../../Fetcher/Fetcher";
 import type QueueClassType from "../Queue";
 
-export default class ModerationPanelController {
+export default class ModerationPanelController extends ModeratePanelController {
   main: QueueClassType;
 
-  moderationPanel: ModerationPanel;
-  contentCurrentlyModerating: ContentTypes.default;
-  loadingOverlay: HTMLDivElement;
-  modalContainer: HTMLDivElement;
+  contentCurrentlyModerating: ContentClassType;
 
   constructor(main: QueueClassType) {
-    this.main = main;
-
-    this.RenderLoadingOverlay();
-    this.BindListener();
-  }
-
-  RenderLoadingOverlay() {
-    this.loadingOverlay = Overlay({
-      children: Spinner({
-        overlay: true,
-        light: true,
-        size: "xxxlarge",
-      }),
+    super({
+      switcher: true,
     });
+
+    this.main = main;
   }
 
-  BindListener() {
-    document.addEventListener("keyup", this.SwitchHandler.bind(this));
-  }
-
-  SwitchHandler(event: KeyboardEvent) {
-    if (
-      event.ctrlKey ||
-      event.altKey ||
-      event.shiftKey ||
-      event.metaKey ||
-      !this.moderationPanel ||
-      event.target instanceof HTMLInputElement ||
-      event.target instanceof HTMLSelectElement ||
-      event.target instanceof HTMLOptionElement ||
-      event.target instanceof HTMLTextAreaElement
-    )
-      return;
-    if (event.code === "KeyA" || event.code === "ArrowLeft")
-      this.SwitchToPreviousReport();
-    else if (event.code === "KeyD" || event.code === "ArrowRight")
-      this.SwitchToNextReport();
-  }
-
-  // eslint-disable-next-line class-methods-use-this
   async ModerateContent(content: ContentClassTypes) {
     try {
       if (!content.contentType) return undefined;
@@ -84,19 +46,7 @@ export default class ModerationPanelController {
         return resTicket;
       }
 
-      this.moderationPanel = new ModerationPanel(
-        resTicket.data,
-        resTicket.users_data,
-        {
-          onClose: this.ModerationPanelClosed.bind(this),
-          onDelete: this.SomethingDeleted.bind(this),
-          switchNext: this.SwitchToNextReport.bind(this),
-          switchPrevious: this.SwitchToPreviousReport.bind(this),
-        },
-      );
-
-      // TODO remove this ticket expire fn
-      // new Action().CloseModerationTicket(content.data.task_id);
+      super.OpenModeratePanel(resTicket);
 
       return resTicket;
     } catch (error) {
@@ -112,26 +62,12 @@ export default class ModerationPanelController {
     return undefined;
   }
 
-  ModerationPanelClosed() {
-    this.moderationPanel = null;
-    // this.contentCurrentlyModerating = null;
-  }
-
-  // eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-empty-function
-  SomethingDeleted(id: number, contentType: ContentTypes.ContentNameType) {
+  SomethingDeleted(id: number, contentType: ContentNameType) {
     const globalId = btoa(`${contentType.toLowerCase()}:${id}`);
 
     const content = this.main.main.contents.byGlobalId.all[globalId];
 
     content?.Deleted();
-  }
-
-  SwitchToNextReport() {
-    this.SwitchToReport("next");
-  }
-
-  SwitchToPreviousReport() {
-    this.SwitchToReport("previous");
   }
 
   async SwitchToReport(direction: "next" | "previous") {
@@ -172,20 +108,5 @@ export default class ModerationPanelController {
     } catch (error) {
       console.error(error);
     }
-  }
-
-  ShowLoadingOverlay() {
-    if (!this.modalContainer) {
-      this.modalContainer = getModalContainer();
-
-      if (!this.modalContainer)
-        console.error(".js-modal-container is undefined");
-    }
-
-    this.modalContainer.append(this.loadingOverlay);
-  }
-
-  HideLoadingOverlay() {
-    HideElement(this.loadingOverlay);
   }
 }

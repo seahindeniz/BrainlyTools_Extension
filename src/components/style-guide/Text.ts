@@ -17,7 +17,8 @@ type TextSizeType =
   | "medium"
   | "large"
   | "xlarge"
-  | "xxlarge";
+  | "xxlarge"
+  | "xxxlarge";
 
 export type TextColorType =
   | "default"

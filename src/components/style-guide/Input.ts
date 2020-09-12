@@ -124,4 +124,20 @@ export default class {
       this.element = this.input;
     }
   }
+
+  Natural() {
+    this.input.classList.remove(`sg-input--valid`, `sg-input--invalid`);
+  }
+
+  Valid() {
+    this.Natural();
+
+    this.input.classList.add(`sg-input--valid`);
+  }
+
+  Invalid() {
+    this.Natural();
+
+    this.input.classList.add(`sg-input--invalid`);
+  }
 }

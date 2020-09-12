@@ -874,7 +874,7 @@ export default class Action extends Brainly {
     return this.Legacy()
       .api_users()
       .get_by_id()
-      .P(`length=${ids.length}&id[]=${ids.join("&id[]=")}`)
+      .P(`id[]=${ids.join("&id[]=")}`)
       .GET();
   }
 

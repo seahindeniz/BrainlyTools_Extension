@@ -181,7 +181,7 @@ export default class MassDeleteSection extends ActionSection {
 
     if (
       !confirm(
-        System.data.locale.reportedContents.massModerate.confirm.confirmModeration.replace(
+        System.data.locale.reportedContents.massModerate.delete.confirmDeletion.replace(
           /%\{n}/gi,
           `${this.contents.length}`,
         ),

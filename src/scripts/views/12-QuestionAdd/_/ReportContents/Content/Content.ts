@@ -845,6 +845,6 @@ export default class Content {
     this.has = "deleted";
 
     this.ChangeBoxColor();
-    this.quickDeleteButtonContainer.remove();
+    this.quickDeleteButtonContainer?.remove();
   }
 }

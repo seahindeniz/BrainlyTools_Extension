@@ -75,8 +75,8 @@ export default class ActionSection {
   async Moderating() {
     this.moderating = true;
 
-    await this.HighlightActionButton();
     this.main.ShowStopButton();
+    await this.HighlightActionButton();
     this.main.main.fetcher.ShowFilterSpinner();
     this.main.DisableButtons();
     this.main.main.statusBar.ShowCountOfModeration();

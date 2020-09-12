@@ -217,6 +217,8 @@ export default class MassDeleteSection extends ActionSection {
 
     contents.forEach(async content => {
       await content.ExpressDelete(this.dataMap[content.contentType]);
+      // await System.TestDelay();
+      // content.Deleted();
 
       if (content.has === "failed")
         this.main.main.statusBar.IncreaseNumberOfFailed();

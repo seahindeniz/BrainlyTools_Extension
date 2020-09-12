@@ -447,7 +447,8 @@
       "pastingExample2": "Also, you can specify the points in the list before copy paste",
       "addPoints": "Add points to this user",
       "addPointsToAll": "Add points to all users",
-      "pointsNotSpecified": "You must give points to at least 1 user in order to proceed"
+      "pointsNotSpecified": "You must give points to at least 1 user in order to proceed",
+      "applyPointsToAllInputs": "Apply points to all inputs"
     },
     "reportedCommentsDeleter": {
       "text": "Reported comments deleter",

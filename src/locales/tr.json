@@ -447,7 +447,8 @@
       "pastingExample2": "Kopyala yapıştır yapmadan önce, listen üzerinde puan ataması yapabilirsin",
       "addPoints": "Bu kullanıcıya puanını ver",
       "addPointsToAll": "Tüm kullanıcılara puanlarını ver",
-      "pointsNotSpecified": "Devam etmek için en az 1 kullanıcıya puan vermelisin"
+      "pointsNotSpecified": "Devam etmek için en az 1 kullanıcıya puan vermelisin",
+      "applyPointsToAllInputs": "Tüm girişlere puan uygula"
     },
     "reportedCommentsDeleter": {
       "text": "TD > Toplu yorum silici",

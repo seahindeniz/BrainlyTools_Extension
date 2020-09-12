@@ -447,7 +447,8 @@
       "pastingExample2": "Kamu juga dapat menentukan poin dalam daftar sebelum mengcopy paste",
       "addPoints": "Add points to this user",
       "addPointsToAll": "Add points to all users",
-      "pointsNotSpecified": "You must give points to at least 1 user in order to proceed"
+      "pointsNotSpecified": "You must give points to at least 1 user in order to proceed",
+      "applyPointsToAllInputs": "Apply points to all inputs"
     },
     "reportedCommentsDeleter": {
       "text": "Menghapus komentar yang dilaporkan",

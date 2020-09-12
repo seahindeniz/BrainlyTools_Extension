@@ -447,7 +447,8 @@
       "pastingExample2": "Vous pouvez également spécifier le nombre de points dans la liste avant de copier-coller",
       "addPoints": "Ajouter des points à cet utilisateur",
       "addPointsToAll": "Ajouter des points à tous les utilisateurs",
-      "pointsNotSpecified": "Vous devez donner des points à au moins un utilisateur pour pouvoir poursuivre"
+      "pointsNotSpecified": "Vous devez donner des points à au moins un utilisateur pour pouvoir poursuivre",
+      "applyPointsToAllInputs": "Apply points to all inputs"
     },
     "reportedCommentsDeleter": {
       "text": "Suppression des commentaires signalés",

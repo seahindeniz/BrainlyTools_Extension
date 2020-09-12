@@ -1,10 +1,13 @@
-import Modal from "@components/Modal2";
 import Action, { UserType } from "@BrainlyAction";
+import Modal from "@components/Modal2";
 import Build from "@root/helpers/Build";
+import InsertAfter from "@root/helpers/InsertAfter";
+import IsVisible from "@root/helpers/IsVisible";
 import {
   Button,
   Flex,
   Icon,
+  Input,
   List,
   ListItem,
   Spinner,
@@ -42,6 +45,8 @@ export default class MassManageUsers extends Components {
   addPointsButton: Button;
   numberOfUsers: Text;
   spinner: HTMLDivElement;
+  applyPointsToAllInputsContainer: FlexElementType;
+  applyPointsToAllInputsInput: Input;
 
   constructor(main: ModerationPanel) {
     super(main);
@@ -60,6 +65,7 @@ export default class MassManageUsers extends Components {
     this.RenderListItem();
     this.RenderModal();
     this.RenderUserList();
+    this.RenderApplyPointsToAllInputsSection();
     this.RenderAddPointsButton();
     this.RenderSpinner();
     this.BindListeners();
@@ -206,6 +212,54 @@ export default class MassManageUsers extends Components {
       className: "js-user-list",
       marginBottom: "s",
     });
+  }
+
+  RenderApplyPointsToAllInputsSection() {
+    this.applyPointsToAllInputsContainer = Build(
+      Flex({
+        justifyContent: "flex-end",
+        marginBottom: "m",
+      }),
+      [
+        [
+          Flex({ alignItems: "center", marginRight: "s" }),
+          Text({
+            weight: "bold",
+            children:
+              System.data.locale.core.pointChanger.applyPointsToAllInputs,
+          }),
+        ],
+        [
+          Flex(),
+          (this.applyPointsToAllInputsInput = new Input({
+            type: "number",
+            onInput: this.ApplyPointsToAllInputs.bind(this),
+            placeholder: `${System.data.locale.common.shortPoints}..`,
+          })),
+        ],
+      ],
+    );
+  }
+
+  ApplyPointsToAllInputs() {
+    const { value } = this.applyPointsToAllInputsInput.input;
+    const points = Number(value);
+
+    this.ColorizeInput(points);
+
+    if (Number.isNaN(points)) return;
+
+    this.users.all.forEach(user => {
+      user.pointsInput.value = value;
+
+      user.ColorizeInput();
+    });
+  }
+
+  ColorizeInput(points: number) {
+    if (points < 0) this.applyPointsToAllInputsInput.Invalid();
+    else if (points > 0) this.applyPointsToAllInputsInput.Valid();
+    else this.applyPointsToAllInputsInput.Natural();
   }
 
   RenderAddPointsButton() {
@@ -367,11 +421,21 @@ export default class MassManageUsers extends Components {
   }
 
   HideAddPointsButton() {
+    this.HideApplyPointsToAllInputsInput();
     this.HideElement(this.addPointsButtonContainer);
   }
 
+  HideApplyPointsToAllInputsInput() {
+    this.HideElement(this.applyPointsToAllInputsContainer);
+  }
+
   ShowAddPointsButton() {
+    this.ShowApplyPointsToAllInputsInput();
     this.actionsContainer.append(this.addPointsButtonContainer);
+  }
+
+  ShowApplyPointsToAllInputsInput() {
+    InsertAfter(this.applyPointsToAllInputsContainer, this.userContainer);
   }
 
   StartAddingPointsToAll() {

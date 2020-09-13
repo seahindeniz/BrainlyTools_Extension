@@ -103,7 +103,8 @@
     "deleteAcross": "Sayfalar arası sil",
     "profileLinkOrId": "Profil linki veya id'si",
     "beta": "Beta",
-    "deletedUser": "Silinmiş kullanıcı"
+    "deletedUser": "Silinmiş kullanıcı",
+    "toggleAll": "Seçimleri tersine seç"
   },
   "popup": {
     "notificationMessages": {
@@ -961,5 +962,9 @@
     "thereIsNoReportLeft": "Şikayet edilmiş içerik kalmadı",
     "deleteAllComments": "Tüm yorumları sil",
     "confirmDeletingNComments": "Lütfen %{N} yorumun silinmesini onaylayın"
+  },
+  "shortAnswersPage": {
+    "selectAtLeastOneAnswer": "En az bir cevap seçmelisin",
+    "doYouWantToDeleteSelectedAnswers": "Seçilen cevaplarısilmek istiyor musun?"
   }
 }

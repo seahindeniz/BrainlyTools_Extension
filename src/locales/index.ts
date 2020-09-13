@@ -103,7 +103,8 @@ export default {
     deleteAcross: "Delete across",
     profileLinkOrId: "Profile link or id",
     beta: "Beta",
-    deletedUser: "Deleted user"
+    deletedUser: "Deleted user",
+    toggleAll: "Toggle all"
   },
   popup: {
     notificationMessages: {
@@ -961,5 +962,9 @@ export default {
     thereIsNoReportLeft: "There is no report left",
     deleteAllComments: "Delete all comments",
     confirmDeletingNComments: "Please confirm deleting %{N} comments"
+  },
+  shortAnswersPage: {
+    selectAtLeastOneAnswer: "You need to select at least one answer",
+    doYouWantToDeleteSelectedAnswers: "Do you really want delete selected answers?"
   }
 }

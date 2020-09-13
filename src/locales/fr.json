@@ -103,7 +103,8 @@
     "deleteAcross": "Supprimer à travers",
     "profileLinkOrId": "Lien ou identifiant du profil",
     "beta": "Bêta",
-    "deletedUser": "Deleted user"
+    "deletedUser": "Deleted user",
+    "toggleAll": "Toggle all"
   },
   "popup": {
     "notificationMessages": {
@@ -961,5 +962,9 @@
     "thereIsNoReportLeft": "Il n'y a plus de signalement",
     "deleteAllComments": "Delete all comments",
     "confirmDeletingNComments": "Please confirm deleting %{N} comments"
+  },
+  "shortAnswersPage": {
+    "selectAtLeastOneAnswer": "You need to select at least one answer",
+    "doYouWantToDeleteSelectedAnswers": "Do you really want delete selected answers?"
   }
 }

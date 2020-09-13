@@ -305,6 +305,14 @@ class Core {
         "/styles/pages/QuestionAdd.css",
       ]);
     }
+
+    if (System.checkRoute(2, "responses_short")) {
+      this.RemoveOldLayoutCSSFile();
+      InjectToDOM([
+        "/scripts/views/13-ShortAnswers/index.js",
+        "/styles/pages/ShortAnswers.css",
+      ]);
+    }
   }
 
   PingBrainly() {

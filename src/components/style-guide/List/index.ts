@@ -1,7 +1,5 @@
-import classnames from "classnames";
-import SetProps from "@style-guide/helpers/SetProps";
-import AddChildren from "../helpers/AddChildren";
 import CreateElement from "@components/CreateElement";
+import classnames from "classnames";
 
 type ListPropsType = {
   spaced?: boolean;

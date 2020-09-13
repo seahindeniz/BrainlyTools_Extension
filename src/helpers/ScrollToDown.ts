@@ -1,10 +1,9 @@
 function ScrollToDown(element) {
   if (element) {
-    let __loop_scroll = setInterval(() => {
-      element.scrollTop = 1E9;
+    const loopScroll = setInterval(() => {
+      element.scrollTop = 1e9;
 
-      if (element.scrollTop > 0)
-        clearInterval(__loop_scroll);
+      if (element.scrollTop > 0) clearInterval(loopScroll);
     });
   }
 }

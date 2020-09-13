@@ -1,4 +1,4 @@
-import Action from "@root/controllers/Req/Brainly/Action";
+import Action from "@BrainlyAction";
 
 export default class FileUpload {
   file: File;

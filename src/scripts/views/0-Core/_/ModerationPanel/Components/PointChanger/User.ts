@@ -1,4 +1,4 @@
-import Action, { UserType } from "@root/controllers/Req/Brainly/Action";
+import Action, { UserType } from "@BrainlyAction";
 import Build from "@root/helpers/Build";
 import {
   Flex,

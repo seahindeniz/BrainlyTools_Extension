@@ -1,5 +1,5 @@
-import type { AttachmentDataInTicketType } from "@root/controllers/Req/Brainly/Action";
-import Action from "@root/controllers/Req/Brainly/Action";
+import type { AttachmentDataInTicketType } from "@BrainlyAction";
+import Action from "@BrainlyAction";
 import { Button, Flex, Icon, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import CreateElement from "@components/CreateElement";

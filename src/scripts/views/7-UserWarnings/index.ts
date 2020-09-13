@@ -1,4 +1,4 @@
-import Action from "@root/controllers/Req/Brainly/Action";
+import Action from "@BrainlyAction";
 import WaitForElement from "@root/helpers/WaitForElement";
 import Button from "@components/Button";
 import notification from "@components/notification2";

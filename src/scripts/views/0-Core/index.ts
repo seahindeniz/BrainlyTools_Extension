@@ -1,8 +1,8 @@
 /* eslint-disable class-methods-use-this, camelcase */
 import InsertBefore from "@root/helpers/InsertBefore";
 import WaitForElement from "@root/helpers/WaitForElement";
-import Action from "@root/controllers/Req/Brainly/Action";
-import ServerReq from "@root/controllers/Req/Server";
+import Action from "@BrainlyAction";
+import ServerReq from "@ServerReq";
 import { Flex, Text } from "@style-guide";
 import notification from "@components/notification2";
 import PrepareDeleteReasons from "../../../controllers/PrepareDeleteReasons";

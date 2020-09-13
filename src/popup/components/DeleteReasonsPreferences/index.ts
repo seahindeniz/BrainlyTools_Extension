@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import ServerReq from "@root/controllers/Req/Server";
+import ServerReq from "@ServerReq";
 import bulmahead from "../../../scripts/lib/bulmahead";
 import Preference from "./Preference";
 import notification from "../notification";

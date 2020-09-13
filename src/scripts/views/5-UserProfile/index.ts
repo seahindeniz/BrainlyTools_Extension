@@ -1,11 +1,11 @@
 import IsVisible from "@root/helpers/IsVisible";
 import WaitForElement from "@root/helpers/WaitForElement";
-import ServerReq from "@root/controllers/Req/Server";
+import ServerReq from "@ServerReq";
 import { ActionList, ActionListHole, ContentBox } from "@style-guide";
 import UserBio from "@components/UserBio";
 import UserHat from "@components/UserHat";
 import UserNoteBox from "@components/UserNoteBox";
-import Action from "../../../controllers/Req/Brainly/Action";
+import Action from "@BrainlyAction";
 import AccountDeleteReporter from "./_/AccountDeleteReporter";
 import FriendsManager from "./_/FriendsManager";
 import MorePanel from "./_/MorePanel";

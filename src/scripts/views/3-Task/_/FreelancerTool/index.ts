@@ -1,6 +1,4 @@
-import ServerReq, {
-  KeywordsForFreelancerDataType,
-} from "@root/controllers/Req/Server";
+import ServerReq, { KeywordsForFreelancerDataType } from "@ServerReq";
 import KeywordList from "./KeywordList";
 import PageVisitButton from "./PageVisitButton";
 

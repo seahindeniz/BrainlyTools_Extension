@@ -1,13 +1,15 @@
-import ThemeColorChanger from "./ThemeColorChanger";
 import InjectIcons from "@components/SVG/index";
+import ThemeColorChanger from "./ThemeColorChanger";
 
 function preExecuteScripts() {
-  let color = window.localStorage.getItem("themeColor");
+  const color = window.localStorage.getItem("themeColor");
 
   window.coloring = new ThemeColorChanger(color);
 
-  let _loop_removeElement = setInterval(() => {
-    let elements = document.querySelectorAll(".brn-ads-box, div.js-feed>div>div.sg-layout>div.sg-layout__container>div.sg-layout__content>div>div.sg-layout__box");
+  const loopRemoveElement = setInterval(() => {
+    const elements = document.querySelectorAll(
+      ".brn-ads-box, div.js-feed>div>div.sg-layout>div.sg-layout__container>div.sg-layout__content>div>div.sg-layout__box",
+    );
 
     if (elements && elements.length > 0)
       elements.forEach(element => element.remove());
@@ -15,9 +17,9 @@ function preExecuteScripts() {
 
   window.addEventListener("load", () => {
     InjectIcons();
-    clearInterval(_loop_removeElement)
+    clearInterval(loopRemoveElement);
   });
-  setTimeout(() => clearInterval(_loop_removeElement), 10000);
+  setTimeout(() => clearInterval(loopRemoveElement), 10000);
 }
 
-export default preExecuteScripts()
+export default preExecuteScripts();

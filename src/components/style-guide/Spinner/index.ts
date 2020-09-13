@@ -38,7 +38,7 @@ export default function ({
     className,
   );
 
-  let spinner = document.createElement("div");
+  const spinner = document.createElement("div");
   spinner.className = spinnerClassNames;
 
   SetProps(spinner, props);
@@ -52,12 +52,12 @@ export default function ({
       className,
     );
 
-    let overlay = document.createElement("div");
-    overlay.className = spinnerOverlayClassNames;
+    const overlayElement = document.createElement("div");
+    overlayElement.className = spinnerOverlayClassNames;
 
-    overlay.appendChild(spinner);
+    overlayElement.appendChild(spinner);
 
-    return overlay;
+    return overlayElement;
   }
 
   return spinner;

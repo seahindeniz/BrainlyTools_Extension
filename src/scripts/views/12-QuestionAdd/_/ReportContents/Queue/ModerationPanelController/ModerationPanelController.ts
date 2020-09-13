@@ -1,7 +1,7 @@
 import type { ContentNameType } from "@components/ModerationPanel/ModeratePanelController";
 import ModeratePanelController from "@components/ModerationPanel/ModeratePanelController";
 import notification from "@components/notification2";
-import Action from "@root/controllers/Req/Brainly/Action";
+import Action from "@BrainlyAction";
 import type ContentClassType from "../../Content/Content";
 import type { ContentClassTypes } from "../../Fetcher/Fetcher";
 import type QueueClassType from "../Queue";

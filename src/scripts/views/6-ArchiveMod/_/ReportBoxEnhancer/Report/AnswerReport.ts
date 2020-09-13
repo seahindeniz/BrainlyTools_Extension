@@ -1,6 +1,4 @@
-import Action, {
-  RemoveAnswerReqDataType,
-} from "@root/controllers/Req/Brainly/Action";
+import Action, { RemoveAnswerReqDataType } from "@BrainlyAction";
 import Report from ".";
 
 export default class AnswerReport extends Report {

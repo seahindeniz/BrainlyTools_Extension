@@ -36,7 +36,7 @@ export default function Build<T, Z>(_parent: T, elements: Z): T {
 
   let parent = _parent;
 
-    if (
+  if (
     parent &&
     parent instanceof Object &&
     // typeof parent === "object" &&

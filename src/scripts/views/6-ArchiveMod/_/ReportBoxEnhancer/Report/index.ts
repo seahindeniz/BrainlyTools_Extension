@@ -10,7 +10,7 @@ import {
   SpinnerContainer,
   Text,
 } from "@style-guide";
-import Action from "@root/controllers/Req/Brainly/Action";
+import Action from "@BrainlyAction";
 import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
 import InsertAfter from "@root/helpers/InsertAfter";

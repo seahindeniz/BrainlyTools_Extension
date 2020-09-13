@@ -1,4 +1,4 @@
-import { UserDetailsType } from "@root/controllers/Req/Server";
+import { UserDetailsType } from "@ServerReq";
 import HideElement from "../helpers/HideElement";
 import {
   ActionListHole,

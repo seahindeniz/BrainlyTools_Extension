@@ -4,9 +4,7 @@ import type MorePanelClassType from ".";
 export default class ManageExtensionUser {
   main: MorePanelClassType;
   container: HTMLDivElement;
-  link: import("@style-guide/Text").TextElement<
-    "a"
-  >;
+  link: import("@style-guide/Text").TextElement<"a">;
 
   constructor(main: MorePanelClassType) {
     this.main = main;

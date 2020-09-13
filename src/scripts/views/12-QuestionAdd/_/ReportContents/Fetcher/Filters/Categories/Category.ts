@@ -2,9 +2,9 @@ import CreateElement from "@components/CreateElement";
 import type CategoriesType from "./Categories";
 
 export type CategoryDataType = {
-  id: number,
-  text: string,
-  visible?: boolean,
+  id: number;
+  text: string;
+  visible?: boolean;
 };
 
 export default class Category {
@@ -29,6 +29,6 @@ export default class Category {
 
   Selected() {
     console.log(this);
-    this.main;
+    // this.main;
   }
 }

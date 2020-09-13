@@ -9,7 +9,7 @@ import ShortenedLinks from "@root/popup/components/ShortenedLinks";
 import ThemeColorChanger from "@root/popup/components/ThemeColorChanger";
 import Users from "@root/popup/components/Users";
 import ext from "webextension-polyfill";
-import Action from "../../controllers/Req/Brainly/Action";
+import Action from "@BrainlyAction";
 import storage from "../../helpers/extStorage";
 import TimedLoop from "../../helpers/TimedLoop";
 

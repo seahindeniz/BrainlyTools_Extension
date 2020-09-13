@@ -1,6 +1,6 @@
 import CreateElement from "@components/CreateElement";
 import HideElement from "@root/helpers/HideElement";
-import Action from "@root/controllers/Req/Brainly/Action";
+import Action from "@BrainlyAction";
 import { Flex, Select } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type FiltersType from "../Filters";

@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import ServerReq from "@root/controllers/Req/Server";
+import ServerReq from "@ServerReq";
 import prettysize from "prettysize";
 import { debounce } from "throttle-debounce";
 import FileIcon from "../../helpers/FileIcon";
@@ -200,7 +200,6 @@ class AccountDeleteReports {
   RenderReportDetails($reportRow) {
     const _id = $reportRow.attr("id");
     const report = this.reports.find(_report => _report._id === _id);
-    console.log(report);
 
     const $detailRow = $(`
 		<tr class="is-selected" data-id="${report._id}">

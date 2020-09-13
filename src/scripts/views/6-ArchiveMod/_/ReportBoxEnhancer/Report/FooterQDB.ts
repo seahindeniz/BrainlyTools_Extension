@@ -1,11 +1,6 @@
 /* eslint-disable camelcase */
 import notification from "@components/notification2";
-import {
-  Button,
-  Flex,
-  SpinnerContainer,
-  Text,
-} from "@style-guide";
+import { Button, Flex, SpinnerContainer, Text } from "@style-guide";
 import type { ButtonPropsType } from "@style-guide/Button";
 import type { TextColorType } from "@style-guide/Text";
 import type AnswerReportClassType from "./AnswerReport";

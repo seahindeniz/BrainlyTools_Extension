@@ -1,6 +1,4 @@
-import Action, {
-  UsersDataInReportedContentsType,
-} from "@root/controllers/Req/Brainly/Action";
+import Action, { UsersDataInReportedContentsType } from "@BrainlyAction";
 import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
 import { Box, Flex, Spinner, Text } from "@style-guide";

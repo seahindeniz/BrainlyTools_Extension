@@ -1,4 +1,4 @@
-import type { QuestionDataInTicketType } from "@root/controllers/Req/Brainly/Action";
+import type { QuestionDataInTicketType } from "@BrainlyAction";
 import { Counter, Flex, Icon, Label, Text } from "@style-guide";
 import type ModerationPanelClassType from "../ModerationPanel";
 import ContentSection from "./ContentSection";

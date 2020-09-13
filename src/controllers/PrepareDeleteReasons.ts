@@ -1,42 +1,20 @@
+/* eslint-disable no-underscore-dangle */
 import notification from "@components/notification2";
-import storage from "../helpers/extStorage";
 import ServerReq from "@ServerReq";
-
-export default function prepareDeleteReasons(reload = false) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      let deleteReasons = await storage("getL", "deleteReasons");
-
-      if (!deleteReasons || reload) {
-        deleteReasons = await GetAndPrepareDeleteReasons();
-      } else {
-        GetAndPrepareDeleteReasons();
-      }
-
-      await PrepareDeleteButtonSettings();
-
-      System.data.Brainly.deleteReasons = deleteReasons;
-
-      System.changeBadgeColor("loaded");
-      resolve();
-    } catch (error) {
-      reject(error);
-    }
-  });
-}
+import storage from "../helpers/extStorage";
 
 async function GetAndPrepareDeleteReasons() {
-  let resDeleteReasons = await new ServerReq().GetDeleteReasons();
-  let data = resDeleteReasons.data;
+  const resDeleteReasons = await new ServerReq().GetDeleteReasons();
+  const { data } = resDeleteReasons;
 
   if (data.deleteReasons.empty) {
     notification({
       type: "error",
-      html: System.data.locale.core.notificationMessages
-        .cantFetchDeleteReasons
+      html: System.data.locale.core.notificationMessages.cantFetchDeleteReasons,
     });
-    return Promise.reject(System.data.locale.core.notificationMessages
-      .cantFetchDeleteReasons);
+    return Promise.reject(
+      System.data.locale.core.notificationMessages.cantFetchDeleteReasons,
+    );
   }
 
   data.deleteReasons.question = data.deleteReasons.task;
@@ -44,44 +22,42 @@ async function GetAndPrepareDeleteReasons() {
   delete data.deleteReasons.task;
   delete data.deleteReasons.response;
 
-  let deleteReasonsKeys = Object.keys(data.deleteReasons);
+  const deleteReasonsKeys = Object.keys(data.deleteReasons);
   data.deleteReasons.__withTitles = {};
   data.deleteReasons.__withIds = { __all: {} };
   data.deleteReasons.__preferences = data.preferences;
 
   deleteReasonsKeys.forEach(reasonKey => {
-    let categories = data.deleteReasons[reasonKey];
+    const categories = data.deleteReasons[reasonKey];
     data.deleteReasons.__withTitles[reasonKey] = {
-      __categories: {}
+      __categories: {},
     };
     data.deleteReasons.__withIds[reasonKey] = {
-      __categories: {}
+      __categories: {},
     };
 
     categories.forEach(category => {
-      data.deleteReasons.__withTitles[reasonKey].__categories[category
-        .id] = category;
-      data.deleteReasons.__withIds[reasonKey].__categories[category
-        .id] = category;
+      data.deleteReasons.__withTitles[reasonKey].__categories[
+        category.id
+      ] = category;
+      data.deleteReasons.__withIds[reasonKey].__categories[
+        category.id
+      ] = category;
       data.deleteReasons.__withIds.__all[category.id] = {
-        ...
-        category
+        ...category,
       };
 
       if (category && category.subcategories) {
         category.subcategories.forEach(subcategory => {
           subcategory.category_id = category.id;
-          let title = subcategory.title == "" ? category.text :
-            subcategory.title;
+          let title =
+            subcategory.title === "" ? category.text : subcategory.title;
           title = title.trim();
-          data.deleteReasons.__withTitles[reasonKey][title] =
-            subcategory;
-          data.deleteReasons.__withIds[reasonKey][subcategory
-            .id
-          ] = subcategory;
+          data.deleteReasons.__withTitles[reasonKey][title] = subcategory;
+          data.deleteReasons.__withIds[reasonKey][subcategory.id] = subcategory;
           data.deleteReasons.__withIds.__all[subcategory.id] = {
             ...subcategory,
-            type: reasonKey
+            type: reasonKey,
           };
         });
       }
@@ -91,24 +67,35 @@ async function GetAndPrepareDeleteReasons() {
   storage("setL", { deleteReasons: data.deleteReasons });
 
   return Promise.resolve(data.deleteReasons);
-};
+}
 
 async function PrepareDeleteButtonSettings() {
-  try {
-    let quickDeleteButtonsReasons = await storage("get",
-      "quickDeleteButtonsReasons");
+  let quickDeleteButtonsReasons = await storage(
+    "get",
+    "quickDeleteButtonsReasons",
+  );
 
-    if (!quickDeleteButtonsReasons) {
-      quickDeleteButtonsReasons = System.data.config.marketConfig
-        .quickDeleteButtonsDefaultReasons;
-      //await storage("set", { quickDeleteButtonsReasons });
-    }
-
-    System.data.config.quickDeleteButtonsReasons = quickDeleteButtonsReasons;
-
-    return Promise.resolve();
-  } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+  if (!quickDeleteButtonsReasons) {
+    quickDeleteButtonsReasons =
+      System.data.config.marketConfig.quickDeleteButtonsDefaultReasons;
+    // await storage("set", { quickDeleteButtonsReasons });
   }
+
+  System.data.config.quickDeleteButtonsReasons = quickDeleteButtonsReasons;
+}
+
+export default async function prepareDeleteReasons(reload = false) {
+  let deleteReasons = await storage("getL", "deleteReasons");
+
+  if (!deleteReasons || reload) {
+    deleteReasons = await GetAndPrepareDeleteReasons();
+  } else {
+    GetAndPrepareDeleteReasons();
+  }
+
+  await PrepareDeleteButtonSettings();
+
+  System.data.Brainly.deleteReasons = deleteReasons;
+
+  System.changeBadgeColor("loaded");
 }

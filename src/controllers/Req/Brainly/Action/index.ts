@@ -388,7 +388,7 @@ function GetUsersInChunk(ids: (number | string)[]) {
 
         if (++count === chunkedIds.length) resolve(results);
       } catch (error) {
-        console.log("err", error);
+        console.error("err", error);
         reject(error);
         throw error;
       }
@@ -886,11 +886,7 @@ export default class Action extends Brainly {
   }
 
   AllFriends() {
-    return this.JSON()
-      .X_Req_With()
-      .buddies_new()
-      .ajax_panel_get_buddies()
-      .GET();
+    return this.JSON().XReqWith().buddies_new().ajax_panel_get_buddies().GET();
   }
 
   RemoveFriend(id) {
@@ -1200,7 +1196,7 @@ export default class Action extends Brainly {
   }
 
   GetQuestionAddPage() {
-    return this.X_Req_With().question().add().GET();
+    return this.XReqWith().question().add().GET();
   }
 
   GetAnswersOfUser(

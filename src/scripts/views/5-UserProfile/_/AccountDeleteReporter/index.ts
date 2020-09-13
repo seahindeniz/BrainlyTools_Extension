@@ -1,6 +1,6 @@
 import Build from "@root/helpers/Build";
 import InsertAfter from "@root/helpers/InsertAfter";
-import ServerReq from "@root/controllers/Req/Server";
+import ServerReq from "@ServerReq";
 import { Button, Flex, Icon, Input, Text, Textarea } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type { TextElement } from "@style-guide/Text";

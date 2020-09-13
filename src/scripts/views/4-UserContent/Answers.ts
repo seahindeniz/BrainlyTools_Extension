@@ -1,4 +1,4 @@
-import Action, { RemoveAnswerReqDataType } from "@root/controllers/Req/Brainly/Action";
+import Action, { RemoveAnswerReqDataType } from "@BrainlyAction";
 import { Button } from "@style-guide";
 import UserContent from "./_/UserContent";
 import type UserContentRowClassType from "./_/UserContentRow";

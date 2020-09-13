@@ -1,6 +1,7 @@
+/* eslint-disable no-underscore-dangle */
 import ext from "webextension-polyfill";
 import { debounce } from "throttle-debounce";
-import ServerReq from "@root/controllers/Req/Server";
+import ServerReq from "@ServerReq";
 
 class ShortenedLinks {
   $layout: JQuery<HTMLElement>;
@@ -81,7 +82,7 @@ class ShortenedLinks {
 
   BindHandlers() {
     if ($("html").attr("is") === "popup") {
-      this.$layout.on("click", function () {
+      this.$layout.on("click", () => {
         ext.runtime.openOptionsPage();
       });
 
@@ -95,7 +96,7 @@ class ShortenedLinks {
       }),
     );
 
-    this.$linksTBody.on("click", ">tr[id]", function () {
+    this.$linksTBody.on("click", ">tr[id]", function s() {
       this.classList.toggle("is-selected");
     });
   }

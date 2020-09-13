@@ -1,5 +1,5 @@
 import notification from "@components/notification2";
-import Action from "@root/controllers/Req/Brainly/Action";
+import Action from "@BrainlyAction";
 import { DeleteReasonSubCategoryType } from "@root/controllers/System";
 import HideElement from "@root/helpers/HideElement";
 import InsertAfter from "@root/helpers/InsertAfter";

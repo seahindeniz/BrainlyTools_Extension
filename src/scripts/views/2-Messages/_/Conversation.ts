@@ -1,4 +1,4 @@
-import ServerReq, { UserDetailsType } from "@root/controllers/Req/Server";
+import ServerReq, { UserDetailsType } from "@ServerReq";
 import notification from "@components/notification2";
 import UserNoteBox from "@components/UserNoteBox";
 import UserTag from "@components/UserTag";

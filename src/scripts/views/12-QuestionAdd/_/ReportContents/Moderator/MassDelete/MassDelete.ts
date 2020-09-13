@@ -2,7 +2,7 @@ import {
   RemoveQuestionReqDataType,
   RemoveAnswerReqDataType,
   RemoveCommentReqDataType,
-} from "@root/controllers/Req/Brainly/Action";
+} from "@BrainlyAction";
 import notification from "@components/notification2";
 import HideElement from "@root/helpers/HideElement";
 import { Button, Flex } from "@style-guide";

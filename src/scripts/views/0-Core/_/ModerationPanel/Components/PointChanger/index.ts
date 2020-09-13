@@ -2,7 +2,6 @@ import Action, { UserType } from "@BrainlyAction";
 import Modal from "@components/Modal2";
 import Build from "@root/helpers/Build";
 import InsertAfter from "@root/helpers/InsertAfter";
-import IsVisible from "@root/helpers/IsVisible";
 import {
   Button,
   Flex,

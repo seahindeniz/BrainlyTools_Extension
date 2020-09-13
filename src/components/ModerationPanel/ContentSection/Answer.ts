@@ -1,5 +1,5 @@
-import type { AnswerDataInTicketType } from "@root/controllers/Req/Brainly/Action";
-import Action from "@root/controllers/Req/Brainly/Action";
+import type { AnswerDataInTicketType } from "@BrainlyAction";
+import Action from "@BrainlyAction";
 import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
 import IsVisible from "@root/helpers/IsVisible";

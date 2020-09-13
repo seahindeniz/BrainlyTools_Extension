@@ -1,6 +1,6 @@
-import Action from "@root/controllers/Req/Brainly/Action";
-import ActionSection, { RenderDetailsType } from "..";
+import Action from "@BrainlyAction";
 import Button from "@components/Button";
+import ActionSection, { RenderDetailsType } from "..";
 import InfoBar from "./InfoBar";
 
 type AnswerType = { id: number; infoBar: InfoBar };

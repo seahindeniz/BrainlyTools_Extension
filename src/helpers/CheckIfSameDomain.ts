@@ -1,6 +1,6 @@
-export default function CheckIfSameDomain(url1, url2) {
-  url1 = new URL(url1);
-  url2 = new URL(url2);
+export default function CheckIfSameDomain(url1: string, url2: string) {
+  const URL1 = new URL(url1);
+  const URL2 = new URL(url2);
 
-  return url1.host == url2.host && url1.host;
+  return URL1.host === URL2.host && URL1.host;
 }

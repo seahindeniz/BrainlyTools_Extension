@@ -16,6 +16,7 @@ const BUTTON_COLOR: {
 };
 
 type DeleteReasonType = {
+  // eslint-disable-next-line camelcase
   category_id: number;
   id: number;
   text: string;

@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import HideElement from "@root/helpers/HideElement";
-import ServerReq from "@root/controllers/Req/Server";
+import ServerReq from "@ServerReq";
 import autosize from "autosize";
 import Button, { JQueryButtonElementType } from "@components/Button";
 import Progress from "@components/Progress";

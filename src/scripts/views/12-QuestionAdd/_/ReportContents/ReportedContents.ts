@@ -1,4 +1,4 @@
-import type { UsersDataInReportedContentsType } from "@root/controllers/Req/Brainly/Action";
+import type { UsersDataInReportedContentsType } from "@BrainlyAction";
 import Build from "@root/helpers/Build";
 import InsertAfter from "@root/helpers/InsertAfter";
 import { Flex } from "@style-guide";

@@ -1,4 +1,4 @@
-import ServerReq from "@root/controllers/Req/Server";
+import ServerReq from "@ServerReq";
 import { DeleteReasonSubCategoryType } from "@root/controllers/System";
 import notification from "../notification";
 

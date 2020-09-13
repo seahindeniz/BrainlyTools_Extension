@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-param-reassign */
 import Action from "@BrainlyAction";
 import FillRange from "@root/helpers/FillRange";

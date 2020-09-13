@@ -13,9 +13,7 @@ export default class PrivilegeList {
   main: MorePanelClassType;
   container: HTMLDivElement;
   wrapper: HTMLDivElement;
-  link: import("@style-guide/Text").TextElement<
-    "a"
-  >;
+  link: import("@style-guide/Text").TextElement<"a">;
 
   privilegeListContainer: HTMLDivElement;
   privilegeList: HTMLUListElement;

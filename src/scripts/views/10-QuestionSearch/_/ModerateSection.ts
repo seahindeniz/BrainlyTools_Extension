@@ -17,10 +17,8 @@ import {
   SpinnerContainer,
   Text,
 } from "@style-guide";
+import Action, { RemoveQuestionReqDataType } from "@BrainlyAction";
 import type QuestionSearch from "..";
-import Action, {
-  RemoveQuestionReqDataType,
-} from "../../../../controllers/Req/Brainly/Action";
 import InsertAfter from "../../../../helpers/InsertAfter";
 import IsVisible from "../../../../helpers/IsVisible";
 import type QuestionBox from "./QuestionBox";

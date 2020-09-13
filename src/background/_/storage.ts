@@ -11,7 +11,6 @@ const storage = {
     const resDB = await db.get(marketKey);
     let result = {};
 
-    console.log(data);
     if (Object.prototype.toString.call(data) === "[object Array]") {
       for (let i = 0, obj; (obj = data[i]); i++) {
         if (resDB[marketKey]) result[obj] = resDB[marketKey][obj];
@@ -25,7 +24,6 @@ const storage = {
   set: async ({ marketKey, data, local }) => {
     const db = local ? storageL : storageS;
 
-    console.log(data);
     const resGet = await db.get(marketKey);
     const dataStorage = {
       [marketKey]: { ...resGet[marketKey], ...data },

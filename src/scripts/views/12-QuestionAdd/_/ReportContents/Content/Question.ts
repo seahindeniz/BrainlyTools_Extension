@@ -1,5 +1,5 @@
-import type { ReportedContentDataType } from "@root/controllers/Req/Brainly/Action";
-import { RemoveQuestionReqDataType } from "@root/controllers/Req/Brainly/Action";
+import type { ReportedContentDataType } from "@BrainlyAction";
+import { RemoveQuestionReqDataType } from "@BrainlyAction";
 import HideElement from "@root/helpers/HideElement";
 import { Flex, Icon, Label, Text } from "@style-guide";
 import tippy from "tippy.js";

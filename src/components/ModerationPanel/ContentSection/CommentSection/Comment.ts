@@ -2,8 +2,8 @@ import type {
   CommentDataInTicketType,
   RemoveCommentReqDataType,
   UsersDataInReportedContentsType,
-} from "@root/controllers/Req/Brainly/Action";
-import Action from "@root/controllers/Req/Brainly/Action";
+} from "@BrainlyAction";
+import Action from "@BrainlyAction";
 import DeleteSection from "@components/DeleteSection2/DeleteSection";
 import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";

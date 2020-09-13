@@ -7,7 +7,7 @@ import type { FlexElementType } from "@style-guide/Flex";
 import type { TextElement } from "@style-guide/Text";
 import moment from "moment-timezone";
 import notification from "@components/notification2";
-import Action from "../../../../controllers/Req/Brainly/Action";
+import Action from "@BrainlyAction";
 import ContentViewerContent from "./ContentViewer_Content";
 import SelectCheckbox from "./SelectCheckbox";
 import type UserContentClassType from "./UserContent";

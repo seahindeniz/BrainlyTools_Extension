@@ -1,5 +1,5 @@
 import WaitForElement from "@root/helpers/WaitForElement";
-import ServerReq from "@root/controllers/Req/Server";
+import ServerReq from "@ServerReq";
 import moment from "moment";
 import notification from "@components/notification2";
 import GroupChatbox from "./GroupChatbox";

@@ -149,8 +149,6 @@ class QuickDeleteButtonsOptions {
         ];
     }
 
-    console.log("selectedReasons", selectedReasons);
-
     return selectedReasons || [];
   }
 

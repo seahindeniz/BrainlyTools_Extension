@@ -1,6 +1,6 @@
 /* eslint-disable import/no-duplicates */
 import { Button, Flex, SpinnerContainer } from "@style-guide";
-import Action from "@root/controllers/Req/Brainly/Action";
+import Action from "@BrainlyAction";
 import Build from "@root/helpers/Build";
 import ModerationSection from ".";
 import type ModerationToplayerClassType from "..";

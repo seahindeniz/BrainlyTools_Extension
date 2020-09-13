@@ -1,5 +1,5 @@
+import Action from "@BrainlyAction";
 import notification from "./notification2";
-import Action from "../controllers/Req/Brainly/Action";
 
 function PasteHandler(event: KeyboardEvent) {
   event.preventDefault();

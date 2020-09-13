@@ -3,11 +3,11 @@
 import locale from "@root/locales";
 import ServerReq from "@ServerReq";
 import cookie from "js-cookie";
+import Action from "@BrainlyAction";
 import extensionConfig from "../configs/_/extension.json";
 import ArrayLast from "../helpers/ArrayLast";
 import storage from "../helpers/extStorage";
 import InjectToDOM from "../helpers/InjectToDOM";
-import Action from "./Req/Brainly/Action";
 import type { SubjectDataType } from "../scripts/views/12-QuestionAdd/_/ReportContents/Fetcher/Filters/Subjects/Subject";
 
 const ROUTES = {
@@ -388,7 +388,7 @@ class _System {
     this.routeMasks = {};
     this.friends = [];
 
-    console.log(`%cSystem library initialized`, this.logStyle);
+    this.Log(`System library initialized`);
   }
 
   Log(...args: any) {
@@ -396,11 +396,14 @@ class _System {
       arg => typeof arg !== "string" || typeof arg !== "number",
     );
 
+    // eslint-disable-next-line no-console
     if (!isContainsObject) console.log(`%c${args.join(" ")}`, this.logStyle);
     else
       args.forEach(arg => {
         if (typeof arg === "string" || typeof arg === "number")
+          // eslint-disable-next-line no-console
           console.log(`%c${arg}`, this.logStyle);
+        // eslint-disable-next-line no-console
         else console.log(arg);
       });
   }
@@ -437,7 +440,7 @@ class _System {
 
     if (currPath.length >= 2) {
       if (typeof str === "undefined") {
-        console.log("str is undefined, check please");
+        // console.log("str is undefined, check please");
         // result = currPath[index];
         result = Boolean(currPath[index]);
       } else if ((currPath[index] || "") === str) {

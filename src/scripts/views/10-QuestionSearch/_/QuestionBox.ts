@@ -10,8 +10,8 @@ import {
   Spinner,
   SpinnerContainer,
 } from "@style-guide";
+import Action from "@BrainlyAction";
 import type QuestionSearchClassType from "..";
-import Action from "../../../../controllers/Req/Brainly/Action";
 import QuickDeleteButtons from "../../1-Home/_/QuickDeleteButtons";
 
 class QuestionBox {

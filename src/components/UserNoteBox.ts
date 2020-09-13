@@ -1,31 +1,31 @@
-import ServerReq from "@root/controllers/Req/Server";
+import ServerReq from "@ServerReq";
 import { ActionListHole, Textarea } from "./style-guide";
 
 /**
  * @param {import("@ServerReq").UserDetailsType} user
  */
 export default user => {
-  let input = Textarea({
+  const input = Textarea({
     tag: "textarea",
     fullWidth: true,
     className: "sg-text-small",
-    placeholder: System.data.locale.common.personalNote
-      .clickToAddANote,
+    placeholder: System.data.locale.common.personalNote.clickToAddANote,
     title: System.data.locale.common.personalNote.title,
     maxlength: 1000,
     value: user.note || "",
   });
-  let container = ActionListHole({
+  const container = ActionListHole({
     children: input,
     className: "userNoteBox",
   });
 
   input.addEventListener("change", async () => {
-    let data = {
+    const data = {
+      // eslint-disable-next-line no-underscore-dangle
       _id: user._id,
-      note: input.value
-    }
-    let resUpdate = await new ServerReq().UpdateNote(data);
+      note: input.value,
+    };
+    const resUpdate = await new ServerReq().UpdateNote(data);
 
     if (resUpdate && resUpdate.success) {
       input.classList.add("changed");
@@ -35,4 +35,4 @@ export default user => {
   });
 
   return container;
-}
+};

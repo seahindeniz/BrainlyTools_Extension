@@ -25,7 +25,6 @@ export default class ReasonSection extends RadioSection {
   }
 
   Selected() {
-    console.log(this.reasonCategories);
     this.main.listeners?.onReasonChange?.();
     this.main.RenderSubReasonSection();
     this.main.ShowTextarea();

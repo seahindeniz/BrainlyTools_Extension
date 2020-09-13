@@ -1,6 +1,6 @@
 import classnames from "classnames";
-import Spinner, { SpinnerSizeType } from ".";
 import CreateElement from "@components/CreateElement";
+import Spinner, { SpinnerSizeType } from ".";
 import { ChildrenParamType } from "../helpers/AddChildren";
 
 type SpinnerContainerPropsType = {
@@ -13,7 +13,7 @@ type SpinnerContainerPropsType = {
   [x: string]: any;
 };
 const SG = "sg-spinner-container";
-const SG_ = `${SG}__`;
+const SGL = `${SG}__`;
 
 /**
  * @param {SpinnerContainerProperties} param0
@@ -43,12 +43,12 @@ export default ({
   });
 
   if (loading) {
-    let overlay = document.createElement("div");
-    overlay.className = `${SG_}overlay`;
+    const overlay = document.createElement("div");
+    overlay.className = `${SGL}overlay`;
 
     container.appendChild(overlay);
 
-    let spinner = Spinner({
+    const spinner = Spinner({
       light,
       size,
     });

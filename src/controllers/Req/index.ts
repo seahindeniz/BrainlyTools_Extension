@@ -73,7 +73,7 @@ export default class Request {
     return this;
   }
 
-  X_Req_With() {
+  XReqWith() {
     this.headers["x-requested-with"] = "XMLHttpRequest";
 
     return this;

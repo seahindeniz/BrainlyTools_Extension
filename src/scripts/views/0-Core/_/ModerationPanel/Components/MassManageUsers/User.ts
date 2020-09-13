@@ -1,4 +1,4 @@
-import type { UserType } from "@root/controllers/Req/Brainly/Action";
+import type { UserType } from "@BrainlyAction";
 import Build from "@root/helpers/Build";
 import {
   ActionList,

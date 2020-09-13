@@ -1,4 +1,4 @@
-import ServerReq from "@root/controllers/Req/Server";
+import ServerReq from "@ServerReq";
 import ext from "webextension-polyfill";
 import PopupNotification from "./notification";
 

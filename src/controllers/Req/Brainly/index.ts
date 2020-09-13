@@ -48,7 +48,7 @@ export default class Brainly extends Request {
   Legacy() {
     this.P("/api/28");
     this.JSON();
-    this.X_Req_With();
+    this.XReqWith();
     // this.SetAccountToken();
 
     return this;
@@ -96,7 +96,7 @@ export default class Brainly extends Request {
     if (!tokens) {
       const tempHeaders = JSON.parse(JSON.stringify(this.headers));
       // eslint-disable-next-line no-param-reassign
-      tokens = await this.X_Req_With().GetPHPTokens(sourceURL, tokenSelector);
+      tokens = await this.XReqWith().GetPHPTokens(sourceURL, tokenSelector);
       this.headers = tempHeaders;
     }
 

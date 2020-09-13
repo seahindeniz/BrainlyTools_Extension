@@ -1,7 +1,7 @@
 import type {
   RemoveCommentReqDataType,
   ReportedContentDataType,
-} from "@root/controllers/Req/Brainly/Action";
+} from "@BrainlyAction";
 import type ReportedContentsType from "../ReportedContents";
 import Content from "./Content";
 

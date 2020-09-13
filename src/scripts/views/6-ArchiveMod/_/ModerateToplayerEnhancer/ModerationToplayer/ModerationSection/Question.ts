@@ -1,4 +1,4 @@
-import Action, { RemoveQuestionReqDataType } from "@root/controllers/Req/Brainly/Action";
+import Action, { RemoveQuestionReqDataType } from "@BrainlyAction";
 import ModerationSection from ".";
 import type ModerationToplayerClassType from "..";
 

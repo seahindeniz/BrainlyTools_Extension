@@ -15,7 +15,7 @@ import type { FlexElementType } from "@style-guide/Flex";
 import sortablejs from "sortablejs";
 import notification from "@components/notification2";
 import Progress from "@components/Progress";
-import Action from "../../../../controllers/Req/Brainly/Action";
+import Action from "@BrainlyAction";
 import RemoveJunkNotifications from "../../0-Core/_/RemoveJunkNotifications";
 
 type RankType = {

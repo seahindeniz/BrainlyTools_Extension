@@ -1,6 +1,4 @@
-import Action, {
-  RemoveCommentReqDataType,
-} from "@root/controllers/Req/Brainly/Action";
+import Action, { RemoveCommentReqDataType } from "@BrainlyAction";
 import Report from ".";
 
 export default class CommentReport extends Report {

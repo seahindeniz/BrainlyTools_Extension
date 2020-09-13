@@ -177,7 +177,8 @@ class OtherOptions {
   }
 
   BindHandlers() {
-    this.$extendMessageLayoutCheckbox.on("change",
+    this.$extendMessageLayoutCheckbox.on(
+      "change",
       this.ExtendMessagesLayout.bind(this),
     );
     this.$notifierCheckbox.on("change", this.NotifierChangeState.bind(this));

@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import notification from "@components/notification2";
-import ServerReq from "@root/controllers/Req/Server";
+import ServerReq from "@ServerReq";
 import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
 import {

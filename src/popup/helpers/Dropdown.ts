@@ -3,18 +3,18 @@ export default $dropdown => {
     $dropdown.removeClass("is-active");
   });
   $dropdown
-    .on("click", ".dropdown-trigger", function(e) {
+    .on("click", ".dropdown-trigger", function (e) {
       e.stopPropagation();
 
       $dropdown.toggleClass("is-active");
     })
-    .on("click", ".dropdown-menu .dropdown-item", function(e) {
+    .on("click", ".dropdown-menu .dropdown-item", function (e) {
       e.preventDefault();
 
-      let $lastActive = $(".is-active", $dropdown);
-      let $trigger = $(".dropdown-trigger", $dropdown);
-      let $buttonText = $("button.button > span:not(.icon)", $trigger);
-      let value = this.getAttribute("value") || this.innerHTML;
+      const $lastActive = $(".is-active", $dropdown);
+      const $trigger = $(".dropdown-trigger", $dropdown);
+      const $buttonText = $("button.button > span:not(.icon)", $trigger);
+      const value = this.getAttribute("value") || this.innerHTML;
 
       this.classList.add("is-active");
       $lastActive.removeClass("is-active");
@@ -24,4 +24,4 @@ export default $dropdown => {
     });
 
   return $dropdown;
-}
+};

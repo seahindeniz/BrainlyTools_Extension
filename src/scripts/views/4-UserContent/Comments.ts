@@ -1,6 +1,4 @@
-import Action, {
-  RemoveCommentReqDataType,
-} from "@root/controllers/Req/Brainly/Action";
+import Action, { RemoveCommentReqDataType } from "@BrainlyAction";
 import moment from "moment-timezone";
 import UserContent from "./_/UserContent";
 import type UserContentRowClassType from "./_/UserContentRow";

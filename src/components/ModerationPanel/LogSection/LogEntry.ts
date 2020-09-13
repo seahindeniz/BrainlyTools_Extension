@@ -1,7 +1,7 @@
 import type {
   QuestionLogEntryClassType,
   QuestionLogEntryType,
-} from "@root/controllers/Req/Brainly/Action";
+} from "@BrainlyAction";
 import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
 import IsVisible from "@root/helpers/IsVisible";

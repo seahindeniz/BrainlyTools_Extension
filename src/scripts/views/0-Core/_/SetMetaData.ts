@@ -39,17 +39,13 @@ export default async function setMetaData() {
   const scriptSrc = (document.currentScript as HTMLScriptElement).src;
   System.data.meta = await MetaGet();
 
-  return new Promise(function (resolve) {
-    const extension_URL = new URL(scriptSrc);
-    System.data.meta = {
-      marketTitle: document.title,
-      extension: {
-        id: extension_URL.host,
-        URL: extension_URL.origin,
-      },
-      ...System.data.meta,
-    };
-
-    resolve();
-  });
+  const extensionURL = new URL(scriptSrc);
+  System.data.meta = {
+    marketTitle: document.title,
+    extension: {
+      id: extensionURL.host,
+      URL: extensionURL.origin,
+    },
+    ...System.data.meta,
+  };
 }

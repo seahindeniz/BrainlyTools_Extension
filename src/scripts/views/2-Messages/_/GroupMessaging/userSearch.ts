@@ -1,5 +1,5 @@
+import Action from "@BrainlyAction";
 import userLi from "./userLi";
-import Action from "../../../../../controllers/Req/Brainly/Action";
 
 const isPosInt = str => /^\+?\d+$/.test(str);
 

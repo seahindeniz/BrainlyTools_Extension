@@ -1,7 +1,7 @@
 import { DeleteReasonSubCategoryType } from "@root/controllers/System";
 import { Button, Text, SpinnerContainer } from "@style-guide";
 import notification from "@components/notification2";
-import Action from "../../../../controllers/Req/Brainly/Action";
+import Action from "@BrainlyAction";
 import type QuickDeleteButtonsClassType from "./QuickDeleteButtons";
 
 class QuickDeleteButton {

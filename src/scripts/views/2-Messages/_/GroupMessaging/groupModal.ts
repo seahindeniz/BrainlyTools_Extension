@@ -1,11 +1,11 @@
 /* eslint-disable no-underscore-dangle */
 import HideElement from "@root/helpers/HideElement";
-import ServerReq from "@root/controllers/Req/Server";
+import ServerReq from "@ServerReq";
 import Button, { JQueryButtonElementType } from "@components/Button";
 import Dropdown from "@components/Dropdown";
 import Modal from "@components/Modal";
 import notification from "@components/notification2";
-import Action from "../../../../../controllers/Req/Brainly/Action";
+import Action from "@BrainlyAction";
 import renderGroupLi from "./groupLi";
 import rankSelector from "./rankSelector";
 import userLi from "./userLi";

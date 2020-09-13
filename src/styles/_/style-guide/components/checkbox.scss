@@ -3,4 +3,8 @@
     opacity: 0.45;
     cursor: default;
   }
+
+  &__element[disabled] + &__ghost {
+    cursor: auto;
+  }
 }

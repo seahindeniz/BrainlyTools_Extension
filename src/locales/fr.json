@@ -103,8 +103,8 @@
     "deleteAcross": "Supprimer à travers",
     "profileLinkOrId": "Lien ou identifiant du profil",
     "beta": "Bêta",
-    "deletedUser": "Deleted user",
-    "toggleAll": "Toggle all"
+    "deletedUser": "Utilisateur supprimé",
+    "toggleAll": "Tout basculer"
   },
   "popup": {
     "notificationMessages": {
@@ -350,8 +350,8 @@
             "title": "Contenus signalés (bêta)"
           },
           "37": {
-            "title": "Moderate Panel > Delete all comments",
-            "description": "Ability to delete comments in bulk from the moderate panel"
+            "title": "Contenus Signalés > Supprimer tous les commentaires",
+            "description": "Possibilité de supprimer les commentaires en masse depuis \"contenus signalés\""
           }
         },
         "veryImportant": "Très important"
@@ -449,7 +449,7 @@
       "addPoints": "Ajouter des points à cet utilisateur",
       "addPointsToAll": "Ajouter des points à tous les utilisateurs",
       "pointsNotSpecified": "Vous devez donner des points à au moins un utilisateur pour pouvoir poursuivre",
-      "applyPointsToAllInputs": "Apply points to all inputs"
+      "applyPointsToAllInputs": "Changer les points de toutes les entrées"
     },
     "reportedCommentsDeleter": {
       "text": "Suppression des commentaires signalés",
@@ -887,14 +887,14 @@
             "Comment": "Commentaire"
           },
           "contentLength": {
-            "name": "Content length",
-            "equals": "equals to",
-            "graterThan": "grater than",
-            "lowerThan": "lower than",
+            "name": "Longueur du contenu",
+            "equals": "égale à",
+            "graterThan": "supérieur à",
+            "lowerThan": "inférieur à",
             "label": {
-              "equals": "equals to %{N}",
-              "graterThan": "grater than %{N}",
-              "lowerThan": "lower than %{N}"
+              "equals": "égale à %{N}",
+              "graterThan": "supérieur à %{N}",
+              "lowerThan": "inférieur à %{N}"
             }
           }
         },
@@ -910,7 +910,7 @@
       "rating": "%{rating} points pour %{ratesCount} votes",
       "bestAnswer": "C'est la meilleure réponse",
       "popularQuestion": "Question populaire !",
-      "moderatorVerifiedSomeonesAnswer": "%{verifier} has verified %{author}'s answer"
+      "moderatorVerifiedSomeonesAnswer": "%{verifier} a vérifié la réponse de %{author}."
     },
     "loadAll": "Charger tous les signalements",
     "loadAllConfirmationMessage": "Je vais essayer de récupérer tous les contenus signalés auprès de Brainly, mais le processus peut être interrompu par Brainly en raison de demandes élevées.\nVeuillez confirmer pour lancer le processus.",
@@ -960,11 +960,11 @@
     "seeMoreDeleteOptions": "Voir d'autres options de suppression",
     "confirmReportingForCorrection": "Veux-tu demander la correction de cette réponse ?",
     "thereIsNoReportLeft": "Il n'y a plus de signalement",
-    "deleteAllComments": "Delete all comments",
-    "confirmDeletingNComments": "Please confirm deleting %{N} comments"
+    "deleteAllComments": "Supprimer tous les commentaires",
+    "confirmDeletingNComments": "Veuillez confirmer la suppression de %{N} commentaires"
   },
   "shortAnswersPage": {
-    "selectAtLeastOneAnswer": "You need to select at least one answer",
-    "doYouWantToDeleteSelectedAnswers": "Do you really want delete selected answers?"
+    "selectAtLeastOneAnswer": "Vous devez sélectionner au moins une réponse",
+    "doYouWantToDeleteSelectedAnswers": "Voulez-vous vraiment supprimer les réponses sélectionnées ?"
   }
 }

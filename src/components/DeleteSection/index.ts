@@ -197,7 +197,7 @@ class DeleteSection {
         marginTop: this.verticalOptions ? "xs" : "",
       }),
       [
-        [Flex({ marginRight: "xs" }), Checkbox({ id })],
+        [Flex({ marginRight: "xs" }), new Checkbox({ id })],
         [
           Flex(),
           Text({

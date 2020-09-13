@@ -5,7 +5,7 @@ import { ContentTypeType } from "@components/ModerationPanel/ContentSection/Cont
 import notification from "@components/notification2";
 import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
-import { Button, Checkbox2, Flex, Label } from "@style-guide";
+import { Button, Checkbox, Flex, Label } from "@style-guide";
 import Answer from "./_/Answer";
 import ShortAnswerModeratePanelController from "./_/ModeratePanelController";
 
@@ -24,7 +24,7 @@ export default class ShortAnswers {
   headerRow: HTMLTableRowElement;
   answerRows: NodeListOf<HTMLTableRowElement>;
   deleteSection: DeleteSection;
-  selectAllCheckbox: Checkbox2;
+  selectAllCheckbox: Checkbox;
   toggleAllButton: Button;
   selectedAnswers: Answer[];
   loopTryToDeleteAnswers: number;
@@ -95,7 +95,7 @@ export default class ShortAnswers {
   private RenderSelectAllCheckbox() {
     if (!this.answerRows?.length || !System.checkUserP(15)) return;
 
-    this.selectAllCheckbox = new Checkbox2({
+    this.selectAllCheckbox = new Checkbox({
       id: null,
     });
     const selectAllCheckboxContainer = Build(

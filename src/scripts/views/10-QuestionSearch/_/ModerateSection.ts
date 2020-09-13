@@ -1,3 +1,6 @@
+import DeleteSection from "@components/DeleteSection";
+import notification from "@components/notification2";
+import Build from "@root/helpers/Build";
 import {
   ActionList,
   ActionListHole,
@@ -15,12 +18,9 @@ import {
   Text,
 } from "@style-guide";
 import type QuestionSearch from "..";
-import DeleteSection from "@components/DeleteSection";
-import notification from "@components/notification2";
 import Action, {
   RemoveQuestionReqDataType,
 } from "../../../../controllers/Req/Brainly/Action";
-import Build from "@root/helpers/Build";
 import InsertAfter from "../../../../helpers/InsertAfter";
 import IsVisible from "../../../../helpers/IsVisible";
 import type QuestionBox from "./QuestionBox";
@@ -97,16 +97,16 @@ class ModerateSection {
   }
 
   RenderSelectAll() {
-    const checkboxContainer = Checkbox();
+    const checkboxContainer = new Checkbox();
     this.selectAllContainer = LabelDeprecated({
       type: "transparent",
       containerTag: "label",
-      icon: checkboxContainer,
+      icon: checkboxContainer.element,
       htmlFor: checkboxContainer.inputId,
       text: System.data.locale.common.selectAll,
     });
 
-    this.selectAll = this.selectAllContainer.querySelector("input");
+    this.selectAll = checkboxContainer.input;
   }
 
   RenderDeleteSection() {

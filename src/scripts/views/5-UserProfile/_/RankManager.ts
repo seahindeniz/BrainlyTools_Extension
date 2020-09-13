@@ -144,7 +144,7 @@ class RankManager {
         if (!rank || rank.type !== 5) return;
 
         const userHasRank = this.user.ranks_ids.includes(rank.id);
-        const checkbox = Checkbox({
+        const checkbox = new Checkbox({
           id: `p-${rank.id}`,
           checked: userHasRank,
         });
@@ -225,7 +225,7 @@ class RankManager {
 
         this.ranks.push({
           data: rank,
-          checkbox: checkbox.firstElementChild as HTMLInputElement,
+          checkbox: checkbox.input,
           rankContainer,
         });
         this.rankContainer.append(rankContainer);

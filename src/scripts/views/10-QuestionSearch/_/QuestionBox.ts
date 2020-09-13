@@ -1,3 +1,4 @@
+import Build from "@root/helpers/Build";
 import {
   ActionListHole,
   Avatar,
@@ -9,10 +10,9 @@ import {
   Spinner,
   SpinnerContainer,
 } from "@style-guide";
-import Action from "../../../../controllers/Req/Brainly/Action";
-import Build from "@root/helpers/Build";
-import QuickDeleteButtons from "../../1-Home/_/QuickDeleteButtons";
 import type QuestionSearchClassType from "..";
+import Action from "../../../../controllers/Req/Brainly/Action";
+import QuickDeleteButtons from "../../1-Home/_/QuickDeleteButtons";
 
 class QuestionBox {
   main: QuestionSearchClassType;
@@ -27,10 +27,7 @@ class QuestionBox {
   $avatarHole: JQuery<HTMLElement>;
   iconContentBox: HTMLDivElement;
   approvedIconContainer: HTMLDivElement;
-  checkBoxContainer: HTMLDivElement & {
-    inputId: string;
-    ChangeId: (id: string) => HTMLDivElement;
-  };
+  checkBoxContainer: Checkbox;
 
   checkBox: any;
   checkBoxContainerHole: HTMLDivElement;
@@ -173,15 +170,15 @@ class QuestionBox {
   }
 
   RenderSelectBox() {
-    this.checkBoxContainer = Checkbox();
-    this.checkBox = this.checkBoxContainer.querySelector("input");
+    this.checkBoxContainer = new Checkbox();
+    this.checkBox = this.checkBoxContainer.input;
     this.checkBoxContainerHole = Build(ActionListHole(), [
       [
         (this.spinnerContainer = SpinnerContainer()),
         LabelDeprecated({
           type: "transparent",
           containerTag: "label",
-          icon: this.checkBoxContainer,
+          icon: this.checkBoxContainer.element,
           htmlFor: this.checkBoxContainer.inputId,
           text: System.data.locale.common.select,
         }),

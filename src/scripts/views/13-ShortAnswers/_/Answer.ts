@@ -2,7 +2,7 @@ import Action, { RemoveAnswerReqDataType } from "@BrainlyAction";
 import CreateElement from "@components/CreateElement";
 import notification from "@components/notification2";
 import HideElement from "@root/helpers/HideElement";
-import { Button, Checkbox2, Flex, Icon, Spinner } from "@style-guide";
+import { Button, Checkbox, Flex, Icon, Spinner } from "@style-guide";
 import type ShortAnswersClassType from "..";
 import QuickDeleteButton from "./QuickDeleteButton";
 
@@ -27,7 +27,7 @@ export default class Answer {
   deleted: boolean;
   deleting: boolean;
   checkboxContainer?: HTMLTableDataCellElement;
-  checkbox?: Checkbox2;
+  checkbox?: Checkbox;
 
   constructor(main: ShortAnswersClassType, rowElement: HTMLTableRowElement) {
     this.main = main;
@@ -138,7 +138,7 @@ export default class Answer {
 
     this.checkboxContainer = CreateElement({
       tag: "td",
-      children: this.checkbox = new Checkbox2({
+      children: this.checkbox = new Checkbox({
         id: null,
       }),
     });

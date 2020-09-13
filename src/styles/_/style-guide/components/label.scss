@@ -3,7 +3,12 @@
     top: unset;
   }
 
-  &__icon:only-child {
-    margin: 0;
+  &__icon {
+    align-items: center;
+    display: flex;
+
+    &:only-child {
+      margin: 0;
+    }
   }
 }

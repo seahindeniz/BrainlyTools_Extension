@@ -752,8 +752,8 @@ export default class Action extends Brainly {
       model_type_id =
         contentType === "Question" ? 1 : contentType === "Answer" ? 2 : 45;
 
-    if (model_type_id !== 1 && model_type_id !== 2 && model_type_id === 45)
-      throw Error(`Invalid content type ${contentId}`);
+    if (model_type_id !== 1 && model_type_id !== 2 && model_type_id !== 45)
+      throw Error(`Invalid content type ${model_type_id}`);
 
     const data = {
       model_id: contentId,

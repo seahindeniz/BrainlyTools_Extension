@@ -1,59 +1,18 @@
-.quickDelete {
-  .sg-content-box {
-    &.deleted {
-      background-color: #ffc8c0;
-    }
-
-    &.warning {
-      background-color: #fedd8e;
-    }
-
-    &:hover:not(.deleted) {
-      position: relative;
-
-      .ext_actions {
-        display: flex;
-      }
-    }
+.ext-action-buttons {
+  &__container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
   }
 }
 
-.ext_actions {
-  display: none;
-  position: absolute;
-  top: -20px;
-  right: -25px;
-  width: 5em;
-  z-index: 2;
+.sg-content-box {
+  &.deleted {
+    background-color: #ffc8c0;
+  }
 
-  >.sg-actions-list__hole {
-    width: 2em;
-
-    &:nth-child(1) .sg-spinner-container {
-      float: right;
-    }
-
-    button {
-      padding: 0 9px;
-      min-width: 35px;
-
-      .sg-button__text {
-        display: none;
-      }
-
-      &:not(:hover) .sg-button__icon {
-        margin: 0;
-      }
-
-      &:hover {
-        .sg-button__icon {
-          display: none;
-        }
-
-        .sg-button__text {
-          display: block;
-        }
-      }
-    }
+  &.warning {
+    background-color: #fedd8e;
   }
 }

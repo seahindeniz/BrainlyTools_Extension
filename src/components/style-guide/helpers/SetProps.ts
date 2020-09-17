@@ -5,6 +5,8 @@ export type CommonComponentPropsType = {
   dataset?: DOMStringMap;
   onChange?: EventHandler | EventHandler[];
   onClick?: MouseEventHandler | MouseEventHandler[];
+  onMouseEnter?: MouseEventHandler | MouseEventHandler[];
+  onMouseLeave?: MouseEventHandler | MouseEventHandler[];
   onInput?: EventHandler | EventHandler[];
   style?: Partial<CSSStyleDeclaration>;
 };

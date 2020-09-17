@@ -89,6 +89,8 @@ export default class Question extends Content {
       content: Flex({
         direction: "column",
         children: approvedAnswers.map(answer => {
+          if (!answer.verification) return undefined;
+
           const users = {
             "%{author}": answer.author,
             "%{verifier}": answer.verification.approval.approver,

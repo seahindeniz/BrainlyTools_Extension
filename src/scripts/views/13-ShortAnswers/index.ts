@@ -25,7 +25,7 @@ export default class ShortAnswers {
   answerRows: NodeListOf<HTMLTableRowElement>;
   deleteSection: DeleteSection;
   selectAllCheckbox: Checkbox;
-  toggleAllButton: Button;
+  toggleSelectionsButton: Button;
   selectedAnswers: Answer[];
   loopTryToDeleteAnswers: number;
   deleteReqData: RemoveAnswerReqDataType;
@@ -118,11 +118,11 @@ export default class ShortAnswers {
         ],
         [
           Flex({}),
-          (this.toggleAllButton = new Button({
+          (this.toggleSelectionsButton = new Button({
             type: "outline",
             toggle: "blue",
             size: "xs",
-            children: System.data.locale.common.toggleAll,
+            children: System.data.locale.common.toggleSelections,
             onClick: this.ToggleCheckboxes.bind(this),
           })),
         ],

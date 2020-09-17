@@ -5,7 +5,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const gql = (s = "") => s;
 
-import Brainly, { TokensPropsType } from "..";
+import Brainly, { TokensPropsType } from "@BrainlyReq/Brainly";
 import Chunkify from "../../../../helpers/Chunkify";
 /* import AnswerConnection from "./GraphQL/Answer/Connection.graphql";
 import AnswerConnection_With_Comments from "./GraphQL/Answer/Connection_With_Comments.graphql";

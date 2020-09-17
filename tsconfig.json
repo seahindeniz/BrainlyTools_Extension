@@ -12,6 +12,8 @@
     "lib": ["es5", "es6", "es2015.collection", "es2015.iterable", "dom"],
     "paths": {
       "@BrainlyAction": ["./src/controllers/Req/Brainly/Action"],
+      "@BrainlyReq": ["./src/controllers/Req/Brainly"],
+      "@BrainlyReq/*": ["./src/controllers/Req/Brainly/*"],
       "@ServerReq": ["./src/controllers/Req/Server"],
       "@style-guide": ["./src/components/style-guide"],
       "@style-guide/*": ["./src/components/style-guide/*"],

@@ -23,6 +23,7 @@ module.exports = {
           {
             alias: {
               "@BrainlyAction": "./src/scripts/controllers/Req/Brainly/Action",
+              "@BrainlyReq": "./src/controllers/Req/Brainly",
               "@ServerReq": "./src/scripts/controllers/Req/Server",
               "@style-guide": "./src/scripts/components/style-guide",
               "@components": "./src/scripts/components",
@@ -36,5 +37,5 @@ module.exports = {
       test: /\.ts$/,
       presets: ["@babel/preset-typescript"],
     },
-  ]
+  ],
 };

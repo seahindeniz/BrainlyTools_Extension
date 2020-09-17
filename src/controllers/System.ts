@@ -434,8 +434,12 @@ class _System {
     );
   }
 
-  checkRoute(index: number, str: string | RegExp) {
-    const currPath: string[] = this.data.meta.location.pathname.split("/");
+  checkRoute(index: number, str: string | RegExp, pathname?: string) {
+    if (!pathname) {
+      pathname = this.data.meta.location.pathname;
+    }
+
+    const currPath: string[] = pathname.split("/");
     let result = false;
 
     if (currPath.length >= 2) {

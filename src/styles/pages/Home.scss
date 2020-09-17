@@ -1,94 +1,17 @@
-.ext_actions {
-  display: none;
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 118px;
-  z-index: 2;
-
-  /* padding: 0px 5px 7px; */
-  /* border-radius: 5px; */
-  /* box-shadow: 0px 0px 10px 0px #c5c5c5; */
-  > .sg-actions-list__hole {
-    width: 56px;
-
-    &:last-child {
-      margin-left: 10px;
-      width: 52px;
-    }
-
-    &:nth-child(1) .sg-spinner-container {
-      float: right;
-    }
-
-    button {
-      min-width: 51px;
-
-      .sg-button__text {
-        display: none;
-      }
-
-      .sg-button__icon {
-        justify-content: center;
-      }
-
-      &:not(.sg-button--reversed-order) {
-        .sg-button__icon {
-          width: 11px;
-        }
-      }
-
-      &:not(:hover) {
-        &:not(.sg-button--reversed-order) {
-          .sg-button__icon {
-            margin: 0;
-          }
-        }
-
-        &.sg-button--reversed-order {
-          .sg-button__icon {
-            margin-left: -4px;
-          }
-        }
-      }
-
-      &:hover {
-        &:not(.sg-button--reversed-order) {
-          .sg-button__icon {
-            margin-left: 0;
-          }
-        }
-
-        .sg-button__text {
-          display: block;
-        }
-      }
-    }
+.ext-action-buttons {
+  &__container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
   }
 }
 
-.quickDelete div[data-test="feed-item"] {
-  &.deleted .sg-content-box {
-    &,
-    > .sg-box {
-      background-color: #ffc8c0;
-    }
-  }
-
-  &:hover:not(.deleted) {
-    position: relative;
-
-    .ext_actions {
-      display: flex;
-    }
+.brn-feed-item-wrapper {
+  &.deleted > .sg-box {
+    background-color: #ffc8c0;
   }
 }
-
-/* @media (max-width: 767px) {
-	.ext_actions button {
-		float: left;
-	}
-} */
 
 .js-modal {
   .taskContent {

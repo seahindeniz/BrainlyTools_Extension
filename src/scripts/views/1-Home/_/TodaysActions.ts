@@ -1,22 +1,78 @@
-function TodaysActions() {
-  if (System.data.Brainly.userData.user.mod_actions_count >= 0) {
-    const $userInfo = $("div.game-box__element > div.game-box__user-info");
-    const $progressItems = $("> .game-box__progress-items", $userInfo);
+import CreateElement from "@components/CreateElement";
+import Build from "@root/helpers/Build";
+import InsertAfter from "@root/helpers/InsertAfter";
+import WaitForElement from "@root/helpers/WaitForElement";
+import { Flex, Text } from "@style-guide";
 
-    if (!$userInfo.is(".todaysActions")) {
-      $userInfo.addClass("todaysActions");
+export default class TodaysActions {
+  #userInfoContainer: NodeListOf<HTMLElement>;
+  #container: HTMLAnchorElement;
 
-      const todaysActions = `
-      <div style="margin: -4px 0 3px;">
-        <a href="/moderation_new/view_moderator/${System.data.Brainly.userData.user.id}" target="_blank">
-          <span class="sg-text sg-text--xsmall sg-text--gray sg-text--capitalize">${System.data.locale.home.todaysActions}: </span>
-          <span class="sg-text sg-text--xsmall sg-text--gray sg-text--emphasised">${System.data.Brainly.userData.user.mod_actions_count}</span>
-        </a>
-      </div>`;
+  constructor() {
+    this.Init();
+  }
 
-      $progressItems.before(todaysActions);
-    }
+  private async Init() {
+    if (Number.isNaN(System.data.Brainly.userData.user.mod_actions_count))
+      return;
+
+    await this.FindUserBoxes();
+    this.Render();
+  }
+
+  private async FindUserBoxes() {
+    this.#userInfoContainer = await WaitForElement(
+      "div.game-box__element > div.game-box__user-info",
+      { multiple: true },
+    );
+  }
+
+  private Render() {
+    this.#container = Build(
+      CreateElement({
+        href: `/moderation_new/view_moderator/${System.data.Brainly.userData.user.id}`,
+        tag: "a",
+        target: "_blank",
+      }),
+      [
+        [
+          Flex({
+            marginTop: "xxs",
+          }),
+          [
+            [
+              Flex({
+                marginRight: "xxs",
+              }),
+              Text({
+                children: `${System.data.locale.home.todaysActions}:`,
+                color: "gray",
+                size: "xsmall",
+                transform: "capitalize",
+              }),
+            ],
+            Text({
+              children: System.data.Brainly.userData.user.mod_actions_count,
+              color: "gray",
+              size: "xsmall",
+              weight: "bold",
+            }),
+          ],
+        ],
+      ],
+    );
+
+    const clone = this.#container.cloneNode() as HTMLDivElement;
+    clone.innerHTML = this.#container.innerHTML;
+
+    const nodes = [this.#container, clone];
+
+    this.#userInfoContainer.forEach(userInfoContainer => {
+      const node = nodes.shift();
+
+      if (!node) return;
+
+      InsertAfter(node, userInfoContainer.firstElementChild);
+    });
   }
 }
-
-export default TodaysActions;

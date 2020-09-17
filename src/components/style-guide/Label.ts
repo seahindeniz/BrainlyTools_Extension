@@ -2,10 +2,11 @@ import CreateElement from "@components/CreateElement";
 import InsertAfter from "@root/helpers/InsertAfter";
 import classnames from "classnames";
 import AddChildren, { ChildrenParamType } from "./helpers/AddChildren";
+import { CommonComponentPropsType } from "./helpers/SetProps";
 import Icon, { IconColorType } from "./Icon";
 import Text, { TextColorType, TextElement } from "./Text";
 
-type LabelType = "" | "default" | "solid" | "transparent" | "transparent-color";
+type LabelType = "default" | "solid" | "transparent" | "transparent-color";
 
 type LabelColorType =
   | "blue"
@@ -14,7 +15,7 @@ type LabelColorType =
   | "peach"
   | "mustard"
   | "gray"
-  | "mono";
+  | "default";
 
 type LabelIconType = Icon | HTMLElement;
 
@@ -25,10 +26,9 @@ export type LabelPropsType = {
   onClose?: (event: MouseEvent) => HTMLButtonElement;
   children?: ChildrenParamType;
   className?: string;
-  text?: string;
   tag?: "div" | "label";
   [x: string]: any;
-};
+} & CommonComponentPropsType;
 
 const SG = "sg-label";
 const SGD = `${SG}--`;
@@ -41,7 +41,7 @@ export const COLORS_SOLID_MAP = {
   peach: "peach-primary",
   mustard: "mustard-primary",
   gray: "gray-secondary",
-  mono: "black",
+  default: "black",
 };
 
 export const COLORS_DEFAULT_MAP = {
@@ -51,7 +51,7 @@ export const COLORS_DEFAULT_MAP = {
   peach: "peach-secondary-light",
   mustard: "mustard-secondary-light",
   gray: "gray-secondary-light",
-  mono: "white",
+  default: "white",
 };
 
 const TRANSPARENT_COLOR_TEXT_MAP: {
@@ -62,7 +62,7 @@ const TRANSPARENT_COLOR_TEXT_MAP: {
     | "peach"
     | "mustard"
     | "gray"
-    | "mono"]: TextColorType;
+    | "default"]: TextColorType;
 } = {
   blue: "blue-dark",
   mint: "mint-dark",
@@ -70,7 +70,7 @@ const TRANSPARENT_COLOR_TEXT_MAP: {
   peach: "peach-dark",
   mustard: "mustard-dark",
   gray: "gray-secondary",
-  mono: "default",
+  default: "default",
 };
 
 const TRANSPARENT_ICON_COLOR_MAP: {
@@ -81,7 +81,7 @@ const TRANSPARENT_ICON_COLOR_MAP: {
     | "peach"
     | "mustard"
     | "gray"
-    | "mono"]: IconColorType;
+    | "default"]: IconColorType;
 } = {
   blue: "blue",
   mint: "mint",
@@ -89,13 +89,12 @@ const TRANSPARENT_ICON_COLOR_MAP: {
   peach: "peach",
   mustard: "mustard",
   gray: "gray-secondary",
-  mono: "dark",
+  default: "dark",
 };
 
 export default class Label {
   type: LabelType;
   color: LabelColorType;
-
   element: HTMLDivElement | HTMLLabelElement;
   icon: LabelIconType;
   iconContainer: HTMLDivElement;
@@ -108,25 +107,20 @@ export default class Label {
 
   constructor({
     children,
-    type = "default",
+    type,
     icon,
     onClose,
-    color = "mono",
+    color,
     className,
     tag = "div",
     ...props
   }: LabelPropsType) {
     this.type = type;
 
-    // const filteredColor: string =
-    //   type === "default" ? COLORS_DEFAULT_MAP[color] : COLORS_SOLID_MAP[color];
-
     const labelClass = classnames(
       SG,
       {
-        // [SGD + filteredColor]:
-        //   (color && type === "solid") || type === "default",
-        [SGD + type]: type && type !== "default",
+        [SGD + type]: type,
         [`${SGD}closable`]: !!onClose,
       },
       className,
@@ -141,8 +135,17 @@ export default class Label {
     this.ChangeColor(color);
 
     if (icon) {
-      this.ChangeIconColor();
       this.ChangeIcon(icon);
+
+      if (!(icon instanceof HTMLElement)) {
+        if (!icon.color) {
+          this.ChangeIconColor();
+        }
+
+        if (!icon.size) {
+          icon.ChangeSize(16);
+        }
+      }
     }
 
     if (children) {
@@ -220,7 +223,7 @@ export default class Label {
       if (!this.childrenContainer) {
         this.childrenContainer = CreateElement({
           tag: "span",
-          class: `${SGL}text`,
+          className: `${SGL}text`,
           children: this.textElement,
         });
 
@@ -259,7 +262,7 @@ export default class Label {
         ? "light"
         : TRANSPARENT_ICON_COLOR_MAP[this.color];
 
-    if ("ChangeColor" in this.icon) {
+    if (this.icon && "ChangeColor" in this.icon) {
       this.icon.ChangeColor(this.#iconColor);
     }
   }
@@ -276,7 +279,10 @@ export default class Label {
         : COLORS_SOLID_MAP[color];
 
     this.element.classList.remove(SGD + filteredOldColor);
-    this.element.classList.add(SGD + filteredColor);
+
+    if (filteredColor) {
+      this.element.classList.add(SGD + filteredColor);
+    }
 
     this.color = color;
   }

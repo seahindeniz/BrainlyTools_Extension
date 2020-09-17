@@ -65,8 +65,9 @@ export default class ModeratePanelController {
       {
         onClose: this.ModerationPanelClosed.bind(this),
         onDelete: this.SomethingDeleted.bind(this),
-        switchNext: this.SwitchToNextReport.bind(this),
-        switchPrevious: this.SwitchToPreviousReport.bind(this),
+        switchNext: this.props.switcher && this.SwitchToNextReport.bind(this),
+        switchPrevious:
+          this.props.switcher && this.SwitchToPreviousReport.bind(this),
       },
     );
   }

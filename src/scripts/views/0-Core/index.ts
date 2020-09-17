@@ -1,10 +1,10 @@
 /* eslint-disable class-methods-use-this, camelcase */
+import Action from "@BrainlyAction";
+import notification from "@components/notification2";
 import InsertBefore from "@root/helpers/InsertBefore";
 import WaitForElement from "@root/helpers/WaitForElement";
-import Action from "@BrainlyAction";
 import ServerReq from "@ServerReq";
 import { Flex, Text } from "@style-guide";
-import notification from "@components/notification2";
 import PrepareDeleteReasons from "../../../controllers/PrepareDeleteReasons";
 import _System from "../../../controllers/System";
 import storage from "../../../helpers/extStorage";

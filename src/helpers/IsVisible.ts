@@ -2,7 +2,7 @@ export default function IsVisible(
   element: HTMLElement | Element,
   deepParentalCheck?: boolean,
 ) {
-  if (!element || !element.parentElement) return false;
+  if (!element?.parentElement) return false;
 
   if (deepParentalCheck)
     return !!(
@@ -11,7 +11,7 @@ export default function IsVisible(
       (element instanceof HTMLElement && element.offsetParent)
     );
 
-  return true;
+  return document.body.contains(element);
   /* return !!(
     element.offsetWidth ||
     element.offsetHeight ||

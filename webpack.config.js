@@ -66,6 +66,11 @@ const mainConfig = {
         },
       },
       {
+        test: /\.g(?:raph)?ql$/,
+        exclude: /node_modules/,
+        loader: "graphql-tag/loader",
+      },
+      {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
         use: {

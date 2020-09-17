@@ -375,6 +375,10 @@ class Button {
 
     return this;
   }
+
+  IconOnly(state: boolean) {
+    this.element.classList[state ? "add" : "remove"]("sg-button--icon-only");
+  }
 }
 
 export default Button;

@@ -2,12 +2,13 @@ import classnames from "classnames";
 import CreateElement from "@components/CreateElement";
 import generateRandomString from "@root/helpers/generateRandomString";
 import Icon from "./Icon";
+import { CommonComponentPropsType } from "./helpers/SetProps";
 
 export type CheckboxPropsType = {
   checked?: boolean;
   id?: string;
   className?: string;
-};
+} & CommonComponentPropsType;
 
 const SG = "sg-checkbox";
 const SGL = `${SG}__`;

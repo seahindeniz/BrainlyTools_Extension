@@ -2,6 +2,54 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.3.0] - 2020.09.13 - 2020.09.17
+
+### Added
+
+- Ability to use QDBs and selective deletion tool on short answers page [#135]
+- Toplu Puan Değiştirici Çoklu Puan Belirleme [#155]
+- Ability to filter reported content by content length [#163]
+- A button to clear all comments in the moderate panel [#182]
+- Urgency of a way to stop exclusion of 'verified questions' using quick buttons
+  [#203]
+- Şikayetler arası geçiş [#205]
+- "Çoklu Puan Değiştirici" Kısmında Tab Tuşu Kullanıldığında Alt Satıra Geçme
+  [#204]
+- Use the new moderate panel on questions in homepage [#216]
+
+### Changed
+
+- Correction reports count is not updating [#202]
+- Şikayet edilen içerikler sayfasında şikayetler arası geçiş sorunu [#207]
+- Şikayetler arasında geçiş yaparken yükleniyor olarak kalıyor [#209]
+- Page numbers are visible to comment and correction reports [#210]
+- Delete reason section for comment doesn't show up [#211]
+- Mass-Moderate delete action, show wrong message [#212]
+- Unable to delete reported contents with Mass-Moderate contents tool on
+  reported contents [#213]
+- Mass-Point changer shows deleted users [#214]
+- Unable to confirm reported comments [#215]
+- QDB's and selective deletion isn't working on the search page [#219]
+
+[#135]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/135
+[#155]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/155
+[#163]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/163
+[#182]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/182
+[#202]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/202
+[#203]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/203
+[#204]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/204
+[#205]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/205
+[#207]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/207
+[#209]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/209
+[#210]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/210
+[#211]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/211
+[#212]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/212
+[#213]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/213
+[#214]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/214
+[#215]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/215
+[#216]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/216
+[#219]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/219
+
 ## [7.2.0] - 2020.09.06
 
 ### Added

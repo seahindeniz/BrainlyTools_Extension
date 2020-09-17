@@ -104,7 +104,7 @@
     "profileLinkOrId": "Profile link or id",
     "beta": "Beta",
     "deletedUser": "Deleted user",
-    "toggleAll": "Toggle all"
+    "toggleSelections": "Toggle selections"
   },
   "popup": {
     "notificationMessages": {
@@ -966,5 +966,9 @@
   "shortAnswersPage": {
     "selectAtLeastOneAnswer": "You need to select at least one answer",
     "doYouWantToDeleteSelectedAnswers": "Do you really want delete selected answers?"
+  },
+  "questionSearch": {
+    "selectAtLeastOneQuestion": "Select at least one question",
+    "doYouWantToDeleteSelectedQuestions": "Do you really want delete the %{N} selected questions?"
   }
 }

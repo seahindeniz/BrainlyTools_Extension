@@ -104,7 +104,7 @@
     "profileLinkOrId": "Profil linki veya id'si",
     "beta": "Beta",
     "deletedUser": "Silinmiş kullanıcı",
-    "toggleAll": "Seçimleri tersine seç"
+    "toggleSelections": "Seçimleri tersine seç"
   },
   "popup": {
     "notificationMessages": {
@@ -966,5 +966,9 @@
   "shortAnswersPage": {
     "selectAtLeastOneAnswer": "En az bir cevap seçmelisin",
     "doYouWantToDeleteSelectedAnswers": "Seçilen cevaplarısilmek istiyor musun?"
+  },
+  "questionSearch": {
+    "selectAtLeastOneQuestion": "En az bir soru seçmelisin",
+    "doYouWantToDeleteSelectedQuestions": "Seçilen %{N} soruyu gerçekten silmek istiyor musun?"
   }
 }

@@ -27,6 +27,7 @@ export type IconTypeType =
   | "calendar"
   | "camera"
   | "check"
+  | "clipboard"
   | "close"
   | "comment"
   | "comment_outlined"

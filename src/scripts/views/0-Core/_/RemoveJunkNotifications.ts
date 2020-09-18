@@ -1,24 +1,18 @@
 // https://stackoverflow.com/questions/23223718#answer-45725439
-import { Base64 } from "js-base64";
 import cookie from "js-cookie";
+import jsesc from "jsesc";
 
 const notifications = [
-  // en
+  // en - hi,ro,ph,id
   "Too many users meet",
-  "Added rank",
-  "All special ranks of the user have been deleted",
   // ru
   "Занадто багато користувачів відповідає",
   // fr
   "Trop d'utilisateurs correspondent aux",
   // tr
   "Bir çok kullanıcı bu istekle",
-  "Bütün özel kullanıcı sıralamaları silindi",
-  "Eklenmiş sıralama",
   // pl
   "Zbyt wielu użytkoników spełnia",
-  "Użytkownikowi usunięto wszystkie rangi specjalne",
-  "Ranga dodana",
   // pt
   "Muitos usuários cumprem este",
   // es
@@ -32,9 +26,7 @@ export default function RemoveJunkNotifications() {
 
   if (!infoBarBase64 || infoBarBase64 === "null") return;
 
-  console.log(infoBarBase64);
-
-  let infoBarStr = Base64.decode(infoBarBase64);
+  let infoBarStr = atob(infoBarBase64);
   let infoBar: {
     text: string;
     class: string;
@@ -43,22 +35,18 @@ export default function RemoveJunkNotifications() {
 
   if (!infoBar) return;
 
-  if (infoBar instanceof Array)
-    infoBar = infoBar
-      .map(entry => {
-        if (
-          !entry?.text ||
-          typeof entry.text !== "string" ||
-          entry.text.match(ignoredNotificationExpression)
-        )
-          return undefined;
+  infoBar = infoBar.filter(
+    (entry, index, self) =>
+      !entry.text.match(ignoredNotificationExpression) &&
+      index === self.findIndex(nextEntry => nextEntry.text === entry.text),
+  );
 
-        return entry;
-      })
-      .filter(Boolean);
+  infoBarStr = jsesc(infoBar, {
+    quotes: "double",
+  });
 
-  infoBarStr = JSON.stringify(infoBar);
-  infoBarBase64 = Base64.encode(infoBarStr);
+  infoBarBase64 = btoa(infoBarStr);
+
   // cookie.set("Zadanepl_cookie[infobar]", infoBarBase64);
   document.cookie = `Zadanepl_cookie[infobar]=${infoBarBase64}; path=/`;
 }

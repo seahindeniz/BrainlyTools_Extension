@@ -328,7 +328,7 @@ export default class MassManageUsers extends Components {
 
         if (!points || (points[0] !== "+" && points[0] !== "-")) return id;
 
-        // this.usersWithPreFilledPoints[id] = Number(points);
+        this.usersWithPreFilledPoints[id] = Number(points);
 
         return id;
       })

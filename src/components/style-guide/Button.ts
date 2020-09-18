@@ -354,6 +354,10 @@ class Button {
     } else {
       if (icon.size === 24) icon.ChangeSize(this.size === "xs" ? 18 : 24);
 
+      if (!icon.color) {
+        icon.ChangeColor("adaptive");
+      }
+
       this.icon = icon;
 
       this.iconContainer.appendChild(icon.element);

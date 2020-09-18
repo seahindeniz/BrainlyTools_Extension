@@ -107,18 +107,23 @@ export default class Request {
     });
   }
 
-  QueryString(queryString: ObjectAnyPropsType) {
+  QueryString(queryString: ObjectAnyPropsType | [string, any][]) {
     if (queryString) {
-      const qStrings = Object.entries(queryString);
+      if (!(queryString instanceof Array))
+        queryString = Object.entries(queryString);
 
-      if (qStrings.length > 0)
-        qStrings.forEach(qString => {
-          if (!this.url.searchParams.has(qString[0]))
-            this.url.searchParams.append(...qString);
-        });
+      queryString.forEach(this.AppendQueryString.bind(this));
     }
 
     return this;
+  }
+
+  private AppendQueryString([key, value]: [string, any]) {
+    if (
+      typeof key === "string" &&
+      (key.includes("[]") || !this.url.searchParams.has(key))
+    )
+      this.url.searchParams.append(key, value);
   }
 
   OpenConnection() {
@@ -137,10 +142,12 @@ export default class Request {
         else connectionData.body = this.data;
       }
 
+      const url = this.url.href.replace(/%5B%5D/g, "[]");
+
       if (this.axios) {
-        connectionData.url = this.url.href;
+        connectionData.url = url;
         promise = this.axios(connectionData);
-      } else promise = fetch(this.url.href, connectionData);
+      } else promise = fetch(url, connectionData);
 
       promise.then(this.HandleResponse.bind(this));
       promise.catch(this.HandleError.bind(this));

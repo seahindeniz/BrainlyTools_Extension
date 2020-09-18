@@ -868,14 +868,20 @@ export default class Action extends Brainly {
       return Promise.reject(Error("Not an array"));
     }
 
+    if (ids.length === 0)
+      return Promise.resolve({
+        data: [],
+        success: true,
+      });
+
     if (ids.length > USERS_PROFILE_REQ_CHUNK_SIZE)
       return this.GetUsersInChunk(ids);
 
-    return this.Legacy()
-      .api_users()
-      .get_by_id()
-      .P(`id[]=${ids.join("&id[]=")}`)
-      .GET();
+    const queries = ids.map(id => {
+      return [`id[]`, id];
+    });
+
+    return this.Legacy().api_users().get_by_id().GET(queries);
   }
 
   CancelWarning(userId: number, warningId: number | number[]) {

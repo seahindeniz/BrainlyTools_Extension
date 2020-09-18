@@ -1,4 +1,4 @@
-import type UsersClassType from "..";
+import type PrivilegeGroupClassType from "./PrivilegeGroup";
 import type PrivilegeCategoryClassType from "./PrivilegeCategory";
 
 export type PrivilegePropsType = {
@@ -7,7 +7,7 @@ export type PrivilegePropsType = {
 };
 
 export default class Privilege {
-  main: PrivilegeCategoryClassType | UsersClassType;
+  main: PrivilegeCategoryClassType | PrivilegeGroupClassType;
   key: number;
   locale: {
     title: string;
@@ -70,13 +70,13 @@ export default class Privilege {
   }
 
   RenderSelectOption() {
-    if (this.key !== 0 && "$privilegesSelect" in this.main) {
-      this.$option = $(
-        `<option value="${this.key}" title="${this.locale.description}">${this.locale.title}</option>`,
-      );
+    if (this.key === 0 || !("$privilegesSelect" in this.main.main)) return;
 
-      this.$option.appendTo(this.main.$privilegesSelect);
-    }
+    this.$option = $(
+      `<option value="${this.key}" title="${this.locale.description}">${this.locale.title}</option>`,
+    );
+
+    this.$option.appendTo(this.main.main.$privilegesSelect);
   }
 
   // eslint-disable-next-line class-methods-use-this

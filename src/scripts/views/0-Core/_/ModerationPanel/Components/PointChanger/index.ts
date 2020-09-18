@@ -44,8 +44,8 @@ export default class MassManageUsers extends Components {
   addPointsButton: Button;
   numberOfUsers: Text;
   spinner: HTMLDivElement;
-  applyPointsToAllInputsContainer: FlexElementType;
   applyPointsToAllInputsInput: Input;
+  listActionContainer: FlexElementType;
 
   constructor(main: ModerationPanel) {
     super(main);
@@ -64,6 +64,8 @@ export default class MassManageUsers extends Components {
     this.RenderListItem();
     this.RenderModal();
     this.RenderUserList();
+    this.RenderActionContainer();
+    this.RenderClearUserListButton();
     this.RenderApplyPointsToAllInputsSection();
     this.RenderAddPointsButton();
     this.RenderSpinner();
@@ -213,31 +215,63 @@ export default class MassManageUsers extends Components {
     });
   }
 
-  RenderApplyPointsToAllInputsSection() {
-    this.applyPointsToAllInputsContainer = Build(
-      Flex({
-        justifyContent: "flex-end",
-        marginBottom: "m",
+  RenderActionContainer() {
+    this.listActionContainer = Flex({
+      justifyContent: "space-between",
+      marginBottom: "m",
+    });
+  }
+
+  RenderClearUserListButton() {
+    const clearUserListButtonContainer = Flex({
+      alignItems: "center",
+      children: new Button({
+        children: System.data.locale.core.pointChanger.clearList,
+        icon: new Icon({
+          type: "close",
+        }),
+        onClick: this.ClearUserList.bind(this),
+        size: "s",
+        type: "solid-light",
       }),
+    });
+
+    this.listActionContainer.append(clearUserListButtonContainer);
+  }
+
+  ClearUserList() {
+    this.users.all.forEach(user => {
+      user.container.remove();
+
+      delete this.users.id[user.data.id];
+    });
+
+    this.users.all.length = 0;
+
+    this.ToggleUserList();
+    this.ToggleAddPointsButton();
+  }
+
+  RenderApplyPointsToAllInputsSection() {
+    const applyPointsToAllInputsContainer = Build(Flex(), [
       [
-        [
-          Flex({ alignItems: "center", marginRight: "s" }),
-          Text({
-            weight: "bold",
-            children:
-              System.data.locale.core.pointChanger.applyPointsToAllInputs,
-          }),
-        ],
-        [
-          Flex(),
-          (this.applyPointsToAllInputsInput = new Input({
-            type: "number",
-            onInput: this.ApplyPointsToAllInputs.bind(this),
-            placeholder: `${System.data.locale.common.shortPoints}..`,
-          })),
-        ],
+        Flex({ alignItems: "center", marginRight: "s" }),
+        Text({
+          weight: "bold",
+          children: System.data.locale.core.pointChanger.applyPointsToAllInputs,
+        }),
       ],
-    );
+      [
+        Flex(),
+        (this.applyPointsToAllInputsInput = new Input({
+          type: "number",
+          onInput: this.ApplyPointsToAllInputs.bind(this),
+          placeholder: `${System.data.locale.common.shortPoints}..`,
+        })),
+      ],
+    ]);
+
+    this.listActionContainer.append(applyPointsToAllInputsContainer);
   }
 
   ApplyPointsToAllInputs() {
@@ -420,21 +454,21 @@ export default class MassManageUsers extends Components {
   }
 
   HideAddPointsButton() {
-    this.HideApplyPointsToAllInputsInput();
+    this.HideListActions();
     this.HideElement(this.addPointsButtonContainer);
   }
 
-  HideApplyPointsToAllInputsInput() {
-    this.HideElement(this.applyPointsToAllInputsContainer);
+  HideListActions() {
+    this.HideElement(this.listActionContainer);
   }
 
   ShowAddPointsButton() {
-    this.ShowApplyPointsToAllInputsInput();
+    this.ShowListActions();
     this.actionsContainer.append(this.addPointsButtonContainer);
   }
 
-  ShowApplyPointsToAllInputsInput() {
-    InsertAfter(this.applyPointsToAllInputsContainer, this.userContainer);
+  ShowListActions() {
+    InsertAfter(this.listActionContainer, this.userContainer);
   }
 
   StartAddingPointsToAll() {

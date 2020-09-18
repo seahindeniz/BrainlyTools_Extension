@@ -20,7 +20,7 @@ export default class AnswerSection {
   answerBox: HTMLDivElement;
   quickActionButtonContainer: FlexElementType;
   actionButtons: Button[];
-  confirmButtonContainer: FlexElementType;
+  confirmButtonContainer?: FlexElementType;
   confirmButton: Button;
   extraDetails: {
     databaseId: number;
@@ -111,7 +111,11 @@ export default class AnswerSection {
   }
 
   RenderConfirmButton() {
-    if (!this.data.settings.isMarkedAbuse) return;
+    if (
+      !this.data.settings.isMarkedAbuse ||
+      (System.checkBrainlyP(146) && !System.checkUserP(38))
+    )
+      return;
 
     this.confirmButtonContainer = Flex({
       children: this.confirmButton = new Button({

@@ -59,7 +59,7 @@ class Users {
             32,
             33,
           ],
-        ]
+        ],
       },
       important: {
         title: System.data.locale.popup.extensionManagement.users.important,
@@ -78,7 +78,7 @@ class Users {
           18,
           13,
           9,
-        ]
+        ],
       },
       lessImportant: {
         title: System.data.locale.popup.extensionManagement.users.lessImportant,
@@ -94,11 +94,10 @@ class Users {
           6,
           // 34,
           37,
-        ]
+        ],
       },
       harmless: {
         title: System.data.locale.popup.extensionManagement.users.harmless,
-        // prettier-ignore
         privileges: [
           12,
           // 8,
@@ -106,11 +105,12 @@ class Users {
           1,
           2,
           45,
+          38,
           16,
           19,
           36,
-          99
-        ]
+          99,
+        ],
       },
     };
 

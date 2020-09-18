@@ -20,10 +20,13 @@ export default class AnswerSection extends ModerationSection {
       type: "solid-peach",
     });
 
-    if (this.report && System.checkBrainlyP(146)) this.RenderConfirmButton();
+    this.RenderConfirmButton();
   }
 
   RenderConfirmButton() {
+    if (!this.report || (System.checkBrainlyP(146) && !System.checkUserP(38)))
+      return;
+
     this.confirmButtonContainer = Build(
       Flex({
         marginLeft: "xs",
@@ -36,16 +39,13 @@ export default class AnswerSection extends ModerationSection {
             size: "xs",
             text: System.data.locale.common.confirm,
             type: "solid-mint",
+            onClick: this.Confirm.bind(this),
           })),
         ],
       ],
     );
 
     this.buttonContainer.append(this.confirmButtonContainer);
-    this.confirmButton.element.addEventListener(
-      "click",
-      this.Confirm.bind(this),
-    );
   }
 
   async Confirm() {

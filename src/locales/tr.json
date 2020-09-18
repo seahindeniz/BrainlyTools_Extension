@@ -352,6 +352,10 @@
           "37": {
             "title": "Düzenle paneli > Tüm yorumları sil",
             "description": "Düzenle panelinde yorumları toplu olarak silme özelliği"
+          },
+          "38": {
+            "title": "Şikayet onaylama butonu",
+            "description": "Moderatör şikayet edilen cevapları doğrulamak yerine onaylayabilir"
           }
         },
         "veryImportant": "Çok önemli"
@@ -449,7 +453,8 @@
       "addPoints": "Bu kullanıcıya puanını ver",
       "addPointsToAll": "Tüm kullanıcılara puanlarını ver",
       "pointsNotSpecified": "Devam etmek için en az 1 kullanıcıya puan vermelisin",
-      "applyPointsToAllInputs": "Tüm girişlere puan uygula"
+      "applyPointsToAllInputs": "Tüm girişlere puan uygula",
+      "clearList": "Listeyi temizle"
     },
     "reportedCommentsDeleter": {
       "text": "TD > Toplu yorum silici",

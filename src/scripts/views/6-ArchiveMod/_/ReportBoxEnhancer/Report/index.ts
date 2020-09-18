@@ -55,7 +55,7 @@ export default class Report {
   openToplayerButton: HTMLElement;
   reporterDetailRow: HTMLElement;
   buttonSpinner: HTMLDivElement;
-  confirmButton: Button;
+  confirmButton?: Button;
   confirmButtonContainer: FlexElementType;
   confirmButtonSpinnerContainer: HTMLDivElement;
   buttonContainer: FlexElementType;
@@ -252,15 +252,13 @@ export default class Report {
   }
 
   RenderConfirmButton() {
-    this.confirmButton = new Button({
-      iconOnly: true,
-      type: "solid-mint",
-      title: System.data.locale.common.confirm,
-      icon: new Icon({
-        type: "check",
-        size: 22,
-      }),
-    });
+    if (
+      this.zdnObject.data.model_type_id === 2 &&
+      System.checkBrainlyP(146) &&
+      !System.checkUserP(38)
+    )
+      return;
+
     this.confirmButtonContainer = Build(
       Flex({
         tag: "div",
@@ -269,15 +267,20 @@ export default class Report {
       [
         [
           (this.confirmButtonSpinnerContainer = SpinnerContainer()),
-          this.confirmButton.element,
+          (this.confirmButton = new Button({
+            iconOnly: true,
+            type: "solid-mint",
+            title: System.data.locale.common.confirm,
+            icon: new Icon({
+              type: "check",
+              size: 22,
+            }),
+            onClick: this.Confirm.bind(this),
+          })),
         ],
       ],
     );
 
-    this.confirmButton.element.addEventListener(
-      "click",
-      this.Confirm.bind(this),
-    );
     this.buttonContainer.append(this.confirmButtonContainer);
   }
 

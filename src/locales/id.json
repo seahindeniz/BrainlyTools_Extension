@@ -352,6 +352,10 @@
           "37": {
             "title": "Moderate Panel > Delete all comments",
             "description": "Ability to delete comments in bulk from the moderate panel"
+          },
+          "38": {
+            "title": "Confirm reported answer button",
+            "description": "Allow moderator to use the confirm button to confirm/accept reported answers instead of verifying"
           }
         },
         "veryImportant": "Sangat penting"
@@ -449,7 +453,8 @@
       "addPoints": "Add points to this user",
       "addPointsToAll": "Add points to all users",
       "pointsNotSpecified": "You must give points to at least 1 user in order to proceed",
-      "applyPointsToAllInputs": "Apply points to all inputs"
+      "applyPointsToAllInputs": "Apply points to all inputs",
+      "clearList": "Clear list"
     },
     "reportedCommentsDeleter": {
       "text": "Menghapus komentar yang dilaporkan",

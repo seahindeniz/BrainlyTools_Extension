@@ -450,7 +450,8 @@ export default class Content {
   }
 
   RenderButtons() {
-    if (this.confirmButtonContainer) return;
+    if (this.confirmButtonContainer || this.quickDeleteButtons.length > 0)
+      return;
 
     this.RenderQuickDeleteButtons();
     this.RenderConfirmButton();
@@ -505,6 +506,13 @@ export default class Content {
   }
 
   RenderConfirmButton() {
+    if (
+      this.contentType === "Answer" &&
+      System.checkBrainlyP(146) &&
+      !System.checkUserP(38)
+    )
+      return;
+
     this.confirmButtonContainer = Flex({
       marginTop: "xxs",
       marginBottom: "xxs",

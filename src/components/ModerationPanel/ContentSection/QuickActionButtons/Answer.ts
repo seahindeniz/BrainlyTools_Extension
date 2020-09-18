@@ -13,7 +13,9 @@ export default class QuickActionButtonsForAnswer extends QuickActionButtons {
 
     this.RenderAskForCorrectionButton();
     this.RenderDeleteButtons();
-    this.RenderConfirmButton();
+
+    if (!System.checkBrainlyP(146) || System.checkUserP(38))
+      this.RenderConfirmButton();
   }
 
   RenderAskForCorrectionButton() {

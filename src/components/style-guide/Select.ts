@@ -91,6 +91,7 @@ export default class Select {
       tag: "select",
       className: `${SG}__element`,
       onChange: props.onChange,
+      multiple,
     });
 
     delete props.onChange;

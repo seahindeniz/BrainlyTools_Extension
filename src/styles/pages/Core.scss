@@ -1,7 +1,12 @@
 $baseline: 1.5rem;
+$layoutDefaultPadding: 24px;
 
 @function rhythm($baselines) {
   @return $baselines * $baseline;
+}
+
+@function gutter($size) {
+  @return $size * $layoutDefaultPadding;
 }
 
 @import "../_/style-guide/components/*";

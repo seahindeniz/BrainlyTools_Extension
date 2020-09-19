@@ -149,7 +149,6 @@ export default class Label {
     }
 
     if (children) {
-      this.ChangeTextColor();
       this.ChangeChildren(children);
     }
 
@@ -247,16 +246,20 @@ export default class Label {
 
   ChangeTextColor() {
     this.#textColor =
-      this.type === "default" || this.type === "transparent"
+      !this.type || this.type === "default" || this.type === "transparent"
         ? "default"
         : this.type === "solid"
         ? "white"
         : TRANSPARENT_COLOR_TEXT_MAP[this.color];
+
+    if (this.textElement) {
+      this.textElement.ChangeColor(this.#textColor);
+    }
   }
 
   ChangeIconColor() {
     this.#iconColor =
-      this.type === "default"
+      !this.type || this.type === "default"
         ? "dark"
         : this.type === "solid"
         ? "light"

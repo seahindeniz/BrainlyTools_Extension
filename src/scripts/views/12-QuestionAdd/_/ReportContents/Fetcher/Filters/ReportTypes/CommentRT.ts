@@ -12,6 +12,11 @@ export default class QuestionAnswerRT extends ReportType {
   }
 
   Selected() {
+    const filters = this.main.main.main.main.queue.options.option.contentFilters
+      .filter;
+
+    filters.contentType.Hide();
+    filters.attachmentLength.Hide();
     this.main.main.categoryFilter.ShowCommentSelector();
     super.Selected();
   }

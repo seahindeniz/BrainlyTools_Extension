@@ -902,6 +902,9 @@
               "graterThan": "supérieur à %{N}",
               "lowerThan": "inférieur à %{N}"
             }
+          },
+          "attachmentLength": {
+            "name": "Attachment count"
           }
         },
         "pageNumberInputTitle": "Entre un numéro de page entre %{MIN_N} et %{MAX_N}"

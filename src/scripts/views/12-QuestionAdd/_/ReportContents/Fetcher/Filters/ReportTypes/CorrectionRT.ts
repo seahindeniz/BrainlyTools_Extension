@@ -7,6 +7,11 @@ export default class QuestionAnswerRT extends ReportType {
   }
 
   Selected() {
+    const filters = this.main.main.main.main.queue.options.option.contentFilters
+      .filter;
+
+    filters.contentType.Show();
+    filters.attachmentLength.Show();
     this.main.main.categoryFilter.HideCommentSelector();
     this.main.main.categoryFilter.HideQuestionAnswerSelector();
     super.Selected();

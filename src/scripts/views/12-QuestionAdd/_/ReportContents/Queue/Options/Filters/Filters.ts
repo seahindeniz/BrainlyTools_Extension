@@ -2,11 +2,12 @@ import Build from "@root/helpers/Build";
 import { Flex, SeparatorHorizontal, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type OptionsClassType from "../Options";
-import Reporter from "./Reporter";
-import Reported from "./Reported";
-import ReportingDate from "./ReportingDate";
-import ContentTypeFilter from "./ContentTypeFilter/ContentTypeFilter";
+import AttachmentLength from "./AttachmentLength";
 import ContentLength from "./ContentLength";
+import ContentTypeFilter from "./ContentTypeFilter/ContentTypeFilter";
+import Reported from "./Reported";
+import Reporter from "./Reporter";
+import ReportingDate from "./ReportingDate";
 
 export default class Filters {
   main: OptionsClassType;
@@ -15,10 +16,11 @@ export default class Filters {
 
   filter: {
     contentType: ContentTypeFilter;
+    contentLength: ContentLength;
+    attachmentLength: AttachmentLength;
     reporter: Reporter;
     reported: Reported;
     reportingDate: ReportingDate;
-    contentLength: ContentLength;
   };
 
   constructor(main: OptionsClassType) {
@@ -29,6 +31,7 @@ export default class Filters {
     this.filter = {
       contentType: new ContentTypeFilter(this),
       contentLength: new ContentLength(this),
+      attachmentLength: new AttachmentLength(this),
       reported: new Reported(this),
       reporter: new Reporter(this),
       reportingDate: new ReportingDate(this),

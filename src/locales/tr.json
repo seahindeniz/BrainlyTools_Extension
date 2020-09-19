@@ -902,6 +902,9 @@
               "graterThan": "büyüktür > %{N}",
               "lowerThan": "küçüktür < %{N}"
             }
+          },
+          "attachmentLength": {
+            "name": "İçerik eki sayısı"
           }
         },
         "pageNumberInputTitle": "%{MIN_N} ile %{MAX_N} arasında bir sayfa numarası girin"

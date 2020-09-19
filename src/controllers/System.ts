@@ -78,6 +78,7 @@ export type DefaultConfigDataType = {
       subjects: SubjectDataType[];
       grades: GradeDataType[];
       config: {
+        attachmentCount: number;
         timezone: string;
         cometSslServerAddress: string;
         cometSslServerPort: number;

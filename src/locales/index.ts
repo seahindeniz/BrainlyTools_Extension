@@ -902,6 +902,9 @@ export default {
               graterThan: "grater than %{N}",
               lowerThan: "lower than %{N}"
             }
+          },
+          attachmentLength: {
+            name: "Attachment count"
           }
         },
         pageNumberInputTitle: "Enter a page number between %{MIN_N} and %{MAX_N}"

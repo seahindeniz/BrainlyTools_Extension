@@ -4,6 +4,7 @@ import IsVisible from "@root/helpers/IsVisible";
 import { Flex } from "@style-guide";
 import type ReportedContentsType from "../ReportedContents";
 import ContentLength from "./Filter/ContentLength";
+import AttachmentLength from "./Filter/AttachmentLength";
 import ContentType from "./Filter/ContentType";
 import Reported from "./Filter/Reported";
 import Reporter from "./Filter/Reporter";
@@ -18,13 +19,21 @@ export default class Queue {
   options: Options;
 
   filter: {
-    all: (Reporter | Reported | ReportingDate | ContentType | ContentLength)[];
+    all: (
+      | ContentType
+      | ContentLength
+      | AttachmentLength
+      | Reporter
+      | Reported
+      | ReportingDate
+    )[];
     byName: {
+      contentType: ContentType;
+      contentLength: ContentLength;
+      attachmentLength: AttachmentLength;
       reporter: Reporter;
       reported: Reported;
       reportingDate: ReportingDate;
-      contentType: ContentType;
-      contentLength: ContentLength;
     };
   };
 
@@ -37,11 +46,12 @@ export default class Queue {
 
     this.filter = {
       byName: {
+        contentType: new ContentType(this),
+        contentLength: new ContentLength(this),
+        attachmentLength: new AttachmentLength(this),
         reporter: new Reporter(this),
         reported: new Reported(this),
         reportingDate: new ReportingDate(this),
-        contentType: new ContentType(this),
-        contentLength: new ContentLength(this),
       },
       all: [],
     };

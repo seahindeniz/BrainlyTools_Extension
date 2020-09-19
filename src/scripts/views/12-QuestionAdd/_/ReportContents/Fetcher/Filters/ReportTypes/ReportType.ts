@@ -69,6 +69,9 @@ export default class ReportType {
 
     this.main.main.main.main.queue.HideContents();
     this.main.main.main.FetchReports({ resetStore: true });
+    this.main.main.main.main.queue.filter.all.forEach(filter =>
+      filter.HideLabel(),
+    );
   }
 
   Deselected() {

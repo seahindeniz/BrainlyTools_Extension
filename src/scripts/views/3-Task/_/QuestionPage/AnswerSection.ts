@@ -55,6 +55,7 @@ export default class AnswerSection {
     await this.FindModerationBox();
     this.RenderQuickActionButtons();
     this.RenderConfirmButton();
+    this.FetchAndRenderUsersRank();
   }
 
   async FindModerationBox() {
@@ -246,5 +247,52 @@ export default class AnswerSection {
   Deleted() {
     this.quickActionButtonContainer.remove();
     this.answerBox.classList.add("brn-content--deleted");
+  }
+
+  async FetchAndRenderUsersRank() {
+    const resUser = await new Action().GetUser(this.data.userId);
+
+    const rankContainer: HTMLDivElement = this.answerBox.querySelector(
+      ".brn-qpage-next-answer-box-author__description ul.brn-horizontal-list" +
+        "> li.brn-horizontal-list__item:nth-child(1) > div",
+    );
+
+    if (!resUser.success) return;
+
+    const specialRanks = resUser.data.ranks_ids
+      .filter(rankId => {
+        const rank =
+          System.data.Brainly.defaultConfig.config.data.ranksWithId[rankId];
+
+        return rank.type !== 3;
+      })
+      .map(
+        rankId =>
+          System.data.Brainly.defaultConfig.config.data.ranksWithId[rankId],
+      );
+
+    if (specialRanks.length === 0) return;
+
+    const primaryRank = specialRanks.shift();
+
+    rankContainer.innerHTML = primaryRank.name;
+    rankContainer.style.color = `#${primaryRank.color}`;
+
+    tippy(rankContainer, {
+      content: Flex({
+        children: specialRanks.map(specialRank => {
+          return Text({
+            children: specialRank.name,
+            size: "small",
+            style: {
+              color: `#${specialRank.color}`,
+            },
+          });
+        }),
+        direction: "column",
+      }),
+      placement: "bottom",
+      theme: "light",
+    });
   }
 }

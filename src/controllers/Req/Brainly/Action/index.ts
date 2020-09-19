@@ -852,10 +852,8 @@ export default class Action extends Brainly {
    * Get user data by id.
    * Difference between GetUserProfile and GetUser is GetUserProfile serves the Bio text and returns success:false for deleted accounts.
    * But GetUser returns with success:true for deleted accounts- but returns without bio text. Therefore, there should be two different methods to get user details.
-   * @param {number} id - User id
-   * @returns {Promise<UserResponse>}
    */
-  GetUser(id) {
+  GetUser(id: number): Promise<UserResponse> {
     return this.Legacy()
       .api_users()
       .get()

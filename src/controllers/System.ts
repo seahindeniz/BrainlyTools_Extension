@@ -85,7 +85,9 @@ export type DefaultConfigDataType = {
       };
       ranks: RankDataType[];
     } & {
-      ranksWithId: RankDataType;
+      ranksWithId: {
+        [id: number]: RankDataType;
+      };
       ranksWithName: {
         [name: string]: RankDataType;
       };

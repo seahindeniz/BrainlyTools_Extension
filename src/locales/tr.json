@@ -437,7 +437,8 @@
       "sent": "Ulaşan",
       "usersNotFound": "Kullanıcı bulunamadı",
       "errors": "Hatalar",
-      "unknownError": "Bilinmeyen hata"
+      "unknownError": "Bilinmeyen hata",
+      "somethingWentWrongWhileLoadingModerators": "Moderatörlerin bilgilerini çekerken bir şeyler ters gitti"
     },
     "announcements": {
       "text": "Duyurular",

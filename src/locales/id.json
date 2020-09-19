@@ -437,7 +437,8 @@
       "sent": "Dikirim",
       "usersNotFound": "Pengguna tidak ditemukan",
       "errors": "Error",
-      "unknownError": "Unknown error"
+      "unknownError": "Unknown error",
+      "somethingWentWrongWhileLoadingModerators": "Something went wrong while fetching details of moderators"
     },
     "announcements": {
       "text": "Pengumuman",

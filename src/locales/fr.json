@@ -437,7 +437,8 @@
       "sent": "Envoyer",
       "usersNotFound": "Utilisateur non trouvé",
       "errors": "Erreurs",
-      "unknownError": "Erreur inconnue"
+      "unknownError": "Erreur inconnue",
+      "somethingWentWrongWhileLoadingModerators": "Something went wrong while fetching details of moderators"
     },
     "announcements": {
       "text": "Annonces",

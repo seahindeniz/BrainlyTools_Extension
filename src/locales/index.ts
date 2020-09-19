@@ -437,7 +437,8 @@ export default {
       sent: "Sent",
       usersNotFound: "Users not found",
       errors: "Errors",
-      unknownError: "Unknown error"
+      unknownError: "Unknown error",
+      somethingWentWrongWhileLoadingModerators: "Something went wrong while fetching details of moderators"
     },
     announcements: {
       text: "Announcements",

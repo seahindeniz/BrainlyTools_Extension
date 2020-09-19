@@ -474,7 +474,7 @@
       ],
       "notificationMessages": {
         "cantFetchDetailsFromExtensionServer": "There is a problem with extension's server while fetching details about moderate all",
-        "noModeratableContentLeft": "There is no moderatable content remain"
+        "noModeratableContentLeft": "There is no moderatable content that remains"
       },
       "addModerator": "Add moderator section",
       "moderatorN": "Moderator %{n}",
@@ -484,11 +484,11 @@
         },
         "Reporter": {
           "text": "Reporter user",
-          "title": "The user who was reports contents"
+          "title": "The user who has reported the content"
         },
         "Reported": {
           "text": "Reported user",
-          "title": "The user who has their contents being reported"
+          "title": "The user whose content has been reported"
         },
         "DateRange": {
           "text": "Reporting date",
@@ -696,8 +696,8 @@
       "ask": "meminta"
     },
     "hasAttachment": {
-      "question": "Question has attachment",
-      "answer": "Answer has attachment"
+      "question": "Question has an attachment",
+      "answer": "Answer has an attachment"
     },
     "reported": {
       "question": "Reported question",
@@ -863,7 +863,7 @@
       },
       "filter": {
         "optionName": "Filter reports",
-        "description": "Filters can only be applied to reports that has been load",
+        "description": "Filters can be applied only to those reports that have been loaded",
         "filters": {
           "reporter": {
             "name": "Reporter user",
@@ -908,6 +908,24 @@
           },
           "subject": {
             "name": "Subject"
+          },
+          "additionalData": {
+            "name": "Additional data",
+            "chooseCondition": "Choose condition",
+            "conditions": {
+              "contains": "contains",
+              "sameWith": "exactly same with",
+              "startsWith": "starts with",
+              "endsWith": "ends with",
+              "regExp": "RegExp(JS/ES6)"
+            },
+            "label": {
+              "contains": "contains : %{input}",
+              "sameWith": "exactly same with : %{input}",
+              "startsWith": "starts with : %{input}",
+              "endsWith": "ends with : %{input}",
+              "regExp": "%{input}"
+            }
           }
         },
         "pageNumberInputTitle": "Enter a page number between %{MIN_N} and %{MAX_N}"
@@ -920,7 +938,7 @@
     },
     "queue": {
       "rating": "%{rating} points for %{ratesCount} votes",
-      "bestAnswer": "This is Brainliest Answer",
+      "bestAnswer": "This is the Brainliest Answer",
       "popularQuestion": "Popular question!",
       "moderatorVerifiedSomeonesAnswer": "%{verifier} has verified %{author}'s answer"
     },
@@ -928,10 +946,10 @@
     "loadAllConfirmationMessage": "I'll try to fetch all reported contents from Brainly but the process can be interrupted by Brainly because of elevated requests.\nPlease confirm to start the process",
     "massModerate": {
       "name": "Mass-Moderate contents",
-      "description": "You can only moderate contents that has been load",
+      "description": "You can only moderate contents that have been loaded",
       "confirm": {
         "text": "Confirm",
-        "noContentToConfirm": "There is no content available for to confirm",
+        "noContentToConfirm": "There is no content that's available for confirmation",
         "confirmModeration": "Do you really want to confirm %{n} reported contents?"
       },
       "delete": {
@@ -941,7 +959,7 @@
           "Answer": "Choose a reason for answers",
           "Comment": "Choose a reason for comments"
         },
-        "noContentToDelete": "There is no content available for to delete",
+        "noContentToDelete": "There is no content that's available for deletion",
         "confirmDeletion": "Do you really want to delete %{n} reported contents?"
       },
       "status": {
@@ -977,10 +995,10 @@
   },
   "shortAnswersPage": {
     "selectAtLeastOneAnswer": "You need to select at least one answer",
-    "doYouWantToDeleteSelectedAnswers": "Do you really want delete selected answers?"
+    "doYouWantToDeleteSelectedAnswers": "Do you really want delete the selected answers?"
   },
   "questionSearch": {
     "selectAtLeastOneQuestion": "Select at least one question",
-    "doYouWantToDeleteSelectedQuestions": "Do you really want delete the %{N} selected questions?"
+    "doYouWantToDeleteSelectedQuestions": "Do you really want delete %{N} selected questions?"
   }
 }

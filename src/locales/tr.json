@@ -908,6 +908,24 @@
           },
           "subject": {
             "name": "Konu"
+          },
+          "additionalData": {
+            "name": "Ek bilgiler",
+            "chooseCondition": "Koşul seçin",
+            "conditions": {
+              "contains": "şunu içerir",
+              "sameWith": "şununla aynı olmalı",
+              "startsWith": "şununla başlar",
+              "endsWith": "şununla biter",
+              "regExp": "RegExp(JS/ES6)"
+            },
+            "label": {
+              "contains": "şunu içerir : %{input}",
+              "sameWith": "şununla aynı olmalı : %{input}",
+              "startsWith": "şununla başlar : %{input}",
+              "endsWith": "şununla biter : %{input}",
+              "regExp": "%{input}"
+            }
           }
         },
         "pageNumberInputTitle": "%{MIN_N} ile %{MAX_N} arasında bir sayfa numarası girin"
@@ -928,7 +946,7 @@
     "loadAllConfirmationMessage": "Brainly'den bildirilen tüm içerikleri çekmeye çalışacağım. Ancak bu işlem, çok fazla uzadığı zaman bağlantılar Brainly tarafından kesintiye uğrayabilir. \nLütfen işlemi başlatmak için onaylayın",
     "massModerate": {
       "name": "Çoklu içerik düzenleme",
-      "description": "Yalnızca yüklenen içeriği düzenleyebilirsin",
+      "description": "Yalnızca yüklenen içerikleri düzenleyebilirsin",
       "confirm": {
         "text": "Onayla",
         "noContentToConfirm": "Onaylanabilir içerik kalmadı",
@@ -977,7 +995,7 @@
   },
   "shortAnswersPage": {
     "selectAtLeastOneAnswer": "En az bir cevap seçmelisin",
-    "doYouWantToDeleteSelectedAnswers": "Seçilen cevaplarısilmek istiyor musun?"
+    "doYouWantToDeleteSelectedAnswers": "Seçilen cevapları gerçekten silmek istiyor musun?"
   },
   "questionSearch": {
     "selectAtLeastOneQuestion": "En az bir soru seçmelisin",

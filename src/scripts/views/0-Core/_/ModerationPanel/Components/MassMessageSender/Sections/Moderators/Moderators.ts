@@ -104,9 +104,17 @@ class RankSection {
   async RenderModerators() {
     $(this.$userSection).html("");
     this.ShowUserSectionSpinner();
-    await new ServerReq().GetAllModerators({
-      each: this.RenderUser.bind(this),
-    });
+    try {
+      await new ServerReq().GetAllModerators({
+        each: this.RenderUser.bind(this),
+      });
+    } catch (error) {
+      this.main.modal.notification(
+        System.data.locale.core.MessageSender
+          .somethingWentWrongWhileLoadingModerators,
+        "error",
+      );
+    }
     this.HideUserSectionSpinner();
     this.ChangeRank();
   }

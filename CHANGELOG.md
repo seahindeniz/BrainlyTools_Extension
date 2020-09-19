@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.4.0] - 2020.09.20
+
+### Added
+
+- Ek bilgiler alanına göre şikayetleri filtreleme [#208]
+- Ability to filter reports in the mass-moderate section by subjects. (Instead
+  of choosing it from the reported contents page) [#217]
+- Ability to filter reported contents by the number of attachments [#220]
+- A button to clear the list of users on the mass-point changer tool [#224]
+- Ability to see special ranks in the question page [#225]
+
+### Changed
+
+- Mass-Point changer doesn't work with only 1 id number [#222]
+- Unable to spread pre-defined points into input boxes after pasting list of ids
+  with points [#223]
+- Restrict confirm button on reported answers [#226]
+
+[#208]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/208
+[#220]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/220
+[#222]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/222
+[#223]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/223
+[#224]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/224
+[#225]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/225
+[#226]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/226
+
 ## [7.3.0] - 2020.09.13 - 2020.09.17
 
 ### Added

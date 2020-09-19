@@ -713,7 +713,7 @@
       "cannotChangeBio": "I couldn't able to change your bio :/ Sorry..",
       "fileSizeExceeded": "The %{file_name} file exceeds the size limit of %{file_size}",
       "aShortcutFile": "You're trying to add a shortcut of a file and it's kind of garbage.\nYou may need to select the original file instead that is linked\nDo you still want to add this shortcut?",
-      "unableToReportAccountDeleting": "I couldn't able report your delete request to community manager, so I can't continue to delete. Sorry :/<br>If this error persist, ask for help from your extension manager",
+      "unableToReportAccountDeleting": "I couldn't report your deletion request to the community manager, so I can't proceed to delete the account. Sorry :/<br>If this error persists, ask for help from your extension manager.",
       "confirmNoEvidenceOrComment": "You didn't add any evidence or comment.\nDo you still want to delete this account?",
       "selectAtLeastOneUser": "You need to select at least one user",
       "youNeedToProvideSomeDetails": "You need to provide some details",
@@ -851,7 +851,7 @@
     },
     "correctionReports": {
       "text": "Correction Reports (%{number_of_reports})",
-      "title": "Click here to view the answers that have been reported for correction and are waiting to be moderated"
+      "title": "Click here to see the contents which has reported for correction and waiting for to be confirmed"
     },
     "subjectFilterFirstOption": "Subject - ALL",
     "options": {
@@ -895,19 +895,16 @@
           "contentLength": {
             "name": "Content length",
             "equals": "equals to",
+            "graterThan": "grater than",
             "lowerThan": "lower than",
             "label": {
               "equals": "equals to %{N}",
-              "lowerThan": "lower than %{N}",
-              "greaterThan": "greater than %{N}"
-            },
-            "greaterThan": "greater than"
+              "graterThan": "grater than %{N}",
+              "lowerThan": "lower than %{N}"
+            }
           },
           "attachmentLength": {
             "name": "Attachment count"
-          },
-          "subject": {
-            "name": "Subject"
           }
         },
         "pageNumberInputTitle": "Enter a page number between %{MIN_N} and %{MAX_N}"

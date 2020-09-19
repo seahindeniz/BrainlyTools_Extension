@@ -1,15 +1,15 @@
 import HideElement from "@root/helpers/HideElement";
 import { Flex, Icon, Label } from "@style-guide";
-import type ContentClassType from "../../Content/Content";
+import { ContentClassTypes } from "../../Fetcher/Fetcher";
 import type QueueClassType from "../Queue";
 
-export type ContentLengthConditionType = "equals" | "graterThan" | "lowerThan";
+export type NumberConditionType = "equals" | "graterThan" | "lowerThan";
 
 export default class ContentLength {
   main: QueueClassType;
 
   query?: {
-    condition?: ContentLengthConditionType;
+    condition?: NumberConditionType;
     length?: number;
   };
 
@@ -21,7 +21,7 @@ export default class ContentLength {
     this.main = main;
   }
 
-  SetQuery(condition?: ContentLengthConditionType, length?: number) {
+  SetQuery(condition?: NumberConditionType, length?: number) {
     if (!length) {
       this.HideLabel();
 
@@ -43,7 +43,7 @@ export default class ContentLength {
         "";
 
     HideElement(this.labelContainer);
-    this.main.main.fetcher.FilterContents();
+    this.main.main.fetcher?.FilterContents();
     this.main.main.queue.ShowContents();
   }
 
@@ -71,7 +71,7 @@ export default class ContentLength {
           `${
             //
             System.data.locale.reportedContents.options.filter.filters
-              .contentType.name
+              .contentLength.name
           }:&nbsp; `,
           (this.labelText = document.createTextNode("")),
         ],
@@ -79,7 +79,7 @@ export default class ContentLength {
     });
   }
 
-  CompareContent(content: ContentClassType) {
+  CompareContent(content: ContentClassTypes) {
     if (!this.query?.length || !this.query?.condition) return true;
 
     if (this.query.condition === "graterThan")

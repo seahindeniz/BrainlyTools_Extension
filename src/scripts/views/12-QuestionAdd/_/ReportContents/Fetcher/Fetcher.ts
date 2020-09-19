@@ -12,7 +12,6 @@ import { Flex, Spinner } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import Answer from "../Content/Answer";
 import Comment from "../Content/Comment";
-import Content from "../Content/Content";
 import Question from "../Content/Question";
 import type ReportedContentsType from "../ReportedContents";
 import FetchAll from "./FetchAll";
@@ -465,7 +464,7 @@ export default class Fetcher {
     this.main.statusBar.UpdateFilteredNumber();
   }
 
-  CompareContentWithFilters(content: Content) {
+  CompareContentWithFilters(content: ContentClassTypes) {
     if (content.has === "deleted") return false;
 
     HideElement(content.container);

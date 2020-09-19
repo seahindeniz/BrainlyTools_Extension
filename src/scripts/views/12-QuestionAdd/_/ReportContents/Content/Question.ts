@@ -32,6 +32,8 @@ export type QuestionExtraDataType = {
 };
 
 export default class Question extends Content {
+  contentType: "Question";
+
   extraData: QuestionExtraDataType;
 
   constructor(main: ReportedContentsType, data: ReportedContentDataType) {

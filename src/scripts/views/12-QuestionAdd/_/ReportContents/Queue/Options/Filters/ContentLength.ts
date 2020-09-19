@@ -3,7 +3,7 @@ import { Flex, Input, Select, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import { debounce } from "throttle-debounce";
 import type FiltersClassType from "./Filters";
-import type { ContentLengthConditionType } from "../../Filter/ContentLength";
+import type { NumberConditionType } from "../../Filter/ContentLength";
 
 export default class ContentLength {
   main: FiltersClassType;
@@ -101,7 +101,7 @@ export default class ContentLength {
   }
 
   InputChanged() {
-    const condition: ContentLengthConditionType =
+    const condition: NumberConditionType =
       this.conditionSelect.select.value === "0"
         ? "equals"
         : this.conditionSelect.select.value === "1"

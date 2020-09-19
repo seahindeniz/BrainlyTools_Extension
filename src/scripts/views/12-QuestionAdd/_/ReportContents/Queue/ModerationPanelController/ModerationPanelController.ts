@@ -9,7 +9,7 @@ import type QueueClassType from "../Queue";
 export default class ModerationPanelController extends ModeratePanelController {
   main: QueueClassType;
 
-  contentCurrentlyModerating: ContentClassType;
+  contentCurrentlyModerating: ContentClassTypes;
 
   constructor(main: QueueClassType) {
     super({
@@ -19,10 +19,11 @@ export default class ModerationPanelController extends ModeratePanelController {
     this.main = main;
   }
 
-  async ModerateContent(content: ContentClassTypes) {
+  async ModerateContent(content: ContentClassTypes | ContentClassType) {
     try {
       if (!content.contentType) return undefined;
 
+      // @ts-expect-error
       this.contentCurrentlyModerating = content;
 
       const resTicket = await new Action().OpenModerationTicket(

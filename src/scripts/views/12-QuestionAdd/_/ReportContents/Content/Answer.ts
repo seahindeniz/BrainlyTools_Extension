@@ -20,6 +20,7 @@ export type AnswerExtraDataType = {
 
 export default class Answer extends Content {
   extraData: AnswerExtraDataType;
+  contentType: "Answer";
 
   constructor(main: ReportedContentsType, data: ReportedContentDataType) {
     super({ main, data, contentType: "Answer" });

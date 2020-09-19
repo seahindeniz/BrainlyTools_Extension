@@ -1,8 +1,8 @@
 import { ContentTypeType } from "@components/ModerationPanel/ContentSection/ContentSection";
 import HideElement from "@root/helpers/HideElement";
 import { Flex, LabelDeprecated } from "@style-guide";
+import { ContentClassTypes } from "../../Fetcher/Fetcher";
 import type QueueClassType from "../Queue";
-import type ContentClassType from "../../Content/Content";
 
 export default class ContentType {
   main: QueueClassType;
@@ -41,7 +41,7 @@ export default class ContentType {
         ?.Deselected();
 
     HideElement(this.labelContainer);
-    this.main.main.fetcher.FilterContents();
+    this.main.main.fetcher?.FilterContents();
     this.main.main.queue.ShowContents();
   }
 
@@ -74,7 +74,7 @@ export default class ContentType {
     });
   }
 
-  CompareContent(content: ContentClassType) {
+  CompareContent(content: ContentClassTypes) {
     if (!this.query?.contentType) return true;
 
     return content.contentType === this.query.contentType;

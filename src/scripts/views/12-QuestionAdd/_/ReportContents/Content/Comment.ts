@@ -6,6 +6,8 @@ import type ReportedContentsType from "../ReportedContents";
 import Content from "./Content";
 
 export default class Comment extends Content {
+  contentType: "Comment";
+
   constructor(main: ReportedContentsType, data: ReportedContentDataType) {
     super({ main, data, contentType: "Comment" });
   }

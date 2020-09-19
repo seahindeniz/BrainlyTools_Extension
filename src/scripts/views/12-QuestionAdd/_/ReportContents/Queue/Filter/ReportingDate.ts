@@ -3,7 +3,7 @@ import { Flex, LabelDeprecated } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type { LabelElementType } from "@style-guide/LabelDeprecated";
 import moment from "moment-timezone";
-import type ContentClassType from "../../Content/Content";
+import { ContentClassTypes } from "../../Fetcher/Fetcher";
 import type QueueClassType from "../Queue";
 
 export default class Reported {
@@ -82,7 +82,7 @@ export default class Reported {
       this.main.options.option.contentFilters.filter.reportingDate.ResetDates();
 
     HideElement(this.labelContainer);
-    this.main.main.fetcher.FilterContents();
+    this.main.main.fetcher?.FilterContents();
     this.main.main.queue.ShowContents();
   }
 
@@ -117,7 +117,7 @@ export default class Reported {
     });
   }
 
-  CompareContent(content: ContentClassType) {
+  CompareContent(content: ContentClassTypes) {
     if (
       !this.query?.startingDateMoment ||
       !this.query?.endingDateMoment ||

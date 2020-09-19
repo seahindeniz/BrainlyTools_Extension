@@ -2,7 +2,7 @@ import HideElement from "@root/helpers/HideElement";
 import { Flex, LabelDeprecated } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type { LabelElementType } from "@style-guide/LabelDeprecated";
-import type ContentClassType from "../../Content/Content";
+import { ContentClassTypes } from "../../Fetcher/Fetcher";
 import type QueueClassType from "../Queue";
 
 type TargetType = "nick" | "id";
@@ -54,7 +54,7 @@ export default class Reported {
       this.main.options.option.contentFilters.filter.reported.input.value = "";
 
     HideElement(this.labelContainer);
-    this.main.main.fetcher.FilterContents();
+    this.main.main.fetcher?.FilterContents();
     this.main.main.queue.ShowContents();
   }
 
@@ -86,7 +86,7 @@ export default class Reported {
     });
   }
 
-  CompareContent(content: ContentClassType) {
+  CompareContent(content: ContentClassTypes) {
     if (
       !this.query?.value ||
       !this.query?.target ||

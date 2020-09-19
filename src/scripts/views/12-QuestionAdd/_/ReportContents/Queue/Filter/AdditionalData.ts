@@ -115,8 +115,6 @@ export default class AdditionalData {
 
     if (!content.data.report.abuse?.data) return false;
 
-    console.log(content.data.report.abuse.data, this.query?.regexp);
-
     return content.data.report.abuse.data.match(this.query.regexp);
   }
 }

@@ -991,7 +991,8 @@
     "confirmReportingForCorrection": "Cevabı düzenlemesi için bildirmek istiyor musun?",
     "thereIsNoReportLeft": "Şikayet edilmiş içerik kalmadı",
     "deleteAllComments": "Tüm yorumları sil",
-    "confirmDeletingNComments": "Lütfen %{N} yorumun silinmesini onaylayın"
+    "confirmDeletingNComments": "Lütfen %{N} yorumun silinmesini onaylayın",
+    "commentsDeleted": "Comments deleted!"
   },
   "shortAnswersPage": {
     "selectAtLeastOneAnswer": "En az bir cevap seçmelisin",

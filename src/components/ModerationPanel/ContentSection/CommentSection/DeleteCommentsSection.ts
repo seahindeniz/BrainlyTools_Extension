@@ -169,6 +169,11 @@ export default class DeleteCommentsSection {
   FinishDeleting() {
     this.StopDeleting();
     this.Hide();
+
+    this.main.main.main.modal.Notification({
+      type: "success",
+      text: System.data.locale.moderationPanel.commentsDeleted,
+    });
   }
 
   Hide() {

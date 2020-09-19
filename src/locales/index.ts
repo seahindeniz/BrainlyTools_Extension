@@ -991,7 +991,8 @@ export default {
     confirmReportingForCorrection: "Do you want to report this answer for correction?",
     thereIsNoReportLeft: "There is no report left",
     deleteAllComments: "Delete all comments",
-    confirmDeletingNComments: "Please confirm deleting %{N} comments"
+    confirmDeletingNComments: "Please confirm deleting %{N} comments",
+    commentsDeleted: "Comments deleted!"
   },
   shortAnswersPage: {
     selectAtLeastOneAnswer: "You need to select at least one answer",

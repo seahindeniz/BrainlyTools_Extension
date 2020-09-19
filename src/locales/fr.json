@@ -354,8 +354,8 @@
             "description": "Possibilité de supprimer les commentaires en masse depuis \"contenus signalés\""
           },
           "38": {
-            "title": "Confirm reported answer button",
-            "description": "Allow moderator to use the confirm button to confirm/accept reported answers instead of verifying"
+            "title": "Bouton de confirmation de la réponse signalée",
+            "description": "Permettre au modérateur d'utiliser le bouton de confirmation pour confirmer/accepter les réponses signalées au lieu de vérifier"
           }
         },
         "veryImportant": "Très important"
@@ -398,8 +398,8 @@
       "searching": "Recherche en cours ...",
       "userNotFound": "Utilisateur non trouvé",
       "extensionServerError": "Une erreur inattendue s'est produite pendant la connexion au serveur de l'extension. Ré essaye de nouveau dans 5 secondes",
-      "ifErrorPersists": "Si l'erreur persiste, merci de contacter l'administrateur pour lui indiquer :)",
-      "accessPermissionDenied": "Tu n'es pas autorisé à utiliser l'extension Brainly Tools.\nMerci de contacter l'administrateur pour avoir la permission d'y accéder.",
+      "ifErrorPersists": "Si cette erreur persiste, veuillez contacter le responsable de l'extension et expliquer ce qui s'est passé :)",
+      "accessPermissionDenied": "Tu n'es pas autorisé à utiliser l'extension Brainly Tools.\nMerci de contacter l'Administrateur ou le Community Manager pour avoir la permission d'y accéder.",
       "updateNeeded": "Une nouvelle version de l'extension est disponible.\nElle sera mise à jour en arrière-plan. Pourriez-vous attendre ~10 secondes et ensuite rafraîchir la page ?",
       "warningBeforeDelete": "Le processus va être exécuté et les questions indiquées seront supprimées. \n\nÊtes-vous sûr ?",
       "enterIdWarn": "Vous devez ajouter au moins un ID de question que vous voulez supprimer.",
@@ -408,7 +408,7 @@
       "alreadyStarted": "Le processus a déjà commencé",
       "pointsAdded": "Les points ont été ajoutés",
       "doYouWantToContinue": "Voulez-vous continuer ?",
-      "couldntAbleToGetNoticeBoardContent": "Je ne suis pas en mesure de d'obtenir le contenu du tableau d'information",
+      "couldntAbleToGetNoticeBoardContent": "Je n'ai pas pu obtenir le contenu du tableau d'informations",
       "changesMayNotBeSaved": "Les changements effectués peuvent ne pas avoir été sauvegardés",
       "stillProcessing": "Cette section est toujours en cours. Voulez-vous enlever ce bloc ?\n(cela arrêtera le processus de modération)",
       "youNeedToChooseActionType": "Vous devez choisir un type d'action",
@@ -438,11 +438,11 @@
       "usersNotFound": "Utilisateur non trouvé",
       "errors": "Erreurs",
       "unknownError": "Erreur inconnue",
-      "somethingWentWrongWhileLoadingModerators": "Something went wrong while fetching details of moderators"
+      "somethingWentWrongWhileLoadingModerators": "Une erreur s'est produite lors de la récupération des détails des modérateurs"
     },
     "announcements": {
       "text": "Annonces",
-      "title": "Une fois que tu as lu l'annonce tu dois la marquer comme lu",
+      "title": "Une fois que tu as lu l'annonce, tu dois la marquer comme lue",
       "markAsRead": "Marquer comme lu"
     },
     "pointChanger": {
@@ -455,11 +455,11 @@
       "addPointsToAll": "Ajouter des points à tous les utilisateurs",
       "pointsNotSpecified": "Vous devez donner des points à au moins un utilisateur pour pouvoir poursuivre",
       "applyPointsToAllInputs": "Changer les points de toutes les entrées",
-      "clearList": "Clear list"
+      "clearList": "Effacer la liste"
     },
     "reportedCommentsDeleter": {
       "text": "Suppression des commentaires signalés",
-      "description": "Vous pouvez supprimer tous les commentaires signalés dans le Tout Modérer en un clic. Vous avez juste à débuter le processus et ne pas fermer cet onglet.",
+      "description": "Vous pouvez supprimer tous les commentaires signalés dans le Tout Modérer en un clic. Vous avez juste à débuter le processus et garder l'onglet ouvert. C'est tout.",
       "deleting": "Suppression",
       "stopped": "Stopper",
       "numberOfPending": "En attente",
@@ -474,7 +474,7 @@
       ],
       "notificationMessages": {
         "cantFetchDetailsFromExtensionServer": "Il y a un problème avec le serveur de l'extension lors de la recherche de détails sur le \"Tout modérer\"",
-        "noModeratableContentLeft": "Il n'y a plus de contenu à modérer"
+        "noModeratableContentLeft": "Il n'y a pas de contenu modérable sur ceux qui reste"
       },
       "addModerator": "Ajout d'une section pour les modérateurs",
       "moderatorN": "Modérateur %{n}",
@@ -488,7 +488,7 @@
         },
         "Reported": {
           "text": "Utilisateur signalé",
-          "title": "L'utilisateur dont le contenu est signalé"
+          "title": "L'utilisateur dont le contenu a été signalé"
         },
         "DateRange": {
           "text": "Date du signalement",
@@ -655,7 +655,7 @@
         "youHaventCreatedAGroupYet": "Vous n'avez pas encore créé de groupe",
         "wrongMessageLength": "Ton message doit être compris entre 1 et %{max_value} caractères",
         "messageContainsSwear": "Hum... Ton message contient des vulgarités, des liens interdits ou des mots inappropriés, tu ne peux pas l'envoyer !",
-        "cantFetchGroupData": "Une erreur inattendue est survenue. Je ne suis pas en mesure d'envoyer les messages à ce groupe depuis l'extension"
+        "cantFetchGroupData": "Une erreur inattendue s'est produite. Je n'ai pas pu récupérer les messages de ce groupe sur le serveur de l'extension"
       },
       "userCategories": {
         "findUsers": {
@@ -675,12 +675,12 @@
     "notificationMessages": {
       "alreadyApproved": "Cette réponse est déjà approuvée",
       "alreadyUnapproved": "Cette question est déjà désapprouvée",
-      "someOfSelectedAnswersAreApproved": "Quelques unes des réponses sélectionnées avaient déjà été approuvées, il n'est donc pas nécessaire de les approuver de nouveau.",
-      "selectAnUnapprovedAnswerForApproving": "Tu dois sélectionner au moins une réponse non approuvée pour démarrer l'approbation",
+      "someOfSelectedAnswersAreApproved": "Certaines des réponses sélectionnées ont déjà été approuvées, vous ne pouvez donc techniquement pas les approuver à nouveau",
+      "selectAnUnapprovedAnswerForApproving": "Vous devez sélectionner une ou plusieurs réponses non approuvées pour commencer à les approuver",
       "confirmApproving": "Veux-tu approuver cette réponse ?",
-      "someOfSelectedAnswersAreUnapproved": "Quelques unes des réponses sélectionnées ne sont pas approuvées vous n'avez pas besoin de les désapprouver à nouveau.",
-      "selectAnApprovedAnswerForUnapproving": "Vous devez sélectionner quelques réponses approuvées pour commencer.",
-      "confirmUnapproving": "Voulez-vous désapprouver toutes ces questions ?",
+      "someOfSelectedAnswersAreUnapproved": "Certaines des réponses sélectionnées ne sont pas approuvées, donc techniquement, vous ne pouvez pas les désapprouver",
+      "selectAnApprovedAnswerForUnapproving": "Vous devez sélectionner une ou plusieurs réponses approuvées pour commencer à les désapprouver",
+      "confirmUnapproving": "Voulez-vous désapprouver cette réponse ?",
       "doYouWantToConfirmThisContent": "Voulez-vous approuver ce contenu ?",
       "confirmReporting": "Veux-tu demander la correction des réponses sélectionnées ?",
       "selectAtLeastOneContent": "Choisissez au moins un contenu",
@@ -696,8 +696,8 @@
       "ask": "Demander"
     },
     "hasAttachment": {
-      "question": "La question a une/des pièce(s) jointe(s)",
-      "answer": "La réponse a une/des pièce(s) jointe(s)"
+      "question": "La question a une pièce jointe",
+      "answer": "La réponse a une pièce jointe"
     },
     "reported": {
       "question": "Question signalée",
@@ -713,7 +713,7 @@
       "cannotChangeBio": "Impossible de changer votre bio :/ Désolé ...",
       "fileSizeExceeded": "Le fichier %{file_name} excède la taille maximale de %{file_size}",
       "aShortcutFile": "Vous essayez d'ajouter un raccourci d'un fichier mais celui-ci n'est pas considéré comme un fichier. Cela va être le bazar si vous l'ajouter.\nVous devriez sélectionner le fichier d'origine à la place d'un lien vers celui-ci.\nVoulez-vous toujours ajouter ce raccourci ?",
-      "unableToReportAccountDeleting": "Je ne suis pas en mesure de rapporter votre demande de suppression au community manager donc je ne peux pas effectuer la suppression. Désolé :/ <br> Si cette erreur persiste signalez la",
+      "unableToReportAccountDeleting": "Je n'ai pas pu signaler votre demande de suppression au Community Manager, donc je ne peux pas procéder à la suppression du compte. Désolé :/<br>Si cette erreur persiste, demandez l'aide du responsable de l'extension",
       "confirmNoEvidenceOrComment": "Vous n'avez ajouter aucune preuve ou commentaire. \nVoulez-vous toujours supprimer ce compte ?",
       "selectAtLeastOneUser": "Tu dois sélectionner au moins un utilisateur",
       "youNeedToProvideSomeDetails": "Vous devez fournir quelques détails",
@@ -784,7 +784,7 @@
   },
   "supervisors": {
     "notificationMessages": {
-      "noUser": "Il n'y a aucun utilisateur à qui envoyer ce message",
+      "noUser": "Il n'y a aucun utilisateur à qui tu peux envoyer ce message",
       "emptyMessage": "Vous ne pouvez pas envoyer un message vide"
     },
     "allRanks": "Tous les rangs",
@@ -851,7 +851,7 @@
     },
     "correctionReports": {
       "text": "Demande de correction (%{number_of_reports})",
-      "title": "Cliquez ici pour voir le contenu qui a fait l'objet d'une demande de correction et qui attend d'être confirmé"
+      "title": "Cliquez ici pour voir les réponses qui ont été signalées pour correction et qui attendent d'être modérées"
     },
     "subjectFilterFirstOption": "Matières - TOUTES",
     "options": {
@@ -899,31 +899,31 @@
             "label": {
               "equals": "égale à %{N}",
               "lowerThan": "inférieur à %{N}",
-              "greaterThan": "greater than %{N}"
+              "greaterThan": "supérieur à %{N}"
             },
-            "greaterThan": "greater than"
+            "greaterThan": "supérieur à"
           },
           "attachmentLength": {
-            "name": "Attachment count"
+            "name": "Nombre de pièces jointes"
           },
           "subject": {
-            "name": "Subject"
+            "name": "Matière"
           },
           "additionalData": {
-            "name": "Additional data",
-            "chooseCondition": "Choose condition",
+            "name": "Données complémentaires",
+            "chooseCondition": "Choisissez une condition",
             "conditions": {
-              "contains": "contains",
-              "sameWith": "exactly same with",
-              "startsWith": "starts with",
-              "endsWith": "ends with",
+              "contains": "contient",
+              "sameWith": "exactement identique avec",
+              "startsWith": "commence par",
+              "endsWith": "se termine par",
               "regExp": "RegExp(JS/ES6)"
             },
             "label": {
-              "contains": "contains : %{input}",
-              "sameWith": "exactly same with : %{input}",
-              "startsWith": "starts with : %{input}",
-              "endsWith": "ends with : %{input}",
+              "contains": "contient : %{input}",
+              "sameWith": "exactement identique avec: %{input}",
+              "startsWith": "commence par: %{input}",
+              "endsWith": "se termine par: %{input}",
               "regExp": "%{input}"
             }
           }
@@ -959,7 +959,7 @@
           "Answer": "Choisis une raison de suppression pour les réponses",
           "Comment": "Choisis une raison de suppression pour les commentaires"
         },
-        "noContentToDelete": "Il n'y a pas de contenu à supprimer",
+        "noContentToDelete": "Il n'y a plus de contenu disponible à supprimer",
         "confirmDeletion": "Veux-tu vraiment supprimer %{n} contenus signalés ?"
       },
       "status": {
@@ -991,7 +991,8 @@
     "confirmReportingForCorrection": "Veux-tu demander la correction de cette réponse ?",
     "thereIsNoReportLeft": "Il n'y a plus de signalement",
     "deleteAllComments": "Supprimer tous les commentaires",
-    "confirmDeletingNComments": "Veuillez confirmer la suppression de %{N} commentaires"
+    "confirmDeletingNComments": "Veuillez confirmer la suppression de %{N} commentaires",
+    "commentsDeleted": "Commentaires supprimés !"
   },
   "shortAnswersPage": {
     "selectAtLeastOneAnswer": "Vous devez sélectionner au moins une réponse",
@@ -999,6 +1000,6 @@
   },
   "questionSearch": {
     "selectAtLeastOneQuestion": "Sélectionnez au moins une question",
-    "doYouWantToDeleteSelectedQuestions": "Voulez-vous vraiment supprimer les %{N} réponses sélectionnées ?"
+    "doYouWantToDeleteSelectedQuestions": "Voulez-vous vraiment supprimer les %{N} questions sélectionnées ?"
   }
 }

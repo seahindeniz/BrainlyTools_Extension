@@ -6,6 +6,7 @@ import IsIgnoredPath from "../helpers/IsIgnoredPath";
 import messagesLayoutExtender from "../helpers/messagesLayoutExtender";
 import ThemeColorChanger from "../helpers/ThemeColorChanger";
 import WaitForObject from "../helpers/WaitForObject";
+import RemoveJunkNotifications from "./views/0-Core/_/RemoveJunkNotifications";
 
 let System: _System;
 
@@ -31,6 +32,8 @@ function Init() {
     URL: ext.runtime.getURL("").replace(/\/$/, ""),
   };
   window.System = System;
+
+  RemoveJunkNotifications();
 }
 
 function InitConsolePreventerPreventer() {

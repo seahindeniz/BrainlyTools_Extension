@@ -398,8 +398,8 @@
       "searching": "Searching..",
       "userNotFound": "User not found",
       "extensionServerError": "An unexpected error occurred while connecting the extension server. Please try again in ~5 sec.",
-      "ifErrorPersists": "If this error persists, please contact with extension manager and explain what happened :)",
-      "accessPermissionDenied": "You are not authorized to use the Brainly Tools.\nPlease contact with an admin or community manager to ask permission",
+      "ifErrorPersists": "If this error persists, please contact the extension manager and explain what happened :)",
+      "accessPermissionDenied": "You are not authorized to use the Brainly Tools.\nPlease contact the admin or the community manager to ask for permission",
       "updateNeeded": "A new version of the extension is available.\nIt'll be updated in the background so could you wait ~10 seconds then refresh the page, please?",
       "warningBeforeDelete": "This process will be executed and the numbers of questions ids in the input will be deleted once you confirmed this warning. \n\n Are you triple times sure?",
       "enterIdWarn": "You need to add at least 1 id number of question that you want to delete",
@@ -408,7 +408,7 @@
       "alreadyStarted": "Process has already started",
       "pointsAdded": "Points added",
       "doYouWantToContinue": "Do you want to continue?",
-      "couldntAbleToGetNoticeBoardContent": "I couldn't able to get content of notice board",
+      "couldntAbleToGetNoticeBoardContent": "I couldn't get the content of the notice board",
       "changesMayNotBeSaved": "Changes you made may not be saved",
       "stillProcessing": "This section is still in process. Do you want to remove this block?\n(this will stop the moderating process)",
       "youNeedToChooseActionType": "You need to choose an action type",
@@ -442,7 +442,7 @@
     },
     "announcements": {
       "text": "Announcements",
-      "title": "Once you've read the announcement you need to mark it as read",
+      "title": "Once you've read the announcement, you need to mark it as read",
       "markAsRead": "Mark as read"
     },
     "pointChanger": {
@@ -459,7 +459,7 @@
     },
     "reportedCommentsDeleter": {
       "text": "Reported comments deleter",
-      "description": "You can delete all reported comments in Moderate All with one click. You just need to start and keep this tab open that's all.",
+      "description": "You can delete all reported comments in Moderate All with one click. You just need to start and keep this tab open. That's all.",
       "deleting": "Deleting",
       "stopped": "Stopped",
       "numberOfPending": "Pending",
@@ -474,7 +474,7 @@
       ],
       "notificationMessages": {
         "cantFetchDetailsFromExtensionServer": "There is a problem with extension's server while fetching details about moderate all",
-        "noModeratableContentLeft": "There is no moderatable content remain"
+        "noModeratableContentLeft": "There is no moderatable content that remains"
       },
       "addModerator": "Add moderator section",
       "moderatorN": "Moderator %{n}",
@@ -484,11 +484,11 @@
         },
         "Reporter": {
           "text": "Reporter user",
-          "title": "The user who was reports contents"
+          "title": "The user who has reported the content"
         },
         "Reported": {
           "text": "Reported user",
-          "title": "The user who has their contents being reported"
+          "title": "The user whose content has been reported"
         },
         "DateRange": {
           "text": "Reporting date",
@@ -565,7 +565,7 @@
             "doYouWantToGiveNPointsToAllListedUsers": "Do you want to give %{n} points to all listed users?",
             "doYouWantToGiveNPointsToSelectedUsers": "Do you want to give %{n} points to selected users?",
             "oopsYouDidntSpecifyThePoints": "Oops, you didn't specify the points",
-            "thereIsNoPointToGiveZeroPoints": "There is no point to give zero points :)"
+            "thereIsNoPointToGiveZeroPoints": "There is no point in giving zero points :)"
           }
         },
         "changeRanks": {
@@ -655,7 +655,7 @@
         "youHaventCreatedAGroupYet": "You haven't created a group yet..",
         "wrongMessageLength": "Your message must be between 1 and %{max_value} characters long",
         "messageContainsSwear": "Oops! It seems like your message contains swearwords. You can't send it!",
-        "cantFetchGroupData": "There is an unexpected error occurred. I couldn't able to fetch messages of this group from the extension server"
+        "cantFetchGroupData": "An unexpected error has occurred. I couldn't fetch messages of this group from the extension server"
       },
       "userCategories": {
         "findUsers": {
@@ -675,12 +675,12 @@
     "notificationMessages": {
       "alreadyApproved": "This answer is already approved",
       "alreadyUnapproved": "This answer is already unapproved",
-      "someOfSelectedAnswersAreApproved": "Some of selected answers have already been approved, so you don't need to approve those answers again",
-      "selectAnUnapprovedAnswerForApproving": "You need select some unapproved answers for start approving",
+      "someOfSelectedAnswersAreApproved": "Some of the selected answers have already been approved, so you technically can't approve those answers again",
+      "selectAnUnapprovedAnswerForApproving": "You need to select some unapproved answer/s to start approving them",
       "confirmApproving": "Do you want to approve this answer?",
-      "someOfSelectedAnswersAreUnapproved": "Some of selected answers isn't approved, so you don't need to unapprove those answers again",
-      "selectAnApprovedAnswerForUnapproving": "You need select some approved answer/s for start",
-      "confirmUnapproving": "Do you want to remove approvement from this answer?",
+      "someOfSelectedAnswersAreUnapproved": "Some of the selected answers aren't approved, so you techincally can't unapprove those answers",
+      "selectAnApprovedAnswerForUnapproving": "You need to select some approved answer/s to start unapproving them",
+      "confirmUnapproving": "Do you want to unapprove this answer?",
       "doYouWantToConfirmThisContent": "Do you want to confirm this content?",
       "confirmReporting": "Do you want to report selected answers for correction?",
       "selectAtLeastOneContent": "Select at least one content",
@@ -696,8 +696,8 @@
       "ask": "Ask"
     },
     "hasAttachment": {
-      "question": "Question has attachment",
-      "answer": "Answer has attachment"
+      "question": "Question has an attachment",
+      "answer": "Answer has an attachment"
     },
     "reported": {
       "question": "Reported question",
@@ -710,7 +710,7 @@
       "areYouSureDeleteSelectedFriends": "Are you sure you want to remove selected user's from your friends list?",
       "areYouSureRemoveAllFriends": "Are you sure you want to remove all your friends?",
       "youHaveNoFriends": "Don't be sad because you have no friends to list :/ Sorry",
-      "cannotChangeBio": "I couldn't able to change your bio :/ Sorry..",
+      "cannotChangeBio": "I couldn't change your bio :/ Sorry..",
       "fileSizeExceeded": "The %{file_name} file exceeds the size limit of %{file_size}",
       "aShortcutFile": "You're trying to add a shortcut of a file and it's kind of garbage.\nYou may need to select the original file instead that is linked\nDo you still want to add this shortcut?",
       "unableToReportAccountDeleting": "I couldn't report your deletion request to the community manager, so I can't proceed to delete the account. Sorry :/<br>If this error persists, ask for help from your extension manager.",
@@ -784,7 +784,7 @@
   },
   "supervisors": {
     "notificationMessages": {
-      "noUser": "There are no users to send this message",
+      "noUser": "There are no users to send this message to",
       "emptyMessage": "You cannot send empty message"
     },
     "allRanks": "All Ranks",
@@ -863,7 +863,7 @@
       },
       "filter": {
         "optionName": "Filter reports",
-        "description": "Filters can only be applied to reports that has been load",
+        "description": "Filters can be applied only to those reports that have been loaded",
         "filters": {
           "reporter": {
             "name": "Reporter user",
@@ -920,7 +920,7 @@
     },
     "queue": {
       "rating": "%{rating} points for %{ratesCount} votes",
-      "bestAnswer": "This is Brainliest Answer",
+      "bestAnswer": "This is the Brainliest Answer",
       "popularQuestion": "Popular question!",
       "moderatorVerifiedSomeonesAnswer": "%{verifier} has verified %{author}'s answer"
     },
@@ -928,10 +928,10 @@
     "loadAllConfirmationMessage": "I'll try to fetch all reported contents from Brainly but the process can be interrupted by Brainly because of elevated requests.\nPlease confirm to start the process",
     "massModerate": {
       "name": "Mass-Moderate contents",
-      "description": "You can only moderate contents that has been load",
+      "description": "You can only moderate contents that have been loaded",
       "confirm": {
         "text": "Confirm",
-        "noContentToConfirm": "There is no content available for to confirm",
+        "noContentToConfirm": "There is no content that's available for confirmation.",
         "confirmModeration": "Do you really want to confirm %{n} reported contents?"
       },
       "delete": {
@@ -941,7 +941,7 @@
           "Answer": "Choose a reason for answers",
           "Comment": "Choose a reason for comments"
         },
-        "noContentToDelete": "There is no content available for to delete",
+        "noContentToDelete": "There is no content that's available for deletion.",
         "confirmDeletion": "Do you really want to delete %{n} reported contents?"
       },
       "status": {
@@ -977,10 +977,10 @@
   },
   "shortAnswersPage": {
     "selectAtLeastOneAnswer": "You need to select at least one answer",
-    "doYouWantToDeleteSelectedAnswers": "Do you really want delete selected answers?"
+    "doYouWantToDeleteSelectedAnswers": "Do you really want delete the selected answers?"
   },
   "questionSearch": {
     "selectAtLeastOneQuestion": "Select at least one question",
-    "doYouWantToDeleteSelectedQuestions": "Do you really want delete the %{N} selected questions?"
+    "doYouWantToDeleteSelectedQuestions": "Do you really want delete %{N} selected questions?"
   }
 }

@@ -8,6 +8,7 @@ import ContentTypeFilter from "./ContentTypeFilter/ContentTypeFilter";
 import Reported from "./Reported";
 import Reporter from "./Reporter";
 import ReportingDate from "./ReportingDate";
+import Subjects from "./Subject/Subjects";
 
 export default class Filters {
   main: OptionsClassType;
@@ -21,6 +22,7 @@ export default class Filters {
     reporter: Reporter;
     reported: Reported;
     reportingDate: ReportingDate;
+    subject: Subjects;
   };
 
   constructor(main: OptionsClassType) {
@@ -35,6 +37,7 @@ export default class Filters {
       reported: new Reported(this),
       reporter: new Reporter(this),
       reportingDate: new ReportingDate(this),
+      subject: new Subjects(this),
     };
   }
 

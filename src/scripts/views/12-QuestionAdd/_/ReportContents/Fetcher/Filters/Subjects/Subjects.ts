@@ -18,7 +18,6 @@ export default class Subjects {
 
     this.Render();
     this.InitSubjects();
-    this.BindListener();
   }
 
   Render() {
@@ -28,6 +27,7 @@ export default class Subjects {
       // marginRight: "s",
       children: this.subjectSelect = new Select({
         fullWidth: true,
+        onChange: this.SubjectChanged.bind(this),
       }),
     });
 
@@ -48,19 +48,26 @@ export default class Subjects {
     });
   }
 
-  BindListener() {
-    this.subjectSelect.select.addEventListener(
-      "change",
-      this.SubjectChanged.bind(this),
-    );
-  }
-
   SubjectChanged() {
     this.AssignSelectedSubject();
 
-    if (!this.selectedSubject) return;
+    if (!this.selectedSubject) {
+      this.main.main.main.queue.options.option.contentFilters.filter.subject //
+        .Show();
+
+      return;
+    }
 
     this.main.main.FetchReports({ resetStore: true });
+
+    if (this.selectedSubject.data.id === 0)
+      this.main.main.main.queue.options.option.contentFilters.filter.subject //
+        .Show();
+    else {
+      this.main.main.main.queue.options.option.contentFilters.filter.subject //
+        .Hide();
+      this.main.main.main.queue.filter.byName.subject.HideLabel();
+    }
   }
 
   AssignSelectedSubject() {

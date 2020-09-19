@@ -64,7 +64,7 @@ export default class ContentLength {
         color: "gray",
         onClose: this.HideLabel.bind(this),
         icon: new Icon({
-          type: "equation",
+          type: "ext-measuring-tape",
         }),
         children: [
           `${

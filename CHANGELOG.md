@@ -21,6 +21,7 @@ All notable changes to this project will be documented in this file.
 - Restrict confirm button on reported answers [#226]
 
 [#208]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/208
+[#217]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/217
 [#220]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/220
 [#222]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/222
 [#223]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/223

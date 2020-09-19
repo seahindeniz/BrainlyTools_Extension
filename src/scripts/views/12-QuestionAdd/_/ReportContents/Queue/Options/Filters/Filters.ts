@@ -2,6 +2,7 @@ import Build from "@root/helpers/Build";
 import { Flex, SeparatorHorizontal, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type OptionsClassType from "../Options";
+import AdditionalData from "./AdditionalData/AdditionalData";
 import AttachmentLength from "./AttachmentLength";
 import ContentLength from "./ContentLength";
 import ContentTypeFilter from "./ContentTypeFilter/ContentTypeFilter";
@@ -23,6 +24,7 @@ export default class Filters {
     reported: Reported;
     reportingDate: ReportingDate;
     subject: Subjects;
+    additionalData: AdditionalData;
   };
 
   constructor(main: OptionsClassType) {
@@ -38,6 +40,7 @@ export default class Filters {
       reporter: new Reporter(this),
       reportingDate: new ReportingDate(this),
       subject: new Subjects(this),
+      additionalData: new AdditionalData(this),
     };
   }
 

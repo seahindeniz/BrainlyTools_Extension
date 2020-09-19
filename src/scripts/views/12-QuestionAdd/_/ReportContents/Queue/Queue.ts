@@ -12,6 +12,7 @@ import ReportingDate from "./Filter/ReportingDate";
 import ModerationPanelController from "./ModerationPanelController/ModerationPanelController";
 import Options from "./Options/Options";
 import Subject from "./Filter/Subject";
+import AdditionalData from "./Filter/AdditionalData";
 
 const REPORT_PREVIEW_LIMIT = 12;
 
@@ -28,6 +29,7 @@ export default class Queue {
       | Reported
       | ReportingDate
       | Subject
+      | AdditionalData
     )[];
     byName: {
       contentType: ContentType;
@@ -37,6 +39,7 @@ export default class Queue {
       reported: Reported;
       reportingDate: ReportingDate;
       subject: Subject;
+      additionalData: AdditionalData;
     };
   };
 
@@ -56,6 +59,7 @@ export default class Queue {
         reported: new Reported(this),
         reportingDate: new ReportingDate(this),
         subject: new Subject(this),
+        additionalData: new AdditionalData(this),
       },
       all: [],
     };

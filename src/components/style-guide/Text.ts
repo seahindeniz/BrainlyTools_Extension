@@ -2,6 +2,7 @@
 import classnames from "classnames";
 import CreateElement from "@components/CreateElement";
 import { ChildrenParamType } from "./helpers/AddChildren";
+import { CommonComponentPropsType } from "./helpers/SetProps";
 
 const TEXT_ALIGN = {
   LEFT: "to-left",
@@ -70,7 +71,7 @@ export type TextPropsType<T> = {
   fixPosition?: boolean;
   blockquote?: boolean;
   [x: string]: any;
-};
+} & CommonComponentPropsType;
 type TextCustomProperties = {
   color?: TextColorType;
   // eslint-disable-next-line no-use-before-define

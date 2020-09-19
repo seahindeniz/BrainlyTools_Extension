@@ -8,7 +8,9 @@ type ExtensionIconTypeType =
   | "ext-icon"
   | "ext-csv"
   | "ext-ods"
-  | "ext-xlsx";
+  | "ext-xlsx"
+  | "ext-numbers"
+  | "ext-measuring-tape";
 
 export type IconTypeType =
   | "academic_cap"

@@ -908,6 +908,24 @@ export default {
           },
           subject: {
             name: "Subject"
+          },
+          additionalData: {
+            name: "Additional data",
+            chooseCondition: "Choose condition",
+            conditions: {
+              contains: "contains",
+              sameWith: "exactly same with",
+              startsWith: "starts with",
+              endsWith: "ends with",
+              regExp: "RegExp(JS/ES6)"
+            },
+            label: {
+              contains: "contains : %{input}",
+              sameWith: "exactly same with : %{input}",
+              startsWith: "starts with : %{input}",
+              endsWith: "ends with : %{input}",
+              regExp: "%{input}"
+            }
           }
         },
         pageNumberInputTitle: "Enter a page number between %{MIN_N} and %{MAX_N}"
@@ -984,3 +1002,4 @@ export default {
     doYouWantToDeleteSelectedQuestions: "Do you really want delete the %{N} selected questions?"
   }
 }
+

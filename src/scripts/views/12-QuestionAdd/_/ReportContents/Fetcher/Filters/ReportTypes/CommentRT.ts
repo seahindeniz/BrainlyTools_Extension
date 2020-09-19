@@ -16,6 +16,7 @@ export default class QuestionAnswerRT extends ReportType {
       .filter;
 
     filters.contentType.Hide();
+    filters.additionalData.Hide();
     filters.attachmentLength.Hide();
     this.main.main.categoryFilter.ShowCommentSelector();
     super.Selected();

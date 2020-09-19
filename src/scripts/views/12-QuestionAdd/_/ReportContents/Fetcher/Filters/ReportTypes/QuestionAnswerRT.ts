@@ -13,6 +13,7 @@ export default class QuestionAnswerRT extends ReportType {
     filters.contentType.Show();
     filters.attachmentLength.Show();
     this.main.main.main.pageNumbers.Show();
+    filters.additionalData.Show();
     this.main.main.categoryFilter.ShowQuestionAnswerSelector();
     super.Selected();
   }

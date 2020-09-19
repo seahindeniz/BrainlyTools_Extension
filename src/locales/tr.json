@@ -851,7 +851,7 @@
     },
     "correctionReports": {
       "text": "Düzeltme bildirimleri (%{number_of_reports})",
-      "title": "Düzenlenmesi için bildirilen ve onaylanmayı bekleyen içerikleri görmek için buraya tıklayın"
+      "title": "Düzenlenmesi için bildirilen ve incelenmeyi bekleyen içerikleri görmek için buraya tıklayın"
     },
     "subjectFilterFirstOption": "Konu - TÜMÜ",
     "options": {
@@ -895,16 +895,19 @@
           "contentLength": {
             "name": "İçerik uzunluğu",
             "equals": "eşittir =",
-            "graterThan": "büyüktür >",
             "lowerThan": "küçüktür <",
             "label": {
               "equals": "eşittir = %{N}",
-              "graterThan": "büyüktür > %{N}",
-              "lowerThan": "küçüktür < %{N}"
-            }
+              "lowerThan": "küçüktür < %{N}",
+              "greaterThan": "büyüktür > %{N}"
+            },
+            "greaterThan": "büyüktür >"
           },
           "attachmentLength": {
             "name": "İçerik eki sayısı"
+          },
+          "subject": {
+            "name": "Konu"
           }
         },
         "pageNumberInputTitle": "%{MIN_N} ile %{MAX_N} arasında bir sayfa numarası girin"

@@ -3,7 +3,7 @@ import { Flex, Icon, Label } from "@style-guide";
 import { ContentClassTypes } from "../../Fetcher/Fetcher";
 import type QueueClassType from "../Queue";
 
-export type NumberConditionType = "equals" | "graterThan" | "lowerThan";
+export type NumberConditionType = "equals" | "greaterThan" | "lowerThan";
 
 export default class ContentLength {
   main: QueueClassType;
@@ -39,8 +39,7 @@ export default class ContentLength {
     this.query = {};
 
     if (event)
-      this.main.options.option.contentFilters.filter.contentLength.input.input.value =
-        "";
+      this.main.options.option.contentFilters.filter.contentLength.Deselected();
 
     HideElement(this.labelContainer);
     this.main.main.fetcher?.FilterContents();
@@ -82,7 +81,7 @@ export default class ContentLength {
   CompareContent(content: ContentClassTypes) {
     if (!this.query?.length || !this.query?.condition) return true;
 
-    if (this.query.condition === "graterThan")
+    if (this.query.condition === "greaterThan")
       return content.data.content_short.length > this.query.length;
 
     if (this.query.condition === "lowerThan")

@@ -851,7 +851,7 @@
     },
     "correctionReports": {
       "text": "Correction Reports (%{number_of_reports})",
-      "title": "Click here to see the contents which has reported for correction and waiting for to be confirmed"
+      "title": "Click here to view the answers that have been reported for correction and are waiting to be moderated"
     },
     "subjectFilterFirstOption": "Subject - ALL",
     "options": {
@@ -895,16 +895,19 @@
           "contentLength": {
             "name": "Content length",
             "equals": "equals to",
-            "graterThan": "grater than",
             "lowerThan": "lower than",
             "label": {
               "equals": "equals to %{N}",
-              "graterThan": "grater than %{N}",
-              "lowerThan": "lower than %{N}"
-            }
+              "lowerThan": "lower than %{N}",
+              "greaterThan": "greater than %{N}"
+            },
+            "greaterThan": "greater than"
           },
           "attachmentLength": {
             "name": "Attachment count"
+          },
+          "subject": {
+            "name": "Subject"
           }
         },
         "pageNumberInputTitle": "Enter a page number between %{MIN_N} and %{MAX_N}"

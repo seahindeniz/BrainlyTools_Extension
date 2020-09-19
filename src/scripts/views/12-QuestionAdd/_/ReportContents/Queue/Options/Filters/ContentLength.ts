@@ -60,7 +60,7 @@ export default class ContentLength {
                     value: 1,
                     text:
                       System.data.locale.reportedContents.options.filter.filters
-                        .contentLength.graterThan,
+                        .contentLength.greaterThan,
                   },
                   {
                     value: 2,
@@ -105,7 +105,7 @@ export default class ContentLength {
       this.conditionSelect.select.value === "0"
         ? "equals"
         : this.conditionSelect.select.value === "1"
-        ? "graterThan"
+        ? "greaterThan"
         : this.conditionSelect.select.value === "2"
         ? "lowerThan"
         : undefined;
@@ -114,5 +114,11 @@ export default class ContentLength {
       condition,
       ~~this.input.input.value,
     );
+  }
+
+  Deselected() {
+    this.input.input.value = "";
+    (this.conditionSelect.select
+      .firstElementChild as HTMLOptionElement).selected = true;
   }
 }

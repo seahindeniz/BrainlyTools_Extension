@@ -100,4 +100,10 @@ export default class Reported {
       this.input.value,
     );
   }
+
+  Reset() {
+    this.input.value = "";
+    (this.queryTypeSelect.select
+      .firstElementChild as HTMLOptionElement).selected = true;
+  }
 }

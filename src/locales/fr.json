@@ -895,16 +895,19 @@
           "contentLength": {
             "name": "Longueur du contenu",
             "equals": "égale à",
-            "graterThan": "supérieur à",
             "lowerThan": "inférieur à",
             "label": {
               "equals": "égale à %{N}",
-              "graterThan": "supérieur à %{N}",
-              "lowerThan": "inférieur à %{N}"
-            }
+              "lowerThan": "inférieur à %{N}",
+              "greaterThan": "greater than %{N}"
+            },
+            "greaterThan": "greater than"
           },
           "attachmentLength": {
             "name": "Attachment count"
+          },
+          "subject": {
+            "name": "Subject"
           }
         },
         "pageNumberInputTitle": "Entre un numéro de page entre %{MIN_N} et %{MAX_N}"

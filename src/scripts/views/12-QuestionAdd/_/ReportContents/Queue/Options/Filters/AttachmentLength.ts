@@ -71,7 +71,7 @@ export default class AttachmentLength {
                     value: 1,
                     text:
                       System.data.locale.reportedContents.options.filter.filters
-                        .contentLength.graterThan,
+                        .contentLength.greaterThan,
                   },
                   {
                     value: 2,
@@ -108,7 +108,7 @@ export default class AttachmentLength {
       this.conditionSelect.select.value === "0"
         ? "equals"
         : this.conditionSelect.select.value === "1"
-        ? "graterThan"
+        ? "greaterThan"
         : this.conditionSelect.select.value === "2"
         ? "lowerThan"
         : undefined;
@@ -125,5 +125,11 @@ export default class AttachmentLength {
 
   Hide() {
     HideElement(this.contentWrapper);
+  }
+
+  Deselected() {
+    this.input.input.value = "";
+    (this.conditionSelect.select
+      .firstElementChild as HTMLOptionElement).selected = true;
   }
 }

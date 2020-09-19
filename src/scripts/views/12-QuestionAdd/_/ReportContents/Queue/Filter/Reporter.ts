@@ -50,8 +50,9 @@ export default class Reporter {
   HideLabel(event?: MouseEvent) {
     this.query = {};
 
-    if (event)
-      this.main.options.option.contentFilters.filter.reporter.input.value = "";
+    if (event) {
+      this.main.options.option.contentFilters.filter.reporter.Reset();
+    }
 
     HideElement(this.labelContainer);
     this.main.main.fetcher?.FilterContents();

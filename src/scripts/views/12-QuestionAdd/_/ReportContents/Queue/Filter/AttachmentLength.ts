@@ -37,9 +37,10 @@ export default class AttachmentLength {
   HideLabel(event?: MouseEvent) {
     this.query = {};
 
-    if (event)
-      this.main.options.option.contentFilters.filter.attachmentLength.input.input.value =
-        "";
+    if (event) {
+      this.main.options.option.contentFilters.filter.attachmentLength //
+        .Deselected();
+    }
 
     HideElement(this.labelContainer);
     this.main.main.fetcher?.FilterContents();
@@ -83,7 +84,7 @@ export default class AttachmentLength {
 
     if (!this.query?.length || !this.query?.condition) return true;
 
-    if (this.query.condition === "graterThan")
+    if (this.query.condition === "greaterThan")
       return content.extraData.attachments.length > this.query.length;
 
     if (this.query.condition === "lowerThan")

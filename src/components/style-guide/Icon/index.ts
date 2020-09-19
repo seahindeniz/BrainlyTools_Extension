@@ -3,6 +3,7 @@ import classnames from "classnames";
 import CreateElement from "@components/CreateElement";
 
 type ExtensionIconTypeType =
+  | "subject-all"
   | "ext-info"
   | "ext-icon"
   | "ext-csv"

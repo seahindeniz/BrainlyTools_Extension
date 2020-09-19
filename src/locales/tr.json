@@ -713,7 +713,7 @@
       "cannotChangeBio": "Üzgünüm, bio metnini değiştiremedim :/",
       "fileSizeExceeded": "%{file_name}dosyası %{file_size}olan dosya limitini aşıyor",
       "aShortcutFile": "Bir dosyanın kısayolunu yüklemeye çalışıyorsun ve bu dosya eklemek istediğin dosya olmayabilir. Eklesen de bir anlamı olmayacak.\nKısayolun hedeflendiği orjinal dosyayı eklemeni öneririm.\nBu kısayol dosyasını yine de eklemek istiyor musun?",
-      "unableToReportAccountDeleting": "Hesap silimini Topluluk Yöneticisine bildiremediğim için silim işlemine devam edemiyorum. Üzgünüm :/<br>Eğer bu hata devam ederse, eklenti yöneticine bildir lütfen",
+      "unableToReportAccountDeleting": "Hesap silimini Topluluk Yöneticisine bildiremediğim için silim işlemine devam edemiyorum. Üzgünüm :/<br>Eğer bu hata devam ederse, eklenti yöneticine bildirmelisin",
       "confirmNoEvidenceOrComment": "Kanıt veya yorum eklemedin.\nHalen silmek istiyor musun?",
       "selectAtLeastOneUser": "En az bir kullanıcı seçmelisin",
       "youNeedToProvideSomeDetails": "Biraz daha detay ekleyebilir misin?",
@@ -851,7 +851,7 @@
     },
     "correctionReports": {
       "text": "Düzeltme bildirimleri (%{number_of_reports})",
-      "title": "Düzenlenmesi için bildirilen ve incelenmeyi bekleyen içerikleri görmek için buraya tıklayın"
+      "title": "Düzenlenmesi için bildirilen ve incelenmeyi bekleyen cevapları görmek için buraya tıklayın"
     },
     "subjectFilterFirstOption": "Konu - TÜMÜ",
     "options": {

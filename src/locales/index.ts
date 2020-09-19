@@ -713,7 +713,7 @@ export default {
       cannotChangeBio: "I couldn't able to change your bio :/ Sorry..",
       fileSizeExceeded: "The %{file_name} file exceeds the size limit of %{file_size}",
       aShortcutFile: "You're trying to add a shortcut of a file and it's kind of garbage.\nYou may need to select the original file instead that is linked\nDo you still want to add this shortcut?",
-      unableToReportAccountDeleting: "I couldn't able report your delete request to community manager, so I can't continue to delete. Sorry :/<br>If this error persist, ask for help from your extension manager",
+      unableToReportAccountDeleting: "I couldn't report your deletion request to the community manager, so I can't proceed to delete the account. Sorry :/<br>If this error persists, ask for help from your extension manager.",
       confirmNoEvidenceOrComment: "You didn't add any evidence or comment.\nDo you still want to delete this account?",
       selectAtLeastOneUser: "You need to select at least one user",
       youNeedToProvideSomeDetails: "You need to provide some details",
@@ -984,4 +984,3 @@ export default {
     doYouWantToDeleteSelectedQuestions: "Do you really want delete the %{N} selected questions?"
   }
 }
-

@@ -71,7 +71,7 @@ export default class AdditionalData {
     this.query = {};
 
     if (event) {
-      this.main.options.option.contentFilters.filter.reported.Reset();
+      this.main.options.option.contentFilters.filter.additionalData.Reset();
     }
 
     HideElement(this.labelContainer);

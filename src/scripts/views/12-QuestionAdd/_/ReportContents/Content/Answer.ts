@@ -39,12 +39,12 @@ export default class Answer extends Content {
     if (!this.extraData.isBest) return;
 
     const iconContainer = Flex({
-      marginBottom: "xs",
+      marginLeft: "xs",
       title: System.data.locale.reportedContents.queue.bestAnswer,
       children: new Icon({
         type: "excellent",
         color: "mustard",
-        size: 32,
+        size: 26,
       }),
     });
 
@@ -65,7 +65,7 @@ export default class Answer extends Content {
     if (!this.extraData.attachments?.length) return;
 
     const attachmentIconContainer = Flex({
-      marginBottom: "xs",
+      marginLeft: "xs",
       children: LabelDeprecated({
         color: "gray",
         icon: { type: "attachment" },
@@ -80,7 +80,7 @@ export default class Answer extends Content {
     if (!this.extraData.thanksCount) return;
 
     const labelContainer = Flex({
-      marginBottom: "xs",
+      marginLeft: "xs",
       children: LabelDeprecated({
         type: "solid",
         color: "peach",

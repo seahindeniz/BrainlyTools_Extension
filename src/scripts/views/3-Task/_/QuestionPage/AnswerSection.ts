@@ -250,16 +250,21 @@ export default class AnswerSection {
   }
 
   async FetchAndRenderUsersRank() {
-    const resUser = await new Action().GetUser(this.data.userId);
-
     const rankContainer: HTMLDivElement = this.answerBox.querySelector(
       ".brn-qpage-next-answer-box-author__description ul.brn-horizontal-list" +
         "> li.brn-horizontal-list__item:nth-child(1) > div",
     );
 
+    if (!rankContainer) throw Error("Can't find rank container");
+
+    const resUser = await new Action().GetUser(this.data.userId);
+
     if (!resUser.success) return;
 
-    const specialRanks = resUser.data.ranks_ids
+    if (!resUser.data.ranks_ids.includes(resUser.data.primary_rank_id))
+      resUser.data.ranks_ids.push(resUser.data.primary_rank_id);
+
+    let specialRanks = resUser.data.ranks_ids
       .filter(rankId => {
         const rank =
           System.data.Brainly.defaultConfig.config.data.ranksWithId[rankId];
@@ -273,10 +278,22 @@ export default class AnswerSection {
 
     if (specialRanks.length === 0) return;
 
-    const primaryRank = specialRanks.shift();
+    let primaryRank = specialRanks.find(rank => rank.type === 5);
+
+    if (!primaryRank)
+      primaryRank =
+        System.data.Brainly.defaultConfig.config.data.ranksWithId[
+          resUser.data.primary_rank_id
+        ];
+
+    specialRanks = specialRanks.sort((specialRank1, specialRank2) =>
+      specialRank1.type < specialRank2.type ? -1 : 1,
+    );
 
     rankContainer.innerHTML = primaryRank.name;
     rankContainer.style.color = `#${primaryRank.color}`;
+
+    if (specialRanks.length === 0) return;
 
     tippy(rankContainer, {
       content: Flex({
@@ -284,6 +301,7 @@ export default class AnswerSection {
           return Text({
             children: specialRank.name,
             size: "small",
+            weight: "bold",
             style: {
               color: `#${specialRank.color}`,
             },

@@ -25,4 +25,11 @@
   &--opaque {
     background-color: #54b5f221;
   }
+
+  &-container {
+    &__overlay {
+      backdrop-filter: blur(2px);
+      z-index: 1;
+    }
+  }
 }

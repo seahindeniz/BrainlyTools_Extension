@@ -64,7 +64,7 @@ export default class FetchAll {
 
     this.container.append(this.stopButton.element);
 
-    this.container.style.zIndex = "1";
+    this.container.style.zIndex = "2";
   }
 
   HideStopButton() {

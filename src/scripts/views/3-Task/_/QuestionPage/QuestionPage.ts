@@ -75,8 +75,14 @@ export default class QuestionPage {
   RenderAnswerSections() {
     if (!this.data.responses?.length) return;
 
-    this.data.responses = this.data.responses.sort(answerData => {
-      return !answerData.approved.date ? 1 : -1;
+    this.data.responses = this.data.responses.sort((answer1, answer2) => {
+      return answer1.approved.date && !answer2.approved.date
+        ? -1
+        : answer2.best
+        ? 1
+        : new Date(answer1.created) < new Date(answer2.created)
+        ? -1
+        : 1;
     });
 
     this.data.responses.forEach((answerData, index) => {

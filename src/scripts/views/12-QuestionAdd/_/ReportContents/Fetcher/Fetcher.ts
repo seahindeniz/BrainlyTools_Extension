@@ -162,15 +162,13 @@ export default class Fetcher {
           fetchOnly,
           resetStore,
         });
-      } else {
-        if (!this.lastId) {
-          // this.fetchAll.HideStopButton();
-          this.fetchAll.HideContainer();
-        }
+      } else if (!this.lastId) {
+        // this.fetchAll.HideStopButton();
+        this.fetchAll.HideContainer();
+      }
 
-        if (this.main.contents.all.length > 0) {
-          this.FetchExtraDetails();
-        }
+      if (this.main.contents.all.length > 0) {
+        this.FetchExtraDetails();
       }
     } catch (error) {
       console.error(error);
@@ -326,6 +324,7 @@ export default class Fetcher {
     if (this.main.contents.byGlobalId[content.globalId]) return;
 
     this.main.contents.all.push(content);
+    this.main.contents.waitingForExtraDetails.push(content);
 
     this.main.contents.byGlobalId.all[content.globalId] = content;
 
@@ -350,16 +349,19 @@ export default class Fetcher {
   }
 
   FetchExtraDetails() {
-    const entries = Object.entries(this.main.contents.byGlobalId.fetchDetails)
-      .map(([globalId, content], i) => {
+    const nextContents = this.main.contents.waitingForExtraDetails.splice(0);
+    const entries = nextContents
+      .map((content, i) => {
+        if (content.contentType === "Comment") return undefined;
+
         if (content.extraData !== undefined || content instanceof Comment)
           return undefined;
 
         content.extraData = null;
 
-        return `c${
-          i + 1
-        }: ${content.contentType.toLowerCase()}(id: "${globalId}") {
+        return `c${i + 1}: ${content.contentType.toLowerCase()}(id: "${
+          content.globalId
+        }") {
           ...${
             content.contentType === "Question"
               ? "QuestionFragment"

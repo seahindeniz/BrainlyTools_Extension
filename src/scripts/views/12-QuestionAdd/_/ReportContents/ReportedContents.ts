@@ -22,7 +22,6 @@ export default class ReportedContents {
 
   contents: {
     all: ContentClassTypes[];
-    filtered: ContentClassTypes[];
     byGlobalId: {
       all: {
         [id: string]: QuestionClassType | AnswerClassType | CommentClassType; // ContentClassTypes;
@@ -31,6 +30,8 @@ export default class ReportedContents {
         [id: string]: QuestionClassType | AnswerClassType; // ContentClassTypes;
       };
     };
+    filtered: ContentClassTypes[];
+    waitingForExtraDetails: ContentClassTypes[];
   };
 
   questionsWaitingForSubscription: number[];
@@ -56,6 +57,7 @@ export default class ReportedContents {
         fetchDetails: {},
       },
       filtered: [],
+      waitingForExtraDetails: [],
     };
     this.questionsWaitingForSubscription = [];
     this.userData = {};

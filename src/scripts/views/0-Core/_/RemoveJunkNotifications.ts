@@ -2,7 +2,7 @@
 import cookie from "js-cookie";
 import jsesc from "jsesc";
 
-const notifications = [
+const blockedNotifications = [
   // en - hi,ro,ph,id
   "Too many users meet",
   // ru
@@ -19,7 +19,10 @@ const notifications = [
   "Demasiados usuarios cumplen este",
 ];
 
-const ignoredNotificationExpression = new RegExp(notifications.join("|"), "i");
+const ignoredNotificationExpression = new RegExp(
+  blockedNotifications.join("|"),
+  "i",
+);
 
 export default function RemoveJunkNotifications() {
   let infoBarBase64 = cookie.get("Zadanepl_cookie[infobar]");
@@ -27,6 +30,11 @@ export default function RemoveJunkNotifications() {
   if (!infoBarBase64 || infoBarBase64 === "null") return;
 
   let infoBarStr = atob(infoBarBase64);
+
+  if (!infoBarStr) return;
+
+  console.log(infoBarStr);
+
   let infoBar: {
     text: string;
     class: string;
@@ -42,7 +50,7 @@ export default function RemoveJunkNotifications() {
   );
 
   infoBarStr = jsesc(infoBar, {
-    quotes: "double",
+    json: true,
   });
 
   infoBarBase64 = btoa(infoBarStr);

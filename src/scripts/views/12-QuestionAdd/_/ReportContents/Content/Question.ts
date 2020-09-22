@@ -58,7 +58,7 @@ export default class Question extends Content {
     if (!this.extraData.attachments?.length) return;
 
     const attachmentIconContainer = Flex({
-      marginLeft: "xs",
+      marginRight: "xs",
       children: new Label({
         color: "gray",
         icon: new Icon({ type: "attachment" }),
@@ -77,7 +77,7 @@ export default class Question extends Content {
     if (approvedAnswers.length === 0) return;
 
     const approvedAnswersIconContainer = Flex({
-      marginLeft: "xs",
+      marginRight: "xs",
       children: new Label({
         color: "mint",
         type: "solid",

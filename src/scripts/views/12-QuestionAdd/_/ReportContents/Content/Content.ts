@@ -329,14 +329,10 @@ export default class Content {
                         ],
                       ],
                     ],
-                    (this.extraDetailsContainer = Flex({
-                      direction: "row-reverse",
-                      marginTop: "s",
-                    })),
                     [
                       Flex({
                         marginTop: "s",
-                        marginBottom: "l",
+                        marginBottom: "m",
                         grow: true,
                       }),
                       [
@@ -350,7 +346,11 @@ export default class Content {
                         ],
                       ],
                     ],
-
+                    (this.extraDetailsContainer = Flex({
+                      alignItems: "center",
+                      marginBottom: "s",
+                      marginTop: "xs",
+                    })),
                     [
                       Flex({
                         wrap: true,

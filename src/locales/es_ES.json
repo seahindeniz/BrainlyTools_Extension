@@ -66,9 +66,9 @@
         "title": "Delete selected contents with a warning"
       },
       "approve": "Aprobar",
-      "approved": "Approved",
-      "unapprove": "Unapprove",
-      "unapproved": "Unapproved",
+      "approved": "Verified",
+      "unapprove": "Unverify",
+      "unapproved": "Unverified",
       "doYouWantToDeleteWithReason": "Quieres borrarla?\n\n%{reason_title}:\n%{reason_message}",
       "takePoints": {
         "question": {
@@ -323,7 +323,7 @@
             "description": "User can use this function to moderate contents massively"
           },
           "30": {
-            "title": "Approve all answers",
+            "title": "Verify all answers",
             "description": "User can use this function to approve all answers of users massively by providing list of ids/links of users"
           },
           "31": {
@@ -545,7 +545,7 @@
           "numberOfAlreadyApprovedAnswers": "Number of already approved answers",
           "actionButton": {
             "text": "Aprobar respuestas",
-            "title": "Approve all answers of all listed users"
+            "title": "Verify all answers of all listed users"
           }
         },
         "deleteUsers": {
@@ -618,8 +618,8 @@
         },
         "approveAnswers": {
           "tabButton": {
-            "text": "Approve answers",
-            "title": "Approve answers of questions, relatively"
+            "text": "Verify answers",
+            "title": "Verify answers of questions, relatively"
           }
         }
       }

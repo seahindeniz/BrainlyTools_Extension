@@ -65,10 +65,10 @@ export default {
         text: "Give a warning",
         title: "Delete selected contents with a warning"
       },
-      approve: "Approve",
-      approved: "Approved",
-      unapprove: "Unapprove",
-      unapproved: "Unapproved",
+      approve: "Verify",
+      approved: "Verified",
+      unapprove: "Unverify",
+      unapproved: "Unverified",
       doYouWantToDeleteWithReason: "Do you want to delete it?\n\n%{reason_title}:\n%{reason_message}",
       takePoints: {
         question: {
@@ -323,7 +323,7 @@ export default {
             description: "User can use this function to moderate contents massively"
           },
           30: {
-            title: "Approve all answers",
+            title: "Verify all answers",
             description: "User can use this function to approve all answers of users massively by providing list of ids/links of users"
           },
           31: {
@@ -544,8 +544,8 @@ export default {
           numberOfApprovedAnswers: "Number of approved answers",
           numberOfAlreadyApprovedAnswers: "Number of already approved answers",
           actionButton: {
-            text: "Approve answers",
-            title: "Approve all answers of all listed users"
+            text: "Verify answers",
+            title: "Verify all answers of all listed users"
           }
         },
         deleteUsers: {
@@ -618,8 +618,8 @@ export default {
         },
         approveAnswers: {
           tabButton: {
-            text: "Approve answers",
-            title: "Approve answers of questions, relatively"
+            text: "Verify answers",
+            title: "Verify answers of questions, relatively"
           }
         }
       }

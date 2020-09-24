@@ -618,8 +618,8 @@
         },
         "approveAnswers": {
           "tabButton": {
-            "text": "Approve answers",
-            "title": "Approve answers of questions, relatively"
+            "text": "Verify answers",
+            "title": "Verify answers of questions, relatively"
           }
         }
       }

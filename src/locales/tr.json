@@ -618,8 +618,8 @@
         },
         "approveAnswers": {
           "tabButton": {
-            "text": "Approve answers",
-            "title": "Approve answers of questions, relatively"
+            "text": "Verify answers",
+            "title": "Verify answers of questions, relatively"
           }
         }
       }
@@ -992,7 +992,7 @@
     "thereIsNoReportLeft": "Şikayet edilmiş içerik kalmadı",
     "deleteAllComments": "Tüm yorumları sil",
     "confirmDeletingNComments": "Lütfen %{N} yorumun silinmesini onaylayın",
-    "commentsDeleted": "Comments deleted!"
+    "commentsDeleted": "Yorumlar silindi!"
   },
   "shortAnswersPage": {
     "selectAtLeastOneAnswer": "En az bir cevap seçmelisin",

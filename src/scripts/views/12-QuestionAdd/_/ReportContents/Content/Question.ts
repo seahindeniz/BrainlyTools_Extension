@@ -145,7 +145,7 @@ export default class Question extends Content {
       marginRight: "xs",
       title: System.data.locale.reportedContents.queue.popularQuestion,
       children: new Icon({
-        type: "friends",
+        type: "influence",
         color: "blue",
         size: 30,
       }),

@@ -12,12 +12,16 @@ const STORAGE_NAME = "reported_contents_queue_density";
 export default class Density {
   main: OptionsClassType;
 
+  density: number;
+
   container: import("@style-guide/Flex").FlexElementType;
   input: HTMLInputElement;
   label: TextElement<"div">;
 
   constructor(main: OptionsClassType) {
     this.main = main;
+
+    this.density = 0;
 
     this.Render();
     this.SetValue();
@@ -86,17 +90,26 @@ export default class Density {
   Changed() {
     const { value } = this.input;
 
+    this.density = Number(value);
+
+    if (
+      Number.isNaN(this.density) ||
+      this.density < 0 ||
+      this.density > MAX_DENSITY
+    )
+      this.density = 0;
+
     this.label.innerText =
-      value === "0"
+      this.density === 0
         ? System.data.locale.reportedContents.options.density.defaultDensity
-        : value;
+        : String(this.density);
 
-    storage("set", { [STORAGE_NAME]: value });
+    storage("set", { [STORAGE_NAME]: this.density });
 
-    if (value === "0")
+    if (this.density === 0) {
       delete this.main.main.main.queueContainer.dataset.density;
-    else {
-      this.main.main.main.queueContainer.dataset.density = value;
+    } else {
+      this.main.main.main.queueContainer.dataset.density = String(this.density);
     }
   }
 }

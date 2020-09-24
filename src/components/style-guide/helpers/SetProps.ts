@@ -7,6 +7,7 @@ export type CommonComponentPropsType = {
   onClick?: MouseEventHandler | MouseEventHandler[];
   onMouseEnter?: MouseEventHandler | MouseEventHandler[];
   onMouseLeave?: MouseEventHandler | MouseEventHandler[];
+  onTouchStart?: TouchEvent | TouchEvent[];
   onInput?: EventHandler | EventHandler[];
   style?: Partial<CSSStyleDeclaration>;
 };

@@ -1,7 +1,7 @@
-import { ContentTypeType } from "@components/ModerationPanel/ContentSection/ContentSection";
+import type { ContentTypeType } from "@components/ModerationPanel/ContentSection/ContentSection";
 import HideElement from "@root/helpers/HideElement";
 import { Flex, LabelDeprecated } from "@style-guide";
-import { ContentClassTypes } from "../../Fetcher/Fetcher";
+import type { ContentClassTypes } from "../../Fetcher/Fetcher";
 import type QueueClassType from "../Queue";
 
 export default class ContentType {

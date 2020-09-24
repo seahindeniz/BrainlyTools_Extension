@@ -2,7 +2,7 @@ import HideElement from "@root/helpers/HideElement";
 import { Flex, LabelDeprecated } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type { LabelElementType } from "@style-guide/LabelDeprecated";
-import { ContentClassTypes } from "../../Fetcher/Fetcher";
+import type { ContentClassTypes } from "../../Fetcher/Fetcher";
 import type QueueClassType from "../Queue";
 
 type TargetType = "nick" | "id";

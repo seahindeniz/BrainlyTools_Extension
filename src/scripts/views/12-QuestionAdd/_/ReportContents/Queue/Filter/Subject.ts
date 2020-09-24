@@ -1,6 +1,6 @@
 import HideElement from "@root/helpers/HideElement";
 import { Flex, Icon, Label } from "@style-guide";
-import { ContentClassTypes } from "../../Fetcher/Fetcher";
+import type { ContentClassTypes } from "../../Fetcher/Fetcher";
 import type QueueClassType from "../Queue";
 
 export default class Subject {

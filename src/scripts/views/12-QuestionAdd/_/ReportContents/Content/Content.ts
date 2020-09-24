@@ -339,21 +339,16 @@ export default class Content {
                         marginBottom: "m",
                         grow: true,
                       }),
-                      [
-                        [
-                          Flex({ grow: true }),
-                          Text({
-                            breakWords: true,
-                            size: "small",
-                            html: this.data.content_short,
-                          }),
-                        ],
-                      ],
+                      Text({
+                        breakWords: true,
+                        size: "small",
+                        html: this.data.content_short,
+                      }),
                     ],
                     (this.extraDetailsContainer = Flex({
                       alignItems: "center",
+                      // marginLeft: "xs",
                       marginBottom: "s",
-                      marginTop: "xs",
                     })),
                     [
                       Flex({

@@ -115,7 +115,7 @@ export default class Fetcher {
       ) {
         this.stopFetching = false;
 
-        return;
+        return undefined;
       }
 
       this.isFetching = true;
@@ -182,7 +182,11 @@ export default class Fetcher {
       this.HideQueueSpinner();
 
       this.isFetching = false;
+
+      return Promise.reject(error);
     }
+
+    return Promise.resolve();
   }
 
   RemoveContents() {
@@ -202,11 +206,6 @@ export default class Fetcher {
 
   ShowQueueSpinner() {
     this.main.container.append(this.queueSpinnerContainer);
-
-    this.queueSpinnerContainer.focus();
-
-    // return Promise.reject("block it");
-    return System.Delay(50);
   }
 
   HideQueueSpinner() {

@@ -11,6 +11,7 @@ import type { ContentNameType } from "@components/ModerationPanel/ModeratePanelC
 import notification from "@components/notification2";
 import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
+import InsertAfter from "@root/helpers/InsertAfter";
 import IsVisible from "@root/helpers/IsVisible";
 import { Avatar, Box, Button, Flex, Icon, Spinner, Text } from "@style-guide";
 import type { BoxColorType } from "@style-guide/Box";
@@ -107,6 +108,7 @@ export default class Content {
   moderatorContainer: FlexElementType;
   extraDetailsContainer: FlexElementType;
   quickDeleteButtons: QuickDeleteButton[];
+  quickActionButtonContainer: FlexElementType;
 
   constructor({
     main,
@@ -194,7 +196,9 @@ export default class Content {
       CreateElement({
         tag: "div",
         className: "report-item-wrapper",
-        onMouseenter: this.RenderButtons.bind(this),
+        onMouseEnter: this.ShowActionButtons.bind(this),
+        onTouchStart: this.ShowActionButtons.bind(this),
+        onMouseLeave: this.HideActionButtons.bind(this),
       }),
       [
         [
@@ -377,14 +381,6 @@ export default class Content {
                             ],
                           ],
                         ],
-                        [
-                          (this.quickDeleteButtonContainer = Flex({
-                            grow: true,
-                            alignItems: "center",
-                            justifyContent: "flex-end",
-                            className: "footer-right-side", // TODO remove this className
-                          })),
-                        ],
                       ],
                     ],
                   ],
@@ -434,6 +430,39 @@ export default class Content {
 
   async TryToRenderButtons() {
     if (
+      (!document.documentElement.classList.contains("mobile") &&
+        !this.main.queueContainer.classList.contains(
+          "buttons-visibility-always",
+        )) ||
+      (document.documentElement.classList.contains("mobile") &&
+        this.main.queueContainer.classList.contains(
+          "buttons-visibility-on-hover",
+        ))
+    ) {
+      this.HideActionButtons();
+
+      return;
+    }
+
+    this.RenderButtons();
+    this.ShowActionButtons();
+  }
+
+  ShowActionButtons() {
+    if (IsVisible(this.quickActionButtonContainer)) return;
+
+    if (!this.quickActionButtonContainer) {
+      this.RenderButtons();
+    }
+
+    if (this.quickActionButtonContainer) {
+      InsertAfter(this.quickActionButtonContainer, this.reportDetailContainer);
+    }
+  }
+
+  HideActionButtons() {
+    if (
+      IsVisible(this.buttonSpinner) ||
       this.main.queueContainer.classList.contains(
         "buttons-visibility-always",
       ) ||
@@ -442,15 +471,24 @@ export default class Content {
           "buttons-visibility-on-hover",
         ))
     )
-      this.RenderButtons();
+      return;
+
+    HideElement(this.quickActionButtonContainer);
   }
 
   RenderButtons() {
-    if (this.confirmButtonContainer || this.quickDeleteButtons.length > 0)
-      return;
-
+    this.RenderActionButtonsContainer();
     this.RenderQuickDeleteButtons();
     this.RenderConfirmButton();
+  }
+
+  RenderActionButtonsContainer() {
+    this.quickActionButtonContainer = Flex({
+      grow: true,
+      alignItems: "center",
+      justifyContent: "flex-end",
+      className: "ext-quick-action-buttons",
+    });
   }
 
   RenderQuickDeleteButtons() {
@@ -496,7 +534,7 @@ export default class Content {
 
       const quickDeleteButton = new QuickDeleteButton(this, reason, i + 1);
 
-      this.quickDeleteButtonContainer.append(quickDeleteButton.container);
+      this.quickActionButtonContainer.append(quickDeleteButton.container);
       this.quickDeleteButtons.push(quickDeleteButton);
     });
   }
@@ -531,7 +569,7 @@ export default class Content {
       }),
     });
 
-    this.quickDeleteButtonContainer.append(this.confirmButtonContainer);
+    this.quickActionButtonContainer.append(this.confirmButtonContainer);
   }
 
   RenderButtonSpinner() {
@@ -694,7 +732,7 @@ export default class Content {
       //   success: !!Math.floor(Math.random() * 2),
       //   message: "Failed",
       // };
-      // await System.TestDelay(1, 50);
+      // await System.Delay(5000);
 
       // console.log(resConfirm);
 

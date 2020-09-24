@@ -38,30 +38,11 @@
   padding: 5px 1px;
 }
 
+.queue:not(.buttons-visibility-always),
 .queue.buttons-visibility-on-hover {
-  .report-item-wrapper {
-    &:not(:hover):not(.operating) {
-      .footer > :last-child:not(:only-child) {
-        display: none;
-      }
-    }
-  }
-}
-
-@media (min-width: 1024px) {
-  .queue:not(.buttons-visibility-always) {
-    .report-item-wrapper {
-      &:not(:hover):not(.operating) {
-        .footer > :last-child:not(:only-child) {
-          display: none;
-        }
-      }
-
-      &:hover .footer > :last-child:not(:only-child) {
-        position: absolute;
-        right: 0;
-      }
-    }
+  .ext-quick-action-buttons {
+    position: absolute;
+    right: 0;
   }
 }
 

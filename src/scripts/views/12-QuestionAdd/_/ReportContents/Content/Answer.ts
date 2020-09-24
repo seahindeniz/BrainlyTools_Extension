@@ -51,6 +51,7 @@ export default class Answer extends Content {
     tippy(iconContainer, {
       theme: "light",
       allowHTML: true,
+      placement: "bottom",
       content: Text({
         size: "small",
         weight: "bold",
@@ -113,6 +114,7 @@ export default class Answer extends Content {
     tippy(labelContainer, {
       theme: "light",
       allowHTML: true,
+      placement: "bottom",
       content: Text({
         size: "small",
         weight: "bold",

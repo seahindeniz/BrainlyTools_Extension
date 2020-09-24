@@ -141,15 +141,28 @@ export default class Question extends Content {
   RenderPopularIcon() {
     if (!this.extraData.isPopular) return;
 
-    const popularIconContainer = Flex({
+    const iconContainer = Flex({
+      marginRight: "xs",
       title: System.data.locale.reportedContents.queue.popularQuestion,
       children: new Icon({
         type: "friends",
         color: "blue",
+        size: 30,
       }),
     });
 
-    this.extraDetailsContainer.append(popularIconContainer);
+    tippy(iconContainer, {
+      allowHTML: true,
+      content: Text({
+        children: System.data.locale.reportedContents.queue.popularQuestion,
+        size: "small",
+        weight: "bold",
+      }),
+      placement: "bottom",
+      theme: "light",
+    });
+
+    this.extraDetailsContainer.append(iconContainer);
   }
 
   RenderQuickDeleteButtons() {

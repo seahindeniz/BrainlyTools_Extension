@@ -224,7 +224,7 @@ tbody tr {
 
 #content-old {
   & > div {
-    &:nth-child(2) > div:nth-child(34) > table {
+    &:nth-child(2) > div > table {
       tr > *:nth-child(1) {
         text-align: center;
       }

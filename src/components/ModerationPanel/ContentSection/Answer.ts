@@ -14,6 +14,7 @@ import {
   Textarea,
 } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
+import tippy from "tippy.js";
 import type ModerationPanelClassType from "../ModerationPanel";
 import ContentSection from "./ContentSection";
 import QuickActionButtonsForAnswer from "./QuickActionButtons/Answer";
@@ -21,6 +22,7 @@ import QuickActionButtonsForAnswer from "./QuickActionButtons/Answer";
 export default class Answer extends ContentSection {
   answerData: AnswerDataInTicketType;
   extraData: {
+    id?: string;
     verification?: {
       approval: {
         approver: {
@@ -126,6 +128,47 @@ export default class Answer extends ContentSection {
           size: 20,
         }),
       }),
+    });
+
+    const users = {
+      "%{author}": this.owner.data,
+      "%{verifier}": this.extraData.verification.approval.approver,
+    };
+    const textPieces = System.data.locale.reportedContents.queue.moderatorVerifiedSomeonesAnswer.split(
+      /(%\{.*?})/gi,
+    );
+
+    tippy(this.approvedIconContainer, {
+      content: Text({
+        size: "small",
+        weight: "bold",
+        children: textPieces.map((string: keyof typeof users) => {
+          const user = users[string];
+
+          if (!user) {
+            if (string in users) {
+              return System.data.locale.common.deletedUser;
+            }
+
+            return string;
+          }
+
+          const profileLink = System.createProfileLink(user);
+
+          return Text({
+            children: user.nick,
+            color: "blue-dark",
+            href: profileLink,
+            size: "small",
+            tag: "a",
+            target: "_blank",
+            weight: "bold",
+          });
+        }),
+      }),
+      interactive: true,
+      placement: "bottom",
+      theme: "light",
     });
 
     this.ShowApprovedIcon();

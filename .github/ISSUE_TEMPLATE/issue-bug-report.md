@@ -16,7 +16,6 @@ assignees: seahindeniz
 3. 
 
 **Screenshots [paste below, optional]:**
-<!-- ... -->
 
-<!--
-Profile link [paste below] -->
+
+<!-- Profile link [paste below] -->

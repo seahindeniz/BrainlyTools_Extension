@@ -60,9 +60,12 @@ export default class AnswerSection {
 
   async FindModerationBox() {
     const moderationBoxes = Array.from(
-      await WaitForElement(".js-question-answers > div > .sg-box > .sg-flex", {
-        multiple: true,
-      }),
+      await WaitForElement(
+        ".js-question-answers > div > div > .sg-box > .sg-flex",
+        {
+          multiple: true,
+        },
+      ),
     ) as HTMLDivElement[];
 
     this.moderationBox = moderationBoxes[this.index];
@@ -72,7 +75,7 @@ export default class AnswerSection {
     }
 
     const answerBoxes = document.querySelectorAll(
-      ".js-question-answers > div > .js-answer",
+      ".js-question-answers .js-answer",
     );
 
     this.answerBox = answerBoxes[this.index] as HTMLDivElement;

@@ -40,7 +40,7 @@ export default class QuestionSection {
 
   async FindModerationBox() {
     this.moderationBox = (await WaitForElement(
-      ".js-react-moderation-box > .sg-flex > .sg-box > .sg-flex",
+      ":scope > div > .sg-box > .sg-flex",
       { parent: this.main.questionContainer },
     )) as HTMLDivElement;
   }

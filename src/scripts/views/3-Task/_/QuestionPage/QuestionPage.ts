@@ -39,7 +39,7 @@ export default class QuestionPage {
   }
 
   FindQuestionContainer() {
-    this.questionContainer = document.querySelector(".js-question");
+    this.questionContainer = document.querySelector(".js-main-question");
 
     if (!this.questionContainer)
       throw Error("Can't find the question container");

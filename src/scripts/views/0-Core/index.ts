@@ -228,7 +228,7 @@ class Core {
     endingDate.setDate(5);
     endingDate.setMonth(0);
 
-    if (currentDate >= startingDate && currentDate <= endingDate) return;
+    if (currentDate < startingDate || currentDate > endingDate) return;
 
     await InjectToDOM("/scripts/lib/snowstorm.min.js");
     await WaitForObject("snowStorm", { noError: true });

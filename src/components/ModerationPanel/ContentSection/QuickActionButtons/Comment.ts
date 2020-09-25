@@ -3,6 +3,8 @@ import QuickActionButtons from "./QuickActionButtons";
 import type CommentClassType from "../CommentSection/Comment";
 
 export default class QuickActionButtonsForComment extends QuickActionButtons {
+  main: CommentClassType;
+
   constructor(main: CommentClassType) {
     super(main, "s");
 

@@ -7,7 +7,10 @@ import UnApproveButton from "./ActionButton/UnApproveButton";
 import QuickActionButtons from "./QuickActionButtons";
 
 export default class QuickActionButtonsForAnswer extends QuickActionButtons {
+  main: AnswerClassType;
+
   askForCorrectionButton: AskForCorrectionButton;
+
   constructor(main: AnswerClassType) {
     super(main);
 

@@ -1,5 +1,6 @@
 /* eslint-disable class-methods-use-this, camelcase */
 import Action from "@BrainlyAction";
+import CreateElement from "@components/CreateElement";
 import notification from "@components/notification2";
 import InsertBefore from "@root/helpers/InsertBefore";
 import WaitForElement from "@root/helpers/WaitForElement";
@@ -17,9 +18,6 @@ import RemoveJunkNotifications from "./_/RemoveJunkNotifications";
 import SetBrainlyData from "./_/SetBrainlyData";
 import SetMetaData from "./_/SetMetaData";
 import SetUserData from "./_/SetUserData";
-
-// import renderAnnouncements from "./_/Announcements";
-// import renderChatPanel from "./_/ChatPanel";
 
 window.performanceStartTiming = performance.now();
 
@@ -39,6 +37,58 @@ window.addEventListener("beforeunload", event => {
     event.returnValue = message;
   }
 });
+
+async function RemoveOldLayoutCSSFile() {
+  const oldLinkElement = await WaitForElement<"link">(`[href^="/min/b=css"]`, {
+    // noError: true,
+  });
+  InsertBefore(
+    CreateElement({
+      tag: "link",
+      type: "text/css",
+      rel: "stylesheet",
+      href: `${System.data.meta.extension.URL}/styles/zadane_dynamic.css`,
+    }),
+    oldLinkElement,
+  );
+
+  const newLinkElement = CreateElement({
+    tag: "link",
+    type: "text/css",
+    rel: "stylesheet",
+    href: oldLinkElement.href.replace(
+      /(?:zadane_dynamic|bootstrap)\.css,?/g,
+      "",
+    ),
+  });
+  InsertBefore(newLinkElement, oldLinkElement);
+
+  newLinkElement.addEventListener("load", () => {
+    oldLinkElement.remove();
+  });
+}
+
+async function ReplaceBootstrapStyleLink() {
+  const newLinkElement = CreateElement({
+    tag: "link",
+    type: "text/css",
+    rel: "stylesheet",
+    href: `${System.data.meta.extension.URL}/styles/bootstrap.css`,
+  });
+
+  document.head.prepend(newLinkElement);
+
+  const oldLinkElement = await WaitForElement<"link">(
+    `[href^="/css/bootstrap.css"]`,
+    {
+      noError: true,
+    },
+  );
+
+  newLinkElement.addEventListener("load", () => {
+    oldLinkElement.remove();
+  });
+}
 
 class Core {
   userData: {
@@ -165,25 +215,35 @@ class Core {
   }
 
   async RenderEventCelebrating() {
-    // TODO add date range for actual christmas date range
-    if (new Date() < new Date("2020-01-02")) {
-      await InjectToDOM("/scripts/lib/snowstorm.min.js");
-      await WaitForObject("snowStorm");
-      if (!("snowStorm" in window)) return;
-      // eslint-disable-next-line dot-notation
-      const st = window["snowStorm"];
-      st.snowColor = "#4fb3f6";
-      st.flakesMaxActive = 32;
-      st.excludeMobile = false;
+    const currentDate = new Date();
+    const startingDate = new Date();
+    const endingDate = new Date();
+
+    if (currentDate.getMonth() !== 0) {
+      startingDate.setDate(25);
+      startingDate.setMonth(11);
+      endingDate.setFullYear(endingDate.getFullYear() + 1);
     }
+
+    endingDate.setDate(5);
+    endingDate.setMonth(0);
+
+    if (currentDate >= startingDate && currentDate <= endingDate) return;
+
+    await InjectToDOM("/scripts/lib/snowstorm.min.js");
+    await WaitForObject("snowStorm", { noError: true });
+
+    // eslint-disable-next-line dot-notation
+    const st = window["snowStorm"];
+    st.snowColor = "#4fb3f6";
+    st.flakesMaxActive = 32;
+    st.excludeMobile = false;
   }
 
   LoadComponentsForAllPages() {
     if (!System.checkRoute(1, "question") && !System.checkRoute(2, "add")) {
       InjectToDOM("/scripts/views/0-Core/ModerationPanel.js");
     }
-    // renderAnnouncements();
-    // renderChatPanel();
     RenderMenuButtonFixer();
 
     if (window.sitePassedParams && typeof window.sitePassedParams === "string")
@@ -254,7 +314,7 @@ class Core {
       System.checkRoute(1, "user_profile") ||
       (System.checkRoute(1, "users") && System.checkRoute(2, "view"))
     ) {
-      this.RemoveOldLayoutCSSFile();
+      RemoveOldLayoutCSSFile();
       InjectToDOM([
         "/scripts/views/5-UserProfile/index.js",
         "/styles/pages/UserProfile.css",
@@ -278,7 +338,8 @@ class Core {
     }
 
     if (System.checkRoute(2, "user_content")) {
-      this.RemoveOldLayoutCSSFile();
+      RemoveOldLayoutCSSFile();
+      ReplaceBootstrapStyleLink();
       InjectToDOM([
         "/scripts/views/4-UserContent/index.js",
         "/styles/pages/UserContent.css",
@@ -307,7 +368,7 @@ class Core {
     }
 
     if (System.checkRoute(2, "responses_short")) {
-      this.RemoveOldLayoutCSSFile();
+      RemoveOldLayoutCSSFile();
       InjectToDOM([
         "/scripts/views/13-ShortAnswers/index.js",
         "/styles/pages/ShortAnswers.css",
@@ -323,28 +384,6 @@ class Core {
         //
       }
     }, 600000);
-  }
-
-  async RemoveOldLayoutCSSFile() {
-    const oldLinkElement = await WaitForElement<"link">(
-      `[href^="/min/b=css"]`,
-      {
-        noError: true,
-      },
-    );
-    const newLinkElement = document.createElement("link");
-    newLinkElement.type = "text/css";
-    newLinkElement.rel = "stylesheet";
-    newLinkElement.href = oldLinkElement.href.replace(
-      /(?:zadane_dynamic|bootstrap)\.css,?/g,
-      "",
-    );
-
-    InsertBefore(newLinkElement, oldLinkElement);
-
-    newLinkElement.addEventListener("load", () => {
-      oldLinkElement.remove();
-    });
   }
 }
 

@@ -337,7 +337,7 @@ class Core {
     newLinkElement.type = "text/css";
     newLinkElement.rel = "stylesheet";
     newLinkElement.href = oldLinkElement.href.replace(
-      "zadane_dynamic.css,",
+      /(?:zadane_dynamic|bootstrap)\.css,?/g,
       "",
     );
 

@@ -3,9 +3,10 @@ import type {
   UsersDataInReportedContentsType,
 } from "@BrainlyAction";
 import Action from "@BrainlyAction";
+import { GQL } from "@BrainlyReq";
+import type { ContentNameType } from "@components/ModerationPanel/ModeratePanelController";
 import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
-import type { ContentNameType } from "@components/ModerationPanel/ModeratePanelController";
 import {
   Button,
   Flex,
@@ -22,6 +23,10 @@ import Modal from "../Modal3";
 import notification from "../notification2";
 import Answer from "./ContentSection/Answer";
 import Question from "./ContentSection/Question";
+import {
+  ModeratePanelQuestionExtraDetailsQuery,
+  ModeratePanelQuestionExtraDetailsType,
+} from "./extraDetails.query";
 import LogSection from "./LogSection/LogSection";
 import Switcher from "./Switcher";
 
@@ -390,85 +395,42 @@ export default class ModerationPanel {
 
   async FetchExtraDetails() {
     const questionGlobalId = btoa(`question:${this.data.task.id}`);
-    let query = `
-    q: question(id: "${questionGlobalId}") {
-      id
-      isPopular
-    }
-    `;
 
-    if (this.data.responses.length > 0) {
-      query += this.data.responses
-        .map((answerData, index) => {
-          const answerGlobalId = btoa(`answer:${answerData.id}`);
-
-          return `a${index}: answer(id: "${answerGlobalId}") {
-            ...AnswerFragment
-          }`;
-        })
-        .join("\n");
-    }
-
-    query = `query {
-      ${query}
-    }`;
-
-    if (this.data.responses.length > 0) {
-      query += `
-      fragment AnswerFragment on Answer {
-        id
-        verification {
-          approval {
-            approver {
-              id
-              nick
-            }
-          }
-        }
-      }`;
-    }
-
-    const data = {
-      operationName: "",
-      variables: {},
-      query,
-    };
-
-    const resExtraData: {
-      data: { [x: string]: any };
-    } = await new Action().GQL().POST(data);
-
-    if (!resExtraData?.data) return;
-
-    Object.entries(resExtraData.data).forEach(
-      ([key, extraData]: [string, any]) => {
-        if (!extraData?.id) return;
-
-        const id = System.DecryptId(extraData.id);
-
-        delete extraData.id;
-
-        if (key === "q") {
-          this.questionSection.extraData = extraData;
-
-          this.questionSection.RenderExtraDetails();
-
-          return;
-        }
-
-        const answerSection = this.answerSections.find(_answerSection => {
-          return _answerSection.data.id === id;
-        });
-
-        if (!answerSection) {
-          throw Error(`Can't find answer section of ${id}`);
-        }
-
-        answerSection.extraData = extraData;
-
-        answerSection.RenderExtraDetails();
+    const resExtraData = await GQL<ModeratePanelQuestionExtraDetailsType>(
+      ModeratePanelQuestionExtraDetailsQuery,
+      {
+        id: questionGlobalId,
       },
     );
+
+    if (!resExtraData?.data) {
+      throw Error("Can't fetch extra details");
+    }
+
+    const answers = resExtraData.data.question.answers.nodes;
+
+    delete resExtraData.data.question.answers.nodes;
+
+    this.questionSection.extraData = resExtraData.data.question;
+
+    this.questionSection.RenderExtraDetails();
+
+    answers.forEach(answerData => {
+      const answerId = System.DecryptId(answerData.id);
+      const answerSection = this.answerSections.find(_answerSection => {
+        return _answerSection.data.id === answerId;
+      });
+
+      if (!answerSection) {
+        console.error(`Can't find answer section of ${answerId}`);
+
+        return;
+      }
+
+      answerSection.extraData = answerData;
+
+      answerSection.RenderExtraDetails();
+    });
   }
 
   CloseModerationSomeTimeLater() {

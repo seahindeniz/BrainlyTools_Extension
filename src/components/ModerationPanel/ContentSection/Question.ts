@@ -9,6 +9,9 @@ export default class Question extends ContentSection {
   extraData: {
     id: string;
     isPopular: boolean;
+    answers: {
+      hasVerified: boolean;
+    };
   };
 
   constructor(main: ModerationPanelClassType) {
@@ -79,6 +82,7 @@ export default class Question extends ContentSection {
   }
 
   RenderExtraDetails() {
+    this.quickActionButtons.RenderDeleteButtons();
     this.RenderPopularLabel();
   }
 

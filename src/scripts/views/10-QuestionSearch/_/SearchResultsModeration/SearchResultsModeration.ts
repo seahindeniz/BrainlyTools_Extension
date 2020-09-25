@@ -157,11 +157,11 @@ export default class SearchResultsModerationClassType {
     try {
       const aliasedQueries = GenerateAliasedQuery(idList);
       const query = gql`
-      {
-        ${aliasedQueries.join("\n")}
-      }
-      ${ExtraDetailsQuestionFragment}
-    `;
+        {
+          ${aliasedQueries.join("\n")}
+        }
+        ${ExtraDetailsQuestionFragment}
+      `;
 
       const res = await GQL<ExtraDetailsType>(query);
 

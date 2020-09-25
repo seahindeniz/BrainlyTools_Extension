@@ -147,19 +147,19 @@ class UserContent {
     this.selectAllCheckBox = new Checkbox({ id: null });
     this.selectAllContainer = Flex({
       marginTop: "m",
-      marginBottom: "m",
+      marginBottom: "xxs",
       children: new Label({
         tag: "label",
         children: System.data.locale.common.selectAll,
         icon: this.selectAllCheckBox.element,
-        onChange: this.ToggleCheckboxSelectedState.bind(this),
+        onChange: this.ChangeCheckboxSelection.bind(this),
       }),
     });
 
     this.$moderateHeader.append(this.selectAllContainer);
   }
 
-  ToggleCheckboxSelectedState() {
+  ChangeCheckboxSelection() {
     this.rows.forEach(row => {
       if (row.deleted || row.isBusy) return;
 
@@ -330,8 +330,32 @@ class UserContent {
     if (!this.selectAllContainer) {
       this.RenderSelectLabel();
       this.RenderSelectAllCheckbox();
+      this.RenderToggleAllButton();
       this.RenderRowsSelectCheckbox();
     }
+  }
+
+  RenderToggleAllButton() {
+    const container = Flex({
+      marginBottom: "m",
+      children: new Button({
+        type: "outline",
+        toggle: "blue",
+        size: "xs",
+        children: System.data.locale.common.toggleSelections,
+        onClick: this.ToggleCheckboxSelection.bind(this),
+      }),
+    });
+
+    this.$moderateHeader.append(container);
+  }
+
+  ToggleCheckboxSelection() {
+    this.rows.forEach(row => {
+      if (row.deleted || row.isBusy) return;
+
+      row.checkbox.input.checked = !row.checkbox.input.checked;
+    });
   }
 
   RenderRowsSelectCheckbox() {

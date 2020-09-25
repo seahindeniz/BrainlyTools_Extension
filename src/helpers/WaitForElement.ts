@@ -4,6 +4,7 @@ type CommonPropsType = {
   parent?: HTMLElement | Document;
   atLeast?: number;
   noError?: boolean;
+  expireIn?: number;
 };
 
 function WaitForElement(
@@ -33,11 +34,12 @@ function WaitForElement(
     multiple,
     noError = false,
     parent = document,
+    expireIn,
   }: { multiple?: boolean } & CommonPropsType = {},
 ) {
   return new Promise((resolve, reject) => {
     let elements: Element | NodeListOf<Element>;
-    const expireTime = MakeExpire();
+    const expireTime = MakeExpire(expireIn);
 
     const intervalId = setInterval(() => {
       if (expireTime < Date.now()) {

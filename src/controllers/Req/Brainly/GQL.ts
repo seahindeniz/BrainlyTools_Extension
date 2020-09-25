@@ -12,6 +12,7 @@ export default async function GQL<T>(
     variables,
     query: document.loc.source.body,
   });
+  // https://github.com/prisma-labs/graphql-request/issues/64
   /* const origin = System?.data.meta.location.origin || window.location.origin;
   const marketKey = System.data.Brainly.defaultConfig.MARKET;
   const endpoint = `${origin}/graphql/${marketKey}`;

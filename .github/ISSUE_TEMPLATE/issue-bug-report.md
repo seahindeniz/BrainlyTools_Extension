@@ -7,10 +7,10 @@ assignees: seahindeniz
 
 ---
 
-**Describe the issue/bug :**
+**Describe the issue/bug:**
 ...
 
-**To Reproduce :**
+**To Reproduce:**
 1. 
 2. 
 3. 

@@ -1,6 +1,16 @@
-import Button, { JQueryButtonElementType } from "@components/Button";
+import ButtonDeprecated, { JQueryButtonElementType } from "@components/Button";
 import DeleteSection from "@components/DeleteSection";
-import WaitForElement from "../../../../helpers/WaitForElement";
+import notification from "@components/notification2";
+import WaitForElement from "@root/helpers/WaitForElement";
+import {
+  ActionListHole,
+  Button,
+  Checkbox,
+  Flex,
+  Icon,
+  Label,
+} from "@style-guide";
+import type { FlexElementType } from "@style-guide/Flex";
 import UserContentRow from "./UserContentRow";
 
 class UserContent {
@@ -24,8 +34,6 @@ class UserContent {
   $moderateHeader: JQuery<HTMLElement>;
   $moderateContent: JQuery<HTMLElement>;
   $moderateActions: JQuery<HTMLElement>;
-  $selectAllContainer: JQuery<HTMLElement>;
-  $selectAll: JQuery<HTMLElement>;
   $selectContentWarning: JQuery<HTMLElement>;
   deleteSection: DeleteSection;
   $deleteButton: JQueryButtonElementType;
@@ -35,6 +43,9 @@ class UserContent {
   $reportButtonContainer: JQuery<HTMLElement>;
   $buttonContainer: any;
   $buttonList: JQuery<HTMLElement>;
+
+  selectAllCheckBox: Checkbox;
+  selectAllContainer: FlexElementType;
 
   constructor(caller: string) {
     this.caller = caller;
@@ -133,36 +144,26 @@ class UserContent {
   }
 
   RenderSelectAllCheckbox() {
-    this.$selectAllContainer = $(`
-    <div class="sg-content-box__content sg-content-box__content--spaced-top-large sg-content-box__content--spaced-bottom-large">
-      <div class="sg-label sg-label--secondary">
-        <div class="sg-label__icon">
-          <div class="sg-checkbox">
-            <input type="checkbox" class="sg-checkbox__element" id="selectAll">
-            <label class="sg-checkbox__ghost" for="selectAll">
-              <svg class="sg-icon sg-icon--adaptive sg-icon--x10">
-                <use xlink:href="#icon-check"></use>
-              </svg>
-            </label>
-          </div>
-        </div>
-        <label class="sg-label__text" for="selectAll">${System.data.locale.common.selectAll}</label>
-      </div>
-    </div>`);
+    this.selectAllCheckBox = new Checkbox({ id: null });
+    this.selectAllContainer = Flex({
+      marginTop: "m",
+      marginBottom: "m",
+      children: new Label({
+        tag: "label",
+        children: System.data.locale.common.selectAll,
+        icon: this.selectAllCheckBox.element,
+        onChange: this.ToggleCheckboxSelectedState.bind(this),
+      }),
+    });
 
-    this.$selectAll = $("input", this.$selectAllContainer);
-
-    this.$selectAll.on("change", this.ToggleCheckboxSelectedState.bind(this));
-    this.$selectAllContainer.appendTo(this.$moderateHeader);
+    this.$moderateHeader.append(this.selectAllContainer);
   }
 
   ToggleCheckboxSelectedState() {
     this.rows.forEach(row => {
-      if (!row.checkbox.disabled) {
-        if (!row.checkbox.isBusy) {
-          row.checkbox.checked = this.$selectAll.prop("checked");
-        }
-      }
+      if (row.deleted || row.isBusy) return;
+
+      row.checkbox.input.checked = this.selectAllCheckBox.input.checked;
     });
   }
 
@@ -191,7 +192,7 @@ class UserContent {
   }
 
   RenderDeleteButton() {
-    this.$deleteButton = Button({
+    this.$deleteButton = ButtonDeprecated({
       type: "solid-peach",
       size: "small",
       text: `${System.data.locale.common.delete} !`,
@@ -227,7 +228,7 @@ class UserContent {
 			</div>
 			<div class="sg-content-box__actions"></div>
     </div>`);
-    this.$reportButton = Button({
+    this.$reportButton = ButtonDeprecated({
       type: "solid-blue",
       size: "small",
       text: System.data.locale.userContent.askForCorrection.ask,
@@ -299,8 +300,9 @@ class UserContent {
     return this.rows.filter(
       row =>
         !row.deleted &&
-        row.checkbox.checked &&
-        !row.checkbox.disabled &&
+        row.checkbox.input.checked &&
+        !row.deleted &&
+        !row.isBusy &&
         (checkIsApproved === undefined ||
           (checkIsApproved === false &&
             row.contents.answers[row.answerID].source.approved &&
@@ -325,7 +327,7 @@ class UserContent {
   }
 
   RenderCheckboxes() {
-    if (!this.$selectAllContainer) {
+    if (!this.selectAllContainer) {
       this.RenderSelectLabel();
       this.RenderSelectAllCheckbox();
       this.RenderRowsSelectCheckbox();
@@ -344,6 +346,45 @@ class UserContent {
   ClearActionsTab() {
     this.HideDeleteSection();
     this.HideReportForCorrectionSection();
+  }
+
+  RenderCopyLinksButton() {
+    const copyLinksButtonContainer = ActionListHole({
+      children: new Button({
+        type: "solid-light",
+        children: System.data.locale.userContent.copyQuestionLinks,
+        icon: new Icon({
+          type: "clipboard",
+        }),
+        onClick: this.CopyQuestionLinksOfSelectedRows.bind(this),
+      }),
+    });
+
+    this.$buttonList.append(copyLinksButtonContainer);
+  }
+
+  async CopyQuestionLinksOfSelectedRows() {
+    const links = this.rows
+      .filter(row => row.checkbox.input.checked)
+      .map(row => row.questionLinkAnchor.href);
+
+    if (links.length === 0) {
+      notification({
+        type: "info",
+        text:
+          System.data.locale.userContent.notificationMessages
+            .selectAtLeastOneContent,
+      });
+
+      return;
+    }
+
+    await navigator.clipboard.writeText(links.join("\n"));
+
+    notification({
+      type: "success",
+      text: System.data.locale.common.copied,
+    });
   }
 }
 

@@ -104,7 +104,8 @@
     "profileLinkOrId": "Lien ou identifiant du profil",
     "beta": "Bêta",
     "deletedUser": "Utilisateur supprimé",
-    "toggleSelections": "Basculer la sélection"
+    "toggleSelections": "Basculer la sélection",
+    "copied": "Copié !"
   },
   "popup": {
     "notificationMessages": {
@@ -601,7 +602,6 @@
       "methods": {
         "text": "Méthodes",
         "clickListToCopy": "Cliquez sur la liste pour copier les identifiants dans le presse-papiers",
-        "copied": "Copié !",
         "iCantCopy": "Je ne peux pas copier :(",
         "reportForAbuse": {
           "chooseAReason": "Choisissez une raison",
@@ -703,7 +703,8 @@
       "question": "Question signalée",
       "answer": "Réponse signalée",
       "comment": "Commentaire signalé"
-    }
+    },
+    "copyQuestionLinks": "Copy question links"
   },
   "userProfile": {
     "notificationMessages": {

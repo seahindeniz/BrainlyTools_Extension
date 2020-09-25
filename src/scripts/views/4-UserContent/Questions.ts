@@ -9,12 +9,15 @@ class Questions extends UserContent {
   }
 
   InitQuestions() {
+    this.RenderCheckboxes();
+    this.RenderButtonContainer();
+    this.RenderCopyLinksButton();
+
     if (
       System.checkUserP(14) &&
       System.data.Brainly.userData.user.id !== Number(sitePassedParams[0])
     ) {
       this.RenderDeleteSection("question");
-      this.RenderCheckboxes();
       this.ShowDeleteSection();
       this.BindHandlers();
     }

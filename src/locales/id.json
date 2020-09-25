@@ -104,7 +104,8 @@
     "profileLinkOrId": "Profile link or id",
     "beta": "Beta",
     "deletedUser": "Deleted user",
-    "toggleSelections": "Toggle selections"
+    "toggleSelections": "Toggle selections",
+    "copied": "Disalin!"
   },
   "popup": {
     "notificationMessages": {
@@ -601,7 +602,6 @@
       "methods": {
         "text": "Metode",
         "clickListToCopy": "Klik daftar untuk menyalin id ke clipboard",
-        "copied": "Disalin!",
         "iCantCopy": "Saya tidak bisa menyalin :(",
         "reportForAbuse": {
           "chooseAReason": "Pilih sebuah alasan",
@@ -703,7 +703,8 @@
       "question": "Reported question",
       "answer": "Reported answer",
       "comment": "Reported comment"
-    }
+    },
+    "copyQuestionLinks": "Copy question links"
   },
   "userProfile": {
     "notificationMessages": {

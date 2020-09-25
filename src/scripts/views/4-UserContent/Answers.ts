@@ -36,7 +36,7 @@ async function Row_ReportAnswerForCorrection(
   } else if (row.reported) {
     row.Reported(true);
   } else {
-    row.checkbox.ShowSpinner();
+    row.ShowSpinner();
 
     const resReport = await new Action().ReportForCorrection({
       ...postData,
@@ -54,7 +54,7 @@ async function Row_DeleteAnswer(
   if (row.deleted) {
     row.Deleted(true);
   } else {
-    row.checkbox.ShowSpinner();
+    row.ShowSpinner();
 
     postData.model_id = row.answerID;
     const resRemove = await new Action().RemoveAnswer(postData);
@@ -80,15 +80,15 @@ class Answers extends UserContent {
   }
 
   InitAnswers() {
+    this.RenderCheckboxes();
+    this.RenderButtonContainer();
+
     if (
       System.checkUserP([6, 15, 19]) &&
       Number(System.data.Brainly.userData.user.id) !==
         Number(sitePassedParams[0])
     ) {
       if (System.checkUserP(6) && System.checkBrainlyP([146, 147])) {
-        this.RenderCheckboxes();
-        this.RenderButtonContainer();
-
         if (System.checkBrainlyP(146)) {
           this.RenderApproveButton();
           this.BindApprovementHandlers();
@@ -101,8 +101,6 @@ class Answers extends UserContent {
       }
 
       if (System.checkUserP(19) && System.checkBrainlyP(48)) {
-        this.RenderCheckboxes();
-        this.RenderButtonContainer();
         this.RenderCorrectionButton();
         this.RenderReportForCorrectionSection();
         this.BindCorrectionHandlers();
@@ -110,12 +108,12 @@ class Answers extends UserContent {
 
       if (System.checkUserP(15)) {
         this.RenderDeleteSection("answer");
-        this.RenderCheckboxes();
-        this.RenderButtonContainer();
         this.RenderModerateButton();
         this.BindModerateHandlers();
       }
     }
+
+    this.RenderCopyLinksButton();
   }
 
   RenderButtonHole() {
@@ -155,7 +153,7 @@ class Answers extends UserContent {
     const button = this.RenderButton({
       type: "solid-light",
       toggle: "peach",
-      text: System.data.locale.common.moderating.moderate,
+      text: System.data.locale.common.delete,
     });
     this.$moderateButtonContainer = button.$container;
     this.$moderateButton = button.$button;

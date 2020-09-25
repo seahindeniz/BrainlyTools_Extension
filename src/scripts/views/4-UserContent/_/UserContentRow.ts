@@ -1,15 +1,15 @@
 /* eslint-disable camelcase */
+import Action from "@BrainlyAction";
+import CreateElement from "@components/CreateElement";
+import notification from "@components/notification2";
 import Build from "@root/helpers/Build";
 import IsVisible from "@root/helpers/IsVisible";
-import { Box, Button, Flex, Icon, Text } from "@style-guide";
+import { Box, Button, Checkbox, Flex, Icon, Spinner, Text } from "@style-guide";
 import type { ButtonPropsType } from "@style-guide/Button";
 import type { FlexElementType } from "@style-guide/Flex";
 import type { TextElement } from "@style-guide/Text";
 import moment from "moment-timezone";
-import notification from "@components/notification2";
-import Action from "@BrainlyAction";
 import ContentViewerContent from "./ContentViewer_Content";
-import SelectCheckbox from "./SelectCheckbox";
 import type UserContentClassType from "./UserContent";
 
 export default class UserContentRow {
@@ -31,10 +31,10 @@ export default class UserContentRow {
   comment: any;
   container: FlexElementType;
   questionLinkContainerList: FlexElementType;
-  questionLink: TextElement<"a">;
+  questionLinkAnchor: TextElement<"a">;
   resPromise: any;
   res: any;
-  checkbox: any;
+  checkbox: Checkbox;
   viewer: FlexElementType;
   contentContainer: Box;
   answerID: number;
@@ -43,6 +43,8 @@ export default class UserContentRow {
   reportedContentIcon: Button;
   reported: boolean;
   approved: any;
+  checkboxContainer: HTMLTableDataCellElement;
+  spinner: HTMLDivElement;
 
   constructor(
     main: UserContentClassType,
@@ -91,7 +93,7 @@ export default class UserContentRow {
                 Flex({
                   alignItems: "center",
                 }),
-                (this.questionLink = Text({
+                (this.questionLinkAnchor = Text({
                   tag: "a",
                   size: "small",
                   weight: "bold",
@@ -113,8 +115,8 @@ export default class UserContentRow {
   }
 
   AttachID() {
-    if (this.questionLink instanceof HTMLAnchorElement) {
-      const url = this.questionLink.href;
+    if (this.questionLinkAnchor instanceof HTMLAnchorElement) {
+      const url = this.questionLinkAnchor.href;
       this.element.questionID = System.ExtractId(url);
     }
   }
@@ -152,7 +154,7 @@ export default class UserContentRow {
 
     if (this.main.caller === "Questions" || this.main.caller === "Answers") {
       this.isBusy = false;
-      if (this.checkbox) this.checkbox.HideSpinner();
+      if (this.checkbox) this.HideSpinner();
     }
   }
 
@@ -296,7 +298,7 @@ export default class UserContentRow {
 
     this.RenderIcon({
       type: "solid-mustard",
-      icon: new Icon({ type: "excellent" }),
+      icon: new Icon({ type: "excellent", size: 20 }),
       title: System.data.locale.userContent.bestAnswer,
     });
   }
@@ -342,7 +344,7 @@ export default class UserContentRow {
     if (content.attachments && content.attachments.length > 0) {
       const iconProps: ButtonPropsType = {
         type: "solid-blue",
-        icon: new Icon({ type: "attachment" }),
+        icon: new Icon({ type: "attachment", size: 20 }),
         title: System.data.locale.userContent.hasAttachment.question,
       };
 
@@ -370,7 +372,7 @@ export default class UserContentRow {
 
     const iconProps: ButtonPropsType = {
       type: "solid-peach",
-      icon: new Icon({ type: "report_flag" }),
+      icon: new Icon({ type: "report_flag", size: 20 }),
       title: System.data.locale.userContent.reported.question,
     };
 
@@ -415,16 +417,41 @@ export default class UserContentRow {
   }
 
   RenderCheckbox() {
-    this.checkbox = new SelectCheckbox(this.element, this.id);
+    this.checkboxContainer = CreateElement({
+      tag: "td",
+      children: this.checkbox = new Checkbox({
+        id: null,
+        onChange: this.main.HideSelectContentWarning.bind(this.main),
+      }),
+    });
 
+    this.element.prepend(this.checkboxContainer);
     this.isBusy = true;
-    this.checkbox.ShowSpinner();
     // this.main.checkboxes.elements.push(checkbox);
-    this.checkbox.onchange = this.main.HideSelectContentWarning.bind(this.main);
+
+    this.RenderSpinner();
+    this.ShowSpinner();
+  }
+
+  RenderSpinner() {
+    this.spinner = Spinner({
+      overlay: true,
+      size: "xxsmall",
+    });
+  }
+
+  ShowSpinner() {
+    this.checkbox.element.append(this.spinner);
+  }
+
+  HideSpinner() {
+    this.isBusy = false;
+
+    this.HideElement(this.spinner);
   }
 
   BindHandlers() {
-    this.questionLink.addEventListener(
+    this.questionLinkAnchor.addEventListener(
       "click",
       this.ToggleContentViewer.bind(this),
     );
@@ -454,8 +481,7 @@ export default class UserContentRow {
     this.deleted = true;
     this.isBusy = false;
 
-    this.checkbox.Disable();
-    this.checkbox.HideSpinner();
+    this.HideSpinner();
     this.element.classList.add("removed");
     this.element.classList.remove("already");
 
@@ -466,7 +492,6 @@ export default class UserContentRow {
     this.deleted = false;
     this.isBusy = false;
 
-    this.checkbox.Activate();
     this.element.classList.remove("removed", "already");
   }
 
@@ -527,7 +552,7 @@ export default class UserContentRow {
   CheckDeleteResponse(resRemove) {
     const rowNumber = this.RowNumber();
 
-    this.checkbox.HideSpinner();
+    this.HideSpinner();
 
     if (!resRemove || (!resRemove.success && !resRemove.message)) {
       notification({
@@ -550,7 +575,7 @@ export default class UserContentRow {
   async CheckApproveResponse(resApprove) {
     const rowNumber = this.RowNumber();
 
-    this.checkbox.HideSpinner();
+    this.HideSpinner();
 
     if (!resApprove) {
       notification({
@@ -591,7 +616,7 @@ export default class UserContentRow {
   async CheckUnapproveResponse(resUnapprove) {
     const rowNumber = this.RowNumber();
 
-    this.checkbox.HideSpinner();
+    this.HideSpinner();
 
     if (!resUnapprove) {
       notification({
@@ -624,7 +649,7 @@ export default class UserContentRow {
   CorrectReportResponse(resReport) {
     const rowNumber = this.RowNumber();
 
-    this.checkbox.HideSpinner();
+    this.HideSpinner();
 
     if (!resReport) {
       notification({

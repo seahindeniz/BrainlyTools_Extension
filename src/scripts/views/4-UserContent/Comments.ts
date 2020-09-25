@@ -105,7 +105,7 @@ function AttachCommentToRow(
       if (fetchedText.startsWith(cellText)) {
         row.isBusy = false;
         row.comment = comment;
-        row.checkbox.HideSpinner();
+        row.HideSpinner();
         row.UnDelete();
 
         if (comment.is_marked_abuse) {
@@ -135,8 +135,11 @@ class Comments extends UserContent {
   }
 
   InitComments() {
+    this.RenderCheckboxes();
+    this.RenderButtonContainer();
+    this.RenderCopyLinksButton();
+
     if (System.checkUserP(16)) {
-      this.RenderCheckboxes();
       this.RenderDeleteSection("comment");
       this.ShowDeleteSection();
       this.GetQuestions();
@@ -206,7 +209,7 @@ class Comments extends UserContent {
       model_id: row.comment.id,
     };
 
-    row.checkbox.ShowSpinner();
+    row.ShowSpinner();
 
     const resRemove = await new Action().RemoveComment(postData);
 

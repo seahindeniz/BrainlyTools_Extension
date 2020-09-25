@@ -104,7 +104,8 @@
     "profileLinkOrId": "Profil linki veya id'si",
     "beta": "Beta",
     "deletedUser": "Silinmiş kullanıcı",
-    "toggleSelections": "Seçimleri tersine seç"
+    "toggleSelections": "Seçimleri tersine seç",
+    "copied": "Kopyalandı!"
   },
   "popup": {
     "notificationMessages": {
@@ -601,7 +602,6 @@
       "methods": {
         "text": "Eylemler",
         "clickListToCopy": "Idleri kopyalamak için listeye tıklayabilirsin",
-        "copied": "Kopyalandı!",
         "iCantCopy": ":( kopyalayamadım",
         "reportForAbuse": {
           "chooseAReason": "Bir neden seçin",
@@ -703,7 +703,8 @@
       "question": "Soru şikayet edilmiş",
       "answer": "Cevap şikayet edilmiş",
       "comment": "Yorum şikayet edilmiş"
-    }
+    },
+    "copyQuestionLinks": "Soru linklerini kopyala"
   },
   "userProfile": {
     "notificationMessages": {

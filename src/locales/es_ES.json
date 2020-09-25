@@ -104,7 +104,8 @@
     "profileLinkOrId": "Profile link or id",
     "beta": "Beta",
     "deletedUser": "Deleted user",
-    "toggleSelections": "Toggle selections"
+    "toggleSelections": "Toggle selections",
+    "copied": "Copied!"
   },
   "popup": {
     "notificationMessages": {
@@ -601,7 +602,6 @@
       "methods": {
         "text": "Methods",
         "clickListToCopy": "Click list to copy ids to clipboard",
-        "copied": "Copied!",
         "iCantCopy": "I can't copy :(",
         "reportForAbuse": {
           "chooseAReason": "Choose a reason",
@@ -703,7 +703,8 @@
       "question": "Reported question",
       "answer": "Reported answer",
       "comment": "Reported comment"
-    }
+    },
+    "copyQuestionLinks": "Copy question links"
   },
   "userProfile": {
     "notificationMessages": {

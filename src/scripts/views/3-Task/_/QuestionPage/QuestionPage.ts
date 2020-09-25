@@ -26,15 +26,21 @@ export default class QuestionPage {
       if (this.data.is_deleted) return;
 
       this.RenderActionButtonSpinner();
+      this.ObserveForSections();
 
-      if (System.checkUserP(1))
-        this.questionSection = new QuestionSection(this);
-
-      if (System.checkUserP(2)) {
-        this.RenderAnswerSections();
-      }
+      this.InitSections();
     } catch (error) {
       console.error(error);
+    }
+  }
+
+  InitSections() {
+    if (System.checkUserP(1)) {
+      this.questionSection = new QuestionSection(this);
+    }
+
+    if (System.checkUserP(2)) {
+      this.RenderAnswerSections();
     }
   }
 
@@ -70,6 +76,35 @@ export default class QuestionPage {
 
   HideActionButtonSpinner() {
     HideElement(this.actionButtonSpinner);
+  }
+
+  ObserveForSections() {
+    const mainContent = document.getElementById("main-content");
+
+    if (!mainContent) {
+      throw Error("Can't find main-content container");
+    }
+
+    const observer = new MutationObserver(mutations => {
+      mutations.forEach(mutation => {
+        if (
+          mutation.addedNodes.length === 0 ||
+          !(mutation.target instanceof HTMLElement)
+        )
+          return;
+
+        if (mutation.target.classList.contains("js-main-question"))
+          this.questionSection.Init();
+
+        if (mutation.target.classList.contains("js-react-answers"))
+          this.answerSections.forEach(answerSection => answerSection.Init());
+      });
+    });
+
+    observer.observe(mainContent, {
+      childList: true,
+      subtree: true,
+    });
   }
 
   RenderAnswerSections() {

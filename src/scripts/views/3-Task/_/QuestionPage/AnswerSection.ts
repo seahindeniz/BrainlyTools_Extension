@@ -16,6 +16,7 @@ export default class AnswerSection {
   data: AnswerDataType;
   index: number;
 
+  searchingForModerationBox: boolean;
   moderationBox: HTMLDivElement;
   answerBox: HTMLDivElement;
   quickActionButtonContainer: FlexElementType;
@@ -52,37 +53,50 @@ export default class AnswerSection {
   }
 
   async Init() {
+    if (this.searchingForModerationBox) return;
+
     await this.FindModerationBox();
+
+    if (!this.moderationBox) return;
+
     this.RenderQuickActionButtons();
     this.RenderConfirmButton();
     this.FetchAndRenderUsersRank();
   }
 
   async FindModerationBox() {
-    const moderationBoxes = Array.from(
-      await WaitForElement(
-        ".js-question-answers > div > div > .sg-box > .sg-flex",
-        {
-          multiple: true,
-        },
-      ),
-    ) as HTMLDivElement[];
+    this.searchingForModerationBox = true;
 
-    this.moderationBox = moderationBoxes[this.index];
+    try {
+      const moderationBoxes = Array.from(
+        await WaitForElement(
+          ".js-question-answers > div > div > .sg-box > .sg-flex",
+          {
+            multiple: true,
+          },
+        ),
+      ) as HTMLDivElement[];
 
-    if (!this.moderationBox) {
-      throw Error("Cannot find answer moderation box");
+      this.moderationBox = moderationBoxes[this.index];
+
+      if (!this.moderationBox) {
+        throw Error("Cannot find answer moderation box");
+      }
+
+      const answerBoxes = document.querySelectorAll(
+        ".js-question-answers .js-answer",
+      );
+
+      this.answerBox = answerBoxes[this.index] as HTMLDivElement;
+
+      if (!this.answerBox) {
+        throw Error("Cannot find answer box");
+      }
+    } catch (error) {
+      console.error(error);
     }
 
-    const answerBoxes = document.querySelectorAll(
-      ".js-question-answers .js-answer",
-    );
-
-    this.answerBox = answerBoxes[this.index] as HTMLDivElement;
-
-    if (!this.answerBox) {
-      throw Error("Cannot find answer box");
-    }
+    this.searchingForModerationBox = false;
   }
 
   RenderQuickActionButtons() {
@@ -253,9 +267,12 @@ export default class AnswerSection {
   }
 
   async FetchAndRenderUsersRank() {
-    const rankContainer: HTMLDivElement = this.answerBox.querySelector(
-      ".brn-qpage-next-answer-box-author__description ul.brn-horizontal-list" +
+    const rankContainer = await WaitForElement<"div">(
+      ".brn-qpage-next-answer-box-author__description ul.brn-horizontal-list " +
         "> li.brn-horizontal-list__item:nth-child(1) > div",
+      {
+        parent: this.answerBox,
+      },
     );
 
     if (!rankContainer) throw Error("Can't find rank container");

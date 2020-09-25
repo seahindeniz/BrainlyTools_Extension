@@ -13,6 +13,7 @@ import QuickDeleteButton from "./QuickDeleteButton";
 export default class QuestionSection {
   main: QuestionPageClassType;
 
+  searchingForModerationBox: boolean;
   moderationBox: HTMLDivElement;
   quickActionButtonContainer: FlexElementType;
   actionButtons: Button[];
@@ -33,16 +34,29 @@ export default class QuestionSection {
   }
 
   async Init() {
+    if (this.searchingForModerationBox) return;
+
     await this.FindModerationBox();
+
+    if (!this.moderationBox) return;
+
     this.RenderQuickActionButtons();
     this.RenderConfirmButton();
   }
 
   async FindModerationBox() {
-    this.moderationBox = (await WaitForElement(
-      ":scope > div > .sg-box > .sg-flex",
-      { parent: this.main.questionContainer },
-    )) as HTMLDivElement;
+    this.searchingForModerationBox = true;
+
+    try {
+      this.moderationBox = (await WaitForElement(
+        ":scope > div > .sg-box > .sg-flex",
+        { parent: this.main.questionContainer },
+      )) as HTMLDivElement;
+    } catch (error) {
+      console.error(error);
+    }
+
+    this.searchingForModerationBox = false;
   }
 
   RenderQuickActionButtons() {

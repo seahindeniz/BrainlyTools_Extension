@@ -1,9 +1,8 @@
-/**
- * @param {Element | HTMLElement} newNode
- * @param {Element | HTMLElement} referenceNode
- */
-export default function InsertBefore(newNode, referenceNode) {
-  referenceNode.parentNode.insertBefore(newNode, referenceNode);
+export default function InsertBefore(
+  newNode: Element | HTMLElement,
+  referenceNode: Element | HTMLElement,
+) {
+  referenceNode.parentNode?.insertBefore(newNode, referenceNode);
 
   return newNode;
 }

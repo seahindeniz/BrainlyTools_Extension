@@ -350,7 +350,7 @@ class _System {
         ],
         style_guide: {
           icons:
-            "https://styleguide.brainly.com/images/icons-a83c8be492.js" +
+            "https://styleguide.brainly.com/images/icons-015757d3f5.js" +
             "?treat=.ext_js",
         },
         githubHighlight:

@@ -326,9 +326,12 @@ class Core {
   }
 
   async RemoveOldLayoutCSSFile() {
-    const oldLinkElement = (await WaitForElement(`[href^="/min/b=css"]`, {
-      noError: true,
-    })) as HTMLLinkElement;
+    const oldLinkElement = await WaitForElement<"link">(
+      `[href^="/min/b=css"]`,
+      {
+        noError: true,
+      },
+    );
     const newLinkElement = document.createElement("link");
     newLinkElement.type = "text/css";
     newLinkElement.rel = "stylesheet";

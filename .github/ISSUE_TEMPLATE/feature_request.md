@@ -16,6 +16,5 @@ assignees: seahindeniz
 **Describe expected outcome from your solution**
 ...
 
-<!--
-Profile link [paste below] -->
+<!-- Profile link [paste below] -->
 

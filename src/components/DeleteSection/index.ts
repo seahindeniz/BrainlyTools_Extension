@@ -483,7 +483,7 @@ class DeleteSection {
   get returnPoints() {
     if (!this.$returnPoints.is(":visible")) return false;
 
-    return this.$returnPoints.is(":checked");
+    return !this.$returnPoints.is(":checked");
   }
 
   get giveWarning() {

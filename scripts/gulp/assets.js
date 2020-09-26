@@ -3,7 +3,7 @@ import { src, dest } from "gulp";
 export default () => {
   let assets = [
     {
-      src: "./src/icons/**/*",
+      src: ["./src/icons/**/*", "!./src/icons/**/*.psd"],
       dest: `/icons`,
     },
     {

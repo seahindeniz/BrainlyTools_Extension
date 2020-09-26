@@ -8,3 +8,9 @@
     cursor: auto;
   }
 }
+.sg-checkbox,
+.sg-radio {
+  &__element {
+    left: 0;
+  }
+}

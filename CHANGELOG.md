@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.5.0] - 2020.09.26
+
+### Added
+
+- Toggle Option in User content Selective deletion [#133]
+- A way to copy links of multiple questions on the "View User Content" page.
+  #[161]
+- A 'Jump to Log' button beside questions. [#232]
+
+### Changed
+
+- Quick Delete Buttons don't appear when question links are visited by using the
+  CTRL + left click shortcut, or when in the background. (sometimes) [#201]
+- Rank kutucukları [#231]
+- Extension Connection Error [#235]
+- Quick delete buttons aren't appearing over questions. (When question links are
+  visited) [#239]
+- Don't give points back button is not working on the questions screen [#240]
+- Quick delete buttons are visible on question with verified answer in the
+  moderate panel [#241]
+
+[#133]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/133
+[#161]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/161
+[#201]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/201
+[#231]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/231
+[#232]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/232
+[#235]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/235
+[#239]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/239
+[#240]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/240
+[#241]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/241
+
 ## [7.4.0] - 2020.09.20
 
 ### Added

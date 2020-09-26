@@ -62,7 +62,7 @@ class Questions extends UserContent {
         model_id: row.element.questionID,
       };
 
-      row.checkbox.ShowSpinner();
+      row.ShowSpinner();
 
       const resRemove = await new Action().RemoveQuestion(postData);
 

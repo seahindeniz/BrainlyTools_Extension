@@ -14,6 +14,7 @@ import messagesLayoutExtender from "../../../helpers/messagesLayoutExtender";
 import WaitForObject from "../../../helpers/WaitForObject";
 import fetchFriends from "./_/fetchFriends";
 import RenderMenuButtonFixer from "./_/MenuButtonFixer";
+import RemoveJunkElements from "./_/RemoveJunkElements";
 import RemoveJunkNotifications from "./_/RemoveJunkNotifications";
 import SetBrainlyData from "./_/SetBrainlyData";
 import SetMetaData from "./_/SetMetaData";
@@ -105,6 +106,7 @@ class Core {
   async Pipeline() {
     try {
       RemoveJunkNotifications();
+      RemoveJunkElements();
 
       await SetMetaData();
 
@@ -116,6 +118,7 @@ class Core {
       await this.SetMarketConfig();
 
       RemoveJunkNotifications();
+      RemoveJunkElements();
 
       await this.PrepareLanguageData();
 

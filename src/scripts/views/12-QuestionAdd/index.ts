@@ -5,10 +5,7 @@ import ReportedContents from "./_/ReportContents/ReportedContents";
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const reportedContents = new ReportedContents();
     const header = document.querySelector(".js-main-header");
-    const fixedBanner = document.querySelector(".js-web-to-app-banner");
     const subNav = document.querySelector(".header-subnav");
-
-    if (fixedBanner) fixedBanner.remove();
 
     if (subNav) subNav.remove();
 

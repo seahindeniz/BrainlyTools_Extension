@@ -1,14 +1,20 @@
+type DragEventHandler = (event: DragEvent) => void;
 type EventHandler = (event: Event) => void;
+type KeyboardEventHandler = (event: KeyboardEvent) => void;
 type MouseEventHandler = (event: MouseEvent) => void;
+type PasteEventHandler = (event: ClipboardEvent) => void;
 
 export type CommonComponentPropsType = {
   dataset?: DOMStringMap;
   onChange?: EventHandler | EventHandler[];
   onClick?: MouseEventHandler | MouseEventHandler[];
+  onDrop?: DragEventHandler | DragEventHandler[];
+  onInput?: EventHandler | EventHandler[];
+  onKeyDown?: KeyboardEventHandler | KeyboardEventHandler[];
   onMouseEnter?: MouseEventHandler | MouseEventHandler[];
   onMouseLeave?: MouseEventHandler | MouseEventHandler[];
+  onPaste?: PasteEventHandler | PasteEventHandler[];
   onTouchStart?: TouchEvent | TouchEvent[];
-  onInput?: EventHandler | EventHandler[];
   style?: Partial<CSSStyleDeclaration>;
 };
 

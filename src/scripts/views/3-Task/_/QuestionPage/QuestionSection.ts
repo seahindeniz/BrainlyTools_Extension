@@ -177,6 +177,10 @@ export default class QuestionSection {
         return_points: !giveWarning,
       };
 
+      // console.log(taskData);
+      // const res = { success: true, message: "Failed" };
+      // await System.TestDelay();
+
       const res = await new Action().RemoveQuestion(taskData);
 
       new Action().CloseModerationTicket(this.main.data.id);

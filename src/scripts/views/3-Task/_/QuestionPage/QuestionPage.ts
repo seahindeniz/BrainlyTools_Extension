@@ -51,10 +51,10 @@ export default class QuestionPage {
       throw Error("Can't find the question container");
 
     this.questionBox = this.questionContainer.querySelector(
-      ".js-react-question-box > .brn-qpage-next-question-box",
+      ".js-react-question-box > div > .brn-qpage-next-question-box",
     );
 
-    if (!this.questionContainer) {
+    if (!this.questionBox) {
       throw Error("Can't find the question box");
     }
   }

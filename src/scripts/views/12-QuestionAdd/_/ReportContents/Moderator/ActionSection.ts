@@ -41,11 +41,11 @@ export default class ActionSection {
 
   HighlightActionButton() {
     if (this.main.selectedActionSection) {
-      if (this.main.selectedActionSection === this) {
+      /* if (this.main.selectedActionSection === this) {
         this.Hide();
 
         return undefined;
-      }
+      } */
 
       this.main.selectedActionSection.Hide();
     }
@@ -59,6 +59,7 @@ export default class ActionSection {
 
   Hide() {
     this.NormalizeActionButton();
+    this.main.HideStopButtonContainer();
     this.main.tippy.popperInstance?.update();
   }
 
@@ -75,8 +76,8 @@ export default class ActionSection {
   async Moderating() {
     this.moderating = true;
 
+    // await this.HighlightActionButton();
     this.main.ShowStopButton();
-    await this.HighlightActionButton();
     this.main.main.fetcher.ShowFilterSpinner();
     this.main.DisableButtons();
     this.main.main.statusBar.ShowCountOfModeration();

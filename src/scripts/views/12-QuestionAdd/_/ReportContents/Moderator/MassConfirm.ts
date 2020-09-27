@@ -20,6 +20,10 @@ export default class MassConfirmSection extends ActionSection {
   async ActionButtonClicked() {
     if (this.moderating) return;
 
+    this.main.selectedActionSection?.Hide();
+    this.main.HideStopButtonContainer();
+    await System.Delay(50);
+
     this.contents = this.main.main.contents.filtered.filter(
       content =>
         content.has !== "reserved" &&
@@ -53,6 +57,7 @@ export default class MassConfirmSection extends ActionSection {
   }
 
   async StartConfirming() {
+    await this.HighlightActionButton();
     await this.Moderating();
     this.TryToConfirm();
 

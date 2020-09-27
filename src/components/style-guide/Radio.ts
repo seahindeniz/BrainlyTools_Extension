@@ -3,6 +3,7 @@ import classnames from "classnames";
 import generateRandomString from "@root/helpers/generateRandomString";
 import type { LabelPropsType } from "./LabelDeprecated";
 import Label from "./LabelDeprecated";
+import { CommonComponentPropsType } from "./helpers/SetProps";
 
 type RadioSizeType = "xxs" | "s";
 
@@ -13,11 +14,11 @@ type RadioPropsType = {
   className?: string;
   id?: string;
   label?: LabelPropsType;
-};
+} & CommonComponentPropsType;
 
 const SG = "sg-radio";
 const SGD = `${SG}--`;
-const event = new Event("change");
+// const event = new Event("change");
 
 export default class Radio {
   element: HTMLDivElement | HTMLLabelElement;
@@ -49,7 +50,10 @@ export default class Radio {
       tag: "input",
       type: "radio",
       className: `${SG}__element`,
+      onChange: props.onChange,
     });
+
+    delete props.onChange;
 
     this.ghost = CreateElement({
       htmlFor: id,
@@ -74,13 +78,13 @@ export default class Radio {
   }
 
   get checked() {
-    return this.#checked;
+    return this.input.checked;
   }
 
   set checked(state) {
     this.#checked = state;
     this.input.checked = state;
 
-    this.input.dispatchEvent(event);
+    // this.input.dispatchEvent(event);
   }
 }

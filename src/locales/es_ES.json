@@ -961,7 +961,8 @@
           "Comment": "Choose a reason for comments"
         },
         "noContentToDelete": "There is no content that's available for deletion",
-        "confirmDeletion": "Do you really want to delete %{n} reported contents?"
+        "confirmDeletion": "Do you really want to delete %{n} reported contents?",
+        "warnAboutConfirmedContents": "Warning!\n%{N_of_confirmed} of the %{N_of_filtered} contents you want to delete have already been confirmed.\nDo you want those contents to be deleted as well?"
       },
       "status": {
         "fetched": "%{count} fetched",

@@ -961,7 +961,8 @@
           "Comment": "Choisis une raison de suppression pour les commentaires"
         },
         "noContentToDelete": "Il n'y a plus de contenu disponible à supprimer",
-        "confirmDeletion": "Veux-tu vraiment supprimer %{n} contenus signalés ?"
+        "confirmDeletion": "Veux-tu vraiment supprimer %{n} contenus signalés ?",
+        "warnAboutConfirmedContents": "Warning!\n%{N_of_confirmed} of the %{N_of_filtered} contents you want to delete have already been confirmed.\nDo you want those contents to be deleted as well?"
       },
       "status": {
         "fetched": "%{count} récupérés",

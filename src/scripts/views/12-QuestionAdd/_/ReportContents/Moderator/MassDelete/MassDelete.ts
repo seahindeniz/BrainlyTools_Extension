@@ -96,6 +96,7 @@ export default class MassDeleteSection extends ActionSection {
 
   Hide() {
     HideElement(this.#container);
+    this.HideDeleteButton();
     super.Hide();
   }
 
@@ -189,12 +190,30 @@ export default class MassDeleteSection extends ActionSection {
     )
       return;
 
+    const nonConfirmedContents = this.contents.filter(
+      content => content.has !== "confirmed",
+    );
+
+    const confirmedContentsLength =
+      this.contents.length - nonConfirmedContents.length;
+
+    if (
+      confirmedContentsLength > 0 &&
+      !confirm(
+        System.data.locale.reportedContents.massModerate.delete.warnAboutConfirmedContents
+          .replace(/%\{N_of_confirmed}/gi, String(confirmedContentsLength))
+          .replace(/%\{N_of_filtered}/gi, String(this.contents.length)),
+      )
+    ) {
+      this.contents = nonConfirmedContents;
+    }
+
     await this.Moderating();
 
-    this.TryToDelete();
+    this.TryToDeleteContents();
 
     this.loopTryToModerate = window.setInterval(
-      this.TryToDelete.bind(this),
+      this.TryToDeleteContents.bind(this),
       1000,
       // 360,
     );
@@ -202,11 +221,14 @@ export default class MassDeleteSection extends ActionSection {
 
   Moderating() {
     this.HideDeleteButton();
+    this.deleteSection.all.forEach(deleteSection => {
+      deleteSection.deleteSection.Disable();
+    });
 
     return super.Moderating();
   }
 
-  TryToDelete() {
+  TryToDeleteContents() {
     const contents = this.contents.splice(0, 7);
 
     if (contents.length === 0) {
@@ -232,7 +254,11 @@ export default class MassDeleteSection extends ActionSection {
   }
 
   StopModerating() {
-    this.TryToShowDeleteButton();
+    this.deleteSection.all.forEach(deleteSection => {
+      deleteSection.deleteSection.Enable();
+    });
     super.StopModerating();
+    this.TryToShowDeleteButton();
+    this.HighlightActionButton();
   }
 }

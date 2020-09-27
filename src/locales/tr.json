@@ -961,7 +961,8 @@
           "Comment": "Yorumlar için silim nedeni"
         },
         "noContentToDelete": "Silinebilir içerik kalmadı",
-        "confirmDeletion": "Şikayet edilen %{n} içeriği gerçekten silmek istiyor musun?"
+        "confirmDeletion": "Şikayet edilen %{n} içeriği gerçekten silmek istiyor musun?",
+        "warnAboutConfirmedContents": "Uyarı!\nSilinmesini istediğin %{N_of_filtered} içerikten %{N_of_confirmed} tanesi, daha önce onaylanmış.\nOnların da silinmesini istiyor musun?"
       },
       "status": {
         "fetched": "%{count} yüklendi",

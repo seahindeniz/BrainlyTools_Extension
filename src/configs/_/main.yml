@@ -5,7 +5,7 @@ common:
       name: English
       author: null
     fr:
-      progress: 99
+      progress: 98
       name: Français
       author: 'MichaelS, Its1tom'
     id:

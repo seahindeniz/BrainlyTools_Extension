@@ -23,6 +23,7 @@ export default class OptionChild {
   Render() {
     this.checkboxContainer = new Checkbox({
       id: null,
+      onClick: this.Clicked.bind(this),
     });
     this.container = Flex({
       children: LabelDeprecated({
@@ -34,5 +35,11 @@ export default class OptionChild {
     });
 
     this.checkbox = this.checkboxContainer.input;
+  }
+
+  private Clicked(event: MouseEvent) {
+    if (!this.main.main.disabled) return;
+
+    event.preventDefault();
   }
 }

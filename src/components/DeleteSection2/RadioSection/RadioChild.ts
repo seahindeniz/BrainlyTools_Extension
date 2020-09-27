@@ -20,10 +20,9 @@ export default class RadioChild {
     this.data = data;
 
     this.Render();
-    this.BindListener();
   }
 
-  Render() {
+  private Render() {
     this.container = Flex({
       children: this.radio = new Radio({
         name: this.name,
@@ -31,25 +30,29 @@ export default class RadioChild {
         label: {
           text: this.data.text,
         },
+        onClick: this.Clicked.bind(this),
+        onChange: this.Selected.bind(this),
       }),
     });
   }
 
-  BindListener() {
-    this.radio.input.addEventListener("click", this.Clicked.bind(this));
+  private Clicked(event: MouseEvent) {
+    if (!this.main.main.disabled) return;
+
+    event.preventDefault();
   }
 
-  Clicked() {
-    this.radio.checked = !this.radio.checked;
-
+  private Selected() {
     if (!this.radio.checked) {
       this.main.selectedRadio = null;
 
       this.main.Deselected();
-    } else {
-      this.main.selectedRadio = this;
 
-      this.main.Selected();
+      return;
     }
+
+    this.main.selectedRadio = this;
+
+    this.main.Selected();
   }
 }

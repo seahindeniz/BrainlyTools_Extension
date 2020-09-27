@@ -44,6 +44,7 @@ export default class DeleteSection {
   buttonContainer?: FlexElementType;
   #actionButton: ChildrenParamType;
   deleteButton: Button;
+  disabled: boolean;
 
   constructor({
     defaults = {},
@@ -136,7 +137,16 @@ export default class DeleteSection {
     this.textarea = Textarea({
       tag: "textarea",
       fullWidth: true,
+      onKeyDown: this.KeyPressed.bind(this),
+      onPaste: this.KeyPressed.bind(this),
+      onDrop: this.KeyPressed.bind(this),
     });
+  }
+
+  private KeyPressed(event: KeyboardEvent) {
+    if (!this.disabled) return;
+
+    event.preventDefault();
   }
 
   ShowTextarea() {
@@ -232,5 +242,25 @@ export default class DeleteSection {
     }
 
     return data;
+  }
+
+  Disable() {
+    this.disabled = true;
+
+    if (this.textarea) {
+      this.textarea.disabled = true;
+    }
+
+    this.deleteButton?.Disable();
+  }
+
+  Enable() {
+    this.disabled = false;
+
+    if (this.textarea) {
+      this.textarea.disabled = false;
+    }
+
+    this.deleteButton?.Enable();
   }
 }

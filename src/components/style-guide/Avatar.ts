@@ -1,9 +1,8 @@
-/* eslint-disable no-underscore-dangle */
 import classnames from "classnames";
 import isValidPath from "is-valid-path";
 import { isUri } from "valid-url";
 import CreateElement from "@components/CreateElement";
-import Icon from "./Icon";
+import Icon, { IconSizeType } from "./Icon";
 
 type Size = "xs" | "s" | "m" | "l" | "xl" | "xxl";
 
@@ -28,38 +27,11 @@ type AvatarElement = CustomPropertiesType & (HTMLDivElement | HTMLImageElement);
 
 const SG = "sg-avatar";
 const SGD = `${SG}--`;
-const SG_ = `${SG}__`;
+const SGL = `${SG}__`;
 
-/**
- * @type {{
- *  xs: 22;
- *  s: 30;
- *  m: 38;
- *  l: 54;
- *  xl: 78;
- *  xxl: 102;
- * }}
- */
-const ICON_SIZE_FOR_AVATARS_WITH_BORDER = {
-  xs: 22,
-  s: 30,
-  m: 38,
-  l: 54,
-  xl: 78,
-  xxl: 102,
-};
-
-/**
- * @type {{
- *  xs: 24;
- *  s: 32;
- *  m: 40;
- *  l: 56;
- *  xl: 80;
- *  xxl: 104;
- * }}
- */
-const ICON_SIZE = {
+const ICON_SIZE: {
+  [x in Size]: IconSizeType;
+} = {
   xs: 24,
   s: 32,
   m: 40,
@@ -68,17 +40,13 @@ const ICON_SIZE = {
   xxl: 104,
 };
 
-/**
- * @param {Size} size
- * @param {boolean} border
- */
-function GenerateAvatarElement(size, border) {
+function GenerateAvatarElement(size: Size) {
   const avatar = document.createElement("div");
-  avatar.className = `${SG_}image ${SG_}image--icon`;
+  avatar.className = `${SGL}image ${SGL}image--icon`;
   const icon = new Icon({
     type: "profile",
     color: "gray-light",
-    size: border ? ICON_SIZE_FOR_AVATARS_WITH_BORDER[size] : ICON_SIZE[size],
+    size: ICON_SIZE[size],
   });
 
   avatar.append(icon.element);
@@ -90,11 +58,11 @@ function GenerateAvatarElement(size, border) {
  * @this {AvatarElement}
  */
 function ReplaceIcon() {
-  const oldAvatarImage = this.querySelector(`.${SG_}image`);
+  const oldAvatarImage = this.querySelector(`.${SGL}image`);
 
   if (oldAvatarImage) oldAvatarImage.remove();
 
-  const avatar = GenerateAvatarElement(this.size, this.border);
+  const avatar = GenerateAvatarElement(this.size);
 
   if (!this.firstElementChild) this.append(avatar);
   else this.firstElementChild.append(avatar);
@@ -152,14 +120,14 @@ export default ({
   ) {
     avatar = CreateElement({
       tag: "img",
-      className: `${SG_}image`,
+      className: `${SGL}image`,
       src: imgSrc,
       title,
       alt: title,
       onError: ReplaceIcon.bind(container),
     });
   } else {
-    avatar = GenerateAvatarElement(size, border);
+    avatar = GenerateAvatarElement(size);
   }
 
   if (linkElement) linkElement.append(avatar);

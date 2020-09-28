@@ -162,7 +162,7 @@ export default class ActionEntry {
               title: System.data.locale.moderatorActionHistory.disapprove,
               icon: new Icon({
                 type: "close",
-                size: 30,
+                size: 32,
                 color: "peach",
               }),
             })),
@@ -527,7 +527,7 @@ export default class ActionEntry {
                       alignItems: "center",
                     }),
                     new Icon({
-                      size: 14,
+                      size: 16,
                       reverse: true,
                       type: "reload",
                       color: "gray-secondary",

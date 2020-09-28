@@ -98,7 +98,7 @@ export default class User {
                       Flex({ alignItems: "center" }),
                       [
                         new Icon({
-                          size: 18,
+                          size: 16,
                           type: "points",
                           color: "dark",
                         }),
@@ -130,7 +130,7 @@ export default class User {
                       Flex({ alignItems: "center", marginRight: "xs" }),
                       [
                         new Icon({
-                          size: 20,
+                          size: 16,
                           type: "points",
                           color: "dark",
                         }),

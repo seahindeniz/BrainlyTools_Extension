@@ -214,7 +214,7 @@ class RankManager {
                     icon: new Icon({
                       type: "menu",
                       color: "blue",
-                      size: 14,
+                      size: 16,
                     }),
                   }),
                 ],

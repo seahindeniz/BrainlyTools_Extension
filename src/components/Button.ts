@@ -258,7 +258,7 @@ export default function JqueryButton({
 
   if (icon) {
     const iconObj = new Icon({
-      size: size === "xsmall" ? 22 : 24,
+      size: 24,
       color: "adaptive",
       ...icon,
     });

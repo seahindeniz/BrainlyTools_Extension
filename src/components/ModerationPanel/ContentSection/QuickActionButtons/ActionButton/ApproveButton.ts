@@ -11,7 +11,7 @@ export default class ApproveButton extends ActionButton {
         iconOnly: true,
         title: System.data.locale.common.moderating.approve,
         icon: new Icon({
-          size: 48,
+          size: 40,
           color: "mint",
           type: "verified",
         }),

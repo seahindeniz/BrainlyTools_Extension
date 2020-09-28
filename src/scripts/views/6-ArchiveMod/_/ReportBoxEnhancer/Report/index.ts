@@ -273,7 +273,7 @@ export default class Report {
             title: System.data.locale.common.confirm,
             icon: new Icon({
               type: "check",
-              size: 22,
+              size: 24,
             }),
             onClick: this.Confirm.bind(this),
           })),

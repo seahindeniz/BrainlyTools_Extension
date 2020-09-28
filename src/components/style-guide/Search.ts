@@ -60,7 +60,7 @@ export default ({
     iconContainer = document.createElement("button");
     const icon = new Icon({
       type: "search",
-      size: size === "l" ? 24 : 18,
+      size: size === "l" ? 24 : 16,
       color: "gray-secondary",
     });
 

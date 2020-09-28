@@ -44,7 +44,7 @@ export default class Answer extends Content {
       children: new Icon({
         type: "excellent",
         color: "mustard",
-        size: 30,
+        size: 32,
       }),
     });
 

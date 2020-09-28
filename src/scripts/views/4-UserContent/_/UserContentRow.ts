@@ -298,7 +298,7 @@ export default class UserContentRow {
 
     this.RenderIcon({
       type: "solid-mustard",
-      icon: new Icon({ type: "excellent", size: 20 }),
+      icon: new Icon({ type: "excellent", size: 16 }),
       title: System.data.locale.userContent.bestAnswer,
     });
   }
@@ -344,7 +344,7 @@ export default class UserContentRow {
     if (content.attachments && content.attachments.length > 0) {
       const iconProps: ButtonPropsType = {
         type: "solid-blue",
-        icon: new Icon({ type: "attachment", size: 20 }),
+        icon: new Icon({ type: "attachment", size: 16 }),
         title: System.data.locale.userContent.hasAttachment.question,
       };
 
@@ -372,7 +372,7 @@ export default class UserContentRow {
 
     const iconProps: ButtonPropsType = {
       type: "solid-peach",
-      icon: new Icon({ type: "report_flag", size: 20 }),
+      icon: new Icon({ type: "report_flag", size: 16 }),
       title: System.data.locale.userContent.reported.question,
     };
 

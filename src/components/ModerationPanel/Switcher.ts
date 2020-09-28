@@ -28,7 +28,7 @@ export default class Switcher {
             onClick: this.main.listeners.switchPrevious,
             className: "ext-switch-button ext-switch-button--left",
             icon: new Icon({
-              size: 46,
+              size: 40,
               color: "adaptive",
               type: "arrow_left",
             }),
@@ -43,7 +43,7 @@ export default class Switcher {
             onClick: this.main.listeners.switchNext,
             className: "ext-switch-button ext-switch-button--right",
             icon: new Icon({
-              size: 46,
+              size: 40,
               color: "adaptive",
               type: "arrow_right",
             }),

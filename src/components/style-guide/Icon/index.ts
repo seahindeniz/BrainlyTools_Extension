@@ -134,31 +134,7 @@ export type IconColorType =
 
 export type IconTagType = "div" | "span";
 
-export type IconSizeType =
-  | 120
-  | 118
-  | 104
-  | 102
-  | 80
-  | 78
-  | 64
-  | 62
-  | 56
-  | 54
-  | 48
-  | 46
-  | 40
-  | 38
-  | 32
-  | 30
-  | 26
-  | 24
-  | 22
-  | 20
-  | 18
-  | 16
-  | 14
-  | 10;
+export type IconSizeType = 16 | 24 | 32 | 40 | 56 | 80 | 104;
 
 // TODO Move common props to common object
 export type IconPropsType = {

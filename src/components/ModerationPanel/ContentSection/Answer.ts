@@ -125,7 +125,7 @@ export default class Answer extends ContentSection {
         icon: new Icon({
           color: "adaptive",
           type: "verified",
-          size: 20,
+          size: 24,
         }),
       }),
     });

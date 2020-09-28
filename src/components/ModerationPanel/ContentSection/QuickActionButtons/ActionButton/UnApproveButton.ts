@@ -11,7 +11,7 @@ export default class UnApproveButton extends ActionButton {
         iconOnly: true,
         title: System.data.locale.common.moderating.unapprove,
         icon: new Icon({
-          size: 48,
+          size: 40,
           color: "dark",
           type: "verified",
         }),

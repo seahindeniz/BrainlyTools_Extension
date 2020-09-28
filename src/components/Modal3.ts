@@ -157,7 +157,7 @@ export default class Modal {
         iconOnly: true,
         onClick: this.OverlayScrollToTop.bind(this),
         icon: new Icon({
-          size: 46,
+          size: 40,
           type: "arrow_up",
           color: "adaptive",
         }),

@@ -147,7 +147,7 @@ export default class Question extends Content {
       children: new Icon({
         type: "influence",
         color: "blue",
-        size: 30,
+        size: 32,
       }),
     });
 

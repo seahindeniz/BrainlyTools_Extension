@@ -1,10 +1,18 @@
+import Action from "@BrainlyAction";
 import type { ContentNameType } from "@components/ModerationPanel/ModeratePanelController";
 import ModeratePanelController from "@components/ModerationPanel/ModeratePanelController";
-import notification from "@components/notification2";
-import Action from "@BrainlyAction";
+import notification, {
+  GetFlashMessageContainer,
+} from "@components/notification2";
 import type ContentClassType from "../../Content/Content";
 import type { ContentClassTypes } from "../../Fetcher/Fetcher";
 import type QueueClassType from "../Queue";
+
+function RelocateFlashMessageContainer() {
+  const container = GetFlashMessageContainer();
+
+  document.body.prepend(container);
+}
 
 export default class ModerationPanelController extends ModeratePanelController {
   main: QueueClassType;
@@ -17,6 +25,8 @@ export default class ModerationPanelController extends ModeratePanelController {
     });
 
     this.main = main;
+
+    RelocateFlashMessageContainer();
   }
 
   async ModerateContent(content: ContentClassTypes | ContentClassType) {
@@ -38,6 +48,7 @@ export default class ModerationPanelController extends ModeratePanelController {
       // eslint-disable-next-line camelcase
       if (!resTicket?.success || !resTicket?.data || !resTicket?.users_data) {
         notification({
+          timeOut: 5000,
           type: "error",
           html:
             resTicket.message ||
@@ -104,6 +115,11 @@ export default class ModerationPanelController extends ModeratePanelController {
       const ticketData = await content.Moderate();
 
       if (!ticketData.success) {
+        notification({
+          timeOut: 5000,
+          type: "info",
+          html: System.data.locale.moderationPanel.switchingToNextContent,
+        });
         this.SwitchToReport(direction);
       }
     } catch (error) {

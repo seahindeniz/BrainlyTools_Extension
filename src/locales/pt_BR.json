@@ -989,7 +989,8 @@
     "thereIsNoReportLeft": "There is no report left",
     "deleteAllComments": "Delete all comments",
     "confirmDeletingNComments": "Please confirm deleting %{N} comments",
-    "commentsDeleted": "Comments deleted!"
+    "commentsDeleted": "Comments deleted!",
+    "switchingToNextContent": "I'll try to switch to the next content"
   },
   "shortAnswersPage": {
     "selectAtLeastOneAnswer": "You need to select at least one answer",

@@ -989,7 +989,8 @@
     "thereIsNoReportLeft": "Şikayet edilmiş içerik kalmadı",
     "deleteAllComments": "Tüm yorumları sil",
     "confirmDeletingNComments": "Lütfen %{N} yorumun silinmesini onaylayın",
-    "commentsDeleted": "Yorumlar silindi!"
+    "commentsDeleted": "Yorumlar silindi!",
+    "switchingToNextContent": "Bir sonraki içeriğe geçmeye çalışacağım"
   },
   "shortAnswersPage": {
     "selectAtLeastOneAnswer": "En az bir cevap seçmelisin",

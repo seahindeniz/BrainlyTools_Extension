@@ -957,7 +957,7 @@
         },
         "noContentToDelete": "Il n'y a plus de contenu disponible à supprimer",
         "confirmDeletion": "Veux-tu vraiment supprimer %{n} contenus signalés ?",
-        "warnAboutConfirmedContents": "Warning!\n%{N_of_confirmed} of the %{N_of_filtered} contents you want to delete have already been confirmed.\nDo you want those contents to be deleted as well?"
+        "warnAboutConfirmedContents": "Attention !\n%{N_de_confirmation} des %{N_de_filtrage} contenus que vous souhaitez supprimer ont déjà été confirmés.\nSouhaitez-vous que ces contenus soient également supprimés ?"
       },
       "status": {
         "fetched": "%{count} récupérés",
@@ -989,7 +989,8 @@
     "thereIsNoReportLeft": "Il n'y a plus de signalement",
     "deleteAllComments": "Supprimer tous les commentaires",
     "confirmDeletingNComments": "Veuillez confirmer la suppression de %{N} commentaires",
-    "commentsDeleted": "Commentaires supprimés !"
+    "commentsDeleted": "Commentaires supprimés !",
+    "switchingToNextContent": "I'll try to switch to the next content"
   },
   "shortAnswersPage": {
     "selectAtLeastOneAnswer": "Vous devez sélectionner au moins une réponse",

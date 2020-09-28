@@ -1,27 +1,26 @@
-import HideElement from "@root/helpers/HideElement";
-import { Flex, Icon, Label } from "@style-guide";
 import type { ContentClassTypes } from "../../Fetcher/Fetcher";
-import type QueueClassType from "../Queue";
 import type { NumberConditionType } from "./ContentLength";
+import QueueFilter from "./QueueFilter";
+import type QueueClassType from "../Queue";
 
-export default class AttachmentLength {
-  main: QueueClassType;
-
+export default class AttachmentLength extends QueueFilter {
   query?: {
     condition?: NumberConditionType;
     length?: number;
   };
 
-  labelContainer: import("@style-guide/Flex").FlexElementType;
-  label: Label;
-  labelText: Text;
-
   constructor(main: QueueClassType) {
-    this.main = main;
+    super(main, {
+      labelColor: "gray",
+      labelIconType: "attachment",
+      labelName:
+        System.data.locale.reportedContents.options.filter.filters
+          .attachmentLength.name,
+    });
   }
 
   SetQuery(condition?: NumberConditionType, length?: number) {
-    if (!length) {
+    if (Number.isNaN(length) || length < 0) {
       this.HideLabel();
 
       return;
@@ -29,60 +28,36 @@ export default class AttachmentLength {
 
     this.query = { condition, length };
 
-    this.ShowLabel();
-    this.main.main.fetcher.FilterContents();
-    this.main.main.queue.ShowContents();
+    super.QuerySettled();
   }
 
   HideLabel(event?: MouseEvent) {
-    this.query = {};
-
     if (event) {
       this.main.options.option.contentFilters.filter.attachmentLength //
         .Deselected();
     }
 
-    HideElement(this.labelContainer);
-    this.main.main.fetcher?.FilterContents();
-    this.main.main.queue.ShowContents();
+    super.HideLabel();
   }
 
   ShowLabel() {
-    if (!this.labelContainer) this.RenderLabel();
+    super.ShowLabel();
 
     this.labelText.nodeValue =
       System.data.locale.reportedContents.options.filter.filters.contentLength.label[
         this.query?.condition
       ]?.replace("%{N}", String(this.query.length)) || "Error";
-
-    this.main.main.filterLabelContainer.append(this.labelContainer);
-  }
-
-  RenderLabel() {
-    this.labelContainer = Flex({
-      margin: "xxs",
-      children: this.label = new Label({
-        color: "gray",
-        onClose: this.HideLabel.bind(this),
-        icon: new Icon({
-          type: "attachment",
-        }),
-        children: [
-          `${
-            //
-            System.data.locale.reportedContents.options.filter.filters
-              .attachmentLength.name
-          }:&nbsp; `,
-          (this.labelText = document.createTextNode("")),
-        ],
-      }),
-    });
   }
 
   CompareContent(content: ContentClassTypes) {
-    if (content.contentType === "Comment" || !content.extraData) return false;
+    if (content.contentType === "Comment") return false;
 
-    if (!this.query?.length || !this.query?.condition) return true;
+    if (
+      Number.isNaN(this.query?.length) ||
+      !this.query?.condition ||
+      !content.extraData
+    )
+      return true;
 
     if (this.query.condition === "greaterThan")
       return content.extraData.attachments.length > this.query.length;

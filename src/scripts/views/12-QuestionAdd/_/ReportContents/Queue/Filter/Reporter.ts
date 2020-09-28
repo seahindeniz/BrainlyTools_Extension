@@ -1,27 +1,24 @@
-import HideElement from "@root/helpers/HideElement";
-import { Flex, LabelDeprecated } from "@style-guide";
-import type { FlexElementType } from "@style-guide/Flex";
-import type { LabelElementType } from "@style-guide/LabelDeprecated";
 import type { ContentClassTypes } from "../../Fetcher/Fetcher";
 import type QueueClassType from "../Queue";
+import QueueFilter from "./QueueFilter";
 
 type TargetType = "nick" | "id";
 
-export default class Reporter {
-  main: QueueClassType;
-
+export default class Reporter extends QueueFilter {
   query: {
     target?: TargetType;
     value?: number | string;
     valueLowerCase?: string;
   };
 
-  labelContainer: FlexElementType;
-  label: LabelElementType;
-  labelText: Text;
-
   constructor(main: QueueClassType) {
-    this.main = main;
+    super(main, {
+      labelColor: "peach",
+      labelIconType: "profile_view",
+      labelName:
+        System.data.locale.reportedContents.options.filter.filters.reporter
+          .name,
+    });
   }
 
   SetQuery(target?: TargetType, value?: number | string) {
@@ -42,49 +39,25 @@ export default class Reporter {
       this.query.valueLowerCase = String(this.query.value).toLowerCase();
     }
 
-    this.ShowLabel();
-    this.main.main.fetcher.FilterContents();
-    this.main.main.queue.ShowContents();
+    super.QuerySettled();
   }
 
   HideLabel(event?: MouseEvent) {
-    this.query = {};
-
     if (event) {
       this.main.options.option.contentFilters.filter.reporter.Reset();
     }
 
-    HideElement(this.labelContainer);
-    this.main.main.fetcher?.FilterContents();
-    this.main.main.queue.ShowContents();
+    super.HideLabel();
   }
 
   ShowLabel() {
-    if (!this.labelContainer) this.RenderLabel();
+    super.ShowLabel();
 
-    this.labelText.nodeValue = String(this.query.value);
-
-    this.main.main.filterLabelContainer.append(this.labelContainer);
-  }
-
-  RenderLabel() {
-    this.labelContainer = Flex({
-      margin: "xxs",
-      children: this.label = LabelDeprecated({
-        icon: {
-          type: "profile_view",
-        },
-        onClose: this.HideLabel.bind(this),
-        children: [
-          `${
-            System.data.locale.reportedContents.options.filter.filters.reporter
-              .by[this.query.target]
-          }:&nbsp; `,
-          (this.labelText = document.createTextNode("")),
-        ],
-        color: "peach",
-      }),
-    });
+    this.labelText.nodeValue = `${
+      System.data.locale.reportedContents.options.filter.filters.userFilter[
+        this.query.target
+      ]
+    }:\xa0 ${String(this.query.value)}`;
   }
 
   CompareContent(content: ContentClassTypes) {

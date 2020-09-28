@@ -867,20 +867,10 @@
         "description": "Filtreler yalnızca yüklenen raporlara uygulanabilir",
         "filters": {
           "reporter": {
-            "name": "Şikayet eden",
-            "by": {
-              "nick": "Bildirenin nicki",
-              "id": "Bildirenin id'si"
-            },
-            "lookFor": "Seçim yap"
+            "name": "Şikayet eden"
           },
           "reported": {
-            "name": "Bildirilen kullanıcı",
-            "by": {
-              "nick": "Bildirilen nick",
-              "id": "Bildirilen kullanıcı idsi"
-            },
-            "lookFor": "Seçim yap"
+            "name": "Bildirilen kullanıcı"
           },
           "reportingDate": {
             "name": "Tarihler arası",
@@ -927,6 +917,11 @@
               "endsWith": "şununla biter : %{input}",
               "regExp": "%{input}"
             }
+          },
+          "userFilter": {
+            "id": "id",
+            "nick": "nick",
+            "lookFor": "Seçim yap"
           }
         },
         "pageNumberInputTitle": "%{MIN_N} ile %{MAX_N} arasında bir sayfa numarası girin"

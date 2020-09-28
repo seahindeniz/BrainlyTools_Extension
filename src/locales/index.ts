@@ -867,20 +867,10 @@ export default {
         description: "Filters can be applied only to those reports that have been loaded",
         filters: {
           reporter: {
-            name: "Reporter user",
-            by: {
-              nick: "Reporter nick",
-              id: "Reporter user id"
-            },
-            lookFor: "Look for"
+            name: "Reporter user"
           },
           reported: {
-            name: "Reported user",
-            by: {
-              nick: "Reported nick",
-              id: "Reported user id"
-            },
-            lookFor: "Look for"
+            name: "Reported user"
           },
           reportingDate: {
             name: "Reported between",
@@ -927,6 +917,11 @@ export default {
               endsWith: "ends with : %{input}",
               regExp: "%{input}"
             }
+          },
+          userFilter: {
+            id: "id",
+            nick: "nick",
+            lookFor: "Look for"
           }
         },
         pageNumberInputTitle: "Enter a page number between %{MIN_N} and %{MAX_N}"

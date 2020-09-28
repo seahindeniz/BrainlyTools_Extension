@@ -1,26 +1,23 @@
-import HideElement from "@root/helpers/HideElement";
-import { Flex, LabelDeprecated } from "@style-guide";
-import type { FlexElementType } from "@style-guide/Flex";
-import type { LabelElementType } from "@style-guide/LabelDeprecated";
 import type { ContentClassTypes } from "../../Fetcher/Fetcher";
 import type { ConditionKeyType } from "../Options/Filters/AdditionalData/Condition";
 import type QueueClassType from "../Queue";
+import QueueFilter from "./QueueFilter";
 
-export default class AdditionalData {
-  main: QueueClassType;
-
+export default class AdditionalData extends QueueFilter {
   query: {
     condition?: ConditionKeyType;
     value?: string;
     regexp?: RegExp;
   };
 
-  labelContainer: FlexElementType;
-  label: LabelElementType;
-  labelText: Text;
-
   constructor(main: QueueClassType) {
-    this.main = main;
+    super(main, {
+      labelColor: "mint",
+      labelIconType: "report_flag",
+      labelName:
+        System.data.locale.reportedContents.options.filter.filters
+          .additionalData.name,
+    });
   }
 
   SetQuery(condition?: ConditionKeyType, value?: string) {
@@ -37,9 +34,7 @@ export default class AdditionalData {
 
     this.query.regexp = this.GenerateRegExp();
 
-    this.ShowLabel();
-    this.main.main.fetcher.FilterContents();
-    this.main.main.queue.ShowContents();
+    super.QuerySettled();
   }
 
   private GenerateRegExp() {
@@ -68,46 +63,19 @@ export default class AdditionalData {
   }
 
   HideLabel(event?: MouseEvent) {
-    this.query = {};
-
     if (event) {
       this.main.options.option.contentFilters.filter.additionalData.Reset();
     }
 
-    HideElement(this.labelContainer);
-    this.main.main.fetcher?.FilterContents();
-    this.main.main.queue.ShowContents();
+    super.HideLabel();
   }
 
   ShowLabel() {
-    if (!this.labelContainer) this.RenderLabel();
+    super.ShowLabel();
 
     this.labelText.nodeValue = System.data.locale.reportedContents.options.filter.filters.additionalData.label[
       this.query.condition
     ].replace(/%{input}/g, this.query.value);
-
-    this.main.main.filterLabelContainer.append(this.labelContainer);
-  }
-
-  RenderLabel() {
-    this.labelContainer = Flex({
-      margin: "xxs",
-      children: this.label = LabelDeprecated({
-        icon: {
-          type: "report_flag",
-        },
-        onClose: this.HideLabel.bind(this),
-        children: [
-          `${
-            //
-            System.data.locale.reportedContents.options.filter.filters
-              .additionalData.name
-          }:&nbsp; `,
-          (this.labelText = document.createTextNode("")),
-        ],
-        color: "mint",
-      }),
-    });
   }
 
   CompareContent(content: ContentClassTypes) {

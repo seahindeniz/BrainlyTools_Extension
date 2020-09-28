@@ -1,14 +1,9 @@
-import HideElement from "@root/helpers/HideElement";
-import { Flex, LabelDeprecated } from "@style-guide";
-import type { FlexElementType } from "@style-guide/Flex";
-import type { LabelElementType } from "@style-guide/LabelDeprecated";
 import moment from "moment-timezone";
 import type { ContentClassTypes } from "../../Fetcher/Fetcher";
 import type QueueClassType from "../Queue";
+import QueueFilter from "./QueueFilter";
 
-export default class Reported {
-  main: QueueClassType;
-
+export default class Reported extends QueueFilter {
   query: {
     startingDate?: string;
     endingDate?: string;
@@ -16,12 +11,14 @@ export default class Reported {
     endingDateMoment?: moment.Moment;
   };
 
-  labelContainer: FlexElementType;
-  label: LabelElementType;
-  labelText: Text;
-
   constructor(main: QueueClassType) {
-    this.main = main;
+    super(main, {
+      labelColor: "lavender",
+      labelIconType: "calendar",
+      labelName:
+        System.data.locale.reportedContents.options.filter.filters.reportingDate
+          .name,
+    });
   }
 
   SetQuery(startingDate?: string, endingDate?: string) {
@@ -70,51 +67,22 @@ export default class Reported {
       millisecond: 0,
     });
 
-    this.ShowLabel();
-    this.main.main.fetcher.FilterContents();
-    this.main.main.queue.ShowContents();
+    super.QuerySettled();
   }
 
   HideLabel(event?: MouseEvent) {
-    this.query = {};
-
     if (event)
       this.main.options.option.contentFilters.filter.reportingDate.ResetDates();
 
-    HideElement(this.labelContainer);
-    this.main.main.fetcher?.FilterContents();
-    this.main.main.queue.ShowContents();
+    super.HideLabel();
   }
 
   ShowLabel() {
-    if (!this.labelContainer) this.RenderLabel();
+    super.ShowLabel();
 
     this.labelText.nodeValue = String(
       `${this.query.startingDate} ↔ ${this.query.endingDate}`,
     );
-
-    this.main.main.filterLabelContainer.append(this.labelContainer);
-  }
-
-  RenderLabel() {
-    this.labelContainer = Flex({
-      margin: "xxs",
-      children: this.label = LabelDeprecated({
-        icon: {
-          type: "calendar",
-        },
-        onClose: this.HideLabel.bind(this),
-        children: [
-          `${
-            //
-            System.data.locale.reportedContents.options.filter.filters
-              .reportingDate.name
-          }:&nbsp; `,
-          (this.labelText = document.createTextNode("")),
-        ],
-        color: "lavender",
-      }),
-    });
   }
 
   CompareContent(content: ContentClassTypes) {

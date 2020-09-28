@@ -867,20 +867,10 @@
         "description": "Les filtres ne peuvent être appliqués qu'aux signalements qui ont été chargés",
         "filters": {
           "reporter": {
-            "name": "Utilisateur signaleur",
-            "by": {
-              "nick": "Pseudo du signaleur",
-              "id": "ID utilisateur du signaleur"
-            },
-            "lookFor": "Rechercher"
+            "name": "Utilisateur signaleur"
           },
           "reported": {
-            "name": "Utilisateur signalé",
-            "by": {
-              "nick": "Pseudo signalé",
-              "id": "Identifiant de l'utilisateur signalé"
-            },
-            "lookFor": "Rechercher"
+            "name": "Utilisateur signalé"
           },
           "reportingDate": {
             "name": "Signalements entre",
@@ -927,6 +917,11 @@
               "endsWith": "se termine par: %{input}",
               "regExp": "%{input}"
             }
+          },
+          "userFilter": {
+            "id": "id",
+            "nick": "nick",
+            "lookFor": "Rechercher"
           }
         },
         "pageNumberInputTitle": "Entre un numéro de page entre %{MIN_N} et %{MAX_N}"

@@ -1,21 +1,19 @@
-import HideElement from "@root/helpers/HideElement";
-import { Flex, Icon, Label } from "@style-guide";
 import type { ContentClassTypes } from "../../Fetcher/Fetcher";
 import type QueueClassType from "../Queue";
+import QueueFilter from "./QueueFilter";
 
-export default class Subject {
-  main: QueueClassType;
-
+export default class Subject extends QueueFilter {
   query?: {
     selectedIds?: number[];
   };
 
-  labelContainer: import("@style-guide/Flex").FlexElementType;
-  label: Label;
-  labelText: Text;
-
   constructor(main: QueueClassType) {
-    this.main = main;
+    super(main, {
+      labelColor: "gray",
+      labelIconType: "subject-all",
+      labelName:
+        System.data.locale.reportedContents.options.filter.filters.subject.name,
+    });
   }
 
   SetQuery(selectedIds?: number[]) {
@@ -27,53 +25,24 @@ export default class Subject {
 
     this.query = { selectedIds };
 
-    this.ShowLabel();
-    this.main.main.fetcher.FilterContents();
-    this.main.main.queue.ShowContents();
+    super.QuerySettled();
   }
 
   HideLabel(event?: MouseEvent) {
-    this.query = {};
-
     if (event)
       this.main.options.option.contentFilters.filter.subject.Deselected();
 
-    HideElement(this.labelContainer);
-    this.main.main.fetcher?.FilterContents();
-    this.main.main.queue.ShowContents();
+    super.HideLabel();
   }
 
   ShowLabel() {
-    if (!this.labelContainer) this.RenderLabel();
+    super.ShowLabel();
 
     const selectedSubjectNames = System.data.Brainly.defaultConfig.config.data.subjects
       .filter(subjectData => this.query.selectedIds.includes(subjectData.id))
       .map(subjectData => subjectData.name);
 
     this.labelText.nodeValue = selectedSubjectNames.join(", ");
-
-    this.main.main.filterLabelContainer.append(this.labelContainer);
-  }
-
-  RenderLabel() {
-    this.labelContainer = Flex({
-      margin: "xxs",
-      children: this.label = new Label({
-        color: "gray",
-        onClose: this.HideLabel.bind(this),
-        icon: new Icon({
-          type: "subject-all",
-        }),
-        children: [
-          `${
-            //
-            System.data.locale.reportedContents.options.filter.filters.subject
-              .name
-          }:&nbsp; `,
-          (this.labelText = document.createTextNode("")),
-        ],
-      }),
-    });
   }
 
   CompareContent(content: ContentClassTypes) {

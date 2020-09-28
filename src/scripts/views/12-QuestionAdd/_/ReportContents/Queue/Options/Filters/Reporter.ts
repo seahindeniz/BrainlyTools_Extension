@@ -55,7 +55,7 @@ export default class Reporter {
                     disabled: true,
                     text:
                       System.data.locale.reportedContents.options.filter.filters
-                        .reporter.lookFor,
+                        .userFilter.lookFor,
                   },
                   {
                     value: 0,

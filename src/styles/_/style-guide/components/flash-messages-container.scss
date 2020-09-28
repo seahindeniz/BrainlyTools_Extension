@@ -1,8 +1,7 @@
-:not(.sg-header--fixed) {
+.sg-header:not(.sg-header--fixed) {
   .flash-messages-container {
     top: 0;
-    // from 101 to 9999, need in the reported contents page for fails
-    z-index: 9999;
+    z-index: 101;
     position: fixed;
   }
 }

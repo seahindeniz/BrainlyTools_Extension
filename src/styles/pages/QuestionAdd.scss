@@ -6,6 +6,10 @@
   top: auto !important;
 }
 
+.flash-messages-container {
+  z-index: 9999;
+}
+
 .ext {
   &-rc-options {
     position: absolute;

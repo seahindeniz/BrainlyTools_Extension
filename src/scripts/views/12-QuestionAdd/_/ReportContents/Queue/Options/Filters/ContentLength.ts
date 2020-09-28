@@ -5,6 +5,8 @@ import { debounce } from "throttle-debounce";
 import type FiltersClassType from "./Filters";
 import type { NumberConditionType } from "../../Filter/ContentLength";
 
+const MAX_CONTENT_LENGTH = 198;
+
 export default class ContentLength {
   main: FiltersClassType;
 
@@ -77,11 +79,12 @@ export default class ContentLength {
                 alignItems: "center",
               }),
               (this.input = new Input({
-                min: 1,
-                max: 198,
+                min: 0,
+                max: MAX_CONTENT_LENGTH,
+                placeholder: `0 - ${MAX_CONTENT_LENGTH}`,
                 type: "number",
                 fullWidth: true,
-                onInput: debounce(300, this.InputChanged.bind(this)),
+                onInput: debounce(400, this.InputChanged.bind(this)),
               })),
             ],
           ],
@@ -101,6 +104,7 @@ export default class ContentLength {
   }
 
   InputChanged() {
+    const { value } = this.input.input;
     const condition: NumberConditionType =
       this.conditionSelect.select.value === "0"
         ? "equals"
@@ -112,7 +116,7 @@ export default class ContentLength {
 
     this.main.main.main.filter.byName.contentLength.SetQuery(
       condition,
-      ~~this.input.input.value,
+      Number(value === "" ? NaN : Number(value)),
     );
   }
 

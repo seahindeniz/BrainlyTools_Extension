@@ -92,9 +92,10 @@ export default class AttachmentLength {
                 max:
                   System.data.Brainly.defaultConfig.config.data.config
                     .attachmentCount,
+                placeholder: `0 - ${System.data.Brainly.defaultConfig.config.data.config.attachmentCount}`,
                 type: "number",
                 fullWidth: true,
-                onInput: debounce(300, this.InputChanged.bind(this)),
+                onInput: debounce(400, this.InputChanged.bind(this)),
               })),
             ],
           ],
@@ -104,6 +105,7 @@ export default class AttachmentLength {
   }
 
   InputChanged() {
+    const { value } = this.input.input;
     const condition: NumberConditionType =
       this.conditionSelect.select.value === "0"
         ? "equals"
@@ -115,7 +117,7 @@ export default class AttachmentLength {
 
     this.main.main.main.filter.byName.attachmentLength.SetQuery(
       condition,
-      ~~this.input.input.value,
+      Number(value === "" ? NaN : Number(value)),
     );
   }
 

@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.5.1] - 2020.09.29
+
+### Changed
+
+- A bug that's caused due to subjects that can be chosen directly from moderate
+  all, and from the mass-moderate option. [#237]
+- An error is displayed while the process is running correctly. [#243]
+- Selective deletion tools aren't working for questions. [#244]
+- Mass-moderate tools aren't working. [#245]
+- Kullanıcı içeriğindeki kutucuklar tam algılamıyor. [#247]
+- Pop-ups are displayed behind the "Question Moderation" tab in the reported
+  contents page. [#248]
+- Invalid page numbers display reported contents. [#249]
+- A way to distinguish corrected answers from answers that haven't been
+  corrected in the new mod panel. [Similar to the feature in the old panel]
+  [#250]
+
+[#237]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/237
+[#243]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/243
+[#244]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/244
+[#245]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/245
+[#247]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/247
+[#248]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/248
+[#249]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/249
+[#250]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/250
+
 ## [7.5.0] - 2020.09.26
 
 ### Added

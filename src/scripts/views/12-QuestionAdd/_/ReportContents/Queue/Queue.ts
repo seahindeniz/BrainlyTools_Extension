@@ -3,18 +3,18 @@ import HideElement from "@root/helpers/HideElement";
 import IsVisible from "@root/helpers/IsVisible";
 import { Flex } from "@style-guide";
 import type ReportedContentsType from "../ReportedContents";
-import ContentLength from "./Filter/ContentLength";
+import AdditionalData from "./Filter/AdditionalData";
 import AttachmentLength from "./Filter/AttachmentLength";
+import ContentLength from "./Filter/ContentLength";
 import ContentType from "./Filter/ContentType";
 import Reported from "./Filter/Reported";
 import Reporter from "./Filter/Reporter";
 import ReportingDate from "./Filter/ReportingDate";
+import Subject from "./Filter/Subject";
 import ModerationPanelController from "./ModerationPanelController/ModerationPanelController";
 import Options from "./Options/Options";
-import Subject from "./Filter/Subject";
-import AdditionalData from "./Filter/AdditionalData";
 
-const REPORT_PREVIEW_LIMIT = 12;
+const REPORT_BOXES_PER_PAGE_LIMIT = 12;
 
 export default class Queue {
   main: ReportedContentsType;
@@ -63,10 +63,9 @@ export default class Queue {
       },
       all: [],
     };
+    this.filter.all = Object.values(this.filter.byName);
 
     this.moderationPanelController = new ModerationPanelController(this);
-
-    this.filter.all = Object.values(this.filter.byName);
 
     this.BindListener();
     setInterval(this.RenderTimes.bind(this), 5000);
@@ -93,7 +92,7 @@ export default class Queue {
 
     const { childElementCount } = this.main.queueContainer;
 
-    if (childElementCount < REPORT_PREVIEW_LIMIT) return;
+    if (childElementCount < REPORT_BOXES_PER_PAGE_LIMIT) return;
 
     if (
       this.main.contents.filtered.length === 0 ||
@@ -107,18 +106,20 @@ export default class Queue {
     this.ShowContents();
   }
 
-  ShowContents(showLimitedAggressive?: boolean) {
+  async ShowContents(showLimitedAggressive?: boolean) {
+    if (this.main.contents.filtered.length === 0) return;
+
     let { childElementCount } = this.main.queueContainer;
 
     if (
       showLimitedAggressive === true &&
-      childElementCount >= REPORT_PREVIEW_LIMIT
+      childElementCount >= REPORT_BOXES_PER_PAGE_LIMIT
     )
       return;
 
     this.HideContents();
 
-    const nextThreshold = REPORT_PREVIEW_LIMIT + childElementCount;
+    const nextThreshold = REPORT_BOXES_PER_PAGE_LIMIT + childElementCount;
 
     this.main.contents.filtered.some((content, index) => {
       if (index >= nextThreshold) return true;

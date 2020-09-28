@@ -7,7 +7,7 @@ function Clear(element: MouseEvent | HTMLElement | EventTarget) {
   if (element instanceof Element) element.remove();
 }
 
-function Container() {
+export function GetFlashMessageContainer() {
   let container = document.querySelector(
     ".flash-messages-container, body > #main-panel",
   );
@@ -35,7 +35,7 @@ export default function notification({
   ...props
 }: NotificationPropsType) {
   const flash = FlashMessage(props);
-  const container = Container();
+  const container = GetFlashMessageContainer();
 
   container.append(flash);
 

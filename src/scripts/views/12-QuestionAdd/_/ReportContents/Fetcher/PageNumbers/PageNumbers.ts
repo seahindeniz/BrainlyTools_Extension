@@ -127,7 +127,10 @@ export default class PageNumbers {
       max: this.lastIds.length + 2,
       placeholder: "...",
       onChange: this.PageNumberChanged.bind(this),
+      onInput: this.CheckNumberIsInRange.bind(this),
     });
+
+    // this.pageNumberInput.input.addEventListener("key")
 
     tippy(this.pageNumberInput.input, {
       theme: "light",
@@ -144,6 +147,23 @@ export default class PageNumbers {
     });
 
     this.container.append(lastPageContainer);
+  }
+
+  CheckNumberIsInRange(event: KeyboardEvent) {
+    const value = this.pageNumberInput.input.value.trim();
+    const givenPageNumber = Number(value);
+
+    if (
+      value === "" ||
+      (givenPageNumber > 0 && givenPageNumber <= this.lastIds.length + 2)
+    )
+      return;
+
+    this.pageNumberInput.input.value = String(
+      givenPageNumber < 1 ? 1 : this.lastIds.length + 2,
+    );
+
+    event.preventDefault();
   }
 
   PageNumberChanged() {

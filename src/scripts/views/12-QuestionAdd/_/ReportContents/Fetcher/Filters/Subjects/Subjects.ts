@@ -58,6 +58,7 @@ export default class Subjects {
       return;
     }
 
+    this.main.main.main.queue.filter.byName.attachmentLength.HideLabel();
     this.main.main.FetchReports({ resetStore: true });
 
     if (this.selectedSubject.data.id === 0)

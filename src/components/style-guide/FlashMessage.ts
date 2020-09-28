@@ -19,6 +19,7 @@ export type FlashMessageProps = {
   noIcon?: boolean;
   children?: ChildrenParamType;
 };
+
 export default ({
   text,
   html,

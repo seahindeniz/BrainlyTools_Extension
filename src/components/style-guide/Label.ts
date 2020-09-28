@@ -8,7 +8,7 @@ import Text, { TextColorType, TextElement } from "./Text";
 
 type LabelType = "default" | "solid" | "transparent" | "transparent-color";
 
-type LabelColorType =
+export type LabelColorType =
   | "blue"
   | "mint"
   | "lavender"

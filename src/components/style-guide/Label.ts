@@ -94,7 +94,7 @@ const TRANSPARENT_ICON_COLOR_MAP: {
 
 export default class Label {
   type: LabelType;
-  color: LabelColorType;
+  color?: LabelColorType;
   element: HTMLDivElement | HTMLLabelElement;
   icon: LabelIconType;
   iconContainer: HTMLDivElement;
@@ -271,20 +271,22 @@ export default class Label {
   }
 
   ChangeColor(color: LabelColorType) {
-    const filteredOldColor: string =
-      !this.type || this.type === "default"
-        ? COLORS_DEFAULT_MAP[this.color]
-        : COLORS_SOLID_MAP[this.color];
+    if (this.color) {
+      const oldBackgroundColor: string =
+        !this.type || this.type === "default"
+          ? COLORS_DEFAULT_MAP[this.color]
+          : COLORS_SOLID_MAP[this.color];
 
-    const filteredColor: string =
+      this.element.classList.remove(SGD + oldBackgroundColor);
+    }
+
+    const backgroundColor: string =
       !this.type || this.type === "default"
         ? COLORS_DEFAULT_MAP[color]
         : COLORS_SOLID_MAP[color];
 
-    this.element.classList.remove(SGD + filteredOldColor);
-
-    if (filteredColor) {
-      this.element.classList.add(SGD + filteredColor);
+    if (backgroundColor) {
+      this.element.classList.add(SGD + backgroundColor);
     }
 
     this.color = color;

@@ -20,7 +20,7 @@ const ENTRY_ICON_COLOR: {
   deleted: "peach",
   edited: "blue",
   info: "lavender",
-  reported: "peach",
+  reported: "gray",
 };
 
 export default class LogEntry {

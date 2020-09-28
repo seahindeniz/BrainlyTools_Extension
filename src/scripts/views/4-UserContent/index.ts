@@ -1,7 +1,8 @@
+import WaitForElement from "@root/helpers/WaitForElement";
 import { Button, Flex, Icon } from "@style-guide";
 import InjectToDOM from "../../../helpers/InjectToDOM";
 
-(() => {
+(async () => {
   let type;
 
   if (System.checkRoute(4, "") || System.checkRoute(4, "tasks"))
@@ -13,7 +14,7 @@ import InjectToDOM from "../../../helpers/InjectToDOM";
 
   if (type) InjectToDOM(`/scripts/views/4-UserContent/${type}.js`);
 
-  const selectedPageLink = document.querySelector(
+  const selectedPageLink = await WaitForElement(
     `#content-old > div > p > a[style^="color"]`,
   );
 

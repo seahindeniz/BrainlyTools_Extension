@@ -250,8 +250,13 @@ export default class Fetcher {
     if (resReports.users_data.length > 0)
       resReports.users_data.forEach(this.StoreUser.bind(this));
 
-    if (resReports.data?.items?.length > 0)
-      resReports.data.items.forEach(this.InitContent.bind(this));
+    if (resReports.data?.items?.length > 0) {
+      const numberOfFilters = this.main.filterLabelContainer.childElementCount;
+
+      resReports.data.items.forEach(data =>
+        this.InitContent(data, numberOfFilters),
+      );
+    }
   }
 
   async FetchCommentReports() {
@@ -311,8 +316,7 @@ export default class Fetcher {
     );
   }
 
-  InitContent(data: ReportedContentDataType) {
-    // console.log(data);
+  InitContent(data: ReportedContentDataType, numberOfFilters: number) {
     let content: Question | Answer | Comment;
 
     if (data.model_type_id === 1) content = new Question(this.main, data);
@@ -333,10 +337,7 @@ export default class Fetcher {
     if (content.data.task_id)
       this.main.questionsWaitingForSubscription.push(content.data.task_id);
 
-    if (
-      this.main.filterLabelContainer.childElementCount === 0 ||
-      this.CompareContentWithFilters(content)
-    ) {
+    if (numberOfFilters === 0 || this.CompareContentWithFilters(content)) {
       this.main.contents.filtered.push(content);
     }
   }

@@ -34,13 +34,9 @@ type StatusNamesType =
   | "moderating";
 
 const STATUS_COLOR: {
-  default?: BoxColorType;
-  deleted: BoxColorType;
-  confirmed: BoxColorType;
-  failed: BoxColorType;
-  reserved: BoxColorType;
-  moderating: BoxColorType;
+  [x in StatusNamesType]: BoxColorType | "";
 } = {
+  default: "",
   deleted: "peach-secondary-light",
   confirmed: "mint-secondary-light",
   failed: "dark",
@@ -190,7 +186,9 @@ export default class Content {
     let reportFlagColor: IconColorType = "blue";
 
     if (this.data.report) reportFlagColor = "peach";
-    else if (this.data.corrected) reportFlagColor = "blue";
+    else {
+      reportFlagColor = this.data.corrected ? "mint" : "blue";
+    }
 
     this.container = Build(
       CreateElement({

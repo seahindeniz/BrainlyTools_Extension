@@ -127,6 +127,9 @@ class Core {
       await new ServerReq().SetAuthData();
       await this.CheckForNewUpdate();
 
+      await System.ShareSystemDataToBackground();
+      System.toBackground("SetContext");
+
       this.InitNotifier();
 
       await WaitForObject("jQuery");
@@ -190,7 +193,8 @@ class Core {
     System.updateExtension();
     notification({
       type: "info",
-      permanent: true,
+      sticky: true,
+      noRemoveOnClick: true,
       html: System.data.locale.core.notificationMessages.updateNeeded.replace(
         "\n",
         "<br>",

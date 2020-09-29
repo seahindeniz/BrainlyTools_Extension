@@ -990,7 +990,7 @@
     "deleteAllComments": "Supprimer tous les commentaires",
     "confirmDeletingNComments": "Veuillez confirmer la suppression de %{N} commentaires",
     "commentsDeleted": "Commentaires supprimés !",
-    "switchingToNextContent": "I'll try to switch to the next content"
+    "switchingToNextContent": "Je vais essayer de passer au contenu suivant"
   },
   "shortAnswersPage": {
     "selectAtLeastOneAnswer": "Vous devez sélectionner au moins une réponse",

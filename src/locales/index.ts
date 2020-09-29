@@ -109,7 +109,7 @@ export default {
   },
   popup: {
     notificationMessages: {
-      shortLinkSuccessMessage: "Short link has been created and copied to clipboard(CTRL + C)",
+      shortLinkSuccessMessage: "Copied to clipboard!",
       languageChanged: "Language changed",
       cannotFindUser: "I couldn't find the user with entered ID number",
       createdMessage: "Created successfully",

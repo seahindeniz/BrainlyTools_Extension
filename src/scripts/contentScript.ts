@@ -1,4 +1,7 @@
+import notification from "@components/notification2";
 import _System from "@root/controllers/System";
+import ServerReq from "@ServerReq";
+import { Text } from "@style-guide";
 import ext from "webextension-polyfill";
 import InjectToDOM from "../helpers/InjectToDOM";
 import IsBrainly from "../helpers/IsBrainly";
@@ -48,6 +51,48 @@ function SendMetaData(event) {
     },
     event.target.URL,
   );
+}
+
+async function ShortenURL(url: string) {
+  try {
+    const resCreated = await new ServerReq().CreateShortLink(url);
+
+    if (!resCreated?.success) {
+      throw Error("Server failure");
+    }
+
+    const shortenedURL = `${
+      //
+      System.data.config.extension.shortenedLinkURL
+    }/${resCreated.shortCode}`;
+
+    await navigator.clipboard.writeText(shortenedURL);
+
+    notification({
+      sticky: true,
+      text: `${
+        //
+        System.data.locale.popup.notificationMessages.shortLinkSuccessMessage
+      }<br>`,
+      children: Text({
+        children: shortenedURL,
+        color: "peach-dark",
+        href: shortenedURL,
+        size: "small",
+        target: "_blank",
+        weight: "bold",
+      }),
+      type: "success",
+    });
+  } catch (error) {
+    notification({
+      text:
+        System.data.locale.common.notificationMessages
+          .somethingWentWrongPleaseRefresh,
+      type: "error",
+    });
+    console.error(error);
+  }
 }
 
 class ContentScript {
@@ -123,7 +168,15 @@ class ContentScript {
     );
   }
 
-  MessageHandler(request) {
+  async MessageHandler(request) {
+    if (request.action === "setMarketData") {
+      if (request.data) System.data = request.data;
+    }
+
+    if (request.action === "shortenUrl") {
+      ShortenURL(request.data);
+    }
+
     if (request.action === "manifest") {
       return MANIFEST;
     }

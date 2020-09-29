@@ -50,6 +50,7 @@
   "permissions": [
     "tabs",
     "storage",
+    "contextMenus",
     "*://eodev.com/*",
     "*://znanija.com/*",
     "*://nosdevoirs.fr/*",

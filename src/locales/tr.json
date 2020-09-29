@@ -109,7 +109,7 @@
   },
   "popup": {
     "notificationMessages": {
-      "shortLinkSuccessMessage": "Kısa link oluşturuldu ve panoya kopyalandı(CTRL + C)",
+      "shortLinkSuccessMessage": "Panoya kopyalandı!",
       "languageChanged": "Dil değişti",
       "cannotFindUser": "Girilen ID numarasıyla kullanıcıyı bulamadım",
       "createdMessage": "Oluşturuldu",

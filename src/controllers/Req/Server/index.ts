@@ -92,6 +92,7 @@ export default class ServerReq {
     };
 
     if (
+      System.data.Brainly.userData &&
       System.data.Brainly.userData.extension &&
       System.data.Brainly.userData.extension.secretKey
     )
@@ -158,7 +159,8 @@ export default class ServerReq {
       System.changeBadgeColor("error");
       notification({
         type: "error",
-        permanent: true,
+        sticky: true,
+        noRemoveOnClick: true,
         html: `${System.data.locale.core.notificationMessages.extensionServerError}<br>${System.data.locale.core.notificationMessages.ifErrorPersists}`,
       });
 
@@ -169,7 +171,8 @@ export default class ServerReq {
       System.changeBadgeColor("error");
       notification({
         type: "error",
-        permanent: true,
+        sticky: true,
+        noRemoveOnClick: true,
         html: System.data.locale.core.notificationMessages.accessPermissionDenied.replace(
           "\n",
           "<br>",
@@ -253,7 +256,13 @@ export default class ServerReq {
     return this.announcement().P(id).PUT();
   }
 
-  CreateShortLink(url) {
+  CreateShortLink(
+    url: string,
+  ): Promise<{
+    success: boolean;
+    shortCode?: string;
+    message?: string;
+  }> {
     return this.urlshortener().POST({ url });
   }
 

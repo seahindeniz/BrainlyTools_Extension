@@ -1,5 +1,5 @@
-import _System from "@root/controllers/System";
 import storage from "@root/background/_/storage";
+import _System from "@root/controllers/System";
 import ext from "webextension-polyfill";
 import IsBrainly from "../helpers/IsBrainly";
 
@@ -77,6 +77,13 @@ type ObjectAnyType = {
   [x: string]: any;
 };
 
+async function shortenURL(
+  link: ext.contextMenus.OnClickData,
+  tab: ext.tabs.Tab,
+) {
+  ext.tabs.sendMessage(tab.id, { action: "shortenUrl", data: link.linkUrl });
+}
+
 class Background {
   markets: ObjectAnyType;
   activeSessions: ObjectAnyType;
@@ -140,6 +147,10 @@ class Background {
       if (request.action === "setMarketData") {
         try {
           this.InitMarket(request.data);
+          ext.tabs.sendMessage(sender.tab.id, {
+            action: "setMarketData",
+            data: request.data,
+          });
 
           return true;
         } catch (error) {
@@ -163,18 +174,20 @@ class Background {
          */
         let color: browser.browserAction.ColorValue = [0, 0, 0, 0];
 
-        if (request.data === "loading") {
-          color = [254, 200, 60, 255];
-        }
-
         if (request.data === "loaded") {
           color = [83, 207, 146, 255];
 
           BROWSER_ACTION.enable();
-        }
+        } else {
+          ext.contextMenus.removeAll();
 
-        if (request.data === "error") {
-          color = RED_BADGE_COLOR;
+          if (request.data === "loading") {
+            color = [254, 200, 60, 255];
+          }
+
+          if (request.data === "error") {
+            color = RED_BADGE_COLOR;
+          }
         }
 
         UpdateBadge({
@@ -257,6 +270,19 @@ class Background {
         return ext.tabs.create({
           url: request.data,
           selected: true,
+        });
+      }
+
+      if (request.action === "RemoveContext") {
+        ext.contextMenus.removeAll();
+      }
+
+      if (request.action === "SetContext") {
+        ext.contextMenus.removeAll();
+        ext.contextMenus.create({
+          title: System.data.locale.popup.createShortLinkButton.text,
+          contexts: ["link"],
+          onclick: shortenURL,
         });
       }
     }

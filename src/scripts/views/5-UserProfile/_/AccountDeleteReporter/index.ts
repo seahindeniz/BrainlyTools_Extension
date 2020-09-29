@@ -248,7 +248,8 @@ export default class AccountDeleteReporter {
   async DeleteAccount(fastDelete?: boolean) {
     notification({
       type: "info",
-      permanent: true,
+      sticky: true,
+      noRemoveOnClick: true,
       html: `${System.data.locale.core.reportedCommentsDeleter.deleting}..`,
     });
     await System.Delay(500);

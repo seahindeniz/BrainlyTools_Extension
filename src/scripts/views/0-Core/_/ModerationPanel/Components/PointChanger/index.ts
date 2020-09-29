@@ -483,7 +483,8 @@ export default class MassManageUsers extends Components {
       this.modal.Notification({
         type: "info",
         html: System.data.locale.core.pointChanger.pointsNotSpecified,
-        permanent: true,
+        sticky: true,
+        noRemoveOnClick: true,
       });
 
       return;

@@ -25,12 +25,14 @@ export function GetFlashMessageContainer() {
 }
 
 export type NotificationPropsType = {
-  permanent?: boolean;
+  sticky?: boolean;
+  noRemoveOnClick?: boolean;
   timeOut?: number;
 } & FlashMessageProps;
 
 export default function notification({
-  permanent,
+  sticky,
+  noRemoveOnClick,
   timeOut,
   ...props
 }: NotificationPropsType) {
@@ -39,8 +41,11 @@ export default function notification({
 
   container.append(flash);
 
-  if (!permanent) {
+  if (!noRemoveOnClick) {
     flash.addEventListener("click", Clear, false);
+  }
+
+  if (!sticky) {
     setTimeout(() => Clear(flash), timeOut || 10000);
   }
 

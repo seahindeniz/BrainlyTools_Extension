@@ -51,11 +51,11 @@ export default class extends Toplayer {
     this.$modal.appendTo(this.$toplayerContainer);
   }
 
-  notification(html: string, type?: FlashMessageTypeType, permanent = false) {
+  notification(html: string, type?: FlashMessageTypeType, sticky = false) {
     const notificationElement = notification({
       html,
       type,
-      permanent,
+      sticky,
     });
 
     if (notificationElement) this.$flashContainer.append(notificationElement);

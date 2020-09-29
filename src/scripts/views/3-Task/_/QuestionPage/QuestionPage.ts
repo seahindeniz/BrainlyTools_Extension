@@ -7,7 +7,6 @@ import QuestionSection from "./QuestionSection";
 export default class QuestionPage {
   answerSections: AnswerSection[];
   questionContainer: HTMLDivElement;
-  questionBox: HTMLDivElement;
   data: QuestionDataType;
   questionSection?: QuestionSection;
   actionButtonSpinner: HTMLDivElement;
@@ -49,14 +48,6 @@ export default class QuestionPage {
 
     if (!this.questionContainer)
       throw Error("Can't find the question container");
-
-    this.questionBox = this.questionContainer.querySelector(
-      ".js-react-question-box > div > .brn-qpage-next-question-box",
-    );
-
-    if (!this.questionBox) {
-      throw Error("Can't find the question box");
-    }
   }
 
   SetQuestionData() {
@@ -94,10 +85,12 @@ export default class QuestionPage {
           return;
 
         if (mutation.target.classList.contains("js-main-question"))
-          this.questionSection.Init();
+          this.questionSection.Init(true);
 
         if (mutation.target.classList.contains("js-react-answers"))
-          this.answerSections.forEach(answerSection => answerSection.Init());
+          this.answerSections.forEach(answerSection =>
+            answerSection.Init(true),
+          );
       });
     });
 
@@ -111,13 +104,13 @@ export default class QuestionPage {
     if (!this.data.responses?.length) return;
 
     this.data.responses = this.data.responses.sort((answer1, answer2) => {
-      return answer1.approved.date && !answer2.approved.date
-        ? -1
-        : answer2.best
-        ? 1
-        : new Date(answer1.created) < new Date(answer2.created)
-        ? -1
-        : 1;
+      if (answer1.approved.date && !answer2.approved.date) return -1;
+
+      if (answer2.best) return 1;
+
+      if (new Date(answer1.created) < new Date(answer2.created)) return -1;
+
+      return 1;
     });
 
     this.data.responses.forEach((answerData, index) => {

@@ -15,6 +15,7 @@ export default class QuestionSection {
 
   searchingForModerationBox: boolean;
   moderationBox: HTMLDivElement;
+  questionBox: HTMLDivElement;
   quickActionButtonContainer: FlexElementType;
   actionButtons: Button[];
   confirmButtonContainer: FlexElementType;
@@ -33,10 +34,11 @@ export default class QuestionSection {
     );
   }
 
-  async Init() {
+  async Init(showError?: boolean) {
     if (this.searchingForModerationBox) return;
 
-    await this.FindModerationBox();
+    await this.FindModerationBox(showError);
+    this.FindQuestionContainer();
 
     if (!this.moderationBox) return;
 
@@ -44,19 +46,29 @@ export default class QuestionSection {
     this.RenderConfirmButton();
   }
 
-  async FindModerationBox() {
+  async FindModerationBox(showError: boolean) {
     this.searchingForModerationBox = true;
 
     try {
       this.moderationBox = (await WaitForElement(
         ":scope > div > .sg-box > .sg-flex",
-        { parent: this.main.questionContainer },
+        { parent: this.main.questionContainer, noError: showError },
       )) as HTMLDivElement;
     } catch (error) {
       console.error(error);
     }
 
     this.searchingForModerationBox = false;
+  }
+
+  FindQuestionContainer() {
+    this.questionBox = this.main.questionContainer.querySelector(
+      ":scope > div > .brn-qpage-next-question-box",
+    );
+
+    if (!this.questionBox) {
+      throw Error("Can't find the question box");
+    }
   }
 
   RenderQuickActionButtons() {
@@ -155,7 +167,7 @@ export default class QuestionSection {
 
   Confirmed() {
     HideElement(this.confirmButtonContainer);
-    this.main.questionBox.classList.add("brn-content--confirmed");
+    this.questionBox.classList.add("brn-content--confirmed");
     System.log(19, {
       user: window.jsData.question.author,
       data: [window.jsData.question.databaseId],
@@ -205,7 +217,7 @@ export default class QuestionSection {
   }
 
   Deleted() {
-    this.main.questionBox.classList.add("brn-content--deleted");
+    this.questionBox.classList.add("brn-content--deleted");
     this.quickActionButtonContainer.remove();
 
     this.main.answerSections.forEach(answerSection => answerSection.Deleted());

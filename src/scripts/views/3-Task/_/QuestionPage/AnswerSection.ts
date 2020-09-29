@@ -52,10 +52,10 @@ export default class AnswerSection {
     this.Init();
   }
 
-  async Init() {
+  async Init(showError?: boolean) {
     if (this.searchingForModerationBox) return;
 
-    await this.FindModerationBox();
+    await this.FindModerationBox(showError);
 
     if (!this.moderationBox) return;
 
@@ -64,7 +64,7 @@ export default class AnswerSection {
     this.FetchAndRenderUsersRank();
   }
 
-  async FindModerationBox() {
+  async FindModerationBox(showError?: boolean) {
     this.searchingForModerationBox = true;
 
     try {
@@ -73,6 +73,7 @@ export default class AnswerSection {
           ".js-question-answers > div > div > .sg-box > .sg-flex",
           {
             multiple: true,
+            noError: showError,
           },
         ),
       ) as HTMLDivElement[];

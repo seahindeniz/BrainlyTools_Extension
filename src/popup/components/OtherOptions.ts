@@ -163,7 +163,7 @@ class OtherOptions {
         if (key !== "en_US")
           name += ` <i class="is-size-7">${language.progress}%</i>`;
 
-        if ("author" in language)
+        if ("author" in language && language.author)
           name += `<span class="is-pulled-right">${language.author}</span>`;
 
         const $option = `<a href="#" class="dropdown-item fix-padding${

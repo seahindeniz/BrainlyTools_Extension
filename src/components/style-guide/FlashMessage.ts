@@ -43,6 +43,11 @@ export default ({
     ...props,
   });
 
+  if (typeof text === "string") {
+    // eslint-disable-next-line no-param-reassign
+    text = text.replace(/\n/g, "<br>");
+  }
+
   const textElement = Text({
     html,
     text,

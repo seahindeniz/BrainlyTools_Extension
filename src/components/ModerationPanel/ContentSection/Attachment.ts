@@ -21,7 +21,6 @@ export default class Attachment {
     this.data = data;
 
     this.Render();
-    this.BindListener();
   }
 
   Render() {
@@ -55,13 +54,10 @@ export default class Attachment {
           icon: new Icon({
             type: "close",
           }),
+          onClick: this.Delete.bind(this),
         })),
       ],
     });
-  }
-
-  BindListener() {
-    this.deleteButton.element.addEventListener("click", this.Delete.bind(this));
   }
 
   async Delete() {

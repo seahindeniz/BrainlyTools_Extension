@@ -450,6 +450,39 @@ export default class ContentSection {
         flipVertical: 1,
       },
     });
+
+    if (this.data.attachments.length > 1) {
+      galleryContainer.addEventListener(
+        "view",
+        (
+          event: CustomEvent<{
+            image: HTMLImageElement;
+            index: number;
+            originalImage: HTMLImageElement;
+          }>,
+        ) => {
+          const prevTooltip = (this.gallery[
+            // eslint-disable-next-line dot-notation
+            "toolbar"
+          ] as HTMLDivElement).querySelector(".viewer-prev") as HTMLLIElement;
+          const nextTooltip = (this.gallery[
+            // eslint-disable-next-line dot-notation
+            "toolbar"
+          ] as HTMLDivElement).querySelector(".viewer-next") as HTMLLIElement;
+
+          if (event.detail.index === 0) {
+            nextTooltip.removeAttribute("style");
+            prevTooltip.style.display = "none";
+          } else if (event.detail.index === this.data.attachments.length - 1) {
+            prevTooltip.removeAttribute("style");
+            nextTooltip.style.display = "none";
+          } else {
+            nextTooltip.removeAttribute("style");
+            prevTooltip.removeAttribute("style");
+          }
+        },
+      );
+    }
   }
 
   RenderAttachmentLabel() {

@@ -45,6 +45,7 @@ export default class Queue {
 
   moderationPanelController: ModerationPanelController;
   emptyFeedAnimation: import("@style-guide/Flex").FlexElementType;
+  observer?: IntersectionObserver;
 
   constructor(main: ReportedContentsType) {
     this.main = main;
@@ -67,6 +68,7 @@ export default class Queue {
 
     this.moderationPanelController = new ModerationPanelController(this);
 
+    this.InitIntersectionObserver();
     this.BindListener();
     setInterval(this.RenderTimes.bind(this), 5000);
   }
@@ -75,6 +77,43 @@ export default class Queue {
     if (this.main.queueContainer.childElementCount === 0) return;
 
     this.main.contents.filtered.forEach(content => content.RenderTimes());
+  }
+
+  InitIntersectionObserver() {
+    if (!this.main.defaults.lazyQueue) return;
+
+    this.observer = new IntersectionObserver(
+      entries => {
+        if (entries.length >= REPORT_BOXES_PER_PAGE_LIMIT) return;
+        entries.forEach(async entry => {
+          if (
+            !(entry.target instanceof HTMLElement) ||
+            !entry.target.style.minHeight
+          )
+            return;
+
+          const content = this.main.contents.all.find(
+            _content => _content.container === entry.target,
+          );
+          if (!content) return;
+
+          if (entry.isIntersecting) {
+            if (!content.contentWrapper) {
+              content.RenderContent();
+              content.RenderTimes(true);
+            } else {
+              content.container.append(content.contentWrapper);
+            }
+          } else {
+            content.DestroyContent();
+          }
+        });
+      },
+      {
+        rootMargin: "0px",
+        threshold: 0,
+      },
+    );
   }
 
   BindListener() {
@@ -129,6 +168,7 @@ export default class Queue {
           content.Render();
         }
 
+        this.observer?.observe(content.container);
         this.main.queueContainer.append(content.container);
 
         content.RenderTimes();
@@ -152,7 +192,12 @@ export default class Queue {
     this.main.statusBar.visibleContentsCount.nodeValue = "0";
 
     this.main.moderator?.HidePanelButton();
-    this.main.contents.all.forEach(content => HideElement(content.container));
+    this.main.contents.all.forEach(content => {
+      if (!content.container) return;
+
+      HideElement(content.container);
+      this.observer?.unobserve(content.container);
+    });
   }
 
   ShowEmptyFeedAnimation() {

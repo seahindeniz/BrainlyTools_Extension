@@ -1,5 +1,6 @@
 import type { UsersDataInReportedContentsType } from "@BrainlyAction";
 import Build from "@root/helpers/Build";
+import storage from "@root/helpers/extStorage";
 import InsertAfter from "@root/helpers/InsertAfter";
 import { Flex } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
@@ -10,6 +11,7 @@ import type { ContentClassTypes } from "./Fetcher/Fetcher";
 import Fetcher from "./Fetcher/Fetcher";
 import LiveStatus from "./LiveStatus/LiveStatus";
 import Moderator from "./Moderator/Moderator";
+import { REPORTED_CONTENTS_LAZY_QUEUE_KEY } from "./Queue/Options/LazyQueue";
 import Queue from "./Queue/Queue";
 import ReportedContentsStatusBar from "./StatusBar";
 
@@ -47,9 +49,11 @@ export default class ReportedContents {
   moderator?: Moderator;
   actionsContainerLeftSide: FlexElementType;
   statusBar: ReportedContentsStatusBar;
+  defaults: {
+    lazyQueue: boolean;
+  };
 
   constructor() {
-    this.Render();
     this.contents = {
       all: [],
       byGlobalId: {
@@ -61,6 +65,16 @@ export default class ReportedContents {
     };
     this.questionsWaitingForSubscription = [];
     this.userData = {};
+    this.defaults = {
+      lazyQueue: false,
+    };
+
+    this.Init();
+  }
+
+  async Init() {
+    await this.SetLazyQueueDefaultValue();
+    this.Render();
 
     this.statusBar = new ReportedContentsStatusBar(this);
     this.queue = new Queue(this);
@@ -72,10 +86,15 @@ export default class ReportedContents {
     }
   }
 
+  async SetLazyQueueDefaultValue() {
+    this.defaults.lazyQueue =
+      Boolean(await storage("get", REPORTED_CONTENTS_LAZY_QUEUE_KEY)) || false;
+  }
+
   Render() {
     const mainContainer = document.querySelector(".js-main-container");
 
-    if (!mainContainer) return;
+    if (!mainContainer) throw Error("Can't find main container element");
 
     mainContainer.innerHTML = "";
 

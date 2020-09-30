@@ -449,8 +449,9 @@ export default class Fetcher {
       // @ts-expect-error
       content.extraData = extraData;
 
-      if (content.container && content.RenderExtraDetails) {
+      if (content.contentWrapper && content.RenderExtraDetails) {
         content.RenderExtraDetails();
+        content.CalculateHeight();
       }
     });
   }

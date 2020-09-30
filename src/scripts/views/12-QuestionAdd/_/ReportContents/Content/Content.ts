@@ -20,7 +20,7 @@ import type { FlexElementType } from "@style-guide/Flex";
 import { IconColorType } from "@style-guide/Icon";
 import type { TextElement } from "@style-guide/Text";
 import moment from "moment-timezone";
-import tippy from "tippy.js";
+import tippy, { Instance } from "tippy.js";
 import type { ModeratorDataType } from "../LiveStatus/LiveStatus";
 import type ReportedContentsType from "../ReportedContents";
 import QuickDeleteButton from "./QuickDeleteButton";
@@ -91,6 +91,7 @@ export default class Content {
   has: StatusNamesType;
 
   container: HTMLDivElement;
+  contentWrapper: FlexElementType;
   box: Box;
   moderateActionContainer: FlexElementType;
   moderateButton: Button;
@@ -105,6 +106,7 @@ export default class Content {
   extraDetailsContainer: FlexElementType;
   quickDeleteButtons: QuickDeleteButton[];
   quickActionButtonContainer: FlexElementType;
+  tippyInstances: Instance[];
 
   constructor({
     main,
@@ -120,6 +122,7 @@ export default class Content {
     this.contentType = contentType;
 
     this.quickDeleteButtons = [];
+    this.tippyInstances = [];
     this.globalId = btoa(`${contentType.toLowerCase()}:${data.model_id}`);
 
     this.users = {
@@ -179,152 +182,143 @@ export default class Content {
   }
 
   Render() {
+    this.container = CreateElement({
+      tag: "div",
+      className: "report-item-wrapper r-c-b-c",
+      onMouseEnter: this.ShowActionButtons.bind(this),
+      onTouchStart: this.ShowActionButtons.bind(this),
+      onMouseLeave: this.HideActionButtons.bind(this),
+    });
+
+    this.RenderContent();
+    this.CalculateHeight();
+  }
+
+  async CalculateHeight() {
+    if (!this.main.defaults.lazyQueue) return;
+
+    await System.Delay(100);
+    const { clientHeight } = this.container;
+    this.container.style.minHeight = `${clientHeight}px`;
+  }
+
+  async RenderContent() {
     const subjectData = System.data.Brainly.defaultConfig.config.data.subjects.find(
       data => data.id === this.data.subject_id,
     );
 
     let reportFlagColor: IconColorType = "blue";
 
-    if (this.data.report) reportFlagColor = "peach";
-    else {
+    if ("corrected" in this.data) {
       reportFlagColor = this.data.corrected ? "mint" : "blue";
+    } else if (this.data.report) {
+      reportFlagColor = "peach";
     }
 
-    this.container = Build(
-      CreateElement({
-        tag: "div",
-        className: "report-item-wrapper",
-        onMouseEnter: this.ShowActionButtons.bind(this),
-        onTouchStart: this.ShowActionButtons.bind(this),
-        onMouseLeave: this.HideActionButtons.bind(this),
+    this.contentWrapper = Build(
+      Flex({
+        direction: "column",
+        // className: "",
+        fullHeight: true,
       }),
       [
         [
-          Flex({
-            direction: "column",
-            className: "r-c-b-c",
+          (this.box = new Box({
+            border: false,
             fullHeight: true,
-          }),
+            padding: "s",
+          })),
           [
             [
-              (this.box = new Box({
-                border: false,
+              Flex({
+                direction: "column",
                 fullHeight: true,
-                padding: "s",
-              })),
+                justifyContent: "space-between",
+              }),
               [
                 [
                   Flex({
-                    direction: "column",
-                    fullHeight: true,
+                    noShrink: true,
+                    fullWidth: true,
+                    alignItems: "center",
                     justifyContent: "space-between",
                   }),
                   [
                     [
-                      Flex({
-                        noShrink: true,
-                        fullWidth: true,
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                      }),
+                      Flex({ marginRight: "s" }),
                       [
                         [
-                          Flex({ marginRight: "s" }),
+                          Flex({
+                            marginRight: "s",
+                            tag: "a",
+                            target: "_blank",
+                            href: System.createBrainlyLink("question", {
+                              id: this.data.task_id,
+                            }),
+                          }),
                           [
                             [
-                              Flex({
-                                marginRight: "s",
-                                tag: "a",
-                                target: "_blank",
-                                href: System.createBrainlyLink("question", {
-                                  id: this.data.task_id,
+                              Flex({ alignItems: "center" }),
+                              new Button({
+                                ...CONTENT_TYPE_ICON_COLOR[this.contentType],
+                                size: "s",
+                                iconOnly: true,
+                                icon: Text({
+                                  breakWords: true,
+                                  color: "white",
+                                  text: this.contentType[0],
                                 }),
                               }),
-                              [
-                                [
-                                  Flex({ alignItems: "center" }),
-                                  new Button({
-                                    ...CONTENT_TYPE_ICON_COLOR[
-                                      this.contentType
-                                    ],
-                                    size: "s",
-                                    iconOnly: true,
-                                    icon: Text({
-                                      breakWords: true,
-                                      color: "white",
-                                      text: this.contentType[0],
-                                    }),
-                                  }),
-                                ],
-                                [
-                                  Flex({
-                                    marginLeft: "xs",
-                                    alignItems: "center",
-                                    direction: "column",
-                                  }),
-                                  [
-                                    Text({
-                                      href: "",
-                                      size: "small",
-                                      weight: "bold",
-                                      text: subjectData.name,
-                                    }),
-                                    Text({
-                                      href: "",
-                                      size: "small",
-                                      weight: "bold",
-                                      text: this.data.task_id,
-                                    }),
-                                  ],
-                                ],
-                              ],
                             ],
                             [
-                              Flex({ direction: "column" }),
+                              Flex({
+                                marginLeft: "xs",
+                                alignItems: "center",
+                                direction: "column",
+                              }),
                               [
-                                [
-                                  Flex({ alignItems: "center" }),
-                                  Text({
-                                    breakWords: true,
-                                    tag: "a",
-                                    size: "small",
-                                    weight: "bold",
-                                    target: "_blank",
-                                    text: this.users.reported.data.nick,
-                                    href: this.users.reported.profileLink,
-                                  }),
-                                ],
-                                [
-                                  Flex({
-                                    alignItems: "center",
-                                  }),
-                                  (this.createDateText = Text({
-                                    tag: "span",
-                                    size: "xsmall",
-                                    weight: "bold",
-                                    breakWords: true,
-                                    color: "gray-secondary",
-                                    title: `${this.dates.create.localFormatted}\n${this.dates.create.tzFormatted}`,
-                                  })),
-                                ],
+                                Text({
+                                  href: "",
+                                  size: "small",
+                                  weight: "bold",
+                                  text: subjectData.name,
+                                }),
+                                Text({
+                                  href: "",
+                                  size: "small",
+                                  weight: "bold",
+                                  text: this.data.task_id,
+                                }),
                               ],
                             ],
                           ],
                         ],
                         [
-                          (this.moderateActionContainer = Flex()),
+                          Flex({ direction: "column" }),
                           [
                             [
-                              Flex(),
-                              (this.moderateButton = new Button({
-                                type: "outline",
-                                toggle: "blue",
-                                iconOnly: true,
-                                onClick: this.Moderate.bind(this),
-                                icon: new Icon({
-                                  type: "pencil",
-                                  color: "adaptive",
-                                }),
+                              Flex({ alignItems: "center" }),
+                              Text({
+                                breakWords: true,
+                                tag: "a",
+                                size: "small",
+                                weight: "bold",
+                                target: "_blank",
+                                text: this.users.reported.data.nick,
+                                href: this.users.reported.profileLink,
+                              }),
+                            ],
+                            [
+                              Flex({
+                                alignItems: "center",
+                              }),
+                              (this.createDateText = Text({
+                                tag: "span",
+                                size: "xsmall",
+                                weight: "bold",
+                                breakWords: true,
+                                color: "gray-secondary",
+                                title: `${this.dates.create.localFormatted}\n${this.dates.create.tzFormatted}`,
                               })),
                             ],
                           ],
@@ -332,47 +326,68 @@ export default class Content {
                       ],
                     ],
                     [
-                      Flex({
-                        marginTop: "s",
-                        marginBottom: "m",
-                        grow: true,
-                      }),
-                      Text({
-                        breakWords: true,
-                        size: "small",
-                        html: this.data.content_short,
-                      }),
-                    ],
-                    (this.extraDetailsContainer = Flex({
-                      alignItems: "center",
-                      // marginLeft: "xs",
-                      marginBottom: "s",
-                    })),
-                    [
-                      Flex({
+                      (this.moderateActionContainer = Flex({
                         wrap: true,
-                        relative: true,
-                        className: "footer",
-                        justifyContent: "space-between",
-                      }),
+                        direction: "row-reverse",
+                      })),
                       [
                         [
-                          (this.reportDetailContainer = Flex({
-                            className: "footer-left-side", // TODO remove this className
+                          Flex(),
+                          (this.moderateButton = new Button({
+                            type: "outline",
+                            toggle: "blue",
+                            iconOnly: true,
+                            onClick: this.Moderate.bind(this),
+                            icon: new Icon({
+                              type: "pencil",
+                              color: "adaptive",
+                            }),
                           })),
-                          [
-                            [
-                              Flex({
-                                marginLeft: "xxs",
-                                marginRight: "xxs",
-                                alignItems: "center",
-                              }),
-                              new Icon({
-                                type: "report_flag",
-                                color: reportFlagColor,
-                              }),
-                            ],
-                          ],
+                        ],
+                      ],
+                    ],
+                  ],
+                ],
+                [
+                  Flex({
+                    marginTop: "s",
+                    marginBottom: "m",
+                    grow: true,
+                  }),
+                  Text({
+                    breakWords: true,
+                    size: "small",
+                    html: this.data.content_short,
+                  }),
+                ],
+                (this.extraDetailsContainer = Flex({
+                  alignItems: "center",
+                  // marginLeft: "xs",
+                  marginBottom: "s",
+                })),
+                [
+                  Flex({
+                    wrap: true,
+                    relative: true,
+                    className: "footer",
+                    justifyContent: "space-between",
+                  }),
+                  [
+                    [
+                      (this.reportDetailContainer = Flex({
+                        className: "footer-left-side", // TODO remove this className
+                      })),
+                      [
+                        [
+                          Flex({
+                            marginLeft: "xxs",
+                            marginRight: "xxs",
+                            alignItems: "center",
+                          }),
+                          new Icon({
+                            type: "report_flag",
+                            color: reportFlagColor,
+                          }),
                         ],
                       ],
                     ],
@@ -384,6 +399,8 @@ export default class Content {
         ],
       ],
     );
+
+    this.container.append(this.contentWrapper);
 
     if (this.has) {
       this.ChangeBoxColor();
@@ -398,14 +415,40 @@ export default class Content {
 
     this.TryToRenderButtons();
 
-    tippy(this.moderateButton.element, {
-      theme: "light",
-      content: Text({
-        size: "small",
-        weight: "bold",
-        children: System.data.locale.common.moderating.moderate,
+    this.tippyInstances.push(
+      tippy(this.moderateButton.element, {
+        theme: "light",
+        content: Text({
+          size: "small",
+          weight: "bold",
+          children: System.data.locale.common.moderating.moderate,
+        }),
       }),
-    });
+    );
+  }
+
+  DestroyContent() {
+    if (!this.contentWrapper) return;
+
+    this.tippyInstances.forEach(instance => instance.destroy());
+    this.tippyInstances = [];
+
+    this.box = null;
+    this.moderateActionContainer = null;
+    this.moderateButton = null;
+    this.createDateText = null;
+    this.reportDateText = null;
+    this.reportDetailContainer = null;
+    this.quickDeleteButtonContainer = null;
+    this.confirmButtonContainer = null;
+    this.confirmButton = null;
+    this.buttonSpinner = null;
+    this.moderatorContainer = null;
+    this.extraDetailsContainer = null;
+    this.quickDeleteButtons = [];
+
+    this.contentWrapper.remove();
+    this.contentWrapper = null;
   }
 
   ChangeBoxColor() {
@@ -442,6 +485,10 @@ export default class Content {
   }
 
   ShowActionButtons() {
+    if (!this.contentWrapper) {
+      this.RenderContent();
+    }
+
     if (IsVisible(this.quickActionButtonContainer)) return;
 
     if (!this.quickActionButtonContainer) {
@@ -553,14 +600,16 @@ export default class Content {
       }),
     });
 
-    tippy(this.confirmButton.element, {
-      theme: "light",
-      content: Text({
-        size: "small",
-        weight: "bold",
-        children: System.data.locale.common.confirm,
+    this.tippyInstances.push(
+      tippy(this.confirmButton.element, {
+        theme: "light",
+        content: Text({
+          size: "small",
+          weight: "bold",
+          children: System.data.locale.common.confirm,
+        }),
       }),
-    });
+    );
 
     this.quickActionButtonContainer.append(this.confirmButtonContainer);
   }
@@ -571,6 +620,17 @@ export default class Content {
 
   RenderReportDetails() {
     const container = Build(document.createDocumentFragment(), [
+      "corrected" in this.data && [
+        Flex({
+          marginLeft: "xxs",
+          marginRight: "xxs",
+          alignItems: "center",
+        }),
+        new Icon({
+          type: "report_flag",
+          color: "peach",
+        }),
+      ],
       [
         Flex({
           marginRight: "s",
@@ -626,12 +686,15 @@ export default class Content {
     this.reportDetailContainer.append(container);
   }
 
-  RenderTimes() {
-    if (!this.container || !IsVisible(this.container)) return;
+  RenderTimes(forceToRender?: boolean) {
+    if (!this.contentWrapper || !IsVisible(this.contentWrapper)) return;
 
     const currentCreationTime = this.dates.create.moment.fromNow();
 
-    if (this.dates.create.lastPrintedRelativeTime !== currentCreationTime) {
+    if (
+      forceToRender ||
+      this.dates.create.lastPrintedRelativeTime !== currentCreationTime
+    ) {
       this.createDateText.innerText = currentCreationTime;
       this.dates.create.lastPrintedRelativeTime = currentCreationTime;
     }
@@ -641,7 +704,8 @@ export default class Content {
 
       if (
         this.dates.report &&
-        this.dates.report.lastPrintedRelativeTime !== currentReportingTime
+        (forceToRender ||
+          this.dates.report.lastPrintedRelativeTime !== currentReportingTime)
       ) {
         this.dates.report.lastPrintedRelativeTime = currentReportingTime;
         this.reportDateText.innerText = currentReportingTime;
@@ -798,40 +862,35 @@ export default class Content {
 
     const profileLink = System.createProfileLink(data);
 
-    this.moderatorContainer = Build(
-      Flex({
-        marginRight: "s",
-      }),
+    this.moderatorContainer = Build(Flex(), [
       [
-        [
-          Flex({
-            marginRight: "xs",
-            alignItems: "center",
-          }),
-          Text({
-            size: "small",
-            weight: "bold",
-            text: data.nick,
-            target: "_blank",
-            href: profileLink,
-          }),
-        ],
-        [
-          Flex({
-            alignItems: "center",
-          }),
-          Avatar({
-            size: "m",
-            title: data.nick,
-            target: "_blank",
-            link: profileLink,
-            imgSrc: data.avatar,
-          }),
-        ],
+        Flex({
+          marginRight: "xs",
+          alignItems: "center",
+        }),
+        Text({
+          size: "small",
+          weight: "bold",
+          text: data.nick,
+          target: "_blank",
+          href: profileLink,
+        }),
       ],
-    );
+      [
+        Flex({
+          alignItems: "center",
+        }),
+        Avatar({
+          size: "m",
+          title: data.nick,
+          target: "_blank",
+          link: profileLink,
+          imgSrc: data.avatar,
+        }),
+      ],
+    ]);
 
-    this.moderateActionContainer.prepend(this.moderatorContainer);
+    this.moderateActionContainer.append(this.moderatorContainer);
   }
 
   async ExpressDelete(

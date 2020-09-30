@@ -121,9 +121,12 @@ body {
       color: #888;
       margin: 0 auto;
       font-size: 0.8em;
-      position: relative;
+      // position: relative;
       counter-increment: reported-content-box-counter;
       content: "#" counter(reported-content-box-counter) " " attr(data-status);
+      position: absolute;
+      left: 50%;
+      top: 0;
 
       &:not([data-status=""]) {
         color: #000;

@@ -930,6 +930,10 @@
       "density": {
         "optionName": "Yoğunluk",
         "defaultDensity": "Varsayılan"
+      },
+      "lazyQueue": {
+        "optionName": "Lazy liste (Sayfayı yenilemelisin)",
+        "description": "Bu seçenek, şikayet edilen içerikler için gecikmeli görüntülemeyi etkinleştirir.\n\nEtkinleştirildiğinde; şikayetler, sayfa kaydırılınca biraz gecikmeli görüntülenir, bu da cihazının belleğinde az kullanım sağlar. \nAncak bu durumda, tarayıcının \"Sayfada bul\" özelliği, o an görüntülenmeyen şikayetler için çalışmaz. Sayfayı hızlı kaydırınca da, bazı şikayetler görünmez kalabilir."
       }
     },
     "queue": {

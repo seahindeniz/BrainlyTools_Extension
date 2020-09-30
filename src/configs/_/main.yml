@@ -5,11 +5,11 @@ common:
       name: English
       author: null
     fr:
-      progress: 99
+      progress: 97
       name: Français
       author: 'MichaelS, Its1tom'
     id:
-      progress: 78
+      progress: 76
       name: Bahasa Indonesia
       author: Zuhh
     tr:

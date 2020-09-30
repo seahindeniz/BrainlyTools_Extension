@@ -4,8 +4,7 @@ import { Flex, Select, SeparatorHorizontal, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type OptionsClassType from "./Options";
 
-export const REPORTED_COMMENTS_VISIBILITY_KEY =
-  "reported_contents_buttons_visibility";
+const REPORTED_CONTENTS_VISIBILITY_KEY = "reported_contents_buttons_visibility";
 
 export default class ButtonVisibility {
   main: OptionsClassType;
@@ -80,12 +79,11 @@ export default class ButtonVisibility {
     );
 
     this.SetValue();
-    this.main.optionContainer.append(this.container);
   }
 
   async SetValue() {
     const value =
-      (await storage("get", REPORTED_COMMENTS_VISIBILITY_KEY)) || "0";
+      (await storage("get", REPORTED_CONTENTS_VISIBILITY_KEY)) || "0";
     this.buttonVisibilitySelect.select.value = value;
 
     this.ChangeVisibility();
@@ -116,13 +114,13 @@ export default class ButtonVisibility {
     }
 
     this.main.main.main.contents.filtered.forEach(content => {
-      if (!content.container) return;
+      if (!content.contentWrapper) return;
 
       content.TryToRenderButtons();
     });
 
     if (event) {
-      storage("set", { [REPORTED_COMMENTS_VISIBILITY_KEY]: value });
+      storage("set", { [REPORTED_CONTENTS_VISIBILITY_KEY]: value });
     }
   }
 }

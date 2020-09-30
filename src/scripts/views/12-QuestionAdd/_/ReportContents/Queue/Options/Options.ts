@@ -5,6 +5,7 @@ import type QueueClassType from "../Queue";
 import ButtonVisibility from "./ButtonVisibility";
 import Density from "./Density";
 import Filters from "./Filters/Filters";
+import LazyQueue from "./LazyQueue";
 
 export default class Options {
   main: QueueClassType;
@@ -16,8 +17,9 @@ export default class Options {
   optionContainer: FlexElementType;
 
   option: {
-    buttonVisibility?: ButtonVisibility;
     density: Density;
+    buttonVisibility?: ButtonVisibility;
+    lazyQueue: LazyQueue;
     contentFilters: Filters;
   };
 
@@ -28,6 +30,7 @@ export default class Options {
 
     this.option = {
       density: new Density(this),
+      lazyQueue: new LazyQueue(this),
       buttonVisibility:
         System.checkUserP([1, 2, 45]) && new ButtonVisibility(this),
       contentFilters: new Filters(this),

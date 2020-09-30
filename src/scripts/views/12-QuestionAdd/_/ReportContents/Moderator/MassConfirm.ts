@@ -69,7 +69,7 @@ export default class MassConfirmSection extends ActionSection {
   }
 
   TryToConfirm() {
-    const contents = this.contents.splice(0, 7);
+    const contents = this.contents.splice(0, 4);
 
     if (contents.length === 0) {
       this.StopModerating();

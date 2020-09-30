@@ -793,6 +793,8 @@ export default class Content {
 
       // console.log(resConfirm);
 
+      new Action().CloseModerationTicket(this.data.task_id);
+
       this.has = "failed";
 
       if (resConfirm?.success) {
@@ -913,6 +915,8 @@ export default class Content {
       });
       const resDelete = { success: false, message: "Failed" };
       await System.TestDelay(1, 50); */
+
+      new Action().CloseModerationTicket(this.data.task_id);
 
       this.has = "failed";
 

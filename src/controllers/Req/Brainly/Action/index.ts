@@ -15,7 +15,7 @@ import UserFragment from "./GraphQL/User.graphql";
 import SubjectFragment from "./GraphQL/Subject.graphql";
 import AttachmentFragment from "./GraphQL/Attachment.graphql"; */
 
-const USERS_PROFILE_REQ_CHUNK_SIZE = 990;
+const USERS_PROFILE_REQ_CHUNK_SIZE = 100;
 
 type CommonUserProps = { id: number; nick: string };
 

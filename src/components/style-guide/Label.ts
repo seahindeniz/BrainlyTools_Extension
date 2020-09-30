@@ -27,6 +27,7 @@ export type LabelPropsType = {
   children?: ChildrenParamType;
   className?: string;
   tag?: "div" | "label";
+  noSelection?: boolean;
   [x: string]: any;
 } & CommonComponentPropsType;
 
@@ -113,6 +114,7 @@ export default class Label {
     color,
     className,
     tag = "div",
+    noSelection,
     ...props
   }: LabelPropsType) {
     this.type = type;
@@ -122,6 +124,7 @@ export default class Label {
       {
         [SGD + type]: type,
         [`${SGD}closable`]: !!onClose,
+        [`${SGD}no-selection`]: noSelection,
       },
       className,
     );

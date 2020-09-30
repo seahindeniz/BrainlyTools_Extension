@@ -1,6 +1,9 @@
 .sg-label {
   cursor: inherit;
-  user-select: none;
+
+  &--no-selection {
+    user-select: none;
+  }
 
   @at-root html.win &__text {
     top: unset;

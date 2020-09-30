@@ -1,0 +1,95 @@
+.ext-switch {
+  display: inline-block;
+  vertical-align: middle;
+
+  input {
+    display: none;
+    height: 0;
+    width: 0;
+    visibility: hidden;
+  }
+
+  label {
+    position: relative;
+    display: block;
+    cursor: pointer;
+    width: 60px;
+    height: 26px;
+    margin: 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    overflow: hidden;
+    transition: 0.3s;
+
+    .active {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -50%;
+      width: 50%;
+      height: 100%;
+      transition: 0.3s;
+      background: #1fb4da;
+
+      &:after {
+        content: "";
+        position: absolute;
+        top: 5px;
+        left: 11px;
+        width: 6px;
+        height: 12px;
+        border-right: 2px solid #fff;
+        border-bottom: 2px solid #fff;
+        transform: rotate(45deg) scale(1);
+      }
+    }
+
+    .inactive {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 50%;
+      height: 100%;
+      background: #ccc;
+      transition: 0.3s;
+
+      &:after,
+      &:before {
+        content: "";
+        position: absolute;
+        left: 14px;
+        top: 5px;
+        width: 1px;
+        height: 14px;
+        background-color: #666;
+      }
+
+      &:before {
+        transform: rotate(45deg);
+      }
+
+      &:after {
+        transform: rotate(-45deg);
+      }
+    }
+  }
+
+  input {
+    &:checked + label {
+      .active {
+        left: 0;
+      }
+
+      .inactive {
+        right: -50%;
+      }
+    }
+
+    &:disabled + label {
+      opacity: 0.5;
+      cursor: default;
+    }
+  }
+}

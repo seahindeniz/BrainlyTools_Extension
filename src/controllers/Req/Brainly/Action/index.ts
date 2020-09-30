@@ -220,7 +220,7 @@ export type ReportedContentDataType = {
   user?: UserDataInReportType;
   report?: ReportDetailsDataType;
   // correction report
-  corrected: boolean;
+  corrected?: boolean;
 };
 
 export type CommentDataInTicketType = {

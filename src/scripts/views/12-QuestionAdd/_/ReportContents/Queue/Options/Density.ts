@@ -28,54 +28,59 @@ export default class Density {
   }
 
   Render() {
-    this.container = Build(Flex(), [
+    this.container = Build(
+      Flex({
+        tag: "label",
+      }),
       [
-        Flex({ alignItems: "center", marginRight: "s" }),
-        Text({
-          size: "small",
-          text: `${System.data.locale.reportedContents.options.density.optionName}: `,
-          weight: "bold",
-        }),
-      ],
-      [
-        Flex({
-          grow: true,
-          alignItems: "center",
-        }),
         [
+          Flex({ alignItems: "center", marginRight: "s" }),
+          Text({
+            size: "small",
+            text: `${System.data.locale.reportedContents.options.density.optionName}: `,
+            weight: "bold",
+          }),
+        ],
+        [
+          Flex({
+            grow: true,
+            alignItems: "center",
+          }),
           [
-            Flex({ marginRight: "s" }),
             [
-              (this.input = CreateElement({
-                max: MAX_DENSITY,
-                min: 0,
-                tag: "input",
-                type: "range",
-                list: "densityMark",
-                onInput: this.Changed.bind(this),
-              })),
-              CreateElement({
-                tag: "datalist",
-                id: "densityMark",
-                children: FillRange(0, MAX_DENSITY).map(numb => {
-                  return CreateElement({
-                    tag: "option",
-                    value: String(numb),
-                  });
+              Flex({ marginRight: "s" }),
+              [
+                (this.input = CreateElement({
+                  max: MAX_DENSITY,
+                  min: 0,
+                  tag: "input",
+                  type: "range",
+                  list: "densityMark",
+                  onInput: this.Changed.bind(this),
+                })),
+                CreateElement({
+                  tag: "datalist",
+                  id: "densityMark",
+                  children: FillRange(0, MAX_DENSITY).map(numb => {
+                    return CreateElement({
+                      tag: "option",
+                      value: String(numb),
+                    });
+                  }),
                 }),
-              }),
+              ],
             ],
-          ],
-          [
-            Flex(),
-            (this.label = Text({
-              tag: "div",
-              weight: "bold",
-            })),
+            [
+              Flex(),
+              (this.label = Text({
+                tag: "div",
+                weight: "bold",
+              })),
+            ],
           ],
         ],
       ],
-    ]);
+    );
 
     this.main.optionContainer.append(this.container);
   }

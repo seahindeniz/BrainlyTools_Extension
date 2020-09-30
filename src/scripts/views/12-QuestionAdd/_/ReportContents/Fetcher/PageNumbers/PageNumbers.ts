@@ -135,6 +135,7 @@ export default class PageNumbers {
     tippy(this.pageNumberInput.input, {
       theme: "light",
       content: Text({
+        size: "small",
         weight: "bold",
         children: title,
       }),

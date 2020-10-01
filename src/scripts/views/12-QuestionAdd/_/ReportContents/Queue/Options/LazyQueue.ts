@@ -24,25 +24,31 @@ export default class LazyQueue {
   Render() {
     this.container = Build(
       Flex({
-        tag: "label",
         marginTop: "m",
       }),
       [
         [
-          Flex({ marginRight: "s", alignItems: "center" }),
-          Text({
-            size: "small",
-            weight: "bold",
-            text: `${System.data.locale.reportedContents.options.lazyQueue.optionName}: `,
-          }),
-        ],
-        [
           Flex({
-            grow: true,
+            tag: "label",
           }),
-          (this.switch = new Switch({
-            onChange: this.StoreState.bind(this),
-          })),
+          [
+            [
+              Flex({ marginRight: "s", alignItems: "center" }),
+              Text({
+                size: "small",
+                weight: "bold",
+                text: `${System.data.locale.reportedContents.options.lazyQueue.optionName}: `,
+              }),
+            ],
+            [
+              Flex({
+                grow: true,
+              }),
+              (this.switch = new Switch({
+                onChange: this.StoreState.bind(this),
+              })),
+            ],
+          ],
         ],
       ],
     );

@@ -1,5 +1,5 @@
 import Build from "@root/helpers/Build";
-import { Flex, SeparatorHorizontal, Text } from "@style-guide";
+import { Flex, Icon, SeparatorHorizontal, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type OptionsClassType from "../Options";
 import AdditionalData from "./AdditionalData/AdditionalData";
@@ -62,10 +62,10 @@ export default class Filters {
                 justifyContent: "center",
               }),
               Text({
-                weight: "bold",
-                transform: "uppercase",
                 children:
                   System.data.locale.reportedContents.options.filter.optionName,
+                transform: "uppercase",
+                weight: "bold",
               }),
             ],
             [
@@ -75,17 +75,29 @@ export default class Filters {
               [
                 [
                   Flex({
+                    alignItems: "center",
                     grow: true,
-                    minContent: true,
                     justifyContent: "center",
+                    minContent: true,
                   }),
-                  Text({
-                    size: "xsmall",
-                    color: "gray",
-                    children:
-                      System.data.locale.reportedContents.options.filter
-                        .description,
-                  }),
+                  [
+                    [
+                      Flex({ marginRight: "xs" }),
+                      new Icon({
+                        color: "mustard",
+                        size: 24,
+                        type: "question",
+                      }),
+                    ],
+                    Text({
+                      children:
+                        System.data.locale.reportedContents.options.filter
+                          .description,
+                      color: "peach-dark",
+                      size: "small",
+                      weight: "bold",
+                    }),
+                  ],
                 ],
               ],
             ],

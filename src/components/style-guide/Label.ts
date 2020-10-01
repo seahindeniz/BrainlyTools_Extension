@@ -288,7 +288,10 @@ export default class Label {
         ? COLORS_DEFAULT_MAP[color]
         : COLORS_SOLID_MAP[color];
 
-    if (backgroundColor) {
+    if (
+      backgroundColor &&
+      (!this.type || this.type === "solid" || this.type === "default")
+    ) {
       this.element.classList.add(SGD + backgroundColor);
     }
 

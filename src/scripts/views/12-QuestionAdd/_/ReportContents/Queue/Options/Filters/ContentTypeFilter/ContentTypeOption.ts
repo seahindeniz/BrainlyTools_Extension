@@ -43,6 +43,7 @@ export default class ContentTypeOption {
     if (this.main.selectedOption) {
       if (this.main.selectedOption === this) {
         this.Deselected();
+        this.main.Changed();
 
         return;
       }
@@ -60,7 +61,6 @@ export default class ContentTypeOption {
     this.main.selectedOption = null;
 
     this.button.ChangeType({ type: "solid-light" });
-    this.main.Changed();
   }
 
   Hide() {

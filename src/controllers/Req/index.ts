@@ -131,7 +131,7 @@ export default class Request {
       let promise: Promise<ObjectAnyPropsType>;
       const connectionData = {
         method: this.method,
-        headers: new Headers(this.headers),
+        headers: undefined,
         data: undefined,
         body: undefined,
         url: undefined,
@@ -146,8 +146,12 @@ export default class Request {
 
       if (this.axios) {
         connectionData.url = url;
+        connectionData.headers = this.headers;
         promise = this.axios(connectionData);
-      } else promise = fetch(url, connectionData);
+      } else {
+        connectionData.headers = new Headers(this.headers);
+        promise = fetch(url, connectionData);
+      }
 
       promise.then(this.HandleResponse.bind(this));
       promise.catch(this.HandleError.bind(this));

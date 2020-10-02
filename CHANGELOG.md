@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.6.0] - 2020.09.29
+
+### Added
+
+- An option to copy shortened URL's by right-clicking a link. [#251]
+- There's a bit of a lag while moderating contents at the very bottom of a page
+  of reports. [#238]
+
+### Changed
+
+- Quick Delete Buttons don't appear when question links are visited by using the
+  CTRL + left click shortcut, or when in the background. (sometimes) [#201]
+- Mass Moderate Tool exhausting the Ticket Limit [#252]
+- The option to use ">" to navigate to the next attachment in an answer/question
+  should not be usable while viewing the last attachment. [#253]
+- 'Visible reports' counter in the new mod panel doesn't update the number when
+  a subject/category that contains 0 reports is chosen. [#256]
+
+[#201]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/201
+[#238]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/238
+[#251]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/251
+[#252]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/252
+[#253]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/253
+[#256]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/256
+
 ## [7.5.1] - 2020.09.29
 
 ### Changed

@@ -135,4 +135,20 @@ export default class Select {
       return optionElement;
     });
   }
+
+  Natural() {
+    this.element.classList.remove(`sg-select--valid`, `sg-select--invalid`);
+  }
+
+  Valid() {
+    this.Natural();
+
+    this.element.classList.add(`sg-select--valid`);
+  }
+
+  Invalid() {
+    this.Natural();
+
+    this.element.classList.add(`sg-select--invalid`);
+  }
 }

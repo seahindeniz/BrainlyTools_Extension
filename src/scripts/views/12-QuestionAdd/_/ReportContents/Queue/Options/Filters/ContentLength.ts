@@ -1,11 +1,16 @@
 import Build from "@root/helpers/Build";
 import { Flex, Input, Select, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
-import { debounce } from "throttle-debounce";
-import type FiltersClassType from "./Filters";
 import type { NumberConditionType } from "../../Filter/ContentLength";
+import type FiltersClassType from "./Filters";
 
 const MAX_CONTENT_LENGTH = 198;
+
+export function PreventMathOperators(event: KeyboardEvent) {
+  if (event.key !== "-" && event.key !== "+") return;
+
+  event.preventDefault();
+}
 
 export default class ContentLength {
   main: FiltersClassType;
@@ -84,7 +89,8 @@ export default class ContentLength {
                 placeholder: `0 - ${MAX_CONTENT_LENGTH}`,
                 type: "number",
                 fullWidth: true,
-                onInput: debounce(400, this.InputChanged.bind(this)),
+                onKeyDown: PreventMathOperators,
+                onChange: this.InputChanged.bind(this),
               })),
             ],
           ],
@@ -102,6 +108,8 @@ export default class ContentLength {
 
     this.main.container.append(this.container);
   }
+
+  // eslint-disable-next-line class-methods-use-this
 
   InputChanged() {
     const { value } = this.input.input;

@@ -2,8 +2,8 @@ import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
 import { Flex, Input, Select, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
-import { debounce } from "throttle-debounce";
 import type { NumberConditionType } from "../../Filter/ContentLength";
+import { PreventMathOperators } from "./ContentLength";
 import type FiltersClassType from "./Filters";
 
 export default class AttachmentLength {
@@ -95,7 +95,8 @@ export default class AttachmentLength {
                 placeholder: `0 - ${System.data.Brainly.defaultConfig.config.data.config.attachmentCount}`,
                 type: "number",
                 fullWidth: true,
-                onInput: debounce(400, this.InputChanged.bind(this)),
+                onKeyDown: PreventMathOperators,
+                onChange: this.InputChanged.bind(this),
               })),
             ],
           ],

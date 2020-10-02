@@ -78,6 +78,7 @@ export default class AdditionalData {
                 tag: "textarea",
                 fullWidth: true,
                 onChange: this.InputChanged.bind(this),
+                onInput: this.CheckValue.bind(this),
                 placeholder: "...",
               })),
             ],
@@ -120,6 +121,18 @@ export default class AdditionalData {
     this.textarea.placeholder = placeholder;
 
     this.InputChanged();
+  }
+
+  CheckValue() {
+    const { value } = this.textarea;
+
+    if (value !== "" && !this.selectedCondition) {
+      this.conditionSelect.Invalid();
+
+      return;
+    }
+
+    this.conditionSelect.Natural();
   }
 
   InputChanged() {

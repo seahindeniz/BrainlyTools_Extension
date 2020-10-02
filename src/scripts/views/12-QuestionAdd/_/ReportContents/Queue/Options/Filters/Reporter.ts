@@ -76,6 +76,7 @@ export default class Reporter {
               (this.input = InputDeprecated({
                 fullWidth: true,
                 onChange: this.InputChanged.bind(this),
+                onInput: this.CheckValue.bind(this),
                 placeholder: "...",
               })),
             ],
@@ -87,16 +88,27 @@ export default class Reporter {
     this.main.container.append(this.container);
   }
 
-  InputChanged() {
-    const target =
-      this.queryTypeSelect.select.value === "0"
-        ? "nick"
-        : this.queryTypeSelect.select.value === "1"
-        ? "id"
-        : undefined;
+  get target() {
+    return this.queryTypeSelect.select.value === "0"
+      ? "nick"
+      : this.queryTypeSelect.select.value === "1"
+      ? "id"
+      : undefined;
+  }
 
+  CheckValue() {
+    if (this.input.value !== "" && !this.target) {
+      this.queryTypeSelect.Invalid();
+
+      return;
+    }
+
+    this.queryTypeSelect.Natural();
+  }
+
+  InputChanged() {
     this.main.main.main.filter.byName.reporter.SetQuery(
-      target,
+      this.target,
       this.input.value,
     );
   }

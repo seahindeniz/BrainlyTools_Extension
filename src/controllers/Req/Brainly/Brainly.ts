@@ -384,6 +384,10 @@ export default class Brainly extends Request {
   delete_attachment() {
     return this.P("delete_attachment");
   }
+
+  view_user_warns() {
+    return this.P("view_user_warns");
+  }
 }
 
 // export { default as GQL } from "./GQL";

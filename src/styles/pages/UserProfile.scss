@@ -9,11 +9,11 @@ img.userHat {
 }
 
 .ranking {
-  >h2:not(:last-child) {
+  > h2:not(:last-child) {
     margin-right: 0.5em;
   }
 
-  &>a,
+  & > a,
   div.userFlag .sg-badge {
     margin-right: 1em;
   }
@@ -46,7 +46,7 @@ img.userHat {
     .friends span {
       display: inline-block;
       max-width: 150px;
-      word-wrap: break-word
+      word-wrap: break-word;
     }
 
     img {
@@ -58,7 +58,7 @@ img.userHat {
       font-size: 12px;
     }
 
-    >div {
+    > div {
       line-height: 16px;
     }
   }
@@ -90,7 +90,6 @@ img.userHat {
   }
 }
 
-
 #profile-friends {
   display: inline-block;
 
@@ -117,7 +116,7 @@ img.userHat {
       margin-right: 0px !important;
     }
 
-    >div.bilgi {
+    > div.bilgi {
       float: left;
       width: 100%;
       max-width: 141px;
@@ -128,7 +127,7 @@ img.userHat {
         max-height: 65px;
       }
 
-      >div {
+      > div {
         &.nick {
           font-size: 12px;
           text-overflow: ellipsis;
@@ -155,21 +154,21 @@ img.userHat {
         }
       }
 
-      >.sg-checkbox {
+      > .sg-checkbox {
         float: right;
         z-index: 2;
         left: -5px;
         bottom: 15px;
 
-        >.sg-checkbox__ghost {
+        > .sg-checkbox__ghost {
           display: none;
         }
 
-        >.sg-checkbox__element:checked+.sg-checkbox__ghost {
+        > .sg-checkbox__element:checked + .sg-checkbox__ghost {
           display: block;
         }
 
-        >.sg-checkbox__element:not(:checked)+.sg-checkbox__ghost {
+        > .sg-checkbox__element:not(:checked) + .sg-checkbox__ghost {
           border-color: #ff796b;
         }
       }
@@ -178,12 +177,12 @@ img.userHat {
     &:hover {
       overflow: unset;
 
-      &:not(.removed)>div.bilgi>div.sg-checkbox>label.sg-checkbox__ghost {
+      &:not(.removed) > div.bilgi > div.sg-checkbox > label.sg-checkbox__ghost {
         display: inline-block;
       }
 
-      >div.bilgi {
-        >div.rank {
+      > div.bilgi {
+        > div.rank {
           overflow: visible;
           height: initial;
           z-index: 1;
@@ -213,37 +212,40 @@ img.userHat {
     width: 97%;
     padding: 10px 0;
     margin-left: 3%;
-    -webkit-transition: color 2s, outline-color .7s ease-out, background-color .7s ease-out;
-    -moz-transition: color 2s, outline-color .7s ease-out, background-color .7s ease-out;
-    -o-transition: color 2s, outline-color .7s ease-out, background-color .7s ease-out;
-    transition: color 2s, outline-color .7s ease-out, background-color .7s ease-out;
+    -webkit-transition: color 2s, outline-color 0.7s ease-out,
+      background-color 0.7s ease-out;
+    -moz-transition: color 2s, outline-color 0.7s ease-out,
+      background-color 0.7s ease-out;
+    -o-transition: color 2s, outline-color 0.7s ease-out,
+      background-color 0.7s ease-out;
+    transition: color 2s, outline-color 0.7s ease-out,
+      background-color 0.7s ease-out;
 
     div {
       padding: 0;
     }
 
-    >div.container {
+    > div.container {
       width: 100%;
       display: inline-block;
       margin-top: 5px;
-
 
       &.textarea {
         text-align: center;
       }
 
-      >label {
+      > label {
         font-size: 12px;
         width: initial;
         font-weight: bold;
 
-        >i {
+        > i {
           font-size: 0.9em;
           font-weight: normal;
         }
       }
 
-      >textarea {
+      > textarea {
         /*width: 49%;
 	height: 58px;
 	position: absolute;
@@ -254,7 +256,6 @@ img.userHat {
         position: relative;
         resize: vertical;
       }
-
     }
 
     .evidence {
@@ -281,7 +282,6 @@ img.userHat {
         video {
           width: 264px;
         }
-
       }
 
       span.sg-text {
@@ -295,7 +295,6 @@ img.userHat {
     }
 
     .addFile {
-
       input {
         visibility: hidden;
         width: 0;
@@ -321,7 +320,7 @@ img.userHat {
 	margin-top: 0;*/
       width: 100%;
 
-      >li {
+      > li {
         width: 60px;
         height: 55px;
         padding: 10px;
@@ -335,7 +334,7 @@ img.userHat {
         user-select: none;
 
         &.kanit {
-          >button {
+          > button {
             position: relative;
             margin: -15px 0 0 35px;
             float: right;
@@ -344,8 +343,8 @@ img.userHat {
             z-index: 1;
           }
 
-          >img,
-          >video {
+          > img,
+          > video {
             height: 64%;
           }
 
@@ -353,13 +352,13 @@ img.userHat {
             width: 100%;
             height: 16em;
 
-            >img,
-            >video {
+            > img,
+            > video {
               height: 150px;
             }
           }
 
-          >p {
+          > p {
             width: 100%;
             height: 15px;
             overflow: hidden;
@@ -368,7 +367,6 @@ img.userHat {
             white-space: nowrap;
           }
         }
-
       }
     }
   }
@@ -397,4 +395,13 @@ img.userHat {
   overflow: hidden;
   text-overflow: ellipsis;
   width: -webkit-fill-available;
+}
+
+.ext-warnings-list {
+  &__trimmed-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 230px;
+  }
 }

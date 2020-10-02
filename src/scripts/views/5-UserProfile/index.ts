@@ -1,3 +1,4 @@
+/* eslint-disable no-new */
 import IsVisible from "@root/helpers/IsVisible";
 import WaitForElement from "@root/helpers/WaitForElement";
 import ServerReq from "@ServerReq";
@@ -10,6 +11,12 @@ import AccountDeleteReporter from "./_/AccountDeleteReporter";
 import FriendsManager from "./_/FriendsManager";
 import MorePanel from "./_/MorePanel";
 import RankManager from "./_/RankManager";
+import UserWarningsList from "./_/UserWarningsList";
+
+type ProfileDataType = {
+  id: number;
+  nick: string;
+};
 
 System.pageLoaded("User Profile inject OK!");
 
@@ -53,7 +60,7 @@ export default class UserProfile {
     moderators: Promise<any>;
   };
 
-  profileData: any;
+  profileData: ProfileDataType;
   infoBottomList: HTMLDivElement;
   infoSection: HTMLDivElement;
   morePanel: MorePanel;
@@ -75,7 +82,7 @@ export default class UserProfile {
       this.promise = {
         profile: new Action().GetUserProfile(this.profileData.id),
         extension: new ServerReq().GetUser(this.profileData),
-        moderators: new ServerReq().GetAllModerators(),
+        moderators: Promise.resolve(), // new ServerReq().GetAllModerators(),
       };
 
       this.FixInfoBottom();
@@ -86,10 +93,7 @@ export default class UserProfile {
   }
 
   GetProfileData() {
-    /**
-     * @type {{id: number, nick: string}}
-     */
-    const data = window.profileData;
+    const data = window.profileData as ProfileDataType;
 
     if (!data || !data.id || !data.nick)
       throw Error("Can't find the profile data of user");
@@ -138,11 +142,12 @@ export default class UserProfile {
   }
 
   LoadComponents() {
+    new UserWarningsList(this);
     this.morePanel = new MorePanel(this);
 
     MakeProfileMorePanelAlwaysVisible();
     HideDeleteOptions();
-    // eslint-disable-next-line no-new
+
     new AccountDeleteReporter();
 
     this.RenderFriendsManager();

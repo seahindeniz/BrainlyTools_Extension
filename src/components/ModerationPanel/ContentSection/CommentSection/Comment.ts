@@ -375,7 +375,7 @@ export default class Comment {
     this.quickActionButtons?.Hide();
     HideElement(this.deleteSectionContainer);
     this.contentBox.ChangeColor("peach-secondary");
-    this.main.main.main.listeners.onDelete(this.data.id, "Comment");
+    this.main.main.main.listeners.onModerate(this.data.id, "delete", "Comment");
   }
 
   ConfirmConfirming() {
@@ -423,6 +423,11 @@ export default class Comment {
     this.contentBox.ChangeBorderColor();
     this.quickActionButtons.EnableButtons();
     this.quickActionButtons.confirmButton.Hide();
+    this.main.main.main.listeners.onModerate(
+      this.data.id,
+      "confirm",
+      "Comment",
+    );
   }
 
   HideReportDetails() {

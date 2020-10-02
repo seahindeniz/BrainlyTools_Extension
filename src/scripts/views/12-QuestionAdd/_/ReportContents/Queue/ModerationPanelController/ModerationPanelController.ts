@@ -1,6 +1,7 @@
 import Action from "@BrainlyAction";
 import type { ContentNameType } from "@components/ModerationPanel/ModeratePanelController";
 import ModeratePanelController from "@components/ModerationPanel/ModeratePanelController";
+import type { ModeratePanelActionType } from "@components/ModerationPanel/ModerationPanel";
 import notification, {
   GetFlashMessageContainer,
 } from "@components/notification2";
@@ -74,12 +75,17 @@ export default class ModerationPanelController extends ModeratePanelController {
     return undefined;
   }
 
-  SomethingDeleted(id: number, contentType: ContentNameType) {
+  SomethingModerated(
+    id: number,
+    action: ModeratePanelActionType,
+    contentType: ContentNameType,
+  ) {
     const globalId = btoa(`${contentType.toLowerCase()}:${id}`);
 
     const content = this.main.main.contents.byGlobalId.all[globalId];
 
-    content?.Deleted();
+    if (action === "delete") content?.Deleted();
+    else content?.Confirmed();
   }
 
   async SwitchToReport(direction: "next" | "previous") {

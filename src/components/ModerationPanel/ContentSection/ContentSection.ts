@@ -621,7 +621,7 @@ export default class ContentSection {
     this.deleteSection?.Hide();
     this.quickActionButtons.Hide();
     this.contentBox.ChangeColor("peach-secondary");
-    this.main.listeners.onDelete(this.data.id, this.contentType);
+    this.main.listeners.onModerate(this.data.id, "delete", this.contentType);
 
     if (this.attachments)
       this.attachments.forEach(attachment =>
@@ -659,9 +659,9 @@ export default class ContentSection {
       );
 
       // TODO remove these lines
-      /* console.log(this.data.id, this.contentType);
-    const resConfirm = { success: true, message: "" };
-    await System.TestDelay(); */
+      // console.log(this.data.id, this.contentType);
+      // const resConfirm = { success: true, message: "" };
+      // await System.TestDelay();
 
       if (!resConfirm?.success) {
         throw resConfirm.message
@@ -689,6 +689,7 @@ export default class ContentSection {
     this.contentBox.ChangeBorderColor();
     this.quickActionButtons.EnableButtons();
     this.quickActionButtons.confirmButton?.Hide();
+    this.main.listeners.onModerate(this.data.id, "confirm", this.contentType);
   }
 
   HideReportDetails() {

@@ -30,8 +30,14 @@ import {
 import LogSection from "./LogSection/LogSection";
 import Switcher from "./Switcher";
 
+export type ModeratePanelActionType = "delete" | "confirm";
+
 type ListenersType = {
-  onDelete: (id: number, contentType: ContentNameType) => void;
+  onModerate: (
+    id: number,
+    action: ModeratePanelActionType,
+    contentType: ContentNameType,
+  ) => void;
   onClose: () => void;
   switchNext: (event: MouseEvent) => void;
   switchPrevious: (event: MouseEvent) => void;

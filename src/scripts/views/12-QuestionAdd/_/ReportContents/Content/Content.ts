@@ -835,6 +835,7 @@ export default class Content {
   Confirmed() {
     this.has = "confirmed";
 
+    this.ChangeBoxColor();
     this.confirmButtonContainer?.remove();
   }
 

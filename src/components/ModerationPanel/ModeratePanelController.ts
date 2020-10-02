@@ -2,7 +2,7 @@ import { ModerationTicketDataType } from "@BrainlyAction";
 import getModalContainer from "@components/helpers/getModalContainer";
 import HideElement from "@root/helpers/HideElement";
 import { Overlay, Spinner } from "@style-guide";
-import ModerationPanel from "./ModerationPanel";
+import ModerationPanel, { ModeratePanelActionType } from "./ModerationPanel";
 
 export type ContentNameType = "Question" | "Answer" | "Comment";
 
@@ -64,7 +64,7 @@ export default class ModeratePanelController {
       resTicket.users_data,
       {
         onClose: this.ModerationPanelClosed.bind(this),
-        onDelete: this.SomethingDeleted.bind(this),
+        onModerate: this.SomethingModerated.bind(this),
         switchNext: this.props.switcher && this.SwitchToNextReport.bind(this),
         switchPrevious:
           this.props.switcher && this.SwitchToPreviousReport.bind(this),
@@ -77,8 +77,12 @@ export default class ModeratePanelController {
     // this.contentCurrentlyModerating = null;
   }
 
-  SomethingDeleted(id: number, contentType: ContentNameType) {
-    console.warn(id, contentType, this);
+  SomethingModerated(
+    id: number,
+    action: ModeratePanelActionType,
+    contentType: ContentNameType,
+  ) {
+    console.warn(id, action, contentType, this);
   }
 
   SwitchToNextReport() {

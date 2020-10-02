@@ -1,6 +1,7 @@
 import Action from "@BrainlyAction";
 import type { ContentNameType } from "@components/ModerationPanel/ModeratePanelController";
 import ModeratePanelController from "@components/ModerationPanel/ModeratePanelController";
+import type { ModeratePanelActionType } from "@components/ModerationPanel/ModerationPanel";
 import notification from "@components/notification2";
 import type FeedModerationClassType from "./FeedModeration";
 import type QuestionClassType from "./Question/Question";
@@ -48,9 +49,17 @@ export default class HomepageModeratePanelController extends ModeratePanelContro
     return undefined;
   }
 
-  SomethingDeleted(id: number, contentType: ContentNameType) {
+  SomethingModerated(
+    id: number,
+    action: ModeratePanelActionType,
+    contentType: ContentNameType,
+  ) {
     if (contentType !== "Question") return;
 
-    this.main.questions.byId[id]?.Deleted();
+    const content = this.main.questions.byId[id];
+
+    if (!content) return;
+
+    if (action === "delete") content.Deleted();
   }
 }

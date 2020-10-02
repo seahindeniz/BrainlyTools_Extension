@@ -57,7 +57,7 @@ export default class AdditionalData extends QueueFilter {
     else if (condition === "startsWith") pattern = `^${value}`;
     else if (condition === "endsWith") pattern = `${value}$`;
 
-    if (!pattern || !flags) return undefined;
+    if (!pattern) return undefined;
 
     return new RegExp(pattern, flags);
   }

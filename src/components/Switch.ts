@@ -12,7 +12,7 @@ type SwitchPropsType = {
 export default class Switch {
   input: HTMLInputElement;
   label: HTMLLabelElement;
-  element: HTMLLabelElement;
+  element: HTMLDivElement;
   inputId: string;
 
   constructor({
@@ -25,16 +25,15 @@ export default class Switch {
     this.inputId = id;
 
     this.input = CreateElement({
+      checked,
+      className: "ext-switch__element",
+      id: id || undefined,
       tag: "input",
       type: "checkbox",
-      checked,
-      id: id || undefined,
       ...props,
     });
 
     this.label = CreateElement({
-      tag: "label",
-      htmlFor: id || undefined,
       children: [
         CreateElement({
           tag: "span",
@@ -45,10 +44,13 @@ export default class Switch {
           className: "inactive",
         }),
       ],
+      className: "ext-switch__ghost",
+      htmlFor: id || undefined,
+      tag: "label",
     });
 
     this.element = CreateElement({
-      tag: "label",
+      tag: "div",
       className: switchClass,
       children: [this.input, this.label],
     });

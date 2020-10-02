@@ -1,15 +1,31 @@
 .ext-switch {
+  $p: &;
   display: inline-block;
   vertical-align: middle;
 
-  input {
+  &__element {
     display: none;
     height: 0;
     width: 0;
     visibility: hidden;
+
+    &:checked + #{$p}__ghost {
+      .active {
+        left: 0;
+      }
+
+      .inactive {
+        right: -50%;
+      }
+    }
+
+    &:disabled + #{$p}__ghost {
+      opacity: 0.5;
+      cursor: default;
+    }
   }
 
-  label {
+  &__ghost {
     position: relative;
     display: block;
     cursor: pointer;
@@ -17,7 +33,7 @@
     height: 26px;
     margin: 0;
     background: #fff;
-    border: 1px solid #ccc;
+    border: 1px solid #ebf2f7;
     border-radius: 4px;
     overflow: hidden;
     transition: 0.3s;
@@ -52,7 +68,7 @@
       right: 0;
       width: 50%;
       height: 100%;
-      background: #ccc;
+      background: #ebf2f7;
       transition: 0.3s;
 
       &:after,
@@ -73,23 +89,6 @@
       &:after {
         transform: rotate(-45deg);
       }
-    }
-  }
-
-  input {
-    &:checked + label {
-      .active {
-        left: 0;
-      }
-
-      .inactive {
-        right: -50%;
-      }
-    }
-
-    &:disabled + label {
-      opacity: 0.5;
-      cursor: default;
     }
   }
 }

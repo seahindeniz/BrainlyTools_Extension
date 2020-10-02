@@ -50,14 +50,9 @@ export default class AttachmentLength extends QueueFilter {
   }
 
   CompareContent(content: ContentClassTypes) {
-    if (content.contentType === "Comment") return false;
+    if (content.contentType === "Comment" || !content.extraData) return false;
 
-    if (
-      Number.isNaN(this.query?.length) ||
-      !this.query?.condition ||
-      !content.extraData
-    )
-      return true;
+    if (Number.isNaN(this.query?.length) || !this.query?.condition) return true;
 
     if (this.query.condition === "greaterThan")
       return content.extraData.attachments.length > this.query.length;

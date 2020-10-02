@@ -10,9 +10,9 @@ import HideElement from "@root/helpers/HideElement";
 import IsVisible from "@root/helpers/IsVisible";
 import { Flex, Spinner } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
-import Answer from "../Content/Answer";
+import Answer, { AnswerExtraDataType } from "../Content/Answer";
 import Comment from "../Content/Comment";
-import Question from "../Content/Question";
+import Question, { QuestionExtraDataType } from "../Content/Question";
 import type ReportedContentsType from "../ReportedContents";
 import FetchAll from "./FetchAll";
 import Filters from "./Filters/Filters";
@@ -25,7 +25,6 @@ export default class Fetcher {
   lastId: number;
 
   container: FlexElementType;
-  queueSpinnerContainer: FlexElementType;
   statusBarSpinnerContainer: FlexElementType;
   isFetching: boolean;
   stopFetching: boolean;
@@ -62,14 +61,6 @@ export default class Fetcher {
   }
 
   RenderSpinner() {
-    this.queueSpinnerContainer = Flex({
-      margin: "m",
-      justifyContent: "center",
-      children: Spinner({
-        size: "xxxlarge",
-      }),
-    });
-
     this.statusBarSpinnerContainer = Flex({
       marginRight: "xs",
       justifyContent: "center",
@@ -111,7 +102,7 @@ export default class Fetcher {
         this.isFetching ||
         this.stopFetching ||
         this.main.moderator?.selectedActionSection?.moderating ||
-        (!resetStore && IsVisible(this.queueSpinnerContainer))
+        (!resetStore && IsVisible(this.main.queue.spinnerContainer))
       ) {
         this.stopFetching = false;
 
@@ -124,7 +115,7 @@ export default class Fetcher {
       this.main.queue.EmptyFeedAnimation();
 
       if (!keepFetching) {
-        this.ShowQueueSpinner();
+        this.main.queue.ShowSpinner();
       } // else await System.Delay(9999999);
 
       await this.ShowStatusBarSpinner();
@@ -147,8 +138,7 @@ export default class Fetcher {
       if (this.main.contents.all.length === 0)
         this.main.queue.ShowEmptyFeedAnimation();
 
-      this.HideStatusBarSpinner();
-      this.HideQueueSpinner();
+      this.main.queue.HideSpinner();
       this.HideFilterSpinner();
 
       this.main.queue.ShowContents(true);
@@ -168,7 +158,11 @@ export default class Fetcher {
       }
 
       if (this.main.contents.all.length > 0) {
-        this.FetchExtraDetails();
+        this.FetchExtraDetails().then(() => {
+          this.FilterContents();
+          this.main.queue.ShowContents(true);
+          this.HideStatusBarSpinner();
+        });
       }
     } catch (error) {
       console.error(error);
@@ -179,7 +173,7 @@ export default class Fetcher {
           System.data.locale.common.notificationMessages.somethingWentWrong,
       });
 
-      this.HideQueueSpinner();
+      this.main.queue.HideSpinner();
 
       this.isFetching = false;
 
@@ -202,14 +196,6 @@ export default class Fetcher {
       this.main.contents.all = [];
       this.main.contents.filtered = [];
     }
-  }
-
-  ShowQueueSpinner() {
-    this.main.container.append(this.queueSpinnerContainer);
-  }
-
-  HideQueueSpinner() {
-    HideElement(this.queueSpinnerContainer);
   }
 
   ShowStatusBarSpinner() {
@@ -251,7 +237,7 @@ export default class Fetcher {
       resReports.users_data.forEach(this.StoreUser.bind(this));
 
     if (resReports.data?.items?.length > 0) {
-      const numberOfFilters = this.main.filterLabelContainer.childElementCount;
+      const numberOfFilters = this.main.queue.filter.inUse.length;
 
       resReports.data.items.forEach(data =>
         this.InitContent(data, numberOfFilters),
@@ -278,8 +264,13 @@ export default class Fetcher {
     if (resReports.users_data.length > 0)
       resReports.users_data.forEach(this.StoreUser.bind(this));
 
-    if (resReports.data?.items?.length > 0)
-      resReports.data.items.forEach(this.InitContent.bind(this));
+    if (resReports.data?.items?.length > 0) {
+      const numberOfFilters = this.main.queue.filter.inUse.length;
+
+      resReports.data.items.forEach(data =>
+        this.InitContent(data, numberOfFilters),
+      );
+    }
   }
 
   async FetchCorrectionReports() {
@@ -300,8 +291,13 @@ export default class Fetcher {
     if (resReports.users_data.length > 0)
       resReports.users_data.forEach(this.StoreUser.bind(this));
 
-    if (resReports.data?.items?.length > 0)
-      resReports.data.items.forEach(this.InitContent.bind(this));
+    if (resReports.data?.items?.length > 0) {
+      const numberOfFilters = this.main.queue.filter.inUse.length;
+
+      resReports.data.items.forEach(data =>
+        this.InitContent(data, numberOfFilters),
+      );
+    }
   }
 
   UpdateReportTypeCounts(res: ReportedContentsDataType) {
@@ -348,7 +344,7 @@ export default class Fetcher {
     this.main.userData[data.id] = data;
   }
 
-  FetchExtraDetails() {
+  async FetchExtraDetails() {
     const nextContents = this.main.contents.waitingForExtraDetails.splice(0);
     const entries = nextContents
       .map((content, i) => {
@@ -356,8 +352,6 @@ export default class Fetcher {
 
         if (content.extraData !== undefined || content instanceof Comment)
           return undefined;
-
-        content.extraData = null;
 
         return `c${i + 1}: ${content.contentType.toLowerCase()}(id: "${
           content.globalId
@@ -373,8 +367,11 @@ export default class Fetcher {
 
     const entriesChunk = Chunkify(entries, 480);
 
-    if (entriesChunk.length > 0)
-      entriesChunk.forEach(this.FetchChunkedExtraDetails.bind(this));
+    if (entriesChunk.length === 0) return undefined;
+
+    return Promise.all(
+      entriesChunk.map(this.FetchChunkedExtraDetails.bind(this)),
+    );
   }
 
   private async FetchChunkedExtraDetails(entries: string[]) {
@@ -439,21 +436,24 @@ export default class Fetcher {
 
     if (!resExtraData?.data) return;
 
-    Object.values(resExtraData.data).forEach((extraData: { id?: string }) => {
-      if (!extraData?.id) return;
+    Object.values(resExtraData.data).forEach(
+      (extraData: QuestionExtraDataType | AnswerExtraDataType) => {
+        if (!extraData?.id) return;
 
-      const content = this.main.contents.byGlobalId.fetchDetails[extraData.id];
+        const content = this.main.contents.byGlobalId.fetchDetails[
+          extraData.id
+        ];
 
-      if (!content || content instanceof Comment) return;
+        if (!content || content instanceof Comment) return;
 
-      // @ts-expect-error
-      content.extraData = extraData;
+        content.extraData = extraData;
 
-      if (content.contentWrapper && content.RenderExtraDetails) {
-        content.RenderExtraDetails();
-        content.CalculateHeight();
-      }
-    });
+        if (content.contentWrapper && content.RenderExtraDetails) {
+          content.RenderExtraDetails();
+          content.CalculateHeight();
+        }
+      },
+    );
   }
 
   FilterContents() {
@@ -472,8 +472,14 @@ export default class Fetcher {
 
     HideElement(content.container);
 
-    return this.main.queue.filter.all.every(filter => {
-      return filter.CompareContent(content);
+    const isFiltered = this.main.queue.filter.inUse.every(filter => {
+      if (!("CompareContent" in filter)) return false;
+
+      const isMatches = filter.CompareContent(content);
+
+      return isMatches;
     });
+
+    return isFiltered;
   }
 }

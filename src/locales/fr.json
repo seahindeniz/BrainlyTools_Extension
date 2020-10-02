@@ -940,7 +940,8 @@
       "rating": "%{rating} points pour %{ratesCount} votes",
       "bestAnswer": "C'est la meilleure réponse",
       "popularQuestion": "Question populaire !",
-      "moderatorVerifiedSomeonesAnswer": "%{verifier} a vérifié la réponse de %{author}."
+      "moderatorVerifiedSomeonesAnswer": "%{verifier} a vérifié la réponse de %{author}.",
+      "loadMore": "Load more.."
     },
     "loadAll": "Charger tous les signalements",
     "loadAllConfirmationMessage": "Je vais essayer de récupérer tous les contenus signalés auprès de Brainly, mais le processus peut être interrompu par Brainly en raison de demandes élevées.\nVeuillez confirmer pour lancer le processus.",

@@ -1,12 +1,15 @@
 import CreateElement from "@components/CreateElement";
 import HideElement from "@root/helpers/HideElement";
 import IsVisible from "@root/helpers/IsVisible";
-import { Flex } from "@style-guide";
+import { Button, Flex, Spinner } from "@style-guide";
+import type { FlexElementType } from "@style-guide/Flex";
+import type ContentClassType from "../Content/Content";
 import type ReportedContentsType from "../ReportedContents";
 import AdditionalData from "./Filter/AdditionalData";
 import AttachmentLength from "./Filter/AttachmentLength";
 import ContentLength from "./Filter/ContentLength";
 import ContentType from "./Filter/ContentType";
+import type QueueFilterClassType from "./Filter/QueueFilter";
 import Reported from "./Filter/Reported";
 import Reporter from "./Filter/Reporter";
 import ReportingDate from "./Filter/ReportingDate";
@@ -21,7 +24,8 @@ export default class Queue {
   options: Options;
 
   filter: {
-    all: (
+    [x in "all" | "inUse"]: (
+      | QueueFilterClassType
       | ContentType
       | ContentLength
       | AttachmentLength
@@ -31,6 +35,7 @@ export default class Queue {
       | Subject
       | AdditionalData
     )[];
+  } & {
     byName: {
       contentType: ContentType;
       contentLength: ContentLength;
@@ -44,8 +49,11 @@ export default class Queue {
   };
 
   moderationPanelController: ModerationPanelController;
-  emptyFeedAnimation: import("@style-guide/Flex").FlexElementType;
+  emptyFeedAnimation: FlexElementType;
   observer?: IntersectionObserver;
+  focusedContent: ContentClassType;
+  spinnerContainer: FlexElementType;
+  loadMoreButtonContainer: FlexElementType;
 
   constructor(main: ReportedContentsType) {
     this.main = main;
@@ -63,14 +71,26 @@ export default class Queue {
         additionalData: new AdditionalData(this),
       },
       all: [],
+      inUse: [],
     };
     this.filter.all = Object.values(this.filter.byName);
 
     this.moderationPanelController = new ModerationPanelController(this);
 
+    this.RenderSpinner();
     this.InitIntersectionObserver();
     this.BindListener();
     setInterval(this.RenderTimes.bind(this), 5000);
+  }
+
+  RenderSpinner() {
+    this.spinnerContainer = Flex({
+      margin: "m",
+      justifyContent: "center",
+      children: Spinner({
+        size: "xxxlarge",
+      }),
+    });
   }
 
   RenderTimes() {
@@ -146,7 +166,11 @@ export default class Queue {
   }
 
   async ShowContents(showLimitedAggressive?: boolean) {
-    if (this.main.contents.filtered.length === 0) return;
+    if (this.main.contents.filtered.length === 0) {
+      this.main.statusBar.visibleContentsCount.nodeValue = "0";
+
+      return;
+    }
 
     let { childElementCount } = this.main.queueContainer;
 
@@ -157,6 +181,8 @@ export default class Queue {
       return;
 
     this.HideContents();
+
+    this.main.queueContainer.innerHTML = "";
 
     const nextThreshold = REPORT_BOXES_PER_PAGE_LIMIT + childElementCount;
 
@@ -198,6 +224,44 @@ export default class Queue {
       HideElement(content.container);
       this.observer?.unobserve(content.container);
     });
+  }
+
+  ShowSpinner() {
+    this.HideLoadMoreButton();
+    this.main.container.append(this.spinnerContainer);
+  }
+
+  HideSpinner() {
+    this.ShowLoadMoreButton();
+    HideElement(this.spinnerContainer);
+  }
+
+  ShowLoadMoreButton() {
+    if (!this.main.fetcher.lastId) return;
+
+    if (!this.loadMoreButtonContainer) {
+      this.RenderLoadMoreButton();
+    }
+
+    this.main.container.append(this.loadMoreButtonContainer);
+  }
+
+  RenderLoadMoreButton() {
+    this.loadMoreButtonContainer = Flex({
+      children: new Button({
+        children: System.data.locale.reportedContents.queue.loadMore,
+        onClick: this.main.fetcher.FetchReports.bind(this.main.fetcher),
+        size: "l",
+        type: "solid-inverted",
+      }),
+      justifyContent: "center",
+      marginBottom: "m",
+      marginTop: "m",
+    });
+  }
+
+  HideLoadMoreButton() {
+    HideElement(this.loadMoreButtonContainer);
   }
 
   ShowEmptyFeedAnimation() {

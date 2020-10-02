@@ -30,7 +30,8 @@ export default class QueueFilter {
   protected QuerySettled() {
     this.ShowLabel();
     this.main.main.fetcher?.FilterContents();
-    this.main.main.queue.ShowContents();
+    this.main.main.queue.HideContents();
+    this.main.main.queue.ShowContents(true);
   }
 
   RenderLabel() {
@@ -55,6 +56,7 @@ export default class QueueFilter {
       this.RenderLabel();
     }
 
+    this.main.filter.inUse.push(this);
     this.main.main.filterLabelContainer.append(this.labelContainer);
   }
 
@@ -66,8 +68,15 @@ export default class QueueFilter {
 
     this.query = {};
 
+    const index = this.main.filter.inUse.indexOf(this);
+
+    if (index >= 0) {
+      this.main.filter.inUse.splice(index, 1);
+    }
+
     HideElement(this.labelContainer);
     this.main.main.fetcher?.FilterContents();
+    this.main.main.queue.HideContents();
     this.main.main.queue.ShowContents();
   }
 }

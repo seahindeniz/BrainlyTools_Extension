@@ -940,7 +940,8 @@
       "rating": "%{ratesCount} oy için %{rating} puan",
       "bestAnswer": "En iyi cevap",
       "popularQuestion": "Popüler soru!",
-      "moderatorVerifiedSomeonesAnswer": "%{verifier}, %{author} kullanıcısının yanıtını doğruladı"
+      "moderatorVerifiedSomeonesAnswer": "%{verifier}, %{author} kullanıcısının yanıtını doğruladı",
+      "loadMore": "Daha fazla yükle.."
     },
     "loadAll": "Tüm şikayetleri getir",
     "loadAllConfirmationMessage": "Brainly'den bildirilen tüm içerikleri çekmeye çalışacağım. Ancak bu işlem, çok fazla uzadığı zaman bağlantılar Brainly tarafından kesintiye uğrayabilir. \nLütfen işlemi başlatmak için onaylayın",

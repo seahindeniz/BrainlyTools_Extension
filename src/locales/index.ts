@@ -940,7 +940,8 @@ export default {
       rating: "%{rating} points for %{ratesCount} votes",
       bestAnswer: "This is the Brainliest Answer",
       popularQuestion: "Popular question!",
-      moderatorVerifiedSomeonesAnswer: "%{verifier} has verified %{author}'s answer"
+      moderatorVerifiedSomeonesAnswer: "%{verifier} has verified %{author}'s answer",
+      loadMore: "Load more.."
     },
     loadAll: "Load all reports",
     loadAllConfirmationMessage: "I'll try to fetch all reported contents from Brainly but the process can be interrupted by Brainly because of elevated requests.\nPlease confirm to start the process",

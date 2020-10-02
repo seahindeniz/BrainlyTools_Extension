@@ -44,8 +44,8 @@
   position: relative;
 }
 
-.queue:not(.buttons-visibility-always),
-.queue.buttons-visibility-on-hover {
+html:not(.mobile) .queue:not(.buttons-visibility-always),
+html.mobile .queue.buttons-visibility-on-hover {
   .ext-quick-action-buttons {
     position: absolute;
     right: 0;

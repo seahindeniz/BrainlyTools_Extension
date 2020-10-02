@@ -332,7 +332,9 @@ export default class Content {
                       })),
                       [
                         [
-                          Flex(),
+                          Flex({
+                            marginLeft: "xs",
+                          }),
                           (this.moderateButton = new Button({
                             type: "outline",
                             toggle: "blue",
@@ -491,11 +493,19 @@ export default class Content {
 
     if (IsVisible(this.quickActionButtonContainer)) return;
 
+    if (
+      this.main.queue.focusedContent &&
+      this.main.queue.focusedContent !== this
+    )
+      this.main.queue.focusedContent.HideActionButtons();
+
     if (!this.quickActionButtonContainer) {
       this.RenderButtons();
     }
 
     if (this.quickActionButtonContainer) {
+      this.main.queue.focusedContent = this;
+
       InsertAfter(this.quickActionButtonContainer, this.reportDetailContainer);
     }
   }
@@ -503,9 +513,10 @@ export default class Content {
   HideActionButtons() {
     if (
       IsVisible(this.buttonSpinner) ||
-      this.main.queueContainer.classList.contains(
-        "buttons-visibility-always",
-      ) ||
+      (!document.documentElement.classList.contains("mobile") &&
+        this.main.queueContainer.classList.contains(
+          "buttons-visibility-always",
+        )) ||
       (document.documentElement.classList.contains("mobile") &&
         !this.main.queueContainer.classList.contains(
           "buttons-visibility-on-hover",

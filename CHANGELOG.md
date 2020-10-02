@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.7.0] - 2020.09.29
+
+### Added
+
+- A way to see user warnings from profile page without visiting warnings page
+  [#257]
+- A way to ask the user to select a field while entering usernames/profile
+  links/ID's using the Mass moderate tool. [#262]
+
+### Changed
+
+- Unable to delete account from profile [#258]
+- Reported content boxes are coloured light-blue when a task is confirmed, and
+  when a ticket is closed (without confirming the content). [#261]
+
+[#257]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/257
+[#258]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/258
+[#261]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/261
+[#262]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/262
+
 ## [7.6.0] - 2020.09.29
 
 ### Added

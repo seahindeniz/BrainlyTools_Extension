@@ -42,6 +42,13 @@
       "filterFileRegex": "BrainlyTools_Extension"
     },
     {
+      "text": "$(file-code) Open en_US.json",
+      "command": "workbench.action.tasks.runTask",
+      "arguments": ["openSourceLangFile"],
+      "color": "#ecf0f1",
+      "filterFileRegex": "BrainlyTools_Extension"
+    },
+    {
       "text": "$(terminal)",
       "command": "workbench.action.terminal.focus",
       "tooltip": "Focus to terminal #1",

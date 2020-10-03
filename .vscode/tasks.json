@@ -18,6 +18,17 @@
         "showReuseMessage": true,
         "clear": false
       }
+    },
+    {
+      "label": "openSourceLangFile",
+      "type": "shell",
+      "command": "code -r 'src/locales/en_US.json'",
+      "isBackground": false,
+      "presentation": {
+        "echo": false,
+        "reveal": "silent",
+        "showReuseMessage": false,
+      }
     }
   ]
 }

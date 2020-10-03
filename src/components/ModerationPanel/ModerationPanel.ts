@@ -4,6 +4,7 @@ import type {
 } from "@BrainlyAction";
 import Action from "@BrainlyAction";
 import { GQL } from "@BrainlyReq";
+import { Modal } from "@components";
 import type { ContentNameType } from "@components/ModerationPanel/ModeratePanelController";
 import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
@@ -19,7 +20,6 @@ import {
 import { FlexElementType } from "@style-guide/Flex";
 import type { Duration, Moment } from "moment";
 import { duration, utc } from "moment";
-import Modal from "../Modal3";
 import notification from "../notification2";
 import Answer from "./ContentSection/Answer";
 import Question from "./ContentSection/Question";
@@ -118,7 +118,7 @@ export default class ModerationPanel {
     this.modal = new Modal({
       size: "large",
       overlay: true,
-      scrollToTop: true,
+      jumpButton: true,
       title: System.data.locale.moderationPanel.text,
       content: this.contentContainer = Flex({
         fullWidth: true,

@@ -1,9 +1,12 @@
 import CreateElement from "@components/CreateElement";
+import IsVisible from "@root/helpers/IsVisible";
 import { Button, Flex, Icon, Overlay, Text, Toplayer } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type { ChildrenParamType } from "@style-guide/helpers/AddChildren";
+import { IconTypeType } from "@style-guide/Icon";
 import type { TextElement } from "@style-guide/Text";
 import type { ToplayerPropsType } from "@style-guide/Toplayer";
+import easyScroll from "easy-scroll";
 import HideElement from "../helpers/HideElement";
 import getModalContainer from "./helpers/getModalContainer";
 import notification, { NotificationPropsType } from "./notification2";
@@ -13,7 +16,7 @@ type ModalPropsType = {
   title?: string | ChildrenParamType;
   content?: ChildrenParamType;
   actions?: ChildrenParamType;
-  scrollToTop?: boolean;
+  jumpButton?: boolean;
 } & ToplayerPropsType;
 
 export default class Modal {
@@ -21,7 +24,7 @@ export default class Modal {
   title: string | ChildrenParamType;
   content: ChildrenParamType;
   actions: ChildrenParamType;
-  #scrollToTop: boolean;
+  #showJumpButton: boolean;
   props: ToplayerPropsType;
 
   container: FlexElementType;
@@ -36,14 +39,15 @@ export default class Modal {
   #contentContainer: FlexElementType;
 
   #actionsContainer: FlexElementType;
-  #scrollToTopButtonContainer: FlexElementType;
+  #jumpButtonContainer: FlexElementType;
+  #jumpButtonIcon: Icon;
 
   constructor({
     overlay,
     title,
     content,
     actions,
-    scrollToTop,
+    jumpButton,
     ...props
   }: ModalPropsType = {}) {
     this.hasOverlay = overlay;
@@ -51,7 +55,7 @@ export default class Modal {
     this.content = content;
     this.actions = actions;
     this.props = props;
-    this.#scrollToTop = scrollToTop;
+    this.#showJumpButton = jumpButton;
 
     this.Render();
   }
@@ -93,11 +97,16 @@ export default class Modal {
 
     if (this.hasOverlay) this.RenderInOverlay();
 
-    if (this.#scrollToTop && this.hasOverlay) this.RenderScrollToTopButton();
-
     if (this.title) this.RenderTitle();
     if (this.content) this.RenderContent();
     if (this.actions) this.RenderActions();
+
+    if (this.#showJumpButton && this.hasOverlay) {
+      this.overlay.addEventListener(
+        "scroll",
+        this.ToggleVisibilityOfJumpButton.bind(this),
+      );
+    }
   }
 
   RenderInOverlay() {
@@ -147,41 +156,74 @@ export default class Modal {
     this.container.append(this.actionsContainer);
   }
 
-  RenderScrollToTopButton() {
-    this.#scrollToTopButtonContainer = Flex({
+  ToggleVisibilityOfJumpButton() {
+    if (this.overlay.scrollHeight <= this.overlay.clientHeight) {
+      HideElement(this.#jumpButtonContainer);
+
+      return;
+    }
+
+    if (!this.#jumpButtonContainer) {
+      this.RenderJumpButton();
+    }
+
+    this.TryToChangeJumpButtonIconType();
+
+    if (!IsVisible(this.#jumpButtonContainer)) {
+      this.toplayer.wrapper.append(this.#jumpButtonContainer);
+    }
+  }
+
+  RenderJumpButton() {
+    this.#jumpButtonContainer = Flex({
       relative: true,
       className: "ext-modal--to-top-button",
       children: new Button({
         size: "xl",
         type: "solid-light",
         iconOnly: true,
-        onClick: this.OverlayScrollToTop.bind(this),
-        icon: new Icon({
+        onClick: this.PerformScroll.bind(this),
+        icon: this.#jumpButtonIcon = new Icon({
           size: 40,
-          type: "arrow_up",
+          type: "arrow_down",
           color: "adaptive",
         }),
       }),
     });
-
-    this.overlay.addEventListener(
-      "scroll",
-      this.TryToShowScrollToTopButton.bind(this),
-    );
   }
 
-  OverlayScrollToTop() {
-    this.overlay.scrollTop = 0;
-  }
+  PerformScroll() {
+    let direction = "top";
+    const numberOfMiddleOfOverlay =
+      (this.overlay.scrollHeight - this.overlay.clientHeight) / 2;
+    const numberOfCurrentPosition = this.overlay.scrollTop;
 
-  TryToShowScrollToTopButton() {
-    if (this.overlay.scrollTop < 300) {
-      HideElement(this.#scrollToTopButtonContainer);
-
-      return;
+    if (numberOfCurrentPosition < numberOfMiddleOfOverlay) {
+      direction = "bottom";
     }
 
-    this.toplayer.wrapper.append(this.#scrollToTopButtonContainer);
+    easyScroll({
+      scrollableDomEle: this.overlay,
+      direction,
+      duration: 300,
+      easingPreset: "easeInQuad",
+    });
+  }
+
+  TryToChangeJumpButtonIconType() {
+    const numberOfMiddleOfOverlay =
+      (this.overlay.scrollHeight - this.overlay.clientHeight) / 2;
+    const numberOfCurrentPosition = this.overlay.scrollTop;
+
+    let jumpButtonIconType: IconTypeType = "arrow_up";
+
+    if (numberOfCurrentPosition < numberOfMiddleOfOverlay) {
+      jumpButtonIconType = "arrow_down";
+    }
+
+    if (this.#jumpButtonIcon.type === jumpButtonIconType) return;
+
+    this.#jumpButtonIcon.ChangeType(jumpButtonIconType);
   }
 
   Open() {
@@ -190,6 +232,9 @@ export default class Modal {
     if (!modalContainer) console.error(".js-modal-container is undefined");
 
     modalContainer.append(this.overlay || this.toplayer.element);
+
+    if (this.#showJumpButton && this.hasOverlay)
+      this.ToggleVisibilityOfJumpButton();
   }
 
   Close() {

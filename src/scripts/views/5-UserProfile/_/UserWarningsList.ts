@@ -58,7 +58,7 @@ export default class UserWarningsList {
       }),
       [
         Text({
-          children: "Last warnings", // TODO localize this
+          children: System.data.locale.userProfile.userWarningsList.name,
           weight: "bold",
           transform: "uppercase",
         }),
@@ -153,7 +153,7 @@ export default class UserWarningsList {
         size: "s",
         type: "outline",
         toggle: "blue",
-        children: "Show rest",
+        children: System.data.locale.userProfile.userWarningsList.showRest,
         onClick: this.ShowRest.bind(this),
       }),
     });

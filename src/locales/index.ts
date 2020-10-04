@@ -775,6 +775,10 @@ export default {
           other: "Other"
         }
       }
+    },
+    userWarningsList: {
+      name: "Last warnings",
+      showRest: "Show rest"
     }
   },
   userWarnings: {

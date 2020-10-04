@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.8.1] - 2020.09.29
+
+### Changed
+
+- Moderate panel doesn't open
+
+## [7.8.0] - 2020.10.04
+
+### Added
+
+- Use the new moderate panel in the question page [#242]
+- A sort button to reverse the order of comments from older to newer or newer to
+  older comments. [#259]
+- An option to hide all comments after clicking on "Show All Comments". [#260]
+- A way to use the "^" button to go both up and down the report in the reported
+  contents page. [#263]
+
+[#242]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/242
+[#259]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/259
+[#260]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/260
+[#263]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/263
+
 ## [7.7.0] - 2020.09.29
 
 ### Added

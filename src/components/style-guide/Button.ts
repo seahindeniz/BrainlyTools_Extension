@@ -1,12 +1,11 @@
 /* eslint-disable no-underscore-dangle */
 
-import AddChildren from "@style-guide/helpers/AddChildren";
+import CreateElement from "@components/CreateElement";
 import type { ChildrenParamType } from "@style-guide/helpers/AddChildren";
-import SetProps, {
-  CommonComponentPropsType,
-} from "@style-guide/helpers/SetProps";
+import AddChildren from "@style-guide/helpers/AddChildren";
+import type { CommonComponentPropsType } from "@style-guide/helpers/SetProps";
 import type Icon from "@style-guide/Icon";
-import classnames from "classnames";
+import clsx from "clsx";
 
 const sg = "sg-button";
 const SGD = `${sg}--`;
@@ -137,7 +136,7 @@ class Button {
     this.toggle = toggle;
     this.mainToggle = toggle;
 
-    const btnClass = classnames(
+    const btnClass = clsx(
       sg,
       {
         [SGD + String(size)]: size,
@@ -160,8 +159,21 @@ class Button {
 
     if (href !== undefined && href !== null && href !== "") tagName = "a";
 
-    this.element = document.createElement(tagName);
-    this.element.className = btnClass;
+    this.textElement = CreateElement({
+      tag: "span",
+      className: `${sg}__text`,
+      children: [html, text, children],
+    });
+
+    this.element = CreateElement({
+      tag: tagName,
+      className: btnClass,
+      title,
+      href,
+      disabled,
+      children: this.textElement,
+      ...props,
+    });
 
     if (spaced !== undefined && spaced !== null) {
       const styles = [];
@@ -178,41 +190,6 @@ class Button {
         });
 
       this.element.classList.add(...styles);
-    }
-
-    if (disabled === true && this.element instanceof HTMLButtonElement)
-      this.element.disabled = true;
-
-    if (
-      href !== undefined &&
-      href !== null &&
-      href !== "" &&
-      this.element instanceof HTMLAnchorElement
-    )
-      this.element.href = href;
-
-    if (title !== undefined && title !== null && title !== "")
-      this.element.title = String(title);
-
-    SetProps(this.element, props);
-
-    if (
-      (text !== undefined && text !== null && text !== "") ||
-      (html !== undefined && html !== null && html !== "") ||
-      (children !== undefined && children !== null)
-    ) {
-      this.textElement = document.createElement("span");
-      this.textElement.className = `${sg}__text`;
-
-      /* if (html !== undefined && html !== null && html !== "")
-        AddChildren(this.textElement, html);
-      else if (text !== undefined && text !== null && text !== "")
-        this.textElement.innerText = text;
-
-      if (children !== undefined && children !== null) */
-      AddChildren(this.textElement, [html, text, children]);
-
-      if (this.textElement) this.element.appendChild(this.textElement);
     }
 
     if (icon) {
@@ -336,13 +313,13 @@ class Button {
       this.iconContainer === null ||
       this.iconContainer === undefined
     ) {
-      this.iconContainer = document.createElement("span");
-
-      const iconClass = classnames("sg-button__icon", {
-        [`sg-button__icon--${this.size || ""}`]: this.size,
+      this.iconContainer = CreateElement({
+        tag: "span",
+        className: clsx("sg-button__icon", {
+          [`sg-button__icon--${this.size || ""}`]: this.size,
+        }),
       });
 
-      this.iconContainer.className = iconClass;
       this.element.prepend(this.iconContainer);
     }
 
@@ -382,6 +359,13 @@ class Button {
 
   IconOnly(state: boolean) {
     this.element.classList[state ? "add" : "remove"]("sg-button--icon-only");
+  }
+
+  ChangeChildren(children?: ChildrenParamType) {
+    while (this.textElement.firstChild)
+      this.textElement.removeChild(this.textElement.lastChild);
+
+    AddChildren(this.textElement, children);
   }
 }
 

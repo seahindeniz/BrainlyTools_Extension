@@ -1,7 +1,7 @@
 import type { RemoveCommentReqDataType } from "@BrainlyAction";
 import DeleteSection from "@components/DeleteSection2/DeleteSection";
-import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
+import InsertAfter from "@root/helpers/InsertAfter";
 import IsVisible from "@root/helpers/IsVisible";
 import { Button, Flex } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
@@ -29,19 +29,16 @@ export default class DeleteCommentsSection {
   }
 
   Render() {
-    this.container = Build(Flex({ direction: "column" }), [
-      [
-        Flex({ alignSelf: "flex-end" }),
-        new Button({
-          size: "s",
-          type: "solid-peach",
-          onClick: this.ToggleDeleteSection.bind(this),
-          children: System.data.locale.moderationPanel.deleteAllComments,
-        }),
-      ],
-    ]);
+    this.container = Flex({
+      children: new Button({
+        size: "s",
+        type: "solid-peach",
+        onClick: this.ToggleDeleteSection.bind(this),
+        children: System.data.locale.moderationPanel.deleteAllComments,
+      }),
+    });
 
-    this.main.container.prepend(this.container);
+    this.main.actionsContainer.append(this.container);
   }
 
   ToggleDeleteSection() {
@@ -59,7 +56,7 @@ export default class DeleteCommentsSection {
       this.RenderDeleteSection();
     }
 
-    this.container.append(this.deleteSectionContainer);
+    InsertAfter(this.deleteSectionContainer, this.main.actionsContainer);
   }
 
   HideDeleteSection() {

@@ -1,11 +1,12 @@
-import notification from "@components/notification2";
 import Action from "@BrainlyAction";
+import notification from "@components/notification2";
 import { DeleteReasonSubCategoryType } from "@root/controllers/System";
 import HideElement from "@root/helpers/HideElement";
 import InsertAfter from "@root/helpers/InsertAfter";
 import WaitForElement from "@root/helpers/WaitForElement";
 import { Button, Flex, Icon, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
+import Hammer from "hammerjs";
 import tippy from "tippy.js";
 import type { AnswerDataType } from "./QuestionData";
 import type QuestionPageClassType from "./QuestionPage";
@@ -18,7 +19,9 @@ export default class AnswerSection {
 
   searchingForModerationBox: boolean;
   moderationBox: HTMLDivElement;
+  moderateButton: HTMLButtonElement;
   answerBox: HTMLDivElement;
+  newModerateButton: Button;
   quickActionButtonContainer: FlexElementType;
   actionButtons: Button[];
   confirmButtonContainer?: FlexElementType;
@@ -59,6 +62,8 @@ export default class AnswerSection {
 
     if (!this.moderationBox) return;
 
+    this.FindModerateButton();
+    this.ReplaceModerateButtonWithNew();
     this.RenderQuickActionButtons();
     this.RenderConfirmButton();
     this.FetchAndRenderUsersRank();
@@ -98,6 +103,54 @@ export default class AnswerSection {
     }
 
     this.searchingForModerationBox = false;
+  }
+
+  FindModerateButton() {
+    this.moderateButton = this.moderationBox.querySelector(
+      ":scope > div:first-child > button",
+    );
+
+    if (!this.moderateButton) {
+      throw Error(`Can't find the moderate button of answer ${this.data.id}`);
+    }
+
+    const emptyDiv = this.moderateButton.parentElement;
+
+    this.moderationBox.prepend(this.moderateButton);
+
+    emptyDiv.remove();
+  }
+
+  ReplaceModerateButtonWithNew() {
+    if (!this.main.moderatePanelController) return;
+
+    this.newModerateButton = new Button({
+      size: "s",
+      type: "solid-blue",
+      icon: new Icon({
+        size: 16,
+        type: "pencil",
+      }),
+      children: this.moderateButton.lastElementChild.innerHTML,
+      onClick: this.OpenModeratePanel.bind(this),
+    });
+
+    const hammer = new Hammer(this.newModerateButton.element);
+
+    hammer.on("press", () => this.moderateButton.click());
+
+    this.moderationBox.prepend(this.newModerateButton.element);
+    this.moderateButton.classList.add("js-hidden");
+  }
+
+  OpenModeratePanel(event: MouseEvent) {
+    if (event.ctrlKey || event.metaKey || event.shiftKey) {
+      this.moderateButton.click();
+
+      return;
+    }
+
+    this.main.moderatePanelController.Moderate();
   }
 
   RenderQuickActionButtons() {
@@ -265,6 +318,9 @@ export default class AnswerSection {
   Deleted() {
     this.quickActionButtonContainer.remove();
     this.answerBox.classList.add("brn-content--deleted");
+    this.answerBox
+      .querySelector(".brn-qpage-next-answer-box__actions")
+      .remove?.();
   }
 
   async FetchAndRenderUsersRank() {

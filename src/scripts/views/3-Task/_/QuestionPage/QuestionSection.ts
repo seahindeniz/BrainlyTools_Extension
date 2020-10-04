@@ -6,6 +6,7 @@ import InsertAfter from "@root/helpers/InsertAfter";
 import WaitForElement from "@root/helpers/WaitForElement";
 import { Button, Flex, Icon, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
+import Hammer from "hammerjs";
 import tippy from "tippy.js";
 import type QuestionPageClassType from "./QuestionPage";
 import QuickDeleteButton from "./QuickDeleteButton";
@@ -15,7 +16,9 @@ export default class QuestionSection {
 
   searchingForModerationBox: boolean;
   moderationBox: HTMLDivElement;
+  moderateButton: HTMLButtonElement;
   questionBox: HTMLDivElement;
+  newModerateButton: Button;
   quickActionButtonContainer: FlexElementType;
   actionButtons: Button[];
   confirmButtonContainer: FlexElementType;
@@ -42,6 +45,8 @@ export default class QuestionSection {
 
     if (!this.moderationBox) return;
 
+    this.FindModerateButton();
+    this.ReplaceModerateButtonWithNew();
     this.RenderQuickActionButtons();
     this.RenderConfirmButton();
   }
@@ -69,6 +74,46 @@ export default class QuestionSection {
     if (!this.questionBox) {
       throw Error("Can't find the question box");
     }
+  }
+
+  FindModerateButton() {
+    this.moderateButton = this.moderationBox.querySelector(":scope > button");
+
+    if (!this.moderateButton) {
+      throw Error("Can't find the question's moderate button");
+    }
+  }
+
+  ReplaceModerateButtonWithNew() {
+    if (!this.main.moderatePanelController) return;
+
+    this.newModerateButton = new Button({
+      size: "s",
+      type: "solid-blue",
+      icon: new Icon({
+        size: 16,
+        type: "pencil",
+      }),
+      children: this.moderateButton.lastElementChild.innerHTML,
+      onClick: this.OpenModeratePanel.bind(this),
+    });
+
+    const hammer = new Hammer(this.newModerateButton.element);
+
+    hammer.on("press", () => this.moderateButton.click());
+
+    this.moderationBox.prepend(this.newModerateButton.element);
+    this.moderateButton.classList.add("js-hidden");
+  }
+
+  OpenModeratePanel(event: MouseEvent) {
+    if (event.ctrlKey || event.metaKey || event.shiftKey) {
+      this.moderateButton.click();
+
+      return;
+    }
+
+    this.main.moderatePanelController.Moderate();
   }
 
   RenderQuickActionButtons() {
@@ -220,11 +265,17 @@ export default class QuestionSection {
     this.questionBox.classList.add("brn-content--deleted");
     this.quickActionButtonContainer.remove();
 
-    this.main.answerSections.forEach(answerSection => answerSection.Deleted());
+    this.main.answerSections.all.forEach(answerSection =>
+      answerSection.Deleted(),
+    );
 
     const userData = window.jsData.question.author;
 
     System.log(5, { user: userData, data: [this.main.data.id] });
+
+    this.questionBox
+      .querySelector(".brn-qpage-next-question-box__options")
+      .remove?.();
   }
 
   DisableActionButtons() {

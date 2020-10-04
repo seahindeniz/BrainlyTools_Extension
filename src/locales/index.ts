@@ -995,7 +995,15 @@ export default {
     deleteAllComments: "Delete all comments",
     confirmDeletingNComments: "Please confirm deleting %{N} comments",
     commentsDeleted: "Comments deleted!",
-    switchingToNextContent: "I'll try to switch to the next content"
+    switchingToNextContent: "I'll try to switch to the next content",
+    hideDeletedComments: "Hide deleted comments",
+    showDeletedComments: "Show deleted comments",
+    janToDec: "JAN\nDEC",
+    decToJan: "DEC\nJAN",
+    sortDESC: "Sort comments from newer to older",
+    sortASC: "Sort comments from older to newer",
+    showReportedComments: "Show only reported comments",
+    showLess: "Show less"
   },
   shortAnswersPage: {
     selectAtLeastOneAnswer: "You need to select at least one answer",
@@ -1006,3 +1014,4 @@ export default {
     doYouWantToDeleteSelectedQuestions: "Do you really want delete %{N} selected questions?"
   }
 }
+

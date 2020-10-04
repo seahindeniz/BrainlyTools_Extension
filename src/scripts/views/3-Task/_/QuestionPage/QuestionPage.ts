@@ -1,18 +1,29 @@
 import HideElement from "@root/helpers/HideElement";
 import { Spinner } from "@style-guide";
 import AnswerSection from "./AnswerSection";
+import QuestionPageModeratePanelController from "./ModeratePanelController";
 import type { QuestionDataType } from "./QuestionData";
 import QuestionSection from "./QuestionSection";
 
 export default class QuestionPage {
-  answerSections: AnswerSection[];
+  answerSections: {
+    all: AnswerSection[];
+    byId: {
+      [id: number]: AnswerSection;
+    };
+  };
+
   questionContainer: HTMLDivElement;
   data: QuestionDataType;
   questionSection?: QuestionSection;
   actionButtonSpinner: HTMLDivElement;
+  moderatePanelController?: QuestionPageModeratePanelController;
 
   constructor() {
-    this.answerSections = [];
+    this.answerSections = {
+      all: [],
+      byId: {},
+    };
 
     this.Init();
   }
@@ -26,6 +37,10 @@ export default class QuestionPage {
 
       this.RenderActionButtonSpinner();
       this.ObserveForSections();
+
+      this.moderatePanelController = new QuestionPageModeratePanelController(
+        this,
+      );
 
       this.InitSections();
     } catch (error) {
@@ -88,7 +103,7 @@ export default class QuestionPage {
           this.questionSection.Init(true);
 
         if (mutation.target.classList.contains("js-react-answers"))
-          this.answerSections.forEach(answerSection =>
+          this.answerSections.all.forEach(answerSection =>
             answerSection.Init(true),
           );
       });
@@ -114,7 +129,11 @@ export default class QuestionPage {
     });
 
     this.data.responses.forEach((answerData, index) => {
-      this.answerSections.push(new AnswerSection(this, answerData, index));
+      const answerSection = new AnswerSection(this, answerData, index);
+
+      this.answerSections.byId[answerData.id] = answerSection;
+
+      this.answerSections.all.push(answerSection);
     });
   }
 }

@@ -24,7 +24,7 @@ import type CommentSectionClassType from "./CommentSection";
 export default class Comment {
   main: CommentSectionClassType;
   data: CommentDataInTicketType;
-  container: FlexElementType;
+  #container: FlexElementType;
   owner: {
     data: UsersDataInReportedContentsType;
     profileLink: string;
@@ -43,10 +43,16 @@ export default class Comment {
   constructor(main: CommentSectionClassType, data: CommentDataInTicketType) {
     this.main = main;
     this.data = data;
+  }
 
-    this.SetOwner();
-    this.Render();
-    this.BindListener();
+  get container() {
+    if (!this.#container) {
+      this.SetOwner();
+      this.Render();
+      this.BindListener();
+    }
+
+    return this.#container;
   }
 
   SetOwner() {
@@ -71,7 +77,7 @@ export default class Comment {
   Render() {
     const createdTimeEntry = this.main.main.CreateTimeEntry(this.data.created);
 
-    this.container = Build(
+    this.#container = Build(
       Flex({
         direction: "column",
         borderTop: !this.data.report && !this.data.deleted,
@@ -240,11 +246,11 @@ export default class Comment {
   BindListener() {
     if (this.data.deleted || this.main.main.deleted) return;
 
-    this.container.addEventListener(
+    this.#container.addEventListener(
       "mouseenter",
       this.ShowQuickActionButtons.bind(this),
     );
-    this.container.addEventListener(
+    this.#container.addEventListener(
       "mouseleave",
       this.HideQuickActionButtons.bind(this),
     );
@@ -434,5 +440,9 @@ export default class Comment {
     delete this.data.report;
 
     HideElement(this.reportDetailsBox);
+  }
+
+  Hide() {
+    HideElement(this.#container);
   }
 }

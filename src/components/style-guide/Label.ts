@@ -15,7 +15,7 @@ export type LabelColorType =
   | "peach"
   | "mustard"
   | "gray"
-  | "default";
+  | "achromatic";
 
 type LabelIconType = Icon | HTMLElement;
 
@@ -42,7 +42,7 @@ export const COLORS_SOLID_MAP = {
   peach: "peach-primary",
   mustard: "mustard-primary",
   gray: "gray-secondary",
-  default: "black",
+  achromatic: "black",
 };
 
 export const COLORS_DEFAULT_MAP = {
@@ -52,7 +52,7 @@ export const COLORS_DEFAULT_MAP = {
   peach: "peach-secondary-light",
   mustard: "mustard-secondary-light",
   gray: "gray-secondary-light",
-  default: "white",
+  achromatic: "white",
 };
 
 const TRANSPARENT_COLOR_TEXT_MAP: {
@@ -63,7 +63,7 @@ const TRANSPARENT_COLOR_TEXT_MAP: {
     | "peach"
     | "mustard"
     | "gray"
-    | "default"]: TextColorType;
+    | "achromatic"]: TextColorType;
 } = {
   blue: "blue-dark",
   mint: "mint-dark",
@@ -71,7 +71,7 @@ const TRANSPARENT_COLOR_TEXT_MAP: {
   peach: "peach-dark",
   mustard: "mustard-dark",
   gray: "gray-secondary",
-  default: "default",
+  achromatic: "default",
 };
 
 const TRANSPARENT_ICON_COLOR_MAP: {
@@ -111,7 +111,7 @@ export default class Label {
     type,
     icon,
     onClose,
-    color,
+    color = "achromatic",
     className,
     tag = "div",
     noSelection,

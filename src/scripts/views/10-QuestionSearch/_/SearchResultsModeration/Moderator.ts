@@ -124,7 +124,7 @@ export default class Moderator {
   private RenderDeleteButton() {
     this.#deleteButtonNumberText = document.createTextNode("0");
     const numberLabel = new Label({
-      color: "default",
+      color: "achromatic",
       children: this.#deleteButtonNumberText,
     });
     this.#deleteButton = new Button({
@@ -142,7 +142,7 @@ export default class Moderator {
   private RenderDeleteAcrossButton() {
     this.#deleteAcrossButtonNumberText = document.createTextNode("0");
     const numberLabel = new Label({
-      color: "default",
+      color: "achromatic",
       children: this.#deleteAcrossButtonNumberText,
     });
     this.#deleteAcrossButton = new Button({

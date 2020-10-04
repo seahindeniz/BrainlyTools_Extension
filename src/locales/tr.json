@@ -775,6 +775,10 @@
           "other": "Diğer"
         }
       }
+    },
+    "userWarningsList": {
+      "name": "Son uyarılar",
+      "showRest": "Kalanı göster"
     }
   },
   "userWarnings": {
@@ -995,7 +999,15 @@
     "deleteAllComments": "Tüm yorumları sil",
     "confirmDeletingNComments": "Lütfen %{N} yorumun silinmesini onaylayın",
     "commentsDeleted": "Yorumlar silindi!",
-    "switchingToNextContent": "Bir sonraki içeriğe geçmeye çalışacağım"
+    "switchingToNextContent": "Bir sonraki içeriğe geçmeye çalışacağım",
+    "hideDeletedComments": "Silinen yorumları gizle",
+    "showDeletedComments": "Silinen yorumları göster",
+    "janToDec": "OCA\nARA",
+    "decToJan": "ARA\nOCA",
+    "sortDESC": "Yorumları en yeniden eskiye doğru sırala",
+    "sortASC": "Yorumları eskiden yeniye doğru sırala",
+    "showReportedComments": "Yalnızca şikayet edilen yorumları göster",
+    "showLess": "Daha az göster"
   },
   "shortAnswersPage": {
     "selectAtLeastOneAnswer": "En az bir cevap seçmelisin",

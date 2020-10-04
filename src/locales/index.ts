@@ -1018,4 +1018,3 @@ export default {
     doYouWantToDeleteSelectedQuestions: "Do you really want delete %{N} selected questions?"
   }
 }
-

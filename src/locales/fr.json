@@ -109,7 +109,7 @@
   },
   "popup": {
     "notificationMessages": {
-      "shortLinkSuccessMessage": "Un lien court a été créé et copier dans le presse-papier (CTRL+C)",
+      "shortLinkSuccessMessage": "Copié dans le presse-papiers !",
       "languageChanged": "Changer la langue",
       "cannotFindUser": "Je n'arrive pas à trouver l'utilisateur correspondant à cet ID",
       "createdMessage": "Création réussie",
@@ -775,6 +775,10 @@
           "other": "Autre"
         }
       }
+    },
+    "userWarningsList": {
+      "name": "Derniers avertissements",
+      "showRest": "Afficher le reste"
     }
   },
   "userWarnings": {
@@ -932,8 +936,8 @@
         "defaultDensity": "Par défaut"
       },
       "lazyQueue": {
-        "optionName": "Lazy queue (Refresh required)",
-        "description": "This option enables lazy loading for reported contents.\n\nWhen enabled, the queue displays report boxes with delay while scrolling through reports, so it's memory-friendly.\nHowever, the \"Find on page\" feature will not function for invisible reports. The page might display empty reports while scrolling too fast"
+        "optionName": "File d'attente ralentie (Rafraîchissement nécessaire)",
+        "description": "Cette option permet un chargement ralenti pour les contenus signalés.\n\nLorsqu'elle est activée, la file d'attente affiche les boîtes de rapport avec du retard pendant le défilement des rapports, ce qui la rend facile à mémoriser.\nToutefois, la fonction \"Trouver sur la page\" ne fonctionne pas pour les rapports invisibles. La page peut afficher des rapports vides tout en défilant trop rapidement"
       }
     },
     "queue": {
@@ -941,7 +945,7 @@
       "bestAnswer": "C'est la meilleure réponse",
       "popularQuestion": "Question populaire !",
       "moderatorVerifiedSomeonesAnswer": "%{verifier} a vérifié la réponse de %{author}.",
-      "loadMore": "Load more.."
+      "loadMore": "Charger plus.."
     },
     "loadAll": "Charger tous les signalements",
     "loadAllConfirmationMessage": "Je vais essayer de récupérer tous les contenus signalés auprès de Brainly, mais le processus peut être interrompu par Brainly en raison de demandes élevées.\nVeuillez confirmer pour lancer le processus.",
@@ -995,7 +999,15 @@
     "deleteAllComments": "Supprimer tous les commentaires",
     "confirmDeletingNComments": "Veuillez confirmer la suppression de %{N} commentaires",
     "commentsDeleted": "Commentaires supprimés !",
-    "switchingToNextContent": "Je vais essayer de passer au contenu suivant"
+    "switchingToNextContent": "Je vais essayer de passer au contenu suivant",
+    "hideDeletedComments": "Masquer les commentaires supprimés",
+    "showDeletedComments": "Afficher les commentaires supprimés",
+    "janToDec": "JAN\nDEC",
+    "decToJan": "DEC\nJAN",
+    "sortDESC": "Trier les commentaires du plus récent au plus ancien",
+    "sortASC": "Trier les commentaires du plus ancien aux plus récent",
+    "showReportedComments": "Afficher uniquement les commentaires signalés",
+    "showLess": "Masquer"
   },
   "shortAnswersPage": {
     "selectAtLeastOneAnswer": "Vous devez sélectionner au moins une réponse",

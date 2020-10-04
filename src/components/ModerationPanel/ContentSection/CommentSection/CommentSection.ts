@@ -148,7 +148,7 @@ export default class CommentSection {
     });
     tippy(this.toggleReportedCommentsButton.element, {
       theme: "light",
-      content: this.toggleDeletedCommentsButtonTippyText = Text({
+      content: Text({
         tag: "div",
         size: "small",
         weight: "bold",

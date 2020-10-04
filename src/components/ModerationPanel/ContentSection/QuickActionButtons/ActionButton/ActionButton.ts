@@ -1,4 +1,3 @@
-import CreateElement from "@components/CreateElement";
 import HideElement from "@root/helpers/HideElement";
 import { Button, Flex } from "@style-guide";
 import type { ButtonPropsType } from "@style-guide/Button";
@@ -33,17 +32,9 @@ export default class ActionButton {
       marginLeft: "xxs",
       marginBottom: "xxs",
       relative: true,
-      children: CreateElement({
-        tag: "div",
-        style: {
-          position: "relative",
-        },
-        children: [
-          (this.button = new Button({
-            size: this.main.buttonSize,
-            ...this.buttonProps,
-          })),
-        ],
+      children: this.button = new Button({
+        size: this.main.buttonSize,
+        ...this.buttonProps,
       }),
     });
 

@@ -219,6 +219,8 @@ export default class CommentSection {
   }
 
   ToggleCommentsVisibilityButtonType() {
+    if (!this.showAllCommentsButton) return;
+
     let buttonText = System.data.locale.moderationPanel.showAllComments;
     const buttonType: ButtonColorType = {
       type: "outline",

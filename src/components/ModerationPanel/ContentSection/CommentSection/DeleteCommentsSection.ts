@@ -38,7 +38,7 @@ export default class DeleteCommentsSection {
       }),
     });
 
-    this.main.actionsContainer.append(this.container);
+    this.main.actionsContainer.prepend(this.container);
   }
 
   ToggleDeleteSection() {

@@ -6,8 +6,11 @@ import { TextElement } from "@style-guide/Text";
 import tippy from "tippy.js";
 import type QuickActionButtonsClassType from "../QuickActionButtons";
 
+type PositionType = "left" | "right";
+
 export default class ActionButton {
   main: QuickActionButtonsClassType;
+  #position: PositionType;
   buttonProps: ButtonPropsType;
   #tooltipContent: string | TextElement<"div">;
 
@@ -16,10 +19,12 @@ export default class ActionButton {
 
   constructor(
     main: QuickActionButtonsClassType,
+    position: PositionType,
     buttonProps: ButtonPropsType,
     tooltipContent?: string | TextElement<"div">,
   ) {
     this.main = main;
+    this.#position = position;
     this.buttonProps = buttonProps;
     this.#tooltipContent = tooltipContent;
 
@@ -47,26 +52,17 @@ export default class ActionButton {
         allowHTML: true,
         content: this.#tooltipContent,
         theme: "light",
-        // trigger: "manual",
       });
-
-      // TODO remove this comment
-      /* this.button.element.addEventListener("mouseenter", () => {
-        tp.show();
-      }); */
     }
 
     this.Show();
   }
 
-  Show(prepend?: boolean) {
-    if (!prepend) {
-      this.main.container.append(this.container);
-
-      return;
-    }
-
-    this.main.container.prepend(this.container);
+  Show() {
+    if (this.#position === "left")
+      this.main.leftActionButtonContainer.append(this.container);
+    else if (this.#position === "right")
+      this.main.rightActionButtonContainer.append(this.container);
   }
 
   Hide() {

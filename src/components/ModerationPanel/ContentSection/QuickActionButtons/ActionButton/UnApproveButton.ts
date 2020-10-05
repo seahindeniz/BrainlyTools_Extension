@@ -6,12 +6,13 @@ export default class UnApproveButton extends ActionButton {
   constructor(main: QuickActionButtonsClassType) {
     super(
       main,
+      "left",
       {
-        type: "transparent",
+        type: "outline",
         iconOnly: true,
         title: System.data.locale.common.moderating.unapprove,
         icon: new Icon({
-          size: 40,
+          size: 32,
           color: "dark",
           type: "verified",
         }),

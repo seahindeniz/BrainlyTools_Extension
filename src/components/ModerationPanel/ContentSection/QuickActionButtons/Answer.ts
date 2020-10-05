@@ -1,4 +1,3 @@
-import InsertBefore from "@root/helpers/InsertBefore";
 import type AnswerClassType from "../Answer";
 import ApproveButton from "./ActionButton/ApproveButton";
 import AskForCorrectionButton from "./ActionButton/AskForCorrectionButton";
@@ -26,14 +25,14 @@ export default class QuickActionButtonsForAnswer extends QuickActionButtons {
       return;
 
     if (this.askForCorrectionButton) {
-      this.askForCorrectionButton.Show(true);
+      this.askForCorrectionButton.Show();
 
       return;
     }
 
     this.askForCorrectionButton = new AskForCorrectionButton(this);
 
-    this.askForCorrectionButton.Show(true);
+    this.askForCorrectionButton.Show();
     this.askForCorrectionButton.container.ChangeMargin({
       marginRight: "xs",
     });
@@ -56,8 +55,6 @@ export default class QuickActionButtonsForAnswer extends QuickActionButtons {
       marginRight: "xs",
     });
 
-    InsertBefore(approveButton.container, this.moreButton.container);
-
     this.actionButtons.push(approveButton);
   }
 
@@ -69,8 +66,6 @@ export default class QuickActionButtonsForAnswer extends QuickActionButtons {
     unApproveButton.container.ChangeMargin({
       marginRight: "xs",
     });
-
-    InsertBefore(unApproveButton.container, this.moreButton.container);
 
     this.actionButtons.push(unApproveButton);
   }

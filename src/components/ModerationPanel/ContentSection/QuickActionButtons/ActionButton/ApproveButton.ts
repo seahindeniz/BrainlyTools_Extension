@@ -6,12 +6,14 @@ export default class ApproveButton extends ActionButton {
   constructor(main: QuickActionButtonsClassType) {
     super(
       main,
+      "left",
       {
-        type: "transparent",
+        type: "outline",
+        toggle: "mint",
         iconOnly: true,
         title: System.data.locale.common.moderating.approve,
         icon: new Icon({
-          size: 40,
+          size: 32,
           color: "mint",
           type: "verified",
         }),

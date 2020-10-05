@@ -6,6 +6,7 @@ export default class MoreButton extends ActionButton {
   constructor(main: QuickActionButtonsClassType) {
     super(
       main,
+      "left",
       {
         type: "outline",
         toggle: "peach",

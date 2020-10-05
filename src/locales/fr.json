@@ -466,63 +466,6 @@
       "numberOfPending": "En attente",
       "selectAReason": "Sélectionner une raison"
     },
-    "massModerateReportedContents": {
-      "text": "Modération de masse des contenus signalés",
-      "informationText": [
-        "L'outil doit récupérer tous les contenus signalés de toutes les pages du \"Tout Modérer\" et la collecte des détails peut prendre un certain temps.",
-        "Il ne peut pas collecter instantanément tous les contenus signalés en raison des limites architecturales du \"Tout Modérer\"",
-        "Tout en collectant des détails, d'autres modérateurs peuvent également modérer les contenus signalés présents dans le \"Tout Modérer\", cela signifie que les chiffres sous le bouton \"%{addModerator}\", peuvent être affectés et peuvent ne pas correspondre."
-      ],
-      "notificationMessages": {
-        "cantFetchDetailsFromExtensionServer": "Il y a un problème avec le serveur de l'extension lors de la recherche de détails sur le \"Tout modérer\"",
-        "noModeratableContentLeft": "Il n'y a pas de contenu modérable sur ceux qui reste"
-      },
-      "addModerator": "Ajout d'une section pour les modérateurs",
-      "moderatorN": "Modérateur %{n}",
-      "filter": {
-        "ContentType": {
-          "text": "Type de contenu"
-        },
-        "Reporter": {
-          "text": "Utilisateur signaleur",
-          "title": "L'utilisateur qui a signalé le contenu"
-        },
-        "Reported": {
-          "text": "Utilisateur signalé",
-          "title": "L'utilisateur dont le contenu a été signalé"
-        },
-        "DateRange": {
-          "text": "Date du signalement",
-          "title": "Trouver le contenu signalé entre deux dates"
-        },
-        "Subject": {
-          "text": "Matière",
-          "title": "Trouver des signalements par matière"
-        }
-      },
-      "filteredReports": "Signalement filtrés",
-      "userId": "Identifiant de l'utilisateur",
-      "moderateActions": {
-        "Confirm": {
-          "text": "Confirmer",
-          "confirmModeration": "Voulez-vous vraiment confirmer %{n} contenus signalés ?"
-        },
-        "Delete": {
-          "text": "Supprimer",
-          "choose": {
-            "Question": "Supprimer le motif des questions",
-            "Answer": "Supprimer le motif des réponses"
-          },
-          "confirmDeletion": "Voulez-vous vraiment supprimer %{n} contenus signalés ?"
-        }
-      },
-      "exportToSpreadsheet": "Exporter les signalements sous la forme d'un tableur (%{format_fichier})",
-      "failedToModerate": "Échec lors de la modération",
-      "findReports": "Trier les signalements",
-      "moderatedReports": "Signalements modérés",
-      "totalReportedContents": "Total des contenus signalés",
-      "collectedReports": "Signalements collectés"
-    },
     "noticeBoard": {
       "text": "Tableau d'information",
       "lastChanges": "Dernières modifications",

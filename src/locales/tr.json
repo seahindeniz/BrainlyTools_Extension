@@ -272,8 +272,8 @@
             "description": "Kullanıcı bu fonksiyonu kullanarak Tümünü düzelt'ten tüm yorumları silebilir"
           },
           "18": {
-            "title": "Şikayet edilmiş içerik düzenleyici",
-            "description": "Kullanıcı bu fonksiyonu kullanarak Tümünü düzelt'ten şikayet edilmiş içerikleri filtreleyerek çoklu olarak onaylayabilir/silebilir"
+            "title": "Bildirilen içerikleri toplu düzenleme",
+            "description": "Kullanıcı bu fonksiyonu kullanarak Bildirilmiş içerikler'den bildirilen içerikleri çoklu olarak onaylayabilir/silebilir"
           },
           "19": {
             "title": "Seçmeli hatalı olara bildir",
@@ -348,7 +348,7 @@
             "description": "Moderatörün, bir kullanıcının profil sayfasındaki tüm soruları, cevapları ve yorumları silmek için kullanılan bağlantıları görmesine izin ver"
           },
           "99": {
-            "title": "Şikayet edilen içerikler (Beta)"
+            "title": "Bildirilen içerikler (Beta)"
           },
           "37": {
             "title": "Düzenle paneli > Tüm yorumları sil",
@@ -465,63 +465,6 @@
       "stopped": "Durduruldu",
       "numberOfPending": "Bekleyen",
       "selectAReason": "Silim sebebi seç"
-    },
-    "massModerateReportedContents": {
-      "text": "Şikayet edilmiş içerik düzenleyici",
-      "informationText": [
-        "İçerikleri düzenleyebilmek için panelin, şikayet edilen tüm içeriklerin bulunduğu tüm sayfaları, Tümünü düzeltten çekmesi gerekiyor ve bu işlem biraz zaman alabilir.",
-        "Şikayet edilen içerikleri, Tümünü düzeltin yapısı gereği bir anda da toplayamaz",
-        "Panel içerikleri toplarken, aynı zamanda diğer moderatörler şikayet edilen içerikleri Tümünü düzeltten normal bir şekilde düzeltebilirler ve bu durum, \"%{addModerator}\" butonu altındaki sayıları da etkileyebilir."
-      ],
-      "notificationMessages": {
-        "cantFetchDetailsFromExtensionServer": "Eklenti sunucusundan Tümünü düzelt ile ilgili detayları almaya çalışırken bir hata oluştu",
-        "noModeratableContentLeft": "Düzenlenebilir içerik kalmadı"
-      },
-      "addModerator": "Moderasyon alanı ekle",
-      "moderatorN": "Moderatör %{n}",
-      "filter": {
-        "ContentType": {
-          "text": "İçerik tipi"
-        },
-        "Reporter": {
-          "text": "Şikayet eden",
-          "title": "İçeriği şikayet eden kullanıcı"
-        },
-        "Reported": {
-          "text": "Şikayet edilen",
-          "title": "İçeriği şikayet edilmiş kullanıcı"
-        },
-        "DateRange": {
-          "text": "Şikayet tarihi",
-          "title": "İki tarih arasında şikayet edilen içerikleri bul"
-        },
-        "Subject": {
-          "text": "Konu",
-          "title": "Konu tipine göre şikayetleri bul"
-        }
-      },
-      "filteredReports": "Filtrelenen şikayet",
-      "userId": "Kullanıcı Id'si",
-      "moderateActions": {
-        "Confirm": {
-          "text": "Onayla",
-          "confirmModeration": "Şikayet edilen %{n} içeriği gerçekten onaylamak istiyor musun?"
-        },
-        "Delete": {
-          "text": "Sil",
-          "choose": {
-            "Question": "Sorular için silim sebebi",
-            "Answer": "Cevaplar için silim sebebi"
-          },
-          "confirmDeletion": "Şikayet edilen %{n} içeriği gerçekten silmek istiyor musun?"
-        }
-      },
-      "exportToSpreadsheet": "Şikayetleri e-tablo olarak dışa aktar (%{file_format})",
-      "failedToModerate": "Düzenlenemedi",
-      "findReports": "İçerikleri bul",
-      "moderatedReports": "Düzenlenen içerik",
-      "totalReportedContents": "Toplam şikayet",
-      "collectedReports": "Çekilen içerik"
     },
     "noticeBoard": {
       "text": "Duyuru panosu",
@@ -848,11 +791,11 @@
   "reportedContents": {
     "questionAnswerReports": {
       "text": "Sorular/Cevaplar (%{number_of_reports})",
-      "title": "Şikayet edilen soruları ve cevapları görmek için buraya tıklayın"
+      "title": "Bildirilen soruları ve cevapları görmek için buraya tıklayın"
     },
     "commentReports": {
       "text": "Yorumlar (%{number_of_reports})",
-      "title": "Şikayet edilen yorumları görmek için buraya tıklayın"
+      "title": "Bildirilen yorumları görmek için buraya tıklayın"
     },
     "correctionReports": {
       "text": "Düzeltme bildirimleri (%{number_of_reports})",
@@ -937,7 +880,7 @@
       },
       "lazyQueue": {
         "optionName": "Lazy liste (Sayfayı yenilemelisin)",
-        "description": "Bu seçenek, şikayet edilen içerikler için gecikmeli görüntülemeyi etkinleştirir.\n\nEtkinleştirildiğinde; şikayetler, sayfa kaydırılınca biraz gecikmeli görüntülenir, bu da cihazının belleğinde az kullanım sağlar. \nAncak bu durumda, tarayıcının \"Sayfada bul\" özelliği, o an görüntülenmeyen şikayetler için çalışmaz. Sayfayı hızlı kaydırınca da, bazı şikayetler görünmez kalabilir."
+        "description": "Bu seçenek, gecikmeli listelemeyi etkinleştirir.\n\nEtkinleştirildiğinde; şikayetler sayfa kaydırılınca biraz gecikmeli görüntülenir ve cihazının belleğinde az kullanım sağlar. \nAncak bu durumda, tarayıcının \"Sayfada bul\" özelliği, o an içerisinde görüntülenmeyen şikayetler için çalışmaz. Sayfayı çok hızlı kaydırdığında da, bazı şikayetler görünmez kalabilir."
       }
     },
     "queue": {
@@ -955,7 +898,7 @@
       "confirm": {
         "text": "Onayla",
         "noContentToConfirm": "Onaylanabilir içerik kalmadı",
-        "confirmModeration": "Şikayet edilen %{n} içeriği gerçekten onaylamak istiyor musun?"
+        "confirmModeration": "Bildirilen %{n} içeriği gerçekten onaylamak istiyor musun?"
       },
       "delete": {
         "text": "Sil",
@@ -965,7 +908,7 @@
           "Comment": "Yorumlar için silim nedeni"
         },
         "noContentToDelete": "Silinebilir içerik kalmadı",
-        "confirmDeletion": "Şikayet edilen %{n} içeriği gerçekten silmek istiyor musun?",
+        "confirmDeletion": "Bildirilen %{n} içeriği gerçekten silmek istiyor musun?",
         "warnAboutConfirmedContents": "Uyarı!\nSilinmesini istediğin %{N_of_filtered} içerikten %{N_of_confirmed} tanesi, daha önce onaylanmış.\nOnların da silinmesini istiyor musun?"
       },
       "status": {
@@ -984,7 +927,7 @@
         "Comment": "Yorumlar için silim sebebi"
       }
     },
-    "name": "Şikayet edilen içerikler"
+    "name": "Bildirilen içerikler"
   },
   "moderationPanel": {
     "text": "Ödev Düzenle",
@@ -995,7 +938,7 @@
     "failedToGetLogs": "Sorunun eylem geçmişini gösterirken bir sorun oluştu",
     "seeMoreDeleteOptions": "Daha fazla silim seçeneği",
     "confirmReportingForCorrection": "Cevabı düzenlemesi için bildirmek istiyor musun?",
-    "thereIsNoReportLeft": "Şikayet edilmiş içerik kalmadı",
+    "thereIsNoReportLeft": "Bildirilmiş içerik kalmadı",
     "deleteAllComments": "Tüm yorumları sil",
     "confirmDeletingNComments": "Lütfen %{N} yorumun silinmesini onaylayın",
     "commentsDeleted": "Yorumlar silindi!",
@@ -1006,7 +949,7 @@
     "decToJan": "ARA\nOCA",
     "sortDESC": "Yorumları en yeniden eskiye doğru sırala",
     "sortASC": "Yorumları eskiden yeniye doğru sırala",
-    "showReportedComments": "Yalnızca şikayet edilen yorumları göster",
+    "showReportedComments": "Yalnızca bildirilen yorumları göster",
     "showLess": "Daha az göster"
   },
   "shortAnswersPage": {

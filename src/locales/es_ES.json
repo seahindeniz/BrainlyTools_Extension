@@ -273,7 +273,7 @@
           },
           "18": {
             "title": "Mass-Moderate reported contents",
-            "description": "User can use this function to confirm/delete reported contents massively from the Moderate all by filtering"
+            "description": "User can use this tool to mass-moderate reported contents from the Reported contents page"
           },
           "19": {
             "title": "Selective ask for correction",
@@ -465,63 +465,6 @@
       "stopped": "Stopped",
       "numberOfPending": "Pending",
       "selectAReason": "Select a reason"
-    },
-    "massModerateReportedContents": {
-      "text": "Mass-Moderate reported contents",
-      "informationText": [
-        "Tool needs to fetch all reported contents from all pages of moderate all and collecting the details may take a while to finish.",
-        "It can't collect all reported contents instantly because of the architectural limitations of moderate all",
-        "While collecting details, other moderators can also moderate reported contents from moderate all regularly but this means the numbers under the \"%{addModerator}\" button, can be affected and may not match."
-      ],
-      "notificationMessages": {
-        "cantFetchDetailsFromExtensionServer": "There is a problem with extension's server while fetching details about moderate all",
-        "noModeratableContentLeft": "There is no moderatable content that remains"
-      },
-      "addModerator": "Add moderator section",
-      "moderatorN": "Moderator %{n}",
-      "filter": {
-        "ContentType": {
-          "text": "Content type"
-        },
-        "Reporter": {
-          "text": "Reporter user",
-          "title": "The user who has reported the content"
-        },
-        "Reported": {
-          "text": "Reported user",
-          "title": "The user whose content has been reported"
-        },
-        "DateRange": {
-          "text": "Reporting date",
-          "title": "Find reports between two dates"
-        },
-        "Subject": {
-          "text": "Subject",
-          "title": "Find reports by subjects"
-        }
-      },
-      "filteredReports": "Filtered reports",
-      "userId": "User id",
-      "moderateActions": {
-        "Confirm": {
-          "text": "Confirm",
-          "confirmModeration": "Do you really want to confirm %{n} reported contents?"
-        },
-        "Delete": {
-          "text": "Delete",
-          "choose": {
-            "Question": "Delete reason for questions",
-            "Answer": "Delete reason for answers"
-          },
-          "confirmDeletion": "Do you really want to delete %{n} reported contents?"
-        }
-      },
-      "exportToSpreadsheet": "Export reports as spreadsheet(%{file_format})",
-      "failedToModerate": "Failed to moderate",
-      "findReports": "Find reports",
-      "moderatedReports": "Moderated reports",
-      "totalReportedContents": "Total reported contents",
-      "collectedReports": "Collected reports"
     },
     "noticeBoard": {
       "text": "Noticeboard",

@@ -801,7 +801,7 @@
       "text": "Demande de correction (%{number_of_reports})",
       "title": "Cliquez ici pour voir les réponses qui ont été signalées pour correction et qui attendent d'être modérées"
     },
-    "subjectFilterFirstOption": "Matières - TOUTES",
+    "subjectFilterFirstOption": "Matières — TOUTES",
     "options": {
       "buttonVisibility": {
         "optionName": "Visibilité des boutons d'action",
@@ -920,7 +920,7 @@
       }
     },
     "categoryFilterFirstOption": {
-      "name": "Motifs de signalements - TOUS",
+      "name": "Motifs de signalements — TOUS",
       "reasonsFor": {
         "Question": "Motifs de signalements pour les questions",
         "Answer": "Motifs de signalements pour les réponses",

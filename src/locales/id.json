@@ -801,7 +801,7 @@
       "text": "Correction Reports (%{number_of_reports})",
       "title": "Click here to view the answers that have been reported for correction and are waiting to be moderated"
     },
-    "subjectFilterFirstOption": "Subject - ALL",
+    "subjectFilterFirstOption": "Subject — ALL",
     "options": {
       "buttonVisibility": {
         "optionName": "Action buttons visibility",
@@ -920,7 +920,7 @@
       }
     },
     "categoryFilterFirstOption": {
-      "name": "Report reason - ALL",
+      "name": "Report reason — ALL",
       "reasonsFor": {
         "Question": "Reasons for questions",
         "Answer": "Reasons for answers",

@@ -531,7 +531,7 @@
           "contentLinksOrIDs": "Content links or ids.."
         },
         "idRange": {
-          "text": "Id range",
+          "text": "ID range",
           "youNeedToEnterTwoDifferentIdNumbers": "You need to enter different id numbers separated by a dash(-) or dots(.. or ...) to moderate the numbers between range",
           "exampleUsage": "Example Usage",
           "input": "Input",
@@ -618,10 +618,10 @@
     "notificationMessages": {
       "alreadyApproved": "This answer is already approved",
       "alreadyUnapproved": "This answer is already unapproved",
-      "someOfSelectedAnswersAreApproved": "Some of the selected answers have already been approved, so you technically can't approve those answers again",
+      "someOfSelectedAnswersAreApproved": "Some selected answers have already been approved, so technically you can't approve those answers again",
       "selectAnUnapprovedAnswerForApproving": "You need to select some unapproved answer/s to start approving them",
       "confirmApproving": "Do you want to approve this answer?",
-      "someOfSelectedAnswersAreUnapproved": "Some of the selected answers aren't approved, so you techincally can't unapprove those answers",
+      "someOfSelectedAnswersAreUnapproved": "Some selected answers aren't approved, so technically you can't unapprove those answers",
       "selectAnApprovedAnswerForUnapproving": "You need to select some approved answer/s to start unapproving them",
       "confirmUnapproving": "Do you want to unapprove this answer?",
       "doYouWantToConfirmThisContent": "Do you want to confirm this content?",
@@ -801,7 +801,7 @@
       "text": "Correction Reports (%{number_of_reports})",
       "title": "Click here to view the answers that have been reported for correction and are waiting to be moderated"
     },
-    "subjectFilterFirstOption": "Subject - ALL",
+    "subjectFilterFirstOption": "Subject — ALL",
     "options": {
       "buttonVisibility": {
         "optionName": "Action buttons visibility",
@@ -920,7 +920,7 @@
       }
     },
     "categoryFilterFirstOption": {
-      "name": "Report reason - ALL",
+      "name": "Report reason — ALL",
       "reasonsFor": {
         "Question": "Reasons for questions",
         "Answer": "Reasons for answers",

@@ -24,6 +24,10 @@ common:
       progress: 0
       name: Portuguese
       author: null
+    pl:
+      progress: 0
+      name: Polish
+      author: null
 dev:
   serverURL: 'http://localhost:3001'
   serverAPIURL: 'http://localhost:3001/BrainlyTools'

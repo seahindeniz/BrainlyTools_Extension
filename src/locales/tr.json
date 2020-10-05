@@ -531,7 +531,7 @@
           "contentLinksOrIDs": "İçerik linki veya id numarası.."
         },
         "idRange": {
-          "text": "Id aralığı",
+          "text": "ID aralığı",
           "youNeedToEnterTwoDifferentIdNumbers": "Tire(-) veya noktalarla(.. veya ...) ayrılmış şekilde farklı id numaraları girmelisin",
           "exampleUsage": "Örnek Kullanım",
           "input": "Giriş",
@@ -801,7 +801,7 @@
       "text": "Düzeltme bildirimleri (%{number_of_reports})",
       "title": "Düzenlenmesi için bildirilen ve incelenmeyi bekleyen cevapları görmek için buraya tıklayın"
     },
-    "subjectFilterFirstOption": "Konu - TÜMÜ",
+    "subjectFilterFirstOption": "Konu — TÜMÜ",
     "options": {
       "buttonVisibility": {
         "optionName": "Hızlı eylem buton görünürlüğü",
@@ -920,7 +920,7 @@
       }
     },
     "categoryFilterFirstOption": {
-      "name": "Şikayet sebebi - TÜMÜ",
+      "name": "Şikayet sebebi — TÜMÜ",
       "reasonsFor": {
         "Question": "Sorular için silim sebebi",
         "Answer": "Cevaplar için silim sebebi",

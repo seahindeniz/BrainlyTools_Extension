@@ -44,6 +44,10 @@ const LANGUAGE_DETAILS = {
     name: "Portuguese",
     author: null, // "C",
   },
+  pl: {
+    name: "Polish",
+    author: null,
+  },
 };
 
 let apiKey;

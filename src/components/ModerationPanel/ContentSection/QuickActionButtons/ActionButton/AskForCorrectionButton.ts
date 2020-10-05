@@ -6,6 +6,7 @@ export default class AskForCorrectionButton extends ActionButton {
   constructor(main: QuickActionButtonsClassType) {
     super(
       main,
+      "left",
       {
         type: "outline",
         toggle: "blue",

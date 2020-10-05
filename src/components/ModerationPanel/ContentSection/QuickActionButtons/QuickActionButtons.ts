@@ -18,13 +18,16 @@ export type ButtonClassTypes =
 
 export default class QuickActionButtons {
   main: AnswerClassType | CommentClassType | QuestionClassType;
-  container: FlexElementType;
-  actionButtons: ButtonClassTypes[];
-  spinner: HTMLDivElement;
+  buttonSize: ButtonSizeType;
 
+  actionButtons: ButtonClassTypes[];
+
+  container: FlexElementType;
+  leftActionButtonContainer: FlexElementType;
+  rightActionButtonContainer: FlexElementType;
+  spinner: HTMLDivElement;
   selectedButton: ButtonClassTypes;
   confirmButton?: ConfirmButton;
-  buttonSize: ButtonSizeType;
   moreButton: MoreButton;
 
   constructor(
@@ -42,7 +45,18 @@ export default class QuickActionButtons {
   }
 
   private Render() {
-    this.container = Flex({ wrap: true, justifyContent: "flex-end" });
+    this.container = Flex({
+      wrap: true,
+      justifyContent: "space-between",
+      children: [
+        (this.leftActionButtonContainer = Flex({ wrap: true })),
+        (this.rightActionButtonContainer = Flex({
+          grow: true,
+          wrap: true,
+          justifyContent: "flex-end",
+        })),
+      ],
+    });
   }
 
   private RenderSpinner() {

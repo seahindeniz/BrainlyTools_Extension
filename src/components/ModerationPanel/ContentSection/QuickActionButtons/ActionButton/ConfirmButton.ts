@@ -6,6 +6,7 @@ export default class ConfirmButton extends ActionButton {
   constructor(main: QuickActionButtonsClassType) {
     super(
       main,
+      "right",
       {
         type: "solid-mint",
         iconOnly: true,

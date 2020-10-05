@@ -62,11 +62,13 @@ export default class CommentSection {
     this.container = Build(Flex({ direction: "column" }), [
       [
         (this.actionsContainer = Flex({
+          direction: "row-reverse",
+          wrap: true,
           justifyContent: "space-between",
         })),
         [
           [
-            Flex(), // toggle buttons container
+            Flex({ marginTop: "xxs" }), // toggle buttons container
             [
               [
                 Flex(),

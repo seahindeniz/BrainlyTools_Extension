@@ -21,6 +21,7 @@ export default class DeleteButton extends ActionButton {
 
     super(
       main,
+      "right",
       {
         ...buttonProps,
         iconOnly: true,

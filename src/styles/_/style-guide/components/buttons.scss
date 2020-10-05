@@ -49,6 +49,10 @@ $colorMap: (
     &#{$p}--icon-only {
       width: 28px;
     }
+
+    &:not(#{$p}--icon-only) {
+      padding: 0 16px;
+    }
   }
 
   &--xl {

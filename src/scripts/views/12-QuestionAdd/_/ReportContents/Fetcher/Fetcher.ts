@@ -143,7 +143,10 @@ export default class Fetcher {
 
       this.main.queue.ShowContents(true);
 
-      this.main.liveStatus.SubscribeModeration();
+      if (!keepFetching) {
+        this.main.liveStatus.SubscribeModeration();
+      }
+
       this.main.statusBar.UpdateFilteredNumber();
 
       if (keepFetching && this.lastId) {

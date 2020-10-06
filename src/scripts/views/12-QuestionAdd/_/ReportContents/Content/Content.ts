@@ -491,7 +491,8 @@ export default class Content {
       this.RenderContent();
     }
 
-    if (IsVisible(this.quickActionButtonContainer)) return;
+    if (IsVisible(this.quickActionButtonContainer) || this.has === "deleted")
+      return;
 
     if (
       this.main.queue.focusedContent &&
@@ -512,15 +513,16 @@ export default class Content {
 
   HideActionButtons() {
     if (
-      IsVisible(this.buttonSpinner) ||
-      (!document.documentElement.classList.contains("mobile") &&
-        this.main.queueContainer.classList.contains(
-          "buttons-visibility-always",
-        )) ||
-      (document.documentElement.classList.contains("mobile") &&
-        !this.main.queueContainer.classList.contains(
-          "buttons-visibility-on-hover",
-        ))
+      this.has !== "deleted" &&
+      (IsVisible(this.buttonSpinner) ||
+        (!document.documentElement.classList.contains("mobile") &&
+          this.main.queueContainer.classList.contains(
+            "buttons-visibility-always",
+          )) ||
+        (document.documentElement.classList.contains("mobile") &&
+          !this.main.queueContainer.classList.contains(
+            "buttons-visibility-on-hover",
+          )))
     )
       return;
 
@@ -954,6 +956,7 @@ export default class Content {
     this.has = "deleted";
 
     this.ChangeBoxColor();
+    this.HideActionButtons();
     this.quickDeleteButtonContainer?.remove();
   }
 }

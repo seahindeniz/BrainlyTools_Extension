@@ -92,7 +92,7 @@ export default class PageNumbers {
     }
 
     this.pScrollBar = new PerfectScrollbar(this.pageNumbersWrapper, {
-      suppressScrollY: false,
+      suppressScrollY: true,
     });
 
     this.RenderPageNumbers();

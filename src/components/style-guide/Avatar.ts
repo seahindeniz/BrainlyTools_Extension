@@ -18,13 +18,6 @@ type AvatarPropsType = {
   [x: string]: any;
 };
 
-type CustomPropertiesType = {
-  size: Size;
-  border: boolean;
-};
-
-type AvatarElement = CustomPropertiesType & (HTMLDivElement | HTMLImageElement);
-
 const SG = "sg-avatar";
 const SGD = `${SG}--`;
 const SGL = `${SG}__`;
@@ -41,22 +34,18 @@ const ICON_SIZE: {
 };
 
 function GenerateAvatarElement(size: Size) {
-  const avatar = document.createElement("div");
-  avatar.className = `${SGL}image ${SGL}image--icon`;
-  const icon = new Icon({
-    type: "profile",
-    color: "gray-light",
-    size: ICON_SIZE[size],
+  return CreateElement({
+    tag: "div",
+    className: `${SGL}image ${SGL}image--icon`,
+    children: new Icon({
+      className: `${SGL}__icon`,
+      type: "profile",
+      color: "gray-light",
+      size: ICON_SIZE[size],
+    }),
   });
-
-  avatar.append(icon.element);
-
-  return avatar;
 }
 
-/**
- * @this {AvatarElement}
- */
 function ReplaceIcon() {
   const oldAvatarImage = this.querySelector(`.${SGL}image`);
 
@@ -89,8 +78,7 @@ export default ({
     className,
   );
 
-  // @ts-expect-error
-  const container: AvatarElement = CreateElement({
+  const container = CreateElement({
     tag: "div",
     className: avatarClass,
     size,
@@ -99,18 +87,6 @@ export default ({
   });
 
   let avatar: HTMLImageElement | HTMLDivElement;
-  let linkElement;
-
-  if (link !== undefined && link !== "") {
-    linkElement = document.createElement("a");
-    linkElement.href = link;
-
-    if (target) linkElement.target = target;
-
-    if (title) linkElement.title = title;
-
-    container.append(linkElement);
-  }
 
   if (
     imgSrc !== undefined &&
@@ -130,7 +106,19 @@ export default ({
     avatar = GenerateAvatarElement(size);
   }
 
-  if (linkElement) linkElement.append(avatar);
+  let linkElement: HTMLAnchorElement;
+
+  if (link !== undefined && link !== "") {
+    linkElement = CreateElement({
+      tag: "a",
+      href: link,
+      target,
+      title,
+      children: avatar,
+    });
+
+    container.append(linkElement);
+  } //
   else container.append(avatar);
 
   return container;

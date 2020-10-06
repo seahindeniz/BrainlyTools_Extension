@@ -2,7 +2,7 @@
 @import "~perfect-scrollbar";
 
 .ps__rail-x {
-  bottom: 0px;
+  bottom: 0;
   top: auto !important;
 }
 
@@ -17,7 +17,7 @@
 
     > .options-container {
       z-index: 1;
-      margin: 46px -56px 0 0px;
+      margin: 46px -56px 0 0;
     }
 
     &:not(:active):not(:focus):not(:focus-within) > .options-container {
@@ -54,21 +54,21 @@ html.mobile .queue.buttons-visibility-on-hover {
 
 $densities: (
     size: 1,
-    maxWidth: 767px,
+    maxwidth: 767px,
   ),
   (
     size: 2,
-    minWidth: 768px,
-    maxWidth: 1365px,
+    minwidth: 768px,
+    maxwidth: 1365px,
   ),
   (
     size: 3,
-    minWidth: 1366px,
-    maxWidth: 1919px,
+    minwidth: 1366px,
+    maxwidth: 1919px,
   ),
   (
     size: 4,
-    minWidth: 1920px,
+    minwidth: 1920px,
   ),
   (
     size: 5,
@@ -105,7 +105,7 @@ $densities: (
   @return $foo;
 }
 
-@function createTextSelector($num, $className) {
+@function create-text-selector($num, $className) {
   $foo: "";
   $threshold: $num + 1;
 
@@ -132,7 +132,7 @@ $densities: (
   $foo: "";
 
   @each $className in $classNames {
-    $foo: $foo + createTextSelector($num, $className);
+    $foo: $foo + create-text-selector($num, $className);
   }
 
   @if $foo != "" {
@@ -148,7 +148,7 @@ $densities: (
 
     @if $size != 1 {
       &:not(:nth-child(#{$size}n)) {
-        box-shadow: 1px 0px 0px 0px #ebf2f7;
+        box-shadow: 1px 0 0 0 #ebf2f7;
       }
     }
 
@@ -169,8 +169,8 @@ $densities: (
 
 @each $density in $densities {
   $size: map-get($density, size);
-  $minWidth: map-get($density, minWidth);
-  $maxWidth: map-get($density, maxWidth);
+  $minWidth: map-get($density, minwidth);
+  $maxWidth: map-get($density, maxwidth);
 
   .queue[data-density="#{$size}"] {
     @include reportItemDensity($size);

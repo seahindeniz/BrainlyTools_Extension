@@ -1,0 +1,16 @@
+{
+  "extends": ["stylelint-config-standard", "stylelint-prettier/recommended"],
+  "ignoreFiles": [
+    "*.js",
+    "src/styles/zadane_dynamic.scss",
+    "src/styles/bootstrap.scss"
+  ],
+  "plugins": ["stylelint-scss", "stylelint-prettier"],
+  "rules": {
+    "prettier/prettier": true,
+    "no-descending-specificity": null,
+    "at-rule-no-unknown": null,
+    "scss/at-rule-no-unknown": true,
+    "selector-pseudo-element-colon-notation": "single"
+  }
+}

@@ -99,9 +99,9 @@ img.userHat {
     max-width: initial !important;
     max-height: initial !important;
     text-align: left;
-    padding: 0;
+    // padding: 0;
     overflow: hidden;
-    margin: 0 0px 20px 0 !important;
+    margin: 0 0 20px 0 !important;
     padding: 6px 4px 0;
 
     &.removed {
@@ -113,7 +113,7 @@ img.userHat {
     }
 
     &:nth-child(3n) {
-      margin-right: 0px !important;
+      margin-right: 0 !important;
     }
 
     > div.bilgi {
@@ -246,10 +246,10 @@ img.userHat {
       }
 
       > textarea {
-        /*width: 49%;
+        /* width: 49%;
 	height: 58px;
 	position: absolute;
-	bottom: 58px;*/
+	bottom: 58px; */
         width: 87.5%;
         height: 45px;
         min-height: 45px;
@@ -313,11 +313,11 @@ img.userHat {
     }
 
     ul {
-      /*width: 49%;
+      /* width: 49%;
 	clear: both;
 	overflow-x: auto;
 	float: right;
-	margin-top: 0;*/
+	margin-top: 0; */
       width: 100%;
 
       > li {

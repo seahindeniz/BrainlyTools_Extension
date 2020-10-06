@@ -1,14 +1,4 @@
-$baseline: 1.5rem;
-$layoutDefaultPadding: 24px;
-
-@function rhythm($baselines) {
-  @return $baselines * $baseline;
-}
-
-@function gutter($size) {
-  @return $size * $layoutDefaultPadding;
-}
-
+@import "../_/style-guide/variables.scss";
 @import "../_/style-guide/components/*";
 @import "../_/extension/main.scss";
 @import "~viewerjs";
@@ -26,19 +16,19 @@ $layoutDefaultPadding: 24px;
   height: 33px;
   margin: 0 3px;
 }
-.viewer-zoom-in::before,
-.viewer-zoom-out::before,
-.viewer-one-to-one::before,
-.viewer-reset::before,
-.viewer-prev::before,
-.viewer-play::before,
-.viewer-next::before,
-.viewer-rotate-left::before,
-.viewer-rotate-right::before,
-.viewer-flip-horizontal::before,
-.viewer-flip-vertical::before,
-.viewer-fullscreen::before,
-.viewer-fullscreen-exit::before {
+.viewer-zoom-in:before,
+.viewer-zoom-out:before,
+.viewer-one-to-one:before,
+.viewer-reset:before,
+.viewer-prev:before,
+.viewer-play:before,
+.viewer-next:before,
+.viewer-rotate-left:before,
+.viewer-rotate-right:before,
+.viewer-flip-horizontal:before,
+.viewer-flip-vertical:before,
+.viewer-fullscreen:before,
+.viewer-fullscreen-exit:before {
   position: relative;
   top: 5px;
   left: 5px;
@@ -137,11 +127,11 @@ body {
 }
 
 .sg-bubble--column-start.fixedTop {
-  &::before {
+  &:before {
     top: 12px;
   }
 
-  &::after {
+  &:after {
     top: 15px;
   }
 }
@@ -626,7 +616,7 @@ blockquote {
       top: -14px;
       position: relative;
       font-weight: bold;
-      letter-spacing: 0px;
+      letter-spacing: 0;
       font-size: 16px;
       color: #fff;
       text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);
@@ -658,8 +648,8 @@ body.mint {
 }
 
 .userTag .sg-bubble--column-start {
-  &::after,
-  &::before {
+  &:after,
+  &:before {
     top: 11px !important;
   }
 }
@@ -742,8 +732,8 @@ body.mint {
 
 .sg-card {
   &--no-bottom-radius {
-    border-bottom-right-radius: 0px;
-    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
   }
 
   &--spaced-bottom {

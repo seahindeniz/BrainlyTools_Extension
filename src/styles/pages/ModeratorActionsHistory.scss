@@ -1,6 +1,6 @@
 div#content-old tr {
   .dataTime {
-    >.sg-content-box {
+    > .sg-content-box {
       display: none;
       width: 77px;
       height: inherit;
@@ -27,14 +27,14 @@ div#content-old tr {
 
   &:hover,
   &.processing {
-    .dataTime>.sg-content-box {
+    .dataTime > .sg-content-box {
       display: block;
     }
   }
 
   &.confirmed,
   &.disapproved {
-    .dataTime>a {
+    .dataTime > a {
       color: #fff;
     }
   }

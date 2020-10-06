@@ -1,7 +1,6 @@
 .sg-input-group {
   display: inline-block;
   position: relative;
-  overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.5rem;
   min-height: 1.5rem;
@@ -18,7 +17,7 @@
       padding-right: 12px;
     }
 
-    &+button {
+    & + button {
       right: 3px;
       left: unset;
     }
@@ -37,7 +36,7 @@
     -ms-flex-pack: center;
     justify-content: center;
 
-    &+input {
+    & + input {
       padding-left: 40px;
       padding-right: 12px;
     }

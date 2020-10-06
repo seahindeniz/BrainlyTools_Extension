@@ -62,7 +62,7 @@ form.pretty fieldset legend {
   height: 9.6px;
   border-radius: 50%;
   background-color: #ff7968;
-  -webkit-animation: trackingProgressDotPulse 1.5s infinite;
+  -webkit-animation: trackingprogressdotpulse 1.5s infinite;
   animation: trackingProgressDotPulse 1.5s infinite;
 }
 
@@ -127,7 +127,7 @@ form.pretty fieldset legend {
   height: unset;
   min-width: 18px;
   font-size: 11px;
-  padding: 0px 4px 0 3px;
+  padding: 0 4px 0 3px;
 }
 
 #content-old {
@@ -166,13 +166,14 @@ form.pretty fieldset legend {
     -webkit-justify-content: flex-start;
     -ms-flex-pack: start;
     justify-content: flex-start;
-    -webkit-box-align: center;
+
+    /* -webkit-box-align: center;
     -webkit-align-items: center;
     -ms-flex-align: center;
     align-items: center;
     -webkit-flex-wrap: wrap;
     -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
+    flex-wrap: wrap; */
     width: 100%;
     max-width: 100%;
     -webkit-box-align: start;

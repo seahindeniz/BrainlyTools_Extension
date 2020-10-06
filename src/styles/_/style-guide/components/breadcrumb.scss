@@ -1,5 +1,5 @@
 .sg-breadcrumb-list {
-  &__element::after {
+  &__element:after {
     content: "\2022";
     color: #687b8c;
   }

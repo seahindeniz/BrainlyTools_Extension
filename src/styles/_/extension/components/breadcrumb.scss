@@ -69,7 +69,7 @@ $sizes: (
     color: inherit;
 
     #{$name}__element {
-      &::after {
+      &:after {
         color: inherit;
       }
     }

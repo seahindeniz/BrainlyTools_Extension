@@ -1,5 +1,3 @@
-@import "./variables.scss";
-
 $colorMap: (
   "": "",
   mint: (
@@ -66,7 +64,7 @@ $colorMap: (
   }
 
   &--active {
-    box-shadow: inset 0px 0px 0px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.1);
   }
 
   &--outline {
@@ -108,7 +106,7 @@ $colorMap: (
   &--transparent {
     &-mint {
       color: #60d399;
-      background-color: #ffffff00;
+      background-color: #fff0;
 
       &:hover:not([disabled]),
       &:focus:not([disabled]),
@@ -120,7 +118,7 @@ $colorMap: (
 
     &-blue {
       color: #4fb3f6;
-      background-color: #ffffff00;
+      background-color: #fff0;
 
       &:hover:not([disabled]),
       &:focus:not([disabled]),

@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.8.2] - 2020.09.29
+
+### Changed
+
+- Re-locate action buttons on moderate panel [#264]
+
+[#264]: https://github.com/seahindeniz/BrainlyTools_Extension/pull/264
+
 ## [7.8.1] - 2020.09.29
 
 ### Changed

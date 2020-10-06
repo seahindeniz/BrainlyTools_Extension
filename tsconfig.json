@@ -32,7 +32,7 @@
     "./src/scripts",
     "./src/popup",
     "./src/scripts/lib/moment-with-locales.min.js",
-    "scripts/UpdateLangFiles.ts",
+    "scripts/updateLangFiles.ts",
     "./src/components",
     "./src/controllers",
     "./src/typings", "src/helpers"

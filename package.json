@@ -146,7 +146,7 @@
     "url": "https://github.com/seahindeniz/BrainlyTools_Extension"
   },
   "scripts": {
-    "i18n": "ts-node -O '{\"module\": \"CommonJS\"}' scripts/UpdateLangFiles.ts",
+    "i18n": "ts-node -O '{\"module\": \"CommonJS\"}' scripts/updateLangFiles.ts",
     "lint:script": "eslint . --ext .ts",
     "lint:script:fix": "eslint . --ext .ts --fix",
     "-": "",

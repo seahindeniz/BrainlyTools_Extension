@@ -50,8 +50,8 @@ const LANGUAGE_DETAILS = {
   },
 };
 
-let apiKey;
-let projectId;
+let apiKey: string;
+let projectId: string;
 
 if (process && process.env && process.env.LOKALISE_TOKEN)
   apiKey = process.env.LOKALISE_TOKEN;

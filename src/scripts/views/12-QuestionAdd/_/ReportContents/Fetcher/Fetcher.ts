@@ -158,6 +158,8 @@ export default class Fetcher {
       } else if (!this.lastId) {
         // this.fetchAll.HideStopButton();
         this.fetchAll.HideContainer();
+      } else {
+        this.fetchAll.ShowContainer();
       }
 
       if (this.main.contents.all.length > 0) {

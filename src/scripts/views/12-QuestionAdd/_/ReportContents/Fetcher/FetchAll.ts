@@ -28,6 +28,10 @@ export default class FetchAll {
       }),
     });
 
+    this.ShowContainer();
+  }
+
+  ShowContainer() {
     this.main.container.append(this.container);
   }
 

@@ -21,6 +21,7 @@ export type IconTypeType =
   | "arrow_left"
   | "arrow_right"
   | "arrow_up"
+  | "ask_bubble"
   | "ask_parent_to_pay"
   | "attachment"
   | "bell_checked"

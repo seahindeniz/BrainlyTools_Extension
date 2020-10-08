@@ -15,6 +15,7 @@ export type CommonComponentPropsType = {
   onMouseLeave?: MouseEventHandler | MouseEventHandler[];
   onPaste?: PasteEventHandler | PasteEventHandler[];
   onTouchStart?: TouchEvent | TouchEvent[];
+  onContextMenu?: MouseEventHandler | MouseEventHandler[];
   style?: Partial<CSSStyleDeclaration>;
 } & {
   [x: string]: any;

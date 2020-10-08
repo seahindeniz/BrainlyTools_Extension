@@ -96,11 +96,22 @@ export default class QuestionSection {
       }),
       children: this.moderateButton.lastElementChild.innerHTML,
       onClick: this.OpenModeratePanel.bind(this),
+      onContextMenu: event => {
+        if (!document.documentElement.classList.contains("mobile")) return;
+
+        event.preventDefault();
+      },
     });
 
-    const hammer = new Hammer(this.newModerateButton.element);
+    const hammer = new Hammer.Manager(this.newModerateButton.element);
+    const Press = new Hammer.Press({
+      time: 500,
+    });
 
-    hammer.on("press", () => this.moderateButton.click());
+    hammer.add(Press);
+    hammer.on("press", () => {
+      this.moderateButton.click();
+    });
 
     this.moderationBox.prepend(this.newModerateButton.element);
     this.moderateButton.classList.add("js-hidden");

@@ -40,7 +40,7 @@ export default class UserContentRow {
   answerID: number;
   approveIcon: Icon;
   iconContainer: any;
-  reportedContentIcon: Button;
+  reportedContentIcon?: Button;
   reported: boolean;
   approved: any;
   checkboxContainer: HTMLTableDataCellElement;

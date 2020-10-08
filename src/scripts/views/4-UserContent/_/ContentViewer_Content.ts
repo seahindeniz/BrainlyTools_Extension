@@ -44,7 +44,7 @@ export default class ContentViewerContent {
   actionsContainer: FlexElementType;
   approvedIcon: FlexElementType;
   reportedContentIcon: FlexElementType;
-  confirmButton: Button;
+  confirmButton?: Button;
   confirmButtonContainer: FlexElementType;
   approveButton: Button;
   approveButtonContainer: FlexElementType;
@@ -496,7 +496,7 @@ export default class ContentViewerContent {
       date: new Date().toISOString(),
     };
 
-    HideElement(this.confirmButton.element);
+    HideElement(this.confirmButton?.element);
     HideElement(this.approveButton.element);
     HideElement(this.reportedContentIcon);
     this.RenderApprovedIcon();
@@ -504,7 +504,7 @@ export default class ContentViewerContent {
 
     if (this.source.user_id === Number(window.sitePassedParams[0])) {
       this.main.RenderApproveIcon(this.source);
-      HideElement(this.main.reportedContentIcon.element);
+      HideElement(this.main.reportedContentIcon?.element);
     }
   }
 }

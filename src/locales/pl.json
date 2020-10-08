@@ -658,7 +658,7 @@
       "fileSizeExceeded": "The %{file_name} file exceeds the size limit of %{file_size}",
       "aShortcutFile": "You're trying to add a shortcut of a file and it's kind of garbage.\nYou may need to select the original file instead that is linked\nDo you still want to add this shortcut?",
       "unableToReportAccountDeleting": "I couldn't report your deletion request to the community manager, so I can't proceed to delete the account. Sorry :/<br>If this error persists, ask for help from your extension manager",
-      "confirmNoEvidenceOrComment": "You didn't add any evidence or comment.\nDo you still want to delete this account?",
+      "confirmNoEvidenceOrComment": "You didn't add any evidence or comment.\nDo you still want to delete this profile?",
       "selectAtLeastOneUser": "You need to select at least one user",
       "youNeedToProvideSomeDetails": "You need to provide some details",
       "confirmAccountDeletion": "Do you want to delete this profile?"
@@ -790,39 +790,39 @@
   },
   "reportedContents": {
     "questionAnswerReports": {
-      "text": "Questions/Answers (%{number_of_reports})",
-      "title": "Click here to see reported questions and answers"
+      "text": "Pytania/Odpowiedzi %{number_of_reports}",
+      "title": "Kliknij tutaj, aby zobaczyć zgłoszone pytania i odpowiedzi"
     },
     "commentReports": {
-      "text": "Comments (%{number_of_reports})",
-      "title": "Click here to see reported comments"
+      "text": "Komenatrze %{number_of_reports}",
+      "title": "Kliknij tutaj, aby zobaczyć zgłoszone komentarze"
     },
     "correctionReports": {
-      "text": "Correction Reports (%{number_of_reports})",
-      "title": "Click here to view the answers that have been reported for correction and are waiting to be moderated"
+      "text": "Zgłoszone poprawy %{number_of_reports}",
+      "title": "Kliknij tutaj, aby wyświetlić odpowiedzi zgłoszone do poprawy, które oczekują na akceptację"
     },
-    "subjectFilterFirstOption": "Subject — ALL",
+    "subjectFilterFirstOption": "Przedmioty — Wszystkie",
     "options": {
       "buttonVisibility": {
-        "optionName": "Action buttons visibility",
-        "alwaysVisible": "Always visible",
+        "optionName": "Widoczność przycisków \"szybkich akcji\"",
+        "alwaysVisible": "Zawsze widoczne",
         "onHoverOrTouch": "On hover/touch",
         "defaultVisibility": "Default"
       },
       "filter": {
-        "optionName": "Filter reports",
-        "description": "Filters can be applied only to those reports that have been loaded",
+        "optionName": "Filtruj raporty",
+        "description": "Filtry można zastosować tylko do tych raportów, które zostały załadowane na stronie",
         "filters": {
           "reporter": {
-            "name": "Reporter user"
+            "name": "Zgłoszony użytkownik"
           },
           "reported": {
-            "name": "Reported user"
+            "name": "Zgłoszony użytkownik"
           },
           "reportingDate": {
-            "name": "Reported between",
-            "startingDate": "Starting date",
-            "endingDate": "Ending date"
+            "name": "Zgłoszone pomiędzy",
+            "startingDate": "Data początkowa",
+            "endingDate": "Data końcowa"
           },
           "contentType": {
             "name": "Content type",
@@ -855,20 +855,20 @@
               "sameWith": "exactly same with",
               "startsWith": "starts with",
               "endsWith": "ends with",
-              "regExp": "RegExp(JS/ES6)"
+              "regExp": "RegExp (JS / ES6)"
             },
             "label": {
-              "contains": "contains : %{input}",
+              "contains": "zawiera: %{input}",
               "sameWith": "exactly same with : %{input}",
               "startsWith": "starts with : %{input}",
-              "endsWith": "ends with : %{input}",
+              "endsWith": "kończy się na : %{input}",
               "regExp": "%{input}"
             }
           },
           "userFilter": {
-            "id": "id",
-            "nick": "nick",
-            "lookFor": "Look for"
+            "id": "identyfikator",
+            "nick": "nazwa użytkownika",
+            "lookFor": "Szukaj"
           }
         },
         "pageNumberInputTitle": "Enter a page number between %{MIN_N} and %{MAX_N}"
@@ -888,9 +888,9 @@
       "bestAnswer": "This is the Brainliest Answer",
       "popularQuestion": "Popular question!",
       "moderatorVerifiedSomeonesAnswer": "%{verifier} has verified %{author}'s answer",
-      "loadMore": "Load more.."
+      "loadMore": "Załaduj więcej.."
     },
-    "loadAll": "Load all reports",
+    "loadAll": "Wczytaj wszystkie raporty",
     "loadAllConfirmationMessage": "I'll try to fetch all reported contents from Brainly but the process can be interrupted by Brainly because of elevated requests.\nPlease confirm to start the process",
     "massModerate": {
       "name": "Mass-Moderate contents",
@@ -950,7 +950,7 @@
     "sortDESC": "Sort comments from newer to older",
     "sortASC": "Sort comments from older to newer",
     "showReportedComments": "Show only reported comments",
-    "showLess": "Show less"
+    "showLess": "Pokaż mniej"
   },
   "shortAnswersPage": {
     "selectAtLeastOneAnswer": "You need to select at least one answer",

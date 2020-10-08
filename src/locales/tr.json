@@ -658,7 +658,7 @@
       "fileSizeExceeded": "%{file_name}dosyası %{file_size}olan dosya limitini aşıyor",
       "aShortcutFile": "Bir dosyanın kısayolunu yüklemeye çalışıyorsun ve bu dosya eklemek istediğin dosya olmayabilir. Eklesen de bir anlamı olmayacak.\nKısayolun hedeflendiği orjinal dosyayı eklemeni öneririm.\nBu kısayol dosyasını yine de eklemek istiyor musun?",
       "unableToReportAccountDeleting": "Hesap silimini Topluluk Yöneticisine bildiremediğim için silim işlemine devam edemiyorum. Üzgünüm :/<br>Eğer bu hata devam ederse, eklenti yöneticine bildirmelisin",
-      "confirmNoEvidenceOrComment": "Kanıt veya yorum eklemedin.\nHalen silmek istiyor musun?",
+      "confirmNoEvidenceOrComment": "Kanıt veya yorum eklemedin.\nYine de silmek istiyor musun?",
       "selectAtLeastOneUser": "En az bir kullanıcı seçmelisin",
       "youNeedToProvideSomeDetails": "Biraz daha detay ekleyebilir misin?",
       "confirmAccountDeletion": "Bu hesabı silmek istiyor musunuz?"

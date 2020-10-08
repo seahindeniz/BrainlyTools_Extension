@@ -25,7 +25,7 @@ common:
       name: Portuguese
       author: null
     pl:
-      progress: 0
+      progress: 2
       name: Polish
       author: null
 dev:

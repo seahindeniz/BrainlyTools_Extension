@@ -164,7 +164,7 @@
     "dist:webpack": "cross-env NODE_ENV=production npm run build:webpack",
     "watch:webpack": "npm run build:webpack -- -w",
     "---": "",
-    "watch": "concurrently --prefix \"[{time}] [{index}] {name}\" -n w: npm:watch:*",
+    "watch": "concurrently --prefix \"[{time}] [{index}] {name}\" -t \"HH:mm:ss.SSS\" -n w: npm:watch:*",
     "dist": "npm run dist:gulp && npm run dist:webpack && npm run zip",
     "zip": "cross-env NODE_ENV=production gulp zip"
   },

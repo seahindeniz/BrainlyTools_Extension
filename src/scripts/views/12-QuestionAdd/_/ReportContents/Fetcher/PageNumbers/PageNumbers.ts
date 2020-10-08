@@ -60,6 +60,7 @@ export default class PageNumbers {
       ],
     );
 
+    this.pageNumbers.push(this.firstPageNumber);
     this.firstPageNumber.Highlight();
   }
 
@@ -181,7 +182,7 @@ export default class PageNumbers {
   }
 
   PageNumberChanged() {
-    const givenPageNumber = Number(this.pageNumberInput.input.value);
+    const givenPageNumber = Number(this.pageNumberInput.input.value) || 1;
 
     if (Number.isNaN(givenPageNumber)) return;
 
@@ -189,6 +190,12 @@ export default class PageNumbers {
       resetStore: true,
       lastId: this.lastIds[givenPageNumber - 2],
     });
+
+    const selectedPageNumber = this.pageNumbers.find(
+      pageNumber => pageNumber.pageNumber === givenPageNumber,
+    );
+
+    selectedPageNumber?.Highlight();
   }
 
   RenderPageNumbers() {

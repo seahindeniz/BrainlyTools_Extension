@@ -73,6 +73,19 @@ export default class PageNumbers {
     HideElement(this.container);
   }
 
+  Toggle() {
+    if (
+      this.main.filters.subjectFilter.IsChanged() ||
+      this.main.filters.categoryFilter.IsChanged()
+    ) {
+      this.Hide();
+
+      return;
+    }
+
+    this.Show();
+  }
+
   async FetchPageNumbers() {
     const resPageNumbers = await new ServerReq().GetModerateAllPages();
 

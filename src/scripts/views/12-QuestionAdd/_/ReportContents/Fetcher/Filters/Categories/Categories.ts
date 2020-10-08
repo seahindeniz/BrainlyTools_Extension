@@ -179,6 +179,8 @@ export default class Categories {
   CategoryChanged(event: Event & { target: HTMLSelectElement }) {
     this.AssignSelectedCategory(event.target);
 
+    this.main.main.pageNumbers.Toggle();
+
     if (!this.selectedCategory) return;
 
     this.selectedCategory.Selected();
@@ -190,5 +192,9 @@ export default class Categories {
     this.selectedCategory = this.categories.all.find(
       category => category.option === selectedOption,
     );
+  }
+
+  IsChanged() {
+    return !this.selectedCategory || this.selectedCategory.data.id !== 0;
   }
 }

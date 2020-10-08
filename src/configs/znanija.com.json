@@ -1,9 +1,4 @@
 {
-  "chatango": {
-    "for": "znanija.com",
-    "id": "cid0020000199944039762",
-    "handle": "znanijacom"
-  },
   "quickDeleteButtonsDefaultReasons": {
     "question": [2, 3, 4],
     "answer": [15, 60, 16],

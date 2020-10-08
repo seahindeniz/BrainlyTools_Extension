@@ -1,9 +1,4 @@
 {
-  "chatango": {
-    "for": "brainly.co.id",
-    "id": "cid0020000160003917943",
-    "handle": "brainlycoid"
-  },
   "quickDeleteButtonsDefaultReasons": {
     "question": [51, 49, 25],
     "answer": [58, 60, 63],

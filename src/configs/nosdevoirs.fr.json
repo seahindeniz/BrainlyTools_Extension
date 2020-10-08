@@ -1,9 +1,4 @@
 {
-  "chatango": {
-    "for": "nosdevoirs.fr",
-    "id": "cid0020000199927160327",
-    "handle": "nosdevoirsfr"
-  },
   "quickDeleteButtonsDefaultReasons": {
     "question": [21, 82, 59],
     "answer": [65, 37, 23],

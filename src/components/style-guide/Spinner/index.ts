@@ -1,5 +1,6 @@
-import classnames from "classnames";
-import SetProps from "@style-guide/helpers/SetProps";
+import CreateElement from "@components/CreateElement";
+import type { CommonComponentPropsType } from "@style-guide/helpers/SetProps";
+import clsx from "clsx";
 
 export type SpinnerSizeType =
   | "small"
@@ -16,35 +17,39 @@ export type SpinnerPropsType = {
   className?: string;
   overlay?: boolean;
   opaque?: boolean;
-  [x: string]: any;
-};
+  blur?: boolean;
+} & CommonComponentPropsType;
+
 const SG = "sg-spinner";
 const SGD = `${SG}--`;
 
-export default function ({
+export default function Spinner({
   light,
   size,
   className,
   overlay,
   opaque,
+  blur,
   ...props
 }: SpinnerPropsType = {}) {
-  const spinnerClassNames = classnames(
+  const spinnerClassNames = clsx(
     "sg-spinner",
     {
       [`${SGD}light`]: light,
       [SGD + size]: size,
+      "sg-spinner--blur": blur,
     },
     className,
   );
 
-  const spinner = document.createElement("div");
-  spinner.className = spinnerClassNames;
-
-  SetProps(spinner, props);
+  const spinner = CreateElement({
+    tag: "div",
+    className: spinnerClassNames,
+    ...props,
+  });
 
   if (overlay) {
-    const spinnerOverlayClassNames = classnames(
+    const spinnerOverlayClassNames = clsx(
       `${SG}-container__overlay`,
       {
         [`${SGD}opaque`]: opaque,
@@ -52,12 +57,11 @@ export default function ({
       className,
     );
 
-    const overlayElement = document.createElement("div");
-    overlayElement.className = spinnerOverlayClassNames;
-
-    overlayElement.appendChild(spinner);
-
-    return overlayElement;
+    return CreateElement({
+      tag: "div",
+      className: spinnerOverlayClassNames,
+      children: spinner,
+    });
   }
 
   return spinner;

@@ -70,6 +70,7 @@ export default class Fetcher {
     });
 
     this.filtersSpinner = Spinner({
+      blur: true,
       overlay: true,
       size: "xxxlarge",
     });

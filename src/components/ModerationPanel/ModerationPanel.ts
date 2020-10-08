@@ -158,6 +158,7 @@ export default class ModerationPanel {
 
   RenderSmallSpinner() {
     this.smallSpinner = Spinner({
+      blur: true,
       overlay: true,
       size: "xsmall",
     });

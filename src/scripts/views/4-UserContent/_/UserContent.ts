@@ -161,7 +161,7 @@ class UserContent {
 
   ChangeCheckboxSelection() {
     this.rows.forEach(row => {
-      if (row.deleted || row.isBusy) return;
+      if (row.isBusy) return;
 
       row.checkbox.input.checked = this.selectAllCheckBox.input.checked;
     });
@@ -299,10 +299,9 @@ class UserContent {
   FilterRows(checkIsApproved?: boolean) {
     return this.rows.filter(
       row =>
+        !row.isBusy &&
         !row.deleted &&
         row.checkbox.input.checked &&
-        !row.deleted &&
-        !row.isBusy &&
         (checkIsApproved === undefined ||
           (checkIsApproved === false &&
             row.contents.answers[row.answerID].source.approved &&
@@ -352,7 +351,7 @@ class UserContent {
 
   ToggleCheckboxSelection() {
     this.rows.forEach(row => {
-      if (row.deleted || row.isBusy) return;
+      if (row.isBusy) return;
 
       row.checkbox.input.checked = !row.checkbox.input.checked;
     });

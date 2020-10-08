@@ -5,7 +5,7 @@
     "handle": "eodevcom"
   },
   "quickDeleteButtonsDefaultReasons": {
-    "question": [116, 117],
+    "question": [116, 117, 122],
     "answer": [119, 120, 121],
     "comment": [101, 100, 104]
   },

@@ -16,11 +16,13 @@ export type CommonComponentPropsType = {
   onPaste?: PasteEventHandler | PasteEventHandler[];
   onTouchStart?: TouchEvent | TouchEvent[];
   style?: Partial<CSSStyleDeclaration>;
+} & {
+  [x: string]: any;
 };
 
 export default function SetProps(
   element: HTMLElement,
-  props?: { [x: string]: any },
+  props?: CommonComponentPropsType,
 ) {
   if (!element || !props) return;
 

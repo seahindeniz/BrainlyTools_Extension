@@ -4,6 +4,7 @@ import Action, {
   RemoveCommentReqDataType,
   RemoveQuestionReqDataType,
   ReportedContentDataType,
+  UserDataInReportType,
   UsersDataInReportedContentsType,
 } from "@BrainlyAction";
 import CreateElement from "@components/CreateElement";
@@ -54,6 +55,13 @@ const CONTENT_TYPE_ICON_COLOR: {
   Comment: { type: "solid" },
 };
 
+type UserType = {
+  nick: string;
+  profileLink: string;
+  data: UsersDataInReportedContentsType;
+  specialRankColor?: string;
+};
+
 export default class Content {
   main: ReportedContentsType;
   data: ReportedContentDataType;
@@ -61,16 +69,8 @@ export default class Content {
   contentType: ContentNameType;
 
   users: {
-    reporter?: {
-      nick: string;
-      profileLink: string;
-      data: UsersDataInReportedContentsType;
-    };
-    reported: {
-      nick: string;
-      profileLink: string;
-      data: UsersDataInReportedContentsType;
-    };
+    reporter?: UserType;
+    reported: UserType;
   };
 
   dates: {
@@ -126,28 +126,49 @@ export default class Content {
     this.globalId = btoa(`${contentType.toLowerCase()}:${data.model_id}`);
 
     this.users = {
-      reporter: undefined,
-      reported: {
-        nick: (this.main.userData[data.user?.id || 0].nick || "").toLowerCase(),
-        profileLink: System.createProfileLink(
-          this.main.userData[data.user?.id || 0],
-        ),
-        data: this.main.userData[data.user?.id || 0],
-      },
+      reporter: this.PrepareUser(data.report?.user),
+      reported: this.PrepareUser(data.user),
     };
 
-    if (this.data.report)
-      this.users.reporter = {
-        nick: (
-          this.main.userData[data.report?.user?.id || 0].nick || ""
-        ).toLowerCase(),
-        profileLink: System.createProfileLink(
-          this.main.userData[data.report?.user?.id || 0],
-        ),
-        data: this.main.userData[data.report?.user?.id || 0],
-      };
-
     this.SetDates();
+  }
+
+  PrepareUser(userData: UserDataInReportType) {
+    if (!userData) return undefined;
+
+    const data = this.main.userData[userData?.id || 0];
+
+    const user: UserType = {
+      nick: (data.nick || "").toLowerCase(),
+      profileLink: System.createProfileLink(data),
+      data,
+    };
+
+    if (data.ranks_ids) {
+      const specialRankIdWithDifferentColor = data.ranks_ids.find(id => {
+        const rank =
+          System.data.Brainly.defaultConfig.config.data.ranksWithId[id];
+
+        if (!rank) return false;
+
+        return (
+          rank.type === 5 && rank.color !== "000000" && rank.color !== "000"
+        );
+      });
+      const rank =
+        System.data.Brainly.defaultConfig.config.data.ranksWithId[
+          specialRankIdWithDifferentColor
+        ];
+
+      if (rank) {
+        user.specialRankColor = rank.color;
+
+        if (!rank.color.startsWith("#"))
+          user.specialRankColor = `#${rank.color}`;
+      }
+    }
+
+    return user;
   }
 
   SetDates() {
@@ -306,6 +327,9 @@ export default class Content {
                                 target: "_blank",
                                 text: this.users.reported.data.nick,
                                 href: this.users.reported.profileLink,
+                                style: this.users.reported.specialRankColor && {
+                                  color: this.users.reported.specialRankColor,
+                                },
                               }),
                             ],
                             [
@@ -653,16 +677,19 @@ export default class Content {
         [
           [
             Flex(),
-            Text({
-              tag: "a",
-              size: "small",
-              weight: "bold",
-              target: "_blank",
-              breakWords: true,
-              text: this.users.reporter && this.users.reporter.data.nick,
-              href:
-                (this.users.reporter && this.users.reporter.profileLink) || "",
-            }),
+            this.users.reporter &&
+              Text({
+                tag: "a",
+                size: "small",
+                weight: "bold",
+                target: "_blank",
+                breakWords: true,
+                text: this.users.reporter.data.nick,
+                href: this.users.reporter.profileLink || "",
+                style: this.users.reporter.specialRankColor && {
+                  color: this.users.reporter.specialRankColor,
+                },
+              }),
           ],
           [
             Flex({

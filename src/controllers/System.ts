@@ -3,7 +3,7 @@
 import locale from "@root/locales";
 import ServerReq from "@ServerReq";
 import cookie from "js-cookie";
-import Action from "@BrainlyAction";
+import Action, { UserType } from "@BrainlyAction";
 import extensionConfig from "../configs/_/extension.json";
 import ArrayLast from "../helpers/ArrayLast";
 import storage from "../helpers/extStorage";
@@ -60,7 +60,7 @@ type ObjectAnyType = {
   [x: string]: any;
 };
 
-type RankDataType = {
+export type RankDataType = {
   color?: string;
   description?: string;
   id?: number;
@@ -312,10 +312,10 @@ class _System {
   };
 
   allModerators?: {
-    list: ObjectAnyType[];
-    withNicks: ObjectAnyType;
-    withID: ObjectAnyType;
-    withRanks: ObjectAnyType;
+    list: UserType[];
+    withNicks: { [nick: string]: UserType };
+    withID: { [userId: number]: UserType };
+    withRanks: { [rankId: number]: { [id: number]: UserType }[] };
   };
 
   routeMasks: {

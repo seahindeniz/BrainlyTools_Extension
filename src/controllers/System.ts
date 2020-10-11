@@ -856,22 +856,20 @@ class _System {
     this.toBackground("OpenExtensionOptions", params);
   }
 
-  async StoreUsers(users: number[], handlers?: { each?: (user: any) => void }) {
-    if (typeof users === "string") users = this.ParseUsers(users);
-
-    if (!users?.length) return undefined;
-
-    const resUsers = await new Action().GetUsers(users);
+  async StoreUsers(
+    users: UserType[],
+    handlers?: { each?: (user: any) => void },
+  ) {
     this.allModerators = {
-      list: resUsers.data,
+      list: users,
       withNicks: {},
       withID: {},
       withRanks: {},
     };
 
-    if (!resUsers.data.length) return undefined;
+    if (!users?.length) return undefined;
 
-    resUsers.data.forEach(user => {
+    users.forEach(user => {
       this.allModerators.withNicks[user.nick] = user;
       this.allModerators.withID[user.id] = user;
 

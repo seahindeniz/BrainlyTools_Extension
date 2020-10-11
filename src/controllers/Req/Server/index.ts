@@ -379,29 +379,14 @@ export default class ServerReq {
   async GetAllModerators(
     handlers: { each?: () => void; done?: () => void } = {},
   ) {
-    const resSupervisors = await this.moderatorList().GET();
+    const resSupervisors = await this.moderators().GET();
 
     if (!resSupervisors?.success)
       throw Error("Can't fetch moderators list from extension server");
 
-    // TODO test this
     await System.StoreUsers(resSupervisors.data, handlers);
 
     return System.allModerators;
-
-    /* return new Promise(async (resolve, reject) => {
-      const resSupervisors = await this.moderatorList().GET();
-
-      if (!resSupervisors || !resSupervisors.success)
-        return reject("Can't fetch moderators list from extension server");
-
-      handlers = {
-        done: resolve,
-        ...handlers,
-      };
-
-      System.StoreUsers(resSupervisors.data, handlers);
-    }); */
   }
 
   /**
@@ -577,8 +562,8 @@ export default class ServerReq {
     return this.P("read");
   }
 
-  moderatorList() {
-    return this.P("moderatorList");
+  moderators() {
+    return this.P("moderators");
   }
 
   actionsHistory() {

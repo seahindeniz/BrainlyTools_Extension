@@ -3,7 +3,7 @@ import WaitForElement from "@root/helpers/WaitForElement";
 import Button from "@components/Button";
 import notification from "@components/notification2";
 import Progress from "@components/Progress";
-import { UserType } from "@BrainlyAction";
+import Action, { UserType } from "@BrainlyAction";
 
 System.pageLoaded("Supervisors page OK!");
 
@@ -33,7 +33,11 @@ async function Supervisors() {
     sortIt(userLi);
   });
 
-  await System.StoreUsers(usersID, {
+  const resUsers = await new Action().GetUsers(usersID);
+
+  if (!resUsers.data.length) return undefined;
+
+  await System.StoreUsers(resUsers.data, {
     each: userData => {
       const avatar = System.prepareAvatar(userData);
       const buddyLink = System.createBrainlyLink("profile", {

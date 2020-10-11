@@ -955,27 +955,14 @@ export default class Action extends Brainly {
 
     if (!resSupervisors) throw Error("Can't fetch users from supervisors page");
 
-    // TODO test this
-    await System.StoreUsers(resSupervisors, handlers);
+    const userIds = System.ParseUsers(resSupervisors);
+    const resUsers = await new Action().GetUsers(userIds);
+
+    if (!resUsers.data.length) return undefined;
+
+    await System.StoreUsers(resUsers.data, handlers);
 
     return System.allModerators;
-
-    /* return new Promise(async (resolve, reject) => {
-      const resSupervisors = await this.moderators()
-        .supervisors()
-        .P(System.data.Brainly.userData.user.id)
-        .GET();
-
-      if (!resSupervisors)
-        return reject(Error("Can't fetch users from supervisors page"));
-
-      handlers = {
-        done: resolve,
-        ...handlers,
-      };
-
-      System.StoreUsers(resSupervisors, handlers);
-    }); */
   }
 
   /**

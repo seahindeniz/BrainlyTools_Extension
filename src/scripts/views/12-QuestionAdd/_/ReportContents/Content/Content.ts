@@ -10,6 +10,7 @@ import Action, {
 import CreateElement from "@components/CreateElement";
 import type { ContentNameType } from "@components/ModerationPanel/ModeratePanelController";
 import notification from "@components/notification2";
+import type { RankDataType } from "@root/controllers/System";
 import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
 import InsertAfter from "@root/helpers/InsertAfter";
@@ -18,7 +19,7 @@ import { Avatar, Box, Button, Flex, Icon, Spinner, Text } from "@style-guide";
 import type { BoxColorType } from "@style-guide/Box";
 import type { ButtonColorType } from "@style-guide/Button";
 import type { FlexElementType } from "@style-guide/Flex";
-import { IconColorType } from "@style-guide/Icon";
+import type { IconColorType } from "@style-guide/Icon";
 import type { TextElement } from "@style-guide/Text";
 import moment from "moment-timezone";
 import tippy, { Instance } from "tippy.js";
@@ -59,6 +60,7 @@ type UserType = {
   nick: string;
   profileLink: string;
   data: UsersDataInReportedContentsType;
+  specialRank?: RankDataType;
   specialRankColor?: string;
 };
 
@@ -149,11 +151,7 @@ export default class Content {
         const rank =
           System.data.Brainly.defaultConfig.config.data.ranksWithId[id];
 
-        if (!rank) return false;
-
-        return (
-          rank.type === 5 && rank.color !== "000000" && rank.color !== "000"
-        );
+        return rank?.type === 5;
       });
       const rank =
         System.data.Brainly.defaultConfig.config.data.ranksWithId[
@@ -161,10 +159,14 @@ export default class Content {
         ];
 
       if (rank) {
-        user.specialRankColor = rank.color;
+        user.specialRank = rank;
 
-        if (!rank.color.startsWith("#"))
-          user.specialRankColor = `#${rank.color}`;
+        if (rank.color !== "000000" && rank.color !== "000") {
+          user.specialRankColor = rank.color;
+
+          if (!rank.color.startsWith("#"))
+            user.specialRankColor = `#${rank.color}`;
+        }
       }
     }
 

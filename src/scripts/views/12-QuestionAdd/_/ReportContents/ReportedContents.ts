@@ -2,6 +2,7 @@ import type { UsersDataInReportedContentsType } from "@BrainlyAction";
 import Build from "@root/helpers/Build";
 import storage from "@root/helpers/extStorage";
 import InsertAfter from "@root/helpers/InsertAfter";
+import ServerReq from "@ServerReq";
 import { Flex } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type AnswerClassType from "./Content/Answer";
@@ -84,6 +85,8 @@ export default class ReportedContents {
     if (System.checkUserP(18)) {
       this.moderator = new Moderator(this);
     }
+
+    new ServerReq().GetAllModerators();
   }
 
   async SetLazyQueueDefaultValue() {

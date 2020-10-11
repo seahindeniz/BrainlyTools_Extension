@@ -437,8 +437,7 @@ class GroupModal {
         if (this.value === "allModerators") {
           System.allModerators.list.forEach(
             ({ id, nick, avatar, ranks_ids }) => {
-              // eslint-disable-next-line no-param-reassign
-              avatar = System.prepareAvatar(avatar);
+              const fixedAvatar = System.prepareAvatar(avatar);
               const buddyUrl = System.createBrainlyLink("profile", {
                 nick,
                 id,
@@ -456,7 +455,7 @@ class GroupModal {
               const $li = userLi({
                 id,
                 nick,
-                avatar,
+                avatar: fixedAvatar,
                 buddyUrl,
                 ranks,
               });

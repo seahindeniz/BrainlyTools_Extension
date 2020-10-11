@@ -3,10 +3,16 @@ import WaitForElement from "@root/helpers/WaitForElement";
 import Button from "@components/Button";
 import notification from "@components/notification2";
 import Progress from "@components/Progress";
+import { UserType } from "@BrainlyAction";
 
 System.pageLoaded("Supervisors page OK!");
 
 const SendMessages = new SendMessageToBrainlyIds();
+
+const users: {
+  $li: JQuery<HTMLElement>;
+  data: UserType;
+}[] = [];
 
 async function Supervisors() {
   let currentColumn = 0;
@@ -28,17 +34,17 @@ async function Supervisors() {
   });
 
   await System.StoreUsers(usersID, {
-    each: user => {
-      const avatar = System.prepareAvatar(user);
+    each: userData => {
+      const avatar = System.prepareAvatar(userData);
       const buddyLink = System.createBrainlyLink("profile", {
-        nick: user.nick,
-        id: user.id,
+        nick: userData.nick,
+        id: userData.id,
       });
-      const $userLi = $(`.connectedSortable li[id="${user.id}"]`);
+      const $userLi = $(`.connectedSortable li[id="${userData.id}"]`);
       const ranks = [];
 
-      if (user.ranks_ids && user.ranks_ids.length > 0) {
-        user.ranks_ids.forEach(rankId => {
+      if (userData.ranks_ids && userData.ranks_ids.length > 0) {
+        userData.ranks_ids.forEach(rankId => {
           const current_rank =
             System.data.Brainly.defaultConfig.config.data.ranksWithId[rankId];
           if (current_rank || rankId === 12) {
@@ -50,16 +56,19 @@ async function Supervisors() {
           }
         });
       }
-
-      user.$li = $userLi;
       $userLi.html(`
 			<a href="${buddyLink}">
 				<div>
 					<img src="${avatar}" width="65" height="65">
 				</div>
-				${user.nick}
+				${userData.nick}
 			</a>
-			<div class="ranks">${ranks.join("<br>")}</div>`);
+      <div class="ranks">${ranks.join("<br>")}</div>`);
+
+      users.push({
+        $li: $userLi,
+        data: userData,
+      });
     },
   });
 
@@ -85,7 +94,7 @@ async function Supervisors() {
 
   const $rankSelect = $(".ranks > select", $actionBox);
   const $tableLayout = $(".tableLayout > span", $actionBox);
-  let listedUsers = System.allModerators.list;
+  let listedUsers = users;
 
   /**
    * Rank select
@@ -95,10 +104,10 @@ async function Supervisors() {
       option => option.value,
     );
     currentColumn = 0;
-    listedUsers = System.allModerators.list.filter(user => {
+    listedUsers = users.filter(user => {
       if (
         selectedRankIds.indexOf("all") >= 0 ||
-        selectedRankIds.some(v => user.ranks_ids.includes(~~v))
+        selectedRankIds.some(v => user.data.ranks_ids.includes(~~v))
       ) {
         user.$li.removeClass("js-hidden");
         sortIt(user.$li);
@@ -172,7 +181,7 @@ async function Supervisors() {
     /**
      * Send message
      */
-    const SendMessage = async users => {
+    const SendMessage = async userList => {
       if (window.isPageProcessing) {
         notification({
           html:
@@ -186,7 +195,7 @@ async function Supervisors() {
           type: "info",
         });
         $messageInput.trigger("focus");
-      } else if (users.length === 0) {
+      } else if (userList.length === 0) {
         notification({
           html: System.data.locale.supervisors.notificationMessages.noUser,
           type: "info",
@@ -195,7 +204,7 @@ async function Supervisors() {
       } else {
         window.isPageProcessing = true;
         const message = $messageInput.val();
-        const idList = users.map(user => user.id);
+        const idList = userList.map(user => user.id);
         const idListLen = idList.length;
         const previousProgressBars = $("#content-old > .progress-container");
         const $spinner = $(

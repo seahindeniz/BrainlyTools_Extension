@@ -182,7 +182,7 @@ export type UsersDataInReportedContentsType = {
     names: string[];
     count: number;
   };
-  rank_ids?: number[];
+  ranks_ids?: number[];
   stats: {
     answers: number;
     comments: number;

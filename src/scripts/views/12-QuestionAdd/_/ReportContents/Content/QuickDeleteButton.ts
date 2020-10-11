@@ -77,6 +77,37 @@ export default class QuickDeleteButton {
 
   async DeleteContent() {
     try {
+      const moderatorData =
+        System.allModerators?.withID[this.main.users.reported.data.id];
+
+      if (moderatorData) {
+        notification({
+          type: "info",
+          text: System.data.locale.common.moderating.contentAuthorIsModerator //
+            .replace(/%{content_author}/g, moderatorData.nick),
+        });
+
+        this.main.Moderate();
+
+        return;
+      }
+
+      if (this.main.users.reported.specialRank) {
+        notification({
+          type: "info",
+          text: System.data.locale.common.moderating.contentAuthorHasSpecialRanks
+            .replace(/%{content_author}/g, this.main.users.reported.data.nick)
+            .replace(
+              /%{special_rank}/g,
+              this.main.users.reported.specialRank.name,
+            ),
+        });
+
+        this.main.Moderate();
+
+        return;
+      }
+
       const message = System.data.locale.common.moderating.doYouWantToDeleteWithReason
         .replace("%{reason_title}", this.reason.title)
         .replace("%{reason_message}", this.reason.text);

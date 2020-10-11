@@ -79,7 +79,9 @@
           "text": "Reprendre les points",
           "title": "Reprendre les points"
         }
-      }
+      },
+      "contentAuthorIsModerator": "\"%{content_author}\" has moderation powers.\nPlease moderate this from the panel",
+      "contentAuthorHasSpecialRanks": "\"%{content_author}\" has \"%{special_rank}\" rank and might be someone who's important.\nPlease moderate this from the panel"
     },
     "personalNote": {
       "text": "Note personnelle",

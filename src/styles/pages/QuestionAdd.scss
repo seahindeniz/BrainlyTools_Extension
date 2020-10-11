@@ -9,6 +9,8 @@
 .flash-messages-container {
   top: 0;
   z-index: 9999;
+  // for seeing notifications after moderate panel has open
+  position: fixed;
 }
 
 .ext {

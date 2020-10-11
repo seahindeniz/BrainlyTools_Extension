@@ -79,7 +79,9 @@ export default {
           text: "Take points back",
           title: "Take points back from user"
         }
-      }
+      },
+      contentAuthorIsModerator: "\"%{content_author}\" has moderation powers.\nPlease moderate this from the panel",
+      contentAuthorHasSpecialRanks: "\"%{content_author}\" has \"%{special_rank}\" rank and might be someone who's important.\nPlease moderate this from the panel"
     },
     personalNote: {
       text: "Personal note",

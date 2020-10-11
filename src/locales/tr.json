@@ -79,7 +79,9 @@
           "text": "Kazandığı puanları geri al",
           "title": "Kişinin sorudan kazandığı puanları geri al"
         }
-      }
+      },
+      "contentAuthorIsModerator": "\"%{content_author}\" kişisinin moderatör yetkisi var.\nLütfen işleme panelden devam et",
+      "contentAuthorHasSpecialRanks": "\"%{content_author}\" kişisinin \"%{special_rank}\" şeklinde özel rütbesi var ve önemli biri olabilir.\nLütfen işleme panelden devam et"
     },
     "personalNote": {
       "text": "Kişisel not",

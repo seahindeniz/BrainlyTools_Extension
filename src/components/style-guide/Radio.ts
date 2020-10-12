@@ -74,6 +74,7 @@ export default class Radio {
         ...label,
         icon: this.element,
         htmlFor: id || undefined,
+        type: "transparent",
       });
   }
 

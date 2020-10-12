@@ -67,6 +67,7 @@ export default class Moderator {
         border: true,
         borderColor: "gray-secondary-lightest",
         padding: "m",
+        color: "light",
       }),
       [
         [
@@ -212,7 +213,6 @@ export default class Moderator {
 
   private ConfirmDeletion() {
     this.#selectedQuestionsLength = this.#selectedQuestions.length;
-    console.log(this.#selectedQuestions);
 
     if (this.#selectedQuestionsLength === 0) {
       notification({

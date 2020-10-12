@@ -1,12 +1,17 @@
+/* eslint-disable import/no-extraneous-dependencies */
+
 import path from "path";
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
 import ExtensionReloader from "webpack-extension-reloader";
 import WebpackWatchedGlobEntries from "webpack-watched-glob-entries-plugin";
+import webpack from "webpack";
 
-const nodeEnv = process.env.NODE_ENV || "development";
+const nodeEnv =
+  (process.env.NODE_ENV as "development" | "production" | "none") ||
+  "development";
 
 const entriesOnlyToWatch = WebpackWatchedGlobEntries.getEntries(
-  ["src/styles/**/*.scss", "src/*/views/{0,12}-*/*.ts"],
+  ["src/styles/**/*.scss", "src/*/views/{0,13}-*/*.ts"],
   {
     ignore: ["**/_/**"],
     cwd: __dirname,
@@ -15,40 +20,40 @@ const entriesOnlyToWatch = WebpackWatchedGlobEntries.getEntries(
 
 const contentScriptEntries = WebpackWatchedGlobEntries.getEntries(
   // ["src/*/views/{0,1,2,3,4,5}-*/*.ts"],
-  ["src/*/views/*/*.ts"],
+  ["./src/*/views/*/*.ts"],
   {
     ignore: ["**/_/**"],
     cwd: __dirname,
   },
 )();
 
-/**
- * @param {{ [x: string]: string }} entries
- * @param {string | RegExp} searchValue
- */
-function cleanEntries(entries, searchValue = ".ts") {
+function cleanEntries(
+  entries: { [s: string]: any } | ArrayLike<any>,
+  searchValue: string | RegExp = ".ts",
+) {
   return Object.values(entries).map(entry => entry.replace(searchValue, ""));
 }
 
 // process.exit();
 
-const mainConfig = {
+const mainConfig: webpack.Configuration = {
   mode: nodeEnv,
+  target: "web",
   entry: {
     ...contentScriptEntries,
     ...WebpackWatchedGlobEntries.getEntries(
       [
         //
         // "src/*/*.ts",
-        "src/{background,popup,scripts}/*.ts",
-        "src/*/lib/*.js",
+        "./src/{background,popup,scripts}/*.ts",
+        "./src/*/lib/*[!.min].js",
       ],
       {
         ignore: [
           //
           "./**/_/**",
-          "src/locales/*",
-          "src/*/lib/*.min.js",
+          "./locales/*",
+          "./*/lib/*.min.js",
           // "**/*.d.ts",
         ],
         cwd: __dirname,
@@ -99,12 +104,16 @@ const mainConfig = {
       },
     ],
   },
-  plugins: [],
+  plugins: [
+    new webpack.ProvidePlugin({
+      Buffer: ["buffer", "Buffer"],
+    }),
+  ],
   output: {
     // filename: "[name].js",
     path: path.resolve(
       __dirname,
-      `${nodeEnv === "development" ? "." : "./dist"}/build`,
+      `.${nodeEnv === "development" ? "" : "/dist"}/build`,
     ),
   },
   resolve: {
@@ -114,6 +123,10 @@ const mainConfig = {
       //
     ],
     modules: [path.resolve(__dirname, "node_modules"), "node_modules"],
+    /* fallback: {
+      stream: require.resolve("stream-browserify"),
+      path: require.resolve("path-browserify"),
+    }, */
   },
   performance: {
     hints: false,
@@ -123,6 +136,7 @@ const mainConfig = {
 
 if (nodeEnv === "development") {
   mainConfig.plugins.shift(
+    // @ts-expect-error
     new ExtensionReloader({
       port: 9090,
       reloadPage: true,
@@ -139,4 +153,5 @@ if (nodeEnv === "development") {
   );
 }
 
-export default [/* libConfig, */ mainConfig];
+export default [mainConfig];
+// module.exports = mainConfig;

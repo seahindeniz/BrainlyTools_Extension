@@ -88,8 +88,10 @@ export default class ReportedContentsStatusBar {
   }
 
   ResetModerationCounters() {
-    this.moderatedContentsCount.nodeValue = "0";
-    this.failedContentsCount.nodeValue = "0";
+    if (this.moderatedContentsCount && this.failedContentsCount) {
+      this.moderatedContentsCount.nodeValue = "0";
+      this.failedContentsCount.nodeValue = "0";
+    }
 
     this.numberOfModeratedContents = 0;
     this.numberOfFailedContents = 0;

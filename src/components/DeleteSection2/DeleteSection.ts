@@ -230,7 +230,7 @@ export default class DeleteSection {
       reason_title: subReason?.title || reason.text,
       give_warning: this.optionsSection.giveWarning.checkbox.checked,
       take_points: this.optionsSection.takePoints?.checkbox.checked,
-      return_points: this.optionsSection.returnPoints?.checkbox.checked,
+      return_points: !this.optionsSection.returnPoints?.checkbox.checked,
     };
 
     if (!this.optionsSection.takePoints) {

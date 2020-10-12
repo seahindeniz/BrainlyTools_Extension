@@ -80,8 +80,8 @@
           "title": "Reprendre les points"
         }
       },
-      "contentAuthorIsModerator": "\"%{content_author}\" has moderation powers.\nPlease moderate this from the panel",
-      "contentAuthorHasSpecialRanks": "\"%{content_author}\" has \"%{special_rank}\" rank and might be someone who's important.\nPlease moderate this from the panel"
+      "contentAuthorIsModerator": "%{content_author} a des pouvoirs de modération. \nMerci de modérer ceci à partir du panel.",
+      "contentAuthorHasSpecialRanks": "%{content_author} a le rang \"%{special_rank}\" et peut être qu'il s'agit de quelqu'un d'important.\nMerci de modérer ceci à partir du panel."
     },
     "personalNote": {
       "text": "Note personnelle",
@@ -275,7 +275,7 @@
           },
           "18": {
             "title": "Modération de masse des contenus signalés",
-            "description": "L'utilisateur peut utiliser cette fonction pour approuver/supprimer massivement les contenus depuis le Tout Modérer en les filtrant"
+            "description": "L'utilisateur peut utiliser cet outil pour modérer en masse les contenus signalés à partir de la page Contenus signalés"
           },
           "19": {
             "title": "Demander de correction sélective",

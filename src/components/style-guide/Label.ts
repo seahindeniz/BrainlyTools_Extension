@@ -122,8 +122,10 @@ export default class Label {
     const labelClass = classnames(
       SG,
       {
-        [SGD + type]: type,
         [`${SGD}closable`]: !!onClose,
+        [`${SGD}transparent`]:
+          type === "transparent" || type === "transparent-color",
+        //
         [`${SGD}no-selection`]: noSelection,
       },
       className,

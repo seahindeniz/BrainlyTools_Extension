@@ -59,6 +59,8 @@ export default class ModeratePanelController {
   }
 
   OpenModeratePanel(resTicket: ModerationTicketDataType) {
+    if (resTicket.success === false) return;
+
     this.moderationPanel = new ModerationPanel(
       resTicket.data,
       resTicket.users_data,

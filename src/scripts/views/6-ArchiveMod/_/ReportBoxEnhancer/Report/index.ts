@@ -312,7 +312,7 @@ export default class Report {
         html: System.data.locale.common.notificationMessages.operationError,
         type: "error",
       });
-    else if (!resConfirm.success) {
+    else if (resConfirm.success === false) {
       notification({
         html:
           resConfirm.message ||

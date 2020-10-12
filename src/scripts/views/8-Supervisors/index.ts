@@ -35,7 +35,8 @@ async function Supervisors() {
 
   const resUsers = await new Action().GetUsers(usersID);
 
-  if (!resUsers.data.length) return undefined;
+  if (!resUsers || resUsers.success === false || resUsers.data.length === 0)
+    return undefined;
 
   await System.StoreUsers(resUsers.data, {
     each: userData => {

@@ -33,17 +33,31 @@ export type UserType = CommonUserProps & {
   registration_date: string;
 };
 
-export type CommonResponseDataType = { success?: boolean; message?: string };
+type CommonSuccessResponseDataType = { success: true };
+type CommonFailedResponseDataType = {
+  success: false;
+  message?: string;
+  code?: number;
+  exception_type?: number;
+};
 
-export type UserResponse = {
+export type CommonResponseDataType =
+  | CommonSuccessResponseDataType
+  | CommonFailedResponseDataType;
+
+type CommonGenericResponseType<T> =
+  | (CommonSuccessResponseDataType & T)
+  | CommonFailedResponseDataType;
+
+export type UserResponse = CommonGenericResponseType<{
   data?: UserType;
   message?: string;
-} & CommonResponseDataType;
+}>;
 
-export type UsersResponse = {
+export type UsersResponse = CommonGenericResponseType<{
   data?: UserType[];
   message?: string;
-} & CommonResponseDataType;
+}>;
 
 export type UserProfile = CommonUserProps & {
   answers_by_subject: {
@@ -81,9 +95,9 @@ type AnswersOfUser = {
   created: string;
 }[];
 
-type UserProfileResponse = { data?: UserProfile } & CommonResponseDataType;
+type UserProfileResponse = CommonGenericResponseType<{ data?: UserProfile }>;
 
-type AnswersOfUserResponse = {
+type AnswersOfUserResponse = CommonGenericResponseType<{
   pagination?: {
     first: string;
     prev: string;
@@ -92,7 +106,7 @@ type AnswersOfUserResponse = {
     last: string;
   };
   data?: AnswersOfUser;
-} & CommonResponseDataType;
+}>;
 
 type GQL_User = {
   avatar: null;
@@ -291,10 +305,10 @@ export type TicketDataType = {
   };
 };
 
-export type ModerationTicketDataType = CommonResponseDataType & {
+export type ModerationTicketDataType = CommonGenericResponseType<{
   data?: TicketDataType;
   users_data?: UsersDataInReportedContentsType[];
-};
+}>;
 
 export type RemoveQuestionReqDataType = {
   model_id: number;
@@ -369,7 +383,9 @@ const FAILED_RESPONSE = {
   },
 };
 
-function GetUsersInChunk(ids: (number | string)[]) {
+function GetUsersInChunk(
+  ids: (number | string)[],
+): Promise<CommonGenericResponseType<UsersResponse>> {
   return new Promise((resolve, reject) => {
     let count = 0;
     const chunkedIds = Chunkify(ids, USERS_PROFILE_REQ_CHUNK_SIZE);
@@ -743,7 +759,7 @@ export default class Action extends Brainly {
   ConfirmContent(
     contentId: number,
     contentType: "Question" | "Answer" | "Comment" | 1 | 2 | 45,
-  ) {
+  ): Promise<CommonResponseDataType> {
     let model_type_id = contentType;
 
     if (!contentId) throw Error(`Invalid content id ${contentId}`);
@@ -824,10 +840,10 @@ export default class Action extends Brainly {
   ActionsHistory(
     questionId: number,
   ): Promise<
-    CommonResponseDataType & {
+    CommonGenericResponseType<{
       data: QuestionLogEntryType[];
       users_data: UsersDataInReportedContentsType[];
-    }
+    }>
   > {
     return this.Legacy().api_task_lines().big().P(questionId).GET();
   }
@@ -958,7 +974,8 @@ export default class Action extends Brainly {
     const userIds = System.ParseUsers(resSupervisors);
     const resUsers = await new Action().GetUsers(userIds);
 
-    if (!resUsers.data.length) return undefined;
+    if (!resUsers || resUsers.success === false || !resUsers.data.length)
+      return undefined;
 
     await System.StoreUsers(resUsers.data, handlers);
 
@@ -1406,13 +1423,13 @@ export default class Action extends Brainly {
     ticket_id: number;
     time?: number;
   }): Promise<
-    CommonResponseDataType & {
+    CommonGenericResponseType<{
       data: {
         id: number;
         time_left: number;
         user_id: number;
       };
-    }
+    }>
   > {
     if (data.model_type_id === "Question") data.model_type_id = 1;
 

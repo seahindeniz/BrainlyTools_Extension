@@ -272,7 +272,7 @@ export default class ModerationPanel {
         ticket_id: this.data.ticket.id,
       });
 
-      if (!resProlong.success) {
+      if (resProlong.success === false) {
         this.modal.Notification({
           type: "info",
           html:

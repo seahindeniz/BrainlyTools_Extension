@@ -70,7 +70,9 @@ export default class LogSection {
     try {
       const resData = await new Action().ActionsHistory(this.main.data.task.id);
 
-      if (!resData.success)
+      if (!resData) throw Error("Empty response");
+
+      if (resData.success === false)
         throw resData.message
           ? { msg: resData.message }
           : resData || Error("Server send empty response");

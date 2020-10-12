@@ -218,7 +218,11 @@ export default class Answer {
 
       new Action().CloseModerationTicket(this.answerId);
 
-      if (!res?.success) {
+      if (!res) {
+        throw Error("No response");
+      }
+
+      if (res.success === false) {
         throw res?.message ? { msg: res?.message } : res;
       }
 

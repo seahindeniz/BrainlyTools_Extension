@@ -201,7 +201,11 @@ export default class QuestionSection {
     try {
       const resConfirm = await new Action().ConfirmQuestion(this.main.data.id);
 
-      if (!resConfirm?.success) {
+      if (!resConfirm) {
+        throw Error("No response");
+      }
+
+      if (resConfirm.success === false) {
         throw resConfirm.message
           ? { msg: resConfirm.message }
           : resConfirm || Error("No response");
@@ -253,7 +257,11 @@ export default class QuestionSection {
 
       new Action().CloseModerationTicket(this.main.data.id);
 
-      if (!res?.success) {
+      if (!res) {
+        throw Error("No response");
+      }
+
+      if (res.success === false) {
         throw res?.message ? { msg: res?.message } : res;
       }
 

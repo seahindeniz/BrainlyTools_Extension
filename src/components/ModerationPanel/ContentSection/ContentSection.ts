@@ -595,7 +595,7 @@ export default class ContentSection {
       const resDelete = { success: true, message: "" };
       await System.TestDelay(); */
 
-      if (!resDelete?.success) {
+      if (resDelete?.success === false) {
         throw resDelete.message
           ? { msg: resDelete.message }
           : resDelete || Error("No response");
@@ -663,7 +663,7 @@ export default class ContentSection {
       // const resConfirm = { success: true, message: "" };
       // await System.TestDelay();
 
-      if (!resConfirm?.success) {
+      if (resConfirm.success === false) {
         throw resConfirm.message
           ? { msg: resConfirm.message }
           : resConfirm || Error("No response");

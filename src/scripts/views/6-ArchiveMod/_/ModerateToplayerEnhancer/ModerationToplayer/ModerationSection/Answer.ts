@@ -70,7 +70,7 @@ export default class AnswerSection extends ModerationSection {
 
       if (!resConfirm) throw Error("Empty response");
 
-      if (!resConfirm.success)
+      if (resConfirm.success === false)
         // eslint-disable-next-line no-throw-literal
         throw { msg: resConfirm.message, res: resConfirm };
 

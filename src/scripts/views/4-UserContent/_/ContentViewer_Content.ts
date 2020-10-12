@@ -436,7 +436,7 @@ export default class ContentViewerContent {
       return;
     }
 
-    if (!resConfirm.success) {
+    if (resConfirm.success === false) {
       notification({
         html:
           resConfirm.message ||

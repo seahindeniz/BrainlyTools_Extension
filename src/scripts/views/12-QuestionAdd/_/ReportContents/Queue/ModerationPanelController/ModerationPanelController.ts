@@ -46,13 +46,22 @@ export default class ModerationPanelController extends ModeratePanelController {
       content.EnableActions();
       content.moderateButton?.Enable();
 
-      // eslint-disable-next-line camelcase
-      if (!resTicket?.success || !resTicket?.data || !resTicket?.users_data) {
+      if (resTicket.success === false) {
         notification({
           timeOut: 5000,
           type: "error",
           html:
             resTicket.message ||
+            System.data.locale.common.notificationMessages.somethingWentWrong,
+        });
+
+        return resTicket;
+      }
+
+      if (!resTicket.data || !resTicket.users_data) {
+        notification({
+          type: "error",
+          html:
             System.data.locale.common.notificationMessages.somethingWentWrong,
         });
 

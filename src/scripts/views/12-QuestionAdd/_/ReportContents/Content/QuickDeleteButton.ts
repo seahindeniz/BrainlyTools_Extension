@@ -134,7 +134,7 @@ export default class QuickDeleteButton {
           html: System.data.locale.common.notificationMessages.operationError,
           type: "error",
         });
-      } else if (!resDelete.success) {
+      } else if (resDelete.success === false) {
         notification({
           html:
             resDelete.message ||

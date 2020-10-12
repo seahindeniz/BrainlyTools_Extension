@@ -356,7 +356,9 @@ export default class Comment {
       };
       await System.TestDelay(); */
 
-      if (!resDelete?.success) {
+      if (!resDelete) throw Error("Empty response");
+
+      if (resDelete.success === false) {
         throw resDelete.message
           ? { msg: resDelete.message }
           : resDelete || Error("No response");
@@ -405,7 +407,9 @@ export default class Comment {
     try {
       const resConfirm = await new Action().ConfirmComment(this.data.id);
 
-      if (!resConfirm?.success) {
+      if (!resConfirm) throw Error("Empty response");
+
+      if (resConfirm.success === false) {
         throw resConfirm.message
           ? { msg: resConfirm.message }
           : resConfirm || Error("No response");

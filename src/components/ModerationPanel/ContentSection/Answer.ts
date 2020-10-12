@@ -371,7 +371,7 @@ export default class Answer extends ContentSection {
         reason: this.askForCorrectionTextarea.value,
       });
 
-      if (!resReport?.success) {
+      if (resReport?.success === false) {
         throw resReport.message
           ? { msg: resReport.message }
           : resReport || Error("No response");

@@ -87,8 +87,9 @@ export default class ToplayerQDB {
 
       if (!resDelete) throw Error("Empty response");
 
-      // eslint-disable-next-line no-throw-literal
-      if (!resDelete.success) throw { msg: resDelete.message, res: resDelete };
+      if (resDelete.success === false)
+        // eslint-disable-next-line no-throw-literal
+        throw { msg: resDelete.message, res: resDelete };
 
       this.main.Deleted();
     } catch (error) {

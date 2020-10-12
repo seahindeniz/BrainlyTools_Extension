@@ -3,6 +3,8 @@ import type { ChildrenParamType } from "@style-guide/helpers/AddChildren";
 import SetProps from "@style-guide/helpers/SetProps";
 import classNames from "classnames";
 
+type ExtraBoxColorType = "lavender-secondary";
+
 export type BoxColorType =
   | "dark"
   | "light"
@@ -19,7 +21,8 @@ export type BoxColorType =
   | "mustard-primary"
   | "peach"
   | "peach-secondary"
-  | "peach-secondary-light";
+  | "peach-secondary-light"
+  | ExtraBoxColorType;
 
 type PaddingType = "xxs" | "xs" | "s" | "m" | "l" | "xl";
 

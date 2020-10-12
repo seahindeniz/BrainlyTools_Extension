@@ -36,9 +36,9 @@ type StatusNamesType =
   | "moderating";
 
 const STATUS_COLOR: {
-  [x in StatusNamesType]: BoxColorType | "";
+  [x in StatusNamesType]: BoxColorType;
 } = {
-  default: "",
+  default: "light",
   deleted: "peach-secondary-light",
   confirmed: "mint-secondary-light",
   failed: "dark",
@@ -91,6 +91,7 @@ export default class Content {
   };
 
   has: StatusNamesType;
+  hasAlso: "already";
 
   container: HTMLDivElement;
   contentWrapper: FlexElementType;
@@ -109,6 +110,7 @@ export default class Content {
   quickDeleteButtons: QuickDeleteButton[];
   quickActionButtonContainer: FlexElementType;
   tippyInstances: Instance[];
+  moderateButtonContainer: FlexElementType;
 
   constructor({
     main,
@@ -358,9 +360,9 @@ export default class Content {
                       })),
                       [
                         [
-                          Flex({
+                          (this.moderateButtonContainer = Flex({
                             marginLeft: "xs",
-                          }),
+                          })),
                           (this.moderateButton = new Button({
                             type: "outline",
                             toggle: "blue",
@@ -482,9 +484,12 @@ export default class Content {
   ChangeBoxColor() {
     if (!this.box) return;
 
-    const status = STATUS_COLOR[this.has] || STATUS_COLOR.default;
+    const boxColor: BoxColorType =
+      this.hasAlso === "already"
+        ? "lavender-secondary"
+        : STATUS_COLOR[this.has] || STATUS_COLOR.default;
 
-    if (status) this.box.ChangeColor(status);
+    this.box.ChangeColor(boxColor);
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -791,7 +796,7 @@ export default class Content {
           html: System.data.locale.common.notificationMessages.operationError,
           type: "error",
         });
-      else if (!resConfirm.success) {
+      else if (resConfirm.success === false) {
         notification({
           html:
             resConfirm.message ||
@@ -838,6 +843,17 @@ export default class Content {
       new Action().CloseModerationTicket(this.data.task_id);
 
       this.has = "failed";
+      this.hasAlso = undefined;
+
+      if (
+        resConfirm.success === false &&
+        resConfirm.code === 5 &&
+        resConfirm.exception_type === 170
+      ) {
+        this.hasAlso = "already";
+
+        this.Confirmed();
+      }
 
       if (resConfirm?.success) {
         this.Confirmed();
@@ -952,19 +968,37 @@ export default class Content {
         ...data,
         model_id: this.data.model_id,
       });
-      /* console.log(methodName, {
-        ...data,
-        model_id: this.data.model_id,
-      });
-      const resDelete = { success: false, message: "Failed" };
-      await System.TestDelay(1, 50); */
+      // console.log(methodName, {
+      //   ...data,
+      //   model_id: this.data.model_id,
+      // });
+      // const resDelete: CommonResponseDataType = {
+      //   success: false,
+      //   message: "There is no such question",
+      //   code: 2,
+      //   exception_type: 170,
+      // };
+      // await System.TestDelay(1, 50);
 
       new Action().CloseModerationTicket(this.data.task_id);
 
       this.has = "failed";
+      this.hasAlso = undefined;
 
-      if (resDelete?.success) {
-        this.Deleted();
+      if ("success" in resDelete) {
+        // @ ts-expect-error
+        if (resDelete.success === true) {
+          this.Deleted();
+        } else if (
+          (resDelete.code === 2 || // question
+            resDelete.code === 3 || // answer
+            resDelete.code === 13) && // comment
+          resDelete.exception_type === 170
+        ) {
+          this.hasAlso = "already";
+
+          this.Deleted();
+        }
       }
 
       this.ChangeBoxColor();
@@ -987,5 +1021,9 @@ export default class Content {
     this.ChangeBoxColor();
     this.HideActionButtons();
     this.quickDeleteButtonContainer?.remove();
+  }
+
+  HideModerateButton() {
+    HideElement(this.moderateButtonContainer);
   }
 }

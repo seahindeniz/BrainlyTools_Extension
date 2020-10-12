@@ -177,4 +177,10 @@ export default class Question extends Content {
 
     return super.ExpressDelete(data, "RemoveQuestion");
   }
+
+  Deleted() {
+    super.Deleted();
+
+    this.HideModerateButton();
+  }
 }

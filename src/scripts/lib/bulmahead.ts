@@ -30,7 +30,7 @@ const bulmahead = (input, menuEl, api, onSelect, delay = 200) => {
         a.classList.add("dropdown-item");
         a.innerHTML = prelabel + label;
         a.dataset.value = _value;
-        a.object = obj;
+        // a.object = obj;
         if (title) a.title = title;
         a.addEventListener("click", setValue);
         return a;

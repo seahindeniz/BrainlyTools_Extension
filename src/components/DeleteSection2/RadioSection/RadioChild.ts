@@ -24,6 +24,7 @@ export default class RadioChild {
 
   private Render() {
     this.container = Flex({
+      marginRight: "xs",
       children: this.radio = new Radio({
         name: this.name,
         id: null,

@@ -92,6 +92,7 @@ export default class Fetcher {
 
       if (resetStore) {
         this.RemoveContents();
+        this.main.statusBar.ResetModerationCounters();
       }
 
       if (lastId) {

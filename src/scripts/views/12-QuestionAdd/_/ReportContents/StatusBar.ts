@@ -24,12 +24,10 @@ export default class ReportedContentsStatusBar {
     this.Render();
   }
 
-  Render() {
+  private Render() {
     this.container = Flex({
       alignItems: "center",
       direction: "row-reverse",
-      // justifyContent: "flex-end",
-      className: "statusBarContainer", // TODO remove this className
       children: this.list = new Breadcrumb({
         padding: "m",
         reverse: true,
@@ -43,7 +41,7 @@ export default class ReportedContentsStatusBar {
     this.main.actionsContainerLeftSide.append(this.container);
   }
 
-  RenderStatus(name: string) {
+  private RenderStatus(name: string) {
     const textNode = document.createTextNode("0");
     const textPieces: (
       | string
@@ -87,5 +85,13 @@ export default class ReportedContentsStatusBar {
 
   IncreaseNumberOfFailed() {
     this.failedContentsCount.nodeValue = String(++this.numberOfFailedContents);
+  }
+
+  ResetModerationCounters() {
+    this.moderatedContentsCount.nodeValue = "0";
+    this.failedContentsCount.nodeValue = "0";
+
+    this.numberOfModeratedContents = 0;
+    this.numberOfFailedContents = 0;
   }
 }

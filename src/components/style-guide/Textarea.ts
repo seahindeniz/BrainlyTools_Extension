@@ -8,7 +8,7 @@ type DirectionType = boolean | "vertical" | "horizontal" | "both";
 
 type TextareaColorType = "default" | "white";
 
-type TextareaPropsType<T> = {
+export type TextareaPropsType<T> = {
   tag?: T;
   placeholder?: string;
   value?: string | number;

@@ -4,13 +4,14 @@ import {
   RemoveCommentReqDataType,
   RemoveQuestionReqDataType,
 } from "@BrainlyAction";
+import type { ContentNameType } from "@components/ModerationPanel/ModeratePanelController";
 import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
 import IsVisible from "@root/helpers/IsVisible";
-import type { ContentNameType } from "@components/ModerationPanel/ModeratePanelController";
 import { Button, Flex, Textarea } from "@style-guide";
 import { FlexElementType } from "@style-guide/Flex";
 import { ChildrenParamType } from "@style-guide/helpers/AddChildren";
+import type { TextareaPropsType } from "@style-guide/Textarea";
 import OptionsSection from "./OptionsSection";
 import ContentTypeSection from "./RadioSection/ContentTypeSection";
 import ReasonSection from "./RadioSection/ReasonSection";
@@ -30,6 +31,7 @@ type ListenersPropType = {
 export default class DeleteSection {
   defaults: DefaultsPropType;
   listeners: ListenersPropType;
+  #textareaProps: TextareaPropsType<"textarea">;
 
   container: FlexElementType;
   radioSectionContainer: FlexElementType;
@@ -50,14 +52,17 @@ export default class DeleteSection {
     defaults = {},
     listeners = {},
     actionButton,
+    textareaProps,
   }: {
     defaults?: DefaultsPropType;
     listeners?: ListenersPropType;
     actionButton?: ChildrenParamType;
+    textareaProps?: TextareaPropsType<"textarea">;
   } = {}) {
     this.defaults = defaults;
     this.listeners = listeners;
     this.#actionButton = actionButton;
+    this.#textareaProps = textareaProps;
 
     this.Render();
 
@@ -140,6 +145,7 @@ export default class DeleteSection {
       onKeyDown: this.KeyPressed.bind(this),
       onPaste: this.KeyPressed.bind(this),
       onDrop: this.KeyPressed.bind(this),
+      ...this.#textareaProps,
     });
   }
 

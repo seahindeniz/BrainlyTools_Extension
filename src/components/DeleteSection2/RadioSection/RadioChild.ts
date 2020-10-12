@@ -28,7 +28,7 @@ export default class RadioChild {
         name: this.name,
         id: null,
         label: {
-          text: this.data.text,
+          children: this.data.text,
         },
         onClick: this.Clicked.bind(this),
         onChange: this.Selected.bind(this),

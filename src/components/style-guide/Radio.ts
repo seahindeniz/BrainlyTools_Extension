@@ -1,9 +1,9 @@
 import CreateElement from "@components/CreateElement";
-import classnames from "classnames";
 import generateRandomString from "@root/helpers/generateRandomString";
-import type { LabelPropsType } from "./LabelDeprecated";
-import Label from "./LabelDeprecated";
-import { CommonComponentPropsType } from "./helpers/SetProps";
+import { Label } from "@style-guide";
+import classnames from "classnames";
+import type { CommonComponentPropsType } from "./helpers/SetProps";
+import type { LabelPropsType } from "./Label";
 
 type RadioSizeType = "xxs" | "s";
 
@@ -24,7 +24,7 @@ export default class Radio {
   element: HTMLDivElement | HTMLLabelElement;
   ghost: HTMLLabelElement;
   input: HTMLInputElement;
-  #checked: boolean;
+  label: Label;
 
   constructor({
     checked,
@@ -68,14 +68,16 @@ export default class Radio {
       ...props,
     });
 
-    if (label)
-      this.element = Label({
-        containerTag: "label",
+    if (label) {
+      this.label = new Label({
+        tag: "label",
         ...label,
         icon: this.element,
         htmlFor: id || undefined,
         type: "transparent",
       });
+      this.element = this.label.element;
+    }
   }
 
   get checked() {
@@ -83,7 +85,6 @@ export default class Radio {
   }
 
   set checked(state) {
-    this.#checked = state;
     this.input.checked = state;
 
     // this.input.dispatchEvent(event);

@@ -1,11 +1,12 @@
 import classNames from "classnames";
 import CreateElement from "@components/CreateElement";
+import { CommonComponentPropsType } from "./helpers/SetProps";
 
 type OverlayPropsType = {
   partial?: boolean;
   children?: import("@style-guide/helpers/AddChildren").ChildrenParamType;
   className?: string;
-};
+} & CommonComponentPropsType;
 
 const SG = "sg-overlay";
 const SGD = `${SG}--`;

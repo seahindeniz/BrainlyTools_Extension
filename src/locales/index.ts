@@ -956,7 +956,10 @@ export default {
     sortDESC: "Sort comments from newer to older",
     sortASC: "Sort comments from older to newer",
     showLess: "Show less",
-    toggleReportedComments: "Toggle reported comments"
+    toggleReportedComments: "Toggle reported comments",
+    corrected: "Corrected",
+    originalAnswer: "Original answer",
+    answerHasCorrected: "%{nick} has corrected the answer"
   },
   shortAnswersPage: {
     selectAtLeastOneAnswer: "You need to select at least one answer",

@@ -21,7 +21,7 @@ export default class QuickActionButtonsForAnswer extends QuickActionButtons {
   }
 
   RenderAskForCorrectionButton() {
-    if (!("answerData" in this.main) || this.main.answerData.wrong_report)
+    if (this.main.answerData.wrong_report && !this.main.answerData.edited)
       return;
 
     if (this.askForCorrectionButton) {

@@ -956,7 +956,10 @@
     "sortDESC": "Trier les commentaires du plus récent au plus ancien",
     "sortASC": "Trier les commentaires du plus ancien aux plus récent",
     "showLess": "Masquer",
-    "toggleReportedComments": "Toggle reported comments"
+    "toggleReportedComments": "Toggle reported comments",
+    "corrected": "Corrected",
+    "originalAnswer": "Original answer",
+    "answerHasCorrected": "%{nick} has corrected the answer"
   },
   "shortAnswersPage": {
     "selectAtLeastOneAnswer": "Vous devez sélectionner au moins une réponse",

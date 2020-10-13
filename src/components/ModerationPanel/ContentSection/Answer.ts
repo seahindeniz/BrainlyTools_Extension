@@ -3,6 +3,7 @@ import Action from "@BrainlyAction";
 import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
 import IsVisible from "@root/helpers/IsVisible";
+import replaceLatexWithURL from "@root/helpers/replaceLatexWithURL";
 import {
   Box,
   Breadcrumb,
@@ -14,6 +15,7 @@ import {
   Textarea,
 } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
+import { TextElement } from "@style-guide/Text";
 import tippy from "tippy.js";
 import type ModerationPanelClassType from "../ModerationPanel";
 import ContentSection from "./ContentSection";
@@ -37,9 +39,13 @@ export default class Answer extends ContentSection {
   askForCorrectionButton: Button;
   askForCorrectionTextarea: HTMLTextAreaElement;
   reportedForCorrectionFlagIconContainer: FlexElementType;
-  correctionReportDetailsBox: FlexElementType;
+  correctionReportDetailsContainer: FlexElementType;
   approvedIconContainer: FlexElementType;
   quickActionButtons: QuickActionButtonsForAnswer;
+  correctionReportDetailsBox: Box;
+  originalAnswerContainer: FlexElementType;
+  reportedForCorrectionLabelContainer: FlexElementType;
+  originalAnswerLink: TextElement<"div">;
 
   constructor(main: ModerationPanelClassType, data: AnswerDataInTicketType) {
     super(main, "Answer");
@@ -185,6 +191,13 @@ export default class Answer extends ContentSection {
   }
 
   RenderCorrectionReportDetails() {
+    if (this.correctionReportDetailsContainer) {
+      this.correctionReportDetailsContainer?.remove();
+      this.reportedForCorrectionLabelContainer?.remove();
+      this.originalAnswerLink?.remove();
+      this.originalAnswerContainer?.remove();
+    }
+
     const { wrong_report: wrongReport } = this.answerData;
 
     if (!wrongReport) return;
@@ -197,92 +210,181 @@ export default class Answer extends ContentSection {
 
     this.RenderReportedForCorrectionFlagIcon();
 
-    this.correctionReportDetailsBox = Build(Flex({ marginBottom: "xs" }), [
+    this.correctionReportDetailsContainer = Build(
+      Flex({ marginBottom: "xs" }),
       [
-        new Box({
-          border: true,
-          padding: "xs",
-          borderColor: "blue-secondary-light",
-        }),
         [
+          (this.correctionReportDetailsBox = new Box({
+            border: true,
+            padding: "xs",
+            borderColor: "blue-secondary-light",
+          })),
           [
-            Flex({ alignItems: "center" }),
             [
+              Flex({ alignItems: "center" }),
               [
-                Flex,
-                new Icon({
-                  size: 32,
-                  color: "blue",
-                  type: "report_flag",
-                }),
-              ],
-              [
-                Flex({
-                  grow: true,
-                  marginRight: "xs",
-                  marginLeft: "xs",
-                  direction: "column",
-                }),
                 [
-                  new Breadcrumb({
-                    elements: [
-                      Text({
-                        tag: "span",
-                        size: "small",
-                        weight: "bold",
-                        color: "blue-dark",
-                        text: reporter.nick,
-                        target: "_blank",
-                        href: System.createProfileLink(reporter),
-                      }),
-                      ...reporter.ranks.names.map(rankName => {
-                        return Text({
-                          tag: "span",
-                          size: "small",
-                          text: rankName,
-                          style: {
-                            color: reporter.ranks.color,
-                          },
-                        });
-                      }),
-                    ],
+                  Flex,
+                  new Icon({
+                    size: 32,
+                    color: "blue",
+                    type: "report_flag",
+                  }),
+                ],
+                [
+                  Flex({
+                    grow: true,
+                    marginRight: "xs",
+                    marginLeft: "xs",
+                    direction: "column",
                   }),
                   [
-                    Flex({
-                      marginTop: "xxs",
-                      marginLeft: "xs",
-                      direction: "column",
+                    new Breadcrumb({
+                      elements: [
+                        Text({
+                          tag: "span",
+                          size: "small",
+                          weight: "bold",
+                          color: "blue-dark",
+                          text: reporter.nick,
+                          target: "_blank",
+                          href: System.createProfileLink(reporter),
+                        }),
+                        ...reporter.ranks.names.map(rankName => {
+                          return Text({
+                            tag: "span",
+                            size: "small",
+                            text: rankName,
+                            style: {
+                              color: reporter.ranks.color,
+                            },
+                          });
+                        }),
+                      ],
                     }),
                     [
-                      Text({
-                        size: "small",
-                        weight: "bold",
-                        html: wrongReport.reason,
+                      Flex({
+                        marginTop: "xxs",
+                        marginLeft: "xs",
+                        direction: "column",
                       }),
+                      [
+                        Text({
+                          size: "small",
+                          weight: "bold",
+                          html: wrongReport.reason,
+                        }),
+                      ],
                     ],
                   ],
                 ],
-              ],
-              [
-                Flex(),
-                Text({
-                  size: "xsmall",
-                  children: reportTimeEntry.node,
-                }),
+                [
+                  Flex({ direction: "column" }),
+                  [
+                    Text({
+                      size: "xsmall",
+                      align: "RIGHT",
+                      children: reportTimeEntry.node,
+                    }),
+                    this.answerData.edited &&
+                      (this.originalAnswerLink = Text({
+                        tag: "div",
+                        align: "RIGHT",
+                        size: "xsmall",
+                        href: "",
+                        color: "blue-dark",
+                        weight: "bold",
+                        onClick: this.ToggleOriginalAnswer.bind(this),
+                        children:
+                          System.data.locale.moderationPanel.originalAnswer,
+                      })),
+                  ],
+                ],
               ],
             ],
           ],
         ],
       ],
-    ]);
+    );
 
-    this.contentContainerBox.element.prepend(this.correctionReportDetailsBox);
+    this.contentContainerBox.element.prepend(
+      this.correctionReportDetailsContainer,
+    );
   }
 
   RenderReportedForCorrectionFlagIcon() {
-    this.reportedForCorrectionFlagIconContainer = this.RenderReportedFlagIcon(
-      "blue",
+    if (!this.answerData.edited) {
+      this.reportedForCorrectionFlagIconContainer = this.RenderReportedFlagIcon(
+        "blue",
+      );
+
+      return;
+    }
+
+    this.reportedForCorrectionLabelContainer = Flex({
+      marginLeft: "xs",
+      children: new Label({
+        type: "solid",
+        color: "mint",
+        noSelection: true,
+        icon: new Icon({ type: "report_flag" }),
+        children: System.data.locale.moderationPanel.corrected,
+      }),
+    });
+
+    tippy(this.reportedForCorrectionLabelContainer, {
+      placement: "bottom",
+      theme: "light",
+      content: Text({
+        size: "small",
+        weight: "bold",
+        children: System.data.locale.moderationPanel.answerHasCorrected.replace(
+          "%{nick}",
+          this.owner.data.nick,
+        ),
+      }),
+    });
+
+    this.contentDetailsContainer.append(
+      this.reportedForCorrectionLabelContainer,
     );
+  }
+
+  ToggleOriginalAnswer() {
+    if (IsVisible(this.originalAnswerContainer)) {
+      this.HideOriginalAnswer();
+
+      return;
+    }
+
+    this.ShowOriginalAnswer();
+  }
+
+  ShowOriginalAnswer() {
+    if (!this.originalAnswerContainer) {
+      this.RenderOriginalAnswer();
+    }
+
+    this.correctionReportDetailsBox.element.append(
+      this.originalAnswerContainer,
+    );
+  }
+
+  HideOriginalAnswer() {
+    HideElement(this.originalAnswerContainer);
+  }
+
+  RenderOriginalAnswer() {
+    this.originalAnswerContainer = Flex({
+      marginTop: "xs",
+      marginLeft: "xs",
+      marginRight: "xs",
+      borderTop: true,
+      children: Text({
+        size: "small",
+        children: replaceLatexWithURL(this.answerData.original_content),
+      }),
+    });
   }
 
   ToggleAskForCorrectionSection() {
@@ -400,14 +502,15 @@ export default class Answer extends ContentSection {
       },
     };
 
+    delete this.answerData.edited;
+    delete this.answerData.original_content;
+
     this.HideAskForCorrectionSection();
     this.RenderCorrectionReportDetails();
     this.quickActionButtons.RenderConfirmButton();
     this.contentBox.ShowBorder();
     this.contentBox.ChangeBorderColor("blue-secondary-light");
-
-    if ("askForCorrectionButton" in this.quickActionButtons)
-      this.quickActionButtons.askForCorrectionButton.Hide();
+    this.quickActionButtons.askForCorrectionButton?.Hide();
   }
 
   ConfirmApproving() {
@@ -541,7 +644,7 @@ export default class Answer extends ContentSection {
 
     delete this.answerData.wrong_report;
 
-    HideElement(this.correctionReportDetailsBox);
+    HideElement(this.correctionReportDetailsContainer);
     HideElement(this.reportedForCorrectionFlagIconContainer);
   }
 

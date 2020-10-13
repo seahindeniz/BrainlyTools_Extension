@@ -885,8 +885,8 @@
         "description": "Bu seçenek, gecikmeli listelemeyi etkinleştirir.\n\nEtkinleştirildiğinde; şikayetler sayfa kaydırılınca biraz gecikmeli görüntülenir ve cihazının belleğinde az kullanım sağlar. \nAncak bu durumda, tarayıcının \"Sayfada bul\" özelliği, o an içerisinde görüntülenmeyen şikayetler için çalışmaz. Sayfayı çok hızlı kaydırdığında da, bazı şikayetler görünmez kalabilir."
       },
       "toggleInfiniteLoader": {
-        "optionName": "Scrollable loading",
-        "description": "Turn on/off auto-loading contents on scrolling the page"
+        "optionName": "Kaydırarak yükleme",
+        "description": "Sayfayı kaydırırken içerikleri otomatik yüklemeyi aç/kapa"
       }
     },
     "queue": {
@@ -956,7 +956,10 @@
     "sortDESC": "Yorumları en yeniden eskiye doğru sırala",
     "sortASC": "Yorumları eskiden yeniye doğru sırala",
     "showLess": "Daha az göster",
-    "toggleReportedComments": "Toggle reported comments"
+    "toggleReportedComments": "Bildirilen yorumları göster/gizle",
+    "corrected": "Düzeltildi",
+    "originalAnswer": "Orijinal cevap",
+    "answerHasCorrected": "%{nick} cevabını düzeltti"
   },
   "shortAnswersPage": {
     "selectAtLeastOneAnswer": "En az bir cevap seçmelisin",

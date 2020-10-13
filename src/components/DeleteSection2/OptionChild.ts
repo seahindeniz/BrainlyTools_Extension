@@ -1,5 +1,5 @@
-import { Checkbox, Flex, LabelDeprecated } from "@style-guide";
-import type { LabelPropsType } from "@style-guide/LabelDeprecated";
+import { Checkbox, Flex, Label } from "@style-guide";
+import type { LabelPropsType } from "@style-guide/Label";
 import type OptionsSectionClassType from "./OptionsSection";
 
 export default class OptionChild {
@@ -26,10 +26,12 @@ export default class OptionChild {
       onClick: this.Clicked.bind(this),
     });
     this.container = Flex({
-      children: LabelDeprecated({
+      marginRight: "m",
+      children: new Label({
+        tag: "label",
         type: "transparent",
-        containerTag: "label",
         icon: this.checkboxContainer.element,
+        children: this.#checkBoxLabelProps.text,
         ...this.#checkBoxLabelProps,
       }),
     });

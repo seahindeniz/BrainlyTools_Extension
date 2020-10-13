@@ -1,5 +1,3 @@
-// import type RadioSectionClassType from "./RadioSection";
-// import type { OptionPropType } from "./RadioSection";
 import { Flex, Radio } from "@style-guide";
 import type * as RadioSectionTypes from "./RadioSection";
 
@@ -24,7 +22,7 @@ export default class RadioChild {
 
   private Render() {
     this.container = Flex({
-      marginRight: "xs",
+      marginRight: "m",
       children: this.radio = new Radio({
         name: this.name,
         id: null,

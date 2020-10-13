@@ -18,7 +18,6 @@ export default class LazyQueue {
     this.main = main;
 
     this.Render();
-    this.SetValue();
   }
 
   Render() {
@@ -45,6 +44,7 @@ export default class LazyQueue {
                 grow: true,
               }),
               (this.switch = new Switch({
+                checked: this.main.main.main.defaults.lazyQueue,
                 onChange: this.StoreState.bind(this),
               })),
             ],
@@ -66,15 +66,6 @@ export default class LazyQueue {
           System.data.locale.reportedContents.options.lazyQueue.description,
       }),
     });
-
-    this.SetValue();
-  }
-
-  async SetValue() {
-    const value =
-      Boolean(await storage("get", REPORTED_CONTENTS_LAZY_QUEUE_KEY)) || false;
-
-    this.switch.input.checked = value;
   }
 
   StoreState() {

@@ -16,6 +16,7 @@ export default class ButtonVisibility {
     this.main = main;
 
     this.Render();
+    this.SetValue();
   }
 
   Render() {
@@ -77,8 +78,6 @@ export default class ButtonVisibility {
       }),
       this.container,
     );
-
-    this.SetValue();
   }
 
   async SetValue() {

@@ -49,6 +49,7 @@ export default class ButtonVisibility {
     this.container = Build(
       Flex({
         tag: "label",
+        marginTop: "xxs",
       }),
       [
         [
@@ -74,7 +75,7 @@ export default class ButtonVisibility {
 
     this.main.optionContainer.append(
       SeparatorHorizontal({
-        type: "spaced",
+        type: "short-spaced",
       }),
       this.container,
     );

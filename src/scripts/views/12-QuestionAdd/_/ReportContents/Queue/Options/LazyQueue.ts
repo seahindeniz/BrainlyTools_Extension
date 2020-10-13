@@ -1,7 +1,7 @@
 import Switch from "@components/Switch";
 import Build from "@root/helpers/Build";
 import storage from "@root/helpers/extStorage";
-import { Flex, Text } from "@style-guide";
+import { Flex, SeparatorHorizontal, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import tippy from "tippy.js";
 import type OptionsClassType from "./Options";
@@ -23,7 +23,8 @@ export default class LazyQueue {
   Render() {
     this.container = Build(
       Flex({
-        marginTop: "m",
+        marginTop: "xxs",
+        marginBottom: "xxs",
       }),
       [
         [
@@ -53,7 +54,12 @@ export default class LazyQueue {
       ],
     );
 
-    this.main.optionContainer.append(this.container);
+    this.main.optionContainer.append(
+      SeparatorHorizontal({
+        type: "short-spaced",
+      }),
+      this.container,
+    );
 
     tippy(this.container, {
       theme: "light",

@@ -1,12 +1,12 @@
 /* eslint-disable no-param-reassign */
 import ServerReq from "@ServerReq";
 import { OverlayedBox, SpinnerContainer, Text } from "@style-guide";
-import emojione from "emojione";
+import emojiToolkit from "emoji-toolkit";
 import MarkdownIt from "markdown-it";
 import MDAbbr from "markdown-it-abbr";
 import MDAnchor from "markdown-it-anchor";
 import MDContainer from "markdown-it-container";
-import MDEmoji from "markdown-it-emoji";
+import MDEmoji from "markdown-it-emoji/light";
 import MDHighlight from "markdown-it-highlightjs";
 import MDSub from "markdown-it-sub";
 import MDSup from "markdown-it-sup";
@@ -18,9 +18,7 @@ import notification from "@components/notification2";
 import Action from "@BrainlyAction";
 import Components from ".";
 
-// TODO upgrade Emojione to https://github.com/joypixels/emoji-toolkit
-// @ts-expect-error
-emojione.emojiSize = "64";
+emojiToolkit.emojiSize = "64";
 
 function FilterContent(content) {
   if (!System.checkUserP(20)) {
@@ -196,8 +194,9 @@ class NoticeBoard extends Components {
     });
 
     this.md.renderer.rules.table_open = () => `<table class="table">`;
-    this.md.renderer.rules.emoji = (token, idx) =>
-      emojione.toImage(token[idx].content);
+    this.md.renderer.rules.emoji = (token, idx) => {
+      return emojiToolkit.toImage(token[idx].content);
+    };
     this.md.renderer.rules.link_open = () =>
       `<a class="sg-text--link sg-text--bold sg-text--blue-dark">`;
     this.md.renderer.rules.hr = () =>

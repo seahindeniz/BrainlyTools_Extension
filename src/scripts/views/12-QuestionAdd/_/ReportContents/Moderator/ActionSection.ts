@@ -75,6 +75,8 @@ export default class ActionSection {
 
   async Moderating() {
     this.moderating = true;
+    this.main.main.statusBar.numberOfFailedContents = 0;
+    this.main.main.statusBar.numberOfModeratedContents = 0;
 
     // await this.HighlightActionButton();
     this.main.ShowStopButton();
@@ -95,9 +97,6 @@ export default class ActionSection {
   }
 
   FinishModerating() {
-    this.main.main.statusBar.numberOfFailedContents = 0;
-    this.main.main.statusBar.numberOfModeratedContents = 0;
-
     this.StopModerating();
     this.main.HideStopButtonContainer();
   }

@@ -278,6 +278,8 @@ export type AnswerDataInTicketType = CommonDataInTicketType & {
     reported: string;
     user: UserDataInReportType;
   };
+  edited?: string;
+  original_content?: string;
 };
 
 export type QuestionDataInTicketType = CommonDataInTicketType & {

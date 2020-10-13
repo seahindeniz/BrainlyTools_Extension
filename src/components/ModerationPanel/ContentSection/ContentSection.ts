@@ -539,8 +539,9 @@ export default class ContentSection {
     this.contentContainer.append(this.deleteSection.container);
   }
 
-  DeleteSectionButtonClicked() {
-    this.ConfirmDeletion(this.deleteSection?.PrepareData());
+  async DeleteSectionButtonClicked() {
+    await this.Moderating();
+    this.Delete(this.deleteSection?.PrepareData());
   }
 
   HideDeleteSection() {
@@ -552,10 +553,7 @@ export default class ContentSection {
   ) {
     if (!data) return;
 
-    this.quickActionButtons.DisableButtons();
-    this.deleteSection?.container.append(this.quickActionButtons.spinner);
-
-    await System.Delay(50);
+    this.Moderating();
 
     const confirmMessage = System.data.locale.common.moderating.doYouWantToDeleteWithReason
       .replace("%{reason_title}", data.reason_title)
@@ -568,6 +566,13 @@ export default class ContentSection {
     }
 
     this.Delete(data);
+  }
+
+  Moderating() {
+    this.quickActionButtons.DisableButtons();
+    this.deleteSection?.container.append(this.quickActionButtons.spinner);
+
+    return System.Delay(50);
   }
 
   async Delete(data: RemoveQuestionReqDataType | RemoveAnswerReqDataType) {

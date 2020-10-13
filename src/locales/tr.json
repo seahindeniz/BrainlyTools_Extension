@@ -929,7 +929,6 @@
     "showAllComments": "Tüm yorumları göster",
     "failedToGetLogs": "Sorunun eylem geçmişini gösterirken bir sorun oluştu",
     "seeMoreDeleteOptions": "Daha fazla silim seçeneği",
-    "confirmReportingForCorrection": "Cevabı düzenlemesi için bildirmek istiyor musun?",
     "thereIsNoReportLeft": "Bildirilmiş içerik kalmadı",
     "deleteAllComments": "Tüm yorumları sil",
     "confirmDeletingNComments": "Lütfen %{N} yorumun silinmesini onaylayın",

@@ -929,7 +929,6 @@ export default {
     showAllComments: "Show all comments",
     failedToGetLogs: "Cannot fetch logs of question",
     seeMoreDeleteOptions: "See more delete options",
-    confirmReportingForCorrection: "Do you want to report this answer for correction?",
     thereIsNoReportLeft: "There is no report left",
     deleteAllComments: "Delete all comments",
     confirmDeletingNComments: "Please confirm deleting %{N} comments",

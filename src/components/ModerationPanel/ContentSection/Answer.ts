@@ -441,7 +441,7 @@ export default class Answer extends ContentSection {
           }),
           (this.askForCorrectionButton = new Button({
             type: "solid-blue",
-            onClick: this.ConfirmReportingForCorrection.bind(this),
+            onClick: this.ReportForCorrection.bind(this),
             children: System.data.locale.userContent.askForCorrection.ask,
           })),
         ],
@@ -449,25 +449,13 @@ export default class Answer extends ContentSection {
     );
   }
 
-  async ConfirmReportingForCorrection() {
-    this.quickActionButtons.DisableButtons();
-    this.askForCorrectionContainer.append(this.quickActionButtons.spinner);
-
-    await System.Delay(50);
-
-    if (
-      !confirm(System.data.locale.moderationPanel.confirmReportingForCorrection)
-    ) {
-      this.quickActionButtons.EnableButtons();
-
-      return;
-    }
-
-    this.ReportForCorrection();
-  }
-
   async ReportForCorrection() {
     try {
+      this.quickActionButtons.DisableButtons();
+      this.askForCorrectionContainer.append(this.quickActionButtons.spinner);
+
+      await System.Delay(50);
+
       const resReport = await new Action().ReportForCorrection({
         model_id: this.data.id,
         reason: this.askForCorrectionTextarea.value,

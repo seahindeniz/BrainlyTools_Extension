@@ -929,7 +929,6 @@
     "showAllComments": "Afficher tous les commentaires",
     "failedToGetLogs": "Impossible de récupérer l'historique de la question",
     "seeMoreDeleteOptions": "Voir d'autres options de suppression",
-    "confirmReportingForCorrection": "Veux-tu demander la correction de cette réponse ?",
     "thereIsNoReportLeft": "Il n'y a plus de signalement",
     "deleteAllComments": "Supprimer tous les commentaires",
     "confirmDeletingNComments": "Veuillez confirmer la suppression de %{N} commentaires",

@@ -1,8 +1,7 @@
-/**
- * @param {string} method - Target of storage name. The get is sync memory, getL is local memory [get, getL, set, setL, remove, removeL]
- */
+type MethodType = "get" | "getL" | "set" | "setL" | "remove" | "removeL";
+
 export default function storage(
-  method: string,
+  method: MethodType,
   data: string | string[] | { [x: string]: any },
 ) {
   const marketKey = window.System.data.meta.storageKey;
@@ -16,7 +15,7 @@ export default function storage(
   };
 
   if (method.slice(-1) === "L") {
-    messageData.method = method.slice(0, -1);
+    messageData.method = method.slice(0, -1) as MethodType;
     messageData.local = true;
   }
 

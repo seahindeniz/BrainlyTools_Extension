@@ -426,6 +426,12 @@ export default class ContentViewerContent {
       this.source.id,
       this.contentData.type,
     );
+    // const resConfirm: CommonResponseDataType = {
+    //   success: true,
+    //   // @ts-expect-error
+    //   message: "",
+    // };
+    // await System.TestDelay();
 
     if (!resConfirm) {
       notification({
@@ -454,7 +460,11 @@ export default class ContentViewerContent {
     this.container.ChangeBorderColor(this.BoxBorderColor());
 
     if (this.source.user_id === Number(window.sitePassedParams[0])) {
-      HideElement(this.main.reportedContentIcon.element);
+      if (this.contentData.type === "Question")
+        HideElement(this.main.reportedIconForQuestion?.element);
+
+      if (this.contentData.type === "Answer")
+        HideElement(this.main.reportedIconForAnswer?.element);
     }
   }
 
@@ -470,6 +480,12 @@ export default class ContentViewerContent {
     this.approveButton.element.append(this.buttonSpinner);
 
     const resApprove = await new Action().ApproveAnswer(this.source.id);
+    // const resApprove: CommonResponseDataType = {
+    //   success: true,
+    //   // @ts-expect-error
+    //   message: "",
+    // };
+    // await System.TestDelay();
 
     if (!resApprove) {
       notification({
@@ -480,7 +496,7 @@ export default class ContentViewerContent {
       return;
     }
 
-    if (!resApprove.success) {
+    if (resApprove.success === false) {
       notification({
         html:
           resApprove.message ||
@@ -504,7 +520,7 @@ export default class ContentViewerContent {
 
     if (this.source.user_id === Number(window.sitePassedParams[0])) {
       this.main.RenderApproveIcon(this.source);
-      HideElement(this.main.reportedContentIcon?.element);
+      HideElement(this.main.reportedIconForAnswer?.element);
     }
   }
 }

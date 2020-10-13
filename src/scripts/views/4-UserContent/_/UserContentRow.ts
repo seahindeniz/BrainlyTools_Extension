@@ -40,7 +40,8 @@ export default class UserContentRow {
   answerID: number;
   approveIcon: Icon;
   iconContainer: any;
-  reportedContentIcon?: Button;
+  reportedIconForQuestion?: Button;
+  reportedIconForAnswer?: Button;
   reported: boolean;
   approved: any;
   checkboxContainer: HTMLTableDataCellElement;
@@ -192,7 +193,9 @@ export default class UserContentRow {
       this.contentContainer.element.append(content.container.element);
 
       this.RenderAttachmentsIcon(content.source);
-      this.RenderReportedContentIcon(content.source);
+      this.reportedIconForQuestion = this.RenderReportedContentIcon(
+        content.source,
+      );
     }
 
     /* let question = this.content.res.data.task;
@@ -238,7 +241,7 @@ export default class UserContentRow {
       this.RenderBestIcon(answer);
       this.RenderAttachmentsIcon(answer);
       this.RenderApproveIcon(answer);
-      this.RenderReportedContentIcon(answer);
+      this.reportedIconForAnswer = this.RenderReportedContentIcon(answer);
     }
 
     /* let user = this.content.res.users_data.find(user => user.id == answer.user_id);
@@ -368,7 +371,7 @@ export default class UserContentRow {
         (content.settings && content.settings.is_marked_abuse)
       )
     )
-      return;
+      return undefined;
 
     const iconProps: ButtonPropsType = {
       type: "solid-peach",
@@ -388,7 +391,7 @@ export default class UserContentRow {
       }
     }
 
-    this.reportedContentIcon = this.RenderIcon(iconProps);
+    return this.RenderIcon(iconProps);
   }
 
   RenderIcon({ className, ...props }: ButtonPropsType) {

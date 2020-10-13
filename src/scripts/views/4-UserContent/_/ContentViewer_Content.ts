@@ -2,6 +2,7 @@ import Action from "@BrainlyAction";
 import CreateElement from "@components/CreateElement";
 import notification from "@components/notification2";
 import Build from "@root/helpers/Build";
+import replaceLatexWithURL from "@root/helpers/replaceLatexWithURL";
 import {
   Avatar,
   Box,
@@ -78,17 +79,7 @@ export default class ContentViewerContent {
 
   CheckLatex() {
     if (this.contentData.content) {
-      this.contentData.content = this.contentData.content
-        .replace(/(?:\r\n|\n)/g, "")
-        .replace(/\[tex\](.*?)\[\/tex\]/gi, (_, latex) => {
-          let latexURI = window.encodeURIComponent(latex);
-
-          if (!latex.startsWith("\\")) {
-            latexURI = `%5C${latexURI}`;
-          }
-
-          return `<img src="${System.data.Brainly.defaultConfig.config.data.config.serviceLatexUrlHttps}${latexURI}" title="${latex}" align="absmiddle" class="latex-formula sg-box__image">`;
-        });
+      this.contentData.content = replaceLatexWithURL(this.contentData.content);
     }
   }
 

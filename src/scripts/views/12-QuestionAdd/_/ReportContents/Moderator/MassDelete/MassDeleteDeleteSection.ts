@@ -19,7 +19,7 @@ export default class MassDeleteDeleteSection {
 
   Render() {
     this.deleteSection = new DeleteSection({
-      defaults: { contentType: this.contentType },
+      defaults: { contentType: this.contentType, takePoints: false },
       listeners: {
         onReasonChange: this.ReasonChanged.bind(this),
       },

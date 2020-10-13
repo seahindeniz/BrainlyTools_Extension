@@ -41,6 +41,10 @@ export default class SubReasonSection extends RadioSection {
     this.main.listeners?.onSubReasonChange?.();
     // this.main.RenderSubReasonSection();
 
+    this.main.optionsSection.giveWarning.checkbox.checked = System.canBeWarned(
+      this.deleteReason.id,
+    );
+
     this.main.textarea.value = this.deleteReason.text;
   }
 }

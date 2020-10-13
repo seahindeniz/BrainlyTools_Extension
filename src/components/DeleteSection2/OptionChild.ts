@@ -25,13 +25,17 @@ export default class OptionChild {
       id: null,
       onClick: this.Clicked.bind(this),
     });
+
+    const children = this.#checkBoxLabelProps.text;
+    delete this.#checkBoxLabelProps.text;
+
     this.container = Flex({
       marginRight: "m",
       children: new Label({
         tag: "label",
         type: "transparent",
         icon: this.checkboxContainer.element,
-        children: this.#checkBoxLabelProps.text,
+        children,
         ...this.#checkBoxLabelProps,
       }),
     });

@@ -1,4 +1,5 @@
 import { Flex } from "@style-guide";
+import tippy from "tippy.js";
 import type DeleteSectionClassType from "./DeleteSection";
 import OptionChild from "./OptionChild";
 
@@ -31,6 +32,10 @@ export default class OptionsSection {
       ...System.data.locale.common.moderating.giveWarning,
     });
 
+    tippy(this.giveWarning.container, {
+      content: System.data.locale.common.moderating.giveWarning.title,
+    });
+
     this.container.append(this.giveWarning.container);
   }
 
@@ -43,7 +48,15 @@ export default class OptionsSection {
       ...System.data.locale.common.moderating.takePoints[contentType],
     });
 
-    // this.takePoints.checkbox.checked = true;
+    tippy(this.takePoints.container, {
+      content:
+        System.data.locale.common.moderating.takePoints[contentType].title,
+    });
+
+    this.takePoints.checkbox.checked =
+      typeof this.main.defaults.takePoints === "undefined"
+        ? true
+        : this.main.defaults.takePoints;
 
     this.container.append(this.takePoints.container);
   }
@@ -53,6 +66,10 @@ export default class OptionsSection {
 
     this.returnPoints = new OptionChild(this, {
       ...System.data.locale.common.moderating.returnPoints,
+    });
+
+    tippy(this.returnPoints.container, {
+      content: System.data.locale.common.moderating.returnPoints.title,
     });
 
     this.container.append(this.returnPoints.container);

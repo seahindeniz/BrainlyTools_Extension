@@ -19,6 +19,7 @@ import SubReasonSection from "./RadioSection/SubReasonSection";
 
 type DefaultsPropType = {
   contentType?: ContentNameType;
+  takePoints?: boolean;
 };
 
 type ListenersPropType = {

@@ -10,7 +10,8 @@ type ExtensionIconTypeType =
   | "ext-ods"
   | "ext-xlsx"
   | "ext-numbers"
-  | "ext-measuring-tape";
+  | "ext-measuring-tape"
+  | "ext-sheet";
 
 export type IconTypeType =
   | "academic_cap"

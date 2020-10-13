@@ -100,7 +100,8 @@ export default class Queue {
   }
 
   InitIntersectionObserver() {
-    if (!this.main.defaults.lazyQueue) return;
+    if (!this.main.defaults.lazyQueue || !this.main.defaults.autoQueueLoader)
+      return;
 
     this.observer = new IntersectionObserver(
       entries => {
@@ -141,7 +142,7 @@ export default class Queue {
   }
 
   Scrolled() {
-    if (!document.body) return;
+    if (!document.body || !this.main.defaults.autoQueueLoader) return;
 
     const percent =
       ((window.innerHeight + window.pageYOffset) * 100) /
@@ -250,7 +251,7 @@ export default class Queue {
     this.loadMoreButtonContainer = Flex({
       children: new Button({
         children: System.data.locale.reportedContents.queue.loadMore,
-        onClick: this.main.fetcher.FetchReports.bind(this.main.fetcher),
+        onClick: this.LoadMore.bind(this),
         size: "l",
         type: "solid-inverted",
       }),
@@ -258,6 +259,20 @@ export default class Queue {
       marginBottom: "m",
       marginTop: "m",
     });
+  }
+
+  async LoadMore() {
+    const { childElementCount } = this.main.queueContainer;
+
+    if (this.main.contents.filtered.length === childElementCount) {
+      await this.main.fetcher.FetchReports();
+    }
+
+    const lastScrollPosition = document.documentElement.scrollTop;
+
+    await this.ShowContents();
+
+    document.documentElement.scrollTop = lastScrollPosition;
   }
 
   HideLoadMoreButton() {

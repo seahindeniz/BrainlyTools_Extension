@@ -883,6 +883,10 @@
       "lazyQueue": {
         "optionName": "Lazy queue (Refresh required)",
         "description": "This option enables lazy loading for reported contents.\n\nWhen enabled, the queue displays report boxes with delay while scrolling through reports, so it's memory-friendly.\nHowever, the \"Find on page\" feature will not function for invisible reports. The page might display empty reports while scrolling too fast"
+      },
+      "toggleInfiniteLoader": {
+        "optionName": "Scrollable loading",
+        "description": "Turn on/off auto-loading contents on scrolling the page"
       }
     },
     "queue": {
@@ -951,8 +955,8 @@
     "decToJan": "DEC\nJAN",
     "sortDESC": "Sort comments from newer to older",
     "sortASC": "Sort comments from older to newer",
-    "showReportedComments": "Show only reported comments",
-    "showLess": "Show less"
+    "showLess": "Show less",
+    "toggleReportedComments": "Toggle reported comments"
   },
   "shortAnswersPage": {
     "selectAtLeastOneAnswer": "You need to select at least one answer",

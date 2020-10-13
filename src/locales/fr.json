@@ -883,6 +883,10 @@
       "lazyQueue": {
         "optionName": "File d'attente ralentie (Rafraîchissement nécessaire)",
         "description": "Cette option permet un chargement ralenti pour les contenus signalés.\n\nLorsqu'elle est activée, la file d'attente affiche les boîtes de rapport avec du retard pendant le défilement des rapports, ce qui la rend facile à mémoriser.\nToutefois, la fonction \"Trouver sur la page\" ne fonctionne pas pour les rapports invisibles. La page peut afficher des rapports vides tout en défilant trop rapidement"
+      },
+      "toggleInfiniteLoader": {
+        "optionName": "Scrollable loading",
+        "description": "Turn on/off auto-loading contents on scrolling the page"
       }
     },
     "queue": {
@@ -951,8 +955,8 @@
     "decToJan": "DEC\nJAN",
     "sortDESC": "Trier les commentaires du plus récent au plus ancien",
     "sortASC": "Trier les commentaires du plus ancien aux plus récent",
-    "showReportedComments": "Afficher uniquement les commentaires signalés",
-    "showLess": "Masquer"
+    "showLess": "Masquer",
+    "toggleReportedComments": "Toggle reported comments"
   },
   "shortAnswersPage": {
     "selectAtLeastOneAnswer": "Vous devez sélectionner au moins une réponse",

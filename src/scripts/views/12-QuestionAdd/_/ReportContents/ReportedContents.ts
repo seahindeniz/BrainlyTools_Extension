@@ -13,6 +13,7 @@ import Fetcher from "./Fetcher/Fetcher";
 import LiveStatus from "./LiveStatus/LiveStatus";
 import Moderator from "./Moderator/Moderator";
 import { REPORTED_CONTENTS_LAZY_QUEUE_KEY } from "./Queue/Options/LazyQueue";
+import { REPORTED_CONTENTS_AUTO_QUEUE_LOADER_KEY } from "./Queue/Options/ToggleAutoQueueLoader";
 import Queue from "./Queue/Queue";
 import ReportedContentsStatusBar from "./StatusBar";
 
@@ -52,6 +53,7 @@ export default class ReportedContents {
   statusBar: ReportedContentsStatusBar;
   defaults: {
     lazyQueue: boolean;
+    autoQueueLoader: boolean;
   };
 
   constructor() {
@@ -68,6 +70,7 @@ export default class ReportedContents {
     this.userData = {};
     this.defaults = {
       lazyQueue: false,
+      autoQueueLoader: true,
     };
 
     this.Init();
@@ -75,6 +78,7 @@ export default class ReportedContents {
 
   async Init() {
     await this.SetLazyQueueDefaultValue();
+    await this.SetAutoQueueLoaderDefaultValue();
     this.Render();
 
     this.statusBar = new ReportedContentsStatusBar(this);
@@ -90,8 +94,15 @@ export default class ReportedContents {
   }
 
   async SetLazyQueueDefaultValue() {
-    this.defaults.lazyQueue =
-      Boolean(await storage("get", REPORTED_CONTENTS_LAZY_QUEUE_KEY)) || false;
+    const value = await storage("get", REPORTED_CONTENTS_LAZY_QUEUE_KEY);
+
+    this.defaults.lazyQueue = Boolean(value);
+  }
+
+  async SetAutoQueueLoaderDefaultValue() {
+    const value = await storage("get", REPORTED_CONTENTS_AUTO_QUEUE_LOADER_KEY);
+
+    this.defaults.autoQueueLoader = value === null ? true : Boolean(value);
   }
 
   Render() {

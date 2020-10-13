@@ -883,6 +883,10 @@
       "lazyQueue": {
         "optionName": "Lazy liste (Sayfayı yenilemelisin)",
         "description": "Bu seçenek, gecikmeli listelemeyi etkinleştirir.\n\nEtkinleştirildiğinde; şikayetler sayfa kaydırılınca biraz gecikmeli görüntülenir ve cihazının belleğinde az kullanım sağlar. \nAncak bu durumda, tarayıcının \"Sayfada bul\" özelliği, o an içerisinde görüntülenmeyen şikayetler için çalışmaz. Sayfayı çok hızlı kaydırdığında da, bazı şikayetler görünmez kalabilir."
+      },
+      "toggleInfiniteLoader": {
+        "optionName": "Scrollable loading",
+        "description": "Turn on/off auto-loading contents on scrolling the page"
       }
     },
     "queue": {
@@ -951,8 +955,8 @@
     "decToJan": "ARA\nOCA",
     "sortDESC": "Yorumları en yeniden eskiye doğru sırala",
     "sortASC": "Yorumları eskiden yeniye doğru sırala",
-    "showReportedComments": "Yalnızca bildirilen yorumları göster",
-    "showLess": "Daha az göster"
+    "showLess": "Daha az göster",
+    "toggleReportedComments": "Toggle reported comments"
   },
   "shortAnswersPage": {
     "selectAtLeastOneAnswer": "En az bir cevap seçmelisin",

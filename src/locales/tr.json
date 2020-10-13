@@ -58,8 +58,8 @@
       "editInPanel": "Moderatör panelinde düzenle",
       "point": "puan",
       "returnPoints": {
-        "text": "Puanları geri iade et-me",
-        "title": "Puanları sahibine geri iade etmemek"
+        "text": "Puanlar iade edilmesin",
+        "title": "Soru sahibinin harcadığı puanlar iade edilmesin"
       },
       "giveWarning": {
         "text": "Uyarı ver",
@@ -72,8 +72,8 @@
       "doYouWantToDeleteWithReason": "Silmek istiyor musun?\n\n%{reason_title}:\n%{reason_message}",
       "takePoints": {
         "question": {
-          "text": "Cevap verenlerin kazandığı puanları geri al",
-          "title": "Soruya cevap verenlerden puanları geri al"
+          "text": "Cevap verenlerden puanları geri al",
+          "title": "Soruya cevap verdiklerinde cevaplayanlardan kazandıkları puanları geri al"
         },
         "answer": {
           "text": "Kazandığı puanları geri al",

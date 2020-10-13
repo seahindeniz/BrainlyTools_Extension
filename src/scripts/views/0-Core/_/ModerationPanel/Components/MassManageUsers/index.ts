@@ -20,15 +20,12 @@ import Build from "@root/helpers/Build";
 import Components from "..";
 import type ActionSectionClassType from "./ActionSection";
 import ApproveAnswers from "./ActionSection/ApproveAnswers";
-import ChangePoints from "./ActionSection/ChangePoints";
 // import ChangeRanks from "./ActionSection/ChangeRanks";
 import DeleteUsers from "./ActionSection/DeleteUsers";
 import User from "./User";
 
-type ActionsType =
-  | ApproveAnswers
-  | DeleteUsers
-  | ChangePoints /* | ChangeRanks */;
+type ActionsType = ApproveAnswers | DeleteUsers;
+/* | ChangeRanks */
 
 export default class MassManageUsers extends Components {
   idList: number[];
@@ -545,8 +542,6 @@ export default class MassManageUsers extends Components {
 
     if (System.checkUserP([27, 31])) this.actions.push(new DeleteUsers(this));
 
-    if (System.checkUserP([27, 32])) this.actions.push(new ChangePoints(this));
-
     /* if (System.checkUserP([27, 33]))
       this.actions.push(new ChangeRanks(this)); */
 
@@ -570,16 +565,14 @@ export default class MassManageUsers extends Components {
     this.HideElement(this.removeSelectedButtonContainer);
   }
 
-  /**
-   * @param {User} user
-   */
-  UserCheckboxChanged(user) {
-    const idsOfSelectedUsers = this.ToggleRemoveSelectedButton();
+  UserCheckboxChanged() {
+    return this;
+    /* const idsOfSelectedUsers = this.ToggleRemoveSelectedButton();
 
     this.actions.forEach(action => {
       if ("UserCheckboxChanged" in action)
         action.UserCheckboxChanged(user, idsOfSelectedUsers);
-    });
+    }); */
   }
 
   ToggleRemoveSelectedButton() {

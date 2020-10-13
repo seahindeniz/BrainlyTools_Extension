@@ -500,20 +500,6 @@
             "title": "Delete all listed users"
           }
         },
-        "changePoints": {
-          "actionButton": {
-            "text": "Change points",
-            "title": "Change points of all listed users"
-          },
-          "applyToAll": "Apply to all",
-          "applyToSelected": "Apply to selected",
-          "notificationMessages": {
-            "doYouWantToGiveNPointsToAllListedUsers": "Do you want to give %{n} points to all listed users?",
-            "doYouWantToGiveNPointsToSelectedUsers": "Do you want to give %{n} points to selected users?",
-            "oopsYouDidntSpecifyThePoints": "Oops, you didn't specify the points",
-            "thereIsNoPointToGiveZeroPoints": "There is no point in giving zero points :)"
-          }
-        },
         "changeRanks": {
           "actionButton": {
             "text": "Change ranks",

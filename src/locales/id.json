@@ -500,20 +500,6 @@
             "title": "Hapus semua pengguna yang terdaftar"
           }
         },
-        "changePoints": {
-          "actionButton": {
-            "text": "Ubah poin",
-            "title": "Ubah poin dari semua pengguna yang terdaftar"
-          },
-          "applyToAll": "Terapkan ke semua",
-          "applyToSelected": "Terapkan untuk dipilih",
-          "notificationMessages": {
-            "doYouWantToGiveNPointsToAllListedUsers": "Apakah kamu ingin memberikan %{n} poin ke semua daftar pengguna ?",
-            "doYouWantToGiveNPointsToSelectedUsers": "Apakah kamu ingin memberikan %{n} poin ke pengguna yang dipilih?",
-            "oopsYouDidntSpecifyThePoints": "Ups, kamu tidak menentukan poin spesifik",
-            "thereIsNoPointToGiveZeroPoints": "Tidak ada gunanya untuk memberikan poin nol :)"
-          }
-        },
         "changeRanks": {
           "actionButton": {
             "text": "Memperbarui peringkat",

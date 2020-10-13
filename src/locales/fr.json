@@ -500,20 +500,6 @@
             "title": "Supprimer tous les utilisateurs sélectionnés"
           }
         },
-        "changePoints": {
-          "actionButton": {
-            "text": "Changer les points",
-            "title": "Modifier les points de tous les utilisateurs répertoriés"
-          },
-          "applyToAll": "Appliquer à tous",
-          "applyToSelected": "Appliquer à la sélection",
-          "notificationMessages": {
-            "doYouWantToGiveNPointsToAllListedUsers": "Voulez-vous attribuer %{n} points à tous les utilisateurs répertoriés?",
-            "doYouWantToGiveNPointsToSelectedUsers": "Voulez-vous donner %{n} points aux utilisateurs sélectionnés?",
-            "oopsYouDidntSpecifyThePoints": "Oups, vous n'avez pas précisé les points",
-            "thereIsNoPointToGiveZeroPoints": "Il est inutile de donner zéro point :)"
-          }
-        },
         "changeRanks": {
           "actionButton": {
             "text": "Changer les rangs",

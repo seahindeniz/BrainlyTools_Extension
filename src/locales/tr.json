@@ -500,20 +500,6 @@
             "title": "Listelenen tüm kullanıcıları silme"
           }
         },
-        "changePoints": {
-          "actionButton": {
-            "text": "Puan değiştir",
-            "title": "Listelenen tüm kullanıcıların puanlarını değiştir"
-          },
-          "applyToAll": "Hepsine uygula",
-          "applyToSelected": "Seçilenlere uygula",
-          "notificationMessages": {
-            "doYouWantToGiveNPointsToAllListedUsers": "Listelenen tüm kullanıcılara %{n} puan vermek istiyor musun?",
-            "doYouWantToGiveNPointsToSelectedUsers": "Seçili kullanıcılara %{n} puan vermek istiyor musun?",
-            "oopsYouDidntSpecifyThePoints": "Oops, puan girişi yapmadın",
-            "thereIsNoPointToGiveZeroPoints": "Sıfır puan vermenin bir anlamı yok :)"
-          }
-        },
         "changeRanks": {
           "actionButton": {
             "text": "Rank değiştir",

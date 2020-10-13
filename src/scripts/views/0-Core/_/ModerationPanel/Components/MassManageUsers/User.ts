@@ -172,7 +172,7 @@ export default class User {
   }
 
   CheckboxChanged() {
-    this.main.UserCheckboxChanged(this);
+    this.main.UserCheckboxChanged();
   }
 
   ShowCheckbox() {

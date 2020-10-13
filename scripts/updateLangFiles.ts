@@ -3,7 +3,7 @@
 /* eslint-disable no-console */
 import { LokaliseApi } from "@lokalise/node-api";
 import "dotenv/config";
-import download from "download";
+import * as download from "download";
 import * as fs from "fs";
 import * as yaml from "js-yaml";
 

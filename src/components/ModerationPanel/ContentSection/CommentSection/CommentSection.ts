@@ -154,7 +154,7 @@ export default class CommentSection {
         tag: "div",
         size: "small",
         weight: "bold",
-        children: System.data.locale.moderationPanel.showReportedComments,
+        children: System.data.locale.moderationPanel.toggleReportedComments,
       }),
     });
   }

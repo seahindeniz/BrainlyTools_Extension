@@ -17,6 +17,7 @@ type ModalPropsType = {
   content?: ChildrenParamType;
   actions?: ChildrenParamType;
   jumpButton?: boolean;
+  closeOnOuterClick?: boolean;
 } & ToplayerPropsType;
 
 export default class Modal {
@@ -25,6 +26,7 @@ export default class Modal {
   content: ChildrenParamType;
   actions: ChildrenParamType;
   #showJumpButton: boolean;
+  #closeOnOuterClick: boolean;
   props: ToplayerPropsType;
 
   container: FlexElementType;
@@ -48,6 +50,7 @@ export default class Modal {
     content,
     actions,
     jumpButton,
+    closeOnOuterClick,
     ...props
   }: ModalPropsType = {}) {
     this.hasOverlay = overlay;
@@ -56,6 +59,7 @@ export default class Modal {
     this.actions = actions;
     this.props = props;
     this.#showJumpButton = jumpButton;
+    this.#closeOnOuterClick = closeOnOuterClick;
 
     this.Render();
   }
@@ -115,8 +119,16 @@ export default class Modal {
       className: "js-flash-container",
     });
     this.overlay = Overlay({
+      onClick: this.#closeOnOuterClick && this.TryToClose.bind(this),
       children: [this.toplayer, this.flashContainer],
     });
+  }
+
+  TryToClose(event: MouseEvent) {
+    if (event.target !== this.overlay) return;
+
+    if (this.props.onClose) this.props.onClose(event);
+    else this.Close();
   }
 
   RenderTitle() {

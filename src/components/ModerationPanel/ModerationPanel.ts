@@ -119,6 +119,7 @@ export default class ModerationPanel {
       size: "large",
       overlay: true,
       jumpButton: true,
+      closeOnOuterClick: true,
       title: System.data.locale.moderationPanel.text,
       content: this.contentContainer = Flex({
         fullWidth: true,

@@ -324,11 +324,16 @@ export default class AnswerSection {
   }
 
   Deleted() {
-    this.quickActionButtonContainer.remove();
+    this.quickActionButtonContainer?.remove();
     this.answerBox.classList.add("brn-content--deleted");
-    this.answerBox
-      .querySelector(".brn-qpage-next-answer-box__actions")
-      .remove?.();
+
+    const answerActions = this.answerBox.querySelector(
+      ".brn-qpage-next-answer-box__actions",
+    );
+
+    if (answerActions instanceof HTMLElement) {
+      answerActions.remove();
+    }
   }
 
   async FetchAndRenderUsersRank() {

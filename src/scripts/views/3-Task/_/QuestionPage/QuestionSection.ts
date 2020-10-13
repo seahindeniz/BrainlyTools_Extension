@@ -282,7 +282,7 @@ export default class QuestionSection {
 
   Deleted() {
     this.questionBox.classList.add("brn-content--deleted");
-    this.quickActionButtonContainer.remove();
+    this.quickActionButtonContainer?.remove();
 
     this.main.answerSections.all.forEach(answerSection =>
       answerSection.Deleted(),
@@ -292,9 +292,13 @@ export default class QuestionSection {
 
     System.log(5, { user: userData, data: [this.main.data.id] });
 
-    this.questionBox
-      .querySelector(".brn-qpage-next-question-box__options")
-      .remove?.();
+    const options = this.questionBox.querySelector(
+      ".brn-qpage-next-question-box__options",
+    );
+
+    if (options instanceof HTMLElement) {
+      options.remove();
+    }
   }
 
   DisableActionButtons() {

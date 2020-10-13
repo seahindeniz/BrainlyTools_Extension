@@ -54,6 +54,7 @@ export default class UserWarningsList {
   Render() {
     this.container = Build(
       Flex({
+        marginTop: "s",
         direction: "column",
       }),
       [

@@ -3,7 +3,6 @@
     "browser": true,
     "es6": true
   },
-  "ignorePatterns": ["src/scripts/jsx"],
   "overrides": [
     {
       "files": ["*.ts"],
@@ -53,8 +52,7 @@
         "@typescript-eslint/explicit-module-boundary-types": "off",
         "@typescript-eslint/no-explicit-any": "off",
         "camelcase": "warn",
-        "no-cond-assign": ["error", "except-parens"],
-        "react/static-property-placement": 0
+        "no-cond-assign": ["error", "except-parens"]
       },
       "settings": {
         "import/resolver": {

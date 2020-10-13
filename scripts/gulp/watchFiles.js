@@ -38,7 +38,6 @@ export default () => {
       "!./src/**/*.ts",
       // "!./src/**/*.js",
       "!./src/locales/*.js",
-      "!./src/scripts/jsx/**/*.jsx",
       "!./src/configs/_/*",
     ],
     series(process.env.BUILD_FOLDER, reloadExtension),

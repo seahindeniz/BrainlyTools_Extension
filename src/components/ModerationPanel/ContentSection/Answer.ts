@@ -435,7 +435,7 @@ export default class Answer extends ContentSection {
     const resApprove = { success: true, message: "" };
     await System.TestDelay(); */
 
-      if (!resApprove?.success) {
+      if (resApprove?.success === false) {
         throw resApprove.message
           ? { msg: resApprove.message }
           : resApprove || Error("No response");

@@ -779,7 +779,7 @@ export default class Action extends Brainly {
     return this.Legacy().moderation_new().accept().POST(data);
   }
 
-  ApproveAnswer(model_id: number) {
+  ApproveAnswer(model_id: number): Promise<CommonResponseDataType> {
     const data = {
       model_type: 2,
       model_id,

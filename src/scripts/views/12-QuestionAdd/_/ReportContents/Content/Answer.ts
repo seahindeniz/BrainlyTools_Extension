@@ -21,6 +21,10 @@ export type AnswerExtraDataType = {
 export default class Answer extends Content {
   extraData: AnswerExtraDataType;
   contentType: "Answer";
+  data: ReportedContentDataType & {
+    // eslint-disable-next-line camelcase
+    model_type_id: 2;
+  };
 
   constructor(main: ReportedContentsType, data: ReportedContentDataType) {
     super({ main, data, contentType: "Answer" });

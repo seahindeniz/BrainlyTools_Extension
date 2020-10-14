@@ -7,6 +7,10 @@ import Content from "./Content";
 
 export default class Comment extends Content {
   contentType: "Comment";
+  data: ReportedContentDataType & {
+    // eslint-disable-next-line camelcase
+    model_type_id: 45;
+  };
 
   constructor(main: ReportedContentsType, data: ReportedContentDataType) {
     super({ main, data, contentType: "Comment" });

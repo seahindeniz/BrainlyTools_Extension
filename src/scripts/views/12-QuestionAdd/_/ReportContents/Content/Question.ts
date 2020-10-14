@@ -33,6 +33,10 @@ export type QuestionExtraDataType = {
 
 export default class Question extends Content {
   contentType: "Question";
+  data: ReportedContentDataType & {
+    // eslint-disable-next-line camelcase
+    model_type_id: 1;
+  };
 
   extraData: QuestionExtraDataType;
 

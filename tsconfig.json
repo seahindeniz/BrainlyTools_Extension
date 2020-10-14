@@ -4,10 +4,10 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": "./src",
     // "checkJs": true,
-    "esModuleInterop": true,
+    // "esModuleInterop": true,
     "isolatedModules": true,
-    // "module": "ESNext",
-    "module": "CommonJS",
+    "module": "ESNext",
+    // "module": "CommonJS",
     "downlevelIteration": true,
     // "noEmit": true,
     "lib": ["ES5", "ES6", "ES2015.Collection", "ES2015.Iterable", "DOM"],
@@ -25,8 +25,8 @@
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "target": "ES6",
-    "typeRoots": ["node_modules/@types", "./src/typings"],
-    "outDir": "./build/"
+    "typeRoots": ["node_modules/@types", "./typings"],
+    "outDir": "../build/"
   },
   "include": [
     "webpack.config.ts",
@@ -47,7 +47,6 @@
     "dist/",
     "./src/configs/",
     "./src/styles/",
-    "./src/scripts/jsx",
     "./src/scripts/lib"
   ]
 }

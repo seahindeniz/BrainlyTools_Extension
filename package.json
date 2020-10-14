@@ -19,7 +19,7 @@
     "debounce": "^1.2.0",
     "download": "^8.0.0",
     "easy-scroll": "^0.7.0",
-    "emojione": "^4.5.0",
+    "emoji-toolkit": "^6.0.1",
     "exceljs": "^4.1.1",
     "file-saver": "^2.0.2",
     "gql-query-builder": "^3.5.0",
@@ -35,6 +35,7 @@
     "jsesc": "^3.0.1",
     "jszip": "^3.5.0",
     "linkifyjs": "^2.1.9",
+    "luxon": "^1.25.0",
     "markdown-it": "^11.0.1",
     "markdown-it-abbr": "^1.0.4",
     "markdown-it-anchor": "^6.0.0",
@@ -65,7 +66,6 @@
     "@babel/plugin-proposal-class-properties": "^7.10.4",
     "@babel/plugin-transform-runtime": "^7.11.5",
     "@babel/preset-env": "^7.11.5",
-    "@babel/preset-react": "^7.10.4",
     "@babel/preset-typescript": "^7.10.4",
     "@babel/register": "^7.11.5",
     "@babel/runtime": "^7.11.2",
@@ -87,6 +87,7 @@
     "@types/js-md5": "^0.4.2",
     "@types/js-yaml": "^3.12.5",
     "@types/jsesc": "^2.5.1",
+    "@types/luxon": "^1.25.0",
     "@types/markdown-it": "10.0.2",
     "@types/markdown-it-container": "^2.0.3",
     "@types/mime-types": "^2.1.0",
@@ -126,8 +127,6 @@
     "node-sass-magic-importer": "^5.3.2",
     "path-browserify": "^1.0.1",
     "prettier": "^2.1.2",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
     "sass": "^1.27.0",
     "sass-loader": "^10.0.3",
     "stringify": "^5.2.0",
@@ -163,7 +162,7 @@
     "dist:gulp": "cross-env NODE_ENV=production gulp dist",
     "watch:gulp": "gulp watch",
     "--": "",
-    "build:webpack": "webpack -c webpack.config.ts",
+    "build:webpack": "cross-env TS_NODE_COMPILER_OPTIONS='{\"esModuleInterop\": true, \"module\": \"CommonJS\"}' webpack -c webpack.config.ts",
     "dist:webpack": "cross-env NODE_ENV=production npm run build:webpack",
     "watch:webpack": "npm run build:webpack -- -w",
     "---": "",
@@ -171,5 +170,5 @@
     "dist": "npm run dist:gulp && npm run dist:webpack && npm run zip",
     "zip": "cross-env NODE_ENV=production gulp zip"
   },
-  "version": "7.8.1"
+  "version": "7.9.0"
 }

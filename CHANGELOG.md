@@ -2,6 +2,59 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.9.0] - 2020.10.14
+
+### Added
+
+- A new colour for tasks that have already been deleted. [#275]
+- An option to toggle the infinite loader. [#278]
+- Fechar o toplayer com um click [#279]
+- Solicitar uma segunda correção [#280]
+- A way to export details of reported contents in a spreadsheet file [#288]
+
+### Changed
+
+- Extension Can't Fetch Details of Moderators in Mass-Message Sender [#255]
+- Re-locate action buttons on moderate panel [#264]
+- "Load all reports" option disappears when visiting a report reason/subject
+  that has all the reports loaded in, and doesn't appear back when another
+  category with many reports is visited. [#265]
+- An option to deselect deleted content boxes in the view users content page.
+  [#266]
+- Page numbers don't get reset while changing filters on the left side. [#267]
+- Page numbers don't get highlighted when custom page number is typed out.
+  [#268]
+- Emphasize users with special ranks and warn about moderators [#272]
+- "Moderated" & "Failed" counters that are displayed while mass-moderating don't
+  get reset while changing filters on the left side. [#273]
+- "Don't give back points" feature in the mass-moderate section doesn't work.
+  [#274]
+- The reported icon doesn't get removed when the question gets confirmed in the
+  view user contents page while viewing answers. [#276]
+- Desabilitar a janela de confirmação no top player [#283]
+- Toplayer não fecha automaticamente [#284]
+- The "moderated" counter displays incorrect data at times. [While using the
+  mass-moderate tool] [#287]
+
+[#255]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/255
+[#264]: https://github.com/seahindeniz/BrainlyTools_Extension/pull/264
+[#265]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/265
+[#266]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/266
+[#267]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/267
+[#268]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/268
+[#272]: https://github.com/seahindeniz/BrainlyTools_Extension/pull/272
+[#273]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/273
+[#274]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/274
+[#275]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/275
+[#276]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/276
+[#278]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/278
+[#279]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/279
+[#280]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/280
+[#283]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/283
+[#284]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/284
+[#287]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/287
+[#288]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/288
+
 ## [7.8.2] - 2020.09.29
 
 ### Changed

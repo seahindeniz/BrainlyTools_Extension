@@ -880,7 +880,19 @@ export default {
       bestAnswer: "This is the Brainliest Answer",
       popularQuestion: "Popular question!",
       moderatorVerifiedSomeonesAnswer: "%{verifier} has verified %{author}'s answer",
-      loadMore: "Load more.."
+      loadMore: "Load more..",
+      exportReports: {
+        exportAsSpreadsheet: "Export filtered reports as spreadsheet",
+        nothingToExport: "There is no report left to export",
+        id: "Id",
+        questionId: "Question id",
+        reportedUserId: "Reported user id",
+        reporterUserId: "Reporter user id",
+        reportedOn: "Reported on",
+        reason: "Reason",
+        contentShort: "Content(short)",
+        isModerated: "Is moderated?"
+      }
     },
     loadAll: "Load all reports",
     loadAllConfirmationMessage: "I'll try to fetch all reported contents from Brainly but the process can be interrupted by Brainly because of elevated requests.\nPlease confirm to start the process",

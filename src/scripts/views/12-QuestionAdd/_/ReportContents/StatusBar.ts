@@ -1,13 +1,17 @@
 import { Breadcrumb } from "@components";
-import { Flex, Text as TextComponent } from "@style-guide";
+import Build from "@root/helpers/Build";
+import { Button, Flex, Icon, Text, Text as TextComponent } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
+import tippy from "tippy.js";
+import ExportToSpreadsheet from "./Queue/ExportToSpreadsheet/ExportToSpreadsheet";
 import type ReportedContentsClassType from "./ReportedContents";
 
 export default class ReportedContentsStatusBar {
   main: ReportedContentsClassType;
 
   container: FlexElementType;
-  list: Breadcrumb;
+  #exportButton: Button;
+  #list: Breadcrumb;
   visibleContentsCount: Text;
   fetchedContentsCount: Text;
   filteredContentsCount: Text;
@@ -21,18 +25,53 @@ export default class ReportedContentsStatusBar {
     this.numberOfModeratedContents = 0;
     this.numberOfFailedContents = 0;
 
+    this.RenderExportButton();
     this.Render();
   }
 
-  private Render() {
-    this.container = Flex({
-      alignItems: "center",
-      direction: "row-reverse",
-      children: this.list = new Breadcrumb({
-        padding: "m",
-        reverse: true,
+  private RenderExportButton() {
+    this.#exportButton = new Button({
+      type: "transparent",
+      iconOnly: true,
+      icon: new Icon({
+        color: "mint",
+        type: "ext-sheet",
+      }),
+      onClick: this.ExportToSpreadsheet.bind(this),
+    });
+
+    tippy(this.#exportButton.element, {
+      theme: "light",
+      content: Text({
+        size: "small",
+        weight: "bold",
+        children:
+          System.data.locale.reportedContents.queue.exportReports
+            .exportAsSpreadsheet,
       }),
     });
+  }
+
+  private ExportToSpreadsheet() {
+    const instance = new ExportToSpreadsheet(this);
+
+    instance.ExportReports();
+  }
+
+  private Render() {
+    this.container = Build(
+      Flex({
+        alignItems: "center",
+        direction: "row-reverse",
+      }),
+      [
+        [Flex(), this.#exportButton],
+        (this.#list = new Breadcrumb({
+          padding: "m",
+          reverse: true,
+        })),
+      ],
+    );
 
     this.fetchedContentsCount = this.RenderStatus("fetched");
     this.filteredContentsCount = this.RenderStatus("filtered");
@@ -59,7 +98,7 @@ export default class ReportedContentsStatusBar {
       children: textPieces,
     });
 
-    this.list.RenderChildren(status);
+    this.#list.RenderChildren(status);
 
     return textNode;
   }

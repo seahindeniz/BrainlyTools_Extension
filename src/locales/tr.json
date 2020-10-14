@@ -880,7 +880,19 @@
       "bestAnswer": "En iyi cevap",
       "popularQuestion": "Popüler soru!",
       "moderatorVerifiedSomeonesAnswer": "%{verifier}, %{author} kullanıcısının yanıtını doğruladı",
-      "loadMore": "Daha fazla yükle.."
+      "loadMore": "Daha fazla yükle..",
+      "exportReports": {
+        "exportAsSpreadsheet": "Filtrelenen içerikleri e-tablo olarak dışa aktar",
+        "nothingToExport": "Dışa aktarılacak içerik bulunamadı",
+        "id": "Id",
+        "questionId": "Sorunun id'si",
+        "reportedUserId": "Bildirilen kullanıcı id'si",
+        "reporterUserId": "Bildirenin id'si",
+        "reportedOn": "Bildirim tarihi",
+        "reason": "Sebep",
+        "contentShort": "İçerik(kısa)",
+        "isModerated": "Düzenlendi mi?"
+      }
     },
     "loadAll": "Tüm şikayetleri getir",
     "loadAllConfirmationMessage": "Brainly'den bildirilen tüm içerikleri çekmeye çalışacağım. Ancak bu işlem, çok fazla uzadığı zaman bağlantılar Brainly tarafından kesintiye uğrayabilir. \nLütfen işlemi başlatmak için onaylayın",

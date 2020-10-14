@@ -18,6 +18,11 @@ declare global {
   let sitePassedParams: string | { [x: string]: any };
   let profileData: { id: number; nick: string };
 
+  type ObjectAnyType = {
+    [x: string]: any;
+    [x: number]: any;
+  };
+
   interface Window {
     popup: Popup;
     System: _System;

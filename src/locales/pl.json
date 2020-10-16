@@ -135,7 +135,7 @@
       "privilegeHasGiven": "Privilege has given to %{user_amount} users",
       "privilegeHasRevoked": "Privilege has revoked from %{user_amount} users",
       "iCantFetchMarketData": "I can't fetch market data",
-      "incorrectDate": "I'm unable to fetch your data from Brainly<br><br>Please go to Brainly's homepage or reload the page"
+      "incorrectData": "I can't communicate with %{market_domain_name}<br><br>Please visit any page from %{market_domain_name} or refresh the page that is already open"
     },
     "createShortLinkButton": {
       "text": "Shorten URL",
@@ -385,12 +385,11 @@
         }
       },
       "accountDeleteReports": {
-        "text": "Account delete reports",
-        "listAllUsers": "Search on all users",
-        "onModerators": "On moderators",
-        "onDeletedAccounts": "On deleted accounts",
+        "text": "Account deletion reports",
         "download": "Download",
-        "playOrPause": "Play/Pause"
+        "playOrPause": "Play/Pause",
+        "byModerator": "By moderator",
+        "byDeletedAccount": "By deleted account"
       }
     }
   },
@@ -814,14 +813,14 @@
           },
           "contentType": {
             "name": "Content type",
-            "Question": "Question",
-            "Answer": "Answer",
-            "Comment": "Comment"
+            "Question": "Pytanie",
+            "Answer": "Odpowiedź",
+            "Comment": "Komentarz"
           },
           "contentLength": {
-            "name": "Content length",
-            "equals": "equals to",
-            "lowerThan": "lower than",
+            "name": "Długość treści",
+            "equals": "Równe",
+            "lowerThan": "mniej niż",
             "label": {
               "equals": "equals to %{N}",
               "lowerThan": "lower than %{N}",
@@ -830,10 +829,10 @@
             "greaterThan": "greater than"
           },
           "attachmentLength": {
-            "name": "Attachment count"
+            "name": "Liczba załączników"
           },
           "subject": {
-            "name": "Subject"
+            "name": "Przedmiot"
           },
           "additionalData": {
             "name": "Additional data",
@@ -861,7 +860,7 @@
         },
         "pageNumberInputTitle": "Enter a page number between %{MIN_N} and %{MAX_N}"
       },
-      "name": "Options",
+      "name": "Opcje",
       "density": {
         "optionName": "Density",
         "defaultDensity": "Default"
@@ -872,13 +871,13 @@
       },
       "toggleInfiniteLoader": {
         "optionName": "Scrollable loading",
-        "description": "Turn on/off auto-loading contents on scrolling the page"
+        "description": "Włącz / wyłącz automatyczne ładowanie treści podczas przewijania strony"
       }
     },
     "queue": {
       "rating": "%{rating} points for %{ratesCount} votes",
-      "bestAnswer": "This is the Brainliest Answer",
-      "popularQuestion": "Popular question!",
+      "bestAnswer": "Najlepsza odpowiedź",
+      "popularQuestion": "Popularne pytanie!",
       "moderatorVerifiedSomeonesAnswer": "%{verifier} has verified %{author}'s answer",
       "loadMore": "Załaduj więcej..",
       "exportReports": {
@@ -889,7 +888,7 @@
         "reportedUserId": "Reported user id",
         "reporterUserId": "Reporter user id",
         "reportedOn": "Reported on",
-        "reason": "Reason",
+        "reason": "Powód",
         "contentShort": "Content(short)",
         "isModerated": "Is moderated?"
       }
@@ -926,9 +925,9 @@
     "categoryFilterFirstOption": {
       "name": "Report reason — ALL",
       "reasonsFor": {
-        "Question": "Reasons for questions",
-        "Answer": "Reasons for answers",
-        "Comment": "Reasons for comments"
+        "Question": "Powody zgłoszeń pytań",
+        "Answer": "Powody zgłoszeń odpowiedzi",
+        "Comment": "Powody zgłoszeń komentarzy"
       }
     },
     "name": "Reported contents"

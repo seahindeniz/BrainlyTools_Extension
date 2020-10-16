@@ -135,7 +135,7 @@
       "privilegeHasGiven": "Privilege has given to %{user_amount} users",
       "privilegeHasRevoked": "Privilege has revoked from %{user_amount} users",
       "iCantFetchMarketData": "I can't fetch market data",
-      "incorrectDate": "I'm unable to fetch your data from Brainly<br><br>Please go to Brainly's homepage or reload the page"
+      "incorrectData": "I can't communicate with %{market_domain_name}<br><br>Please visit any page from %{market_domain_name} or refresh the page that is already open"
     },
     "createShortLinkButton": {
       "text": "Shorten URL",
@@ -385,12 +385,11 @@
         }
       },
       "accountDeleteReports": {
-        "text": "Account delete reports",
-        "listAllUsers": "Search on all users",
-        "onModerators": "On moderators",
-        "onDeletedAccounts": "On deleted accounts",
+        "text": "Account deletion reports",
         "download": "Download",
-        "playOrPause": "Play/Pause"
+        "playOrPause": "Play/Pause",
+        "byModerator": "By moderator",
+        "byDeletedAccount": "By deleted account"
       }
     }
   },

@@ -135,7 +135,7 @@
       "privilegeHasGiven": "%{user_amount}kullanıcıya yetki verildi",
       "privilegeHasRevoked": "%{user_amount} kullanıcıdan yetki alındı",
       "iCantFetchMarketData": "Eodev verilerini alamadım",
-      "incorrectDate": "Eodev'den gerekli olan verilerini alamadım<br><br>Sayfayı yenileyebilir misin?"
+      "incorrectData": "%{market_domain_name} ile iletişime geçemedim<br><br>Herhangi bir %{market_domain_name} sayfasına girebilir misin veya zaten girdiğin sayfayı yenileyebilir misin?"
     },
     "createShortLinkButton": {
       "text": "URL Kısalt",
@@ -386,11 +386,10 @@
       },
       "accountDeleteReports": {
         "text": "Hesap silim raporları",
-        "listAllUsers": "Tüm kullanıcılarda ara",
-        "onModerators": "Sadece moderatörlerde",
-        "onDeletedAccounts": "Silinmiş kullanıcılarda",
         "download": "İndir",
-        "playOrPause": "Oynat/Duraklat"
+        "playOrPause": "Oynat/Duraklat",
+        "byModerator": "Silen moderatöre göre",
+        "byDeletedAccount": "Silinen hesaba göre"
       }
     }
   },
@@ -885,7 +884,7 @@
         "exportAsSpreadsheet": "Filtrelenen içerikleri e-tablo olarak dışa aktar",
         "nothingToExport": "Dışa aktarılacak içerik bulunamadı",
         "id": "Id",
-        "questionId": "Sorunun id'si",
+        "questionId": "Soru id'si",
         "reportedUserId": "Bildirilen kullanıcı id'si",
         "reporterUserId": "Bildirenin id'si",
         "reportedOn": "Bildirim tarihi",

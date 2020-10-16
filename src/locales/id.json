@@ -135,7 +135,7 @@
       "privilegeHasGiven": "Privilege telah diberikan kepada pengguna %{user_amount}",
       "privilegeHasRevoked": "Privilege telah dihapus dari pengguna %{user_amount}",
       "iCantFetchMarketData": "Saya tidak dapat mengambil data pasar",
-      "incorrectDate": "Saya tidak dapat mengambil data dari Brainly<br><br>Silahkan menuju halaman utama Brainly atau dengan memuat ulang halaman"
+      "incorrectData": "I can't communicate with %{market_domain_name}<br><br>Please visit any page from %{market_domain_name} or refresh the page that is already open"
     },
     "createShortLinkButton": {
       "text": "Shorten URL",
@@ -386,11 +386,10 @@
       },
       "accountDeleteReports": {
         "text": "Laporan penghapusan akun",
-        "listAllUsers": "Mencari pada semua pengguna",
-        "onModerators": "Tentang moderators",
-        "onDeletedAccounts": "Pada akun yang dihapus",
         "download": "Unduh",
-        "playOrPause": "Play/Pause"
+        "playOrPause": "Play/Pause",
+        "byModerator": "By moderator",
+        "byDeletedAccount": "By deleted account"
       }
     }
   },

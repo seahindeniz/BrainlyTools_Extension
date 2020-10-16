@@ -5,16 +5,38 @@ import { debounce } from "throttle-debounce";
 import FileIcon from "../../helpers/FileIcon";
 import Modal from "./Modal";
 
+type AccountDeletionReportUserType = {
+  approved: boolean;
+  brainlyID: number;
+  id: string;
+  nick: string;
+};
+
+type AccountDeletionReportType = {
+  evidence: {
+    comment?: string;
+    file?: {
+      extension: string;
+      type: string;
+      name: string;
+      size: number;
+    };
+  };
+  moderator: AccountDeletionReportUserType;
+  time: string;
+  user: AccountDeletionReportUserType;
+};
+
 function RemoveDetailBox(reportElement: HTMLElement) {
-  const $reportDetailRow = $(`tr[data-id="${reportElement.id}"]`);
+  const $reportDetailRow = $(`tr[data-detail-id="${reportElement.id}"]`);
 
   reportElement.classList.remove("is-selected");
   $reportDetailRow.remove();
 }
 
 class AccountDeleteReports {
-  reports = [];
-  storedReports = [];
+  reports: AccountDeletionReportType[];
+  storedReports: AccountDeletionReportType[];
 
   $layout: JQuery<HTMLElement>;
   $searchInput: JQuery<HTMLElement>;
@@ -47,14 +69,13 @@ class AccountDeleteReports {
             <p class="control">
               <span class="select">
                 <select>
-                  <option value="0">${System.data.locale.popup.extensionManagement.accountDeleteReports.listAllUsers}</option>
-                  <option value="1">${System.data.locale.popup.extensionManagement.accountDeleteReports.onModerators}</option>
-                  <option value="2">${System.data.locale.popup.extensionManagement.accountDeleteReports.onDeletedAccounts}</option>
+                  <option value="2">${System.data.locale.popup.extensionManagement.accountDeleteReports.byDeletedAccount}</option>
+                  <option value="1">${System.data.locale.popup.extensionManagement.accountDeleteReports.byModerator}</option>
                 </select>
               </span>
             </p>
             <p class="control is-expanded">
-              <input class="input" type="text" placeholder="${System.data.locale.messages.groups.userCategories.findUsers.nickOrID}">
+              <input class="input" type="text" placeholder="${System.data.locale.common.profileID}">
             </p>
           </div>
           <div class="field is-horizontal">
@@ -70,7 +91,7 @@ class AccountDeleteReports {
 
     this.$searchInput = $("input", this.$layout);
     this.$filterSelect = $("select", this.$layout);
-    this.$reportsTBody = $("table.reports > tbody", this.$layout);
+
     this.$header = $(".message-header", this.$layout);
     this.$body = $(".field-body", this.$layout);
     this.$spinner = $(".loader-wrapper", this.$layout);
@@ -89,6 +110,8 @@ class AccountDeleteReports {
       </thead>
       <tbody></tbody>
     </table>`);
+
+    this.$reportsTBody = $("tbody", this.$userList);
   }
 
   async FetchReports() {
@@ -128,16 +151,16 @@ class AccountDeleteReports {
     }
   }
 
-  RenderReport(report) {
+  RenderReport(report: AccountDeletionReportType) {
     const targetUserProfileLink = System.createProfileLink(
-      report.target.user.brainlyID,
-      report.target.user.nick,
+      report.user.brainlyID,
+      report.user.nick,
     );
     const $report = $(`
-		<tr id="${report._id}">
-			<td><a href="${targetUserProfileLink}" target="_blank">${report.target.user.brainlyID}</a></td>
-			<td>${report.target.user.nick}</td>
+		<tr id="${report.user.id}">
+			<td><a href="${targetUserProfileLink}" target="_blank">${report.user.brainlyID}</a></td>
 			<td>${report.user.nick}</td>
+			<td>${report.moderator.nick}</td>
 			<td data-time="${report.time}"></td>
 		</tr>`);
 
@@ -145,7 +168,7 @@ class AccountDeleteReports {
   }
 
   BindHandlers() {
-    this.$header.on("click", this.FetchReports.bind(this));
+    this.$header.on("click", this.HeaderClicked.bind(this));
 
     this.$searchInput.on(
       "input",
@@ -160,15 +183,22 @@ class AccountDeleteReports {
       return new Modal(event.target);
     });
 
-    this.$reportsTBody.on("click", ">tr[id]", event => {
-      const { target }: { target: HTMLElement } = event;
+    this.$reportsTBody.on("click", "> tr:not(.report-detail)", event => {
+      const { currentTarget }: { currentTarget: HTMLElement } = event;
 
-      if (target.classList.contains("is-selected")) {
-        RemoveDetailBox(target);
+      if (currentTarget.classList.contains("is-selected")) {
+        RemoveDetailBox(currentTarget);
       } else {
-        this.ShowReportDetails(target);
+        this.ShowReportDetails(currentTarget);
       }
     });
+  }
+
+  async HeaderClicked() {
+    await System.Delay(50);
+    if (!this.$header.parent().hasClass("is-active")) return;
+
+    this.FetchReports();
   }
 
   async FindUser(value) {
@@ -199,10 +229,10 @@ class AccountDeleteReports {
 
   RenderReportDetails($reportRow) {
     const _id = $reportRow.attr("id");
-    const report = this.reports.find(_report => _report._id === _id);
+    const report = this.reports.find(_report => _report.user.id === _id);
 
     const $detailRow = $(`
-		<tr class="is-selected" data-id="${report._id}">
+		<tr class="report-detail is-selected" data-detail-id="${_id}">
 			<td colspan="4">
 				<table class="table table is-fullwidth">
 					<tbody class="evidences"></tbody>
@@ -212,14 +242,14 @@ class AccountDeleteReports {
 
     const $evidenceContainer = $("tbody", $detailRow);
 
-    if (!report.target.evidences) {
+    if (!report.evidence) {
       $evidenceContainer.attr(
         "data-empty",
         System.data.locale.popup.notificationMessages.noEvidenceFound,
       );
     } else {
-      const { file } = report.target.evidences;
-      const { comment } = report.target.evidences;
+      const { file } = report.evidence;
+      const { comment } = report.evidence;
 
       if (comment) {
         const $commentRow = $(`
@@ -230,7 +260,7 @@ class AccountDeleteReports {
         $commentRow.appendTo($evidenceContainer);
       }
 
-      if (file) {
+      if (file.name) {
         const $fileRow = $(`
 				<tr class="is-selected">
 					<td rowspan="2">
@@ -263,6 +293,7 @@ class AccountDeleteReports {
 				</tr>`);
 
         const $iconImg = $("figure img", $fileRow);
+        // @ts-expect-error
         // eslint-disable-next-line no-new
         new FileIcon(file, $iconImg);
 

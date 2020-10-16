@@ -130,6 +130,7 @@ class Popup {
     }
 
     System.data = marketData;
+
     const storageData = await storage("get", [
       "user",
       "themeColor",
@@ -151,7 +152,10 @@ class Popup {
           "%{error_code}",
           ` 417 `,
         ),
-        message: System.data.locale.popup.notificationMessages.incorrectDate,
+        message: System.data.locale.popup.notificationMessages.incorrectData.replace(
+          /%{market_domain_name}/i,
+          System.data.meta.marketName,
+        ),
       });
     } else if (!System.data.Brainly.deleteReasons.__withIds) {
       this.RenderStatusMessage({

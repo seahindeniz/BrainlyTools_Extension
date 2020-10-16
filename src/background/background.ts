@@ -91,6 +91,9 @@ class Background {
   optionsPassedParameters: ObjectAnyType;
   blockedDomains: RegExp;
   manifest: browser._manifest.WebExtensionManifest;
+  lastUpdatedTab: {
+    [x: string]: number;
+  };
 
   constructor() {
     this.markets = {};
@@ -98,6 +101,8 @@ class Background {
     this.popupOpened = null;
     this.optionsPassedParameters = {};
     this.blockedDomains = /mc\.yandex\.ru|hotjar\.com|google(-analytics|tagmanager|adservices|tagservices)\.com|kissmetrics\.com|doubleclick\.net|ravenjs\.com|browser\.sentry-cdn\.com|datadome\.co/i;
+
+    this.lastUpdatedTab = {};
 
     this.manifest = ext.runtime.getManifest();
 
@@ -132,15 +137,10 @@ class Background {
       );
   }
 
-  /**
-   * @param {browser.tabs.Tab & {[x: string]: *}} request
-   * @param {{ tab: { id: number; }; }} sender
-   */
   async MessageRequestHandler(
     request: browser.tabs.Tab & { [x: string]: any },
     sender: { tab: { id: number } },
   ) {
-    // console.log("bg:", request);
     if (request.marketName) {
       const market = this.markets[request.marketName];
 
@@ -285,6 +285,10 @@ class Background {
           onclick: shortenURL,
         });
       }
+
+      if (request.action === "lastUpdatedTabId") {
+        return this.lastUpdatedTab[request.marketName];
+      }
     }
 
     return undefined;
@@ -309,11 +313,6 @@ class Background {
     this.popupOpened = null;
   }
 
-  /**
-   * @param {number} _tabId
-   * @param {{ status: string; }} changeInfo
-   * @param {browser.tabs.Tab} tab
-   */
   TabUpdatedHandler(
     _tabId: number,
     changeInfo: { status: string },
@@ -321,21 +320,25 @@ class Background {
   ) {
     if (changeInfo.status === "loading") {
       this.ManipulateTab(tab);
+    } else if (changeInfo.status === "complete") {
+      this.StoreTab(tab);
     }
   }
 
-  /**
-   * @param {{ tabId: number, }} activeInfo
-   */
+  StoreTab(tab: browser.tabs.Tab) {
+    if (!tab.url || !IsBrainly(tab.url)) return;
+
+    const url = new URL(tab.url);
+
+    this.lastUpdatedTab[url.hostname] = tab.id;
+  }
+
   async TabActivatedHandler(activeInfo: { tabId: number }) {
     const tab = await ext.tabs.get(activeInfo.tabId);
 
     this.ManipulateTab(tab);
   }
 
-  /**
-   * @param {browser.tabs.Tab} tab
-   */
   async ManipulateTab(tab: browser.tabs.Tab) {
     if (tab.url && IsBrainly(tab.url)) {
       const tabId = tab.id;

@@ -756,7 +756,11 @@ class _System {
   }
 
   async PrepareLanguageFile(langName: string): Promise<typeof locale> {
-    if (langName.match(/\ben[-_](?:us|au|ca|in|nz|gb|za)|en\b/i))
+    if (!langName) {
+      console.warn("Can't find langName");
+    }
+
+    if (!langName || langName.match(/\ben[-_](?:us|au|ca|in|nz|gb|za)|en\b/i))
       langName = "en_US";
 
     try {

@@ -26,46 +26,82 @@ async function onBodyLoad() {
   });
 
   let isBrainlyPageFound = false;
+  const currentWindow = await ext.windows.getCurrent();
   const tabs = await ext.tabs.query({});
 
-  if (tabs && tabs.length > 0) {
+  if (currentWindow && tabs && tabs.length > 0) {
     const activeBrainlyTab = tabs.find(
       tab =>
         tab.active &&
+        tab.windowId === currentWindow.id &&
         System.constants.Brainly.regexp_BrainlyMarkets.test(tab.url),
     );
-    const tab = tabs.reduce((selectedTab, currentTab) => {
-      const isCurrentTabBrainly = System.constants.Brainly.regexp_BrainlyMarkets.test(
-        currentTab.url,
-      );
 
-      if (
-        isCurrentTabBrainly &&
-        (!selectedTab ||
-          (CheckIfSameDomain(selectedTab.url, currentTab.url) &&
-            selectedTab.id < currentTab.id))
-      ) {
-        return currentTab;
+    if (!activeBrainlyTab) {
+      tabs.reduce((selectedTab, currentTab) => {
+        const isCurrentTabBrainly = System.constants.Brainly.regexp_BrainlyMarkets.test(
+          currentTab.url,
+        );
+
+        if (
+          isCurrentTabBrainly &&
+          (!selectedTab ||
+            (CheckIfSameDomain(selectedTab.url, currentTab.url) &&
+              selectedTab.id < currentTab.id))
+        ) {
+          return currentTab;
+        }
+
+        return selectedTab;
+      }, activeBrainlyTab);
+    }
+
+    if (activeBrainlyTab) {
+      const activeTabUrl = new URL(activeBrainlyTab.url);
+      const targetMarketDomain = activeTabUrl.hostname;
+
+      System.data.meta.marketName = targetMarketDomain;
+
+      let lastUpdatedTabId = await System.toBackground("lastUpdatedTabId");
+
+      if (!lastUpdatedTabId) {
+        console.warn("Can't find last updated tab, falling back to active");
+
+        lastUpdatedTabId = activeBrainlyTab.id;
       }
 
-      return selectedTab;
-    }, activeBrainlyTab);
+      const tab = tabs.find(_tab => _tab.id === lastUpdatedTabId);
 
-    if (tab) {
-      isBrainlyPageFound = true;
-      const message = {
-        action: "contentScript>Share System.data to background.js",
-        url: tab.url,
-      };
+      if (tab) {
+        isBrainlyPageFound = true;
+        const message = {
+          action: "contentScript>Share System.data to background.js",
+          url: tab.url,
+        };
 
-      try {
-        await ext.tabs.sendMessage(tab.id, message);
-      } catch (error) {
-        await System.toBackground(
-          "background>Inject content script anyway",
-          tab,
-        );
-        ext.tabs.sendMessage(tab.id, message);
+        try {
+          await ext.tabs.sendMessage(tab.id, message);
+        } catch (error) {
+          try {
+            await System.toBackground(
+              "background>Inject content script anyway",
+              tab,
+            );
+            await ext.tabs.sendMessage(tab.id, message);
+          } catch (secondError) {
+            popup.RenderStatusMessage({
+              type: "danger",
+              title: System.data.locale.popup.notificationMessages.errorN.replace(
+                "%{error_code}",
+                ` 404 `,
+              ),
+              message: System.data.locale.popup.notificationMessages.incorrectData.replace(
+                /%{market_domain_name}/i,
+                targetMarketDomain,
+              ),
+            });
+          }
+        }
       }
     }
   }

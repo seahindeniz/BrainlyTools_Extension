@@ -12,11 +12,10 @@ type AccountDeletionReportUserType = {
   nick: string;
 };
 
-type AccountDeletionReportType = {
+export type AccountDeletionReportType = {
   evidence: {
     comment?: string;
     file?: {
-      extension: string;
       type: string;
       name: string;
       size: number;
@@ -119,11 +118,18 @@ class AccountDeleteReports {
     this.ShowSpinner();
     await System.Delay(50);
 
-    const resReports = await new ServerReq().GetAccountDeleteReports();
+    if (this.storedReports.length === 0) {
+      const resReports = await new ServerReq().GetAccountDeleteReports();
+
+      if (resReports.success === true) {
+        this.storedReports = resReports.data;
+      }
+    }
 
     this.HideSpinner();
     this.ShowUserList();
-    this.RenderReports(resReports);
+
+    this.RenderReports(this.storedReports);
   }
 
   ShowSpinner() {
@@ -142,9 +148,9 @@ class AccountDeleteReports {
     this.$userList.detach();
   }
 
-  RenderReports(reports) {
+  RenderReports(reports: AccountDeletionReportType[]) {
     if (reports) {
-      this.reports = reports.data;
+      this.reports = reports;
 
       this.$reportsTBody.html("");
       this.reports.forEach(this.RenderReport.bind(this));
@@ -170,12 +176,9 @@ class AccountDeleteReports {
   BindHandlers() {
     this.$header.on("click", this.HeaderClicked.bind(this));
 
-    this.$searchInput.on(
-      "input",
-      debounce(700, (event: JQuery.TriggeredEvent) => {
-        this.FindUser(event.target.value);
-      }),
-    );
+    this.$searchInput.on("input", debounce(600, this.FindUser.bind(this)));
+
+    this.$filterSelect.on("change", this.FindUser.bind(this));
 
     this.$reportsTBody.on("click", "figure img, figure video", event => {
       event.preventDefault();
@@ -201,25 +204,24 @@ class AccountDeleteReports {
     this.FetchReports();
   }
 
-  async FindUser(value) {
+  async FindUser() {
     this.HideUserList();
     this.ShowSpinner();
     await System.Delay(50);
 
-    const filter = this.$filterSelect.val();
-    let resReports = this.storedReports;
+    const value = String(this.$searchInput.val());
+    const filter = Number(this.$filterSelect.val());
+    let reports = this.storedReports;
 
     if (value) {
-      resReports = await new ServerReq().FindDeleteReport(filter, value);
+      const resReports = await new ServerReq().FindDeleteReport(filter, value);
 
-      if (this.storedReports.length === 0) {
-        this.storedReports = this.reports;
-      }
+      reports = resReports.success === true ? resReports.data : [];
     }
 
     this.HideSpinner();
     this.ShowUserList();
-    this.RenderReports(resReports);
+    this.RenderReports(reports);
   }
 
   ShowReportDetails(reportElement) {
@@ -229,7 +231,9 @@ class AccountDeleteReports {
 
   RenderReportDetails($reportRow) {
     const _id = $reportRow.attr("id");
-    const report = this.reports.find(_report => _report.user.id === _id);
+    const report: AccountDeletionReportType = this.reports.find(
+      _report => _report.user.id === _id,
+    );
 
     const $detailRow = $(`
 		<tr class="report-detail is-selected" data-detail-id="${_id}">
@@ -260,16 +264,18 @@ class AccountDeleteReports {
         $commentRow.appendTo($evidenceContainer);
       }
 
-      if (file.name) {
+      if (file?.name) {
+        const pieces = file.name.split(".");
+        const fileExtension = pieces.pop();
+        const fileNameWithoutExtension = pieces.join(".");
+
         const $fileRow = $(`
 				<tr class="is-selected">
 					<td rowspan="2">
 						<figure class="image is-64x64">
 							<a href="${
-                System.data.config.extension.uploadedFilesURL +
-                file.name +
-                file.extension
-              }" download="${file.name}${file.extension}">
+                System.data.config.extension.uploadedFilesURL + file.name
+              }" download="${file.name}">
 									<img src="" title="${
                     System.data.locale.popup.extensionManagement
                       .accountDeleteReports.download
@@ -278,10 +284,10 @@ class AccountDeleteReports {
 						</figure>
 					</td>
 					<td class="filename">
-						<div class="middleEllipsis" title="${file.name}${
-          file.extension
-        }" data-filetype="${file.extension}">
-							<p>${file.name}</p>
+						<div class="middleEllipsis" title="${
+              file.name
+            }" data-filetype=".${fileExtension}">
+							<p>${fileNameWithoutExtension}</p>
 						</div>
 					</td>
 				</tr>

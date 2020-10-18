@@ -45,7 +45,7 @@ export type CommonResponseDataType =
   | CommonSuccessResponseDataType
   | CommonFailedResponseDataType;
 
-type CommonGenericResponseType<T> =
+export type CommonGenericResponseType<T> =
   | (CommonSuccessResponseDataType & T)
   | CommonFailedResponseDataType;
 

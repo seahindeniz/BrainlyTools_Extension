@@ -1,7 +1,9 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-param-reassign */
+import { CommonGenericResponseType } from "@BrainlyAction";
 import notification from "@components/notification2";
 import storage from "@root/helpers/extStorage";
+import type { AccountDeletionReportType } from "@root/popup/components/AccountDeleteReports";
 import { IconTypeType } from "@style-guide/Icon";
 import md5 from "js-md5";
 import Request from "..";
@@ -324,15 +326,22 @@ export default class ServerReq {
       .POST(data);
   }
 
-  GetAccountDeleteReports() {
+  GetAccountDeleteReports(): Promise<
+    CommonGenericResponseType<{
+      data: AccountDeletionReportType[];
+    }>
+  > {
     return this.accountDeleteReports().GET();
   }
 
-  /**
-   * @param {number} filter
-   * @param {string} value
-   */
-  FindDeleteReport(filter, value) {
+  FindDeleteReport(
+    filter: number,
+    value: string,
+  ): Promise<
+    CommonGenericResponseType<{
+      data: AccountDeletionReportType[];
+    }>
+  > {
     return this.accountDeleteReports().P(filter).P(value).GET();
   }
 

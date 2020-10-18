@@ -1,18 +1,11 @@
 class FileIcon {
-  stream: File & {
-    extension: string;
-  };
+  stream: File;
 
   $img: JQuery<HTMLElement>;
   iconFileType: string;
   icon: string;
 
-  constructor(
-    stream: File & {
-      extension: string;
-    },
-    $img,
-  ) {
+  constructor(stream: File, $img) {
     this.stream = stream;
     this.$img = $img;
     this.iconFileType = "file";
@@ -62,9 +55,7 @@ class FileIcon {
 
   ReadURL() {
     const url =
-      System.data.config.extension.uploadedFilesURL +
-      this.stream.name +
-      this.stream.extension;
+      System.data.config.extension.uploadedFilesURL + this.stream.name;
 
     this.ReaderOnLoad(url);
   }

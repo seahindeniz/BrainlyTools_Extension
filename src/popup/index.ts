@@ -1,7 +1,6 @@
 import ext from "webextension-polyfill";
 import _System from "../controllers/System";
 import Popup from "./controllers/Popup";
-import CheckIfSameDomain from "../helpers/CheckIfSameDomain";
 
 const System = new _System();
 window.System = System;
@@ -30,7 +29,7 @@ async function onBodyLoad() {
   const tabs = await ext.tabs.query({});
 
   if (currentWindow && tabs && tabs.length > 0) {
-    const activeBrainlyTab = tabs.find(
+    let activeBrainlyTab = tabs.find(
       tab =>
         tab.active &&
         tab.windowId === currentWindow.id &&
@@ -38,22 +37,11 @@ async function onBodyLoad() {
     );
 
     if (!activeBrainlyTab) {
-      tabs.reduce((selectedTab, currentTab) => {
-        const isCurrentTabBrainly = System.constants.Brainly.regexp_BrainlyMarkets.test(
-          currentTab.url,
-        );
+      const activeBrainlyTabId = await System.toBackground(
+        "lastUpdatedBrainlyTabId",
+      );
 
-        if (
-          isCurrentTabBrainly &&
-          (!selectedTab ||
-            (CheckIfSameDomain(selectedTab.url, currentTab.url) &&
-              selectedTab.id < currentTab.id))
-        ) {
-          return currentTab;
-        }
-
-        return selectedTab;
-      }, activeBrainlyTab);
+      activeBrainlyTab = tabs.find(tab => tab.id === activeBrainlyTabId);
     }
 
     if (activeBrainlyTab) {
@@ -96,7 +84,7 @@ async function onBodyLoad() {
                 ` 404 `,
               ),
               message: System.data.locale.popup.notificationMessages.incorrectData.replace(
-                /%{market_domain_name}/i,
+                /%{market_domain_name}/gi,
                 targetMarketDomain,
               ),
             });

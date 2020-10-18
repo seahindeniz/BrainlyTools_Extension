@@ -92,7 +92,10 @@ class Background {
   blockedDomains: RegExp;
   manifest: browser._manifest.WebExtensionManifest;
   lastUpdatedTab: {
-    [x: string]: number;
+    id: number;
+    byMarketName: {
+      [x: string]: number;
+    };
   };
 
   constructor() {
@@ -102,7 +105,10 @@ class Background {
     this.optionsPassedParameters = {};
     this.blockedDomains = /mc\.yandex\.ru|hotjar\.com|google(-analytics|tagmanager|adservices|tagservices)\.com|kissmetrics\.com|doubleclick\.net|ravenjs\.com|browser\.sentry-cdn\.com|datadome\.co/i;
 
-    this.lastUpdatedTab = {};
+    this.lastUpdatedTab = {
+      id: null,
+      byMarketName: {},
+    };
 
     this.manifest = ext.runtime.getManifest();
 
@@ -287,8 +293,10 @@ class Background {
       }
 
       if (request.action === "lastUpdatedTabId") {
-        return this.lastUpdatedTab[request.marketName];
+        return this.lastUpdatedTab.byMarketName[request.marketName];
       }
+    } else if (request.action === "lastUpdatedBrainlyTabId") {
+      return this.lastUpdatedTab.id;
     }
 
     return undefined;
@@ -330,6 +338,7 @@ class Background {
 
     const url = new URL(tab.url);
 
+    this.lastUpdatedTab.id = tab.id;
     this.lastUpdatedTab[url.hostname] = tab.id;
   }
 

@@ -648,7 +648,8 @@ export default {
       confirmNoEvidenceOrComment: "You didn't add any evidence or comment.\nDo you still want to delete this profile?",
       selectAtLeastOneUser: "You need to select at least one user",
       youNeedToProvideSomeDetails: "You need to provide some details",
-      confirmAccountDeletion: "Do you want to delete this profile?"
+      confirmAccountDeletion: "Do you want to delete this profile?",
+      profileHasAlreadyDeleted: "This profile has already deleted by someone else"
     },
     previousNicks: {
       text: "Previous nicks",

@@ -648,7 +648,8 @@
       "confirmNoEvidenceOrComment": "Vous n'avez ajouter aucune preuve ou commentaire. \nVoulez-vous toujours supprimer ce compte ?",
       "selectAtLeastOneUser": "Tu dois sélectionner au moins un utilisateur",
       "youNeedToProvideSomeDetails": "Vous devez fournir quelques détails",
-      "confirmAccountDeletion": "Voulez-vous supprimer ce profil ?"
+      "confirmAccountDeletion": "Voulez-vous supprimer ce profil ?",
+      "profileHasAlreadyDeleted": "This profile has already deleted by someone else"
     },
     "previousNicks": {
       "text": "Pseudo précédent",

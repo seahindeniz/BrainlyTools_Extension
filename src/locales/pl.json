@@ -648,7 +648,8 @@
       "confirmNoEvidenceOrComment": "You didn't add any evidence or comment.\nDo you still want to delete this profile?",
       "selectAtLeastOneUser": "You need to select at least one user",
       "youNeedToProvideSomeDetails": "You need to provide some details",
-      "confirmAccountDeletion": "Do you want to delete this profile?"
+      "confirmAccountDeletion": "Do you want to delete this profile?",
+      "profileHasAlreadyDeleted": "This profile has already deleted by someone else"
     },
     "previousNicks": {
       "text": "Previous nicks",
@@ -777,31 +778,31 @@
   },
   "reportedContents": {
     "questionAnswerReports": {
-      "text": "Pytania/Odpowiedzi %{number_of_reports}",
+      "text": "Pytania/Odpowiedzi (%{number_of_reports})",
       "title": "Kliknij tutaj, aby zobaczyć zgłoszone pytania i odpowiedzi"
     },
     "commentReports": {
-      "text": "Komenatrze %{number_of_reports}",
+      "text": "Komentarze (%{number_of_reports})",
       "title": "Kliknij tutaj, aby zobaczyć zgłoszone komentarze"
     },
     "correctionReports": {
-      "text": "Zgłoszone poprawy %{number_of_reports}",
+      "text": "Zgłoszone poprawy (%{number_of_reports})",
       "title": "Kliknij tutaj, aby wyświetlić odpowiedzi zgłoszone do poprawy, które oczekują na akceptację"
     },
-    "subjectFilterFirstOption": "Przedmioty — Wszystkie",
+    "subjectFilterFirstOption": "Wszystkie przedmioty",
     "options": {
       "buttonVisibility": {
         "optionName": "Widoczność przycisków \"szybkich akcji\"",
         "alwaysVisible": "Zawsze widoczne",
-        "onHoverOrTouch": "On hover/touch",
-        "defaultVisibility": "Default"
+        "onHoverOrTouch": "Po najechaniu / kliknięciu",
+        "defaultVisibility": "Domyślnie"
       },
       "filter": {
         "optionName": "Filtruj raporty",
-        "description": "Filtry można zastosować tylko do tych raportów, które zostały załadowane na stronie",
+        "description": "Filtry można zastosować tylko do tych raportów, które zostały wczytane na stronie",
         "filters": {
           "reporter": {
-            "name": "Zgłoszony użytkownik"
+            "name": "Zgłaszający użytkownik"
           },
           "reported": {
             "name": "Zgłoszony użytkownik"
@@ -812,21 +813,21 @@
             "endingDate": "Data końcowa"
           },
           "contentType": {
-            "name": "Content type",
+            "name": "Typ treści",
             "Question": "Pytanie",
             "Answer": "Odpowiedź",
             "Comment": "Komentarz"
           },
           "contentLength": {
             "name": "Długość treści",
-            "equals": "Równe",
+            "equals": "równe",
             "lowerThan": "mniej niż",
             "label": {
-              "equals": "equals to %{N}",
-              "lowerThan": "lower than %{N}",
-              "greaterThan": "greater than %{N}"
+              "equals": "równe %{N}",
+              "lowerThan": "mniej niż %{N}",
+              "greaterThan": "więcej niż %{N}"
             },
-            "greaterThan": "greater than"
+            "greaterThan": "więcej niż"
           },
           "attachmentLength": {
             "name": "Liczba załączników"
@@ -835,19 +836,19 @@
             "name": "Przedmiot"
           },
           "additionalData": {
-            "name": "Additional data",
-            "chooseCondition": "Choose condition",
+            "name": "Dodatkowe dane",
+            "chooseCondition": "Wybierz warunek",
             "conditions": {
-              "contains": "contains",
-              "sameWith": "exactly same with",
-              "startsWith": "starts with",
-              "endsWith": "ends with",
+              "contains": "zawiera",
+              "sameWith": "dokładnie jak",
+              "startsWith": "zaczyna się od",
+              "endsWith": "kończy się na",
               "regExp": "RegExp (JS / ES6)"
             },
             "label": {
               "contains": "zawiera: %{input}",
-              "sameWith": "exactly same with : %{input}",
-              "startsWith": "starts with : %{input}",
+              "sameWith": "dokładnie jak: %{input}",
+              "startsWith": "zaczyna się od: %{input}",
               "endsWith": "kończy się na : %{input}",
               "regExp": "%{input}"
             }
@@ -858,79 +859,79 @@
             "lookFor": "Szukaj"
           }
         },
-        "pageNumberInputTitle": "Enter a page number between %{MIN_N} and %{MAX_N}"
+        "pageNumberInputTitle": "Wprowadź numer strony od %{MIN_N} do %{MAX_N}"
       },
       "name": "Opcje",
       "density": {
-        "optionName": "Density",
-        "defaultDensity": "Default"
+        "optionName": "Obszerność",
+        "defaultDensity": "Domyślnie"
       },
       "lazyQueue": {
-        "optionName": "Lazy queue (Refresh required)",
-        "description": "This option enables lazy loading for reported contents.\n\nWhen enabled, the queue displays report boxes with delay while scrolling through reports, so it's memory-friendly.\nHowever, the \"Find on page\" feature will not function for invisible reports. The page might display empty reports while scrolling too fast"
+        "optionName": "Opóźnione wczytywanie (wymagane odświeżenie)",
+        "description": "Ta opcja włącza opóźnione wczytywanie zgłaszanych treści.\n\nPo włączeniu jej  pola raportów wyświetlają się z opóźnieniem podczas przewijania ich, jest to optymalniejsze dla komputera.\nJednak funkcja „Znajdź na stronie” nie będzie działać w przypadku niewidocznych raportów. Strona może wyświetlać puste raporty podczas zbyt szybkiego przewijania."
       },
       "toggleInfiniteLoader": {
-        "optionName": "Scrollable loading",
-        "description": "Włącz / wyłącz automatyczne ładowanie treści podczas przewijania strony"
+        "optionName": "Automatycznie wczytywanie treści",
+        "description": "Włącz / wyłącz automatyczne wczytywanie treści podczas przewijania strony"
       }
     },
     "queue": {
-      "rating": "%{rating} points for %{ratesCount} votes",
+      "rating": "%{rating} gwiazdki, %{ratesCount} ocen",
       "bestAnswer": "Najlepsza odpowiedź",
       "popularQuestion": "Popularne pytanie!",
-      "moderatorVerifiedSomeonesAnswer": "%{verifier} has verified %{author}'s answer",
+      "moderatorVerifiedSomeonesAnswer": "%{verifier} zweryfikował odpowiedź %{author}",
       "loadMore": "Załaduj więcej..",
       "exportReports": {
-        "exportAsSpreadsheet": "Export filtered reports as spreadsheet",
-        "nothingToExport": "There is no report left to export",
-        "id": "Id",
-        "questionId": "Question id",
-        "reportedUserId": "Reported user id",
-        "reporterUserId": "Reporter user id",
-        "reportedOn": "Reported on",
+        "exportAsSpreadsheet": "Eksportuj znalezione raporty jako arkusz kalkulacyjny",
+        "nothingToExport": "Nie ma raportu do wyeksportowania",
+        "id": "ID",
+        "questionId": "ID pytania",
+        "reportedUserId": "ID zgłoszonego użytkownika",
+        "reporterUserId": "ID zgłaszającego użytkownika",
+        "reportedOn": "Data zgłoszenia",
         "reason": "Powód",
-        "contentShort": "Content(short)",
-        "isModerated": "Is moderated?"
+        "contentShort": "Treść (skrócona)",
+        "isModerated": "Czy zmoderowano?"
       }
     },
     "loadAll": "Wczytaj wszystkie raporty",
-    "loadAllConfirmationMessage": "I'll try to fetch all reported contents from Brainly but the process can be interrupted by Brainly because of elevated requests.\nPlease confirm to start the process",
+    "loadAllConfirmationMessage": "Spróbujemy wczytać wszystkie zgłoszone treści z Brainly, ale proces może zostać przerwany przez Brainly z powodu specjalnych żądań.\n Potwierdź, aby rozpocząć proces",
     "massModerate": {
-      "name": "Mass-Moderate contents",
-      "description": "You can only moderate contents that have been loaded",
+      "name": "Masowa moderacja treści",
+      "description": "Możesz moderować tylko te treści, które zostały wczytane",
       "confirm": {
         "text": "Confirm",
         "noContentToConfirm": "There is no content that's available for confirmation",
         "confirmModeration": "Do you really want to confirm %{n} reported contents?"
       },
       "delete": {
-        "text": "Delete",
+        "text": "Usuń",
         "choose": {
-          "Question": "Choose a reason for questions",
-          "Answer": "Choose a reason for answers",
-          "Comment": "Choose a reason for comments"
+          "Question": "Powody zgłoszeń pytań",
+          "Answer": "Powody zgłoszeń odpowiedzi",
+          "Comment": "Powody zgłoszeń komentarzy"
         },
-        "noContentToDelete": "There is no content that's available for deletion",
-        "confirmDeletion": "Do you really want to delete %{n} reported contents?",
+        "noContentToDelete": "Nie ma treści, które można usunąć",
+        "confirmDeletion": "Czy na pewno chcesz usunąć %{n} zgłoszonych treści?",
         "warnAboutConfirmedContents": "Warning!\n%{N_of_confirmed} of the %{N_of_filtered} contents you want to delete have already been confirmed.\nDo you want those contents to be deleted as well?"
       },
       "status": {
-        "fetched": "%{count} fetched",
-        "filtered": "%{count} filtered",
-        "visible": "%{count} visible",
-        "moderated": "%{count} moderated",
-        "failed": "%{count} failed"
+        "fetched": "%{count} wczytano",
+        "filtered": "%{count} znaleziono",
+        "visible": "%{count} widocznych",
+        "moderated": "%{count} moderowane",
+        "failed": "%{count} nie powiodło się"
       }
     },
     "categoryFilterFirstOption": {
-      "name": "Report reason — ALL",
+      "name": "Wszystkie powody zgłoszeń",
       "reasonsFor": {
         "Question": "Powody zgłoszeń pytań",
         "Answer": "Powody zgłoszeń odpowiedzi",
         "Comment": "Powody zgłoszeń komentarzy"
       }
     },
-    "name": "Reported contents"
+    "name": "Zgłoszone treści"
   },
   "moderationPanel": {
     "text": "Question Moderation",

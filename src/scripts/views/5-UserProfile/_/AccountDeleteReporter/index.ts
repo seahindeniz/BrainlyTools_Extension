@@ -277,13 +277,21 @@ export default class AccountDeleteReporter {
       const resAccountDeleteReport = await this.SendFormDataToExtensionServer();
 
       if (!resAccountDeleteReport || !resAccountDeleteReport.success) {
-        notification({
-          html:
+        let message =
+          System.data.locale.userProfile.notificationMessages
+            .unableToReportAccountDeleting +
+          (resAccountDeleteReport.message
+            ? `\n${resAccountDeleteReport.message}`
+            : "");
+
+        if (resAccountDeleteReport.exception === 1) {
+          message =
             System.data.locale.userProfile.notificationMessages
-              .unableToReportAccountDeleting +
-            (resAccountDeleteReport.message
-              ? `\n${resAccountDeleteReport.message}`
-              : ""),
+              .profileHasAlreadyDeleted;
+        }
+
+        notification({
+          html: message,
           type: "error",
         });
 

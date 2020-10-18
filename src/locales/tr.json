@@ -648,7 +648,8 @@
       "confirmNoEvidenceOrComment": "Kanıt veya yorum eklemedin.\nYine de silmek istiyor musun?",
       "selectAtLeastOneUser": "En az bir kullanıcı seçmelisin",
       "youNeedToProvideSomeDetails": "Biraz daha detay ekleyebilir misin?",
-      "confirmAccountDeletion": "Bu hesabı silmek istiyor musunuz?"
+      "confirmAccountDeletion": "Bu hesabı silmek istiyor musunuz?",
+      "profileHasAlreadyDeleted": "Hesabı başka birisi tarafından silinmiş"
     },
     "previousNicks": {
       "text": "Önceki kullanıcı adları",

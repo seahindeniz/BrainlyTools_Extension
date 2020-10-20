@@ -1,0 +1,16 @@
+.ext-blurred-overlay {
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  backdrop-filter: blur(1.5px);
+
+  &--density {
+    &-low {
+      backdrop-filter: blur(1px);
+    }
+    &-high {
+      backdrop-filter: blur(2px);
+    }
+  }
+}

@@ -1,8 +1,13 @@
+/* eslint-disable import/no-duplicates */
 import Action, { RemoveQuestionReqDataType } from "@BrainlyAction";
 import ModerationSection from ".";
 import type ModerationToplayerClassType from "..";
+import type { QuestionEntryType } from "..";
 
 export default class QuestionSection extends ModerationSection {
+  data: QuestionEntryType;
+  contentType: "question";
+
   constructor(main: ModerationToplayerClassType) {
     super(main, main.question);
 

@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+import Action from "@BrainlyAction";
 import notification from "@components/notification2";
 import { Button, Flex, SpinnerContainer, Text } from "@style-guide";
 import type { ButtonPropsType } from "@style-guide/Button";
@@ -107,6 +108,8 @@ export default class FooterQDB {
       this.processing = true;
       const resDelete = await this.main.Delete(data);
       this.processing = false;
+
+      new Action().CloseModerationTicket(this.main.zdnObject.data.task_id);
 
       if (!resDelete) throw Error("Empty response");
 

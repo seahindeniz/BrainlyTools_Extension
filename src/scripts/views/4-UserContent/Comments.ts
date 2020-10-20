@@ -213,6 +213,8 @@ class Comments extends UserContent {
 
     const resRemove = await new Action().RemoveComment(postData);
 
+    await new Action().CloseModerationTicket(row.contents.question.source.id);
+
     row.CheckDeleteResponse(resRemove);
   }
 }

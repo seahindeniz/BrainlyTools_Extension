@@ -40,6 +40,7 @@ export type ZdnObject = {
     removed: boolean;
     visible: boolean;
     timeInterval: number;
+    task_id: number;
   };
   events: ObjectAnyType;
   root: ObjectAnyType;
@@ -304,6 +305,8 @@ export default class Report {
       model_type_id,
     );
     this.processing = false;
+
+    new Action().CloseModerationTicket(this.zdnObject.data.task_id);
 
     this.HideButtons();
 

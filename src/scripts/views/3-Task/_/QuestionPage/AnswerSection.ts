@@ -229,6 +229,8 @@ export default class AnswerSection {
     try {
       const resConfirm = await new Action().ConfirmAnswer(this.data.id);
 
+      new Action().CloseModerationTicket(this.main.data.id);
+
       if (!resConfirm) {
         throw Error("No response");
       }

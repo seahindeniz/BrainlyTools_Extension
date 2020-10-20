@@ -12,6 +12,7 @@ async function Row_ApproveAnswer(row: UserContentRowClassType) {
 
   const resApprove = await new Action().ApproveAnswer(row.answerID);
 
+  await new Action().CloseModerationTicket(row.contents.question.source.id);
   row.CheckApproveResponse(resApprove);
 }
 
@@ -23,6 +24,8 @@ async function Row_UnapproveAnswer(row: UserContentRowClassType) {
   }
 
   const resUnapprove = await new Action().UnapproveAnswer(row.answerID);
+
+  await new Action().CloseModerationTicket(row.contents.question.source.id);
 
   row.CheckUnapproveResponse(resUnapprove);
 }
@@ -43,6 +46,8 @@ async function Row_ReportAnswerForCorrection(
       model_id: row.answerID,
     });
 
+    await new Action().CloseModerationTicket(row.contents.question.source.id);
+
     row.CorrectReportResponse(resReport);
   }
 }
@@ -58,6 +63,8 @@ async function Row_DeleteAnswer(
 
     postData.model_id = row.answerID;
     const resRemove = await new Action().RemoveAnswer(postData);
+
+    await new Action().CloseModerationTicket(row.contents.question.source.id);
 
     row.CheckDeleteResponse(resRemove);
   }

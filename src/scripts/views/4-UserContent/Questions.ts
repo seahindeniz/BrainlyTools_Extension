@@ -66,6 +66,8 @@ class Questions extends UserContent {
 
       const resRemove = await new Action().RemoveQuestion(postData);
 
+      new Action().CloseModerationTicket(row.element.questionID);
+
       row.CheckDeleteResponse(resRemove);
     }
   }

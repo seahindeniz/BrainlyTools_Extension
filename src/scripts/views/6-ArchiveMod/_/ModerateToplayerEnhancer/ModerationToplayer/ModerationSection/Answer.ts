@@ -7,6 +7,8 @@ import type ModerationToplayerClassType from "..";
 import type { AnswerEntryType } from "..";
 
 export default class AnswerSection extends ModerationSection {
+  data: AnswerEntryType;
+  contentType: "answer";
   confirmButtonContainer: import("@style-guide/Flex").FlexElementType;
   confirmButtonSpinnerContainer: HTMLElement;
   confirmButton: Button;

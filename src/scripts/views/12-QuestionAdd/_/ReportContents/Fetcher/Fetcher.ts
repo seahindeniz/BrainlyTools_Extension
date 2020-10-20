@@ -32,7 +32,7 @@ export default class Fetcher {
 
   filters: Filters;
   pageNumbers: PageNumbers;
-  fetchAll: FetchAll;
+  fetchAll?: FetchAll;
 
   constructor(main: ReportedContentsType) {
     this.main = main;
@@ -158,11 +158,11 @@ export default class Fetcher {
           resetStore,
         });
       } else if (!this.lastId) {
-        this.fetchAll.HideStopButton();
-        this.fetchAll.ShowLoadAllButton();
-        this.fetchAll.HideContainer();
+        this.fetchAll?.HideStopButton();
+        this.fetchAll?.ShowLoadAllButton();
+        this.fetchAll?.HideContainer();
       } else {
-        this.fetchAll.ShowContainer();
+        this.fetchAll?.ShowContainer();
       }
 
       if (this.main.contents.all.length > 0) {

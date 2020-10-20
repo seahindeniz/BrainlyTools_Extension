@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.10.0] - 2020.10.20
+
+### Added
+
+- Ability to mass-moderate contents that are visible. [#289]
+
+### Changed
+
+- "Load all reports" button displays "Stop" instead of "Load all reports" when a
+  category is visited after loading all reports in another category. [#290]
+
+[#289]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/289
+[#290]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/290
+
 ## [7.9.0] - 2020.10.14
 
 ### Added

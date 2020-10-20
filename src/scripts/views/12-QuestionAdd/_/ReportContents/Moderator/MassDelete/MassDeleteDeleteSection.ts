@@ -1,7 +1,7 @@
 import DeleteSection from "@components/DeleteSection2/DeleteSection";
+import type { ContentNameType } from "@components/ModerationPanel/ModeratePanelController";
 import Build from "@root/helpers/Build";
 import { Flex, Text } from "@style-guide";
-import type { ContentNameType } from "@components/ModerationPanel/ModeratePanelController";
 import type MassDeleteSectionClassType from "./MassDelete";
 
 export default class MassDeleteDeleteSection {
@@ -17,7 +17,7 @@ export default class MassDeleteDeleteSection {
     this.Render();
   }
 
-  Render() {
+  private Render() {
     this.deleteSection = new DeleteSection({
       defaults: { contentType: this.contentType, takePoints: false },
       listeners: {
@@ -46,9 +46,10 @@ export default class MassDeleteDeleteSection {
     );
   }
 
-  ReasonChanged() {
-    console.log(this.deleteSection.reasonSection.selectedRadio);
+  private ReasonChanged() {
     this.main.main.ResizeTippy();
-    this.main.TryToShowDeleteButton();
+    this.main.TryToShowModerateButtons();
+    this.main.UpdateModerateButtonNumbers();
+    this.main.RenameModerateButtons();
   }
 }

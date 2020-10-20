@@ -7,6 +7,7 @@ export default class RadioChild {
   data: RadioSectionTypes.OptionPropType;
   container: import("@style-guide/Flex").FlexElementType;
   radio: Radio;
+  radioChecked: boolean;
 
   constructor(
     main: RadioSectionTypes.default,
@@ -21,6 +22,8 @@ export default class RadioChild {
   }
 
   private Render() {
+    this.radioChecked = false;
+
     this.container = Flex({
       marginRight: "m",
       children: this.radio = new Radio({
@@ -36,9 +39,18 @@ export default class RadioChild {
   }
 
   private Clicked(event: MouseEvent) {
-    if (!this.main.main.disabled) return;
+    if (this.main.main.disabled) {
+      event.preventDefault();
 
-    event.preventDefault();
+      return;
+    }
+
+    if (this.main.selectedRadio === this && this.radioChecked === true) {
+      this.radio.checked = false;
+      this.radioChecked = false;
+
+      this.Selected();
+    }
   }
 
   private Selected() {
@@ -46,12 +58,12 @@ export default class RadioChild {
       this.main.selectedRadio = null;
 
       this.main.Deselected();
+    } else {
+      this.main.selectedRadio = this;
 
-      return;
+      this.main.Selected();
     }
 
-    this.main.selectedRadio = this;
-
-    this.main.Selected();
+    this.radioChecked = this.radio.checked;
   }
 }

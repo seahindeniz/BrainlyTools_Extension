@@ -215,11 +215,15 @@ export default class DeleteSection {
     HideElement(this.container);
   }
 
+  IsSelected() {
+    return this.reasonSection && this.subReasonSection;
+  }
+
   PrepareData():
     | RemoveQuestionReqDataType
     | RemoveAnswerReqDataType
     | RemoveCommentReqDataType {
-    if (!this.reasonSection || !this.subReasonSection) return undefined;
+    if (!this.IsSelected()) return undefined;
 
     const reason =
       System.data.Brainly.deleteReasons.__withIds.__all[

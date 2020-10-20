@@ -14,30 +14,53 @@ export default class MassConfirmSection extends ActionSection {
         type: "outline",
         toggle: "mint",
       },
+      {
+        type: "solid-mint",
+      },
     );
   }
 
-  async ActionButtonClicked() {
-    if (this.moderating) return;
-
-    this.main.selectedActionSection?.Hide();
-    this.main.HideStopButtonContainer();
-    await System.Delay(50);
-
-    this.contents = this.main.main.contents.filtered.filter(
-      content =>
-        content.has !== "reserved" &&
-        content.has !== "confirmed" &&
-        content.has !== "deleted",
-    );
+  async ActionButtonSelected() {
+    this.UpdateFilteredContentsStore();
 
     if (this.contents.length === 0) {
+      notification({
+        type: "info",
+        text:
+          System.data.locale.reportedContents.massModerate.delete
+            .noContentToDelete,
+      });
+
+      return;
+    }
+
+    await this.HighlightActionButton();
+    this.ShowModerateButtons();
+  }
+
+  UpdateFilteredContentsStore() {
+    this.contents = this.main.main.contents.filtered.filter(
+      content =>
+        content.has !== "confirmed" &&
+        content.has !== "deleted" &&
+        content.ignored !== true,
+    );
+  }
+
+  Hide() {
+    this.HideModerateButtons();
+    super.Hide();
+  }
+
+  async StartModerating() {
+    if (this.moderatableContents.length === 0) {
       notification({
         type: "info",
         text:
           System.data.locale.reportedContents.massModerate.confirm
             .noContentToConfirm,
       });
+      this.EnableModerateButtons();
 
       return;
     }
@@ -46,18 +69,16 @@ export default class MassConfirmSection extends ActionSection {
       !confirm(
         System.data.locale.reportedContents.massModerate.confirm.confirmModeration.replace(
           /%\{n}/gi,
-          `${this.contents.length}`,
+          `${this.moderatableContents.length}`,
         ),
       )
     ) {
+      this.EnableModerateButtons();
+
       return;
     }
 
-    this.StartConfirming();
-  }
-
-  async StartConfirming() {
-    await this.HighlightActionButton();
+    // await this.HighlightActionButton();
     await this.Moderating();
     this.TryToConfirm();
 
@@ -69,7 +90,7 @@ export default class MassConfirmSection extends ActionSection {
   }
 
   TryToConfirm() {
-    const contents = this.contents.splice(0, 4);
+    const contents = this.moderatableContents.splice(0, 4);
 
     if (contents.length === 0) {
       this.StopModerating();
@@ -79,15 +100,10 @@ export default class MassConfirmSection extends ActionSection {
 
     contents.forEach(async content => {
       await content.ExpressConfirm();
+      // await System.TestDelay(800, 1500);
+      // content.Confirmed();
 
-      if (content.has === "failed")
-        this.main.main.statusBar.IncreaseNumberOfFailed();
-      else this.main.main.statusBar.IncreaseNumberOfModeration();
-
-      if (this.contents.length > 0) return;
-
-      await System.Delay(50);
-      this.FinishModerating();
+      this.ContentModerated(content);
     });
   }
 }

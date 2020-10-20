@@ -19,11 +19,17 @@ export default class ReportedContentsStatusBar {
   numberOfModeratedContents: number;
   numberOfFailedContents: number;
   failedContentsCount: Text;
+  ignoredState: boolean;
+  #ignoreButtonContainer?: FlexElementType;
+  #ignoreButton?: Button;
+  #ignoreButtonIcon?: Icon;
+  visibleContentsCountForIgnoreButtonTitle?: Text;
 
   constructor(main: ReportedContentsClassType) {
     this.main = main;
     this.numberOfModeratedContents = 0;
     this.numberOfFailedContents = 0;
+    this.ignoredState = false;
 
     this.RenderExportButton();
     this.Render();
@@ -77,6 +83,7 @@ export default class ReportedContentsStatusBar {
     this.filteredContentsCount = this.RenderStatus("filtered");
     this.visibleContentsCount = this.RenderStatus("visible");
 
+    this.RenderIgnoreContentsButton();
     this.main.actionsContainerLeftSide.append(this.container);
   }
 
@@ -109,6 +116,23 @@ export default class ReportedContentsStatusBar {
     );
   }
 
+  UpdateVisibleNumber(length?: string) {
+    if (!length) {
+      const visibleContents = this.main.contents.filtered.filter(
+        content => content.container,
+      );
+
+      // eslint-disable-next-line no-param-reassign
+      length = String(visibleContents.length);
+      console.warn("n of visibleContents", length);
+    }
+
+    this.visibleContentsCount.nodeValue = length;
+
+    if (this.visibleContentsCountForIgnoreButtonTitle)
+      this.visibleContentsCountForIgnoreButtonTitle.nodeValue = length;
+  }
+
   ShowCountOfModeration() {
     if (this.moderatedContentsCount) return;
 
@@ -134,5 +158,71 @@ export default class ReportedContentsStatusBar {
 
     this.numberOfModeratedContents = 0;
     this.numberOfFailedContents = 0;
+  }
+
+  RenderIgnoreContentsButton() {
+    if (!System.checkUserP(18)) return;
+
+    this.#ignoreButtonContainer = Flex({
+      children: this.#ignoreButton = new Button({
+        size: "s",
+        type: "transparent-light",
+        iconOnly: true,
+        icon: this.#ignoreButtonIcon = new Icon({
+          color: "adaptive",
+          type: "unseen",
+        }),
+        onClick: this.ToggleIgnoredState.bind(this),
+      }),
+    });
+
+    this.#list.element.lastElementChild.prepend(this.#ignoreButtonContainer);
+
+    this.visibleContentsCountForIgnoreButtonTitle = document.createTextNode(
+      "0",
+    );
+    const textPieces: (
+      | string
+      | Text
+    )[] = System.data.locale.reportedContents.massModerate.ignoreContents.split(
+      "%{number}",
+    );
+
+    textPieces.splice(1, 0, this.visibleContentsCountForIgnoreButtonTitle);
+
+    tippy(this.#ignoreButtonContainer, {
+      theme: "light",
+      content: Text({
+        size: "small",
+        weight: "bold",
+        children: textPieces,
+      }),
+    });
+  }
+
+  ToggleIgnoredState() {
+    this.ignoredState = !this.ignoredState;
+
+    this.ChangeIgnoredState();
+
+    this.main.contents.filtered.forEach(content => {
+      if (!content.container) return;
+
+      content.ignored = this.ignoredState;
+
+      content.ChangeIgnoredState();
+    });
+  }
+
+  ChangeIgnoredState() {
+    if (this.ignoredState !== true) {
+      this.#ignoreButtonIcon.ChangeType("unseen");
+      this.#ignoreButton.ChangeType({ type: "transparent-light" });
+
+      return;
+    }
+
+    this.#ignoreButtonIcon.ChangeType("seen");
+    this.#ignoreButton.ChangeType({ type: "transparent" });
   }
 }

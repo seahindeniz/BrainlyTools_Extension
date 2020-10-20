@@ -168,7 +168,7 @@ export default class Queue {
 
   async ShowContents(showLimitedAggressive?: boolean) {
     if (this.main.contents.filtered.length === 0) {
-      this.main.statusBar.visibleContentsCount.nodeValue = "0";
+      this.main.statusBar.UpdateVisibleNumber("0");
 
       return;
     }
@@ -210,13 +210,11 @@ export default class Queue {
       this.main.moderator?.ShowPanelButton();
     }
 
-    this.main.statusBar.visibleContentsCount.nodeValue = String(
-      childElementCount,
-    );
+    this.main.statusBar.UpdateVisibleNumber();
   }
 
   HideContents() {
-    this.main.statusBar.visibleContentsCount.nodeValue = "0";
+    this.main.statusBar.UpdateVisibleNumber("0");
 
     this.main.moderator?.HidePanelButton();
     this.main.contents.all.forEach(content => {

@@ -921,7 +921,21 @@ export default {
         visible: "%{count} visible",
         moderated: "%{count} moderated",
         failed: "%{count} failed"
-      }
+      },
+      visible: {
+        contents: "Visible contents",
+        questions: "Visible questions",
+        answers: "Visible answers",
+        comments: "Visible comments"
+      },
+      filtered: {
+        contents: "Filtered contents",
+        questions: "Filtered questions",
+        answers: "Filtered answers",
+        comments: "Filtered comments"
+      },
+      ignoreContent: "Ignore this report while mass-moderating",
+      ignoreContents: "Ignore %{number} visible reports while mass-moderating"
     },
     categoryFilterFirstOption: {
       name: "Report reason — ALL",

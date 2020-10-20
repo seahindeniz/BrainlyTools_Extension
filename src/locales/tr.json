@@ -921,7 +921,21 @@
         "visible": "%{count} görüntülenen",
         "moderated": "%{count} düzenlendi",
         "failed": "%{count} hatalı"
-      }
+      },
+      "visible": {
+        "contents": "Görünen içerikler",
+        "questions": "Görünen sorular",
+        "answers": "Görünen cevaplar",
+        "comments": "Görünen yorumlar"
+      },
+      "filtered": {
+        "contents": "Filtrelenen içerikler",
+        "questions": "Filtrelenen sorular",
+        "answers": "Filtrelenen cevaplar",
+        "comments": "Filtrelenen yorumlar"
+      },
+      "ignoreContent": "Bu içeriği, çoklu içerik düzenleme özelliğinde göz ardı et/etme",
+      "ignoreContents": "Çoklu içerik düzenleme özelliğinden %{number} içeriği göz ardı et/etme"
     },
     "categoryFilterFirstOption": {
       "name": "Şikayet sebebi — TÜMÜ",

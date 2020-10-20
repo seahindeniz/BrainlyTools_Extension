@@ -32,6 +32,13 @@
   &-page-number {
     margin: 8px 4px 16px;
   }
+
+  &-corner-button-container {
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    z-index: 1;
+  }
 }
 
 @media (max-width: 767px) {

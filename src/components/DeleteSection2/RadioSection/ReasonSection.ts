@@ -25,18 +25,18 @@ export default class ReasonSection extends RadioSection {
   }
 
   Selected() {
-    this.main.listeners?.onReasonChange?.();
     this.main.RenderSubReasonSection();
     this.main.ShowTextarea();
     this.main.ShowOptionsSection();
     this.main.ShowButtonContainer();
+    this.main.listeners?.onReasonChange?.();
   }
 
   Deselected() {
-    this.main.listeners?.onReasonChange?.();
     this.main.HideSubReasonSection();
     this.main.HideTextarea();
     this.main.HideOptionsSection();
     this.main.HideButtonContainer();
+    this.main.listeners?.onReasonChange?.();
   }
 }

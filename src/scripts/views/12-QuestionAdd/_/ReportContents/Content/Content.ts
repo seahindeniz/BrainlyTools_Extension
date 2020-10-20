@@ -7,6 +7,7 @@ import Action, {
   UserDataInReportType,
   UsersDataInReportedContentsType,
 } from "@BrainlyAction";
+import { BlurredOverlay } from "@components";
 import CreateElement from "@components/CreateElement";
 import type { ContentNameType } from "@components/ModerationPanel/ModeratePanelController";
 import notification from "@components/notification2";
@@ -111,6 +112,11 @@ export default class Content {
   quickActionButtonContainer: FlexElementType;
   tippyInstances: Instance[];
   moderateButtonContainer: FlexElementType;
+  ignored: boolean;
+  #ignoreButton?: Button;
+  #ignoreButtonContainer?: FlexElementType;
+  #ignoreButtonIcon?: Icon;
+  #blurredOverlay?: HTMLDivElement;
 
   constructor({
     main,
@@ -244,6 +250,7 @@ export default class Content {
       Flex({
         direction: "column",
         // className: "",
+        relative: true,
         fullHeight: true,
       }),
       [
@@ -427,6 +434,21 @@ export default class Content {
             ],
           ],
         ],
+        System.checkUserP(18) && [
+          (this.#ignoreButtonContainer = Flex({
+            className: "ext-corner-button-container",
+          })),
+          (this.#ignoreButton = new Button({
+            size: "s",
+            type: "transparent-light",
+            iconOnly: true,
+            icon: this.#ignoreButtonIcon = new Icon({
+              color: "adaptive",
+              type: "unseen",
+            }),
+            onClick: this.ToggleIgnoredState.bind(this),
+          })),
+        ],
       ],
     );
 
@@ -434,6 +456,10 @@ export default class Content {
 
     if (this.has) {
       this.ChangeBoxColor();
+    }
+
+    if (this.ignored === true) {
+      this.ChangeIgnoredState();
     }
 
     this.RenderExtraDetails();
@@ -455,6 +481,20 @@ export default class Content {
         }),
       }),
     );
+
+    if (this.#ignoreButtonContainer) {
+      this.tippyInstances.push(
+        tippy(this.#ignoreButtonContainer, {
+          theme: "light",
+          content: Text({
+            size: "small",
+            weight: "bold",
+            children:
+              System.data.locale.reportedContents.massModerate.ignoreContent,
+          }),
+        }),
+      );
+    }
   }
 
   DestroyContent() {
@@ -476,6 +516,9 @@ export default class Content {
     this.moderatorContainer = null;
     this.extraDetailsContainer = null;
     this.quickDeleteButtons = [];
+    this.#blurredOverlay = null;
+    this.#ignoreButton = null;
+    this.#ignoreButtonIcon = null;
 
     this.contentWrapper.remove();
     this.contentWrapper = null;
@@ -522,7 +565,11 @@ export default class Content {
       this.RenderContent();
     }
 
-    if (IsVisible(this.quickActionButtonContainer) || this.has === "deleted")
+    if (
+      IsVisible(this.quickActionButtonContainer) ||
+      this.has === "deleted" ||
+      this.ignored
+    )
       return;
 
     if (
@@ -1021,9 +1068,52 @@ export default class Content {
     this.ChangeBoxColor();
     this.HideActionButtons();
     this.quickDeleteButtonContainer?.remove();
+
+    if (this.#ignoreButtonContainer) {
+      this.#ignoreButtonContainer?.remove();
+      this.#blurredOverlay?.remove();
+
+      this.#ignoreButtonContainer = null;
+      this.#blurredOverlay = null;
+    }
   }
 
   HideModerateButton() {
     HideElement(this.moderateButtonContainer);
+  }
+
+  ToggleIgnoredState() {
+    this.ignored = !this.ignored;
+
+    this.ChangeIgnoredState();
+  }
+
+  ChangeIgnoredState() {
+    if (this.ignored !== true) {
+      this.#ignoreButtonIcon?.ChangeType("unseen");
+      this.#ignoreButton?.ChangeType({ type: "transparent-light" });
+      HideElement(this.#blurredOverlay);
+      this.ChangeBoxColor();
+      this.ShowActionButtons();
+
+      return;
+    }
+
+    if (!this.#blurredOverlay) {
+      this.RenderBlurredOverlay();
+    }
+
+    if (this.box) {
+      InsertAfter(this.#blurredOverlay, this.box.element);
+    }
+
+    this.HideActionButtons();
+    this.box?.ChangeColor("blue-secondary");
+    this.#ignoreButtonIcon?.ChangeType("seen");
+    this.#ignoreButton?.ChangeType({ type: "transparent" });
+  }
+
+  RenderBlurredOverlay() {
+    this.#blurredOverlay = BlurredOverlay();
   }
 }

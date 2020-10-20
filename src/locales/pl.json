@@ -786,7 +786,7 @@
       "title": "Kliknij tutaj, aby zobaczyć zgłoszone komentarze"
     },
     "correctionReports": {
-      "text": "Zgłoszone poprawy (%{number_of_reports})",
+      "text": "Poprawione zadania (%{number_of_reports})",
       "title": "Kliknij tutaj, aby wyświetlić odpowiedzi zgłoszone do poprawy, które oczekują na akceptację"
     },
     "subjectFilterFirstOption": "Wszystkie przedmioty",
@@ -921,7 +921,21 @@
         "visible": "%{count} widocznych",
         "moderated": "%{count} moderowane",
         "failed": "%{count} nie powiodło się"
-      }
+      },
+      "visible": {
+        "contents": "Visible contents",
+        "questions": "Visible questions",
+        "answers": "Visible answers",
+        "comments": "Visible comments"
+      },
+      "filtered": {
+        "contents": "Filtered contents",
+        "questions": "Filtered questions",
+        "answers": "Filtered answers",
+        "comments": "Filtered comments"
+      },
+      "ignoreContent": "Ignore this report while mass-moderating",
+      "ignoreContents": "Ignore %{number} visible reports while mass-moderating"
     },
     "categoryFilterFirstOption": {
       "name": "Wszystkie powody zgłoszeń",
@@ -934,29 +948,29 @@
     "name": "Zgłoszone treści"
   },
   "moderationPanel": {
-    "text": "Question Moderation",
-    "answers": "Answers (%{number_of_answers})",
-    "log": "Log",
-    "panelWillClose": "Moderation panel will close in %{remain_N}",
-    "showAllComments": "Show all comments",
-    "failedToGetLogs": "Cannot fetch logs of question",
-    "seeMoreDeleteOptions": "See more delete options",
-    "thereIsNoReportLeft": "There is no report left",
-    "deleteAllComments": "Delete all comments",
-    "confirmDeletingNComments": "Please confirm deleting %{N} comments",
-    "commentsDeleted": "Comments deleted!",
-    "switchingToNextContent": "I'll try to switch to the next content",
-    "hideDeletedComments": "Hide deleted comments",
-    "showDeletedComments": "Show deleted comments",
-    "janToDec": "JAN\nDEC",
-    "decToJan": "DEC\nJAN",
-    "sortDESC": "Sort comments from newer to older",
-    "sortASC": "Sort comments from older to newer",
+    "text": "Moderacja pytania",
+    "answers": "Odpowiedzi ( %{number_of_answers} )",
+    "log": "Oś pytania",
+    "panelWillClose": "Panel moderacji zamknie się za %{remain_N}",
+    "showAllComments": "Pokaż wszystkie komentarze",
+    "failedToGetLogs": "Nie można pobrać danych dotyczących pytań",
+    "seeMoreDeleteOptions": "Zobacz więcej opcji usuwania",
+    "thereIsNoReportLeft": "W chwili obecnej nie ma nowych zgłoszeń",
+    "deleteAllComments": "Usuń wszystkie komentarze",
+    "confirmDeletingNComments": "Potwierdź usunięcie %{N} komentarzy",
+    "commentsDeleted": "Komentarze zostały usunięte!",
+    "switchingToNextContent": "Spróbuję przejść do następnego zgłoszenia",
+    "hideDeletedComments": "Ukryj usunięte komentarze",
+    "showDeletedComments": "Pokaż usunięte komentarze",
+    "janToDec": "Styczeń\nGrudzień",
+    "decToJan": "Grudzień\nStyczeń",
+    "sortDESC": "Sortuj komentarze od nowszych do starszych",
+    "sortASC": "Sortuj komentarze od starszych do nowszych",
     "showLess": "Pokaż mniej",
-    "toggleReportedComments": "Toggle reported comments",
-    "corrected": "Corrected",
-    "originalAnswer": "Original answer",
-    "answerHasCorrected": "%{nick} has corrected the answer"
+    "toggleReportedComments": "Pokaż zgłoszone komentarze",
+    "corrected": "Poprawiona",
+    "originalAnswer": "Oryginalna odpowiedź",
+    "answerHasCorrected": "%{nick} poprawił swoją odpowiedź"
   },
   "shortAnswersPage": {
     "selectAtLeastOneAnswer": "You need to select at least one answer",

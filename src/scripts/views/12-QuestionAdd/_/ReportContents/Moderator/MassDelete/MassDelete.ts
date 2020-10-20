@@ -1,12 +1,12 @@
 import {
-  RemoveQuestionReqDataType,
   RemoveAnswerReqDataType,
   RemoveCommentReqDataType,
+  RemoveQuestionReqDataType,
 } from "@BrainlyAction";
+import type { ContentNameType } from "@components/ModerationPanel/ModeratePanelController";
 import notification from "@components/notification2";
 import HideElement from "@root/helpers/HideElement";
-import { Button, Flex } from "@style-guide";
-import type { ContentNameType } from "@components/ModerationPanel/ModeratePanelController";
+import { Flex } from "@style-guide";
 import ActionSection from "../ActionSection";
 import type ModeratorClassType from "../Moderator";
 import MassDeleteDeleteSection from "./MassDeleteDeleteSection";
@@ -26,7 +26,6 @@ export default class MassDeleteSection extends ActionSection {
   };
 
   #container: import("@style-guide/Flex").FlexElementType;
-  deleteButton?: Button;
   dataMap: {
     [contentType in ContentNameType]?:
       | RemoveQuestionReqDataType
@@ -44,6 +43,9 @@ export default class MassDeleteSection extends ActionSection {
       {
         type: "outline",
         toggle: "peach",
+      },
+      {
+        type: "solid-peach",
       },
     );
 
@@ -65,19 +67,8 @@ export default class MassDeleteSection extends ActionSection {
     this.#container = Flex({ direction: "column", marginTop: "xs" });
   }
 
-  async ActionButtonClicked() {
-    if (this.moderating) return;
-
-    if (this.main.selectedActionSection === this) {
-      this.Hide();
-      this.main.HideStopButtonContainer();
-
-      return;
-    }
-
-    this.contents = this.main.main.contents.filtered.filter(
-      content => content.has !== "reserved" && content.has !== "deleted",
-    );
+  async ActionButtonSelected() {
+    this.UpdateFilteredContentsStore();
 
     if (this.contents.length === 0) {
       notification({
@@ -96,7 +87,7 @@ export default class MassDeleteSection extends ActionSection {
 
   Hide() {
     HideElement(this.#container);
-    this.HideDeleteButton();
+    this.HideModerateButtons();
     super.Hide();
   }
 
@@ -105,21 +96,26 @@ export default class MassDeleteSection extends ActionSection {
     this.RenderDeleteSection("Answer");
     this.RenderDeleteSection("Comment");
     this.ShowContainer();
-    this.TryToShowDeleteButton();
+    this.TryToShowModerateButtons();
   }
 
   ShowContainer() {
-    if (Object.keys(this.deleteSection).length === 0) return;
+    if (this.deleteSection.all.length === 0) return;
 
     this.main.container.append(this.#container);
   }
 
   RenderDeleteSection(contentType: ContentNameType) {
     if (!this.contents.some(content => content.contentType === contentType)) {
-      if (this.deleteSection[contentType]) {
-        HideElement(this.deleteSection[contentType].container);
+      if (this.deleteSection.byContentType[contentType]) {
+        HideElement(this.deleteSection.byContentType[contentType].container);
 
-        this.deleteSection[contentType] = null;
+        this.deleteSection.byContentType[contentType] = null;
+        const sectionIndex = this.deleteSection.all.findIndex(
+          section => section.contentType === contentType,
+        );
+
+        this.deleteSection.all.splice(sectionIndex, 1);
       }
 
       return;
@@ -135,39 +131,21 @@ export default class MassDeleteSection extends ActionSection {
     this.container.append(deleteSection.container);
   }
 
-  TryToShowDeleteButton() {
+  TryToShowModerateButtons() {
     if (
       !this.deleteSection.all.some(
         section => section.deleteSection.reasonSection?.selectedRadio,
       )
     ) {
-      this.HideDeleteButton();
+      this.HideModerateButtons();
 
       return;
     }
 
-    this.main.ShowStopButtonContainer();
-
-    if (!this.deleteButton) {
-      this.RenderDeleteButton();
-    }
-
-    this.main.stopButtonContainer.append(this.deleteButton.element);
+    this.ShowModerateButtons();
   }
 
-  HideDeleteButton() {
-    HideElement(this.deleteButton?.element);
-  }
-
-  RenderDeleteButton() {
-    this.deleteButton = new Button({
-      type: "solid-peach",
-      onClick: this.StartDeleting.bind(this),
-      children: System.data.locale.common.delete,
-    });
-  }
-
-  async StartDeleting() {
+  async StartModerating() {
     this.dataMap = {};
 
     Object.entries(this.deleteSection.byContentType).forEach(
@@ -176,36 +154,54 @@ export default class MassDeleteSection extends ActionSection {
       },
     );
 
-    this.contents = this.contents.filter(
+    this.moderatableContents = this.moderatableContents.filter(
       content => !!this.dataMap[content.contentType],
     );
 
-    if (
-      !confirm(
-        System.data.locale.reportedContents.massModerate.delete.confirmDeletion.replace(
-          /%\{n}/gi,
-          `${this.contents.length}`,
-        ),
-      )
-    )
-      return;
+    if (this.moderatableContents.length === 0) {
+      notification({
+        type: "info",
+        text:
+          System.data.locale.reportedContents.massModerate.delete
+            .noContentToDelete,
+      });
+      this.EnableModerateButtons();
 
-    const nonConfirmedContents = this.contents.filter(
+      return;
+    }
+
+    const nonConfirmedContents = this.moderatableContents.filter(
       content => content.has !== "confirmed",
     );
 
     const confirmedContentsLength =
-      this.contents.length - nonConfirmedContents.length;
+      this.moderatableContents.length - nonConfirmedContents.length;
 
     if (
       confirmedContentsLength > 0 &&
       !confirm(
         System.data.locale.reportedContents.massModerate.delete.warnAboutConfirmedContents
           .replace(/%\{N_of_confirmed}/gi, String(confirmedContentsLength))
-          .replace(/%\{N_of_filtered}/gi, String(this.contents.length)),
+          .replace(
+            /%\{N_of_filtered}/gi,
+            String(this.moderatableContents.length),
+          ),
       )
     ) {
-      this.contents = nonConfirmedContents;
+      this.moderatableContents = nonConfirmedContents;
+    }
+
+    if (
+      !confirm(
+        System.data.locale.reportedContents.massModerate.delete.confirmDeletion.replace(
+          /%\{n}/gi,
+          `${this.moderatableContents.length}`,
+        ),
+      )
+    ) {
+      this.EnableModerateButtons();
+
+      return;
     }
 
     await this.Moderating();
@@ -220,7 +216,6 @@ export default class MassDeleteSection extends ActionSection {
   }
 
   Moderating() {
-    this.HideDeleteButton();
     this.deleteSection.all.forEach(deleteSection => {
       deleteSection.deleteSection.Disable();
     });
@@ -229,7 +224,7 @@ export default class MassDeleteSection extends ActionSection {
   }
 
   TryToDeleteContents() {
-    const contents = this.contents.splice(0, 4);
+    const contents = this.moderatableContents.splice(0, 4);
 
     if (contents.length === 0) {
       this.StopModerating();
@@ -243,14 +238,7 @@ export default class MassDeleteSection extends ActionSection {
       // await System.TestDelay(800, 1500);
       // content.Deleted();
 
-      if (content.has === "failed")
-        this.main.main.statusBar.IncreaseNumberOfFailed();
-      else this.main.main.statusBar.IncreaseNumberOfModeration();
-
-      if (this.contents.length > 0) return;
-
-      await System.Delay(50);
-      this.FinishModerating();
+      this.ContentModerated(content);
     });
   }
 
@@ -259,7 +247,65 @@ export default class MassDeleteSection extends ActionSection {
       deleteSection.deleteSection.Enable();
     });
     super.StopModerating();
-    this.TryToShowDeleteButton();
+    this.TryToShowModerateButtons();
     this.HighlightActionButton();
+  }
+
+  protected SelectedContentTypes() {
+    return this.deleteSection.all
+      .filter(section => section.deleteSection.IsSelected())
+      .map(section => section.contentType);
+  }
+
+  protected VisibleContents(selectedContentTypes?: ContentNameType[]) {
+    return this.contents.filter(
+      content =>
+        content.container && selectedContentTypes.includes(content.contentType),
+    );
+  }
+
+  protected FilteredContents(selectedContentTypes?: ContentNameType[]) {
+    return this.contents.filter(content =>
+      selectedContentTypes.includes(content.contentType),
+    );
+  }
+
+  UpdateModerateButtonNumbers() {
+    const selectedContentTypes = this.SelectedContentTypes();
+
+    this.moderateVisibleContentsNumberText.nodeValue = String(
+      this.VisibleContents(selectedContentTypes).length,
+    );
+    this.moderateFilteredContentsNumberText.nodeValue = String(
+      this.FilteredContents(selectedContentTypes).length,
+    );
+  }
+
+  RenameModerateButtons() {
+    let selector = "contents";
+    const selectedContentTypes = this.SelectedContentTypes();
+
+    if (selectedContentTypes.length === 1) {
+      const [selectedContentType] = selectedContentTypes;
+
+      selector =
+        selectedContentType === "Answer"
+          ? "answers"
+          : selectedContentType === "Comment"
+          ? "comments"
+          : selectedContentType === "Question"
+          ? "questions"
+          : "";
+    }
+
+    if (!selector) return;
+
+    this.moderateVisibleContentsButton.ChangeChildren(
+      System.data.locale.reportedContents.massModerate.visible[selector],
+    );
+
+    this.moderateFilteredContentsButton.ChangeChildren(
+      System.data.locale.reportedContents.massModerate.filtered[selector],
+    );
   }
 }

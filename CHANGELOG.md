@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.10.1] - 2020.10.20
+
+### Changed
+
+- Minor fixes
+
 ## [7.10.0] - 2020.10.20
 
 ### Added

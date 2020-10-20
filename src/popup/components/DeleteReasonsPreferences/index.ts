@@ -117,7 +117,7 @@ class DeleteReasonsPreferences {
       const reason =
         System.data.Brainly.deleteReasons.__withIds.__all[preference.reasonID];
 
-      if (!("type" in reason)) return;
+      if (!reason || !("type" in reason)) return;
 
       if (reason) {
         const category =

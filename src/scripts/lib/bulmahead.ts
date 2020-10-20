@@ -1,12 +1,18 @@
 import debounce from "debounce";
 
-const bulmahead = (input, menuEl, api, onSelect, delay = 200) => {
+const bulmahead = (
+  input: HTMLInputElement,
+  menuEl,
+  api,
+  onSelect,
+  delay = 200,
+) => {
   menuEl.innerHTML = '<div class="dropdown-content"></div>';
 
   const setValue = e => {
     e.preventDefault();
     const label = e.target.text;
-    // const {value} = e.target.dataset;
+    // const { value } = e.target.dataset;
     input.value = label;
     menuEl.style.display = "none";
     if (onSelect) {
@@ -30,7 +36,8 @@ const bulmahead = (input, menuEl, api, onSelect, delay = 200) => {
         a.classList.add("dropdown-item");
         a.innerHTML = prelabel + label;
         a.dataset.value = _value;
-        // a.object = obj;
+        // @ts-expect-error
+        a.object = obj;
         if (title) a.title = title;
         a.addEventListener("click", setValue);
         return a;
@@ -44,6 +51,18 @@ const bulmahead = (input, menuEl, api, onSelect, delay = 200) => {
     });
   };
   input.addEventListener("input", debounce(handleApi, delay));
+  input.addEventListener(
+    "focusout",
+    (e: FocusEvent & { relatedTarget: HTMLElement }) => {
+      if (
+        e.relatedTarget === null ||
+        !e.relatedTarget.classList.contains("dropdown-item")
+      ) {
+        menuEl.style.display = "none";
+      }
+    },
+  );
+  input.addEventListener("focusin", handleApi);
 };
 
 export default bulmahead;

@@ -138,11 +138,11 @@ class Comments extends UserContent {
     this.RenderCheckboxes();
     this.RenderButtonContainer();
     this.RenderCopyLinksButton();
+    this.GetQuestions();
 
     if (System.checkUserP(16)) {
       this.RenderDeleteSection("comment");
       this.ShowDeleteSection();
-      this.GetQuestions();
       this.BindHandlers();
     }
   }

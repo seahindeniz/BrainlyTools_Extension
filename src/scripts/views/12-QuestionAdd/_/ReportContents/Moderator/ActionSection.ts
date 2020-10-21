@@ -1,3 +1,4 @@
+import { ContentNameType } from "@components/ModerationPanel/ModeratePanelController";
 import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
 import { Flex, Label, Button, Spinner } from "@style-guide";
@@ -149,12 +150,21 @@ export default class ActionSection {
     });
   }
 
-  protected VisibleContents() {
-    return this.contents.filter(content => content.container);
+  protected VisibleContents(selectedContentTypes?: ContentNameType[]) {
+    return this.contents.filter(
+      content =>
+        content.container &&
+        (!selectedContentTypes ||
+          selectedContentTypes.includes(content.contentType)),
+    );
   }
 
-  protected FilteredContents() {
-    return this.contents;
+  protected FilteredContents(selectedContentTypes?: ContentNameType[]) {
+    if (!selectedContentTypes) return this.contents;
+
+    return this.contents.filter(content =>
+      selectedContentTypes.includes(content.contentType),
+    );
   }
 
   async ModerateVisibleContents() {

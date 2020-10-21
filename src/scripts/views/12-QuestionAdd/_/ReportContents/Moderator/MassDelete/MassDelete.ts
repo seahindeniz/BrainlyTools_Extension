@@ -257,19 +257,6 @@ export default class MassDeleteSection extends ActionSection {
       .map(section => section.contentType);
   }
 
-  protected VisibleContents(selectedContentTypes?: ContentNameType[]) {
-    return this.contents.filter(
-      content =>
-        content.container && selectedContentTypes.includes(content.contentType),
-    );
-  }
-
-  protected FilteredContents(selectedContentTypes?: ContentNameType[]) {
-    return this.contents.filter(content =>
-      selectedContentTypes.includes(content.contentType),
-    );
-  }
-
   UpdateModerateButtonNumbers() {
     const selectedContentTypes = this.SelectedContentTypes();
 

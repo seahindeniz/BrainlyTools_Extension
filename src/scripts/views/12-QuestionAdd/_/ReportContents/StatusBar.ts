@@ -124,7 +124,6 @@ export default class ReportedContentsStatusBar {
 
       // eslint-disable-next-line no-param-reassign
       length = String(visibleContents.length);
-      console.warn("n of visibleContents", length);
     }
 
     this.visibleContentsCount.nodeValue = length;

@@ -27,8 +27,8 @@ export default class MassConfirmSection extends ActionSection {
       notification({
         type: "info",
         text:
-          System.data.locale.reportedContents.massModerate.delete
-            .noContentToDelete,
+          System.data.locale.reportedContents.massModerate.confirm
+            .noContentToConfirm,
       });
 
       return;

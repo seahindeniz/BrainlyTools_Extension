@@ -24,7 +24,7 @@ async function GetAndPrepareDeleteReasons() {
 
   const deleteReasonsKeys = Object.keys(data.deleteReasons);
   data.deleteReasons.__withTitles = {};
-  data.deleteReasons.__withIds = { __all: {} };
+  data.deleteReasons.__withIds = { __all: {}, __reason: {}, __subReason: {} };
   data.deleteReasons.__preferences = data.preferences;
 
   deleteReasonsKeys.forEach(reasonKey => {
@@ -43,9 +43,11 @@ async function GetAndPrepareDeleteReasons() {
       data.deleteReasons.__withIds[reasonKey].__categories[
         category.id
       ] = category;
-      data.deleteReasons.__withIds.__all[category.id] = {
+      const categoryData = {
         ...category,
       };
+      data.deleteReasons.__withIds.__all[category.id] = categoryData;
+      data.deleteReasons.__withIds.__reason[category.id] = categoryData;
 
       if (category && category.subcategories) {
         category.subcategories.forEach(subcategory => {
@@ -55,10 +57,14 @@ async function GetAndPrepareDeleteReasons() {
           title = title.trim();
           data.deleteReasons.__withTitles[reasonKey][title] = subcategory;
           data.deleteReasons.__withIds[reasonKey][subcategory.id] = subcategory;
-          data.deleteReasons.__withIds.__all[subcategory.id] = {
+          const subReasonData = {
             ...subcategory,
             type: reasonKey,
           };
+          data.deleteReasons.__withIds.__all[subcategory.id] = subReasonData;
+          data.deleteReasons.__withIds.__subReason[
+            subcategory.id
+          ] = subReasonData;
         });
       }
     });

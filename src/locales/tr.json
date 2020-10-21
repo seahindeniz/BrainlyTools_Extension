@@ -970,7 +970,9 @@
     "toggleReportedComments": "Bildirilen yorumları göster/gizle",
     "corrected": "Düzeltildi",
     "originalAnswer": "Orijinal cevap",
-    "answerHasCorrected": "%{nick} cevabını düzeltti"
+    "answerHasCorrected": "%{nick} cevabını düzeltti",
+    "questionHasBeenDeleted": "Soru silindi",
+    "moderationCompleted": "Denetleme tamamlandı"
   },
   "shortAnswersPage": {
     "selectAtLeastOneAnswer": "En az bir cevap seçmelisin",

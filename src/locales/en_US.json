@@ -970,7 +970,9 @@
     "toggleReportedComments": "Toggle reported comments",
     "corrected": "Corrected",
     "originalAnswer": "Original answer",
-    "answerHasCorrected": "%{nick} has corrected the answer"
+    "answerHasCorrected": "%{nick} has corrected the answer",
+    "questionHasBeenDeleted": "Question has been deleted",
+    "moderationCompleted": "Moderation completed"
   },
   "shortAnswersPage": {
     "selectAtLeastOneAnswer": "You need to select at least one answer",

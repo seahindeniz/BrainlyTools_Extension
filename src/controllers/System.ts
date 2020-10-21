@@ -284,6 +284,12 @@ class _System {
               type: string;
             };
           };
+          __reason: {
+            [id: number]: DeleteReasonCategoryType;
+          };
+          __subReason: {
+            [id: number]: DeleteReasonSubCategoryType;
+          };
         } & {
           [x in DeleteReasonContentTypeNameType]: {
             __categories: {

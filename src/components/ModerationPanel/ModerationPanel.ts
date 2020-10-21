@@ -33,14 +33,14 @@ import Switcher from "./Switcher";
 export type ModeratePanelActionType = "delete" | "confirm";
 
 type ListenersType = {
-  onModerate: (
+  onModerate?: (
     id: number,
     action: ModeratePanelActionType,
     contentType: ContentNameType,
   ) => void;
-  onClose: () => void;
-  switchNext: (event: MouseEvent) => void;
-  switchPrevious: (event: MouseEvent) => void;
+  onClose?: () => void;
+  switchNext?: (event: MouseEvent) => void;
+  switchPrevious?: (event: MouseEvent) => void;
 };
 
 const PANEL_CLOSE_TIMEOUT_IN_SECONDS = 4;
@@ -50,7 +50,7 @@ export default class ModerationPanel {
 
   data: TicketDataType;
   usersData: UsersDataInReportedContentsType[];
-  listeners: ListenersType;
+  listeners?: ListenersType;
 
   duration: Duration;
   timeElements: {
@@ -341,6 +341,11 @@ export default class ModerationPanel {
     this.answerSections.forEach(answerSection =>
       answerSection.gallery?.destroy(),
     );
+
+    notification({
+      type: "info",
+      text: System.data.locale.moderationPanel.moderationCompleted,
+    });
   }
 
   async FinishModeration(ignoreTicketDelay?: boolean) {

@@ -52,7 +52,8 @@
         "@typescript-eslint/explicit-module-boundary-types": "off",
         "@typescript-eslint/no-explicit-any": "off",
         "camelcase": "warn",
-        "no-cond-assign": ["error", "except-parens"]
+        "no-cond-assign": ["error", "except-parens"],
+        "react/static-property-placement": 0
       },
       "settings": {
         "import/resolver": {

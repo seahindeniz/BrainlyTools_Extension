@@ -226,11 +226,11 @@ export default class DeleteSection {
     if (!this.IsSelected()) return undefined;
 
     const reason =
-      System.data.Brainly.deleteReasons.__withIds.__all[
+      System.data.Brainly.deleteReasons.__withIds.__reason[
         this.reasonSection.value
       ];
     const subReason =
-      System.data.Brainly.deleteReasons.__withIds.__all[
+      System.data.Brainly.deleteReasons.__withIds.__subReason[
         this.subReasonSection.value
       ];
 

@@ -6,6 +6,7 @@ import type {
   UsersDataInReportedContentsType,
 } from "@BrainlyAction";
 import Action from "@BrainlyAction";
+import notification from "@components/notification2";
 import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
 import IsVisible from "@root/helpers/IsVisible";
@@ -633,8 +634,20 @@ export default class ContentSection {
         attachment.deleteButton.element.remove(),
       );
 
-    if (this.contentType === "Question")
-      this.main.CloseModerationSomeTimeLater();
+    if (this.contentType === "Question") {
+      if (
+        this.main.listeners?.switchNext ||
+        this.main.listeners?.switchPrevious
+      )
+        this.main.CloseModerationSomeTimeLater();
+      else {
+        notification({
+          type: "success",
+          text: System.data.locale.moderationPanel.questionHasBeenDeleted,
+        });
+        this.main.CloseModeration();
+      }
+    }
 
     this.commentSection?.deleteCommentsSection?.Hide();
   }

@@ -970,7 +970,9 @@
     "toggleReportedComments": "Afficher les commentaires signalés",
     "corrected": "Corrigée",
     "originalAnswer": "Réponse originale",
-    "answerHasCorrected": "%{nick} a corrigé la réponse"
+    "answerHasCorrected": "%{nick} a corrigé la réponse",
+    "questionHasBeenDeleted": "Question has been deleted",
+    "moderationCompleted": "Moderation completed"
   },
   "shortAnswersPage": {
     "selectAtLeastOneAnswer": "Vous devez sélectionner au moins une réponse",

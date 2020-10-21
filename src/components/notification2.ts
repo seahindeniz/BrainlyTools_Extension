@@ -16,7 +16,13 @@ export function GetFlashMessageContainer() {
     container = document.createElement("div");
     container.className = "flash-messages-container";
 
-    const header = document.querySelector("body > #main-panel, body");
+    let header = document.querySelector(
+      `body > #main-panel, header[class^="HeaderController"]`,
+    );
+
+    if (!header) {
+      header = document.body;
+    }
 
     if (header) header.append(container);
   }
@@ -25,15 +31,21 @@ export function GetFlashMessageContainer() {
 }
 
 export type NotificationPropsType = {
-  sticky?: boolean;
   noRemoveOnClick?: boolean;
-  timeOut?: number;
-} & FlashMessageProps;
+} & (
+  | {
+      sticky?: false;
+      timeOut?: number;
+    }
+  | {
+      sticky: true;
+    }
+) &
+  FlashMessageProps;
 
 export default function notification({
   sticky,
   noRemoveOnClick,
-  timeOut,
   ...props
 }: NotificationPropsType) {
   const flash = FlashMessage(props);
@@ -46,7 +58,7 @@ export default function notification({
   }
 
   if (!sticky) {
-    setTimeout(() => Clear(flash), timeOut || 10000);
+    setTimeout(() => Clear(flash), "timeOut" in props ? props.timeOut : 10000);
   }
 
   return flash;

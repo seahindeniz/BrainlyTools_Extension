@@ -28,7 +28,7 @@ class Questions extends UserContent {
   }
 
   async DeleteSelectedQuestions() {
-    const rows = this.DeletableRows();
+    const rows = this.RemovableRows();
 
     if (rows.length === 0) {
       this.ShowSelectContentWarning();

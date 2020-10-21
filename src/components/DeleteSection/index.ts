@@ -23,7 +23,7 @@ function HideSections(sections: ReasonSections) {
   $.each(sections, (key, section) => section.Hide());
 }
 
-type ContentTypeType =
+export type DeleteSectionDeprecatedContentTypeType =
   | "question"
   | "answer"
   | "comment"
@@ -38,9 +38,9 @@ type HandlersType = {
 };
 
 type DeleteSectionPropsType = {
-  type?: ContentTypeType;
+  type?: DeleteSectionDeprecatedContentTypeType;
   reasons?: any[];
-  hideReasons?: ContentTypeType[];
+  hideReasons?: DeleteSectionDeprecatedContentTypeType[];
   handlers?: HandlersType;
   noSpacedTop?: boolean;
   verticalOptions?: boolean;
@@ -55,7 +55,7 @@ class DeleteSection {
   reason: DeleteReasonCategoryType | DeleteReasonSubCategoryType;
   reasonSections: ReasonSections;
   subReasonSections: ReasonSections;
-  hideReasons: ContentTypeType[];
+  hideReasons: DeleteSectionDeprecatedContentTypeType[];
   noSpacedTop?: boolean;
   verticalOptions?: boolean;
   handlers: HandlersType;
@@ -264,14 +264,17 @@ class DeleteSection {
       verticalOptions: this.verticalOptions,
     };
 
-    ["question", "answer", "comment"].forEach((type: ContentTypeType) => {
-      if (!this.hideReasons.includes(type))
+    ["question", "answer", "comment"].forEach(
+      (type: DeleteSectionDeprecatedContentTypeType) => {
+        if (this.hideReasons.includes(type)) return;
+
         sectionData.items.push({
           id: type,
           label:
             System.data.locale.popup.extensionOptions.quickDeleteButtons[type],
         });
-    });
+      },
+    );
 
     this.contentTypeSection = new RadioSection(sectionData);
 

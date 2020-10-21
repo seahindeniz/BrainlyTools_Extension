@@ -174,7 +174,7 @@ class Comments extends UserContent {
   }
 
   async DeleteSelectedComments() {
-    const rows = this.DeletableRows();
+    const rows = this.RemovableRows();
 
     if (rows.length === 0) {
       this.ShowSelectContentWarning();

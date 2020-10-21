@@ -1,5 +1,7 @@
 import ButtonDeprecated, { JQueryButtonElementType } from "@components/Button";
-import DeleteSection from "@components/DeleteSection";
+import DeleteSection, {
+  DeleteSectionDeprecatedContentTypeType,
+} from "@components/DeleteSection";
 import notification from "@components/notification2";
 import WaitForElement from "@root/helpers/WaitForElement";
 import {
@@ -185,8 +187,11 @@ class UserContent {
     });
   }
 
-  RenderDeleteSection(type) {
-    this.deleteSection = new DeleteSection({ type });
+  RenderDeleteSection(
+    type?: DeleteSectionDeprecatedContentTypeType,
+    hideReasons?: DeleteSectionDeprecatedContentTypeType[],
+  ) {
+    this.deleteSection = new DeleteSection({ type, hideReasons });
 
     this.RenderDeleteButton();
   }
@@ -284,7 +289,7 @@ class UserContent {
     this.HideElement(this.$selectContentWarning);
   }
 
-  DeletableRows() {
+  RemovableRows() {
     return this.FilterRows();
   }
 

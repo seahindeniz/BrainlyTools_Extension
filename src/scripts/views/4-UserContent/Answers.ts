@@ -1,4 +1,7 @@
-import Action, { RemoveAnswerReqDataType } from "@BrainlyAction";
+import Action, {
+  RemoveAnswerReqDataType,
+  RemoveQuestionReqDataType,
+} from "@BrainlyAction";
 import { Button } from "@style-guide";
 import UserContent from "./_/UserContent";
 import type UserContentRowClassType from "./_/UserContentRow";
@@ -70,6 +73,28 @@ async function Row_DeleteAnswer(
   }
 }
 
+async function Row_DeleteQuestion(
+  row: UserContentRowClassType,
+  postData: RemoveQuestionReqDataType,
+) {
+  if (row.deleted) {
+    row.Deleted();
+
+    return;
+  }
+
+  row.ShowSpinner();
+
+  const resRemove = await new Action().RemoveQuestion({
+    ...postData,
+    model_id: row.element.questionID,
+  });
+
+  new Action().CloseModerationTicket(row.element.questionID);
+
+  row.CheckDeleteResponse(resRemove);
+}
+
 class Answers extends UserContent {
   $approveButtonContainer: JQuery<HTMLElement>;
   $approveButton: JQuery<HTMLElement>;
@@ -114,7 +139,15 @@ class Answers extends UserContent {
       }
 
       if (System.checkUserP(15)) {
-        this.RenderDeleteSection("answer");
+        if (
+          System.checkUserP(14) &&
+          System.data.Brainly.userData.user.id !== Number(sitePassedParams[0])
+        )
+          this.RenderDeleteSection(undefined, ["comment"]);
+        else {
+          this.RenderDeleteSection("answer");
+        }
+
         this.RenderModerateButton();
         this.BindModerateHandlers();
       }
@@ -244,7 +277,7 @@ class Answers extends UserContent {
   }
 
   async ReportSelectedAnswersForCorrection() {
-    const rows = this.DeletableRows();
+    const rows = this.RemovableRows();
 
     if (rows.length === 0) {
       this.ShowSelectContentWarning();
@@ -277,26 +310,38 @@ class Answers extends UserContent {
   }
 
   async DeleteSelectedAnswers() {
-    const rows = this.DeletableRows();
+    const rows = this.RemovableRows();
 
     if (rows.length === 0) {
       this.ShowSelectContentWarning();
-    } else if (this.deleteSection.selectedReason) {
-      this.HideSelectContentWarning();
-      await System.Delay(50);
+    } else if (!this.deleteSection.selectedReason) return;
 
-      if (confirm(System.data.locale.common.moderating.doYouWantToDelete)) {
-        const postData = {
-          reason_id: this.deleteSection.selectedReason.id,
-          reason: this.deleteSection.reasonText,
-          give_warning: this.deleteSection.giveWarning,
-          take_points: this.deleteSection.takePoints,
-          model_id: undefined,
-        };
+    this.HideSelectContentWarning();
+    await System.Delay(50);
 
-        rows.forEach(row => Row_DeleteAnswer(row, { ...postData }));
-      }
+    if (!confirm(System.data.locale.common.moderating.doYouWantToDelete))
+      return;
+
+    const postData = {
+      reason_id: this.deleteSection.selectedReason.id,
+      reason: this.deleteSection.reasonText,
+      give_warning: this.deleteSection.giveWarning,
+      take_points: this.deleteSection.takePoints,
+      model_id: undefined,
+    };
+
+    if (this.deleteSection.type === "question") {
+      rows.forEach(row =>
+        Row_DeleteQuestion(row, {
+          ...postData,
+          return_points: this.deleteSection.returnPoints,
+        }),
+      );
+
+      return;
     }
+
+    rows.forEach(row => Row_DeleteAnswer(row, { ...postData }));
   }
 }
 

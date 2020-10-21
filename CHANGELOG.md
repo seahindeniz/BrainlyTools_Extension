@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.11.0] - 2020.10.22
+
+### Added
+
+- Cevaplar ekranında toplu soru silebilme. [#108]
+
+### Changed
+
+- Mass-moderate feature isn't working. [#291]
+- Seçmeli yorum silme yetkisi olmadığında seçim kutucukları, "yükleniyor"
+  durumunda takılı kalıyor [#292]
+
+[#108]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/108
+[#291]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/291
+[#292]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/292
+
 ## [7.10.3] - 2020.10.20
 
 ### Changed

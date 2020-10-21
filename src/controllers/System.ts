@@ -288,7 +288,9 @@ class _System {
             [id: number]: DeleteReasonCategoryType;
           };
           __subReason: {
-            [id: number]: DeleteReasonSubCategoryType;
+            [id: number]: DeleteReasonSubCategoryType & {
+              type: DeleteReasonContentTypeNameType;
+            };
           };
         } & {
           [x in DeleteReasonContentTypeNameType]: {

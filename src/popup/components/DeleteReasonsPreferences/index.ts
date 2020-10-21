@@ -1,8 +1,14 @@
 /* eslint-disable no-underscore-dangle */
+import type {
+  DeleteReasonContentTypeNameType,
+  DeleteReasonSubCategoryType,
+} from "@root/controllers/System";
 import ServerReq from "@ServerReq";
-import bulmahead from "../../../scripts/lib/bulmahead";
-import Preference from "./Preference";
+import bulmahead, {
+  BulmaheadSuggestionType,
+} from "../../../scripts/lib/bulmahead";
 import notification from "../notification";
+import Preference from "./Preference";
 
 class DeleteReasonsPreferences {
   selectedReasons: number[];
@@ -115,15 +121,24 @@ class DeleteReasonsPreferences {
 
     this.preferences.forEach(preference => {
       const reason =
-        System.data.Brainly.deleteReasons.__withIds.__all[preference.reasonID];
+        System.data.Brainly.deleteReasons.__withIds.__subReason[
+          preference.reasonID
+        ];
 
       if (!reason || !("type" in reason)) return;
 
       if (reason) {
         const category =
-          System.data.Brainly.deleteReasons.__withIds.__all[reason.category_id];
-        const categoryText = category.text;
-        const label = `${categoryText} › ${reason.title}`;
+          System.data.Brainly.deleteReasons.__withIds.__reason[
+            reason.category_id
+          ];
+        let categoryText = category?.text;
+
+        if (categoryText) {
+          categoryText += " › ";
+        }
+
+        const label = `${categoryText}${reason.title}`;
 
         const deleteReasonsPreference = new Preference(
           reason,
@@ -150,44 +165,45 @@ class DeleteReasonsPreferences {
     );
   }
 
-  SearchDeleteReason(value) {
-    return new Promise(resolve => {
-      return resolve(
-        (() => {
-          const reasonList = [];
+  // eslint-disable-next-line class-methods-use-this
+  async SearchDeleteReason(value: string) {
+    const regexp = new RegExp(value, "i");
+    const reasonList: BulmaheadSuggestionType[] = [];
 
-          $.each(
-            System.data.Brainly.deleteReasons.__withTitles,
-            (type, reasons) => {
-              $.each(reasons, (reasonKey, reason) => {
-                if (
-                  String(reasonKey).indexOf("__") < 0 &&
-                  new RegExp(value, "i").test(String(reasonKey)) &&
-                  this.selectedReasons.indexOf(reason.id) < 0
-                ) {
-                  const typeT =
-                    System.data.locale.popup.extensionOptions
-                      .quickDeleteButtons[type];
-                  const categoryName =
-                    System.data.Brainly.deleteReasons.__withIds[type]
-                      .__categories[reason.category_id].text;
+    Object.entries(System.data.Brainly.deleteReasons.__withTitles).forEach(
+      ([type, reasons]: [
+        DeleteReasonContentTypeNameType,
+        {
+          [title: string]: DeleteReasonSubCategoryType;
+        },
+      ]) => {
+        Object.entries(reasons).forEach(([reasonKey, reason]) => {
+          if (
+            this.selectedReasons.includes(reason.id) ||
+            String(reasonKey).startsWith("__") ||
+            !regexp.test(reasonKey)
+          )
+            return;
 
-                  reasonList.push({
-                    type,
-                    prelabel: `${typeT} › `,
-                    label: `${categoryName} › ${reason.title}`,
-                    reason,
-                    value: reason.title,
-                  });
-                }
-              });
-            },
-          );
+          const typeT =
+            System.data.locale.popup.extensionOptions.quickDeleteButtons[type];
+          const categoryName =
+            System.data.Brainly.deleteReasons.__withIds[type].__categories[
+              reason.category_id
+            ].text;
 
-          return reasonList;
-        })(),
-      );
-    });
+          reasonList.push({
+            type,
+            preLabel: `${typeT} › `,
+            label: `${categoryName} › ${reason.title}`,
+            reason,
+            value: reason.title,
+          });
+        });
+      },
+    );
+
+    return reasonList;
   }
 
   ReasonSelected(data) {

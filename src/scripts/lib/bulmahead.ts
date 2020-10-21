@@ -1,9 +1,21 @@
+import {
+  DeleteReasonContentTypeNameType,
+  DeleteReasonSubCategoryType,
+} from "@root/controllers/System";
 import debounce from "debounce";
+
+export type BulmaheadSuggestionType = {
+  type: DeleteReasonContentTypeNameType;
+  preLabel: string;
+  label: string;
+  reason: DeleteReasonSubCategoryType;
+  value: string;
+};
 
 const bulmahead = (
   input: HTMLInputElement,
   menuEl,
-  api,
+  api: (value: string) => Promise<BulmaheadSuggestionType[]>,
   onSelect,
   delay = 200,
 ) => {
@@ -29,16 +41,16 @@ const bulmahead = (
       return;
     }
     api(value).then(suggestions => {
-      const suggestionsEl = suggestions.map(obj => {
-        const { prelabel, label, _value, title } = obj;
+      const suggestionsEl = suggestions.map(suggestion => {
+        const { preLabel, label, value: _value } = suggestion;
         const a = document.createElement("a");
         a.href = "#";
         a.classList.add("dropdown-item");
-        a.innerHTML = prelabel + label;
+        a.innerHTML = preLabel + label;
         a.dataset.value = _value;
         // @ts-expect-error
-        a.object = obj;
-        if (title) a.title = title;
+        a.object = suggestion;
+        // if (title) a.title = title;
         a.addEventListener("click", setValue);
         return a;
       });

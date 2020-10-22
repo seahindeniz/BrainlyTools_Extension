@@ -3,7 +3,7 @@ import type { ChildrenParamType } from "@style-guide/helpers/AddChildren";
 import SetProps from "@style-guide/helpers/SetProps";
 import classNames from "classnames";
 
-type ExtraBoxColorType = "lavender-secondary";
+type ExtraBoxColorType = "lavender-secondary" | "megaman" | "surf-crest";
 
 export type BoxColorType =
   | "dark"

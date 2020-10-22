@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.13.0] - 2020.10.22
+
+### Added
+
+- An option to moderate attachments in the "View User Content" page. [#162]
+- "Jump to Bottom" button can be added to the User Content page. [#270]
+
+### Changed
+
+- Minor fixes
+
+[#162]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/162
+[#270]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/270
+
 ## [7.12.0] - 2020.10.22
 
 ### Added

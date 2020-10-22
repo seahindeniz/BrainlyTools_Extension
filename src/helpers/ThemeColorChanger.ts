@@ -170,7 +170,10 @@ class ThemeColorChanger {
 		.mint-tabs__tab--active,
 		#html .mint .mint-header,
 		#html .mint #tabs-doj #main_menu>li.active,
-		#html .mint #footer{
+    #html .mint #footer,
+    header[class^="HeaderController"],
+    div[class^="HeaderController__innerwrap"]
+    {
 			${this.backgroundStyle}
 		}
 

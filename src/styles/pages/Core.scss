@@ -34,6 +34,10 @@
   left: 5px;
 }
 
+div[class^="HeaderController__subnav"] {
+  background-color: transparent;
+}
+
 .ext {
   &-image-gallery {
     > div {

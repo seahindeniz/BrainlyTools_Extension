@@ -158,9 +158,11 @@ export default class ReportedContentsStatusBar {
     this.numberOfModeratedContents = 0;
     this.numberOfFailedContents = 0;
 
-    this.ignoredState = false;
+    if (this.#ignoreButtonContainer) {
+      this.ignoredState = false;
 
-    this.ChangeIgnoredState();
+      this.ChangeIgnoredState();
+    }
   }
 
   RenderIgnoreContentsButton() {

@@ -1,4 +1,4 @@
-import Action from "@BrainlyAction";
+import Action, { AttachmentDataInTicketType } from "@BrainlyAction";
 import CreateElement from "@components/CreateElement";
 import notification from "@components/notification2";
 import Build from "@root/helpers/Build";
@@ -11,13 +11,15 @@ import {
   Counter,
   Flex,
   Icon,
-  LabelDeprecated,
+  Label,
   Spinner,
   Text,
 } from "@style-guide";
 import type { BoxColorType, BoxPropsType } from "@style-guide/Box";
 import type { FlexElementType } from "@style-guide/Flex";
 import mime from "mime-types";
+import Viewer from "viewerjs";
+import Attachment from "./Attachment";
 import type UserContentRowType from "./UserContentRow";
 
 function HideElement(element: HTMLElement) {
@@ -49,6 +51,9 @@ export default class ContentViewerContent {
   confirmButtonContainer: FlexElementType;
   approveButton: Button;
   approveButtonContainer: FlexElementType;
+  attachmentContainer: FlexElementType;
+  attachmentLabelNumber: Text;
+  gallery: Viewer;
 
   constructor(main: UserContentRowType, source, user) {
     this.main = main;
@@ -314,12 +319,15 @@ export default class ContentViewerContent {
   }
 
   RenderAttachmentsIcon() {
+    this.attachmentLabelNumber = document.createTextNode(
+      String(this.source.attachments.length),
+    );
     const attachmentIconContainer = Flex({
       marginTop: "xs",
-      children: LabelDeprecated({
+      children: new Label({
         color: "gray",
-        icon: { type: "attachment" },
-        text: this.source.attachments.length,
+        icon: new Icon({ type: "attachment" }),
+        children: this.attachmentLabelNumber,
       }),
     });
 
@@ -327,78 +335,83 @@ export default class ContentViewerContent {
   }
 
   RenderAttachments() {
-    const attachmentContainer = Flex({
-      marginTop: "l",
+    const galleryContainer = Flex({
+      wrap: true,
+      className: "ext-image-gallery",
     });
 
-    this.contentContainer.append(attachmentContainer);
-
     this.source.attachments.forEach(
-      (attachment: {
-        type: string;
-        thumbnail: string;
-        full: string;
-        extension: string;
-      }) => {
-        const boxProps: BoxPropsType = {
-          color: "dark",
-          border: false,
-        };
+      (attachmentData: AttachmentDataInTicketType) => {
+        const attachment = new Attachment(this, attachmentData);
 
-        if (!attachment.thumbnail) {
-          const attachmentTypes =
-            attachment.extension ||
-            [
-              ...new Set(
-                attachment.type
-                  .split("application/")
-                  .filter(Boolean)
-                  .map(type =>
-                    mime.extension(
-                      type.includes("/") ? type : `application/${type}`,
-                    ),
-                  ),
-              ),
-            ].join(" ");
-
-          boxProps.children = Text({
-            weight: "bold",
-            href: "",
-            target: "_blank",
-            text: (attachmentTypes || attachment.type).toLocaleUpperCase(),
-          });
-        } else {
-          boxProps.children = CreateElement({
-            tag: "a",
-            target: "_blank",
-            href: attachment.full,
-            children: CreateElement({
-              tag: "img",
-              src: attachment.thumbnail,
-            }),
-          });
-        }
-
-        const container = Build(
-          Flex({
-            marginLeft: "xs",
-          }),
-          [
-            [
-              CreateElement({
-                tag: "a",
-                target: "_blank",
-                href: attachment.full,
-              }),
-              // TODO test this
-              new Box(boxProps),
-            ],
-          ],
-        );
-
-        attachmentContainer.append(container);
+        galleryContainer.append(attachment.container);
       },
     );
+
+    this.attachmentContainer = Flex({
+      marginTop: "l",
+      children: galleryContainer,
+    });
+
+    this.contentContainer.append(this.attachmentContainer);
+
+    this.gallery = new Viewer(galleryContainer, {
+      fullscreen: false,
+      loop: false,
+      title: false,
+      url(image: HTMLImageElement) {
+        return image.dataset.src;
+      },
+      toolbar: {
+        zoomIn: 1,
+        zoomOut: 1,
+        oneToOne: 1,
+        reset: 1,
+        prev: this.source.attachments.length > 1 ? 1 : false,
+        play: false,
+        next: this.source.attachments.length > 1 ? 1 : false,
+        rotateLeft: 1,
+        rotateRight: 1,
+        flipHorizontal: 1,
+        flipVertical: 1,
+      },
+    });
+
+    if (this.source.attachments.length > 1) {
+      galleryContainer.addEventListener(
+        "view",
+        (
+          event: CustomEvent<{
+            image: HTMLImageElement;
+            index: number;
+            originalImage: HTMLImageElement;
+          }>,
+        ) => {
+          const prevTooltip = (this.gallery[
+            // eslint-disable-next-line dot-notation
+            "toolbar"
+          ] as HTMLDivElement).querySelector(".viewer-prev") as HTMLLIElement;
+          const nextTooltip = (this.gallery[
+            // eslint-disable-next-line dot-notation
+            "toolbar"
+          ] as HTMLDivElement).querySelector(".viewer-next") as HTMLLIElement;
+
+          if (event.detail.index === 0) {
+            nextTooltip.removeAttribute("style");
+            prevTooltip.style.display = "none";
+          } else if (
+            event.detail.index ===
+            this.source.attachments.length - 1
+          ) {
+            prevTooltip.removeAttribute("style");
+            nextTooltip.style.display = "none";
+          } else {
+            nextTooltip.removeAttribute("style");
+            prevTooltip.removeAttribute("style");
+          }
+        },
+      );
+    }
   }
 
   async Confirm() {

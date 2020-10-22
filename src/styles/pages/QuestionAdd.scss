@@ -1,6 +1,14 @@
 @use "sass:map";
 @import "~perfect-scrollbar";
 
+header[class^="HeaderController"] {
+  position: unset;
+}
+
+div[class^="HeaderController__subnav"] {
+  display: none;
+}
+
 .ps__rail-x {
   bottom: 0;
   top: auto !important;

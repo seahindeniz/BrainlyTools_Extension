@@ -1,5 +1,4 @@
 import Action, { AttachmentDataInTicketType } from "@BrainlyAction";
-import CreateElement from "@components/CreateElement";
 import notification from "@components/notification2";
 import Build from "@root/helpers/Build";
 import replaceLatexWithURL from "@root/helpers/replaceLatexWithURL";
@@ -15,9 +14,8 @@ import {
   Spinner,
   Text,
 } from "@style-guide";
-import type { BoxColorType, BoxPropsType } from "@style-guide/Box";
+import type { BoxColorType } from "@style-guide/Box";
 import type { FlexElementType } from "@style-guide/Flex";
-import mime from "mime-types";
 import Viewer from "viewerjs";
 import Attachment from "./Attachment";
 import type UserContentRowType from "./UserContentRow";

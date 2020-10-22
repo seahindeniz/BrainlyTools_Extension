@@ -1,8 +1,11 @@
+import JumpButton from "@components/JumpButton";
 import WaitForElement from "@root/helpers/WaitForElement";
 import { Button, Flex, Icon } from "@style-guide";
 import InjectToDOM from "../../../helpers/InjectToDOM";
 
 (async () => {
+  // eslint-disable-next-line no-new
+  new JumpButton();
   let type;
 
   if (System.checkRoute(4, "") || System.checkRoute(4, "tasks"))

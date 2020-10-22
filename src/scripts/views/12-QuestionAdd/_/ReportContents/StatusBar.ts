@@ -211,7 +211,7 @@ export default class ReportedContentsStatusBar {
     this.ChangeIgnoredState();
 
     this.main.contents.filtered.forEach(content => {
-      if (!content.container) return;
+      if (!content.container || content.has === "deleted") return;
 
       content.ignored = this.ignoredState;
 

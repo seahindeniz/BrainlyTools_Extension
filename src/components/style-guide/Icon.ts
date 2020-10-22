@@ -11,7 +11,9 @@ type ExtensionIconTypeType =
   | "ext-xlsx"
   | "ext-numbers"
   | "ext-measuring-tape"
-  | "ext-sheet";
+  | "ext-sheet"
+  | "ext-shield"
+  | "ext-empty-shield";
 
 export type IconTypeType =
   | "academic_cap"

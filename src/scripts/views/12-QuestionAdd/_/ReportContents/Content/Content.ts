@@ -7,7 +7,6 @@ import Action, {
   UserDataInReportType,
   UsersDataInReportedContentsType,
 } from "@BrainlyAction";
-import { BlurredOverlay } from "@components";
 import CreateElement from "@components/CreateElement";
 import type { ContentNameType } from "@components/ModerationPanel/ModeratePanelController";
 import notification from "@components/notification2";
@@ -116,7 +115,6 @@ export default class Content {
   #ignoreButton?: Button;
   #ignoreButtonContainer?: FlexElementType;
   #ignoreButtonIcon?: Icon;
-  #blurredOverlay?: HTMLDivElement;
   reportFlagIcon: Icon;
 
   constructor({
@@ -532,7 +530,6 @@ export default class Content {
     this.moderatorContainer = null;
     this.extraDetailsContainer = null;
     this.quickDeleteButtons = [];
-    this.#blurredOverlay = null;
     this.#ignoreButton = null;
     this.#ignoreButtonIcon = null;
 
@@ -1087,10 +1084,8 @@ export default class Content {
 
     if (this.#ignoreButtonContainer) {
       this.#ignoreButtonContainer?.remove();
-      this.#blurredOverlay?.remove();
 
       this.#ignoreButtonContainer = null;
-      this.#blurredOverlay = null;
     }
   }
 
@@ -1108,28 +1103,15 @@ export default class Content {
     if (this.ignored !== true) {
       this.#ignoreButtonIcon?.ChangeType("unseen");
       this.#ignoreButton?.ChangeType({ type: "transparent-light" });
-      HideElement(this.#blurredOverlay);
       this.ChangeBoxColor();
       this.ShowActionButtons();
 
       return;
     }
 
-    if (!this.#blurredOverlay) {
-      this.RenderBlurredOverlay();
-    }
-
-    if (this.box) {
-      InsertAfter(this.#blurredOverlay, this.box.element);
-    }
-
     this.HideActionButtons();
-    this.box?.ChangeColor("blue-secondary");
+    this.box?.ChangeColor("surf-crest");
     this.#ignoreButtonIcon?.ChangeType("seen");
     this.#ignoreButton?.ChangeType({ type: "transparent" });
-  }
-
-  RenderBlurredOverlay() {
-    this.#blurredOverlay = BlurredOverlay();
   }
 }

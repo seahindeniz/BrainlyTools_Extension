@@ -341,10 +341,6 @@ export default {
             title: "Change ranks",
             description: "User can use this function to change ranks of users massively by providing list of ids/links of users"
           },
-          34: {
-            title: "Point transferer req.",
-            description: "User can use the \"Mark as point transferer\" button to mark a user that uses some point transferring methods to gain points"
-          },
           36: {
             title: "Content delete options on profile page",
             description: "Allow this moderator to see the links used to delete all questions, answers, and comments from profile page of a user"
@@ -544,12 +540,6 @@ export default {
           tabButton: {
             text: "Add answer",
             title: "Add an answer to target questions"
-          }
-        },
-        approveAnswers: {
-          tabButton: {
-            text: "Verify answers",
-            title: "Verify answers of questions, relatively"
           }
         }
       }
@@ -799,7 +789,7 @@ export default {
       },
       filter: {
         optionName: "Filter reports",
-        description: "Filters can be applied only to those reports that have been loaded",
+        description: "Filters can be applied only to those reports that have been fetched",
         filters: {
           reporter: {
             name: "Reporter user"
@@ -892,13 +882,14 @@ export default {
         reason: "Reason",
         contentShort: "Content(short)",
         isModerated: "Is moderated?"
-      }
+      },
+      notYetCorrected: "Not yet corrected"
     },
-    loadAll: "Load all reports",
+    loadAll: "Fetch all reports",
     loadAllConfirmationMessage: "I'll try to fetch all reported contents from Brainly but the process can be interrupted by Brainly because of elevated requests.\nPlease confirm to start the process",
     massModerate: {
       name: "Mass-Moderate contents",
-      description: "You can only moderate contents that have been loaded",
+      description: "You can only moderate contents that have been fetched",
       confirm: {
         text: "Confirm",
         noContentToConfirm: "There is no content that's available for confirmation",
@@ -972,7 +963,8 @@ export default {
     originalAnswer: "Original answer",
     answerHasCorrected: "%{nick} has corrected the answer",
     questionHasBeenDeleted: "Question has been deleted",
-    moderationCompleted: "Moderation completed"
+    moderationCompleted: "Moderation completed",
+    extendBy15Minutes: "Extend by 15 minutes"
   },
   shortAnswersPage: {
     selectAtLeastOneAnswer: "You need to select at least one answer",

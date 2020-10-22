@@ -135,7 +135,7 @@
       "privilegeHasGiven": "Le privilège a été donné à %{user_amount} utilisateurs",
       "privilegeHasRevoked": "Le privilège a été révoqué pour %{user_amount} utilisateurs",
       "iCantFetchMarketData": "Je ne trouve pas les données",
-      "incorrectData": "I can't communicate with %{market_domain_name}<br><br>Please visit any page from %{market_domain_name} or refresh the page that is already open"
+      "incorrectData": "Je ne parviens pas à communiquer avec %{market_domain_name} <br> <br> Veuillez visiter une page de %{market_domain_name} ou actualiser la page qui est déjà ouverte"
     },
     "createShortLinkButton": {
       "text": "URL court",
@@ -341,10 +341,6 @@
             "title": "Changer les rangs",
             "description": "L'utilisateur peut utiliser cette fonction pour changer massivement les rangs d'utilisateurs en fournissant une liste d'ids/liens d'utilisateurs"
           },
-          "34": {
-            "title": "Demande de transfert de points",
-            "description": "User can use the \"Mark as point transferer\" button to mark a user that uses some point transferring methods to gain points"
-          },
           "36": {
             "title": "Masquer les options de suppression de contenu de la page de profil",
             "description": "Permettre à ce modérateur de voir les liens utilisés pour supprimer toutes les questions, réponses et commentaires de la page de profil d'un utilisateur"
@@ -385,11 +381,11 @@
         }
       },
       "accountDeleteReports": {
-        "text": "Rapport de suppression de comptes",
+        "text": "Rapports de suppression de comptes",
         "download": "Télécharger",
         "playOrPause": "Démarrer/Pause",
-        "byModerator": "By moderator",
-        "byDeletedAccount": "By deleted account"
+        "byModerator": "Par modérateur",
+        "byDeletedAccount": "Par compte supprimé"
       }
     }
   },
@@ -545,12 +541,6 @@
             "text": "Ajouter une réponse",
             "title": "Ajouter une réponse aux questions cibles"
           }
-        },
-        "approveAnswers": {
-          "tabButton": {
-            "text": "Verify answers",
-            "title": "Verify answers of questions, relatively"
-          }
         }
       }
     }
@@ -649,7 +639,7 @@
       "selectAtLeastOneUser": "Tu dois sélectionner au moins un utilisateur",
       "youNeedToProvideSomeDetails": "Vous devez fournir quelques détails",
       "confirmAccountDeletion": "Voulez-vous supprimer ce profil ?",
-      "profileHasAlreadyDeleted": "This profile has already deleted by someone else"
+      "profileHasAlreadyDeleted": "Ce profil a déjà été supprimé par quelqu'un d'autre"
     },
     "previousNicks": {
       "text": "Pseudo précédent",
@@ -892,7 +882,8 @@
         "reason": "Raison",
         "contentShort": "Contenu (court)",
         "isModerated": "Est-il modéré ?"
-      }
+      },
+      "notYetCorrected": "Not yet corrected"
     },
     "loadAll": "Charger tous les signalements",
     "loadAllConfirmationMessage": "Je vais essayer de récupérer tous les contenus signalés auprès de Brainly, mais le processus peut être interrompu par Brainly en raison de demandes élevées.\nVeuillez confirmer pour lancer le processus.",
@@ -923,19 +914,19 @@
         "failed": "%{count} échecs"
       },
       "visible": {
-        "contents": "Visible contents",
-        "questions": "Visible questions",
-        "answers": "Visible answers",
-        "comments": "Visible comments"
+        "contents": "Contenus visibles",
+        "questions": "Questions visibles",
+        "answers": "Réponses visibles",
+        "comments": "Commentaires visibles"
       },
       "filtered": {
-        "contents": "Filtered contents",
-        "questions": "Filtered questions",
-        "answers": "Filtered answers",
-        "comments": "Filtered comments"
+        "contents": "Contenus filtrés",
+        "questions": "Questions filtrées",
+        "answers": "Réponses filtrées",
+        "comments": "Commentaires filtrés"
       },
-      "ignoreContent": "Ignore this report while mass-moderating",
-      "ignoreContents": "Ignore %{number} visible reports while mass-moderating"
+      "ignoreContent": "Ignorer ce signalement tout en modérant en masse",
+      "ignoreContents": "Ignorer les %{nombre} de signalements visibles lors de la modération de masse"
     },
     "categoryFilterFirstOption": {
       "name": "Motifs de signalements — TOUS",
@@ -971,8 +962,9 @@
     "corrected": "Corrigée",
     "originalAnswer": "Réponse originale",
     "answerHasCorrected": "%{nick} a corrigé la réponse",
-    "questionHasBeenDeleted": "Question has been deleted",
-    "moderationCompleted": "Moderation completed"
+    "questionHasBeenDeleted": "La question a été supprimée",
+    "moderationCompleted": "Modération terminée",
+    "extendBy15Minutes": "Extend by 15 minutes"
   },
   "shortAnswersPage": {
     "selectAtLeastOneAnswer": "Vous devez sélectionner au moins une réponse",

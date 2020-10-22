@@ -23,9 +23,13 @@ export default class ButtonVisibility {
     const options = [
       {
         value: 0,
-        text:
-          System.data.locale.reportedContents.options.buttonVisibility
-            .defaultVisibility,
+        text: `${
+          System.data.locale.reportedContents.options.buttonVisibility[
+            document.documentElement.classList.contains("mobile")
+              ? "alwaysVisible"
+              : "onHoverOrTouch"
+          ]
+        } (${System.data.locale.reportedContents.options.buttonVisibility.defaultVisibility.toLowerCase()})`,
       },
     ];
 

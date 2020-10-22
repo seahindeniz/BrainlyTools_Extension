@@ -46,7 +46,7 @@ const LANGUAGE_DETAILS = {
   },
   pl: {
     name: "Polish",
-    author: null,
+    author: "Kinga",
   },
 };
 

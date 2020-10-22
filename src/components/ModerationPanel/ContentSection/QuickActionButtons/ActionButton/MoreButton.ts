@@ -14,8 +14,7 @@ export default class MoreButton extends ActionButton {
         iconOnly: true,
         title: System.data.locale.moderationPanel.seeMoreDeleteOptions,
         icon: new Icon({
-          size: 32,
-          type: "more",
+          type: "trash",
           color: "adaptive",
         }),
       },

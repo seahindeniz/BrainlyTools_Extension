@@ -341,10 +341,6 @@
             "title": "Rank değiştir",
             "description": "Kullanıcı bu fonksiyonu kullanarak kullanıcıların rütbelerini, profil linki veya id listesi ile çoklu şekilde değiştirebilir"
           },
-          "34": {
-            "title": "Point transferer req.",
-            "description": "User can use the \"Mark as point transferer\" button to mark a user that uses some point transferring methods to gain points"
-          },
           "36": {
             "title": "Profil sayfasındaki içerik silme seçenekleri",
             "description": "Moderatörün, bir kullanıcının profil sayfasındaki tüm soruları, cevapları ve yorumları silmek için kullanılan bağlantıları görmesine izin ver"
@@ -544,12 +540,6 @@
           "tabButton": {
             "text": "Cevap ekle",
             "title": "Hedef sorulara cevap ekleme"
-          }
-        },
-        "approveAnswers": {
-          "tabButton": {
-            "text": "Verify answers",
-            "title": "Verify answers of questions, relatively"
           }
         }
       }
@@ -892,7 +882,8 @@
         "reason": "Sebep",
         "contentShort": "İçerik(kısa)",
         "isModerated": "Düzenlendi mi?"
-      }
+      },
+      "notYetCorrected": "Henüz düzeltilmemiş"
     },
     "loadAll": "Tüm şikayetleri getir",
     "loadAllConfirmationMessage": "Brainly'den bildirilen tüm içerikleri çekmeye çalışacağım. Ancak bu işlem, çok fazla uzadığı zaman bağlantılar Brainly tarafından kesintiye uğrayabilir. \nLütfen işlemi başlatmak için onaylayın",
@@ -972,7 +963,8 @@
     "originalAnswer": "Orijinal cevap",
     "answerHasCorrected": "%{nick} cevabını düzeltti",
     "questionHasBeenDeleted": "Soru silindi",
-    "moderationCompleted": "Denetleme tamamlandı"
+    "moderationCompleted": "Denetleme tamamlandı",
+    "extendBy15Minutes": "15 dakika uzat"
   },
   "shortAnswersPage": {
     "selectAtLeastOneAnswer": "En az bir cevap seçmelisin",

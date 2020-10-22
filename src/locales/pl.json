@@ -341,10 +341,6 @@
             "title": "Change ranks",
             "description": "User can use this function to change ranks of users massively by providing list of ids/links of users"
           },
-          "34": {
-            "title": "Point transferer req.",
-            "description": "User can use the \"Mark as point transferer\" button to mark a user that uses some point transferring methods to gain points"
-          },
           "36": {
             "title": "Content delete options on profile page",
             "description": "Allow this moderator to see the links used to delete all questions, answers, and comments from profile page of a user"
@@ -544,12 +540,6 @@
           "tabButton": {
             "text": "Add answer",
             "title": "Add an answer to target questions"
-          }
-        },
-        "approveAnswers": {
-          "tabButton": {
-            "text": "Verify answers",
-            "title": "Verify answers of questions, relatively"
           }
         }
       }
@@ -892,7 +882,8 @@
         "reason": "Powód",
         "contentShort": "Treść (skrócona)",
         "isModerated": "Czy zmoderowano?"
-      }
+      },
+      "notYetCorrected": "Not yet corrected"
     },
     "loadAll": "Wczytaj wszystkie raporty",
     "loadAllConfirmationMessage": "Spróbujemy wczytać wszystkie zgłoszone treści z Brainly, ale proces może zostać przerwany przez Brainly z powodu specjalnych żądań.\n Potwierdź, aby rozpocząć proces",
@@ -972,7 +963,8 @@
     "originalAnswer": "Oryginalna odpowiedź",
     "answerHasCorrected": "%{nick} poprawił swoją odpowiedź",
     "questionHasBeenDeleted": "Question has been deleted",
-    "moderationCompleted": "Moderation completed"
+    "moderationCompleted": "Moderation completed",
+    "extendBy15Minutes": "Extend by 15 minutes"
   },
   "shortAnswersPage": {
     "selectAtLeastOneAnswer": "You need to select at least one answer",

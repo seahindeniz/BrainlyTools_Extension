@@ -117,6 +117,7 @@ export default class Content {
   #ignoreButtonContainer?: FlexElementType;
   #ignoreButtonIcon?: Icon;
   #blurredOverlay?: HTMLDivElement;
+  reportFlagIcon: Icon;
 
   constructor({
     main,
@@ -376,7 +377,7 @@ export default class Content {
                             iconOnly: true,
                             onClick: this.Moderate.bind(this),
                             icon: new Icon({
-                              type: "pencil",
+                              type: "ext-shield",
                               color: "adaptive",
                             }),
                           })),
@@ -421,10 +422,10 @@ export default class Content {
                             marginRight: "xxs",
                             alignItems: "center",
                           }),
-                          new Icon({
+                          (this.reportFlagIcon = new Icon({
                             type: "report_flag",
                             color: reportFlagColor,
-                          }),
+                          })),
                         ],
                       ],
                     ],
@@ -491,6 +492,21 @@ export default class Content {
             weight: "bold",
             children:
               System.data.locale.reportedContents.massModerate.ignoreContent,
+          }),
+        }),
+      );
+    }
+
+    if ("corrected" in this.data) {
+      this.tippyInstances.push(
+        tippy(this.reportFlagIcon.element, {
+          theme: "light",
+          content: Text({
+            size: "small",
+            weight: "bold",
+            children: this.data.corrected
+              ? System.data.locale.moderationPanel.corrected
+              : System.data.locale.reportedContents.queue.notYetCorrected,
           }),
         }),
       );

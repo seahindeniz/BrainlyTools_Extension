@@ -15,7 +15,7 @@ export default class AskForCorrectionButton extends ActionButton {
         title: System.data.locale.userContent.askForCorrection.text,
         icon: new Icon({
           color: "adaptive",
-          type: "report_flag_outlined",
+          type: "pencil",
         }),
       },
       Text({

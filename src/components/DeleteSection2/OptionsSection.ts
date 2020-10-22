@@ -15,9 +15,9 @@ export default class OptionsSection {
     this.main = main;
 
     this.Render();
-    this.RenderGiveWarning();
     this.RenderTakePoints();
     this.RenderReturnPoints();
+    this.RenderGiveWarning();
   }
 
   Render() {

@@ -15,11 +15,13 @@ import {
   LabelDeprecated,
   SeparatorHorizontal,
   Spinner,
+  Text,
   Text as TextComponent,
 } from "@style-guide";
 import { FlexElementType } from "@style-guide/Flex";
 import type { Duration, Moment } from "moment";
 import { duration, utc } from "moment";
+import tippy from "tippy.js";
 import notification from "../notification2";
 import Answer from "./ContentSection/Answer";
 import Question from "./ContentSection/Question";
@@ -191,6 +193,16 @@ export default class ModerationPanel {
       ],
     });
 
+    tippy(this.prolongTimeButton.element, {
+      theme: "light",
+      content: Text({
+        tag: "div",
+        size: "small",
+        weight: "bold",
+        children: System.data.locale.moderationPanel.extendBy15Minutes,
+      }),
+    });
+
     this.modal.titleContainer.append(counterContainer);
   }
 
@@ -343,6 +355,7 @@ export default class ModerationPanel {
     );
 
     notification({
+      timeOut: 3000,
       type: "info",
       text: System.data.locale.moderationPanel.moderationCompleted,
     });

@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.12.0] - 2020.10.22
+
+### Added
+
+- Some title changes for a few icons. [#293]
+
+### Changed
+
+- Reported contents page isn't loading
+
+[#293]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/293
+
 ## [7.11.0] - 2020.10.22
 
 ### Added

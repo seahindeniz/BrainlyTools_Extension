@@ -107,7 +107,8 @@
     "beta": "Bêta",
     "deletedUser": "Utilisateur supprimé",
     "toggleSelections": "Basculer la sélection",
-    "copied": "Copié !"
+    "copied": "Copié !",
+    "default": "Par défaut"
   },
   "popup": {
     "notificationMessages": {
@@ -784,8 +785,7 @@
       "buttonVisibility": {
         "optionName": "Visibilité des boutons d'action",
         "alwaysVisible": "Toujours visible",
-        "onHoverOrTouch": "Au survol/Cliquer",
-        "defaultVisibility": "Par défaut"
+        "onHoverOrTouch": "Au survol/Cliquer"
       },
       "filter": {
         "optionName": "Filtrer les signalements",
@@ -853,8 +853,7 @@
       },
       "name": "Options",
       "density": {
-        "optionName": "Densité",
-        "defaultDensity": "Par défaut"
+        "optionName": "Densité"
       },
       "lazyQueue": {
         "optionName": "File d'attente ralentie (Rafraîchissement nécessaire)",
@@ -863,6 +862,10 @@
       "toggleInfiniteLoader": {
         "optionName": "Chargement déroulant",
         "description": "Activer/désactiver le chargement automatique du contenu lors du défilement de la page"
+      },
+      "loadLimiter": {
+        "optionName": "Load limiter",
+        "description": "This option allows you to increase/decrease the limit of how many report box will be shown after clicking the load more button.\n\nHigher values may cause a little delay in showing boxes"
       }
     },
     "queue": {

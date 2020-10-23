@@ -106,7 +106,7 @@ export default class Density {
 
     this.label.innerText =
       this.density === 0
-        ? System.data.locale.reportedContents.options.density.defaultDensity
+        ? System.data.locale.common.default
         : String(this.density);
 
     storage("set", { [STORAGE_NAME]: this.density });

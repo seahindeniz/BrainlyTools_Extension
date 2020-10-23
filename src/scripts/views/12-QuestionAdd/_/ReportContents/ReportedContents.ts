@@ -1,4 +1,5 @@
 import type { UsersDataInReportedContentsType } from "@BrainlyAction";
+import CreateElement from "@components/CreateElement";
 import Build from "@root/helpers/Build";
 import storage from "@root/helpers/extStorage";
 import InsertAfter from "@root/helpers/InsertAfter";
@@ -13,6 +14,10 @@ import Fetcher from "./Fetcher/Fetcher";
 import LiveStatus from "./LiveStatus/LiveStatus";
 import Moderator from "./Moderator/Moderator";
 import { REPORTED_CONTENTS_LAZY_QUEUE_KEY } from "./Queue/Options/LazyQueue";
+import {
+  MIN_REPORT_BOXES_PER_SCROLL_LIMIT,
+  REPORTED_CONTENTS_LOAD_LIMITER_KEY,
+} from "./Queue/Options/LoadLimiter";
 import { REPORTED_CONTENTS_AUTO_QUEUE_LOADER_KEY } from "./Queue/Options/ToggleAutoQueueLoader";
 import Queue from "./Queue/Queue";
 import ReportedContentsStatusBar from "./StatusBar";
@@ -22,7 +27,7 @@ export default class ReportedContents {
   fetcherActionsContainer: FlexElementType;
   filterLabelContainer: FlexElementType;
   popupMenuContainer: FlexElementType;
-  queueContainer: FlexElementType;
+  queueContainer: HTMLDivElement;
 
   contents: {
     all: ContentClassTypes[];
@@ -54,6 +59,7 @@ export default class ReportedContents {
   defaults: {
     lazyQueue: boolean;
     autoQueueLoader: boolean;
+    loadLimit: number;
   };
 
   constructor() {
@@ -71,6 +77,7 @@ export default class ReportedContents {
     this.defaults = {
       lazyQueue: false,
       autoQueueLoader: true,
+      loadLimit: null,
     };
 
     this.Init();
@@ -79,6 +86,8 @@ export default class ReportedContents {
   async Init() {
     await this.SetLazyQueueDefaultValue();
     await this.SetAutoQueueLoaderDefaultValue();
+    await this.SetLoadLimiterDefaultValue();
+
     this.Render();
 
     this.statusBar = new ReportedContentsStatusBar(this);
@@ -103,6 +112,13 @@ export default class ReportedContents {
     const value = await storage("get", REPORTED_CONTENTS_AUTO_QUEUE_LOADER_KEY);
 
     this.defaults.autoQueueLoader = value === null ? true : Boolean(value);
+  }
+
+  async SetLoadLimiterDefaultValue() {
+    const value = await storage("get", REPORTED_CONTENTS_LOAD_LIMITER_KEY);
+
+    this.defaults.loadLimit =
+      value === null ? MIN_REPORT_BOXES_PER_SCROLL_LIMIT : Number(value);
   }
 
   Render() {
@@ -164,9 +180,8 @@ export default class ReportedContents {
         ],
         [
           // Content section
-          (this.queueContainer = Flex({
-            wrap: true,
-            borderTop: true,
+          (this.queueContainer = CreateElement({
+            tag: "div",
             className: "queue",
           })),
         ],

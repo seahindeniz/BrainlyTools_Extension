@@ -29,7 +29,7 @@ export default class ButtonVisibility {
               ? "alwaysVisible"
               : "onHoverOrTouch"
           ]
-        } (${System.data.locale.reportedContents.options.buttonVisibility.defaultVisibility.toLowerCase()})`,
+        } (${System.data.locale.common.default.toLowerCase()})`,
       },
     ];
 

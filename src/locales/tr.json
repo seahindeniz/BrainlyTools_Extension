@@ -107,7 +107,8 @@
     "beta": "Beta",
     "deletedUser": "Silinmiş kullanıcı",
     "toggleSelections": "Seçimleri tersine seç",
-    "copied": "Kopyalandı!"
+    "copied": "Kopyalandı!",
+    "default": "Varsayılan"
   },
   "popup": {
     "notificationMessages": {
@@ -784,8 +785,7 @@
       "buttonVisibility": {
         "optionName": "Hızlı eylem buton görünürlüğü",
         "alwaysVisible": "Her zaman görünür",
-        "onHoverOrTouch": "Üzerine gelindiğinde/dokunulduğunda",
-        "defaultVisibility": "Varsayılan"
+        "onHoverOrTouch": "Üzerine gelindiğinde/dokunulduğunda"
       },
       "filter": {
         "optionName": "Şikayetleri filtrele",
@@ -853,8 +853,7 @@
       },
       "name": "Seçenekler",
       "density": {
-        "optionName": "Yoğunluk",
-        "defaultDensity": "Varsayılan"
+        "optionName": "Yoğunluk"
       },
       "lazyQueue": {
         "optionName": "Lazy liste (Sayfayı yenilemelisin)",
@@ -863,6 +862,10 @@
       "toggleInfiniteLoader": {
         "optionName": "Kaydırarak yükleme",
         "description": "Sayfayı kaydırırken içerikleri otomatik yüklemeyi aç/kapa"
+      },
+      "loadLimiter": {
+        "optionName": "Gösterim sınırlayıcı",
+        "description": "Bu seçenek, daha fazla yükle butonuna tıkladıktan sonra gösterilecek şikayet sayısını artırmana/azaltmana imkan sağlar.\n\nYüksek değerler, kutuların görüntülenmesinde biraz gecikme oluşturabilir"
       }
     },
     "queue": {

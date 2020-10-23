@@ -6,6 +6,7 @@ import ButtonVisibility from "./ButtonVisibility";
 import Density from "./Density";
 import Filters from "./Filters/Filters";
 import LazyQueue from "./LazyQueue";
+import LoadLimiter from "./LoadLimiter";
 import ToggleAutoQueueLoader from "./ToggleAutoQueueLoader";
 
 export default class Options {
@@ -19,9 +20,10 @@ export default class Options {
 
   option: {
     density: Density;
-    buttonVisibility?: ButtonVisibility;
     lazyQueue: LazyQueue;
     toggleAutoQueueLoader: ToggleAutoQueueLoader;
+    loadLimiter: LoadLimiter;
+    buttonVisibility?: ButtonVisibility;
     contentFilters: Filters;
   };
 
@@ -34,6 +36,7 @@ export default class Options {
       density: new Density(this),
       lazyQueue: new LazyQueue(this),
       toggleAutoQueueLoader: new ToggleAutoQueueLoader(this),
+      loadLimiter: new LoadLimiter(this),
       buttonVisibility:
         System.checkUserP([1, 2, 45]) && new ButtonVisibility(this),
       contentFilters: new Filters(this),

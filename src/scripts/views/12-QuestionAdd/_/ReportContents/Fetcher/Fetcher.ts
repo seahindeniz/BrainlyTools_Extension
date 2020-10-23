@@ -176,6 +176,12 @@ export default class Fetcher {
           this.main.queue.ShowContents(true);
           this.HideStatusBarSpinner();
         });
+
+        if (!this.main.queue.options.option.loadLimiter.maxLimit) {
+          this.main.queue.options.option.loadLimiter.maxLimit = this.main.contents.all.length;
+
+          this.main.queue.options.option.loadLimiter.SetRangeLimit();
+        }
       } else {
         this.HideStatusBarSpinner();
 

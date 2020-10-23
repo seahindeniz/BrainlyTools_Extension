@@ -17,8 +17,6 @@ import Subject from "./Filter/Subject";
 import ModerationPanelController from "./ModerationPanelController/ModerationPanelController";
 import Options from "./Options/Options";
 
-const REPORT_BOXES_PER_PAGE_LIMIT = 12;
-
 export default class Queue {
   main: ReportedContentsType;
   options: Options;
@@ -105,7 +103,7 @@ export default class Queue {
 
     this.observer = new IntersectionObserver(
       entries => {
-        if (entries.length >= REPORT_BOXES_PER_PAGE_LIMIT) return;
+        if (entries.length >= this.main.defaults.loadLimit) return;
         entries.forEach(async entry => {
           if (
             !(entry.target instanceof HTMLElement) ||
@@ -152,7 +150,7 @@ export default class Queue {
 
     const { childElementCount } = this.main.queueContainer;
 
-    if (childElementCount < REPORT_BOXES_PER_PAGE_LIMIT) return;
+    if (childElementCount < this.main.defaults.loadLimit) return;
 
     if (
       this.main.contents.filtered.length === 0 ||
@@ -177,7 +175,7 @@ export default class Queue {
 
     if (
       showLimitedAggressive === true &&
-      childElementCount >= REPORT_BOXES_PER_PAGE_LIMIT
+      childElementCount >= this.main.defaults.loadLimit
     )
       return;
 
@@ -185,7 +183,7 @@ export default class Queue {
 
     this.main.queueContainer.innerHTML = "";
 
-    const nextThreshold = REPORT_BOXES_PER_PAGE_LIMIT + childElementCount;
+    const nextThreshold = this.main.defaults.loadLimit + childElementCount;
 
     this.main.contents.filtered.some((content, index) => {
       if (index >= nextThreshold) return true;

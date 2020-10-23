@@ -107,7 +107,8 @@
     "beta": "Beta",
     "deletedUser": "Deleted user",
     "toggleSelections": "Toggle selections",
-    "copied": "Copied!"
+    "copied": "Copied!",
+    "default": "Default"
   },
   "popup": {
     "notificationMessages": {
@@ -784,8 +785,7 @@
       "buttonVisibility": {
         "optionName": "Action buttons visibility",
         "alwaysVisible": "Always visible",
-        "onHoverOrTouch": "On hover/touch",
-        "defaultVisibility": "Default"
+        "onHoverOrTouch": "On hover/touch"
       },
       "filter": {
         "optionName": "Filter reports",
@@ -853,8 +853,7 @@
       },
       "name": "Options",
       "density": {
-        "optionName": "Density",
-        "defaultDensity": "Default"
+        "optionName": "Density"
       },
       "lazyQueue": {
         "optionName": "Lazy queue (Refresh required)",
@@ -863,6 +862,10 @@
       "toggleInfiniteLoader": {
         "optionName": "Scrollable loading",
         "description": "Turn on/off auto-loading contents on scrolling the page"
+      },
+      "loadLimiter": {
+        "optionName": "Load limiter",
+        "description": "This option allows you to increase/decrease the limit of how many report box will be shown after clicking the load more button.\n\nHigher values may cause a little delay in showing boxes"
       }
     },
     "queue": {

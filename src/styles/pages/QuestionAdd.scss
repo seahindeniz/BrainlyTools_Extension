@@ -49,18 +49,6 @@ div[class^="HeaderController__subnav"] {
   }
 }
 
-@media (max-width: 767px) {
-  .ext-density-container {
-    display: none;
-  }
-}
-
-.report-item-wrapper {
-  border-bottom: 2px solid #ebf2f7;
-  padding: 5px 1px;
-  position: relative;
-}
-
 html:not(.mobile) .queue:not(.buttons-visibility-always),
 html.mobile .queue.buttons-visibility-on-hover {
   .ext-quick-action-buttons {
@@ -69,137 +57,95 @@ html.mobile .queue.buttons-visibility-on-hover {
   }
 }
 
+@media (max-width: 767px) {
+  .ext-density-container {
+    display: none;
+  }
+}
+
+.queue {
+  display: grid;
+  grid-auto-flow: dense;
+  grid-column-start: 1;
+  // grid-template-columns: repeat(auto-fit, minmax(384px, 1fr));
+  // grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+}
+
 $densities: (
-    size: 1,
-    maxwidth: 767px,
-  ),
-  (
     size: 2,
-    minwidth: 768px,
-    maxwidth: 1365px,
+    min-width: 768px,
+    max-width: 1365px,
   ),
   (
     size: 3,
-    minwidth: 1366px,
-    maxwidth: 1919px,
+    min-width: 1366px,
+    max-width: 1919px,
   ),
   (
     size: 4,
-    minwidth: 1920px,
+    min-width: 1920px,
+    max-width: 2159px,
   ),
   (
     size: 5,
+    min-width: 2160px,
+    max-width: 2559px,
   ),
   (
     size: 6,
+    min-width: 2560px,
+    max-width: 3071px,
   ),
   (
     size: 7,
+    min-width: 3072px,
+    max-width: 3439px,
   ),
   (
     size: 8,
+    min-width: 3440px,
   );
 
-@mixin generateMediaQuery($minWidth, $maxWidth) {
-  @if $minWidth and $maxWidth {
-    @media (min-width: $minWidth) and (max-width: $maxWidth) {
+@mixin generateMediaQuery($min-width, $max-width) {
+  @if $min-width and $max-width {
+    @media (min-width: $min-width) and (max-width: $max-width) {
       @content;
     }
-  } @else if $minWidth {
-    @media (min-width: $minWidth) {
+  } @else if $min-width {
+    @media (min-width: $min-width) {
       @content;
     }
-  } @else if $maxWidth {
-    @media (max-width: $maxWidth) {
+  } @else if $max-width {
+    @media (max-width: $max-width) {
       @content;
-    }
-  }
-}
-
-@function createNumberedSelectorText($className, $N1, $N2) {
-  $foo: $className + ":nth-child(" + $N1 + "):nth-last-child(" + $N2 + "),";
-
-  @return $foo;
-}
-
-@function create-text-selector($num, $className) {
-  $foo: "";
-  $threshold: $num + 1;
-
-  @for $N1 from 1 through $num {
-    @for $N2 from 1 through $num {
-      @if $N2 < $threshold {
-        $foo: $foo +
-          $className +
-          ":nth-child(" +
-          $N1 +
-          "):nth-last-child(" +
-          $N2 +
-          "),";
-      }
-    }
-
-    $threshold: $threshold - 1;
-  }
-
-  @return $foo;
-}
-
-@mixin createNumbered($num, $classNames) {
-  $foo: "";
-
-  @each $className in $classNames {
-    $foo: $foo + create-text-selector($num, $className);
-  }
-
-  @if $foo != "" {
-    #{$foo} {
-      @content;
-    }
-  }
-}
-
-@mixin reportItemDensity($size, $isMedia: false) {
-  .report-item-wrapper {
-    width: if($size == 1, 100%, calc(100% / #{$size}));
-
-    @if $size != 1 {
-      &:not(:nth-child(#{$size}n)) {
-        box-shadow: 1px 0 0 0 #ebf2f7;
-      }
-    }
-
-    $className: &;
-
-    @if $isMedia == false and $size > 1 {
-      @at-root {
-        @include createNumbered(
-          $size - 1,
-          (".queue:not([data-density]) .report-item-wrapper", $className)
-        ) {
-          height: fit-content;
-        }
-      }
     }
   }
 }
 
 @each $density in $densities {
   $size: map-get($density, size);
-  $minWidth: map-get($density, minwidth);
-  $maxWidth: map-get($density, maxwidth);
+  $min-width: map-get($density, min-width);
+  $max-width: map-get($density, max-width);
 
   .queue[data-density="#{$size}"] {
-    @include reportItemDensity($size);
+    grid-template-columns: repeat($size, 1fr);
   }
 
-  @include generateMediaQuery($minWidth, $maxWidth) {
+  @include generateMediaQuery($min-width, $max-width) {
     .queue {
       &:not([data-density]),
       &[data-density=""],
       &[data-density="0"] {
-        @include reportItemDensity($size, true);
+        grid-template-columns: repeat($size, 1fr);
       }
     }
   }
+}
+
+.report-item-wrapper {
+  // border-bottom: 2px solid #ebf2f7;
+  padding: 5px 1px;
+  position: relative;
+  border: 2px solid #ebf2f7;
+  margin: -2px 0 0 -2px;
 }

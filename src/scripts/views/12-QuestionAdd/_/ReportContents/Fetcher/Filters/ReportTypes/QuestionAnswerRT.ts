@@ -14,7 +14,9 @@ export default class QuestionAnswerRT extends ReportType {
     filters.attachmentLength.Show();
     this.main.main.main.pageNumbers.Show();
     filters.additionalData.Show();
-    this.main.main.categoryFilter.ShowQuestionAnswerSelector();
+    this.main.main.subjectFilter.Show();
+    this.main.main.reasonFilter.Show();
+    this.main.main.reasonFilter.ShowGroups(["question", "answer"]);
     super.Selected();
   }
 

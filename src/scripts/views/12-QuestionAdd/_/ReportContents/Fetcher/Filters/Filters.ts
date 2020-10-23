@@ -2,7 +2,7 @@ import Build from "@root/helpers/Build";
 import { Flex } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type FetcherType from "../Fetcher";
-import Categories from "./Categories/Categories";
+import Reasons from "./Reasons/Reasons";
 import ReportTypes from "./ReportTypes/ReportTypes";
 import Subjects from "./Subjects/Subjects";
 
@@ -15,7 +15,7 @@ export default class Filters {
 
   reportTypeFilter: ReportTypes;
   subjectFilter: Subjects;
-  categoryFilter: Categories;
+  reasonFilter: Reasons;
 
   constructor(main: FetcherType) {
     this.main = main;
@@ -24,7 +24,7 @@ export default class Filters {
 
     this.reportTypeFilter = new ReportTypes(this);
     this.subjectFilter = new Subjects(this);
-    this.categoryFilter = new Categories(this);
+    this.reasonFilter = new Reasons(this);
   }
 
   Render() {

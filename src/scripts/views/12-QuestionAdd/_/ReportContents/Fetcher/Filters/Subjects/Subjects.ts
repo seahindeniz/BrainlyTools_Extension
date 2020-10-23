@@ -1,3 +1,4 @@
+import HideElement from "@root/helpers/HideElement";
 import { Flex, Select } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type FiltersType from "../Filters";
@@ -31,7 +32,7 @@ export default class Subjects {
       }),
     });
 
-    this.main.filtersContainer.append(this.container);
+    this.Show();
   }
 
   InitSubjects() {
@@ -81,5 +82,16 @@ export default class Subjects {
 
   IsChanged() {
     return !this.selectedSubject || this.selectedSubject.data.id !== 0;
+  }
+
+  Show() {
+    this.selectedSubject = null;
+    this.subjectSelect.select.selectedIndex = 0;
+
+    this.main.filtersContainer.prepend(this.container);
+  }
+
+  Hide() {
+    HideElement(this.container);
   }
 }

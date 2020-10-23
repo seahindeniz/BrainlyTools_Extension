@@ -77,7 +77,7 @@ export default class PageNumbers {
   Toggle() {
     if (
       this.main.filters.subjectFilter.IsChanged() ||
-      this.main.filters.categoryFilter.IsChanged()
+      this.main.filters.reasonFilter.IsChanged()
     ) {
       this.Hide();
 

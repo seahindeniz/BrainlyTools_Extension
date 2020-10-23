@@ -1,7 +1,7 @@
 import ReportType from "./ReportType";
 import type ReportTypesType from "./ReportTypes";
 
-export default class QuestionAnswerRT extends ReportType {
+export default class CorrectionRT extends ReportType {
   constructor(main: ReportTypesType) {
     super(main, "correctionReports");
   }
@@ -13,8 +13,8 @@ export default class QuestionAnswerRT extends ReportType {
     filters.contentType.Hide();
     filters.additionalData.Hide();
     filters.attachmentLength.Show();
-    this.main.main.categoryFilter.HideCommentSelector();
-    this.main.main.categoryFilter.HideQuestionAnswerSelector();
+    this.main.main.reasonFilter.Hide();
+    this.main.main.subjectFilter.Show();
     super.Selected();
   }
 }

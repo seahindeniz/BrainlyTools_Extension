@@ -16,6 +16,8 @@ import Question, { QuestionExtraDataType } from "../Content/Question";
 import type ReportedContentsType from "../ReportedContents";
 import FetchAll from "./FetchAll";
 import Filters from "./Filters/Filters";
+import ReasonClassType from "./Filters/Reasons/Reason";
+import SubjectClassType from "./Filters/Subjects/Subject";
 import PageNumbers from "./PageNumbers/PageNumbers";
 
 export type ContentClassTypes = Question | Answer | Comment;
@@ -122,15 +124,18 @@ export default class Fetcher {
 
       await this.ShowStatusBarSpinner();
 
+      const { selectedSubject } = this.filters.subjectFilter;
+      const { selectedReason } = this.filters.reasonFilter;
+
       if (selectedReportType.typeName === "commentReports")
-        await this.FetchCommentReports();
+        await this.FetchCommentReports(selectedSubject, selectedReason);
       else if (
         !selectedReportType ||
         selectedReportType.typeName === "questionAnswerReports"
       )
-        await this.FetchQuestionAnswerReports();
+        await this.FetchQuestionAnswerReports(selectedSubject, selectedReason);
       else if (selectedReportType.typeName === "correctionReports")
-        await this.FetchCorrectionReports();
+        await this.FetchCorrectionReports(selectedSubject);
 
       this.isFetching = false;
       this.main.statusBar.fetchedContentsCount.nodeValue = String(
@@ -171,6 +176,18 @@ export default class Fetcher {
           this.main.queue.ShowContents(true);
           this.HideStatusBarSpinner();
         });
+      } else {
+        this.HideStatusBarSpinner();
+
+        if (
+          (!selectedSubject || selectedSubject.data.id === 0) &&
+          (!selectedReason ||
+            selectedReason.data.id === 0 ||
+            selectedReason.data.id === 998)
+        ) {
+          this.filters.subjectFilter.Hide();
+          this.filters.reasonFilter.Hide();
+        }
       }
     } catch (error) {
       console.error(error);
@@ -226,11 +243,12 @@ export default class Fetcher {
     HideElement(this.filtersSpinner);
   }
 
-  async FetchQuestionAnswerReports() {
-    const { selectedSubject } = this.filters.subjectFilter;
-    const { selectedCategory } = this.filters.categoryFilter;
+  async FetchQuestionAnswerReports(
+    selectedSubject: SubjectClassType,
+    selectedReason: ReasonClassType,
+  ) {
     const resReports = await new Action().GetReportedContents({
-      category_id: selectedCategory?.data?.id,
+      category_id: selectedReason?.data?.id,
       last_id: this.lastId,
       subject_id: selectedSubject?.data?.id,
     });
@@ -253,12 +271,12 @@ export default class Fetcher {
     }
   }
 
-  async FetchCommentReports() {
-    const { selectedSubject } = this.filters.subjectFilter;
-    const { selectedCategory } = this.filters.categoryFilter;
-
+  async FetchCommentReports(
+    selectedSubject: SubjectClassType,
+    selectedReason: ReasonClassType,
+  ) {
     const resReports = await new Action().GetReportedComments({
-      category_id: selectedCategory?.data?.id,
+      category_id: selectedReason?.data?.id,
       last_id: this.lastId,
       subject_id: selectedSubject?.data?.id,
     });
@@ -281,9 +299,7 @@ export default class Fetcher {
     }
   }
 
-  async FetchCorrectionReports() {
-    const { selectedSubject } = this.filters.subjectFilter;
-
+  async FetchCorrectionReports(selectedSubject: SubjectClassType) {
     const resReports = await new Action().GetCorrectedContents({
       category_id: 999,
       last_id: this.lastId,

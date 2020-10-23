@@ -377,6 +377,16 @@ export type ReportedContentsDataType = {
   comment_count?: number;
 };
 
+export type AbuseReasonDataType = {
+  id: number;
+  text: string;
+  visible?: boolean;
+  subcategories?: {
+    id: number;
+    text: string;
+  }[];
+};
+
 const FAILED_RESPONSE = {
   success: false,
   get message() {
@@ -1372,10 +1382,14 @@ export default class Action extends Brainly {
     return this.GQL().Query(data).POST();
   }
 
-  /**
-   * @param {(1 | 2 | 45) | ("QUESTION" | "ANSWER" | "COMMENT")} model_type_id
-   */
-  GetAbuseReasons(model_type_id) {
+  GetAbuseReasons(
+    model_type_id: 1 | 2 | 45 | "QUESTION" | "ANSWER" | "COMMENT",
+  ): Promise<
+    CommonGenericResponseType<{
+      data: AbuseReasonDataType[];
+      message: string;
+    }>
+  > {
     if (typeof model_type_id === "string")
       model_type_id =
         model_type_id === "QUESTION"

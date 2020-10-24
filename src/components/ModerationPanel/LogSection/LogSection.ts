@@ -38,7 +38,7 @@ export default class LogSection {
           marginLeft: "s",
         }),
         Text({
-          text: System.data.locale.moderationPanel.log,
+          text: System.data.locale.moderationPanel.log.text,
           weight: "extra-bold",
         }),
       ],

@@ -944,7 +944,6 @@
   "moderationPanel": {
     "text": "Ödev Düzenle",
     "answers": "Cevaplar (%{number_of_answers})",
-    "log": "Geçmiş",
     "panelWillClose": "Panel %{remain_N} saniye içerisinde kapanacak",
     "showAllComments": "Tüm yorumları göster",
     "failedToGetLogs": "Sorunun eylem geçmişini gösterirken bir sorun oluştu",
@@ -967,7 +966,11 @@
     "answerHasCorrected": "%{nick} cevabını düzeltti",
     "questionHasBeenDeleted": "Soru silindi",
     "moderationCompleted": "Denetleme tamamlandı",
-    "extendBy15Minutes": "15 dakika uzat"
+    "extendBy15Minutes": "15 dakika uzat",
+    "log": {
+      "text": "Geçmiş",
+      "deletedWithWarning": "Uyarı ile silinmiş"
+    }
   },
   "shortAnswersPage": {
     "selectAtLeastOneAnswer": "En az bir cevap seçmelisin",

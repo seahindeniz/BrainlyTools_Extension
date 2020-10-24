@@ -9,6 +9,7 @@ import { Box, Button, Flex, Icon, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type { IconColorType } from "@style-guide/Icon";
 import type { TextElement } from "@style-guide/Text";
+import tippy from "tippy.js";
 import type LogSectionClassType from "./LogSection";
 
 const ENTRY_ICON_COLOR: {
@@ -43,6 +44,28 @@ export default class LogEntry {
   }
 
   private Render() {
+    let warningIconContainer: FlexElementType;
+
+    if (this.data.warn) {
+      warningIconContainer = Flex({
+        marginRight: "xxs",
+        children: new Icon({
+          type: "warning",
+          color: "peach",
+          size: 16,
+        }),
+      });
+
+      tippy(warningIconContainer, {
+        theme: "light",
+        content: Text({
+          size: "small",
+          weight: "bold",
+          children: System.data.locale.moderationPanel.log.deletedWithWarning,
+        }),
+      });
+    }
+
     this.container = Build(
       Flex({
         marginTop: "xxs",
@@ -79,23 +102,25 @@ export default class LogEntry {
                   })),
                 ],
                 [
-                  Flex(),
-                  (this.toggleButton = new Button({
-                    size: "s",
-                    type: this.data.warn ? "outline" : "transparent",
-                    toggle: this.data.warn ? "peach" : null,
-                    iconOnly: true,
-                    disabled: !this.data.descriptions,
-                    onClick:
-                      this.data.descriptions && this.ToggleDetails.bind(this),
-                    icon: this.toggleButtonIcon = new Icon({
-                      type: "more",
-                      size: 32,
-                      color: this.data.descriptions
-                        ? ENTRY_ICON_COLOR[this.data.class || "added"]
-                        : "light",
-                    }),
-                  })),
+                  Flex({ alignItems: "center" }),
+                  [
+                    warningIconContainer,
+                    (this.toggleButton = new Button({
+                      size: "s",
+                      type: "transparent",
+                      iconOnly: true,
+                      disabled: !this.data.descriptions,
+                      onClick:
+                        this.data.descriptions && this.ToggleDetails.bind(this),
+                      icon: this.toggleButtonIcon = new Icon({
+                        type: "more",
+                        size: 32,
+                        color: this.data.descriptions
+                          ? ENTRY_ICON_COLOR[this.data.class || "added"]
+                          : "light",
+                      }),
+                    })),
+                  ],
                 ],
               ],
             ],

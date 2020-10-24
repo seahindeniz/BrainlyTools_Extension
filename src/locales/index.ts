@@ -944,7 +944,6 @@ export default {
   moderationPanel: {
     text: "Question Moderation",
     answers: "Answers (%{number_of_answers})",
-    log: "Log",
     panelWillClose: "Moderation panel will close in %{remain_N}",
     showAllComments: "Show all comments",
     failedToGetLogs: "Cannot fetch logs of question",
@@ -967,7 +966,11 @@ export default {
     answerHasCorrected: "%{nick} has corrected the answer",
     questionHasBeenDeleted: "Question has been deleted",
     moderationCompleted: "Moderation completed",
-    extendBy15Minutes: "Extend by 15 minutes"
+    extendBy15Minutes: "Extend by 15 minutes",
+    log: {
+      text: "Log",
+      deletedWithWarning: "Deleted with a warning"
+    }
   },
   shortAnswersPage: {
     selectAtLeastOneAnswer: "You need to select at least one answer",

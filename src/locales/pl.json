@@ -944,7 +944,6 @@
   "moderationPanel": {
     "text": "Moderacja pytania",
     "answers": "Odpowiedzi ( %{number_of_answers} )",
-    "log": "Oś pytania",
     "panelWillClose": "Panel moderacji zamknie się za %{remain_N}",
     "showAllComments": "Pokaż wszystkie komentarze",
     "failedToGetLogs": "Nie można pobrać danych dotyczących pytań",
@@ -967,7 +966,11 @@
     "answerHasCorrected": "%{nick} poprawił swoją odpowiedź",
     "questionHasBeenDeleted": "Question has been deleted",
     "moderationCompleted": "Moderation completed",
-    "extendBy15Minutes": "Extend by 15 minutes"
+    "extendBy15Minutes": "Extend by 15 minutes",
+    "log": {
+      "text": "Oś pytania",
+      "deletedWithWarning": "Deleted with a warning"
+    }
   },
   "shortAnswersPage": {
     "selectAtLeastOneAnswer": "You need to select at least one answer",

@@ -944,7 +944,6 @@
   "moderationPanel": {
     "text": "Modération des questions",
     "answers": "Réponses (%{number_of_answers})",
-    "log": "Historique de la question",
     "panelWillClose": "Le panneau de modération se fermera dans %{remain_N}",
     "showAllComments": "Afficher tous les commentaires",
     "failedToGetLogs": "Impossible de récupérer l'historique de la question",
@@ -967,7 +966,11 @@
     "answerHasCorrected": "%{nick} a corrigé la réponse",
     "questionHasBeenDeleted": "La question a été supprimée",
     "moderationCompleted": "Modération terminée",
-    "extendBy15Minutes": "Extend by 15 minutes"
+    "extendBy15Minutes": "Extend by 15 minutes",
+    "log": {
+      "text": "Historique de la question",
+      "deletedWithWarning": "Deleted with a warning"
+    }
   },
   "shortAnswersPage": {
     "selectAtLeastOneAnswer": "Vous devez sélectionner au moins une réponse",

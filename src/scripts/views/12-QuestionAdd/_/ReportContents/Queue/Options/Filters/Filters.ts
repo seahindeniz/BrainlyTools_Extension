@@ -6,8 +6,8 @@ import AdditionalData from "./AdditionalData/AdditionalData";
 import AttachmentLength from "./AttachmentLength";
 import ContentLength from "./ContentLength";
 import ContentTypeFilter from "./ContentTypeFilter/ContentTypeFilter";
-import Reported from "./Reported";
-import Reporter from "./Reporter";
+import Reported from "./User/Reported";
+import Reporter from "./User/Reporter";
 import ReportingDate from "./ReportingDate";
 import Subjects from "./Subject/Subjects";
 

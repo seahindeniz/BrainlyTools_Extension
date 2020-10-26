@@ -10,12 +10,13 @@ import AttachmentLength from "./Filter/AttachmentLength";
 import ContentLength from "./Filter/ContentLength";
 import ContentType from "./Filter/ContentType";
 import type QueueFilterClassType from "./Filter/QueueFilter";
-import Reported from "./Filter/Reported";
-import Reporter from "./Filter/Reporter";
+import Reported from "./Filter/User/Reported";
+import Reporter from "./Filter/User/Reporter";
 import ReportingDate from "./Filter/ReportingDate";
 import Subject from "./Filter/Subject";
 import ModerationPanelController from "./ModerationPanelController/ModerationPanelController";
 import Options from "./Options/Options";
+import QueryBuilder from "./QueryBuilder/QueryBuilder";
 
 export default class Queue {
   main: ReportedContentsType;
@@ -53,6 +54,8 @@ export default class Queue {
   spinnerContainer: FlexElementType;
   loadMoreButtonContainer: FlexElementType;
 
+  queryBuilder: QueryBuilder;
+
   constructor(main: ReportedContentsType) {
     this.main = main;
     this.options = new Options(this);
@@ -73,6 +76,7 @@ export default class Queue {
     };
     this.filter.all = Object.values(this.filter.byName);
 
+    this.queryBuilder = new QueryBuilder(this);
     this.moderationPanelController = new ModerationPanelController(this);
 
     this.RenderSpinner();

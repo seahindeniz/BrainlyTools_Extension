@@ -846,7 +846,9 @@ export default {
           userFilter: {
             id: "id",
             nick: "nick",
-            lookFor: "Look for"
+            lookFor: "Look for",
+            specialRank: "Special rank",
+            anyRank: "Any rank"
           }
         },
         pageNumberInputTitle: "Enter a page number between %{MIN_N} and %{MAX_N}"

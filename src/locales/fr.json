@@ -846,7 +846,9 @@
           "userFilter": {
             "id": "id",
             "nick": "nick",
-            "lookFor": "Rechercher"
+            "lookFor": "Rechercher",
+            "specialRank": "Special rank",
+            "anyRank": "Any rank"
           }
         },
         "pageNumberInputTitle": "Entre un numéro de page entre %{MIN_N} et %{MAX_N}"

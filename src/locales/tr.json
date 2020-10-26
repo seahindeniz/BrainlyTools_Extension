@@ -846,7 +846,9 @@
           "userFilter": {
             "id": "id",
             "nick": "nick",
-            "lookFor": "Seçim yap"
+            "lookFor": "Seçim yap",
+            "specialRank": "Özel rütbe",
+            "anyRank": "Farketmez"
           }
         },
         "pageNumberInputTitle": "%{MIN_N} ile %{MAX_N} arasında bir sayfa numarası girin"

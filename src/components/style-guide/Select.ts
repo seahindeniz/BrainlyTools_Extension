@@ -108,7 +108,11 @@ export default class Select {
 
   RenderOptions() {
     this.optionElements = this.options.map(option => {
-      if (option instanceof HTMLElement) return option;
+      if (option instanceof HTMLElement) {
+        this.select.append(option);
+
+        return option;
+      }
 
       const { value, text, title, ...props } = option;
       const optionElement = CreateElement({

@@ -825,9 +825,22 @@
           "subject": {
             "name": "Konu"
           },
-          "additionalData": {
-            "name": "Ek bilgiler",
+          "userFilter": {
+            "id": "id",
+            "nick": "nick",
+            "lookFor": "Seçim yap",
+            "specialRank": "Özel rütbe",
+            "anyRank": "Farketmez"
+          },
+          "stringFilter": {
             "chooseCondition": "Koşul seçin",
+            "label": {
+              "contains": "şunu içerir : %{input}",
+              "sameWith": "şununla aynı olmalı : %{input}",
+              "startsWith": "şununla başlar : %{input}",
+              "endsWith": "şununla biter : %{input}",
+              "regExp": "%{input}"
+            },
             "conditions": {
               "contains": "şunu içerir",
               "sameWith": "şununla aynı olmalı",
@@ -835,20 +848,8 @@
               "endsWith": "şununla biter",
               "regExp": "RegExp(JS/ES6)"
             },
-            "label": {
-              "contains": "şunu içerir : %{input}",
-              "sameWith": "şununla aynı olmalı : %{input}",
-              "startsWith": "şununla başlar : %{input}",
-              "endsWith": "şununla biter : %{input}",
-              "regExp": "%{input}"
-            }
-          },
-          "userFilter": {
-            "id": "id",
-            "nick": "nick",
-            "lookFor": "Seçim yap",
-            "specialRank": "Özel rütbe",
-            "anyRank": "Farketmez"
+            "additionalData": "Ek bilgiler",
+            "content": "İçerik"
           }
         },
         "pageNumberInputTitle": "%{MIN_N} ile %{MAX_N} arasında bir sayfa numarası girin"

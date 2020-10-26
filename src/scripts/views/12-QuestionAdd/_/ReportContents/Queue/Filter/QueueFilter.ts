@@ -4,7 +4,7 @@ import type { IconTypeType } from "@style-guide/Icon";
 import type { LabelColorType } from "@style-guide/Label";
 import type QueueClassType from "../Queue";
 
-type QueueFilterPropsType = {
+export type QueueFilterPropsType = {
   labelColor: LabelColorType;
   labelIconType: IconTypeType;
   labelName: string;

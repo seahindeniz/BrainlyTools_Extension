@@ -825,9 +825,22 @@
           "subject": {
             "name": "Matière"
           },
-          "additionalData": {
-            "name": "Données complémentaires",
+          "userFilter": {
+            "id": "id",
+            "nick": "nick",
+            "lookFor": "Rechercher",
+            "specialRank": "Special rank",
+            "anyRank": "Any rank"
+          },
+          "stringFilter": {
             "chooseCondition": "Choisissez une condition",
+            "label": {
+              "contains": "contient : %{input}",
+              "sameWith": "exactement identique avec: %{input}",
+              "startsWith": "commence par: %{input}",
+              "endsWith": "se termine par: %{input}",
+              "regExp": "%{input}"
+            },
             "conditions": {
               "contains": "contient",
               "sameWith": "exactement identique avec",
@@ -835,20 +848,8 @@
               "endsWith": "se termine par",
               "regExp": "RegExp(JS/ES6)"
             },
-            "label": {
-              "contains": "contient : %{input}",
-              "sameWith": "exactement identique avec: %{input}",
-              "startsWith": "commence par: %{input}",
-              "endsWith": "se termine par: %{input}",
-              "regExp": "%{input}"
-            }
-          },
-          "userFilter": {
-            "id": "id",
-            "nick": "nick",
-            "lookFor": "Rechercher",
-            "specialRank": "Special rank",
-            "anyRank": "Any rank"
+            "additionalData": "Données complémentaires",
+            "content": "Content"
           }
         },
         "pageNumberInputTitle": "Entre un numéro de page entre %{MIN_N} et %{MAX_N}"

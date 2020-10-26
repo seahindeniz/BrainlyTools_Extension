@@ -1,23 +1,27 @@
-import type { ContentClassTypes } from "../../Fetcher/Fetcher";
-import type { ConditionKeyType } from "../Options/Filters/AdditionalData/Condition";
-import type QueueClassType from "../Queue";
-import QueueFilter from "./QueueFilter";
+import type { ContentClassTypes } from "../../../Fetcher/Fetcher";
+import type { ConditionKeyType } from "../../Options/Filters/StringFilter/Condition";
+import type { StringFilterType } from "../../Options/Filters/StringFilter/StringFilter";
+import QueueFilter, { QueueFilterPropsType } from "../QueueFilter";
 
-export default class AdditionalData extends QueueFilter {
+export default class StringFilter extends QueueFilter {
+  optionName: StringFilterType;
+
   query: {
     condition?: ConditionKeyType;
     value?: string;
     regexp?: RegExp;
   };
 
-  constructor(main: QueueClassType) {
-    super(main, {
-      labelColor: "mint",
-      labelIconType: "report_flag",
-      labelName:
-        System.data.locale.reportedContents.options.filter.filters
-          .additionalData.name,
-    });
+  constructor(
+    main,
+    {
+      optionName,
+      ...props
+    }: { optionName: StringFilterType } & QueueFilterPropsType,
+  ) {
+    super(main, props);
+
+    this.optionName = optionName;
   }
 
   SetQuery(condition?: ConditionKeyType, value?: string) {
@@ -64,7 +68,7 @@ export default class AdditionalData extends QueueFilter {
 
   HideLabel(event?: MouseEvent) {
     if (event) {
-      this.main.options.option.contentFilters.filter.additionalData.Reset();
+      this.main.options.option.contentFilters.filter[this.optionName].Reset();
     }
 
     super.HideLabel();
@@ -73,16 +77,14 @@ export default class AdditionalData extends QueueFilter {
   ShowLabel() {
     super.ShowLabel();
 
-    this.labelText.nodeValue = System.data.locale.reportedContents.options.filter.filters.additionalData.label[
+    this.labelText.nodeValue = System.data.locale.reportedContents.options.filter.filters.stringFilter.label[
       this.query.condition
     ].replace(/%{input}/g, this.query.value);
   }
 
   CompareContent(content: ContentClassTypes) {
-    if (!this.query?.regexp) return true;
+    console.warn(this, content);
 
-    if (!content.data.report.abuse?.data) return false;
-
-    return content.data.report.abuse.data.match(this.query.regexp);
+    return false;
   }
 }

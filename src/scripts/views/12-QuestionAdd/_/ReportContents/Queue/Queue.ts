@@ -5,7 +5,7 @@ import { Button, Flex, Spinner } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type ContentClassType from "../Content/Content";
 import type ReportedContentsType from "../ReportedContents";
-import AdditionalData from "./Filter/AdditionalData";
+import AdditionalData from "./Filter/StringFilter/AdditionalData";
 import AttachmentLength from "./Filter/AttachmentLength";
 import ContentLength from "./Filter/ContentLength";
 import ContentType from "./Filter/ContentType";
@@ -17,6 +17,7 @@ import Subject from "./Filter/Subject";
 import ModerationPanelController from "./ModerationPanelController/ModerationPanelController";
 import Options from "./Options/Options";
 import QueryBuilder from "./QueryBuilder/QueryBuilder";
+import Content from "./Filter/StringFilter/Content";
 
 export default class Queue {
   main: ReportedContentsType;
@@ -37,6 +38,7 @@ export default class Queue {
   } & {
     byName: {
       contentType: ContentType;
+      content: Content;
       contentLength: ContentLength;
       attachmentLength: AttachmentLength;
       reporter: Reporter;
@@ -63,6 +65,7 @@ export default class Queue {
     this.filter = {
       byName: {
         contentType: new ContentType(this),
+        content: new Content(this),
         contentLength: new ContentLength(this),
         attachmentLength: new AttachmentLength(this),
         reporter: new Reporter(this),

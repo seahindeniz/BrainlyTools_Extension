@@ -825,9 +825,22 @@
           "subject": {
             "name": "Przedmiot"
           },
-          "additionalData": {
-            "name": "Dodatkowe dane",
+          "userFilter": {
+            "id": "identyfikator",
+            "nick": "nazwa użytkownika",
+            "lookFor": "Szukaj",
+            "specialRank": "Special rank",
+            "anyRank": "Any rank"
+          },
+          "stringFilter": {
             "chooseCondition": "Wybierz warunek",
+            "label": {
+              "contains": "zawiera: %{input}",
+              "sameWith": "dokładnie jak: %{input}",
+              "startsWith": "zaczyna się od: %{input}",
+              "endsWith": "kończy się na : %{input}",
+              "regExp": "%{input}"
+            },
             "conditions": {
               "contains": "zawiera",
               "sameWith": "dokładnie jak",
@@ -835,20 +848,8 @@
               "endsWith": "kończy się na",
               "regExp": "RegExp (JS / ES6)"
             },
-            "label": {
-              "contains": "zawiera: %{input}",
-              "sameWith": "dokładnie jak: %{input}",
-              "startsWith": "zaczyna się od: %{input}",
-              "endsWith": "kończy się na : %{input}",
-              "regExp": "%{input}"
-            }
-          },
-          "userFilter": {
-            "id": "identyfikator",
-            "nick": "nazwa użytkownika",
-            "lookFor": "Szukaj",
-            "specialRank": "Special rank",
-            "anyRank": "Any rank"
+            "additionalData": "Dodatkowe dane",
+            "content": "Content"
           }
         },
         "pageNumberInputTitle": "Wprowadź numer strony od %{MIN_N} do %{MAX_N}"

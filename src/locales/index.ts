@@ -825,9 +825,22 @@ export default {
           subject: {
             name: "Subject"
           },
-          additionalData: {
-            name: "Additional data",
+          userFilter: {
+            id: "id",
+            nick: "nick",
+            lookFor: "Look for",
+            specialRank: "Special rank",
+            anyRank: "Any rank"
+          },
+          stringFilter: {
             chooseCondition: "Choose condition",
+            label: {
+              contains: "contains : %{input}",
+              sameWith: "exactly same with : %{input}",
+              startsWith: "starts with : %{input}",
+              endsWith: "ends with : %{input}",
+              regExp: "%{input}"
+            },
             conditions: {
               contains: "contains",
               sameWith: "exactly same with",
@@ -835,20 +848,8 @@ export default {
               endsWith: "ends with",
               regExp: "RegExp(JS/ES6)"
             },
-            label: {
-              contains: "contains : %{input}",
-              sameWith: "exactly same with : %{input}",
-              startsWith: "starts with : %{input}",
-              endsWith: "ends with : %{input}",
-              regExp: "%{input}"
-            }
-          },
-          userFilter: {
-            id: "id",
-            nick: "nick",
-            lookFor: "Look for",
-            specialRank: "Special rank",
-            anyRank: "Any rank"
+            additionalData: "Additional data",
+            content: "Content"
           }
         },
         pageNumberInputTitle: "Enter a page number between %{MIN_N} and %{MAX_N}"

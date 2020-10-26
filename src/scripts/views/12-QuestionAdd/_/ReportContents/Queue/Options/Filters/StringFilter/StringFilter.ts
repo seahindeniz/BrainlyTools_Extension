@@ -5,8 +5,11 @@ import type { FlexElementType } from "@style-guide/Flex";
 import type FiltersClassType from "../Filters";
 import Condition, { ConditionKeyType } from "./Condition";
 
-export default class AdditionalData {
+export type StringFilterType = "additionalData" | "content";
+
+export default class StringFilter {
   main: FiltersClassType;
+  optionName: StringFilterType;
 
   container: FlexElementType;
   contentWrapper: FlexElementType;
@@ -14,8 +17,9 @@ export default class AdditionalData {
   textarea: HTMLTextAreaElement;
   conditions: Condition[];
 
-  constructor(main: FiltersClassType) {
+  constructor(main: FiltersClassType, optionName: StringFilterType) {
     this.main = main;
+    this.optionName = optionName;
 
     this.conditions = [];
 
@@ -30,6 +34,7 @@ export default class AdditionalData {
 
     this.contentWrapper = Build(
       Flex({
+        grow: true,
         tag: "label",
         marginTop: "s",
       }),
@@ -40,7 +45,10 @@ export default class AdditionalData {
             weight: "bold",
             noWrap: true,
             size: "small",
-            text: `${System.data.locale.reportedContents.options.filter.filters.additionalData.name}: `,
+            text: `${
+              System.data.locale.reportedContents.options.filter.filters
+                .stringFilter[this.optionName]
+            }: `,
           }),
         ],
         [
@@ -64,7 +72,7 @@ export default class AdditionalData {
                     selected: true,
                     text:
                       System.data.locale.reportedContents.options.filter.filters
-                        .additionalData.chooseCondition,
+                        .stringFilter.chooseCondition,
                   },
                 ],
               })),
@@ -76,6 +84,8 @@ export default class AdditionalData {
               }),
               (this.textarea = Textarea({
                 tag: "textarea",
+                size: "short",
+                resizable: "vertical",
                 fullWidth: true,
                 onChange: this.InputChanged.bind(this),
                 onInput: this.CheckValue.bind(this),
@@ -90,7 +100,7 @@ export default class AdditionalData {
 
   InitConditions() {
     Object.keys(
-      System.data.locale.reportedContents.options.filter.filters.additionalData
+      System.data.locale.reportedContents.options.filter.filters.stringFilter
         .conditions,
     ).forEach((key: ConditionKeyType) => {
       const condition = new Condition(this, key);
@@ -140,7 +150,7 @@ export default class AdditionalData {
 
     if (!selectedCondition) return;
 
-    this.main.main.main.filter.byName.additionalData.SetQuery(
+    this.main.main.main.filter.byName[this.optionName].SetQuery(
       selectedCondition.key,
       this.textarea.value,
     );

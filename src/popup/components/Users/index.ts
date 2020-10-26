@@ -40,7 +40,7 @@ class Users {
   $resetButton: JQuery<HTMLElement>;
   $submitButton: JQuery<HTMLElement>;
   $permissionContainer: JQuery<HTMLElement>;
-  $permission: JQuery<HTMLElement>;
+  $permission?: JQuery<HTMLElement>;
   $privilegesContainer: JQuery<HTMLElement>;
   $privilegeInputs: JQuery<HTMLElement>;
 
@@ -93,7 +93,6 @@ class Users {
           15,
           6,
           // 34,
-          37,
         ],
       },
       harmless: {
@@ -109,6 +108,7 @@ class Users {
           16,
           19,
           36,
+          37,
           99,
         ],
       },
@@ -490,7 +490,7 @@ class Users {
     this.$avatar.attr("src", avatar);
     this.$link.attr("href", profileLink);
     this.$actions.removeClass("is-invisible");
-    this.$permission.prop("checked", false);
+    this.$permission?.prop("checked", false);
     this.$privilegeInputs.prop("checked", false);
     this.$avatarContainer.removeClass("is-invisible");
 
@@ -501,7 +501,7 @@ class Users {
       this.$privilegesContainer.removeClass("is-hidden");
 
     if (user.serverData) {
-      this.$permission.prop("checked", user.serverData.approved);
+      this.$permission?.prop("checked", user.serverData.approved);
 
       if (user.serverData.privileges && user.serverData.privileges.length > 0)
         this.$privilegeInputs.each((i, input: HTMLInputElement) => {
@@ -542,11 +542,37 @@ class Users {
 
   async SaveUser(user) {
     try {
-      const privileges = $("input:checked", this.$privilegesContainer)
-        // @ts-expect-error
-        .map((i, input) => typeof input.key === "number" && input.key)
-        .get();
-      const approved = this.$permission.prop("checked");
+      const { privileges }: { privileges: number[] } = user.serverData;
+
+      $("input", this.$privilegesContainer).each(
+        (i, input: HTMLInputElement) => {
+          // @ts-expect-error
+          const { key } = input;
+
+          if (typeof key !== "number") return;
+
+          if (input.checked) {
+            if (!privileges.includes(key)) {
+              privileges.push(key);
+            }
+
+            return;
+          }
+
+          if (privileges.includes(key)) {
+            const index = privileges.indexOf(key);
+
+            privileges.splice(index, 1);
+          }
+        },
+      );
+
+      let { approved } = user.serverData;
+
+      if (this.$permission) {
+        approved = this.$permission.prop("checked");
+      }
+
       const resUser = await new ServerReq().PutUser({
         id: user.brainlyData.id,
         nick: user.brainlyData.nick,

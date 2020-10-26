@@ -917,7 +917,8 @@ export default {
         filtered: "%{count} filtered",
         visible: "%{count} visible",
         moderated: "%{count} moderated",
-        failed: "%{count} failed"
+        failed: "%{count} failed",
+        alreadyModerated: "%{count} already moderated"
       },
       visible: {
         contents: "Visible contents",

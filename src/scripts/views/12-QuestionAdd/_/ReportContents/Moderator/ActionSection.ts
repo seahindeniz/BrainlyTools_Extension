@@ -285,7 +285,11 @@ export default class ActionSection {
 
     if (content.has === "failed")
       this.main.main.statusBar.IncreaseNumberOfFailed();
-    else this.main.main.statusBar.IncreaseNumberOfModeration();
+    else if (content.hasAlso === "already")
+      this.main.main.statusBar.IncreaseNumberOfAlreadyModerated();
+    else {
+      this.main.main.statusBar.IncreaseNumberOfModeration();
+    }
 
     if (this.targetNumberOfModeration > 0) return;
 

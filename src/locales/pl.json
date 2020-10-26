@@ -917,7 +917,8 @@
         "filtered": "%{count} znaleziono",
         "visible": "%{count} widocznych",
         "moderated": "%{count} moderowane",
-        "failed": "%{count} nie powiodło się"
+        "failed": "%{count} nie powiodło się",
+        "alreadyModerated": "%{count} already moderated"
       },
       "visible": {
         "contents": "Visible contents",

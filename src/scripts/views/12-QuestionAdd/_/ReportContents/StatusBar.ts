@@ -16,9 +16,13 @@ export default class ReportedContentsStatusBar {
   fetchedContentsCount: Text;
   filteredContentsCount: Text;
   moderatedContentsCount: Text;
+  failedContentsCount: Text;
+  alreadyModeratedContentsCount: Text;
+
   numberOfModeratedContents: number;
   numberOfFailedContents: number;
-  failedContentsCount: Text;
+  numberOfAlreadyModeratedContents: number;
+
   ignoredState: boolean;
   #ignoreButtonContainer?: FlexElementType;
   #ignoreButton?: Button;
@@ -29,6 +33,7 @@ export default class ReportedContentsStatusBar {
     this.main = main;
     this.numberOfModeratedContents = 0;
     this.numberOfFailedContents = 0;
+    this.numberOfAlreadyModeratedContents = 0;
     this.ignoredState = false;
 
     this.RenderExportButton();
@@ -149,14 +154,31 @@ export default class ReportedContentsStatusBar {
     this.failedContentsCount.nodeValue = String(++this.numberOfFailedContents);
   }
 
+  IncreaseNumberOfAlreadyModerated() {
+    if (!this.numberOfAlreadyModeratedContents) {
+      this.alreadyModeratedContentsCount = this.RenderStatus(
+        "alreadyModerated",
+      );
+    }
+
+    this.alreadyModeratedContentsCount.nodeValue = String(
+      ++this.numberOfAlreadyModeratedContents,
+    );
+  }
+
   ResetModerationCounters() {
     if (this.moderatedContentsCount && this.failedContentsCount) {
       this.moderatedContentsCount.nodeValue = "0";
       this.failedContentsCount.nodeValue = "0";
+
+      if (this.alreadyModeratedContentsCount) {
+        this.alreadyModeratedContentsCount.nodeValue = "";
+      }
     }
 
     this.numberOfModeratedContents = 0;
     this.numberOfFailedContents = 0;
+    this.numberOfAlreadyModeratedContents = 0;
 
     if (this.#ignoreButtonContainer) {
       this.ignoredState = false;

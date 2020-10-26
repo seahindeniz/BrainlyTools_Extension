@@ -917,7 +917,8 @@
         "filtered": "%{count} filtrelendi",
         "visible": "%{count} görüntülenen",
         "moderated": "%{count} düzenlendi",
-        "failed": "%{count} hatalı"
+        "failed": "%{count} hatalı",
+        "alreadyModerated": "%{count} zaten düzenlenmiş"
       },
       "visible": {
         "contents": "Görünen içerikler",

@@ -166,6 +166,7 @@ export default class User {
     this.selectedInput = selectedInput;
 
     this.inputContainer.append(this.selectedInput.element);
+    this.main.main.containerTippy.popperInstance.update();
   }
 
   RenderRankSelect() {

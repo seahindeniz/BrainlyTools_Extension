@@ -1,6 +1,6 @@
 import { Button, Flex, Icon, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
-import tippy from "tippy.js";
+import tippy, { Instance, Props } from "tippy.js";
 import type QueueClassType from "../Queue";
 import ButtonVisibility from "./ButtonVisibility";
 import Density from "./Density";
@@ -26,6 +26,8 @@ export default class Options {
     buttonVisibility?: ButtonVisibility;
     contentFilters: Filters;
   };
+
+  containerTippy: Instance<Props>;
 
   constructor(main: QueueClassType) {
     this.main = main;
@@ -56,7 +58,7 @@ export default class Options {
       }),
     });
 
-    tippy(this.optionsButton.element, {
+    this.containerTippy = tippy(this.optionsButton.element, {
       theme: "light",
       trigger: "click",
       maxWidth: "none",

@@ -789,7 +789,7 @@
       },
       "filter": {
         "optionName": "Filtrer les signalements",
-        "description": "Les filtres ne peuvent être appliqués qu'aux signalements qui ont été chargés",
+        "description": "Les filtres ne peuvent être appliqués qu'aux signalements qui ont été récupérés",
         "filters": {
           "reporter": {
             "name": "Utilisateur signaleur"
@@ -829,8 +829,8 @@
             "id": "id",
             "nick": "nick",
             "lookFor": "Rechercher",
-            "specialRank": "Special rank",
-            "anyRank": "Any rank"
+            "specialRank": "Rang spécial",
+            "anyRank": "N’importe quel rang"
           },
           "stringFilter": {
             "chooseCondition": "Choisissez une condition",
@@ -849,7 +849,7 @@
               "regExp": "RegExp(JS/ES6)"
             },
             "additionalData": "Données complémentaires",
-            "content": "Content"
+            "content": "Contenu"
           }
         },
         "pageNumberInputTitle": "Entre un numéro de page entre %{MIN_N} et %{MAX_N}"
@@ -867,8 +867,8 @@
         "description": "Activer/désactiver le chargement automatique du contenu lors du défilement de la page"
       },
       "loadLimiter": {
-        "optionName": "Load limiter",
-        "description": "This option allows you to increase/decrease the limit of how many report box will be shown after clicking the load more button.\n\nHigher values may cause a little delay in showing boxes"
+        "optionName": "Limiteur de chargement",
+        "description": "Cette option te permet d'augmenter/diminuer la limite du nombre de cases de signalements qui s'afficheront après avoir cliqué sur le bouton \"Charger plus\".\n\nDes valeurs plus élevées peuvent entraîner un léger retard dans l'affichage des cases."
       }
     },
     "queue": {
@@ -889,13 +889,13 @@
         "contentShort": "Contenu (court)",
         "isModerated": "Est-il modéré ?"
       },
-      "notYetCorrected": "Not yet corrected"
+      "notYetCorrected": "Pas encore corrigé"
     },
-    "loadAll": "Charger tous les signalements",
+    "loadAll": "Récupérer tous les signalements",
     "loadAllConfirmationMessage": "Je vais essayer de récupérer tous les contenus signalés auprès de Brainly, mais le processus peut être interrompu par Brainly en raison de demandes élevées.\nVeuillez confirmer pour lancer le processus.",
     "massModerate": {
       "name": "Modération de masse des contenus",
-      "description": "Tu ne peux que modérer les contenus qui ont été chargés",
+      "description": "Tu ne peux que modérer les contenus qui ont été récupérés",
       "confirm": {
         "text": "Confirmer",
         "noContentToConfirm": "Il n'y a pas de contenu disponible à confirmer",
@@ -918,7 +918,7 @@
         "visible": "%{count} visibles",
         "moderated": "%{count} modérés",
         "failed": "%{count} échecs",
-        "alreadyModerated": "%{count} already moderated"
+        "alreadyModerated": "%{count} déjà modérés"
       },
       "visible": {
         "contents": "Contenus visibles",
@@ -970,10 +970,10 @@
     "answerHasCorrected": "%{nick} a corrigé la réponse",
     "questionHasBeenDeleted": "La question a été supprimée",
     "moderationCompleted": "Modération terminée",
-    "extendBy15Minutes": "Extend by 15 minutes",
+    "extendBy15Minutes": "Prolonger de 15 minutes",
     "log": {
       "text": "Historique de la question",
-      "deletedWithWarning": "Deleted with a warning"
+      "deletedWithWarning": "Supprimé avec un avertissement"
     }
   },
   "shortAnswersPage": {

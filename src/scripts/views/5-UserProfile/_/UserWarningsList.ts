@@ -55,6 +55,7 @@ export default class UserWarningsList {
     this.container = Build(
       Flex({
         marginTop: "s",
+        marginBottom: "xs",
         direction: "column",
       }),
       [
@@ -65,7 +66,7 @@ export default class UserWarningsList {
         }),
         (this.warningList = Flex({
           marginLeft: "xs",
-          marginTop: "xs",
+          marginTop: "xxs",
           direction: "column",
         })),
         (this.spinner = Spinner({
@@ -119,20 +120,27 @@ export default class UserWarningsList {
               }),
             ],
           ],
-          Text({
-            size: "xsmall",
-            align: "RIGHT",
-            children: [
-              `${warning.relativeTime} - `,
+          [
+            Flex({ direction: "column" }),
+            [
+              Text({
+                size: "xsmall",
+                align: "RIGHT",
+                children: warning.relativeTime,
+              }),
               Text({
                 size: "xsmall",
                 color: "blue-dark",
                 target: "_blank",
+                whiteSpace: "pre-wrap",
                 href: System.createProfileLink(warning.giver),
                 children: warning.giver.nick,
+                style: {
+                  overflowWrap: "anywhere",
+                },
               }),
             ],
-          }),
+          ],
         ],
       );
 

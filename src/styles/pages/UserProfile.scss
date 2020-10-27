@@ -8,6 +8,10 @@ img.userHat {
   width: 50px;
 }
 
+.mod-profile-panel > br {
+  clear: both;
+}
+
 .ranking {
   > h2:not(:last-child) {
     margin-right: 0.5em;

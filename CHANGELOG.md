@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.14.0] - 2020.10.27
+
+### Added
+
+- An option to filter reports by content using the filter reports feature.
+  [#271]
+- A separate panel to filter reported contents that have been asked/answered by
+  users who hold special ranks. [#277]
+- An "already moderated/deleted/confirmed" counter beside the "moderated",
+  "failed" counters. [#297]
+
+[#271]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/271
+[#277]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/277
+[#297]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/297
+
 ## [7.13.0] - 2020.10.22
 
 ### Added

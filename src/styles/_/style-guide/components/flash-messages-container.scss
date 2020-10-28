@@ -1,7 +1,11 @@
-.sg-header:not(.sg-header--fixed) {
-  .flash-messages-container {
+.flash-messages-container {
+  @at-root .sg-header:not(.sg-header--fixed) & {
     top: 0;
     z-index: 101;
     position: fixed;
+  }
+
+  &.flash-header-next {
+    top: 100%;
   }
 }

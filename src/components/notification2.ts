@@ -25,6 +25,12 @@ export function GetFlashMessageContainer() {
     }
 
     if (header) header.append(container);
+  } else {
+    const newHeader = document.querySelector(
+      `header[class^="HeaderController"]`,
+    );
+
+    newHeader?.append(container);
   }
 
   return container;

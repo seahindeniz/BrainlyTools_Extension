@@ -1024,10 +1024,13 @@ export default class Content {
     try {
       await this.DisableActions();
 
-      const resDelete = await new Action()[methodName]({
-        ...data,
-        model_id: this.data.model_id,
-      });
+      const resDelete = await new Action()[methodName](
+        {
+          ...data,
+          model_id: this.data.model_id,
+        },
+        true,
+      );
       // console.log(methodName, {
       //   ...data,
       //   model_id: this.data.model_id,

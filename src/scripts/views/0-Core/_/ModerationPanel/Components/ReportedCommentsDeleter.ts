@@ -302,7 +302,7 @@ class ReportedCommentsDeleter extends Components {
     };
 
     // await System.Delay();
-    const resRemove = await new Action().RemoveComment(data);
+    const resRemove = await new Action().RemoveComment(data, true);
     await new Action().CloseModerationTicket(report.task_id);
 
     if (!resRemove || !resRemove.success) console.warn(resRemove);

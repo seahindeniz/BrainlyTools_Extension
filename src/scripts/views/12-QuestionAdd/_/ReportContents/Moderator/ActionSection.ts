@@ -261,6 +261,7 @@ export default class ActionSection {
     this.main.HideStopButton();
     this.main.HideStopButtonContainer();
     this.main.EnableButtons();
+    this.EnableModerateButtons();
     this.NormalizeActionButton();
     clearInterval(this.loopTryToModerate);
     this.main.main.fetcher.HideFilterSpinner();
@@ -270,7 +271,6 @@ export default class ActionSection {
     this.StopModerating();
     this.main.HideStopButtonContainer();
     this.UpdateFilteredContentsStore();
-    this.EnableModerateButtons();
     this.UpdateModerateButtonNumbers();
   }
 

@@ -933,7 +933,7 @@
         "comments": "Commentaires filtrés"
       },
       "ignoreContent": "Ignorer ce signalement tout en modérant en masse",
-      "ignoreContents": "Ignorer les %{nombre} de signalements visibles lors de la modération de masse"
+      "ignoreContents": "Ignorer les %{number} de signalements visibles lors de la modération de masse"
     },
     "categoryFilterFirstOption": {
       "name": "Motifs de signalements — TOUS",

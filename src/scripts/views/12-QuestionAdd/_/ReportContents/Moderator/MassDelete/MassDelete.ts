@@ -150,6 +150,8 @@ export default class MassDeleteSection extends ActionSection {
 
     Object.entries(this.deleteSection.byContentType).forEach(
       ([contentType, section]: [ContentNameType, MassDeleteDeleteSection]) => {
+        if (!section) return;
+
         this.dataMap[contentType] = section.deleteSection.PrepareData();
       },
     );

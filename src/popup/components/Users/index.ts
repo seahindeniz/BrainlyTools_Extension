@@ -542,7 +542,11 @@ class Users {
 
   async SaveUser(user) {
     try {
-      const { privileges }: { privileges: number[] } = user.serverData;
+      let privileges: number[] = [];
+
+      if (user.serverData?.privileges) {
+        privileges = user.serverData?.privileges;
+      }
 
       $("input", this.$privilegesContainer).each(
         (i, input: HTMLInputElement) => {

@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.14.1] - 2020.10.28
+
+### Changed
+
+- Minor fixes on the header bar, notification messages and mass-moderate tool
+
 ## [7.14.0] - 2020.10.27
 
 ### Added

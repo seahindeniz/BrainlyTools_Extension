@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.14.2] - 2020.10.28
+
+### Changed
+
+- Cannot add extension access permissions to a moderator [#298]
+
 ## [7.14.1] - 2020.10.28
 
 ### Changed

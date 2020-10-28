@@ -171,8 +171,7 @@ class ThemeColorChanger {
 		#html .mint .mint-header,
 		#html .mint #tabs-doj #main_menu>li.active,
     #html .mint #footer,
-    header[class^="HeaderController"],
-    div[class^="HeaderController__innerwrap"]
+    header[class^="HeaderController"]
     {
 			${this.backgroundStyle}
 		}

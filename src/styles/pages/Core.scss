@@ -34,7 +34,8 @@
   left: 5px;
 }
 
-div[class^="HeaderController__subnav"] {
+div[class^="HeaderController__subnav"],
+div[class^="HeaderController__innerwrap"] {
   background-color: transparent;
 }
 

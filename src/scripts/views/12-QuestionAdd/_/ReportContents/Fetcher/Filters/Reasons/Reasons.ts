@@ -85,6 +85,8 @@ export default class Reasons {
       this.reasonGroup[groupName].Show();
       this.selectedGroups.push(this.reasonGroup[groupName]);
     });
+
+    this.UpdateSelectedReasonStore();
   }
 
   InitGroup(groupName: ReasonGroupsType) {
@@ -98,6 +100,14 @@ export default class Reasons {
   }
 
   ReasonSelected() {
+    this.UpdateSelectedReasonStore();
+
+    if (!this.selectedReason) return;
+
+    this.main.main.FetchReports({ resetStore: true });
+  }
+
+  UpdateSelectedReasonStore() {
     const selectedOptions = Array.from(
       this.reasonSelect.select.selectedOptions,
     );
@@ -105,10 +115,6 @@ export default class Reasons {
     this.selectedReason = this.reasons.find(reason =>
       selectedOptions.includes(reason.option),
     );
-
-    if (!this.selectedReason) return;
-
-    this.main.main.FetchReports({ resetStore: true });
   }
 
   Show() {

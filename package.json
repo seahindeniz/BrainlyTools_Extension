@@ -170,5 +170,5 @@
     "dist": "npm run dist:gulp && npm run dist:webpack && npm run zip",
     "zip": "cross-env NODE_ENV=production gulp zip"
   },
-  "version": "7.14.2"
+  "version": "7.14.3"
 }

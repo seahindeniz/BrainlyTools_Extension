@@ -571,7 +571,11 @@ class Users {
         },
       );
 
-      let { approved } = user.serverData;
+      let approved = false;
+
+      if (user.serverData?.approved) {
+        approved = user.serverData.approved;
+      }
 
       if (this.$permission) {
         approved = this.$permission.prop("checked");

@@ -770,7 +770,7 @@
   "reportedContents": {
     "questionAnswerReports": {
       "text": "Questions/Réponses (%{number_of_reports})",
-      "title": "Cliquez ici pour voir les questions et les réponses signalés"
+      "title": "Cliquez ici pour voir les questions et les réponses signalées"
     },
     "commentReports": {
       "text": "Commentaires (%{number_of_reports})",

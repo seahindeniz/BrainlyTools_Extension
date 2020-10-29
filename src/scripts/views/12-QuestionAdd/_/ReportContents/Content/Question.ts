@@ -74,11 +74,11 @@ export default class Question extends Content {
   }
 
   RenderApprovedAnswersIcon() {
-    const approvedAnswers = this.extraData.answers.nodes.filter(
+    const approvedAnswers = this.extraData.answers?.nodes.filter(
       answer => answer.verification,
     );
 
-    if (approvedAnswers.length === 0) return;
+    if (!approvedAnswers?.length) return;
 
     const approvedAnswersIconContainer = Flex({
       marginRight: "xs",

@@ -16,7 +16,7 @@ import ReportingDate from "./Filter/ReportingDate";
 import Subject from "./Filter/Subject";
 import ModerationPanelController from "./ModerationPanelController/ModerationPanelController";
 import Options from "./Options/Options";
-import QueryBuilder from "./QueryBuilder/QueryBuilder";
+// import QueryBuilder from "./QueryBuilder/QueryBuilder";
 import Content from "./Filter/StringFilter/Content";
 
 export default class Queue {
@@ -56,7 +56,7 @@ export default class Queue {
   spinnerContainer: FlexElementType;
   loadMoreButtonContainer: FlexElementType;
 
-  queryBuilder: QueryBuilder;
+  // queryBuilder: QueryBuilder;
 
   constructor(main: ReportedContentsType) {
     this.main = main;
@@ -79,7 +79,7 @@ export default class Queue {
     };
     this.filter.all = Object.values(this.filter.byName);
 
-    this.queryBuilder = new QueryBuilder(this);
+    // this.queryBuilder = new QueryBuilder(this);
     this.moderationPanelController = new ModerationPanelController(this);
 
     this.RenderSpinner();

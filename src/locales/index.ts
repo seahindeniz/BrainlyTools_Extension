@@ -860,7 +860,7 @@ export default {
       },
       lazyQueue: {
         optionName: "Lazy queue (Refresh required)",
-        description: "This option enables lazy loading for reported contents.\n\nWhen enabled, the queue displays report boxes with delay while scrolling through reports, so it's memory-friendly.\nHowever, the \"Find on page\" feature will not function for invisible reports. The page might display empty reports while scrolling too fast"
+        description: "This option enables lazy loading for the reported contents queue.\n\nWhen enabled, the queue displays report boxes with a delay while scrolling through reports, so it's memory-friendly.\nHowever, the \"Find on page\" feature will not function for invisible reports. The page might display empty reports while scrolling too fast"
       },
       toggleInfiniteLoader: {
         optionName: "Scrollable loading",

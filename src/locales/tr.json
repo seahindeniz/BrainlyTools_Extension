@@ -860,7 +860,7 @@
       },
       "lazyQueue": {
         "optionName": "Lazy liste (Sayfayı yenilemelisin)",
-        "description": "Bu seçenek, gecikmeli listelemeyi etkinleştirir.\n\nEtkinleştirildiğinde; şikayetler sayfa kaydırılınca biraz gecikmeli görüntülenir ve cihazının belleğinde az kullanım sağlar. \nAncak bu durumda, tarayıcının \"Sayfada bul\" özelliği, o an içerisinde görüntülenmeyen şikayetler için çalışmaz. Sayfayı çok hızlı kaydırdığında da, bazı şikayetler görünmez kalabilir."
+        "description": "Bu seçenek, gecikmeli listelemeyi etkinleştirir.\n\nEtkinleştirildiğinde; sayfayıukarı kaydırıldığı zaman içerikler biraz gecikmeli görüntülenir ve cihazının belleğinde az kullanım sağlar. \nAncak bu durumda, tarayıcının \"Sayfada bul\" özelliği, o an içerisinde görüntülenmeyen şikayetler için çalışmaz. Sayfayı çok hızlı kaydırdığında da, bazı şikayetler görünmez kalabilir."
       },
       "toggleInfiniteLoader": {
         "optionName": "Kaydırarak yükleme",

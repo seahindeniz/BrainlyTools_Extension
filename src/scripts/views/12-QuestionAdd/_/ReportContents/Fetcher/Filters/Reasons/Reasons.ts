@@ -20,7 +20,6 @@ export default class Reasons {
 
   reasons: Reason[];
 
-  selectedGroups: (QuestionGroup | AnswerGroup | CommentGroup)[];
   selectedReason: Reason;
   primaryReason: { questionAnswer: Reason; comment: Reason };
   container: import("@style-guide/Flex").FlexElementType;
@@ -34,8 +33,6 @@ export default class Reasons {
       comment: undefined,
     };
     this.reasons = [];
-
-    this.selectedGroups = [];
 
     this.Render();
     this.RenderPrimaryReasons();
@@ -73,9 +70,7 @@ export default class Reasons {
   ShowGroups(groupNames: ReasonGroupsType[]) {
     if (groupNames.length === 0) return;
 
-    this.selectedGroups.forEach(selectedGroup => selectedGroup.Hide());
-
-    this.selectedGroups.length = 0;
+    Object.values(this.reasonGroup).forEach(reasonGroup => reasonGroup?.Hide());
 
     groupNames.forEach(groupName => {
       if (!this.reasonGroup[groupName]) {
@@ -83,7 +78,6 @@ export default class Reasons {
       }
 
       this.reasonGroup[groupName].Show();
-      this.selectedGroups.push(this.reasonGroup[groupName]);
     });
 
     this.UpdateSelectedReasonStore();
@@ -123,7 +117,6 @@ export default class Reasons {
 
   Hide() {
     this.selectedReason = null;
-    this.selectedGroups.length = 0;
     this.reasonSelect.select.selectedIndex = 0;
 
     HideElement(this.container);

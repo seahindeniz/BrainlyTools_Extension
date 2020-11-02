@@ -3,6 +3,6 @@ import type QueueClassType from "../../Queue";
 
 export default class Reported extends User {
   constructor(main: QueueClassType) {
-    super(main, "reported", "peach");
+    super(main, "reporter", "peach");
   }
 }

@@ -47,7 +47,8 @@
       "operationCompleted": "Opération effectuée",
       "unsavedChanges": "Vous avez des modifications non sauvegardées. Voulez-vous toujours quitter ?",
       "youNeedToSelectAtLeastOne": "Vous devez en sélectionner au moins un",
-      "cannotShareUserInfoWithServer_RefreshPage": "Une erreur inattendue s'est produite lors d'une tentative de communication avec le serveur de l'extension. Pourriez-vous rafraîchir la page s'il vous plaît ?"
+      "cannotShareUserInfoWithServer_RefreshPage": "Une erreur inattendue s'est produite lors d'une tentative de communication avec le serveur de l'extension. Pourriez-vous rafraîchir la page s'il vous plaît ?",
+      "operationErrorRefresh": "Une erreur s'est produite pendant le fonctionnement. Veuillez actualiser la page et réessayer"
     },
     "moderating": {
       "moreOptions": "Plus d'options",
@@ -288,7 +289,7 @@
           },
           "21": {
             "title": "Voir les privilèges de l'utilisateur",
-            "description": "L'utilisateur peut voir les privilèges des autres utilisateurs utilisateurs sans faire de modifications"
+            "description": "L'utilisateur peut voir les privilèges d'extension des autres utilisateurs d'extension attribués à leurs profils, sans apporter de modifications"
           },
           "22": {
             "title": "Peut changer les permissions d'accès",
@@ -315,8 +316,8 @@
             "description": "L'utilisateur peut utiliser cette fonction pour manager les utilisateurs tel que changer le nombre de points, approuver les réponses des utilisateurs etc .."
           },
           "28": {
-            "title": "Mod. Action H. Approbation",
-            "description": "L'utilisateur peut utiliser cette fonction pour signaler des actions de modération depuis l'historique de modération."
+            "title": "Examiner l'historique des actions",
+            "description": "Possibilité d'examiner les actions d'autres modérateurs pour les marquer comme valides ou non valides et leur faire part de leurs erreurs à partir de la page d'historique des actions des modérateurs"
           },
           "45": {
             "title": "Suppression rapide des commentaires",
@@ -356,6 +357,10 @@
           "38": {
             "title": "Bouton de confirmation de la réponse signalée",
             "description": "Permettre au modérateur d'utiliser le bouton de confirmation pour confirmer/accepter les réponses signalées au lieu de vérifier"
+          },
+          "39": {
+            "title": "Historique des actions, gestion de l'examen",
+            "description": "Possibilité de revenir sur les avis d'autres examinateurs sur l'historique de la modération des modérateurs. Sans cela, les évaluateurs ne peuvent annuler que leurs propres évaluations"
           }
         },
         "veryImportant": "Très important"
@@ -743,26 +748,34 @@
     }
   },
   "moderatorActionHistory": {
-    "notificationMessages": {
-      "doYouWantToConfirm": "Voulez-vous confirmer cette action ?",
-      "doYouWantToConfirmUnreviewedActions": "Voulez-vous approuver toutes les actions non revues",
-      "doYouWantToDisapprove": "Voulez-vous désapprouver cette action ?",
-      "doYouWantToDisapproveUnreviewedActions": "Voulez-vous désapprouver toutes les actions non revues ?",
-      "doYouWantToRevertThisReport": "Voulez-vous modifier ce rapport ?",
-      "iCouldntRevertThisReport": "Je ne peux pas modifier ce rapport",
-      "wouldYouLikeToInform": "Voulez-vous informer %{nick} de cette action via un message privé ?"
-    },
-    "confirm": "Confirmer",
-    "confirmAll": "Tout confirmer",
-    "disapprove": "Désapprouver",
-    "disapproveAll": "Tout désapprouver",
     "revert": "Modifier",
-    "PM": "MP",
-    "sampleMessage": "Bonjour %{n}\n\n[Écrivez votre raison ici]\n\nAction : %{a}\nQuestion : %{q}",
-    "reviewedOn": {
-      "confirm": "Confirmer le %{date} par %{nick}",
-      "disapprove": "Désapprouver le %{date} par %{nick}"
-    }
+    "valid": "Valide",
+    "validateAll": "Valider tout",
+    "validateAllDescription": "Validez toutes les actions non examinées sur cette page",
+    "invalid": "Invalide",
+    "invalidateAll": "Tout invalider",
+    "invalidateAllDescription": "Invalider toutes les actions non examinées sur cette page",
+    "revertAll": "Tout annuler",
+    "statusTitle": {
+      "valid": "Validé par %{nick} le %{date}",
+      "invalid": "Invalidé par %{nick} le %{date}"
+    },
+    "toggleDetails": "Afficher les détails",
+    "validated": "Modération marquée comme valide",
+    "invalidated": "Modération marquée comme non valide",
+    "allValidated": "Les modérations sont marquées comme étant valides",
+    "allInvalidated": "Les modérations sont marquées comme non valides",
+    "informModeratorTitle": "Informer %{nick} de cette mauvaise modération",
+    "informModeratorTitleForMany": "Informer %{nick} de ces mauvaises modérations",
+    "informModerator": "Informer le modérateur",
+    "messageTemplate": "Bonjour %{nick},\n\n .. \n\n Question: %{question} \n\n Pièces jointes: %{links}",
+    "anAttachmentUploading": "Veuillez attendre que les pièces jointes aient été téléchargées",
+    "anErrorOccurredWhileSendingMessage": "Une erreur s'est produite lors de l'envoi du message :\n%{reason}",
+    "warnBeforeEditing": "Vous voulez vraiment modifier le dernier message ?",
+    "informed": "Informé",
+    "reviewWithdrawn": "L'avis a bien été récupéré",
+    "reviewsWithdrawn": "Les avis ont bien été récupérés",
+    "reviewDetails": "Détails de l'examen"
   },
   "question": {
     "keywords": "Mots-clés"

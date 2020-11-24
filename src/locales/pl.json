@@ -47,7 +47,8 @@
       "operationCompleted": "Operation completed",
       "unsavedChanges": "You have some unsaved changes. Do you still want to close?",
       "youNeedToSelectAtLeastOne": "You need to select at least one",
-      "cannotShareUserInfoWithServer_RefreshPage": "An unexpected error occurred while trying to communicate with extension's server. Could you refresh the page please?"
+      "cannotShareUserInfoWithServer_RefreshPage": "An unexpected error occurred while trying to communicate with extension's server. Could you refresh the page please?",
+      "operationErrorRefresh": "An error occurred during operation. Please refresh the page and try again"
     },
     "moderating": {
       "moreOptions": "More Options",
@@ -287,8 +288,8 @@
             "description": "Can edit notice board content"
           },
           "21": {
-            "title": "Review user privileges",
-            "description": "User can review other extension users privileges without making any changes"
+            "title": "View users' privileges",
+            "description": "User can see extension privileges of other extension user's that has assigned to their profiles, without making any changes"
           },
           "22": {
             "title": "Can change access permission",
@@ -315,8 +316,8 @@
             "description": "User can use this function to manage users massively. Like, changing a list of users points or approve answers of users or etc."
           },
           "28": {
-            "title": "Mod. Action H. Approval",
-            "description": "User can use this function to report- actions of moderators from moderator actions history page."
+            "title": "Action history reviewer",
+            "description": "Ability to review other moderators actions to be marked as valid or invalid and letting them know about their mistakes from moderator actions history page"
           },
           "45": {
             "title": "Quick delete comments",
@@ -356,6 +357,10 @@
           "38": {
             "title": "Confirm reported answer button",
             "description": "Allow moderator to use the confirm button to confirm/accept reported answers instead of verifying"
+          },
+          "39": {
+            "title": "Action history, review management",
+            "description": "Ability to revert other reviewers' reviews on moderation history of moderators. Without this, reviewers can only revert their own reviews"
           }
         },
         "veryImportant": "Very important"
@@ -743,26 +748,34 @@
     }
   },
   "moderatorActionHistory": {
-    "notificationMessages": {
-      "doYouWantToConfirm": "Do you want to confirm this action?",
-      "doYouWantToConfirmUnreviewedActions": "Do you want to confirm all unreviewed actions?",
-      "doYouWantToDisapprove": "Do you want to disapprove this action?",
-      "doYouWantToDisapproveUnreviewedActions": "Do you want to disapprove all unreviewed actions?",
-      "doYouWantToRevertThisReport": "Do you want to revert this report?",
-      "iCouldntRevertThisReport": "I couldn't revert this report",
-      "wouldYouLikeToInform": "Would you like to inform %{nick} about this action with a private message?"
-    },
-    "confirm": "Confirm",
-    "confirmAll": "Confirm all",
-    "disapprove": "Disapprove",
-    "disapproveAll": "Disapprove all",
     "revert": "Revert",
-    "PM": "PM",
-    "sampleMessage": "Hello %{n}\n\n[Write your reason here]\n\nAction: %{a}\nQuestion: %{q}",
-    "reviewedOn": {
-      "confirm": "Confirmed on %{date} by %{nick}",
-      "disapprove": "Disapproved on %{date} by %{nick}"
-    }
+    "valid": "Valid",
+    "validateAll": "Validate all",
+    "validateAllDescription": "Validate all non-reviewed actions on this page",
+    "invalid": "Invalid",
+    "invalidateAll": "Invalidate all",
+    "invalidateAllDescription": "Invalidate all non-reviewed actions on this page",
+    "revertAll": "Revert all",
+    "statusTitle": {
+      "valid": "Validated by %{nick} on %{date}",
+      "invalid": "Invalidated by %{nick} on %{date}"
+    },
+    "toggleDetails": "Toggle details",
+    "validated": "Action marked as valid",
+    "invalidated": "Action marked as invalid",
+    "allValidated": "Actions are marked as valid",
+    "allInvalidated": "Actions are marked as invalid",
+    "informModeratorTitle": "Inform %{nick} about this invalid action",
+    "informModeratorTitleForMany": "Inform %{nick} about these invalid actions",
+    "informModerator": "Inform moderator",
+    "messageTemplate": "Hello %{nick},\n\n..\n\nQuestion: %{question}\n\nAttachment: %{links}",
+    "anAttachmentUploading": "Please wait for attachments to have uploaded",
+    "anErrorOccurredWhileSendingMessage": "An error occurred while sending message:\n%{reason}",
+    "warnBeforeEditing": "Do you really want to edit the last message?",
+    "informed": "Informed",
+    "reviewWithdrawn": "Review have successfully withdrawn",
+    "reviewsWithdrawn": "Reviews have successfully withdrawn",
+    "reviewDetails": "Review details"
   },
   "question": {
     "keywords": "Keywords"
@@ -785,11 +798,11 @@
       "buttonVisibility": {
         "optionName": "Widoczność przycisków \"szybkich akcji\"",
         "alwaysVisible": "Zawsze widoczne",
-        "onHoverOrTouch": "Po najechaniu / kliknięciu"
+        "onHoverOrTouch": "Po najechaniu/kliknięciu"
       },
       "filter": {
-        "optionName": "Filtruj raporty",
-        "description": "Filtry można zastosować tylko do tych raportów, które zostały wczytane na stronie",
+        "optionName": "Filtruj zgłoszenia",
+        "description": "Filtry można zastosować tylko do tych zgłoszeń, które zostały załadowane na stronie",
         "filters": {
           "reporter": {
             "name": "Zgłaszający użytkownik"
@@ -829,8 +842,8 @@
             "id": "identyfikator",
             "nick": "nazwa użytkownika",
             "lookFor": "Szukaj",
-            "specialRank": "Special rank",
-            "anyRank": "Any rank"
+            "specialRank": "Specjalna ranga",
+            "anyRank": "Dowolna ranga"
           },
           "stringFilter": {
             "chooseCondition": "Wybierz warunek",
@@ -849,26 +862,26 @@
               "regExp": "RegExp (JS / ES6)"
             },
             "additionalData": "Dodatkowe dane",
-            "content": "Content"
+            "content": "Treść"
           }
         },
         "pageNumberInputTitle": "Wprowadź numer strony od %{MIN_N} do %{MAX_N}"
       },
-      "name": "Opcje",
+      "name": "Filtry",
       "density": {
         "optionName": "Obszerność"
       },
       "lazyQueue": {
-        "optionName": "Opóźnione wczytywanie (wymagane odświeżenie)",
-        "description": "Ta opcja włącza opóźnione wczytywanie zgłaszanych treści.\n\nPo włączeniu jej  pola raportów wyświetlają się z opóźnieniem podczas przewijania ich, jest to optymalniejsze dla komputera.\nJednak funkcja „Znajdź na stronie” nie będzie działać w przypadku niewidocznych raportów. Strona może wyświetlać puste raporty podczas zbyt szybkiego przewijania."
+        "optionName": "Opóźnione załadowywanie (wymaga odświeżenia strony)",
+        "description": "Ta opcja włącza opóźnione załadowywanie zgłaszanych treści.\n\nPo włączeniu jej zgłoszenia wyświetlają się z opóźnieniem podczas przewijania strony, jest to optymalniejsze dla komputera.\nJednak funkcja „Znajdź na stronie” nie będzie działać w przypadku niewidocznych zgłoszeń. Strona może wyświetlać puste zgłoszenia podczas zbyt szybkiego przewijania."
       },
       "toggleInfiniteLoader": {
         "optionName": "Automatycznie wczytywanie treści",
-        "description": "Włącz / wyłącz automatyczne wczytywanie treści podczas przewijania strony"
+        "description": "Włącz/wyłącz automatyczne wczytywanie treści podczas przewijania strony"
       },
       "loadLimiter": {
-        "optionName": "Load limiter",
-        "description": "This option allows you to increase/decrease the limit of how many report box will be shown after clicking the load more button.\n\nHigher values may cause a little delay in showing boxes"
+        "optionName": "Limit załadowywania",
+        "description": "Ta opcja umożliwia zwiększenie/zmniejszenie liczby zgłoszonych treści wyświetlanych po kliknięciu przycisku załaduj więcej. \n\nWyższe wartości mogą powodować niewielkie opóźnienia w ich załadowywaniu."
       }
     },
     "queue": {
@@ -876,10 +889,10 @@
       "bestAnswer": "Najlepsza odpowiedź",
       "popularQuestion": "Popularne pytanie!",
       "moderatorVerifiedSomeonesAnswer": "%{verifier} zweryfikował odpowiedź %{author}",
-      "loadMore": "Załaduj więcej..",
+      "loadMore": "Załaduj więcej",
       "exportReports": {
-        "exportAsSpreadsheet": "Eksportuj znalezione raporty jako arkusz kalkulacyjny",
-        "nothingToExport": "Nie ma raportu do wyeksportowania",
+        "exportAsSpreadsheet": "Eksportuj znalezione zgłoszone treści jako arkusz kalkulacyjny",
+        "nothingToExport": "Nie ma zgłoszonych treści do wyeksportowania",
         "id": "ID",
         "questionId": "ID pytania",
         "reportedUserId": "ID zgłoszonego użytkownika",
@@ -889,17 +902,17 @@
         "contentShort": "Treść (skrócona)",
         "isModerated": "Czy zmoderowano?"
       },
-      "notYetCorrected": "Not yet corrected"
+      "notYetCorrected": "Niepoprawione"
     },
-    "loadAll": "Wczytaj wszystkie raporty",
-    "loadAllConfirmationMessage": "Spróbujemy wczytać wszystkie zgłoszone treści z Brainly, ale proces może zostać przerwany przez Brainly z powodu specjalnych żądań.\n Potwierdź, aby rozpocząć proces",
+    "loadAll": "Załaduj wszystkie zgłoszone treści",
+    "loadAllConfirmationMessage": "Spróbujemy załadować wszystkie zgłoszone treści z Brainly, ale proces może zostać przerwany przez Brainly z powodu specjalnych żądań.\nPotwierdź, aby rozpocząć proces",
     "massModerate": {
       "name": "Masowa moderacja treści",
-      "description": "Możesz moderować tylko te treści, które zostały wczytane",
+      "description": "Możesz moderować tylko te treści, które zostały załadowane",
       "confirm": {
-        "text": "Confirm",
-        "noContentToConfirm": "There is no content that's available for confirmation",
-        "confirmModeration": "Do you really want to confirm %{n} reported contents?"
+        "text": "Zatwierdź",
+        "noContentToConfirm": "Brak zgłoszonych treści do zatwierdzenia",
+        "confirmModeration": "Czy na pewno chcesz potwierdzić %{n} zgłoszonych treści?"
       },
       "delete": {
         "text": "Usuń",
@@ -910,30 +923,30 @@
         },
         "noContentToDelete": "Nie ma treści, które można usunąć",
         "confirmDeletion": "Czy na pewno chcesz usunąć %{n} zgłoszonych treści?",
-        "warnAboutConfirmedContents": "Warning!\n%{N_of_confirmed} of the %{N_of_filtered} contents you want to delete have already been confirmed.\nDo you want those contents to be deleted as well?"
+        "warnAboutConfirmedContents": "Ostrzeżenie! %{N_of_confirmed} z %{N_of_filtered} treści, które chcesz usunąć, zostało już zatwierdzonych. Czy chcesz, aby te treści również zostały usunięte?"
       },
       "status": {
-        "fetched": "%{count} wczytano",
+        "fetched": "%{count} załadowano",
         "filtered": "%{count} znaleziono",
         "visible": "%{count} widocznych",
         "moderated": "%{count} moderowane",
         "failed": "%{count} nie powiodło się",
-        "alreadyModerated": "%{count} already moderated"
+        "alreadyModerated": "%{count} zmoderowane"
       },
       "visible": {
-        "contents": "Visible contents",
-        "questions": "Visible questions",
-        "answers": "Visible answers",
-        "comments": "Visible comments"
+        "contents": "Widoczna treści",
+        "questions": "Widoczne pytania",
+        "answers": "Widoczne odpowiedzi",
+        "comments": "Widoczne komentarze"
       },
       "filtered": {
-        "contents": "Filtered contents",
-        "questions": "Filtered questions",
-        "answers": "Filtered answers",
-        "comments": "Filtered comments"
+        "contents": "Znalezione treści",
+        "questions": "Znalezione pytania",
+        "answers": "Znalezione odpowiedzi",
+        "comments": "Znalezione komentarze"
       },
-      "ignoreContent": "Ignore this report while mass-moderating",
-      "ignoreContents": "Ignore %{number} visible reports while mass-moderating"
+      "ignoreContent": "Zignoruj to zgłoszenie podczas masowej moderacji",
+      "ignoreContents": "Ignoruj %{number} widocznych zgłoszonych treści podczas masowej moderacji"
     },
     "categoryFilterFirstOption": {
       "name": "Wszystkie powody zgłoszeń",

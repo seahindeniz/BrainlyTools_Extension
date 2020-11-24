@@ -292,6 +292,7 @@ class Core {
     }
 
     if (System.checkRoute(2, "view_moderator")) {
+      RemoveOldLayoutCSSFile();
       InjectToDOM([
         "/scripts/views/11-ModeratorActionsHistory/index.js",
         "/styles/pages/ModeratorActionsHistory.css",

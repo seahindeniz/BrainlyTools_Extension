@@ -29,7 +29,7 @@ import {
   ModeratePanelQuestionExtraDetailsQuery,
   ModeratePanelQuestionExtraDetailsType,
 } from "./extraDetails.query";
-import LogSection from "./LogSection/LogSection";
+import LogSection from "../LogSection/LogSection";
 import Switcher from "./Switcher";
 
 export type ModeratePanelActionType = "delete" | "confirm";
@@ -263,7 +263,10 @@ export default class ModerationPanel {
   }
 
   RenderLogsSection() {
-    this.logSection = new LogSection(this);
+    this.logSection = new LogSection(
+      this.data.task.id,
+      this.modal.Notification,
+    );
 
     this.RenderSeparator();
     this.contentContainer.append(this.logSection.container);

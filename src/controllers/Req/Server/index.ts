@@ -579,6 +579,14 @@ export default class ServerReq {
     return this.P("actionsHistory");
   }
 
+  review() {
+    return this.P("review");
+  }
+
+  reviews() {
+    return this.P("reviews");
+  }
+
   details() {
     return this.P("details");
   }

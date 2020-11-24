@@ -20,12 +20,27 @@ const USERS_PROFILE_REQ_CHUNK_SIZE = 100;
 type CommonUserProps = { id: number; nick: string };
 
 export type UserType = CommonUserProps & {
-  avatar: { medium: string; small: string } | null;
+  avatar?: { medium: string; small: string };
   avatar_id: number;
   category: number;
   client_type: number;
   current_best_answers_count: number;
   gender: number;
+  is_deleted: boolean;
+  points: number;
+  primary_rank_id: number;
+  ranks_ids: number[];
+  registration_date: string;
+};
+
+export type UserType2 = CommonUserProps & {
+  avatar?: {
+    [size in 64 | 100]: string;
+  };
+  current_best_answers_count: number;
+  deleted: string;
+  gender: number;
+  grade_id: number;
   is_deleted: boolean;
   points: number;
   primary_rank_id: number;
@@ -50,7 +65,7 @@ export type CommonGenericResponseType<T> =
   | CommonFailedResponseDataType;
 
 export type UserResponse = CommonGenericResponseType<{
-  data?: UserType;
+  data?: UserType2;
   message?: string;
 }>;
 
@@ -64,7 +79,7 @@ export type UserProfile = CommonUserProps & {
     subject_id: number;
     answers_count: number;
   }[];
-  avatars: null | { 64: string; 100: string };
+  avatars?: { 64: string; 100: string };
   best_answers_from_30_days: number;
   description: string;
   followed_count: string;
@@ -95,7 +110,7 @@ type AnswersOfUser = {
   created: string;
 }[];
 
-type UserProfileResponse = CommonGenericResponseType<{ data?: UserProfile }>;
+// type UserProfileResponse = CommonGenericResponseType<{ data?: UserProfile }>;
 
 type AnswersOfUserResponse = CommonGenericResponseType<{
   pagination?: {
@@ -108,7 +123,7 @@ type AnswersOfUserResponse = CommonGenericResponseType<{
   data?: AnswersOfUser;
 }>;
 
-type GQL_User = {
+/* type GQL_User = {
   avatar: null;
   gender: "MALE" | "FEMALE";
   id: string;
@@ -142,6 +157,26 @@ type GQL_CommentEdges = {
   edges: GQL_CommentEdge[];
 };
 
+type GQL_Answer = {
+  attachments: string[];
+  author: GQL_User;
+  content: string;
+  created: string;
+  id: string;
+  isBest: boolean;
+  isConfirmed: boolean;
+  thanksCount: number;
+  verification: null | {
+    approval: {
+      approver: GQL_User;
+      approvedTime: string;
+    };
+  };
+  comments?: GQL_CommentEdges;
+};
+
+type GQL_Subject = { icon: string; id: string; name: string };
+
 type GQL_Question = {
   answers?: {
     nodes: GQL_Answer[];
@@ -162,27 +197,7 @@ type GQL_ResQuestion = {
   data: {
     question: GQL_Question;
   };
-};
-
-type GQL_Answer = {
-  attachments: string[];
-  author: GQL_User;
-  content: string;
-  created: string;
-  id: string;
-  isBest: boolean;
-  isConfirmed: boolean;
-  thanksCount: number;
-  verification: null | {
-    approval: {
-      approver: GQL_User;
-      approvedTime: string;
-    };
-  };
-  comments?: GQL_CommentEdges;
-};
-
-type GQL_Subject = { icon: string; id: string; name: string };
+}; */
 
 export type UsersDataInReportedContentsType = {
   avatar?: { "64": string; "100": string };

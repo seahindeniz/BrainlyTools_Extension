@@ -1,4 +1,6 @@
+/* eslint-disable import/first */
 /* eslint-disable import/no-extraneous-dependencies */
+delete process.env.TS_NODE_PROJECT;
 
 import path from "path";
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";

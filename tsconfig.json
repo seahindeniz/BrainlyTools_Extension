@@ -5,7 +5,7 @@
     "baseUrl": "./src",
     // "checkJs": true,
     // "esModuleInterop": true,
-    "isolatedModules": true,
+    // "isolatedModules": true,
     "module": "ESNext",
     // "module": "CommonJS",
     "downlevelIteration": true,
@@ -16,6 +16,7 @@
       "@BrainlyReq": ["./controllers/Req/Brainly"],
       "@BrainlyReq/*": ["./controllers/Req/Brainly/*"],
       "@ServerReq": ["./controllers/Req/Server"],
+      "@ServerReq/*": ["./controllers/Req/Server/*"],
       "@style-guide": ["./components/style-guide"],
       "@style-guide/*": ["./components/style-guide/*"],
       "@components": ["./components"],
@@ -29,7 +30,6 @@
     "outDir": "../build/"
   },
   "include": [
-    "webpack.config.ts",
     "./src/background",
     "./src/scripts",
     "./src/popup",

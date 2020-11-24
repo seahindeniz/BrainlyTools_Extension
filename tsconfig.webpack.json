@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "module": "CommonJS",
+    "esModuleInterop": true
+  },
+  "include": ["webpack.config.ts"]
+}

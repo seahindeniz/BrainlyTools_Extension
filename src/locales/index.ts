@@ -35,7 +35,6 @@ export default {
     removeAll: "Remove all",
     notificationMessages: {
       operationError: "An error occurred during operation. Please try again",
-      operationErrorRefresh: "An error occurred during operation. Please refresh the page and try again",
       somethingWentWrong: "Oops, something went wrong",
       somethingWentWrongPleaseRefresh: "Something happened, please refresh the page",
       cannotShareUserInfoWithServer: "An unexpected error occurred while trying to communicate with extension's server. Please try again in 2 sec",
@@ -48,7 +47,8 @@ export default {
       operationCompleted: "Operation completed",
       unsavedChanges: "You have some unsaved changes. Do you still want to close?",
       youNeedToSelectAtLeastOne: "You need to select at least one",
-      cannotShareUserInfoWithServer_RefreshPage: "An unexpected error occurred while trying to communicate with extension's server. Could you refresh the page please?"
+      cannotShareUserInfoWithServer_RefreshPage: "An unexpected error occurred while trying to communicate with extension's server. Could you refresh the page please?",
+      operationErrorRefresh: "An error occurred during operation. Please refresh the page and try again"
     },
     moderating: {
       moreOptions: "More Options",
@@ -319,10 +319,6 @@ export default {
             title: "Action history reviewer",
             description: "Ability to review other moderators actions to be marked as valid or invalid and letting them know about their mistakes from moderator actions history page"
           },
-          39: {
-            title: "Action history, review management",
-            description: "Ability to revert other reviewers' reviews on moderation history of moderators. Without this, reviewers can only revert their own reviews"
-          },
           45: {
             title: "Quick delete comments",
             description: "On the pages of questions and archive mod, user can use the quick delete buttons for deleting the comments"
@@ -361,6 +357,10 @@ export default {
           38: {
             title: "Confirm reported answer button",
             description: "Allow moderator to use the confirm button to confirm/accept reported answers instead of verifying"
+          },
+          39: {
+            title: "Action history, review management",
+            description: "Ability to revert other reviewers' reviews on moderation history of moderators. Without this, reviewers can only revert their own reviews"
           }
         },
         veryImportant: "Very important"
@@ -748,13 +748,13 @@ export default {
     }
   },
   moderatorActionHistory: {
+    revert: "Revert",
     valid: "Valid",
     validateAll: "Validate all",
     validateAllDescription: "Validate all non-reviewed actions on this page",
     invalid: "Invalid",
     invalidateAll: "Invalidate all",
     invalidateAllDescription: "Invalidate all non-reviewed actions on this page",
-    revert: "Revert",
     revertAll: "Revert all",
     statusTitle: {
       valid: "Validated by %{nick} on %{date}",
@@ -768,7 +768,7 @@ export default {
     informModeratorTitle: "Inform %{nick} about this invalid action",
     informModeratorTitleForMany: "Inform %{nick} about these invalid actions",
     informModerator: "Inform moderator",
-    messageTemplate: "Hello %{nick},\n\n..\n\nQuestion: %{question}\n\nAttachments: %{links}",
+    messageTemplate: "Hello %{nick},\n\n..\n\nQuestion: %{question}\n\nAttachment: %{links}",
     anAttachmentUploading: "Please wait for attachments to have uploaded",
     anErrorOccurredWhileSendingMessage: "An error occurred while sending message:\n%{reason}",
     warnBeforeEditing: "Do you really want to edit the last message?",
@@ -998,4 +998,3 @@ export default {
     doYouWantToDeleteSelectedQuestions: "Do you really want delete %{N} selected questions?"
   }
 }
-

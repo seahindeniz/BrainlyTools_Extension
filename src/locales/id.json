@@ -47,7 +47,8 @@
       "operationCompleted": "Pengerjaan selesai",
       "unsavedChanges": "Kamu memiliki beberapa perubahan tidak disimpan. Apakah kamu tetap ingin menutup?",
       "youNeedToSelectAtLeastOne": "Kamu harus memilih setidaknya satu",
-      "cannotShareUserInfoWithServer_RefreshPage": "An unexpected error occurred while trying to communicate with extension's server. Could you refresh the page please?"
+      "cannotShareUserInfoWithServer_RefreshPage": "An unexpected error occurred while trying to communicate with extension's server. Could you refresh the page please?",
+      "operationErrorRefresh": "An error occurred during operation. Please refresh the page and try again"
     },
     "moderating": {
       "moreOptions": "Lebih Banyak Opsi",
@@ -356,6 +357,10 @@
           "38": {
             "title": "Confirm reported answer button",
             "description": "Allow moderator to use the confirm button to confirm/accept reported answers instead of verifying"
+          },
+          "39": {
+            "title": "Action history, review management",
+            "description": "Ability to revert other reviewers' reviews on moderation history of moderators. Without this, reviewers can only revert their own reviews"
           }
         },
         "veryImportant": "Sangat penting"
@@ -743,26 +748,34 @@
     }
   },
   "moderatorActionHistory": {
-    "notificationMessages": {
-      "doYouWantToConfirm": "Apakah kamu ingin mengkonfirmasi tindakan moderasi ini?",
-      "doYouWantToConfirmUnreviewedActions": "Apakah kamu ingin mengkonfirmasi semua tindakan yang belum ditinjau?",
-      "doYouWantToDisapprove": "Apakah kamu ini menolak tindakan moderasi ini?",
-      "doYouWantToDisapproveUnreviewedActions": "Apakah kamu ingin menolak semua tindakan yang belum ditinjau?",
-      "doYouWantToRevertThisReport": "Apakah kamu ingin mengembalikan laporan ini?",
-      "iCouldntRevertThisReport": "Saya tidak dapat memulihkan laporan ini",
-      "wouldYouLikeToInform": "Apakah kamu ingin mengkonfirmasi %{nick} tentang aksi moderasinya melalu pesan pribadi?"
-    },
-    "confirm": "Konfirmasi",
-    "confirmAll": "Mengkonfirmasi semua",
-    "disapprove": "Disapprove",
-    "disapproveAll": "Disapprove semua",
     "revert": "Memulihkan",
-    "PM": "PM",
-    "sampleMessage": "Halo %{n} \n\n [Tulis alasanmu di sini] \n\n Tindakan: %{a} \n Pertanyaan: %{q}",
-    "reviewedOn": {
-      "confirm": "Mengkonfirmasi pada %{date} oleh %{nick}",
-      "disapprove": "Ditolak pada %{date} oleh %{nick}"
-    }
+    "valid": "Valid",
+    "validateAll": "Validate all",
+    "validateAllDescription": "Validate all non-reviewed actions on this page",
+    "invalid": "Invalid",
+    "invalidateAll": "Invalidate all",
+    "invalidateAllDescription": "Invalidate all non-reviewed actions on this page",
+    "revertAll": "Revert all",
+    "statusTitle": {
+      "valid": "Validated by %{nick} on %{date}",
+      "invalid": "Invalidated by %{nick} on %{date}"
+    },
+    "toggleDetails": "Toggle details",
+    "validated": "Action marked as valid",
+    "invalidated": "Action marked as invalid",
+    "allValidated": "Actions are marked as valid",
+    "allInvalidated": "Actions are marked as invalid",
+    "informModeratorTitle": "Inform %{nick} about this invalid action",
+    "informModeratorTitleForMany": "Inform %{nick} about these invalid actions",
+    "informModerator": "Inform moderator",
+    "messageTemplate": "Hello %{nick},\n\n..\n\nQuestion: %{question}\n\nAttachment: %{links}",
+    "anAttachmentUploading": "Please wait for attachments to have uploaded",
+    "anErrorOccurredWhileSendingMessage": "An error occurred while sending message:\n%{reason}",
+    "warnBeforeEditing": "Do you really want to edit the last message?",
+    "informed": "Informed",
+    "reviewWithdrawn": "Review have successfully withdrawn",
+    "reviewsWithdrawn": "Reviews have successfully withdrawn",
+    "reviewDetails": "Review details"
   },
   "question": {
     "keywords": "Keywords"

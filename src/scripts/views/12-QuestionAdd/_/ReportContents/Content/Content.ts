@@ -542,7 +542,7 @@ export default class Content {
 
     const boxColor: BoxColorType =
       this.hasAlso === "already"
-        ? "lavender-secondary"
+        ? "mustard-secondary"
         : STATUS_COLOR[this.has] || STATUS_COLOR.default;
 
     this.box.ChangeColor(boxColor);

@@ -5,24 +5,34 @@ import SetProps, {
 } from "@style-guide/helpers/SetProps";
 import type { ChildrenParamType } from "@style-guide/helpers/AddChildren";
 
-type CreateElementPropsType<T> = {
+type CommonElementPropsType<T> = {
   tag: T;
   children?: ChildrenParamType;
   className?: string;
-  fullWidth?: boolean;
-  [x: string]: any;
 } & CommonComponentPropsType;
-
-/* interface CreateElementPropsType<T> {
-  tag: T;
-  children?: ChildrenParamType;
-  className?: string;
+type CreateElementPropsType<T> = {
   fullWidth?: boolean;
-  // [x: string]: any;
+} & CommonElementPropsType<T>;
+
+const svgNS = "http://www.w3.org/2000/svg";
+
+export function CreateSVGElement<T extends keyof SVGElementTagNameMap>({
+  tag,
+  children,
+  className,
+  ...props
+}: CommonElementPropsType<T>) {
+  if (tag === null || tag === undefined) throw Error("Tag name is required");
+
+  const element = document.createElementNS(svgNS, tag);
+
+  if (className) element.classList.value = className;
+
+  AddChildren(element, children);
+  SetProps(element, props);
+
+  return element;
 }
-interface CreateElementPropsType<T> {
-  [type in ("onClick" | "onChange")]: EventListenerOrEventListenerObject;
-} */
 
 export default function CreateElement<T extends keyof HTMLElementTagNameMap>({
   tag,
@@ -41,7 +51,6 @@ export default function CreateElement<T extends keyof HTMLElementTagNameMap>({
 
   if (classNames) element.className = classNames;
 
-  // element.addEventListener("click");
   AddChildren(element, children);
   SetProps(element, props);
 

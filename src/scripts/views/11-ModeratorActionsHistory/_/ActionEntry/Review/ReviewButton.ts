@@ -56,9 +56,6 @@ export default class ReviewButton {
 
   async ReviewAction(valid: boolean) {
     try {
-      console.log(this);
-
-      // console.log(data);
       this.ShowSpinner();
       await System.Delay(50);
 
@@ -73,34 +70,7 @@ export default class ReviewButton {
       }
 
       this.main.main.multiReviewSection.AssignReviewData(valid, resReview.data);
-      /* const reviewTimeInstance = DateTime.local();
-      const reviewTime = reviewTimeInstance.toUTC().toISO();
-      const reviewer = {
-        id: System.data.Brainly.userData.user.id,
-        nick: System.data.Brainly.userData.user.nick,
-      };
-      const is = valid ? "valid" : "invalid";
-
-      resReview.data.forEach(dataEntry => {
-        const entries = this.main.main.entries.byHash[dataEntry.hash];
-        const reviewDetails = {
-          reviewTimeInstance,
-          data: {
-            ...dataEntry,
-            valid,
-            reviewTime,
-            reviewer,
-          },
-        };
-
-        entries.forEach(actionEntry => {
-          actionEntry.is = is;
-          actionEntry.reviewDetails = reviewDetails;
-
-          actionEntry.Reviewed();
-        });
-      }); */
-      // this.Reviewed();
+      this.Reviewed();
     } catch (error) {
       console.error(error);
       this.ReviewFailed();

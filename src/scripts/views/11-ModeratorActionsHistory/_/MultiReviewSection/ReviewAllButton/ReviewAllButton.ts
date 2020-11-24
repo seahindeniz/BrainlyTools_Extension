@@ -56,15 +56,11 @@ export default class ReviewAllButton {
 
   async ReviewAllActions(valid: boolean) {
     try {
-      console.log(this);
-
       if (typeof valid !== "boolean") {
         throw Error("Invalid parameter");
       }
 
-      // console.log(data);
       this.ShowSpinner();
-      await System.Delay(1000);
 
       const hashList = [
         ...new Set(
@@ -89,14 +85,13 @@ export default class ReviewAllButton {
         resReview.data,
       );
 
-      console.log(resReview);
       this.Reviewed();
     } catch (error) {
       console.error(error);
       this.ReviewFailed();
     }
 
-    // this.main.HideSpinner();
+    this.main.HideSpinner();
   }
 
   ShowSpinner() {

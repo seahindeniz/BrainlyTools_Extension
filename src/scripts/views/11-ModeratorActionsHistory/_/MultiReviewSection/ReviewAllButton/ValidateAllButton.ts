@@ -14,8 +14,6 @@ export default class ValidateAllButton extends ReviewAllButton {
   }
 
   async ReviewAllActions() {
-    console.log("Validating");
-
     super.ReviewAllActions(true);
   }
 

@@ -1,4 +1,5 @@
 import { CommonGenericResponseType } from "@BrainlyAction";
+import ServerReq from "@ServerReq";
 
 export type ActionHistoryAttachmentDataType = {
   name: string;
@@ -17,7 +18,8 @@ export default function ActionHistoryUploadAttachment(
 
   formData.append("file", file, name);
 
-  return this.FrontGate()
+  return new ServerReq()
+    .FrontGate()
     .Axios()
     .P("actionsHistory")
     .P("attachment")

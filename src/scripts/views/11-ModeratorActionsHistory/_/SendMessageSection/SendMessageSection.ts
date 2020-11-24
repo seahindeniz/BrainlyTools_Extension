@@ -363,7 +363,6 @@ export default class SendMessageSection {
   }
 
   private async SendMessage() {
-    console.log(this);
     if (this.attachments.find(attachment => attachment.state === "uploading")) {
       notification({
         type: "info",

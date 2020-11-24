@@ -1,4 +1,5 @@
 import { CommonResponseDataType } from "@BrainlyAction";
+import ServerReq from "@ServerReq";
 
 export default async function ActionHistoryRemoveAttachment(
   filename: string,
@@ -9,7 +10,8 @@ export default async function ActionHistoryRemoveAttachment(
       message: "Invalid file name",
     };
 
-  return this.FrontGate()
+  return new ServerReq()
+    .FrontGate()
     .Axios()
     .P("actionsHistory")
     .P("attachment")

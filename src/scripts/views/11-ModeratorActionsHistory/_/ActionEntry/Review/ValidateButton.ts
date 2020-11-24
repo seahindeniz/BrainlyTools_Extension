@@ -13,8 +13,6 @@ export default class ValidateButton extends ReviewButton {
   }
 
   async ReviewAction() {
-    console.log("Validating");
-
     super.ReviewAction(true);
   }
 

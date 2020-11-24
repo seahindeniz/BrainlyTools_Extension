@@ -205,12 +205,10 @@ export default class Attachment {
     this.Uploading();
 
     try {
-      console.log(this.file);
       const resUpload = await ActionHistoryUploadAttachment(
         this.file,
         this.filename,
       );
-      console.log(resUpload);
 
       if (resUpload.success === false) {
         if (resUpload.message === "LIMIT_FILE_SIZE")

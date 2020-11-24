@@ -2,6 +2,10 @@
 /* eslint-disable no-underscore-dangle */
 import Axios, { AxiosInstance, AxiosRequestConfig, Method } from "axios";
 
+type ObjectAnyPropsType = {
+  [x: string]: any;
+};
+
 const requestsOnHold = [];
 function GenerateFormData(data: ObjectAnyPropsType, isWithFile?: boolean) {
   const TheMethod = isWithFile ? FormData : URLSearchParams;
@@ -13,10 +17,6 @@ function GenerateFormData(data: ObjectAnyPropsType, isWithFile?: boolean) {
 
   return formData;
 }
-
-type ObjectAnyPropsType = {
-  [x: string]: any;
-};
 
 export default class Request {
   url: URL;
@@ -223,6 +223,12 @@ export default class Request {
 
   PUT(data?: ObjectAnyPropsType, queryString?: ObjectAnyPropsType) {
     this.method = "PUT";
+
+    return this._Post(data, queryString);
+  }
+
+  DELETE(data?: ObjectAnyPropsType, queryString?: ObjectAnyPropsType) {
+    this.method = "DELETE";
 
     return this._Post(data, queryString);
   }

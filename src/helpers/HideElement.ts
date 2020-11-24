@@ -1,9 +1,11 @@
-export default (element: HTMLElement | JQuery) => {
-  if (!element) return;
+export default (...elements: (HTMLElement | JQuery)[]) => {
+  if (!elements?.length) return;
 
-  if (element instanceof HTMLElement) {
-    element?.parentElement?.removeChild(element);
-  } else {
-    element?.detach();
-  }
+  elements.forEach(element => {
+    if (element instanceof HTMLElement) {
+      element?.parentElement?.removeChild(element);
+    } else {
+      element?.detach();
+    }
+  });
 };

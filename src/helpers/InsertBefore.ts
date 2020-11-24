@@ -1,8 +1,5 @@
-export default function InsertBefore(
-  newNode: Element | HTMLElement,
-  referenceNode: Element | HTMLElement,
-) {
-  referenceNode.parentNode?.insertBefore(newNode, referenceNode);
+export default function InsertBefore(newNode: Element, referenceNode: Element) {
+  referenceNode?.parentNode?.insertBefore(newNode, referenceNode);
 
   return newNode;
 }

@@ -1,7 +1,4 @@
-/**
- * @param {KeyboardEvent | JQuery.KeyDownEvent} event
- */
-function IsKeyAlphaNumeric(event) {
+function IsKeyAlphaNumeric(event: KeyboardEvent | JQuery.KeyDownEvent) {
   return !(
     event.ctrlKey ||
     (event.keyCode >= 14 && event.keyCode <= 31) ||

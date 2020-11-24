@@ -19,10 +19,12 @@ export type ButtonColorType =
         | "solid-inverted"
         | "solid-blue"
         | "solid-mint"
+        | "transparent-inverted"
+        | "facebook"
+        // extra
         | "solid-peach"
         | "solid-mustard"
-        | "transparent-inverted"
-        | "facebook";
+        | "solid-gray";
       toggle?: null;
     }
   | {
@@ -238,7 +240,7 @@ class Button {
     return this;
   }
 
-  ChangeType({ type, toggle }: ButtonColorType) {
+  ChangeType({ type, toggle }: Partial<ButtonColorType> = {}) {
     this.element.classList.remove(SGD + String(this.type));
     this.element.classList.remove(SGD + String(this.mainType));
     this.element.classList.remove(
@@ -247,7 +249,10 @@ class Button {
     this.element.classList.remove(
       `sg-button--${String(this.mainType)}-toggle-${String(this.mainToggle)}`,
     );
-    this.element.classList.add(SGD + type);
+
+    if (type) {
+      this.element.classList.add(SGD + type);
+    }
 
     if (toggle)
       this.element.classList.add(
@@ -329,7 +334,8 @@ class Button {
 
       this.iconContainer.appendChild(icon);
     } else {
-      if (icon.size === 24) icon.ChangeSize(24);
+      if (this.size === "xs") icon.ChangeSize(16);
+      else if (icon.size === 24) icon.ChangeSize(24);
 
       if (!icon.color) {
         icon.ChangeColor("adaptive");

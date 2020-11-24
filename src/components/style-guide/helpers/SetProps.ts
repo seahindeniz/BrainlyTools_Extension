@@ -21,8 +21,16 @@ export type CommonComponentPropsType = {
   [x: string]: any;
 };
 
+const NAMESPACES = {
+  svg: "http://www.w3.org/2000/svg",
+  html: "http://www.w3.org/1999/xhtml",
+  xml: "http://www.w3.org/XML/1998/namespace",
+  xlink: "http://www.w3.org/1999/xlink",
+  xmlns: "http://www.w3.org/2000/xmlns/", // sic for the final slash...
+};
+
 export default function SetProps(
-  element: HTMLElement,
+  element: HTMLElement | SVGElement,
   props?: CommonComponentPropsType,
 ) {
   if (!element || !props) return;
@@ -55,6 +63,18 @@ export default function SetProps(
         element.addEventListener(propName.substring(2).toLowerCase(), propVal);
     } else if (typeof propVal === "object") {
       SetProps(element[propName], propVal);
+    } else if (element instanceof SVGElement) {
+      const [prefix, ...unqualifiedName] = propName.split(":");
+      let ns = null;
+
+      if (
+        prefix === "xmlns" ||
+        (unqualifiedName.length && NAMESPACES[prefix])
+      ) {
+        ns = NAMESPACES[prefix];
+      }
+
+      element.setAttributeNS(ns, propName, propVal);
     } else
       try {
         element[propName] = propVal;

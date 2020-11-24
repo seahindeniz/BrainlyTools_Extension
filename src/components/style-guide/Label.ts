@@ -17,7 +17,7 @@ export type LabelColorType =
   | "gray"
   | "achromatic";
 
-type LabelIconType = Icon | HTMLElement;
+type LabelIconType = Icon | HTMLElement | Node;
 
 export type LabelPropsType = {
   type?: LabelType;
@@ -142,7 +142,7 @@ export default class Label {
     if (icon) {
       this.ChangeIcon(icon);
 
-      if (!(icon instanceof HTMLElement)) {
+      if (!(icon instanceof HTMLElement || icon instanceof Node)) {
         if (!icon.color) {
           this.ChangeIconColor();
         }
@@ -188,12 +188,12 @@ export default class Label {
         while (this.iconContainer.firstChild)
           this.iconContainer.removeChild(this.iconContainer.lastChild);
 
-      if (icon instanceof HTMLElement)
+      if (icon instanceof HTMLElement || icon instanceof Node)
         // @ts-expect-error
         // eslint-disable-next-line no-param-reassign
         icon = { element: icon };
 
-      if (!(icon instanceof HTMLElement))
+      if (!(icon instanceof HTMLElement || icon instanceof Node))
         this.iconContainer.appendChild(icon.element);
     } else {
       this.iconContainer?.remove();

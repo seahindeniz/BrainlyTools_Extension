@@ -12,6 +12,10 @@ $colorMap: (
     #fbbe2e,
     #eda600,
   ),
+  "gray": (
+    #687b8c,
+    #323c45,
+  ),
 );
 
 @each $colorName, $colorList in $colorMap {

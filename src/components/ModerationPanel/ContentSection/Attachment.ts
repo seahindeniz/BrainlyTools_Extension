@@ -28,14 +28,20 @@ export default class Attachment {
       relative: true,
       children: [
         this.data.type.includes("image")
-          ? CreateElement({
-              tag: "img",
-              src: this.data.thumbnail,
-              dataset: {
-                src: this.data.full,
-              },
+          ? Flex({
+              border: true,
+              alignItems: "center",
+              justifyContent: "center",
+              children: CreateElement({
+                tag: "img",
+                src: this.data.thumbnail,
+                dataset: {
+                  src: this.data.full,
+                },
+              }),
             })
           : Flex({
+              border: true,
               tag: "a",
               target: "_blank",
               href: this.data.full,

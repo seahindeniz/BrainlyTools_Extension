@@ -3,97 +3,116 @@
     "browser": true,
     "es6": true
   },
+  "ignorePatterns": ["src/locales/index.ts"],
   "overrides": [
     {
-      "files": ["*.ts"],
       "extends": [
-        "airbnb-typescript-prettier"
-        /* "airbnb-base",
-        "prettier" */
+        "eslint:recommended",
+        "airbnb-base",
+        "plugin:@typescript-eslint/recommended",
+        "prettier",
+        "prettier/@typescript-eslint"
       ],
+      "files": ["*.ts"],
       "globals": {
-        "Atomics": "readonly",
-        "SharedArrayBuffer": "readonly",
         "$": "readonly",
+        "Atomics": "readonly",
         "JQuery": "readonly",
+        "SharedArrayBuffer": "readonly",
         "System": "readonly",
-        "popup": "readonly",
-        "isPageProcessing": "readonly",
+        "Zadanium": "readonly",
+        "browser": "readonly",
         "coloring": "readonly",
+        "isPageProcessing": "readonly",
         "myData": "readonly",
         "performanceStartTiming": "readonly",
-        "Zadanium": "readonly",
-        "selectors": "readonly",
-        "sitePassedParams": "readonly",
+        "popup": "readonly",
         "profileData": "readonly",
-        "browser": "readonly"
+        "selectors": "readonly",
+        "sitePassedParams": "readonly"
       },
-      /* "parserOptions": {
-        "ecmaVersion": 2018
-      },
-      "parser": "babel-eslint", */
+      "parser": "@typescript-eslint/parser",
+      "plugins": ["import", "prettier", "@typescript-eslint"],
       "rules": {
-        // "prettier/prettier": ["error"],
-        "no-plusplus": 0,
-        "arrow-parens": [2, "as-needed", { "requireForBlockBody": false }],
-        "no-param-reassign": ["error", { "props": false }],
-        "no-bitwise": ["error", { "allow": ["~"] }],
-        "import/no-unresolved": [2, { "ignore": ["^@"] }],
-        "no-alert": "off",
-        "no-restricted-globals": ["error", "event"],
-        "no-nested-ternary": "off",
+        "@typescript-eslint/ban-ts-comment": [0, { "ts-expect-error": false }],
+        "@typescript-eslint/camelcase": "off",
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/explicit-member-accessibility": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-object-literal-type-assertion": "off",
+        "@typescript-eslint/no-unused-vars": "error",
+        "@typescript-eslint/prefer-interface": "off",
+        "camelcase": "warn",
+        "import/extensions": [
+          "error",
+          "ignorePackages",
+          {
+            "js": "never",
+            "jsx": "never",
+            "mjs": "never",
+            "ts": "never",
+            "tsx": "never"
+          }
+        ],
         "lines-between-class-members": [
           "error",
           "always",
           { "exceptAfterSingleLine": true }
         ],
-        "no-console": ["warn", { "allow": ["warn", "error"] }],
-        "@typescript-eslint/ban-ts-comment": [0, { "ts-expect-error": false }],
-        "@typescript-eslint/explicit-module-boundary-types": "off",
-        "@typescript-eslint/no-explicit-any": "off",
-        "camelcase": "warn",
+        "no-alert": "off",
         "no-cond-assign": ["error", "except-parens"],
-        "react/static-property-placement": 0
+        "no-nested-ternary": "off",
+        "no-param-reassign": ["error", { "props": false }],
+        "no-plusplus": 0,
+        "no-restricted-globals": ["error", "event"]
       },
       "settings": {
+        "import/extensions": [".js", ".ts", ".mjs", ".jsx", ".tsx"],
         "import/resolver": {
+          "node": {
+            "extensions": [".js", ".ts", ".jsx", ".tsx", ".json"]
+          },
           "typescript": {}
         }
       }
     },
     {
+      "extends": ["eslint:recommended", "airbnb-base", "prettier"],
       "files": ["*.js"],
-      "extends": ["airbnb-base", "prettier"],
-      "plugins": ["prettier"],
-
+      "plugins": ["import", "prettier"],
       "rules": {
-        // "prettier/prettier": ["error"],
-        "no-plusplus": 0,
-        "arrow-parens": [2, "as-needed", { "requireForBlockBody": false }],
-        "no-param-reassign": ["error", { "props": false }],
-        "no-bitwise": ["error", { "allow": ["~"] }],
-        "import/no-unresolved": [2, { "ignore": ["^@"] }],
         "no-alert": "off",
-        "no-restricted-globals": ["error", "event"],
-        "no-nested-ternary": "off",
+        "camelcase": "warn",
+        "import/no-extraneous-dependencies": [
+          "error",
+          { "devDependencies": true }
+        ],
         "lines-between-class-members": [
           "error",
           "always",
-          { "exceptAfterSingleLine": true }
-        ],
-        "no-console": ["warn", { "allow": ["warn", "error"] }],
-        "@typescript-eslint/ban-ts-comment": [0, { "ts-expect-error": false }],
-        "@typescript-eslint/explicit-module-boundary-types": "off",
-        "@typescript-eslint/no-explicit-any": "off",
-        "camelcase": "warn",
-        "no-cond-assign": ["error", "except-parens"],
-        "import/no-extraneous-dependencies": [
-          "error",
           {
-            "devDependencies": true
+            "exceptAfterSingleLine": true
           }
-        ]
+        ],
+        "no-cond-assign": ["error", "except-parens"],
+        "no-nested-ternary": "off",
+        "no-param-reassign": ["error", { "props": false }],
+        "no-plusplus": 0,
+        "no-restricted-globals": ["error", "event"]
       }
     }
-  ]
+  ],
+  "rules": {
+    "arrow-parens": [2, "as-needed", { "requireForBlockBody": false }],
+    "import/no-unresolved": [2, { "ignore": ["^@"] }],
+    "no-bitwise": ["error", { "allow": ["~"] }],
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "prettier/prettier": ["error"],
+    "sort-keys": [
+      "error",
+      "asc",
+      { "caseSensitive": true, "minKeys": 2, "natural": false }
+    ]
+  }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable no-underscore-dangle */
 import Icon from "./style-guide/Icon";
 import type { IconPropsType } from "./style-guide/Icon";

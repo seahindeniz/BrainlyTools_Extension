@@ -91,7 +91,8 @@ export default ({
   withIcon,
   errorMessage,
   ...props
-}: InputPropsType = {}): InputElementType => {
+}: // eslint-disable-next-line consistent-return
+InputPropsType = {}): InputElementType => {
   if (valid === true && invalid === true)
     throw Error("Input can be either valid or invalid!");
 
@@ -107,9 +108,9 @@ export default ({
     className,
   );
 
-  const wrapperClass = classnames("sg-input__wrapper", {
+  /* const wrapperClass = classnames("sg-input__wrapper", {
     "sg-input__wrapper--full-width": fullWidth,
-  });
+  }); */
   const errorMessageDisplayed =
     invalid === true && errorMessage !== undefined && errorMessage !== "";
 

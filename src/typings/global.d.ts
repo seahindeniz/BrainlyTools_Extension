@@ -2,7 +2,7 @@ import Popup from "@root/popup/controllers/Popup";
 import _System from "../controllers/System";
 import ThemeColorChanger from "../helpers/ThemeColorChanger";
 
-type Zadanium = {
+type ZadaniumType = {
   [x: string]: any;
 };
 
@@ -13,7 +13,7 @@ declare global {
   let coloring: ThemeColorChanger;
   let myData: { [x: string]: any };
   let performanceStartTiming: number;
-  let Zadanium: Zadanium;
+  let Zadanium: ZadaniumType;
   let selectors: { [x: string]: string };
   let sitePassedParams: string | { [x: string]: any };
   let profileData: { id: number; nick: string };
@@ -30,9 +30,9 @@ declare global {
     coloring: ThemeColorChanger;
     myData: { [x: string]: any };
     performanceStartTiming: number;
-    Zadanium: Zadanium;
+    Zadanium: ZadaniumType;
     selectors: { [x: string]: string };
-    sitePassedParams: string | { [x: string]: any };
+    sitePassedParams: string | string[] | { [x: string]: any };
     profileData: { id: number; nick: string };
     $Z: {
       moderation: {

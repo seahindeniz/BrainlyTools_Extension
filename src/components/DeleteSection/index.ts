@@ -19,6 +19,10 @@ import RadioSection from "./RadioSection";
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const noop = () => {};
 
+type ReasonSections = {
+  [x: string]: RadioSection;
+};
+
 function HideSections(sections: ReasonSections) {
   $.each(sections, (key, section) => section.Hide());
 }
@@ -44,10 +48,6 @@ type DeleteSectionPropsType = {
   handlers?: HandlersType;
   noSpacedTop?: boolean;
   verticalOptions?: boolean;
-};
-
-type ReasonSections = {
-  [x: string]: RadioSection;
 };
 
 class DeleteSection {

@@ -13,7 +13,10 @@ type ExtensionIconTypeType =
   | "ext-measuring-tape"
   | "ext-sheet"
   | "ext-shield"
-  | "ext-empty-shield";
+  | "ext-thumbs-up"
+  | "ext-thumbs-up-outline"
+  | "ext-thumbs-down"
+  | "ext-thumbs-down-outline";
 
 export type IconTypeType =
   | "academic_cap"

@@ -30,7 +30,7 @@ const LANGUAGE_DETAILS = {
   },
   fr: {
     name: "Français",
-    author: "MichaelS, Its1tom",
+    author: "MichaelS, TomRh",
   },
   tr: {
     name: "Türkçe",

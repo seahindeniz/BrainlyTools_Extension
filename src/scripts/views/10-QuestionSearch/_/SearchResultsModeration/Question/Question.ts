@@ -411,12 +411,17 @@ export default class Question {
       const mimeType = mime.lookup(extension) || null;
       const attachmentContainer = Flex({
         children: mimeType?.includes("image")
-          ? CreateElement({
-              dataset: {
-                src: attachmentData.url,
-              },
-              src: attachmentData.thumbnailUrl,
-              tag: "img",
+          ? Flex({
+              border: true,
+              alignItems: "center",
+              justifyContent: "center",
+              children: CreateElement({
+                dataset: {
+                  src: attachmentData.url,
+                },
+                src: attachmentData.thumbnailUrl,
+                tag: "img",
+              }),
             })
           : Flex({
               alignItems: "center",

@@ -47,7 +47,8 @@
       "operationCompleted": "İşlem tamamlandı",
       "unsavedChanges": "Kaydetmediğin değişikliklerin var. Halen kapatmak istiyor musun?",
       "youNeedToSelectAtLeastOne": "En az birini seçmelisin",
-      "cannotShareUserInfoWithServer_RefreshPage": "Eklenti sunucusuyla iletişime geçerken beklenmedik bir hata oluştu. Sayfayı yenileyebilir misin lütfen?"
+      "cannotShareUserInfoWithServer_RefreshPage": "Eklenti sunucusuyla iletişime geçerken beklenmedik bir hata oluştu. Sayfayı yenileyebilir misin lütfen?",
+      "operationErrorRefresh": "İşlem sırasında bir hata oluştu. Sayfayı yenileyip ve tekrar deneyin lütfen"
     },
     "moderating": {
       "moreOptions": "Daha fazla",
@@ -287,7 +288,7 @@
             "description": "Duyuru panosunu düzenleyebilme"
           },
           "21": {
-            "title": "Kullanıcının yetkilerini görebilme",
+            "title": "Diğer kullanıcının yetkilerini görebilme",
             "description": "Kullanıcı, diğer eklenti kullanıcılarının sahip olduğu yetkileri düzenlemeden, sadece görüntüleyebilir"
           },
           "22": {
@@ -315,8 +316,8 @@
             "description": "Kullanıcı bu fonksiyonu kullanarak, kullanıcı çoklu şekilde yönetebilir. Örneğin, listelediği kullanıcıların puanlarını değiştirebilir veya cevaplarını doğrulayabilir veya buna benzer eylemler uygulayabilir"
           },
           "28": {
-            "title": "Mod. Eylem Kontrolcüsü",
-            "description": "Kullanıcı bu fonksiyonu kullanarak diğer moderatörlerin eylem geçmişlerinde bulunan eylemlerini iyi/kötü şekilde raporlayabilir"
+            "title": "Eylem geçmişi kontrolcüsü",
+            "description": "Kullanıcı bu fonksiyonu kullanarak diğer moderatörlerin eylem geçmişlerinde bulunan eylemlerini geçerli/hatalı şekilde raporlayabilir"
           },
           "45": {
             "title": "Hızlı yorum silimi",
@@ -356,6 +357,10 @@
           "38": {
             "title": "Şikayet onaylama butonu",
             "description": "Moderatör şikayet edilen cevapları doğrulamak yerine onaylayabilir"
+          },
+          "39": {
+            "title": "Eylem geçmişi, inceleme yönetimi",
+            "description": "Diğer gözetmenlerin moderatör eylem geçmişinde yaptıkları incelemeleri, geri alabilme yetkisi. Bu yetki olmadığında, gözetmenler sadece kendi incelemelerini geri alabilir"
           }
         },
         "veryImportant": "Çok önemli"
@@ -633,7 +638,7 @@
       "areYouSureRemoveAllFriends": "Tüm arkadaşlarını silmek istediğinden emin misin?",
       "youHaveNoFriends": "Üzülme çünkü listeleyebileceğim bir arkadaşın yok :/ Sorry",
       "cannotChangeBio": "Üzgünüm, bio metnini değiştiremedim :/",
-      "fileSizeExceeded": "%{file_name}dosyası %{file_size}olan dosya limitini aşıyor",
+      "fileSizeExceeded": "%{file_name} dosyası %{file_size} olan dosya limitini aşıyor",
       "aShortcutFile": "Bir dosyanın kısayolunu yüklemeye çalışıyorsun ve bu dosya eklemek istediğin dosya olmayabilir. Eklesen de bir anlamı olmayacak.\nKısayolun hedeflendiği orjinal dosyayı eklemeni öneririm.\nBu kısayol dosyasını yine de eklemek istiyor musun?",
       "unableToReportAccountDeleting": "Hesap silimini Topluluk Yöneticisine bildiremediğim için silim işlemine devam edemiyorum. Üzgünüm :/<br>Eğer bu hata devam ederse, eklenti yöneticine bildirmelisin",
       "confirmNoEvidenceOrComment": "Kanıt veya yorum eklemedin.\nYine de silmek istiyor musun?",
@@ -743,26 +748,34 @@
     }
   },
   "moderatorActionHistory": {
-    "notificationMessages": {
-      "doYouWantToConfirm": "Bu eylemi onaylamak istiyor musun?",
-      "doYouWantToConfirmUnreviewedActions": "Bildirilmemiş tüm eylemleri onaylamak istiyor musun?",
-      "doYouWantToDisapprove": "Bu eylemi reddetmek istiyor musun?",
-      "doYouWantToDisapproveUnreviewedActions": "Bildirilmemiş tüm eylemleri reddetmek istiyor musun?",
-      "doYouWantToRevertThisReport": "Rapor geri alınsın mı?",
-      "iCouldntRevertThisReport": "Raporu geri alamadım",
-      "wouldYouLikeToInform": "%{nick} kişisine özel mesaj göndererek, eylemi hakkında bilgilendirmek ister misin?"
-    },
-    "confirm": "Onayla",
-    "confirmAll": "Tümünü onayla",
-    "disapprove": "Reddet",
-    "disapproveAll": "Tümünü reddet",
     "revert": "Geri al",
-    "PM": "PM",
-    "sampleMessage": "Merhaba %{n}\n\n[Sebebini buraya yaz]\n\nEylem: %{a}\nSoru: %{q}",
-    "reviewedOn": {
-      "confirm": "%{date} tarihinde %{nick} tarafından onaylandı",
-      "disapprove": "%{date} tarihinde %{nick} tarafından reddedildi"
-    }
+    "valid": "Geçerli",
+    "validateAll": "Tümünü onayla",
+    "validateAllDescription": "Bu sayfadaki incelenmemiş tüm eylemleri geçerli olarak işaretle",
+    "invalid": "Geçersiz",
+    "invalidateAll": "Tümünü geçersiz kıl",
+    "invalidateAllDescription": "Bu sayfadaki incelenmemiş tüm eylemleri geçersiz olarak işaretle",
+    "revertAll": "Tümünü geri al",
+    "statusTitle": {
+      "valid": "%{date} tarihinde %{nick} tarafından geçerli olarak işaretlendi",
+      "invalid": "%{date} tarihinde %{nick} tarafından geçersiz olarak işaretlendi"
+    },
+    "toggleDetails": "Detayları göster/gizle",
+    "validated": "Eylem geçerli olarak işaretlendi",
+    "invalidated": "Eylem geçersiz olarak işaretlendi",
+    "allValidated": "Eylemler geçerli olarak işaretlendi",
+    "allInvalidated": "Eylemler geçersiz olarak işaretlendi",
+    "informModeratorTitle": "%{nick} kişisini, bu geçersiz eylem hakkında bilgilendir",
+    "informModeratorTitleForMany": "%{nick} kişisini, geçersiz eylemler hakkında bilgilendir",
+    "informModerator": "Moderatörü bilgilendir",
+    "messageTemplate": "Merhaba %{nick}, \n\n .. \n\nSoru: %{question}\n\nDosya eki: %{links}",
+    "anAttachmentUploading": "Lütfen eklerin yüklenmesini bekleyin",
+    "anErrorOccurredWhileSendingMessage": "Mesaj gönderirken bir hata oluştu:\n%{reason}",
+    "warnBeforeEditing": "Son mesajını gerçekten düzenlemek istiyor musunuz?",
+    "informed": "Bilgilendirildi",
+    "reviewWithdrawn": "İnceleme geri alındı",
+    "reviewsWithdrawn": "İncelemeler geri alındı",
+    "reviewDetails": "İnceleme detayları"
   },
   "question": {
     "keywords": "Anahtar kelimeler"

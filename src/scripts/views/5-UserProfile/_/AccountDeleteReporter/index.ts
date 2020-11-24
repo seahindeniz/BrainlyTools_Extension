@@ -1,12 +1,13 @@
+import notification from "@components/notification2";
+import Progress from "@components/Progress";
 import Build from "@root/helpers/Build";
 import InsertAfter from "@root/helpers/InsertAfter";
+import isShortcut from "@root/helpers/isShortcut";
 import ServerReq from "@ServerReq";
 import { Button, Flex, Icon, Input, Text, Textarea } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type { TextElement } from "@style-guide/Text";
 import JSZip from "jszip";
-import notification from "@components/notification2";
-import Progress from "@components/Progress";
 import Evidence from "./Evidence";
 
 const PREVENT_FN = event => {
@@ -357,11 +358,8 @@ export default class AccountDeleteReporter {
       return;
     }
 
-    const fileExtension = file.name.split(".").pop();
-    const isShortcut = /lnk|url|xnk/.test(fileExtension);
-
     if (
-      isShortcut &&
+      isShortcut(file.name) &&
       !confirm(
         System.data.locale.userProfile.notificationMessages.aShortcutFile,
       )

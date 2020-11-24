@@ -43,13 +43,17 @@ export default class Breadcrumb {
   RenderChildren(...elements: readonly ChildrenParamType[]) {
     if (!elements?.length) return;
 
-    const childrens = elements.map(element =>
-      CreateElement({
-        tag: "li",
-        className: "sg-breadcrumb-list__element",
-        children: element,
-      }),
-    );
+    const childrens = elements
+      .map(
+        element =>
+          element &&
+          CreateElement({
+            tag: "li",
+            className: "sg-breadcrumb-list__element",
+            children: element,
+          }),
+      )
+      .filter(Boolean);
 
     this.element.append(...childrens);
   }

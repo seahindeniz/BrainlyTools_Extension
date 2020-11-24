@@ -22,7 +22,13 @@ export default function AddChildren(
 ) {
   let children = _children;
 
-  if (!target || children === undefined || children === null) return;
+  if (
+    !target ||
+    children === undefined ||
+    children === null ||
+    typeof children === "boolean"
+  )
+    return;
 
   if (typeof children === "function") {
     children = children();

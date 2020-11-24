@@ -437,6 +437,9 @@ export default class ContentSection {
       url(image: HTMLImageElement) {
         return image.dataset.src;
       },
+      filter(image: HTMLImageElement) {
+        return !image.dataset.src.endsWith("svg");
+      },
       toolbar: {
         zoomIn: 1,
         zoomOut: 1,

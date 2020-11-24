@@ -35,6 +35,7 @@
     "removeAll": "Remove all",
     "notificationMessages": {
       "operationError": "An error occurred during operation. Please try again",
+      "operationErrorRefresh": "An error occurred during operation. Please refresh the page and try again",
       "somethingWentWrong": "Oops, something went wrong",
       "somethingWentWrongPleaseRefresh": "Something happened, please refresh the page",
       "cannotShareUserInfoWithServer": "An unexpected error occurred while trying to communicate with extension's server. Please try again in 2 sec",
@@ -287,8 +288,8 @@
             "description": "Can edit notice board content"
           },
           "21": {
-            "title": "Review user privileges",
-            "description": "User can review other extension users privileges without making any changes"
+            "title": "View users' privileges",
+            "description": "User can see extension privileges of other extension user's that has assigned to their profiles, without making any changes"
           },
           "22": {
             "title": "Can change access permission",
@@ -315,8 +316,12 @@
             "description": "User can use this function to manage users massively. Like, changing a list of users points or approve answers of users or etc."
           },
           "28": {
-            "title": "Mod. Action H. Approval",
-            "description": "User can use this function to report- actions of moderators from moderator actions history page."
+            "title": "Action history reviewer",
+            "description": "Ability to review other moderators actions to be marked as valid or invalid and letting them know about their mistakes from moderator actions history page"
+          },
+          "39": {
+            "title": "Action history, review management",
+            "description": "Ability to revert other reviewers' reviews on moderation history of moderators. Without this, reviewers can only revert their own reviews"
           },
           "45": {
             "title": "Quick delete comments",
@@ -743,26 +748,34 @@
     }
   },
   "moderatorActionHistory": {
-    "notificationMessages": {
-      "doYouWantToConfirm": "Do you want to confirm this action?",
-      "doYouWantToConfirmUnreviewedActions": "Do you want to confirm all unreviewed actions?",
-      "doYouWantToDisapprove": "Do you want to disapprove this action?",
-      "doYouWantToDisapproveUnreviewedActions": "Do you want to disapprove all unreviewed actions?",
-      "doYouWantToRevertThisReport": "Do you want to revert this report?",
-      "iCouldntRevertThisReport": "I couldn't revert this report",
-      "wouldYouLikeToInform": "Would you like to inform %{nick} about this action with a private message?"
-    },
-    "confirm": "Confirm",
-    "confirmAll": "Confirm all",
-    "disapprove": "Disapprove",
-    "disapproveAll": "Disapprove all",
+    "valid": "Valid",
+    "validateAll": "Validate all",
+    "validateAllDescription": "Validate all non-reviewed actions on this page",
+    "invalid": "Invalid",
+    "invalidateAll": "Invalidate all",
+    "invalidateAllDescription": "Invalidate all non-reviewed actions on this page",
     "revert": "Revert",
-    "PM": "PM",
-    "sampleMessage": "Hello %{n}\n\n[Write your reason here]\n\nAction: %{a}\nQuestion: %{q}",
-    "reviewedOn": {
-      "confirm": "Confirmed on %{date} by %{nick}",
-      "disapprove": "Disapproved on %{date} by %{nick}"
-    }
+    "revertAll": "Revert all",
+    "statusTitle": {
+      "valid": "Validated by %{nick} on %{date}",
+      "invalid": "Invalidated by %{nick} on %{date}"
+    },
+    "toggleDetails": "Toggle details",
+    "validated": "Action marked as valid",
+    "invalidated": "Action marked as invalid",
+    "allValidated": "Actions are marked as valid",
+    "allInvalidated": "Actions are marked as invalid",
+    "informModeratorTitle": "Inform %{nick} about this invalid action",
+    "informModeratorTitleForMany": "Inform %{nick} about these invalid actions",
+    "informModerator": "Inform moderator",
+    "messageTemplate": "Hello %{nick},\n\n..\n\nQuestion: %{question}\n\nAttachments: %{links}",
+    "anAttachmentUploading": "Please wait for attachments to have uploaded",
+    "anErrorOccurredWhileSendingMessage": "An error occurred while sending message:\n%{reason}",
+    "warnBeforeEditing": "Do you really want to edit the last message?",
+    "informed": "Informed",
+    "reviewWithdrawn": "Review have successfully withdrawn",
+    "reviewsWithdrawn": "Reviews have successfully withdrawn",
+    "reviewDetails": "Review details"
   },
   "question": {
     "keywords": "Keywords"

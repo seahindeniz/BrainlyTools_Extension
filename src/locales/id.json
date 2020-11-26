@@ -109,7 +109,8 @@
     "deletedUser": "Deleted user",
     "toggleSelections": "Toggle selections",
     "copied": "Disalin!",
-    "default": "Default"
+    "default": "Default",
+    "yes": "Yes"
   },
   "popup": {
     "notificationMessages": {
@@ -900,7 +901,8 @@
         "reportedOn": "Reported on",
         "reason": "Reason",
         "contentShort": "Content(short)",
-        "isModerated": "Is moderated?"
+        "isModerated": "Is moderated?",
+        "isCorrected": "Is corrected?"
       },
       "notYetCorrected": "Not yet corrected"
     },
@@ -986,7 +988,9 @@
     "extendBy15Minutes": "Extend by 15 minutes",
     "log": {
       "text": "Log",
-      "deletedWithWarning": "Deleted with a warning"
+      "deletedWithWarning": "Deleted with a warning",
+      "nActions": "%{number_of} actions",
+      "nMore": "%{number_of_occurrences} more"
     }
   },
   "shortAnswersPage": {

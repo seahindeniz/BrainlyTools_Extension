@@ -287,7 +287,7 @@ export default class AnswerSection {
         reason: reason.text,
         reason_title: reason.title,
         give_warning: giveWarning,
-        take_points: giveWarning,
+        take_points: true,
       };
 
       const res = await new Action().RemoveAnswer(taskData);

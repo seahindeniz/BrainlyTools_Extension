@@ -71,7 +71,7 @@ export default class QuickDeleteButton {
       reason: this.reason.text,
       reason_title: this.reason.title,
       give_warning: giveWarning,
-      take_points: giveWarning,
+      take_points: true,
     });
   }
 }

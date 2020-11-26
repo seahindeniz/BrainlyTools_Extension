@@ -245,8 +245,8 @@ export default class QuestionSection {
         reason: reason.text,
         reason_title: reason.title,
         give_warning: giveWarning,
-        take_points: giveWarning,
-        return_points: !giveWarning,
+        take_points: true,
+        return_points: false,
       };
 
       // console.log(taskData);

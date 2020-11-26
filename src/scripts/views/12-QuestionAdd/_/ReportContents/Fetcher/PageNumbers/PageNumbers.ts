@@ -132,13 +132,13 @@ export default class PageNumbers {
   RenderPageNumberInput() {
     const title = System.data.locale.reportedContents.options.filter.pageNumberInputTitle
       .replace("%{MIN_N}", "1")
-      .replace("%{MAX_N}", String(this.lastIds.length + 2));
+      .replace("%{MAX_N}", String(this.lastIds.length + 1));
 
     this.pageNumberInput = new Input({
       title,
       type: "number",
       min: 1,
-      max: this.lastIds.length + 2,
+      max: this.lastIds.length + 1,
       placeholder: "...",
       onChange: this.PageNumberChanged.bind(this),
       onInput: this.CheckNumberIsInRange.bind(this),
@@ -185,6 +185,8 @@ export default class PageNumbers {
     const givenPageNumber = Number(this.pageNumberInput.input.value) || 1;
 
     if (Number.isNaN(givenPageNumber)) return;
+
+    console.log(givenPageNumber - 2, this.lastIds);
 
     this.main.FetchReports({
       resetStore: true,

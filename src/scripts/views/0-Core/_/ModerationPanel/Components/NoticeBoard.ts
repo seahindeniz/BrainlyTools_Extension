@@ -159,6 +159,8 @@ class NoticeBoard extends Components {
       typographer: true,
     });
 
+    // this.md.linkify.set({})
+
     // Test this
     this.md.use(MDSup);
     this.md.use(MDSub);
@@ -197,8 +199,21 @@ class NoticeBoard extends Components {
     this.md.renderer.rules.emoji = (token, idx) => {
       return emojiToolkit.toImage(token[idx].content);
     };
-    this.md.renderer.rules.link_open = () =>
-      `<a class="sg-text--link sg-text--bold sg-text--blue-dark">`;
+    const oldRender =
+      this.md.renderer.rules.link_open ||
+      ((tokens, idx, options, env, self) => {
+        return self.renderToken(tokens, idx, options);
+      });
+
+    this.md.renderer.rules.link_open = (tokens, idx, options, env, self) => {
+      tokens[idx].attrPush(["target", "_blank"]);
+      tokens[idx].attrPush([
+        "class",
+        "sg-text sg-text--link sg-text--bold sg-text--blue-dark",
+      ]);
+
+      return oldRender(tokens, idx, options, env, self);
+    };
     this.md.renderer.rules.hr = () =>
       `<div class="sg-horizontal-separator sg-horizontal-separator--spaced sg-horizontal-separator--gray-light"></div>`;
   }

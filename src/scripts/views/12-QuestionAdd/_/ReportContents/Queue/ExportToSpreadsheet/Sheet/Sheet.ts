@@ -47,12 +47,45 @@ export default class Sheet {
   }
 
   private SetHeaderRow() {
+    const reporterDetails = [];
+    const isCorrectedEntry = [];
+    if (
+      this.#main.main.main.fetcher.filters.reportTypeFilter.selectedReportType
+        .typeName !== "correctionReports"
+    ) {
+      reporterDetails.push(
+        {
+          key: "reporterUserId",
+          header:
+            System.data.locale.reportedContents.queue.exportReports
+              .reporterUserId,
+        },
+        {
+          key: "date",
+          header:
+            System.data.locale.reportedContents.queue.exportReports.reportedOn,
+        },
+        {
+          key: "reason",
+          header:
+            System.data.locale.reportedContents.queue.exportReports.reason,
+        },
+      );
+    } else {
+      isCorrectedEntry.push({
+        key: "isCorrected",
+        header:
+          System.data.locale.reportedContents.queue.exportReports.isCorrected,
+      });
+    }
+
     this.sheet.columns = [
       {
         key: "isModerated",
         header:
           System.data.locale.reportedContents.queue.exportReports.isModerated,
       },
+      ...isCorrectedEntry,
       ...this.#idHeaders,
       {
         key: "reportedUserId",
@@ -60,21 +93,7 @@ export default class Sheet {
           System.data.locale.reportedContents.queue.exportReports
             .reportedUserId,
       },
-      {
-        key: "reporterUserId",
-        header:
-          System.data.locale.reportedContents.queue.exportReports
-            .reporterUserId,
-      },
-      {
-        key: "date",
-        header:
-          System.data.locale.reportedContents.queue.exportReports.reportedOn,
-      },
-      {
-        key: "reason",
-        header: System.data.locale.reportedContents.queue.exportReports.reason,
-      },
+      ...reporterDetails,
       {
         key: "content",
         header:
@@ -102,27 +121,38 @@ export default class Sheet {
   }
 
   private SetRows() {
-    this.#contents.forEach(content =>
+    this.#contents.forEach(content => {
+      const rowData: ObjectAnyType = {
+        isModerated:
+          System.data.locale.common[
+            content.has === "deleted"
+              ? "deleted"
+              : content.has === "confirmed"
+              ? "confirmed"
+              : "no"
+          ],
+        questionId: content.data.task_id,
+        reportedUserId: content.users.reported.data.id,
+        content: content.data.content_short,
+      };
+
+      if (
+        this.#main.main.main.fetcher.filters.reportTypeFilter.selectedReportType
+          .typeName !== "correctionReports"
+      ) {
+        rowData.reporterUserId = content.users.reporter?.data.id;
+        rowData.date = content.dates.report.localFormatted;
+        rowData.reason = content.data.report.abuse.name;
+      } else {
+        rowData.isCorrected =
+          System.data.locale.common[content.data.corrected ? "yes" : "no"];
+      }
+
       this.SetRow(
-        {
-          isModerated:
-            System.data.locale.common[
-              content.has === "deleted"
-                ? "deleted"
-                : content.has === "confirmed"
-                ? "confirmed"
-                : "no"
-            ],
-          questionId: content.data.task_id,
-          reportedUserId: content.users.reported.data.id,
-          reporterUserId: content.users.reporter.data.id,
-          date: content.dates.report.localFormatted,
-          reason: content.data.report.abuse.name,
-          content: content.data.content_short,
-        },
+        rowData,
         content, // For inheriting classes
-      ),
-    );
+      );
+    });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

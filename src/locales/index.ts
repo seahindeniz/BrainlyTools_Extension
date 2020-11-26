@@ -26,6 +26,7 @@ export default {
     stop: "Stop",
     continue: "Continue",
     no: "No",
+    yes: "Yes",
     shortPoints: "Pts",
     writeSomething: "Write something",
     userHasNoPrivilege: "User has no privilege",
@@ -900,7 +901,8 @@ export default {
         reportedOn: "Reported on",
         reason: "Reason",
         contentShort: "Content(short)",
-        isModerated: "Is moderated?"
+        isModerated: "Is moderated?",
+        isCorrected: "Is corrected?"
       },
       notYetCorrected: "Not yet corrected"
     },
@@ -1000,3 +1002,4 @@ export default {
     doYouWantToDeleteSelectedQuestions: "Do you really want delete %{N} selected questions?"
   }
 }
+

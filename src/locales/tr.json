@@ -109,7 +109,8 @@
     "deletedUser": "Silinmiş kullanıcı",
     "toggleSelections": "Seçimleri tersine seç",
     "copied": "Kopyalandı!",
-    "default": "Varsayılan"
+    "default": "Varsayılan",
+    "yes": "Evet"
   },
   "popup": {
     "notificationMessages": {
@@ -900,7 +901,8 @@
         "reportedOn": "Bildirim tarihi",
         "reason": "Sebep",
         "contentShort": "İçerik(kısa)",
-        "isModerated": "Düzenlendi mi?"
+        "isModerated": "Düzenlendi mi?",
+        "isCorrected": "Düzenlendi mi?"
       },
       "notYetCorrected": "Henüz düzeltilmemiş"
     },
@@ -986,7 +988,9 @@
     "extendBy15Minutes": "15 dakika uzat",
     "log": {
       "text": "Geçmiş",
-      "deletedWithWarning": "Uyarı ile silinmiş"
+      "deletedWithWarning": "Uyarı ile silinmiş",
+      "nActions": "%{number_of} eylem",
+      "nMore": "%{number_of_occurrences} benzer"
     }
   },
   "shortAnswersPage": {

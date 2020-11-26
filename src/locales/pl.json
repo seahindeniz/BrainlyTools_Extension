@@ -109,7 +109,8 @@
     "deletedUser": "Deleted user",
     "toggleSelections": "Toggle selections",
     "copied": "Copied!",
-    "default": "Domyślnie"
+    "default": "Domyślnie",
+    "yes": "Yes"
   },
   "popup": {
     "notificationMessages": {
@@ -900,7 +901,8 @@
         "reportedOn": "Data zgłoszenia",
         "reason": "Powód",
         "contentShort": "Treść (skrócona)",
-        "isModerated": "Czy zmoderowano?"
+        "isModerated": "Czy zmoderowano?",
+        "isCorrected": "Is corrected?"
       },
       "notYetCorrected": "Niepoprawione"
     },
@@ -986,7 +988,9 @@
     "extendBy15Minutes": "Extend by 15 minutes",
     "log": {
       "text": "Oś pytania",
-      "deletedWithWarning": "Deleted with a warning"
+      "deletedWithWarning": "Deleted with a warning",
+      "nActions": "%{number_of} actions",
+      "nMore": "%{number_of_occurrences} more"
     }
   },
   "shortAnswersPage": {

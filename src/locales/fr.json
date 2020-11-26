@@ -109,7 +109,8 @@
     "deletedUser": "Utilisateur supprimé",
     "toggleSelections": "Basculer la sélection",
     "copied": "Copié !",
-    "default": "Par défaut"
+    "default": "Par défaut",
+    "yes": "Yes"
   },
   "popup": {
     "notificationMessages": {
@@ -900,7 +901,8 @@
         "reportedOn": "Signalé le",
         "reason": "Raison",
         "contentShort": "Contenu (court)",
-        "isModerated": "Est-il modéré ?"
+        "isModerated": "Est-il modéré ?",
+        "isCorrected": "Is corrected?"
       },
       "notYetCorrected": "Pas encore corrigé"
     },
@@ -986,7 +988,9 @@
     "extendBy15Minutes": "Prolonger de 15 minutes",
     "log": {
       "text": "Historique de la question",
-      "deletedWithWarning": "Supprimé avec un avertissement"
+      "deletedWithWarning": "Supprimé avec un avertissement",
+      "nActions": "%{number_of} actions",
+      "nMore": "%{number_of_occurrences} more"
     }
   },
   "shortAnswersPage": {

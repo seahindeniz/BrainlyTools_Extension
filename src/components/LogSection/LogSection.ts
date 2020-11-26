@@ -5,13 +5,14 @@ import HideElement from "@root/helpers/HideElement";
 import { Box, Flex, Spinner, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import moment from "moment";
+import LogDateSection from "./DateSection";
 import LogEntry from "./LogEntry";
 
 export default class LogSection {
   questionId: number;
 
   dateSection: {
-    [date: string]: FlexElementType;
+    [date: string]: LogDateSection;
   };
 
   container: FlexElementType;
@@ -19,6 +20,7 @@ export default class LogSection {
   usersData: UsersDataInReportedContentsType[];
   contentBox: Box;
   notificationFn: (props: NotificationPropsType) => void;
+  logEntries: LogEntry[];
 
   constructor(
     questionId: number,
@@ -28,6 +30,7 @@ export default class LogSection {
     this.notificationFn = notificationFn;
 
     this.dateSection = {};
+    this.logEntries = [];
 
     moment.locale(navigator.language);
 
@@ -88,13 +91,17 @@ export default class LogSection {
         let dateSection = this.dateSection[entryData.date];
 
         if (!dateSection) {
-          dateSection = this.RenderDateSection(entryData.date);
+          dateSection = new LogDateSection(this, entryData.date);
+          this.dateSection[entryData.date] = dateSection;
         }
 
         const logEntry = new LogEntry(this, entryData);
 
-        dateSection.append(logEntry.container);
+        this.logEntries.push(logEntry);
+        dateSection.logEntries.push(logEntry);
       });
+
+      this.RenderLogEntries();
     } catch (error) {
       console.error(error);
       (this.notificationFn || notification)({
@@ -106,30 +113,15 @@ export default class LogSection {
     this.HideSpinner();
   }
 
-  RenderDateSection(date: string) {
-    const dateSection = Build(
-      Flex({
-        marginTop: "s",
-        marginBottom: "s",
-        direction: "column",
-      }),
-      [
-        [
-          Flex(),
-          Text({
-            size: "small",
-            weight: "bold",
-            children: moment(new Date(date)).format("L"),
-          }),
-        ],
-      ],
-    );
+  RenderLogEntries() {
+    Object.values(this.dateSection).forEach(dateSection => {
+      dateSection.ChunkRepeatingLogEntries();
+      dateSection.Render();
 
-    this.dateSection[date] = dateSection;
+      if (this.logEntries.length > 100) return;
 
-    this.contentBox.element.append(dateSection);
-
-    return dateSection;
+      dateSection.ShowLogsContainer();
+    });
   }
 
   HideSpinner() {

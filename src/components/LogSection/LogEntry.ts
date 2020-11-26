@@ -16,7 +16,7 @@ const ENTRY_ICON_COLOR: {
   [x in QuestionLogEntryClassType]: IconColorType;
 } = {
   accepted: "mint",
-  added: "adaptive",
+  added: "dark",
   best: "mustard",
   deleted: "peach",
   edited: "blue",
@@ -28,7 +28,7 @@ export default class LogEntry {
   main: LogSectionClassType;
   data: QuestionLogEntryType;
 
-  container: FlexElementType;
+  #container: FlexElementType;
   toggleButtonIcon: Icon;
   toggleButton: Button;
   textElement: TextElement<"span">;
@@ -41,6 +41,14 @@ export default class LogEntry {
 
     this.Render();
     this.RenderText();
+  }
+
+  get container() {
+    if (!this.#container) {
+      this.Render();
+    }
+
+    return this.#container;
   }
 
   private Render() {
@@ -66,7 +74,7 @@ export default class LogEntry {
       });
     }
 
-    this.container = Build(
+    this.#container = Build(
       Flex({
         marginTop: "xxs",
         marginLeft: "xs",
@@ -86,42 +94,34 @@ export default class LogEntry {
                 alignItems: "center",
               }),
               [
+                Text({
+                  size: "xsmall",
+                  weight: "bold",
+                  children: this.data.time,
+                }),
                 [
-                  Flex({ marginRight: "xs" }),
-                  Text({
-                    size: "xsmall",
-                    weight: "bold",
-                    children: this.data.time,
-                  }),
-                ],
-                [
-                  Flex({ grow: true, marginRight: "xs" }),
+                  Flex({ grow: true, marginLeft: "xs", marginRight: "xs" }),
                   (this.textElement = Text({
                     tag: "span",
                     size: "small",
                   })),
                 ],
-                [
-                  Flex({ alignItems: "center" }),
-                  [
-                    warningIconContainer,
-                    (this.toggleButton = new Button({
-                      size: "s",
-                      type: "transparent",
-                      iconOnly: true,
-                      disabled: !this.data.descriptions,
-                      onClick:
-                        this.data.descriptions && this.ToggleDetails.bind(this),
-                      icon: this.toggleButtonIcon = new Icon({
-                        type: "more",
-                        size: 32,
-                        color: this.data.descriptions
-                          ? ENTRY_ICON_COLOR[this.data.class || "added"]
-                          : "light",
-                      }),
-                    })),
-                  ],
-                ],
+                warningIconContainer,
+                (this.toggleButton = new Button({
+                  size: "s",
+                  type: "transparent",
+                  iconOnly: true,
+                  disabled: !this.data.descriptions,
+                  onClick:
+                    this.data.descriptions && this.ToggleDetails.bind(this),
+                  icon: this.toggleButtonIcon = new Icon({
+                    type: "more",
+                    size: 32,
+                    color: this.data.descriptions
+                      ? ENTRY_ICON_COLOR[this.data.class || "added"]
+                      : "light",
+                  }),
+                })),
               ],
             ],
           ],
@@ -158,9 +158,11 @@ export default class LogEntry {
   ToggleDetails() {
     if (IsVisible(this.detailsContainer)) {
       this.HideDetails();
-    } else {
-      this.ShowDetails();
+
+      return;
     }
+
+    this.ShowDetails();
   }
 
   HideDetails() {
@@ -186,29 +188,22 @@ export default class LogEntry {
       marginRight: "xs",
       direction: "column",
       children: this.data.descriptions.map((entry, index) => {
-        return Build(
+        return [
+          Text({
+            size: "small",
+            weight: "bold",
+            children: entry.subject,
+          }),
           Flex({
-            direction: "column",
+            marginLeft: "xs",
             marginBottom:
               this.data.descriptions.length !== index + 1 ? "xs" : null,
-          }),
-          [
-            Text({
+            children: Text({
               size: "small",
-              weight: "bold",
-              children: entry.subject,
+              children: entry.text,
             }),
-            [
-              Flex({
-                marginLeft: "xs",
-              }),
-              Text({
-                size: "small",
-                children: entry.text,
-              }),
-            ],
-          ],
-        );
+          }),
+        ];
       }),
     });
   }

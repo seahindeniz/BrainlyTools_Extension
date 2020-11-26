@@ -986,7 +986,9 @@ export default {
     extendBy15Minutes: "Extend by 15 minutes",
     log: {
       text: "Log",
-      deletedWithWarning: "Deleted with a warning"
+      deletedWithWarning: "Deleted with a warning",
+      nActions: "%{number_of} actions",
+      nMore: "%{number_of_occurrences} more"
     }
   },
   shortAnswersPage: {

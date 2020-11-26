@@ -31,9 +31,9 @@ export default class Comment {
     avatarLink: string;
   };
 
-  contentBox: Box;
+  contentBox?: Box;
   deleteSection: DeleteSection;
-  quickActionButtons: QuickActionButtonsForComment;
+  quickActionButtons?: QuickActionButtonsForComment;
   reportDetailsBox: FlexElementType;
   contentContainer: FlexElementType;
   contentContainerWrapper: FlexElementType;
@@ -367,7 +367,7 @@ export default class Comment {
       this.Deleted();
     } catch (error) {
       console.error(error);
-      this.quickActionButtons.EnableButtons();
+      this.quickActionButtons?.EnableButtons();
       this.main.main.main.modal.Notification({
         type: "error",
         html:
@@ -382,7 +382,7 @@ export default class Comment {
 
     this.quickActionButtons?.Hide();
     HideElement(this.deleteSectionContainer);
-    this.contentBox.ChangeColor("peach-secondary");
+    this.contentBox?.ChangeColor("peach-secondary");
     this.main.main.main.listeners.onModerate(this.data.id, "delete", "Comment");
   }
 

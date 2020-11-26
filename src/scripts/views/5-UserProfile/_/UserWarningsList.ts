@@ -3,6 +3,7 @@ import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
 import { Button, Flex, Spinner, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
+import escape from "escape-html";
 import type UserProfileClassType from "..";
 
 export default class UserWarningsList {
@@ -108,14 +109,14 @@ export default class UserWarningsList {
               Text({
                 className: "ext-warnings-list__trimmed-text",
                 size: "small",
-                children: warning.content,
+                children: escape(warning.content),
                 title: warning.content,
                 weight: "bold",
               }),
               Text({
                 className: "ext-warnings-list__trimmed-text",
                 size: "xsmall",
-                children: warning.reason,
+                children: escape(warning.reason),
                 title: warning.reason,
               }),
             ],

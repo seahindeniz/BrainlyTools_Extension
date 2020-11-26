@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Action Checking Tool [#98]
 - The drop-down report reasons for "Comments()" displays report reasons of
   "Questions/Answers()" after visiting Correction Reports. [#301]
 - Filter reports [#302]
@@ -23,6 +24,7 @@ All notable changes to this project will be documented in this file.
 - Reports from the first page get displayed when the last page number shown in
   the hover message (over the page number box) is entered. [#308]
 
+[#98]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/98
 [#301]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/301
 [#302]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/302
 [#303]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/303

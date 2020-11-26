@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.15.0] - 2020.11.26
+
+### Added
+
+- Setting "Take back respondent's points" and "Don't give the points back" as a
+  default setting for Quick Delete Buttons [#307]
+- Düzenle panelinde çok fazla eylem yapıldığında geçmiş gözükmez. [#312]
+
+### Changed
+
+- The drop-down report reasons for "Comments()" displays report reasons of
+  "Questions/Answers()" after visiting Correction Reports. [#301]
+- Filter reports [#302]
+- Exporting filtered reports as a spreadsheet isn't working for correction
+  reports. [#303]
+- Unable to open a link in a new tab from the information board. [#305]
+- Extension shows HTML data in warnings, and the tags used get applied to some
+  components on the page. [#316]
+- Reports from the first page get displayed when the last page number shown in
+  the hover message (over the page number box) is entered. [#308]
+
+[#301]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/301
+[#302]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/302
+[#303]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/303
+[#305]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/305
+[#307]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/307
+[#308]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/308
+[#312]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/312
+[#316]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/316
+
 ## [7.14.3] - 2020.10.28
 
 ### Changed

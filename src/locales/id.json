@@ -68,12 +68,12 @@
       },
       "approve": "Menyetujui",
       "approved": "Disetujui",
-      "unapprove": "Tidak disetujui",
+      "unapprove": "Tidak diverifikasi",
       "unapproved": "Tidak disetujui",
       "doYouWantToDeleteWithReason": "Apakah kamu ingin menghapus?\n\n%{reason_title}:\n%{reason_message}",
       "takePoints": {
         "question": {
-          "text": "Ambil kembali poin responden",
+          "text": "Mengambil kembali poin responden",
           "title": "Menghapus poin yang diterima oleh responden, ketika mereka menjawab pertanyaan"
         },
         "answer": {

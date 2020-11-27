@@ -707,7 +707,8 @@
     "userWarningsList": {
       "name": "Son uyarılar",
       "showRest": "Kalanı göster"
-    }
+    },
+    "goToOldProfilePage": "Eski profil sayfasına git"
   },
   "userWarnings": {
     "notificationMessages": {

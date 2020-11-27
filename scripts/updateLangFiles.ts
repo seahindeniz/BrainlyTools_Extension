@@ -26,7 +26,7 @@ const LANGUAGE_DETAILS = {
   },
   id: {
     name: "Bahasa Indonesia",
-    author: "Zuhh",
+    author: "Zuhh, Lyden",
   },
   fr: {
     name: "Français",

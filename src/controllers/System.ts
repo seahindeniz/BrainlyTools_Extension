@@ -46,14 +46,14 @@ export type DeleteReasonType = {
   text: string;
 };
 
-export type DeleteReasonCategoryType = DeleteReasonType & {
-  abuse_category_id: number;
-  subcategories: DeleteReasonSubCategoryType[];
-};
-
 export type DeleteReasonSubCategoryType = DeleteReasonType & {
   category_id: number;
   title: string;
+};
+
+export type DeleteReasonCategoryType = DeleteReasonType & {
+  abuse_category_id: number;
+  subcategories: DeleteReasonSubCategoryType[];
 };
 
 type ObjectAnyType = {
@@ -264,7 +264,7 @@ class _System {
           mod_actions_count: number;
         } & {
           [x in "avatar" | "avatars"]: {
-            [x in 64 | 100]?: string;
+            [size in 64 | 100]?: string;
           };
         };
       };
@@ -804,14 +804,13 @@ class _System {
     return isIt;
   }
 
-  /**
-   * @param {string} value
-   * @returns {number}
-   */
-  ExtractId(value) {
+  ExtractId(value: string) {
     if (!value) return NaN;
 
     const extractId = value.replace(this.constants.config.idExtractRegex, "");
+
+    if (extractId === "") return NaN;
+
     // Number because returns 0 if is not contains number
     const id = Number(extractId);
 
@@ -819,10 +818,7 @@ class _System {
   }
 
   ExtractIds(list: string | string[], uniqueNumbers?: boolean) {
-    /**
-     * @type {number[]}
-     */
-    let idList = [];
+    let idList: number[] = [];
 
     if (typeof list === "string") {
       list = list

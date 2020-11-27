@@ -707,7 +707,8 @@
     "userWarningsList": {
       "name": "Derniers avertissements",
       "showRest": "Afficher le reste"
-    }
+    },
+    "goToOldProfilePage": "Aller sur l'ancienne version de la page"
   },
   "userWarnings": {
     "notificationMessages": {

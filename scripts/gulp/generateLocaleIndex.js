@@ -9,9 +9,8 @@ export default () => {
       gulpChange(_content => {
         const start = "export default ";
         const content = _content.replace(/\s"(.*)": /g, " $1: ");
-        const end = "\n";
 
-        return `${start}${content}${end}`;
+        return `${start}${content}`;
       }),
     )
     .pipe(dest(`src/locales`));

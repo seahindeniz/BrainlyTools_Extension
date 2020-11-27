@@ -77,6 +77,7 @@ async function UpdateLangFilesFromLokalise(lokaliseOptions) {
     export_empty_as: "base",
     bundle_structure: "%LANG_ISO%.%FORMAT%",
     json_unescaped_slashes: true,
+    add_newline_eof: true,
     ...lokaliseOptions,
   };
   const details = await lokaliseApi.files.download(projectId, lokaliseOptions);
@@ -107,8 +108,7 @@ async function UpdateLangFilesFromLokalise(lokaliseOptions) {
 if (!window)
   export default translations;
 else
-  window.System.data.locale = translations;
-`;
+  window.System.data.locale = translations;`;
         }
 
         file.data = Buffer.from(content, "utf8");

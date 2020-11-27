@@ -26,7 +26,6 @@ export default {
     stop: "Stop",
     continue: "Continue",
     no: "No",
-    yes: "Yes",
     shortPoints: "Pts",
     writeSomething: "Write something",
     userHasNoPrivilege: "User has no privilege",
@@ -110,7 +109,8 @@ export default {
     deletedUser: "Deleted user",
     toggleSelections: "Toggle selections",
     copied: "Copied!",
-    default: "Default"
+    default: "Default",
+    yes: "Yes"
   },
   popup: {
     notificationMessages: {
@@ -1002,4 +1002,3 @@ export default {
     doYouWantToDeleteSelectedQuestions: "Do you really want delete %{N} selected questions?"
   }
 }
-

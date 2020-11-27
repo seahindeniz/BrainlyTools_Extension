@@ -13,8 +13,8 @@ export default class QuestionReport extends Report {
 
   // eslint-disable-next-line class-methods-use-this
   Delete(data: RemoveQuestionReqDataType) {
-    data.take_points = data.give_warning;
-    data.return_points = !data.give_warning;
+    data.take_points = true;
+    data.return_points = false;
 
     return new Action().RemoveQuestion(data);
   }

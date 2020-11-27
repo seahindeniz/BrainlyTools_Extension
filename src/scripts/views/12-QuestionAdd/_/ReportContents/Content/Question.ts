@@ -176,8 +176,8 @@ export default class Question extends Content {
   }
 
   ExpressDelete(data: RemoveQuestionReqDataType) {
-    data.take_points = data.give_warning;
-    data.return_points = !data.give_warning;
+    data.take_points = true;
+    data.return_points = false;
 
     return super.ExpressDelete(data, "RemoveQuestion");
   }

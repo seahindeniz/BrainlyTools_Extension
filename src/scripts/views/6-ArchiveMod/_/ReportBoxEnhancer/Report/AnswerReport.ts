@@ -13,7 +13,7 @@ export default class AnswerReport extends Report {
 
   // eslint-disable-next-line class-methods-use-this
   Delete(data: RemoveAnswerReqDataType) {
-    data.take_points = data.give_warning;
+    data.take_points = true;
 
     return new Action().RemoveAnswer(data, true);
   }

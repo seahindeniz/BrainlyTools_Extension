@@ -78,7 +78,7 @@ export default class ToplayerQDB {
         reason_title: this.reason.title,
         reason_id: this.reason.category_id,
         give_warning: giveWarning,
-        take_points: giveWarning,
+        take_points: true,
       };
 
       this.main.processing = true;

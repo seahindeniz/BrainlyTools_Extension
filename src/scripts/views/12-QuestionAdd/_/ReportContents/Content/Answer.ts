@@ -130,7 +130,7 @@ export default class Answer extends Content {
   }
 
   ExpressDelete(data: RemoveAnswerReqDataType) {
-    data.take_points = data.give_warning;
+    data.take_points = true;
 
     return super.ExpressDelete(data, "RemoveAnswer");
   }

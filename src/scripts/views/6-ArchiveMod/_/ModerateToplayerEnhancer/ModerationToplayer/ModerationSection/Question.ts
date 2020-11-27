@@ -20,7 +20,7 @@ export default class QuestionSection extends ModerationSection {
 
   // eslint-disable-next-line class-methods-use-this
   Delete(data: RemoveQuestionReqDataType) {
-    data.return_points = !data.give_warning;
+    data.return_points = false;
 
     return new Action().RemoveQuestion(data);
   }

@@ -99,6 +99,7 @@ class ModerationPanel {
   async Init() {
     this.panel = await WaitForElement<"div">(
       ".brn-moderation-panel__list, #moderate-functions",
+      { noError: true },
     );
 
     this.RenderList();

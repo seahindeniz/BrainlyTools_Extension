@@ -304,6 +304,13 @@ class Core {
         //"/styles/pages/ModeratorActionsHistory.css"
       ]);
     } */
+
+    if (System.checkRoute(1, "app") && System.checkRoute(2, "profile")) {
+      InjectToDOM([
+        "/scripts/views/14-NewProfile/index.js",
+        "/styles/pages/NewProfile.css",
+      ]);
+    }
   }
 
   async InjectFilesToPageAfter_FriendsListLoaded() {

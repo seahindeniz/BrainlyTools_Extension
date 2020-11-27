@@ -707,7 +707,8 @@ export default {
     userWarningsList: {
       name: "Last warnings",
       showRest: "Show rest"
-    }
+    },
+    goToOldProfilePage: "Go to old profile page"
   },
   userWarnings: {
     notificationMessages: {

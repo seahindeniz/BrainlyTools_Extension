@@ -2,41 +2,45 @@ import WaitForElement from "@root/helpers/WaitForElement";
 import { Flex, Text } from "@style-guide";
 
 export default class NewProfile {
-  profileDetailContainer: HTMLDivElement;
-  user: { nick: string; id: number };
+  private usernameContainer: HTMLElement;
+  private profileDetailContainer: HTMLDivElement;
+  private user: { nick: string; id: number };
 
   constructor() {
     this.Init();
   }
 
   private async Init() {
-    await this.FindContainer();
-    this.FindUsername();
+    await this.FindUsernameContainer();
+    this.FindProfileDetailContainer();
+    this.SetUserData();
     this.RenderOldProfileLink();
   }
 
-  private async FindContainer() {
-    const avatarContainer = await WaitForElement(
-      `div[class*="UserReputationInfo__avatar"]`,
+  private async FindUsernameContainer() {
+    this.usernameContainer = await WaitForElement(
+      `div[class*="ProfilePage__asideContent"] h1.sg-headline`,
     );
 
-    this.profileDetailContainer = avatarContainer.parentElement as HTMLDivElement;
+    if (!this.usernameContainer) throw Error("Can't find username container");
   }
 
-  FindUsername() {
-    const usernameContainer = this.profileDetailContainer.querySelector<
-      HTMLHeadElement
-    >(":scope > .sg-headline");
+  private FindProfileDetailContainer() {
+    this.profileDetailContainer = this.usernameContainer
+      .parentElement as HTMLDivElement;
 
-    if (!usernameContainer) throw Error("Can't find username container");
+    if (!this.profileDetailContainer)
+      throw Error("Can't find profile details container");
+  }
 
+  private SetUserData() {
     this.user = {
-      nick: usernameContainer.innerText.trim(),
+      nick: this.usernameContainer.innerText.trim(),
       id: Number(location.pathname.split("/").pop()),
     };
   }
 
-  RenderOldProfileLink() {
+  private RenderOldProfileLink() {
     const oldProfileLink = System.createProfileLink(this.user);
     const oldProfileLinkContainer = Flex({
       marginTop: "s",

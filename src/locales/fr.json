@@ -110,7 +110,7 @@
     "toggleSelections": "Basculer la sélection",
     "copied": "Copié !",
     "default": "Par défaut",
-    "yes": "Yes"
+    "yes": "Oui"
   },
   "popup": {
     "notificationMessages": {
@@ -902,7 +902,7 @@
         "reason": "Raison",
         "contentShort": "Contenu (court)",
         "isModerated": "Est-il modéré ?",
-        "isCorrected": "Is corrected?"
+        "isCorrected": "Est-ce corrigé?"
       },
       "notYetCorrected": "Pas encore corrigé"
     },
@@ -989,8 +989,8 @@
     "log": {
       "text": "Historique de la question",
       "deletedWithWarning": "Supprimé avec un avertissement",
-      "nActions": "%{number_of} actions",
-      "nMore": "%{number_of_occurrences} more"
+      "nActions": "%{number_of} modérations",
+      "nMore": "%{number_of_occurrences} plus"
     }
   },
   "shortAnswersPage": {

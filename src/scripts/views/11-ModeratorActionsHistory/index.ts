@@ -162,4 +162,4 @@ export default class ModeratorActionHistory {
 }
 
 // eslint-disable-next-line no-new
-if (System.checkUserP(28)) new ModeratorActionHistory();
+new ModeratorActionHistory();

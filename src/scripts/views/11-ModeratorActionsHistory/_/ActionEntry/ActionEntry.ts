@@ -254,6 +254,8 @@ export default class ActionEntry {
   }
 
   private ShowReviewButtons() {
+    if (!System.checkUserP([28, 39])) return;
+
     if (!this.validateButton) {
       this.validateButton = new ValidateButton(this);
       this.invalidateButton = new InvalidateButton(this);
@@ -364,9 +366,10 @@ export default class ActionEntry {
 
   private ShowRevertButton() {
     if (
-      this.dataEntry.data.reviewer.id !==
-        System.data.Brainly.userData.user.id ||
-      !this.dataEntry.isRevertible
+      !this.dataEntry.isRevertible ||
+      (this.dataEntry.data.reviewer.id !==
+        System.data.Brainly.userData.user.id &&
+        !System.checkUserP(39))
     )
       return;
 

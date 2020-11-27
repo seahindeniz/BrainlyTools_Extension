@@ -1,5 +1,145 @@
 {
-  // "javascript.validate.enable": false,
+  "cSpell.words": [
+    "Bahasa",
+    "Brainliest",
+    "Brainly's",
+    "Bugbox",
+    "Captcha",
+    "Cintia",
+    "Français",
+    "Jodit",
+    "Kinga",
+    "Lokalise",
+    "Lyden",
+    "MDTOC",
+    "Overlayed",
+    "Reportee",
+    "TomRh",
+    "Türkçe",
+    "Unapprove",
+    "Unverify",
+    "Zadanepl",
+    "Zadanium",
+    "Zuhh",
+    "aleksa",
+    "autocapitalize",
+    "autocorrect",
+    "autosize",
+    "beforeend",
+    "bgcolor",
+    "brainly",
+    "bulma",
+    "camelcase",
+    "chatbox",
+    "checkradio",
+    "childrens",
+    "chunkify",
+    "clsx",
+    "confirmer",
+    "contenteditable",
+    "creativebulma",
+    "datetime",
+    "deleter",
+    "downlevel",
+    "emojione",
+    "emphasised",
+    "eodev",
+    "exceljs",
+    "highlightjs",
+    "imsize",
+    "infobar",
+    "innerwrap",
+    "itemtype",
+    "joypixels",
+    "jsesc",
+    "jszip",
+    "linkedin",
+    "linkify",
+    "linkifyjs",
+    "luxon",
+    "maxdepth",
+    "maxlength",
+    "megaman",
+    "minmax",
+    "moderatable",
+    "nanogallery",
+    "navyblue",
+    "nbsp",
+    "nodir",
+    "nosdevoirs",
+    "objecthash",
+    "parens",
+    "photoswipe",
+    "plusplus",
+    "polyfill",
+    "prettysize",
+    "probatus",
+    "prova",
+    "qpage",
+    "readonly",
+    "scrollable",
+    "scrollbar",
+    "sortablejs",
+    "stylelint",
+    "subnav",
+    "toplayer",
+    "uglifyify",
+    "unbuddy",
+    "unconfirm",
+    "unpublish",
+    "unreviewed",
+    "unstyled",
+    "uploader",
+    "viewerjs",
+    "webext",
+    "webextension",
+    "xlarge",
+    "xlink",
+    "xmlns",
+    "xsmall",
+    "xtall",
+    "xxlarge",
+    "xxsmall",
+    "xxtall",
+    "xxxl",
+    "xxxlarge",
+    "xxxxl",
+    "youtube",
+    "zadane",
+    "znanija"
+  ],
+  "commands.commands": [
+    {
+      "arguments": [{ "text": "npm run i18n\n" }],
+      "color": "#bdc3c7",
+      "command": "workbench.action.terminal.sendSequence",
+      "filterFileRegex": "BrainlyTools_Extension",
+      "text": "$(sync) Refresh langs"
+    },
+    {
+      "arguments": [{ "text": "npm run i18n en_US\n" }],
+      "color": "#ecf0f1",
+      "command": "workbench.action.terminal.sendSequence",
+      "filterFileRegex": "BrainlyTools_Extension",
+      "text": "$(sync) Refresh English"
+    },
+    {
+      "arguments": ["openSourceLangFile"],
+      "color": "#ecf0f1",
+      "command": "workbench.action.tasks.runTask",
+      "filterFileRegex": "BrainlyTools_Extension",
+      "text": "$(file-code) Open en_US.json"
+    },
+    {
+      "alignment": "right",
+      "command": "workbench.action.terminal.focus",
+      "text": "$(terminal)",
+      "tooltip": "Focus to terminal #1"
+    }
+  ],
+  "material-icon-theme.files.associations": {
+    "webpack.assets.config.js": "webpack"
+  },
   "todo.embedded.exclude": [
     "**/.!(todo|todos|task|tasks)/**",
     "**/_output/**",
@@ -16,43 +156,5 @@
     "**/third_party/**",
     "**/vendor/**"
   ],
-  "typescript.tsserver.experimental.enableProjectDiagnostics": false,
-  /* "javascript.suggest.enabled": false,
-  "typescript.suggest.enabled": false,
-  "typescript.validate.enable": false */
-  /* "files.associations": {
-    "webpack.*.config.js": "webpack"
-  }, */
-  "material-icon-theme.files.associations": {
-    "webpack.assets.config.js": "webpack"
-  },
-  "commands.commands": [
-    {
-      "text": "$(sync) Refresh langs",
-      "command": "workbench.action.terminal.sendSequence",
-      "arguments": [{ "text": "npm run i18n\n" }],
-      "color": "#bdc3c7",
-      "filterFileRegex": "BrainlyTools_Extension"
-    },
-    {
-      "text": "$(sync) Refresh English",
-      "command": "workbench.action.terminal.sendSequence",
-      "arguments": [{ "text": "npm run i18n en_US\n" }],
-      "color": "#ecf0f1",
-      "filterFileRegex": "BrainlyTools_Extension"
-    },
-    {
-      "text": "$(file-code) Open en_US.json",
-      "command": "workbench.action.tasks.runTask",
-      "arguments": ["openSourceLangFile"],
-      "color": "#ecf0f1",
-      "filterFileRegex": "BrainlyTools_Extension"
-    },
-    {
-      "text": "$(terminal)",
-      "command": "workbench.action.terminal.focus",
-      "tooltip": "Focus to terminal #1",
-      "alignment": "right"
-    }
-  ]
+  "typescript.tsserver.experimental.enableProjectDiagnostics": false
 }

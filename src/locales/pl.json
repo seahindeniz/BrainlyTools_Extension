@@ -707,7 +707,8 @@
     "userWarningsList": {
       "name": "Last warnings",
       "showRest": "Show rest"
-    }
+    },
+    "goToOldProfilePage": "Przejdź do starego widoku profilu użytkownika"
   },
   "userWarnings": {
     "notificationMessages": {
@@ -902,7 +903,7 @@
         "reason": "Powód",
         "contentShort": "Treść (skrócona)",
         "isModerated": "Czy zmoderowano?",
-        "isCorrected": "Is corrected?"
+        "isCorrected": "Czy poprawiono?"
       },
       "notYetCorrected": "Niepoprawione"
     },

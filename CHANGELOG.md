@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.16.0] - 2020.11.28
+
+### Added
+
+- Yeni kullanıcı sayfası için eski sayfaya yönlendiren buton. [#306]
+- Ampliar o recurso (#307) [#318]
+
+### Changed
+
+- Action History Reviewing Service isn't functioning properly [#320]
+
+[#306]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/306
+[#318]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/318
+[#320]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/320
+
 ## [7.15.0] - 2020.11.26
 
 ### Added

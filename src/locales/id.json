@@ -225,7 +225,7 @@
             "description": "Dapat membuat, mengedit menghapus atau mempublikasikan pengumuman ekstensi internal"
           },
           "5": {
-            "title": "Mengelola ekstensi  pengguna",
+            "title": "Mengelola ekstensi pengguna",
             "description": "Dapat menambahkan atau mengedit ekstensi user dan memberikan mereka privileges atau izin untuk menggunakan ekstensi"
           },
           "6": {
@@ -707,7 +707,8 @@
     "userWarningsList": {
       "name": "Peringatan terakhir",
       "showRest": "Show rest"
-    }
+    },
+    "goToOldProfilePage": "Buka halaman profil lama"
   },
   "userWarnings": {
     "notificationMessages": {

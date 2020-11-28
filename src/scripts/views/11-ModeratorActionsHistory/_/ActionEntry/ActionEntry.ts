@@ -47,8 +47,6 @@ export const REVERT_TIME_LIMIT: DurationObject = {
   // seconds: 5,
 };
 
-console.warn(1);
-
 type StateType = "valid" | "invalid";
 
 export default class ActionEntry {
@@ -306,8 +304,6 @@ export default class ActionEntry {
   Reviewed() {
     this.HideReviewButtons();
     this.RenderLabels();
-    this.main.multiReviewSection?.ToggleRevertAllButton();
-    this.main.multiReviewSection?.ToggleSendMessageButton();
     this.CheckIfHasInvalidatedBefore();
   }
 
@@ -447,6 +443,8 @@ export default class ActionEntry {
 
         actionEntry.Unreviewed();
       });
+
+      this.main.multiReviewSection.Unreviewed();
     } catch (error) {
       console.error(error);
 
@@ -543,7 +541,6 @@ export default class ActionEntry {
   }
 
   private ToggleSendMessageSection() {
-    console.warn("ToggleSendMessageSection");
     if (IsVisible(this.sendMessageSection?.container)) {
       this.HideSendMessageSection();
 

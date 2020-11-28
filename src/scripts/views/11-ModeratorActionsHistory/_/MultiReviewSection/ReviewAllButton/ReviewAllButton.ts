@@ -80,11 +80,7 @@ export default class ReviewAllButton {
         throw new Error("Review failed");
       }
 
-      this.main.lastReviewedDataEntries = this.main.AssignReviewData(
-        valid,
-        resReview.data,
-      );
-
+      this.main.AssignReviewData(valid, resReview.data);
       this.Reviewed();
     } catch (error) {
       console.error(error);
@@ -99,8 +95,7 @@ export default class ReviewAllButton {
   }
 
   Reviewed() {
-    this.main.ToggleReviewButtons();
-    this.main.ToggleRevertAllButton();
+    this.main.Reviewed();
   }
 
   ReviewFailed() {

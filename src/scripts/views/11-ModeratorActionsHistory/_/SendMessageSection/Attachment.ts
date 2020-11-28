@@ -89,7 +89,7 @@ export default class Attachment {
     }
   }
 
-  private async Remove() {
+  async Remove(noRefresh?: boolean) {
     if (this.main.PreventIfLocked()) return;
 
     this.ShowUploadingSpinner();
@@ -117,8 +117,10 @@ export default class Attachment {
         this.main.attachments.splice(index, 1);
       }
 
-      this.main.UpdateGallery();
-      this.main.MessageChanged();
+      if (noRefresh !== true) {
+        this.main.UpdateGallery();
+        this.main.MessageChanged();
+      }
     } catch (error) {
       console.error(error);
       this.HideUploadingSpinner();

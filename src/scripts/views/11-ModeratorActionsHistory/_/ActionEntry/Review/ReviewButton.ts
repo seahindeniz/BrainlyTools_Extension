@@ -85,6 +85,7 @@ export default class ReviewButton {
 
   Reviewed() {
     this.main.Reviewed();
+    this.main.main.multiReviewSection.Reviewed();
   }
 
   ReviewFailed() {

@@ -34,8 +34,8 @@ export function createDashList(strings: string[]) {
 
 export default class SendMessageSection {
   main: ActionEntryClassType | MultiReviewSectionClassType;
-  private questionLink: string;
 
+  #questionLink: string;
   container: FlexElementType;
   private messageTextarea: HTMLTextAreaElement;
   private counterNode: Text;
@@ -55,12 +55,24 @@ export default class SendMessageSection {
     questionLink: string,
   ) {
     this.main = main;
-    this.questionLink = questionLink;
+    this.#questionLink = questionLink;
 
     this.attachments = [];
 
     this.Render();
     this.InitScreenshotAttachment();
+  }
+
+  set questionLink(links: string) {
+    if (this.#questionLink === links) return;
+
+    this.#questionLink = links;
+
+    this.MessageChanged();
+  }
+
+  get questionLink() {
+    return this.#questionLink;
   }
 
   private Render() {
@@ -514,5 +526,13 @@ export default class SendMessageSection {
         flipVertical: 1,
       },
     });
+  }
+
+  Destroy() {
+    this.gallery.destroy();
+
+    this.gallery = null;
+
+    this.attachments.forEach(attachment => attachment.Remove(true));
   }
 }

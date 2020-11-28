@@ -33,8 +33,8 @@ export default class MultiReviewSection {
   countdownText: Text;
   revertAllButtonContainer: FlexElementType;
   sendMessageButtonContainer: FlexElementType;
-  lastReviewedDataEntries: ModeratorActionHistoryTypes.ReviewDataEntryType[];
-  sendMessageSection: SendMessageSection;
+  private lastReviewedDataEntries: ModeratorActionHistoryTypes.ReviewDataEntryType[];
+  sendMessageSection?: SendMessageSection;
   screenshotCanvas: HTMLCanvasElement;
   screenshotBlob: Blob;
   screenshotName: string;
@@ -42,12 +42,16 @@ export default class MultiReviewSection {
 
   constructor(main: ModeratorActionHistoryTypes.default) {
     this.main = main;
-    this.lastReviewedDataEntries = this.main.reviewDataEntries.all;
 
+    this.RefreshLastReviewedDataEntries();
     this.Render();
     this.ToggleReviewButtons();
     this.ToggleRevertAllButton();
     this.ToggleSendMessageButton();
+  }
+
+  private RefreshLastReviewedDataEntries() {
+    this.lastReviewedDataEntries = this.main.reviewDataEntries.all;
   }
 
   Render() {
@@ -60,7 +64,7 @@ export default class MultiReviewSection {
     InsertAfter(this.container, document.querySelector("table.activities"));
   }
 
-  ToggleReviewButtons() {
+  private ToggleReviewButtons() {
     if (this.main.actionEntries.find(actionEntry => !actionEntry.dataEntry)) {
       this.ShowReviewButtons();
 
@@ -70,7 +74,7 @@ export default class MultiReviewSection {
     this.HideReviewButtons();
   }
 
-  ShowReviewButtons() {
+  private ShowReviewButtons() {
     if (!this.validateAllButton) {
       this.validateAllButton = new ValidateAllButton(this);
       this.invalidateAllButton = new InvalidateAllButton(this);
@@ -82,7 +86,7 @@ export default class MultiReviewSection {
     );
   }
 
-  HideReviewButtons() {
+  private HideReviewButtons() {
     HideElement(
       this.validateAllButton?.container,
       this.invalidateAllButton?.container,
@@ -97,7 +101,7 @@ export default class MultiReviewSection {
     return this.#spinner;
   }
 
-  RenderSpinner() {
+  private RenderSpinner() {
     this.#spinner = Spinner({
       overlay: true,
     });
@@ -119,7 +123,7 @@ export default class MultiReviewSection {
     this.HideRevertAllButton();
   }
 
-  ShowRevertAllButton() {
+  private ShowRevertAllButton() {
     if (!this.revertAllButtonContainer) {
       this.RenderRevertAllButton();
     }
@@ -127,11 +131,11 @@ export default class MultiReviewSection {
     this.container.append(this.revertAllButtonContainer);
   }
 
-  HideRevertAllButton() {
+  private HideRevertAllButton() {
     HideElement(this.revertAllButtonContainer);
   }
 
-  RenderRevertAllButton() {
+  private RenderRevertAllButton() {
     this.revertAllButtonContainer = Flex({
       relative: true,
       children: new Button({
@@ -145,7 +149,7 @@ export default class MultiReviewSection {
     });
   }
 
-  async RevertAll() {
+  private async RevertAll() {
     try {
       const idList = this.main.reviewDataEntries.all
         .filter(dataEntry => dataEntry.isRevertible)
@@ -177,6 +181,8 @@ export default class MultiReviewSection {
           actionEntry.Unreviewed();
         });
       });
+
+      this.Unreviewed();
 
       notification({
         type: "success",
@@ -256,7 +262,7 @@ export default class MultiReviewSection {
     this.HideSendMessageButton();
   }
 
-  ShowSendMessageButton() {
+  private ShowSendMessageButton() {
     if (!this.sendMessageButtonContainer) {
       this.RenderSendMessageButton();
     }
@@ -264,7 +270,7 @@ export default class MultiReviewSection {
     this.container.append(this.sendMessageButtonContainer);
   }
 
-  HideSendMessageButton() {
+  private HideSendMessageButton() {
     HideElement(this.sendMessageButtonContainer);
   }
 
@@ -296,7 +302,10 @@ export default class MultiReviewSection {
   }
 
   private ToggleSendMessageSection() {
-    if (IsVisible(this.sendMessageSection?.container)) {
+    if (
+      !IsVisible(this.sendMessageButtonContainer) ||
+      IsVisible(this.sendMessageSection?.container)
+    ) {
       this.HideSendMessageSection();
 
       return;
@@ -306,33 +315,41 @@ export default class MultiReviewSection {
   }
 
   private ShowSendMessageSection() {
-    if (!this.sendMessageSection) {
-      this.sendMessageSection = new SendMessageSection(
-        this,
-        this.questionLinks,
-      );
-    }
+    this.sendMessageSection = new SendMessageSection(this, this.questionLinks);
 
     InsertAfter(this.sendMessageSection.container, this.container);
   }
 
-  get questionLinks() {
-    const questionLinks = [
-      ...new Set(
-        this.lastReviewedDataEntries.map(
-          dataEntry =>
-            dataEntry.actionEntries.reduce((a, b) =>
-              a.actionTime < b.actionTime ? a : b,
-            )?.questionLink,
-        ),
-      ),
-    ];
+  private get questionLinks() {
+    const dataEntries = this.lastReviewedDataEntries.filter(
+      dataEntry => !dataEntry.data.valid,
+    );
+
+    if (!dataEntries?.length) return "";
+
+    const links = dataEntries
+      .map(dataEntry => {
+        if (!dataEntry?.actionEntries?.length) return undefined;
+
+        return dataEntry.actionEntries.reduce((a, b) =>
+          a.actionTime < b.actionTime ? a : b,
+        )?.questionLink;
+      })
+      .filter(Boolean);
+
+    if (!links?.length) return "";
+
+    const questionLinks = [...new Set(links)];
 
     return createDashList(questionLinks);
   }
 
-  HideSendMessageSection() {
-    HideElement(this.sendMessageSection.container);
+  private HideSendMessageSection() {
+    HideElement(this.sendMessageSection?.container);
+
+    this.sendMessageSection?.Destroy();
+
+    this.sendMessageSection = null;
   }
 
   get hash() {
@@ -353,12 +370,19 @@ export default class MultiReviewSection {
     this.screenshotPromise = this.TakeScreenshot();
   }
 
-  async TakeScreenshot() {
-    const actionEntries = this.lastReviewedDataEntries.map(dataEntry => {
-      return dataEntry.actionEntries.reduce((a, b) =>
-        a.actionTime < b.actionTime ? a : b,
-      );
-    });
+  private async TakeScreenshot() {
+    const actionEntries = this.lastReviewedDataEntries
+      .filter(dataEntry => !dataEntry.data.valid)
+      .map(dataEntry => {
+        if (!dataEntry?.actionEntries?.length) return undefined;
+
+        return dataEntry.actionEntries.reduce((a, b) =>
+          a.actionTime < b.actionTime ? a : b,
+        );
+      })
+      .filter(Boolean);
+
+    if (actionEntries.length === 0) return;
 
     await Promise.all(
       actionEntries.map(actionEntry => actionEntry.TryToTakeScreenshot()),
@@ -411,5 +435,17 @@ export default class MultiReviewSection {
         actionEntry.MessageSent();
       });
     });
+  }
+
+  Reviewed() {
+    this.RefreshLastReviewedDataEntries();
+    this.ToggleReviewButtons();
+    this.ToggleRevertAllButton();
+    this.ToggleSendMessageButton();
+    this.HideSendMessageSection();
+  }
+
+  Unreviewed() {
+    this.Reviewed();
   }
 }

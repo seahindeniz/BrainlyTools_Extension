@@ -450,8 +450,12 @@ class _System {
       pathname = this.data.meta.location.pathname;
     }
 
-    const currPath: string[] = pathname.split("/");
+    const currPath: string[] = pathname.split(/\/|%2F/g);
     let result = false;
+
+    if (currPath.length > 2 && !currPath[0] && !currPath[1]) {
+      currPath.shift();
+    }
 
     if (currPath.length >= 2) {
       if (typeof str === "undefined") {

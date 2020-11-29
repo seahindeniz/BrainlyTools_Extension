@@ -218,9 +218,6 @@ class _System {
     Brainly: {
       regexp_BrainlyMarkets: RegExp;
       brainlyMarkets: string[];
-      style_guide: {
-        icons: string;
-      };
       githubHighlight: string;
       marketRequestLimit: number;
     };
@@ -356,11 +353,6 @@ class _System {
           "nosdevoirs.fr",
           "brainly.ro",
         ],
-        style_guide: {
-          icons:
-            "https://styleguide.brainly.com/images/icons-015757d3f5.js" +
-            "?treat=.ext_js",
-        },
         githubHighlight:
           "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css",
         marketRequestLimit: 8,

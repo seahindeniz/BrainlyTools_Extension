@@ -145,7 +145,7 @@ class ContentScript {
       );
 
       if (isContains && !("itemtype" in document.body.attributes)) {
-        InjectToDOM([System.constants.Brainly.style_guide.icons]);
+        InjectToDOM("/images/icons.js");
       }
     }
 

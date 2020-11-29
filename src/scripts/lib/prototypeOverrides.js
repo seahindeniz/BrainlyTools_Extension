@@ -7,7 +7,7 @@ Storage.prototype.setObject = function (key, _value) {
 
   this.setItem(key, JSON.stringify(value));
 };
-console.warn(1);
+
 Storage.prototype.getObject = function (key) {
   let value = this.getItem(key);
   // console.log(value, typeof value, typeof value !== "undefined");

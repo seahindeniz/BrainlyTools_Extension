@@ -65,7 +65,7 @@ export default class Options {
       placement: "bottom",
       content: this.optionContainer = Flex({
         marginTop: "xs",
-        marginBottom: "s",
+        marginBottom: "xs",
         direction: "column",
       }),
     });

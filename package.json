@@ -8,7 +8,7 @@
     "autosize": "^4.0.2",
     "axios": "^0.21.0",
     "babel-eslint": "^10.1.0",
-    "brainly-style-guide": "^182.3.0",
+    "brainly-style-guide": "^182.4.2",
     "bulma": "^0.9.1",
     "bulma-checkradio": "^1.1.1",
     "bulma-switch": "^2.0.0",
@@ -179,5 +179,5 @@
     "dist": "npm run dist:gulp && npm run dist:webpack && npm run zip",
     "zip": "cross-env NODE_ENV=production gulp zip"
   },
-  "version": "7.16.0"
+  "version": "7.16.1"
 }

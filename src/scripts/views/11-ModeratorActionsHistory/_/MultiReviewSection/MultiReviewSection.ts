@@ -65,7 +65,11 @@ export default class MultiReviewSection {
   }
 
   private ToggleReviewButtons() {
-    if (this.main.actionEntries.find(actionEntry => !actionEntry.dataEntry)) {
+    if (
+      System.checkUserP([28, 39]) &&
+      this.main.moderator.id !== System.data.Brainly.userData.user.id &&
+      this.main.actionEntries.find(actionEntry => !actionEntry.dataEntry)
+    ) {
       this.ShowReviewButtons();
 
       return;
@@ -113,6 +117,7 @@ export default class MultiReviewSection {
 
   ToggleRevertAllButton() {
     if (
+      this.main.moderator.id !== System.data.Brainly.userData.user.id &&
       this.main.reviewDataEntries.all.find(dataEntry => dataEntry.isRevertible)
     ) {
       this.ShowRevertAllButton();
@@ -247,6 +252,7 @@ export default class MultiReviewSection {
 
   ToggleSendMessageButton() {
     if (
+      this.main.moderator.id !== System.data.Brainly.userData.user.id &&
       this.lastReviewedDataEntries.find(
         dataEntry =>
           dataEntry.isRevertible &&
@@ -303,6 +309,7 @@ export default class MultiReviewSection {
 
   private ToggleSendMessageSection() {
     if (
+      this.main.moderator.id === System.data.Brainly.userData.user.id ||
       !IsVisible(this.sendMessageButtonContainer) ||
       IsVisible(this.sendMessageSection?.container)
     ) {

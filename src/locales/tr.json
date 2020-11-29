@@ -802,73 +802,6 @@
         "alwaysVisible": "Her zaman görünür",
         "onHoverOrTouch": "Üzerine gelindiğinde/dokunulduğunda"
       },
-      "filter": {
-        "optionName": "Şikayetleri filtrele",
-        "description": "Filtreler yalnızca yüklenen raporlara uygulanabilir",
-        "filters": {
-          "reporter": {
-            "name": "Şikayet eden"
-          },
-          "reported": {
-            "name": "Bildirilen kullanıcı"
-          },
-          "reportingDate": {
-            "name": "Tarihler arası",
-            "startingDate": "Başlangıç tarihi",
-            "endingDate": "Bitiş tarihi"
-          },
-          "contentType": {
-            "name": "İçerik tipi",
-            "Question": "Soru",
-            "Answer": "Cevap",
-            "Comment": "Yorum"
-          },
-          "contentLength": {
-            "name": "İçerik uzunluğu",
-            "equals": "eşittir =",
-            "lowerThan": "küçüktür <",
-            "label": {
-              "equals": "eşittir = %{N}",
-              "lowerThan": "küçüktür < %{N}",
-              "greaterThan": "büyüktür > %{N}"
-            },
-            "greaterThan": "büyüktür >"
-          },
-          "attachmentLength": {
-            "name": "İçerik eki sayısı"
-          },
-          "subject": {
-            "name": "Konu"
-          },
-          "userFilter": {
-            "id": "id",
-            "nick": "nick",
-            "lookFor": "Seçim yap",
-            "specialRank": "Özel rütbe",
-            "anyRank": "Farketmez"
-          },
-          "stringFilter": {
-            "chooseCondition": "Koşul seçin",
-            "label": {
-              "contains": "şunu içerir : %{input}",
-              "sameWith": "şununla aynı olmalı : %{input}",
-              "startsWith": "şununla başlar : %{input}",
-              "endsWith": "şununla biter : %{input}",
-              "regExp": "%{input}"
-            },
-            "conditions": {
-              "contains": "şunu içerir",
-              "sameWith": "şununla aynı olmalı",
-              "startsWith": "şununla başlar",
-              "endsWith": "şununla biter",
-              "regExp": "RegExp(JS/ES6)"
-            },
-            "additionalData": "Ek bilgiler",
-            "content": "İçerik"
-          }
-        },
-        "pageNumberInputTitle": "%{MIN_N} ile %{MAX_N} arasında bir sayfa numarası girin"
-      },
       "name": "Seçenekler",
       "density": {
         "optionName": "Yoğunluk"
@@ -905,7 +838,8 @@
         "isModerated": "Düzenlendi mi?",
         "isCorrected": "Düzenlendi mi?"
       },
-      "notYetCorrected": "Henüz düzeltilmemiş"
+      "notYetCorrected": "Henüz düzeltilmemiş",
+      "pageNumberInputTitle": "%{MIN_N} ile %{MAX_N} arasında bir sayfa numarası girin"
     },
     "loadAll": "Tüm şikayetleri getir",
     "loadAllConfirmationMessage": "Brainly'den bildirilen tüm içerikleri çekmeye çalışacağım. Ancak bu işlem, çok fazla uzadığı zaman bağlantılar Brainly tarafından kesintiye uğrayabilir. \nLütfen işlemi başlatmak için onaylayın",
@@ -959,7 +893,74 @@
         "Comment": "Yorumlar için silim sebebi"
       }
     },
-    "name": "Bildirilen içerikler"
+    "name": "Bildirilen içerikler",
+    "filtersPanel": {
+      "description": "Filtreler yalnızca yüklenen raporlara uygulanabilir",
+      "filters": {
+        "reporter": {
+          "name": "Şikayet eden"
+        },
+        "reported": {
+          "name": "Bildirilen kullanıcı"
+        },
+        "reportingDate": {
+          "name": "Tarihler arası",
+          "startingDate": "Başlangıç tarihi",
+          "endingDate": "Bitiş tarihi"
+        },
+        "contentType": {
+          "name": "İçerik tipi",
+          "Question": "Soru",
+          "Answer": "Cevap",
+          "Comment": "Yorum"
+        },
+        "contentLength": {
+          "name": "İçerik uzunluğu",
+          "equals": "eşittir =",
+          "lowerThan": "küçüktür <",
+          "label": {
+            "equals": "eşittir = %{N}",
+            "lowerThan": "küçüktür < %{N}",
+            "greaterThan": "büyüktür > %{N}"
+          },
+          "greaterThan": "büyüktür >"
+        },
+        "attachmentLength": {
+          "name": "İçerik eki sayısı"
+        },
+        "subject": {
+          "name": "Konu"
+        },
+        "userFilter": {
+          "id": "id",
+          "nick": "nick",
+          "lookFor": "Seçim yap",
+          "specialRank": "Özel rütbe",
+          "anyRank": "Farketmez"
+        },
+        "stringFilter": {
+          "chooseCondition": "Koşul seçin",
+          "label": {
+            "contains": "şunu içerir : %{input}",
+            "sameWith": "şununla aynı olmalı : %{input}",
+            "startsWith": "şununla başlar : %{input}",
+            "endsWith": "şununla biter : %{input}",
+            "regExp": "%{input}"
+          },
+          "conditions": {
+            "contains": "şunu içerir",
+            "sameWith": "şununla aynı olmalı",
+            "startsWith": "şununla başlar",
+            "endsWith": "şununla biter",
+            "regExp": "RegExp(JS/ES6)"
+          },
+          "additionalData": "Ek bilgiler",
+          "content": "İçerik"
+        }
+      },
+      "title": "Filtreler",
+      "name": "Şikayetleri filtrele"
+    }
   },
   "moderationPanel": {
     "text": "Ödev Düzenle",

@@ -53,8 +53,7 @@ export default class Subjects {
     this.AssignSelectedSubject();
 
     if (!this.selectedSubject) {
-      this.main.main.main.queue.options.option.contentFilters.filter.subject //
-        .Show();
+      this.main.main.main.queue.filtersPanel.filter.subject.Show();
 
       return;
     }
@@ -64,11 +63,9 @@ export default class Subjects {
     this.main.main.FetchReports({ resetStore: true });
 
     if (this.selectedSubject.data.id === 0)
-      this.main.main.main.queue.options.option.contentFilters.filter.subject //
-        .Show();
+      this.main.main.main.queue.filtersPanel.filter.subject.Show();
     else {
-      this.main.main.main.queue.options.option.contentFilters.filter.subject //
-        .Hide();
+      this.main.main.main.queue.filtersPanel.filter.subject.Hide();
       this.main.main.main.queue.filter.byName.subject.HideLabel();
     }
   }

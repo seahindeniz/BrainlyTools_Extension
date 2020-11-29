@@ -15,7 +15,7 @@ export default class ContentLength extends QueueFilter {
       labelColor: "gray",
       labelIconType: "ext-measuring-tape",
       labelName:
-        System.data.locale.reportedContents.options.filter.filters.contentLength
+        System.data.locale.reportedContents.filtersPanel.filters.contentLength
           .name,
     });
   }
@@ -33,8 +33,9 @@ export default class ContentLength extends QueueFilter {
   }
 
   HideLabel(event?: MouseEvent) {
-    if (event)
-      this.main.options.option.contentFilters.filter.contentLength.Deselected();
+    if (event) {
+      this.main.filtersPanel.filter.contentLength.Deselected();
+    }
 
     super.HideLabel();
   }
@@ -43,7 +44,7 @@ export default class ContentLength extends QueueFilter {
     super.ShowLabel();
 
     this.labelText.nodeValue =
-      System.data.locale.reportedContents.options.filter.filters.contentLength.label[
+      System.data.locale.reportedContents.filtersPanel.filters.contentLength.label[
         this.query?.condition
       ]?.replace("%{N}", String(this.query.length)) || "Error";
   }

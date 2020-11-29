@@ -7,8 +7,7 @@ export default class QuestionAnswerRT extends ReportType {
   }
 
   Selected() {
-    const filters = this.main.main.main.main.queue.options.option.contentFilters
-      .filter;
+    const filters = this.main.main.main.main.queue.filtersPanel.filter;
 
     filters.contentType.Show();
     filters.attachmentLength.Show();

@@ -23,7 +23,7 @@ export default class Condition {
 
   Render() {
     const conditionLocale =
-      System.data.locale.reportedContents.options.filter.filters.stringFilter
+      System.data.locale.reportedContents.filtersPanel.filters.stringFilter
         .conditions[this.key];
 
     this.option = CreateElement({

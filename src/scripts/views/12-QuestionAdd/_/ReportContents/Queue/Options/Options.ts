@@ -4,7 +4,6 @@ import tippy, { Instance, Props } from "tippy.js";
 import type QueueClassType from "../Queue";
 import ButtonVisibility from "./ButtonVisibility";
 import Density from "./Density";
-import Filters from "./Filters/Filters";
 import LazyQueue from "./LazyQueue";
 import LoadLimiter from "./LoadLimiter";
 import ToggleAutoQueueLoader from "./ToggleAutoQueueLoader";
@@ -24,7 +23,7 @@ export default class Options {
     toggleAutoQueueLoader: ToggleAutoQueueLoader;
     loadLimiter: LoadLimiter;
     buttonVisibility?: ButtonVisibility;
-    contentFilters: Filters;
+    // contentFilters: Filters;
   };
 
   containerTippy: Instance<Props>;
@@ -41,7 +40,7 @@ export default class Options {
       loadLimiter: new LoadLimiter(this),
       buttonVisibility:
         System.checkUserP([1, 2, 45]) && new ButtonVisibility(this),
-      contentFilters: new Filters(this),
+      // contentFilters: new Filters(this),
     };
   }
 

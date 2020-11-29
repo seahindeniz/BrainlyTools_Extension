@@ -13,7 +13,7 @@ export default class ContentType extends QueueFilter {
       labelColor: "mustard",
       labelIconType: "all_questions",
       labelName:
-        System.data.locale.reportedContents.options.filter.filters.contentType
+        System.data.locale.reportedContents.filtersPanel.filters.contentType
           .name,
     });
   }
@@ -32,8 +32,7 @@ export default class ContentType extends QueueFilter {
 
   HideLabel(event?: MouseEvent) {
     if (event)
-      this.main.options.option.contentFilters.filter.contentType.selectedOption //
-        ?.Deselected();
+      this.main.filtersPanel.filter.contentType.selectedOption?.Deselected();
 
     super.HideLabel();
   }

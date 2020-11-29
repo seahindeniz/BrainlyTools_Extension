@@ -14,7 +14,7 @@ export default class AttachmentLength extends QueueFilter {
       labelColor: "gray",
       labelIconType: "attachment",
       labelName:
-        System.data.locale.reportedContents.options.filter.filters
+        System.data.locale.reportedContents.filtersPanel.filters
           .attachmentLength.name,
     });
   }
@@ -33,8 +33,7 @@ export default class AttachmentLength extends QueueFilter {
 
   HideLabel(event?: MouseEvent) {
     if (event) {
-      this.main.options.option.contentFilters.filter.attachmentLength //
-        .Deselected();
+      this.main.filtersPanel.filter.attachmentLength.Deselected();
     }
 
     super.HideLabel();
@@ -44,7 +43,7 @@ export default class AttachmentLength extends QueueFilter {
     super.ShowLabel();
 
     this.labelText.nodeValue =
-      System.data.locale.reportedContents.options.filter.filters.contentLength.label[
+      System.data.locale.reportedContents.filtersPanel.filters.contentLength.label[
         this.query?.condition
       ]?.replace("%{N}", String(this.query.length)) || "Error";
   }

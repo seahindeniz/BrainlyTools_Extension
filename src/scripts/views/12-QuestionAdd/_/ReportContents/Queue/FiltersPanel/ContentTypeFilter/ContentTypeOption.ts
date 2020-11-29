@@ -31,7 +31,7 @@ export default class ContentTypeOption {
         type: "solid-light",
         onClick: this.Selected.bind(this),
         children:
-          System.data.locale.reportedContents.options.filter.filters
+          System.data.locale.reportedContents.filtersPanel.filters
             .contentType[this.contentType],
       }),
     });

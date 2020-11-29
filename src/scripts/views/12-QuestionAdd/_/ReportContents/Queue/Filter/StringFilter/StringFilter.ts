@@ -1,6 +1,6 @@
 import type { ContentClassTypes } from "../../../Fetcher/Fetcher";
-import type { ConditionKeyType } from "../../Options/Filters/StringFilter/Condition";
-import type { StringFilterType } from "../../Options/Filters/StringFilter/StringFilter";
+import type { ConditionKeyType } from "../../FiltersPanel/StringFilter/Condition";
+import type { StringFilterType } from "../../FiltersPanel/StringFilter/StringFilter";
 import QueueFilter, { QueueFilterPropsType } from "../QueueFilter";
 
 export default class StringFilter extends QueueFilter {
@@ -68,7 +68,7 @@ export default class StringFilter extends QueueFilter {
 
   HideLabel(event?: MouseEvent) {
     if (event) {
-      this.main.options.option.contentFilters.filter[this.optionName].Reset();
+      this.main.filtersPanel.filter[this.optionName].Reset();
     }
 
     super.HideLabel();
@@ -77,7 +77,7 @@ export default class StringFilter extends QueueFilter {
   ShowLabel() {
     super.ShowLabel();
 
-    this.labelText.nodeValue = System.data.locale.reportedContents.options.filter.filters.stringFilter.label[
+    this.labelText.nodeValue = System.data.locale.reportedContents.filtersPanel.filters.stringFilter.label[
       this.query.condition
     ].replace(/%{input}/g, this.query.value);
   }

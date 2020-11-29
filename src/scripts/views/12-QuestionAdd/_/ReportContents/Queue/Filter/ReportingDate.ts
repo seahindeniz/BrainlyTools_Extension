@@ -16,7 +16,7 @@ export default class Reported extends QueueFilter {
       labelColor: "lavender",
       labelIconType: "calendar",
       labelName:
-        System.data.locale.reportedContents.options.filter.filters.reportingDate
+        System.data.locale.reportedContents.filtersPanel.filters.reportingDate
           .name,
     });
   }
@@ -71,8 +71,9 @@ export default class Reported extends QueueFilter {
   }
 
   HideLabel(event?: MouseEvent) {
-    if (event)
-      this.main.options.option.contentFilters.filter.reportingDate.ResetDates();
+    if (event) {
+      this.main.filtersPanel.filter.reportingDate.ResetDates();
+    }
 
     super.HideLabel();
   }

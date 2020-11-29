@@ -9,7 +9,7 @@ export default class Content extends StringFilter {
       labelColor: "blue",
       labelIconType: "report_flag",
       labelName:
-        System.data.locale.reportedContents.options.filter.filters.stringFilter
+        System.data.locale.reportedContents.filtersPanel.filters.stringFilter
           .content,
     });
   }

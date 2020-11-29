@@ -9,7 +9,7 @@ export default class AdditionalData extends StringFilter {
       labelColor: "mint",
       labelIconType: "report_flag",
       labelName:
-        System.data.locale.reportedContents.options.filter.filters.stringFilter
+        System.data.locale.reportedContents.filtersPanel.filters.stringFilter
           .additionalData,
     });
   }

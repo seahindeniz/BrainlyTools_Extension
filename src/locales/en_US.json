@@ -802,73 +802,6 @@
         "alwaysVisible": "Always visible",
         "onHoverOrTouch": "On hover/touch"
       },
-      "filter": {
-        "optionName": "Filter reports",
-        "description": "Filters can be applied only to those reports that have been fetched",
-        "filters": {
-          "reporter": {
-            "name": "Reporter user"
-          },
-          "reported": {
-            "name": "Reported user"
-          },
-          "reportingDate": {
-            "name": "Reported between",
-            "startingDate": "Starting date",
-            "endingDate": "Ending date"
-          },
-          "contentType": {
-            "name": "Content type",
-            "Question": "Question",
-            "Answer": "Answer",
-            "Comment": "Comment"
-          },
-          "contentLength": {
-            "name": "Content length",
-            "equals": "equals to",
-            "lowerThan": "lower than",
-            "label": {
-              "equals": "equals to %{N}",
-              "lowerThan": "lower than %{N}",
-              "greaterThan": "greater than %{N}"
-            },
-            "greaterThan": "greater than"
-          },
-          "attachmentLength": {
-            "name": "Attachment count"
-          },
-          "subject": {
-            "name": "Subject"
-          },
-          "userFilter": {
-            "id": "id",
-            "nick": "nick",
-            "lookFor": "Look for",
-            "specialRank": "Special rank",
-            "anyRank": "Any rank"
-          },
-          "stringFilter": {
-            "chooseCondition": "Choose condition",
-            "label": {
-              "contains": "contains : %{input}",
-              "sameWith": "exactly same with : %{input}",
-              "startsWith": "starts with : %{input}",
-              "endsWith": "ends with : %{input}",
-              "regExp": "%{input}"
-            },
-            "conditions": {
-              "contains": "contains",
-              "sameWith": "exactly same with",
-              "startsWith": "starts with",
-              "endsWith": "ends with",
-              "regExp": "RegExp(JS/ES6)"
-            },
-            "additionalData": "Additional data",
-            "content": "Content"
-          }
-        },
-        "pageNumberInputTitle": "Enter a page number between %{MIN_N} and %{MAX_N}"
-      },
       "name": "Options",
       "density": {
         "optionName": "Density"
@@ -905,7 +838,8 @@
         "isModerated": "Is moderated?",
         "isCorrected": "Is corrected?"
       },
-      "notYetCorrected": "Not yet corrected"
+      "notYetCorrected": "Not yet corrected",
+      "pageNumberInputTitle": "Enter a page number between %{MIN_N} and %{MAX_N}"
     },
     "loadAll": "Fetch all reports",
     "loadAllConfirmationMessage": "I'll try to fetch all reported contents from Brainly but the process can be interrupted by Brainly because of elevated requests.\nPlease confirm to start the process",
@@ -959,7 +893,74 @@
         "Comment": "Reasons for comments"
       }
     },
-    "name": "Reported contents"
+    "name": "Reported contents",
+    "filtersPanel": {
+      "description": "Filters can be applied only to those reports that have been fetched",
+      "filters": {
+        "reporter": {
+          "name": "Reporter user"
+        },
+        "reported": {
+          "name": "Reported user"
+        },
+        "reportingDate": {
+          "name": "Reported between",
+          "startingDate": "Starting date",
+          "endingDate": "Ending date"
+        },
+        "contentType": {
+          "name": "Content type",
+          "Question": "Question",
+          "Answer": "Answer",
+          "Comment": "Comment"
+        },
+        "contentLength": {
+          "name": "Content length",
+          "equals": "equals to",
+          "lowerThan": "lower than",
+          "label": {
+            "equals": "equals to %{N}",
+            "lowerThan": "lower than %{N}",
+            "greaterThan": "greater than %{N}"
+          },
+          "greaterThan": "greater than"
+        },
+        "attachmentLength": {
+          "name": "Attachment count"
+        },
+        "subject": {
+          "name": "Subject"
+        },
+        "userFilter": {
+          "id": "id",
+          "nick": "nick",
+          "lookFor": "Look for",
+          "specialRank": "Special rank",
+          "anyRank": "Any rank"
+        },
+        "stringFilter": {
+          "chooseCondition": "Choose condition",
+          "label": {
+            "contains": "contains : %{input}",
+            "sameWith": "exactly same with : %{input}",
+            "startsWith": "starts with : %{input}",
+            "endsWith": "ends with : %{input}",
+            "regExp": "%{input}"
+          },
+          "conditions": {
+            "contains": "contains",
+            "sameWith": "exactly same with",
+            "startsWith": "starts with",
+            "endsWith": "ends with",
+            "regExp": "RegExp(JS/ES6)"
+          },
+          "additionalData": "Additional data",
+          "content": "Content"
+        }
+      },
+      "title": "Filters",
+      "name": "Filter reports"
+    }
   },
   "moderationPanel": {
     "text": "Question Moderation",

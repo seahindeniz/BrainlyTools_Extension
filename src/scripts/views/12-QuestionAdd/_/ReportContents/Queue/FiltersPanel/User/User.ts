@@ -3,7 +3,7 @@ import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
 import { Flex, Input, Select, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
-import type FiltersClassType from "../Filters";
+import type FiltersClassType from "../FiltersPanel";
 
 export type UserTypeType = "reporter" | "reported";
 
@@ -39,7 +39,7 @@ export default class User {
             noWrap: true,
             size: "small",
             text: `${
-              System.data.locale.reportedContents.options.filter.filters[
+              System.data.locale.reportedContents.filtersPanel.filters[
                 this.type
               ].name
             }: `,
@@ -66,7 +66,7 @@ export default class User {
                     selected: true,
                     disabled: true,
                     text:
-                      System.data.locale.reportedContents.options.filter.filters
+                      System.data.locale.reportedContents.filtersPanel.filters
                         .userFilter.lookFor,
                   },
                   {
@@ -80,7 +80,7 @@ export default class User {
                   {
                     value: 2,
                     text:
-                      System.data.locale.reportedContents.options.filter.filters
+                      System.data.locale.reportedContents.filtersPanel.filters
                         .userFilter.specialRank,
                   },
                 ],
@@ -138,7 +138,7 @@ export default class User {
   InputChanged() {
     this.ShowProperInput();
 
-    this.main.main.main.filter.byName[this.type].SetQuery(
+    this.main.main.filter.byName[this.type].SetQuery(
       this.target,
       this.input.value,
     );
@@ -166,7 +166,7 @@ export default class User {
     this.selectedInput = selectedInput;
 
     this.inputContainer.append(this.selectedInput.element);
-    this.main.main.containerTippy.popperInstance.update();
+    this.main.containerTippy.popperInstance.update();
   }
 
   RenderRankSelect() {
@@ -189,7 +189,7 @@ export default class User {
         {
           value: 0,
           text:
-            System.data.locale.reportedContents.options.filter.filters
+            System.data.locale.reportedContents.filtersPanel.filters
               .userFilter.anyRank,
         },
         CreateElement({

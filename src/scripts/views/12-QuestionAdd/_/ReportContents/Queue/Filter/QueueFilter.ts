@@ -62,8 +62,7 @@ export default class QueueFilter {
 
   HideLabel(event?: MouseEvent) {
     if (event) {
-      this.main.options.option.contentFilters.filter.attachmentLength //
-        .Deselected();
+      this.main.filtersPanel.filter.attachmentLength.Deselected();
     }
 
     this.query = {};

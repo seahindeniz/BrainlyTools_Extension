@@ -2,9 +2,9 @@ import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
 import { Flex, Input, Select, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
-import type { NumberConditionType } from "../../Filter/ContentLength";
+import type { NumberConditionType } from "../Filter/ContentLength";
 import { PreventMathOperators } from "./ContentLength";
-import type FiltersClassType from "./Filters";
+import type FiltersClassType from "./FiltersPanel";
 
 export default class AttachmentLength {
   main: FiltersClassType;
@@ -39,7 +39,7 @@ export default class AttachmentLength {
             size: "small",
             text: `${
               //
-              System.data.locale.reportedContents.options.filter.filters
+              System.data.locale.reportedContents.filtersPanel.filters
                 .attachmentLength.name
             }: `,
             weight: "bold",
@@ -64,19 +64,19 @@ export default class AttachmentLength {
                   {
                     value: 0,
                     text:
-                      System.data.locale.reportedContents.options.filter.filters
+                      System.data.locale.reportedContents.filtersPanel.filters
                         .contentLength.equals,
                   },
                   {
                     value: 1,
                     text:
-                      System.data.locale.reportedContents.options.filter.filters
+                      System.data.locale.reportedContents.filtersPanel.filters
                         .contentLength.greaterThan,
                   },
                   {
                     value: 2,
                     text:
-                      System.data.locale.reportedContents.options.filter.filters
+                      System.data.locale.reportedContents.filtersPanel.filters
                         .contentLength.lowerThan,
                   },
                 ],
@@ -116,7 +116,7 @@ export default class AttachmentLength {
         ? "lowerThan"
         : undefined;
 
-    this.main.main.main.filter.byName.attachmentLength.SetQuery(
+    this.main.main.filter.byName.attachmentLength.SetQuery(
       condition,
       Number(value === "" ? NaN : Number(value)),
     );

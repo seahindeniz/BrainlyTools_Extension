@@ -3,7 +3,7 @@ import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
 import { Flex, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
-import type FiltersClassType from "../Filters";
+import type FiltersClassType from "../FiltersPanel";
 import ContentTypeOption from "./ContentTypeOption";
 
 export default class ContentTypeFilter {
@@ -46,7 +46,7 @@ export default class ContentTypeFilter {
             noWrap: true,
             size: "small",
             weight: "bold",
-            text: `${System.data.locale.reportedContents.options.filter.filters.contentType.name}: `,
+            text: `${System.data.locale.reportedContents.filtersPanel.filters.contentType.name}: `,
           }),
         ],
         (this.optionContainer = Flex({
@@ -68,7 +68,7 @@ export default class ContentTypeFilter {
   }
 
   Changed() {
-    this.main.main.main.filter.byName.contentType.SetQuery(
+    this.main.main.filter.byName.contentType.SetQuery(
       this.selectedOption?.contentType,
     );
   }

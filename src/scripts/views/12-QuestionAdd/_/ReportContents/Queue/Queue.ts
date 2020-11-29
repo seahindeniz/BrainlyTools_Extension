@@ -18,10 +18,13 @@ import ModerationPanelController from "./ModerationPanelController/ModerationPan
 import Options from "./Options/Options";
 // import QueryBuilder from "./QueryBuilder/QueryBuilder";
 import Content from "./Filter/StringFilter/Content";
+import FiltersPanel from "./FiltersPanel/FiltersPanel";
 
 export default class Queue {
   main: ReportedContentsType;
+
   options: Options;
+  filtersPanel: FiltersPanel;
 
   filter: {
     [x in "all" | "inUse"]: (
@@ -61,6 +64,7 @@ export default class Queue {
   constructor(main: ReportedContentsType) {
     this.main = main;
     this.options = new Options(this);
+    this.filtersPanel = new FiltersPanel(this);
 
     this.filter = {
       byName: {

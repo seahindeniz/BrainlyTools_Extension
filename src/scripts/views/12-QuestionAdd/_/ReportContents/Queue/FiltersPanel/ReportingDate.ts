@@ -1,7 +1,7 @@
 import Build from "@root/helpers/Build";
 import { Flex, Input, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
-import type FiltersClassType from "./Filters";
+import type FiltersClassType from "./FiltersPanel";
 
 export default class Reporter {
   main: FiltersClassType;
@@ -29,7 +29,7 @@ export default class Reporter {
             weight: "bold",
             noWrap: true,
             size: "small",
-            text: `${System.data.locale.reportedContents.options.filter.filters.reportingDate.name}: `,
+            text: `${System.data.locale.reportedContents.filtersPanel.filters.reportingDate.name}: `,
           }),
         ],
         [
@@ -47,7 +47,7 @@ export default class Reporter {
               (this.startingDateInput = new Input({
                 type: "date",
                 fullWidth: true,
-                title: `${System.data.locale.reportedContents.options.filter.filters.reportingDate.startingDate}..`,
+                title: `${System.data.locale.reportedContents.filtersPanel.filters.reportingDate.startingDate}..`,
                 onChange: [
                   this.StartingDateChanged.bind(this),
                   this.InputChanged.bind(this),
@@ -62,7 +62,7 @@ export default class Reporter {
               (this.endingDateInput = new Input({
                 type: "date",
                 fullWidth: true,
-                placeholder: `${System.data.locale.reportedContents.options.filter.filters.reportingDate.endingDate}..`,
+                placeholder: `${System.data.locale.reportedContents.filtersPanel.filters.reportingDate.endingDate}..`,
                 onChange: [
                   this.EndingDateChanged.bind(this),
                   this.InputChanged.bind(this),
@@ -94,7 +94,7 @@ export default class Reporter {
   }
 
   InputChanged() {
-    this.main.main.main.filter.byName.reportingDate.SetQuery(
+    this.main.main.filter.byName.reportingDate.SetQuery(
       this.startingDateInput.input.value,
       this.endingDateInput.input.value,
     );

@@ -2,7 +2,7 @@ import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
 import { Flex, Select, Text, Textarea } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
-import type FiltersClassType from "../Filters";
+import type FiltersClassType from "../FiltersPanel";
 import Condition, { ConditionKeyType } from "./Condition";
 
 export type StringFilterType = "additionalData" | "content";
@@ -46,7 +46,7 @@ export default class StringFilter {
             noWrap: true,
             size: "small",
             text: `${
-              System.data.locale.reportedContents.options.filter.filters
+              System.data.locale.reportedContents.filtersPanel.filters
                 .stringFilter[this.optionName]
             }: `,
           }),
@@ -71,7 +71,7 @@ export default class StringFilter {
                   {
                     selected: true,
                     text:
-                      System.data.locale.reportedContents.options.filter.filters
+                      System.data.locale.reportedContents.filtersPanel.filters
                         .stringFilter.chooseCondition,
                   },
                 ],
@@ -100,7 +100,7 @@ export default class StringFilter {
 
   InitConditions() {
     Object.keys(
-      System.data.locale.reportedContents.options.filter.filters.stringFilter
+      System.data.locale.reportedContents.filtersPanel.filters.stringFilter
         .conditions,
     ).forEach((key: ConditionKeyType) => {
       const condition = new Condition(this, key);
@@ -150,7 +150,7 @@ export default class StringFilter {
 
     if (!selectedCondition) return;
 
-    this.main.main.main.filter.byName[this.optionName].SetQuery(
+    this.main.main.filter.byName[this.optionName].SetQuery(
       selectedCondition.key,
       this.textarea.value,
     );

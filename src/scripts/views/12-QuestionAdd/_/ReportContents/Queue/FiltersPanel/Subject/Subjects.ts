@@ -2,7 +2,7 @@ import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
 import { Flex, Select, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
-import type FiltersClassType from "../Filters";
+import type FiltersClassType from "../FiltersPanel";
 import Subject from "./Subject";
 
 export default class Subjects {
@@ -42,7 +42,7 @@ export default class Subjects {
             noWrap: true,
             size: "small",
             weight: "bold",
-            text: `${System.data.locale.reportedContents.options.filter.filters.subject.name}: `,
+            text: `${System.data.locale.reportedContents.filtersPanel.filters.subject.name}: `,
           }),
         ],
         (this.subjectSelect = new Select({
@@ -80,7 +80,7 @@ export default class Subjects {
       .filter(_subject => selectedOptions.includes(_subject.option))
       .map(subject => subject.data.id);
 
-    this.main.main.main.filter.byName.subject.SetQuery(selectedSubjectIds);
+    this.main.main.filter.byName.subject.SetQuery(selectedSubjectIds);
   }
 
   Show() {

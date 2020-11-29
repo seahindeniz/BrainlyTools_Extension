@@ -130,7 +130,7 @@ export default class PageNumbers {
   }
 
   RenderPageNumberInput() {
-    const title = System.data.locale.reportedContents.options.filter.pageNumberInputTitle
+    const title = System.data.locale.reportedContents.queue.pageNumberInputTitle
       .replace("%{MIN_N}", "1")
       .replace("%{MAX_N}", String(this.lastIds.length + 1));
 

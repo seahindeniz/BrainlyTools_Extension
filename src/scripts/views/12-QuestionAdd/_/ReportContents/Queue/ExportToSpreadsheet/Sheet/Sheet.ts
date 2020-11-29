@@ -37,7 +37,7 @@ export default class Sheet {
 
   private SetSheet() {
     this.sheet = this.#main.spreadsheet.addWorksheet(
-      System.data.locale.reportedContents.options.filter.filters.contentType[
+      System.data.locale.reportedContents.filtersPanel.filters.contentType[
         this.#contentType
       ],
       {

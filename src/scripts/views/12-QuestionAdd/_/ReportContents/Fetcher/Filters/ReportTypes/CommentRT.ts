@@ -12,8 +12,7 @@ export default class CommentRT extends ReportType {
   }
 
   Selected() {
-    const filters = this.main.main.main.main.queue.options.option.contentFilters
-      .filter;
+    const filters = this.main.main.main.main.queue.filtersPanel.filter;
 
     filters.contentType.Hide();
     filters.additionalData.Hide();

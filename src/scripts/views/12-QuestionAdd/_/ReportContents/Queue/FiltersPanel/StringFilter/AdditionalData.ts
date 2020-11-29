@@ -1,4 +1,4 @@
-import type FiltersClassType from "../Filters";
+import type FiltersClassType from "../FiltersPanel";
 import StringFilter from "./StringFilter";
 
 export default class AdditionalData extends StringFilter {

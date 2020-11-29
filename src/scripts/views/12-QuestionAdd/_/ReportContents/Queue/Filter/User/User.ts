@@ -1,6 +1,6 @@
 import { LabelColorType } from "@style-guide/Label";
 import type { ContentClassTypes } from "../../../Fetcher/Fetcher";
-import type { UserTypeType } from "../../Options/Filters/User/User";
+import type { UserTypeType } from "../../FiltersPanel/User/User";
 import type QueueClassType from "../../Queue";
 import QueueFilter from "../QueueFilter";
 
@@ -33,7 +33,7 @@ export default class User extends QueueFilter {
       labelColor,
       labelIconType: "profile_view",
       labelName:
-        System.data.locale.reportedContents.options.filter.filters[type].name,
+        System.data.locale.reportedContents.filtersPanel.filters[type].name,
     });
     this.type = type;
   }
@@ -73,7 +73,7 @@ export default class User extends QueueFilter {
 
   HideLabel(event?: MouseEvent) {
     if (event) {
-      this.main.options.option.contentFilters.filter[this.type].Reset();
+      this.main.filtersPanel.filter[this.type].Reset();
     }
 
     super.HideLabel();
@@ -92,14 +92,14 @@ export default class User extends QueueFilter {
 
       if (visibleValue === 0) {
         visibleValue =
-          System.data.locale.reportedContents.options.filter.filters.userFilter
+          System.data.locale.reportedContents.filtersPanel.filters.userFilter
             .anyRank;
       } else if (selectedRank) {
         visibleValue = selectedRank.name;
       }
     }
 
-    this.labelText.nodeValue = `${System.data.locale.reportedContents.options.filter.filters.userFilter[
+    this.labelText.nodeValue = `${System.data.locale.reportedContents.filtersPanel.filters.userFilter[
       this.query.target
     ].toLowerCase()}:\xa0 ${String(visibleValue)}`;
   }

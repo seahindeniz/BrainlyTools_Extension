@@ -1,5 +1,5 @@
 import User from "./User";
-import type FiltersClassType from "../Filters";
+import type FiltersClassType from "../FiltersPanel";
 
 export default class Reporter extends User {
   type: "reporter";

@@ -1,8 +1,8 @@
 import Build from "@root/helpers/Build";
 import { Flex, Input, Select, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
-import type { NumberConditionType } from "../../Filter/ContentLength";
-import type FiltersClassType from "./Filters";
+import type { NumberConditionType } from "../Filter/ContentLength";
+import type FiltersClassType from "./FiltersPanel";
 
 const MAX_CONTENT_LENGTH = 198;
 
@@ -37,7 +37,7 @@ export default class ContentLength {
           Text({
             noWrap: true,
             size: "small",
-            text: `${System.data.locale.reportedContents.options.filter.filters.contentLength.name}: `,
+            text: `${System.data.locale.reportedContents.filtersPanel.filters.contentLength.name}: `,
             weight: "bold",
           }),
         ],
@@ -60,19 +60,19 @@ export default class ContentLength {
                   {
                     value: 0,
                     text:
-                      System.data.locale.reportedContents.options.filter.filters
+                      System.data.locale.reportedContents.filtersPanel.filters
                         .contentLength.equals,
                   },
                   {
                     value: 1,
                     text:
-                      System.data.locale.reportedContents.options.filter.filters
+                      System.data.locale.reportedContents.filtersPanel.filters
                         .contentLength.greaterThan,
                   },
                   {
                     value: 2,
                     text:
-                      System.data.locale.reportedContents.options.filter.filters
+                      System.data.locale.reportedContents.filtersPanel.filters
                         .contentLength.lowerThan,
                   },
                 ],
@@ -122,7 +122,7 @@ export default class ContentLength {
         ? "lowerThan"
         : undefined;
 
-    this.main.main.main.filter.byName.contentLength.SetQuery(
+    this.main.main.filter.byName.contentLength.SetQuery(
       condition,
       Number(value === "" ? NaN : Number(value)),
     );

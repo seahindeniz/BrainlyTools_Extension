@@ -12,7 +12,7 @@ export default class Subject extends QueueFilter {
       labelColor: "gray",
       labelIconType: "subject-all",
       labelName:
-        System.data.locale.reportedContents.options.filter.filters.subject.name,
+        System.data.locale.reportedContents.filtersPanel.filters.subject.name,
     });
   }
 
@@ -29,8 +29,9 @@ export default class Subject extends QueueFilter {
   }
 
   HideLabel(event?: MouseEvent) {
-    if (event)
-      this.main.options.option.contentFilters.filter.subject.Deselected();
+    if (event) {
+      this.main.filtersPanel.filter.subject.Deselected();
+    }
 
     super.HideLabel();
   }

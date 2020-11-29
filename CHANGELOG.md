@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.16.1] - 2020.11.29
+
+### Changed
+
+- Both valid and invalid actions are treated as invalid actions while using the
+  Inform Moderator feature [#322]
+- The 'Validate All' & 'Invalidate All' Action-reviewing tools are visible for
+  moderators who don't have action-reviewing privs [#323]
+- Moderators with action-reviewing privs are able to review their own actions.
+  [#324]
+- Extension's Features don't load up on in certain sections when visited through
+  Brainly login redirect link [#325]
+- Separate filters from options menu [#326]
+
+[#322]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/322
+[#323]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/323
+[#324]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/324
+[#325]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/325
+[#326]: https://github.com/seahindeniz/BrainlyTools_Extension/pull/326
+
 ## [7.16.0] - 2020.11.28
 
 ### Added

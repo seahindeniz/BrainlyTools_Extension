@@ -36,6 +36,7 @@ export type IconTypeType =
   | "bulleted_list"
   | "calendar"
   | "camera"
+  | "chapter"
   | "check"
   | "clipboard"
   | "close"
@@ -48,6 +49,7 @@ export type IconTypeType =
   | "excellent"
   | "exclamation_mark"
   | "facebook"
+  | "filters"
   | "friend_add"
   | "friend_remove"
   | "friend_pending"
@@ -126,6 +128,7 @@ export type IconTypeType =
   | "pi"
   | "quote"
   | "spark"
+  | "bullet"
   | ExtensionIconTypeType;
 
 export type IconColorType =

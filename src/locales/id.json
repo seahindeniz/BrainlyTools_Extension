@@ -106,7 +106,7 @@
     "deleteAcross": "Delete across",
     "profileLinkOrId": "Profile link atau id",
     "beta": "Beta",
-    "deletedUser": "Pengguna yang dihapusr",
+    "deletedUser": "Pengguna yang dihapus",
     "toggleSelections": "Mengalihkan pilihan",
     "copied": "Disalin!",
     "default": "Default",
@@ -391,7 +391,7 @@
         "text": "Laporan penghapusan akun",
         "download": "Unduh",
         "playOrPause": "Mainkan/Jeda",
-        "byModerator": "Oleh moderatorr",
+        "byModerator": "Oleh moderator",
         "byDeletedAccount": "Dengan akun yang dihapus"
       }
     }
@@ -442,7 +442,7 @@
       "sent": "Dikirim",
       "usersNotFound": "Pengguna tidak ditemukan",
       "errors": "Error",
-      "unknownError": "Unknown error",
+      "unknownError": "Kesalahan yang tidak diketahui",
       "somethingWentWrongWhileLoadingModerators": "Terjadi masalah saat mengambil detail moderator"
     },
     "announcements": {
@@ -661,11 +661,11 @@
       "title": "Daftar teman kamu"
     },
     "removeAllFriends": {
-      "text": "Unfriend all",
+      "text": "Hapus semua teman",
       "title": "Hapus semua daftar temanmu"
     },
     "removeSelectedFriends": {
-      "text": "Unfriend",
+      "text": "Hapus pertemanan",
       "title": "Kamu dapat menghapus teman yang kamu pilih dari daftar temanmu"
     },
     "accountDelete": {
@@ -752,7 +752,7 @@
   "moderatorActionHistory": {
     "revert": "Memulihkan",
     "valid": "Valid",
-    "validateAll": "Validasi all",
+    "validateAll": "Validasi semua",
     "validateAllDescription": "Validasi semua tindakan yang tidak ditinjau di halaman ini",
     "invalid": "Tidak valid",
     "invalidateAll": "Batalkan semua",
@@ -802,73 +802,6 @@
         "alwaysVisible": "Selalu terlihat",
         "onHoverOrTouch": "Saat arahkan / sentuh"
       },
-      "filter": {
-        "optionName": "Filter laporan",
-        "description": "Filter hanya dapat diterapkan ke laporan yang telah diambil",
-        "filters": {
-          "reporter": {
-            "name": "Pengguna yang melaporkan"
-          },
-          "reported": {
-            "name": "Pengguna yang dilaporkan"
-          },
-          "reportingDate": {
-            "name": "Dilaporkan antara",
-            "startingDate": "Tanggal mulai",
-            "endingDate": "Tanggal akhir"
-          },
-          "contentType": {
-            "name": "Jenis konten",
-            "Question": "Pertanyaan",
-            "Answer": "Jawaban",
-            "Comment": "Komentar"
-          },
-          "contentLength": {
-            "name": "Panjang konten",
-            "equals": "sama dengan",
-            "lowerThan": "lebih rendah dari",
-            "label": {
-              "equals": "sama dengan %{N}",
-              "lowerThan": "lebih rendah dari %{N}",
-              "greaterThan": "lebih besar dari %{N}"
-            },
-            "greaterThan": "lebih besar dari"
-          },
-          "attachmentLength": {
-            "name": "Jumlah lampiran"
-          },
-          "subject": {
-            "name": "Subjek"
-          },
-          "userFilter": {
-            "id": "id",
-            "nick": "nick",
-            "lookFor": "Mencari",
-            "specialRank": "Special rank",
-            "anyRank": "rank lain-nya"
-          },
-          "stringFilter": {
-            "chooseCondition": "Pilih kondisi",
-            "label": {
-              "contains": "mengandung : %{input}",
-              "sameWith": "persis sama dengan : %{input}",
-              "startsWith": "dimulai dengan : %{input}",
-              "endsWith": "berakhir dengan : %{input}",
-              "regExp": "%{input}"
-            },
-            "conditions": {
-              "contains": "mengandung",
-              "sameWith": "persis sama dengan",
-              "startsWith": "dimulai dengan",
-              "endsWith": "berakhir dengan",
-              "regExp": "RegExp(JS/ES6)"
-            },
-            "additionalData": "Data tambahan",
-            "content": "Konten"
-          }
-        },
-        "pageNumberInputTitle": "Masukkan nomor halaman di antara %{MIN_N} dan %{MAX_N}"
-      },
       "name": "Pilihan",
       "density": {
         "optionName": "Massa jenis"
@@ -890,7 +823,7 @@
       "rating": "%{rating} poin untuk %{ratesCount} suara",
       "bestAnswer": "Ini adalah Jawaban Paling Cerdas",
       "popularQuestion": "Pertanyaan Popular!",
-      "moderatorVerifiedSomeonesAnswer": "%{verifier} telah memverifikasi %{author}'s jawaban",
+      "moderatorVerifiedSomeonesAnswer": "%{verifier} telah memverifikasi jawaban %{author}",
       "loadMore": "Muat lebih banyak..",
       "exportReports": {
         "exportAsSpreadsheet": "Ekspor laporan yang difilter sebagai spreadsheet",
@@ -905,7 +838,8 @@
         "isModerated": "Apakah dimoderasi?",
         "isCorrected": "Apakah dikoreksi?"
       },
-      "notYetCorrected": "Belum diperbaiki"
+      "notYetCorrected": "Belum diperbaiki",
+      "pageNumberInputTitle": "Masukkan nomor halaman di antara %{MIN_N} dan %{MAX_N}"
     },
     "loadAll": "Ambil semua laporan",
     "loadAllConfirmationMessage": "Saya akan mencoba untuk mengambil semua konten yang dilaporkan dari Brainly tetapi prosesnya dapat dihentikan oleh Brainly karena permintaan yang meningkat.\nHarap konfirmasi untuk memulai proses",
@@ -959,7 +893,74 @@
         "Comment": "Alasan komentar"
       }
     },
-    "name": "Konten yang dilaporkan"
+    "name": "Konten yang dilaporkan",
+    "filtersPanel": {
+      "description": "Filter hanya dapat diterapkan ke laporan yang telah diambil",
+      "filters": {
+        "reporter": {
+          "name": "Pengguna yang melaporkan"
+        },
+        "reported": {
+          "name": "Pengguna yang dilaporkan"
+        },
+        "reportingDate": {
+          "name": "Dilaporkan antara",
+          "startingDate": "Tanggal mulai",
+          "endingDate": "Tanggal akhir"
+        },
+        "contentType": {
+          "name": "Jenis konten",
+          "Question": "Pertanyaan",
+          "Answer": "Jawaban",
+          "Comment": "Komentar"
+        },
+        "contentLength": {
+          "name": "Panjang konten",
+          "equals": "sama dengan",
+          "lowerThan": "lebih rendah dari",
+          "label": {
+            "equals": "sama dengan %{N}",
+            "lowerThan": "lebih rendah dari %{N}",
+            "greaterThan": "lebih besar dari %{N}"
+          },
+          "greaterThan": "lebih besar dari"
+        },
+        "attachmentLength": {
+          "name": "Jumlah lampiran"
+        },
+        "subject": {
+          "name": "Subjek"
+        },
+        "userFilter": {
+          "id": "id",
+          "nick": "nick",
+          "lookFor": "Mencari",
+          "specialRank": "Special rank",
+          "anyRank": "rank lain-nya"
+        },
+        "stringFilter": {
+          "chooseCondition": "Pilih kondisi",
+          "label": {
+            "contains": "mengandung : %{input}",
+            "sameWith": "persis sama dengan : %{input}",
+            "startsWith": "dimulai dengan : %{input}",
+            "endsWith": "berakhir dengan : %{input}",
+            "regExp": "%{input}"
+          },
+          "conditions": {
+            "contains": "mengandung",
+            "sameWith": "persis sama dengan",
+            "startsWith": "dimulai dengan",
+            "endsWith": "berakhir dengan",
+            "regExp": "RegExp(JS/ES6)"
+          },
+          "additionalData": "Data tambahan",
+          "content": "Konten"
+        }
+      },
+      "title": "Filter",
+      "name": "Filter laporan"
+    }
   },
   "moderationPanel": {
     "text": "Moderasi Pertanyaan",

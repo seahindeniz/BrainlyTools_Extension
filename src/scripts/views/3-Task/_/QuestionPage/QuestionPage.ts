@@ -28,7 +28,7 @@ export default class QuestionPage {
     this.Init();
   }
 
-  Init() {
+  private Init() {
     try {
       this.FindQuestionContainer();
       this.SetQuestionData();
@@ -48,24 +48,14 @@ export default class QuestionPage {
     }
   }
 
-  InitSections() {
-    if (System.checkUserP(1)) {
-      this.questionSection = new QuestionSection(this);
-    }
-
-    if (System.checkUserP(2)) {
-      this.RenderAnswerSections();
-    }
-  }
-
-  FindQuestionContainer() {
+  private FindQuestionContainer() {
     this.questionContainer = document.querySelector(".js-main-question");
 
     if (!this.questionContainer)
       throw Error("Can't find the question container");
   }
 
-  SetQuestionData() {
+  private SetQuestionData() {
     const dataString = this.questionContainer.dataset.z;
     this.data = JSON.parse(dataString);
 
@@ -74,7 +64,7 @@ export default class QuestionPage {
     }
   }
 
-  RenderActionButtonSpinner() {
+  private RenderActionButtonSpinner() {
     this.actionButtonSpinner = Spinner({
       overlay: true,
     });
@@ -84,7 +74,7 @@ export default class QuestionPage {
     HideElement(this.actionButtonSpinner);
   }
 
-  ObserveForSections() {
+  private ObserveForSections() {
     const mainContent = document.getElementById("main-content");
 
     if (!mainContent) {
@@ -115,7 +105,17 @@ export default class QuestionPage {
     });
   }
 
-  RenderAnswerSections() {
+  private InitSections() {
+    if (System.checkUserP(1)) {
+      this.questionSection = new QuestionSection(this);
+    }
+
+    if (System.checkUserP(2)) {
+      this.RenderAnswerSections();
+    }
+  }
+
+  private RenderAnswerSections() {
     if (!this.data.responses?.length) return;
 
     this.data.responses = this.data.responses.sort((answer1, answer2) => {

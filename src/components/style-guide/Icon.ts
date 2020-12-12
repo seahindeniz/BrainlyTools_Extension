@@ -251,6 +251,8 @@ class Icon {
   }
 
   ChangeType(type: IconTypeType) {
+    if (this.type === type) return this;
+
     this.use.setAttributeNS(
       "http://www.w3.org/1999/xlink",
       "xlink:href",

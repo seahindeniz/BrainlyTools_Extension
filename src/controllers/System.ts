@@ -253,6 +253,7 @@ class _System {
           probatus: boolean;
           secretKey: string;
           newUpdate?: boolean;
+          discordServer?: string;
         };
         user: {
           id: number;
@@ -336,7 +337,7 @@ class _System {
   constructor() {
     this.logStyle = `font-size: 11px;color: #4fb3f6;font-family:century gothic;`;
     // eslint-disable-next-line @typescript-eslint/no-this-alias
-    const that = this;
+
     this.constants = {
       Brainly: {
         regexp_BrainlyMarkets: /:\/\/(?:www\.)?((?:eodev|znanija)\.com|nosdevoirs\.fr|brainly(?:(?:\.(?:com(?:\.br|[^.])|co\.(?:id)|lat|in|ph|ro|pl))))/i,
@@ -359,7 +360,8 @@ class _System {
       },
       config: {
         reasonSign: "߷",
-        idExtractRegex: /((?:.*?[-/])(?=\d))|(?:[?/].*)|(?:[a-z]{1,})|-/gi,
+        // https://regex101.com/r/9FfJcD/2
+        idExtractRegex: /((?:.*?[-:/"])(?=\d))|(?:[?/"#].*)|(?:[a-z]{1,})|-/gi,
         MAX_FILE_SIZE_OF_EVIDENCE_IN_MB: 22,
         MAX_FILE_SIZE_OF_EVIDENCE: 22 * 1024 * 1024,
         RAINBOW_COLORS: "#F15A5A,#F0C419,#4EBA6F,#2D95BF,#955BA5",
@@ -370,7 +372,7 @@ class _System {
       Brainly: {
         get apiURL() {
           return `${
-            that.data.meta.location.origin || document.location.origin
+            System.data.meta.location.origin || document.location.origin
           }/api/28`;
         },
         nullAvatar: `/img/avatars/100-ON.png`,
@@ -476,6 +478,7 @@ class _System {
               i++
             )
               tokens = tokens[tokens.length - 1];
+
             if (!tokens) console.error("Route tokens not found");
             else if (tokens === `/${currPath[index]}`) {
               result = true;
@@ -484,6 +487,7 @@ class _System {
         }
       }
     }
+
     return result;
   }
 
@@ -740,6 +744,7 @@ class _System {
         ~~log.user.id !== 0)
     ) {
       const user = await new Action().GetUserProfile(log.user.id);
+
       log.user.nick = user.data.nick;
       log.user.id = user.data.id;
     }
@@ -777,6 +782,7 @@ class _System {
 
       // eslint-disable-next-line no-console
       console.warn("Missing language file, switching to default language");
+
       return this.PrepareLanguageFile("en_US");
     }
   }
@@ -805,12 +811,10 @@ class _System {
 
     const extractId = value.replace(this.constants.config.idExtractRegex, "");
 
-    if (extractId === "") return NaN;
+    if (!extractId || extractId?.startsWith("0")) return NaN;
 
     // Number because returns 0 if is not contains number
-    const id = Number(extractId);
-
-    return id;
+    return Number(extractId);
   }
 
   ExtractIds(list: string | string[], uniqueNumbers?: boolean) {
@@ -950,6 +954,7 @@ class _System {
         throw Error(`Market doesn't have any delete reasons for ${type}`);
 
       const randomN = Math.floor(Math.random() * reasonKeys.length);
+
       reason = reasons[reasonKeys[randomN]];
     }
 

@@ -396,7 +396,8 @@ html[is="popup"] {
         }
 
         #nick {
-          max-width: 3.4em;
+          // max-width: 3.4em;
+          max-width: fit-content;
           word-break: break-all;
         }
 
@@ -540,5 +541,16 @@ html[is="popup"] {
   }
   img {
     height: 100%;
+  }
+}
+
+#discord-banner {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+
+  > iframe {
+    max-width: 600px;
   }
 }

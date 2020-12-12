@@ -12,6 +12,7 @@ import ext from "webextension-polyfill";
 import Action from "@BrainlyAction";
 import storage from "../../helpers/extStorage";
 import TimedLoop from "../../helpers/TimedLoop";
+import PopupDiscordSection from "../components/PopupDiscordSection";
 
 type ObjectAnyType = {
   [x: string]: any;
@@ -202,7 +203,8 @@ class Popup {
 					<img src="${avatar}" title="${System.data.Brainly.userData.user.nick} - ${System.data.Brainly.userData.user.id}@${System.data.meta.marketName}">
 				</figure>
 			</div>
-		</div>`);
+    </div>`);
+
     this.$layoutBox = $(">div.box", $layout);
 
     this.$container.html("").append($layout);
@@ -223,7 +225,13 @@ class Popup {
 
   PrepareSectionsAndContents() {
     this.sections = [
-      [new LinkShortener().$layout, new ShortenedLinks().$layout],
+      [
+        new LinkShortener().$layout,
+        new ShortenedLinks().$layout,
+        !System.checkUserP(98, true) &&
+          System.data.Brainly.userData.extension.discordServer &&
+          new PopupDiscordSection().container,
+      ],
       [
         RenderTitle(System.data.locale.popup.extensionOptions.title),
         new ThemeColorChanger(this.storageData.themeColor).$layout,

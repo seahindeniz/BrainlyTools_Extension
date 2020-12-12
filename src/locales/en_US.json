@@ -362,6 +362,10 @@
           "39": {
             "title": "Action history, review management",
             "description": "Ability to revert other reviewers' reviews on moderation history of moderators. Without this, reviewers can only revert their own reviews"
+          },
+          "98": {
+            "title": "Limited channel access on Discord",
+            "description": "User will not see any channels other than the announcement and rule channels on the Discord server"
           }
         },
         "veryImportant": "Very important"

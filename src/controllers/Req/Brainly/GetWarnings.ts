@@ -4,11 +4,13 @@ export type WarningType = {
   relativeTime: string;
   reason: string;
   content: string;
+  questionLink: string;
   giver: {
     nick: string;
     id: number;
   };
 };
+
 export default async function GetWarnings(id: number): Promise<WarningType[]> {
   const page: string = await new Action().users().view_user_warns().P(id).GET();
 
@@ -26,6 +28,8 @@ export default async function GetWarnings(id: number): Promise<WarningType[]> {
     const relativeTime = cells[0].innerText;
     const reason = cells[1].innerText;
     const content = cells[2].innerText;
+    const questionLink =
+      (cells[3].firstElementChild as HTMLAnchorElement)?.href || "";
     const giverProfileLink = cells[4].firstElementChild as HTMLAnchorElement;
 
     const giver = {
@@ -37,6 +41,7 @@ export default async function GetWarnings(id: number): Promise<WarningType[]> {
       relativeTime,
       reason,
       content,
+      questionLink,
       giver,
     };
   });

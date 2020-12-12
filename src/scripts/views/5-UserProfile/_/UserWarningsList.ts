@@ -107,6 +107,8 @@ export default class UserWarningsList {
             }),
             [
               Text({
+                tag: "a",
+                href: warning.questionLink,
                 className: "ext-warnings-list__trimmed-text",
                 size: "small",
                 children: escape(warning.content),

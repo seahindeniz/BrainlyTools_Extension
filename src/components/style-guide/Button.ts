@@ -299,6 +299,7 @@ class Button {
     );
 
     const hasTypeToggled = this.element.classList.toggle(SGD + type);
+
     this.type = hasTypeToggled ? type : this.mainType;
     this.toggle = hasTypeToggled ? toggle : this.mainToggle;
 
@@ -334,8 +335,8 @@ class Button {
 
       this.iconContainer.appendChild(icon);
     } else {
-      if (this.size === "xs") icon.ChangeSize(16);
-      else if (icon.size === 24) icon.ChangeSize(24);
+      if (this.size === "xs" && !icon.size) icon.ChangeSize(16);
+      // else if (icon.size === 24) icon.ChangeSize(24);
 
       if (!icon.color) {
         icon.ChangeColor("adaptive");

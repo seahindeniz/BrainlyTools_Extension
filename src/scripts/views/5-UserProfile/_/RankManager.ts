@@ -1,4 +1,7 @@
-/* eslint-disable no-await-in-loop */
+import Action from "@BrainlyAction";
+import CreateElement from "@components/CreateElement";
+import notification from "@components/notification2";
+import Progress from "@components/Progress";
 import {
   Button,
   Checkbox,
@@ -7,35 +10,27 @@ import {
   Spinner,
   Text,
 } from "@components/style-guide";
+import type { RankDataType } from "@root/controllers/System";
 import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
 import IsVisible from "@root/helpers/IsVisible";
 import WaitForElement from "@root/helpers/WaitForElement";
 import type { FlexElementType } from "@style-guide/Flex";
 import sortablejs from "sortablejs";
-import notification from "@components/notification2";
-import Progress from "@components/Progress";
-import Action from "@BrainlyAction";
 import RemoveJunkNotifications from "../../0-Core/_/RemoveJunkNotifications";
-
-type RankType = {
-  id?: number;
-  name?: string;
-  description?: string;
-};
 
 class RankManager {
   user: any;
   ranks: {
-    data: RankType;
+    data: RankDataType;
     checkbox: HTMLInputElement;
     rankContainer: FlexElementType;
   }[];
 
   deleteAllRanksForm: HTMLElement;
   deleteAllRanksLi: JQuery<any>;
-  $manageLi: JQuery<HTMLElement>;
-  $manageLink: JQuery<HTMLElement>;
+  manageLi: HTMLLIElement;
+  manageLink: HTMLAnchorElement;
   container: FlexElementType;
   rankContainer: FlexElementType;
   saveButton: Button;
@@ -59,27 +54,61 @@ class RankManager {
     );
     this.deleteAllRanksLi = $(this.deleteAllRanksForm).parent();
 
-    this.Init();
+    this.RenderLink();
+  }
+
+  RenderLink() {
+    this.manageLi = CreateElement({
+      tag: "li",
+      children: this.manageLink = CreateElement({
+        tag: "a",
+        href: "#",
+        children: [
+          CreateElement({
+            tag: "font",
+            color: "red",
+            children: System.constants.config.reasonSign,
+          }),
+          ` ${System.data.locale.userProfile.rankManager.title}`,
+        ],
+        onClick: event => {
+          event.preventDefault();
+          this.TogglePanel();
+        },
+      }),
+    });
+
+    this.deleteAllRanksLi.append(this.manageLi);
+  }
+
+  TogglePanel() {
+    if (IsVisible(this.container)) {
+      this.ClosePanel();
+    } else {
+      this.OpenPanel();
+    }
+  }
+
+  ClosePanel() {
+    HideElement(this.container);
+    this.progress.forceClose(true);
+  }
+
+  OpenPanel() {
+    if (!this.container) {
+      this.Init();
+    }
+
+    this.manageLi.append(this.container);
   }
 
   Init() {
-    this.RenderLink();
     this.RenderPanel();
     this.RenderProgressBar();
     this.RenderSpinner();
     this.RenderRanks();
     this.BindHandlers();
     this.UpdateInputTitle();
-  }
-
-  RenderLink() {
-    this.$manageLi = $(`<li></li>`);
-    this.$manageLink = $(
-      `<a href="#"><font color="red">${System.constants.config.reasonSign}</font> ${System.data.locale.userProfile.rankManager.title}</a>`,
-    );
-
-    this.$manageLink.appendTo(this.$manageLi);
-    this.$manageLi.insertBefore(this.deleteAllRanksLi);
   }
 
   RenderPanel() {
@@ -129,6 +158,7 @@ class RankManager {
      * @type {{ranks: RankType[]}}
      */
     let { ranks } = System.data.Brainly.defaultConfig.config.data;
+
     ranks = ranks.sort((a, b) => {
       return (
         this.user.ranks_ids.indexOf(b.id) - this.user.ranks_ids.indexOf(a.id)
@@ -136,101 +166,92 @@ class RankManager {
     });
     ranks = ranks.sort(a => (this.user.ranks_ids.includes(a.id) ? -1 : 1));
 
-    ranks.forEach(
-      /**
-       * @param {RankType} rank
-       */
-      (rank, i) => {
-        if (!rank || rank.type !== 5) return;
+    ranks.forEach((rank: RankDataType, i) => {
+      if (!rank || rank.type !== 5) return;
 
-        const userHasRank = this.user.ranks_ids.includes(rank.id);
-        const checkbox = new Checkbox({
-          id: `p-${rank.id}`,
-          checked: userHasRank,
-        });
+      const userHasRank = this.user.ranks_ids.includes(rank.id);
+      const checkbox = new Checkbox({
+        id: `p-${rank.id}`,
+        checked: userHasRank,
+      });
 
-        const rankContainer = Build(
-          Flex({
-            wrap: false,
-            tag: "label",
-            marginBottom:
-              i + 1 !==
-              System.data.Brainly.defaultConfig.config.data.ranks.length
-                ? "xs"
-                : "",
-          }),
+      const rankContainer = Build(
+        Flex({
+          wrap: false,
+          tag: "label",
+          marginBottom:
+            i + 1 !== System.data.Brainly.defaultConfig.config.data.ranks.length
+              ? "xs"
+              : "",
+        }),
+        [
           [
+            Flex({ margin: "xxs", fullWidth: true }),
             [
-              Flex({ margin: "xxs", fullWidth: true }),
+              [Flex({ marginRight: "xs", alignItems: "center" }), checkbox],
               [
-                [Flex({ marginRight: "xs", alignItems: "center" }), checkbox],
+                Flex({
+                  direction:
+                    rank.description && rank.name !== rank.description
+                      ? "column"
+                      : "",
+                  alignItems:
+                    rank.description && rank.name !== rank.description
+                      ? "flex-start"
+                      : "center",
+                  fullWidth: true,
+                }),
                 [
-                  Flex({
-                    direction:
-                      rank.description && rank.name !== rank.description
-                        ? "column"
-                        : "",
-                    alignItems:
-                      rank.description && rank.name !== rank.description
-                        ? "flex-start"
-                        : "center",
-                    fullWidth: true,
-                  }),
                   [
-                    [
-                      Flex(),
+                    Flex(),
+                    Text({
+                      html: rank.name,
+                      weight: "bold",
+                      color: "blue-dark",
+                      href: `/admin/ranks/edit/${rank.id}`,
+                      size: "small",
+                      title: rank.description,
+                      target: "_blank",
+                    }),
+                  ],
+                  rank.description &&
+                    rank.name !== rank.description && [
+                      Flex({ fullWidth: true, direction: "column" }),
                       Text({
-                        html: rank.name,
-                        weight: "bold",
-                        color: "blue-dark",
-                        href: `/admin/ranks/edit/${rank.id}`,
+                        tag: "i",
                         size: "xsmall",
-                        title: rank.description,
-                        target: "_blank",
-                        /* style: {
-                    color: `#${rank.color}`
-                  } */
+                        color: "gray",
+                        html: rank.description,
                       }),
                     ],
-                    rank.description &&
-                      rank.name !== rank.description && [
-                        Flex({ fullWidth: true, direction: "column" }),
-                        Text({
-                          tag: "i",
-                          size: "xsmall",
-                          color: "gray",
-                          html: rank.description,
-                        }),
-                      ],
-                  ],
                 ],
-                [
-                  Flex({ alignItems: "center" }),
-                  new Button({
-                    iconOnly: true,
-                    size: "xs",
-                    className: "dragger",
-                    type: "transparent-blue",
-                    icon: new Icon({
-                      type: "menu",
-                      color: "blue",
-                      size: 16,
-                    }),
+              ],
+              [
+                Flex({ alignItems: "center" }),
+                new Button({
+                  iconOnly: true,
+                  size: "xs",
+                  className: "dragger",
+                  type: "transparent-blue",
+                  icon: new Icon({
+                    type: "ext-move",
+                    color: "blue",
+                    size: 16,
                   }),
-                ],
+                }),
               ],
             ],
           ],
-        );
+        ],
+      );
 
-        this.ranks.push({
-          data: rank,
-          checkbox: checkbox.input,
-          rankContainer,
-        });
-        this.rankContainer.append(rankContainer);
-      },
-    );
+      this.ranks.push({
+        data: rank,
+        checkbox: checkbox.input,
+        rankContainer,
+      });
+      this.rankContainer.append(rankContainer);
+    });
 
     // eslint-disable-next-line no-new, new-cap
     new sortablejs(this.rankContainer, {
@@ -243,14 +264,11 @@ class RankManager {
   }
 
   BindHandlers() {
-    this.$manageLink.on("click", e => {
-      e.preventDefault();
-      this.TogglePanel();
-    });
     this.saveButton.element.addEventListener(
       "click",
       this.SaveSelectedRank.bind(this),
     );
+
     const rankLinks = this.rankContainer.querySelectorAll("a");
 
     if (rankLinks && rankLinks.length > 0)
@@ -264,29 +282,13 @@ class RankManager {
       );
   }
 
-  TogglePanel() {
-    if (IsVisible(this.container)) {
-      this.ClosePanel();
-    } else {
-      this.OpenPanel();
-    }
-  }
-
-  ClosePanel() {
-    HideElement(this.container);
-    this.progress.forceClose(true);
-  }
-
-  OpenPanel() {
-    this.$manageLi.append(this.container);
-  }
-
   async SaveSelectedRank() {
     let selectedRanks = this.ranks.filter(rank => rank.checkbox.checked);
 
     const getElementIndex = element => {
       return Array.from(element.parentNode.children).indexOf(element);
     };
+
     selectedRanks = selectedRanks.sort((a, b) => {
       return getElementIndex(a.rankContainer) > getElementIndex(b.rankContainer)
         ? 1
@@ -341,6 +343,7 @@ class RankManager {
 
       return;
     }
+
     let currentProgress = 0;
 
     this.progress.update(++currentProgress);
@@ -365,6 +368,7 @@ class RankManager {
 
     // eslint-disable-next-line no-restricted-syntax
     for (const selectedRank of selectedRanks) {
+      // eslint-disable-next-line no-await-in-loop
       await new Action().AddRank(window.profileData.id, selectedRank.data.id);
       // await System.Delay(500);
 

@@ -33,7 +33,6 @@ export default {
     nIds: "%{n} ids",
     nNotFound: "%{n} not found",
     removeAll: "Remove all",
-    workingOnIt: "Working on it..",
     notificationMessages: {
       operationError: "An error occurred during operation. Please try again",
       somethingWentWrong: "Oops, something went wrong",
@@ -111,7 +110,8 @@ export default {
     toggleSelections: "Toggle selections",
     copied: "Copied!",
     default: "Default",
-    yes: "Yes"
+    yes: "Yes",
+    workingOnIt: "Working on it.."
   },
   popup: {
     notificationMessages: {

@@ -110,7 +110,8 @@
     "toggleSelections": "Toggle selections",
     "copied": "Copied!",
     "default": "Default",
-    "yes": "Yes"
+    "yes": "Yes",
+    "workingOnIt": "Working on it.."
   },
   "popup": {
     "notificationMessages": {
@@ -362,6 +363,10 @@
           "39": {
             "title": "Action history, review management",
             "description": "Ability to revert other reviewers' reviews on moderation history of moderators. Without this, reviewers can only revert their own reviews"
+          },
+          "98": {
+            "title": "Limited channel access on Discord",
+            "description": "User will not see any channels other than the #announcements and #rules channels on the Discord server"
           }
         },
         "veryImportant": "Very important"
@@ -936,7 +941,8 @@
           "nick": "nick",
           "lookFor": "Look for",
           "specialRank": "Special rank",
-          "anyRank": "Any rank"
+          "anyRank": "Any rank",
+          "excludeSelectedRanks": "Exclude users with selected ranks"
         },
         "stringFilter": {
           "chooseCondition": "Choose condition",

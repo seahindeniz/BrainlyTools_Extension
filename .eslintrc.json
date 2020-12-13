@@ -94,7 +94,8 @@
             "prev": ["block-like"],
             "next": ["*"]
           }
-        ]
+        ],
+        "no-irregular-whitespace": "error"
       },
       "settings": {
         "import/extensions": [".js", ".ts", ".mjs", ".jsx", ".tsx"],

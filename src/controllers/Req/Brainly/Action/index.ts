@@ -1040,10 +1040,12 @@ export default class Action extends Brainly {
     return this.Legacy().api_messages().send().POST(data);
   }
 
-  /**
-   * @param {string} text
-   */
-  ChangeBio(text) {
+  ChangeBio(text: string) {
+    if (!text) text = "\xa0";
+    else {
+      text = text.replace(/\xa0/g, "");
+    }
+
     const data = {
       operation: "updateUserDescription",
       variables: {

@@ -16,7 +16,8 @@ type ExtensionIconTypeType =
   | "ext-thumbs-up"
   | "ext-thumbs-up-outline"
   | "ext-thumbs-down"
-  | "ext-thumbs-down-outline";
+  | "ext-thumbs-down-outline"
+  | "ext-move";
 
 export type IconTypeType =
   | "academic_cap"
@@ -233,8 +234,10 @@ class Icon {
   }
 
   ChangeSize(size: IconSizeType) {
-    this.element.classList.add(`${SGD}x${size}`);
+    if (size === this.size) return this;
+
     this.element.classList.remove(`${SGD}x${String(this.size)}`);
+    this.element.classList.add(`${SGD}x${size}`);
 
     this.size = size;
 

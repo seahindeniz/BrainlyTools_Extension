@@ -2,14 +2,15 @@
   &-qdb {
     &-cell {
       position: relative;
-      align-items: center;
-      display: flex;
+      /* align-items: center;
+      display: flex; */
     }
 
     &-container {
       position: absolute;
       right: 0;
       background-color: #fff;
+      bottom: 25%;
     }
   }
 }

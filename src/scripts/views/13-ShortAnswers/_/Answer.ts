@@ -2,32 +2,36 @@ import Action, { RemoveAnswerReqDataType } from "@BrainlyAction";
 import CreateElement from "@components/CreateElement";
 import notification from "@components/notification2";
 import HideElement from "@root/helpers/HideElement";
-import { Button, Checkbox, Flex, Icon, Spinner } from "@style-guide";
+import { Button, Checkbox, Flex, Icon, Label, Spinner } from "@style-guide";
 import type ShortAnswersClassType from "..";
+import { AnswerAttachmentType } from "../answerAttachment.fragment";
 import QuickDeleteButton from "./QuickDeleteButton";
 
 export default class Answer {
-  main: ShortAnswersClassType;
-  rowElement: HTMLTableRowElement;
+  private main: ShortAnswersClassType;
+  private rowElement: HTMLTableRowElement;
 
-  actionButtons: Button[];
+  private actionButtons: Button[];
 
-  author: {
+  private author: {
     id: number;
     nick: string;
   };
 
   questionId: number;
   answerId: number;
-  moderateButtonContainer: HTMLTableDataCellElement;
-  moderateButton: Button;
-  quickDeleteButtonContainer: import("@style-guide/Flex").FlexElementType;
+  private moderateButtonContainer: HTMLTableDataCellElement;
+  private moderateButton: Button;
+  private quickDeleteButtonContainer: import("@style-guide/Flex").FlexElementType;
   #actionButtonSpinner: HTMLDivElement;
-  dateCell: HTMLTableCellElement;
+  private dateCell: HTMLTableCellElement;
   deleted: boolean;
-  deleting: boolean;
-  checkboxContainer?: HTMLTableDataCellElement;
+  private deleting: boolean;
+  private checkboxContainer?: HTMLTableDataCellElement;
   checkbox?: Checkbox;
+
+  attachments: AnswerAttachmentType[];
+  private contentCell: HTMLTableCellElement;
 
   constructor(main: ShortAnswersClassType, rowElement: HTMLTableRowElement) {
     this.main = main;
@@ -39,6 +43,7 @@ export default class Answer {
     this.FindDateCell();
     this.FindQuestionId();
     this.FindAnswerId();
+    this.FindContentCell();
     this.RenderModerateButton();
     this.RenderCheckbox();
     this.BindListener();
@@ -52,11 +57,11 @@ export default class Answer {
     return this.#actionButtonSpinner;
   }
 
-  RenderActionButtonSpinner() {
+  private RenderActionButtonSpinner() {
     this.#actionButtonSpinner = Spinner({ overlay: true });
   }
 
-  FindAuthor() {
+  private FindAuthor() {
     const authorProfileAnchor: HTMLAnchorElement = this.rowElement.querySelector(
       `td:nth-child(3) > a`,
     );
@@ -71,7 +76,7 @@ export default class Answer {
     };
   }
 
-  FindDateCell() {
+  private FindDateCell() {
     this.dateCell = this.rowElement.querySelector("td.last");
 
     if (!this.dateCell) {
@@ -82,7 +87,7 @@ export default class Answer {
     this.dateCell.classList.add("ext-qdb-cell");
   }
 
-  FindQuestionId() {
+  private FindQuestionId() {
     const questionLink: HTMLAnchorElement = this.rowElement.querySelector(
       `td:nth-child(2) > a`,
     );
@@ -93,7 +98,7 @@ export default class Answer {
       throw Error("Can't find question id");
   }
 
-  FindAnswerId() {
+  private FindAnswerId() {
     const correctLink: HTMLAnchorElement = this.rowElement.querySelector(
       `a[id^="correct"]`,
     );
@@ -104,7 +109,15 @@ export default class Answer {
       throw Error("Can't find answer id");
   }
 
-  RenderModerateButton() {
+  private FindContentCell() {
+    this.contentCell = this.rowElement.querySelector("td:nth-child(4)");
+
+    if (!this.contentCell) {
+      throw Error("Can't find answer's content cell");
+    }
+  }
+
+  private RenderModerateButton() {
     this.moderateButtonContainer = CreateElement({
       tag: "td",
       className: "last",
@@ -133,7 +146,7 @@ export default class Answer {
     return ticketData;
   }
 
-  RenderCheckbox() {
+  private RenderCheckbox() {
     if (!System.checkUserP(15)) return;
 
     this.checkboxContainer = CreateElement({
@@ -146,7 +159,7 @@ export default class Answer {
     this.rowElement.prepend(this.checkboxContainer);
   }
 
-  BindListener() {
+  private BindListener() {
     if (!System.checkUserP(2)) return;
 
     this.rowElement.addEventListener(
@@ -159,7 +172,7 @@ export default class Answer {
     );
   }
 
-  ShowQuickDeleteButtons() {
+  private ShowQuickDeleteButtons() {
     if (this.deleted) return;
 
     if (!this.quickDeleteButtonContainer) {
@@ -169,13 +182,13 @@ export default class Answer {
     this.dateCell.append(this.quickDeleteButtonContainer);
   }
 
-  HideQuickDeleteButtons() {
+  private HideQuickDeleteButtons() {
     if (this.deleting) return;
 
     HideElement(this.quickDeleteButtonContainer);
   }
 
-  RenderQuickDeleteButtons() {
+  private RenderQuickDeleteButtons() {
     this.quickDeleteButtonContainer = Flex({
       className: "ext-qdb-container",
     });
@@ -251,15 +264,15 @@ export default class Answer {
     this.EnableActionButtons();
   }
 
-  DisableActionButtons() {
+  private DisableActionButtons() {
     this.actionButtons.forEach(button => button.Disable());
   }
 
-  EnableActionButtons() {
+  private EnableActionButtons() {
     this.actionButtons.forEach(button => button.Enable());
   }
 
-  HideActionButtonSpinner() {
+  private HideActionButtonSpinner() {
     if (!this.#actionButtonSpinner) return;
 
     HideElement(this.#actionButtonSpinner);
@@ -275,5 +288,20 @@ export default class Answer {
     this.rowElement.classList.add("deleted");
     this.moderateButton.element.remove();
     this.quickDeleteButtonContainer?.remove();
+  }
+
+  RenderAttachmentIcon() {
+    const attachmentContainer = Flex({
+      marginBottom: "xxs",
+      children: new Label({
+        color: "gray",
+        icon: new Icon({
+          type: "attachment",
+        }),
+        children: this.attachments.length,
+      }),
+    });
+
+    this.contentCell.prepend(attachmentContainer);
   }
 }

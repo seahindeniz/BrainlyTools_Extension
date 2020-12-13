@@ -1,4 +1,5 @@
 import type { RemoveAnswerReqDataType } from "@BrainlyAction";
+import { GQL } from "@BrainlyReq";
 import CreateElement from "@components/CreateElement";
 import DeleteSection from "@components/DeleteSection2/DeleteSection";
 import { ContentTypeType } from "@components/ModerationPanel/ContentSection/ContentSection";
@@ -6,8 +7,29 @@ import notification from "@components/notification2";
 import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
 import { Button, Checkbox, Flex, Label } from "@style-guide";
+import gql from "graphql-tag";
+import {
+  AnswerAttachmentFragment,
+  AnswerAttachmentsType,
+} from "./answerAttachment.fragment";
 import Answer from "./_/Answer";
 import ShortAnswerModeratePanelController from "./_/ModeratePanelController";
+
+type AnswerMapType = {
+  [questionId: string]: AnswerAttachmentsType;
+};
+
+function GenerateAliasedQuery(idList: number[]) {
+  return idList.map(id => {
+    const globalId = window.btoa(`answer:${id}`);
+
+    return `
+        answer${id}: answer(id: "${globalId}") {
+          ...AnswerAttachmentFragment
+        }
+    `;
+  });
+}
 
 export default class ShortAnswers {
   answers: {
@@ -45,6 +67,7 @@ export default class ShortAnswers {
     this.FindTable();
     this.FindAnswerRows();
     this.InitAnswers();
+    this.GetAttachmentDetails();
     this.RenderCheckboxColumn();
     this.RenderSelectAllCheckbox();
     this.RenderDeleteSection();
@@ -76,6 +99,35 @@ export default class ShortAnswers {
     });
   }
 
+  private async GetAttachmentDetails() {
+    const idList = this.answers.all.map(answer => answer.answerId);
+    const aliasedQueries = GenerateAliasedQuery(idList);
+    const query = gql`
+      {
+        ${aliasedQueries.join("\n")}
+      }
+      ${AnswerAttachmentFragment}
+    `;
+
+    const res = await GQL<AnswerMapType>(query);
+
+    if (!res?.data) {
+      throw Error("Can't fetch answer details");
+    }
+
+    Object.entries(res.data).forEach(([key, answerData]) => {
+      if (!answerData?.attachments?.length) return;
+
+      const answer = this.answers.byId.Answer[System.ExtractId(key)];
+
+      if (!answer) return;
+
+      answer.attachments = answerData.attachments;
+
+      answer.RenderAttachmentIcon();
+    });
+  }
+
   private RenderCheckboxColumn() {
     if (!this.answerRows?.length || !System.checkUserP(15)) return;
 
@@ -98,6 +150,7 @@ export default class ShortAnswers {
     this.selectAllCheckbox = new Checkbox({
       id: null,
     });
+
     const selectAllCheckboxContainer = Build(
       Flex({
         alignItems: "flex-start",

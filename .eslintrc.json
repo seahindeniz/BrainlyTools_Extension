@@ -65,7 +65,36 @@
         "no-nested-ternary": "off",
         "no-param-reassign": ["error", { "props": false }],
         "no-plusplus": 0,
-        "no-restricted-globals": ["error", "event"]
+        "no-restricted-globals": ["error", "event"],
+        "padding-line-between-statements": [
+          "error",
+          {
+            "blankLine": "always",
+            "prev": ["const", "let", "var"],
+            "next": "*"
+          },
+          {
+            "blankLine": "always",
+            "prev": "*",
+            "next": ["const", "let", "var"]
+          },
+          {
+            "blankLine": "any",
+            "prev": ["const", "let", "var"],
+            "next": ["const", "let", "var"]
+          },
+          { "blankLine": "always", "prev": "*", "next": "return" },
+          {
+            "blankLine": "always",
+            "prev": ["*"],
+            "next": ["block-like"]
+          },
+          {
+            "blankLine": "always",
+            "prev": ["block-like"],
+            "next": ["*"]
+          }
+        ]
       },
       "settings": {
         "import/extensions": [".js", ".ts", ".mjs", ".jsx", ".tsx"],
@@ -99,7 +128,36 @@
         "no-nested-ternary": "off",
         "no-param-reassign": ["error", { "props": false }],
         "no-plusplus": 0,
-        "no-restricted-globals": ["error", "event"]
+        "no-restricted-globals": ["error", "event"],
+        "padding-line-between-statements": [
+          "error",
+          {
+            "blankLine": "always",
+            "prev": ["const", "let", "var"],
+            "next": "*"
+          },
+          {
+            "blankLine": "always",
+            "prev": "*",
+            "next": ["const", "let", "var"]
+          },
+          {
+            "blankLine": "any",
+            "prev": ["const", "let", "var"],
+            "next": ["const", "let", "var"]
+          },
+          { "blankLine": "always", "prev": "*", "next": "return" },
+          {
+            "blankLine": "always",
+            "prev": ["*"],
+            "next": ["block-like"]
+          },
+          {
+            "blankLine": "always",
+            "prev": ["block-like"],
+            "next": ["*"]
+          }
+        ]
       }
     }
   ],

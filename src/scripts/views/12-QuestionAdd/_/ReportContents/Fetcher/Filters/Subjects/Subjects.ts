@@ -40,6 +40,7 @@ export default class Subjects {
       id: 0,
       name: System.data.locale.reportedContents.subjectFilterFirstOption,
     });
+
     this.selectedSubject = allSubjects;
 
     this.subjects.push(allSubjects);
@@ -72,13 +73,14 @@ export default class Subjects {
 
   AssignSelectedSubject() {
     const selectedOption = this.subjectSelect.select.selectedOptions[0];
+
     this.selectedSubject = this.subjects.find(
       subject => subject.option === selectedOption,
     );
   }
 
   IsChanged() {
-    return !this.selectedSubject || this.selectedSubject.data.id !== 0;
+    return !!this.selectedSubject?.data.id;
   }
 
   Show() {

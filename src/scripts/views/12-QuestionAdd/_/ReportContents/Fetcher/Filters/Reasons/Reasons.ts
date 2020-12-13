@@ -96,6 +96,8 @@ export default class Reasons {
   ReasonSelected() {
     this.UpdateSelectedReasonStore();
 
+    this.main.main.pageNumbers.Toggle();
+
     if (!this.selectedReason) return;
 
     this.main.main.FetchReports({ resetStore: true });
@@ -123,6 +125,6 @@ export default class Reasons {
   }
 
   IsChanged() {
-    return !this.selectedReason || this.selectedReason.data.id !== 0;
+    return !!this.selectedReason?.data.id;
   }
 }

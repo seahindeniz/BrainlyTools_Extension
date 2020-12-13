@@ -186,8 +186,6 @@ export default class PageNumbers {
 
     if (Number.isNaN(givenPageNumber)) return;
 
-    console.log(givenPageNumber - 2, this.lastIds);
-
     this.main.FetchReports({
       resetStore: true,
       lastId: this.lastIds[givenPageNumber - 2],

@@ -17,6 +17,7 @@ export default class QueueFilter {
   labelContainer: import("@style-guide/Flex").FlexElementType;
   label: Label;
   labelText: Text;
+  protected labelIcon: Icon;
 
   query?: {
     [x: string]: any;
@@ -40,7 +41,7 @@ export default class QueueFilter {
       children: this.label = new Label({
         color: this.props.labelColor,
         onClose: this.HideLabel.bind(this),
-        icon: new Icon({
+        icon: this.labelIcon = new Icon({
           type: this.props.labelIconType,
         }),
         children: [

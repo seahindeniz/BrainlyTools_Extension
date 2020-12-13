@@ -1,8 +1,9 @@
 import CreateElement from "@components/CreateElement";
 import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
-import { Flex, Input, Select, Text } from "@style-guide";
+import { Button, Flex, Icon, Input, Select, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
+import tippy from "tippy.js";
 import type FiltersClassType from "../FiltersPanel";
 
 export type UserTypeType = "reporter" | "reported";
@@ -17,6 +18,9 @@ export default class User {
   inputContainer: FlexElementType;
   rankSelect: Select;
   selectedInput: Input | Select;
+  excludeButtonContainer: FlexElementType;
+  excludeButton: Button;
+  excludeState: boolean;
 
   constructor(main: FiltersClassType, type: UserTypeType) {
     this.main = main;
@@ -56,6 +60,7 @@ export default class User {
                 grow: true,
                 marginTop: "xxs",
                 marginBottom: "xxs",
+                alignItems: "center",
               }),
               (this.queryTypeSelect = new Select({
                 fullWidth: true,
@@ -138,9 +143,18 @@ export default class User {
   InputChanged() {
     this.ShowProperInput();
 
+    let { value }: { value: string | number[] } = this.input;
+
+    if (this.target === "specialRank") {
+      value = Array.from(this.rankSelect.select.selectedOptions)
+        .map(option => Number(option.value))
+        .filter(id => id !== null && id !== undefined && !Number.isNaN(id));
+    }
+
     this.main.main.filter.byName[this.type].SetQuery(
       this.target,
-      this.input.value,
+      value,
+      this.excludeState,
     );
   }
 
@@ -153,7 +167,11 @@ export default class User {
       }
 
       selectedInput = this.rankSelect;
+
+      this.inputContainer.prepend(this.excludeButtonContainer);
     } else {
+      HideElement(this.excludeButtonContainer);
+
       selectedInput = this.textInput;
     }
 
@@ -175,6 +193,7 @@ export default class User {
     );
 
     this.rankSelect = new Select({
+      multiple: true,
       fullWidth: true,
       onChange: this.InputChanged.bind(this),
       options: [
@@ -189,8 +208,8 @@ export default class User {
         {
           value: 0,
           text:
-            System.data.locale.reportedContents.filtersPanel.filters
-              .userFilter.anyRank,
+            System.data.locale.reportedContents.filtersPanel.filters.userFilter
+              .anyRank,
         },
         CreateElement({
           tag: "optgroup",
@@ -204,11 +223,55 @@ export default class User {
         }),
       ],
     });
+
+    this.excludeButtonContainer = Flex({
+      marginLeft: "xxs",
+      marginRight: "xxs",
+      children: this.excludeButton = new Button({
+        size: "s",
+        type: "outline",
+        toggle: "blue",
+        iconOnly: true,
+        icon: new Icon({
+          type: "friend_remove",
+        }),
+        onClick: this.ToggleExcludeState.bind(this),
+      }),
+    });
+
+    tippy(this.excludeButton.element, {
+      theme: "light",
+      content: Text({
+        tag: "div",
+        size: "small",
+        weight: "bold",
+        children:
+          System.data.locale.reportedContents.filtersPanel.filters.userFilter
+            .excludeSelectedRanks,
+      }),
+    });
+  }
+
+  ToggleExcludeState() {
+    this.excludeState = !this.excludeState;
+
+    if (this.excludeState) {
+      this.excludeButton.ChangeType({ type: "solid-blue" });
+    } else {
+      this.excludeButton.ChangeType({
+        type: "outline",
+        toggle: "blue",
+      });
+    }
+
+    this.InputChanged();
   }
 
   Reset() {
     this.textInput.input.value = "";
     (this.queryTypeSelect.select
       .firstElementChild as HTMLOptionElement).selected = true;
+
+    this.ShowProperInput();
   }
 }

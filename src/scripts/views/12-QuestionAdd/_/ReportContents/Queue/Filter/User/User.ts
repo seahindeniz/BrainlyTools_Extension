@@ -6,6 +6,8 @@ import QueueFilter from "../QueueFilter";
 
 type TargetType = "nick" | "id" | "specialRank";
 
+const labelIconType = "profile_view";
+
 export default class User extends QueueFilter {
   query:
     | {
@@ -19,7 +21,8 @@ export default class User extends QueueFilter {
       }
     | {
         target: "specialRank";
-        value?: number;
+        value?: number[];
+        exclude?: boolean;
       };
 
   type: UserTypeType;
@@ -31,14 +34,18 @@ export default class User extends QueueFilter {
   ) {
     super(main, {
       labelColor,
-      labelIconType: "profile_view",
+      labelIconType,
       labelName:
         System.data.locale.reportedContents.filtersPanel.filters[type].name,
     });
     this.type = type;
   }
 
-  SetQuery(target?: TargetType, value?: number | string) {
+  SetQuery(
+    target?: TargetType,
+    value?: string | number | number[],
+    exclude?: boolean,
+  ) {
     if (!target || !value) {
       this.HideLabel();
 
@@ -49,15 +56,20 @@ export default class User extends QueueFilter {
     this.query = {
       target,
       value,
+      exclude,
     };
 
     if (this.query.target === "nick") {
       this.query.valueLowerCase = String(this.query.value).toLowerCase();
+    } else if (this.query.target === "specialRank") {
+      if (this.query.value.length === 0) {
+        this.HideLabel();
+
+        return;
+      }
     } else {
       if (this.query.target === "id") {
         this.query.value = System.ExtractId(`${value}`);
-      } else if (target === "specialRank") {
-        this.query.value = Number(this.query.value);
       }
 
       if (Number.isNaN(this.query.value)) {
@@ -67,7 +79,6 @@ export default class User extends QueueFilter {
       }
     }
 
-    console.log(typeof this.query.value, this.query.value);
     super.QuerySettled();
   }
 
@@ -85,18 +96,26 @@ export default class User extends QueueFilter {
     let visibleValue = this.query.value;
 
     if (this.query.target === "specialRank") {
-      const selectedRank =
-        System.data.Brainly.defaultConfig.config.data.ranksWithId[
-          this.query.value
-        ];
-
-      if (visibleValue === 0) {
+      if (this.query.value.includes(0)) {
         visibleValue =
           System.data.locale.reportedContents.filtersPanel.filters.userFilter
             .anyRank;
-      } else if (selectedRank) {
-        visibleValue = selectedRank.name;
+      } else {
+        const selectedRankNames = this.query.value
+          .map(
+            rankId =>
+              System.data.Brainly.defaultConfig.config.data.ranksWithId[rankId],
+          )
+          .map(rank => rank.name);
+
+        visibleValue = selectedRankNames.join(", ");
       }
+    }
+
+    if ("exclude" in this.query && this.query.exclude) {
+      this.labelIcon.ChangeType("friend_remove");
+    } else {
+      this.labelIcon.ChangeType(labelIconType);
     }
 
     this.labelText.nodeValue = `${System.data.locale.reportedContents.filtersPanel.filters.userFilter[
@@ -110,7 +129,8 @@ export default class User extends QueueFilter {
       this.query?.value === undefined ||
       this.query?.value === null ||
       this.query?.value === "" ||
-      Number.isNaN(this.query.value)
+      Number.isNaN(this.query.value) ||
+      (this.query.target === "specialRank" && this.query.value.length === 0)
     )
       return true;
 
@@ -121,15 +141,25 @@ export default class User extends QueueFilter {
       return content.users[this.type].nick === this.query.valueLowerCase;
 
     if (this.query.target === "specialRank") {
-      if (this.query.value === 0) {
-        console.log(content.users[this.type].specialRank);
+      const rankIds = this.query.value;
+
+      if (rankIds.includes(0)) {
+        if (this.query.exclude) {
+          return !content.users[this.type].specialRank;
+        }
 
         return content.users[this.type].specialRank;
       }
 
-      return content.users[this.type].data.ranks_ids?.includes(
-        this.query.value,
-      );
+      const isHaveSpecialRank = content.users[
+        this.type
+      ].data.ranks_ids?.some(rankId => rankIds.includes(rankId));
+
+      if (this.query.exclude) {
+        return !isHaveSpecialRank;
+      }
+
+      return isHaveSpecialRank;
     }
 
     return false;

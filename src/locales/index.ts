@@ -940,7 +940,8 @@ export default {
           nick: "nick",
           lookFor: "Look for",
           specialRank: "Special rank",
-          anyRank: "Any rank"
+          anyRank: "Any rank",
+          excludeSelectedRanks: "Exclude users with selected ranks"
         },
         stringFilter: {
           chooseCondition: "Choose condition",

@@ -48,31 +48,19 @@ class Users {
     this.privilegeListOrder = {
       veryImportant: {
         title: System.data.locale.popup.extensionManagement.users.veryImportant,
-        // prettier-ignore
         privileges: [
+          //
           0,
           29,
-          [
-            27,
-            30,
-            31,
-            32,
-            33,
-          ],
+          [27, 30, 31, 32, 33],
+          98,
         ],
       },
       important: {
         title: System.data.locale.popup.extensionManagement.users.important,
-        // prettier-ignore
         privileges: [
           /* 4, */
-          [
-            5,
-            22,
-            23,
-            24,
-            25,
-          ],
+          [5, 22, 23, 24, 25],
           7,
           17,
           18,
@@ -83,8 +71,8 @@ class Users {
       },
       lessImportant: {
         title: System.data.locale.popup.extensionManagement.users.lessImportant,
-        // prettier-ignore
         privileges: [
+          //
           21,
           20,
           11,
@@ -95,7 +83,6 @@ class Users {
           6,
           12,
           37,
-          // 34,
         ],
       },
       harmless: {
@@ -260,7 +247,7 @@ class Users {
       <article class="media addNew user">
         <div class="media-left is-invisible has-text-centered">
           <a target="_blank">
-            <figure class="image is-48x48">
+            <figure class="image is-64x64">
               <img class="avatar is-rounded" src="https://${System.data.meta.marketName}/img/avatars/100-ON.png">
             </figure>
             <div>
@@ -596,11 +583,12 @@ class Users {
       $(`#${resUser.data._id}`, this.$level).parent().remove();
 
       const $node = this.RenderUserNode(resUser.data);
+
       window.popup.refreshUsersInformation();
 
       $("html, body").animate(
         {
-          scrollTop: $node.offset().top,
+          scrollTop: $node.prop("offsetTop"),
         },
         1000,
       );

@@ -34,6 +34,25 @@
   left: 5px;
 }
 
+.viewer-reset {
+  width: 40px !important;
+  border-radius: 12px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:before {
+    content: "Reset";
+    background: none;
+    color: #fff;
+    font-family: "ProximaNova", Arial;
+    font-size: 0.75rem;
+    height: unset;
+    position: unset;
+    width: unset;
+  }
+}
+
 div[class^="HeaderController__subnav"],
 div[class^="HeaderController__innerwrap"] {
   background-color: transparent;

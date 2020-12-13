@@ -365,7 +365,7 @@
           },
           "98": {
             "title": "Limited channel access on Discord",
-            "description": "User will not see any channels other than the announcement and rule channels on the Discord server"
+            "description": "User will not see any channels other than the #announcements and #rules channels on the Discord server"
           }
         },
         "veryImportant": "Very important"

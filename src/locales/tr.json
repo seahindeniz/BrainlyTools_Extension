@@ -110,7 +110,8 @@
     "toggleSelections": "Seçimleri tersine seç",
     "copied": "Kopyalandı!",
     "default": "Varsayılan",
-    "yes": "Evet"
+    "yes": "Evet",
+    "workingOnIt": "Hallediyorum.."
   },
   "popup": {
     "notificationMessages": {
@@ -281,7 +282,7 @@
             "description": "Kullanıcı bu fonksiyonu kullanarak Bildirilmiş içerikler'den bildirilen içerikleri çoklu olarak onaylayabilir/silebilir"
           },
           "19": {
-            "title": "Seçmeli hatalı olara bildir",
+            "title": "Seçmeli hatalı olarak bildir",
             "description": "Kullanıcı, kullanıcı bilgileri gör sayfasında cevapları seçerek cevap sahibine hatalı olarak bildirebilir"
           },
           "20": {
@@ -362,6 +363,10 @@
           "39": {
             "title": "Eylem geçmişi, inceleme yönetimi",
             "description": "Diğer gözetmenlerin moderatör eylem geçmişinde yaptıkları incelemeleri, geri alabilme yetkisi. Bu yetki olmadığında, gözetmenler sadece kendi incelemelerini geri alabilir"
+          },
+          "98": {
+            "title": "Discord'da sınırlı kanal erişimi",
+            "description": "Kullanıcı, Discord sunucusunda #announcements(duyuru) ve #kurallar kanalları dışında hiçbir kanal göremez"
           }
         },
         "veryImportant": "Çok önemli"
@@ -936,7 +941,8 @@
           "nick": "nick",
           "lookFor": "Seçim yap",
           "specialRank": "Özel rütbe",
-          "anyRank": "Farketmez"
+          "anyRank": "Farketmez",
+          "excludeSelectedRanks": "Seçili rütbelere sahip kullanıcıları hariç tut"
         },
         "stringFilter": {
           "chooseCondition": "Koşul seçin",

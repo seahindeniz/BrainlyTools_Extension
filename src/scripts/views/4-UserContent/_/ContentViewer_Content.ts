@@ -39,19 +39,18 @@ export default class ContentViewerContent {
   };
 
   #buttonSpinner: any;
-  iconContainer: FlexElementType;
-  contentContainer: FlexElementType;
-  nickContainer: FlexElementType;
-  actionsContainer: FlexElementType;
-  approvedIcon: FlexElementType;
-  reportedContentIcon: FlexElementType;
-  confirmButton?: Button;
-  confirmButtonContainer: FlexElementType;
-  approveButton: Button;
-  approveButtonContainer: FlexElementType;
+  private iconContainer: FlexElementType;
+  private contentContainer: FlexElementType;
+  private actionsContainer: FlexElementType;
+  private approvedIcon: FlexElementType;
+  private reportedContentIcon: FlexElementType;
+  private confirmButton?: Button;
+  private confirmButtonContainer: FlexElementType;
+  private approveButton: Button;
+  private approveButtonContainer: FlexElementType;
   attachmentContainer: FlexElementType;
   attachmentLabelNumber: Text;
-  gallery: Viewer;
+  private gallery: Viewer;
 
   constructor(main: UserContentRowType, source, user) {
     this.main = main;
@@ -70,23 +69,23 @@ export default class ContentViewerContent {
     this.RenderContent();
   }
 
-  get buttonSpinner() {
+  private get buttonSpinner() {
     if (!this.#buttonSpinner) this.RenderButtonSpinner();
 
     return this.#buttonSpinner;
   }
 
-  RenderButtonSpinner() {
+  private RenderButtonSpinner() {
     this.#buttonSpinner = Spinner({ overlay: true });
   }
 
-  CheckLatex() {
+  private CheckLatex() {
     if (this.contentData.content) {
       this.contentData.content = replaceLatexWithURL(this.contentData.content);
     }
   }
 
-  BoxBorderColor() {
+  private BoxBorderColor() {
     let borderColor: BoxColorType = "light";
 
     if (this.IsApproved()) {
@@ -99,13 +98,14 @@ export default class ContentViewerContent {
     return borderColor;
   }
 
-  RenderContent() {
+  private RenderContent() {
     let rankTexts = [];
 
     if (this.contentData.user.ranks_ids)
       rankTexts = this.contentData.user.ranks_ids.map(rankId => {
         return Text({
-          size: "small",
+          tag: "span",
+          size: "xsmall",
           color: "gray",
           weight: "bold",
           underlined: true,
@@ -154,24 +154,23 @@ export default class ContentViewerContent {
                 }),
                 [
                   [
-                    (this.nickContainer = Flex({
+                    Flex({
                       direction: "column",
-                    })),
-                    new Breadcrumb({
-                      elements: [
-                        Text({
-                          tag: "a",
-                          size: "small",
-                          color: "gray",
-                          weight: "bold",
-                          underlined: true,
-                          transform: "capitalize",
-                          text: this.contentData.user.nick,
-                          href: this.contentData.userProfileLink,
-                        }),
-                        ...rankTexts,
-                      ],
                     }),
+                    [
+                      Text({
+                        tag: "a",
+                        size: "small",
+                        weight: "bold",
+                        underlined: true,
+                        transform: "capitalize",
+                        text: this.contentData.user.nick,
+                        href: this.contentData.userProfileLink,
+                      }),
+                      new Breadcrumb({
+                        elements: rankTexts,
+                      }),
+                    ],
                   ],
                   (this.actionsContainer = Flex({})),
                 ],
@@ -212,17 +211,17 @@ export default class ContentViewerContent {
     }
   }
 
-  RenderBestIcon() {
+  private RenderBestIcon() {
     if (!this.source.best) return;
 
     this.RenderIcon("mustard", "excellent");
   }
 
-  RenderApprovedIcon() {
+  private RenderApprovedIcon() {
     this.approvedIcon = this.RenderIcon("mint", "verified");
   }
 
-  IsApproved() {
+  private IsApproved() {
     return this.source.approved?.date;
   }
 
@@ -232,7 +231,7 @@ export default class ContentViewerContent {
     this.approvedIcon.parentElement.removeChild(this.approvedIcon);
   }
 
-  RenderIcon(color, type) {
+  private RenderIcon(color, type) {
     const iconContainer = Flex({
       marginTop: "xs",
       justifyContent: "center",
@@ -248,7 +247,7 @@ export default class ContentViewerContent {
     return iconContainer;
   }
 
-  RenderQuestionPoints() {
+  private RenderQuestionPoints() {
     const { points } = this.source;
 
     if (!points || typeof points !== "object") return;
@@ -269,14 +268,14 @@ export default class ContentViewerContent {
       }),
     });
 
-    this.nickContainer.append(pointsContainer);
+    this.actionsContainer.append(pointsContainer);
   }
 
-  RenderReportedContentIcon() {
+  private RenderReportedContentIcon() {
     this.reportedContentIcon = this.RenderIcon("peach", "report_flag");
   }
 
-  RenderConfirmButton() {
+  private RenderConfirmButton() {
     this.confirmButton = new Button({
       iconOnly: true,
       type: "solid-blue",
@@ -296,7 +295,7 @@ export default class ContentViewerContent {
     );
   }
 
-  RenderApproveButton() {
+  private RenderApproveButton() {
     this.approveButton = new Button({
       iconOnly: true,
       type: "solid-mint",
@@ -316,10 +315,11 @@ export default class ContentViewerContent {
     );
   }
 
-  RenderAttachmentsIcon() {
+  private RenderAttachmentsIcon() {
     this.attachmentLabelNumber = document.createTextNode(
       String(this.source.attachments.length),
     );
+
     const attachmentIconContainer = Flex({
       marginTop: "xs",
       children: new Label({
@@ -332,7 +332,7 @@ export default class ContentViewerContent {
     this.iconContainer.append(attachmentIconContainer);
   }
 
-  RenderAttachments() {
+  private RenderAttachments() {
     const galleryContainer = Flex({
       wrap: true,
       className: "ext-image-gallery",
@@ -412,7 +412,7 @@ export default class ContentViewerContent {
     }
   }
 
-  async Confirm() {
+  private async Confirm() {
     if (
       !confirm(
         System.data.locale.userContent.notificationMessages
@@ -470,7 +470,7 @@ export default class ContentViewerContent {
     }
   }
 
-  async Approve() {
+  private async Approve() {
     if (
       !confirm(
         System.data.locale.userContent.notificationMessages.confirmApproving,

@@ -19,7 +19,6 @@ export default class Attachment {
   ) {
     this.main = main;
     this.data = data;
-    console.log(data);
 
     this.Render();
   }

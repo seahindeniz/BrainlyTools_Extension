@@ -131,6 +131,7 @@ export default class InfoBar {
       } else {
         const nextPage = ExtractPageNumber(resAnswers.pagination.next);
         const lastPage = ExtractPageNumber(resAnswers.pagination.last);
+
         this.numberOfFetchedAnswers += resAnswers.data.length;
 
         let numberOfTotalAnswers;
@@ -174,6 +175,7 @@ export default class InfoBar {
 
             this.FetchAnswers(lastPage, true); // Fetch last page async
           }
+
           const isNotLastPage = !isLastPage;
 
           if (

@@ -22,6 +22,7 @@ let templateAnchor = Text({
   underlined: true,
 });
 const MESSAGE_ANCHOR_CLASSNAMES = templateAnchor.className;
+
 templateAnchor = null;
 
 export function createDashList(strings: string[]) {
@@ -130,9 +131,9 @@ export default class SendMessageSection {
                       Text({
                         size: "small",
                         weight: "bold",
-                        children: this.counterNode = document.createTextNode(
+                        children: (this.counterNode = document.createTextNode(
                           "0",
-                        ),
+                        )),
                       }),
                     ],
                   ],
@@ -241,6 +242,7 @@ export default class SendMessageSection {
     this.messageChunks = chunk(this.message, MAX_MESSAGE_LENGTH);
 
     let messageCount = 0;
+
     this.messagePreviewContainer.innerHTML = "";
     this.messagePreviewBoxes = [];
     // const counterTexts = [];
@@ -468,6 +470,7 @@ export default class SendMessageSection {
 
   private Lock(byMessageIndex: number) {
     this.state = "locked";
+
     const { length } = this.messageChunks;
 
     for (let i = byMessageIndex; i < length; i++) {

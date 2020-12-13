@@ -105,7 +105,7 @@ export default class Moderator {
   RenderPanelButton() {
     this.panelButtonContainer = Flex({
       marginRight: "s",
-      children: this.panelButton = new Button({
+      children: (this.panelButton = new Button({
         size: "l",
         iconOnly: true,
         type: "solid-light",
@@ -114,7 +114,7 @@ export default class Moderator {
           type: "pencil",
           color: "adaptive",
         }),
-      }),
+      })),
     });
 
     this.tippy = tippy(this.panelButton.element, {

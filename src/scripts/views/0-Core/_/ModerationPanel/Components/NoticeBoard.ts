@@ -183,6 +183,7 @@ class NoticeBoard extends Components {
         if (tokens[idx].nesting === 1) {
           return `<details><summary>${m[1]}</summary>\n`;
         }
+
         return "</details>\n";
       },
     });
@@ -196,14 +197,14 @@ class NoticeBoard extends Components {
     });
 
     this.md.renderer.rules.table_open = () => `<table class="table">`;
-    this.md.renderer.rules.emoji = (token, idx) => {
-      return emojiToolkit.toImage(token[idx].content);
-    };
+
+    this.md.renderer.rules.emoji = (token, idx) =>
+      emojiToolkit.toImage(token[idx].content);
+
     const oldRender =
       this.md.renderer.rules.link_open ||
-      ((tokens, idx, options, env, self) => {
-        return self.renderToken(tokens, idx, options);
-      });
+      ((tokens, idx, options, env, self) =>
+        self.renderToken(tokens, idx, options));
 
     this.md.renderer.rules.link_open = (tokens, idx, options, env, self) => {
       tokens[idx].attrPush(["target", "_blank"]);
@@ -214,6 +215,7 @@ class NoticeBoard extends Components {
 
       return oldRender(tokens, idx, options, env, self);
     };
+
     this.md.renderer.rules.hr = () =>
       `<div class="sg-horizontal-separator sg-horizontal-separator--spaced sg-horizontal-separator--gray-light"></div>`;
   }
@@ -258,6 +260,7 @@ class NoticeBoard extends Components {
 					</div>
 				</div>
 			</div>`);
+
       this.users[user.id] = {
         element: $avatar,
       };
@@ -309,8 +312,10 @@ class NoticeBoard extends Components {
     this.ShowLiSpinner();
 
     const data = await this.GetContent();
+
     this.readedBy = data.readedBy;
     this.noticeContent = FilterContent(data.content);
+
     const noticeContentInMDFormat = this.md.render(
       this.noticeContent || this.templateString,
     );
@@ -340,6 +345,7 @@ class NoticeBoard extends Components {
     if (resContent.success) {
       return Promise.resolve(resContent.data);
     }
+
     this.HideElement(this.$spinner);
     notification({
       html:
@@ -370,6 +376,7 @@ class NoticeBoard extends Components {
 
   ReadNoticeBoard() {
     const data = System.data.Brainly.userData.extension;
+
     data.noticeBoard = false;
 
     new ServerReq().ReadNoticeBoard();

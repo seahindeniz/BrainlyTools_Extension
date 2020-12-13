@@ -93,15 +93,15 @@ export default class ActionSection {
   RenderModerateButtons() {
     const moderateVisibleContentsButtonLabel = new Label({
       color: "achromatic",
-      children: this.moderateVisibleContentsNumberText = document.createTextNode(
+      children: (this.moderateVisibleContentsNumberText = document.createTextNode(
         "0",
-      ),
+      )),
     });
     const moderateFilteredContentsButtonLabel = new Label({
       color: "achromatic",
-      children: this.moderateFilteredContentsNumberText = document.createTextNode(
+      children: (this.moderateFilteredContentsNumberText = document.createTextNode(
         "0",
-      ),
+      )),
     });
 
     this.moderateButtonsContainer = Build(

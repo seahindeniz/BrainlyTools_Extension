@@ -250,16 +250,16 @@ export default class Answer extends ContentSection {
                           target: "_blank",
                           href: System.createProfileLink(reporter),
                         }),
-                        ...reporter.ranks.names.map(rankName => {
-                          return Text({
+                        ...reporter.ranks.names.map(rankName =>
+                          Text({
                             tag: "span",
                             size: "small",
                             text: rankName,
                             style: {
                               color: reporter.ranks.color,
                             },
-                          });
-                        }),
+                          }),
+                        ),
                       ],
                     }),
                     [

@@ -27,6 +27,7 @@ export default class OptionChild {
     });
 
     const children = this.#checkBoxLabelProps.text;
+
     delete this.#checkBoxLabelProps.text;
 
     this.container = Flex({

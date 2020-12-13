@@ -26,10 +26,10 @@ export default class Subjects {
       grow: true,
       margin: "xxs",
       // marginRight: "s",
-      children: this.subjectSelect = new Select({
+      children: (this.subjectSelect = new Select({
         fullWidth: true,
         onChange: this.SubjectChanged.bind(this),
-      }),
+      })),
     });
 
     this.Show();

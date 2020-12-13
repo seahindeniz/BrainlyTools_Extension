@@ -12,6 +12,7 @@ async function GetAndPrepareDeleteReasons() {
       type: "error",
       html: System.data.locale.core.notificationMessages.cantFetchDeleteReasons,
     });
+
     return Promise.reject(
       System.data.locale.core.notificationMessages.cantFetchDeleteReasons,
     );
@@ -23,12 +24,14 @@ async function GetAndPrepareDeleteReasons() {
   delete data.deleteReasons.response;
 
   const deleteReasonsKeys = Object.keys(data.deleteReasons);
+
   data.deleteReasons.__withTitles = {};
   data.deleteReasons.__withIds = { __all: {}, __reason: {}, __subReason: {} };
   data.deleteReasons.__preferences = data.preferences;
 
   deleteReasonsKeys.forEach(reasonKey => {
     const categories = data.deleteReasons[reasonKey];
+
     data.deleteReasons.__withTitles[reasonKey] = {
       __categories: {},
     };
@@ -43,24 +46,30 @@ async function GetAndPrepareDeleteReasons() {
       data.deleteReasons.__withIds[reasonKey].__categories[
         category.id
       ] = category;
+
       const categoryData = {
         ...category,
       };
+
       data.deleteReasons.__withIds.__all[category.id] = categoryData;
       data.deleteReasons.__withIds.__reason[category.id] = categoryData;
 
       if (category && category.subcategories) {
         category.subcategories.forEach(subcategory => {
           subcategory.category_id = category.id;
+
           let title =
             subcategory.title === "" ? category.text : subcategory.title;
+
           title = title.trim();
           data.deleteReasons.__withTitles[reasonKey][title] = subcategory;
           data.deleteReasons.__withIds[reasonKey][subcategory.id] = subcategory;
+
           const subReasonData = {
             ...subcategory,
             type: reasonKey,
           };
+
           data.deleteReasons.__withIds.__all[subcategory.id] = subReasonData;
           data.deleteReasons.__withIds.__subReason[
             subcategory.id

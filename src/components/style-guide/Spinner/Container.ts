@@ -12,6 +12,7 @@ type SpinnerContainerPropsType = {
   className?: string;
   [x: string]: any;
 };
+
 const SG = "sg-spinner-container";
 const SGL = `${SG}__`;
 
@@ -44,6 +45,7 @@ export default ({
 
   if (loading) {
     const overlay = document.createElement("div");
+
     overlay.className = `${SGL}overlay`;
 
     container.appendChild(overlay);

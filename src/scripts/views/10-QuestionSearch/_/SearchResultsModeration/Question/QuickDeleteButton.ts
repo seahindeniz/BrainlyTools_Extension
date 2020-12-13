@@ -23,7 +23,7 @@ export default class QuickDeleteButton {
 
   Render() {
     this.container = Flex({
-      children: this.button = new Button({
+      children: (this.button = new Button({
         children: this.reason.title,
         icon: Text({
           children: this.index + 1,
@@ -37,7 +37,7 @@ export default class QuickDeleteButton {
         onMouseLeave: this.HideText.bind(this),
         title: this.reason.text,
         type: "solid-mustard",
-      }),
+      })),
       marginBottom: "xs",
     });
 

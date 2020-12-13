@@ -189,8 +189,8 @@ export default class ContentSection {
                                                 href: this.owner.profileLink,
                                               }),
                                               ...this.owner.data.ranks.names.map(
-                                                rankName => {
-                                                  return TextComponent({
+                                                rankName =>
+                                                  TextComponent({
                                                     tag: "span",
                                                     size: "small",
                                                     text: rankName,
@@ -198,8 +198,7 @@ export default class ContentSection {
                                                       color: this.owner.data
                                                         .ranks.color,
                                                     },
-                                                  });
-                                                },
+                                                  }),
                                               ),
                                             ],
                                           }),
@@ -337,16 +336,16 @@ export default class ContentSection {
                         target: "_blank",
                         href: System.createProfileLink(reporter),
                       }),
-                      ...reporter.ranks.names.map(rankName => {
-                        return TextComponent({
+                      ...reporter.ranks.names.map(rankName =>
+                        TextComponent({
                           tag: "span",
                           size: "small",
                           text: rankName,
                           style: {
                             color: reporter.ranks.color,
                           },
-                        });
-                      }),
+                        }),
+                      ),
                     ],
                   }),
                   [

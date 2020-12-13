@@ -6,6 +6,7 @@ import InjectToDOM from "../../../helpers/InjectToDOM";
 (async () => {
   // eslint-disable-next-line no-new
   new JumpButton();
+
   let type;
 
   if (System.checkRoute(4, "") || System.checkRoute(4, "tasks"))

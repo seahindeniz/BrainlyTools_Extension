@@ -23,6 +23,7 @@ export type SendMessageUserType = {
 function FixIdList(idList: string | number[]) {
   if (!(idList instanceof Array)) {
     const range = idList.split(":");
+
     idList = FillRange(...range);
   } else idList = idList.map(Number).filter(Boolean);
 

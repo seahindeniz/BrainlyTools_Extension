@@ -87,6 +87,7 @@ export default class ReportBoxEnhancer {
 
     const { model_type_id } = zdnObject.data;
     const ReportController = this.reportControllers[model_type_id];
+
     // eslint-disable-next-line no-new
     new ReportController(this, zdnObject);
   }

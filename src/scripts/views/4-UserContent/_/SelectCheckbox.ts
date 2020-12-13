@@ -24,7 +24,7 @@ export default class SelectCheckbox extends HTMLInputElement {
   Render() {
     this.container = CreateElement({
       tag: "td",
-      children: this.checkBox = new Checkbox({ id: null }),
+      children: (this.checkBox = new Checkbox({ id: null })),
     });
     this.$rowElement.prepend(this.container);
   }

@@ -8,7 +8,7 @@ async function MenuButtonFixer() {
   const $menu = $menuButton.prev();
   // let $searchInput = $menu.prev();
 
-  $menuButton.on("click", function () {
+  $menuButton.on("click", () => {
     if ($menu.is(".mint-hide-for-mobile")) {
       $menu.removeClass("mint-hide-for-mobile");
       // $searchInput.addClass("mint-hide-for-mobile");

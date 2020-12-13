@@ -121,7 +121,7 @@ export default class Question {
 
   RenderModerateButton() {
     const moderateButtonContainer = Flex({
-      children: this.moderateButton = new Button({
+      children: (this.moderateButton = new Button({
         iconOnly: true,
         children: System.data.locale.common.moderating.moderate,
         icon: new Icon({
@@ -132,7 +132,7 @@ export default class Question {
         onClick: this.Moderate.bind(this),
         onMouseEnter: this.ShowText.bind(this),
         onMouseLeave: this.HideText.bind(this),
-      }),
+      })),
     });
 
     this.actionButtons.push(this.moderateButton);

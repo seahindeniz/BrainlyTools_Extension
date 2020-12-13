@@ -81,9 +81,9 @@ export default class DeleteCommentsSection {
   }
 
   DeleteSectionButtonClicked() {
-    this.removableComments = this.main.comments.filter(comment => {
-      return !comment.data.deleted;
-    });
+    this.removableComments = this.main.comments.filter(
+      comment => !comment.data.deleted,
+    );
     this.removableCommentsLength = this.removableComments.length;
 
     if (
@@ -130,11 +130,11 @@ export default class DeleteCommentsSection {
   RenderStopButton() {
     this.stopButtonContainer = Flex({
       marginLeft: "s",
-      children: this.stopButton = new Button({
+      children: (this.stopButton = new Button({
         type: "solid",
         onClick: this.StopDeleting.bind(this),
         children: System.data.locale.common.stop,
-      }),
+      })),
     });
   }
 

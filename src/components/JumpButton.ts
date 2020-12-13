@@ -44,10 +44,10 @@ export default class JumpButton {
         type: "outline",
         iconOnly: true,
         onClick: StartScrolling.bind(this),
-        icon: this.#jumpButtonIcon = new Icon({
+        icon: (this.#jumpButtonIcon = new Icon({
           type: "arrow_down",
           color: "adaptive",
-        }),
+        })),
       }),
     });
   }

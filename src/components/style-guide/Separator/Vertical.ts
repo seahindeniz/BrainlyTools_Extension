@@ -9,6 +9,7 @@ type VerticalSeparatorPropsType = {
   className?: string;
   [x: string]: any;
 };
+
 const SG = "sg-vertical-separator";
 const SGD = `${SG}--`;
 
@@ -30,6 +31,7 @@ export default ({
   );
 
   const separator = document.createElement("div");
+
   separator.className = separatorClass;
 
   SetProps(separator, props);

@@ -57,6 +57,7 @@ export default class QuestionPage {
 
   private SetQuestionData() {
     const dataString = this.questionContainer.dataset.z;
+
     this.data = JSON.parse(dataString);
 
     if (!this.data) {

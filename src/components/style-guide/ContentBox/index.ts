@@ -21,6 +21,7 @@ type ContentBoxPropsType = {
   full?: boolean;
   className?: string;
 };
+
 const sg = "sg-content-box";
 const SGD = `${sg}--`;
 

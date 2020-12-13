@@ -9,6 +9,7 @@ class FileIcon {
     this.stream = stream;
     this.$img = $img;
     this.iconFileType = "file";
+
     let readable = false;
 
     if (this.stream) {
@@ -92,6 +93,7 @@ class FileIcon {
 
       if (percentLoaded < 100) {
         const w = 100 - percentLoaded;
+
         bgColor = `-webkit-linear-gradient(left, rgba(0, 0, 0, 0.${
           w + 10
         }) ${percentLoaded}%, white ${w}%)`;

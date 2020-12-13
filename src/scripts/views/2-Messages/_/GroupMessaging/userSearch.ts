@@ -59,7 +59,7 @@ export default $findUsersList => {
 
         const $userContainers = $("td", resResults);
 
-        $userContainers.each(function (i, $userContainer) {
+        $userContainers.each((i, $userContainer) => {
           let avatar = $(".user-data > a > img", $userContainer).attr("src");
           const $userLink = $(
             ".user-data > div.user-nick > a.nick",

@@ -35,7 +35,7 @@ export default options => {
   $("body").on("click", () => {
     $dropdown.removeClass("sg-dropdown--opened");
   });
-  $dropdown.on("click", function (e) {
+  $dropdown.on("click", e => {
     e.stopPropagation();
 
     $dropdown.toggleClass("sg-dropdown--opened");

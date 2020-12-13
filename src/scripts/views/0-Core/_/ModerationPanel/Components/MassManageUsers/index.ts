@@ -253,6 +253,7 @@ export default class MassManageUsers extends Components {
         weight: "bold",
       },
     });
+
     this.numberOfSelectedUsers = badge.querySelector("*");
 
     this.removeSelectedButton = new Button({
@@ -326,6 +327,7 @@ export default class MassManageUsers extends Components {
 
   ParseIds() {
     const idList = System.ExtractIds(this.idInput.value);
+
     this.idList = [...new Set(idList)];
   }
 
@@ -429,6 +431,7 @@ export default class MassManageUsers extends Components {
    */
   RenderUser(details) {
     const user = new User(details, this);
+
     this.users[details.id] = user;
 
     /* let promise = new Action().GetUserProfile(details.id);
@@ -635,6 +638,7 @@ export default class MassManageUsers extends Components {
   RemoveUsersById(idList) {
     idList.forEach(async id => {
       this.removedIds.push(~~id);
+
       // this.HideElement();
       const user = this.users[id];
 

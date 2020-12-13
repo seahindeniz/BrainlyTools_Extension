@@ -180,6 +180,7 @@ class ContentScript {
     if (request.action === "manifest") {
       return MANIFEST;
     }
+
     if (request.action === "previewColor") {
       if (window.coloring) {
         window.coloring.UpdateColor(request.data);
@@ -187,10 +188,12 @@ class ContentScript {
         window.coloring = new ThemeColorChanger(request.data, true);
       }
     }
+
     if (request.action === "changeColors") {
       localStorage.setItem("themeColor", request.data);
       this.MessageHandler({ action: "previewColor", data: request.data });
     }
+
     if (request.action === "contentScript>Share System.data to background.js") {
       window.postMessage(
         {
@@ -199,6 +202,7 @@ class ContentScript {
         request.url,
       );
     }
+
     if (request.action === "extendMessagesLayout") {
       messagesLayoutExtender(request.data);
     }

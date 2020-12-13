@@ -12,12 +12,10 @@ export default class SubReasonSection extends RadioSection {
 
     super(
       main,
-      reasonCategory.subcategories.map(subDeleteReason => {
-        return {
-          text: subDeleteReason.title || subDeleteReason.text,
-          value: subDeleteReason.id,
-        };
-      }),
+      reasonCategory.subcategories.map(subDeleteReason => ({
+        text: subDeleteReason.title || subDeleteReason.text,
+        value: subDeleteReason.id,
+      })),
       defaultValue,
     );
   }

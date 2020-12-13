@@ -48,9 +48,11 @@ export default class ModerateToplayerEnhancer {
       return;
 
     this.containerCenterMod = containerCenterMod;
+
     const containerCenterModHash = containerCenterMod.getAttribute(
       "objecthash",
     );
+
     this.toplayerZdnObject = Zadanium.getObject(containerCenterModHash);
     this.moderationToplayerContainer = containerCenterMod.querySelector(
       ":scope > div.moderation > div.content",

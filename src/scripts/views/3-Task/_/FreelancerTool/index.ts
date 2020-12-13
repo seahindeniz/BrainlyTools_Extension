@@ -18,7 +18,9 @@ export default class FreelancerTool {
 
   async FetchFreelancerData() {
     const questionId = System.ExtractId(location.pathname);
+
     this.dataPromise = new ServerReq().GetKeywordsForFreelancer(questionId);
+
     const resKeywords = await this.dataPromise;
 
     if (resKeywords.success) this.data = resKeywords.data;

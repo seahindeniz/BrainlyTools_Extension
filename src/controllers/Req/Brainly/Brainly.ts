@@ -35,6 +35,7 @@ export default class Brainly extends Request {
   SetMarketURL() {
     const marketOrigin =
       (System && System.data.meta.location.origin) || document.location.origin;
+
     this.url = new URL(`${marketOrigin}`);
     // if (/Brainly|Action/i.test(this.constructor.name))
   }
@@ -95,6 +96,7 @@ export default class Brainly extends Request {
 
     if (!tokens) {
       const tempHeaders = JSON.parse(JSON.stringify(this.headers));
+
       // eslint-disable-next-line no-param-reassign
       tokens = await this.XReqWith().GetPHPTokens(sourceURL, tokenSelector);
       this.headers = tempHeaders;
@@ -118,6 +120,7 @@ export default class Brainly extends Request {
     let HTML = await this.GET();
 
     this.SetMarketURL();
+
     /**
      * @type {PHPTokens}
      */

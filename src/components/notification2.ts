@@ -1,4 +1,5 @@
 import FlashMessage, { FlashMessageProps } from "@style-guide/FlashMessage";
+
 // TODO rename this file
 function Clear(element: MouseEvent | HTMLElement | EventTarget) {
   // eslint-disable-next-line no-param-reassign

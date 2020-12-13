@@ -74,5 +74,6 @@ export default function Build<T, Z>(_parent: T, elements: Z): T {
   }
 
   if (typeof _parent === "function") return parent;
+
   return _parent;
 }

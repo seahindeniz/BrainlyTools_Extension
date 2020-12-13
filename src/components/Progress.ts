@@ -41,11 +41,13 @@ class Progress {
 
   update(n) {
     this.$bar.val(n);
+
     return this;
   }
 
   UpdateLabel(text) {
     this.$bar.attr("data-label", text);
+
     return this;
   }
 

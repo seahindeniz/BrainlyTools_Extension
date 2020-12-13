@@ -27,6 +27,7 @@ export default class Checkbox {
     ...props
   }: CheckboxPropsType = {}) {
     const checkboxClass = classnames(SG, className);
+
     this.inputId = id;
 
     this.input = CreateElement({

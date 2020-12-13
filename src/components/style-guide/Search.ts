@@ -28,6 +28,7 @@ export default ({
   );
 
   const container = document.createElement("div");
+
   container.className = searchClassName;
 
   const input = new Input({
@@ -44,6 +45,7 @@ export default ({
 
   if (withRoundButton) {
     iconContainer = document.createElement("div");
+
     const button = new Button({
       type: "solid",
       icon: new Icon({
@@ -58,6 +60,7 @@ export default ({
     iconContainer.append(button);
   } else {
     iconContainer = document.createElement("button");
+
     const icon = new Icon({
       type: "search",
       size: size === "l" ? 24 : 16,

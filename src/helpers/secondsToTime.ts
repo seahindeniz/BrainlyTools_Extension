@@ -12,5 +12,6 @@ export default secs => {
     m: minutes,
     s: seconds,
   };
+
   return obj;
 };

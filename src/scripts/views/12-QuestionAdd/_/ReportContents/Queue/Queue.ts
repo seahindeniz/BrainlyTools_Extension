@@ -125,6 +125,7 @@ export default class Queue {
           const content = this.main.contents.all.find(
             _content => _content.container === entry.target,
           );
+
           if (!content) return;
 
           if (entry.isIntersecting) {

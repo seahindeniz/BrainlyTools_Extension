@@ -92,7 +92,7 @@ export default class Modal {
     this.toplayer = new Toplayer({
       modal: true,
       size: "medium",
-      children: this.container = Flex({ direction: "column" }),
+      children: (this.container = Flex({ direction: "column" })),
       onClose: this.Close.bind(this),
       ...this.props,
     });
@@ -195,11 +195,11 @@ export default class Modal {
         type: "solid-light",
         iconOnly: true,
         onClick: this.PerformScroll.bind(this),
-        icon: this.#jumpButtonIcon = new Icon({
+        icon: (this.#jumpButtonIcon = new Icon({
           size: 40,
           type: "arrow_down",
           color: "adaptive",
-        }),
+        })),
       }),
     });
   }

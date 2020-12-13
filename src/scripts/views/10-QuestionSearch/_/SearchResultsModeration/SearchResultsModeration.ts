@@ -17,6 +17,7 @@ type ExtraDetailsType = {
 function GenerateAliasedQuery(idList: number[]) {
   return idList.map(id => {
     const globalId = window.btoa(`question:${id}`);
+
     return `
         question${id}: question(id: "${globalId}") {
           ...QuestionFragment

@@ -128,6 +128,7 @@ class Uploader {
     } else {
       const $box = this.AddProgressBox(file);
       const uploader = new FileUpload(file, $box);
+
       this.Chunk.AddToQueue(uploader);
     }
   }

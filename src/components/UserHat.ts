@@ -65,6 +65,7 @@ const HATS = {
 function UserHat(gender) {
   // eslint-disable-next-line no-param-reassign
   gender = gender === 1 ? "Female" : gender === 2 ? "Male" : "Unisex";
+
   const rn = System.randomNumber(0, HATS[gender].length - 1);
   const hat = HATS.list[HATS[gender][rn]];
 

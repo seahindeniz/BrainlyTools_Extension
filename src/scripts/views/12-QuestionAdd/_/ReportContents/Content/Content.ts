@@ -202,6 +202,7 @@ export default class Content {
       const reportDateTz = moment(this.data.report?.created).tz(
         System.data.Brainly.defaultConfig.config.data.config.timezone,
       );
+
       this.dates.report = {
         moment: reportDate,
         tzFormatted: reportDateTz.format("L LT Z"),
@@ -228,7 +229,9 @@ export default class Content {
     if (!this.main.defaults.lazyQueue) return;
 
     await System.Delay(100);
+
     const { clientHeight } = this.container;
+
     this.container.style.minHeight = `${clientHeight}px`;
   }
 
@@ -441,10 +444,10 @@ export default class Content {
             size: "s",
             type: "transparent-light",
             iconOnly: true,
-            icon: this.#ignoreButtonIcon = new Icon({
+            icon: (this.#ignoreButtonIcon = new Icon({
               color: "adaptive",
               type: "unseen",
-            }),
+            })),
             onClick: this.ToggleIgnoredState.bind(this),
           })),
         ],
@@ -696,12 +699,12 @@ export default class Content {
       marginBottom: "xxs",
       marginLeft: "xs",
       title: System.data.locale.common.confirm,
-      children: this.confirmButton = new Button({
+      children: (this.confirmButton = new Button({
         type: "solid-mint",
         iconOnly: true,
         icon: new Icon({ type: "check" }),
         onClick: this.Confirm.bind(this),
-      }),
+      })),
     });
 
     this.tippyInstances.push(

@@ -239,6 +239,7 @@ export default class MultiReviewSection {
           return now < end;
         },
       };
+
       this.main.reviewDataEntries.byId[data.id] = dataEntry;
 
       processedReviewDataEntries.push(dataEntry);
@@ -406,6 +407,7 @@ export default class MultiReviewSection {
       width: screenshotWidthLimit,
       height: canvasHeight - 10,
     });
+
     const containerContext = this.screenshotCanvas.getContext("2d");
     let lastStartPoint = 0;
 

@@ -61,12 +61,12 @@ export default class Density {
                 CreateElement({
                   tag: "datalist",
                   id: "densityMark",
-                  children: FillRange(0, MAX_DENSITY).map(numb => {
-                    return CreateElement({
+                  children: FillRange(0, MAX_DENSITY).map(numb =>
+                    CreateElement({
                       tag: "option",
                       value: String(numb),
-                    });
-                  }),
+                    }),
+                  ),
                 }),
               ],
             ],
@@ -87,6 +87,7 @@ export default class Density {
 
   async SetValue() {
     const storedDensityValue = (await storage("get", STORAGE_NAME)) || "0";
+
     this.input.value = storedDensityValue;
 
     this.Changed();

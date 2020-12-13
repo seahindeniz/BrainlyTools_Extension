@@ -201,16 +201,16 @@ export default class Comment {
                           target: "_blank",
                           href: System.createProfileLink(reporter),
                         }),
-                        ...reporter.ranks.names.map(rankName => {
-                          return Text({
+                        ...reporter.ranks.names.map(rankName =>
+                          Text({
                             tag: "span",
                             size: "xsmall",
                             text: rankName,
                             style: {
                               color: reporter.ranks.color,
                             },
-                          });
-                        }),
+                          }),
+                        ),
                       ],
                     }),
                     Text({

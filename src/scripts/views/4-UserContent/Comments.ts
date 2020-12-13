@@ -39,6 +39,7 @@ function FindCommentsFromContents(
     const loop = async () => {
       const content = contents.shift();
       const comments = await FindCommentsFromContent(content, type);
+
       allComments = [...allComments, ...comments];
 
       if (contents.length === 0) {
@@ -47,6 +48,7 @@ function FindCommentsFromContents(
         loop();
       }
     };
+
     loop();
   });
 }
@@ -56,6 +58,7 @@ async function FindUsersComments(data) {
   const usersComments = [];
 
   const questionComments = await FindCommentsFromContent(data.task, 1);
+
   allComments = [...allComments, ...questionComments];
 
   if (data.responses && data.responses.length > 0) {
@@ -63,6 +66,7 @@ async function FindUsersComments(data) {
       [...data.responses],
       2,
     );
+
     allComments = [...allComments, ...answersComments];
   }
 

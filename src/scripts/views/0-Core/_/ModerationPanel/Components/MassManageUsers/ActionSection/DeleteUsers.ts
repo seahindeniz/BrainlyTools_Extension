@@ -142,6 +142,7 @@ export default class DeleteUsers extends ActionSection {
     for (let i = 0; i < 7; i++)
       if (this.openedConnection < 7) {
         this.openedConnection++;
+
         const user = this.PickUser();
 
         if (!user) {

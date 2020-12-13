@@ -35,7 +35,7 @@ export default class QuickDeleteButton {
     this.container = Flex({
       relative: true,
       marginRight: "xs",
-      children: this.button = new Button({
+      children: (this.button = new Button({
         ...this.buttonColor,
         title: `${this.reason.title}:\n\n${this.reason.text}`,
         size: "s",
@@ -46,7 +46,7 @@ export default class QuickDeleteButton {
           children: this.index,
         }),
         onClick: this.DeleteContent.bind(this),
-      }),
+      })),
     });
 
     tippy(this.button.element, {

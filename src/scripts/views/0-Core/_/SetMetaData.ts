@@ -1,8 +1,8 @@
 import { MetaDataType } from "@root/controllers/System";
 import PrepareDeleteReasons from "../../../../controllers/PrepareDeleteReasons";
 
-const MetaGet = (): Promise<MetaDataType> => {
-  return new Promise((resolve, reject) => {
+const MetaGet = (): Promise<MetaDataType> =>
+  new Promise((resolve, reject) => {
     const evtMetaGet = new Event("metaGet", {
       bubbles: true,
       cancelable: false,
@@ -12,6 +12,7 @@ const MetaGet = (): Promise<MetaDataType> => {
     window.addEventListener("message", async e => {
       if (!e) {
         reject(Error("Didn't receive any event data"));
+
         return;
       }
 
@@ -29,17 +30,19 @@ const MetaGet = (): Promise<MetaDataType> => {
           "contentScript>Share System.data to background.js:DONE",
           { bubbles: true, cancelable: false },
         );
+
         document.dispatchEvent(evtSharingDone);
       }
     });
   });
-};
 
 export default async function setMetaData() {
   const scriptSrc = (document.currentScript as HTMLScriptElement).src;
+
   System.data.meta = await MetaGet();
 
   const extensionURL = new URL(scriptSrc);
+
   System.data.meta = {
     marketTitle: document.title,
     extension: {

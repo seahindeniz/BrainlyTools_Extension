@@ -13,6 +13,7 @@ export default function WaitForObject(
     const intervalId = setInterval(() => {
       if (loopExpireTime < Date.now()) {
         clearInterval(intervalId);
+
         if (!noError) {
           reject(Error(`The ${expression} object cannot be found`));
         }

@@ -80,6 +80,7 @@ async function UpdateLangFilesFromLokalise(lokaliseOptions) {
     add_newline_eof: true,
     ...lokaliseOptions,
   };
+
   const details = await lokaliseApi.files.download(projectId, lokaliseOptions);
 
   if (!details || !details.bundle_url)

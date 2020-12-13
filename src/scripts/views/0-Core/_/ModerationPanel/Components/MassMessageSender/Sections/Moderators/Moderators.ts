@@ -104,6 +104,7 @@ class RankSection {
   async RenderModerators() {
     $(this.$userSection).html("");
     this.ShowUserSectionSpinner();
+
     try {
       await new ServerReq().GetAllModerators({
         each: this.RenderUser.bind(this),
@@ -115,6 +116,7 @@ class RankSection {
         "error",
       );
     }
+
     this.HideUserSectionSpinner();
     this.ChangeRank();
   }
@@ -142,6 +144,7 @@ class RankSection {
 
     if (selectedRankOptions.length > 0) {
       selectedRankOptions = [...selectedRankOptions];
+
       const findTheAllValue = selectedRankOptions.filter(
         selectedRankOption => selectedRankOption.value === "all",
       );

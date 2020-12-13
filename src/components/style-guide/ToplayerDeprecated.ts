@@ -73,9 +73,11 @@ export default function ({
 
   // @ts-ignore
   const toplayer: ToplayerElementType = document.createElement("div");
+
   toplayer.className = topLayerClassName;
 
   const wrapper = document.createElement("div");
+
   wrapper.className = toplayerWrapperClassName;
   toplayer.wrapper = wrapper;
 
@@ -85,7 +87,9 @@ export default function ({
 
   if (onClose) {
     const close = document.createElement("div");
+
     close.className = `${SGL}close`;
+
     const icon = new Icon({
       type: "close",
       color: "gray-secondary",

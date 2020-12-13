@@ -112,9 +112,9 @@ class ModerationPanel {
   RenderList() {
     const listContainer = Flex({
       marginBottom: "s",
-      children: this.ul = MenuList({
+      children: (this.ul = MenuList({
         size: "small",
-      }),
+      })),
     });
 
     this.panel.prepend(listContainer);
@@ -153,9 +153,9 @@ class ModerationPanel {
     this.resizeOverlay = CreateElement({
       tag: "div",
       className: "resizeOverlay",
-      children: this.resizeStyle = CreateElement({
+      children: (this.resizeStyle = CreateElement({
         tag: "style",
-      }),
+      })),
     });
 
     document.body.append(this.resizeOverlay);

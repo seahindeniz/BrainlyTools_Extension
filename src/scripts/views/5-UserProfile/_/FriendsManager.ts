@@ -87,10 +87,8 @@ function FriendsManager() {
   const deleteThem = async (idList, progress) => {
     progress.$container.insertAfter("#main-panel > .mint-header__container");
 
-    const doInEachUnfriending = function (count, id) {
-      const friend = System.friends.find(f => {
-        return Number(f.id) === Number(id);
-      });
+    const doInEachUnfriending = (count, id) => {
+      const friend = System.friends.find(f => Number(f.id) === Number(id));
       const index = System.friends.indexOf(friend);
 
       if (index > -1) {
@@ -114,9 +112,7 @@ function FriendsManager() {
       $profileFriends,
     );
     const idList = $checkboxes
-      .map((i, val) => {
-        return val.id.replace("check-", "");
-      })
+      .map((i, val) => val.id.replace("check-", ""))
       .get();
 
     if (idList.length === 0) {
@@ -177,10 +173,9 @@ function FriendsManager() {
 
       friend.ranks.names.forEach(name => {
         const rankData = System.data.Brainly.defaultConfig.config.data.ranks.find(
-          rank => {
-            return rank.name === name;
-          },
+          rank => rank.name === name,
         );
+
         ranks += `<div style="color:#${rankData.color || "000"}">${
           rankData.name
         }</div>`;

@@ -29,6 +29,7 @@ export default ({
   const linkClass = classNames(`${SGL}link sg-text--link`, className);
 
   const element = document.createElement("li");
+
   element.className = `${SGL}element`;
 
   if (typeof text !== "undefined" || typeof html !== "undefined" || children) {

@@ -58,6 +58,7 @@ export default function ({
   );
 
   const div = document.createElement("div");
+
   div.className = contentBoxClass;
 
   if (typeof children === "string") {

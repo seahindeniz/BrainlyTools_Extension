@@ -63,6 +63,7 @@ export default class TodaysActions {
     );
 
     const clone = this.#container.cloneNode() as HTMLDivElement;
+
     clone.innerHTML = this.#container.innerHTML;
 
     const nodes = [this.#container, clone];

@@ -19,13 +19,13 @@ export default class FetchAll {
     this.container = Flex({
       margin: "xxs",
       marginTop: "m",
-      children: this.loadAllButton = new Button({
+      children: (this.loadAllButton = new Button({
         fullWidth: true,
         type: "outline",
         toggle: "mustard",
         children: System.data.locale.reportedContents.loadAll,
         onClick: this.LoadAllReports.bind(this),
-      }),
+      })),
     });
 
     this.ShowContainer();

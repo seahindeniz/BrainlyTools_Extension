@@ -67,6 +67,7 @@ export default class ModerationToplayer {
     this.container = container;
 
     const hash = container.getAttribute("objecthash");
+
     this.zdnObject = Zadanium.getObject(hash);
     this.question = this.zdnObject.data.task;
     this.answers = this.zdnObject.data.responses;

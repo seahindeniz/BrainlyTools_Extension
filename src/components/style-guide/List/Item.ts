@@ -31,6 +31,7 @@ export default function ({
   const listItemClass = classnames(`${SGL}element`, className);
 
   const item = document.createElement("li");
+
   item.className = listItemClass;
 
   if (text) item.innerText = text;
@@ -39,6 +40,7 @@ export default function ({
 
   if (icon) {
     const iconContainer = document.createElement("div");
+
     iconContainer.className = classnames(`${SGL}icon`, {
       [`${SGL}icon--spacing-right-small`]: iconSmall,
     });
@@ -61,6 +63,7 @@ export default function ({
               size: iconSmall ? 14 : 18,
             },
       );
+
       iconElement = iconInstance.element;
     }
 

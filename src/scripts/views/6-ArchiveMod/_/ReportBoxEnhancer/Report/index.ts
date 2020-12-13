@@ -93,6 +93,7 @@ export default class Report {
     const footerChildElements = Array.from(
       this.footer.children,
     ) as HTMLElement[];
+
     this.contentOwnerDetailRow = footerChildElements.shift();
     this.reporterDetailRow = footerChildElements.shift();
   }
@@ -295,6 +296,7 @@ export default class Report {
       return;
 
     this.processing = true;
+
     const { model_id } = this.zdnObject.data;
     const { model_type_id } = this.zdnObject.data;
 
@@ -304,6 +306,7 @@ export default class Report {
       model_id,
       model_type_id,
     );
+
     this.processing = false;
 
     new Action().CloseModerationTicket(this.zdnObject.data.task_id);

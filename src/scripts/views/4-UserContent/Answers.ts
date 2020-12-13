@@ -65,6 +65,7 @@ async function Row_DeleteAnswer(
     row.ShowSpinner();
 
     postData.model_id = row.answerID;
+
     const resRemove = await new Action().RemoveAnswer(postData);
 
     await new Action().CloseModerationTicket(row.contents.question.source.id);
@@ -167,6 +168,7 @@ class Answers extends UserContent {
       type: "solid-mint",
       text: System.data.locale.common.moderating.approve,
     });
+
     this.$approveButtonContainer = button.$container;
     this.$approveButton = button.$button;
   }
@@ -175,6 +177,7 @@ class Answers extends UserContent {
     const button = this.RenderButton({
       text: System.data.locale.common.moderating.unapprove,
     });
+
     this.$unApproveButtonContainer = button.$container;
     this.$unApproveButton = button.$button;
   }
@@ -185,6 +188,7 @@ class Answers extends UserContent {
       toggle: "blue",
       text: System.data.locale.userContent.askForCorrection.text,
     });
+
     this.$correctionButtonContainer = button.$container;
     this.$correctionButton = button.$button;
   }
@@ -195,6 +199,7 @@ class Answers extends UserContent {
       toggle: "peach",
       text: System.data.locale.common.delete,
     });
+
     this.$moderateButtonContainer = button.$container;
     this.$moderateButton = button.$button;
   }
@@ -293,6 +298,7 @@ class Answers extends UserContent {
         const postData = {
           reason: String(this.$correctionReason.val()),
         };
+
         console.log(postData);
 
         rows.forEach(row =>

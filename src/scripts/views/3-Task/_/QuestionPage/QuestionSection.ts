@@ -162,7 +162,7 @@ export default class QuestionSection {
     if (!this.main.data.isMarkedAbuse) return;
 
     this.confirmButtonContainer = Flex({
-      children: this.confirmButton = new Button({
+      children: (this.confirmButton = new Button({
         size: "s",
         type: "solid-mint",
         iconOnly: true,
@@ -171,7 +171,7 @@ export default class QuestionSection {
           color: "light",
         }),
         onClick: this.Confirm.bind(this),
-      }),
+      })),
     });
 
     tippy(this.confirmButton.element, {

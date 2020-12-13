@@ -8,12 +8,10 @@ export default class ReasonSection extends RadioSection {
 
     super(
       main,
-      reasonCategories.map(deleteReason => {
-        return {
-          text: deleteReason.text,
-          value: deleteReason.id,
-        };
-      }),
+      reasonCategories.map(deleteReason => ({
+        text: deleteReason.text,
+        value: deleteReason.id,
+      })),
       defaultValue,
     );
   }

@@ -121,7 +121,7 @@ export default class Answer {
     this.moderateButtonContainer = CreateElement({
       tag: "td",
       className: "last",
-      children: this.moderateButton = new Button({
+      children: (this.moderateButton = new Button({
         size: "s",
         type: "solid-blue",
         iconOnly: true,
@@ -129,7 +129,7 @@ export default class Answer {
           type: "pencil",
         }),
         onClick: this.Moderate.bind(this),
-      }),
+      })),
     });
 
     this.actionButtons.push(this.moderateButton);
@@ -151,9 +151,9 @@ export default class Answer {
 
     this.checkboxContainer = CreateElement({
       tag: "td",
-      children: this.checkbox = new Checkbox({
+      children: (this.checkbox = new Checkbox({
         id: null,
-      }),
+      })),
     });
 
     this.rowElement.prepend(this.checkboxContainer);

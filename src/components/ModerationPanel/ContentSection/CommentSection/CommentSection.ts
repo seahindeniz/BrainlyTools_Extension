@@ -76,18 +76,18 @@ export default class CommentSection {
                   size: "s",
                   type: "outline",
                   onClick: this.ToggleCommentsOrder.bind(this),
-                  icon: this.switchOrderButtonIconText = Text({
+                  icon: (this.switchOrderButtonIconText = Text({
                     tag: "div",
                     size: "large",
                     children: "↓",
-                  }),
-                  children: this.switchOrderButtonText = Text({
+                  })),
+                  children: (this.switchOrderButtonText = Text({
                     tag: "div",
                     size: "xxsmall",
                     children: System.data.locale.moderationPanel.janToDec,
                     whiteSpace: "pre-wrap",
                     weight: "bold",
-                  }),
+                  })),
                 })),
               ],
               [
@@ -99,9 +99,9 @@ export default class CommentSection {
                   type: "outline",
                   iconOnly: true,
                   onClick: this.ToggleDeletedComments.bind(this),
-                  icon: this.toggleDeletedCommentsButtonIcon = new Icon({
+                  icon: (this.toggleDeletedCommentsButtonIcon = new Icon({
                     type: "unseen",
-                  }),
+                  })),
                 })),
               ],
               [
@@ -113,9 +113,9 @@ export default class CommentSection {
                   type: "outline",
                   iconOnly: true,
                   onClick: this.ToggleReportedComments.bind(this),
-                  icon: this.toggleReportedCommentsButtonIcon = new Icon({
+                  icon: (this.toggleReportedCommentsButtonIcon = new Icon({
                     type: "report_flag_outlined",
-                  }),
+                  })),
                 })),
               ],
             ],
@@ -132,21 +132,21 @@ export default class CommentSection {
 
     tippy(this.switchOrderButton.element, {
       theme: "light",
-      content: this.switchOrderButtonTippyText = Text({
+      content: (this.switchOrderButtonTippyText = Text({
         tag: "div",
         size: "small",
         weight: "bold",
         children: System.data.locale.moderationPanel.sortDESC,
-      }),
+      })),
     });
     tippy(this.toggleDeletedCommentsButton.element, {
       theme: "light",
-      content: this.toggleDeletedCommentsButtonTippyText = Text({
+      content: (this.toggleDeletedCommentsButtonTippyText = Text({
         tag: "div",
         size: "small",
         weight: "bold",
         children: System.data.locale.moderationPanel.hideDeletedComments,
-      }),
+      })),
     });
     tippy(this.toggleReportedCommentsButton.element, {
       theme: "light",
@@ -301,7 +301,7 @@ export default class CommentSection {
     this.showAllCommentsButtonContainer = Flex({
       marginTop: "xs",
       justifyContent: "center",
-      children: this.showAllCommentsButton = new Button({
+      children: (this.showAllCommentsButton = new Button({
         size: "s",
         type: "outline",
         toggle: "blue",
@@ -311,7 +311,7 @@ export default class CommentSection {
           color: "adaptive",
           type: "comment",
         }),
-      }),
+      })),
     });
   }
 }

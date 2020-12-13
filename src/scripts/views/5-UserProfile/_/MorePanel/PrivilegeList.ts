@@ -56,7 +56,7 @@ export default class PrivilegeList {
 
   RenderList() {
     this.privilegeListContainer = ContentBoxContent({
-      children: this.privilegeList = List(),
+      children: (this.privilegeList = List()),
     });
   }
 

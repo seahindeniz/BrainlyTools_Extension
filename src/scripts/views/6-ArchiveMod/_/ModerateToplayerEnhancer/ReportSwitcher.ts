@@ -139,6 +139,7 @@ export default class ReportSwitcher {
         },
       ) => {
         const currentHash = object.elements.main[0].getAttribute("objecthash");
+
         return lastActiveReportHash === currentHash;
       },
     );

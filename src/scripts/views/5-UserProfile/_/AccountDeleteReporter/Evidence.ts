@@ -71,7 +71,7 @@ export default class Evidence {
 
     this.previewContainer = Flex({
       // @ts-expect-error
-      children: this.previewElement = CreateElement(data),
+      children: (this.previewElement = CreateElement(data)),
     });
   }
 

@@ -336,9 +336,13 @@ class GroupChatbox {
     };
 
     this.SendMessage.handlers.Each = doInEachSending;
+
     const idList = this.group.members.map(member => ~~member.brainlyID);
+
     this.SendMessage.Start(idList, message);
+
     const membersWithConversationIds = await this.SendMessage.Promise();
+
     console.log("membersWithConversationIds:", membersWithConversationIds);
 
     // this.CheckForImproperMember(membersWithConversationIds);

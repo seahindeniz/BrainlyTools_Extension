@@ -73,10 +73,12 @@ async function UserWarnings() {
       const $undoLink = $('a[href^="/moderators/cancel_warning"]', parentRow);
 
       console.log($undoLink);
+
       if ($undoLink.length > 0) {
         const href = $undoLink.attr("href");
 
         console.log(href);
+
         if (href) {
           const warningID = href.split("/").pop();
 

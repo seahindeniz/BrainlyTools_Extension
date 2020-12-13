@@ -112,13 +112,13 @@ export default class LogEntry {
                       disabled: !this.data.descriptions,
                       onClick:
                         this.data.descriptions && this.ToggleDetails.bind(this),
-                      icon: this.toggleButtonIcon = new Icon({
+                      icon: (this.toggleButtonIcon = new Icon({
                         type: "more",
                         size: 32,
                         color: this.data.descriptions
                           ? ENTRY_ICON_COLOR[this.data.class || "added"]
                           : "light",
-                      }),
+                      })),
                     })),
                   ],
                 ],
@@ -185,8 +185,8 @@ export default class LogEntry {
       marginLeft: "s",
       marginRight: "xs",
       direction: "column",
-      children: this.data.descriptions.map((entry, index) => {
-        return Build(
+      children: this.data.descriptions.map((entry, index) =>
+        Build(
           Flex({
             direction: "column",
             marginBottom:
@@ -208,8 +208,8 @@ export default class LogEntry {
               }),
             ],
           ],
-        );
-      }),
+        ),
+      ),
     });
   }
 }

@@ -101,6 +101,7 @@ async function FetchRouting() {
     RoutesFetchURL = location.origin + RoutesFetchURL;
 
   action.url = new URL(RoutesFetchURL);
+
   const resJS = await action.GET();
 
   if (resJS) {
@@ -122,6 +123,7 @@ async function FetchRouting() {
 
 async function GetRoutingData() {
   let routing;
+
   // let RoutingContainerMatch = Array.from(document.scripts).find(script => script.src.match(/__vendors|include_main_/gmi));
   // console.log("document.body.innerHTML.match(/__vendors|include_main_/gmi):", document.body.innerHTML.match(/__vendors|include_main_/gmi));
   if (!RoutesFetchURL) {

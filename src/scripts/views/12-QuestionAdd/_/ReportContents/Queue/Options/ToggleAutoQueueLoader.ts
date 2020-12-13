@@ -79,6 +79,7 @@ export default class ToggleAutoQueueLoader {
 
   StoreState() {
     const { checked } = this.switch.input;
+
     this.main.main.main.defaults.autoQueueLoader = checked;
 
     storage("set", {

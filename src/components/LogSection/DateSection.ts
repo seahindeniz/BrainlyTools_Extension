@@ -100,9 +100,9 @@ export default class LogDateSection {
                 type: "solid-light",
                 onClick: this.ToggleLogsContainer.bind(this),
                 iconOnly: true,
-                icon: this.toggleButtonIcon = new Icon({
+                icon: (this.toggleButtonIcon = new Icon({
                   type: "arrow_down",
-                }),
+                })),
               }),
             ],
           ],

@@ -299,6 +299,7 @@ class AccountDeleteReports {
 				</tr>`);
 
         const $iconImg = $("figure img", $fileRow);
+
         // @ts-expect-error
         // eslint-disable-next-line no-new
         new FileIcon(file, $iconImg);

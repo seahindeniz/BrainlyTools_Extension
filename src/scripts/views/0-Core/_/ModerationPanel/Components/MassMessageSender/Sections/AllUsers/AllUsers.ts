@@ -60,6 +60,7 @@ class AllUsers {
         ` <span class="sg-text--bold">0</span> `,
       ),
     });
+
     this.numberOfIds = nIds.querySelector("span");
 
     this.container = Build(ContentBox(), [
@@ -291,6 +292,7 @@ class AllUsers {
     const value = this.input.value.replace(/\s/g, "");
     let rangeArr = rangeParser(value);
     const rangeSet = new Set(rangeArr);
+
     rangeArr = Array.from(rangeSet).filter(x => x > 0);
 
     return rangeArr;
@@ -303,6 +305,7 @@ class AllUsers {
     if (this.idList.length > 0) {
       const idList = this.idList.slice(0, 1000);
       const tempList = idList.join("\n");
+
       this.output.innerHTML = tempList.replace(
         /(\d{1,})/g,
         `<div><span class="sg-text--background-blue-light">$1</span></div>`,

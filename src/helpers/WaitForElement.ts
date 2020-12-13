@@ -44,6 +44,7 @@ function WaitForElement(
     const intervalId = setInterval(() => {
       if (expireTime < Date.now()) {
         clearInterval(intervalId);
+
         if (!noError) {
           reject(Error(`Can't find anything with: ${query}`));
         }

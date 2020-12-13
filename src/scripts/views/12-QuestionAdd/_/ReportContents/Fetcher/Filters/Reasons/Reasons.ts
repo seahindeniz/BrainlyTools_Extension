@@ -43,10 +43,10 @@ export default class Reasons {
       grow: true,
       margin: "xxs",
       // marginRight: "s",
-      children: this.reasonSelect = new Select({
+      children: (this.reasonSelect = new Select({
         fullWidth: true,
         onChange: this.ReasonSelected.bind(this),
-      }),
+      })),
     });
 
     this.Show();

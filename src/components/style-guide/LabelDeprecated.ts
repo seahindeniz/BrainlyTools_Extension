@@ -132,6 +132,7 @@ function AddIcon(
       };
 
       const iconObj = new Icon(iconProps);
+
       iconInstance = iconObj;
     }
   }
@@ -262,6 +263,7 @@ export default function ({
   const labelContainer: LabelElementType = Object.assign(
     document.createElement(containerTag),
   );
+
   labelContainer.className = labelClass;
   props.color = color;
   props.type = type;
@@ -286,6 +288,7 @@ export default function ({
         color: closeIconColor,
       }),
     });
+
     /* const closeButton = document.createElement("button");
     closeButton.className = `${SG_}close-button`;
 

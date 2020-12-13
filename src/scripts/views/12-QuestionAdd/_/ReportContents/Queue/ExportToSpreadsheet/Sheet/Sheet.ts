@@ -49,6 +49,7 @@ export default class Sheet {
   private SetHeaderRow() {
     const reporterDetails = [];
     const isCorrectedEntry = [];
+
     if (
       this.#main.main.main.fetcher.filters.reportTypeFilter.selectedReportType
         .typeName !== "correctionReports"

@@ -67,7 +67,9 @@ export default class AnswerSection extends ModerationSection {
       }
 
       this.processing = true;
+
       const resConfirm = await new Action().ConfirmAnswer(this.data.id);
+
       this.processing = false;
 
       if (!resConfirm) throw Error("Empty response");

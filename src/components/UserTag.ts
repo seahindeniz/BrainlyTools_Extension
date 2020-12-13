@@ -45,9 +45,9 @@ class UserTag {
   Render() {
     this.container = ActionListHole({
       className: "userTag",
-      children: this.label = new Label({
+      children: (this.label = new Label({
         type: "solid",
-      }),
+      })),
     });
   }
 

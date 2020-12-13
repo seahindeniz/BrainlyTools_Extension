@@ -246,10 +246,12 @@ export default class extends Components {
   async FindUser() {
     const resUserResult = await new Action().FindUser(this.input.input.value);
     const tempDiv = document.createElement("div");
+
     tempDiv.innerHTML = resUserResult.replace(
       /onerror="imgError\(this, (?:'|&#039;){1,}\);"/gim,
       "",
     );
+
     const usersData = tempDiv.querySelectorAll("table div.user-data");
 
     this.ChangeStatusText();

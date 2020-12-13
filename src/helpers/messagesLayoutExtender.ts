@@ -2,6 +2,7 @@ import WaitForElement from "./WaitForElement";
 
 const resizeIt = elm => {
   const wh = window.innerHeight;
+
   elm.innerHTML = `
 	@media (min-width: 1024px){
 		.sg-layout__container{
@@ -31,13 +32,16 @@ const resizeIt = elm => {
 	}
 	`;
 };
+
 let $cssExtendMessagesLayout;
+
 const resizer = async status => {
   const head = await WaitForElement("head");
 
   if (!head) return;
 
   $cssExtendMessagesLayout = document.getElementById("cssExtendMessagesLayout");
+
   const $privateMessagesContainer = document.getElementById(
     "private-messages-container",
   );

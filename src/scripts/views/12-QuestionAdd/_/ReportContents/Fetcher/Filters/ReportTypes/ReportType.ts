@@ -26,6 +26,7 @@ export default class ReportType {
 
   Render() {
     this.numberOfReports = document.createTextNode("0");
+
     const textPieces: (string | Text)[] = System.data.locale.reportedContents[
       this.typeName
     ].text.split("%{number_of_reports}");
@@ -34,11 +35,11 @@ export default class ReportType {
 
     this.container = Flex({
       margin: "xxs",
-      children: this.button = new Button({
+      children: (this.button = new Button({
         type: "outline",
         children: textPieces,
         title: System.data.locale.reportedContents[this.typeName].title,
-      }),
+      })),
     });
 
     tippy(this.button.element, {

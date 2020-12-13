@@ -50,11 +50,11 @@ export default class Moderator {
   private Render() {
     this.#deleteSection = new DeleteSection({
       defaults: { contentType: "Question" },
-      actionButton: this.#deleteButtonsContainer = Flex({
+      actionButton: (this.#deleteButtonsContainer = Flex({
         fullWidth: true,
         justifyContent: "space-around",
         marginTop: "s",
-      }),
+      })),
     });
 
     this.#selectAllCheckbox = new Checkbox({
@@ -124,10 +124,12 @@ export default class Moderator {
 
   private RenderDeleteButton() {
     this.#deleteButtonNumberText = document.createTextNode("0");
+
     const numberLabel = new Label({
       color: "achromatic",
       children: this.#deleteButtonNumberText,
     });
+
     this.#deleteButton = new Button({
       children: System.data.locale.common.delete,
       icon: numberLabel.element,
@@ -142,10 +144,12 @@ export default class Moderator {
 
   private RenderDeleteAcrossButton() {
     this.#deleteAcrossButtonNumberText = document.createTextNode("0");
+
     const numberLabel = new Label({
       color: "achromatic",
       children: this.#deleteAcrossButtonNumberText,
     });
+
     this.#deleteAcrossButton = new Button({
       children: System.data.locale.common.deleteAcross,
       icon: numberLabel.element,
@@ -190,11 +194,13 @@ export default class Moderator {
 
   UpdateButtonNumbers() {
     const selectedQuestions = this.FilterSelectedQuestions(true);
+
     this.#deleteButtonNumberText.nodeValue = String(selectedQuestions.length);
 
     if (!this.#deleteAcrossButtonNumberText) return;
 
     const selectedQuestionsAcrossPages = this.FilterSelectedQuestions();
+
     this.#deleteAcrossButtonNumberText.nodeValue = String(
       selectedQuestionsAcrossPages.length,
     );

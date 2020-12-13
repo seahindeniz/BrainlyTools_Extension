@@ -103,7 +103,9 @@ export default class UserProfile {
 
   FixInfoBottom() {
     const contentOld = document.getElementById("content-old");
+
     contentOld.id += "2";
+
     const infoBottom = document.querySelector(".info_bottom");
 
     if (!infoBottom) throw Error("info_bottom element cannot be found");

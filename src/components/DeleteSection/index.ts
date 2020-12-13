@@ -291,6 +291,7 @@ class DeleteSection {
 
     if (status === false) {
       this.type = this.lastSelectedContentType;
+
       const input = $(`#${this.type}`, this.contentTypeSection.container);
 
       input.prop("checked", true);
@@ -331,13 +332,11 @@ class DeleteSection {
         verticalOptions: this.verticalOptions,
         text: System.data.locale.core.MassContentDeleter.select.reason,
         warning: System.data.locale.common.moderating.selectReason,
-        items: this.reasons.map(reason => {
-          return {
-            id: `r-${reason.id}`,
-            // @ts-expect-error
-            label: reason.title || reason.text,
-          };
-        }),
+        items: this.reasons.map(reason => ({
+          id: `r-${reason.id}`,
+          // @ts-expect-error
+          label: reason.title || reason.text,
+        })),
         changeHandler: this.ReasonRadioChange.bind(this),
       });
       this.reasonSections[this.type] = reasonSection;
@@ -416,7 +415,9 @@ class DeleteSection {
 
     if (event.target instanceof HTMLElement) {
       const reasonId = System.ExtractId(event.target.id);
+
       this.reason = this.reasons.find(reason => reason.id === reasonId);
+
       let subReasonSection = this.subReasonSections[reasonId];
 
       if (!subReasonSection) {
@@ -425,12 +426,10 @@ class DeleteSection {
           verticalOptions: this.verticalOptions,
           text: System.data.locale.core.MassContentDeleter.select.subReason,
           // @ts-expect-error
-          items: this.reason.subcategories.map(reason => {
-            return {
-              id: `sr-${reason.id}`,
-              label: reason.title || reason.text,
-            };
-          }),
+          items: this.reason.subcategories.map(reason => ({
+            id: `sr-${reason.id}`,
+            label: reason.title || reason.text,
+          })),
           changeHandler: this.SubReasonRadioChange.bind(this),
         });
         this.subReasonSections[reasonId] = subReasonSection;

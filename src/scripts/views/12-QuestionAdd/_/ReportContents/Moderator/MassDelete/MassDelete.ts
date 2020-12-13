@@ -111,6 +111,7 @@ export default class MassDeleteSection extends ActionSection {
         HideElement(this.deleteSection.byContentType[contentType].container);
 
         this.deleteSection.byContentType[contentType] = null;
+
         const sectionIndex = this.deleteSection.all.findIndex(
           section => section.contentType === contentType,
         );
@@ -124,6 +125,7 @@ export default class MassDeleteSection extends ActionSection {
     if (this.deleteSection.byContentType[contentType]) return;
 
     const deleteSection = new MassDeleteDeleteSection(this, contentType);
+
     this.deleteSection.byContentType[contentType] = deleteSection;
 
     this.deleteSection.all.push(deleteSection);

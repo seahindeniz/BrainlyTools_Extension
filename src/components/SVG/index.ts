@@ -3,6 +3,7 @@ import IconsContent from "./_/icons.html";
 
 export default function InjectIcons() {
   const svgWrapper = document.createElement("div");
+
   svgWrapper.style.display = "none";
   svgWrapper.innerHTML = IconsContent;
 

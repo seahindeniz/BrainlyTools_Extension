@@ -39,6 +39,7 @@ let templateAnchor = TextComponent({
   underlined: true,
 });
 const MESSAGE_ANCHOR_CLASSNAMES = templateAnchor.className;
+
 templateAnchor = null;
 
 export const screenshotWidthLimit = 855;
@@ -123,6 +124,7 @@ export default class ActionEntry {
       .reverse()
       .find(node => node instanceof Text) as Text;
     const actionTimeString = actionTimeText.nodeValue.trim();
+
     this.actionTime = DateTime.fromSQL(actionTimeString);
   }
 
@@ -485,6 +487,7 @@ export default class ActionEntry {
       )
     ) {
       this.newDetailContainer.ChangeColor();
+
       return;
     }
 
@@ -519,7 +522,7 @@ export default class ActionEntry {
   private RenderSendMessageButton() {
     this.sendMessageButtonContainer = Flex({
       marginTop: "xxs",
-      children: this.sendMessageButton = new Button({
+      children: (this.sendMessageButton = new Button({
         size: "xs",
         type: "outline",
         toggle: "blue",
@@ -528,7 +531,7 @@ export default class ActionEntry {
           type: "messages",
         }),
         onClick: this.ToggleSendMessageSection.bind(this),
-      }),
+      })),
     });
 
     tippy(this.sendMessageButtonContainer, {

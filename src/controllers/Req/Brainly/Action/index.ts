@@ -637,9 +637,11 @@ export default class Action extends Brainly {
       content,
       task_id,
     };
+
     data.content += `<p></p><p>${System.constants.config.reasonSign}</p>`;
 
     const promiseAdd = this.Legacy().api_responses().add().POST(data);
+
     /* const resAdd = */ await promiseAdd;
 
     const resCloseTicket = await new Action().RemoveTicketForAnswering(
@@ -697,6 +699,7 @@ export default class Action extends Brainly {
       return this.Legacy().moderation_new().delete_task_content().POST(data);
     } catch (_) {
       console.error(2);
+
       return undefined;
     }
   }
@@ -918,9 +921,7 @@ export default class Action extends Brainly {
     if (ids.length > USERS_PROFILE_REQ_CHUNK_SIZE)
       return this.GetUsersInChunk(ids);
 
-    const queries = ids.map(id => {
-      return [`id[]`, id];
-    });
+    const queries = ids.map(id => [`id[]`, id]);
 
     return this.Legacy().api_users().get_by_id().GET(queries);
   }
@@ -1036,6 +1037,7 @@ export default class Action extends Brainly {
 
       data.conversation_id = resConversation.data.conversation_id;
     }
+
     // onError yerine function aç ve gelen isteğe göre conversation id oluştur. İstek conversation id hatası değilse on error devam ettir
     return this.Legacy().api_messages().send().POST(data);
   }
@@ -1076,6 +1078,7 @@ export default class Action extends Brainly {
       System.createProfileLink(user_id, "a", true),
       tokenProps,
     );
+
     data["data[uid]"] = user_id;
 
     return this.ranks().delete_user_special_ranks().Form().Salt().POST(data);
@@ -1089,6 +1092,7 @@ export default class Action extends Brainly {
     const data = await this.SetFormTokens(
       `/ranks/choose_special_rank_for_user/${user_id}`,
     );
+
     data["data[Rank][type]"] = rank_id;
 
     return this.ranks()
@@ -1104,6 +1108,7 @@ export default class Action extends Brainly {
       System.createProfileLink(user_id, "a", true),
       { tokenSelector: "#ChangePointsAddForm" },
     );
+
     data["data[ChangePoints][diff]"] = point;
 
     return this.admin().users().change_points().P(user_id).Form().POST(data);
@@ -1114,6 +1119,7 @@ export default class Action extends Brainly {
       System.createProfileLink(user_id, "a", true),
       { tokenSelector: "#DelUserAddForm" },
     );
+
     data["data[DelUser][delTasks]"] = 1;
     data["data[DelUser][delComments]"] = 1;
     data["data[DelUser][delResponses]"] = 1;
@@ -1222,6 +1228,7 @@ export default class Action extends Brainly {
 
   async UploadFile(file, onUploadProgress) {
     const data = await this.SetFormTokens("/admin/uploader/index");
+
     data["data[Uploader][file]"] = file;
 
     return this.Axios({ onUploadProgress })

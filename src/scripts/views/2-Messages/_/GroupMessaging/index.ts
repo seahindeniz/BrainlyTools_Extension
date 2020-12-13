@@ -42,6 +42,7 @@ class GroupMessaging {
     this.$conversationsHeader = await WaitForElement(
       selectors.conversationsHeader,
     );
+
     const $groupMessageLink = $(
       `<h2 class="sg-text sg-text--bold sg-text--link">${groupsLocale.title}</h2>`,
     );
@@ -70,6 +71,7 @@ class GroupMessaging {
 
       if (time && time !== "") {
         const timeInstance = moment(time);
+
         element.innerText = timeInstance.fromNow();
         element.title = timeInstance.format("LLLL");
       }
@@ -104,6 +106,7 @@ class GroupMessaging {
   async RenderConversationsList() {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const that = this;
+
     this.$conversationsList = $(selectors.conversationsList);
 
     this.$conversationsList.html("");
@@ -194,6 +197,7 @@ class GroupMessaging {
 
   RenderChatbox() {
     this.groupChatbox = new GroupChatbox();
+
     const $chatboxContainer = $(selectors.chatbox);
 
     $chatboxContainer

@@ -22,6 +22,7 @@ export default class Switch {
     ...props
   }: SwitchPropsType = {}) {
     const switchClass = clsx("ext-switch", className);
+
     this.inputId = id;
 
     this.input = CreateElement({

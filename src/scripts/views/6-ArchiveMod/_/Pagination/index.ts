@@ -83,6 +83,7 @@ export default class Pagination {
     if (!window.$Z) throw Error("Can't find the Zadanium framework");
 
     const pageNumbers = resPageNumbers.data;
+
     this.pageNumbers = pageNumbers;
     this.lastPageNumber = pageNumbers.pop();
 
@@ -141,6 +142,7 @@ export default class Pagination {
     this.pScrollBar.update();
 
     const { height } = this.pageNumberContainer.style;
+
     this.firstPageContainer.style.height = height;
     this.lastPageContainer.style.height = height;
   }

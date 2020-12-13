@@ -155,16 +155,16 @@ export default class MassManageUsers extends Components {
                     System.createProfileLink(48173, "Sakura"),
                     `1234567`,
                     `2345678`,
-                  ].map(html => {
-                    return ListItem({
+                  ].map(html =>
+                    ListItem({
                       iconSmall: true,
                       icon: true,
                       children: Text({
                         size: "small",
                         html,
                       }),
-                    });
-                  }),
+                    }),
+                  ),
                 }),
                 `&nbsp;`,
                 System.data.locale.core.pointChanger.pastingExample2,
@@ -176,19 +176,19 @@ export default class MassManageUsers extends Components {
                     `${System.createProfileLink(48173, "Sakura")} -200`,
                     `1234567 -95`,
                     `2345678 +645`,
-                  ].map(html => {
-                    return ListItem({
+                  ].map(html =>
+                    ListItem({
                       iconSmall: true,
                       icon: true,
                       children: Text({
                         size: "small",
                         html,
                       }),
-                    });
-                  }),
+                    }),
+                  ),
                 }),
-              ].map((children, index, arr) => {
-                return Flex({
+              ].map((children, index, arr) =>
+                Flex({
                   marginBottom: index + 1 < arr.length ? "xxs" : "",
                   children:
                     typeof children === "string"
@@ -197,8 +197,8 @@ export default class MassManageUsers extends Components {
                           children,
                         })
                       : children,
-                });
-              }),
+                }),
+              ),
             }),
           ],
         ),
@@ -299,14 +299,14 @@ export default class MassManageUsers extends Components {
     this.addPointsButtonContainer = Flex({
       alignItems: "center",
       marginLeft: "xs",
-      children: this.addPointsButton = new Button({
+      children: (this.addPointsButton = new Button({
         type: "solid-mint",
         title: System.data.locale.core.pointChanger.addPointsToAll,
-        children: this.numberOfUsers = document.createTextNode("0"),
+        children: (this.numberOfUsers = document.createTextNode("0")),
         icon: new Icon({
           type: "pencil",
         }),
-      }),
+      })),
     });
   }
 

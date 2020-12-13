@@ -43,6 +43,7 @@ async function RemoveOldLayoutCSSFile() {
   const oldLinkElement = await WaitForElement<"link">(`[href^="/min/b=css"]`, {
     // noError: true,
   });
+
   InsertBefore(
     CreateElement({
       tag: "link",
@@ -62,6 +63,7 @@ async function RemoveOldLayoutCSSFile() {
       "",
     ),
   });
+
   InsertBefore(newLinkElement, oldLinkElement);
 
   newLinkElement.addEventListener("load", () => {
@@ -162,6 +164,7 @@ class Core {
 
   async SetMarketConfig() {
     const fileName = `/configs/${location.hostname}.json`;
+
     System.data.config.marketConfig = await InjectToDOM(fileName);
 
     return Promise.resolve();
@@ -242,6 +245,7 @@ class Core {
 
     // eslint-disable-next-line dot-notation
     const st = window["snowStorm"];
+
     st.snowColor = "#4fb3f6";
     st.flakesMaxActive = 32;
     st.excludeMobile = false;
@@ -251,6 +255,7 @@ class Core {
     if (!System.checkRoute(1, "question") && !System.checkRoute(2, "add")) {
       InjectToDOM("/scripts/views/0-Core/ModerationPanel.js");
     }
+
     RenderMenuButtonFixer();
 
     if (window.sitePassedParams && typeof window.sitePassedParams === "string")
@@ -266,6 +271,7 @@ class Core {
 
       if (!stop) RemoveSVG_Titles(true);
     };
+
     RemoveSVG_Titles();
   }
 

@@ -20,6 +20,7 @@ type HolePropsType = {
   hideOverflow?: boolean;
   className?: string;
 };
+
 const sg = "sg-actions-list__hole";
 const SGD = `${sg}--`;
 

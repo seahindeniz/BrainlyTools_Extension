@@ -43,6 +43,7 @@ async function TabRemovedHandler() {
 
 async function CheckUpdate() {
   System.Log("Update started");
+
   const status = await ext.runtime.requestUpdateCheck();
 
   if (status[0] === "update_available") ext.runtime.reload();
@@ -55,6 +56,7 @@ async function CheckUpdate() {
 
 async function IsTabHasContentScript(tab: browser.tabs.Tab) {
   let status = false;
+
   /**
    * Scenarios:
    * If contentScript hasn't injected to specified tab, sending a message will return {message: "Could not establish connection. Receiving end does not exist."}
@@ -133,11 +135,9 @@ class Background {
     if (ext.webRequest)
       ext.webRequest.onBeforeRequest.addListener(
         // @ts-ignore
-        ({ url, initiator }) => {
-          return {
-            cancel: IsBrainly(initiator) && this.blockedDomains.test(url),
-          };
-        },
+        ({ url, initiator }) => ({
+          cancel: IsBrainly(initiator) && this.blockedDomains.test(url),
+        }),
         { urls: ["<all_urls>"] },
         ["blocking"],
       );
@@ -163,17 +163,21 @@ class Background {
           return error;
         }
       }
+
       if (request.action === "getMarketData") {
         return Promise.resolve(market);
       }
+
       if (request.action === "storage") {
         return storage[request.data.method]({ ...request.data });
       }
+
       if (request.action === "enableExtensionIcon") {
         BROWSER_ACTION.enable(sender.tab.id);
 
         return true;
       }
+
       if (request.action === "changeBadgeColor") {
         /**
          * @type {browser.browserAction.ColorValue}
@@ -204,6 +208,7 @@ class Background {
 
         return true;
       }
+
       if (request.action === "xmlHttpRequest") {
         const { url } = request.data;
 
@@ -221,6 +226,7 @@ class Background {
 
         return res.json();
       }
+
       if (request.action === "updateExtension") return CheckUpdate();
 
       if (request.action === "openCaptchaPopup") {
@@ -235,6 +241,7 @@ class Background {
           return true;
         }
       }
+
       /* if (request.action === "notifierInit") {
         this.BrainlyNotificationSocket(market, request.data);
       }
@@ -246,6 +253,7 @@ class Background {
 
         // return Promise.resolve(true);
       }
+
       if (request.action === "OpenExtensionOptions") {
         ext.runtime.openOptionsPage();
 
@@ -256,10 +264,12 @@ class Background {
 
         return Promise.resolve(true);
       }
+
       if (request.action === "INeedParameters") {
         const promise = Promise.resolve(
           this.optionsPassedParameters[request.marketName],
         );
+
         this.optionsPassedParameters[request.marketName] = {};
 
         return promise;
@@ -267,9 +277,9 @@ class Background {
 
       if (request.action === "switch or open tab") {
         const window = await ext.windows.getCurrent({ populate: true });
-        const targetTab = window.tabs.find(tab => {
-          return tab.url.includes(request.data);
-        });
+        const targetTab = window.tabs.find(tab =>
+          tab.url.includes(request.data),
+        );
 
         if (targetTab) return ext.tabs.update(targetTab.id, { selected: true });
 
@@ -307,11 +317,13 @@ class Background {
    */
   InitMarket(data: { meta: { marketName: string } }) {
     const name = data.meta.marketName;
+
     this.markets[name] = data;
   }
 
   async CreateWindow(data) {
     const detail = await ext.windows.create(data);
+
     this.popupOpened = detail.id;
   }
 
@@ -353,6 +365,7 @@ class Background {
       const tabId = tab.id;
 
       await this.InjectContentScript(tab);
+
       const badgeColor = await ext.browserAction.getBadgeBackgroundColor({
         tabId,
       });

@@ -74,6 +74,7 @@ class MassContentDeleter extends Components {
       "%{n}",
       ` <b>0</b> `,
     );
+
     this.modal = new Modal({
       header: `
 			<div class="sg-actions-list sg-actions-list--space-between">
@@ -253,6 +254,7 @@ class MassContentDeleter extends Components {
 
   UpdateTextareaBackContent() {
     const idList = this.ParseIDs();
+
     this.contentsToDelete = [];
 
     this.$contentsCount.text(idList.length);
@@ -261,6 +263,7 @@ class MassContentDeleter extends Components {
 
     if (idList.length > 0) {
       const rgx = new RegExp(`(?<![0-9])(?:${idList.join("|")})(?![0-9])`, "g");
+
       temp = temp.replace(rgx, replacedId => {
         const id = Number(replacedId);
 
@@ -297,6 +300,7 @@ class MassContentDeleter extends Components {
 
     this.openedConnections = 0;
     window.isPageProcessing = true;
+
     const contentsToDelete = [...this.contentsToDelete];
 
     this.PrepareData();

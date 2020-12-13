@@ -106,6 +106,7 @@ function ChangeMargin(
       `sg-flex--margin-${cornerName}[a-z]{1,}(?: |$)`,
       "g",
     );
+
     this.className = this.className.replace(regexp, "");
 
     if (value)

@@ -215,19 +215,17 @@ export default class User {
           tag: "optgroup",
           label: "⸻⸻⸻",
         }),
-        ...specialRanks.map(rank => {
-          return {
-            value: rank.id,
-            text: rank.name,
-          };
-        }),
+        ...specialRanks.map(rank => ({
+          value: rank.id,
+          text: rank.name,
+        })),
       ],
     });
 
     this.excludeButtonContainer = Flex({
       marginLeft: "xxs",
       marginRight: "xxs",
-      children: this.excludeButton = new Button({
+      children: (this.excludeButton = new Button({
         size: "s",
         type: "outline",
         toggle: "blue",
@@ -236,7 +234,7 @@ export default class User {
           type: "friend_remove",
         }),
         onClick: this.ToggleExcludeState.bind(this),
-      }),
+      })),
     });
 
     tippy(this.excludeButton.element, {

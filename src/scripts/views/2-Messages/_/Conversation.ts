@@ -55,6 +55,7 @@ export default class {
   SetUserDetails() {
     if (this.headerBox && this.headerBox instanceof HTMLElement) {
       const profileLink = this.headerBox.querySelector("a");
+
       this.user.details = {
         nick: profileLink.title,
         id: System.ExtractId(profileLink.href),
@@ -122,6 +123,7 @@ export default class {
     if (!statusLabel.container) return;
 
     const reportButtonContainer = this.headerSubList.children[2];
+
     this.headerSubList.insertBefore(
       statusLabel.container,
       reportButtonContainer,

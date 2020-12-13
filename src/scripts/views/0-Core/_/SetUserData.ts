@@ -46,5 +46,6 @@ export default async function SetUserData() {
   System.data.Brainly.userData = res.user;
 
   System.Log("SetUserData OK!");
+
   return res;
 }

@@ -17,6 +17,7 @@ export default class FileUpload {
     // let res = await System.Delay(System.randomNumber(1, 3) * 1000);
 
     this.$box.slideUp("normal", () => this.$box.remove());
+
     return res;
   }
 

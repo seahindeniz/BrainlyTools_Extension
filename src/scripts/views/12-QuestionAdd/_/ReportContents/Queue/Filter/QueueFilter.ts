@@ -38,17 +38,17 @@ export default class QueueFilter {
   RenderLabel() {
     this.labelContainer = Flex({
       margin: "xxs",
-      children: this.label = new Label({
+      children: (this.label = new Label({
         color: this.props.labelColor,
         onClose: this.HideLabel.bind(this),
-        icon: this.labelIcon = new Icon({
+        icon: (this.labelIcon = new Icon({
           type: this.props.labelIconType,
-        }),
+        })),
         children: [
           `${this.props.labelName}:&nbsp; `,
           (this.labelText = document.createTextNode("")),
         ],
-      }),
+      })),
     });
   }
 

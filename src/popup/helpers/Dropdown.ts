@@ -3,7 +3,7 @@ export default $dropdown => {
     $dropdown.removeClass("is-active");
   });
   $dropdown
-    .on("click", ".dropdown-trigger", function (e) {
+    .on("click", ".dropdown-trigger", e => {
       e.stopPropagation();
 
       $dropdown.toggleClass("is-active");

@@ -3,7 +3,7 @@ import HideElement from "@root/helpers/HideElement";
 import IsVisible from "@root/helpers/IsVisible";
 import { Box, Button, Flex, Icon, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
-import LogDateSectionClassType from "./DateSection";
+import type LogDateSectionClassType from "./DateSection";
 import type LogEntryClassType from "./LogEntry";
 
 export default class LogEntryGroup {
@@ -68,9 +68,9 @@ export default class LogEntryGroup {
                   type: "transparent",
                   reversedOrder: true,
                   onClick: this.ToggleOccurrences.bind(this),
-                  icon: this.toggleButtonIcon = new Icon({
+                  icon: (this.toggleButtonIcon = new Icon({
                     type: "arrow_down",
-                  }),
+                  })),
                   children: System.data.locale.moderationPanel.log.nMore.replace(
                     "%{number_of_occurrences}",
                     String(this.logEntries.length),

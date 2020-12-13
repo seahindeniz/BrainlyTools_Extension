@@ -16,8 +16,10 @@ const users: {
 
 async function Supervisors() {
   let currentColumn = 0;
+
   const sortIt = userLi => {
     $(`.connectedSortable:eq(${currentColumn++})`).append(userLi);
+
     if (currentColumn === 5) {
       currentColumn = 0;
     }
@@ -50,17 +52,19 @@ async function Supervisors() {
 
       if (userData.ranks_ids && userData.ranks_ids.length > 0) {
         userData.ranks_ids.forEach(rankId => {
-          const current_rank =
+          const currentRank =
             System.data.Brainly.defaultConfig.config.data.ranksWithId[rankId];
-          if (current_rank || rankId === 12) {
+
+          if (currentRank || rankId === 12) {
             ranks.push(
-              `<span class="" style="color:#${current_rank.color || "000"};">${
-                current_rank.name
+              `<span class="" style="color:#${currentRank.color || "000"};">${
+                currentRank.name
               }</span>`,
             );
           }
         });
       }
+
       $userLi.html(`
 			<a href="${buddyLink}">
 				<div>
@@ -78,11 +82,10 @@ async function Supervisors() {
   });
 
   const optionsOfRanks = System.data.Brainly.defaultConfig.config.data.ranks.map(
-    rank => {
-      return `<option value="${rank.id}"${
+    rank =>
+      `<option value="${rank.id}"${
         rank.color ? ` style="color:#${rank.color};"` : ""
-      }>${rank.name}</option>`;
-    },
+      }>${rank.name}</option>`,
   );
   const $actionBox = $(`
 	<div class="actionBox">
@@ -104,10 +107,12 @@ async function Supervisors() {
   /**
    * Rank select
    */
-  const rankSelectHandler = function () {
-    const selectedRankIds = [...this.selectedOptions].map(
+  const rankSelectHandler = () => {
+    const rankSelect = $rankSelect.get(0) as HTMLSelectElement;
+    const selectedRankIds = [...Array.from(rankSelect.selectedOptions)].map(
       option => option.value,
     );
+
     currentColumn = 0;
     listedUsers = users.filter(user => {
       if (
@@ -119,6 +124,7 @@ async function Supervisors() {
 
         return true;
       }
+
       user.$li.addClass("js-hidden");
 
       return false;
@@ -174,6 +180,7 @@ async function Supervisors() {
     const $sendButton = $("> div.messageBox > div > button", $sendMessage);
 
     $sendMessage.appendTo($actionBox);
+
     /**
      * Message box visibility
      */
@@ -208,6 +215,7 @@ async function Supervisors() {
         $rankSelect.trigger("focus");
       } else {
         window.isPageProcessing = true;
+
         const message = $messageInput.val();
         const idList = userList.map(user => user.id);
         const idListLen = idList.length;
@@ -230,6 +238,7 @@ async function Supervisors() {
         }
 
         let i = 0;
+
         const doInEachSending = () => {
           progress.update(++i);
           progress.UpdateLabel(`${i} - ${idListLen}`);

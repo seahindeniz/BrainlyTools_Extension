@@ -7,6 +7,7 @@ type ObjectAnyPropsType = {
 };
 
 const requestsOnHold = [];
+
 function GenerateFormData(data: ObjectAnyPropsType, isWithFile?: boolean) {
   const TheMethod = isWithFile ? FormData : URLSearchParams;
   const formData = new TheMethod();
@@ -203,6 +204,7 @@ export default class Request {
 
   async HandleCaptcha() {
     requestsOnHold.push(this);
+
     const isCaptchaOK = await System.toBackground(
       "openCaptchaPopup",
       System.data.meta.location.origin,

@@ -82,7 +82,9 @@ export default class ToplayerQDB {
       };
 
       this.main.processing = true;
+
       const resDelete = await this.main.Delete(data);
+
       this.main.processing = false;
 
       if (!resDelete) throw Error("Empty response");

@@ -63,6 +63,7 @@ export default class User {
     const separatedPoints = this.details.points.toLocaleString();
     const avatar = System.ExtractAvatarURL(this.details);
     const profileLink = System.createProfileLink(this.details);
+
     this.container = Build(ActionListHole(), [
       [
         this.spinnerContainer,

@@ -102,8 +102,8 @@ export default class ContentViewerContent {
     let rankTexts = [];
 
     if (this.contentData.user.ranks_ids)
-      rankTexts = this.contentData.user.ranks_ids.map(rankId => {
-        return Text({
+      rankTexts = this.contentData.user.ranks_ids.map(rankId =>
+        Text({
           tag: "span",
           size: "xsmall",
           color: "gray",
@@ -113,8 +113,8 @@ export default class ContentViewerContent {
           text:
             System.data.Brainly.defaultConfig.config.data.ranksWithId[rankId]
               .name,
-        });
-      });
+        }),
+      );
 
     this.container = new Box({
       padding: "s",

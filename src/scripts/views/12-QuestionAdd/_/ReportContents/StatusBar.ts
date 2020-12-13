@@ -191,16 +191,16 @@ export default class ReportedContentsStatusBar {
     if (!System.checkUserP(18)) return;
 
     this.#ignoreButtonContainer = Flex({
-      children: this.#ignoreButton = new Button({
+      children: (this.#ignoreButton = new Button({
         size: "s",
         type: "transparent-light",
         iconOnly: true,
-        icon: this.#ignoreButtonIcon = new Icon({
+        icon: (this.#ignoreButtonIcon = new Icon({
           color: "adaptive",
           type: "unseen",
-        }),
+        })),
         onClick: this.ToggleIgnoredState.bind(this),
-      }),
+      })),
     });
 
     this.#list.element.lastElementChild.prepend(this.#ignoreButtonContainer);
@@ -208,6 +208,7 @@ export default class ReportedContentsStatusBar {
     this.visibleContentsCountForIgnoreButtonTitle = document.createTextNode(
       "0",
     );
+
     const textPieces: (
       | string
       | Text

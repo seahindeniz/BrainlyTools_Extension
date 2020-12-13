@@ -273,6 +273,7 @@ export default class ApproveAnswers extends ActionSection {
 
   Stop() {
     this.stopped = true;
+
     const userIdList = Object.keys(this.users);
 
     this.StopApproving();

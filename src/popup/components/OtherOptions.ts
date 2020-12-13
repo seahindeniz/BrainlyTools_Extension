@@ -211,6 +211,7 @@ class OtherOptions {
 
   async SetLanguage() {
     const language = this.$languageDropdown.val();
+
     /* let localeData =  */
     await System.PrepareLanguageFile(String(language));
     /* System.data.locale = localeData; */

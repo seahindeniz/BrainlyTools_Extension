@@ -123,7 +123,7 @@ export default class ModerationPanel {
       jumpButton: true,
       closeOnOuterClick: true,
       title: System.data.locale.moderationPanel.text,
-      content: this.contentContainer = Flex({
+      content: (this.contentContainer = Flex({
         fullWidth: true,
         direction: "column",
         children: Flex({
@@ -138,7 +138,7 @@ export default class ModerationPanel {
             href: System.createBrainlyLink("question", this.data.task),
           }),
         }),
-      }),
+      })),
       onClose: this.FinishModeration.bind(this),
     });
 
@@ -178,17 +178,17 @@ export default class ModerationPanel {
           icon: {
             type: "counter",
           },
-          children: this.counterText = document.createTextNode(""),
+          children: (this.counterText = document.createTextNode("")),
         }),
         Flex({
-          children: this.prolongTimeButton = new Button({
+          children: (this.prolongTimeButton = new Button({
             size: "s",
             type: "transparent",
             toggle: "blue",
             iconOnly: true,
             onClick: this.ProlongModerationTime.bind(this),
             icon: new Icon({ color: "adaptive", type: "add_more" }),
-          }),
+          })),
         }),
       ],
     });
@@ -446,9 +446,9 @@ export default class ModerationPanel {
 
     answers.forEach(answerData => {
       const answerId = System.DecryptId(answerData.id);
-      const answerSection = this.answerSections.find(_answerSection => {
-        return _answerSection.data.id === answerId;
-      });
+      const answerSection = this.answerSections.find(
+        _answerSection => _answerSection.data.id === answerId,
+      );
 
       if (!answerSection) {
         console.error(`Can't find answer section of ${answerId}`);

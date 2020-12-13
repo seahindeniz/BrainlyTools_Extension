@@ -16,14 +16,14 @@ export default class ManageExtensionUser {
   Render() {
     this.container = ContentBoxContent({
       spacedBottom: true,
-      children: this.link = Text({
+      children: (this.link = Text({
         tag: "a",
         size: "small",
         weight: "bold",
         color: "blue-dark",
         html:
           System.data.locale.userProfile.morePanel.manageExtensionUser.title,
-      }),
+      })),
     });
 
     this.main.container.append(this.container);

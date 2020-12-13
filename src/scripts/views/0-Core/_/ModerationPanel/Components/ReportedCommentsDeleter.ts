@@ -203,6 +203,7 @@ class ReportedCommentsDeleter extends Components {
 
   async StartDeleting() {
     const reasonId = this.$reasons.val();
+
     this.selectedReason =
       // eslint-disable-next-line no-underscore-dangle
       System.data.Brainly.deleteReasons.__withIds.comment[String(reasonId)];
@@ -303,6 +304,7 @@ class ReportedCommentsDeleter extends Components {
 
     // await System.Delay();
     const resRemove = await new Action().RemoveComment(data, true);
+
     await new Action().CloseModerationTicket(report.task_id);
 
     if (!resRemove || !resRemove.success) console.warn(resRemove);

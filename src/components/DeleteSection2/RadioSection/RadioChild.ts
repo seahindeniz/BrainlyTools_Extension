@@ -26,7 +26,7 @@ export default class RadioChild {
 
     this.container = Flex({
       marginRight: "m",
-      children: this.radio = new Radio({
+      children: (this.radio = new Radio({
         name: this.name,
         id: null,
         label: {
@@ -34,7 +34,7 @@ export default class RadioChild {
         },
         onClick: this.Clicked.bind(this),
         onChange: this.Selected.bind(this),
-      }),
+      })),
     });
   }
 

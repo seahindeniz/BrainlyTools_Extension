@@ -169,6 +169,7 @@ export default class AccountDeleteReporter {
     );
 
     const container = document.getElementById("container");
+
     ["dragenter", "dragover", "dragleave", "dragend", "drop"].forEach(
       eventName => {
         container.addEventListener(eventName, PREVENT_FN);
@@ -409,6 +410,7 @@ export default class AccountDeleteReporter {
 
   async PrepareForm() {
     this.formData = new FormData();
+
     const fileDetails = await this.PrepareFile();
 
     this.formData.append("comment", this.reasonMessage.value);
@@ -427,12 +429,14 @@ export default class AccountDeleteReporter {
 
     if (this.evidences.length === 1) {
       const { file } = this.evidences[0];
+
       fileDetails = {
         file,
         name: file.name,
       };
     } else if (this.evidences.length > 1) {
       const file = await this.CompressStoredFiles();
+
       fileDetails = {
         file,
         name: `${profileData.nick}-${profileData.id}.zip`,

@@ -106,7 +106,9 @@ export default class FooterQDB {
       };
 
       this.processing = true;
+
       const resDelete = await this.main.Delete(data);
+
       this.processing = false;
 
       new Action().CloseModerationTicket(this.main.zdnObject.data.task_id);

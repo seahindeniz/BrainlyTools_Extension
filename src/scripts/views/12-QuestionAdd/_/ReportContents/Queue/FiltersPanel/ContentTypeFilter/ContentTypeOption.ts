@@ -27,13 +27,14 @@ export default class ContentTypeOption {
   Render() {
     this.container = Flex({
       marginRight: "s",
-      children: this.button = new Button({
+      children: (this.button = new Button({
         type: "solid-light",
         onClick: this.Selected.bind(this),
         children:
-          System.data.locale.reportedContents.filtersPanel.filters
-            .contentType[this.contentType],
-      }),
+          System.data.locale.reportedContents.filtersPanel.filters.contentType[
+            this.contentType
+          ],
+      })),
     });
 
     this.main.optionContainer.append(this.container);

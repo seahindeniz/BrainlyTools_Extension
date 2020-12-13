@@ -150,6 +150,7 @@ export default class LiveStatus {
     if (!this.authenticated || this.main.contents.all.length === 0) return;
 
     const { questionsWaitingForSubscription } = this.main;
+
     this.main.questionsWaitingForSubscription = [];
 
     this.SendData("pubsub.subscribe", {

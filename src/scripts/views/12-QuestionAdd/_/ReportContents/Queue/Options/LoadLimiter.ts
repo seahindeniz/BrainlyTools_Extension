@@ -115,6 +115,7 @@ export default class LoadLimiter {
 
   Changed() {
     const { value } = this.input;
+
     this.limit = Number(value);
 
     if (

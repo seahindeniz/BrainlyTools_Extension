@@ -1,5 +1,5 @@
-export default (categories, type) => {
-  return categories
+export default (categories, type) =>
+  categories
     .map(
       category => `
 	<div class="sg-actions-list__hole sg-actions-list__hole--no-spacing">
@@ -21,4 +21,3 @@ export default (categories, type) => {
     .join(
       '<div class="sg-vertical-separator sg-vertical-separator--small"></div>',
     );
-};

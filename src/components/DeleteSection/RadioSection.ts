@@ -107,6 +107,7 @@ class RadioSection {
   RenderWarning() {
     const type = this.verticalOptions ? "column" : "row";
     const position = this.verticalOptions ? "left fixedTop" : "top";
+
     this.$warning = $(
       `<div class="sg-bubble sg-bubble--${position} sg-bubble--${type}-start sg-bubble--peach sg-text--white" style="z-index: 1;">${this.warning}</div>`,
     );

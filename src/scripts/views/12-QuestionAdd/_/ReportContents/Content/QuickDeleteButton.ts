@@ -49,7 +49,7 @@ export default class QuickDeleteButton {
       marginTop: "xxs",
       marginBottom: "xxs",
       marginLeft: "xs",
-      children: this.button = new Button({
+      children: (this.button = new Button({
         ...BUTTON_COLOR[this.main.contentType],
         iconOnly: true,
         icon: Text({
@@ -58,7 +58,7 @@ export default class QuickDeleteButton {
           text: this.buttonText,
         }),
         title: `${this.reason.title}:\n\n${this.reason.text}`,
-      }),
+      })),
     });
 
     tippy(this.button.element, {

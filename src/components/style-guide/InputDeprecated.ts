@@ -116,6 +116,7 @@ InputPropsType = {}): InputElementType => {
 
   // @ts-expect-error
   const input: InputElementType = document.createElement("input");
+
   input.type = type;
   props.Valid = Valid;
   props.Invalid = Invalid;

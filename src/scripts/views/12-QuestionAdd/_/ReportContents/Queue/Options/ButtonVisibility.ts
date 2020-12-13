@@ -88,6 +88,7 @@ export default class ButtonVisibility {
   async SetValue() {
     const value =
       (await storage("get", REPORTED_CONTENTS_VISIBILITY_KEY)) || "0";
+
     this.buttonVisibilitySelect.select.value = value;
 
     this.ChangeVisibility();

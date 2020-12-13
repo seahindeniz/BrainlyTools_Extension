@@ -118,6 +118,7 @@ export default class UserContentRow {
   AttachID() {
     if (this.questionLinkAnchor instanceof HTMLAnchorElement) {
       const url = this.questionLinkAnchor.href;
+
       this.element.questionID = System.ExtractId(url);
     }
   }
@@ -171,14 +172,14 @@ export default class UserContentRow {
       marginBottom: "xs",
       marginRight: "xs",
       direction: "column",
-      children: this.contentContainer = new Box({
+      children: (this.contentContainer = new Box({
         border: true,
         borderColor: "gray-secondary-lightest",
         color: "light",
         // color: "gray-secondary-lightest",
         padding: "xs",
         // style: "width: 52em;",
-      }),
+      })),
     });
   }
 
@@ -188,6 +189,7 @@ export default class UserContentRow {
         _user => _user.id === this.res.data.task.user_id,
       );
       const content = new ContentViewerContent(this, this.res.data.task, user);
+
       this.contents.question = content;
 
       this.contentContainer.element.append(content.container.element);
@@ -228,6 +230,7 @@ export default class UserContentRow {
   RenderAnswer(answer) {
     const user = this.res.users_data.find(_user => _user.id === answer.user_id);
     const content = new ContentViewerContent(this, answer, user);
+
     this.contents.answers[answer.id] = content;
 
     this.RenderAnswerSeparator();
@@ -290,8 +293,8 @@ export default class UserContentRow {
 
       if (date === date2Str) this.answerID = answer.id;
       else {
-        console.log(answer.created);
-        console.log(date, date2Str);
+        console.warn(answer.created);
+        console.warn(date, date2Str);
       }
     }
   }
@@ -422,10 +425,10 @@ export default class UserContentRow {
   RenderCheckbox() {
     this.checkboxContainer = CreateElement({
       tag: "td",
-      children: this.checkbox = new Checkbox({
+      children: (this.checkbox = new Checkbox({
         id: null,
         onChange: this.main.HideSelectContentWarning.bind(this.main),
-      }),
+      })),
     });
 
     this.element.prepend(this.checkboxContainer);
@@ -600,10 +603,12 @@ export default class UserContentRow {
 
       if (!resApprove.success && !resApprove.message) {
         this.element.classList.add("already");
+
         const message = System.data.locale.userContent.notificationMessages.xIsAlreadyApproved.replace(
           "%{row_id}",
           ` #${rowNumber} `,
         );
+
         notification({ html: `${message}`, type: "info" });
       }
     }
@@ -613,6 +618,7 @@ export default class UserContentRow {
     const answer = this.res.data.responses.find(
       response => response.id === this.answerID,
     );
+
     this.contents.answers[this.answerID].source = answer;
   }
 
@@ -640,10 +646,12 @@ export default class UserContentRow {
 
       if (!resUnapprove.success && !resUnapprove.message) {
         this.element.classList.add("already");
+
         const message = System.data.locale.userContent.notificationMessages.xIsAlreadyUnapproved.replace(
           "%{row_id}",
           `#${rowNumber} `,
         );
+
         notification({ html: `${message}`, type: "info" });
       }
     }

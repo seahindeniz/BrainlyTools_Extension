@@ -57,7 +57,7 @@ export default class FiltersPanel {
   RenderFiltersButton() {
     this.filtersButtonContainer = Flex({
       marginRight: "s",
-      children: this.filtersButton = new Button({
+      children: (this.filtersButton = new Button({
         size: "l",
         iconOnly: true,
         type: "solid-mustard",
@@ -65,7 +65,7 @@ export default class FiltersPanel {
           type: "filters",
           color: "adaptive",
         }),
-      }),
+      })),
     });
 
     this.containerTippy = tippy(this.filtersButton.element, {
@@ -74,11 +74,11 @@ export default class FiltersPanel {
       maxWidth: "none",
       interactive: true,
       placement: "bottom",
-      content: this.filterContainer = Flex({
+      content: (this.filterContainer = Flex({
         marginTop: "xs",
         marginBottom: "s",
         direction: "column",
-      }),
+      })),
     });
 
     tippy(this.filtersButton.element, {

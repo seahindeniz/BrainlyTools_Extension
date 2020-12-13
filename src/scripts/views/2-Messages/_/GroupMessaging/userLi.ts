@@ -36,6 +36,7 @@ export default (user, isGroupMember?) => {
 
   const addRank = rank => {
     let color = "#000";
+
     if (rank.color) {
       color = rank.color;
 

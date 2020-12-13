@@ -3,6 +3,7 @@ import _System from "../controllers/System";
 import Popup from "./controllers/Popup";
 
 const System = new _System();
+
 window.System = System;
 window.isPageBusy = false;
 
@@ -62,6 +63,7 @@ async function onBodyLoad() {
 
       if (tab) {
         isBrainlyPageFound = true;
+
         const message = {
           action: "contentScript>Share System.data to background.js",
           url: tab.url,

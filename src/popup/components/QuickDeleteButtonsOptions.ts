@@ -14,6 +14,7 @@ function OrderDropdownItems($dropdown) {
 }
 
 const isPosInt = str => /^\+?\d+$/.test(str);
+
 function RenderDropdownItems(reasonTypeKey, selectedReason, $dropdown) {
   let options = "";
   const reasons = System.data.Brainly.deleteReasons.__withIds[reasonTypeKey];
@@ -66,6 +67,7 @@ class QuickDeleteButtonsOptions {
 
   RenderCategories() {
     let reasonTypes = Object.keys(System.data.Brainly.deleteReasons.__withIds);
+
     reasonTypes = reasonTypes.filter(type => type.indexOf("__") < 0).reverse();
 
     reasonTypes.forEach(reasonTypeKey => {

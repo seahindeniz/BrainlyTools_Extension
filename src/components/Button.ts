@@ -287,6 +287,7 @@ export default function JqueryButton({
 
   if (typeof text !== "undefined") {
     const textElement = document.createElement("span");
+
     textElement.innerHTML = text;
 
     textElement.classList.add(`${sg}__text`);

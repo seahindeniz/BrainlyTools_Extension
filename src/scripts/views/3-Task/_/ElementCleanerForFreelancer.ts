@@ -15,6 +15,7 @@ const CSS = `
 export default async function ElementCleanerForFreelancer() {
   const cssNode = document.createTextNode(CSS);
   const styleElement = document.createElement("style");
+
   styleElement.type = "text/css";
 
   styleElement.append(cssNode);

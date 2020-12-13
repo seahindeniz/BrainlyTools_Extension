@@ -37,10 +37,10 @@ export default class ActionButton {
       marginLeft: "xxs",
       marginBottom: "xxs",
       relative: true,
-      children: this.button = new Button({
+      children: (this.button = new Button({
         size: this.main.buttonSize,
         ...this.buttonProps,
-      }),
+      })),
     });
 
     if (this.#tooltipContent) {

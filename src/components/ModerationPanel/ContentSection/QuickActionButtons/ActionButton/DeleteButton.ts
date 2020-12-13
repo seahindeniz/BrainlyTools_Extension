@@ -42,7 +42,9 @@ export default class DeleteButton extends ActionButton {
 
   async Clicked() {
     await this.Selected();
+
     const giveWarning = System.canBeWarned(this.deleteReason.id);
+
     this.main.main.ConfirmDeletion({
       model_id: undefined,
       reason_id: this.deleteReason.category_id,

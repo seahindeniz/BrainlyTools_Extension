@@ -210,14 +210,17 @@ class GroupModal {
       const idList = this.group.members.map(member => ~~member.brainlyID);
 
       this.$groupName.trigger("input");
+
       const user = await new Action().GetUsers(idList);
 
       if (user && user.success && user.data.length > 0) {
         user.data.forEach(({ id, nick, avatar, ranks_ids }) => {
           const buddyUrl = System.createBrainlyLink("profile", { nick, id });
+
           // @ts-expect-error
           // eslint-disable-next-line no-param-reassign
           avatar = System.prepareAvatar(avatar);
+
           const ranks = [];
 
           if (ranks_ids && ranks_ids.length > 0) {
@@ -290,6 +293,7 @@ class GroupModal {
   BindHandlers() {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const that = this;
+
     /**
      * Modal close
      */
@@ -384,6 +388,7 @@ class GroupModal {
 
       this.$firstLetter.text(firstLetter);
     };
+
     this.$groupName.on({
       input: groupNameInputHandler,
       blur() {
@@ -400,12 +405,14 @@ class GroupModal {
       this.$firstLetter.css(color);
       that.$groupName.css(color);
     };
+
     this.$color.on("change", colorChangeHandler);
 
     /**
      * User category list
      */
     let $subActionListHole;
+
     const userCategoryListHandler = function () {
       if ($subActionListHole) {
         $subActionListHole.remove();
@@ -419,6 +426,7 @@ class GroupModal {
         $subActionListHole = $(
           `<div class="sg-actions-list__hole sg-box--full"></div>`,
         );
+
         const $input = userSearch(that.$searchResultsList);
 
         $input.appendTo($subActionListHole);
@@ -428,6 +436,7 @@ class GroupModal {
         $subActionListHole = $(
           `<div class="sg-actions-list__hole sg-box--full"></div>`,
         );
+
         const $input = rankSelector(that.$searchResultsList);
 
         $input.appendTo($subActionListHole);
@@ -464,6 +473,7 @@ class GroupModal {
             },
           );
         }
+
         if (this.value === "friendsList") {
           System.friends.forEach(({ id, nick, buddyUrl, avatar, ranks }) => {
             // eslint-disable-next-line no-param-reassign
@@ -471,10 +481,12 @@ class GroupModal {
 
             if (ranks && ranks.names && ranks.names.length > 0) {
               // eslint-disable-next-line no-param-reassign
-              ranks = ranks.names.map(rank => {
-                return System.data.Brainly.defaultConfig.config.data
-                  .ranksWithName[rank];
-              });
+              ranks = ranks.names.map(
+                rank =>
+                  System.data.Brainly.defaultConfig.config.data.ranksWithName[
+                    rank
+                  ],
+              );
             }
 
             const $li = userLi({
@@ -526,10 +538,12 @@ class GroupModal {
 
   SaveGroup() {
     const $groupMembersLi = $("> li[data-user-id]", this.$groupMembersList);
+
     this.$newGroupMembersLi = $(
       "> li.new-user[data-user-id]",
       this.$groupMembersList,
     );
+
     const groupData = {
       color: this.$color.val(),
       title: String(this.$groupName.val()).trim(),
@@ -570,7 +584,7 @@ class GroupModal {
         this.UpdateGroup(groupData);
       }
     } else if (this.$newGroupMembersLi.length > 0) {
-      this.$newGroupMembersLi.each(function (i, li) {
+      this.$newGroupMembersLi.each((i, li) => {
         const brainlyID = li.dataset.userId;
 
         groupData.members.push({

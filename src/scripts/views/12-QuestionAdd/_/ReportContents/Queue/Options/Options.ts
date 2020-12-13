@@ -46,7 +46,7 @@ export default class Options {
 
   RenderOptionsButton() {
     this.optionsButtonContainer = Flex({
-      children: this.optionsButton = new Button({
+      children: (this.optionsButton = new Button({
         size: "l",
         iconOnly: true,
         type: "solid-blue",
@@ -54,7 +54,7 @@ export default class Options {
           type: "settings",
           color: "adaptive",
         }),
-      }),
+      })),
     });
 
     this.containerTippy = tippy(this.optionsButton.element, {
@@ -63,11 +63,11 @@ export default class Options {
       maxWidth: "none",
       interactive: true,
       placement: "bottom",
-      content: this.optionContainer = Flex({
+      content: (this.optionContainer = Flex({
         marginTop: "xs",
         marginBottom: "xs",
         direction: "column",
-      }),
+      })),
     });
 
     tippy(this.optionsButton.element, {

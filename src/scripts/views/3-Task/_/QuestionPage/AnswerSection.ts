@@ -190,7 +190,7 @@ export default class AnswerSection {
       return;
 
     this.confirmButtonContainer = Flex({
-      children: this.confirmButton = new Button({
+      children: (this.confirmButton = new Button({
         size: "s",
         type: "solid-mint",
         iconOnly: true,
@@ -199,7 +199,7 @@ export default class AnswerSection {
           color: "light",
         }),
         onClick: this.Confirm.bind(this),
-      }),
+      })),
     });
 
     tippy(this.confirmButton.element, {
@@ -389,16 +389,16 @@ export default class AnswerSection {
 
     tippy(rankContainer, {
       content: Flex({
-        children: specialRanks.map(specialRank => {
-          return Text({
+        children: specialRanks.map(specialRank =>
+          Text({
             children: specialRank.name,
             size: "small",
             weight: "bold",
             style: {
               color: `#${specialRank.color}`,
             },
-          });
-        }),
+          }),
+        ),
         direction: "column",
       }),
       placement: "bottom",

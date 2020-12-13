@@ -60,7 +60,7 @@ class RankManager {
   RenderLink() {
     this.manageLi = CreateElement({
       tag: "li",
-      children: this.manageLink = CreateElement({
+      children: (this.manageLink = CreateElement({
         tag: "a",
         href: "#",
         children: [
@@ -75,7 +75,7 @@ class RankManager {
           event.preventDefault();
           this.TogglePanel();
         },
-      }),
+      })),
     });
 
     this.deleteAllRanksLi.append(this.manageLi);
@@ -159,11 +159,10 @@ class RankManager {
      */
     let { ranks } = System.data.Brainly.defaultConfig.config.data;
 
-    ranks = ranks.sort((a, b) => {
-      return (
-        this.user.ranks_ids.indexOf(b.id) - this.user.ranks_ids.indexOf(a.id)
-      );
-    });
+    ranks = ranks.sort(
+      (a, b) =>
+        this.user.ranks_ids.indexOf(b.id) - this.user.ranks_ids.indexOf(a.id),
+    );
     ranks = ranks.sort(a => (this.user.ranks_ids.includes(a.id) ? -1 : 1));
 
     ranks.forEach((rank: RankDataType, i) => {
@@ -285,15 +284,14 @@ class RankManager {
   async SaveSelectedRank() {
     let selectedRanks = this.ranks.filter(rank => rank.checkbox.checked);
 
-    const getElementIndex = element => {
-      return Array.from(element.parentNode.children).indexOf(element);
-    };
+    const getElementIndex = element =>
+      Array.from(element.parentNode.children).indexOf(element);
 
-    selectedRanks = selectedRanks.sort((a, b) => {
-      return getElementIndex(a.rankContainer) > getElementIndex(b.rankContainer)
+    selectedRanks = selectedRanks.sort((a, b) =>
+      getElementIndex(a.rankContainer) > getElementIndex(b.rankContainer)
         ? 1
-        : -1;
-    });
+        : -1,
+    );
 
     this.ShowSpinner();
 

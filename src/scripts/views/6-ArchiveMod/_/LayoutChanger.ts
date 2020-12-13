@@ -31,6 +31,7 @@ export default class LayoutChanger {
 
   RenderLayoutSwitcherButton() {
     const buttonContainer = this.subHeader.querySelector(".pull-right");
+
     this.layoutSwitcherButton = new Button({
       type: "solid-blue",
       iconOnly: true,

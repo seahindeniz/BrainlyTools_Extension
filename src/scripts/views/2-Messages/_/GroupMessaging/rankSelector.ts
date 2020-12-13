@@ -3,12 +3,10 @@ import userLi from "./userLi";
 
 export default $findUsersList => {
   const ranks = System.data.Brainly.defaultConfig.config.data.ranks.map(
-    rank => {
-      return {
-        value: rank.id,
-        text: rank.name,
-      };
-    },
+    rank => ({
+      value: rank.id,
+      text: rank.name,
+    }),
   );
   const $rankSelector = Dropdown({
     label:
@@ -30,6 +28,7 @@ export default $findUsersList => {
         users.forEach(({ id, nick, ranks_ids, avatar }) => {
           const userRanks = [];
           const buddyUrl = System.createBrainlyLink("profile", { nick, id });
+
           // eslint-disable-next-line no-param-reassign
           avatar = System.prepareAvatar(avatar);
 

@@ -110,12 +110,14 @@ class IdListSection {
 
   UpdateTextareaBackContent() {
     this.idList = [];
+
     const idList = this.ParseIDs();
 
     let temp = this.$textarea.prop("innerHTML");
 
     if (idList.length > 0) {
       const rgx = new RegExp(`(?<![0-9])(?:${idList.join("|")})(?![0-9])`, "g");
+
       temp = temp.replace(rgx, replacedId => {
         const id = Number(replacedId);
 
@@ -148,6 +150,7 @@ class IdListSection {
         idList = Array.from(new Set(idList));
       }
     }
+
     return idList;
   }
 

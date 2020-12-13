@@ -43,6 +43,7 @@ class Users {
   $permission?: JQuery<HTMLElement>;
   $privilegesContainer: JQuery<HTMLElement>;
   $privilegeInputs: JQuery<HTMLElement>;
+  processing: boolean;
 
   constructor() {
     this.privilegeListOrder = {
@@ -116,12 +117,15 @@ class Users {
       if (System.checkUserP([0])) {
         new PrivilegeCategory(this, "veryImportant");
       }
+
       if (System.checkUserP([5, 23])) {
         new PrivilegeCategory(this, "important");
       }
+
       if (System.checkUserP([5, 24])) {
         new PrivilegeCategory(this, "lessImportant");
       }
+
       if (System.checkUserP([5, 25])) {
         new PrivilegeCategory(this, "harmless");
       }
@@ -334,6 +338,7 @@ class Users {
       time = System.data.locale.popup.extensionManagement.users.hasntUsed;
     } else {
       const timeLong = moment(serverData.checkInTime).fromNow();
+
       time = System.data.locale.popup.extensionManagement.users.firstUsageTimeAgoPreTitle.replace(
         "%{time}",
         ` ${timeLong} `,
@@ -466,6 +471,7 @@ class Users {
   async FillEditingForm(user) {
     const avatar = System.prepareAvatar(user.brainlyData);
     const profileLink = System.createProfileLink(user.brainlyData);
+
     /**
      * @type {JQuery<HTMLInputElement>}
      */
@@ -605,53 +611,67 @@ class Users {
   }
 
   async GivePrivilege() {
+    const value = this.$privilegesSelect.val();
+    const privilege = Number(value);
+
     if (
-      confirm(
+      this.processing ||
+      privilege === 0 ||
+      !confirm(
         System.data.locale.popup.notificationMessages
           .doYouWannaGiveThisPrivilege,
       )
-    ) {
-      const value = this.$privilegesSelect.val();
-      const privilege = Number(value);
+    )
+      return;
 
-      if (privilege > 0) {
-        const res = await new ServerReq().GivePrivilege(privilege);
+    this.processing = true;
 
-        this.PrepareUsers();
-        notification(
-          System.data.locale.popup.notificationMessages.privilegeHasGiven.replace(
-            "%{user_amount}",
-            ` ${res.data.affected} `,
-          ),
-          "success",
-        );
-      }
-    }
+    notification(System.data.locale.common.workingOnIt, "info");
+
+    const res = await new ServerReq().GivePrivilege(privilege);
+
+    this.processing = false;
+
+    this.PrepareUsers();
+    notification(
+      System.data.locale.popup.notificationMessages.privilegeHasGiven.replace(
+        "%{user_amount}",
+        ` ${res.data.affected} `,
+      ),
+      "success",
+    );
   }
 
   async RevokePrivilege() {
+    const value = this.$privilegesSelect.val();
+    const privilege = Number(value);
+
     if (
-      confirm(
+      this.processing ||
+      privilege === 0 ||
+      !confirm(
         System.data.locale.popup.notificationMessages
           .doYouWannaRevokeThisPrivilege,
       )
-    ) {
-      const value = this.$privilegesSelect.val();
-      const privilege = Number(value);
+    )
+      return;
 
-      if (privilege > 0) {
-        const res = await new ServerReq().RevokePrivilege(privilege);
+    this.processing = true;
 
-        this.PrepareUsers();
-        notification(
-          System.data.locale.popup.notificationMessages.privilegeHasRevoked.replace(
-            "%{user_amount}",
-            ` ${res.data.affected} `,
-          ),
-          "success",
-        );
-      }
-    }
+    notification(System.data.locale.common.workingOnIt, "info");
+
+    const res = await new ServerReq().RevokePrivilege(privilege);
+
+    this.processing = false;
+
+    this.PrepareUsers();
+    notification(
+      System.data.locale.popup.notificationMessages.privilegeHasRevoked.replace(
+        "%{user_amount}",
+        ` ${res.data.affected} `,
+      ),
+      "success",
+    );
   }
 
   FocusOnUser() {

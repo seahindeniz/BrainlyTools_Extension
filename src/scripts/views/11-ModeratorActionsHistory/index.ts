@@ -6,6 +6,7 @@ import ActionHistoryReviews, {
 import { DateTime } from "luxon";
 import ActionEntry, { REVERT_TIME_LIMIT } from "./_/ActionEntry/ActionEntry";
 import MultiReviewSection from "./_/MultiReviewSection/MultiReviewSection";
+import PageSwitcher from "./_/PageSwitcher";
 
 export type ReviewDataEntryType = {
   hash: string;
@@ -32,6 +33,8 @@ export default class ModeratorActionHistory {
     [id: string]: UserType2;
   };
 
+  pageSwitcher: PageSwitcher;
+
   constructor() {
     this.actionEntries = [];
     this.reviewDataEntries = {
@@ -53,6 +56,7 @@ export default class ModeratorActionHistory {
       setInterval(this.RefreshTimes.bind(this), 1000);
 
       this.multiReviewSection = new MultiReviewSection(this);
+      this.pageSwitcher = new PageSwitcher();
     } catch (error) {
       console.error(error);
     }

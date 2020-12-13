@@ -110,7 +110,8 @@
     "toggleSelections": "Basculer la sélection",
     "copied": "Copié !",
     "default": "Par défaut",
-    "yes": "Oui"
+    "yes": "Oui",
+    "workingOnIt": "Travail en cours.."
   },
   "popup": {
     "notificationMessages": {
@@ -362,6 +363,10 @@
           "39": {
             "title": "Historique des actions, gestion de l'examen",
             "description": "Possibilité de revenir sur les avis d'autres examinateurs sur l'historique de la modération des modérateurs. Sans cela, les évaluateurs ne peuvent annuler que leurs propres évaluations"
+          },
+          "98": {
+            "title": "Accès limité aux canaux sur Discord",
+            "description": "L'utilisateur ne verra aucun autre canal que les canaux #announcements et #rules sur le serveur Discord"
           }
         },
         "veryImportant": "Très important"
@@ -802,73 +807,6 @@
         "alwaysVisible": "Toujours visible",
         "onHoverOrTouch": "Au survol/Cliquer"
       },
-      "filter": {
-        "optionName": "Filtrer les signalements",
-        "description": "Les filtres ne peuvent être appliqués qu'aux signalements qui ont été récupérés",
-        "filters": {
-          "reporter": {
-            "name": "Utilisateur signaleur"
-          },
-          "reported": {
-            "name": "Utilisateur signalé"
-          },
-          "reportingDate": {
-            "name": "Signalements entre",
-            "startingDate": "Date de début",
-            "endingDate": "Date de fin"
-          },
-          "contentType": {
-            "name": "Type de contenu",
-            "Question": "Question",
-            "Answer": "Réponse",
-            "Comment": "Commentaire"
-          },
-          "contentLength": {
-            "name": "Longueur du contenu",
-            "equals": "égale à",
-            "lowerThan": "inférieur à",
-            "label": {
-              "equals": "égale à %{N}",
-              "lowerThan": "inférieur à %{N}",
-              "greaterThan": "supérieur à %{N}"
-            },
-            "greaterThan": "supérieur à"
-          },
-          "attachmentLength": {
-            "name": "Nombre de pièces jointes"
-          },
-          "subject": {
-            "name": "Matière"
-          },
-          "userFilter": {
-            "id": "id",
-            "nick": "nick",
-            "lookFor": "Rechercher",
-            "specialRank": "Rang spécial",
-            "anyRank": "N’importe quel rang"
-          },
-          "stringFilter": {
-            "chooseCondition": "Choisissez une condition",
-            "label": {
-              "contains": "contient : %{input}",
-              "sameWith": "exactement identique avec: %{input}",
-              "startsWith": "commence par: %{input}",
-              "endsWith": "se termine par: %{input}",
-              "regExp": "%{input}"
-            },
-            "conditions": {
-              "contains": "contient",
-              "sameWith": "exactement identique avec",
-              "startsWith": "commence par",
-              "endsWith": "se termine par",
-              "regExp": "RegExp(JS/ES6)"
-            },
-            "additionalData": "Données complémentaires",
-            "content": "Contenu"
-          }
-        },
-        "pageNumberInputTitle": "Entre un numéro de page entre %{MIN_N} et %{MAX_N}"
-      },
       "name": "Options",
       "density": {
         "optionName": "Densité"
@@ -905,7 +843,8 @@
         "isModerated": "Est-il modéré ?",
         "isCorrected": "Est-ce corrigé?"
       },
-      "notYetCorrected": "Pas encore corrigé"
+      "notYetCorrected": "Pas encore corrigé",
+      "pageNumberInputTitle": "Entre un numéro de page entre %{MIN_N} et %{MAX_N}"
     },
     "loadAll": "Récupérer tous les signalements",
     "loadAllConfirmationMessage": "Je vais essayer de récupérer tous les contenus signalés auprès de Brainly, mais le processus peut être interrompu par Brainly en raison de demandes élevées.\nVeuillez confirmer pour lancer le processus.",
@@ -926,7 +865,7 @@
         },
         "noContentToDelete": "Il n'y a plus de contenu disponible à supprimer",
         "confirmDeletion": "Veux-tu vraiment supprimer %{n} contenus signalés ?",
-        "warnAboutConfirmedContents": "Attention !\n%{N_de_confirmation} des %{N_de_filtrage} contenus que vous souhaitez supprimer ont déjà été confirmés.\nSouhaitez-vous que ces contenus soient également supprimés ?"
+        "warnAboutConfirmedContents": "Attention !\n%{N_of_confirmed} des %{N_of_filtered} contenus que vous souhaitez supprimer ont déjà été confirmés.\nSouhaitez-vous que ces contenus soient également supprimés ?"
       },
       "status": {
         "fetched": "%{count} récupérés",
@@ -959,7 +898,75 @@
         "Comment": "Motifs de signalements pour les commentaires"
       }
     },
-    "name": "Contenus signalés"
+    "name": "Contenus signalés",
+    "filtersPanel": {
+      "description": "Les filtres ne peuvent être appliqués qu'aux signalements qui ont été récupérés",
+      "filters": {
+        "reporter": {
+          "name": "Utilisateur signaleur"
+        },
+        "reported": {
+          "name": "Utilisateur signalé"
+        },
+        "reportingDate": {
+          "name": "Signalements entre",
+          "startingDate": "Date de début",
+          "endingDate": "Date de fin"
+        },
+        "contentType": {
+          "name": "Type de contenu",
+          "Question": "Question",
+          "Answer": "Réponse",
+          "Comment": "Commentaire"
+        },
+        "contentLength": {
+          "name": "Longueur du contenu",
+          "equals": "égale à",
+          "lowerThan": "inférieur à",
+          "label": {
+            "equals": "égale à %{N}",
+            "lowerThan": "inférieur à %{N}",
+            "greaterThan": "supérieur à %{N}"
+          },
+          "greaterThan": "supérieur à"
+        },
+        "attachmentLength": {
+          "name": "Nombre de pièces jointes"
+        },
+        "subject": {
+          "name": "Matière"
+        },
+        "userFilter": {
+          "id": "id",
+          "nick": "nick",
+          "lookFor": "Rechercher",
+          "specialRank": "Rang spécial",
+          "anyRank": "N’importe quel rang",
+          "excludeSelectedRanks": "Exclure les utilisateurs ayant des rangs sélectionnés"
+        },
+        "stringFilter": {
+          "chooseCondition": "Choisissez une condition",
+          "label": {
+            "contains": "contient : %{input}",
+            "sameWith": "exactement identique avec: %{input}",
+            "startsWith": "commence par: %{input}",
+            "endsWith": "se termine par: %{input}",
+            "regExp": "%{input}"
+          },
+          "conditions": {
+            "contains": "contient",
+            "sameWith": "exactement identique avec",
+            "startsWith": "commence par",
+            "endsWith": "se termine par",
+            "regExp": "RegExp(JS/ES6)"
+          },
+          "additionalData": "Données complémentaires",
+          "content": "Contenu"
+        }
+      },
+      "title": "Filtres",
+      "name": "Filtrer les signalements"
+    }
   },
   "moderationPanel": {
     "text": "Modération des questions",

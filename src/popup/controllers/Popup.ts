@@ -228,8 +228,7 @@ class Popup {
       [
         new LinkShortener().$layout,
         new ShortenedLinks().$layout,
-        !System.checkUserP(98, true) &&
-          System.data.Brainly.userData.extension.discordServer &&
+        System.data.Brainly.userData.extension.discordServer &&
           new PopupDiscordSection().container,
       ],
       [

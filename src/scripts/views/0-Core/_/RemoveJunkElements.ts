@@ -4,6 +4,7 @@ const querySelectors = [
   //
   ".js-web-to-app-banner",
   ".js-mobile-add-question",
+  `[class*="BrainlyPlusToaster__section-"]`,
 ];
 
 export default function RemoveJunkElements() {

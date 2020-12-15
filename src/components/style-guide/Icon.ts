@@ -129,7 +129,7 @@ export type IconTypeType =
   | "pi"
   | "quote"
   | "spark"
-  | "bullet"
+  | "dot"
   | ExtensionIconTypeType;
 
 export type IconColorType =

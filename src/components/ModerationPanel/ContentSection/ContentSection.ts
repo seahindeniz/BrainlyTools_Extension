@@ -163,7 +163,7 @@ export default class ContentSection {
                                     [
                                       // Avatar container
                                       Flex(),
-                                      Avatar({
+                                      new Avatar({
                                         imgSrc: this.owner.avatarLink,
                                         link: this.owner.profileLink,
                                       }),

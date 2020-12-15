@@ -1004,7 +1004,7 @@ export default class Content {
         Flex({
           alignItems: "center",
         }),
-        Avatar({
+        new Avatar({
           size: "m",
           title: data.nick,
           target: "_blank",

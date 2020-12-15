@@ -76,7 +76,7 @@ export default class User {
             this.checkboxContainer,
             [
               ActionListHole(),
-              Avatar({
+              new Avatar({
                 spaced: true,
                 imgSrc: avatar,
                 link: profileLink,

@@ -118,7 +118,7 @@ export default class Comment {
                           [
                             [
                               Flex({ marginRight: "xs" }),
-                              Avatar({
+                              new Avatar({
                                 size: "xs",
                                 target: "_blank",
                                 link: this.owner.profileLink,

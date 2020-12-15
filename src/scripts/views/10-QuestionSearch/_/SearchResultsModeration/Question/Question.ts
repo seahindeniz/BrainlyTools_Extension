@@ -387,7 +387,7 @@ export default class Question {
 
   RenderAuthor() {
     const avatarContainer = Flex({
-      children: Avatar({
+      children: new Avatar({
         link: System.createProfileLink(this.extraDetails.author),
         imgSrc: this.extraDetails.author?.avatar?.thumbnailUrl,
       }),

@@ -190,7 +190,7 @@ export default class extends Components {
       [
         [
           Flex({ marginRight: "xs" }),
-          Avatar({
+          new Avatar({
             imgSrc: avatar,
             link: profileUrl,
           }),

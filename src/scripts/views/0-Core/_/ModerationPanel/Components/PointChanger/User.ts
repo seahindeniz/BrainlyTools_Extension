@@ -66,7 +66,7 @@ export default class User {
                     marginLeft: "s",
                     marginRight: "xs",
                   }),
-                  Avatar({
+                  new Avatar({
                     target: "_blank",
                     link: this.profileLink,
                     imgSrc: System.ExtractAvatarURL(this.data),

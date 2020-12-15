@@ -706,7 +706,7 @@ export default class ActionEntry {
                       [
                         [
                           avatarContainer, // avatar container
-                          Avatar({
+                          new Avatar({
                             title: dataEntry.data.reviewer.nick,
                             imgSrc: user?.avatar?.[64],
                           }),
@@ -775,10 +775,10 @@ export default class ActionEntry {
             avatarContainer.innerHTML = "";
 
             avatarContainer.append(
-              Avatar({
+              new Avatar({
                 title: user.nick,
                 imgSrc: user.avatar?.["64"],
-              }),
+              }).element,
             );
 
             const rankTexts = user.ranks_ids.map(rankId => {

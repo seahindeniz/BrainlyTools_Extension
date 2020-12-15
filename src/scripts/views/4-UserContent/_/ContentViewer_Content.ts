@@ -134,7 +134,7 @@ export default class ContentViewerContent {
             [
               [
                 Flex({ marginBottom: "s", justifyContent: "center" }),
-                Avatar({
+                new Avatar({
                   imgSrc: this.contentData.avatar,
                 }),
               ],

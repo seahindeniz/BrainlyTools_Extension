@@ -117,20 +117,18 @@ class Answers extends UserContent {
     this.RenderButtonContainer();
 
     if (
-      System.checkUserP([6, 15, 19]) &&
+      System.checkUserP([6, 15, 19, 40]) &&
       Number(System.data.Brainly.userData.user.id) !==
         Number(sitePassedParams[0])
     ) {
-      if (System.checkUserP(6) && System.checkBrainlyP([146, 147])) {
-        if (System.checkBrainlyP(146)) {
-          this.RenderApproveButton();
-          this.BindApprovementHandlers();
-        }
+      if (System.checkUserP(6) && System.checkBrainlyP(146)) {
+        this.RenderApproveButton();
+        this.BindApprovementHandlers();
+      }
 
-        if (System.checkBrainlyP(147)) {
-          this.RenderUnapproveButton();
-          this.BindUnapprovementHandlers();
-        }
+      if (System.checkUserP(40) && System.checkBrainlyP(147)) {
+        this.RenderUnapproveButton();
+        this.BindUnapprovementHandlers();
       }
 
       if (System.checkUserP(19) && System.checkBrainlyP(48)) {

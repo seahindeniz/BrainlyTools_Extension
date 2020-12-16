@@ -230,8 +230,8 @@
             "description": "Can add or editing the extension users and give them privileges or permission to use the extension"
           },
           "6": {
-            "title": "Selective answer approvement",
-            "description": "On the user contents page, user can approve or unapprove the answers by selecting"
+            "title": "Verify answers by selecting",
+            "description": "On the user contents page, the moderator can verify answers by selecting 25 answers max- on each page"
           },
           "7": {
             "title": "Mass-Content deleter",
@@ -367,6 +367,10 @@
           "98": {
             "title": "Limited channel access on Discord",
             "description": "User will not see any channels other than the #announcements and #rules channels on the Discord server"
+          },
+          "40": {
+            "title": "Unverify answers by selecting",
+            "description": "On the user contents page, the moderator can unverify answers by selecting 25 answers max- on each page"
           }
         },
         "veryImportant": "Very important"

@@ -1,7 +1,6 @@
 import { GQL } from "@BrainlyReq";
 import WaitForElement from "@root/helpers/WaitForElement";
 import gql from "graphql-tag";
-// import ExtraDetailsFragment from "./extraDetails.fragment.gql";
 import {
   ExtraDetailsQuestionFragment,
   ExtraDetailsQuestionType,
@@ -29,7 +28,9 @@ function GenerateAliasedQuery(idList: number[]) {
 function RemoveAskQuestionSection(node: HTMLDivElement) {
   if (!node) return;
 
-  const container = node.querySelector(":scope > div > div:last-child");
+  const container = node.querySelector(
+    `:scope [class*="SearchResultsWithAdUnit__relativeWrapper"] > div.sg-content-box__content:nth-child(2) > div > div:last-child, :scope > div > div > div > div.sg-content-box__content:last-child`,
+  );
 
   if (!container) return;
 
@@ -65,7 +66,7 @@ export default class SearchResultsModerationClassType {
     this.FindResultsContainerByWaiting();
   }
 
-  FindSearchContainerWrapper() {
+  private FindSearchContainerWrapper() {
     this.searchResultContainerWrapper = document.querySelector(
       ".js-react-search-results",
     );
@@ -75,7 +76,7 @@ export default class SearchResultsModerationClassType {
     }
   }
 
-  ObserveForResultsContainer() {
+  private ObserveForResultsContainer() {
     const observer = new MutationObserver(mutations => {
       mutations.forEach(mutation => {
         if (mutation.addedNodes.length === 0) return;
@@ -86,22 +87,33 @@ export default class SearchResultsModerationClassType {
 
     observer.observe(this.searchResultContainerWrapper, {
       childList: true,
-      subtree: true,
+      // subtree: true,
     });
   }
 
-  IdentifyResultsContainer(node: HTMLDivElement) {
+  private IdentifyResultsContainer(node: HTMLDivElement) {
+    if (!node?.firstElementChild || !(node instanceof HTMLDivElement)) return;
+
+    if (node.querySelector(":scope > .brn-placeholder__animation-box")) {
+      this.moderator?.Hide();
+
+      return;
+    }
+
     if (
-      !(node instanceof HTMLDivElement) ||
-      !node.className.includes("LayoutBox__box")
+      !node.firstElementChild.className.includes(
+        "SearchResults__relativeWrapper",
+      ) &&
+      !node.firstElementChild.className.includes(
+        "SearchResultsWithAdUnit__relativeWrapper",
+      )
     )
       return;
 
     RemoveAskQuestionSection(node);
 
-    const questionContainers = node.querySelectorAll(
-      `:scope > div > .sg-content-box--spaced-top-large,
-      :scope > div.brn-fade-in-fast > div > .sg-content-box--spaced-top-large`,
+    const questionContainers = document.querySelectorAll(
+      `div[data-test="search-stream-wrapper"] > div, [class*="LayoutBox__box"] > .brn-fade-in-fast > div.sg-content-box__content:first-child > div`,
     );
 
     if (questionContainers.length === 0) {
@@ -120,15 +132,15 @@ export default class SearchResultsModerationClassType {
     this.moderator?.UpdateButtonNumbers();
   }
 
-  InitQuestion(container: HTMLDivElement) {
+  private InitQuestion(container: HTMLDivElement) {
     if (container.childElementCount === 0) return undefined;
 
     const questionLinkAnchor: HTMLAnchorElement = container.querySelector(
-      `.sg-content-box__actions > .sg-actions-list a`,
+      `:scope > div > a`,
     );
 
     if (!questionLinkAnchor) {
-      console.log(container);
+      console.info(container);
       console.error("Can't find question link anchor");
 
       return undefined;
@@ -138,7 +150,7 @@ export default class SearchResultsModerationClassType {
     let question = this.questions.byId[questionId];
 
     if (!question) {
-      question = new Question(this, questionId, container);
+      question = new Question(this, container, questionLinkAnchor, questionId);
 
       this.questions.byId[questionId] = question;
 
@@ -147,12 +159,13 @@ export default class SearchResultsModerationClassType {
       return questionId;
     }
 
+    question.questionLinkAnchor = questionLinkAnchor;
     question.container = container;
 
     return undefined;
   }
 
-  async FetchExtraDetails(idList: number[]) {
+  private async FetchExtraDetails(idList: number[]) {
     if (!idList?.length) return;
 
     try {
@@ -186,9 +199,9 @@ export default class SearchResultsModerationClassType {
     }
   }
 
-  async FindResultsContainerByWaiting() {
+  private async FindResultsContainerByWaiting() {
     const resultsContainers = await WaitForElement(
-      `.sg-box[class*="LayoutBox__box"]`,
+      `.js-react-search-results > div`,
       {
         multiple: true,
       },

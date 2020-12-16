@@ -3,6 +3,7 @@ import CreateElement from "@components/CreateElement";
 import notification from "@components/notification2";
 import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
+import InsertBefore from "@root/helpers/InsertBefore";
 import {
   Avatar,
   Button,
@@ -22,45 +23,51 @@ import type FeedModerationClassType from "../SearchResultsModeration";
 import QuickDeleteButton from "./QuickDeleteButton";
 
 export default class Question {
-  main: FeedModerationClassType;
-  author: {
+  private main: FeedModerationClassType;
+  questionLinkAnchor: HTMLAnchorElement;
+  questionId: number;
+  private author: {
     id: number;
     nick: string;
   };
 
   #container: HTMLDivElement;
 
-  questionId: number;
-  actionButtonsContainer: FlexElementType;
-  leftActionButtonContainer: FlexElementType;
-  rightActionButtonContainer: FlexElementType;
-  moderateButton: Button;
-  actionButtons: Button[];
+  private actionButtonsContainer: FlexElementType;
+  private leftActionButtonContainer: FlexElementType;
+  private rightActionButtonContainer: FlexElementType;
+  private moderateButton: Button;
+  private actionButtons: Button[];
   deleted: boolean;
-  deleting: boolean;
+  private deleting: boolean;
   #actionButtonSpinner: HTMLDivElement;
   checkbox: Checkbox;
-  checkboxContainer: FlexElementType;
-  contentContainer: FlexElementType;
+  private checkboxContainer: FlexElementType;
+  private questionContainer: HTMLDivElement;
 
   extraDetails: ExtraDetailsQuestionType;
-  iconContainer: FlexElementType;
-  contentWrapper: FlexElementType;
-  gallery: Viewer;
+  private iconContainer: FlexElementType;
   #verifiedIcon: HTMLDivElement;
+  private footerContainer: HTMLDivElement;
+  private attachmentContainer: FlexElementType;
+  private contentContainer: HTMLDivElement;
+  private quickActionButtonContainer: HTMLDivElement;
 
   constructor(
     main: FeedModerationClassType,
-    questionId: number,
     container: HTMLDivElement,
+    questionLinkAnchor: HTMLAnchorElement,
+    questionId: number,
   ) {
     this.main = main;
+    this.questionLinkAnchor = questionLinkAnchor;
     this.questionId = questionId;
 
     if (System.checkUserP([14, 26]) && System.checkBrainlyP(102)) {
       this.RenderCheckbox();
     }
 
+    // Trigger setter fn
     this.container = container;
     this.actionButtons = [];
   }
@@ -72,54 +79,67 @@ export default class Question {
   set container(container: HTMLDivElement) {
     this.#container = container;
 
-    this.FindActionContentTextWrapper();
-    this.RelocateContentContainer();
+    this.FindQuestionContainer();
+    this.FindContentContainer();
+    this.FindFooterContainer();
+    this.FindQuickActionButtonContainer();
+    this.AddIconContainer();
     this.RelocateVerifiedBadge();
     this.ShowCheckbox();
+    this.RenderExtraDetails();
     this.BindListeners();
   }
 
-  FindActionContentTextWrapper() {
-    const contentTextWrapper = this.#container.firstElementChild.querySelector(
-      ":scope > a div.sg-content-box__content--spaced-top-small",
-    );
+  private FindQuestionContainer() {
+    this.questionContainer = this.questionLinkAnchor
+      .firstElementChild as HTMLDivElement;
 
-    if (!contentTextWrapper) {
-      console.log(this.contentContainer);
-      throw Error("Can't find text wrapper");
-    }
+    if (this.questionContainer) return;
 
-    // sg-content-box__content--spaced-top-small causes spacing issues
-    contentTextWrapper.classList.remove(
-      "sg-content-box__content--spaced-top-small",
-    );
+    console.info(this.questionLinkAnchor);
+    throw Error("Can't find question container");
   }
 
-  RelocateContentContainer() {
-    this.contentContainer = Build(Flex({}), [
-      (this.iconContainer = Flex({
-        marginRight: "s",
-        direction: "column",
-      })),
-      [
-        (this.contentWrapper = Flex({
-          direction: "column",
-        })),
-        this.#container.firstElementChild,
-      ],
-    ]);
+  private FindContentContainer() {
+    this.contentContainer = this.questionContainer.lastElementChild
+      .firstElementChild as HTMLDivElement;
 
-    this.#container.prepend(this.contentContainer);
+    if (this.contentContainer) return;
+
+    console.info(this.#container);
+    throw Error("Can't find content container");
   }
 
-  RelocateVerifiedBadge() {
-    const verifiedBadgeContainer = this.contentContainer.querySelector(
-      ".sg-actions-list > .sg-actions-list__hole:nth-child(1)",
+  private FindFooterContainer() {
+    this.footerContainer = this.questionLinkAnchor
+      .nextElementSibling as HTMLDivElement;
+
+    if (this.footerContainer) return;
+
+    console.info(this.questionLinkAnchor);
+    throw Error("Can't find question footer");
+  }
+
+  private FindQuickActionButtonContainer() {
+    this.quickActionButtonContainer = this.questionLinkAnchor
+      .parentElement as HTMLDivElement;
+  }
+
+  private AddIconContainer() {
+    this.iconContainer = Flex({
+      marginRight: "xs",
+      direction: "column",
+    });
+
+    this.questionContainer.prepend(this.iconContainer);
+  }
+
+  private RelocateVerifiedBadge() {
+    this.#verifiedIcon = this.questionContainer.querySelector(
+      `:scope > div[class*="SearchItem-module__verifiedIcon"]`,
     );
 
-    if (!verifiedBadgeContainer) return;
-
-    this.#verifiedIcon = verifiedBadgeContainer.firstElementChild as HTMLDivElement;
+    if (!this.#verifiedIcon) return;
 
     const newContainer = Flex({
       marginTop: "xs",
@@ -127,8 +147,6 @@ export default class Question {
     });
 
     this.iconContainer.append(newContainer);
-
-    verifiedBadgeContainer.remove();
   }
 
   private RenderCheckbox() {
@@ -148,13 +166,9 @@ export default class Question {
   }
 
   private ShowCheckbox() {
-    if (!this.checkboxContainer) return;
+    if (!this.checkboxContainer || !this.footerContainer) return;
 
-    const seeAnswerLinkContainer = this.container.querySelector(
-      ".sg-content-box__actions > .sg-actions-list",
-    );
-
-    seeAnswerLinkContainer.prepend(this.checkboxContainer);
+    this.footerContainer.prepend(this.checkboxContainer);
   }
 
   private BindListeners() {
@@ -197,7 +211,7 @@ export default class Question {
       this.RenderQuickDeleteButtons();
     }
 
-    this.#container.prepend(this.actionButtonsContainer);
+    this.quickActionButtonContainer.prepend(this.actionButtonsContainer);
 
     this.leftActionButtonContainer.style.maxWidth = `${this.moderateButton.element.offsetWidth}px`;
     this.rightActionButtonContainer.style.maxWidth = `${this.moderateButton.element.offsetWidth}px`;
@@ -206,6 +220,7 @@ export default class Question {
   private RenderActionButtonContainer() {
     this.actionButtonsContainer = Build(
       Flex({
+        fullWidth: true,
         relative: true,
       }),
       [
@@ -284,12 +299,13 @@ export default class Question {
         ...data,
         model_id: this.questionId,
       });
-      // console.log({
-      //   ...data,
-      //   model_id: this.questionId,
-      // });
-      // await System.TestDelay();
-      // const res = { success: true, message: "Failed" };
+      /* console.log({
+        ...data,
+        model_id: this.questionId,
+      });
+      await System.TestDelay();
+
+      const res = { success: true, message: "Failed" }; */
 
       new Action().CloseModerationTicket(this.questionId);
 
@@ -369,11 +385,11 @@ export default class Question {
     );
   }
 
-  DisableActionButtons() {
+  private DisableActionButtons() {
     this.actionButtons.forEach(actionButton => actionButton.Disable());
   }
 
-  EnableActionButtons() {
+  private EnableActionButtons() {
     this.actionButtons.forEach(actionButton => actionButton.Enable());
   }
 
@@ -385,7 +401,7 @@ export default class Question {
     this.AttachVerificationDetails();
   }
 
-  RenderAuthor() {
+  private RenderAuthor() {
     const avatarContainer = Flex({
       children: new Avatar({
         link: System.createProfileLink(this.extraDetails.author),
@@ -396,9 +412,12 @@ export default class Question {
     this.iconContainer.prepend(avatarContainer);
   }
 
-  RenderAttachments() {
+  private RenderAttachments() {
     if (this.extraDetails.attachments.length === 0) return;
 
+    // console.log(this.#container, this.extraDetails.attachments.length);
+
+    this.RelocateContentContainer();
     this.RenderAttachmentLabel();
 
     const galleryContainer = Flex({
@@ -443,13 +462,15 @@ export default class Question {
     });
     // console.log(this);
 
-    const attachmentsContainer = Flex({
+    /* const attachmentsContainer = Flex({
       children: galleryContainer,
     });
 
-    this.contentWrapper.append(attachmentsContainer);
+    this.contentWrapper.append(attachmentsContainer); */
+    this.attachmentContainer.append(galleryContainer);
 
-    this.gallery = new Viewer(galleryContainer, {
+    // eslint-disable-next-line no-new
+    new Viewer(galleryContainer, {
       fullscreen: false,
       loop: false,
       title: false,
@@ -472,7 +493,19 @@ export default class Question {
     });
   }
 
-  RenderAttachmentLabel() {
+  private RelocateContentContainer() {
+    const container = Build(Flex(), [
+      this.questionLinkAnchor,
+      Flex({
+        direction: "column",
+        children: [this.contentContainer, (this.attachmentContainer = Flex())],
+      }),
+    ]);
+
+    InsertBefore(container, this.footerContainer);
+  }
+
+  private RenderAttachmentLabel() {
     const attachmentIconContainer = Flex({
       marginTop: "xs",
       children: new Label({
@@ -486,7 +519,7 @@ export default class Question {
     // console.log(this);
   }
 
-  AttachVerificationDetails() {
+  private AttachVerificationDetails() {
     if (!this.extraDetails.answers.hasVerified) return;
 
     tippy(this.#verifiedIcon, {

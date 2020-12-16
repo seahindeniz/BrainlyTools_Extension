@@ -10,28 +10,28 @@ import type QuestionClassType from "./Question/Question";
 import type SearchResultsModerationClassType from "./SearchResultsModeration";
 
 export default class Moderator {
-  #main: SearchResultsModerationClassType;
+  private main: SearchResultsModerationClassType;
 
-  #deleteSection: DeleteSection;
-  #container: Box;
-  #deleteButtonNumberText: Text;
-  #deleteButton: Button;
-  #deleteAcrossButton?: Button;
-  #deleteAcrossButtonNumberText?: Text;
-  #deleteButtonsContainer: FlexElementType;
-  #selectAllCheckbox: Checkbox;
-  #selectedQuestions: QuestionClassType[];
-  #selectedQuestionsLength: number;
-  #loopTryToDeleteQuestions: number;
-  #deleteReqData: RemoveAnswerReqDataType;
-  #stopButton: Button;
+  private deleteSection: DeleteSection;
+  private container?: Box;
+  private deleteButtonNumberText: Text;
+  private deleteButton: Button;
+  private deleteAcrossButton?: Button;
+  private deleteAcrossButtonNumberText?: Text;
+  private deleteButtonsContainer: FlexElementType;
+  private selectAllCheckbox: Checkbox;
+  private selectedQuestions: QuestionClassType[];
+  private selectedQuestionsLength: number;
+  private loopTryToDeleteQuestions: number;
+  private deleteReqData: RemoveAnswerReqDataType;
+  private stopButton: Button;
 
   constructor(main: SearchResultsModerationClassType) {
-    this.#main = main;
+    this.main = main;
   }
 
   Show() {
-    if (!this.#container) {
+    if (!this.container) {
       this.Render();
       this.RenderDeleteButton();
 
@@ -40,29 +40,29 @@ export default class Moderator {
       }
     }
 
-    this.#main.searchResultContainerWrapper.append(this.#container.element);
+    this.main.searchResultContainerWrapper.append(this.container.element);
   }
 
   Hide() {
-    HideElement(this.#container.element);
+    HideElement(this.container?.element);
   }
 
   private Render() {
-    this.#deleteSection = new DeleteSection({
+    this.deleteSection = new DeleteSection({
       defaults: { contentType: "Question" },
-      actionButton: (this.#deleteButtonsContainer = Flex({
+      actionButton: (this.deleteButtonsContainer = Flex({
         fullWidth: true,
         justifyContent: "space-around",
         marginTop: "s",
       })),
     });
 
-    this.#selectAllCheckbox = new Checkbox({
+    this.selectAllCheckbox = new Checkbox({
       id: null,
       onChange: this.SelectAllCheckboxes.bind(this),
     });
 
-    this.#container = Build(
+    this.container = Build(
       new Box({
         border: true,
         borderColor: "gray-secondary-lightest",
@@ -98,7 +98,7 @@ export default class Moderator {
                     tag: "label",
                     type: "transparent",
                     children: System.data.locale.common.selectAll,
-                    icon: this.#selectAllCheckbox.element,
+                    icon: this.selectAllCheckbox.element,
                   }),
                 ],
                 [
@@ -115,7 +115,7 @@ export default class Moderator {
                 ],
               ],
             ],
-            this.#deleteSection.container,
+            this.deleteSection.container,
           ],
         ],
       ],
@@ -123,14 +123,14 @@ export default class Moderator {
   }
 
   private RenderDeleteButton() {
-    this.#deleteButtonNumberText = document.createTextNode("0");
+    this.deleteButtonNumberText = document.createTextNode("0");
 
     const numberLabel = new Label({
       color: "achromatic",
-      children: this.#deleteButtonNumberText,
+      children: this.deleteButtonNumberText,
     });
 
-    this.#deleteButton = new Button({
+    this.deleteButton = new Button({
       children: System.data.locale.common.delete,
       icon: numberLabel.element,
       onClick: this.DeleteSelectedQuestions.bind(this),
@@ -139,18 +139,18 @@ export default class Moderator {
       type: "solid-peach",
     });
 
-    this.#deleteButtonsContainer.append(this.#deleteButton.element);
+    this.deleteButtonsContainer.append(this.deleteButton.element);
   }
 
   private RenderDeleteAcrossButton() {
-    this.#deleteAcrossButtonNumberText = document.createTextNode("0");
+    this.deleteAcrossButtonNumberText = document.createTextNode("0");
 
     const numberLabel = new Label({
       color: "achromatic",
-      children: this.#deleteAcrossButtonNumberText,
+      children: this.deleteAcrossButtonNumberText,
     });
 
-    this.#deleteAcrossButton = new Button({
+    this.deleteAcrossButton = new Button({
       children: System.data.locale.common.deleteAcross,
       icon: numberLabel.element,
       onClick: this.DeleteSelectedQuestionsAcrossPages.bind(this),
@@ -159,21 +159,21 @@ export default class Moderator {
       type: "solid-peach",
     });
 
-    this.#deleteButtonsContainer.append(this.#deleteAcrossButton.element);
+    this.deleteButtonsContainer.append(this.deleteAcrossButton.element);
   }
 
   private SelectAllCheckboxes() {
-    this.#main.questions.all.forEach(question => {
+    this.main.questions.all.forEach(question => {
       if (question.deleted) return;
 
-      question.checkbox.input.checked = this.#selectAllCheckbox.input.checked;
+      question.checkbox.input.checked = this.selectAllCheckbox.input.checked;
     });
 
     this.UpdateButtonNumbers();
   }
 
   private ToggleCheckboxes() {
-    this.#main.questions.all.forEach(question => {
+    this.main.questions.all.forEach(question => {
       if (question.deleted) return;
 
       question.checkbox.input.checked = !question.checkbox.input.checked;
@@ -183,31 +183,33 @@ export default class Moderator {
   }
 
   private DeleteSelectedQuestions() {
-    this.#selectedQuestions = this.FilterSelectedQuestions(true);
+    this.selectedQuestions = this.FilterSelectedQuestions(true);
     this.ConfirmDeletion();
   }
 
   private DeleteSelectedQuestionsAcrossPages() {
-    this.#selectedQuestions = this.FilterSelectedQuestions();
+    this.selectedQuestions = this.FilterSelectedQuestions();
     this.ConfirmDeletion();
   }
 
   UpdateButtonNumbers() {
+    if (!this.deleteButtonNumberText) return;
+
     const selectedQuestions = this.FilterSelectedQuestions(true);
 
-    this.#deleteButtonNumberText.nodeValue = String(selectedQuestions.length);
+    this.deleteButtonNumberText.nodeValue = String(selectedQuestions.length);
 
-    if (!this.#deleteAcrossButtonNumberText) return;
+    if (!this.deleteAcrossButtonNumberText) return;
 
     const selectedQuestionsAcrossPages = this.FilterSelectedQuestions();
 
-    this.#deleteAcrossButtonNumberText.nodeValue = String(
+    this.deleteAcrossButtonNumberText.nodeValue = String(
       selectedQuestionsAcrossPages.length,
     );
   }
 
   FilterSelectedQuestions(visibleQuestionsOnly?: boolean) {
-    const selectedQuestions = this.#main.questions.all.filter(
+    const selectedQuestions = this.main.questions.all.filter(
       question =>
         question.checkbox.input.checked &&
         !question.deleted &&
@@ -218,9 +220,9 @@ export default class Moderator {
   }
 
   private ConfirmDeletion() {
-    this.#selectedQuestionsLength = this.#selectedQuestions.length;
+    this.selectedQuestionsLength = this.selectedQuestions.length;
 
-    if (this.#selectedQuestionsLength === 0) {
+    if (this.selectedQuestionsLength === 0) {
       notification({
         type: "info",
         text: System.data.locale.questionSearch.selectAtLeastOneQuestion,
@@ -233,7 +235,7 @@ export default class Moderator {
       !confirm(
         System.data.locale.questionSearch.doYouWantToDeleteSelectedQuestions.replace(
           /%{N}/g,
-          String(this.#selectedQuestionsLength),
+          String(this.selectedQuestionsLength),
         ),
       )
     )
@@ -243,27 +245,27 @@ export default class Moderator {
   }
 
   private StartDeletingQuestions() {
-    this.#deleteReqData = this.#deleteSection.PrepareData();
+    this.deleteReqData = this.deleteSection.PrepareData();
 
     this.ShowStopButton();
     this.TryToDeleteQuestions();
-    this.#loopTryToDeleteQuestions = window.setInterval(
+    this.loopTryToDeleteQuestions = window.setInterval(
       this.TryToDeleteQuestions.bind(this),
       1000,
     );
   }
 
   private ShowStopButton() {
-    if (!this.#stopButton) {
+    if (!this.stopButton) {
       this.RenderStopButton();
     }
 
-    HideElement(this.#deleteButtonsContainer);
-    this.#deleteSection.buttonContainer.append(this.#stopButton.element);
+    HideElement(this.deleteButtonsContainer);
+    this.deleteSection.buttonContainer.append(this.stopButton.element);
   }
 
   private RenderStopButton() {
-    this.#stopButton = new Button({
+    this.stopButton = new Button({
       children: System.data.locale.common.stop,
       onClick: this.FinishDeletion.bind(this),
       type: "solid-blue",
@@ -271,7 +273,7 @@ export default class Moderator {
   }
 
   private TryToDeleteQuestions() {
-    const selectedQuestions = this.#selectedQuestions.splice(0, 7);
+    const selectedQuestions = this.selectedQuestions.splice(0, 7);
 
     if (!selectedQuestions) {
       this.StopDeletion();
@@ -280,18 +282,18 @@ export default class Moderator {
     }
 
     selectedQuestions.forEach(async question => {
-      await question.Delete(this.#deleteReqData);
+      await question.Delete(this.deleteReqData);
 
-      this.#selectedQuestionsLength--;
+      this.selectedQuestionsLength--;
 
-      if (this.#selectedQuestionsLength === 0) {
+      if (this.selectedQuestionsLength === 0) {
         this.FinishDeletion();
       }
     });
   }
 
   private StopDeletion() {
-    clearInterval(this.#loopTryToDeleteQuestions);
+    clearInterval(this.loopTryToDeleteQuestions);
   }
 
   private FinishDeletion() {
@@ -301,7 +303,7 @@ export default class Moderator {
   }
 
   private HideStopButton() {
-    HideElement(this.#stopButton.element);
-    this.#deleteSection.buttonContainer.append(this.#deleteButtonsContainer);
+    HideElement(this.stopButton.element);
+    this.deleteSection.buttonContainer.append(this.deleteButtonsContainer);
   }
 }

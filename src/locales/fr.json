@@ -12,7 +12,7 @@
     "deleteN": "Supprimer %{number_of_contents}",
     "confirmed": "Approuvées",
     "deleted": "Supprimé",
-    "edit": "Editer",
+    "edit": "Éditer",
     "profileID": "ID du profil",
     "profileLinksOrIds": "Liens des profils ou IDs",
     "nick": "Pseudo",
@@ -27,7 +27,7 @@
     "continue": "Continuer",
     "no": "Non",
     "shortPoints": "Pts",
-    "writeSomething": "Ecrivez quelque chose",
+    "writeSomething": "Écris quelque chose",
     "userHasNoPrivilege": "L'utilisateur n'a pas de privilège",
     "nUsers": "%{n} utilisateurs",
     "nIds": "%{n} IDs",
@@ -38,10 +38,10 @@
       "somethingWentWrong": "Oops, quelque chose n'a pas fonctionné",
       "somethingWentWrongPleaseRefresh": "Une erreur inattendue s'est produite, rechargez la page",
       "cannotShareUserInfoWithServer": "Une erreur inattendue s'est produite pendant l'envoi des informations de l'utilisateur vers le serveur de l'extension. Ré essaye dans 2 secondes",
-      "ongoingProcess": "Quelques un des contenus sont toujours en cours d'éxecution. Es-tu certains de vouloir quitter la page ?",
+      "ongoingProcess": "Quelques un des contenus sont toujours en cours d'exécution. Es-tu certain de vouloir quitter la page ?",
       "areYouSure": "Es-tu sûr ?",
       "mayRequireWarning": "Voulez-vous appliquer un avertissement à ce contenu ?",
-      "ongoingProcessWait": "Quelques un des contenus sont toujours en cours d'éxecution. Es-tu certains de vouloir quitter la page ?",
+      "ongoingProcessWait": "Quelques un des contenus sont toujours en cours d'exécution. Es-tu certain de vouloir quitter la page ?",
       "xSendYouANewMessage": "%{userName} t'a envoyé un message",
       "newNotification": "Nouvelle notification",
       "operationCompleted": "Opération effectuée",
@@ -56,7 +56,7 @@
       "doYouWantToDelete": "Voulez-vous supprimer ?",
       "selectContentType": "Merci de sélectionner un type de contenu",
       "selectReason": "Merci de sélectionner une raison",
-      "editInPanel": "Editer dans le panneau de modération",
+      "editInPanel": "Éditer dans le panneau de modération",
       "point": "Point",
       "returnPoints": {
         "text": "Ne pas redonner les points",
@@ -128,12 +128,12 @@
       "notifierOn": "Notifications activées",
       "notifierOff": "Notifications désactivées",
       "idNumberRequired": "Vous devez entrer un identifiant",
-      "invalidId": "identifiant invalide",
+      "invalidId": "Identifiant invalide",
       "pleaseWait": "Patientez s'il vous plaît",
-      "openABrainlyPage": "Vous devez ouvrir une page Nosdevoirs dans votre naviguateur",
+      "openABrainlyPage": "Vous devez ouvrir une page Nosdevoirs dans votre navigateur",
       "errorN": "Erreur %{error_code}",
       "preparingUnsuccessful": "Une erreur s'est produite dans la préparation des raisons de suppression",
-      "noEvidenceFound": "le modérateur n'a ajouté aucune preuve ou commentaire",
+      "noEvidenceFound": "Le modérateur n'a ajouté aucune preuve ou commentaire",
       "doYouWannaGiveThisPrivilege": "Voulez-vous donner ce privilège à tous les utilisateurs de l'extension ?",
       "doYouWannaRevokeThisPrivilege": "Voulez-vous révoquer ce privilège pour tous les utilisateurs de l'extension ?",
       "privilegeHasGiven": "Le privilège a été donné à %{user_amount} utilisateurs",
@@ -180,7 +180,7 @@
           "chooseLanguage": "Sélectionner une langue"
         },
         "notifier": {
-          "text": "Notifications du naviguateur",
+          "text": "Notifications du navigateur",
           "title": "L'extension fera apparaître une notification quand vous aurez un nouveau message ou une nouvelle notification sur Brainly/Nosdevoirs"
         }
       }
@@ -203,15 +203,15 @@
         "harmless": "Autres",
         "explainingColors": {
           "line1": "Quelques utilisateurs ont des bordures colorées sur leur avatar et ces couleurs indiquent leur permission d'accès à l'extension",
-          "line2": "<s>Red</s> bordure signifie que l'utilisateur a été banni de l'extension:",
-          "line3": "<s>Mustard</s>bordure signifie que l'utilisateur a la permission d'utiliser l'extension mais ne l'a pas encore utilisé.",
-          "line4": "<s>Green</s>couleur signifie que l'utilisateur est actif et autorisé.",
+          "line2": "La bordure <s>rouge</s> signifie que l'utilisateur a été banni de l'extension:",
+          "line3": "La bordure <s>orange</s> signifie que l'utilisateur a la permission d'utiliser l'extension mais ne l'a pas encore utilisé.",
+          "line4": "La couleur <s>verte</s> signifie que l'utilisateur est actif et autorisé à utiliser l'extension.",
           "line5": "<s>No border</s> signifie que l'utilisateur a des privilèges assignés mais n'a pas encore l'autorisation d'utiliser l'extension."
         },
         "privilegeList": {
           "0": {
             "title": "Extension admin",
-            "description": "Peut utiliser l'extension sans restriction (Inutile d'assigner d'autres privièges, cela supprimera toutes les restrictions)"
+            "description": "Peut utiliser l'extension sans restriction (Inutile d'assigner d'autres privilèges, cela supprimera toutes les restrictions)"
           },
           "1": {
             "title": "Suppression rapide des questions",
@@ -227,7 +227,7 @@
           },
           "5": {
             "title": "Gérer les utilisateurs de l'extension",
-            "description": "Peut ajouter ou éditer les utilisateurs de l'extension et leurs attribuer des privilèges ou permission d'utiliser l'extension"
+            "description": "Peut ajouter ou éditer les utilisateurs de l'extension et leur attribuer des privilèges ou permission d'utiliser l'extension"
           },
           "6": {
             "title": "Approbation sélective des réponses",
@@ -315,7 +315,7 @@
           },
           "27": {
             "title": "Management de masse des utilisateurs",
-            "description": "L'utilisateur peut utiliser cette fonction pour manager les utilisateurs tel que changer le nombre de points, approuver les réponses des utilisateurs etc .."
+            "description": "L'utilisateur peut utiliser cette fonction pour manager les utilisateurs tel que changer le nombre de points, approuver les réponses des utilisateurs, etc. .."
           },
           "28": {
             "title": "Examiner l'historique des actions",
@@ -389,7 +389,7 @@
         "findReason": "Trouver une raison",
         "explaining": {
           "line1": "Vous pouvez trouver des raisons de suppression en tapant le nom de la raison.",
-          "line2": "Après en avoir sélectionner une parmi les résultats, vous pouvez cliquer sur le bouton %{exclamation-circle} pour donner un avertissement sans demander la confirmation au modérateur pendant la suppression. Mais dans certains cas, cela peut changer et le modérateur peuvent décider s'il veut ou non donner un avertissement. Vous pouvez cliquer sur %{exclamation-triangle} pour afficher la boîte de dialogue aux modérateurs pendant la suppression."
+          "line2": "Après en avoir sélectionné une parmi les résultats, vous pouvez cliquer sur le bouton %{exclamation-circle} pour donner un avertissement sans demander la confirmation au modérateur pendant la suppression. Mais dans certains cas, cela peut changer et le modérateur peuvent décider s'il veut ou non donner un avertissement. Vous pouvez cliquer sur %{exclamation-triangle} pour afficher la boîte de dialogue aux modérateurs pendant la suppression."
         }
       },
       "accountDeleteReports": {
@@ -412,7 +412,7 @@
       "accessPermissionDenied": "Tu n'es pas autorisé à utiliser l'extension Brainly Tools.\nMerci de contacter l'Administrateur ou le Community Manager pour avoir la permission d'y accéder.",
       "updateNeeded": "Une nouvelle version de l'extension est disponible.\nElle sera mise à jour en arrière-plan. Pourriez-vous attendre ~10 secondes et ensuite rafraîchir la page ?",
       "warningBeforeDelete": "Le processus va être exécuté et les questions indiquées seront supprimées. \n\nÊtes-vous sûr ?",
-      "enterIdWarn": "Vous devez ajouter au moins un ID de question que vous voulez supprimer.",
+      "enterIdWarn": "Tu dois ajouter au moins un id de question que tu souhaites supprimer",
       "youNeedToEnterValidId": "Vous devez entrer un ID valide",
       "tryingToSendTheSameMessage": "Vous essayez d'envoyer le dernier message une autre fois. Voulez-vous continuer ?",
       "alreadyStarted": "Le processus a déjà commencé",
@@ -429,7 +429,7 @@
       "text": "Suppression de masse des contenus",
       "nIdsToDeleted": "%{n} IDs à supprimer",
       "nHasBeenDeleted": "%{n} IDs ont été supprimés",
-      "containerExplanation": "Vous devez mettre les liens des devoirs ou les ids dans la boîte de texte ligne par ligne. Chaque ligne doit contenir 1 id.",
+      "containerExplanation": "Vous devez mettre les liens des devoirs ou les identifiants dans la boîte de texte ligne par ligne. Chaque ligne doit contenir 1 id.",
       "select": {
         "reason": "Raison",
         "subReason": "Catégorie",
@@ -640,8 +640,8 @@
   },
   "userProfile": {
     "notificationMessages": {
-      "areYouSureDeleteSelectedFriends": "Es-tu certains de vouloir retirer les utilisateurs sélectionnés de ta liste d'amis ?",
-      "areYouSureRemoveAllFriends": "Es-tu certains de vouloir enlever tous tes amis ?",
+      "areYouSureDeleteSelectedFriends": "Es-tu certain de vouloir retirer les utilisateurs sélectionnés de ta liste d'amis ?",
+      "areYouSureRemoveAllFriends": "Es-tu certain de vouloir enlever tous tes amis ?",
       "youHaveNoFriends": "Ne sois pas triste car tu n'as pas d'amis dans ta liste :/",
       "cannotChangeBio": "Impossible de changer votre bio :/ Désolé ...",
       "fileSizeExceeded": "Le fichier %{file_name} excède la taille maximale de %{file_size}",
@@ -663,7 +663,7 @@
     },
     "showAllFriends": {
       "text": "Tout montrer",
-      "title": "Liste de tout tes amis"
+      "title": "Liste de tous tes amis"
     },
     "removeAllFriends": {
       "text": "Retirer tous les amis",

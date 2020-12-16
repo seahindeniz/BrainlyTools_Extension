@@ -230,8 +230,8 @@
             "description": "Eklenti kullanıcılarının erişim izni ve yetkilerini düzenleme yetkisi"
           },
           "6": {
-            "title": "Seçmeli cevap doğrulama",
-            "description": "Kullanıcı bilgilerini gör sayfasında, kullanıcı cevaplarını seçerek doğrulama"
+            "title": "Seçerek cevap doğrulama",
+            "description": "Kullanıcı içerikleri sayfasında moderatör, her sayfada max 25 cevap seçerek cevapları doğrulayabilir"
           },
           "7": {
             "title": "Çoklu içerik silici",
@@ -367,6 +367,10 @@
           "98": {
             "title": "Discord'da sınırlı kanal erişimi",
             "description": "Kullanıcı, Discord sunucusunda #announcements(duyuru) ve #kurallar kanalları dışında hiçbir kanal göremez"
+          },
+          "40": {
+            "title": "Seçerek cevap doğrulaması kaldırma",
+            "description": "Kullanıcı içerikleri sayfasında moderatör, her sayfada max 25 cevap seçerek cevapların doğrulamasını kaldırabilir"
           }
         },
         "veryImportant": "Çok önemli"

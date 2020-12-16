@@ -199,6 +199,7 @@ class AccountDeleteReports {
 
   async HeaderClicked() {
     await System.Delay(50);
+
     if (!this.$header.parent().hasClass("is-active")) return;
 
     this.FetchReports();

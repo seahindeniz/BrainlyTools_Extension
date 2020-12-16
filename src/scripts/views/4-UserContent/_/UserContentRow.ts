@@ -156,6 +156,7 @@ export default class UserContentRow {
 
     if (this.main.caller === "Questions" || this.main.caller === "Answers") {
       this.isBusy = false;
+
       if (this.checkbox) this.HideSpinner();
     }
   }

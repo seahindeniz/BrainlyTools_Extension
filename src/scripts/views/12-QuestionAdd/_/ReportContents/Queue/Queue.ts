@@ -115,6 +115,7 @@ export default class Queue {
     this.observer = new IntersectionObserver(
       entries => {
         if (entries.length >= this.main.defaults.loadLimit) return;
+
         entries.forEach(async entry => {
           if (
             !(entry.target instanceof HTMLElement) ||

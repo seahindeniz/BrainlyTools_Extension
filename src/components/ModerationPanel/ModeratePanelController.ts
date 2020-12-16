@@ -52,6 +52,7 @@ export default class ModeratePanelController {
       event.target instanceof HTMLTextAreaElement
     )
       return;
+
     if (event.code === "KeyA" || event.code === "ArrowLeft")
       this.SwitchToPreviousReport();
     else if (event.code === "KeyD" || event.code === "ArrowRight")

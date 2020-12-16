@@ -102,7 +102,9 @@ export default class Modal {
     if (this.hasOverlay) this.RenderInOverlay();
 
     if (this.title) this.RenderTitle();
+
     if (this.content) this.RenderContent();
+
     if (this.actions) this.RenderActions();
 
     if (this.#showJumpButton && this.hasOverlay) {

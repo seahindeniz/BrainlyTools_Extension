@@ -9,7 +9,7 @@ common:
       name: Français
       author: 'MichaelS, TomRh'
     id:
-      progress: 100
+      progress: 99
       name: Bahasa Indonesia
       author: 'Zuhh, Lyden'
     tr:

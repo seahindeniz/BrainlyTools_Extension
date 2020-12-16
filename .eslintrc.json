@@ -70,29 +70,18 @@
           "error",
           {
             "blankLine": "always",
-            "prev": ["const", "let", "var"],
+            "prev": ["const", "let", "var", "block-like", "if"],
             "next": "*"
           },
           {
             "blankLine": "always",
             "prev": "*",
-            "next": ["const", "let", "var"]
+            "next": ["return", "const", "let", "var", "block-like", "if"]
           },
           {
             "blankLine": "any",
             "prev": ["const", "let", "var"],
             "next": ["const", "let", "var"]
-          },
-          { "blankLine": "always", "prev": "*", "next": "return" },
-          {
-            "blankLine": "always",
-            "prev": ["*"],
-            "next": ["block-like"]
-          },
-          {
-            "blankLine": "always",
-            "prev": ["block-like"],
-            "next": ["*"]
           }
         ],
         "no-irregular-whitespace": "error"
@@ -166,7 +155,7 @@
     "arrow-parens": [2, "as-needed", { "requireForBlockBody": false }],
     "import/no-unresolved": [2, { "ignore": ["^@"] }],
     "no-bitwise": ["error", { "allow": ["~"] }],
-    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "no-console": ["warn", { "allow": ["warn", "error", "info"] }],
     "prettier/prettier": ["error"],
     "sort-keys": [
       "error",

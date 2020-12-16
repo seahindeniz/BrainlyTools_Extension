@@ -367,6 +367,10 @@
           "98": {
             "title": "Limited channel access on Discord",
             "description": "User will not see any channels other than the #announcements and #rules channels on the Discord server"
+          },
+          "40": {
+            "title": "Unverify answers by selecting",
+            "description": "On the user contents page, the moderator can unverify answers by selecting 25 answers max- on each page"
           }
         },
         "veryImportant": "Sangat penting"

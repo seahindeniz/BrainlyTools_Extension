@@ -367,6 +367,10 @@
           "98": {
             "title": "Accès limité aux canaux sur Discord",
             "description": "L'utilisateur ne verra aucun autre canal que les canaux #announcements et #rules sur le serveur Discord"
+          },
+          "40": {
+            "title": "Unverify answers by selecting",
+            "description": "On the user contents page, the moderator can unverify answers by selecting 25 answers max- on each page"
           }
         },
         "veryImportant": "Très important"

@@ -68,8 +68,8 @@ export default class Avatar {
       ...props,
     });
 
-    this.ChangeLink({ link, target });
     this.ChangeAvatar({ imgSrc, alt: props.title });
+    this.ChangeLink({ link, target });
   }
 
   ChangeLink({ link, target }: { link: string; target?: anchorTargetType }) {
@@ -79,6 +79,8 @@ export default class Avatar {
       target,
       children: this.avatar,
     });
+
+    this.element.append(this.anchor);
   }
 
   ChangeAvatar({ imgSrc, alt }: { imgSrc: string; alt?: string }) {

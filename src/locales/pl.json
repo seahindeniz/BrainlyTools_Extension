@@ -110,7 +110,8 @@
     "toggleSelections": "Toggle selections",
     "copied": "Copied!",
     "default": "Domyślnie",
-    "yes": "Yes"
+    "yes": "Yes",
+    "workingOnIt": "Working on it.."
   },
   "popup": {
     "notificationMessages": {
@@ -362,6 +363,10 @@
           "39": {
             "title": "Action history, review management",
             "description": "Ability to revert other reviewers' reviews on moderation history of moderators. Without this, reviewers can only revert their own reviews"
+          },
+          "98": {
+            "title": "Limited channel access on Discord",
+            "description": "User will not see any channels other than the #announcements and #rules channels on the Discord server"
           }
         },
         "veryImportant": "Very important"
@@ -802,74 +807,7 @@
         "alwaysVisible": "Zawsze widoczne",
         "onHoverOrTouch": "Po najechaniu/kliknięciu"
       },
-      "filter": {
-        "optionName": "Filtruj zgłoszenia",
-        "description": "Filtry można zastosować tylko do tych zgłoszeń, które zostały załadowane na stronie",
-        "filters": {
-          "reporter": {
-            "name": "Zgłaszający użytkownik"
-          },
-          "reported": {
-            "name": "Zgłoszony użytkownik"
-          },
-          "reportingDate": {
-            "name": "Zgłoszone pomiędzy",
-            "startingDate": "Data początkowa",
-            "endingDate": "Data końcowa"
-          },
-          "contentType": {
-            "name": "Typ treści",
-            "Question": "Pytanie",
-            "Answer": "Odpowiedź",
-            "Comment": "Komentarz"
-          },
-          "contentLength": {
-            "name": "Długość treści",
-            "equals": "równe",
-            "lowerThan": "mniej niż",
-            "label": {
-              "equals": "równe %{N}",
-              "lowerThan": "mniej niż %{N}",
-              "greaterThan": "więcej niż %{N}"
-            },
-            "greaterThan": "więcej niż"
-          },
-          "attachmentLength": {
-            "name": "Liczba załączników"
-          },
-          "subject": {
-            "name": "Przedmiot"
-          },
-          "userFilter": {
-            "id": "identyfikator",
-            "nick": "nazwa użytkownika",
-            "lookFor": "Szukaj",
-            "specialRank": "Specjalna ranga",
-            "anyRank": "Dowolna ranga"
-          },
-          "stringFilter": {
-            "chooseCondition": "Wybierz warunek",
-            "label": {
-              "contains": "zawiera: %{input}",
-              "sameWith": "dokładnie jak: %{input}",
-              "startsWith": "zaczyna się od: %{input}",
-              "endsWith": "kończy się na : %{input}",
-              "regExp": "%{input}"
-            },
-            "conditions": {
-              "contains": "zawiera",
-              "sameWith": "dokładnie jak",
-              "startsWith": "zaczyna się od",
-              "endsWith": "kończy się na",
-              "regExp": "RegExp (JS / ES6)"
-            },
-            "additionalData": "Dodatkowe dane",
-            "content": "Treść"
-          }
-        },
-        "pageNumberInputTitle": "Wprowadź numer strony od %{MIN_N} do %{MAX_N}"
-      },
-      "name": "Filtry",
+      "name": "Opcje",
       "density": {
         "optionName": "Obszerność"
       },
@@ -905,7 +843,8 @@
         "isModerated": "Czy zmoderowano?",
         "isCorrected": "Czy poprawiono?"
       },
-      "notYetCorrected": "Niepoprawione"
+      "notYetCorrected": "Niepoprawione",
+      "pageNumberInputTitle": "Wprowadź numer strony od %{MIN_N} do %{MAX_N}"
     },
     "loadAll": "Załaduj wszystkie zgłoszone treści",
     "loadAllConfirmationMessage": "Spróbujemy załadować wszystkie zgłoszone treści z Brainly, ale proces może zostać przerwany przez Brainly z powodu specjalnych żądań.\nPotwierdź, aby rozpocząć proces",
@@ -959,7 +898,75 @@
         "Comment": "Powody zgłoszeń komentarzy"
       }
     },
-    "name": "Zgłoszone treści"
+    "name": "Zgłoszone treści",
+    "filtersPanel": {
+      "description": "Filtry można zastosować tylko do tych zgłoszeń, które zostały załadowane na stronie",
+      "filters": {
+        "reporter": {
+          "name": "Zgłaszający użytkownik"
+        },
+        "reported": {
+          "name": "Zgłoszony użytkownik"
+        },
+        "reportingDate": {
+          "name": "Zgłoszone pomiędzy",
+          "startingDate": "Data początkowa",
+          "endingDate": "Data końcowa"
+        },
+        "contentType": {
+          "name": "Typ treści",
+          "Question": "Pytanie",
+          "Answer": "Odpowiedź",
+          "Comment": "Komentarz"
+        },
+        "contentLength": {
+          "name": "Długość treści",
+          "equals": "równe",
+          "lowerThan": "mniej niż",
+          "label": {
+            "equals": "równe %{N}",
+            "lowerThan": "mniej niż %{N}",
+            "greaterThan": "więcej niż %{N}"
+          },
+          "greaterThan": "więcej niż"
+        },
+        "attachmentLength": {
+          "name": "Liczba załączników"
+        },
+        "subject": {
+          "name": "Przedmiot"
+        },
+        "userFilter": {
+          "id": "identyfikator",
+          "nick": "nazwa użytkownika",
+          "lookFor": "Szukaj",
+          "specialRank": "Specjalna ranga",
+          "anyRank": "Dowolna ranga",
+          "excludeSelectedRanks": "Exclude users with selected ranks"
+        },
+        "stringFilter": {
+          "chooseCondition": "Wybierz warunek",
+          "label": {
+            "contains": "zawiera: %{input}",
+            "sameWith": "dokładnie jak: %{input}",
+            "startsWith": "zaczyna się od: %{input}",
+            "endsWith": "kończy się na : %{input}",
+            "regExp": "%{input}"
+          },
+          "conditions": {
+            "contains": "zawiera",
+            "sameWith": "dokładnie jak",
+            "startsWith": "zaczyna się od",
+            "endsWith": "kończy się na",
+            "regExp": "RegExp (JS / ES6)"
+          },
+          "additionalData": "Dodatkowe dane",
+          "content": "Treść"
+        }
+      },
+      "title": "Filtry",
+      "name": "Filtruj zgłoszenia"
+    }
   },
   "moderationPanel": {
     "text": "Moderacja pytania",

@@ -252,7 +252,7 @@ class Core {
   }
 
   LoadComponentsForAllPages() {
-    if (!System.checkRoute(1, "question") && !System.checkRoute(2, "add")) {
+    if (!(System.checkRoute(1, "question") && System.checkRoute(2, "add"))) {
       InjectToDOM("/scripts/views/0-Core/ModerationPanel.js");
     }
 

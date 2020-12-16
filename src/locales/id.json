@@ -103,14 +103,15 @@
     "optional": "PILIHAN",
     "add": "Menambahkan",
     "chooseAnOption": "Pilih opsi",
-    "deleteAcross": "Delete across",
+    "deleteAcross": "Hapus di seluruh",
     "profileLinkOrId": "Profile link atau id",
     "beta": "Beta",
     "deletedUser": "Pengguna yang dihapus",
     "toggleSelections": "Mengalihkan pilihan",
     "copied": "Disalin!",
     "default": "Default",
-    "yes": "Ya"
+    "yes": "Ya",
+    "workingOnIt": "Working on it.."
   },
   "popup": {
     "notificationMessages": {
@@ -120,8 +121,8 @@
       "createdMessage": "Berhasil dibuat",
       "updatedMessage": "Update sukses",
       "removedMessage": "Penghapusan sukses",
-      "published": "Published",
-      "unpublished": "Unpublished",
+      "published": "Dipublikasikan",
+      "unpublished": "Batalkan publikasi",
       "layoutExtended": "Layout diperpanjang",
       "switchedToNormal": "Beralih kembali ke normal",
       "notifierOn": "Notifikasi diaktifkan",
@@ -187,7 +188,7 @@
     "extensionManagement": {
       "title": "Ext. Management",
       "users": {
-        "text": "Users",
+        "text": "Pengguna",
         "title": "Kamu dapat mengatur izin dan privileges pengguna ekstensi",
         "changeUserPrivileges": "Mengubah privilege semua pengguna",
         "revoke": "Hapus",
@@ -213,11 +214,11 @@
             "description": "Dapat menggunakan ekstensi tanpa batasan apapun. (Tidak perlu menetapkan privilige lainnya, ini akan menghapus semua pembatasan)"
           },
           "1": {
-            "title": "Tombol hapus cepat",
+            "title": "Hapus pertanyaan dengan cepat",
             "description": "Pada halaman pertanyaan, konten pengguna, arsip moderator dan halaman utama, pengguna bisa menggunakan tombol penghapusan cepat untuk menghapus jawaban"
           },
           "2": {
-            "title": "Tombol hapus cepat",
+            "title": "Hapus jawaban dengan cepat",
             "description": "Pada halaman pertanyaan, konten pengguna, arsip moderator dan halaman utama, pengguna bisa menggunakan tombol penghapusan cepat untuk menghapus jawaban"
           },
           "4": {
@@ -265,7 +266,7 @@
             "description": "Pada halaman konten pengguna, pengguana dapat memilih fungsi penghapusan untuk menghapus pertanyaan yang dipilih."
           },
           "15": {
-            "title": "Memilih jawabn yang dihapus",
+            "title": "Penghapusan jawaban selektif",
             "description": "Pada halaman konten pengguna, pengguana dapat memilih fungsi penghapusan untuk menghapus pertanyaan yang dipilih."
           },
           "16": {
@@ -362,6 +363,10 @@
           "39": {
             "title": "Sejarah tindakan, tinjauan management",
             "description": "Kemampuan untuk mengembalikan ulasan pengulas lain tentang riwayat moderasi moderator. Tanpa ini, peninjau hanya dapat mengembalikan ulasannya sendiris"
+          },
+          "98": {
+            "title": "Limited channel access on Discord",
+            "description": "User will not see any channels other than the #announcements and #rules channels on the Discord server"
           }
         },
         "veryImportant": "Sangat penting"
@@ -373,8 +378,8 @@
         "editorContent": "Konten",
         "cancelEdit": "Batalkan pengeditan",
         "update": "Memperbarui",
-        "publish": "Publish",
-        "unpublish": "Unpublish",
+        "publish": "Mempublikasikan",
+        "unpublish": "Batalkan publikasi",
         "readOn": "Dibaca pada:\n%{date}"
       },
       "DeleteReasonsPreferences": {
@@ -441,7 +446,7 @@
       "startOver": "Mulai lagi dari awal",
       "sent": "Dikirim",
       "usersNotFound": "Pengguna tidak ditemukan",
-      "errors": "Error",
+      "errors": "Kesalahan",
       "unknownError": "Kesalahan yang tidak diketahui",
       "somethingWentWrongWhileLoadingModerators": "Terjadi masalah saat mengambil detail moderator"
     },
@@ -540,7 +545,7 @@
           "chooseAReason": "Pilih sebuah alasan",
           "tabButton": {
             "text": "Laporkan penyalahgunaan",
-            "title": "Melaporkan konten abusive"
+            "title": "Laporkan konten yang menyinggung"
           }
         },
         "addAnswer": {
@@ -574,7 +579,7 @@
       "pinTip": "Kamu dapat menyematkan grup dengan meng-klik icon %{pin}.",
       "notificationMessages": {
         "groupCreated": "%{groupName} sukses dibuat",
-        "groupUpdated": "%{groupName} updated",
+        "groupUpdated": "%{groupName} diperbarui",
         "cantCreate": "Saya tidak dapat membuat grup ini karena ada hal yang salah. Bisakah kamu memeriksa rinciannya?",
         "userAlreadyAdded": "Pengguna ini telah ada dalam daftar",
         "doYouWantToRemoveMembers": "Apakah kamu ingin menghapus semua anggota?",
@@ -936,7 +941,8 @@
           "nick": "nick",
           "lookFor": "Mencari",
           "specialRank": "Special rank",
-          "anyRank": "rank lain-nya"
+          "anyRank": "rank lain-nya",
+          "excludeSelectedRanks": "Exclude users with selected ranks"
         },
         "stringFilter": {
           "chooseCondition": "Pilih kondisi",

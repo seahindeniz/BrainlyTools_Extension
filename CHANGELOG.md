@@ -2,6 +2,43 @@
 
 All notable changes to this project will be documented in this file.
 
+_Release dates are based on GMT timezone_
+
+## [7.17.0] - 2020.12.17
+
+### Added
+
+- A label or a different icon for the "reset" button that's used to reset
+  changes made to an attachment while viewing it [#304]
+- Az karakterli cevapların bulunduğu sayfa için her cevapta ek olup olmadığını
+  belirtme. [#313]
+- Ability to copy links of warnings under "Last Warnings" beside a users
+  profile page. [#329]
+- Arrow keys function for "Moderator Actions History" page [#332]
+- Ability to exclude users with special ranks on Reported Contents page [#333]
+- Menu icon should be changed to move icon [#335]
+- Selective Answer Approvement/Unapprovement [#338]
+
+### Changed
+
+- Paginator isn't visible when report reasons & subjects are set to "ALL" after
+  choosing some reasons under them. [#309]
+- Error in orientation of Special Ranks in User Content Page [#328]
+- Change all users privileges doesn't work [#334]
+- Question search mass-moderation panel does not work at times [#337]
+
+[#304]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/304
+[#309]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/309
+[#313]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/313
+[#328]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/328
+[#329]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/329
+[#332]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/332
+[#333]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/333
+[#334]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/334
+[#335]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/335
+[#337]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/337
+[#338]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/338
+
 ## [7.16.1] - 2020.11.29
 
 ### Changed

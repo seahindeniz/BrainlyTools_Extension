@@ -5,11 +5,11 @@ common:
       name: English
       author: null
     fr:
-      progress: 100
+      progress: 99
       name: Français
       author: 'MichaelS, TomRh'
     id:
-      progress: 99
+      progress: 98
       name: Bahasa Indonesia
       author: 'Zuhh, Lyden'
     tr:

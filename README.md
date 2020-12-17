@@ -3,13 +3,16 @@
 **A toolbox for exclusive users of Brainly. It enhances the Brainly and it helps
 users to do fast and quick actions and much more..**
 
-[![Discord](https://discord.com/api/guilds/714178009489473597/widget.png?style=banner2)](https://discord.gg/GQ3WKe94KJ)
-
 ---
 
 If you have any questions or suggestions, do not hesitate to create a new issue.
 I'd be happy to hear your thoughts.
 
+[![Discord](https://discord.com/api/guilds/714178009489473597/widget.png?style=banner2)](https://discord.gg/GQ3WKe94KJ)
+
+_ℹ Discord server open to extension users only_
+
+---
 
 ### Attention please :warning:
 

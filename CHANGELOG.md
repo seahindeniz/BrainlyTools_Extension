@@ -8,6 +8,7 @@ _Release dates are based on GMT timezone_
 
 ### Added
 
+- Introduce the Discord server widget in the extension options
 - A label or a different icon for the "reset" button that's used to reset
   changes made to an attachment while viewing it [#304]
 - Az karakterli cevapların bulunduğu sayfa için her cevapta ek olup olmadığını

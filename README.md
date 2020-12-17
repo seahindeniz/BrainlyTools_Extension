@@ -10,7 +10,7 @@ I'd be happy to hear your thoughts.
 
 [![Discord](https://discord.com/api/guilds/714178009489473597/widget.png?style=banner2)](https://discord.gg/GQ3WKe94KJ)
 
-_ℹ Discord server open to extension users only_
+_ℹ Discord server is open to extension users only_
 
 ---
 

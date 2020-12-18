@@ -2,7 +2,7 @@ import { series, src, dest } from "gulp";
 
 function copyFonts() {
   return src("node_modules/brainly-style-guide/src/fonts/*").pipe(
-    dest(`${process.env.BUILD_FOLDER}/styles/pages/fonts`, { overwrite: true }),
+    dest(`${process.env.BUILD_FOLDER}/styles/fonts`, { overwrite: true }),
   );
 }
 

@@ -252,9 +252,9 @@ class Users {
       <article class="media addNew user">
         <div class="media-left is-invisible has-text-centered">
           <a target="_blank">
-            <figure class="image is-64x64">
+            <div class="image is-64x64">
               <img class="avatar is-rounded" src="https://${System.data.meta.marketName}/img/avatars/100-ON.png">
-            </figure>
+            </div>
             <div>
               <p id="nick"></p>
             </div>
@@ -355,9 +355,9 @@ class Users {
     const $node = $(`
 		<div class="level-item is-inline-block has-text-centered">
 			<a data-user-id="${serverData.brainlyID}" id="${serverData._id}" title="${time}" target="_blank">
-				<figure class="image is-48x48${userStatus}">
+				<div class="image is-48x48${userStatus}">
 					<img class="avatar is-rounded" src="https://${System.data.meta.marketName}/img/avatars/100-ON.png">
-				</figure>
+				</div>
 				<p class="nick">${serverData.nick}</p>
 			</a>
 		</div>`);

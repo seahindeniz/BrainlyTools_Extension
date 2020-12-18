@@ -559,6 +559,12 @@
           }
         }
       }
+    },
+    "discordPopup": {
+      "discordServer": "DISCORD SERVER!",
+      "heyUser": "Hey %{nick},",
+      "nextMessage": "we have opened the doors to our brand-new\nDiscord server for extension users now.\n\nFeel free to check it out!",
+      "informationLine": "about the Discord server"
     }
   },
   "home": {

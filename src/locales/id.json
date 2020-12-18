@@ -111,7 +111,7 @@
     "copied": "Disalin!",
     "default": "Default",
     "yes": "Ya",
-    "workingOnIt": "Working on it.."
+    "workingOnIt": "Sedang mengerjakannya .."
   },
   "popup": {
     "notificationMessages": {
@@ -230,8 +230,8 @@
             "description": "Dapat menambahkan atau mengedit ekstensi user dan memberikan mereka privileges atau izin untuk menggunakan ekstensi"
           },
           "6": {
-            "title": "Pemilihan jawaban untuk disetujui",
-            "description": "Di halaman konten pengguna, moderator dapat menyetujui jawabannya dengan memilih"
+            "title": "Menyetujui jawaban",
+            "description": "Pada halaman konten pengguna, moderator dapat membatalkan verifikasi dengan memilih maksimal 25 jawaban pada setiap halaman"
           },
           "7": {
             "title": "Penghapusan konten massal",
@@ -365,12 +365,12 @@
             "description": "Kemampuan untuk mengembalikan ulasan pengulas lain tentang riwayat moderasi moderator. Tanpa ini, peninjau hanya dapat mengembalikan ulasannya sendiris"
           },
           "98": {
-            "title": "Limited channel access on Discord",
-            "description": "User will not see any channels other than the #announcements and #rules channels on the Discord server"
+            "title": "Akses saluran terbatas di Discord",
+            "description": "Pengguna tidak akan melihat saluran apa pun selain saluran #announcements dan #rules di server Discord"
           },
           "40": {
-            "title": "Unverify answers by selecting",
-            "description": "On the user contents page, the moderator can unverify answers by selecting 25 answers max- on each page"
+            "title": "Menyetujui jawaban",
+            "description": "Pada halaman konten pengguna, moderator dapat membatalkan verifikasi dengan memilih maksimal 25 jawaban pada setiap halaman"
           }
         },
         "veryImportant": "Sangat penting"
@@ -559,6 +559,12 @@
           }
         }
       }
+    },
+    "discordPopup": {
+      "discordServer": "SERVER DISCORD!",
+      "heyUser": "Hai %{nick} ,",
+      "nextMessage": "kami telah membuka pintu baru kami\n Server Discord untuk pengguna ekstensi sekarang. \n\n Jangan ragu untuk memeriksanya!",
+      "informationLine": "tentang server Discord"
     }
   },
   "home": {
@@ -946,7 +952,7 @@
           "lookFor": "Mencari",
           "specialRank": "Special rank",
           "anyRank": "rank lain-nya",
-          "excludeSelectedRanks": "Exclude users with selected ranks"
+          "excludeSelectedRanks": "Kecualikan pengguna dengan peringkat yang dipilih"
         },
         "stringFilter": {
           "chooseCondition": "Pilih kondisi",

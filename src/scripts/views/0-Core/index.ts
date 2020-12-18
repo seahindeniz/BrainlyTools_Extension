@@ -12,6 +12,7 @@ import storage from "../../../helpers/extStorage";
 import InjectToDOM from "../../../helpers/InjectToDOM";
 import messagesLayoutExtender from "../../../helpers/messagesLayoutExtender";
 import WaitForObject from "../../../helpers/WaitForObject";
+import DiscordServerPopupMessage from "./_/DiscordServerPopupMessage";
 import fetchFriends from "./_/fetchFriends";
 import RenderMenuButtonFixer from "./_/MenuButtonFixer";
 import RemoveJunkElements from "./_/RemoveJunkElements";
@@ -273,6 +274,13 @@ class Core {
     };
 
     RemoveSVG_Titles();
+
+    if (
+      System.data.Brainly.userData.extension.showDiscordPopup &&
+      System.data.Brainly.userData.extension.discordServer
+    )
+      // eslint-disable-next-line no-new
+      new DiscordServerPopupMessage();
   }
 
   InjectFilesToPage() {

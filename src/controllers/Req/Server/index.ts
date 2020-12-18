@@ -614,4 +614,8 @@ export default class ServerReq {
   freelancerData() {
     return this.P("freelancerData");
   }
+
+  closeDiscordMessage() {
+    return this.P("closeDiscordMessage");
+  }
 }

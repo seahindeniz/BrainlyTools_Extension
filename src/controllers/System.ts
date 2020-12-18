@@ -254,6 +254,7 @@ class _System {
           secretKey: string;
           newUpdate?: boolean;
           discordServer?: string;
+          showDiscordPopup?: boolean;
         };
         user: {
           id: number;

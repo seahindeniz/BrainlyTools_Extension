@@ -3,6 +3,8 @@
 @import "~bulma-switch";
 @import "~@creativebulma/bulma-divider";
 
+@import "~brainly-style-guide/src/main.scss";
+
 .is-checkradio[type="radio"].is-block + label,
 .is-checkradio[type="checkbox"].is-block + label {
   &:before {
@@ -546,13 +548,6 @@ html[is="popup"] {
   }
 }
 
-#discord-banner {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: 30px;
-
-  > iframe {
-    max-width: 600px;
-  }
+iframe#discord-widget {
+  max-width: 600px;
 }

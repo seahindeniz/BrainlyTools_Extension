@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 _Release dates are based on GMT timezone_
 
+## [7.17.1] - 2020.12.17
+
+### Changed
+
+- Minor fixes, mostly server side
+
 ## [7.17.0] - 2020.12.17
 
 ### Added

@@ -37,6 +37,7 @@ export { default as SeparatorVertical } from "./Separator/Vertical";
 export { default as Spinner } from "./Spinner";
 export { default as SpinnerContainer } from "./Spinner/Container";
 export { default as Text } from "./Text";
+export { default as TextBit } from "./TextBit";
 export { default as Textarea } from "./Textarea";
 export { default as Toplayer } from "./Toplayer";
 export { default as ToplayerDeprecated } from "./ToplayerDeprecated";

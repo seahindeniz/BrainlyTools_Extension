@@ -559,6 +559,12 @@
           }
         }
       }
+    },
+    "discordPopup": {
+      "discordServer": "DISCORD SUNUCUSU!",
+      "heyUser": "Hey %{nick},",
+      "nextMessage": "gıcır Discord sunucumuzun kapılarını,\ntüm eklenti kullanıcılarına açtık.\n\nHemen göz atabilirsin!",
+      "informationLine": "Discord sunucusu hakkında (İngilizce)"
     }
   },
   "home": {

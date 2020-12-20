@@ -1,1022 +1,990 @@
 {
   "common": {
-    "extensionUser": "Extension user",
-    "selectAll": "Select All",
-    "progressing": "Progressing",
-    "done": "Done!",
-    "allDone": "All done!",
-    "save": "Save",
-    "clearInputs": "Clear text inputs",
-    "delete": "Delete",
-    "confirm": "Confirm",
-    "deleteN": "Delete %{number_of_contents}",
-    "confirmed": "Confirmed",
-    "deleted": "Deleted",
-    "edit": "Edit",
-    "profileID": "Profile ID",
-    "profileLinksOrIds": "Profile links or ids..",
+    "extensionUser": "Usuário da Extensão",
+    "selectAll": "Selecionar tudo",
+    "progressing": "Progredindo",
+    "done": "Feito!",
+    "allDone": "Tudo feito!",
+    "save": "Salvar",
+    "clearInputs": "Limpar entradas de texto",
+    "delete": "Eliminar",
+    "confirm": "Confirmar",
+    "deleteN": "Eliminar %{number_of_contents}",
+    "confirmed": "Confirmada",
+    "deleted": "Eliminada",
+    "edit": "Editar",
+    "profileID": "ID do perfil",
+    "profileLinksOrIds": "Links ou ID's de perfil…",
     "nick": "Nick",
-    "moderator": "Moderator",
-    "date": "Date",
-    "show": "Show",
-    "remove": "Remove",
-    "select": "Select",
-    "start": "Start",
-    "startAll": "Start all",
-    "stop": "Stop",
-    "continue": "Continue",
-    "no": "No",
+    "moderator": "Moderador",
+    "date": "Data",
+    "show": "Mostrar",
+    "remove": "Eliminar",
+    "select": "Selecionar",
+    "start": "Começar",
+    "startAll": "Começar tudo",
+    "stop": "Parar",
+    "continue": "Continuar",
+    "no": "Não",
     "shortPoints": "Pts",
-    "writeSomething": "Write something",
-    "userHasNoPrivilege": "User has no privilege",
-    "nUsers": "%{n} users",
+    "writeSomething": "Escreva algo",
+    "userHasNoPrivilege": "O usuário não tem privilégios",
+    "nUsers": "%{n} usuários",
     "nIds": "%{n} ids",
-    "nNotFound": "%{n} not found",
-    "removeAll": "Remove all",
+    "nNotFound": "%{n} não encontrado",
+    "removeAll": "Eliminar tudo",
     "notificationMessages": {
-      "operationError": "An error occurred during operation. Please try again",
-      "somethingWentWrong": "Oops, something went wrong",
-      "somethingWentWrongPleaseRefresh": "Something happened, please refresh the page",
-      "cannotShareUserInfoWithServer": "An unexpected error occurred while trying to communicate with extension's server. Please try again in 2 sec",
-      "ongoingProcess": "Some contents are still processing. Do you still want to exit the page?",
-      "areYouSure": "Are you sure?",
-      "mayRequireWarning": "Do you want to apply a warning to this content?",
-      "ongoingProcessWait": "Some contents are still processing and you have to wait till it finished",
-      "xSendYouANewMessage": "%{userName} send you a new message",
-      "newNotification": "New notification",
-      "operationCompleted": "Operation completed",
-      "unsavedChanges": "You have some unsaved changes. Do you still want to close?",
-      "youNeedToSelectAtLeastOne": "You need to select at least one",
-      "cannotShareUserInfoWithServer_RefreshPage": "An unexpected error occurred while trying to communicate with extension's server. Could you refresh the page please?",
-      "operationErrorRefresh": "An error occurred during operation. Please refresh the page and try again"
+      "operationError": "Ocorreu um erro durante a operação. Por favor, tente novamente.",
+      "somethingWentWrong": "Ops, algo deu errado =/",
+      "somethingWentWrongPleaseRefresh": "Algo aconteceu, por favor atualize a página",
+      "cannotShareUserInfoWithServer": "Ocorreu um erro inesperado ao tentar comunicar com o servidor da extensão. Por favor, tente novamente em 2 segundos.",
+      "ongoingProcess": "Alguns conteúdos ainda estão sendo processados. Ainda deseja sair da página?",
+      "areYouSure": "Você tem certeza?",
+      "mayRequireWarning": "Deseja aplicar uma advertência a este conteúdo?",
+      "ongoingProcessWait": "Alguns conteúdos ainda estão sendo processados e terá que esperar até que terminem",
+      "xSendYouANewMessage": "%{userName} enviou uma nova mensagem para você",
+      "newNotification": "Nova notificação",
+      "operationCompleted": "Operação concluída",
+      "unsavedChanges": "Você tem algumas alterações não salvas. Ainda queres fechar?",
+      "youNeedToSelectAtLeastOne": "Você precisa selecionar pelo menos um",
+      "cannotShareUserInfoWithServer_RefreshPage": "Ocorreu um erro inesperado ao tentar se comunicar com o servidor da extensão. Você poderia atualizar a página, por favor?",
+      "operationErrorRefresh": "Ocorreu um erro durante a operação. Por favor, atualize a página e tente novamente."
     },
     "moderating": {
-      "moreOptions": "More Options",
-      "moderate": "Moderate",
-      "doYouWantToDelete": "Do you want to delete?",
-      "selectContentType": "Please select a content type",
-      "selectReason": "Please select a reason",
-      "editInPanel": "Edit in moderation panel",
-      "point": "point",
+      "moreOptions": "Mais opções",
+      "moderate": "Moderar",
+      "doYouWantToDelete": "Você deseja eliminar?",
+      "selectContentType": "Por favor, selecione um tipo de conteúdo",
+      "selectReason": "Por favor, selecione um motivo",
+      "editInPanel": "Editar no painel de moderação",
+      "point": "ponto",
       "returnPoints": {
-        "text": "Don't give the points back",
-        "title": "Don't give the points back to owner"
+        "text": "Não devolver os pontos",
+        "title": "Não devolver os pontos ao autor"
       },
       "giveWarning": {
-        "text": "Give a warning",
-        "title": "Delete selected contents with a warning"
+        "text": "Dar uma advertência",
+        "title": "Eliminar o conteúdo selecionado com uma advertência"
       },
-      "approve": "Verify",
-      "approved": "Verified",
-      "unapprove": "Unverify",
-      "unapproved": "Unverified",
-      "doYouWantToDeleteWithReason": "Do you want to delete it?\n\n%{reason_title}:\n%{reason_message}",
+      "approve": "Verificar",
+      "approved": "Verificado",
+      "unapprove": "Desaprovar",
+      "unapproved": "Não verificado",
+      "doYouWantToDeleteWithReason": "Você quer eliminar isso? \n\n %{reason_title}:\n %{reason_message}",
       "takePoints": {
         "question": {
-          "text": "Take back respondent's points",
-          "title": "Remove the points received by the respondent's, when they answered the question"
+          "text": "Remover os pontos de quem respondeu",
+          "title": "Remover os pontos de quem respondeu"
         },
         "answer": {
-          "text": "Take points back",
-          "title": "Take points back from user"
+          "text": "Remover os pontos",
+          "title": "Remover os pontos do usuário"
         }
       },
-      "contentAuthorIsModerator": "\"%{content_author}\" has moderation powers.\nPlease moderate this from the panel",
-      "contentAuthorHasSpecialRanks": "\"%{content_author}\" has \"%{special_rank}\" rank and might be someone who's important.\nPlease moderate this from the panel"
+      "contentAuthorIsModerator": "“%{content_author}” tem privilégios de moderação.\n Por favor, modere isso no painel.",
+      "contentAuthorHasSpecialRanks": "%{content_author} possui a classificação %{special_rank} e poderá ser alguém importante.\nPor favor, modere isto através do painel."
     },
     "personalNote": {
-      "text": "Personal note",
-      "title": "You can add a personal private note here and that will relate to this user only",
-      "clickToAddANote": "Click to add a note"
+      "text": "Nota pessoal",
+      "title": "Você pode adicionar uma nota pessoal privada aqui e que se relacionará apenas a este usuário",
+      "clickToAddANote": "Clique para adicionar uma nota"
     },
-    "listOfIds": "List of ids",
+    "listOfIds": "Lista de ID's",
     "pointsWithExample": {
-      "text": "Points: (1 or -1)",
-      "title": "You can add points by typing positive numbers like 123\nor\nyou can remove points by typing negative numbers like -123"
+      "text": "Pontos: (1 ou -1)",
+      "title": "Você pode adicionar pontos digitando números positivos como 123 \nou \nvocê pode remover pontos digitando números negativos como -123."
     },
-    "showMore": "Show more..",
-    "userHasNPoints": "User has %{n} points",
-    "send": "Send",
-    "deleteAll": "Delete all",
-    "ok": "OK",
-    "cancel": "Cancel",
-    "optional": "OPTIONAL",
-    "add": "Add",
-    "chooseAnOption": "Choose an option",
-    "deleteAcross": "Delete across",
-    "profileLinkOrId": "Profile link or id",
+    "showMore": "Mostrar mais...",
+    "userHasNPoints": "O usuário tem %{n} pontos",
+    "send": "Enviar",
+    "deleteAll": "Eliminar tudo",
+    "ok": "Ok",
+    "cancel": "Cancelar",
+    "optional": "OPCIONAL",
+    "add": "Adicionar",
+    "chooseAnOption": "Escolha uma opção",
+    "deleteAcross": "Eliminar em",
+    "profileLinkOrId": "Link ou ID do perfil",
     "beta": "Beta",
-    "deletedUser": "Deleted user",
-    "toggleSelections": "Toggle selections",
-    "copied": "Copied!",
-    "default": "Default",
-    "yes": "Yes",
-    "workingOnIt": "Working on it.."
+    "deletedUser": "Usuário eliminado",
+    "toggleSelections": "Alternar as seleções",
+    "copied": "Copiados!",
+    "default": "Padrão",
+    "yes": "Sim",
+    "workingOnIt": "A trabalhar nisso"
   },
   "popup": {
     "notificationMessages": {
-      "shortLinkSuccessMessage": "Copied to clipboard!",
-      "languageChanged": "Language changed",
-      "cannotFindUser": "I couldn't find the user with entered ID number",
-      "createdMessage": "Created successfully",
-      "updatedMessage": "Updated successfully",
-      "removedMessage": "Removed successfully",
-      "published": "Published",
-      "unpublished": "Unpublished",
-      "layoutExtended": "Layout extended",
-      "switchedToNormal": "Switched back to normal",
-      "notifierOn": "Notifier active",
-      "notifierOff": "Notifier closed",
-      "idNumberRequired": "You need to enter an ID number",
-      "invalidId": "Invalid ID number",
-      "pleaseWait": "Please wait",
-      "openABrainlyPage": "You need to open a Brainly page in your browser",
-      "errorN": "Error %{error_code}",
-      "preparingUnsuccessful": "An error occurred while preparing the delete reasons and fetching from Brainly",
-      "noEvidenceFound": "Moderator didn't add any evidence nor comment",
-      "doYouWannaGiveThisPrivilege": "Do you wanna give this privilege to all extension users?",
-      "doYouWannaRevokeThisPrivilege": "Do you wanna revoke this privilege from all extension users?",
-      "privilegeHasGiven": "Privilege has given to %{user_amount} users",
-      "privilegeHasRevoked": "Privilege has revoked from %{user_amount} users",
-      "iCantFetchMarketData": "I can't fetch market data",
-      "incorrectData": "I can't communicate with %{market_domain_name}<br><br>Please visit any page from %{market_domain_name} or refresh the page that is already open"
+      "shortLinkSuccessMessage": "Copiado para a área de transferência!",
+      "languageChanged": "Idioma alterado",
+      "cannotFindUser": "Não consegui encontrar o usuário com o número de ID inserido",
+      "createdMessage": "Criado com sucesso",
+      "updatedMessage": "Atualizado com sucesso",
+      "removedMessage": "Removido com sucesso",
+      "published": "Publicado",
+      "unpublished": "Não publicado",
+      "layoutExtended": "Layout estendido",
+      "switchedToNormal": "Voltou ao normal",
+      "notifierOn": "Notificador ativo",
+      "notifierOff": "Notificador inativo",
+      "idNumberRequired": "Você precisa inserir um número ID",
+      "invalidId": "Número ID inválido",
+      "pleaseWait": "Por favor, aguarde.",
+      "openABrainlyPage": "Você precisa abrir uma página do Brainly em seu navegador",
+      "errorN": "Erro %{error_code}",
+      "preparingUnsuccessful": "Ocorreu um erro ao preparar os motivos de exclusão e buscar no Brainly",
+      "noEvidenceFound": "O moderador não adicionou nenhuma prova ou comentário",
+      "doYouWannaGiveThisPrivilege": "Você deseja conceder este privilégio a todos os usuários da extensão?",
+      "doYouWannaRevokeThisPrivilege": "Você deseja remover este privilégio de todos os usuários da extensão?",
+      "privilegeHasGiven": "O privilégio foi concedido a %{user_amount} usuários",
+      "privilegeHasRevoked": "O privilégio foi removido de %{user_amount} usuários",
+      "iCantFetchMarketData": "Não consigo procurar dados de mercado",
+      "incorrectData": "Não consigo comunicar com o %{market_domain_name}.<br><br>Por favor, visite qualquer página do %{market_domain_name} ou atualize a página que já tem aberta."
     },
     "createShortLinkButton": {
-      "text": "Shorten URL",
-      "title": "Create a short link for this web page"
+      "text": "Encurtar URL",
+      "title": "Crie um link curto para esta página da web"
     },
     "shortenedLinks": {
-      "text": "Shortened Links",
-      "originalURL": "Original URL",
-      "created": "Created",
-      "shortURL": "Short URL",
-      "allClicks": "All Clicks",
-      "searchURL": "Search URL"
+      "text": "Links encurtados",
+      "originalURL": "URL original",
+      "created": "Criado",
+      "shortURL": "Encurtar URL",
+      "allClicks": "Todos os cliques",
+      "searchURL": "Pesquisar URL"
     },
     "extensionOptions": {
-      "title": "Extension Options",
+      "title": "Opções da Extensão",
       "themeColor": {
-        "title": "Theme Color",
-        "setYourColor": "Set your color",
-        "rainbow": "Rainbow",
-        "pickAColor": "Pick a color",
-        "colorFormatInfo": "You can set theme color with Hex color codes. I mean, you need to set #FF0000 for the red color"
+        "title": "Cor do Tema",
+        "setYourColor": "Defina a sua cor",
+        "rainbow": "Arco-íris",
+        "pickAColor": "Escolha uma cor",
+        "colorFormatInfo": "Você pode definir a cor do tema com códigos de cores hexadecimais. Por exemplo, você precisa definir #FF0000 para a cor vermelha."
       },
       "quickDeleteButtons": {
-        "text": "Quick Delete Buttons",
-        "title": "You can set delete reasons of the quick delete buttons",
-        "comment": "Comment",
-        "question": "Question",
-        "answer": "Answer"
+        "text": "Botões de eliminação rápida",
+        "title": "Você pode definir motivos de eliminação dos botões de eliminação rápida (atalhos)",
+        "comment": "Comentário",
+        "question": "Tarefa",
+        "answer": "Resposta"
       },
       "otherOptions": {
-        "title": "Other Options",
+        "title": "Outras opções",
         "extendMessagesLayout": {
-          "text": "Expand messages layout",
-          "title": "This option will extend the layout of the messages page. You can try it when the messages page is opened"
+          "text": "Expandir o layout de mensagens",
+          "title": "Esta opção ampliará o layout da página de mensagens. Você pode tentar quando a página de mensagens estiver aberta."
         },
         "extensionLanguage": {
-          "text": "Extension language",
-          "chooseLanguage": "Select a language"
+          "text": "Idioma da extensão",
+          "chooseLanguage": "Selecione um idioma"
         },
         "notifier": {
-          "text": "Browser notifications",
-          "title": "Extension will toast a notification you when you have a new message or new notification on Brainly"
+          "text": "Notificações do navegador",
+          "title": "A extensão irá emitir uma notificação para você quando você tiver uma nova mensagem ou notificação no Brainly"
         }
       }
     },
     "extensionManagement": {
-      "title": "Ext. Management",
+      "title": "Gerenciamento da extensão",
       "users": {
-        "text": "Users",
-        "title": "You can set the extension user's permission and privileges",
-        "changeUserPrivileges": "Change all users privileges",
-        "revoke": "Revoke",
-        "give": "Give",
-        "addNewOrEditUser": "Add a new or edit extension user",
-        "permission": "Access permission",
-        "privileges": "Privileges",
-        "firstUsageTimeAgoPreTitle": "Started to use %{time}",
-        "hasntUsed": "User hasn't used the extension yet",
-        "important": "Important",
-        "lessImportant": "Less important",
-        "harmless": "Harmless",
+        "text": "Usuários",
+        "title": "Você pode definir a permissão e os privilégios do usuário da extensão",
+        "changeUserPrivileges": "Alterar os privilégios de todos os usuários",
+        "revoke": "Revogar",
+        "give": "Dar",
+        "addNewOrEditUser": "Adicionar ou editar um usuário da extensão",
+        "permission": "Permissão de acesso",
+        "privileges": "Privilégios",
+        "firstUsageTimeAgoPreTitle": "Começou a usar %{time}",
+        "hasntUsed": "O usuário ainda não usou a extensão",
+        "important": "Importante",
+        "lessImportant": "Menos importante",
+        "harmless": "Inofensivo",
         "explainingColors": {
-          "line1": "Some users have colored border in their avatars and this colors shows that their access permission status of the extension.",
-          "line2": "<s>Red</s> border means that shown user are banned from the extension.",
-          "line3": "<s>Mustard</s> border means the user has permission to use the extension but hasn't started use it yet",
-          "line4": "<s>Green</s> color means the user is an active authorized user.",
-          "line5": "<s>No border</s> means that user has some privileges assigned but not given permission to use the extension in their account and hasn't started to use the extension yet."
+          "line1": "Alguns usuários têm bordas coloridas em seus avatares e essas cores mostram o status de permissão de acesso da extensão.",
+          "line2": "Borda <s>vermelha</s> significa que o usuário mostrado foi banido da extensão.",
+          "line3": "Borda <s>Amerela</s> significa que o usuário tem permissão para usar a extensão, mas ainda não começou a usá-la",
+          "line4": "<s>A cor</s>green significa que o usuário é um usuário autorizado e ativo.",
+          "line5": "<s>Sem borda</s> significa que o usuário tem alguns privilégios atribuídos, mas não tem permissão para usar a extensão em sua conta e ainda não não começou a usar a extensão."
         },
         "privilegeList": {
           "0": {
-            "title": "Extension admin",
-            "description": "Can able use the extension without any restriction. (No need to assign any other privileges, this will remove all restrictions)"
+            "title": "Administrador da extensão",
+            "description": "Pode usar a extensão sem qualquer restrição. (Não há necessidade de atribuir quaisquer outros privilégios, isto irá remover todas as restrições)"
           },
           "1": {
-            "title": "Quick delete questions",
-            "description": "On the pages of questions, archive mod and homepage, user can use the quick delete buttons for deleting the question/s"
+            "title": "Eliminação rápida de tarefas",
+            "description": "Nas páginas de perguntas, arquivo e inicial, o usuário pode usar os botões de exclusão rápida para excluir as tarefas"
           },
           "2": {
-            "title": "Quick delete answers",
-            "description": "On the pages of questions, archive mod and homepage, user can use the quick delete buttons for deleting the answers"
+            "title": "Eliminação rápida de respostas",
+            "description": "Nas páginas de perguntas, arquivo e inicial, o usuário pode usar os botões de exclusão rápida para excluir as respostas"
           },
           "4": {
-            "title": "Announcement management",
-            "description": "Can create, edit, remove or publish the internal extension announcements"
+            "title": "Gerenciamento de anúncios",
+            "description": "Podes criar, editar, remover ou publicar os anúncios internos da extensão"
           },
           "5": {
-            "title": "Manage extension users",
-            "description": "Can add or editing the extension users and give them privileges or permission to use the extension"
+            "title": "Gerenciar usuários da extensão",
+            "description": "Podes adicionar ou editar os usuários da extensão e dar-lhes privilégios ou permissão para usar a extensão"
           },
           "6": {
-            "title": "Verify answers by selecting",
-            "description": "On the user contents page, the moderator can verify answers by selecting 25 answers max- on each page"
+            "title": "Verificar respostas por seleção",
+            "description": "Na página de conteúdo do usuário, o moderador pode verificar as respostas selecionando no máximo 25 respostas em cada página"
           },
           "7": {
-            "title": "Mass-Content deleter",
-            "description": "In the moderation panel, user can use this function for deleting multiple questions/answers/comments from Brainly"
+            "title": "Eliminador em massa de conteúdo",
+            "description": "No painel de moderação, o usuário pode usar esta função para eliminar várias tarefas/respostas/comentários no Brainly"
           },
           "8": {
-            "title": "Group messages",
-            "description": "In the messages page, user can send private messages to multiple users in a group at once"
+            "title": "Mensagens de grupo",
+            "description": "Na página de mensagens, o usuário pode enviar mensagens privadas para vários usuários em um grupo ao mesmo tempo"
           },
           "9": {
-            "title": "Mass-Message sender",
-            "description": "In the moderation panel, user can use this function for sending a private message to entire users of your market"
+            "title": "Enviar mensagens em massa",
+            "description": "No painel de moderação, o usuário pode usar esta função para enviar uma mensagem privada a todos os usuários marcados"
           },
           "10": {
-            "title": "Supervisors page, Message sender",
-            "description": "In the supervisors page, user can send a private message to listed moderators or all moderators of your market"
+            "title": "Página de supervisores, enviador de mensagem",
+            "description": "Na página de supervisores, o usuário pode enviar uma mensagem privada para moderadores listados"
           },
           "11": {
-            "title": "Delete reasons preferences management",
-            "description": "Can set warning level of delete reasons"
+            "title": "Gerenciamento de preferências de motivos de eliminação",
+            "description": "Pode definir o nível de advertência dos motivos de eliminação"
           },
           "12": {
-            "title": "User deletion reports",
-            "description": "In the extension options, user can see account deletion reports"
+            "title": "Denúncias de eliminação de usuário",
+            "description": "Nas opções de extensão, o usuário pode visualizar denúncias de eliminação da conta"
           },
           "13": {
-            "title": "Mass-Point changer",
-            "description": "In the moderation panel, user can change user's points by their ids"
+            "title": "Alterador de pontos em massa",
+            "description": "No painel de moderação, o usuário pode alterar os pontos do usuário por seus IDs"
           },
           "14": {
-            "title": "Selective question deletion",
-            "description": "On the user contents and question searching page, user can use the selective deletion function to delete selected questions"
+            "title": "Eliminação de tarefas por seleção",
+            "description": "Na página de pesquisa de conteúdo do usuário e tarefas, o usuário pode usar a função de eliminação seletiva para eliminar tarefas selecionadas"
           },
           "15": {
-            "title": "Selective answer deletion",
-            "description": "On the user contents page, user can use the selective deletion function to delete selected answers"
+            "title": "Eliminação de respostas por seleção",
+            "description": "Na página de conteúdo do usuário, o usuário pode usar a função de eliminação seletiva para eliminar as respostas selecionadas"
           },
           "16": {
-            "title": "Selective comment deletion",
-            "description": "On the user contents page, user can use the selective deletion function to delete selected comments"
+            "title": "Eliminação de comentários por seleção",
+            "description": "Na página de conteúdo do usuário, o usuário pode usar a função de eliminação seletiva para eliminar os comentários selecionados"
           },
           "17": {
-            "title": "Reported comments deleter",
-            "description": "User can use this function to delete all the reported comments from Moderate all"
+            "title": "Eliminador de comentários denunciados",
+            "description": "O usuário pode usar esta função para eliminar todos os comentários denunciados no Moderar Tudo"
           },
           "18": {
-            "title": "Mass-Moderate reported contents",
-            "description": "User can use this tool to mass-moderate reported contents from the Reported contents page"
+            "title": "Moderação em massa de conteúdo denunciado",
+            "description": "O usuário pode usar esta ferramenta para moderar em massa o conteúdo denunciado da página de conteúdo denunciado"
           },
           "19": {
-            "title": "Selective ask for correction",
-            "description": "On the user contents page, user can use the selective ask for correction to report answers"
+            "title": "Pedir correção por seleção",
+            "description": "Na página de conteúdo do usuário, o usuário pode usar a solicitação seletiva de correção para denunciar respostas"
           },
           "20": {
-            "title": "Notice board management",
-            "description": "Can edit notice board content"
+            "title": "Gerenciamento do quadro de avisos",
+            "description": "Podes editar o conteúdo do quadro de avisos"
           },
           "21": {
-            "title": "View users' privileges",
-            "description": "User can see extension privileges of other extension user's that has assigned to their profiles, without making any changes"
+            "title": "Visualizar os privilégios dos usuários",
+            "description": "O usuário pode ver os privilégios de extensão de outros usuários de extensão que foram atribuídos aos seus perfis, sem fazer nenhuma alteração"
           },
           "22": {
-            "title": "Can change access permission",
-            "description": "User can manage permissions to use the extension"
+            "title": "Podes alterar a permissão de acesso",
+            "description": "O usuário pode gerenciar as permissões para usar a extensão"
           },
           "23": {
-            "title": "Can change important privilege",
-            "description": "User can assign/revoke important privileges to other extension users"
+            "title": "Podes alterar privilégios importantes",
+            "description": "O usuário pode atribuir/remover privilégios importantes para outros usuários da extensão"
           },
           "24": {
-            "title": "Can change less important privilege",
-            "description": "User can assign/revoke less important privileges to extension users"
+            "title": "Podes alterar privilégios menos importantes",
+            "description": "O usuário pode atribuir/remover privilégios menos importantes para usuários da extensão"
           },
           "25": {
-            "title": "Can change harmless privilege",
-            "description": "User can assign/revoke harmless privileges to other extension users"
+            "title": "Podes alterar privilégios inofensivos",
+            "description": "O usuário pode atribuir/remover privilégios inofensivos para outros usuários da extensão"
           },
           "26": {
-            "title": "Selective question deletion(Multiple pages)",
-            "description": "On the question searching page, user can use the selective deletion function to delete selected questions from multiple pages at once"
+            "title": "Eliminação de perguntas por seleção (várias páginas)",
+            "description": "Na página de pesquisa de perguntas, o usuário pode usar a função de eliminação seletiva para excluir perguntas selecionadas de várias páginas de uma vez"
           },
           "27": {
-            "title": "Mass-Manage users",
-            "description": "User can use this function to manage users massively. Like, changing a list of users points or approve answers of users or etc."
+            "title": "Gerenciamento em massa de usuários",
+            "description": "O usuário pode usar esta função para gerenciar usuários massivamente. Por exemplo, alterar uma lista de pontos de usuários ou aprovar respostas de usuários, etc."
           },
           "28": {
-            "title": "Action history reviewer",
-            "description": "Ability to review other moderators actions to be marked as valid or invalid and letting them know about their mistakes from moderator actions history page"
+            "title": "Revisão do histórico de ações",
+            "description": "Capacidade de rever as ações de outros moderadores para serem marcadas como válidas ou inválidas e informá-los sobre seus erros a partir da página de histórico de ações dos moderadores"
           },
           "45": {
-            "title": "Quick delete comments",
-            "description": "On the pages of questions and archive mod, user can use the quick delete buttons for deleting the comments"
+            "title": "Eliminação rápida de comentários",
+            "description": "Nas páginas de perguntas e Moderar Tudo, o usuário pode usar os botões de eliminação rápida para eliminar os comentários"
           },
           "29": {
-            "title": "Mass-Moderate contents",
-            "description": "User can use this function to moderate contents massively"
+            "title": "Moderação de conteúdo em massa",
+            "description": "O usuário pode usar esta função para moderar conteúdo em massa"
           },
           "30": {
-            "title": "Verify all answers",
-            "description": "User can use this function to approve all answers of users massively by providing list of ids/links of users"
+            "title": "Verificar todas as respostas",
+            "description": "O usuário pode usar esta função para aprovar todas as respostas dos usuários em massa, fornecendo uma lista de IDs ou links de usuários"
           },
           "31": {
-            "title": "Delete users",
-            "description": "User can use this function to delete users massively by providing list of ids/links of users"
+            "title": "Eliminar usuários",
+            "description": "O usuário pode usar esta função para eliminar usuários em massa, fornecendo uma lista de IDs ou links de usuários"
           },
           "32": {
-            "title": "Change points",
-            "description": "User can use this function to change points of users massively by providing list of ids/links of users"
+            "title": "Alterar os pontos",
+            "description": "O usuário pode usar esta função para alterar pontos de usuários em massa, fornecendo uma lista de IDs ou links de usuários"
           },
           "33": {
-            "title": "Change ranks",
-            "description": "User can use this function to change ranks of users massively by providing list of ids/links of users"
+            "title": "Alterar ranks",
+            "description": "O usuário pode usar esta função para alterar ranks de usuários em massa, fornecendo uma lista de ID's ou links de usuários"
           },
           "36": {
-            "title": "Content delete options on profile page",
-            "description": "Allow this moderator to see the links used to delete all questions, answers, and comments from profile page of a user"
+            "title": "Opções de exclusão de conteúdo na página de perfil",
+            "description": "Permitir que este moderador veja os links usados para excluir todas as perguntas, respostas e comentários da página de perfil de um usuário"
           },
           "99": {
-            "title": "Reported contents (Beta)"
+            "title": "Moderar Tudo (Beta)"
           },
           "37": {
-            "title": "Moderate Panel > Delete all comments",
-            "description": "Ability to delete comments in bulk from the moderate panel"
+            "title": "Painel de Moderação > Eliminar todos os comentários",
+            "description": "Capacidade de eliminar comentários em massa do painel de moderação"
           },
           "38": {
-            "title": "Confirm reported answer button",
-            "description": "Allow moderator to use the confirm button to confirm/accept reported answers instead of verifying"
+            "title": "Botão de confirmação de resposta denunciada",
+            "description": "Permitir que o moderador utilize o botão de confirmação para confirmar/aceitar as respostas relatadas em vez de verificar"
           },
           "39": {
-            "title": "Action history, review management",
-            "description": "Ability to revert other reviewers' reviews on moderation history of moderators. Without this, reviewers can only revert their own reviews"
+            "title": "Histórico de ação, gestão de revisão",
+            "description": "Capacidade de reverter as revisões de outros revisores no histórico de moderações de um moderador. Sem isto, os revisores conseguiriam reverter as suas próprias avaliações."
           },
           "98": {
-            "title": "Limited channel access on Discord",
-            "description": "User will not see any channels other than the #announcements and #rules channels on the Discord server"
+            "title": "Acesso limitado ao canal no Discord",
+            "description": "O usuário não verá nenhum outro canal além dos canais #announcements e #rules no servidor do Discord"
           },
           "40": {
-            "title": "Unverify answers by selecting",
-            "description": "On the user contents page, the moderator can unverify answers by selecting 25 answers max- on each page"
+            "title": "Desaprove respostas selecionando",
+            "description": "Na página de conteúdo do usuário, o moderador pode desaprovar as respostas selecionando no máximo 25 respostas em cada página."
           }
         },
-        "veryImportant": "Very important"
+        "veryImportant": "Muito importante"
       },
       "announcements": {
-        "text": "Announcements",
-        "addNewAnnouncement": "Add a new announcement",
-        "editorTitle": "Title",
-        "editorContent": "Content",
-        "cancelEdit": "Cancel edit",
-        "update": "Update",
-        "publish": "Publish",
-        "unpublish": "Unpublish",
-        "readOn": "Read on:\n%{date}"
+        "text": "Anúncios",
+        "addNewAnnouncement": "Adicionar um novo anúncio",
+        "editorTitle": "Título",
+        "editorContent": "Conteúdo",
+        "cancelEdit": "Desfazer edição",
+        "update": "Atualizar",
+        "publish": "Publicar",
+        "unpublish": "Desfazer publicação",
+        "readOn": "Lido em:\n%{date}"
       },
       "DeleteReasonsPreferences": {
-        "text": "Delete reasons preferences",
-        "withoutAsk": "Give warning without asking confirmation",
-        "withAsk": "Show confirmation dialog while deleting a content",
-        "findReason": "Find a reason",
+        "text": "Eliminar preferências de motivos",
+        "withoutAsk": "Aplicar advertência sem pedir confirmação",
+        "withAsk": "Mostrar caixa de diálogo de confirmação ao eliminar um conteúdo",
+        "findReason": "Encontre um motivo",
         "explaining": {
-          "line1": "You can find delete reasons by typing the name of the reason",
-          "line2": "After selecting one from the results, you can click %{exclamation-circle} button to give warning without asking confirmation from moderators while they are deleting a content. But in some cases, that may can change and moderators should decide if giving a warning is necessary or not. So you can click %{exclamation-triangle} to show confirmation dialog to moderators while they are deleting a content."
+          "line1": "Você pode encontrar motivos de eliminação digitando o nome do motivo",
+          "line2": "Depois de selecionar um dos resultados, você pode clicar no botão %{exclamation-circle} para avisar sem pedir confirmação dos moderadores enquanto eles estão eliminando um conteúdo. Mas, em alguns casos, isso pode mudar e os moderadores devem decidir se dar um aviso é necessário ou não. Assim, você pode clicar em %{exclamation-triangle} para mostrar a caixa de diálogo de confirmação aos moderadores enquanto eles estão eliminando um conteúdo."
         }
       },
       "accountDeleteReports": {
-        "text": "Account deletion reports",
+        "text": "Denúncias de eliminação de conta",
         "download": "Download",
-        "playOrPause": "Play/Pause",
-        "byModerator": "By moderator",
-        "byDeletedAccount": "By deleted account"
+        "playOrPause": "Executar/Pausar",
+        "byModerator": "Por Moderador",
+        "byDeletedAccount": "Por Conta Apagada"
       }
     }
   },
   "core": {
-    "assignExtensionPermission": "Assign extension permission",
+    "assignExtensionPermission": "Atribuir permissão da extensão",
     "notificationMessages": {
-      "cantFetchDeleteReasons": "An unexpected error occurred while trying to prepare delete reasons",
-      "searching": "Searching..",
-      "userNotFound": "User not found",
-      "extensionServerError": "An unexpected error occurred while connecting the extension server. Please try again in ~5 sec.",
-      "ifErrorPersists": "If this error persists, please contact the extension manager and explain what happened :)",
-      "accessPermissionDenied": "You are not authorized to use the Brainly Tools.\nPlease contact the admin or the community manager to ask for permission",
-      "updateNeeded": "A new version of the extension is available.\nIt'll be updated in the background so could you wait ~10 seconds then refresh the page, please?",
-      "warningBeforeDelete": "This process will be executed and the numbers of questions ids in the input will be deleted once you confirmed this warning. \n\n Are you triple times sure?",
-      "enterIdWarn": "You need to add at least 1 id number of question that you want to delete",
-      "youNeedToEnterValidId": "You need to enter a valid id number",
-      "tryingToSendTheSameMessage": "You're trying to send the last message again. Do you still want to send?",
-      "alreadyStarted": "Process has already started",
-      "pointsAdded": "Points added",
-      "doYouWantToContinue": "Do you want to continue?",
-      "couldntAbleToGetNoticeBoardContent": "I couldn't get the content of the notice board",
-      "changesMayNotBeSaved": "Changes you made may not be saved",
-      "stillProcessing": "This section is still in process. Do you want to remove this block?\n(this will stop the moderating process)",
-      "youNeedToChooseActionType": "You need to choose an action type",
-      "errorOccurredWhileDeletingTheN": "An error occurred while deleting the %{content_id}",
-      "clickHereToSeeTheChangelog": "Click here to see the changelog"
+      "cantFetchDeleteReasons": "Ocorreu um erro inesperado ao tentar preparar os motivos de eliminação",
+      "searching": "Procurando..",
+      "userNotFound": "Usuário não encontrado",
+      "extensionServerError": "Ocorreu um erro inesperado ao tentar se comunicar com o servidor da extensão. Por favor, tente novamente em ~5 segundos.",
+      "ifErrorPersists": "Se este erro persistir, entre em contato com o gerente de extensão e explique o que aconteceu :)",
+      "accessPermissionDenied": "Você não está autorizado a usar a extensão.\nPor favor, entre em contato com o administrador ou o Gerente da comunidade para pedir permissão",
+      "updateNeeded": "Uma nova versão da extensão está disponível.\nEla será atualizada em segundo plano, então você poderia esperar ~10 segundos e depois atualizar a página, por favor?",
+      "warningBeforeDelete": "Este processo será executado e os números de ID's de perguntas na caixa de texto serão excluídos assim que você confirmar este aviso. \n\n Você tem o triplo de certeza?",
+      "enterIdWarn": "Precisa de adicionar pelo menos 1 ID da questão que deseja eliminar",
+      "youNeedToEnterValidId": "Você precisa inserir um número de ID válido",
+      "tryingToSendTheSameMessage": "Você está tentando enviar a última mensagem novamente. Você ainda deseja enviar?",
+      "alreadyStarted": "O processo já tinha começado",
+      "pointsAdded": "Pontos adicionados",
+      "doYouWantToContinue": "Você deseja continuar?",
+      "couldntAbleToGetNoticeBoardContent": "Não consegui obter o conteúdo do Quadro de Avisos",
+      "changesMayNotBeSaved": "As alterações que fez podem não ser salvas",
+      "stillProcessing": "Esta seção ainda está em andamento. Deseja remover este bloqueio?\n(isto parará o processo de moderação)",
+      "youNeedToChooseActionType": "Você precisa escolher um tipo de ação",
+      "errorOccurredWhileDeletingTheN": "Ocorreu um erro ao excluir %{content_id}",
+      "clickHereToSeeTheChangelog": "Clique aqui para ver o histórico"
     },
     "MassContentDeleter": {
-      "text": "Mass-Content deleter",
-      "nIdsToDeleted": "%{n} ids to delete",
-      "nHasBeenDeleted": "%{n} ids has been deleted",
-      "containerExplanation": "You need to put content links or ids to text box line by line. Each line should contain 1 id number",
+      "text": "Eliminador de conteúdo em massa",
+      "nIdsToDeleted": "%{n} ID(s) para eliminar",
+      "nHasBeenDeleted": "%{n} ID(s) foram eliminados",
+      "containerExplanation": "Necessita de introduzir os links dos conteúdos ou ID's na caixa de texto, linha por linha. Cada linha deve conter 1 ID",
       "select": {
-        "reason": "Reason",
-        "subReason": "Sub reason",
-        "action": "Action"
+        "reason": "Motivo",
+        "subReason": "Sub-motivo",
+        "action": "Ação"
       }
     },
     "MessageSender": {
-      "text": "Mass-Message sender",
-      "lastRegisteredUserId": "Enter last registered user id",
-      "information": "This function can send your message to the users by counting backwards from the given id number. Once you've start the process and if you want to send the message to the id numbers, you should have to wait and not close this page(this includes your computer as well) till the process finishes.",
-      "target": "Target",
-      "allUsers": "All users",
-      "moderators": "Moderators",
-      "startOver": "Start over",
-      "sent": "Sent",
-      "usersNotFound": "Users not found",
-      "errors": "Errors",
-      "unknownError": "Unknown error",
-      "somethingWentWrongWhileLoadingModerators": "Something went wrong while fetching details of moderators"
+      "text": "Remetente de mensagens em massa",
+      "lastRegisteredUserId": "Introduza o último ID registado",
+      "information": "Esta função permite enviar a sua mensagem aos usuários a partir dos números de ID introduzidos. Se após iniciar este processo quiser enviar uma mensagem a estes ID's terá de aguardar e não poderá fechar esta página (nem desligar o computador) até que o processo termine.",
+      "target": "Alvo",
+      "allUsers": "Todos os usuários",
+      "moderators": "Moderadores",
+      "startOver": "Recomeçar",
+      "sent": "Enviado",
+      "usersNotFound": "Usuários não encontrados",
+      "errors": "Erros",
+      "unknownError": "Erro desconhecido",
+      "somethingWentWrongWhileLoadingModerators": "Algo deu errado ao buscar detalhes dos moderadores"
     },
     "announcements": {
-      "text": "Announcements",
-      "title": "Once you've read the announcement, you need to mark it as read",
-      "markAsRead": "Mark as read"
+      "text": "Anúncios",
+      "title": "Depois de ler o anúncio, precisa de marcá-lo como lido",
+      "markAsRead": "Mascar como lido"
     },
     "pointChanger": {
-      "text": "Mass-Point changer",
-      "enterOrPasteUID": "Enter or paste user profile ID",
-      "youNeedToEnterOrPaste": "You need to enter user id or you can paste copied list of user ids into input",
-      "pastingExample": "Example list of users ids",
-      "pastingExample2": "Also, you can specify the points in the list before copy paste",
-      "addPoints": "Add points to this user",
-      "addPointsToAll": "Add points to all users",
-      "pointsNotSpecified": "You must give points to at least 1 user in order to proceed",
-      "applyPointsToAllInputs": "Apply points to all inputs",
-      "clearList": "Clear list"
+      "text": "Modificador de pontos em massa",
+      "enterOrPasteUID": "Introduza ou cole o ID do perfil do usuário",
+      "youNeedToEnterOrPaste": "Precisa de introduzir o ID do usuário ou de colar a lista de ID's dos usuários na secção de entrada",
+      "pastingExample": "Lista de exemplos de ID's de usuários",
+      "pastingExample2": "Além disso, pode especificar os pontos na lista antes de copiar e colar",
+      "addPoints": "Adicionar pontos a este usuário",
+      "addPointsToAll": "Adicionar pontos a todos os usuários",
+      "pointsNotSpecified": "Você deve adicionar pontos a pelo menos 1 usuário para prosseguir",
+      "applyPointsToAllInputs": "Aplicar os pontos a todos os usuários selecionados",
+      "clearList": "Limpar a lista"
     },
     "reportedCommentsDeleter": {
-      "text": "Reported comments deleter",
-      "description": "You can delete all reported comments in Moderate All with one click. You just need to start and keep this tab open. That's all.",
-      "deleting": "Deleting",
-      "stopped": "Stopped",
-      "numberOfPending": "Pending",
-      "selectAReason": "Select a reason"
+      "text": "Eliminador de comentários denunciados.",
+      "description": "Pode eliminar todos os comentários denunciados no Moderar Tudo com um clique. Apenas precisa de começar e deixar a aba aberta. Só isso.",
+      "deleting": "Eliminando",
+      "stopped": "Parado",
+      "numberOfPending": "Pendente",
+      "selectAReason": "Selecione um motivo"
     },
     "noticeBoard": {
-      "text": "Noticeboard",
-      "lastChanges": "Last changes",
-      "readBy": "Read by"
+      "text": "Quadro de Avisos",
+      "lastChanges": "Última atualização:",
+      "readBy": "Lido por:"
     },
     "massManageUsers": {
       "notificationMessages": {
-        "doYouWantToRemoveSelectedUsers": "Do you want to remove selected users from the list?",
-        "doYouReallyWantToRemoveAllUsers": "Do you really want to remove all users from the list?",
-        "tryingToAddPreviouslyRemovedIds": "The ids you've entered contains previously removed id numbers from the list\n\nClick \"OK\" if you want to add or\nclick \"Cancel\" if you want to exclude.",
-        "areYouSureAboutDeletingAllListedUsers": "You are about to confirm to delete all listed users.\n\nAre you triple sure about this?",
-        "thereIsNoUserLeft": "There is no user left in the list"
+        "doYouWantToRemoveSelectedUsers": "Deseja remover os usuários selecionados da lista?",
+        "doYouReallyWantToRemoveAllUsers": "Deseja realmente remover todos os usuários da lista?",
+        "tryingToAddPreviouslyRemovedIds": "O(s) ID(s) que introduziu contém/contêm ID's previamente removidos da lista\n\nClique em “Ok” se os deseja adicionar ou\nClique em “Cancelar” se os deseja excluir.",
+        "areYouSureAboutDeletingAllListedUsers": "Está prestes a confirmar a eliminação de todos os usuários listados.\n\nTem mesmo a certeza sobre isto?",
+        "thereIsNoUserLeft": "Não resta nenhum usuário na lista"
       },
-      "text": "Mass-Manage users",
-      "removeSelected": "Remove selected",
-      "removeSelectedUsersFromTheList": "Remove selected users from the list",
-      "removeAllUsersFromTheList": "Remove all users from the list",
+      "text": "Gestão em massa dos usuários",
+      "removeSelected": "Remover os selecionados",
+      "removeSelectedUsersFromTheList": "Remover os usuários selecionados da lista",
+      "removeAllUsersFromTheList": "Remover todos os usuários da lista",
       "sections": {
         "approveAnswers": {
-          "numberOfApprovedAnswers": "Number of approved answers",
-          "numberOfAlreadyApprovedAnswers": "Number of already approved answers",
+          "numberOfApprovedAnswers": "Número de respostas aprovadas",
+          "numberOfAlreadyApprovedAnswers": "Número de respostas previamente aprovadas",
           "actionButton": {
-            "text": "Verify answers",
-            "title": "Verify all answers of all listed users"
+            "text": "Verificar respostas",
+            "title": "Verificar todas as respostas dos usuários listados"
           }
         },
         "deleteUsers": {
           "actionButton": {
-            "text": "Delete users",
-            "title": "Delete all listed users"
+            "text": "Eliminar usuários",
+            "title": "Elimianr todos os usuários listados"
           }
         },
         "changeRanks": {
           "actionButton": {
-            "text": "Change ranks",
-            "title": "Add or remove ranks from all listed users"
+            "text": "Alterar ranks",
+            "title": "Adicionar ou remover ranks de todos os usuários listados"
           }
         }
       }
     },
     "MassModerateContents": {
-      "text": "Mass-Moderate contents",
-      "nContents": "%{n} contents",
-      "nIgnored": "%{n} ignored",
-      "contentType": "Content type",
+      "text": "Moderar conteúdos em massa",
+      "nContents": "%{n} conteúdos",
+      "nIgnored": "%{n} ignorado",
+      "contentType": "Tipo de conteúdo",
       "targets": {
-        "text": "Specify targets",
+        "text": "Especificar metas",
         "listOfIds": {
-          "contentLinksOrIDs": "Content links or ids.."
+          "contentLinksOrIDs": "Links de conteúdo ou IDs..."
         },
         "idRange": {
-          "text": "ID range",
-          "youNeedToEnterTwoDifferentIdNumbers": "You need to enter different id numbers separated by a dash(-) or dots(.. or ...) to moderate the numbers between range",
-          "exampleUsage": "Example Usage",
-          "input": "Input",
-          "output": "Output"
+          "text": "Classe do ID",
+          "youNeedToEnterTwoDifferentIdNumbers": "Você precisa inserir diferentes números de identificação separados por um traço (-) ou pontos (... ou ...) para moderar os números entre os intervalos",
+          "exampleUsage": "Exemplo de uso",
+          "input": "Entrada",
+          "output": "Saída"
         },
         "searchQuestion": {
-          "text": "Search question",
-          "whatIsYourQuestion": "What is your question?"
+          "text": "Pesquisar tarefa",
+          "whatIsYourQuestion": "Qual é a sua dúvida?"
         }
       },
       "methods": {
-        "text": "Methods",
-        "clickListToCopy": "Click list to copy ids to clipboard",
-        "iCantCopy": "I can't copy :(",
+        "text": "Métodos",
+        "clickListToCopy": "Clique na lista para copiar o(s) ID(s) para a área de transferência",
+        "iCantCopy": "Não consigo copiar :(",
         "reportForAbuse": {
-          "chooseAReason": "Choose a reason",
+          "chooseAReason": "Escolha um motivo",
           "tabButton": {
-            "text": "Report for abuse",
-            "title": "Report abusive contents"
+            "text": "Reportar abuso",
+            "title": "Reportar conteúdos abusivos"
           }
         },
         "addAnswer": {
           "tabButton": {
-            "text": "Add answer",
-            "title": "Add an answer to target questions"
+            "text": "Adicionar resposta",
+            "title": "Adicionar uma resposta às perguntas selecionadas"
           }
         }
       }
     },
+    "searchUser": {
+      "text": "Encontrar usuários",
+      "nickOrID": "Nick ou Id do perfil"
+    },
     "discordPopup": {
-      "discordServer": "DISCORD SERVER!",
+      "discordServer": "Servidor no Discord!",
       "heyUser": "Hey %{nick},",
-      "nextMessage": "we have opened the doors to our brand-new\nDiscord server for extension users now.\n\nFeel free to check it out!",
-      "informationLine": "about the Discord server"
+      "nextMessage": "Abrimos as portas do nosso novo servidor no Discord para usuários da extensão, agora. \n\nSinta-se à vontade para conferir!",
+      "informationLine": "sobre o servidor no Discord"
     }
   },
   "home": {
-    "todaysActions": "Today's actions"
+    "todaysActions": "Ações de hoje"
   },
   "messages": {
     "notificationMessages": {
-      "unsendedMessage": "You didn't send your message, do you still want to leave?"
-    },
-    "groups": {
-      "title": "Groups",
-      "createGroup": "Create a group",
-      "editGroup": "Edit group",
-      "deleteGroup": "Delete group",
-      "groupName": "Group name",
-      "groupColor": "You can set a color for this group name to make it look different from other created groups",
-      "groupMembers": "Group members",
-      "searchResults": "Search results",
-      "selectGroupType": "Select a group type",
-      "addAll": "Add all",
-      "writeSomething": "Type your message here",
-      "pinTip": "You can pin your groups by clicking the %{pin} icon.",
-      "notificationMessages": {
-        "groupCreated": "%{groupName} successfully created",
-        "groupUpdated": "%{groupName} updated",
-        "cantCreate": "I can't create this group because something must be wrong. Could you please check your details?",
-        "userAlreadyAdded": "This user is already on the list",
-        "doYouWantToRemoveMembers": "Do you want to remove all group members?",
-        "youNeedToAddMembers": "You need add at least one user in the group members list",
-        "youHaventCreatedAGroupYet": "You haven't created a group yet..",
-        "wrongMessageLength": "Your message must be between 1 and %{max_value} characters long",
-        "messageContainsSwear": "Oops! It seems like your message contains swearwords. You can't send it!",
-        "cantFetchGroupData": "An unexpected error has occurred. I couldn't fetch messages of this group from the extension server"
-      },
-      "userCategories": {
-        "findUsers": {
-          "text": "Find users",
-          "nickOrID": "Nick or profile id"
-        },
-        "friendsList": "Friends list",
-        "moderatorRanks": {
-          "text": "Moderator ranks",
-          "selectRank": "Select a rank"
-        },
-        "allModerators": "All moderators"
-      }
+      "unsendedMessage": "Não enviou a sua mensagem, deseja sair mesmo assim?",
+      "wrongMessageLength": "A sua mensagem tem de ter entre 1 e %{max_value} caracteres",
+      "messageContainsSwear": "Ups! Parece que a sua mensagem contém palavrões. Não pode enviá-la!"
     }
   },
   "userContent": {
     "notificationMessages": {
-      "alreadyApproved": "This answer is already approved",
-      "alreadyUnapproved": "This answer is already unapproved",
-      "someOfSelectedAnswersAreApproved": "Some selected answers have already been approved, so technically you can't approve those answers again",
-      "selectAnUnapprovedAnswerForApproving": "You need to select some unapproved answer/s to start approving them",
-      "confirmApproving": "Do you want to approve this answer?",
-      "someOfSelectedAnswersAreUnapproved": "Some selected answers aren't approved, so technically you can't unapprove those answers",
-      "selectAnApprovedAnswerForUnapproving": "You need to select some approved answer/s to start unapproving them",
-      "confirmUnapproving": "Do you want to unapprove this answer?",
-      "doYouWantToConfirmThisContent": "Do you want to confirm this content?",
-      "confirmReporting": "Do you want to report selected answers for correction?",
-      "selectAtLeastOneContent": "Select at least one content",
-      "xIsAlreadyApproved": "%{row_id} has already approved",
-      "xIsAlreadyUnapproved": "%{row_id} has already unapproved",
-      "confirmApprovingSelected": "Do you want to approve selected answers?"
+      "alreadyApproved": "Esta resposta já foi aprovada",
+      "alreadyUnapproved": "Esta resposta já foi desaprovada",
+      "someOfSelectedAnswersAreApproved": "Algumas das respostas selecionadas já foram aprovadas por isso, tecnicamente, não pode aprová-las de novo",
+      "selectAnUnapprovedAnswerForApproving": "Precisa de selecionar alguma(s) resposta(s) para começar a aprová-las",
+      "confirmApproving": "Você deseja aprovar essa resposta?",
+      "someOfSelectedAnswersAreUnapproved": "Algumas respostas selecionadas não são aprovadas, então tecnicamente, você não pode desaprovar essas respostas",
+      "selectAnApprovedAnswerForUnapproving": "Você precisa selecionar algumas respostas aprovadas para começar a desaprová-las",
+      "confirmUnapproving": "Você deseja desaprovar esta resposta?",
+      "doYouWantToConfirmThisContent": "Você deseja confirmar este conteúdo?",
+      "confirmReporting": "Você deseja denunciar as respostas selecionadas para correção?",
+      "selectAtLeastOneContent": "Selecione pelo menos um conteúdo",
+      "xIsAlreadyApproved": "%{row_id} já foi aprovado",
+      "xIsAlreadyUnapproved": "%{row_id} já foi desaprovado",
+      "confirmApprovingSelected": "Você deseja aprovar as respostas selecionadas?"
     },
-    "approvedAnswer": "Approved answer",
-    "bestAnswer": "Best answer",
+    "approvedAnswer": "Resposta aprovada",
+    "bestAnswer": "Melhor resposta",
     "askForCorrection": {
-      "text": "Ask for correction",
-      "placeholder": "Write additional information for users",
-      "ask": "Ask"
+      "text": "Solicitar correção",
+      "placeholder": "Escreva informações adicionais para os usuários",
+      "ask": "Solicitar"
     },
     "hasAttachment": {
-      "question": "Question has an attachment",
-      "answer": "Answer has an attachment"
+      "question": "A resposta tem um anexo",
+      "answer": "A resposta tem um anexo"
     },
     "reported": {
-      "question": "Reported question",
-      "answer": "Reported answer",
-      "comment": "Reported comment"
+      "question": "Tarefa denunciada",
+      "answer": "Resposta denunciada",
+      "comment": "Comentário denunciado"
     },
-    "copyQuestionLinks": "Copy question links"
+    "copyQuestionLinks": "Copiar os links das tarefas"
   },
   "userProfile": {
     "notificationMessages": {
-      "areYouSureDeleteSelectedFriends": "Are you sure you want to remove selected user's from your friends list?",
-      "areYouSureRemoveAllFriends": "Are you sure you want to remove all your friends?",
-      "youHaveNoFriends": "Don't be sad because you have no friends to list :/ Sorry",
-      "cannotChangeBio": "I couldn't change your bio :/ Sorry..",
-      "fileSizeExceeded": "The %{file_name} file exceeds the size limit of %{file_size}",
-      "aShortcutFile": "You're trying to add a shortcut of a file and it's kind of garbage.\nYou may need to select the original file instead that is linked\nDo you still want to add this shortcut?",
-      "unableToReportAccountDeleting": "I couldn't report your deletion request to the community manager, so I can't proceed to delete the account. Sorry :/<br>If this error persists, ask for help from your extension manager",
-      "confirmNoEvidenceOrComment": "You didn't add any evidence or comment.\nDo you still want to delete this profile?",
-      "selectAtLeastOneUser": "You need to select at least one user",
-      "youNeedToProvideSomeDetails": "You need to provide some details",
-      "confirmAccountDeletion": "Do you want to delete this profile?",
-      "profileHasAlreadyDeleted": "This profile has already deleted by someone else"
+      "areYouSureDeleteSelectedFriends": "Você tem certeza de que deseja remover o usuário selecionado da sua lista de amigos?",
+      "areYouSureRemoveAllFriends": "Você tem certeza que deseja remover todos os seus amigos?",
+      "youHaveNoFriends": "Não fique triste porque você não tem amigos para listar :/ Desculpe.",
+      "cannotChangeBio": "Não consegui alterar sua biografia :/ Desculpe",
+      "fileSizeExceeded": "O arquivo %{file_name} excede o limite de tamanho de %{file_size}",
+      "aShortcutFile": "Você está tentando adicionar um atalho de um arquivo e é uma espécie de sobra. Pode ser necessário selecionar o arquivo original em vez do link. Ainda deseja adicionar este atalho?",
+      "unableToReportAccountDeleting": "Não consegui relatar sua solicitação de exclusão ao gerente da comunidade, portanto, não posso prosseguir com a eliminação da conta. Desculpe :/ <br> Se este erro persistir, peça ajuda ao seu gerente de extensão",
+      "confirmNoEvidenceOrComment": "Você não adicionou nenhuma prova ou comentário.\n Ainda deseja excluir este perfil?",
+      "selectAtLeastOneUser": "Você precisa selecionar pelo menos um usuário",
+      "youNeedToProvideSomeDetails": "Você precisa fornecer alguns detalhes",
+      "confirmAccountDeletion": "Você deseja eliminar este perfil?",
+      "profileHasAlreadyDeleted": "Este perfil já foi eliminado por outro moderador"
     },
     "previousNicks": {
-      "text": "Previous nicks",
-      "title": "Previous nicks of the user registered in the database"
+      "text": "Nicks anteriores",
+      "title": "Nicks anteriores do usuário registrado no banco de dados"
     },
     "userBio": {
       "title": "Bio",
-      "description": "Bio text from the mobile app of Brainly"
+      "description": "Texto da bio do aplicativo mobile do Brainly"
     },
     "showAllFriends": {
-      "text": "Show all",
-      "title": "List your all friends"
+      "text": "Mostrar tudo",
+      "title": "Listar todos os seus amigos"
     },
     "removeAllFriends": {
-      "text": "Unfriend all",
-      "title": "Remove all your friends"
+      "text": "Desfazer amizade com todos",
+      "title": "Remova todos os seus amigos"
     },
     "removeSelectedFriends": {
-      "text": "Unfriend",
-      "title": "You can remove the selected friends from your friend list"
+      "text": "Desfazer amizade",
+      "title": "Você pode remover os amigos selecionados da sua lista de amigos"
     },
     "accountDelete": {
-      "evidences": "Evidences",
-      "willBeReviewedByCommunityManager": "will be reviewed by your Community Manager",
-      "addFiles": "Add files",
-      "compressingTheFile": "Compressing the %{file_name}",
-      "compressingTheFiles": "Compressing the files",
-      "uploading": "Contents uploading %{percentage_value}",
-      "deletingContinues": "Deleting continues..",
-      "reasonForDeletion": "Any reason for deletion?"
+      "evidences": "Provas",
+      "willBeReviewedByCommunityManager": "Será revisado por seu gerente de comunidade",
+      "addFiles": "Adicionar arquivos",
+      "compressingTheFile": "Compactando o %{file_name}",
+      "compressingTheFiles": "Compactando os arquivos",
+      "uploading": "Enviando conteúdo %{percentage_value}",
+      "deletingContinues": "A eliminação continua…",
+      "reasonForDeletion": "Algum motivo para a eliminação?"
     },
     "rankManager": {
-      "title": "Manage special ranks",
-      "removeAllRanks": "Remove all special ranks",
-      "allRanksRemoved": "All special ranks are removed",
-      "updatingRanks": "Updating ranks",
-      "xHasAssigned": "%{rank_name} has assigned",
-      "removingAllSpecialRanks": "Removing all special ranks.."
+      "title": "Gerenciar ranks especiais",
+      "removeAllRanks": "Remover todos os ranks especiais",
+      "allRanksRemoved": "Todos os ranks especiais foram removidos",
+      "updatingRanks": "Atualizando ranks",
+      "xHasAssigned": "%{rank_name} foi atribuído",
+      "removingAllSpecialRanks": "Removendo todos os ranks especiais.."
     },
     "morePanel": {
-      "title": "More..",
+      "title": "Mais…",
       "privileges": {
-        "title": "Active privileges"
+        "title": "Privilégios ativos"
       },
       "manageExtensionUser": {
-        "title": "Manage extension privileges"
+        "title": "Gerenciar privilégios da extensão"
       },
       "reportUser": {
-        "report": "Report this user",
-        "whatIsTheReason": "What is the reason?",
+        "report": "Denunciar este usuário",
+        "whatIsTheReason": "Qual o motivo?",
         "reasons": {
-          "pointTransferer": "Point transferer",
+          "pointTransferer": "Transferidor de pontos",
           "spammer": "Spammer",
-          "other": "Other"
+          "other": "Outro"
         }
       }
     },
     "userWarningsList": {
-      "name": "Last warnings",
-      "showRest": "Show rest"
+      "name": "Últimas advertências",
+      "showRest": "Mostrar mais"
     },
-    "goToOldProfilePage": "Go to old profile page"
+    "goToOldProfilePage": "Ir para a antiga visualização de perfil"
   },
   "userWarnings": {
     "notificationMessages": {
-      "ifYouHavePrivileges": "Warning/s will be revoked if you have authority. Also, I'll suggest you to wait like ~10 seconds once the process has started"
+      "ifYouHavePrivileges": "As advertências serão canceladas se você tiver permissão. Também sugiro que espere aproximadamente 10 segundos após começo do processo."
     },
-    "cancelWarnings": "Cancel Warnings"
+    "cancelWarnings": "Cancelar advertências"
   },
   "supervisors": {
     "notificationMessages": {
-      "noUser": "There are no users to send this message to",
-      "emptyMessage": "You cannot send empty message"
+      "noUser": "Não há usuários para enviar esta mensagem",
+      "emptyMessage": "Você não pode enviar mensagem vazia"
     },
-    "allRanks": "All Ranks",
-    "tableLayout": "Table Layout",
-    "sendMessagesToMods": "Send message to mods",
+    "allRanks": "Todos os Ranks",
+    "tableLayout": "Layout da tabela",
+    "sendMessagesToMods": "Enviar mensagem para os mods",
     "sendMessagesToListedMods": {
-      "text": "to listed mods",
-      "title": "Send a message to only listed moderators"
+      "text": "para os mods da lista",
+      "title": "Enviar uma mensagem apenas para moderadores listados"
     },
     "sendMessagesToAllMods": {
-      "text": "to all mods",
-      "title": "Send a message to all moderators"
+      "text": "para todos os moderadores",
+      "title": "Enviar uma mensagem a todos os moderadores"
     }
   },
   "uploader": {
     "notificationMessages": {
-      "alreadyExist": "%{file_name} already exists",
-      "fileNameCannotContainBackslash": "File name cannot contain backslash. Please rename the %{file_name}"
+      "alreadyExist": "%{file_name} já existe",
+      "fileNameCannotContainBackslash": "O nome do arquivo não pode conter barras. Por favor, renomeie o arquivo %{file_name}."
     },
-    "text": "Upload multiple files",
-    "selectFiles": "Select files"
+    "text": "Carregar vários arquivos",
+    "selectFiles": "Selecionar arquivos"
   },
   "moderateAll": {
     "wrongContentConfirmer": {
-      "text": "Confirm all corrected contents"
+      "text": "Confirmar todo o conteúdo corrigido"
     },
     "notificationMessage": {
-      "questionRemovedPanelClosing": "Question has been removed. Panel will close in few seconds"
+      "questionRemovedPanelClosing": "A pergunta foi eliminada. O painel fechará em alguns segundos."
     }
   },
   "moderatorActionHistory": {
-    "revert": "Revert",
-    "valid": "Valid",
-    "validateAll": "Validate all",
-    "validateAllDescription": "Validate all non-reviewed actions on this page",
-    "invalid": "Invalid",
-    "invalidateAll": "Invalidate all",
-    "invalidateAllDescription": "Invalidate all non-reviewed actions on this page",
-    "revertAll": "Revert all",
+    "revert": "Desfazer",
+    "valid": "Válida",
+    "validateAll": "Validar tudo",
+    "validateAllDescription": "Validar todas as ações não revisadas nesta página",
+    "invalid": "Inválida",
+    "invalidateAll": "Invalidar tudo",
+    "invalidateAllDescription": "Invalidar todas as ações não revisadas nesta página",
+    "revertAll": "Reverter tudo",
     "statusTitle": {
-      "valid": "Validated by %{nick} on %{date}",
-      "invalid": "Invalidated by %{nick} on %{date}"
+      "valid": "Validado por %{nick} em %{date}",
+      "invalid": "Invalidado por %{nick} em %{date}"
     },
-    "toggleDetails": "Toggle details",
-    "validated": "Action marked as valid",
-    "invalidated": "Action marked as invalid",
-    "allValidated": "Actions are marked as valid",
-    "allInvalidated": "Actions are marked as invalid",
-    "informModeratorTitle": "Inform %{nick} about this invalid action",
-    "informModeratorTitleForMany": "Inform %{nick} about these invalid actions",
-    "informModerator": "Inform moderator",
-    "messageTemplate": "Hello %{nick},\n\n..\n\nQuestion: %{question}\n\nAttachment: %{links}",
-    "anAttachmentUploading": "Please wait for attachments to have uploaded",
-    "anErrorOccurredWhileSendingMessage": "An error occurred while sending message:\n%{reason}",
-    "warnBeforeEditing": "Do you really want to edit the last message?",
-    "informed": "Informed",
-    "reviewWithdrawn": "Review have successfully withdrawn",
-    "reviewsWithdrawn": "Reviews have successfully withdrawn",
-    "reviewDetails": "Review details"
+    "toggleDetails": "Mostrar/Esconder detalhes",
+    "validated": "Ação marcada como válida",
+    "invalidated": "Ação marcada como inválida",
+    "allValidated": "Ações marcadas como válidas",
+    "allInvalidated": "Ações marcadas como inválidas",
+    "informModeratorTitle": "Informar ao %{nick} sobre essa ação inválida",
+    "informModeratorTitleForMany": "Informar ao %{nick} sobre essas ações inválidas",
+    "informModerator": "Informar moderador",
+    "messageTemplate": "Olá %{nick},\n\n..\n\nTarefa: %{question}\n\nAnexo: %{links}",
+    "anAttachmentUploading": "Por favor, aguarde o upload dos anexos",
+    "anErrorOccurredWhileSendingMessage": "Houve um erro ao enviar esta mensagem:\n%{reason}",
+    "warnBeforeEditing": "Você realmente deseja editar a última mensagem?",
+    "informed": "Informado",
+    "reviewWithdrawn": "Verificação removida com sucesso",
+    "reviewsWithdrawn": "Verificações removidas com sucesso",
+    "reviewDetails": "Detalhes da verificação"
   },
   "question": {
-    "keywords": "Keywords"
+    "keywords": "Palavras-chave"
   },
   "reportedContents": {
     "questionAnswerReports": {
-      "text": "Questions/Answers (%{number_of_reports})",
-      "title": "Click here to see reported questions and answers"
+      "text": "Tarefas/Respostas (%{number_of_reports})",
+      "title": "Clique aqui para ver as perguntas e respostas denunciadas"
     },
     "commentReports": {
-      "text": "Comments (%{number_of_reports})",
-      "title": "Click here to see reported comments"
+      "text": "Comentários (%{number_of_reports})",
+      "title": "Clique aqui para ver os comentários denunciados"
     },
     "correctionReports": {
-      "text": "Correction Reports (%{number_of_reports})",
-      "title": "Click here to view the answers that have been reported for correction and are waiting to be moderated"
+      "text": "Denúncias para correção (%{number_of_reports})",
+      "title": "Clique aqui para ver as respostas que foram denunciadas para correção e estão esperando para serem moderadas"
     },
-    "subjectFilterFirstOption": "Subject — ALL",
+    "subjectFilterFirstOption": "Assunto — TODOS",
     "options": {
       "buttonVisibility": {
-        "optionName": "Action buttons visibility",
-        "alwaysVisible": "Always visible",
-        "onHoverOrTouch": "On hover/touch"
+        "optionName": "Visibilidade dos botões de ação",
+        "alwaysVisible": "Sempre visível",
+        "onHoverOrTouch": "Ao passar sobre/clicar"
       },
-      "name": "Options",
+      "name": "Opções",
       "density": {
-        "optionName": "Density"
+        "optionName": "Densidade"
       },
       "lazyQueue": {
-        "optionName": "Lazy queue (Refresh required)",
-        "description": "This option enables lazy loading for the reported contents queue.\n\nWhen enabled, the queue displays report boxes with a delay while scrolling through reports, so it's memory-friendly.\nHowever, the \"Find on page\" feature will not function for invisible reports. The page might display empty reports while scrolling too fast"
+        "optionName": "Fila lenta (necessário atualizar a página)",
+        "description": "Esta opção ativa o carregamento lento para a fila de conteúdo denunciado. \n\nQuando ativada, a fila exibe caixas de denúncias com um atraso ao rolar pelos relatórios, portanto, é amigável à memória.\nNo entanto, o recurso “Encontrar na página” não funcionará para denúncias invisíveis. A página pode exibir denúncias vazias enquanto rola muito rápido."
       },
       "toggleInfiniteLoader": {
-        "optionName": "Scrollable loading",
-        "description": "Turn on/off auto-loading contents on scrolling the page"
+        "optionName": "Carregamento com rolagem",
+        "description": "Ativar/desativar o carregamento automático de conteúdo ao rolar a página"
       },
       "loadLimiter": {
-        "optionName": "Load limiter",
-        "description": "This option allows you to increase/decrease the limit of how many report box will be shown after clicking the load more button.\n\nHigher values may cause a little delay in showing boxes"
+        "optionName": "Limitador de carregamento",
+        "description": "Esta opção permite aumentar/diminuir o limite do número de caixas de relatório mostradas depois de clicar no botão “carregar mais”.\n\nValores mais elevados podem causar um atraso na exibição das caixas."
       }
     },
     "queue": {
-      "rating": "%{rating} points for %{ratesCount} votes",
-      "bestAnswer": "This is the Brainliest Answer",
-      "popularQuestion": "Popular question!",
-      "moderatorVerifiedSomeonesAnswer": "%{verifier} has verified %{author}'s answer",
-      "loadMore": "Load more..",
+      "rating": "%{rating} pontos em %{ratesCount} votos",
+      "bestAnswer": "Está é a Melhor Resposta",
+      "popularQuestion": "Tarefa popular!",
+      "moderatorVerifiedSomeonesAnswer": "%{verifier} verificou a resposta de %{author}",
+      "loadMore": "Carregar mais",
       "exportReports": {
-        "exportAsSpreadsheet": "Export filtered reports as spreadsheet",
-        "nothingToExport": "There is no report left to export",
+        "exportAsSpreadsheet": "Exportar as denúncias filtradas como uma planilha",
+        "nothingToExport": "Não há denúncia para exportar",
         "id": "Id",
-        "questionId": "Question id",
-        "reportedUserId": "Reported user id",
-        "reporterUserId": "Reporter user id",
-        "reportedOn": "Reported on",
-        "reason": "Reason",
-        "contentShort": "Content(short)",
-        "isModerated": "Is moderated?",
-        "isCorrected": "Is corrected?"
+        "questionId": "ID da pergunta",
+        "reportedUserId": "ID do usuário denunciado",
+        "reporterUserId": "ID do usuário denunciante",
+        "reportedOn": "Denunciado em",
+        "reason": "Motivo",
+        "contentShort": "Conteúdo (encurtado)",
+        "isModerated": "Está moderado?",
+        "isCorrected": "Está corrigido?"
       },
-      "notYetCorrected": "Not yet corrected",
-      "pageNumberInputTitle": "Enter a page number between %{MIN_N} and %{MAX_N}"
+      "notYetCorrected": "Ainda não corrigido",
+      "pageNumberInputTitle": "Insira um número de página entre %{MIN_N} e %{MAX_N}"
     },
-    "loadAll": "Fetch all reports",
-    "loadAllConfirmationMessage": "I'll try to fetch all reported contents from Brainly but the process can be interrupted by Brainly because of elevated requests.\nPlease confirm to start the process",
+    "loadAll": "Buscar todas as denúncias",
+    "loadAllConfirmationMessage": "Vou tentar procurar todo o conteúdo denunciado do Brainly mas o processo pode ser interrompido pelo Brainly por causa do elevado número de solicitações.\nPor favor, confirme para iniciar o processo.",
     "massModerate": {
-      "name": "Mass-Moderate contents",
-      "description": "You can only moderate contents that have been fetched",
+      "name": "Moderação em massa de conteúdo",
+      "description": "Só pode moderar os conteúdos pesquisados",
       "confirm": {
-        "text": "Confirm",
-        "noContentToConfirm": "There is no content that's available for confirmation",
-        "confirmModeration": "Do you really want to confirm %{n} reported contents?"
+        "text": "Confirmar",
+        "noContentToConfirm": "Não há conteúdo disponível para confirmação",
+        "confirmModeration": "Tem certeza de que deseja confirmar %{n} conteúdos denunciados?"
       },
       "delete": {
-        "text": "Delete",
+        "text": "Eliminar",
         "choose": {
-          "Question": "Choose a reason for questions",
-          "Answer": "Choose a reason for answers",
-          "Comment": "Choose a reason for comments"
+          "Question": "Escolha um motivo para as perguntas",
+          "Answer": "Escolha um motivo para as respostas",
+          "Comment": "Escolha um motivo para os comentários"
         },
-        "noContentToDelete": "There is no content that's available for deletion",
-        "confirmDeletion": "Do you really want to delete %{n} reported contents?",
-        "warnAboutConfirmedContents": "Warning!\n%{N_of_confirmed} of the %{N_of_filtered} contents you want to delete have already been confirmed.\nDo you want those contents to be deleted as well?"
+        "noContentToDelete": "Não há conteúdo disponível para ser eliminado",
+        "confirmDeletion": "Tem certeza de que deseja excluir %{n} conteúdos denunciados?",
+        "warnAboutConfirmedContents": "Atenção!\n%{N_of_confirmed} dos %{N_of_filtered} conteúdos que deseja eliminar já foram confirmados.\nVocê deseja que esse conteúdo seja eliminado também?"
       },
       "status": {
-        "fetched": "%{count} fetched",
-        "filtered": "%{count} filtered",
-        "visible": "%{count} visible",
-        "moderated": "%{count} moderated",
-        "failed": "%{count} failed",
-        "alreadyModerated": "%{count} already moderated"
+        "fetched": "%{count} buscado",
+        "filtered": "%{count} filtrado",
+        "visible": "%{count} visível",
+        "moderated": "%{count} moderado",
+        "failed": "%{count} falhou",
+        "alreadyModerated": "%{count} já moderado"
       },
       "visible": {
-        "contents": "Visible contents",
-        "questions": "Visible questions",
-        "answers": "Visible answers",
-        "comments": "Visible comments"
+        "contents": "Conteúdos visíveis",
+        "questions": "Questões visíveis",
+        "answers": "Respostas visíveis",
+        "comments": "Comentários visíveis"
       },
       "filtered": {
-        "contents": "Filtered contents",
-        "questions": "Filtered questions",
-        "answers": "Filtered answers",
-        "comments": "Filtered comments"
+        "contents": "Conteúdo filtrado",
+        "questions": "Questões filtradas",
+        "answers": "Respostas filtradas",
+        "comments": "Comentários filtrados"
       },
-      "ignoreContent": "Ignore this report while mass-moderating",
-      "ignoreContents": "Ignore %{number} visible reports while mass-moderating"
+      "ignoreContent": "Ignore esta denúncia durante a moderação em massa",
+      "ignoreContents": "Ignore %{number} denúncias visíveis enquanto moderar em massa"
     },
     "categoryFilterFirstOption": {
-      "name": "Report reason — ALL",
+      "name": "Motivo de denúncia — TODOS",
       "reasonsFor": {
-        "Question": "Reasons for questions",
-        "Answer": "Reasons for answers",
-        "Comment": "Reasons for comments"
+        "Question": "Motivos para tarefas",
+        "Answer": "Motivos para respostas",
+        "Comment": "Motivos para comentários"
       }
     },
-    "name": "Reported contents",
+    "name": "Conteúdo denunciado",
     "filtersPanel": {
-      "description": "Filters can be applied only to those reports that have been fetched",
+      "description": "Os filtros podem ser aplicados apenas às denúncias que foram buscadas.",
       "filters": {
         "reporter": {
-          "name": "Reporter user"
+          "name": "Usuário denunciante"
         },
         "reported": {
-          "name": "Reported user"
+          "name": "Usuário denunciado"
         },
         "reportingDate": {
-          "name": "Reported between",
-          "startingDate": "Starting date",
-          "endingDate": "Ending date"
+          "name": "Denunciado entre",
+          "startingDate": "Data de início",
+          "endingDate": "Data de término"
         },
         "contentType": {
-          "name": "Content type",
-          "Question": "Question",
-          "Answer": "Answer",
-          "Comment": "Comment"
+          "name": "Tipo de conteúdo",
+          "Question": "Tarefa",
+          "Answer": "Resposta",
+          "Comment": "Comentário"
         },
         "contentLength": {
-          "name": "Content length",
-          "equals": "equals to",
-          "lowerThan": "lower than",
+          "name": "Número de caracteres",
+          "equals": "igual a",
+          "lowerThan": "menor do que",
           "label": {
-            "equals": "equals to %{N}",
-            "lowerThan": "lower than %{N}",
-            "greaterThan": "greater than %{N}"
+            "equals": "igual a %{N}",
+            "lowerThan": "menor do que %{N}",
+            "greaterThan": "maior do que %{N}"
           },
-          "greaterThan": "greater than"
+          "greaterThan": "maior do que"
         },
         "attachmentLength": {
-          "name": "Attachment count"
+          "name": "Número de anexos"
         },
         "subject": {
-          "name": "Subject"
+          "name": "Disciplina"
         },
         "userFilter": {
-          "id": "id",
+          "id": "ID",
           "nick": "nick",
-          "lookFor": "Look for",
-          "specialRank": "Special rank",
-          "anyRank": "Any rank",
-          "excludeSelectedRanks": "Exclude users with selected ranks"
+          "lookFor": "Procurar por",
+          "specialRank": "Rank especial",
+          "anyRank": "Qualquer rank",
+          "excludeSelectedRanks": "Excluir usuários com os ranks selecionadas"
         },
         "stringFilter": {
-          "chooseCondition": "Choose condition",
+          "chooseCondition": "Escolha uma condição",
           "label": {
-            "contains": "contains : %{input}",
-            "sameWith": "exactly same with : %{input}",
-            "startsWith": "starts with : %{input}",
-            "endsWith": "ends with : %{input}",
+            "contains": "Contém: %{input}",
+            "sameWith": "É exatamente igual a: %{input}",
+            "startsWith": "Começa com: %{input}",
+            "endsWith": "Termina com: %{input}",
             "regExp": "%{input}"
           },
           "conditions": {
-            "contains": "contains",
-            "sameWith": "exactly same with",
-            "startsWith": "starts with",
-            "endsWith": "ends with",
+            "contains": "contém",
+            "sameWith": "É exatamente igual",
+            "startsWith": "Começa com",
+            "endsWith": "Termina com",
             "regExp": "RegExp(JS/ES6)"
           },
-          "additionalData": "Additional data",
-          "content": "Content"
+          "additionalData": "Dados adicionais",
+          "content": "Conteúdo"
         }
       },
-      "title": "Filters",
-      "name": "Filter reports"
+      "title": "Filtros",
+      "name": "Filtro de denúncias"
     }
   },
   "moderationPanel": {
-    "text": "Question Moderation",
-    "answers": "Answers (%{number_of_answers})",
-    "panelWillClose": "Moderation panel will close in %{remain_N}",
-    "showAllComments": "Show all comments",
-    "failedToGetLogs": "Cannot fetch logs of question",
-    "seeMoreDeleteOptions": "See more delete options",
-    "thereIsNoReportLeft": "There is no report left",
-    "deleteAllComments": "Delete all comments",
-    "confirmDeletingNComments": "Please confirm deleting %{N} comments",
-    "commentsDeleted": "Comments deleted!",
-    "switchingToNextContent": "I'll try to switch to the next content",
-    "hideDeletedComments": "Hide deleted comments",
-    "showDeletedComments": "Show deleted comments",
-    "janToDec": "JAN\nDEC",
-    "decToJan": "DEC\nJAN",
-    "sortDESC": "Sort comments from newer to older",
-    "sortASC": "Sort comments from older to newer",
-    "showLess": "Show less",
-    "toggleReportedComments": "Toggle reported comments",
-    "corrected": "Corrected",
-    "originalAnswer": "Original answer",
-    "answerHasCorrected": "%{nick} has corrected the answer",
-    "questionHasBeenDeleted": "Question has been deleted",
-    "moderationCompleted": "Moderation completed",
-    "extendBy15Minutes": "Extend by 15 minutes",
+    "text": "Moderação de tarefa",
+    "answers": "Respostas (%{number_of_answers})",
+    "panelWillClose": "O painel de moderação fechará em %{remain_N}",
+    "showAllComments": "Mostrar todos os comentários",
+    "failedToGetLogs": "Não é possível buscar os registos da tarefa",
+    "seeMoreDeleteOptions": "Ver mais opções de eliminação",
+    "thereIsNoReportLeft": "Não há mais nenhuma denúncia",
+    "deleteAllComments": "Eliminar todos os comentários",
+    "confirmDeletingNComments": "Por favor, confirme a eliminação de %{N} comentários",
+    "commentsDeleted": "Comentários eliminados!",
+    "switchingToNextContent": "Vou tentar mudar para o próximo conteúdo",
+    "hideDeletedComments": "Ocultar comentários eliminados",
+    "showDeletedComments": "Mostrar comentários eliminados",
+    "janToDec": "JAN \nDEZ",
+    "decToJan": "DEZ \nJAN",
+    "sortDESC": "Ordenar dos comentários mais recentes para os mais antigos",
+    "sortASC": "Ordenar dos comentários mais antigos para os mais recentes",
+    "showLess": "Mostrar menos",
+    "toggleReportedComments": "Alternar comentários denunciados",
+    "corrected": "Verificada",
+    "originalAnswer": "Resposta original",
+    "answerHasCorrected": "%{nick} corrigiu a resposta",
+    "questionHasBeenDeleted": "A tarefa foi deletada",
+    "moderationCompleted": "Moderação concluída",
+    "extendBy15Minutes": "Prolongar por 15 minutos",
     "log": {
-      "text": "Log",
-      "deletedWithWarning": "Deleted with a warning",
-      "nActions": "%{number_of} actions",
-      "nMore": "%{number_of_occurrences} more"
+      "text": "Histórico da pergunta",
+      "deletedWithWarning": "Eliminado com uma advertência",
+      "nActions": "%{number_of} ações",
+      "nMore": "Mais %{number_of_occurrences}"
     }
   },
   "shortAnswersPage": {
-    "selectAtLeastOneAnswer": "You need to select at least one answer",
-    "doYouWantToDeleteSelectedAnswers": "Do you really want delete the selected answers?"
+    "selectAtLeastOneAnswer": "Você precisa selecionar pelo menos uma resposta",
+    "doYouWantToDeleteSelectedAnswers": "Tem certeza de que deseja excluir as respostas selecionadas?"
   },
   "questionSearch": {
-    "selectAtLeastOneQuestion": "Select at least one question",
-    "doYouWantToDeleteSelectedQuestions": "Do you really want delete %{N} selected questions?"
+    "selectAtLeastOneQuestion": "Selecione pelo menos uma pergunta",
+    "doYouWantToDeleteSelectedQuestions": "Tem certeza de que deseja excluir %{N} perguntas selecionadas?"
   }
 }

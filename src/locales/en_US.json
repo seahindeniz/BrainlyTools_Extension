@@ -560,10 +560,14 @@
         }
       }
     },
+    "searchUser": {
+      "text": "Find users",
+      "nickOrID": "Nick or profile id"
+    },
     "discordPopup": {
       "discordServer": "DISCORD SERVER!",
       "heyUser": "Hey %{nick},",
-      "nextMessage": "We have opened the doors to our brand-new\nDiscord server for extension users now.\n\nFeel free to check it out!",
+      "nextMessage": "we have opened the doors to our brand-new\nDiscord server for extension users now.\n\nFeel free to check it out!",
       "informationLine": "about the Discord server"
     }
   },
@@ -572,45 +576,9 @@
   },
   "messages": {
     "notificationMessages": {
-      "unsendedMessage": "You didn't send your message, do you still want to leave?"
-    },
-    "groups": {
-      "title": "Groups",
-      "createGroup": "Create a group",
-      "editGroup": "Edit group",
-      "deleteGroup": "Delete group",
-      "groupName": "Group name",
-      "groupColor": "You can set a color for this group name to make it look different from other created groups",
-      "groupMembers": "Group members",
-      "searchResults": "Search results",
-      "selectGroupType": "Select a group type",
-      "addAll": "Add all",
-      "writeSomething": "Type your message here",
-      "pinTip": "You can pin your groups by clicking the %{pin} icon.",
-      "notificationMessages": {
-        "groupCreated": "%{groupName} successfully created",
-        "groupUpdated": "%{groupName} updated",
-        "cantCreate": "I can't create this group because something must be wrong. Could you please check your details?",
-        "userAlreadyAdded": "This user is already on the list",
-        "doYouWantToRemoveMembers": "Do you want to remove all group members?",
-        "youNeedToAddMembers": "You need add at least one user in the group members list",
-        "youHaventCreatedAGroupYet": "You haven't created a group yet..",
-        "wrongMessageLength": "Your message must be between 1 and %{max_value} characters long",
-        "messageContainsSwear": "Oops! It seems like your message contains swearwords. You can't send it!",
-        "cantFetchGroupData": "An unexpected error has occurred. I couldn't fetch messages of this group from the extension server"
-      },
-      "userCategories": {
-        "findUsers": {
-          "text": "Find users",
-          "nickOrID": "Nick or profile id"
-        },
-        "friendsList": "Friends list",
-        "moderatorRanks": {
-          "text": "Moderator ranks",
-          "selectRank": "Select a rank"
-        },
-        "allModerators": "All moderators"
-      }
+      "unsendedMessage": "You didn't send your message, do you still want to leave?",
+      "wrongMessageLength": "Your message must be between 1 and %{max_value} characters long",
+      "messageContainsSwear": "Oops! It seems like your message contains swearwords. You can't send it!"
     }
   },
   "userContent": {

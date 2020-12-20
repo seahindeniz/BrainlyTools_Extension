@@ -309,7 +309,7 @@ export default class MassMessageSender extends Components {
 
   ShowWrongMessageLengthError() {
     this.modal.notification(
-      System.data.locale.messages.groups.notificationMessages.wrongMessageLength.replace(
+      System.data.locale.messages.notificationMessages.wrongMessageLength.replace(
         "%{max_value}",
         String(MAX_MESSAGE_LENGTH),
       ),
@@ -398,7 +398,7 @@ export default class MassMessageSender extends Components {
 
         if (error.vulgarism) {
           errorMessage =
-            System.data.locale.messages.groups.notificationMessages
+            System.data.locale.messages.notificationMessages
               .messageContainsSwear;
         } else if (error.length) {
           errorMessage = "";

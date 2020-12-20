@@ -41,7 +41,7 @@ export default {
       ongoingProcess: "Some contents are still processing. Do you still want to exit the page?",
       areYouSure: "Are you sure?",
       mayRequireWarning: "Do you want to apply a warning to this content?",
-      ongoingProcessWait: "Some contents are still processing and you have to wait till it finished",
+      ongoingProcessWait: "Some contents are still processing and you have to wait till it finishes",
       xSendYouANewMessage: "%{userName} send you a new message",
       newNotification: "New notification",
       operationCompleted: "Operation completed",
@@ -74,11 +74,11 @@ export default {
       takePoints: {
         question: {
           text: "Take back respondent's points",
-          title: "Remove the points received by the respondent's, when they answered the question"
+          title: "Remove the points received by the respondents when they answered the question"
         },
         answer: {
           text: "Take points back",
-          title: "Take points back from user"
+          title: "Take back points from user"
         }
       },
       contentAuthorIsModerator: "\"%{content_author}\" has moderation powers.\nPlease moderate this from the panel",
@@ -86,7 +86,7 @@ export default {
     },
     personalNote: {
       text: "Personal note",
-      title: "You can add a personal private note here and that will relate to this user only",
+      title: "You can add a personal private note here and that will relate only to this user",
       clickToAddANote: "Click to add a note"
     },
     listOfIds: "List of ids",
@@ -117,7 +117,7 @@ export default {
     notificationMessages: {
       shortLinkSuccessMessage: "Copied to clipboard!",
       languageChanged: "Language changed",
-      cannotFindUser: "I couldn't find the user with entered ID number",
+      cannotFindUser: "I couldn't find the user with the entered ID number",
       createdMessage: "Created successfully",
       updatedMessage: "Updated successfully",
       removedMessage: "Removed successfully",
@@ -134,10 +134,10 @@ export default {
       errorN: "Error %{error_code}",
       preparingUnsuccessful: "An error occurred while preparing the delete reasons and fetching from Brainly",
       noEvidenceFound: "Moderator didn't add any evidence nor comment",
-      doYouWannaGiveThisPrivilege: "Do you wanna give this privilege to all extension users?",
-      doYouWannaRevokeThisPrivilege: "Do you wanna revoke this privilege from all extension users?",
-      privilegeHasGiven: "Privilege has given to %{user_amount} users",
-      privilegeHasRevoked: "Privilege has revoked from %{user_amount} users",
+      doYouWannaGiveThisPrivilege: "Do you want to give this privilege to all extension users?",
+      doYouWannaRevokeThisPrivilege: "Do you want to revoke this privilege from all extension users?",
+      privilegeHasGiven: "Privilege has been given to %{user_amount} users",
+      privilegeHasRevoked: "Privilege has been revoked from %{user_amount} users",
       iCantFetchMarketData: "I can't fetch market data",
       incorrectData: "I can't communicate with %{market_domain_name}<br><br>Please visit any page from %{market_domain_name} or refresh the page that is already open"
     },
@@ -164,7 +164,7 @@ export default {
       },
       quickDeleteButtons: {
         text: "Quick Delete Buttons",
-        title: "You can set delete reasons of the quick delete buttons",
+        title: "You can set deletion reasons of the quick delete buttons",
         comment: "Comment",
         question: "Question",
         answer: "Answer"
@@ -173,7 +173,7 @@ export default {
         title: "Other Options",
         extendMessagesLayout: {
           text: "Expand messages layout",
-          title: "This option will extend the layout of the messages page. You can try it when the messages page is opened"
+          title: "This option will extend the layout of the messages page. You can try it when the messages page is open."
         },
         extensionLanguage: {
           text: "Extension language",
@@ -190,7 +190,7 @@ export default {
       users: {
         text: "Users",
         title: "You can set the extension user's permission and privileges",
-        changeUserPrivileges: "Change all users privileges",
+        changeUserPrivileges: "Change all users' privileges",
         revoke: "Revoke",
         give: "Give",
         addNewOrEditUser: "Add a new or edit extension user",
@@ -202,20 +202,20 @@ export default {
         lessImportant: "Less important",
         harmless: "Harmless",
         explainingColors: {
-          line1: "Some users have colored border in their avatars and this colors shows that their access permission status of the extension.",
-          line2: "<s>Red</s> border means that shown user are banned from the extension.",
-          line3: "<s>Mustard</s> border means the user has permission to use the extension but hasn't started use it yet",
+          line1: "Some users have colored border in their avatars and this colors shows their access permission status of the extension.",
+          line2: "<s>Red</s> border means that shown user is banned from the extension.",
+          line3: "<s>Mustard</s> border means that the user has the permission to use the extension but hasn't started to use it yet",
           line4: "<s>Green</s> color means the user is an active authorized user.",
-          line5: "<s>No border</s> means that user has some privileges assigned but not given permission to use the extension in their account and hasn't started to use the extension yet."
+          line5: "<s>No border</s> means that user has some privileges assigned but not the permission to use the extension in their account and hasn't started to use the extension yet."
         },
         privilegeList: {
           0: {
             title: "Extension admin",
-            description: "Can able use the extension without any restriction. (No need to assign any other privileges, this will remove all restrictions)"
+            description: "Can use the extension without any restriction. (No need to assign any other privileges, this will remove all restrictions)"
           },
           1: {
             title: "Quick delete questions",
-            description: "On the pages of questions, archive mod and homepage, user can use the quick delete buttons for deleting the question/s"
+            description: "On the pages of questions, archive mod and homepage, user can use the quick delete buttons for deleting the questions"
           },
           2: {
             title: "Quick delete answers",
@@ -227,7 +227,7 @@ export default {
           },
           5: {
             title: "Manage extension users",
-            description: "Can add or editing the extension users and give them privileges or permission to use the extension"
+            description: "Can add or edit the extension users and give them privileges or permission to use the extension"
           },
           6: {
             title: "Verify answers by selecting",
@@ -243,15 +243,15 @@ export default {
           },
           9: {
             title: "Mass-Message sender",
-            description: "In the moderation panel, user can use this function for sending a private message to entire users of your market"
+            description: "In the moderation panel, user can use this function for sending a private message to all users of your market"
           },
           10: {
             title: "Supervisors page, Message sender",
             description: "In the supervisors page, user can send a private message to listed moderators or all moderators of your market"
           },
           11: {
-            title: "Delete reasons preferences management",
-            description: "Can set warning level of delete reasons"
+            title: "Deletion reasons preferences management",
+            description: "Can set warning level of deletion reasons"
           },
           12: {
             title: "User deletion reports",
@@ -259,7 +259,7 @@ export default {
           },
           13: {
             title: "Mass-Point changer",
-            description: "In the moderation panel, user can change user's points by their ids"
+            description: "In the moderation panel, user can change user's points by their IDs"
           },
           14: {
             title: "Selective question deletion",
@@ -291,7 +291,7 @@ export default {
           },
           21: {
             title: "View users' privileges",
-            description: "User can see extension privileges of other extension user's that has assigned to their profiles, without making any changes"
+            description: "User can see extension privileges of other extension user's that has been assigned to their profiles, without making any changes"
           },
           22: {
             title: "Can change access permission",
@@ -319,7 +319,7 @@ export default {
           },
           28: {
             title: "Action history reviewer",
-            description: "Ability to review other moderators actions to be marked as valid or invalid and letting them know about their mistakes from moderator actions history page"
+            description: "Ability to review other moderators' actions to be marked as valid or invalid and letting them know about their mistakes from moderator actions history page"
           },
           45: {
             title: "Quick delete comments",
@@ -388,12 +388,12 @@ export default {
       },
       DeleteReasonsPreferences: {
         text: "Delete reasons preferences",
-        withoutAsk: "Give warning without asking confirmation",
-        withAsk: "Show confirmation dialog while deleting a content",
+        withoutAsk: "Give warning without asking for confirmation",
+        withAsk: "Show confirmation dialog box while deleting a content",
         findReason: "Find a reason",
         explaining: {
-          line1: "You can find delete reasons by typing the name of the reason",
-          line2: "After selecting one from the results, you can click %{exclamation-circle} button to give warning without asking confirmation from moderators while they are deleting a content. But in some cases, that may can change and moderators should decide if giving a warning is necessary or not. So you can click %{exclamation-triangle} to show confirmation dialog to moderators while they are deleting a content."
+          line1: "You can find deletion reasons by typing the name of the reason",
+          line2: "After selecting one from the results, you can click %{exclamation-circle} button to give warning without asking for confirmation from moderators while they are deleting a content. But in some cases, that can change and moderators should decide if giving a warning is necessary or not. So you can click %{exclamation-triangle} to show confirmation dialog to moderators while they are deleting a content."
         }
       },
       accountDeleteReports: {
@@ -408,16 +408,16 @@ export default {
   core: {
     assignExtensionPermission: "Assign extension permission",
     notificationMessages: {
-      cantFetchDeleteReasons: "An unexpected error occurred while trying to prepare delete reasons",
+      cantFetchDeleteReasons: "An unexpected error occurred while trying to prepare deletion reasons",
       searching: "Searching..",
       userNotFound: "User not found",
-      extensionServerError: "An unexpected error occurred while connecting the extension server. Please try again in ~5 sec.",
+      extensionServerError: "An unexpected error occurred while connecting to the extension server. Please try again in ~5 sec.",
       ifErrorPersists: "If this error persists, please contact the extension manager and explain what happened :)",
       accessPermissionDenied: "You are not authorized to use the Brainly Tools.\nPlease contact the admin or the community manager to ask for permission",
       updateNeeded: "A new version of the extension is available.\nIt'll be updated in the background so could you wait ~10 seconds then refresh the page, please?",
-      warningBeforeDelete: "This process will be executed and the numbers of questions ids in the input will be deleted once you confirmed this warning. \n\n Are you triple times sure?",
-      enterIdWarn: "You need to add at least 1 id number of question that you want to delete",
-      youNeedToEnterValidId: "You need to enter a valid id number",
+      warningBeforeDelete: "This process will be executed and the numbers of questions ID(s) in the input will be deleted once you confirm this warning. \n\n Are you triple times sure?",
+      enterIdWarn: "You need to add at least 1 ID number of question that you want to delete",
+      youNeedToEnterValidId: "You need to enter a valid ID number",
       tryingToSendTheSameMessage: "You're trying to send the last message again. Do you still want to send?",
       alreadyStarted: "Process has already started",
       pointsAdded: "Points added",
@@ -431,9 +431,9 @@ export default {
     },
     MassContentDeleter: {
       text: "Mass-Content deleter",
-      nIdsToDeleted: "%{n} ids to delete",
-      nHasBeenDeleted: "%{n} ids has been deleted",
-      containerExplanation: "You need to put content links or ids to text box line by line. Each line should contain 1 id number",
+      nIdsToDeleted: "%{n} ID(s) to delete",
+      nHasBeenDeleted: "%{n} ID(s) have been deleted",
+      containerExplanation: "You need to put content links or ID(s) to text box line by line. Each line should contain 1 ID number",
       select: {
         reason: "Reason",
         subReason: "Sub reason",
@@ -442,8 +442,8 @@ export default {
     },
     MessageSender: {
       text: "Mass-Message sender",
-      lastRegisteredUserId: "Enter last registered user id",
-      information: "This function can send your message to the users by counting backwards from the given id number. Once you've start the process and if you want to send the message to the id numbers, you should have to wait and not close this page(this includes your computer as well) till the process finishes.",
+      lastRegisteredUserId: "Enter last registered user ID",
+      information: "This function can send your message to the users by counting backwards from the given id number. Once you've started the process and you want to send a message to the ID numbers, you have to wait and not close this page(this includes your computer as well) till the process finishes.",
       target: "Target",
       allUsers: "All users",
       moderators: "Moderators",
@@ -462,9 +462,9 @@ export default {
     pointChanger: {
       text: "Mass-Point changer",
       enterOrPasteUID: "Enter or paste user profile ID",
-      youNeedToEnterOrPaste: "You need to enter user id or you can paste copied list of user ids into input",
-      pastingExample: "Example list of users ids",
-      pastingExample2: "Also, you can specify the points in the list before copy paste",
+      youNeedToEnterOrPaste: "You need to enter user ID or you can paste copied list of user ID(s) into input",
+      pastingExample: "Example list of users ID(s)",
+      pastingExample2: "Also, you can specify the points in the list before copy pasting",
       addPoints: "Add points to this user",
       addPointsToAll: "Add points to all users",
       pointsNotSpecified: "You must give points to at least 1 user in order to proceed",
@@ -488,7 +488,7 @@ export default {
       notificationMessages: {
         doYouWantToRemoveSelectedUsers: "Do you want to remove selected users from the list?",
         doYouReallyWantToRemoveAllUsers: "Do you really want to remove all users from the list?",
-        tryingToAddPreviouslyRemovedIds: "The ids you've entered contains previously removed id numbers from the list\n\nClick \"OK\" if you want to add or\nclick \"Cancel\" if you want to exclude.",
+        tryingToAddPreviouslyRemovedIds: "The ID(s) you've entered contain previously removed ID numbers from the list\n\nClick \"OK\" if you want to add or\nclick \"Cancel\" if you want to exclude.",
         areYouSureAboutDeletingAllListedUsers: "You are about to confirm to delete all listed users.\n\nAre you triple sure about this?",
         thereIsNoUserLeft: "There is no user left in the list"
       },
@@ -531,7 +531,7 @@ export default {
         },
         idRange: {
           text: "ID range",
-          youNeedToEnterTwoDifferentIdNumbers: "You need to enter different id numbers separated by a dash(-) or dots(.. or ...) to moderate the numbers between range",
+          youNeedToEnterTwoDifferentIdNumbers: "You need to enter different ID numbers separated by a dash(-) or dots(.. or ...) to moderate the numbers between range",
           exampleUsage: "Example Usage",
           input: "Input",
           output: "Output"
@@ -543,7 +543,7 @@ export default {
       },
       methods: {
         text: "Methods",
-        clickListToCopy: "Click list to copy ids to clipboard",
+        clickListToCopy: "Click list to copy ID(s) to clipboard",
         iCantCopy: "I can't copy :(",
         reportForAbuse: {
           chooseAReason: "Choose a reason",
@@ -560,6 +560,10 @@ export default {
         }
       }
     },
+    searchUser: {
+      text: "Find users",
+      nickOrID: "Nick or profile id"
+    },
     discordPopup: {
       discordServer: "DISCORD SERVER!",
       heyUser: "Hey %{nick},",
@@ -572,45 +576,9 @@ export default {
   },
   messages: {
     notificationMessages: {
-      unsendedMessage: "You didn't send your message, do you still want to leave?"
-    },
-    groups: {
-      title: "Groups",
-      createGroup: "Create a group",
-      editGroup: "Edit group",
-      deleteGroup: "Delete group",
-      groupName: "Group name",
-      groupColor: "You can set a color for this group name to make it look different from other created groups",
-      groupMembers: "Group members",
-      searchResults: "Search results",
-      selectGroupType: "Select a group type",
-      addAll: "Add all",
-      writeSomething: "Type your message here",
-      pinTip: "You can pin your groups by clicking the %{pin} icon.",
-      notificationMessages: {
-        groupCreated: "%{groupName} successfully created",
-        groupUpdated: "%{groupName} updated",
-        cantCreate: "I can't create this group because something must be wrong. Could you please check your details?",
-        userAlreadyAdded: "This user is already on the list",
-        doYouWantToRemoveMembers: "Do you want to remove all group members?",
-        youNeedToAddMembers: "You need add at least one user in the group members list",
-        youHaventCreatedAGroupYet: "You haven't created a group yet..",
-        wrongMessageLength: "Your message must be between 1 and %{max_value} characters long",
-        messageContainsSwear: "Oops! It seems like your message contains swearwords. You can't send it!",
-        cantFetchGroupData: "An unexpected error has occurred. I couldn't fetch messages of this group from the extension server"
-      },
-      userCategories: {
-        findUsers: {
-          text: "Find users",
-          nickOrID: "Nick or profile id"
-        },
-        friendsList: "Friends list",
-        moderatorRanks: {
-          text: "Moderator ranks",
-          selectRank: "Select a rank"
-        },
-        allModerators: "All moderators"
-      }
+      unsendedMessage: "You didn't send your message, do you still want to leave?",
+      wrongMessageLength: "Your message must be between 1 and %{max_value} characters long",
+      messageContainsSwear: "Oops! It seems like your message contains swearwords. You can't send it!"
     }
   },
   userContent: {
@@ -626,8 +594,8 @@ export default {
       doYouWantToConfirmThisContent: "Do you want to confirm this content?",
       confirmReporting: "Do you want to report selected answers for correction?",
       selectAtLeastOneContent: "Select at least one content",
-      xIsAlreadyApproved: "%{row_id} has already approved",
-      xIsAlreadyUnapproved: "%{row_id} has already unapproved",
+      xIsAlreadyApproved: "%{row_id} has already been approved",
+      xIsAlreadyUnapproved: "%{row_id} has already been unapproved",
       confirmApprovingSelected: "Do you want to approve selected answers?"
     },
     approvedAnswer: "Approved answer",
@@ -661,7 +629,7 @@ export default {
       selectAtLeastOneUser: "You need to select at least one user",
       youNeedToProvideSomeDetails: "You need to provide some details",
       confirmAccountDeletion: "Do you want to delete this profile?",
-      profileHasAlreadyDeleted: "This profile has already deleted by someone else"
+      profileHasAlreadyDeleted: "This profile has already been deleted by someone else"
     },
     previousNicks: {
       text: "Previous nicks",
@@ -696,9 +664,9 @@ export default {
     rankManager: {
       title: "Manage special ranks",
       removeAllRanks: "Remove all special ranks",
-      allRanksRemoved: "All special ranks are removed",
+      allRanksRemoved: "All special ranks have been removed",
       updatingRanks: "Updating ranks",
-      xHasAssigned: "%{rank_name} has assigned",
+      xHasAssigned: "%{rank_name} has been assigned",
       removingAllSpecialRanks: "Removing all special ranks.."
     },
     morePanel: {
@@ -786,12 +754,12 @@ export default {
     informModeratorTitleForMany: "Inform %{nick} about these invalid actions",
     informModerator: "Inform moderator",
     messageTemplate: "Hello %{nick},\n\n..\n\nQuestion: %{question}\n\nAttachment: %{links}",
-    anAttachmentUploading: "Please wait for attachments to have uploaded",
-    anErrorOccurredWhileSendingMessage: "An error occurred while sending message:\n%{reason}",
+    anAttachmentUploading: "Please wait for attachments to be uploaded",
+    anErrorOccurredWhileSendingMessage: "An error occurred while sending the message:\n%{reason}",
     warnBeforeEditing: "Do you really want to edit the last message?",
     informed: "Informed",
-    reviewWithdrawn: "Review have successfully withdrawn",
-    reviewsWithdrawn: "Reviews have successfully withdrawn",
+    reviewWithdrawn: "Review has been successfully withdrawn",
+    reviewsWithdrawn: "Reviews have been successfully withdrawn",
     reviewDetails: "Review details"
   },
   question: {
@@ -853,7 +821,7 @@ export default {
         isModerated: "Is moderated?",
         isCorrected: "Is corrected?"
       },
-      notYetCorrected: "Not yet corrected",
+      notYetCorrected: "Not corrected yet",
       pageNumberInputTitle: "Enter a page number between %{MIN_N} and %{MAX_N}"
     },
     loadAll: "Fetch all reports",
@@ -1013,10 +981,10 @@ export default {
   },
   shortAnswersPage: {
     selectAtLeastOneAnswer: "You need to select at least one answer",
-    doYouWantToDeleteSelectedAnswers: "Do you really want delete the selected answers?"
+    doYouWantToDeleteSelectedAnswers: "Do you really want to delete the selected answers?"
   },
   questionSearch: {
     selectAtLeastOneQuestion: "Select at least one question",
-    doYouWantToDeleteSelectedQuestions: "Do you really want delete %{N} selected questions?"
+    doYouWantToDeleteSelectedQuestions: "Do you really want to delete %{N} selected questions?"
   }
 }

@@ -22,7 +22,7 @@ export default class extends Components {
   constructor(main) {
     super(main);
 
-    this.liLinkContent = `${System.data.locale.messages.groups.userCategories.findUsers.text}:`;
+    this.liLinkContent = `${System.data.locale.core.searchUser.text}:`;
 
     this.RenderInput();
     this.RenderListItem();
@@ -33,8 +33,7 @@ export default class extends Components {
   RenderInput() {
     this.input = new Input({
       type: "search",
-      placeholder:
-        System.data.locale.messages.groups.userCategories.findUsers.nickOrID,
+      placeholder: System.data.locale.core.searchUser.nickOrID,
     });
   }
 

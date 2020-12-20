@@ -560,6 +560,10 @@
         }
       }
     },
+    "searchUser": {
+      "text": "Kullanıcı bul",
+      "nickOrID": "Nick veya profil id'si"
+    },
     "discordPopup": {
       "discordServer": "DISCORD SUNUCUSU!",
       "heyUser": "Hey %{nick},",
@@ -572,45 +576,9 @@
   },
   "messages": {
     "notificationMessages": {
-      "unsendedMessage": "Yazdığın mesajı göndermedin, halen ayrılmak istiyor musun?"
-    },
-    "groups": {
-      "title": "Gruplar",
-      "createGroup": "Grup oluştur",
-      "editGroup": "Grubu düzenle",
-      "deleteGroup": "Grubu sil",
-      "groupName": "Grup adı",
-      "groupColor": "Bu grubun adına renk atayabilirsin ve böylece grupları birbirinden ayırt etmen kolaylaşır",
-      "groupMembers": "Grup üyeleri",
-      "searchResults": "Bulunan kişiler",
-      "selectGroupType": "Grup tipini seç",
-      "addAll": "Tümünü ekle",
-      "writeSomething": "Mesajını buraya yaz",
-      "pinTip": "%{pin}ikonuna tıklayarak gruplarını sabitleyebilirsin",
-      "notificationMessages": {
-        "groupCreated": "%{groupName} başarıyla oluşturuldu",
-        "groupUpdated": "%{groupName} güncellendi",
-        "cantCreate": "Bu grubu oluşturamıyorum çünkü belirtilen verilerde bir sorun var. Girdiğin verileri kontrol eder misin?",
-        "userAlreadyAdded": "Kullanıcı zaten listede var",
-        "doYouWantToRemoveMembers": "Grubun tüm üyelerini kaldırmak istiyor musun?",
-        "youNeedToAddMembers": "Grup üyeleri listesine en az bir kullanıcı eklemelisin",
-        "youHaventCreatedAGroupYet": "Henüz bir grup oluşturmadın..",
-        "wrongMessageLength": "Mesaj uzunluğu 1 ila %{max_value} arasında olmalıdır",
-        "messageContainsSwear": "Hopps! Mesajında servis kurallarını ihlal eden içerikler bulunmakta. Bu şekilde gönderemezsin!",
-        "cantFetchGroupData": "Beklenmedik bir hata oluştu. Eklenti sunucusundan bu gruba ait mesajları alamadım"
-      },
-      "userCategories": {
-        "findUsers": {
-          "text": "Kullanıcı bul",
-          "nickOrID": "Nick veya profil id'si"
-        },
-        "friendsList": "Arkadaşların",
-        "moderatorRanks": {
-          "text": "Moderatör rütbeleri",
-          "selectRank": "Rütbe seç"
-        },
-        "allModerators": "Tüm moderatörler"
-      }
+      "unsendedMessage": "Yazdığın mesajı göndermedin, halen ayrılmak istiyor musun?",
+      "wrongMessageLength": "Mesaj uzunluğu 1 ila %{max_value} arasında olmalıdır",
+      "messageContainsSwear": "Hopps! Mesajında servis kurallarını ihlal eden içerikler bulunmakta. Bu şekilde gönderemezsin!"
     }
   },
   "userContent": {

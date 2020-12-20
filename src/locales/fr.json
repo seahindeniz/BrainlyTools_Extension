@@ -230,8 +230,8 @@
             "description": "Peut ajouter ou éditer les utilisateurs de l'extension et leur attribuer des privilèges ou permission d'utiliser l'extension"
           },
           "6": {
-            "title": "Approbation sélective des réponses",
-            "description": "Sur la page des contenus d'un utilisateur, l'utilisateur peut approuver ou désapprouver les réponses en les sélectionnant"
+            "title": "Vérifiez les réponses en sélectionnant",
+            "description": "Sur la page de contenu de l'utilisateur, le modérateur peut vérifier les réponses en sélectionnant 25 réponses maximum sur chaque page"
           },
           "7": {
             "title": "Suppression de masse des contenus",
@@ -369,8 +369,8 @@
             "description": "L'utilisateur ne verra aucun autre canal que les canaux #announcements et #rules sur le serveur Discord"
           },
           "40": {
-            "title": "Unverify answers by selecting",
-            "description": "On the user contents page, the moderator can unverify answers by selecting 25 answers max- on each page"
+            "title": "Annuler la vérification des réponses en sélectionnant",
+            "description": "Sur la page de contenu de l'utilisateur, le modérateur peut vérifier les réponses en sélectionnant 25 réponses au maximum sur chaque page"
           }
         },
         "veryImportant": "Très important"
@@ -560,11 +560,15 @@
         }
       }
     },
+    "searchUser": {
+      "text": "Trouver un utilisateur",
+      "nickOrID": "Pseudo ou ID du profil"
+    },
     "discordPopup": {
-      "discordServer": "DISCORD SERVER!",
+      "discordServer": "SERVEUR DISCORD",
       "heyUser": "Hey %{nick},",
-      "nextMessage": "we have opened the doors to our brand-new\nDiscord server for extension users now.\n\nFeel free to check it out!",
-      "informationLine": "about the Discord server"
+      "nextMessage": "nous avons ouvert les portes de notre tout nouveau\nServeur Discord pour les utilisateurs de l'extension.\n\nN'hésitez pas à le rejoindre.",
+      "informationLine": "à propos du serveur Discord"
     }
   },
   "home": {
@@ -572,45 +576,9 @@
   },
   "messages": {
     "notificationMessages": {
-      "unsendedMessage": "Votre message n'a pas été envoyé, voulez-vous toujours quitter ?"
-    },
-    "groups": {
-      "title": "Groupes",
-      "createGroup": "Créer un groupe",
-      "editGroup": "Éditer le groupe",
-      "deleteGroup": "Supprimer le groupe",
-      "groupName": "Nom du groupe",
-      "groupColor": "Vous pouvez choisir une couleur pour ce groupe pour le différencier des autres groupes",
-      "groupMembers": "Membres du groupe",
-      "searchResults": "Rechercher des résultats",
-      "selectGroupType": "Sélectionner un type de groupe",
-      "addAll": "Tout ajouter",
-      "writeSomething": "Entrez votre message ici",
-      "pinTip": "Vous pouvez épingler vos groupes en cliquant sur l'icône %{pin}.",
-      "notificationMessages": {
-        "groupCreated": "%{groupName} Créé avec succès",
-        "groupUpdated": "%{groupName}mis à jour",
-        "cantCreate": "Je ne peux pas créer ce groupe à cause d'une erreur inattendue. Pouvez-vous vérifier ?",
-        "userAlreadyAdded": "Cet utilisateur est déjà dans le groupe",
-        "doYouWantToRemoveMembers": "Voulez-vous retirer tous les membres du groupe ?",
-        "youNeedToAddMembers": "Vous devez ajouter au moins un utilisateur dans le groupe",
-        "youHaventCreatedAGroupYet": "Vous n'avez pas encore créé de groupe",
-        "wrongMessageLength": "Ton message doit être compris entre 1 et %{max_value} caractères",
-        "messageContainsSwear": "Hum... Ton message contient des vulgarités, des liens interdits ou des mots inappropriés, tu ne peux pas l'envoyer !",
-        "cantFetchGroupData": "Une erreur inattendue s'est produite. Je n'ai pas pu récupérer les messages de ce groupe sur le serveur de l'extension"
-      },
-      "userCategories": {
-        "findUsers": {
-          "text": "Trouver un utilisateur",
-          "nickOrID": "Pseudo ou ID du profil"
-        },
-        "friendsList": "Liste d'amis",
-        "moderatorRanks": {
-          "text": "Rang modérateur",
-          "selectRank": "Sélectionner un rang"
-        },
-        "allModerators": "Tous les modérateurs"
-      }
+      "unsendedMessage": "Votre message n'a pas été envoyé, voulez-vous toujours quitter ?",
+      "wrongMessageLength": "Ton message doit être compris entre 1 et %{max_value} caractères",
+      "messageContainsSwear": "Hum... Ton message contient des vulgarités, des liens interdits ou des mots inappropriés, tu ne peux pas l'envoyer !"
     }
   },
   "userContent": {

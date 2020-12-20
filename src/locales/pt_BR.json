@@ -94,7 +94,7 @@
       "text": "Pontos: (1 ou -1)",
       "title": "Você pode adicionar pontos digitando números positivos como 123 \nou \nvocê pode remover pontos digitando números negativos como -123."
     },
-    "showMore": "Mostrar mais...",
+    "showMore": "Mostrar mais…",
     "userHasNPoints": "O usuário tem %{n} pontos",
     "send": "Enviar",
     "deleteAll": "Eliminar tudo",
@@ -204,9 +204,9 @@
         "explainingColors": {
           "line1": "Alguns usuários têm bordas coloridas em seus avatares e essas cores mostram o status de permissão de acesso da extensão.",
           "line2": "Borda <s>vermelha</s> significa que o usuário mostrado foi banido da extensão.",
-          "line3": "Borda <s>Amerela</s> significa que o usuário tem permissão para usar a extensão, mas ainda não começou a usá-la",
+          "line3": "Borda <s>Amarela</s> significa que o usuário tem permissão para usar a extensão, mas ainda não começou a usá-la",
           "line4": "<s>A cor</s>green significa que o usuário é um usuário autorizado e ativo.",
-          "line5": "<s>Sem borda</s> significa que o usuário tem alguns privilégios atribuídos, mas não tem permissão para usar a extensão em sua conta e ainda não não começou a usar a extensão."
+          "line5": "<s>Sem borda</s> significa que o usuário tem alguns privilégios atribuídos, mas não tem permissão para usar a extensão em sua conta e ainda não começou a usar a extensão."
         },
         "privilegeList": {
           "0": {
@@ -259,7 +259,7 @@
           },
           "13": {
             "title": "Alterador de pontos em massa",
-            "description": "No painel de moderação, o usuário pode alterar os pontos do usuário por seus IDs"
+            "description": "No painel de moderação, o usuário pode alterar os pontos do usuário por seus ID's"
           },
           "14": {
             "title": "Eliminação de tarefas por seleção",
@@ -331,15 +331,15 @@
           },
           "30": {
             "title": "Verificar todas as respostas",
-            "description": "O usuário pode usar esta função para aprovar todas as respostas dos usuários em massa, fornecendo uma lista de IDs ou links de usuários"
+            "description": "O usuário pode usar esta função para aprovar todas as respostas dos usuários em massa, fornecendo uma lista de ID's ou links de usuários"
           },
           "31": {
             "title": "Eliminar usuários",
-            "description": "O usuário pode usar esta função para eliminar usuários em massa, fornecendo uma lista de IDs ou links de usuários"
+            "description": "O usuário pode usar esta função para eliminar usuários em massa, fornecendo uma lista de ID's ou links de usuários"
           },
           "32": {
             "title": "Alterar os pontos",
-            "description": "O usuário pode usar esta função para alterar pontos de usuários em massa, fornecendo uma lista de IDs ou links de usuários"
+            "description": "O usuário pode usar esta função para alterar pontos de usuários em massa, fornecendo uma lista de ID's ou links de usuários"
           },
           "33": {
             "title": "Alterar ranks",
@@ -508,7 +508,7 @@
         "deleteUsers": {
           "actionButton": {
             "text": "Eliminar usuários",
-            "title": "Elimianr todos os usuários listados"
+            "title": "Eliminar todos os usuários listados"
           }
         },
         "changeRanks": {
@@ -527,11 +527,11 @@
       "targets": {
         "text": "Especificar metas",
         "listOfIds": {
-          "contentLinksOrIDs": "Links de conteúdo ou IDs..."
+          "contentLinksOrIDs": "Links de conteúdo ou ID's…"
         },
         "idRange": {
           "text": "Classe do ID",
-          "youNeedToEnterTwoDifferentIdNumbers": "Você precisa inserir diferentes números de identificação separados por um traço (-) ou pontos (... ou ...) para moderar os números entre os intervalos",
+          "youNeedToEnterTwoDifferentIdNumbers": "Você precisa inserir diferentes números de identificação separados por um traço (-) ou pontos (.. ou …) para moderar os números entre os intervalos",
           "exampleUsage": "Exemplo de uso",
           "input": "Entrada",
           "output": "Saída"

@@ -146,7 +146,7 @@ async function Supervisors() {
 		<div class="sendMessage">
 			<span class="sg-text sg-text--xsmall sg-text--link sg-text--bold sg-text--blue">${System.data.locale.supervisors.sendMessagesToMods}</span>
 			<div class="messageBox js-hidden">
-				<textarea class="sg-textarea sg-text--small sg-textarea--tall sg-textarea--full-width" placeholder="${System.data.locale.messages.groups.writeSomething}"></textarea>
+				<textarea class="sg-textarea sg-text--small sg-textarea--tall sg-textarea--full-width" placeholder="${System.data.locale.common.writeSomething}"></textarea>
 
 				<div class="sg-spinner-container"></div>
 				<div class="sg-spinner-container"></div>

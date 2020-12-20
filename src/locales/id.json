@@ -560,10 +560,14 @@
         }
       }
     },
+    "searchUser": {
+      "text": "Temukan pengguna",
+      "nickOrID": "Nick atau Profile ID"
+    },
     "discordPopup": {
       "discordServer": "SERVER DISCORD!",
       "heyUser": "Hai %{nick} ,",
-      "nextMessage": "kami telah membuka pintu baru kami\n Server Discord untuk pengguna ekstensi sekarang. \n\n Jangan ragu untuk memeriksanya!",
+      "nextMessage": "kami telah membuka pintu baru kami\nServer Discord untuk pengguna ekstensi sekarang. \n\nJangan ragu untuk memeriksanya!",
       "informationLine": "tentang server Discord"
     }
   },
@@ -572,45 +576,9 @@
   },
   "messages": {
     "notificationMessages": {
-      "unsendedMessage": "Kamu tidak mengirim pesan kamu. Kamu tetap ingin meninggalkan?"
-    },
-    "groups": {
-      "title": "Grup",
-      "createGroup": "Membuat sebuah grup",
-      "editGroup": "Edit grup",
-      "deleteGroup": "Hapus grup",
-      "groupName": "Nama grup",
-      "groupColor": "Kamu dapat mengatur sebuah warna untuk nama grup untuk membuatnya terlihat berbeda dengan grup lainnya yang telah dibuat.",
-      "groupMembers": "Anggota grup",
-      "searchResults": "Hasil pencarian",
-      "selectGroupType": "Pilih jenis grup",
-      "addAll": "Tambahkan semua",
-      "writeSomething": "Tuliskan pesan kamu disini",
-      "pinTip": "Kamu dapat menyematkan grup dengan meng-klik icon %{pin}.",
-      "notificationMessages": {
-        "groupCreated": "%{groupName} sukses dibuat",
-        "groupUpdated": "%{groupName} diperbarui",
-        "cantCreate": "Saya tidak dapat membuat grup ini karena ada hal yang salah. Bisakah kamu memeriksa rinciannya?",
-        "userAlreadyAdded": "Pengguna ini telah ada dalam daftar",
-        "doYouWantToRemoveMembers": "Apakah kamu ingin menghapus semua anggota?",
-        "youNeedToAddMembers": "Kamu perlu menambahkan setidaknya satu pengguna dalam daftar anggota grup",
-        "youHaventCreatedAGroupYet": "Kamu belum membuat grup",
-        "wrongMessageLength": "Pesan anda harus terdiri dari 1 dan %{max_value} panjang karakter",
-        "messageContainsSwear": "Ups! Sepertinya pesan anda mengandung kata umpatan. Anda tidak dapat mengirimkannya!",
-        "cantFetchGroupData": "Terjadi kesalahan yang tidak terduga. Kami tidak dapat mengambil pesan dari grup ini dari server ekstensi"
-      },
-      "userCategories": {
-        "findUsers": {
-          "text": "Temukan pengguna",
-          "nickOrID": "Nick atau Profile ID"
-        },
-        "friendsList": "Daftar teman",
-        "moderatorRanks": {
-          "text": "Rank Moderator",
-          "selectRank": "Pilih rank"
-        },
-        "allModerators": "Semua moderator"
-      }
+      "unsendedMessage": "Kamu tidak mengirim pesan kamu. Kamu tetap ingin meninggalkan?",
+      "wrongMessageLength": "Pesan anda harus terdiri dari 1 dan %{max_value} panjang karakter",
+      "messageContainsSwear": "Ups! Sepertinya pesan anda mengandung kata umpatan. Anda tidak dapat mengirimkannya!"
     }
   },
   "userContent": {

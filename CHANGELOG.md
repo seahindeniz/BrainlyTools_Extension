@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 _Release dates are based on GMT timezone_
 
+## [7.18.1] - 2020.12.20
+
+### Changed
+
+- Mass moderate content, mass moderate user among others disappear [#343]
+
+[#343]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/343
+
 ## [7.18.0] - 2020.12.20
 
 ### Added

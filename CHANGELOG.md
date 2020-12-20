@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 _Release dates are based on GMT timezone_
 
+## [7.18.0] - 2020.12.20
+
+### Added
+
+- Portuguese translations
+
 ## [7.17.1] - 2020.12.17
 
 ### Changed

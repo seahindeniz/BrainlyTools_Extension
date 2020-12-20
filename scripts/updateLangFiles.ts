@@ -42,7 +42,7 @@ const LANGUAGE_DETAILS = {
   },
   pt_BR: {
     name: "Portuguese",
-    author: null, // "C",
+    author: "HydroXBR, Maxon, Bernard0",
   },
   pl: {
     name: "Polish",

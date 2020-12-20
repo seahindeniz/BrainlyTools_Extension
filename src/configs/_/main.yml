@@ -5,7 +5,7 @@ common:
       name: English
       author: null
     fr:
-      progress: 98
+      progress: 100
       name: Français
       author: 'MichaelS, TomRh'
     id:
@@ -21,9 +21,9 @@ common:
       name: Español
       author: null
     pt_BR:
-      progress: 0
+      progress: 100
       name: Portuguese
-      author: null
+      author: 'HydroXBR, Maxon, Bernard0'
     pl:
       progress: 14
       name: Polish

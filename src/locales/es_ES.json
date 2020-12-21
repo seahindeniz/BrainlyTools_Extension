@@ -14,7 +14,7 @@
     "deleted": "Deleted",
     "edit": "Edit",
     "profileID": "Profile ID",
-    "profileLinksOrIds": "Profile links or ids..",
+    "profileLinksOrIds": "Profile links or IDs",
     "nick": "Nick",
     "moderator": "Moderator",
     "date": "Date",
@@ -26,41 +26,41 @@
     "stop": "Stop",
     "continue": "Continue",
     "no": "No",
-    "shortPoints": "Pts",
+    "shortPoints": "pts",
     "writeSomething": "Write something",
-    "userHasNoPrivilege": "User has no privilege",
+    "userHasNoPrivilege": "User has no privileges",
     "nUsers": "%{n} users",
-    "nIds": "%{n} ids",
+    "nIds": "%{n} IDs",
     "nNotFound": "%{n} not found",
     "removeAll": "Remove all",
     "notificationMessages": {
       "operationError": "An error occurred during operation. Please try again",
       "somethingWentWrong": "Oops, something went wrong",
       "somethingWentWrongPleaseRefresh": "Something happened, please refresh the page",
-      "cannotShareUserInfoWithServer": "An unexpected error occurred while trying to communicate with extension's server. Please try again in 2 sec",
-      "ongoingProcess": "Some contents are still processing. Do you still want to exit the page?",
+      "cannotShareUserInfoWithServer": "An unexpected error occurred while trying to communicate with extension's server. Please try again in ~2 seconds.",
+      "ongoingProcess": "Some contents are still being processed. Do you still want to exit the page?",
       "areYouSure": "Are you sure?",
       "mayRequireWarning": "Do you want to apply a warning to this content?",
-      "ongoingProcessWait": "Some contents are still processing and you have to wait till it finishes",
-      "xSendYouANewMessage": "%{userName} send you a new message",
+      "ongoingProcessWait": "Some contents are still being processed. Please wait until this process is finished.",
+      "xSendYouANewMessage": "%{userName} sent you a new message",
       "newNotification": "New notification",
       "operationCompleted": "Operation completed",
       "unsavedChanges": "You have some unsaved changes. Do you still want to close?",
       "youNeedToSelectAtLeastOne": "You need to select at least one",
-      "cannotShareUserInfoWithServer_RefreshPage": "An unexpected error occurred while trying to communicate with extension's server. Could you refresh the page please?",
-      "operationErrorRefresh": "An error occurred during operation. Please refresh the page and try again"
+      "cannotShareUserInfoWithServer_RefreshPage": "An unexpected error occurred while trying to communicate with extension's server. Please refresh the page.",
+      "operationErrorRefresh": "An error occurred. Please refresh the page and try again."
     },
     "moderating": {
       "moreOptions": "More Options",
       "moderate": "Moderate",
-      "doYouWantToDelete": "Do you want to delete?",
+      "doYouWantToDelete": "Do you want to delete this content?",
       "selectContentType": "Please select a content type",
       "selectReason": "Please select a reason",
       "editInPanel": "Edit in moderation panel",
       "point": "point",
       "returnPoints": {
-        "text": "Don't give the points back",
-        "title": "Don't give the points back to owner"
+        "text": "Don't give points back",
+        "title": "Don't give the points back to the user"
       },
       "giveWarning": {
         "text": "Give a warning",
@@ -73,28 +73,28 @@
       "doYouWantToDeleteWithReason": "Quieres borrarla?\n\n%{reason_title}:\n%{reason_message}",
       "takePoints": {
         "question": {
-          "text": "Take back respondent's points",
+          "text": "Take back respondents' points",
           "title": "Remove the points received by the respondents when they answered the question"
         },
         "answer": {
           "text": "Take points back",
-          "title": "Take back points from user"
+          "title": "Take points back from user"
         }
       },
-      "contentAuthorIsModerator": "\"%{content_author}\" has moderation powers.\nPlease moderate this from the panel",
-      "contentAuthorHasSpecialRanks": "\"%{content_author}\" has \"%{special_rank}\" rank and might be someone who's important.\nPlease moderate this from the panel"
+      "contentAuthorIsModerator": "\"%{content_author}\" has moderation powers.\nPlease moderate this from the panel.",
+      "contentAuthorHasSpecialRanks": "\"%{content_author}\" has the \"%{special_rank}\" rank and might be someone important.\nPlease moderate this from the panel."
     },
     "personalNote": {
       "text": "Personal note",
-      "title": "You can add a personal private note here and that will relate only to this user",
+      "title": "Add a private note specific to this user and only visible to you",
       "clickToAddANote": "Click to add a note"
     },
-    "listOfIds": "List of ids",
+    "listOfIds": "List of IDs",
     "pointsWithExample": {
       "text": "Points: (1 or -1)",
-      "title": "You can add points by typing positive numbers like 123\nor\nyou can remove points by typing negative numbers like -123"
+      "title": "Add points with positive numbers (123) or remove points with negative numbers (-123)."
     },
-    "showMore": "Show more..",
+    "showMore": "Show more",
     "userHasNPoints": "User has %{n} points",
     "send": "Send",
     "deleteAll": "Delete all",
@@ -104,20 +104,20 @@
     "add": "Add",
     "chooseAnOption": "Choose an option",
     "deleteAcross": "Delete across",
-    "profileLinkOrId": "Profile link or id",
+    "profileLinkOrId": "Profile link or ID",
     "beta": "Beta",
     "deletedUser": "Deleted user",
     "toggleSelections": "Toggle selections",
     "copied": "Copied!",
     "default": "Default",
     "yes": "Yes",
-    "workingOnIt": "Working on it.."
+    "workingOnIt": "Working on it..."
   },
   "popup": {
     "notificationMessages": {
       "shortLinkSuccessMessage": "Copied to clipboard!",
       "languageChanged": "Language changed",
-      "cannotFindUser": "I couldn't find the user with the entered ID number",
+      "cannotFindUser": "Couldn't find the user with the entered ID number",
       "createdMessage": "Created successfully",
       "updatedMessage": "Updated successfully",
       "removedMessage": "Removed successfully",
@@ -138,8 +138,8 @@
       "doYouWannaRevokeThisPrivilege": "Do you want to revoke this privilege from all extension users?",
       "privilegeHasGiven": "Privilege has been given to %{user_amount} users",
       "privilegeHasRevoked": "Privilege has been revoked from %{user_amount} users",
-      "iCantFetchMarketData": "I can't fetch market data",
-      "incorrectData": "I can't communicate with %{market_domain_name}<br><br>Please visit any page from %{market_domain_name} or refresh the page that is already open"
+      "iCantFetchMarketData": "Unable to fetch market data",
+      "incorrectData": "I can't communicate with %{market_domain_name}.\n\nPlease visit any %{market_domain_name} page or refresh the page if it's already open."
     },
     "createShortLinkButton": {
       "text": "Shorten URL",
@@ -160,11 +160,11 @@
         "setYourColor": "Set your color",
         "rainbow": "Rainbow",
         "pickAColor": "Pick a color",
-        "colorFormatInfo": "You can set theme color with Hex color codes. I mean, you need to set #FF0000 for the red color"
+        "colorFormatInfo": "You can set the theme color with hex codes (ex. #FF0000 for red)."
       },
       "quickDeleteButtons": {
         "text": "Quick Delete Buttons",
-        "title": "You can set deletion reasons of the quick delete buttons",
+        "title": "Change the deletion reasons of the quick delete buttons",
         "comment": "Comment",
         "question": "Question",
         "answer": "Answer"
@@ -193,7 +193,7 @@
         "changeUserPrivileges": "Change all users' privileges",
         "revoke": "Revoke",
         "give": "Give",
-        "addNewOrEditUser": "Add a new or edit extension user",
+        "addNewOrEditUser": "Add or edit an extension user",
         "permission": "Access permission",
         "privileges": "Privileges",
         "firstUsageTimeAgoPreTitle": "Started to use %{time}",
@@ -215,11 +215,11 @@
           },
           "1": {
             "title": "Quick delete questions",
-            "description": "On the pages of questions, archive mod and homepage, user can use the quick delete buttons for deleting the questions"
+            "description": "On question pages, Moderate All, and the homepage, user can use the quick delete buttons for deleting questions"
           },
           "2": {
             "title": "Quick delete answers",
-            "description": "On the pages of questions, archive mod and homepage, user can use the quick delete buttons for deleting the answers"
+            "description": "On question pages, Moderate All, and the homepage, user can use the quick delete buttons for deleting answers"
           },
           "4": {
             "title": "Announcement management",
@@ -231,7 +231,7 @@
           },
           "6": {
             "title": "Verify answers by selecting",
-            "description": "On the user contents page, the moderator can verify answers by selecting 25 answers max- on each page"
+            "description": "On the user contents page, the moderator can verify answers by selecting up to 25 answers on each page"
           },
           "7": {
             "title": "Mass-Content deleter",
@@ -286,68 +286,68 @@
             "description": "On the user contents page, user can use the selective ask for correction to report answers"
           },
           "20": {
-            "title": "Notice board management",
-            "description": "Can edit notice board content"
+            "title": "Noticeboard management",
+            "description": "Can edit noticeboard content"
           },
           "21": {
             "title": "View users' privileges",
-            "description": "User can see extension privileges of other extension user's that has been assigned to their profiles, without making any changes"
+            "description": "User can see extension privileges of other extension users without making changes"
           },
           "22": {
             "title": "Can change access permission",
             "description": "User can manage permissions to use the extension"
           },
           "23": {
-            "title": "Can change important privilege",
+            "title": "Can change important privileges",
             "description": "User can assign/revoke important privileges to other extension users"
           },
           "24": {
-            "title": "Can change less important privilege",
+            "title": "Can change less important privileges",
             "description": "User can assign/revoke less important privileges to extension users"
           },
           "25": {
-            "title": "Can change harmless privilege",
+            "title": "Can change harmless privileges",
             "description": "User can assign/revoke harmless privileges to other extension users"
           },
           "26": {
-            "title": "Selective question deletion(Multiple pages)",
+            "title": "Selective question deletion (Multiple pages)",
             "description": "On the question searching page, user can use the selective deletion function to delete selected questions from multiple pages at once"
           },
           "27": {
             "title": "Mass-Manage users",
-            "description": "User can use this function to manage users massively. Like, changing a list of users points or approve answers of users or etc."
+            "description": "User can use this function to manage users in bulk such as changing points, approving answers of users, etc."
           },
           "28": {
             "title": "Action history reviewer",
-            "description": "Ability to review other moderators' actions to be marked as valid or invalid and letting them know about their mistakes from moderator actions history page"
+            "description": "Ability to review other moderators' actions as valid or invalid and let them know about their mistakes from the moderator actions history page"
           },
           "45": {
             "title": "Quick delete comments",
-            "description": "On the pages of questions and archive mod, user can use the quick delete buttons for deleting the comments"
+            "description": "On question pages and Moderate All, user can use the quick delete buttons for deleting comments"
           },
           "29": {
             "title": "Mass-Moderate contents",
-            "description": "User can use this function to moderate contents massively"
+            "description": "User can use this function to moderate contents in bulk"
           },
           "30": {
             "title": "Verify all answers",
-            "description": "User can use this function to approve all answers of users massively by providing list of ids/links of users"
+            "description": "User can use this function to approve all answers of users in bulk by providing a list of profile links/IDs"
           },
           "31": {
             "title": "Delete users",
-            "description": "User can use this function to delete users massively by providing list of ids/links of users"
+            "description": "User can use this function to delete users in bulk by providing a list of profile links/IDs"
           },
           "32": {
             "title": "Change points",
-            "description": "User can use this function to change points of users massively by providing list of ids/links of users"
+            "description": "User can use this function to change points of users in bulk by providing a list of profile links/IDs"
           },
           "33": {
             "title": "Change ranks",
-            "description": "User can use this function to change ranks of users massively by providing list of ids/links of users"
+            "description": "User can use this function to change ranks of users in bulk by providing a list of profile links/IDs"
           },
           "36": {
             "title": "Content delete options on profile page",
-            "description": "Allow this moderator to see the links used to delete all questions, answers, and comments from profile page of a user"
+            "description": "Allow this moderator to mass-delete all questions, answers, and/or comments from the profile page of a user"
           },
           "99": {
             "title": "Reported contents (Beta)"
@@ -361,12 +361,12 @@
             "description": "Allow moderator to use the confirm button to confirm/accept reported answers instead of verifying"
           },
           "39": {
-            "title": "Action history, review management",
+            "title": "Action history review management",
             "description": "Ability to revert other reviewers' reviews on moderation history of moderators. Without this, reviewers can only revert their own reviews"
           },
           "98": {
             "title": "Limited channel access on Discord",
-            "description": "User will not see any channels other than the #announcements and #rules channels on the Discord server"
+            "description": "User will not see any channels other than #announcements and #rules on the Discord server"
           },
           "40": {
             "title": "Unverify answers by selecting",
@@ -389,11 +389,11 @@
       "DeleteReasonsPreferences": {
         "text": "Delete reasons preferences",
         "withoutAsk": "Give warning without asking for confirmation",
-        "withAsk": "Show confirmation dialog box while deleting a content",
+        "withAsk": "Show warning confirmation dialog when deleting content",
         "findReason": "Find a reason",
         "explaining": {
           "line1": "You can find deletion reasons by typing the name of the reason",
-          "line2": "After selecting one from the results, you can click %{exclamation-circle} button to give warning without asking for confirmation from moderators while they are deleting a content. But in some cases, that can change and moderators should decide if giving a warning is necessary or not. So you can click %{exclamation-triangle} to show confirmation dialog to moderators while they are deleting a content."
+          "line2": "After selecting a deletion reason, you can click the %{exclamation-circle} button to give a warning without asking for confirmation from moderators when they are deleting content. You can also click the %{exclamation-triangle} button to show a confirmation dialog to moderators when they are deleting content before giving a warning."
         }
       },
       "accountDeleteReports": {
@@ -409,21 +409,21 @@
     "assignExtensionPermission": "Assign extension permission",
     "notificationMessages": {
       "cantFetchDeleteReasons": "An unexpected error occurred while trying to prepare deletion reasons",
-      "searching": "Searching..",
+      "searching": "Searching...",
       "userNotFound": "User not found",
-      "extensionServerError": "An unexpected error occurred while connecting to the extension server. Please try again in ~5 sec.",
-      "ifErrorPersists": "If this error persists, please contact the extension manager and explain what happened :)",
-      "accessPermissionDenied": "You are not authorized to use the Brainly Tools.\nPlease contact the admin or the community manager to ask for permission",
-      "updateNeeded": "A new version of the extension is available.\nIt'll be updated in the background so could you wait ~10 seconds then refresh the page, please?",
-      "warningBeforeDelete": "This process will be executed and the numbers of questions ID(s) in the input will be deleted once you confirm this warning. \n\n Are you triple times sure?",
-      "enterIdWarn": "You need to add at least 1 ID number of question that you want to delete",
+      "extensionServerError": "An unexpected error occurred while connecting to the extension server. Please try again in ~5 seconds.",
+      "ifErrorPersists": "If this error persists, please contact the extension manager.",
+      "accessPermissionDenied": "You are not authorized to use Brainly Tools.\nPlease contact the Community Manager or another administrator to receive permission.",
+      "updateNeeded": "A new version of the extension is available and will be installed in the background.\nPlease wait ~10 seconds and refresh this page.",
+      "warningBeforeDelete": "This process will be executed and the questions in the input will the deleted.\nAre you sure you wish to continue?",
+      "enterIdWarn": "You need to add at least 1 ID number of that you wish to delete",
       "youNeedToEnterValidId": "You need to enter a valid ID number",
       "tryingToSendTheSameMessage": "You're trying to send the last message again. Do you still want to send?",
       "alreadyStarted": "Process has already started",
       "pointsAdded": "Points added",
       "doYouWantToContinue": "Do you want to continue?",
-      "couldntAbleToGetNoticeBoardContent": "I couldn't get the content of the notice board",
-      "changesMayNotBeSaved": "Changes you made may not be saved",
+      "couldntAbleToGetNoticeBoardContent": "An error occurred while retrieving the contents of the noticeboard.",
+      "changesMayNotBeSaved": "Changes you've made may not be saved",
       "stillProcessing": "This section is still in process. Do you want to remove this block?\n(this will stop the moderating process)",
       "youNeedToChooseActionType": "You need to choose an action type",
       "errorOccurredWhileDeletingTheN": "An error occurred while deleting the %{content_id}",
@@ -433,7 +433,7 @@
       "text": "Mass-Content deleter",
       "nIdsToDeleted": "%{n} ID(s) to delete",
       "nHasBeenDeleted": "%{n} ID(s) have been deleted",
-      "containerExplanation": "You need to put content links or ID(s) to text box line by line. Each line should contain 1 ID number",
+      "containerExplanation": "Enter or paste content links or IDs in the text box. Each line should contain 1 ID number or link.",
       "select": {
         "reason": "Reason",
         "subReason": "Sub reason",
@@ -443,7 +443,7 @@
     "MessageSender": {
       "text": "Mass-Message sender",
       "lastRegisteredUserId": "Enter last registered user ID",
-      "information": "This function can send your message to the users by counting backwards from the given id number. Once you've started the process and you want to send a message to the ID numbers, you have to wait and not close this page(this includes your computer as well) till the process finishes.",
+      "information": "This function can send a message to all users by counting backwards from the given ID. Once you've started the process, please don't close this tab or your browser/computer until the process is finished.",
       "target": "Target",
       "allUsers": "All users",
       "moderators": "Moderators",
@@ -456,24 +456,24 @@
     },
     "announcements": {
       "text": "Announcements",
-      "title": "Once you've read the announcement, you need to mark it as read",
+      "title": "Once you've read the announcement, mark it as read",
       "markAsRead": "Mark as read"
     },
     "pointChanger": {
       "text": "Mass-Point changer",
-      "enterOrPasteUID": "Enter or paste user profile ID",
+      "enterOrPasteUID": "Enter or paste user profile IDs",
       "youNeedToEnterOrPaste": "You need to enter user ID or you can paste copied list of user ID(s) into input",
       "pastingExample": "Example list of users ID(s)",
       "pastingExample2": "Also, you can specify the points in the list before copy pasting",
       "addPoints": "Add points to this user",
       "addPointsToAll": "Add points to all users",
       "pointsNotSpecified": "You must give points to at least 1 user in order to proceed",
-      "applyPointsToAllInputs": "Apply points to all inputs",
+      "applyPointsToAllInputs": "Edit all values",
       "clearList": "Clear list"
     },
     "reportedCommentsDeleter": {
       "text": "Reported comments deleter",
-      "description": "You can delete all reported comments in Moderate All with one click. You just need to start and keep this tab open. That's all.",
+      "description": "You can delete all reported comments in Moderate All with one click. Just start the process and leave this tab open.",
       "deleting": "Deleting",
       "stopped": "Stopped",
       "numberOfPending": "Pending",
@@ -481,15 +481,15 @@
     },
     "noticeBoard": {
       "text": "Noticeboard",
-      "lastChanges": "Last changes",
+      "lastChanges": "Last updated",
       "readBy": "Read by"
     },
     "massManageUsers": {
       "notificationMessages": {
         "doYouWantToRemoveSelectedUsers": "Do you want to remove selected users from the list?",
         "doYouReallyWantToRemoveAllUsers": "Do you really want to remove all users from the list?",
-        "tryingToAddPreviouslyRemovedIds": "The ID(s) you've entered contain previously removed ID numbers from the list\n\nClick \"OK\" if you want to add or\nclick \"Cancel\" if you want to exclude.",
-        "areYouSureAboutDeletingAllListedUsers": "You are about to confirm to delete all listed users.\n\nAre you triple sure about this?",
+        "tryingToAddPreviouslyRemovedIds": "The IDs you've entered contain previously removed IDs.\n\nClick \"OK\" if you want to add or\nclick \"Cancel\" if you want to exclude.",
+        "areYouSureAboutDeletingAllListedUsers": "You are about to delete all listed users.\n\nAre you sure you wish to continue?",
         "thereIsNoUserLeft": "There is no user left in the list"
       },
       "text": "Mass-Manage users",
@@ -527,11 +527,11 @@
       "targets": {
         "text": "Specify targets",
         "listOfIds": {
-          "contentLinksOrIDs": "Content links or ids.."
+          "contentLinksOrIDs": "Content links or IDs"
         },
         "idRange": {
           "text": "ID range",
-          "youNeedToEnterTwoDifferentIdNumbers": "You need to enter different ID numbers separated by a dash(-) or dots(.. or ...) to moderate the numbers between range",
+          "youNeedToEnterTwoDifferentIdNumbers": "Enter ID numbers separated by a hyphen or 2+ periods to moderate the contents in that range",
           "exampleUsage": "Example Usage",
           "input": "Input",
           "output": "Output"
@@ -544,7 +544,7 @@
       "methods": {
         "text": "Methods",
         "clickListToCopy": "Click list to copy ID(s) to clipboard",
-        "iCantCopy": "I can't copy :(",
+        "iCantCopy": "Unable to copy to the clipboard",
         "reportForAbuse": {
           "chooseAReason": "Choose a reason",
           "tabButton": {
@@ -562,13 +562,13 @@
     },
     "searchUser": {
       "text": "Find users",
-      "nickOrID": "Nick or profile id"
+      "nickOrID": "Nick or profile ID"
     },
     "discordPopup": {
       "discordServer": "DISCORD SERVER!",
-      "heyUser": "Hey %{nick},",
-      "nextMessage": "we have opened the doors to our brand-new\nDiscord server for extension users now.\n\nFeel free to check it out!",
-      "informationLine": "about the Discord server"
+      "heyUser": "Hey, %{nick},",
+      "nextMessage": "We have opened the doors to our brand-new\nDiscord server for extension users.\n\nFeel free to check it out!",
+      "informationLine": "About the Discord server"
     }
   },
   "home": {
@@ -578,25 +578,25 @@
     "notificationMessages": {
       "unsendedMessage": "You didn't send your message, do you still want to leave?",
       "wrongMessageLength": "Your message must be between 1 and %{max_value} characters long",
-      "messageContainsSwear": "Oops! It seems like your message contains swearwords. You can't send it!"
+      "messageContainsSwear": "Oops! It appears your message contains explicit content and can't be sent."
     }
   },
   "userContent": {
     "notificationMessages": {
       "alreadyApproved": "This answer is already approved",
       "alreadyUnapproved": "This answer is already unapproved",
-      "someOfSelectedAnswersAreApproved": "Some selected answers have already been approved, so technically you can't approve those answers again",
-      "selectAnUnapprovedAnswerForApproving": "You need to select some unapproved answer/s to start approving them",
+      "someOfSelectedAnswersAreApproved": "Some selected answers have already been approved, so they can't be approved again",
+      "selectAnUnapprovedAnswerForApproving": "You need to select some unapproved answers to start approving them",
       "confirmApproving": "Do you want to approve this answer?",
-      "someOfSelectedAnswersAreUnapproved": "Some selected answers aren't approved, so technically you can't unapprove those answers",
-      "selectAnApprovedAnswerForUnapproving": "You need to select some approved answer/s to start unapproving them",
+      "someOfSelectedAnswersAreUnapproved": "Some selected answers aren't approved, so they can't be unapproved",
+      "selectAnApprovedAnswerForUnapproving": "You need to select some approved answers to start unapproving them",
       "confirmUnapproving": "Do you want to unapprove this answer?",
       "doYouWantToConfirmThisContent": "Do you want to confirm this content?",
-      "confirmReporting": "Do you want to report selected answers for correction?",
+      "confirmReporting": "Do you want to report the selected answers for correction?",
       "selectAtLeastOneContent": "Select at least one content",
       "xIsAlreadyApproved": "%{row_id} has already been approved",
       "xIsAlreadyUnapproved": "%{row_id} has already been unapproved",
-      "confirmApprovingSelected": "Do you want to approve selected answers?"
+      "confirmApprovingSelected": "Do you want to approve the selected answers?"
     },
     "approvedAnswer": "Approved answer",
     "bestAnswer": "Best answer",
@@ -618,13 +618,13 @@
   },
   "userProfile": {
     "notificationMessages": {
-      "areYouSureDeleteSelectedFriends": "Are you sure you want to remove selected user's from your friends list?",
+      "areYouSureDeleteSelectedFriends": "Are you sure you want to remove the selected users from your friend list?",
       "areYouSureRemoveAllFriends": "Are you sure you want to remove all your friends?",
-      "youHaveNoFriends": "Don't be sad because you have no friends to list :/ Sorry",
-      "cannotChangeBio": "I couldn't change your bio :/ Sorry..",
-      "fileSizeExceeded": "The %{file_name} file exceeds the size limit of %{file_size}",
-      "aShortcutFile": "You're trying to add a shortcut of a file and it's kind of garbage.\nYou may need to select the original file instead that is linked\nDo you still want to add this shortcut?",
-      "unableToReportAccountDeleting": "I couldn't report your deletion request to the community manager, so I can't proceed to delete the account. Sorry :/<br>If this error persists, ask for help from your extension manager",
+      "youHaveNoFriends": "No friends found. If you believe this is an error, please refresh the page and check again.",
+      "cannotChangeBio": "An error occurred while updating your bio. Please refresh the page and try again.",
+      "fileSizeExceeded": "The file \"%{file_name}\" exceeds the size limit of %{file_size}.",
+      "aShortcutFile": "The file you're attempting to upload is a shortcut. You may need to select the original file instead.\n\nDo you still want to upload this shortcut?",
+      "unableToReportAccountDeleting": "The deletion request couldn't be reported to your community manager, so the account hasn't been deleted. If this error persists, please contact your extension manager.",
       "confirmNoEvidenceOrComment": "You didn't add any evidence or comment.\nDo you still want to delete this profile?",
       "selectAtLeastOneUser": "You need to select at least one user",
       "youNeedToProvideSomeDetails": "You need to provide some details",
@@ -637,11 +637,11 @@
     },
     "userBio": {
       "title": "Bio",
-      "description": "Bio text from the mobile app of Brainly"
+      "description": "Bio text from the Brainly Android app"
     },
     "showAllFriends": {
       "text": "Show all",
-      "title": "List your all friends"
+      "title": "List all your friends"
     },
     "removeAllFriends": {
       "text": "Unfriend all",
@@ -649,16 +649,16 @@
     },
     "removeSelectedFriends": {
       "text": "Unfriend",
-      "title": "You can remove the selected friends from your friend list"
+      "title": "Remove the selected friends from your friend list"
     },
     "accountDelete": {
-      "evidences": "Evidences",
+      "evidences": "Evidence",
       "willBeReviewedByCommunityManager": "will be reviewed by your Community Manager",
       "addFiles": "Add files",
-      "compressingTheFile": "Compressing the %{file_name}",
-      "compressingTheFiles": "Compressing the files",
-      "uploading": "Contents uploading %{percentage_value}",
-      "deletingContinues": "Deleting continues..",
+      "compressingTheFile": "Compressing %{file_name}",
+      "compressingTheFiles": "Compressing files",
+      "uploading": "Uploading (%{percentage_value})",
+      "deletingContinues": "Deleting continues...",
       "reasonForDeletion": "Any reason for deletion?"
     },
     "rankManager": {
@@ -667,10 +667,10 @@
       "allRanksRemoved": "All special ranks have been removed",
       "updatingRanks": "Updating ranks",
       "xHasAssigned": "%{rank_name} has been assigned",
-      "removingAllSpecialRanks": "Removing all special ranks.."
+      "removingAllSpecialRanks": "Removing all special ranks..."
     },
     "morePanel": {
-      "title": "More..",
+      "title": "More...",
       "privileges": {
         "title": "Active privileges"
       },
@@ -688,21 +688,21 @@
       }
     },
     "userWarningsList": {
-      "name": "Last warnings",
-      "showRest": "Show rest"
+      "name": "Recent warnings",
+      "showRest": "Show all warnings"
     },
     "goToOldProfilePage": "Go to old profile page"
   },
   "userWarnings": {
     "notificationMessages": {
-      "ifYouHavePrivileges": "Warning/s will be revoked if you have authority. Also, I'll suggest you to wait like ~10 seconds once the process has started"
+      "ifYouHavePrivileges": "Warning(s) will be revoked if you have the ability. Please wait ~10 seconds after the process starts."
     },
     "cancelWarnings": "Cancel Warnings"
   },
   "supervisors": {
     "notificationMessages": {
       "noUser": "There are no users to send this message to",
-      "emptyMessage": "You cannot send empty message"
+      "emptyMessage": "You cannot send an empty message"
     },
     "allRanks": "All Ranks",
     "tableLayout": "Table Layout",
@@ -719,7 +719,7 @@
   "uploader": {
     "notificationMessages": {
       "alreadyExist": "%{file_name} already exists",
-      "fileNameCannotContainBackslash": "File name cannot contain backslash. Please rename the %{file_name}"
+      "fileNameCannotContainBackslash": "File names cannot contain backslashes. Please rename %{file_name}"
     },
     "text": "Upload multiple files",
     "selectFiles": "Select files"
@@ -742,13 +742,13 @@
     "invalidateAllDescription": "Invalidate all non-reviewed actions on this page",
     "revertAll": "Revert all",
     "statusTitle": {
-      "valid": "Validated by %{nick} on %{date}",
-      "invalid": "Invalidated by %{nick} on %{date}"
+      "valid": "Marked valid by %{nick} on %{date}",
+      "invalid": "Marked invalid by %{nick} on %{date}"
     },
     "toggleDetails": "Toggle details",
-    "validated": "Action marked as valid",
-    "invalidated": "Action marked as invalid",
-    "allValidated": "Actions are marked as valid",
+    "validated": "Action has been marked as valid",
+    "invalidated": "Action has been marked as invalid",
+    "allValidated": "Actions have been marked as valid",
     "allInvalidated": "Actions are marked as invalid",
     "informModeratorTitle": "Inform %{nick} about this invalid action",
     "informModeratorTitleForMany": "Inform %{nick} about these invalid actions",
@@ -791,33 +791,33 @@
       },
       "lazyQueue": {
         "optionName": "Lazy queue (Refresh required)",
-        "description": "This option enables lazy loading for the reported contents queue.\n\nWhen enabled, the queue displays report boxes with a delay while scrolling through reports, so it's memory-friendly.\nHowever, the \"Find on page\" feature will not function for invisible reports. The page might display empty reports while scrolling too fast"
+        "description": "This option enables lazy loading for the reported contents queue.\n\nWhen enabled, the queue displays reports with a delay while scrolling, so it's memory-friendly.\nHowever, the \"Find on page\" feature will not function for invisible reports. The page might display blank reports if you scroll too fast."
       },
       "toggleInfiniteLoader": {
         "optionName": "Scrollable loading",
-        "description": "Turn on/off auto-loading contents on scrolling the page"
+        "description": "Toggle auto-loading contents when scrolling"
       },
       "loadLimiter": {
-        "optionName": "Load limiter",
-        "description": "This option allows you to increase/decrease the limit of how many report box will be shown after clicking the load more button.\n\nHigher values may cause a little delay in showing boxes"
+        "optionName": "Load amount",
+        "description": "Changes the limit of how many reports will be shown after clicking the load more button.\n\nHigher values may cause some delay in showing reports."
       }
     },
     "queue": {
-      "rating": "%{rating} points for %{ratesCount} votes",
+      "rating": "%{rating} stars based on %{ratesCount} ratings",
       "bestAnswer": "This is the Brainliest Answer",
       "popularQuestion": "Popular question!",
       "moderatorVerifiedSomeonesAnswer": "%{verifier} has verified %{author}'s answer",
-      "loadMore": "Load more..",
+      "loadMore": "Load more",
       "exportReports": {
         "exportAsSpreadsheet": "Export filtered reports as spreadsheet",
-        "nothingToExport": "There is no report left to export",
-        "id": "Id",
-        "questionId": "Question id",
-        "reportedUserId": "Reported user id",
-        "reporterUserId": "Reporter user id",
+        "nothingToExport": "There are no reports left to export",
+        "id": "ID",
+        "questionId": "Question ID",
+        "reportedUserId": "Reported user ID",
+        "reporterUserId": "Reporter user ID",
         "reportedOn": "Reported on",
         "reason": "Reason",
-        "contentShort": "Content(short)",
+        "contentShort": "Content preview",
         "isModerated": "Is moderated?",
         "isCorrected": "Is corrected?"
       },
@@ -825,7 +825,7 @@
       "pageNumberInputTitle": "Enter a page number between %{MIN_N} and %{MAX_N}"
     },
     "loadAll": "Fetch all reports",
-    "loadAllConfirmationMessage": "I'll try to fetch all reported contents from Brainly but the process can be interrupted by Brainly because of elevated requests.\nPlease confirm to start the process",
+    "loadAllConfirmationMessage": "I'll try to fetch all reported contents from Brainly, but the process can be interrupted by Brainly due to elevated requests.\n\nPlease confirm to start the process.",
     "massModerate": {
       "name": "Mass-Moderate contents",
       "description": "You can only moderate contents that have been fetched",
@@ -878,10 +878,10 @@
     },
     "name": "Reported contents",
     "filtersPanel": {
-      "description": "Filters can be applied only to those reports that have been fetched",
+      "description": "Filters can only be applied to reports that have been fetched",
       "filters": {
         "reporter": {
-          "name": "Reporter user"
+          "name": "Reported by"
         },
         "reported": {
           "name": "Reported user"
@@ -899,10 +899,10 @@
         },
         "contentLength": {
           "name": "Content length",
-          "equals": "equals to",
+          "equals": "equals",
           "lowerThan": "lower than",
           "label": {
-            "equals": "equals to %{N}",
+            "equals": "equal to %{N}",
             "lowerThan": "lower than %{N}",
             "greaterThan": "greater than %{N}"
           },
@@ -915,7 +915,7 @@
           "name": "Subject"
         },
         "userFilter": {
-          "id": "id",
+          "id": "ID",
           "nick": "nick",
           "lookFor": "Look for",
           "specialRank": "Special rank",
@@ -925,18 +925,18 @@
         "stringFilter": {
           "chooseCondition": "Choose condition",
           "label": {
-            "contains": "contains : %{input}",
-            "sameWith": "exactly same with : %{input}",
-            "startsWith": "starts with : %{input}",
-            "endsWith": "ends with : %{input}",
+            "contains": "contains: %{input}",
+            "sameWith": "is exactly: %{input}",
+            "startsWith": "starts with: %{input}",
+            "endsWith": "ends with: %{input}",
             "regExp": "%{input}"
           },
           "conditions": {
             "contains": "contains",
-            "sameWith": "exactly same with",
+            "sameWith": "is exactly",
             "startsWith": "starts with",
             "endsWith": "ends with",
-            "regExp": "RegExp(JS/ES6)"
+            "regExp": "RegExp (JS/ES6)"
           },
           "additionalData": "Additional data",
           "content": "Content"
@@ -949,21 +949,21 @@
   "moderationPanel": {
     "text": "Question Moderation",
     "answers": "Answers (%{number_of_answers})",
-    "panelWillClose": "Moderation panel will close in %{remain_N}",
+    "panelWillClose": "Moderation panel will close in %{remain_N} seconds...",
     "showAllComments": "Show all comments",
     "failedToGetLogs": "Cannot fetch logs of question",
-    "seeMoreDeleteOptions": "See more delete options",
-    "thereIsNoReportLeft": "There is no report left",
+    "seeMoreDeleteOptions": "See more deletion options",
+    "thereIsNoReportLeft": "There are no reports left",
     "deleteAllComments": "Delete all comments",
-    "confirmDeletingNComments": "Please confirm deleting %{N} comments",
+    "confirmDeletingNComments": "Are you sure you want to delete all %{N} comments?",
     "commentsDeleted": "Comments deleted!",
     "switchingToNextContent": "I'll try to switch to the next content",
     "hideDeletedComments": "Hide deleted comments",
     "showDeletedComments": "Show deleted comments",
     "janToDec": "JAN\nDEC",
     "decToJan": "DEC\nJAN",
-    "sortDESC": "Sort comments from newer to older",
-    "sortASC": "Sort comments from older to newer",
+    "sortDESC": "Sort comments from newest to oldest",
+    "sortASC": "Sort comments from oldest to newest",
     "showLess": "Show less",
     "toggleReportedComments": "Toggle reported comments",
     "corrected": "Corrected",
@@ -971,7 +971,7 @@
     "answerHasCorrected": "%{nick} has corrected the answer",
     "questionHasBeenDeleted": "Question has been deleted",
     "moderationCompleted": "Moderation completed",
-    "extendBy15Minutes": "Extend by 15 minutes",
+    "extendBy15Minutes": "Reset to 15 minutes",
     "log": {
       "text": "Log",
       "deletedWithWarning": "Deleted with a warning",
@@ -980,7 +980,7 @@
     }
   },
   "shortAnswersPage": {
-    "selectAtLeastOneAnswer": "You need to select at least one answer",
+    "selectAtLeastOneAnswer": "Select at least one answer",
     "doYouWantToDeleteSelectedAnswers": "Do you really want to delete the selected answers?"
   },
   "questionSearch": {

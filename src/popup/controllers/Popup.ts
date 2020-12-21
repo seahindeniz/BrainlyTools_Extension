@@ -153,10 +153,9 @@ class Popup {
           "%{error_code}",
           ` 417 `,
         ),
-        message: System.data.locale.popup.notificationMessages.incorrectData.replace(
-          /%{market_domain_name}/i,
-          System.data.meta.marketName,
-        ),
+        message: System.data.locale.popup.notificationMessages.incorrectData
+          .replace(/%{market_domain_name}/i, System.data.meta.marketName)
+          .replace(/\n/g, "<br>"),
       });
     } else if (!System.data.Brainly.deleteReasons.__withIds) {
       this.RenderStatusMessage({

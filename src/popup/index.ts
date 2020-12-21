@@ -85,10 +85,9 @@ async function onBodyLoad() {
                 "%{error_code}",
                 ` 404 `,
               ),
-              message: System.data.locale.popup.notificationMessages.incorrectData.replace(
-                /%{market_domain_name}/gi,
-                targetMarketDomain,
-              ),
+              message: System.data.locale.popup.notificationMessages.incorrectData
+                .replace(/%{market_domain_name}/gi, targetMarketDomain)
+                .replace(/\n/g, "<br>"),
             });
           }
         }

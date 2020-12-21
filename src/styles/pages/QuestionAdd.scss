@@ -5,6 +5,10 @@ header[class^="HeaderController"] {
   position: unset;
 }
 
+.brn-header-next {
+  margin-bottom: 4px;
+}
+
 div[class^="HeaderController__subnav"] {
   display: none;
 }

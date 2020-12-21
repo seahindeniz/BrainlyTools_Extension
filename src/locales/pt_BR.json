@@ -205,7 +205,7 @@
           "line1": "Alguns usuários têm bordas coloridas em seus avatares e essas cores mostram o status de permissão de acesso da extensão.",
           "line2": "Borda <s>vermelha</s> significa que o usuário mostrado foi banido da extensão.",
           "line3": "Borda <s>Amarela</s> significa que o usuário tem permissão para usar a extensão, mas ainda não começou a usá-la",
-          "line4": "<s>A cor</s>green significa que o usuário é um usuário autorizado e ativo.",
+          "line4": "A cor <s>verde</s> significa que o usuário é um usuário autorizado e ativo.",
           "line5": "<s>Sem borda</s> significa que o usuário tem alguns privilégios atribuídos, mas não tem permissão para usar a extensão em sua conta e ainda não começou a usar a extensão."
         },
         "privilegeList": {

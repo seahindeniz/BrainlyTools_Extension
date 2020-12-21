@@ -6,6 +6,7 @@
   }
 
   &.flash-header-next {
-    top: 100%;
+    top: 0;
+    z-index: 1;
   }
 }

@@ -53,14 +53,14 @@
     "moderating": {
       "moreOptions": "Lebih Banyak Opsi",
       "moderate": "Moderasi",
-      "doYouWantToDelete": "Apakah kamu ingin menghapus?",
+      "doYouWantToDelete": "Apakah kamu ingin menghapus konten ini?",
       "selectContentType": "Silahkan pilih sebuah jenis konten",
       "selectReason": "Pilih sebuah alasan",
       "editInPanel": "Edit pada panel moderasi",
       "point": "poin",
       "returnPoints": {
         "text": "Jangan mengembalikan poin",
-        "title": "Jangan mengembalikan poin ke penanya"
+        "title": "Jangan mengembalikan poin ke pena-nya"
       },
       "giveWarning": {
         "text": "Beri peringatan",
@@ -70,7 +70,7 @@
       "approved": "Disetujui",
       "unapprove": "Tidak diverifikasi",
       "unapproved": "Tidak disetujui",
-      "doYouWantToDeleteWithReason": "Apakah kamu ingin menghapus?\n\n%{reason_title}:\n%{reason_message}",
+      "doYouWantToDeleteWithReason": "Apakah kamu ingin menghapus konten ini?\n\n%{reason_title}:\n%{reason_message}",
       "takePoints": {
         "question": {
           "text": "Mengambil kembali poin responden",
@@ -92,7 +92,7 @@
     "listOfIds": "Daftar ID",
     "pointsWithExample": {
       "text": "Poin: (1 atau -1)",
-      "title": "Anda dapat menambahkan poin dengan mengetikkan angka positif seperti 123 \n atau \n Anda dapat menghapus poin dengan mengetikkan angka negatif seperti -123"
+      "title": "Tambahkan poin dengan angka positif (123) atau hapus poin dengan angka negatif (-123)."
     },
     "showMore": "Lihat lebih banyak..",
     "userHasNPoints": "Pengguna memiliki %{n} poin",
@@ -139,7 +139,7 @@
       "privilegeHasGiven": "Privilege telah diberikan kepada pengguna %{user_amount}",
       "privilegeHasRevoked": "Privilege telah dihapus dari pengguna %{user_amount}",
       "iCantFetchMarketData": "Saya tidak dapat mengambil data pasar",
-      "incorrectData": "Saya tidak dapat berkomunikasi dengan %{market_domain_name}<br><br> Silakan kunjungi halaman mana saja dari %{market_domain_name} atau segarkan halaman yang sudah terbuka"
+      "incorrectData": "Saya tidak dapat berkomunikasi dengan %{market_domain_name} . \n\n Kunjungi halaman %{market_domain_name} atau segarkan halaman jika sudah terbuka."
     },
     "createShortLinkButton": {
       "text": "Shorten URL",
@@ -160,7 +160,7 @@
         "setYourColor": "Atur warna mu",
         "rainbow": "Pelangi",
         "pickAColor": "Pilih warna",
-        "colorFormatInfo": "Kamu dapat mengatur warna tema dengan kode warna Hex. Maksud saya, kamu perlu untuk mengatur #FF0000 untuk warna merah"
+        "colorFormatInfo": "Anda dapat mengatur warna tema dengan kode hex (contoh nya # FF0000 untuk merah)."
       },
       "quickDeleteButtons": {
         "text": "Tombol hapus cepat",
@@ -343,7 +343,7 @@
           },
           "33": {
             "title": "Memperbarui peringkat",
-            "description": "Pengguna dapat menggunakan fungsi ini untuk mengubah poin pengguna secara massal dengan memberikan daftar id/link dari pengguna."
+            "description": "Pengguna dapat menggunakan fungsi ini untuk mengubah peringkat pengguna secara massal dengan memberikan daftar tautan / ID profil"
           },
           "36": {
             "title": "Opsi hapus konten di halaman profil",
@@ -412,10 +412,10 @@
       "searching": "Mencari...",
       "userNotFound": "Pengguna tidak ditemukan",
       "extensionServerError": "Terjadi kesalahan yang tidak terduga saat menghubungkan ke server ekstensi. Silakan coba lagi dalam ~5 detik.",
-      "ifErrorPersists": "Jika kesalahan ini berlanjut, hubungi Mahapatih dan jelaskan apa yang terjadi :)",
+      "ifErrorPersists": "Jika kesalahan ini terus berlanjut, harap hubungi pengelola ekstensi.",
       "accessPermissionDenied": "Kamu tidak memiliki wewenang untuk menggunakan ekstensi Brainly tools..\nSilahkan hubungi Community Manager untuk mendapatkan izin atau hapus ekstensi ini dari browser kamu.",
       "updateNeeded": "Ekstensi memiliki sebuah versi baru dan browser kamu perlu diupdate.\nProses ini akan dilakukan secara otomatis dan kamu perlu untuk menyegarkan halaman dalam ~`10 detik",
-      "warningBeforeDelete": "Proses ini akan dijalankan dan jumlah id pertanyaan di input akan dihapus setelah Anda mengkonfirmasi peringatan ini. \n\nApakah Anda tiga kali lipat yakin?",
+      "warningBeforeDelete": "Proses ini akan dijalankan dan pertanyaan yang di input akan dihapus.\n Anda yakin ingin melanjutkan?",
       "enterIdWarn": "Kamu perlu untuk menambahkan setidaknya 1 nomor ID dari pertanyaan yang ingin kamu hapus",
       "youNeedToEnterValidId": "Kamu perlu unruk menginput nomor ID yang valid",
       "tryingToSendTheSameMessage": "Kamu telah mencoba mengirim yang terakhir. Apakah kamu masih ingin mengirim?",
@@ -431,8 +431,8 @@
     },
     "MassContentDeleter": {
       "text": "Penghapusan konten massal",
-      "nIdsToDeleted": "%{n} id untuk dihapus",
-      "nHasBeenDeleted": "%{n} id telah dihapus",
+      "nIdsToDeleted": "%{n} ID yang akan dihapus",
+      "nHasBeenDeleted": "%{n} ID telah dihapus",
       "containerExplanation": "Kamu perlu untuk meletakkan link konten atau ID ke baris per baris. Setiap baris harus berisi 1 nomo ID",
       "select": {
         "reason": "Alasan",
@@ -443,7 +443,7 @@
     "MessageSender": {
       "text": "Pengiriman pesan massal",
       "lastRegisteredUserId": "Masukkan ID user yang terakhir",
-      "information": "Dengan Fungsi ini kamu dapat mengirim pesan ke pengguna dengan menghitung mundur dari nomor id yang diberikan. Setelah kamu memulai proses dan jika ingin mengirim pesan ke nomor id, kamu harus menunggu dan jangan menutup halaman ini (ini termasuk komputer Anda juga) sampai proses selesai.",
+      "information": "Fungsi ini dapat mengirim pesan ke semua pengguna dengan menghitung mundur dari ID yang diberikan. Setelah Anda memulai prosesnya, jangan tutup tab ini atau browser / komputer Anda hingga prosesnya selesai.",
       "target": "Target",
       "allUsers": "Semua pengguna",
       "moderators": "Moderator",
@@ -462,7 +462,7 @@
     "pointChanger": {
       "text": "Mengubah poin",
       "enterOrPasteUID": "Masukkan dan paste profile ID pengguna",
-      "youNeedToEnterOrPaste": "Kamu harus memasukkan ID pengguna atau kamu dapat menempelkan daftar ID pengguna yang disalin ke dalam input",
+      "youNeedToEnterOrPaste": "Anda harus memasukkan ID pengguna atau Anda dapat menempelkan daftar ID pengguna yang disalin ke dalam masukan",
       "pastingExample": "Contoh daftar ID pengguna",
       "pastingExample2": "Kamu juga dapat menentukan poin dalam daftar sebelum mengcopy paste",
       "addPoints": "Tambahkan poin untuk penggunaan ini",
@@ -531,7 +531,7 @@
         },
         "idRange": {
           "text": "Rentang id",
-          "youNeedToEnterTwoDifferentIdNumbers": "Kamu perlu memasukkan nomor ID berbeda yang dipisahkan oleh tanda hubung (-) atau titik (.. atau ...) untuk memoderasi nomor ID antara rentang",
+          "youNeedToEnterTwoDifferentIdNumbers": "Masukkan nomor ID yang dipisahkan dengan tanda hubung atau 2+ titik untuk memoderasi konten dalam rentang tersebut",
           "exampleUsage": "Contoh Penggunaan",
           "input": "Memasukkan",
           "output": "Output"
@@ -544,7 +544,7 @@
       "methods": {
         "text": "Metode",
         "clickListToCopy": "Klik daftar untuk menyalin id ke clipboard",
-        "iCantCopy": "Saya tidak bisa menyalin :(",
+        "iCantCopy": "Tidak dapat menyalin ke papan klip",
         "reportForAbuse": {
           "chooseAReason": "Pilih sebuah alasan",
           "tabButton": {
@@ -620,11 +620,11 @@
     "notificationMessages": {
       "areYouSureDeleteSelectedFriends": "Apakah kamu yakin akan menghapus ingin menghapus pengguna yang dipilih dari daftar teman?",
       "areYouSureRemoveAllFriends": "Apakah kamu yakin ingin menghapus semua daftar temanmu?",
-      "youHaveNoFriends": "Jangan sedih karena kamu tidak memiliki teman dalam daftar kamu.:/ Maaf",
-      "cannotChangeBio": "Saya tidak dapat mengubah bio kamu :/ sorry guys",
+      "youHaveNoFriends": "Tidak ada teman yang ditemukan. Jika Anda yakin ini adalah kesalahan, segarkan halaman dan periksa lagi.",
+      "cannotChangeBio": "Terjadi kesalahan saat memperbarui biografi Anda. Harap segarkan halaman dan coba lagi.",
       "fileSizeExceeded": "File %{file_name} melebihi batas ukuran %{file_size}",
       "aShortcutFile": "Kamu mencoba menambahkan sebuah pintasan pada file dan itu tidak dianggap sebagai file yang aktual. Ini semacam sampah jika kamu menambahkannya.\nKamu mungkin butuh menambahkan file asli sebagai gantinya. Apakah kamu masih ingin menambahkan pintasan ini?",
-      "unableToReportAccountDeleting": "Kami tidak dapat melaporkan permintaanmu untuk penghapusan akun ke Community Manager jadi kami tidak dapat melanjutkan penghapusan. Maaf :/<br> Jika kesalahan ini terus berlanjut, mintalah bantuan ke Community Manager.",
+      "unableToReportAccountDeleting": "Permintaan penghapusan tidak dapat dilaporkan ke pengelola komunitas Anda, jadi akun tersebut belum dihapus. Jika kesalahan ini terus berlanjut, harap hubungi manajer ekstensi Anda.",
       "confirmNoEvidenceOrComment": "Kamu tidak menambahkan bukti atau komentar apa pun.\nApakah kamu masih ingin menghapus akun ini?",
       "selectAtLeastOneUser": "Kamu perlu memilih setidaknya satu pengguna",
       "youNeedToProvideSomeDetails": "Anda perlu memberikan beberapa detail",
@@ -657,7 +657,7 @@
       "addFiles": "Menambahkan file",
       "compressingTheFile": "Mengompresi %{file_name}",
       "compressingTheFiles": "Mengompresi file",
-      "uploading": "Mengunggah konten %{percentage_value}",
+      "uploading": "Mengunggah konten (%{percentage_value})",
       "deletingContinues": "Penghapusan beranjut..",
       "reasonForDeletion": "Apakah ada alasan untuk penghapusan?"
     },
@@ -695,7 +695,7 @@
   },
   "userWarnings": {
     "notificationMessages": {
-      "ifYouHavePrivileges": "Peringatan akan dihapus jika kamu memiliki wewenang. Kami juga menyarankan kamu untuk menunggu sekitar ~10 menit setelah proses dimulai"
+      "ifYouHavePrivileges": "Peringatan akan dicabut jika Anda memiliki kemampuan. Harap tunggu ~ 10 detik setelah proses dimulai."
     },
     "cancelWarnings": "Batalkan peringatan"
   },
@@ -817,7 +817,7 @@
         "reporterUserId": "ID pengguna yang melaporkan",
         "reportedOn": "Dilaporkan pada",
         "reason": "Alasan",
-        "contentShort": "Konten(pendek)",
+        "contentShort": "Pratinjau konten",
         "isModerated": "Apakah dimoderasi?",
         "isCorrected": "Apakah dikoreksi?"
       },
@@ -825,7 +825,7 @@
       "pageNumberInputTitle": "Masukkan nomor halaman di antara %{MIN_N} dan %{MAX_N}"
     },
     "loadAll": "Ambil semua laporan",
-    "loadAllConfirmationMessage": "Saya akan mencoba untuk mengambil semua konten yang dilaporkan dari Brainly tetapi prosesnya dapat dihentikan oleh Brainly karena permintaan yang meningkat.\nHarap konfirmasi untuk memulai proses",
+    "loadAllConfirmationMessage": "Saya akan mencoba mengambil semua konten yang dilaporkan dari Brainly, tetapi prosesnya dapat dihentikan oleh Brainly karena permintaan yang meningkat. \n\n Harap konfirmasi untuk memulai proses.",
     "massModerate": {
       "name": "Mass-Moderate konten",
       "description": "Anda hanya dapat memoderasi konten yang telah diambil",
@@ -949,7 +949,7 @@
   "moderationPanel": {
     "text": "Moderasi Pertanyaan",
     "answers": "Jawaban (%{number_of_answers})",
-    "panelWillClose": "Panel moderasi akan ditutup %{remain_N}",
+    "panelWillClose": "Panel moderasi akan ditutup dalam %{remain_N} detik ...",
     "showAllComments": "Perlihatkan semua komentar",
     "failedToGetLogs": "Tidak dapat mengambil log pertanyaan",
     "seeMoreDeleteOptions": "Lihat opsi hapus lainnya",

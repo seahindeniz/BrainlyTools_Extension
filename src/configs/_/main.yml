@@ -25,7 +25,7 @@ common:
       name: Portuguese
       author: 'HydroXBR, Maxon, Bernard0'
     pl:
-      progress: 14
+      progress: 15
       name: Polish
       author: Kinga
 dev:

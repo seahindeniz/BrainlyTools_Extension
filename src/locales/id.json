@@ -543,7 +543,6 @@
       },
       "methods": {
         "text": "Metode",
-        "clickListToCopy": "Klik daftar untuk menyalin id ke clipboard",
         "iCantCopy": "Tidak dapat menyalin ke papan klip",
         "reportForAbuse": {
           "chooseAReason": "Pilih sebuah alasan",
@@ -975,7 +974,9 @@
     "log": {
       "text": "Log",
       "deletedWithWarning": "Hapus dengan peringatan",
-      "nActions": "%{number_of} aksi",
+      "nActions": {
+        "other": "%{number_of} aksi"
+      },
       "nMore": "%{number_of_occurrences} lagi"
     }
   },

@@ -41,7 +41,7 @@ const LANGUAGE_DETAILS = {
     author: null, // "aleksa1",
   },
   pt_BR: {
-    name: "Portuguese",
+    name: "Portuguese(BR)",
     author: "HydroXBR, Maxon, Bernard0",
   },
   pl: {

@@ -111,7 +111,7 @@
     "copied": "Copiados!",
     "default": "Padrão",
     "yes": "Sim",
-    "workingOnIt": "A trabalhar nisso"
+    "workingOnIt": "A trabalhar nisso..."
   },
   "popup": {
     "notificationMessages": {
@@ -139,7 +139,7 @@
       "privilegeHasGiven": "O privilégio foi concedido a %{user_amount} usuários",
       "privilegeHasRevoked": "O privilégio foi removido de %{user_amount} usuários",
       "iCantFetchMarketData": "Não consigo procurar dados de mercado",
-      "incorrectData": "Não consigo comunicar com o %{market_domain_name}.<br><br>Por favor, visite qualquer página do %{market_domain_name} ou atualize a página que já tem aberta."
+      "incorrectData": "Não consigo comunicar com o %{market_domain_name}.\n\nPor favor, visite qualquer página do %{market_domain_name} ou atualize a página que já tem aberta."
     },
     "createShortLinkButton": {
       "text": "Encurtar URL",
@@ -543,7 +543,6 @@
       },
       "methods": {
         "text": "Métodos",
-        "clickListToCopy": "Clique na lista para copiar o(s) ID(s) para a área de transferência",
         "iCantCopy": "Não consigo copiar :(",
         "reportForAbuse": {
           "chooseAReason": "Escolha um motivo",
@@ -568,7 +567,7 @@
       "discordServer": "Servidor no Discord!",
       "heyUser": "Hey %{nick},",
       "nextMessage": "Abrimos as portas do nosso novo servidor no Discord para usuários da extensão, agora. \n\nSinta-se à vontade para conferir!",
-      "informationLine": "sobre o servidor no Discord"
+      "informationLine": "Sobre o servidor no Discord"
     }
   },
   "home": {
@@ -624,7 +623,7 @@
       "cannotChangeBio": "Não consegui alterar sua biografia :/ Desculpe",
       "fileSizeExceeded": "O arquivo %{file_name} excede o limite de tamanho de %{file_size}",
       "aShortcutFile": "Você está tentando adicionar um atalho de um arquivo e é uma espécie de sobra. Pode ser necessário selecionar o arquivo original em vez do link. Ainda deseja adicionar este atalho?",
-      "unableToReportAccountDeleting": "Não consegui relatar sua solicitação de exclusão ao gerente da comunidade, portanto, não posso prosseguir com a eliminação da conta. Desculpe :/ <br> Se este erro persistir, peça ajuda ao seu gerente de extensão",
+      "unableToReportAccountDeleting": "Não consegui relatar sua solicitação de exclusão ao gerente da comunidade, portanto, não posso prosseguir com a eliminação da conta. Desculpe :/ Se este erro persistir, peça ajuda ao seu gerente de extensão",
       "confirmNoEvidenceOrComment": "Você não adicionou nenhuma prova ou comentário.\n Ainda deseja excluir este perfil?",
       "selectAtLeastOneUser": "Você precisa selecionar pelo menos um usuário",
       "youNeedToProvideSomeDetails": "Você precisa fornecer alguns detalhes",
@@ -975,7 +974,10 @@
     "log": {
       "text": "Histórico da pergunta",
       "deletedWithWarning": "Eliminado com uma advertência",
-      "nActions": "%{number_of} ações",
+      "nActions": {
+        "one": "1 ação",
+        "other": "%{number_of} ações"
+      },
       "nMore": "Mais %{number_of_occurrences}"
     }
   },

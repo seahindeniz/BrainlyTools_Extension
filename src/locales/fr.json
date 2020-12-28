@@ -14,7 +14,7 @@
     "deleted": "Supprimé",
     "edit": "Éditer",
     "profileID": "ID du profil",
-    "profileLinksOrIds": "Liens des profils ou IDs",
+    "profileLinksOrIds": "Liens de profil ou ID",
     "nick": "Pseudo",
     "moderator": "Modérateur",
     "date": "Date",
@@ -26,9 +26,9 @@
     "stop": "Stopper",
     "continue": "Continuer",
     "no": "Non",
-    "shortPoints": "Pts",
+    "shortPoints": "pts",
     "writeSomething": "Écris quelque chose",
-    "userHasNoPrivilege": "L'utilisateur n'a pas de privilège",
+    "userHasNoPrivilege": "L'utilisateur n'a aucunes permissions",
     "nUsers": "%{n} utilisateurs",
     "nIds": "%{n} IDs",
     "nNotFound": "%{n} non trouvé",
@@ -37,30 +37,30 @@
       "operationError": "Une erreur s'est produite pendant l'opération. Réessaye.",
       "somethingWentWrong": "Oops, quelque chose n'a pas fonctionné",
       "somethingWentWrongPleaseRefresh": "Une erreur inattendue s'est produite, rechargez la page",
-      "cannotShareUserInfoWithServer": "Une erreur inattendue s'est produite pendant l'envoi des informations de l'utilisateur vers le serveur de l'extension. Ré essaye dans 2 secondes",
-      "ongoingProcess": "Quelques un des contenus sont toujours en cours d'exécution. Es-tu certain de vouloir quitter la page ?",
+      "cannotShareUserInfoWithServer": "Une erreur inattendue s'est produite lors de la tentative de connexion avec le serveur de l'extension. Merci de réessayer dans environ 2 secondes.",
+      "ongoingProcess": "Certains contenus sont encore en cours de traitement. Veux-tu toujours quitter la page ?",
       "areYouSure": "Es-tu sûr ?",
       "mayRequireWarning": "Voulez-vous appliquer un avertissement à ce contenu ?",
-      "ongoingProcessWait": "Quelques un des contenus sont toujours en cours d'exécution. Es-tu certain de vouloir quitter la page ?",
-      "xSendYouANewMessage": "%{userName} t'a envoyé un message",
+      "ongoingProcessWait": "Certains contenus sont encore en cours de traitement. Merci d'attendre que ce processus soit terminé.",
+      "xSendYouANewMessage": "%{userName} t'a envoyé un nouveau message",
       "newNotification": "Nouvelle notification",
       "operationCompleted": "Opération effectuée",
       "unsavedChanges": "Vous avez des modifications non sauvegardées. Voulez-vous toujours quitter ?",
       "youNeedToSelectAtLeastOne": "Vous devez en sélectionner au moins un",
-      "cannotShareUserInfoWithServer_RefreshPage": "Une erreur inattendue s'est produite lors d'une tentative de communication avec le serveur de l'extension. Pourriez-vous rafraîchir la page s'il vous plaît ?",
-      "operationErrorRefresh": "Une erreur s'est produite pendant le fonctionnement. Veuillez actualiser la page et réessayer"
+      "cannotShareUserInfoWithServer_RefreshPage": "Une erreur inattendue s'est produite lors d'une tentative de communication avec le serveur de l'extension. Merci d'actualiser la page.",
+      "operationErrorRefresh": "Une erreur s'est produite. Merci d'actualiser la page et de réessayer."
     },
     "moderating": {
       "moreOptions": "Plus d'options",
       "moderate": "Modérer",
-      "doYouWantToDelete": "Voulez-vous supprimer ?",
+      "doYouWantToDelete": "Veux-tu supprimer ce contenu ?",
       "selectContentType": "Merci de sélectionner un type de contenu",
       "selectReason": "Merci de sélectionner une raison",
       "editInPanel": "Éditer dans le panneau de modération",
       "point": "Point",
       "returnPoints": {
-        "text": "Ne pas redonner les points",
-        "title": "Ne pas redonner les points au propriétaire"
+        "text": "Ne pas rendre les points",
+        "title": "Ne pas rendre les points à l'utilisateur"
       },
       "giveWarning": {
         "text": "Donner un avertissement",
@@ -70,29 +70,29 @@
       "approved": "Approuvée",
       "unapprove": "Désapprouver",
       "unapproved": "Désapprouvé",
-      "doYouWantToDeleteWithReason": "Voulez-vous supprimer ceci ?\n%{reason_title} :\n%{reason_message}",
+      "doYouWantToDeleteWithReason": "Es-tu sûr de vouloir supprimer ce contenu ?\n\n%{reason_title} :\n%{reason_message}",
       "takePoints": {
         "question": {
-          "text": "Reprendre les points",
-          "title": "Reprendre les points des utilisateurs ayant répondu à la question"
+          "text": "Reprendre les points des répondants",
+          "title": "Retirer les points reçus par les répondants lorsqu'ils ont répondu à la question"
         },
         "answer": {
           "text": "Reprendre les points",
-          "title": "Reprendre les points"
+          "title": "Reprendre les points à l'utilisateur"
         }
       },
-      "contentAuthorIsModerator": "%{content_author} a des pouvoirs de modération. \nMerci de modérer ceci à partir du panel.",
-      "contentAuthorHasSpecialRanks": "%{content_author} a le rang \"%{special_rank}\" et peut être qu'il s'agit de quelqu'un d'important.\nMerci de modérer ceci à partir du panel."
+      "contentAuthorIsModerator": "\"%{content_author}\" a des pouvoirs de modération. \nMerci de modérer ceci à partir du panel.",
+      "contentAuthorHasSpecialRanks": "\"%{content_author}\" a le rang \"%{special_rank}\" et pourrait être quelqu'un d'important.\nMerci de modérer cette donnée à partir du panel."
     },
     "personalNote": {
       "text": "Note personnelle",
-      "title": "Tu peux ajouter une note personnelle ici et qui sera reliée à cet utilisateur seulement",
+      "title": "Ajouter une note privée spécifique à cet utilisateur et visible uniquement pour toi",
       "clickToAddANote": "Cliquez pour ajouter une note"
     },
-    "listOfIds": "Liste des IDs",
+    "listOfIds": "Liste des identifiants",
     "pointsWithExample": {
       "text": "Points: (1 ou -1)",
-      "title": "Vous pouvez ajouter des points en tapant des nombres positifs comme 123 \n ou \n vous pouvez supprimer des points en tapant des nombres négatifs comme -123"
+      "title": "Ajoute les points avec des chiffres positifs (123) ou enlève les points avec des chiffres négatifs (-123)."
     },
     "showMore": "Montre plus..",
     "userHasNPoints": "L'utilisateur a %{n} points",
@@ -104,20 +104,20 @@
     "add": "Ajouter",
     "chooseAnOption": "Choisis une option",
     "deleteAcross": "Supprimer à travers",
-    "profileLinkOrId": "Lien ou identifiant du profil",
+    "profileLinkOrId": "Lien ou ID du profil",
     "beta": "Bêta",
     "deletedUser": "Utilisateur supprimé",
     "toggleSelections": "Basculer la sélection",
     "copied": "Copié !",
     "default": "Par défaut",
     "yes": "Oui",
-    "workingOnIt": "Travail en cours.."
+    "workingOnIt": "En cours de réalisation..."
   },
   "popup": {
     "notificationMessages": {
       "shortLinkSuccessMessage": "Copié dans le presse-papiers !",
       "languageChanged": "Changer la langue",
-      "cannotFindUser": "Je n'arrive pas à trouver l'utilisateur correspondant à cet ID",
+      "cannotFindUser": "Impossible de trouver l'utilisateur avec l'ID saisi",
       "createdMessage": "Création réussie",
       "updatedMessage": "Mise à jour réussie",
       "removedMessage": "Retrait réussi",
@@ -134,12 +134,12 @@
       "errorN": "Erreur %{error_code}",
       "preparingUnsuccessful": "Une erreur s'est produite dans la préparation des raisons de suppression",
       "noEvidenceFound": "Le modérateur n'a ajouté aucune preuve ou commentaire",
-      "doYouWannaGiveThisPrivilege": "Voulez-vous donner ce privilège à tous les utilisateurs de l'extension ?",
-      "doYouWannaRevokeThisPrivilege": "Voulez-vous révoquer ce privilège pour tous les utilisateurs de l'extension ?",
-      "privilegeHasGiven": "Le privilège a été donné à %{user_amount} utilisateurs",
-      "privilegeHasRevoked": "Le privilège a été révoqué pour %{user_amount} utilisateurs",
-      "iCantFetchMarketData": "Je ne trouve pas les données",
-      "incorrectData": "Je ne parviens pas à communiquer avec %{market_domain_name} <br> <br> Veuillez visiter une page de %{market_domain_name} ou actualiser la page qui est déjà ouverte"
+      "doYouWannaGiveThisPrivilege": "Souhaites-tu accorder ce privilège à tous les utilisateurs de l'extension ?",
+      "doYouWannaRevokeThisPrivilege": "Souhaites-tu retirer ce privilège à tous les utilisateurs de l'extension ?",
+      "privilegeHasGiven": "Le privilège a été accordé à %{user_amount} utilisateurs",
+      "privilegeHasRevoked": "Le privilège a été retiré à %{user_amount} utilisateurs",
+      "iCantFetchMarketData": "Impossible d'obtenir des données sur le marché",
+      "incorrectData": "Je ne parviens pas à communiquer avec %{market_domain_name}.\n\nMerci de visiter n'importe quelle page %{market_domain_name} oud' actualiser la page si elle est déjà ouverte."
     },
     "createShortLinkButton": {
       "text": "URL court",
@@ -160,11 +160,11 @@
         "setYourColor": "Choisis ta couleur",
         "rainbow": "Arc en ciel",
         "pickAColor": "Choisis une couleur",
-        "colorFormatInfo": "Tu peux attribuer une couleur au thème avec le code Hex de la couleur. Par exemple, entre #FF0000 pour le rouge"
+        "colorFormatInfo": "Tu peux définir la couleur du thème avec des codes hex (ex. #FF0000 pour le rouge)."
       },
       "quickDeleteButtons": {
         "text": "Boutons de suppression rapide des questions",
-        "title": "Tu peux ajouter les raisons de suppression aux boutons de suppression rapide",
+        "title": "Modifier les motifs de suppression des boutons de suppression rapide",
         "comment": "Commentaires",
         "question": "Question",
         "answer": "Réponse"
@@ -173,7 +173,7 @@
         "title": "Autres options",
         "extendMessagesLayout": {
           "text": "Messagerie en plein écran",
-          "title": "Cette option va étendre le cadre de la messagerie. Tu peux essayer quand celle-ci est ouverte."
+          "title": "Cette option permet d'étendre la présentation de la page des messages. Tu peux l'essayer lorsque la page des messages est ouverte."
         },
         "extensionLanguage": {
           "text": "Langue de l'extension",
@@ -190,7 +190,7 @@
       "users": {
         "text": "Utilisateurs",
         "title": "Tu peux attribuer les permissions et privilèges des utilisateurs de l'extension",
-        "changeUserPrivileges": "Changer les privilèges de tous les utilisateurs",
+        "changeUserPrivileges": "Modifier les privilèges de tous les utilisateurs",
         "revoke": "Révoquer",
         "give": "Donner",
         "addNewOrEditUser": "Ajouter ou éditer les utilisateurs de l'extension",
@@ -202,24 +202,24 @@
         "lessImportant": "Moins important",
         "harmless": "Autres",
         "explainingColors": {
-          "line1": "Quelques utilisateurs ont des bordures colorées sur leur avatar et ces couleurs indiquent leur permission d'accès à l'extension",
-          "line2": "La bordure <s>rouge</s> signifie que l'utilisateur a été banni de l'extension:",
-          "line3": "La bordure <s>orange</s> signifie que l'utilisateur a la permission d'utiliser l'extension mais ne l'a pas encore utilisé.",
+          "line1": "Certains utilisateurs ont des bordures colorées dans leurs avatars et ces couleurs indiquent leur statut de permission d'accès à l'extension.",
+          "line2": "La bordure<s>rouge</s> signifie que l'utilisateur n'a pas l'autorisation d'utiliser de l'extension.",
+          "line3": "La bordure <s>Orange</s> signifie que l'utilisateur a la permission d'utiliser l'extension mais n'a pas encore commencé à l'utiliser",
           "line4": "La couleur <s>verte</s> signifie que l'utilisateur est actif et autorisé à utiliser l'extension.",
-          "line5": "<s>No border</s> signifie que l'utilisateur a des privilèges assignés mais n'a pas encore l'autorisation d'utiliser l'extension."
+          "line5": "<s>Aucune bordure</s> signifie que l'utilisateur dispose de certains privilèges mais pas de l'autorisation d'utiliser l'extension dans son compte et qu'il n'a pas encore commencé à utiliser l'extension."
         },
         "privilegeList": {
           "0": {
             "title": "Extension admin",
-            "description": "Peut utiliser l'extension sans restriction (Inutile d'assigner d'autres privilèges, cela supprimera toutes les restrictions)"
+            "description": "Peut utiliser l'extension sans aucune restriction (Inutile d'assigner d'autres privilèges, cela supprimera toutes les restrictions)"
           },
           "1": {
             "title": "Suppression rapide des questions",
-            "description": "Sur la page des questions, tout modérer et sur la page d'accueil, l'utilisateur peut utiliser les boutons de suppression rapide pour supprimer les question(s)"
+            "description": "Sur les pages des questions, Modérer tout, et la page d'accueil, l'utilisateur peut utiliser les boutons de suppression rapide pour supprimer des questions"
           },
           "2": {
             "title": "Suppression rapide des réponses",
-            "description": "Sur la page des questions, tout modérer et sur la page d'accueil, l'utilisateur peut utiliser les boutons de suppression rapide pour supprimer les réponses"
+            "description": "Sur les pages des questions, Modérer tout, et la page d'accueil, l'utilisateur peut utiliser les boutons de suppression rapide pour supprimer les réponses"
           },
           "4": {
             "title": "Gestion des annonces",
@@ -227,11 +227,11 @@
           },
           "5": {
             "title": "Gérer les utilisateurs de l'extension",
-            "description": "Peut ajouter ou éditer les utilisateurs de l'extension et leur attribuer des privilèges ou permission d'utiliser l'extension"
+            "description": "Peut ajouter ou modifier les utilisateurs de l'extension et leur donner des privilèges ou la permission d'utiliser l'extension"
           },
           "6": {
             "title": "Vérifiez les réponses en sélectionnant",
-            "description": "Sur la page de contenu de l'utilisateur, le modérateur peut vérifier les réponses en sélectionnant 25 réponses maximum sur chaque page"
+            "description": "Sur la page de contenu de l'utilisateur, le modérateur peut vérifier les réponses en sélectionnant jusqu'à 25 réponses sur chaque page"
           },
           "7": {
             "title": "Suppression de masse des contenus",
@@ -243,15 +243,15 @@
           },
           "9": {
             "title": "Messagerie de masse",
-            "description": "Dans le panneau de modération, l'utilisateur peut utiliser cette fonction pour envoyer des messages privés à tous les utilisateurs du site."
+            "description": "Dans le panel de modération, l'utilisateur peut utiliser cette fonction pour envoyer un message privé à tous les utilisateurs de votre marché"
           },
           "10": {
             "title": "Page de supervision, expéditeur du message",
             "description": "Dans la page de supervision, l'utilisateur peut envoyer des messages privés aux modérateurs listés ou à tous les modérateurs du site."
           },
           "11": {
-            "title": "Préférence des raisons de suppression",
-            "description": "Impossible de définir un niveau d'avertissement pour les raisons de suppression"
+            "title": "Gestion des préférences des motifs de suppression",
+            "description": "Peut définir le niveau d'avertissement des raisons de suppression"
           },
           "12": {
             "title": "Rapport de suppression de comptes",
@@ -259,7 +259,7 @@
           },
           "13": {
             "title": "Changement de masse des points",
-            "description": "Dans le panneau de modération, l'utilisateur peut changer les points des utilisateurs en entrant leurs IDs"
+            "description": "Dans le panneau de modération, l'utilisateur peut modifier les points des utilisateurs avec leurs identifiants"
           },
           "14": {
             "title": "Suppression des questions sélectionnées",
@@ -286,68 +286,68 @@
             "description": "Sur la page des contenus d'un utilisateur, l'utilisateur peut utiliser la demande sélective pour demander la correction de réponses"
           },
           "20": {
-            "title": "Gérer le tableau d'information",
-            "description": "Peut modifier le tableau d'information"
+            "title": "Gestion du tableau d'affichage",
+            "description": "Peut modifier le contenu du tableau d'affichage"
           },
           "21": {
             "title": "Voir les privilèges de l'utilisateur",
-            "description": "L'utilisateur peut voir les privilèges d'extension des autres utilisateurs d'extension attribués à leurs profils, sans apporter de modifications"
+            "description": "L'utilisateur peut voir les privilèges d'extension des autres utilisateurs d'extension sans apporter de modifications"
           },
           "22": {
             "title": "Peut changer les permissions d'accès",
             "description": "L'utilisateur peut gérer les permissions d'utilisateurs de l'extension"
           },
           "23": {
-            "title": "Peut changer les privilèges importants",
+            "title": "Peut modifier des permissions importantes",
             "description": "L'utilisateur peut assigner/révoquer les privilèges importants aux autres utilisateurs"
           },
           "24": {
-            "title": "Peut changer les privilèges moins important",
+            "title": "Peut modifier des privilèges moins importants",
             "description": "L'utilisateur peut assigner/révoquer les privilèges moins importants aux autres utilisateurs"
           },
           "25": {
-            "title": "Peut changer les autres privilèges",
+            "title": "Peut modifier des permissions inoffensives",
             "description": "L'utilisateur peut assigner/révoquer les autres privilèges aux autres utilisateurs"
           },
           "26": {
-            "title": "Suppression des questions sélectionnées (pages multiple)",
+            "title": "Suppression sélective des questions (plusieurs pages)",
             "description": "Sur la page de recherche de question, l'utilisateur peut sélectionner de questions sur de multiple pages pour les supprimer"
           },
           "27": {
             "title": "Management de masse des utilisateurs",
-            "description": "L'utilisateur peut utiliser cette fonction pour manager les utilisateurs tel que changer le nombre de points, approuver les réponses des utilisateurs, etc. .."
+            "description": "L'utilisateur peut utiliser cette fonction pour gérer les utilisateurs en masse, par exemple en changeant des points, en approuvant les réponses des utilisateurs, etc."
           },
           "28": {
             "title": "Examiner l'historique des actions",
-            "description": "Possibilité d'examiner les actions d'autres modérateurs pour les marquer comme valides ou non valides et leur faire part de leurs erreurs à partir de la page d'historique des actions des modérateurs"
+            "description": "Possibilité d'examiner les modérations des autres modérateurs comme étant valides ou non et de leur faire part de leurs erreurs à partir de la page d'historique des actions des modérateurs"
           },
           "45": {
             "title": "Suppression rapide des commentaires",
-            "description": "Sur la page des questions, tout modérer et sur la page d'accueil, l'utilisateur peut utiliser les boutons de suppression rapide pour supprimer les commentaires"
+            "description": "Sur les pages de questions et Tout modérer, l'utilisateur peut utiliser les boutons de suppression rapide pour supprimer les commentaires"
           },
           "29": {
             "title": "Modération de masse des contenus",
-            "description": "L'utilisateur peut utiliser cette fonction pour modérer massivement les contenus"
+            "description": "L'utilisateur peut utiliser cette fonction pour modérer le contenu en vrac"
           },
           "30": {
             "title": "Approuver toutes les réponses",
-            "description": "L'utilisateur peut utiliser cette fonction pour approuver massivement toutes les réponses des utilisateurs en fournissant une liste d'identifiants / liens d'utilisateurs"
+            "description": "L'utilisateur peut utiliser cette fonction pour approuver toutes les réponses des utilisateurs en vrac en fournissant une liste de liens/identifiants de profil"
           },
           "31": {
             "title": "Supprimer les utilisateurs",
-            "description": "L'utilisateur peut utiliser cette fonction pour supprimer massivement des utilisateurs en indiquant la liste des IDs/liens des utilisateurs"
+            "description": "L'utilisateur peut utiliser cette fonction pour supprimer des utilisateurs en masse en fournissant une liste de liens/identifiants de profil"
           },
           "32": {
             "title": "Changer les points",
-            "description": "L'utilisateur peut utiliser cette fonction pour changer massivement les points des utilisateurs en indiquant la liste des IDs/liens des utilisateurs"
+            "description": "L'utilisateur peut utiliser cette fonction pour changer les points des utilisateurs en masse en fournissant une liste de liens/identifiants de profil"
           },
           "33": {
             "title": "Changer les rangs",
-            "description": "L'utilisateur peut utiliser cette fonction pour changer massivement les rangs d'utilisateurs en fournissant une liste d'ids/liens d'utilisateurs"
+            "description": "L'utilisateur peut utiliser cette fonction pour changer de rang d'utilisateurs en masse en fournissant une liste de liens/ID de profil"
           },
           "36": {
             "title": "Masquer les options de suppression de contenu de la page de profil",
-            "description": "Permettre à ce modérateur de voir les liens utilisés pour supprimer toutes les questions, réponses et commentaires de la page de profil d'un utilisateur"
+            "description": "Permettre à ce modérateur d'effacer en masse toutes les questions, réponses et/ou commentaires de la page de profil d'un utilisateur"
           },
           "99": {
             "title": "Contenus signalés (bêta)"
@@ -361,12 +361,12 @@
             "description": "Permettre au modérateur d'utiliser le bouton de confirmation pour confirmer/accepter les réponses signalées au lieu de vérifier"
           },
           "39": {
-            "title": "Historique des actions, gestion de l'examen",
+            "title": "Gestion de l'évaluation de l'historique des actions",
             "description": "Possibilité de revenir sur les avis d'autres examinateurs sur l'historique de la modération des modérateurs. Sans cela, les évaluateurs ne peuvent annuler que leurs propres évaluations"
           },
           "98": {
             "title": "Accès limité aux canaux sur Discord",
-            "description": "L'utilisateur ne verra aucun autre canal que les canaux #announcements et #rules sur le serveur Discord"
+            "description": "L'utilisateur ne verra aucun autre canal que les #annonces et les #règles sur le serveur Discord"
           },
           "40": {
             "title": "Annuler la vérification des réponses en sélectionnant",
@@ -388,12 +388,12 @@
       },
       "DeleteReasonsPreferences": {
         "text": "Paramétrage des raisons de suppression",
-        "withoutAsk": "Donner un avertissement sans demander la confirmation",
-        "withAsk": "Montrer le message de confirmation pendant la suppression d'un contenu",
+        "withoutAsk": "Donner un avertissement sans demander de confirmation",
+        "withAsk": "Afficher une notification de confirmation d'avertissement lors de la suppression de contenu",
         "findReason": "Trouver une raison",
         "explaining": {
-          "line1": "Vous pouvez trouver des raisons de suppression en tapant le nom de la raison.",
-          "line2": "Après en avoir sélectionné une parmi les résultats, vous pouvez cliquer sur le bouton %{exclamation-circle} pour donner un avertissement sans demander la confirmation au modérateur pendant la suppression. Mais dans certains cas, cela peut changer et le modérateur peuvent décider s'il veut ou non donner un avertissement. Vous pouvez cliquer sur %{exclamation-triangle} pour afficher la boîte de dialogue aux modérateurs pendant la suppression."
+          "line1": "Vous pouvez trouver des raisons de suppression en tapant le nom de la raison",
+          "line2": "Après avoir sélectionné un motif de suppression, tu peux cliquer sur le bouton %{exclamation-circle} pour donner un avertissement sans demander la confirmation des modérateurs lorsqu'ils suppriment du contenu. Tu peux également cliquer sur le bouton %{exclamation-triangle} pour afficher une pop-up de confirmation aux modérateurs lorsqu'ils suppriment un contenu avant de donner un avertissement."
         }
       },
       "accountDeleteReports": {
@@ -408,22 +408,22 @@
   "core": {
     "assignExtensionPermission": "Ajouter une autorisation",
     "notificationMessages": {
-      "cantFetchDeleteReasons": "Une erreur inattendue s'est produit pendant la préparation des raisons de suppressions",
-      "searching": "Recherche en cours ...",
+      "cantFetchDeleteReasons": "Une erreur inattendue s'est produite lors de la préparation des raisons de suppression",
+      "searching": "Recherche...",
       "userNotFound": "Utilisateur non trouvé",
-      "extensionServerError": "Une erreur inattendue s'est produite pendant la connexion au serveur de l'extension. Ré essaye de nouveau dans 5 secondes",
-      "ifErrorPersists": "Si cette erreur persiste, veuillez contacter le responsable de l'extension et expliquer ce qui s'est passé :)",
-      "accessPermissionDenied": "Tu n'es pas autorisé à utiliser l'extension Brainly Tools.\nMerci de contacter l'Administrateur ou le Community Manager pour avoir la permission d'y accéder.",
-      "updateNeeded": "Une nouvelle version de l'extension est disponible.\nElle sera mise à jour en arrière-plan. Pourriez-vous attendre ~10 secondes et ensuite rafraîchir la page ?",
-      "warningBeforeDelete": "Le processus va être exécuté et les questions indiquées seront supprimées. \n\nÊtes-vous sûr ?",
-      "enterIdWarn": "Tu dois ajouter au moins un id de question que tu souhaites supprimer",
-      "youNeedToEnterValidId": "Vous devez entrer un ID valide",
+      "extensionServerError": "Une erreur inattendue s'est produite lors de la connexion au serveur d'extension. Merci de réessayer dans environ 5 secondes.",
+      "ifErrorPersists": "Si cette erreur persiste, merci de contacter le responsable de l'extension.",
+      "accessPermissionDenied": "Tu n'es pas autorisé à utiliser Brainly Tools.\nMerci de contacter l'administrateur (Tom) pour obtenir l'autorisation.",
+      "updateNeeded": "Une nouvelle version de l'extension est disponible et sera installée en arrière-plan.\nMerci de patienter environ 10 secondes et rafraîchir cette page.",
+      "warningBeforeDelete": "Ce processus sera exécuté et les questions indiquées seront supprimées.\nEs-tu sûr de vouloir continuer ?",
+      "enterIdWarn": "Tu dois ajouter au moins un ID de ce que tu souhaites supprimer",
+      "youNeedToEnterValidId": "Tu dois entrer un ID valide",
       "tryingToSendTheSameMessage": "Vous essayez d'envoyer le dernier message une autre fois. Voulez-vous continuer ?",
       "alreadyStarted": "Le processus a déjà commencé",
       "pointsAdded": "Les points ont été ajoutés",
       "doYouWantToContinue": "Voulez-vous continuer ?",
-      "couldntAbleToGetNoticeBoardContent": "Je n'ai pas pu obtenir le contenu du tableau d'informations",
-      "changesMayNotBeSaved": "Les changements effectués peuvent ne pas avoir été sauvegardés",
+      "couldntAbleToGetNoticeBoardContent": "Une erreur s'est produite lors de la récupération du contenu du tableau d'affichage.",
+      "changesMayNotBeSaved": "Les modifications que tu as apportées peuvent ne pas être sauvegardées",
       "stillProcessing": "Cette section est toujours en cours. Voulez-vous enlever ce bloc ?\n(cela arrêtera le processus de modération)",
       "youNeedToChooseActionType": "Vous devez choisir un type d'action",
       "errorOccurredWhileDeletingTheN": "Une erreur est survenue lors de la suppression de %{content_id}",
@@ -431,9 +431,9 @@
     },
     "MassContentDeleter": {
       "text": "Suppression de masse des contenus",
-      "nIdsToDeleted": "%{n} IDs à supprimer",
-      "nHasBeenDeleted": "%{n} IDs ont été supprimés",
-      "containerExplanation": "Vous devez mettre les liens des devoirs ou les identifiants dans la boîte de texte ligne par ligne. Chaque ligne doit contenir 1 id.",
+      "nIdsToDeleted": "%{n} ID(s) à supprimer",
+      "nHasBeenDeleted": "%{n} ID(s) ont été supprimés",
+      "containerExplanation": "Saisissez ou collez les liens ou les IDs des contenus dans la zone de texte. Chaque ligne doit contenir un numéro d'identification ou un lien.",
       "select": {
         "reason": "Raison",
         "subReason": "Catégorie",
@@ -442,8 +442,8 @@
     },
     "MessageSender": {
       "text": "Messagerie de masse",
-      "lastRegisteredUserId": "Entrer l'ID du dernier utilisateur enregistré",
-      "information": "Cette fonction peut envoyer votre message aux utilisateurs en comptant en arrière à partir de l'ID donné. Une fois que vous avez démarré le processus vous devez attendre et ne pas fermer cette page (ne pas éteindre votre ordinateur) jusqu'à la fin du processus.",
+      "lastRegisteredUserId": "Entre l'ID du dernier utilisateur enregistré",
+      "information": "Cette fonction permet d'envoyer un message à tous les utilisateurs en comptant à rebours à partir de l'identifiant donné. Une fois le processus lancé, merci ne pas fermer cet onglet ou votre navigateur/ordinateur avant la fin du processus.",
       "target": "Cible",
       "allUsers": "Tous les utilisateurs",
       "moderators": "Modérateurs",
@@ -456,24 +456,24 @@
     },
     "announcements": {
       "text": "Annonces",
-      "title": "Une fois que tu as lu l'annonce, tu dois la marquer comme lue",
+      "title": "Une fois que tu as lu l'annonce, marque-la comme lue",
       "markAsRead": "Marquer comme lu"
     },
     "pointChanger": {
       "text": "Changement de masse des points",
-      "enterOrPasteUID": "Entrer ou coller l'ID du profil",
-      "youNeedToEnterOrPaste": "Vous devez entrer un ID d'utilisateur valide",
-      "pastingExample": "Exemple de liste d'IDs utilisateurs",
-      "pastingExample2": "Vous pouvez également spécifier le nombre de points dans la liste avant de copier-coller",
+      "enterOrPasteUID": "Écris ou colle les ID des utilisateurs",
+      "youNeedToEnterOrPaste": "Tu dois saisir l'ID utilisateur ou tu peux coller une liste copiée d'ID(s) dans la saisie",
+      "pastingExample": "Exemple de liste d'ID(s) d'utilisateurs",
+      "pastingExample2": "Tu peux également préciser les points de la liste avant de copier-coller",
       "addPoints": "Ajouter des points à cet utilisateur",
       "addPointsToAll": "Ajouter des points à tous les utilisateurs",
       "pointsNotSpecified": "Vous devez donner des points à au moins un utilisateur pour pouvoir poursuivre",
-      "applyPointsToAllInputs": "Changer les points de toutes les entrées",
+      "applyPointsToAllInputs": "Modifier toutes les valeurs",
       "clearList": "Effacer la liste"
     },
     "reportedCommentsDeleter": {
       "text": "Suppression des commentaires signalés",
-      "description": "Vous pouvez supprimer tous les commentaires signalés dans le Tout Modérer en un clic. Vous avez juste à débuter le processus et garder l'onglet ouvert. C'est tout.",
+      "description": "Tu peux supprimer tous les commentaires signalés dans Tout Modérer en un seul clic. Il suffit de lancer le processus et de laisser cet onglet ouvert.",
       "deleting": "Suppression",
       "stopped": "Stopper",
       "numberOfPending": "En attente",
@@ -481,15 +481,15 @@
     },
     "noticeBoard": {
       "text": "Tableau d'information",
-      "lastChanges": "Dernières modifications",
+      "lastChanges": "Dernière mise à jour",
       "readBy": "Lu par"
     },
     "massManageUsers": {
       "notificationMessages": {
         "doYouWantToRemoveSelectedUsers": "Voulez-vous supprimer les utilisateurs sélectionnés ?",
         "doYouReallyWantToRemoveAllUsers": "Voulez-vous vraiment supprimer tous ces utilisateurs ?",
-        "tryingToAddPreviouslyRemovedIds": "Les IDs que vous avez entré contiennent des utilisateurs précédemment supprimés \n\nCliquer sur \"OK\" si vous voulez les ajouter ou\nCliquer sur \"Annuler\" si vous voulez les exclure",
-        "areYouSureAboutDeletingAllListedUsers": "Vous êtes sur le point de supprimer ces utilisateurs.\nÊtes-vous sûr de vouloir continuer ?",
+        "tryingToAddPreviouslyRemovedIds": "Les IDs que tu as saisis contiennent des IDs précédemment retirés.\n\nClique sur \"OK\" si tu souhaites ajouter ou\nClique sur \"Annuler\" si tu veux exclure.",
+        "areYouSureAboutDeletingAllListedUsers": "Vous êtes sur le point de supprimer tous les utilisateurs répertoriés. \n\nEs-tu sûr de vouloir continuer ?",
         "thereIsNoUserLeft": "Il n'y a plus d'utilisateur dans la liste"
       },
       "text": "Management de masse des utilisateurs",
@@ -527,11 +527,11 @@
       "targets": {
         "text": "Spécifier les cibles",
         "listOfIds": {
-          "contentLinksOrIDs": "Lien du contenu ou IDs"
+          "contentLinksOrIDs": "Liens ou ID du contenu"
         },
         "idRange": {
           "text": "Plage d'Id",
-          "youNeedToEnterTwoDifferentIdNumbers": "Vous devez entrer différents identifiants séparés par un tiret (-) ou des points (.. ou ...) pour modérer les numéros entre deux plages.",
+          "youNeedToEnterTwoDifferentIdNumbers": "Entre les IDs séparés par un trait d'union ou 2+ points pour modérer les contenus dans cette fourchette",
           "exampleUsage": "Exemple d'utilisation",
           "input": "Entrée",
           "output": "Sortie"
@@ -543,8 +543,7 @@
       },
       "methods": {
         "text": "Méthodes",
-        "clickListToCopy": "Cliquez sur la liste pour copier les identifiants dans le presse-papiers",
-        "iCantCopy": "Je ne peux pas copier :(",
+        "iCantCopy": "Impossible de copier dans le presse-papiers",
         "reportForAbuse": {
           "chooseAReason": "Choisissez une raison",
           "tabButton": {
@@ -562,13 +561,13 @@
     },
     "searchUser": {
       "text": "Trouver un utilisateur",
-      "nickOrID": "Pseudo ou ID du profil"
+      "nickOrID": "Pseudo ou ID de profil"
     },
     "discordPopup": {
       "discordServer": "SERVEUR DISCORD",
-      "heyUser": "Hey %{nick},",
-      "nextMessage": "nous avons ouvert les portes de notre tout nouveau\nServeur Discord pour les utilisateurs de l'extension.\n\nN'hésitez pas à le rejoindre.",
-      "informationLine": "à propos du serveur Discord"
+      "heyUser": "Hey, %{nick},",
+      "nextMessage": "Nous avons ouvert les portes de notre tout nouveau\nServeur Discord pour les utilisateurs de l'extension.\n\nN'hésite pas à le rejoindre !",
+      "informationLine": "À propos du serveur Discord"
     }
   },
   "home": {
@@ -578,25 +577,25 @@
     "notificationMessages": {
       "unsendedMessage": "Votre message n'a pas été envoyé, voulez-vous toujours quitter ?",
       "wrongMessageLength": "Ton message doit être compris entre 1 et %{max_value} caractères",
-      "messageContainsSwear": "Hum... Ton message contient des vulgarités, des liens interdits ou des mots inappropriés, tu ne peux pas l'envoyer !"
+      "messageContainsSwear": "Oups ! Il semble que ton message contienne un contenu explicite et ne puisse pas être envoyé."
     }
   },
   "userContent": {
     "notificationMessages": {
       "alreadyApproved": "Cette réponse est déjà approuvée",
       "alreadyUnapproved": "Cette question est déjà désapprouvée",
-      "someOfSelectedAnswersAreApproved": "Certaines des réponses sélectionnées ont déjà été approuvées, vous ne pouvez donc techniquement pas les approuver à nouveau",
-      "selectAnUnapprovedAnswerForApproving": "Vous devez sélectionner une ou plusieurs réponses non approuvées pour commencer à les approuver",
+      "someOfSelectedAnswersAreApproved": "Certaines réponses sélectionnées ont déjà été approuvées, elles ne peuvent donc pas être approuvées à nouveau",
+      "selectAnUnapprovedAnswerForApproving": "Tu dois sélectionner certaines réponses non approuvées pour commencer à les approuver",
       "confirmApproving": "Veux-tu approuver cette réponse ?",
-      "someOfSelectedAnswersAreUnapproved": "Certaines des réponses sélectionnées ne sont pas approuvées, donc techniquement, vous ne pouvez pas les désapprouver",
-      "selectAnApprovedAnswerForUnapproving": "Vous devez sélectionner une ou plusieurs réponses approuvées pour commencer à les désapprouver",
+      "someOfSelectedAnswersAreUnapproved": "Certaines réponses sélectionnées ne sont pas approuvées, elles ne peuvent donc pas être désapprouvées",
+      "selectAnApprovedAnswerForUnapproving": "Tu dois sélectionner certaines réponses approuvées pour commencer à les désapprouver",
       "confirmUnapproving": "Voulez-vous désapprouver cette réponse ?",
       "doYouWantToConfirmThisContent": "Voulez-vous approuver ce contenu ?",
       "confirmReporting": "Veux-tu demander la correction des réponses sélectionnées ?",
       "selectAtLeastOneContent": "Choisissez au moins un contenu",
-      "xIsAlreadyApproved": "%{row_id} sont déjà approuvé",
-      "xIsAlreadyUnapproved": "%{row_id} ont déjà été approuvé",
-      "confirmApprovingSelected": "Souhaitez-vous approuver les réponses sélectionnées ?"
+      "xIsAlreadyApproved": "%{row_id} a déjà été approuvé",
+      "xIsAlreadyUnapproved": "%{row_id} n'a pas encore été approuvé",
+      "confirmApprovingSelected": "Souhaites-tu approuver les réponses sélectionnées ?"
     },
     "approvedAnswer": "Réponse approuvée",
     "bestAnswer": "Meilleure réponse",
@@ -618,13 +617,13 @@
   },
   "userProfile": {
     "notificationMessages": {
-      "areYouSureDeleteSelectedFriends": "Es-tu certain de vouloir retirer les utilisateurs sélectionnés de ta liste d'amis ?",
+      "areYouSureDeleteSelectedFriends": "Es-tu sûr de vouloir supprimer les utilisateurs sélectionnés de votre liste d'amis ?",
       "areYouSureRemoveAllFriends": "Es-tu certain de vouloir enlever tous tes amis ?",
-      "youHaveNoFriends": "Ne sois pas triste car tu n'as pas d'amis dans ta liste :/",
-      "cannotChangeBio": "Impossible de changer votre bio :/ Désolé ...",
-      "fileSizeExceeded": "Le fichier %{file_name} excède la taille maximale de %{file_size}",
-      "aShortcutFile": "Vous essayez d'ajouter un raccourci d'un fichier mais celui-ci n'est pas considéré comme un fichier. Cela va être le bazar si vous l'ajouter.\nVous devriez sélectionner le fichier d'origine à la place d'un lien vers celui-ci.\nVoulez-vous toujours ajouter ce raccourci ?",
-      "unableToReportAccountDeleting": "Je n'ai pas pu signaler votre demande de suppression au Community Manager, donc je ne peux pas procéder à la suppression du compte. Désolé :/<br>Si cette erreur persiste, demandez l'aide du responsable de l'extension",
+      "youHaveNoFriends": "Aucun ami trouvé. Si tu penses qu'il s'agit d'une erreur, merci d'actualiser la page et vérifie à nouveau.",
+      "cannotChangeBio": "Une erreur s'est produite lors de la mise à jour de votre biographie. Veuillez actualiser la page et réessayer.",
+      "fileSizeExceeded": "Le fichier \" %{file_name} \" dépasse la taille limite de %{file_size}.",
+      "aShortcutFile": "Le fichier que vous essayez d'envoyer est un raccourci. Tu devrais sélectionner le fichier original à la place.\n\nVeux-tu toujours envoyer ce raccourci ?",
+      "unableToReportAccountDeleting": "La demande de suppression n'a pas pu être signalée à votre Community Manager, donc le compte n'a pas été supprimé. Si cette erreur persiste, merci de contacter Tom.",
       "confirmNoEvidenceOrComment": "Vous n'avez ajouter aucune preuve ou commentaire. \nVoulez-vous toujours supprimer ce compte ?",
       "selectAtLeastOneUser": "Tu dois sélectionner au moins un utilisateur",
       "youNeedToProvideSomeDetails": "Vous devez fournir quelques détails",
@@ -637,7 +636,7 @@
     },
     "userBio": {
       "title": "Bio",
-      "description": "Bio de l'app Brainly"
+      "description": "Bio de l'application Brainly Android"
     },
     "showAllFriends": {
       "text": "Tout montrer",
@@ -649,7 +648,7 @@
     },
     "removeSelectedFriends": {
       "text": "Enlever des amis",
-      "title": "Tu peux supprimer les amis sélectionnés de ta liste d'amis"
+      "title": "Supprimer les amis sélectionnés de votre liste d'amis"
     },
     "accountDelete": {
       "evidences": "Preuves",
@@ -657,8 +656,8 @@
       "addFiles": "Ajouter des fichiers",
       "compressingTheFile": "Compression de %{file_name}",
       "compressingTheFiles": "Compression des fichiers",
-      "uploading": "Contenu ajouté %{percentage_value}",
-      "deletingContinues": "Poursuite des suppressions",
+      "uploading": "Envoi (%{percentage_value})",
+      "deletingContinues": "La suppression continue...",
       "reasonForDeletion": "Aucune raison de suppression ?"
     },
     "rankManager": {
@@ -666,11 +665,11 @@
       "removeAllRanks": "Supprimer tous les rangs spéciaux",
       "allRanksRemoved": "Tous les rangs spéciaux ont été supprimés",
       "updatingRanks": "Mise à jour des rangs",
-      "xHasAssigned": "%{rank_name} a été assigné",
+      "xHasAssigned": "%{rank_name} a été attribué",
       "removingAllSpecialRanks": "Suppression de tous les grades spéciaux.."
     },
     "morePanel": {
-      "title": "Plus d'informations",
+      "title": "Plus...",
       "privileges": {
         "title": "Privilèges actifs"
       },
@@ -688,21 +687,21 @@
       }
     },
     "userWarningsList": {
-      "name": "Derniers avertissements",
-      "showRest": "Afficher le reste"
+      "name": "Avertissements récents",
+      "showRest": "Afficher tous les avertissements"
     },
     "goToOldProfilePage": "Aller sur l'ancienne version de la page"
   },
   "userWarnings": {
     "notificationMessages": {
-      "ifYouHavePrivileges": "Les avertissements seront révoqués si tu en as les droits. Merci de patienter 10 secondes."
+      "ifYouHavePrivileges": "Le ou les avertissements seront révoqués si tu en as la permission. Merci d'attendre environ 10 secondes après le début du processus."
     },
     "cancelWarnings": "Annuler les avertissements"
   },
   "supervisors": {
     "notificationMessages": {
       "noUser": "Il n'y a aucun utilisateur à qui tu peux envoyer ce message",
-      "emptyMessage": "Vous ne pouvez pas envoyer un message vide"
+      "emptyMessage": "Tu ne peux pas envoyer un message vide"
     },
     "allRanks": "Tous les rangs",
     "tableLayout": "Disposition du tableau",
@@ -719,7 +718,7 @@
   "uploader": {
     "notificationMessages": {
       "alreadyExist": "%{file_name} existe déjà",
-      "fileNameCannotContainBackslash": "Le fichier ne peut pas contenir d'antislash. Merci de renommer le fichier %{file_name}"
+      "fileNameCannotContainBackslash": "Les noms de fichiers ne peuvent pas contenir d'antislash. Merci de renommer %{file_name}."
     },
     "text": "Ajouter plusieurs fichiers",
     "selectFiles": "Sélectionner les fichiers"
@@ -742,24 +741,24 @@
     "invalidateAllDescription": "Invalider toutes les actions non examinées sur cette page",
     "revertAll": "Tout annuler",
     "statusTitle": {
-      "valid": "Validé par %{nick} le %{date}",
-      "invalid": "Invalidé par %{nick} le %{date}"
+      "valid": "Marquée comme valide par %{nick} le %{date}",
+      "invalid": "Marquée comme invalide par %{nick} le %{date}"
     },
     "toggleDetails": "Afficher les détails",
-    "validated": "Modération marquée comme valide",
-    "invalidated": "Modération marquée comme non valide",
-    "allValidated": "Les modérations sont marquées comme étant valides",
+    "validated": "La modération a été marquée comme valide",
+    "invalidated": "La modération a été marquée comme invalide",
+    "allValidated": "Les modérations ont été marquées comme valides",
     "allInvalidated": "Les modérations sont marquées comme non valides",
     "informModeratorTitle": "Informer %{nick} de cette mauvaise modération",
     "informModeratorTitleForMany": "Informer %{nick} de ces mauvaises modérations",
     "informModerator": "Informer le modérateur",
     "messageTemplate": "Bonjour %{nick},\n\n .. \n\n Question: %{question} \n\n Pièces jointes: %{links}",
-    "anAttachmentUploading": "Veuillez attendre que les pièces jointes aient été téléchargées",
+    "anAttachmentUploading": "Veuillez attendre que les pièces jointes soient envoyées",
     "anErrorOccurredWhileSendingMessage": "Une erreur s'est produite lors de l'envoi du message :\n%{reason}",
     "warnBeforeEditing": "Vous voulez vraiment modifier le dernier message ?",
     "informed": "Informé",
-    "reviewWithdrawn": "L'avis a bien été récupéré",
-    "reviewsWithdrawn": "Les avis ont bien été récupérés",
+    "reviewWithdrawn": "L'évaluation a été retirée avec succès",
+    "reviewsWithdrawn": "Les évaluations ont été retirées avec succès",
     "reviewDetails": "Détails de l'examen"
   },
   "question": {
@@ -791,41 +790,41 @@
       },
       "lazyQueue": {
         "optionName": "File d'attente ralentie (Rafraîchissement nécessaire)",
-        "description": "Cette option permet un chargement ralenti pour les contenus signalés.\n\nLorsqu'elle est activée, la file d'attente affiche les boîtes de rapport avec du retard pendant le défilement des rapports, ce qui la rend facile à mémoriser.\nToutefois, la fonction \"Trouver sur la page\" ne fonctionne pas pour les rapports invisibles. La page peut afficher des rapports vides tout en défilant trop rapidement"
+        "description": "Cette option permet un chargement ralenti pour la file d'attente des contenus signalés.\n\nLorsqu'elle est activée, la file d'attente affiche les signalements avec un délai pendant le défilement, ce qui la rend facile à mémoriser.\nToutefois, la fonction \"Trouver sur la page\" ne fonctionne pas pour les signalements invisibles. La page peut afficher des rapports vierges si tu fais défiler la page trop rapidement."
       },
       "toggleInfiniteLoader": {
         "optionName": "Chargement déroulant",
-        "description": "Activer/désactiver le chargement automatique du contenu lors du défilement de la page"
+        "description": "Basculer le chargement automatique du contenu lors du défilement"
       },
       "loadLimiter": {
-        "optionName": "Limiteur de chargement",
-        "description": "Cette option te permet d'augmenter/diminuer la limite du nombre de cases de signalements qui s'afficheront après avoir cliqué sur le bouton \"Charger plus\".\n\nDes valeurs plus élevées peuvent entraîner un léger retard dans l'affichage des cases."
+        "optionName": "Montant de la charge",
+        "description": "Modifie la limite du nombre de signalements qui seront affichés après avoir cliqué sur le bouton \"Charger plus\".\n\nDes valeurs plus élevées peuvent entraîner un certain ralentissement dans la présentation des signalements."
       }
     },
     "queue": {
-      "rating": "%{rating} points pour %{ratesCount} votes",
+      "rating": "%{rating} étoiles sur la base de %{ratesCount} notes",
       "bestAnswer": "C'est la meilleure réponse",
       "popularQuestion": "Question populaire !",
       "moderatorVerifiedSomeonesAnswer": "%{verifier} a vérifié la réponse de %{author}.",
       "loadMore": "Charger plus..",
       "exportReports": {
         "exportAsSpreadsheet": "Exporter les signalements filtrés sous forme de tableur",
-        "nothingToExport": "Il n'y a plus de signalements à exporter",
-        "id": "Id",
-        "questionId": "Id de la question",
-        "reportedUserId": "ID utilisateur signalé",
-        "reporterUserId": "ID utilisateur du signaleur",
+        "nothingToExport": "Il ne reste plus de signalements à exporter",
+        "id": "ID",
+        "questionId": "ID de la question",
+        "reportedUserId": "ID de l'utilisateur signalé",
+        "reporterUserId": "ID de l'utilisateur signaleur",
         "reportedOn": "Signalé le",
         "reason": "Raison",
-        "contentShort": "Contenu (court)",
+        "contentShort": "Aperçu du contenu",
         "isModerated": "Est-il modéré ?",
         "isCorrected": "Est-ce corrigé?"
       },
-      "notYetCorrected": "Pas encore corrigé",
+      "notYetCorrected": "Pas encore corrigée",
       "pageNumberInputTitle": "Entre un numéro de page entre %{MIN_N} et %{MAX_N}"
     },
     "loadAll": "Récupérer tous les signalements",
-    "loadAllConfirmationMessage": "Je vais essayer de récupérer tous les contenus signalés auprès de Brainly, mais le processus peut être interrompu par Brainly en raison de demandes élevées.\nVeuillez confirmer pour lancer le processus.",
+    "loadAllConfirmationMessage": "Je vais essayer de récupérer tous les contenus signalés auprès de Brainly, mais le processus peut être interrompu par Brainly en raison de demandes élevées.\n\nMerci de confirmer pour lancer le processus.",
     "massModerate": {
       "name": "Modération de masse des contenus",
       "description": "Tu ne peux que modérer les contenus qui ont été récupérés",
@@ -881,7 +880,7 @@
       "description": "Les filtres ne peuvent être appliqués qu'aux signalements qui ont été récupérés",
       "filters": {
         "reporter": {
-          "name": "Utilisateur signaleur"
+          "name": "Signalé par"
         },
         "reported": {
           "name": "Utilisateur signalé"
@@ -899,10 +898,10 @@
         },
         "contentLength": {
           "name": "Longueur du contenu",
-          "equals": "égale à",
+          "equals": "est égal à",
           "lowerThan": "inférieur à",
           "label": {
-            "equals": "égale à %{N}",
+            "equals": "égal à %{N}",
             "lowerThan": "inférieur à %{N}",
             "greaterThan": "supérieur à %{N}"
           },
@@ -915,7 +914,7 @@
           "name": "Matière"
         },
         "userFilter": {
-          "id": "id",
+          "id": "ID",
           "nick": "nick",
           "lookFor": "Rechercher",
           "specialRank": "Rang spécial",
@@ -926,17 +925,17 @@
           "chooseCondition": "Choisissez une condition",
           "label": {
             "contains": "contient : %{input}",
-            "sameWith": "exactement identique avec: %{input}",
-            "startsWith": "commence par: %{input}",
-            "endsWith": "se termine par: %{input}",
+            "sameWith": "est exactement : %{input}",
+            "startsWith": "commence par : %{input}",
+            "endsWith": "se termine par : %{input}",
             "regExp": "%{input}"
           },
           "conditions": {
             "contains": "contient",
-            "sameWith": "exactement identique avec",
+            "sameWith": "est exactement",
             "startsWith": "commence par",
             "endsWith": "se termine par",
-            "regExp": "RegExp(JS/ES6)"
+            "regExp": "RegExp (JS/ES6)"
           },
           "additionalData": "Données complémentaires",
           "content": "Contenu"
@@ -949,13 +948,13 @@
   "moderationPanel": {
     "text": "Modération des questions",
     "answers": "Réponses (%{number_of_answers})",
-    "panelWillClose": "Le panneau de modération se fermera dans %{remain_N}",
+    "panelWillClose": "Le panneau de modération se fermera dans %{remain_N} secondes...",
     "showAllComments": "Afficher tous les commentaires",
     "failedToGetLogs": "Impossible de récupérer l'historique de la question",
     "seeMoreDeleteOptions": "Voir d'autres options de suppression",
-    "thereIsNoReportLeft": "Il n'y a plus de signalement",
+    "thereIsNoReportLeft": "Il n'y a plus de signalements",
     "deleteAllComments": "Supprimer tous les commentaires",
-    "confirmDeletingNComments": "Veuillez confirmer la suppression de %{N} commentaires",
+    "confirmDeletingNComments": "Es-tu sûr de vouloir supprimer tous les commentaires de %{N} ?",
     "commentsDeleted": "Commentaires supprimés !",
     "switchingToNextContent": "Je vais essayer de passer au contenu suivant",
     "hideDeletedComments": "Masquer les commentaires supprimés",
@@ -963,7 +962,7 @@
     "janToDec": "JAN\nDEC",
     "decToJan": "DEC\nJAN",
     "sortDESC": "Trier les commentaires du plus récent au plus ancien",
-    "sortASC": "Trier les commentaires du plus ancien aux plus récent",
+    "sortASC": "Trier les commentaires du plus ancien au plus récent",
     "showLess": "Masquer",
     "toggleReportedComments": "Afficher les commentaires signalés",
     "corrected": "Corrigée",
@@ -971,20 +970,23 @@
     "answerHasCorrected": "%{nick} a corrigé la réponse",
     "questionHasBeenDeleted": "La question a été supprimée",
     "moderationCompleted": "Modération terminée",
-    "extendBy15Minutes": "Prolonger de 15 minutes",
+    "extendBy15Minutes": "Réinitialiser à 15 minutes",
     "log": {
       "text": "Historique de la question",
       "deletedWithWarning": "Supprimé avec un avertissement",
-      "nActions": "%{number_of} modérations",
+      "nActions": {
+        "one": "1 action",
+        "other": "%{number_of} actions"
+      },
       "nMore": "%{number_of_occurrences} plus"
     }
   },
   "shortAnswersPage": {
-    "selectAtLeastOneAnswer": "Vous devez sélectionner au moins une réponse",
-    "doYouWantToDeleteSelectedAnswers": "Voulez-vous vraiment supprimer les réponses sélectionnées ?"
+    "selectAtLeastOneAnswer": "Sélectionne au moins une réponse",
+    "doYouWantToDeleteSelectedAnswers": "Veux-tu vraiment supprimer les réponses sélectionnées ?"
   },
   "questionSearch": {
     "selectAtLeastOneQuestion": "Sélectionnez au moins une question",
-    "doYouWantToDeleteSelectedQuestions": "Voulez-vous vraiment supprimer les %{N} questions sélectionnées ?"
+    "doYouWantToDeleteSelectedQuestions": "Veux-tu vraiment supprimer les %{N} questions sélectionnées ?"
   }
 }

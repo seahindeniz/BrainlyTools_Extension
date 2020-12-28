@@ -2,10 +2,47 @@ import type {
   RemoveAnswerReqDataType,
   ReportedContentDataType,
 } from "@BrainlyAction";
-import { Flex, Icon, LabelDeprecated, Text } from "@style-guide";
+import { Flex, Icon, Label, Text } from "@style-guide";
+import type { FlexElementType } from "@style-guide/Flex";
 import tippy from "tippy.js";
-import type ReportedContentsType from "../ReportedContents";
-import Content from "./Content";
+import type ReportedContentsType from "../../ReportedContents";
+import Content from "../Content";
+import QuestionPreview from "./QuestionPreview";
+
+export type AnswerExtraDataQuestionType = {
+  id: string;
+  isPopular: boolean;
+  content: string;
+  points: number;
+  created: string;
+  author?: {
+    id: string;
+    nick: string;
+    avatar?: {
+      thumbnailUrl: string;
+    };
+    rank: {
+      id: string;
+    };
+    specialRanks: {
+      id: string;
+    }[];
+  };
+  attachments: {
+    id: string;
+    url: string;
+    thumbnailUrl: string;
+  }[];
+  subject: {
+    name: string;
+  };
+  grade: {
+    name: string;
+  };
+  answers: {
+    hasVerified: boolean;
+  };
+};
 
 export type AnswerExtraDataType = {
   id: string;
@@ -15,7 +52,9 @@ export type AnswerExtraDataType = {
   thanksCount: number;
   attachments: {
     id: string;
+    url: string;
   }[];
+  question: AnswerExtraDataQuestionType;
 };
 
 export default class Answer extends Content {
@@ -25,6 +64,11 @@ export default class Answer extends Content {
     // eslint-disable-next-line camelcase
     model_type_id: 2;
   };
+
+  private questionPreview?: QuestionPreview;
+  private bestIconContainer: FlexElementType;
+  private attachmentIconContainer: FlexElementType;
+  private thanksLabelContainer: FlexElementType;
 
   constructor(main: ReportedContentsType, data: ReportedContentDataType) {
     super({ main, data, contentType: "Answer" });
@@ -37,12 +81,13 @@ export default class Answer extends Content {
     this.RenderAttachmentsIcon();
     this.RenderThanksIcon();
     // this.RenderRatingIcon();
+    this.InitQuestionPreview();
   }
 
   RenderBestIcon() {
-    if (!this.extraData.isBest) return;
+    if (!this.extraData.isBest || this.bestIconContainer) return;
 
-    const iconContainer = Flex({
+    this.bestIconContainer = Flex({
       marginRight: "xs",
       title: System.data.locale.reportedContents.queue.bestAnswer,
       children: new Icon({
@@ -52,7 +97,7 @@ export default class Answer extends Content {
       }),
     });
 
-    tippy(iconContainer, {
+    tippy(this.bestIconContainer, {
       theme: "light",
       allowHTML: true,
       placement: "bottom",
@@ -63,38 +108,39 @@ export default class Answer extends Content {
       }),
     });
 
-    this.extraDetailsContainer.append(iconContainer);
+    this.extraDetailsContainer.append(this.bestIconContainer);
   }
 
   RenderAttachmentsIcon() {
-    if (!this.extraData.attachments?.length) return;
+    if (!this.extraData.attachments?.length || this.attachmentIconContainer)
+      return;
 
-    const attachmentIconContainer = Flex({
+    this.attachmentIconContainer = Flex({
       marginRight: "xs",
-      children: LabelDeprecated({
+      children: new Label({
         color: "gray",
-        icon: { type: "attachment" },
+        icon: new Icon({ type: "attachment" }),
         children: this.extraData.attachments.length,
       }),
     });
 
-    this.extraDetailsContainer.append(attachmentIconContainer);
+    this.extraDetailsContainer.append(this.attachmentIconContainer);
   }
 
   RenderThanksIcon() {
-    if (!this.extraData.thanksCount) return;
+    if (!this.extraData.thanksCount || this.thanksLabelContainer) return;
 
-    const labelContainer = Flex({
+    this.thanksLabelContainer = Flex({
       marginRight: "xs",
-      children: LabelDeprecated({
+      children: new Label({
         type: "solid",
         color: "peach",
-        icon: { type: "heart" },
+        icon: new Icon({ type: "heart" }),
         children: this.extraData.thanksCount,
       }),
     });
 
-    this.extraDetailsContainer.append(labelContainer);
+    this.extraDetailsContainer.append(this.thanksLabelContainer);
   }
 
   RenderRatingIcon() {
@@ -107,10 +153,10 @@ export default class Answer extends Content {
 
     const labelContainer = Flex({
       title,
-      children: LabelDeprecated({
+      children: new Label({
         type: "solid",
         color: "mustard",
-        icon: { type: "star_half_outlined" },
+        icon: new Icon({ type: "star_half_outlined" }),
         text: `${rating}/${this.extraData.ratesCount}`,
       }),
     });
@@ -127,6 +173,19 @@ export default class Answer extends Content {
     });
 
     this.extraDetailsContainer.append(labelContainer);
+  }
+
+  InitQuestionPreview() {
+    if (!this.extraData.question) return;
+
+    if (this.questionPreview) {
+      this.questionPreview.separator?.remove();
+      this.questionPreview.questionContentTypeButtonContainer?.remove();
+
+      this.questionPreview = null;
+    }
+
+    this.questionPreview = new QuestionPreview(this);
   }
 
   ExpressDelete(data: RemoveAnswerReqDataType) {

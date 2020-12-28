@@ -6,7 +6,7 @@ import InsertAfter from "@root/helpers/InsertAfter";
 import ServerReq from "@ServerReq";
 import { Flex } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
-import type AnswerClassType from "./Content/Answer";
+import type AnswerClassType from "./Content/Answer/Answer";
 import type CommentClassType from "./Content/Comment";
 import type QuestionClassType from "./Content/Question";
 import type { ContentClassTypes } from "./Fetcher/Fetcher";

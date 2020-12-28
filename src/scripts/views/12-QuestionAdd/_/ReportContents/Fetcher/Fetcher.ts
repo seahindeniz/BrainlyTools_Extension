@@ -10,7 +10,7 @@ import HideElement from "@root/helpers/HideElement";
 import IsVisible from "@root/helpers/IsVisible";
 import { Flex, Spinner } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
-import Answer, { AnswerExtraDataType } from "../Content/Answer";
+import Answer, { AnswerExtraDataType } from "../Content/Answer/Answer";
 import Comment from "../Content/Comment";
 import Question, { QuestionExtraDataType } from "../Content/Question";
 import type ReportedContentsType from "../ReportedContents";
@@ -451,6 +451,40 @@ export default class Fetcher {
         thanksCount
         attachments {
           id
+        }
+        question {
+          id
+          isPopular
+          content
+          points
+          created
+          author {
+            id
+            nick
+            avatar {
+              thumbnailUrl
+            }
+            rank {
+              id
+            }
+            specialRanks {
+              id
+            }
+          }
+          attachments {
+            id
+            url
+            thumbnailUrl
+          }
+          subject {
+            name
+          }
+          grade{
+            name
+          }
+          answers{
+            hasVerified
+          }
         }
       }`;
 

@@ -1,6 +1,6 @@
 import type ExportToSpreadsheetClassType from "../ExportToSpreadsheet";
 import Sheet from "./Sheet";
-import type AnswerClassType from "../../../Content/Answer";
+import type AnswerClassType from "../../../Content/Answer/Answer";
 
 export default class AnswerSheet extends Sheet {
   constructor(main: ExportToSpreadsheetClassType) {

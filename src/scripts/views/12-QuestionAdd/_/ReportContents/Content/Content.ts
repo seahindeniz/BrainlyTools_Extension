@@ -15,6 +15,7 @@ import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
 import InsertAfter from "@root/helpers/InsertAfter";
 import IsVisible from "@root/helpers/IsVisible";
+import replaceLatexWithURL from "@root/helpers/replaceLatexWithURL";
 import { Avatar, Box, Button, Flex, Icon, Spinner, Text } from "@style-guide";
 import type { BoxColorType } from "@style-guide/Box";
 import type { ButtonColorType } from "@style-guide/Button";
@@ -116,6 +117,7 @@ export default class Content {
   #ignoreButtonContainer?: FlexElementType;
   #ignoreButtonIcon?: Icon;
   reportFlagIcon: Icon;
+  contentTypeButtonContainer: FlexElementType;
 
   constructor({
     main,
@@ -235,7 +237,7 @@ export default class Content {
     this.container.style.minHeight = `${clientHeight}px`;
   }
 
-  async RenderContent() {
+  RenderContent() {
     const subjectData = System.data.Brainly.defaultConfig.config.data.subjects.find(
       data => data.id === this.data.subject_id,
     );
@@ -247,6 +249,10 @@ export default class Content {
     } else if (this.data.report) {
       reportFlagColor = "peach";
     }
+
+    const authorProfileLink = System.createBrainlyLink("question", {
+      id: this.data.task_id,
+    });
 
     this.contentWrapper = Build(
       Flex({
@@ -284,15 +290,12 @@ export default class Content {
                         [
                           Flex({
                             marginRight: "s",
-                            tag: "a",
-                            target: "_blank",
-                            href: System.createBrainlyLink("question", {
-                              id: this.data.task_id,
-                            }),
                           }),
                           [
                             [
-                              Flex({ alignItems: "center" }),
+                              (this.contentTypeButtonContainer = Flex({
+                                alignItems: "center",
+                              })),
                               new Button({
                                 ...CONTENT_TYPE_ICON_COLOR[this.contentType],
                                 size: "s",
@@ -302,6 +305,9 @@ export default class Content {
                                   color: "white",
                                   text: this.contentType[0],
                                 }),
+                                tag: "a",
+                                target: "_blank",
+                                href: authorProfileLink,
                               }),
                             ],
                             [
@@ -309,6 +315,9 @@ export default class Content {
                                 marginLeft: "xs",
                                 alignItems: "center",
                                 direction: "column",
+                                tag: "a",
+                                target: "_blank",
+                                href: authorProfileLink,
                               }),
                               [
                                 Text({
@@ -396,7 +405,7 @@ export default class Content {
                   Text({
                     breakWords: true,
                     size: "small",
-                    html: this.data.content_short,
+                    html: replaceLatexWithURL(this.data.content_short),
                   }),
                 ],
                 (this.extraDetailsContainer = Flex({

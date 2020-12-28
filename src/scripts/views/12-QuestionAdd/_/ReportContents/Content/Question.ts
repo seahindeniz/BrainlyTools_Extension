@@ -2,6 +2,7 @@ import type { ReportedContentDataType } from "@BrainlyAction";
 import { RemoveQuestionReqDataType } from "@BrainlyAction";
 import HideElement from "@root/helpers/HideElement";
 import { Flex, Icon, Label, Text } from "@style-guide";
+import type { FlexElementType } from "@style-guide/Flex";
 import tippy from "tippy.js";
 import type ReportedContentsType from "../ReportedContents";
 import Content from "./Content";
@@ -39,6 +40,9 @@ export default class Question extends Content {
   };
 
   extraData: QuestionExtraDataType;
+  private attachmentIconContainer: FlexElementType;
+  private approvedAnswersIconContainer: FlexElementType;
+  private popularIconContainer: FlexElementType;
 
   constructor(main: ReportedContentsType, data: ReportedContentDataType) {
     super({ main, data, contentType: "Question" });
@@ -59,9 +63,10 @@ export default class Question extends Content {
   }
 
   RenderAttachmentsIcon() {
-    if (!this.extraData.attachments?.length) return;
+    if (!this.extraData.attachments?.length || this.attachmentIconContainer)
+      return;
 
-    const attachmentIconContainer = Flex({
+    this.attachmentIconContainer = Flex({
       marginRight: "xs",
       children: new Label({
         color: "gray",
@@ -70,17 +75,19 @@ export default class Question extends Content {
       }),
     });
 
-    this.extraDetailsContainer.append(attachmentIconContainer);
+    this.extraDetailsContainer.append(this.attachmentIconContainer);
   }
 
   RenderApprovedAnswersIcon() {
+    if (this.approvedAnswersIconContainer) return;
+
     const approvedAnswers = this.extraData.answers?.nodes.filter(
       answer => answer.verification,
     );
 
     if (!approvedAnswers?.length) return;
 
-    const approvedAnswersIconContainer = Flex({
+    this.approvedAnswersIconContainer = Flex({
       marginRight: "xs",
       children: new Label({
         color: "mint",
@@ -90,7 +97,7 @@ export default class Question extends Content {
       }),
     });
 
-    tippy(approvedAnswersIconContainer, {
+    tippy(this.approvedAnswersIconContainer, {
       allowHTML: true,
       content: Flex({
         direction: "column",
@@ -139,13 +146,13 @@ export default class Question extends Content {
       theme: "light",
     });
 
-    this.extraDetailsContainer.append(approvedAnswersIconContainer);
+    this.extraDetailsContainer.append(this.approvedAnswersIconContainer);
   }
 
   RenderPopularIcon() {
-    if (!this.extraData.isPopular) return;
+    if (!this.extraData.isPopular || this.popularIconContainer) return;
 
-    const iconContainer = Flex({
+    this.popularIconContainer = Flex({
       marginRight: "xs",
       title: System.data.locale.reportedContents.queue.popularQuestion,
       children: new Icon({
@@ -155,7 +162,7 @@ export default class Question extends Content {
       }),
     });
 
-    tippy(iconContainer, {
+    tippy(this.popularIconContainer, {
       allowHTML: true,
       content: Text({
         children: System.data.locale.reportedContents.queue.popularQuestion,
@@ -166,7 +173,7 @@ export default class Question extends Content {
       theme: "light",
     });
 
-    this.extraDetailsContainer.append(iconContainer);
+    this.extraDetailsContainer.append(this.popularIconContainer);
   }
 
   RenderQuickDeleteButtons() {

@@ -47,6 +47,8 @@ export default class ModerationPanelController extends ModeratePanelController {
       content.moderateButton?.Enable();
 
       if (resTicket.success === false) {
+        console.warn(resTicket);
+
         notification({
           timeOut: 5000,
           type: "error",

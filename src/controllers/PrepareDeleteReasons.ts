@@ -102,6 +102,9 @@ async function PrepareDeleteButtonSettings() {
 export default async function prepareDeleteReasons(reload = false) {
   let deleteReasons = await storage("getL", "deleteReasons");
 
+  if (System.data.config.extension.env === "development")
+    System.Log(deleteReasons);
+
   if (!deleteReasons || reload) {
     deleteReasons = await GetAndPrepareDeleteReasons();
   } else {

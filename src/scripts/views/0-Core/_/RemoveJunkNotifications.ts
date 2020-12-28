@@ -43,11 +43,12 @@ export default function RemoveJunkNotifications() {
 
   if (!infoBar) return;
 
-  infoBar = infoBar.filter(
-    (entry, index, self) =>
-      !entry.text.match(ignoredNotificationExpression) &&
-      index === self.findIndex(nextEntry => nextEntry.text === entry.text),
-  );
+  if (infoBar instanceof Array)
+    infoBar = infoBar.filter(
+      (entry, index, self) =>
+        !entry.text.match(ignoredNotificationExpression) &&
+        index === self.findIndex(nextEntry => nextEntry.text === entry.text),
+    );
 
   infoBarStr = jsesc(infoBar, {
     json: true,

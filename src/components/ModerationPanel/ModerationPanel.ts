@@ -352,9 +352,10 @@ export default class ModerationPanel {
 
     this.modal = null;
 
-    this.questionSection.gallery?.destroy();
+    this.questionSection.attachmentSection?.gallery?.destroy();
+
     this.answerSections.forEach(answerSection =>
-      answerSection.gallery?.destroy(),
+      answerSection.attachmentSection?.gallery?.destroy(),
     );
 
     notification({

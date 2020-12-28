@@ -397,20 +397,30 @@ class _System {
     this.Log(`System library initialized`);
   }
 
+  error(...args: any) {
+    this.console("error", ...args);
+  }
+
   Log(...args: any) {
-    const isContainsObject = args.filter(
-      arg => typeof arg !== "string" || typeof arg !== "number",
+    this.console("log", ...args);
+  }
+
+  console(type: "log" | "warn" | "error" | "info", ...args: any[]) {
+    const isContainsObject = args.some(
+      arg => typeof arg !== "string" && typeof arg !== "number",
     );
 
     // eslint-disable-next-line no-console
-    if (!isContainsObject) console.log(`%c${args.join(" ")}`, this.logStyle);
+    if (!isContainsObject) console[type](`%c${args.join(" ")}`, this.logStyle);
     else
       args.forEach(arg => {
         if (typeof arg === "string" || typeof arg === "number")
           // eslint-disable-next-line no-console
-          console.log(`%c${arg}`, this.logStyle);
-        // eslint-disable-next-line no-console
-        else console.log(arg);
+          console[type](`%c${arg}`, this.logStyle);
+        else {
+          // eslint-disable-next-line no-console
+          console[type](arg);
+        }
       });
   }
 

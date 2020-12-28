@@ -1,16 +1,31 @@
+function htmlDecode(input: string) {
+  const doc = new DOMParser().parseFromString(input, "text/html");
+
+  return doc.documentElement.textContent;
+}
+
 export default function replaceLatexWithURL(content: string) {
   if (!content || typeof content !== "string") return content;
 
-  return content
-    .replace("http://tex.z-dn.net", "//tex.z-dn.net")
-    .replace(/(?:\r\n|\n)/g, "")
-    .replace(/\[tex\](.*?)\[\/tex\]/gi, (_, latex) => {
-      let latexURI = window.encodeURIComponent(latex);
+  return (
+    htmlDecode(content)
+      // https://regex101.com/r/JKt5LV/1
+      .replace(/https?:\/\/(tex\..*?\.)/gi, "//$1")
+      // .replace(/(?:\r\n|\n)/g, "")
+      // https://regex101.com/r/XKRwQN/1
+      .replace(/\[tex\](.*?)\[\/tex\]/gis, (_, latex) => {
+        let latexEncodedPath = window.encodeURIComponent(
+          latex, // .replace(/(?:\r\n|\n)/g, ""),
+        );
 
-      if (!latex.startsWith("\\")) {
-        latexURI = `%5C${latexURI}`;
-      }
+        if (!latex.startsWith("\\")) {
+          latexEncodedPath = `%5C${latexEncodedPath}`;
+        }
 
-      return `<img src="${System.data.Brainly.defaultConfig.config.data.config.serviceLatexUrlHttps}${latexURI}" title="${latex}" align="absmiddle" class="latex-formula sg-box__image">`;
-    });
+        return `<div><img src="${
+          System.data.Brainly.defaultConfig.config.data.config
+            .serviceLatexUrlHttps
+        }${latexEncodedPath}" title="${latex.replace(/\\\\ ?/g, "\n")}"></div`;
+      })
+  );
 }

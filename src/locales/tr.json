@@ -41,7 +41,7 @@
       "ongoingProcess": "Bazı içerikler halen işleniyor. Sayfadan ayrılmak istediğine emin misin?",
       "areYouSure": "Emin misin?",
       "mayRequireWarning": "Silmeye çalıştığın içeriğin sahibine uyarı verilmesi uygun gibi görünüyor.\nİçeriği ekleyen kişiye uyarı verilsin mi?",
-      "ongoingProcessWait": "Bazı içerikler halen işleniyor ve sonlanana kadar beklemek zorundasın",
+      "ongoingProcessWait": "Bazı içerikler hala işleniyor. İşlem tamamlanana kadar bekleyin lütfen.",
       "xSendYouANewMessage": "%{userName} kişisi mesaj gönderdi",
       "newNotification": "Yeni bildirim",
       "operationCompleted": "İşlem tamamlandı",
@@ -92,9 +92,9 @@
     "listOfIds": "Id listesi",
     "pointsWithExample": {
       "text": "Puan: (1 veya -1)",
-      "title": "123 şeklinde pozitif sayı girişi yaparak puan ekleyebilir\nveya\n-123 şeklinde negatif sayı girişi yaparak puan düşürebilirsin"
+      "title": "Pozitif sayı (123) girişi yaparak puan ekleyebilir\nveya\nNegatif sayı (123) girişi yaparak puan düşürebilirsin"
     },
-    "showMore": "Daha fazla göster..",
+    "showMore": "Daha fazla göster",
     "userHasNPoints": "Kullanıcının %{n} puanı var",
     "send": "Gönder",
     "deleteAll": "Tümünü sil",
@@ -139,7 +139,7 @@
       "privilegeHasGiven": "%{user_amount}kullanıcıya yetki verildi",
       "privilegeHasRevoked": "%{user_amount} kullanıcıdan yetki alındı",
       "iCantFetchMarketData": "Eodev verilerini alamadım",
-      "incorrectData": "%{market_domain_name} ile iletişime geçemedim<br><br>Herhangi bir %{market_domain_name} sayfasına girebilir misin veya zaten girdiğin sayfayı yenileyebilir misin?"
+      "incorrectData": "%{market_domain_name} ile iletişime geçemedim\n\nHerhangi bir %{market_domain_name} sayfasına girebilir misin veya zaten girdiğin sayfayı yenileyebilir misin?"
     },
     "createShortLinkButton": {
       "text": "URL Kısalt",
@@ -160,7 +160,7 @@
         "setYourColor": "Renk belirle",
         "rainbow": "Gökkuşağı",
         "pickAColor": "Renk seç",
-        "colorFormatInfo": "Tema rengi, Hex kodlarıyla ayarlanabilir. Örneğin, kırmızı renk için #FF0000 şeklinde kod kullanılması gerekiyor"
+        "colorFormatInfo": "Tema rengini onaltılık(hex) kodlarla belirleyebilirsin (örn. kırmızı renk için #FF0000)."
       },
       "quickDeleteButtons": {
         "text": "Hızlı Silim Butonları",
@@ -431,7 +431,7 @@
     },
     "MassContentDeleter": {
       "text": "Çoklu içerik silici",
-      "nIdsToDeleted": "%{n}içerik silinecek",
+      "nIdsToDeleted": "%{n} içerik silinecek",
       "nHasBeenDeleted": "%{n} içerik silindi",
       "containerExplanation": "Metin kususuna içerik linklerini veya idleri satır satır girmelisin. Her satır, 1 id numarası barındırmalı",
       "select": {
@@ -543,8 +543,7 @@
       },
       "methods": {
         "text": "Eylemler",
-        "clickListToCopy": "Idleri kopyalamak için listeye tıklayabilirsin",
-        "iCantCopy": ":( kopyalayamadım",
+        "iCantCopy": "Panoya kopyalanamadı",
         "reportForAbuse": {
           "chooseAReason": "Bir neden seçin",
           "tabButton": {
@@ -578,7 +577,7 @@
     "notificationMessages": {
       "unsendedMessage": "Yazdığın mesajı göndermedin, halen ayrılmak istiyor musun?",
       "wrongMessageLength": "Mesaj uzunluğu 1 ila %{max_value} arasında olmalıdır",
-      "messageContainsSwear": "Hopps! Mesajında servis kurallarını ihlal eden içerikler bulunmakta. Bu şekilde gönderemezsin!"
+      "messageContainsSwear": "Oops! Mesajında servis kurallarını ihlal eden içerikler bulunmakta. Bu şekilde gönderemezsin!"
     }
   },
   "userContent": {
@@ -589,7 +588,7 @@
       "selectAnUnapprovedAnswerForApproving": "Doğrulamaya başlamadan önce doğrulanmamış cevapları seçmelisin",
       "confirmApproving": "Bu cevabı doğrulamak istiyor musun?",
       "someOfSelectedAnswersAreUnapproved": "Seçilen bazı içerikler doğrulanmamış. O yüzden doğrulama kaldırma işlemine gerek kalmıyor",
-      "selectAnApprovedAnswerForUnapproving": "İşleme başlamadan önce doğrulanmış cevap/lar seçmelisin",
+      "selectAnApprovedAnswerForUnapproving": "İşleme başlamadan önce doğrulanmış cevap seçmelisin",
       "confirmUnapproving": "Bu cevaptan doğrulamayı kaldırmak istediğine emin misin?",
       "doYouWantToConfirmThisContent": "İçeriği onaylamak istiyor musun?",
       "confirmReporting": "Seçili cevapları hatalı olarak bildirmek istiyor musun?",
@@ -620,11 +619,11 @@
     "notificationMessages": {
       "areYouSureDeleteSelectedFriends": "Seçili kişileri arkadaşlık listenden kaldırmak istiyor musun?",
       "areYouSureRemoveAllFriends": "Tüm arkadaşlarını silmek istediğinden emin misin?",
-      "youHaveNoFriends": "Üzülme çünkü listeleyebileceğim bir arkadaşın yok :/ Sorry",
-      "cannotChangeBio": "Üzgünüm, bio metnini değiştiremedim :/",
+      "youHaveNoFriends": "Listelenecek arkadaş bulunamadı. Bunun bir hata olduğunu düşünüyorsan, sayfayı yenileyip ve yeniden kontrol etmelisin.",
+      "cannotChangeBio": "Bio metni güncellenirken bir hata oluştu. Lütfen sayfayı yenileyip ve yeniden dener misin?",
       "fileSizeExceeded": "%{file_name} dosyası %{file_size} olan dosya limitini aşıyor",
-      "aShortcutFile": "Bir dosyanın kısayolunu yüklemeye çalışıyorsun ve bu dosya eklemek istediğin dosya olmayabilir. Eklesen de bir anlamı olmayacak.\nKısayolun hedeflendiği orjinal dosyayı eklemeni öneririm.\nBu kısayol dosyasını yine de eklemek istiyor musun?",
-      "unableToReportAccountDeleting": "Hesap silimini Topluluk Yöneticisine bildiremediğim için silim işlemine devam edemiyorum. Üzgünüm :/<br>Eğer bu hata devam ederse, eklenti yöneticine bildirmelisin",
+      "aShortcutFile": "Bir kısayol dosyası yüklemeye çalışıyorsun. Kısayolun hedefi olan orijinal dosyayı seçmeni öneririm.\n\nBu kısayol dosyasını yine de eklemek istiyor musun?",
+      "unableToReportAccountDeleting": "Hesap silimi Topluluk Yöneticisine bildirilemedi için gerçekleştirilemedi.\nBu hata sürekli devam ederse, eklenti yöneticine bildirmelisin",
       "confirmNoEvidenceOrComment": "Kanıt veya yorum eklemedin.\nYine de silmek istiyor musun?",
       "selectAtLeastOneUser": "En az bir kullanıcı seçmelisin",
       "youNeedToProvideSomeDetails": "Biraz daha detay ekleyebilir misin?",
@@ -652,12 +651,12 @@
       "title": "Seçili olan arkadaşlarını, arkadaşlık listesinden kaldır"
     },
     "accountDelete": {
-      "evidences": "Kanıtlar",
+      "evidences": "Kanıt",
       "willBeReviewedByCommunityManager": "Topluluk Yöneticisi'ne iletilecek",
       "addFiles": "Dosya ekle",
       "compressingTheFile": "%{file_name} sıkıştırılıyor",
       "compressingTheFiles": "Dosyalar sıkıştırılıyor",
-      "uploading": "İçerikler yükleniyor %{percentage_value}",
+      "uploading": "Yükleniyor (%{percentage_value})",
       "deletingContinues": "Devam ediyor..",
       "reasonForDeletion": "Belirtmek istediğin bir sebep var mı?"
     },
@@ -670,7 +669,7 @@
       "removingAllSpecialRanks": "Tüm özel rütbeler kaldırılıyor.."
     },
     "morePanel": {
-      "title": "Daha fazla..",
+      "title": "Daha fazla...",
       "privileges": {
         "title": "Atanmış yetkiler"
       },
@@ -689,7 +688,7 @@
     },
     "userWarningsList": {
       "name": "Son uyarılar",
-      "showRest": "Kalanı göster"
+      "showRest": "Devamı.."
     },
     "goToOldProfilePage": "Eski profil sayfasına git"
   },
@@ -807,17 +806,17 @@
       "bestAnswer": "En iyi cevap",
       "popularQuestion": "Popüler soru!",
       "moderatorVerifiedSomeonesAnswer": "%{verifier}, %{author} kullanıcısının yanıtını doğruladı",
-      "loadMore": "Daha fazla yükle..",
+      "loadMore": "Daha fazla yükle",
       "exportReports": {
         "exportAsSpreadsheet": "Filtrelenen içerikleri e-tablo olarak dışa aktar",
         "nothingToExport": "Dışa aktarılacak içerik bulunamadı",
-        "id": "Id",
+        "id": "ID",
         "questionId": "Soru id'si",
         "reportedUserId": "Bildirilen kullanıcı id'si",
         "reporterUserId": "Bildirenin id'si",
         "reportedOn": "Bildirim tarihi",
         "reason": "Sebep",
-        "contentShort": "İçerik(kısa)",
+        "contentShort": "İçerik önizlemesi",
         "isModerated": "Düzenlendi mi?",
         "isCorrected": "Düzenlendi mi?"
       },
@@ -825,7 +824,7 @@
       "pageNumberInputTitle": "%{MIN_N} ile %{MAX_N} arasında bir sayfa numarası girin"
     },
     "loadAll": "Tüm şikayetleri getir",
-    "loadAllConfirmationMessage": "Brainly'den bildirilen tüm içerikleri çekmeye çalışacağım. Ancak bu işlem, çok fazla uzadığı zaman bağlantılar Brainly tarafından kesintiye uğrayabilir. \nLütfen işlemi başlatmak için onaylayın",
+    "loadAllConfirmationMessage": "Brainly'den bildirilen tüm içerikleri çekmeye çalışacağım. Ancak bu işlem, çok fazla uzadığı zaman bağlantılar Brainly tarafından kesintiye uğrayabilir.\n\nLütfen işlemi başlatmak için onaylayın",
     "massModerate": {
       "name": "Çoklu içerik düzenleme",
       "description": "Yalnızca yüklenen içerikleri düzenleyebilirsin",
@@ -899,10 +898,10 @@
         },
         "contentLength": {
           "name": "İçerik uzunluğu",
-          "equals": "eşittir =",
+          "equals": "eşittir",
           "lowerThan": "küçüktür <",
           "label": {
-            "equals": "eşittir = %{N}",
+            "equals": "eşittir %{N}",
             "lowerThan": "küçüktür < %{N}",
             "greaterThan": "büyüktür > %{N}"
           },
@@ -915,7 +914,7 @@
           "name": "Konu"
         },
         "userFilter": {
-          "id": "id",
+          "id": "ID",
           "nick": "nick",
           "lookFor": "Seçim yap",
           "specialRank": "Özel rütbe",
@@ -936,7 +935,7 @@
             "sameWith": "şununla aynı olmalı",
             "startsWith": "şununla başlar",
             "endsWith": "şununla biter",
-            "regExp": "RegExp(JS/ES6)"
+            "regExp": "RegExp (JS/ES6)"
           },
           "additionalData": "Ek bilgiler",
           "content": "İçerik"
@@ -949,13 +948,13 @@
   "moderationPanel": {
     "text": "Ödev Düzenle",
     "answers": "Cevaplar (%{number_of_answers})",
-    "panelWillClose": "Panel %{remain_N} saniye içerisinde kapanacak",
+    "panelWillClose": "Panel %{remain_N} saniye içerisinde kapanacak..",
     "showAllComments": "Tüm yorumları göster",
     "failedToGetLogs": "Sorunun eylem geçmişini gösterirken bir sorun oluştu",
     "seeMoreDeleteOptions": "Daha fazla silim seçeneği",
     "thereIsNoReportLeft": "Bildirilmiş içerik kalmadı",
     "deleteAllComments": "Tüm yorumları sil",
-    "confirmDeletingNComments": "Lütfen %{N} yorumun silinmesini onaylayın",
+    "confirmDeletingNComments": "%{N} yorumu silmek istediğinden emin misin?",
     "commentsDeleted": "Yorumlar silindi!",
     "switchingToNextContent": "Bir sonraki içeriğe geçmeye çalışacağım",
     "hideDeletedComments": "Silinen yorumları gizle",
@@ -971,11 +970,14 @@
     "answerHasCorrected": "%{nick} cevabını düzeltti",
     "questionHasBeenDeleted": "Soru silindi",
     "moderationCompleted": "Denetleme tamamlandı",
-    "extendBy15Minutes": "15 dakika uzat",
+    "extendBy15Minutes": "15 dakikaya uzat",
     "log": {
       "text": "Geçmiş",
       "deletedWithWarning": "Uyarı ile silinmiş",
-      "nActions": "%{number_of} eylem",
+      "nActions": {
+        "one": "1 eylem",
+        "other": "%{number_of} eylem"
+      },
       "nMore": "%{number_of_occurrences} benzer"
     }
   },

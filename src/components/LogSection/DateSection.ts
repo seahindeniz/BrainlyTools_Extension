@@ -66,6 +66,14 @@ export default class LogDateSection {
   }
 
   Render() {
+    let nActionsText = System.data.locale.moderationPanel.log.nActions.one;
+
+    if (this.logEntries.length !== 1)
+      nActionsText = System.data.locale.moderationPanel.log.nActions.other.replace(
+        /%{number_of}/g,
+        String(this.logEntries.length),
+      );
+
     this.container = Build(
       Flex({
         marginTop: "s",
@@ -86,10 +94,7 @@ export default class LogDateSection {
                   tag: "i",
                   size: "xsmall",
                   color: "gray-secondary",
-                  children: System.data.locale.moderationPanel.log.nActions.replace(
-                    /%{number_of}/g,
-                    String(this.logEntries.length),
-                  ),
+                  children: nActionsText,
                 }),
               ],
             }),

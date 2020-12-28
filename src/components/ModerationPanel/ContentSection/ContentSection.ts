@@ -6,6 +6,8 @@ import type {
   UsersDataInReportedContentsType,
 } from "@BrainlyAction";
 import Action from "@BrainlyAction";
+import type { AttachmentDataType } from "@components/AttachmentSection/Attachment";
+import AttachmentSection from "@components/AttachmentSection/AttachmentSection";
 import notification from "@components/notification2";
 import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
@@ -25,10 +27,8 @@ import type { FlexElementType } from "@style-guide/Flex";
 import { IconColorType } from "@style-guide/Icon";
 import { TextElement } from "@style-guide/Text";
 import moment from "moment";
-import Viewer from "viewerjs";
 import DeleteSection from "../../DeleteSection2/DeleteSection";
 import type ModerationPanelClassType from "../ModerationPanel";
-import Attachment from "./Attachment";
 import CommentSection from "./CommentSection/CommentSection";
 import type QuickActionButtonsForAnswerClassType from "./QuickActionButtons/Answer";
 import type QuickActionButtonsForQuestionClassType from "./QuickActionButtons/Question";
@@ -63,7 +63,6 @@ export default class ContentSection {
   contentContainerBox: Box;
   commentSection?: CommentSection;
   contentWrapper: FlexElementType;
-  gallery?: Viewer;
   deleteSection?: DeleteSection;
   quickActionButtons:
     | QuickActionButtonsForAnswerClassType
@@ -73,9 +72,9 @@ export default class ContentSection {
   reportDetailsBox: FlexElementType;
   reportedFlagIconContainer: FlexElementType;
   numberOfAttachments: Text;
-  attachmentLabelContainer: FlexElementType;
-  attachmentContainer: FlexElementType;
-  attachments: Attachment[];
+  private attachmentLabelContainer?: FlexElementType;
+  private attachmentContainer?: FlexElementType;
+  attachmentSection?: AttachmentSection;
 
   constructor(main: ModerationPanelClassType, contentType: ContentTypeType) {
     this.main = main;
@@ -409,83 +408,31 @@ export default class ContentSection {
 
     this.RenderAttachmentLabel();
 
-    const galleryContainer = Flex({
-      wrap: true,
-      className: "ext-image-gallery",
-    });
+    const attachments: AttachmentDataType[] = this.data.attachments.map(
+      attachmentData => ({
+        databaseId: attachmentData.id,
+        url: attachmentData.full,
+        thumbnailUrl: attachmentData.thumbnail,
+        mimeType: attachmentData.type,
+      }),
+    );
 
-    this.attachments = this.data.attachments.map(attachmentData => {
-      const attachment = new Attachment(this, attachmentData);
-
-      galleryContainer.append(attachment.container);
-
-      return attachment;
-    });
-
-    this.attachmentContainer = Flex({
-      marginBottom: "xs",
-      children: galleryContainer,
-    });
-
-    this.contentWrapper.append(this.attachmentContainer);
-
-    this.gallery = new Viewer(galleryContainer, {
-      fullscreen: false,
-      loop: false,
-      title: false,
-      url(image: HTMLImageElement) {
-        return image.dataset.src;
+    this.attachmentSection = new AttachmentSection({
+      attachments,
+      content: {
+        databaseId: this.data.id,
+        questionId: "task_id" in this.data ? this.data.task_id : this.data.id,
+        type: this.contentType,
       },
-      filter(image: HTMLImageElement) {
-        return !image.dataset.src.endsWith("svg");
-      },
-      toolbar: {
-        zoomIn: 1,
-        zoomOut: 1,
-        oneToOne: 1,
-        reset: 1,
-        prev: this.data.attachments.length > 1 ? 1 : false,
-        play: false,
-        next: this.data.attachments.length > 1 ? 1 : false,
-        rotateLeft: 1,
-        rotateRight: 1,
-        flipHorizontal: 1,
-        flipVertical: 1,
-      },
+      onDelete: this.AttachmentDeleted.bind(this),
     });
 
-    if (this.data.attachments.length > 1) {
-      galleryContainer.addEventListener(
-        "view",
-        (
-          event: CustomEvent<{
-            image: HTMLImageElement;
-            index: number;
-            originalImage: HTMLImageElement;
-          }>,
-        ) => {
-          const prevTooltip = (this.gallery[
-            // eslint-disable-next-line dot-notation
-            "toolbar"
-          ] as HTMLDivElement).querySelector(".viewer-prev") as HTMLLIElement;
-          const nextTooltip = (this.gallery[
-            // eslint-disable-next-line dot-notation
-            "toolbar"
-          ] as HTMLDivElement).querySelector(".viewer-next") as HTMLLIElement;
-
-          if (event.detail.index === 0) {
-            nextTooltip.removeAttribute("style");
-            prevTooltip.style.display = "none";
-          } else if (event.detail.index === this.data.attachments.length - 1) {
-            prevTooltip.removeAttribute("style");
-            nextTooltip.style.display = "none";
-          } else {
-            nextTooltip.removeAttribute("style");
-            prevTooltip.removeAttribute("style");
-          }
-        },
-      );
-    }
+    this.contentWrapper.append(
+      Flex({
+        marginBottom: "xs",
+        children: this.attachmentSection.container,
+      }),
+    );
   }
 
   RenderAttachmentLabel() {
@@ -503,6 +450,18 @@ export default class ContentSection {
     });
 
     this.contentDetailsContainer.append(this.attachmentLabelContainer);
+  }
+
+  AttachmentDeleted() {
+    const { length } = this.attachmentSection.attachments;
+
+    if (length === 0) {
+      this.RemoveAttachmentContainer();
+
+      return;
+    }
+
+    this.numberOfAttachments.nodeValue = String(length);
   }
 
   RenderCommentSection() {
@@ -631,8 +590,8 @@ export default class ContentSection {
     this.contentBox.ChangeColor("peach-secondary");
     this.main.listeners.onModerate(this.data.id, "delete", this.contentType);
 
-    if (this.attachments)
-      this.attachments.forEach(attachment =>
+    if (this.attachmentSection.attachments)
+      this.attachmentSection.attachments.forEach(attachment =>
         attachment.deleteButton.element.remove(),
       );
 
@@ -723,11 +682,9 @@ export default class ContentSection {
     this.numberOfAttachments.remove();
     this.attachmentLabelContainer.remove();
     this.attachmentContainer.remove();
-    this.gallery?.destroy();
 
     this.numberOfAttachments = null;
     this.attachmentLabelContainer = null;
     this.attachmentContainer = null;
-    this.gallery = null;
   }
 }

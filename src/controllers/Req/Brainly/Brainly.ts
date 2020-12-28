@@ -3,6 +3,22 @@ import * as gql from "gql-query-builder";
 import IQueryBuilderOptions from "gql-query-builder/build/IQueryBuilderOptions";
 import Request from "..";
 
+type CommonSuccessResponseDataType = { success: true };
+type CommonFailedResponseDataType = {
+  success: false;
+  message?: string;
+  code?: number;
+  exception_type?: number;
+};
+
+export type CommonResponseDataType =
+  | CommonSuccessResponseDataType
+  | CommonFailedResponseDataType;
+
+export type CommonGenericResponseType<T> =
+  | (CommonSuccessResponseDataType & T)
+  | CommonFailedResponseDataType;
+
 type GQL_OperationData = IQueryBuilderOptions | IQueryBuilderOptions[];
 
 export type PHPTokens = {
@@ -19,6 +35,14 @@ function GenerateCoupon() {
       `${new Date().getTime()}-${Math.floor(1 + Math.random() * 99999999)}`,
   );
 }
+
+export const FAILED_RESPONSE = {
+  success: false,
+  get message() {
+    return System.data.locale.common.notificationMessages
+      .somethingWentWrongPleaseRefresh;
+  },
+};
 
 export default class Brainly extends Request {
   GenerateCoupon: typeof GenerateCoupon;

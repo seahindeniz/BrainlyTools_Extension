@@ -56,6 +56,7 @@ type CommonFailedResponseDataType = {
   exception_type?: number;
 };
 
+// TODO replace this with the one from Brainly.ts
 export type CommonResponseDataType =
   | CommonSuccessResponseDataType
   | CommonFailedResponseDataType;
@@ -339,6 +340,7 @@ export type RemoveQuestionReqDataType = {
   _coupon_?: string;
 };
 
+// TODO replace this with the one in RemoveQuestion.ts
 export type RemoveAnswerReqDataType = {
   model_id: number;
   reason: string;

@@ -543,7 +543,6 @@ export default {
       },
       methods: {
         text: "Methods",
-        clickListToCopy: "Click list to copy ID(s) to clipboard",
         iCantCopy: "Unable to copy to the clipboard",
         reportForAbuse: {
           chooseAReason: "Choose a reason",
@@ -624,7 +623,7 @@ export default {
       cannotChangeBio: "An error occurred while updating your bio. Please refresh the page and try again.",
       fileSizeExceeded: "The file \"%{file_name}\" exceeds the size limit of %{file_size}.",
       aShortcutFile: "The file you're attempting to upload is a shortcut. You may need to select the original file instead.\n\nDo you still want to upload this shortcut?",
-      unableToReportAccountDeleting: "The deletion request couldn't be reported to your community manager, so the account hasn't been deleted. If this error persists, please contact your extension manager.",
+      unableToReportAccountDeleting: "The deletion request couldn't be reported to your community manager, so the account hasn't been deleted.\nIf this error persists, please contact your extension manager.",
       confirmNoEvidenceOrComment: "You didn't add any evidence or comment.\nDo you still want to delete this profile?",
       selectAtLeastOneUser: "You need to select at least one user",
       youNeedToProvideSomeDetails: "You need to provide some details",
@@ -975,7 +974,10 @@ export default {
     log: {
       text: "Log",
       deletedWithWarning: "Deleted with a warning",
-      nActions: "%{number_of} actions",
+      nActions: {
+        one: "1 action",
+        other: "%{number_of} actions"
+      },
       nMore: "%{number_of_occurrences} more"
     }
   },

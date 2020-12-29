@@ -690,7 +690,8 @@
       "name": "Recent warnings",
       "showRest": "Show all warnings"
     },
-    "goToOldProfilePage": "Przejdź do starego widoku profilu użytkownika"
+    "goToOldProfilePage": "Przejdź do starego widoku profilu użytkownika",
+    "comments": "Comments"
   },
   "userWarnings": {
     "notificationMessages": {

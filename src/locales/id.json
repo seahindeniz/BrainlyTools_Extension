@@ -690,7 +690,8 @@
       "name": "Peringatan terakhir",
       "showRest": "Show rest"
     },
-    "goToOldProfilePage": "Buka halaman profil lama"
+    "goToOldProfilePage": "Buka halaman profil lama",
+    "comments": "Comments"
   },
   "userWarnings": {
     "notificationMessages": {

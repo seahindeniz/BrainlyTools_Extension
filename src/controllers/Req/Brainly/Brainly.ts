@@ -324,6 +324,14 @@ export default class Brainly extends Request {
     return this.P("users");
   }
 
+  user_content() {
+    return this.P("user_content");
+  }
+
+  comments_tr() {
+    return this.P("comments_tr");
+  }
+
   search() {
     return this.P("search");
   }

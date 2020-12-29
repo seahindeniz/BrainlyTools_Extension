@@ -1,12 +1,15 @@
 /* eslint-disable no-new */
+import Action from "@BrainlyAction";
+import { GetUserCommentsPage } from "@BrainlyReq";
+import CreateElement from "@components/CreateElement";
+import UserBio from "@components/UserBio";
+import UserHat from "@components/UserHat";
+import UserNoteBox from "@components/UserNoteBox";
+import InsertAfter from "@root/helpers/InsertAfter";
 import IsVisible from "@root/helpers/IsVisible";
 import WaitForElement from "@root/helpers/WaitForElement";
 import ServerReq from "@ServerReq";
 import { ActionList, ActionListHole, ContentBox } from "@style-guide";
-import UserBio from "@components/UserBio";
-import UserHat from "@components/UserHat";
-import UserNoteBox from "@components/UserNoteBox";
-import Action from "@BrainlyAction";
 import AccountDeleteReporter from "./_/AccountDeleteReporter";
 import FriendsManager from "./_/FriendsManager";
 import MorePanel from "./_/MorePanel";
@@ -126,6 +129,82 @@ export default class UserProfile {
     infoBottom.remove();
   }
 
+  LoadComponents() {
+    new UserWarningsList(this);
+    this.morePanel = new MorePanel(this);
+
+    MakeProfileMorePanelAlwaysVisible();
+    HideDeleteOptions();
+
+    new AccountDeleteReporter();
+
+    this.RenderCommentsCount();
+    this.RenderFriendsManager();
+    this.RenderProfileInfoSection();
+    this.LoadComponentsAfterExtensionResolve();
+    this.LoadComponentsAfterBrainlyResolve();
+    this.LoadComponentsAfterModeratorsResolved();
+    this.LoadComponentsAfterAllResolved();
+  }
+
+  private async RenderCommentsCount() {
+    const numberOfAnswersContainer = document.querySelector(
+      "#main-left > .personal_info > .mod-profile-panel > .fright",
+    );
+
+    if (
+      !(numberOfAnswersContainer?.firstElementChild instanceof HTMLSpanElement)
+    )
+      return;
+
+    const numberOfAnswers =
+      numberOfAnswersContainer.firstElementChild.innerText;
+
+    numberOfAnswersContainer.firstElementChild.remove();
+    numberOfAnswersContainer.append(
+      CreateElement({
+        tag: "span",
+        className: "orange",
+        children: CreateElement({
+          tag: "a",
+          href: `/users/user_content/${this.profileData.id}/responses`,
+          children: numberOfAnswers,
+        }),
+      }),
+    );
+
+    const resCommentsPage = await GetUserCommentsPage(this.profileData.id);
+
+    const numberOfComments = resCommentsPage.match(
+      /(?<=:<\/b> ).*?(?=<\/p>)/i,
+    )?.[0];
+
+    if (numberOfComments === undefined || numberOfComments === null) return;
+
+    const container = CreateElement({
+      tag: "span",
+      className: "fright",
+      children: [
+        `${System.data.locale.userProfile.comments}: `,
+        CreateElement({
+          tag: "span",
+          className: "orange",
+          children: CreateElement({
+            tag: "a",
+            href: `/users/user_content/${this.profileData.id}/comments_tr`,
+            children: numberOfComments,
+          }),
+        }),
+      ],
+    });
+
+    const fragment = document.createDocumentFragment();
+
+    fragment.append(CreateElement({ tag: "br" }), container);
+
+    InsertAfter(fragment, numberOfAnswersContainer);
+  }
+
   RenderFriendsManager() {
     if (Number(window.myData.id) === Number(this.profileData.id))
       FriendsManager();
@@ -141,23 +220,6 @@ export default class UserProfile {
     );
 
     if (personalInfo) personalInfo.after(this.infoSection);
-  }
-
-  LoadComponents() {
-    new UserWarningsList(this);
-    this.morePanel = new MorePanel(this);
-
-    MakeProfileMorePanelAlwaysVisible();
-    HideDeleteOptions();
-
-    new AccountDeleteReporter();
-
-    this.RenderFriendsManager();
-    this.RenderProfileInfoSection();
-    this.LoadComponentsAfterExtensionResolve();
-    this.LoadComponentsAfterBrainlyResolve();
-    this.LoadComponentsAfterModeratorsResolved();
-    this.LoadComponentsAfterAllResolved();
   }
 
   async LoadComponentsAfterExtensionResolve() {

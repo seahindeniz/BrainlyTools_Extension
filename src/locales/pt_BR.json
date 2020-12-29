@@ -690,7 +690,8 @@
       "name": "Últimas advertências",
       "showRest": "Mostrar mais"
     },
-    "goToOldProfilePage": "Ir para a antiga visualização de perfil"
+    "goToOldProfilePage": "Ir para a antiga visualização de perfil",
+    "comments": "Comments"
   },
   "userWarnings": {
     "notificationMessages": {

@@ -623,7 +623,7 @@
       "cannotChangeBio": "Une erreur s'est produite lors de la mise à jour de votre biographie. Veuillez actualiser la page et réessayer.",
       "fileSizeExceeded": "Le fichier \" %{file_name} \" dépasse la taille limite de %{file_size}.",
       "aShortcutFile": "Le fichier que vous essayez d'envoyer est un raccourci. Tu devrais sélectionner le fichier original à la place.\n\nVeux-tu toujours envoyer ce raccourci ?",
-      "unableToReportAccountDeleting": "La demande de suppression n'a pas pu être signalée à votre Community Manager, donc le compte n'a pas été supprimé. Si cette erreur persiste, merci de contacter Tom.",
+      "unableToReportAccountDeleting": "La demande de suppression n'a pas pu être signalée à votre Community Manager, donc le compte n'a pas été supprimé.\nSi cette erreur persiste, merci de contacter l'administrateur (Tom).",
       "confirmNoEvidenceOrComment": "Vous n'avez ajouter aucune preuve ou commentaire. \nVoulez-vous toujours supprimer ce compte ?",
       "selectAtLeastOneUser": "Tu dois sélectionner au moins un utilisateur",
       "youNeedToProvideSomeDetails": "Vous devez fournir quelques détails",
@@ -690,7 +690,8 @@
       "name": "Avertissements récents",
       "showRest": "Afficher tous les avertissements"
     },
-    "goToOldProfilePage": "Aller sur l'ancienne version de la page"
+    "goToOldProfilePage": "Aller sur l'ancienne version de la page",
+    "comments": "Commentaires"
   },
   "userWarnings": {
     "notificationMessages": {

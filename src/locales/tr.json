@@ -690,7 +690,8 @@
       "name": "Son uyarılar",
       "showRest": "Devamı.."
     },
-    "goToOldProfilePage": "Eski profil sayfasına git"
+    "goToOldProfilePage": "Eski profil sayfasına git",
+    "comments": "Yorumlar"
   },
   "userWarnings": {
     "notificationMessages": {

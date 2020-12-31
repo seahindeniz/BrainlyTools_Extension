@@ -39,7 +39,15 @@ export default class AnswerSection {
     confirmed: boolean;
     thanks: number;
     rating: number;
-    attachments: [];
+    attachments: {
+      extension: string;
+      full: string;
+      hash: string;
+      id: number;
+      size: number;
+      thumbnail: string;
+      type: string;
+    }[];
   };
 
   moderatorInfoContainer?: FlexElementType;
@@ -76,6 +84,7 @@ export default class AnswerSection {
   FindMainContainer() {
     this.searchingForModerationBox = true;
 
+    // Ugly matching starts 😓
     this.mainContainer = this.main.answerContainers.find(answerContainer => {
       if (answerContainer.dataset.ext) return false;
 
@@ -149,6 +158,38 @@ export default class AnswerSection {
         return false;
       }
 
+      const { length } = this.extraDetails.attachments;
+
+      if (length === 1) {
+        const attachmentPreviewContainer = answerContainer.querySelector<HTMLDivElement>(
+          ".brn-qpage-next-attachments-viewer-image-preview",
+        );
+
+        if (!attachmentPreviewContainer) {
+          console.log(
+            "Attachment preview doesn't match",
+            attachmentPreviewContainer,
+            length,
+          );
+
+          return false;
+        }
+      } else {
+        const attachmentListElements = answerContainer.querySelectorAll<HTMLLIElement>(
+          "ul.brn-qpage-next-attachments-viewer-list li",
+        );
+
+        if (attachmentListElements.length !== length) {
+          console.log(
+            "Attachment count doesn't match",
+            attachmentListElements.length,
+            length,
+          );
+
+          return false;
+        }
+      }
+
       const contentContainer = answerContainer.querySelector<HTMLDivElement>(
         ".js-answer-content",
       );
@@ -181,14 +222,15 @@ export default class AnswerSection {
 
       return true;
     });
+    // Ugly matching ends 😓
 
     if (this.mainContainer) this.mainContainer.dataset.ext = "true";
 
-    // console.warn(
-    //   "answerContainer",
-    //   this.mainContainer,
-    //   this.extraDetails.user.nick,
-    // );
+    /* console.warn(
+      "answerContainer",
+      this.mainContainer,
+      this.extraDetails.user.nick,
+    ); */
 
     this.searchingForModerationBox = false;
   }

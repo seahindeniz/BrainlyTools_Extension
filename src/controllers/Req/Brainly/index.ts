@@ -1,3 +1,4 @@
+export { default as GetQuestion } from "./GetQuestion";
 export { default as GetUserCommentsPage } from "./GetUserCommentsPage";
 export { default as GQL } from "./GQL";
 export { default as RemoveAnswer } from "./RemoveAnswer";

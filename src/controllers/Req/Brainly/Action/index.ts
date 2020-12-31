@@ -477,12 +477,6 @@ export default class Action extends Brainly {
     return this.Legacy().hello().world()[data ? "POST" : "GET"](data);
   }
 
-  GetQuestion(id: number | string) {
-    if (~~id === 0) return Promise.reject(Error("Invalid id"));
-
-    return this.Legacy().api_tasks().main_view().P(String(id)).GET();
-  }
-
   /* GetQuestion2(
     id: number | string,
     {
@@ -1451,7 +1445,11 @@ export default class Action extends Brainly {
     model_id: number;
     model_type_id: 1 | 2 | "Answer" | "Question";
     task_id: number;
-  }) {
+  }): Promise<
+    CommonGenericResponseType<{
+      message: string;
+    }>
+  > {
     if (data.model_type_id === "Question") data.model_type_id = 1;
 
     if (data.model_type_id === "Answer") data.model_type_id = 2;

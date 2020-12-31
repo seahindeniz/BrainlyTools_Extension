@@ -1,5 +1,10 @@
 /* eslint-disable camelcase */
-import Action from "@BrainlyAction";
+import { CommonGenericResponseType } from "@BrainlyAction";
+import { GetQuestion } from "@BrainlyReq";
+import type {
+  QuestionMainViewDataType,
+  QuestionMainViewUserDataType,
+} from "@BrainlyReq/GetQuestion";
 import CreateElement from "@components/CreateElement";
 import notification from "@components/notification2";
 import Build from "@root/helpers/Build";
@@ -33,7 +38,11 @@ export default class UserContentRow {
   questionLinkContainerList: FlexElementType;
   questionLinkAnchor: TextElement<"a">;
   resPromise: any;
-  res: any;
+  res: CommonGenericResponseType<{
+    data: QuestionMainViewDataType;
+    users_data: QuestionMainViewUserDataType[];
+  }>;
+
   checkbox: Checkbox;
   viewer: FlexElementType;
   contentContainer: Box;
@@ -135,7 +144,7 @@ export default class UserContentRow {
       if (!this.main.questions[this.element.questionID])
         this.main.questions[this.element.questionID] = {};
 
-      this.resPromise = new Action().GetQuestion(this.element.questionID);
+      this.resPromise = GetQuestion(this.element.questionID);
       this.main.questions[this.element.questionID].resPromise = this.resPromise;
     } else {
       this.resPromise = this.main.questions[this.element.questionID].resPromise;
@@ -147,7 +156,7 @@ export default class UserContentRow {
   async RenderAfterResolve() {
     await this.SetContentAfterResolve();
 
-    if (this.res && this.res.success) {
+    if (this.res?.success) {
       this.RenderQuestionContent();
       this.RenderAnswers();
 
@@ -163,8 +172,6 @@ export default class UserContentRow {
 
   async SetContentAfterResolve() {
     this.res = await this.resPromise;
-
-    return Promise.resolve();
   }
 
   RenderContentViewer() {
@@ -185,21 +192,23 @@ export default class UserContentRow {
   }
 
   RenderQuestionContent() {
-    if (this.res && this.res.success) {
-      const user = this.res.users_data.find(
-        _user => _user.id === this.res.data.task.user_id,
-      );
-      const content = new ContentViewerContent(this, this.res.data.task, user);
+    if (this.res?.success === false) return;
 
-      this.contents.question = content;
+    const { data } = this.res;
 
-      this.contentContainer.element.append(content.container.element);
+    const user = this.res.users_data.find(
+      _user => _user.id === data.task.user_id,
+    );
+    const content = new ContentViewerContent(this, this.res.data.task, user);
 
-      this.RenderAttachmentsIcon(content.source);
-      this.reportedIconForQuestion = this.RenderReportedContentIcon(
-        content.source,
-      );
-    }
+    this.contents.question = content;
+
+    this.contentContainer.element.append(content.container.element);
+
+    this.RenderAttachmentsIcon(content.source);
+    this.reportedIconForQuestion = this.RenderReportedContentIcon(
+      content.source,
+    );
 
     /* let question = this.content.res.data.task;
     let user = this.content.res.users_data.find(user => user.id == question.user_id);
@@ -229,6 +238,8 @@ export default class UserContentRow {
   }
 
   RenderAnswer(answer) {
+    if (this.res.success === false) return;
+
     const user = this.res.users_data.find(_user => _user.id === answer.user_id);
     const content = new ContentViewerContent(this, answer, user);
 
@@ -464,13 +475,10 @@ export default class UserContentRow {
     );
   }
 
-  /**
-   * @param {MouseEvent} event
-   */
-  async ToggleContentViewer(event) {
+  async ToggleContentViewer(event: MouseEvent) {
     if (event?.ctrlKey || !this.res?.success) return;
 
-    if (event) event.preventDefault();
+    event?.preventDefault();
 
     if (this.contentContainer.element.childNodes.length === 0) {
       this.RenderQuestionContent();
@@ -521,11 +529,11 @@ export default class UserContentRow {
   }
 
   IsApproved() {
-    return (
-      this.approved ||
-      (this.contents.answers[this.answerID].source.approved &&
-        this.contents.answers[this.answerID].source.approved.date)
-    );
+    if (this.approved) return true;
+
+    const { source } = this.contents.answers[this.answerID];
+
+    return "approved" in source && source.approved.date;
   }
 
   Approved(already?: boolean) {
@@ -616,6 +624,8 @@ export default class UserContentRow {
   }
 
   UpdateAnswerContent() {
+    if (this.res.success === false) return;
+
     const answer = this.res.data.responses.find(
       response => response.id === this.answerID,
     );

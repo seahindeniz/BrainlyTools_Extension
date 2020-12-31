@@ -302,19 +302,40 @@ class UserContent {
   }
 
   FilterRows(checkIsApproved?: boolean) {
-    return this.rows.filter(
+    /* return this.rows.filter(
       row =>
         !row.isBusy &&
         !row.deleted &&
         row.checkbox.input.checked &&
         (checkIsApproved === undefined ||
           (checkIsApproved === false &&
+            // @ts-expect-error
             row.contents.answers[row.answerID].source.approved &&
+            // @ts-expect-error
             !row.contents.answers[row.answerID].source.approved.date) ||
           (checkIsApproved === true &&
+            // @ts-expect-error
             row.contents.answers[row.answerID].source.approved &&
+            // @ts-expect-error
             row.contents.answers[row.answerID].source.approved.date)),
-    );
+    ); */
+    return this.rows.filter(row => {
+      const { source } = row.contents.answers[row?.answerID];
+
+      return (
+        !row.isBusy &&
+        !row.deleted &&
+        row.checkbox.input.checked &&
+        (checkIsApproved === undefined ||
+          ("approved" in source &&
+            ((checkIsApproved === false &&
+              source.approved &&
+              !source.approved.date) ||
+              (checkIsApproved === true &&
+                source.approved &&
+                source.approved.date))))
+      );
+    });
   }
 
   RenderButtonContainer() {

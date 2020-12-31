@@ -20,6 +20,7 @@ import InjectToDOM from "../../../helpers/InjectToDOM";
 
   const selectedPageLink = await WaitForElement(
     `#content-old > div > p > a[style^="color"]`,
+    { noError: true },
   );
 
   if (!selectedPageLink) return;

@@ -1,4 +1,10 @@
-import Action, { AttachmentDataInTicketType } from "@BrainlyAction";
+import Action from "@BrainlyAction";
+import type {
+  QuestionMainViewAnswerDataType,
+  QuestionMainViewQuestionDataType,
+} from "@BrainlyReq/GetQuestion";
+import type { AttachmentDataType } from "@components/AttachmentSection/Attachment";
+import AttachmentSection from "@components/AttachmentSection/AttachmentSection";
 import notification from "@components/notification2";
 import Build from "@root/helpers/Build";
 import replaceLatexWithURL from "@root/helpers/replaceLatexWithURL";
@@ -16,8 +22,6 @@ import {
 } from "@style-guide";
 import type { BoxColorType } from "@style-guide/Box";
 import type { FlexElementType } from "@style-guide/Flex";
-import Viewer from "viewerjs";
-import Attachment from "./Attachment";
 import type UserContentRowType from "./UserContentRow";
 
 function HideElement(element: HTMLElement) {
@@ -29,7 +33,7 @@ function HideElement(element: HTMLElement) {
 export default class ContentViewerContent {
   main: UserContentRowType;
   container: any;
-  source: any;
+  source: QuestionMainViewQuestionDataType | QuestionMainViewAnswerDataType;
   contentData: {
     content: any;
     user: any;
@@ -38,7 +42,7 @@ export default class ContentViewerContent {
     type?: "Question" | "Answer";
   };
 
-  #buttonSpinner: any;
+  #buttonSpinner: HTMLDivElement;
   private iconContainer: FlexElementType;
   private contentContainer: FlexElementType;
   private actionsContainer: FlexElementType;
@@ -48,9 +52,8 @@ export default class ContentViewerContent {
   private confirmButtonContainer: FlexElementType;
   private approveButton: Button;
   private approveButtonContainer: FlexElementType;
-  attachmentContainer: FlexElementType;
-  attachmentLabelNumber: Text;
-  private gallery: Viewer;
+  private attachmentLabelNumber: Text;
+  private attachmentSection: AttachmentSection;
 
   constructor(main: UserContentRowType, source, user) {
     this.main = main;
@@ -212,7 +215,7 @@ export default class ContentViewerContent {
   }
 
   private RenderBestIcon() {
-    if (!this.source.best) return;
+    if (!("best" in this.source) || !this.source.best) return;
 
     this.RenderIcon("mustard", "excellent");
   }
@@ -222,7 +225,7 @@ export default class ContentViewerContent {
   }
 
   private IsApproved() {
-    return this.source.approved?.date;
+    return "approved" in this.source && this.source.approved?.date;
   }
 
   HideApproveIcon() {
@@ -333,83 +336,43 @@ export default class ContentViewerContent {
   }
 
   private RenderAttachments() {
-    const galleryContainer = Flex({
-      wrap: true,
-      className: "ext-image-gallery",
-    });
-
-    this.source.attachments.forEach(
-      (attachmentData: AttachmentDataInTicketType) => {
-        const attachment = new Attachment(this, attachmentData);
-
-        galleryContainer.append(attachment.container);
-      },
+    const attachments: AttachmentDataType[] = this.source.attachments.map(
+      attachmentData => ({
+        databaseId: attachmentData.id,
+        url: attachmentData.full,
+        thumbnailUrl: attachmentData.thumbnail,
+      }),
     );
 
-    this.attachmentContainer = Flex({
-      marginTop: "l",
-      children: galleryContainer,
+    this.attachmentSection = new AttachmentSection({
+      attachments,
+      content: {
+        databaseId: this.source.id,
+        questionId:
+          "task_id" in this.source ? this.source.task_id : this.source.id,
+        type: this.contentData.type,
+      },
+      notificationHandler: notification,
+      onDelete: this.AttachmentDeleted.bind(this),
     });
 
-    this.contentContainer.append(this.attachmentContainer);
+    this.attachmentSection.container.ChangeMargin({ marginTop: "l" });
 
-    this.gallery = new Viewer(galleryContainer, {
-      fullscreen: false,
-      loop: false,
-      title: false,
-      url(image: HTMLImageElement) {
-        return image.dataset.src;
-      },
-      toolbar: {
-        zoomIn: 1,
-        zoomOut: 1,
-        oneToOne: 1,
-        reset: 1,
-        prev: this.source.attachments.length > 1 ? 1 : false,
-        play: false,
-        next: this.source.attachments.length > 1 ? 1 : false,
-        rotateLeft: 1,
-        rotateRight: 1,
-        flipHorizontal: 1,
-        flipVertical: 1,
-      },
-    });
+    this.contentContainer.append(this.attachmentSection.container);
+  }
 
-    if (this.source.attachments.length > 1) {
-      galleryContainer.addEventListener(
-        "view",
-        (
-          event: CustomEvent<{
-            image: HTMLImageElement;
-            index: number;
-            originalImage: HTMLImageElement;
-          }>,
-        ) => {
-          const prevTooltip = (this.gallery[
-            // eslint-disable-next-line dot-notation
-            "toolbar"
-          ] as HTMLDivElement).querySelector(".viewer-prev") as HTMLLIElement;
-          const nextTooltip = (this.gallery[
-            // eslint-disable-next-line dot-notation
-            "toolbar"
-          ] as HTMLDivElement).querySelector(".viewer-next") as HTMLLIElement;
+  AttachmentDeleted() {
+    const { length } = this.attachmentSection.attachments;
 
-          if (event.detail.index === 0) {
-            nextTooltip.removeAttribute("style");
-            prevTooltip.style.display = "none";
-          } else if (
-            event.detail.index ===
-            this.source.attachments.length - 1
-          ) {
-            prevTooltip.removeAttribute("style");
-            nextTooltip.style.display = "none";
-          } else {
-            nextTooltip.removeAttribute("style");
-            prevTooltip.removeAttribute("style");
-          }
-        },
-      );
-    }
+    if (length > 0) return;
+
+    this.RemoveAttachmentContainer();
+  }
+
+  RemoveAttachmentContainer() {
+    this.attachmentSection?.container.remove();
+
+    this.attachmentSection = null;
   }
 
   private async Confirm() {
@@ -510,9 +473,12 @@ export default class ContentViewerContent {
     }
 
     this.source.settings.is_marked_abuse = false;
-    this.source.approved = {
-      date: new Date().toISOString(),
-    };
+
+    if ("approved" in this.source)
+      this.source.approved = {
+        date: new Date().toISOString(),
+        approver: undefined,
+      };
 
     HideElement(this.confirmButton?.element);
     HideElement(this.approveButton.element);

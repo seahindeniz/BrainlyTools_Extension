@@ -1,31 +1,44 @@
-function htmlDecode(input: string) {
-  const doc = new DOMParser().parseFromString(input, "text/html");
+import HTMLDecode from "./HTMLDecode";
 
-  return doc.documentElement.textContent;
-}
+type PropsType = {
+  noDecode?: boolean;
+  noTitle?: boolean;
+};
 
-export default function replaceLatexWithURL(content: string) {
-  if (!content || typeof content !== "string") return content;
+const defaultLatexURL = `//tex.z-dn.net/?f=`;
+
+export default function replaceLatexWithURL(
+  _content: string,
+  props: PropsType = {},
+) {
+  if (!_content || typeof _content !== "string") return _content;
+
+  let content = _content;
+
+  if (!props.noDecode) {
+    content = HTMLDecode(content);
+  }
 
   return (
-    htmlDecode(content)
+    content
       // https://regex101.com/r/JKt5LV/1
-      .replace(/https?:\/\/(tex\..*?\.)/gi, "//$1")
+      // .replace(/https?:\/\/(tex\..*?\.)/gi, "//$1")
+      // https://regex101.com/r/G0ZbCI/1
+      .replace(/(?:https?:)?\/\/(tex\..*?\/\?f=)/gi, defaultLatexURL)
       // .replace(/(?:\r\n|\n)/g, "")
       // https://regex101.com/r/XKRwQN/1
       .replace(/\[tex\](.*?)\[\/tex\]/gis, (_, latex) => {
-        let latexEncodedPath = window.encodeURIComponent(
-          latex, // .replace(/(?:\r\n|\n)/g, ""),
+        const latexEncodedPath = window.encodeURIComponent(
+          latex.replace(/ +/g, " ").replace(/&amp;/g, "&"),
         );
 
-        if (!latex.startsWith("\\")) {
+        /* if (!latex.startsWith("\\")) {
           latexEncodedPath = `%5C${latexEncodedPath}`;
-        }
+        } */
 
-        return `<div><img src="${
-          System.data.Brainly.defaultConfig.config.data.config
-            .serviceLatexUrlHttps
-        }${latexEncodedPath}" title="${latex.replace(/\\\\ ?/g, "\n")}"></div`;
+        return `<div><img src="${defaultLatexURL}${latexEncodedPath}"${
+          props.noTitle ? "" : ` title="${latex.replace(/\\\\ ?/g, "\n")}"`
+        }></div`;
       })
   );
 }

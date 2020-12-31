@@ -81,37 +81,46 @@ export default class Attachment {
   }
 
   private async Delete() {
-    if (!confirm(System.data.locale.common.notificationMessages.areYouSure))
-      return;
+    try {
+      if (!confirm(System.data.locale.common.notificationMessages.areYouSure))
+        return;
 
-    const resDelete = await new Action().DeleteAttachment({
-      attachment_id: this.data.databaseId,
-      model_id: this.main.content.databaseId,
-      model_type_id: this.main.content.type,
-      task_id: this.main.content.questionId,
-    });
-    // const resDelete = { success: true, message: "Deleted!" };
+      const resDelete = await new Action().DeleteAttachment({
+        attachment_id: this.data.databaseId,
+        model_id: this.main.content.databaseId,
+        model_type_id: this.main.content.type,
+        task_id: this.main.content.questionId,
+      });
+      // const resDelete = { success: true, message: "Deleted!" };
 
-    if (!resDelete.success) {
-      throw resDelete.message
-        ? {
-            msg: resDelete.message,
-          }
-        : Error("Can't delete attachment");
+      if (resDelete.success === false) {
+        // eslint-disable-next-line no-throw-literal
+        throw { msg: resDelete.message };
+      }
+
+      this.container.remove();
+      this.main.props.notificationHandler?.({
+        type: "success",
+        text: resDelete.message || "Attachment removed!",
+      });
+
+      const index = this.main.attachments.indexOf(this);
+
+      if (index < 0) return;
+
+      this.main.attachments.splice(index, 1);
+
+      this.main.AttachmentDeleted();
+    } catch (error) {
+      console.error(error);
+
+      this.main.props.notificationHandler?.({
+        type: "error",
+        text:
+          error.msg ||
+          System.data.locale.common.notificationMessages
+            .somethingWentWrongPleaseRefresh,
+      });
     }
-
-    this.container.remove();
-    this.main.props.notificationHandler?.({
-      type: "success",
-      text: resDelete.message || "Attachment removed!",
-    });
-
-    const index = this.main.attachments.indexOf(this);
-
-    if (index < 0) return;
-
-    this.main.attachments.splice(index, 1);
-
-    this.main.AttachmentDeleted();
   }
 }

@@ -623,7 +623,7 @@
       "cannotChangeBio": "Terjadi kesalahan saat memperbarui biografi Anda. Harap segarkan halaman dan coba lagi.",
       "fileSizeExceeded": "File %{file_name} melebihi batas ukuran %{file_size}",
       "aShortcutFile": "Kamu mencoba menambahkan sebuah pintasan pada file dan itu tidak dianggap sebagai file yang aktual. Ini semacam sampah jika kamu menambahkannya.\nKamu mungkin butuh menambahkan file asli sebagai gantinya. Apakah kamu masih ingin menambahkan pintasan ini?",
-      "unableToReportAccountDeleting": "Permintaan penghapusan tidak dapat dilaporkan ke pengelola komunitas Anda, jadi akun tersebut belum dihapus. Jika kesalahan ini terus berlanjut, harap hubungi manajer ekstensi Anda.",
+      "unableToReportAccountDeleting": "Permintaan penghapusan tidak dapat dilaporkan ke pengelola komunitas Anda, jadi akun tersebut belum dihapus.\n Jika kesalahan ini terus berlanjut, harap hubungi manajer ekstensi Anda.",
       "confirmNoEvidenceOrComment": "Kamu tidak menambahkan bukti atau komentar apa pun.\nApakah kamu masih ingin menghapus akun ini?",
       "selectAtLeastOneUser": "Kamu perlu memilih setidaknya satu pengguna",
       "youNeedToProvideSomeDetails": "Anda perlu memberikan beberapa detail",
@@ -691,7 +691,7 @@
       "showRest": "Show rest"
     },
     "goToOldProfilePage": "Buka halaman profil lama",
-    "comments": "Comments"
+    "comments": "Komentar"
   },
   "userWarnings": {
     "notificationMessages": {

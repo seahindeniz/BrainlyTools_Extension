@@ -17,9 +17,9 @@ common:
       name: Türkçe
       author: null
     es_ES:
-      progress: 0
+      progress: 100
       name: Español
-      author: null
+      author: TomRh
     pt_BR:
       progress: 100
       name: Portuguese(BR)

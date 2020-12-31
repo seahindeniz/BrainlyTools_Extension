@@ -7,6 +7,7 @@ import Action, {
   UserDataInReportType,
   UsersDataInReportedContentsType,
 } from "@BrainlyAction";
+import type { ModeratorDataType } from "@BrainlyReq/LiveModerationFeed";
 import CreateElement from "@components/CreateElement";
 import type { ContentNameType } from "@components/ModerationPanel/ModeratePanelController";
 import notification from "@components/notification2";
@@ -24,7 +25,6 @@ import type { IconColorType } from "@style-guide/Icon";
 import type { TextElement } from "@style-guide/Text";
 import moment from "moment-timezone";
 import tippy, { Instance } from "tippy.js";
-import type { ModeratorDataType } from "../LiveStatus/LiveStatus";
 import type ReportedContentsType from "../ReportedContents";
 import QuickDeleteButton from "./QuickDeleteButton";
 

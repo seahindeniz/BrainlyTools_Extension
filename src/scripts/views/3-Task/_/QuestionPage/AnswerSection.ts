@@ -1,10 +1,13 @@
 import Action from "@BrainlyAction";
+import type { ModeratorDataType } from "@BrainlyReq/LiveModerationFeed";
+import CreateElement from "@components/CreateElement";
 import notification from "@components/notification2";
 import { DeleteReasonSubCategoryType } from "@root/controllers/System";
 import HideElement from "@root/helpers/HideElement";
 import InsertAfter from "@root/helpers/InsertAfter";
+import replaceLatexWithURL from "@root/helpers/replaceLatexWithURL";
 import WaitForElement from "@root/helpers/WaitForElement";
-import { Button, Flex, Icon, Text } from "@style-guide";
+import { Avatar, Button, Flex, Icon, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import Hammer from "hammerjs";
 import tippy from "tippy.js";
@@ -15,9 +18,9 @@ import QuickDeleteButton from "./QuickDeleteButton";
 export default class AnswerSection {
   main: QuestionPageClassType;
   data: AnswerDataType;
-  index: number;
 
   searchingForModerationBox: boolean;
+  mainContainer: HTMLDivElement;
   moderationBox: HTMLDivElement;
   moderateButton: HTMLButtonElement;
   answerBox: HTMLDivElement;
@@ -39,14 +42,12 @@ export default class AnswerSection {
     attachments: [];
   };
 
-  constructor(
-    main: QuestionPageClassType,
-    data: AnswerDataType,
-    index: number,
-  ) {
+  moderatorInfoContainer?: FlexElementType;
+
+  constructor(main: QuestionPageClassType, data: AnswerDataType) {
     this.main = main;
     this.data = data;
-    this.index = index;
+
     this.actionButtons = [];
     this.extraDetails = window.jsData.question.answers.find(
       answer => answer.databaseId === data.id,
@@ -55,12 +56,15 @@ export default class AnswerSection {
     this.Init();
   }
 
-  async Init(showError?: boolean) {
+  async Init() {
     if (this.searchingForModerationBox) return;
 
-    await this.FindModerationBox(showError);
+    this.FindMainContainer();
 
-    if (!this.moderationBox) return;
+    if (!this.mainContainer)
+      throw new Error("Can't find main answer container");
+
+    this.FindModerationBox();
 
     this.FindModerateButton();
     this.ReplaceModerateButtonWithNew();
@@ -69,40 +73,137 @@ export default class AnswerSection {
     this.FetchAndRenderUsersRank();
   }
 
-  async FindModerationBox(showError?: boolean) {
+  FindMainContainer() {
     this.searchingForModerationBox = true;
 
-    try {
-      const moderationBoxes = Array.from(
-        await WaitForElement(
-          ".js-question-answers > div > div > .sg-box > .sg-flex",
-          {
-            multiple: true,
-            noError: showError,
-          },
-        ),
-      ) as HTMLDivElement[];
+    this.mainContainer = this.main.answerContainers.find(answerContainer => {
+      if (answerContainer.dataset.ext) return false;
 
-      this.moderationBox = moderationBoxes[this.index];
-
-      if (!this.moderationBox) {
-        throw Error("Cannot find answer moderation box");
-      }
-
-      const answerBoxes = document.querySelectorAll(
-        ".js-question-answers .js-answer",
+      const nickContainer = answerContainer.querySelector<HTMLSpanElement>(
+        ":scope > .js-answer > .brn-qpage-next-answer-box__author .brn-qpage-next-answer-box-author__description .sg-text",
       );
 
-      this.answerBox = answerBoxes[this.index] as HTMLDivElement;
+      if (nickContainer?.innerText !== this.extraDetails.user.nick) {
+        if (System.data.config.extension.env === "development")
+          console.log(
+            "Nick isn't similar",
+            nickContainer?.innerText,
+            this.extraDetails.user.nick,
+          );
 
-      if (!this.answerBox) {
-        throw Error("Cannot find answer box");
+        return false;
       }
-    } catch (error) {
-      console.error(error);
-    }
+
+      const ratingCountText = answerContainer.querySelector<HTMLSpanElement>(
+        ":scope > .js-answer > .brn-qpage-next-answer-box__actions > .brn-qpage-next-answer-box__rating .brn-qpage-next-rating > .sg-flex:last-child > .sg-text",
+      );
+
+      const ratingCount = ratingCountText.innerText.replace(/\(| .*$/g, "");
+
+      if (!ratingCount) throw new Error("Can't find rating count");
+
+      if (Number(ratingCount) !== this.data.marksCount) {
+        if (System.data.config.extension.env === "development")
+          console.log(
+            "ratingCount isn't similar",
+            ratingCount,
+            this.data.marksCount,
+          );
+
+        return false;
+      }
+
+      const thanksCountContainer = answerContainer.querySelector<HTMLSpanElement>(
+        ".brn-qpage-next-answer-box__thanks > button > span.sg-button__text > span",
+      );
+
+      const thanksCount = thanksCountContainer.innerText;
+
+      if (!thanksCount) throw new Error("Can't find thanks count");
+
+      if (Number(thanksCount) !== this.data.thanks) {
+        if (System.data.config.extension.env === "development")
+          console.log(
+            "thanksCount isn't similar",
+            thanksCount,
+            this.data.thanks,
+          );
+
+        return false;
+      }
+
+      const avatarImg = answerContainer.querySelector<HTMLImageElement>(
+        ".brn-qpage-next-answer-box-author__avatar img",
+      );
+
+      if (
+        (!avatarImg && this.extraDetails.user.avatar) ||
+        (avatarImg?.src && avatarImg.src !== this.extraDetails.user.avatar)
+      ) {
+        console.log(
+          "Avatar doesn't match",
+          avatarImg?.src,
+          this.extraDetails.user.avatar,
+        );
+
+        return false;
+      }
+
+      const contentContainer = answerContainer.querySelector<HTMLDivElement>(
+        ".js-answer-content",
+      );
+
+      if (!contentContainer) throw new Error("Can't find content container");
+
+      const contentOnPage = replaceLatexWithURL(contentContainer.innerHTML, {
+        noDecode: true,
+        noTitle: true,
+      });
+      const processedContent = replaceLatexWithURL(this.data.content, {
+        noDecode: true,
+        noTitle: true,
+      })
+        .replace(/<br ?\/?>/gi, "<br>")
+        .replace(/<\/?div>?/gi, "")
+        .replace(/\xa0/g, "&nbsp;");
+
+      if (contentOnPage !== processedContent) {
+        if (System.data.config.extension.env === "development") {
+          console.log("contentOnPage isn't similar");
+          console.log(contentOnPage);
+          console.log(this.data.content);
+
+          console.log(processedContent);
+        }
+
+        return false;
+      }
+
+      return true;
+    });
+
+    if (this.mainContainer) this.mainContainer.dataset.ext = "true";
+
+    // console.warn(
+    //   "answerContainer",
+    //   this.mainContainer,
+    //   this.extraDetails.user.nick,
+    // );
 
     this.searchingForModerationBox = false;
+  }
+
+  async FindModerationBox() {
+    this.moderationBox = this.mainContainer.querySelector(
+      ":scope > div.sg-box > .sg-flex",
+    );
+
+    if (!this.moderationBox)
+      throw new Error("Can't find main answer's moderation box'");
+
+    this.answerBox = this.mainContainer.querySelector(":scope > div.js-answer");
+
+    if (!this.answerBox) throw new Error("Can't find main answer box'");
   }
 
   FindModerateButton() {
@@ -129,7 +230,7 @@ export default class AnswerSection {
       type: "solid-blue",
       icon: new Icon({
         size: 16,
-        type: "pencil",
+        type: "ext-shield",
       }),
       children: this.moderateButton.lastElementChild.innerHTML,
       onClick: this.OpenModeratePanel.bind(this),
@@ -404,5 +505,58 @@ export default class AnswerSection {
       placement: "bottom",
       theme: "light",
     });
+  }
+
+  TicketReserved(moderator: ModeratorDataType) {
+    if (!this.moderatorInfoContainer) {
+      this.RenderModeratorInfoContainer();
+    } else {
+      this.moderatorInfoContainer.innerHTML = "";
+    }
+
+    const nickText = Text({
+      weight: "bold",
+      size: "small",
+      children: moderator.nick,
+    });
+
+    const avatarContainer = Flex({
+      relative: true,
+      marginLeft: "xs",
+      children: [
+        new Avatar({
+          size: "xs",
+          imgSrc: moderator?.avatar,
+          title: moderator.nick,
+          alt: moderator.nick,
+        }),
+        CreateElement({
+          tag: "div",
+          className: "brn-answering-user__dot-container",
+          children: new Icon({
+            size: 24,
+            color: "blue",
+            type: "ext-shield",
+          }),
+        }),
+      ],
+    });
+
+    this.moderatorInfoContainer.append(nickText, avatarContainer);
+  }
+
+  RenderModeratorInfoContainer() {
+    this.moderatorInfoContainer = Flex({
+      tag: "div",
+      marginTop: "xxs",
+      marginRight: "xs",
+      alignItems: "center",
+      className: "brn-feed-item__moderator-info",
+    });
+
+    InsertAfter(
+      this.moderatorInfoContainer,
+      this.moderationBox.firstElementChild,
+    );
   }
 }

@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
-import Request from "@root/controllers/Req";
-import type ReportedContentsType from "../ReportedContents";
+import Request from "..";
 
 export type ModeratorDataType = {
   avatar: string;
@@ -12,9 +11,26 @@ export type ModeratorDataType = {
   };
 };
 
-export default class LiveStatus {
-  main: ReportedContentsType;
+type TicketReservePayload = {
+  ticket_id: number;
+  user_data: ModeratorDataType;
+};
 
+type NewsEntryDataType = {
+  channel?: string;
+  event?: string;
+  payload?: TicketReservePayload;
+};
+
+type PropsType = {
+  questionIds?: number[];
+  onTicketReserve?: (id: number, moderator: ModeratorDataType) => void;
+};
+
+export default class LiveModerationFeed {
+  props: PropsType;
+
+  questionIdsToSubscribe: number[];
   authenticated: boolean;
   config: {
     cometSslServerAddress: string;
@@ -22,11 +38,17 @@ export default class LiveStatus {
   };
 
   ws: WebSocket;
-
   token: string;
 
-  constructor(main: ReportedContentsType) {
-    this.main = main;
+  constructor(props: PropsType = {}) {
+    this.props = props;
+
+    this.questionIdsToSubscribe = [];
+
+    if (props.questionIds)
+      this.questionIdsToSubscribe.push(
+        ...props.questionIds.splice(0, props.questionIds.length),
+      );
 
     this.authenticated = false;
     this.config = System.data.Brainly.defaultConfig.config.data.config;
@@ -119,18 +141,17 @@ export default class LiveStatus {
     });
   }
 
-  IdentifyData(data: { name: string; args: { [x: string]: any }[] }) {
-    const [firstData] = data.args;
-
-    if (!firstData) return;
-
+  IdentifyData(data: { name: string; args: ObjectAnyType[] }) {
     switch (data.name) {
-      case "auth":
+      case "auth": {
+        const [firstData] = data.args;
+
         this.Authenticated(firstData);
         break;
+      }
 
       case "pubsub.news":
-        this.ContentModerated(firstData);
+        this.HandleNews(data.args);
         break;
 
       default:
@@ -147,40 +168,33 @@ export default class LiveStatus {
   }
 
   SubscribeModeration(idList?: number[]) {
-    if (!this.authenticated || this.main.contents.all.length === 0) return;
+    if (idList) {
+      this.questionIdsToSubscribe.push(...idList.splice(0, idList.length));
+    }
 
-    const { questionsWaitingForSubscription } = this.main;
+    const { length } = this.questionIdsToSubscribe;
 
-    this.main.questionsWaitingForSubscription = [];
+    if (!this.authenticated || length === 0) return;
+
+    const questionIdsToSubscribe = this.questionIdsToSubscribe.splice(
+      0,
+      length,
+    );
 
     this.SendData("pubsub.subscribe", {
-      "moderation.task": idList || questionsWaitingForSubscription,
+      "moderation.task": questionIdsToSubscribe,
     });
   }
 
-  ContentModerated(data: {
-    channel?: string;
-    event?: string;
-    payload?: {
-      ticket_id: number;
-      user_data: ModeratorDataType;
-    };
-  }) {
-    if (data.event !== "moderation.begin" || !data.channel) return;
+  HandleNews(news: NewsEntryDataType[]) {
+    if (!news?.length) return;
 
-    const questionId = Number(data.channel.replace(/.*\./, ""));
+    news.forEach(entry => {
+      if (entry.event === "moderation.begin") {
+        const questionId = Number(entry.channel.replace(/.*\./, ""));
 
-    if (!questionId) return;
-
-    const content = this.main.contents.all.find(
-      _content => _content.data.task_id === questionId,
-    );
-
-    if (!content || (content.has && content.has !== "default")) return;
-
-    content.has = "reserved";
-
-    content.ChangeBoxColor();
-    content.UserModerating(data.payload.user_data);
+        this.props.onTicketReserve?.(questionId, entry.payload.user_data);
+      }
+    });
   }
 }

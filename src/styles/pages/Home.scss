@@ -31,3 +31,41 @@
     }
   }
 }
+
+.brn-feed-item {
+  grid-template-areas:
+    "avatar breadcrumbs moderator-info points"
+    "content content content"
+    "footer footer footer";
+
+  &--with-attachment {
+    grid-template-areas:
+      "avatar breadcrumbs moderator-info points"
+      "content content content content"
+      "attachment footer footer footer";
+  }
+
+  &__moderator-info {
+    grid-area: moderator-info;
+    justify-self: end;
+    align-self: flex-start;
+  }
+
+  @at-root {
+    @media (min-width: 768px) {
+      & {
+        grid-template-areas:
+          "avatar breadcrumbs moderator-info points"
+          "attachment content content content"
+          ". footer footer footer";
+
+        &--with-attachment {
+          grid-template-areas:
+            "avatar breadcrumbs moderator-info points"
+            "attachment content content content"
+            ". footer footer footer";
+        }
+      }
+    }
+  }
+}

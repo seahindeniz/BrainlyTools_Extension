@@ -1,9 +1,13 @@
+import LiveModerationFeed, {
+  ModeratorDataType,
+} from "@BrainlyReq/LiveModerationFeed";
 import WaitForElement from "@root/helpers/WaitForElement";
 import HomepageModeratePanelController from "./ModeratePanelController";
 import Question from "./Question/Question";
 
 export default class FeedModeration {
   moderatePanelController: HomepageModeratePanelController;
+  liveModerationFeed: LiveModerationFeed;
   focusedQuestion: Question;
   feedContainer: any;
   questions: {
@@ -13,10 +17,25 @@ export default class FeedModeration {
     };
   };
 
+  questionIDsWaitingForSubscription: number[];
+
   constructor() {
     this.moderatePanelController = new HomepageModeratePanelController(this);
+    this.liveModerationFeed = new LiveModerationFeed({
+      onTicketReserve: this.TicketReserved.bind(this),
+    });
+
+    this.questionIDsWaitingForSubscription = [];
 
     this.Init();
+  }
+
+  TicketReserved(id: number, moderator: ModeratorDataType) {
+    const question = this.questions.byId[id];
+
+    if (!question) return;
+
+    question.TicketReserved(moderator);
   }
 
   async Init() {
@@ -24,6 +43,9 @@ export default class FeedModeration {
     await this.FindFeedContainer();
     this.ObserveForQuestions();
     await this.FindFeedItemsByWaiting();
+    this.liveModerationFeed.SubscribeModeration(
+      this.questionIDsWaitingForSubscription,
+    );
   }
 
   ResetQuestions() {
@@ -52,9 +74,14 @@ export default class FeedModeration {
           });
         }
 
-        if (mutation.addedNodes.length > 0)
-          mutation.addedNodes.forEach(this.IdentifyAndInitFeedItems.bind(this));
+        if (mutation.addedNodes.length === 0) return;
+
+        mutation.addedNodes.forEach(this.IdentifyAndInitFeedItems.bind(this));
       });
+
+      this.liveModerationFeed.SubscribeModeration(
+        this.questionIDsWaitingForSubscription,
+      );
     });
 
     observer.observe(this.feedContainer, {
@@ -96,6 +123,9 @@ export default class FeedModeration {
     const question = new Question(this, questionId, node);
 
     this.questions.byId[question.questionId] = question;
+
+    if (!this.questionIDsWaitingForSubscription.includes(question.questionId))
+      this.questionIDsWaitingForSubscription.push(question.questionId);
 
     this.questions.all.push(question);
   }

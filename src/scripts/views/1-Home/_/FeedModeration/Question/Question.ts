@@ -1,6 +1,8 @@
+import type { ModeratorDataType } from "@BrainlyReq/LiveModerationFeed";
+import CreateElement from "@components/CreateElement";
 import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
-import { Button, Flex, Icon, Spinner } from "@style-guide";
+import { Avatar, Button, Flex, Icon, Spinner, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type FeedModerationClassType from "../FeedModeration";
 import QuickDeleteButton from "./QuickDeleteButton";
@@ -22,6 +24,8 @@ export default class Question {
   deleted: boolean;
   deleting: boolean;
   #actionButtonSpinner: HTMLDivElement;
+  private gridContainer: HTMLDivElement;
+  moderatorInfoContainer: FlexElementType;
 
   constructor(
     main: FeedModerationClassType,
@@ -35,6 +39,7 @@ export default class Question {
     this.actionButtons = [];
 
     this.FindAuthor();
+    this.FindGridContainer();
     this.BindListeners();
   }
 
@@ -50,6 +55,16 @@ export default class Question {
       id: System.ExtractId(profileLinkAnchor.href),
       nick: profileLinkAnchor.title,
     };
+  }
+
+  private FindGridContainer() {
+    this.gridContainer = this.container.querySelector<HTMLDivElement>(
+      ":scope > div > .brn-feed-item",
+    );
+
+    if (!this.gridContainer) {
+      throw Error("Can't find feed item grid container");
+    }
   }
 
   BindListeners() {
@@ -125,7 +140,7 @@ export default class Question {
         iconOnly: true,
         children: System.data.locale.common.moderating.moderate,
         icon: new Icon({
-          type: "pencil",
+          type: "ext-shield",
         }),
         reversedOrder: true,
         type: "solid-blue",
@@ -202,5 +217,59 @@ export default class Question {
 
   EnableActionButtons() {
     this.actionButtons.forEach(actionButton => actionButton.Enable());
+  }
+
+  TicketReserved(moderator: ModeratorDataType) {
+    if (!this.moderatorInfoContainer) {
+      this.RenderModeratorInfoContainer();
+    } else {
+      this.moderatorInfoContainer.innerHTML = "";
+    }
+
+    const nickContainer = Flex({
+      marginRight: "xs",
+      alignItems: "center",
+      children: Text({
+        tag: "a",
+        size: "small",
+        href: System.createProfileLink(moderator),
+        children: moderator.nick,
+        weight: "bold",
+      }),
+    });
+
+    const avatarContainer = Flex({
+      relative: true,
+      children: [
+        new Avatar({
+          size: "xs",
+          imgSrc: moderator?.avatar,
+          title: moderator.nick,
+          alt: moderator.nick,
+        }),
+        CreateElement({
+          tag: "div",
+          className: "brn-answering-user__dot-container",
+          children: new Icon({
+            size: 24,
+            color: "blue",
+            type: "ext-shield",
+          }),
+        }),
+      ],
+    });
+
+    this.moderatorInfoContainer.append(nickContainer, avatarContainer);
+  }
+
+  RenderModeratorInfoContainer() {
+    this.moderatorInfoContainer = Flex({
+      tag: "div",
+      marginTop: "xxs",
+      marginRight: "xs",
+      className: "brn-feed-item__moderator-info",
+    });
+
+    this.gridContainer.append(this.moderatorInfoContainer);
   }
 }

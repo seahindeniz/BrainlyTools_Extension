@@ -1,10 +1,12 @@
 import Action from "@BrainlyAction";
+import type { ModeratorDataType } from "@BrainlyReq/LiveModerationFeed";
+import CreateElement from "@components/CreateElement";
 import notification from "@components/notification2";
 import { DeleteReasonSubCategoryType } from "@root/controllers/System";
 import HideElement from "@root/helpers/HideElement";
 import InsertAfter from "@root/helpers/InsertAfter";
 import WaitForElement from "@root/helpers/WaitForElement";
-import { Button, Flex, Icon, Text } from "@style-guide";
+import { Avatar, Button, Flex, Icon, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import Hammer from "hammerjs";
 import tippy from "tippy.js";
@@ -23,6 +25,7 @@ export default class QuestionSection {
   actionButtons: Button[];
   confirmButtonContainer: FlexElementType;
   confirmButton: Button;
+  moderatorInfoContainer?: FlexElementType;
 
   constructor(main: QuestionPageClassType) {
     this.main = main;
@@ -92,7 +95,7 @@ export default class QuestionSection {
       type: "solid-blue",
       icon: new Icon({
         size: 16,
-        type: "pencil",
+        type: "ext-shield",
       }),
       children: this.moderateButton.lastElementChild.innerHTML,
       onClick: this.OpenModeratePanel.bind(this),
@@ -307,5 +310,58 @@ export default class QuestionSection {
 
   EnableActionButtons() {
     this.actionButtons.forEach(button => button.Enable());
+  }
+
+  TicketReserved(moderator: ModeratorDataType) {
+    if (!this.moderatorInfoContainer) {
+      this.RenderModeratorInfoContainer();
+    } else {
+      this.moderatorInfoContainer.innerHTML = "";
+    }
+
+    const nickText = Text({
+      weight: "bold",
+      size: "small",
+      children: moderator.nick,
+    });
+
+    const avatarContainer = Flex({
+      relative: true,
+      marginLeft: "xs",
+      children: [
+        new Avatar({
+          size: "xs",
+          imgSrc: moderator?.avatar,
+          title: moderator.nick,
+          alt: moderator.nick,
+        }),
+        CreateElement({
+          tag: "div",
+          className: "brn-answering-user__dot-container",
+          children: new Icon({
+            size: 24,
+            color: "blue",
+            type: "ext-shield",
+          }),
+        }),
+      ],
+    });
+
+    this.moderatorInfoContainer.append(nickText, avatarContainer);
+  }
+
+  RenderModeratorInfoContainer() {
+    this.moderatorInfoContainer = Flex({
+      tag: "div",
+      marginTop: "xxs",
+      marginRight: "xs",
+      alignItems: "center",
+      className: "brn-feed-item__moderator-info",
+    });
+
+    InsertAfter(
+      this.moderatorInfoContainer,
+      this.moderationBox.firstElementChild,
+    );
   }
 }

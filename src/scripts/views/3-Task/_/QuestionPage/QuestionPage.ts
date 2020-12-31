@@ -1,4 +1,8 @@
+import LiveModerationFeed, {
+  ModeratorDataType,
+} from "@BrainlyReq/LiveModerationFeed";
 import HideElement from "@root/helpers/HideElement";
+import WaitForElement from "@root/helpers/WaitForElement";
 import { Spinner } from "@style-guide";
 import AnswerSection from "./AnswerSection";
 import QuestionPageModeratePanelController from "./ModeratePanelController";
@@ -18,6 +22,8 @@ export default class QuestionPage {
   questionSection?: QuestionSection;
   actionButtonSpinner: HTMLDivElement;
   moderatePanelController?: QuestionPageModeratePanelController;
+  private liveModerationFeed: LiveModerationFeed;
+  answerContainers: HTMLDivElement[];
 
   constructor() {
     this.answerSections = {
@@ -43,6 +49,11 @@ export default class QuestionPage {
       );
 
       this.InitSections();
+
+      this.liveModerationFeed = new LiveModerationFeed({
+        onTicketReserve: this.TicketReserved.bind(this),
+        questionIds: [this.data.id],
+      });
     } catch (error) {
       console.error(error);
     }
@@ -95,7 +106,7 @@ export default class QuestionPage {
 
         if (mutation.target.classList.contains("js-react-answers"))
           this.answerSections.all.forEach(answerSection =>
-            answerSection.Init(true),
+            answerSection.Init(),
           );
       });
     });
@@ -116,25 +127,34 @@ export default class QuestionPage {
     }
   }
 
-  private RenderAnswerSections() {
+  private async RenderAnswerSections() {
     if (!this.data.responses?.length) return;
 
-    this.data.responses = this.data.responses.sort((answer1, answer2) => {
-      if (answer1.approved.date && !answer2.approved.date) return -1;
+    this.answerContainers = Array.from(
+      await WaitForElement(
+        `.js-question-answers > div > div[class*="empty:sg-space-y-xs"]`,
+        {
+          multiple: true,
+          // noError: showError,
+        },
+      ),
+    ) as HTMLDivElement[];
 
-      if (answer2.best) return 1;
-
-      if (new Date(answer1.created) < new Date(answer2.created)) return -1;
-
-      return 1;
-    });
-
-    this.data.responses.forEach((answerData, index) => {
-      const answerSection = new AnswerSection(this, answerData, index);
+    this.data.responses.forEach(answerData => {
+      const answerSection = new AnswerSection(this, answerData);
 
       this.answerSections.byId[answerData.id] = answerSection;
 
       this.answerSections.all.push(answerSection);
     });
+  }
+
+  TicketReserved(id: number, moderator: ModeratorDataType) {
+    if (id !== this.data.id) return;
+
+    this.questionSection.TicketReserved(moderator);
+    this.answerSections.all.forEach(answerSection =>
+      answerSection.TicketReserved(moderator),
+    );
   }
 }

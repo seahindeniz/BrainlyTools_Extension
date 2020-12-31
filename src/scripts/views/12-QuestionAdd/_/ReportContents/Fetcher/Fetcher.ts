@@ -151,7 +151,9 @@ export default class Fetcher {
       this.main.queue.ShowContents(true);
 
       if (!keepFetching) {
-        this.main.liveStatus.SubscribeModeration();
+        this.main.liveModerationFeed.SubscribeModeration(
+          this.main.questionsWaitingForSubscription,
+        );
       }
 
       this.main.statusBar.UpdateFilteredNumber();

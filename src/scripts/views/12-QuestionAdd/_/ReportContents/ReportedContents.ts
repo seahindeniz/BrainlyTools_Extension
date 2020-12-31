@@ -1,4 +1,7 @@
 import type { UsersDataInReportedContentsType } from "@BrainlyAction";
+import LiveModerationFeed, {
+  ModeratorDataType,
+} from "@BrainlyReq/LiveModerationFeed";
 import CreateElement from "@components/CreateElement";
 import Build from "@root/helpers/Build";
 import storage from "@root/helpers/extStorage";
@@ -11,7 +14,6 @@ import type CommentClassType from "./Content/Comment";
 import type QuestionClassType from "./Content/Question";
 import type { ContentClassTypes } from "./Fetcher/Fetcher";
 import Fetcher from "./Fetcher/Fetcher";
-import LiveStatus from "./LiveStatus/LiveStatus";
 import Moderator from "./Moderator/Moderator";
 import { REPORTED_CONTENTS_LAZY_QUEUE_KEY } from "./Queue/Options/LazyQueue";
 import {
@@ -50,7 +52,7 @@ export default class ReportedContents {
   };
 
   fetcher: Fetcher;
-  liveStatus: LiveStatus;
+  liveModerationFeed: LiveModerationFeed;
   queue: Queue;
   actionsContainer: FlexElementType;
   moderator?: Moderator;
@@ -92,7 +94,9 @@ export default class ReportedContents {
 
     this.statusBar = new ReportedContentsStatusBar(this);
     this.queue = new Queue(this);
-    this.liveStatus = new LiveStatus(this);
+    this.liveModerationFeed = new LiveModerationFeed({
+      onTicketReserve: this.TicketReserved.bind(this),
+    });
     this.fetcher = new Fetcher(this);
 
     if (System.checkUserP(18)) {
@@ -190,5 +194,18 @@ export default class ReportedContents {
 
     InsertAfter(this.container, mainContainer);
     mainContainer.remove();
+  }
+
+  TicketReserved(id: number, moderator: ModeratorDataType) {
+    const content = this.contents.all.find(
+      _content => _content.data.task_id === id,
+    );
+
+    if (!content || (content.has && content.has !== "default")) return;
+
+    content.has = "reserved";
+
+    content.ChangeBoxColor();
+    content.UserModerating(moderator);
   }
 }

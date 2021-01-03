@@ -8,4 +8,18 @@
     width: fit-content;
     max-width: 95vw;
   }
+
+  &--max-width {
+    &-small {
+      max-width: 410px;
+    }
+
+    &-medium {
+      max-width: 600px;
+    }
+
+    &-large {
+      max-width: 700px;
+    }
+  }
 }

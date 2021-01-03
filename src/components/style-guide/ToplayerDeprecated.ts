@@ -3,7 +3,8 @@ import AddChildren, { ChildrenParamType } from "./helpers/AddChildren";
 import Icon from "./Icon";
 import SetProps from "./helpers/SetProps";
 
-type ToplayerSizeType = "small" | "medium" | "large" | "90prc" | "fit-content";
+type CommonToplayerSizeType = "small" | "medium" | "large";
+type ToplayerSizeType = CommonToplayerSizeType | "90prc" | "fit-content";
 
 export type ToplayerElementType = HTMLDivElement & {
   wrapper: HTMLDivElement;
@@ -13,6 +14,7 @@ export type ToplayerDeprecatedPropsType = {
   children?: ChildrenParamType;
   onClose?: EventListenerOrEventListenerObject;
   size?: ToplayerSizeType;
+  maxSize?: CommonToplayerSizeType;
   lead?: boolean;
   fill?: boolean;
   modal?: boolean;
@@ -30,13 +32,11 @@ const SG = "sg-toplayer";
 const SGD = `${SG}--`;
 const SGL = `${SG}__`;
 
-/**
- * @param {ToplayerDeprecatedPropsType} param0
- */
 export default function ({
   children,
   onClose,
   size,
+  maxSize,
   lead,
   fill,
   modal,
@@ -63,6 +63,7 @@ export default function ({
       [`${SGD}row`]: row,
       [`${SGD}transparent`]: transparent,
       [SGD + size]: size,
+      [`${SGD}max-width-${maxSize}`]: maxSize,
     },
     className,
   );

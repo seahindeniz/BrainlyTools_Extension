@@ -2,18 +2,20 @@ import classnames from "classnames";
 import type { ChildrenParamType } from "@style-guide/helpers/AddChildren";
 import CreateElement from "@components/CreateElement";
 import Icon from "./Icon";
-import { CommonComponentPropsType } from "./helpers/SetProps";
+import type { CommonComponentPropsType } from "./helpers/SetProps";
 
 const SG = "sg-toplayer";
 const SGD = `${SG}--`;
 const SGL = `${SG}__`;
 
-type ToplayerSizeType = "small" | "medium" | "large" | "90prc" | "fit-content";
+type CommonToplayerSizeType = "small" | "medium" | "large";
+type ToplayerSizeType = CommonToplayerSizeType | "90prc" | "fit-content";
 
 export type ToplayerPropsType = {
   children?: ChildrenParamType;
   onClose?: (event: MouseEvent | KeyboardEvent) => void;
   size?: ToplayerSizeType;
+  maxSize?: CommonToplayerSizeType;
   lead?: boolean;
   fill?: boolean;
   modal?: boolean;
@@ -25,7 +27,6 @@ export type ToplayerPropsType = {
   noPadding?: boolean;
   transparent?: boolean;
   className?: string;
-  [x: string]: any;
 } & CommonComponentPropsType;
 
 export default class Toplayer {
@@ -37,6 +38,7 @@ export default class Toplayer {
     children,
     onClose,
     size,
+    maxSize,
     lead,
     fill,
     modal,
@@ -62,7 +64,8 @@ export default class Toplayer {
         [`${SGD}limited-width`]: limitedWidth,
         [`${SGD}row`]: row,
         [`${SGD}transparent`]: transparent,
-        [SGD + String(size)]: size,
+        [SGD + size]: size,
+        [`${SGD}max-width-${size}`]: maxSize,
       },
       className,
     );

@@ -372,6 +372,22 @@ export default {
           40: {
             title: "Unverify answers by selecting",
             description: "On the user contents page, the moderator can unverify answers by selecting 25 answers max- on each page"
+          },
+          41: {
+            title: "Mass-Confirm reported contents",
+            description: "User can use this tool to only mass-confirm reported contents from the Reported contents page"
+          },
+          42: {
+            title: "Mass-Delete reported questions",
+            description: "User can use this tool to only mass-delete reported questions from the Reported contents page"
+          },
+          43: {
+            title: "Mass-Delete reported answers",
+            description: "User can use this tool to only mass-delete reported answers from the Reported contents page"
+          },
+          44: {
+            title: "Mass-Delete reported comments",
+            description: "User can use this tool to only mass-delete reported comments from the Reported contents page"
           }
         },
         veryImportant: "Very important"

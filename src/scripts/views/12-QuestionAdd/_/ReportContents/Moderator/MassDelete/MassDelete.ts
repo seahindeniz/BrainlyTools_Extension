@@ -106,7 +106,12 @@ export default class MassDeleteSection extends ActionSection {
   }
 
   RenderDeleteSection(contentType: ContentNameType) {
-    if (!this.contents.some(content => content.contentType === contentType)) {
+    if (
+      !System.checkUserP(
+        contentType === "Question" ? 42 : contentType === "Answer" ? 43 : 44,
+      ) ||
+      !this.contents.some(content => content.contentType === contentType)
+    ) {
       if (this.deleteSection.byContentType[contentType]) {
         HideElement(this.deleteSection.byContentType[contentType].container);
 
@@ -159,7 +164,15 @@ export default class MassDeleteSection extends ActionSection {
     );
 
     this.moderatableContents = this.moderatableContents.filter(
-      content => !!this.dataMap[content.contentType],
+      content =>
+        !!this.dataMap[content.contentType] &&
+        System.checkUserP(
+          content.contentType === "Question"
+            ? 42
+            : content.contentType === "Answer"
+            ? 43
+            : 44,
+        ),
     );
 
     if (this.moderatableContents.length === 0) {

@@ -157,8 +157,11 @@ export default class Moderator {
   InitSections() {
     if (this.moderateSections.all.length > 0) return;
 
-    this.moderateSections.massConfirmSection = new MassConfirmSection(this);
-    this.moderateSections.massDeleteSection = new MassDeleteSection(this);
+    if (System.checkUserP([18, 41]))
+      this.moderateSections.massConfirmSection = new MassConfirmSection(this);
+
+    if (System.checkUserP([18, 42, 43, 44]))
+      this.moderateSections.massDeleteSection = new MassDeleteSection(this);
 
     this.moderateSections.all.push(
       this.moderateSections.massConfirmSection,

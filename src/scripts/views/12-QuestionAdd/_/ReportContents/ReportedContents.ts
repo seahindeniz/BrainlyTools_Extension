@@ -99,7 +99,7 @@ export default class ReportedContents {
     });
     this.fetcher = new Fetcher(this);
 
-    if (System.checkUserP(18)) {
+    if (System.checkUserP([18, 41, 42, 43, 44])) {
       this.moderator = new Moderator(this);
     }
 

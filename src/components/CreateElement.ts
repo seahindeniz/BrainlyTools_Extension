@@ -10,7 +10,8 @@ type CommonElementPropsType<T> = {
   children?: ChildrenParamType;
   className?: string;
 } & CommonComponentPropsType;
-type CreateElementPropsType<T> = {
+
+export type CreateElementPropsType<T> = {
   fullWidth?: boolean;
 } & CommonElementPropsType<T>;
 

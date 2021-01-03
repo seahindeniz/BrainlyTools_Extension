@@ -252,7 +252,7 @@ export default class AccountDeleteReporter {
       type: "info",
       sticky: true,
       noRemoveOnClick: true,
-      html: `${System.data.locale.core.reportedCommentsDeleter.deleting}..`,
+      html: `${System.data.locale.common.deleting}..`,
     });
     await System.Delay(500);
     this.deleteForm.classList.add("always-hidden");

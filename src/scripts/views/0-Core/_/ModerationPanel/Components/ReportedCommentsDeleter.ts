@@ -94,7 +94,7 @@ class ReportedCommentsDeleter extends Components {
 			<div class="sg-content-box__content sg-content-box--spaced-bottom-small process js-hidden">
 				<div class="sg-content-box">
 					<div class="sg-content-box__title">
-						<h2 class="sg-header-secondary status">${System.data.locale.core.reportedCommentsDeleter.deleting}..</h2>
+						<h2 class="sg-header-secondary status">${System.data.locale.common.deleting}..</h2>
 					</div>
 					<div class="sg-content-box__content">
 						<div class="sg-text pending">${System.data.locale.core.reportedCommentsDeleter.numberOfPending}: <b>0</b></div>
@@ -223,9 +223,7 @@ class ReportedCommentsDeleter extends Components {
 
       this.$spinner.appendTo(this.$startButton);
       this.$startButton.Disable();
-      this.$status.text(
-        `${System.data.locale.core.reportedCommentsDeleter.deleting}..`,
-      );
+      this.$status.text(`${System.data.locale.common.deleting}..`);
 
       System.log(23);
       await this.LoadReportedComments();

@@ -480,6 +480,28 @@ blockquote {
     overflow: hidden;
     padding: 0;
     width: 100%;
+    position: relative;
+    white-space: nowrap;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &::after {
+      content: attr(data-label);
+      position: absolute;
+      font-weight: bold;
+      letter-spacing: 0;
+      font-size: 16px;
+      color: #fff;
+      text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+      width: inherit;
+      padding: 0 7px;
+    }
+
+    &::-webkit-progress-inner-element {
+      position: absolute;
+      top: 0;
+    }
 
     &.is-white::-webkit-progress-value {
       background-color: #fff;
@@ -641,24 +663,13 @@ blockquote {
       background-color: #4a4a4a;
       border: none;
     }
-
-    &:after {
-      content: attr(data-label);
-      top: -14px;
-      position: relative;
-      font-weight: bold;
-      letter-spacing: 0;
-      font-size: 16px;
-      color: #fff;
-      text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);
-    }
   }
 }
 
 body.mint {
-  .progress-container .progress:after {
-    top: -22px !important;
-  }
+  // .progress-container .progress:after {
+  //   top: -22px !important;
+  // }
 
   #main-panel .menu-element.current.profile .profile-content .top {
     width: 93%;

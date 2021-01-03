@@ -73,8 +73,7 @@ export default class ActionSection {
       size: "tall",
       color: "white",
       resizable: "vertical",
-      className:
-        "sg-actions-list--space-evenly sg-textarea--max1000 sg-textarea--min-width-25em",
+      className: "sg-actions-list--space-evenly sg-textarea--max1000",
     });
 
     this.$userListContainer = $(

@@ -241,4 +241,9 @@ export default class User {
   HideInfoBar() {
     this.main.HideElement(this.infoBarContainer);
   }
+
+  Deleted() {
+    this.Move$To$(this.main.activeAction.$userList);
+    this.ChangeBoxColor("sg-box--peach");
+  }
 }

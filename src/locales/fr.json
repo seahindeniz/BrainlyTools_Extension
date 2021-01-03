@@ -90,6 +90,7 @@
       "clickToAddANote": "Cliquez pour ajouter une note"
     },
     "listOfIds": "Liste des identifiants",
+    "deleting": "Suppression",
     "pointsWithExample": {
       "text": "Points: (1 ou -1)",
       "title": "Ajoute les points avec des chiffres positifs (123) ou enlève les points avec des chiffres négatifs (-123)."
@@ -474,7 +475,6 @@
     "reportedCommentsDeleter": {
       "text": "Suppression des commentaires signalés",
       "description": "Tu peux supprimer tous les commentaires signalés dans Tout Modérer en un seul clic. Il suffit de lancer le processus et de laisser cet onglet ouvert.",
-      "deleting": "Suppression",
       "stopped": "Stopper",
       "numberOfPending": "En attente",
       "selectAReason": "Sélectionner une raison"

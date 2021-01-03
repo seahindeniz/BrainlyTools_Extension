@@ -90,6 +90,7 @@
       "clickToAddANote": "Not eklemek için tıkla"
     },
     "listOfIds": "Id listesi",
+    "deleting": "Siliniyor",
     "pointsWithExample": {
       "text": "Puan: (1 veya -1)",
       "title": "Pozitif sayı (123) girişi yaparak puan ekleyebilir\nveya\nNegatif sayı (123) girişi yaparak puan düşürebilirsin"
@@ -474,7 +475,6 @@
     "reportedCommentsDeleter": {
       "text": "TD > Toplu yorum silici",
       "description": "Tümünü düzelt içerisinde şikayet edilmiş olan tüm yorumları bir tıkla silebilirsin. Yapman gereken sadece işlemi başlatıp, ardından tarayıcı sekmesini açık tutmak.",
-      "deleting": "Siliniyor",
       "stopped": "Durduruldu",
       "numberOfPending": "Bekleyen",
       "selectAReason": "Silim sebebi seç"

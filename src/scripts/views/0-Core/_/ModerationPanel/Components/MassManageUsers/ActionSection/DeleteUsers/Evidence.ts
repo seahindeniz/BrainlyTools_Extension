@@ -1,18 +1,19 @@
-import CreateElement from "@components/CreateElement";
+import CreateElement, {
+  CreateElementPropsType,
+} from "@components/CreateElement";
 import Build from "@root/helpers/Build";
+import HideElement from "@root/helpers/HideElement";
 import IsVisible from "@root/helpers/IsVisible";
 import { Button, Flex, Icon, Text } from "@style-guide";
 import { FlexElementType } from "@style-guide/Flex";
 import { TextElement } from "@style-guide/Text";
 import prettysize from "prettysize";
-import type AccountDeleteReporterClassType from ".";
+import type DeleteUsersClassType from "../DeleteUsers";
 
 const REVIEWABLE_ICON_NAMES = ["video", "audio", "image"];
 const ICON_NAMES = ["file", "pdf", ...REVIEWABLE_ICON_NAMES];
 
 export default class Evidence {
-  main: AccountDeleteReporterClassType;
-  file: File;
   id: string;
   source: string;
   fileType: string;
@@ -26,9 +27,7 @@ export default class Evidence {
   thumbnailContainer: FlexElementType;
   iconLink: TextElement<"div">;
 
-  constructor(main: AccountDeleteReporterClassType, file: File) {
-    this.main = main;
-    this.file = file;
+  constructor(private main: DeleteUsersClassType, public file: File) {
     this.id = `${Date.now()}_${System.randomNumber(0, 9999)}`;
     this.source = "";
 
@@ -42,16 +41,15 @@ export default class Evidence {
   }
 
   RenderPreviewContainer() {
-    /**
-     * @type {import("@components/CreateElement")
-     * .CreateElementPropertiesType}
-     */
-    let data;
+    let data: CreateElementPropsType<"video" | "img">;
 
     if (this.fileType === "image") {
       data = {
         tag: "img",
         className: "sg-avatar__image",
+        style: {
+          maxWidth: "fit-content",
+        },
       };
     } else if (this.fileType === "video" || this.fileType === "audio") {
       data = {
@@ -70,7 +68,8 @@ export default class Evidence {
     if (!data) return;
 
     this.previewContainer = Flex({
-      // @ts-expect-error
+      justifyContent: "center",
+      marginTop: "xs",
       children: (this.previewElement = CreateElement(data)),
     });
   }
@@ -113,8 +112,8 @@ export default class Evidence {
             [
               Flex({
                 grow: true,
-                marginLeft: "xs",
-                marginRight: "xs",
+                marginLeft: "s",
+                marginRight: "s",
                 style: {
                   minWidth: "0",
                 },
@@ -236,7 +235,7 @@ export default class Evidence {
 
     this.previewElement.src = "";
 
-    this.main.HideElement(this.previewContainer);
+    HideElement(this.previewContainer);
   }
 
   ShowThumbnail() {
@@ -247,7 +246,7 @@ export default class Evidence {
   }
 
   HideThumbnail() {
-    this.main.HideElement(this.thumbnailContainer);
+    HideElement(this.thumbnailContainer);
 
     this.iconImg.src = "";
   }

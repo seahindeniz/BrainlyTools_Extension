@@ -90,6 +90,7 @@ export default {
       clickToAddANote: "Click to add a note"
     },
     listOfIds: "List of IDs",
+    deleting: "Deleting",
     pointsWithExample: {
       text: "Points: (1 or -1)",
       title: "Add points with positive numbers (123) or remove points with negative numbers (-123)."
@@ -474,7 +475,6 @@ export default {
     reportedCommentsDeleter: {
       text: "Reported comments deleter",
       description: "You can delete all reported comments in Moderate All with one click. Just start the process and leave this tab open.",
-      deleting: "Deleting",
       stopped: "Stopped",
       numberOfPending: "Pending",
       selectAReason: "Select a reason"

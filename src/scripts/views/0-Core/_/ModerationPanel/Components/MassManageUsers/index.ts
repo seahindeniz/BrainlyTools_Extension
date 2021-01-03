@@ -99,6 +99,7 @@ export default class MassManageUsers extends Components {
     this.modal = new Modal({
       overlay: true,
       size: "fit-content",
+      maxSize: "large",
       title: System.data.locale.core.massManageUsers.text,
       content: {
         children: Build((this.sectionContainer = ContentBox()), [
@@ -287,8 +288,9 @@ export default class MassManageUsers extends Components {
 
   Open() {
     this.modal.Open();
-    /* this.idInput.value = ([901322, 996887, 1016288].join("\n")) //"1\n2\n3\n4");
-    $(this.idInput).trigger("input");
+    /* this.idInput.value = [15613087, 15732568, 22309263, 669976].join("\n");
+    // "1\n2\n3\n4");
+    this.UpdateInput(); */
     /**
      * 14818 40016
      * 129666 2152

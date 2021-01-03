@@ -90,6 +90,7 @@
       "clickToAddANote": "Klik untuk menambahkan catatan"
     },
     "listOfIds": "Daftar ID",
+    "deleting": "Dihapus",
     "pointsWithExample": {
       "text": "Poin: (1 atau -1)",
       "title": "Tambahkan poin dengan angka positif (123) atau hapus poin dengan angka negatif (-123)."
@@ -474,7 +475,6 @@
     "reportedCommentsDeleter": {
       "text": "Menghapus komentar yang dilaporkan",
       "description": "Kamu dapat menghapus semua komentar yang dilaporkan di Panal Moderasi Semua dengan satu klik. Kamu hanya perlu memulai dan membiarkan tab ini terbuka, itu saja.",
-      "deleting": "Dihapus",
       "stopped": "Terhenti",
       "numberOfPending": "Tertunda",
       "selectAReason": "Pilih sebuah alasan"

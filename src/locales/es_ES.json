@@ -90,6 +90,7 @@
       "clickToAddANote": "Haga clic para agregar una nota"
     },
     "listOfIds": "Lista de IDs",
+    "deleting": "Eliminación",
     "pointsWithExample": {
       "text": "Puntos: (1 o -1)",
       "title": "Añadir puntos con números positivos (123) o eliminar puntos con números negativos (-123)."
@@ -474,7 +475,6 @@
     "reportedCommentsDeleter": {
       "text": "Eliminador de comentarios notificados",
       "description": "Puedes eliminar todos los comentarios notificados en Moderar todo con un solo clic. Simplemente inicie el proceso y deje esta pestaña abierta.",
-      "deleting": "Eliminación",
       "stopped": "Detenido",
       "numberOfPending": "Pendiente",
       "selectAReason": "Seleccione una razón"

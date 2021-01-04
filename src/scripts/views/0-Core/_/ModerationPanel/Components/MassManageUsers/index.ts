@@ -369,6 +369,12 @@ export default class MassManageUsers extends Components {
           }
         } catch (error) {
           this.RemoveIdsFromIdList(idList);
+
+          this.modal.Notification({
+            type: "error",
+            text:
+              System.data.locale.common.notificationMessages.somethingWentWrong,
+          });
         }
 
         this.HideNumberOfUsersSpinner();

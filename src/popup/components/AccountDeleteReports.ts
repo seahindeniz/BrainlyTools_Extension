@@ -1,4 +1,7 @@
 /* eslint-disable no-underscore-dangle */
+import CreateElement from "@components/CreateElement";
+import Build from "@root/helpers/Build";
+import HideElement from "@root/helpers/HideElement";
 import ServerReq from "@ServerReq";
 import prettysize from "prettysize";
 import { debounce } from "throttle-debounce";
@@ -46,6 +49,9 @@ class AccountDeleteReports {
   $spinner: JQuery<HTMLElement>;
   $userList: JQuery<HTMLElement>;
   $report: JQuery<HTMLElement>;
+  valueTypeSelectContainer: HTMLParagraphElement;
+  valueTypeSelect: HTMLSelectElement;
+  $filterSelectParent: JQuery<HTMLElement>;
 
   constructor() {
     this.reports = [];
@@ -74,7 +80,7 @@ class AccountDeleteReports {
               </span>
             </p>
             <p class="control is-expanded">
-              <input class="input" type="text" placeholder="${System.data.locale.common.profileID}">
+              <input class="input" type="number" placeholder="...">
             </p>
           </div>
           <div class="field is-horizontal">
@@ -90,10 +96,13 @@ class AccountDeleteReports {
 
     this.$searchInput = $("input", this.$layout);
     this.$filterSelect = $("select", this.$layout);
+    this.$filterSelectParent = this.$filterSelect.parent().parent();
 
     this.$header = $(".message-header", this.$layout);
     this.$body = $(".field-body", this.$layout);
     this.$spinner = $(".loader-wrapper", this.$layout);
+
+    this.RefreshFilterAndInput();
   }
 
   RenderUserList() {
@@ -176,9 +185,9 @@ class AccountDeleteReports {
   BindHandlers() {
     this.$header.on("click", this.HeaderClicked.bind(this));
 
-    this.$searchInput.on("input", debounce(600, this.FindUser.bind(this)));
+    this.$searchInput.on("input", debounce(600, this.FilterChanged.bind(this)));
 
-    this.$filterSelect.on("change", this.FindUser.bind(this));
+    this.$filterSelect.on("change", this.FilterChanged.bind(this));
 
     this.$reportsTBody.on("click", "figure img, figure video", event => {
       event.preventDefault();
@@ -205,16 +214,83 @@ class AccountDeleteReports {
     this.FetchReports();
   }
 
-  async FindUser() {
+  FilterChanged() {
+    const targetFilter = this.RefreshFilterAndInput();
+
+    this.FindUser(targetFilter);
+  }
+
+  RefreshFilterAndInput() {
+    const filter = Number(this.$filterSelect.val());
+    let targetFilter = filter;
+
+    if (filter === 2) {
+      this.ShowValueTypeSelect();
+
+      targetFilter = Number(this.valueTypeSelect.value);
+    } else {
+      this.HideValueTypeSelect();
+    }
+
+    this.$searchInput.prop("type", targetFilter === 4 ? "text" : "number");
+
+    return targetFilter;
+  }
+
+  ShowValueTypeSelect() {
+    if (this.valueTypeSelectContainer?.parentElement) return;
+
+    if (!this.valueTypeSelectContainer) {
+      this.RenderValueTypeSelect();
+    }
+
+    this.$filterSelectParent.after(this.valueTypeSelectContainer);
+  }
+
+  HideValueTypeSelect() {
+    HideElement(this.valueTypeSelectContainer);
+  }
+
+  RenderValueTypeSelect() {
+    this.valueTypeSelectContainer = Build(
+      CreateElement({ tag: "p", className: "control" }),
+      [
+        [
+          CreateElement({ tag: "span", className: "select" }),
+          [
+            [
+              (this.valueTypeSelect = CreateElement({
+                tag: "select",
+                onChange: this.FilterChanged.bind(this),
+              })),
+              [
+                CreateElement({
+                  tag: "option",
+                  value: 3,
+                  children: "ID",
+                }),
+                CreateElement({
+                  tag: "option",
+                  value: 4,
+                  children: "Nick",
+                }),
+              ],
+            ],
+          ],
+        ],
+      ],
+    );
+  }
+
+  async FindUser(filter: number) {
     this.HideUserList();
     this.ShowSpinner();
     await System.Delay(50);
 
     const value = String(this.$searchInput.val());
-    const filter = Number(this.$filterSelect.val());
     let reports = this.storedReports;
 
-    if (value) {
+    if (filter && value) {
       const resReports = await new ServerReq().FindDeleteReport(filter, value);
 
       reports = resReports.success === true ? resReports.data : [];

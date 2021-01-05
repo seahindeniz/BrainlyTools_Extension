@@ -372,6 +372,22 @@
           "40": {
             "title": "Menyetujui jawaban",
             "description": "Pada halaman konten pengguna, moderator dapat membatalkan verifikasi dengan memilih maksimal 25 jawaban pada setiap halaman"
+          },
+          "41": {
+            "title": "Konfirmasi Massal konten yang dilaporkan",
+            "description": "Pengguna dapat menggunakan alat ini untuk hanya mengkonfirmasi secara massal konten yang dilaporkan dari halaman konten yang Dilaporkan"
+          },
+          "42": {
+            "title": "Hapus Massal pertanyaan yang dilaporkan",
+            "description": "Pengguna dapat menggunakan alat ini untuk hanya menghapus pertanyaan yang dilaporkan secara massal dari halaman konten yang Dilaporkan"
+          },
+          "43": {
+            "title": "Hapus Massal jawaban yang dilaporkan",
+            "description": "Pengguna dapat menggunakan alat ini untuk hanya menghapus jawaban yang dilaporkan secara massal dari halaman Konten yang dilaporkan"
+          },
+          "44": {
+            "title": "Hapus Massal komentar yang dilaporkan",
+            "description": "Pengguna dapat menggunakan alat ini untuk hanya menghapus komentar yang dilaporkan secara massal dari halaman konten yang Dilaporkan"
           }
         },
         "veryImportant": "Sangat penting"

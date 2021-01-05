@@ -320,7 +320,7 @@ class UserContent {
             row.contents.answers[row.answerID].source.approved.date)),
     ); */
     return this.rows.filter(row => {
-      const { source } = row.contents.answers[row?.answerID];
+      const source = row.contents.answers[row?.answerID]?.source;
 
       return (
         !row.isBusy &&

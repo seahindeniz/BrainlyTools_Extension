@@ -372,6 +372,22 @@
           "40": {
             "title": "Annuler la vérification des réponses en sélectionnant",
             "description": "Sur la page de contenu de l'utilisateur, le modérateur peut vérifier les réponses en sélectionnant 25 réponses au maximum sur chaque page"
+          },
+          "41": {
+            "title": "Confirmation en masse des contenus signalés",
+            "description": "L'utilisateur ne peut utiliser cet outil que pour confirmer en masse les contenus signalés à partir de la page Contenus signalés"
+          },
+          "42": {
+            "title": "Supprimer en masse les questions signalées",
+            "description": "L'utilisateur peut utiliser cet outil pour supprimer en masse uniquement les questions signalées à partir de la page Contenus signalés"
+          },
+          "43": {
+            "title": "Supprimer en masse les réponses signalées",
+            "description": "L'utilisateur ne peut utiliser cet outil que pour effacer en masse les réponses signalées à partir de la page Contenus signalés"
+          },
+          "44": {
+            "title": "Supprimer en masse les commentaires signalés",
+            "description": "L'utilisateur peut utiliser cet outil uniquement pour supprimer en masse les commentaires signalés à partir de la page Contenus signalés"
           }
         },
         "veryImportant": "Très important"

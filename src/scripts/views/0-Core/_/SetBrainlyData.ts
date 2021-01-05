@@ -113,6 +113,7 @@ async function GetDefaultConfig() {
     defaultConfig = await WaitForObject("__default_config");
 
     PrepareSecondaryObjects(defaultConfig);
+    PopulateRanks(defaultConfig.config.data);
   } else {
     await Promise.all([FetchDefaultConfig(), FetchMainConfig()]);
     defaultConfig = System.data.Brainly.defaultConfig;

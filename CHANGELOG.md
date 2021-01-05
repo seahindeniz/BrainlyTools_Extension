@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 _Release dates are based on GMT+0 timezone_
 
+## [7.19.2] - 2021.01.05
+
+### Changed
+
+- Error message pop-up's get shown when the moderation is performed
+  successfully. [#355]
+- Reported Contents Page keeps on loading if visited using the same page where
+  the issue in #355 is reproduced. [#356]
+
+[#355]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/355
+[#356]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/356
+
 ## [7.19.1] - 2021.01.05
 
 ### Changed

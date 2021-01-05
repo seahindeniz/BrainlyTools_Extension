@@ -1,11 +1,11 @@
 @use "sass:map";
 @import "~perfect-scrollbar";
 
-header[class^="HeaderController"] {
+.brn-header {
   position: unset;
 }
 
-.brn-header-next {
+.brn-header-container {
   margin-bottom: 4px;
 }
 

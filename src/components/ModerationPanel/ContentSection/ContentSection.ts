@@ -590,7 +590,7 @@ export default class ContentSection {
     this.contentBox.ChangeColor("peach-secondary");
     this.main.listeners.onModerate(this.data.id, "delete", this.contentType);
 
-    if (this.attachmentSection.attachments)
+    if (this.attachmentSection?.attachments)
       this.attachmentSection.attachments.forEach(attachment =>
         attachment.deleteButton.element.remove(),
       );

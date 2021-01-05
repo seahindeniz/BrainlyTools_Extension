@@ -107,9 +107,10 @@ export default class MassDeleteSection extends ActionSection {
 
   RenderDeleteSection(contentType: ContentNameType) {
     if (
-      !System.checkUserP(
+      !System.checkUserP([
+        18,
         contentType === "Question" ? 42 : contentType === "Answer" ? 43 : 44,
-      ) ||
+      ]) ||
       !this.contents.some(content => content.contentType === contentType)
     ) {
       if (this.deleteSection.byContentType[contentType]) {

@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 
 _Release dates are based on GMT+0 timezone_
 
+## [7.19.3] - 2021.01.05
+
+### Changed
+
+- Mass-moderating contents while reports are being fetched in using the 'Fetch
+  All Reports' feature causes some errors. [#315]
+- The button to delete questions and comments by selection doesn't work [#354]
+- Mass-Message sender [#358]
+- Cannot Press "Delete" on the mass-moderate section of the reported contents
+  page. [#359]
+
+[#315]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/315
+[#354]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/354
+[#358]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/358
+[#359]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/359
+
 ## [7.19.2] - 2021.01.05
 
 ### Changed

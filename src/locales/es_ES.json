@@ -372,6 +372,22 @@
           "40": {
             "title": "Anule la verificación de las respuestas seleccionando",
             "description": "En la página de contenidos de usuario, el moderador puede verificar las respuestas seleccionando 25 respuestas como máximo en cada página"
+          },
+          "41": {
+            "title": "Confirmación masiva de los contenidos notificados",
+            "description": "El usuario puede utilizar esta herramienta para confirmar en masa solamente los contenidos reportados desde la página de contenidos reportados"
+          },
+          "42": {
+            "title": "Eliminación masiva de las preguntas notificadas",
+            "description": "El usuario puede utilizar esta herramienta para eliminar en masa las preguntas notificadas de la página Contenidos notificados"
+          },
+          "43": {
+            "title": "Eliminación masiva de las respuestas notificadas",
+            "description": "El usuario puede utilizar esta herramienta para eliminar en masa las respuestas notificadas de la página Contenidos notificados"
+          },
+          "44": {
+            "title": "Eliminación masiva de los comentarios notificados",
+            "description": "El usuario puede utilizar esta herramienta para eliminar en masa los comentarios notificados de la página Contenidos notificados"
           }
         },
         "veryImportant": "Muy importante"

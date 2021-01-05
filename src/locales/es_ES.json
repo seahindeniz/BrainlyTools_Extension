@@ -882,7 +882,8 @@
         "comments": "Comentarios filtrados"
       },
       "ignoreContent": "Ignore este notificado mientras modera en masa",
-      "ignoreContents": "Ignorar %{number} notificados visibles mientras se modera la masa"
+      "ignoreContents": "Ignorar %{number} notificados visibles mientras se modera la masa",
+      "fetchingReports": "Por favor, espere hasta que la operación de búsqueda de todos los notificados haya terminado o detenga el proceso para continuar moderando"
     },
     "categoryFilterFirstOption": {
       "name": "Razón del notificado — TODOS",

@@ -170,7 +170,11 @@ class RankSection {
     if (!System.allModerators) return;
 
     System.allModerators.list.forEach(user => {
-      if (!rankId || user.ranks_ids.includes(rankId)) {
+      if (
+        !rankId ||
+        user.ranks_ids.includes(rankId) ||
+        user.id !== System.data.Brainly.defaultConfig.user.ME.user.id
+      ) {
         this.ShowUser(user);
         this.selectedUsersFromRanks.push(user.id);
       }

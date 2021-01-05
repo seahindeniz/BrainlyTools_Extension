@@ -283,7 +283,12 @@ export default class MassMessageSender extends Components {
 
   StartSending() {
     const { message } = this;
-    const { idList } = this.SelectedSection;
+    let { idList } = this.SelectedSection;
+
+    if (idList?.length > 0)
+      idList = idList.filter(
+        id => id !== System.data.Brainly.defaultConfig.user.ME.user.id,
+      );
 
     if (!message || message.length > MAX_MESSAGE_LENGTH)
       this.ShowWrongMessageLengthError();

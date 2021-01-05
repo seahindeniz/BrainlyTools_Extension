@@ -121,7 +121,11 @@ class IdListSection {
       temp = temp.replace(rgx, replacedId => {
         const id = Number(replacedId);
 
-        if (this.idList.includes(id)) return replacedId;
+        if (
+          id === System.data.Brainly.defaultConfig.user.ME.user.id ||
+          this.idList.includes(id)
+        )
+          return replacedId;
 
         this.idList.push(id);
 

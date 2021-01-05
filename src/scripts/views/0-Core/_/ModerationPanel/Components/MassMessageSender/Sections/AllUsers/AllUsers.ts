@@ -281,8 +281,14 @@ class AllUsers {
 
     this.idList = this.ParseRangeValue();
 
-    if (!this.idList || this.idList.length === 0) this.input.Invalid();
-    else {
+    if (this.idList?.length)
+      this.idList = this.idList.filter(
+        id => id !== System.data.Brainly.defaultConfig.user.ME.user.id,
+      );
+
+    if (!this.idList?.length) {
+      this.input.Invalid();
+    } else {
       this.input.Valid();
       this.CalculateIdList();
     }
@@ -290,7 +296,7 @@ class AllUsers {
 
   ParseRangeValue() {
     const value = this.input.value.replace(/\s/g, "");
-    let rangeArr = rangeParser(value);
+    let rangeArr: number[] = rangeParser(value);
     const rangeSet = new Set(rangeArr);
 
     rangeArr = Array.from(rangeSet).filter(x => x > 0);

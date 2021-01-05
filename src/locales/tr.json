@@ -372,6 +372,22 @@
           "40": {
             "title": "Seçerek cevap doğrulaması kaldırma",
             "description": "Kullanıcı içerikleri sayfasında moderatör, her sayfada max 25 cevap seçerek cevapların doğrulamasını kaldırabilir"
+          },
+          "41": {
+            "title": "Şikayet edilmiş içerikleri topluca onaylayabilme",
+            "description": "Kullanıcı bu fonksiyonu kullanarak Bildirilmiş içerikler'den bildirilen içerikleri çoklu olarak onaylayabilir"
+          },
+          "42": {
+            "title": "Şikayet edilmiş soruları topluca silebilme",
+            "description": "Kullanıcı bu fonksiyonu kullanarak Bildirilmiş içerikler'den bildirilen soruları çoklu olarak silebilir"
+          },
+          "43": {
+            "title": "Şikayet edilmiş cevapları topluca silebilme",
+            "description": "Kullanıcı bu fonksiyonu kullanarak Bildirilmiş içerikler'den bildirilen cevapları çoklu olarak silebilir"
+          },
+          "44": {
+            "title": "Şikayet edilmiş yorumları topluca silebilme",
+            "description": "Kullanıcı bu fonksiyonu kullanarak Bildirilmiş içerikler'den bildirilen yorumları çoklu olarak silebilir"
           }
         },
         "veryImportant": "Çok önemli"

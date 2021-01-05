@@ -1,3 +1,4 @@
+export { default as GetMarketConfig } from "./GetMarketConfig";
 export { default as GetQuestion } from "./GetQuestion";
 export { default as GetUserCommentsPage } from "./GetUserCommentsPage";
 export { default as GQL } from "./GQL";

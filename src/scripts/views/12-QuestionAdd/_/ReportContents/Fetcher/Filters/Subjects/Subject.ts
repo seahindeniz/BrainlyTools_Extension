@@ -1,11 +1,6 @@
+import type { SubjectDataType } from "@BrainlyReq/GetMarketConfig";
 import CreateElement from "@components/CreateElement";
 import type SubjectsType from "./Subjects";
-
-export type SubjectDataType = {
-  id: number;
-  name: string;
-  enabled?: boolean;
-};
 
 export default class Subject {
   main: SubjectsType;

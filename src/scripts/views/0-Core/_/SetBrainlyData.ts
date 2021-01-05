@@ -1,9 +1,27 @@
-import { DefaultConfigDataType } from "@root/controllers/System";
 /* eslint-disable no-param-reassign */
 import Action from "@BrainlyAction";
+import { GetMarketConfig } from "@BrainlyReq";
+import type { MarketConfigDataType } from "@BrainlyReq/GetMarketConfig";
+import type { DefaultConfigDataType } from "@root/controllers/System";
 import WaitForObject from "../../../../helpers/WaitForObject";
 
 let RoutesFetchURL: string;
+
+function PopulateRanks(config: MarketConfigDataType) {
+  if (!System.data.Brainly.defaultConfig)
+    System.data.Brainly.defaultConfig = {};
+
+  System.data.Brainly.defaultConfig.config = { data: config };
+  System.data.Brainly.defaultConfig.config.data.ranksWithId = {};
+  System.data.Brainly.defaultConfig.config.data.ranksWithName = {};
+
+  config.ranks.forEach(rank => {
+    System.data.Brainly.defaultConfig.config.data.ranksWithId[rank.id] = rank;
+    System.data.Brainly.defaultConfig.config.data.ranksWithName[
+      rank.name
+    ] = rank;
+  });
+}
 
 function PrepareSecondaryObjects(defaultConfig?: DefaultConfigDataType) {
   if (!defaultConfig && System.data.Brainly.defaultConfig)
@@ -18,64 +36,74 @@ function PrepareSecondaryObjects(defaultConfig?: DefaultConfigDataType) {
       String(defaultConfig.user.ME as unknown),
     );
   }
-
-  defaultConfig.config.data.ranksWithId = {};
-  defaultConfig.config.data.ranksWithName = {};
-
-  defaultConfig.config.data.ranks.forEach(rank => {
-    defaultConfig.config.data.ranksWithId[rank.id] = rank;
-    defaultConfig.config.data.ranksWithName[rank.name] = rank;
-  });
 }
 
-function ProcessDefaultConfigData(first, second) {
+function ProcessDefaultConfigData(first: string) {
+  const mainConfig = System.data.Brainly.defaultConfig?.config;
+
   // eslint-disable-next-line no-new-func
   System.data.Brainly.defaultConfig = new Function(`return ${first}`)();
-  System.data.Brainly.defaultConfig.config = JSON.parse(second);
+
+  if (mainConfig) {
+    System.data.Brainly.defaultConfig.config = mainConfig;
+  }
+  // System.data.Brainly.defaultConfig.config = JSON.parse(second);
+
+  // console.log(System.data.Brainly.defaultConfig.config.data.ranks);
+  // console.log(second);
 
   PrepareSecondaryObjects();
+}
 
-  return System.data.Brainly.defaultConfig;
+async function FetchMainConfig() {
+  const res = await GetMarketConfig();
+
+  if (res.success === false) {
+    throw Error("Can't fetch market configurations");
+  }
+
+  PopulateRanks(res.data);
 }
 
 async function FetchDefaultConfig() {
-  const sourcePageHTML = await new Action().GetQuestionAddPage();
+  const sourcePageHTML: string = await new Action().GetQuestionAddPage();
 
   // console.log("res:", res);
   if (!sourcePageHTML) return undefined;
 
-  const matchConfig = /__default_config = (.*[\S\s]*?};)/gim.exec(
-    sourcePageHTML,
-  );
-  const matchSecondConfig = /\.config = (.*);/gim.exec(sourcePageHTML);
+  // https://regex101.com/r/8kxff1/1
+  const matchConfig = sourcePageHTML.match(
+    /(?<=__default_config = ).*[\S\s]*?};/gim,
+  )?.[0];
 
-  const matchAuthJSFile = sourcePageHTML.match(
-    /(\/sf\/js\/bundle\/include_auth_[a-z_-]{1,}-[a-z0-9]{1,}\.min\.js)/gim,
-  );
-
-  if (!matchAuthJSFile) {
-    throw Error("Can't find auth js file link");
-  }
-
-  RoutesFetchURL = matchAuthJSFile[matchAuthJSFile.length - 1];
-  // RoutesFetchURL = ExtractRoutesFetchURL(res);
-
-  if (!matchConfig || matchConfig.length < 2) {
+  if (!matchConfig) {
     throw Error("Config object not found");
   }
 
-  if (!matchSecondConfig || matchSecondConfig.length < 2) {
+  // const matchSecondConfig = /\.config = (.*);/gim.exec(sourcePageHTML);
+  // https://regex101.com/r/Ucp9oZ/2
+  /* const matchSecondConfig = sourcePageHTML.match(
+    /(?<=\.config = ).*(?=;)/gim,
+  )?.[0];
+
+  if (!matchSecondConfig) {
     throw Error("Second config object not found");
-  }
+  } */
+
+  RoutesFetchURL = sourcePageHTML.match(
+    /(\/sf\/js\/bundle\/include_auth_[a-z_-]{1,}-[a-z0-9]{1,}\.min\.js)/gim,
+  )?.[0];
 
   if (!RoutesFetchURL) {
-    throw Error("Routes URL not found");
+    throw Error("Can't find auth js file link");
   }
 
-  return ProcessDefaultConfigData(
-    matchConfig[matchConfig.length - 1],
-    matchSecondConfig[matchSecondConfig.length - 1],
-  );
+  // RoutesFetchURL = ExtractRoutesFetchURL(res);
+
+  ProcessDefaultConfigData(matchConfig);
+  // await FetchMainConfig();
+
+  return System.data.Brainly.defaultConfig;
 }
 
 async function GetDefaultConfig() {
@@ -86,7 +114,8 @@ async function GetDefaultConfig() {
 
     PrepareSecondaryObjects(defaultConfig);
   } else {
-    defaultConfig = await FetchDefaultConfig();
+    await Promise.all([FetchDefaultConfig(), FetchMainConfig()]);
+    defaultConfig = System.data.Brainly.defaultConfig;
   }
 
   localStorage.setObject("__default_config", defaultConfig);
@@ -94,7 +123,23 @@ async function GetDefaultConfig() {
   return defaultConfig;
 }
 
+async function FetchRoutingPath() {
+  const sourcePageHTML: string = await new Action().GetQuestionAddPage();
+
+  if (!sourcePageHTML) return undefined;
+
+  RoutesFetchURL = sourcePageHTML.match(
+    /(\/sf\/js\/bundle\/include_auth_[a-z_-]{1,}-[a-z0-9]{1,}\.min\.js)/gim,
+  )?.[0];
+
+  if (!RoutesFetchURL) {
+    throw Error("Can't find auth js file link");
+  }
+}
+
 async function FetchRouting() {
+  await FetchRoutingPath();
+
   const action = new Action();
 
   if (!RoutesFetchURL.includes("http"))
@@ -145,10 +190,11 @@ export default async function SetBrainlyData() {
     defaultConfig = await GetDefaultConfig();
     routing = await GetRoutingData();
   } else {
-    (async () => {
-      await GetDefaultConfig();
-      GetRoutingData();
-    })();
+    // (async () => {
+    //   await GetDefaultConfig();
+    //   GetRoutingData();
+    // })();
+    GetDefaultConfig().then(() => GetRoutingData());
   }
 
   if (!routing.prefix) {

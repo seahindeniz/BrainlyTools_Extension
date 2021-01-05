@@ -1,5 +1,5 @@
+import type { SubjectDataType } from "@BrainlyReq/GetMarketConfig";
 import CreateElement from "@components/CreateElement";
-import type { SubjectDataType } from "../../../Fetcher/Filters/Subjects/Subject";
 import type SubjectsClassType from "./Subjects";
 
 export default class Subject {

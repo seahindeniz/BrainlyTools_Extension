@@ -1,4 +1,5 @@
 import Action from "@BrainlyAction";
+import type { RankDataType } from "@BrainlyReq/GetMarketConfig";
 import CreateElement from "@components/CreateElement";
 import notification from "@components/notification2";
 import Progress from "@components/Progress";
@@ -10,7 +11,6 @@ import {
   Spinner,
   Text,
 } from "@components/style-guide";
-import type { RankDataType } from "@root/controllers/System";
 import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
 import IsVisible from "@root/helpers/IsVisible";

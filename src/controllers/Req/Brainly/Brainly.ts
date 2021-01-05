@@ -423,6 +423,14 @@ export default class Brainly extends Request {
   view_user_warns() {
     return this.P("view_user_warns");
   }
+
+  api_config() {
+    return this.P("api_config");
+  }
+
+  desktop_view() {
+    return this.P("desktop_view");
+  }
 }
 
 // export { default as GQL } from "./GQL";

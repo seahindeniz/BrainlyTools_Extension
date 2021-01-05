@@ -7,11 +7,11 @@ import Action, {
   UserDataInReportType,
   UsersDataInReportedContentsType,
 } from "@BrainlyAction";
+import type { RankDataType } from "@BrainlyReq/GetMarketConfig";
 import type { ModeratorDataType } from "@BrainlyReq/LiveModerationFeed";
 import CreateElement from "@components/CreateElement";
 import type { ContentNameType } from "@components/ModerationPanel/ModeratePanelController";
 import notification from "@components/notification2";
-import type { RankDataType } from "@root/controllers/System";
 import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
 import InsertAfter from "@root/helpers/InsertAfter";

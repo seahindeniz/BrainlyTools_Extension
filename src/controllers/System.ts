@@ -1,14 +1,17 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-underscore-dangle, no-param-reassign, class-methods-use-this */
+import Action, { UserType } from "@BrainlyAction";
+import type {
+  MarketConfigDataType,
+  RankDataType,
+} from "@BrainlyReq/GetMarketConfig";
 import locale from "@root/locales";
 import ServerReq from "@ServerReq";
 import cookie from "js-cookie";
-import Action, { UserType } from "@BrainlyAction";
 import extensionConfig from "../configs/_/extension.json";
 import ArrayLast from "../helpers/ArrayLast";
 import storage from "../helpers/extStorage";
 import InjectToDOM from "../helpers/InjectToDOM";
-import type { SubjectDataType } from "../scripts/views/12-QuestionAdd/_/ReportContents/Fetcher/Filters/Subjects/Subject";
 
 const ROUTES = {
   root: "root",
@@ -29,14 +32,6 @@ type AvatarType = {
   medium?: string;
   "64"?: string;
   "100"?: string;
-};
-
-type GradeDataType = {
-  filter_name: string;
-  icon: string;
-  id: number;
-  name: string;
-  slug: string;
 };
 
 type IdType = number | string;
@@ -60,48 +55,26 @@ type ObjectAnyType = {
   [x: string]: any;
 };
 
-export type RankDataType = {
-  color?: string;
-  description?: string;
-  id?: number;
-  name?: string;
-  points?: number;
-  promoted_text?: string;
-  the_best_resps?: number;
-  type?: number;
-};
-
 export type DefaultConfigDataType = {
-  MARKET: string;
-  config: {
-    data: {
-      subjects: SubjectDataType[];
-      grades: GradeDataType[];
-      config: {
-        attachmentCount: number;
-        timezone: string;
-        cometSslServerAddress: string;
-        cometSslServerPort: number;
-        serviceLatexUrlHttps: string;
-      };
-      ranks: RankDataType[];
-    } & {
-      ranksWithId: {
+  MARKET?: string;
+  config?: {
+    data: MarketConfigDataType & {
+      ranksWithId?: {
         [id: number]: RankDataType;
       };
-      ranksWithName: {
+      ranksWithName?: {
         [name: string]: RankDataType;
       };
     };
   };
-  locale: {
+  locale?: {
     LANGUAGE: string;
     COUNTRY: string;
   };
-  comet: {
+  comet?: {
     AUTH_HASH: string;
   };
-  user: {
+  user?: {
     ME: {
       panel: {
         messages: { count: 0; status: 1 };

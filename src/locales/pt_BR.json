@@ -372,6 +372,22 @@
           "40": {
             "title": "Desaprove respostas selecionando",
             "description": "Na página de conteúdo do usuário, o moderador pode desaprovar as respostas selecionando no máximo 25 respostas em cada página."
+          },
+          "41": {
+            "title": "Eliminação em massa de conteúdo denunciado",
+            "description": "O usuário pode usar esta ferramenta para eliminar em massa apenas conteúdos denunciados da página “Conteúdo denunciado”"
+          },
+          "42": {
+            "title": "Eliminação em massa de tarefas denunciadas",
+            "description": "O usuário pode usar esta ferramenta para eliminar em massa apenas tarefas denunciadas da página “Conteúdo denunciado”"
+          },
+          "43": {
+            "title": "Eliminação em massa de respostas denunciadas",
+            "description": "O usuário pode usar esta ferramenta para eliminar em massa apenas respostas denunciadas da página “Conteúdo denunciado”"
+          },
+          "44": {
+            "title": "Eliminação em massa de comentários denunciados",
+            "description": "O usuário pode usar esta ferramenta para eliminar em massa apenas comentários denunciados da página “Conteúdo denunciado”"
           }
         },
         "veryImportant": "Muito importante"

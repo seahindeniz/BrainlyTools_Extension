@@ -2,7 +2,34 @@
 
 All notable changes to this project will be documented in this file.
 
-_Release dates are based on GMT timezone_
+_Release dates are based on GMT+0 timezone_
+
+## [7.19.0] - 2021.01.05
+
+### Added
+
+- Introduce question preview popup for reported answers on reported contents
+  page
+  ![37a0c3e0-060e-4df9-b2e7-5d2e259f9286](https://user-images.githubusercontent.com/5789670/103253623-f8040d00-4992-11eb-86db-e9a2e560d245.gif)
+- Add mass-deleted profiles to Ryver deletion logs channel [#346]
+- Get Account Delete Report by Deleted User's Nick [#347]
+- Real-time tracking for moderation status of a question [#348]
+- Mass-moderate reported contents [#349]
+- profil sayfasında yorum sayısı [#351]
+
+### Changed
+
+- No error message get's displayed when an attachment moderation fails
+  (sometimes) in the view user's content page. [#352]
+- Special Ranks Issue [#353]
+
+[#346]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/346
+[#347]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/347
+[#348]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/348
+[#349]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/349
+[#351]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/351
+[#352]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/352
+[#353]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/353
 
 ## [7.18.1] - 2020.12.20
 

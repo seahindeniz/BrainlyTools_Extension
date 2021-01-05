@@ -27,11 +27,7 @@ function PrepareSecondaryObjects(defaultConfig?: DefaultConfigDataType) {
   if (!defaultConfig && System.data.Brainly.defaultConfig)
     defaultConfig = System.data.Brainly.defaultConfig;
 
-  if (
-    !System.data.Brainly.defaultConfig ||
-    !System.data.Brainly.defaultConfig.user ||
-    typeof System.data.Brainly.defaultConfig.user.ME === "string"
-  ) {
+  if (typeof System.data.Brainly.defaultConfig?.user?.ME === "string") {
     defaultConfig.user.ME = JSON.parse(
       String(defaultConfig.user.ME as unknown),
     );
@@ -63,6 +59,7 @@ async function FetchMainConfig() {
   }
 
   PopulateRanks(res.data);
+  PrepareSecondaryObjects();
 }
 
 async function FetchDefaultConfig() {

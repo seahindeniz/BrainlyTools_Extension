@@ -41,11 +41,11 @@ const LANGUAGE_DETAILS = {
     author: "TomRh",
   },
   pt_BR: {
-    name: "Portuguese(BR)",
+    name: "Português(BR)",
     author: "HydroXBR, Maxon, Bernard0",
   },
   pl: {
-    name: "Polish",
+    name: "Polskie",
     author: "Kinga",
   },
 };

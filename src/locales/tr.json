@@ -882,7 +882,8 @@
         "comments": "Filtrelenen yorumlar"
       },
       "ignoreContent": "Bu içeriği, çoklu içerik düzenleme özelliğinde göz ardı et/etme",
-      "ignoreContents": "Çoklu içerik düzenleme özelliğinden %{number} içeriği göz ardı et/etme"
+      "ignoreContents": "Çoklu içerik düzenleme özelliğinden %{number} içeriği göz ardı et/etme",
+      "fetchingReports": "Lütfen tüm şikayetler yüklenene kadar bekleyin veya düzenlemeye devam etmek için işlemi durdurun"
     },
     "categoryFilterFirstOption": {
       "name": "Şikayet sebebi — TÜMÜ",

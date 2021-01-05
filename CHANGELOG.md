@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 _Release dates are based on GMT+0 timezone_
 
+## [7.19.1] - 2021.01.05
+
+### Changed
+
+- Update language files
+
 ## [7.19.0] - 2021.01.05
 
 ### Added

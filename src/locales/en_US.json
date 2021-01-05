@@ -882,7 +882,8 @@
         "comments": "Filtered comments"
       },
       "ignoreContent": "Ignore this report while mass-moderating",
-      "ignoreContents": "Ignore %{number} visible reports while mass-moderating"
+      "ignoreContents": "Ignore %{number} visible reports while mass-moderating",
+      "fetchingReports": "Please wait until the fetch all reports operation has completed or stop the process to continue to moderate"
     },
     "categoryFilterFirstOption": {
       "name": "Report reason — ALL",

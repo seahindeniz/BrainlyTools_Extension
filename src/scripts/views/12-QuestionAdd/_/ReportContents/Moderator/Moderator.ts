@@ -1,3 +1,4 @@
+import notification from "@components/notification2";
 import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
 import IsVisible from "@root/helpers/IsVisible";
@@ -155,7 +156,16 @@ export default class Moderator {
   }
 
   InitSections() {
-    if (this.moderateSections.all.length > 0) return;
+    if (this.main.fetcher.isFetching) {
+      notification({
+        type: "info",
+        text: System.data.locale.reportedContents.massModerate.fetchingReports,
+      });
+
+      return false;
+    }
+
+    if (this.moderateSections.all.length > 0) return undefined;
 
     if (System.checkUserP([18, 41]))
       this.moderateSections.massConfirmSection = new MassConfirmSection(this);
@@ -167,6 +177,8 @@ export default class Moderator {
       this.moderateSections.massConfirmSection,
       this.moderateSections.massDeleteSection,
     );
+
+    return true;
   }
 
   ResetSections() {

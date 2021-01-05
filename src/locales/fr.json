@@ -882,7 +882,8 @@
         "comments": "Commentaires filtrés"
       },
       "ignoreContent": "Ignorer ce signalement tout en modérant en masse",
-      "ignoreContents": "Ignorer les %{number} de signalements visibles lors de la modération de masse"
+      "ignoreContents": "Ignorer les %{number} de signalements visibles lors de la modération de masse",
+      "fetchingReports": "Merci d'attendre que l'opération de récupération de tous les signalements soit terminée ou arrête le processus pour continuer à modérer"
     },
     "categoryFilterFirstOption": {
       "name": "Motifs de signalements — TOUS",

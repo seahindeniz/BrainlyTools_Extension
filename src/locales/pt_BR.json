@@ -882,7 +882,8 @@
         "comments": "Comentários filtrados"
       },
       "ignoreContent": "Ignore esta denúncia durante a moderação em massa",
-      "ignoreContents": "Ignore %{number} denúncias visíveis enquanto moderar em massa"
+      "ignoreContents": "Ignore %{number} denúncias visíveis enquanto moderar em massa",
+      "fetchingReports": "Please wait until the fetch all reports operation has completed or stop the process to continue to moderate"
     },
     "categoryFilterFirstOption": {
       "name": "Motivo de denúncia — TODOS",

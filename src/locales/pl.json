@@ -882,7 +882,8 @@
         "comments": "Znalezione komentarze"
       },
       "ignoreContent": "Zignoruj to zgłoszenie podczas masowej moderacji",
-      "ignoreContents": "Ignoruj %{number} widocznych zgłoszonych treści podczas masowej moderacji"
+      "ignoreContents": "Ignoruj %{number} widocznych zgłoszonych treści podczas masowej moderacji",
+      "fetchingReports": "Please wait until the fetch all reports operation has completed or stop the process to continue to moderate"
     },
     "categoryFilterFirstOption": {
       "name": "Wszystkie powody zgłoszeń",

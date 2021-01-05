@@ -882,7 +882,8 @@
         "comments": "Komentar yang difilter"
       },
       "ignoreContent": "Abaikan laporan ini saat melakukan moderasi massal",
-      "ignoreContents": "Abaikan %{number} laporan yang terlihat saat memoderasi massalg"
+      "ignoreContents": "Abaikan %{number} laporan yang terlihat saat memoderasi massalg",
+      "fetchingReports": "Please wait until the fetch all reports operation has completed or stop the process to continue to moderate"
     },
     "categoryFilterFirstOption": {
       "name": "Laporan alasannya — Semua",

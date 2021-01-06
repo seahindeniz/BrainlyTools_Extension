@@ -290,13 +290,8 @@ export default class UserProfile {
       this.brainlyUser.description,
       Number(window.myData.id) === Number(this.profileData.id),
     );
-    const $bioContainer = $(`
-		<div class="sg-content-box__actions">
-			<div class="sg-horizontal-separator"></div>
-		</div>`);
 
-    userBio.$.prependTo($bioContainer);
-    $bioContainer.appendTo(this.infoSection);
+    this.infoSection.append(userBio.container);
   }
 
   async LoadComponentsAfterModeratorsResolved() {

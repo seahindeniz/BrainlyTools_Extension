@@ -1,7 +1,11 @@
 import Action from "@BrainlyAction";
+import Build from "@root/helpers/Build";
+import { Flex, Text } from "@style-guide";
+import type { FlexElementType } from "@style-guide/Flex";
+import type { TextElement } from "@style-guide/Text";
 import notification from "./notification2";
 
-function PasteHandler(event: KeyboardEvent) {
+function PasteHandler(event: ClipboardEvent) {
   event.preventDefault();
 
   // @ts-expect-error
@@ -13,62 +17,57 @@ function PasteHandler(event: KeyboardEvent) {
 }
 
 class UserBio {
-  bio: string;
-  editable: boolean;
+  container: FlexElementType;
+  private bioContent: TextElement<"p">;
 
-  $: JQuery<HTMLElement>;
-  $bioContent: JQuery<HTMLElement>;
-  bioContent: HTMLElement;
-
-  constructor(bio = "", editable = false) {
-    this.bio = bio;
-    this.editable = editable;
-
+  constructor(private bio = "", private editable = false) {
     this.Render();
-    this.BindHandlers();
   }
 
   Render() {
-    this.$ = $(`
-		<div class="sg-actions-list sg-actions-list--no-wrap sg-actions-list--to-top">
-			<div class="sg-actions-list__hole" title="${
-        System.data.locale.userProfile.userBio.description
-      }">
-				<span class="sg-text sg-text--small sg-text--bold">${
-          System.data.locale.userProfile.userBio.title
-        }: </span>
-			</div>
-			<div class="sg-actions-list__hole sg-actions-list__hole--grow sg-text sg-text--xsmall">
-				<p class="sg-text sg-text--xsmall" style="min-height:1.5rem;">${
-          this.bio || " -"
-        }</p>
-			</div>
-		</div>`);
-
-    this.$bioContent = $("p", this.$);
-    this.bioContent = this.$bioContent.get(0);
-
-    this.$bioContent.prop("contenteditable", this.editable);
-  }
-
-  BindHandlers() {
-    this.$bioContent.on({
-      mousedown: this.RemovePlaceholder.bind(this),
-      paste: PasteHandler,
-      blur: this.UpdateIfChanged.bind(this),
-    });
+    this.container = Build(
+      Flex({
+        title: System.data.locale.userProfile.userBio.description,
+      }),
+      [
+        [
+          Flex({
+            marginRight: "xs",
+          }),
+          Text({
+            size: "small",
+            weight: "bold",
+            children: `${System.data.locale.userProfile.userBio.title}:`,
+          }),
+        ],
+        (this.bioContent = Text({
+          tag: "p",
+          full: true,
+          size: "xsmall",
+          breakWords: true,
+          children: this.bio || " -",
+          contentEditable: this.editable,
+          onMouseDown: this.RemovePlaceholder.bind(this),
+          onPaste: PasteHandler,
+          onBlur: this.UpdateIfChanged.bind(this),
+          style: {
+            minHeight: "20px",
+          },
+        })),
+      ],
+    );
   }
 
   RemovePlaceholder() {
-    if (!this.bio) {
-      this.$bioContent.text("");
-    }
+    if (this.bio) return;
+
+    this.bioContent.innerHTML = "";
   }
 
   AddPlaceholder() {
-    if (this.bioContent.innerText.trim() === "") {
-      this.bioContent.innerText = " -";
-    }
+    if (this.bioContent.innerText.trim() !== "") return;
+
+    this.bioContent.innerText = " -";
   }
 
   async UpdateIfChanged() {

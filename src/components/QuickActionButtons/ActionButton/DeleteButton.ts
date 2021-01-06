@@ -1,4 +1,4 @@
-import {
+import type {
   DeleteReasonPropsType,
   DeleteReasonSubCategoryType,
 } from "@root/controllers/System";
@@ -40,9 +40,8 @@ export default class DeleteButton extends ActionButton {
     this.button.element.addEventListener("click", this.Clicked.bind(this));
   }
 
-  async Clicked() {
+  private async Clicked() {
     await this.Selected();
-
     this.main.Moderating();
 
     const confirmMessage = System.data.locale.common.moderating.doYouWantToDeleteWithReason

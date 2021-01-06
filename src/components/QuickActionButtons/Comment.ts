@@ -6,8 +6,10 @@ import QuickActionButtons, {
 } from "./QuickActionButtons";
 
 export default class QuickActionButtonsForComment extends QuickActionButtons {
+  contentType: "Comment";
+
   constructor(props: QuickActionButtonsPropsType) {
-    super(props);
+    super("Comment", props);
 
     this.RenderDeleteButtons();
     this.RenderConfirmButton();
@@ -42,6 +44,7 @@ export default class QuickActionButtonsForComment extends QuickActionButtons {
           : resDelete || Error("No response");
       }
 
+      this.NotModerating();
       this.Deleted();
     } catch (error) {
       console.error(error);
@@ -52,7 +55,7 @@ export default class QuickActionButtonsForComment extends QuickActionButtons {
           System.data.locale.common.notificationMessages.somethingWentWrong,
       });
 
-      this.EnableButtons();
+      this.NotModerating();
     }
   }
 }

@@ -1,19 +1,20 @@
 import type {
   RemoveAnswerReqDataType,
   RemoveCommentReqDataType,
-  // RemoveQuestionReqDataType,
 } from "@BrainlyAction";
+import { CloseModerationTicket, ConfirmContent } from "@BrainlyReq";
 import type { RemoveQuestionReqDataType } from "@BrainlyReq/RemoveQuestion";
+import type { ContentNameType } from "@components/ModerationPanel/ModeratePanelController";
 import type { NotificationPropsType } from "@components/notification2";
 import HideElement from "@root/helpers/HideElement";
 import { Flex, Spinner } from "@style-guide";
 import type { ButtonSizeType } from "@style-guide/Button";
 import type { FlexElementType, FlexPropsType } from "@style-guide/Flex";
+import notification from "../notification2";
 import type ActionButtonClassType from "./ActionButton/ActionButton";
 import ConfirmButton from "./ActionButton/ConfirmButton";
 import type DeleteButtonClassType from "./ActionButton/DeleteButton";
 import MoreButton from "./ActionButton/MoreButton";
-import notification from "../notification2";
 
 export type ButtonClassTypes =
   | ActionButtonClassType
@@ -26,10 +27,12 @@ type OptionalPropsType = {
   containerProps: FlexPropsType;
   notificationHandler?: (props: NotificationPropsType) => void;
   onDelete?: () => void;
+  onConfirm?: () => void;
 };
 
 export type ContentType = {
   databaseId: number;
+  questionDatabaseId?: number;
   reported?: boolean;
 };
 
@@ -50,8 +53,12 @@ export default class QuickActionButtons {
   selectedButton: ButtonClassTypes;
   private confirmButton?: ConfirmButton;
   private moreButton: MoreButton;
+  private moderating: boolean;
 
-  constructor({ content, ...props }: QuickActionButtonsPropsType) {
+  constructor(
+    public contentType: ContentNameType,
+    { content, ...props }: QuickActionButtonsPropsType,
+  ) {
     this.content = content;
     this.props = props;
 
@@ -115,24 +122,34 @@ export default class QuickActionButtons {
   }
 
   Hide() {
+    if (this.moderating) return;
+
     HideElement(this.container);
   }
 
   HideSpinner() {
+    if (this.moderating) return;
+
     HideElement(this.spinner);
   }
 
   Moderating() {
+    this.moderating = true;
+
     this.DisableButtons();
 
     return System.Delay(50);
   }
 
   DisableButtons() {
+    this.container.classList.add("js-disabled");
+
     this.actionButtons.forEach(actionButton => actionButton.button.Disable());
   }
 
   NotModerating() {
+    this.moderating = false;
+
     this.EnableButtons();
   }
 
@@ -140,6 +157,7 @@ export default class QuickActionButtons {
     this.selectedButton = null;
 
     this.HideSpinner();
+    this.container.classList.remove("js-disabled");
     this.actionButtons.forEach(actionButton => actionButton.button.Enable());
   }
 
@@ -153,6 +171,58 @@ export default class QuickActionButtons {
   }
 
   Deleted() {
+    this.Hide();
     this.props.onDelete?.();
+  }
+
+  async ConfirmContent() {
+    try {
+      const resConfirm = await ConfirmContent(
+        this.content.databaseId,
+        this.contentType,
+      );
+
+      if (resConfirm?.success === false) {
+        throw resConfirm.message
+          ? { msg: resConfirm.message }
+          : resConfirm || Error("No response");
+      }
+
+      CloseModerationTicket(this.content.questionDatabaseId);
+
+      this.NotModerating();
+      this.Confirmed();
+    } catch (error) {
+      console.error(error);
+      this.props.notificationHandler?.({
+        type: "error",
+        html:
+          error.msg ||
+          System.data.locale.common.notificationMessages.somethingWentWrong,
+      });
+
+      this.NotModerating();
+    }
+  }
+
+  Confirmed() {
+    this.RemoveConfirmButton();
+    this.props.onConfirm?.();
+  }
+
+  RemoveConfirmButton() {
+    if (!this.confirmButton) return;
+
+    this.confirmButton.Hide();
+
+    this.confirmButton = null;
+  }
+
+  RemoveDeleteButtons() {
+    this.actionButtons.forEach(button => {
+      if (!("deleteReason" in button)) return;
+
+      button.Hide();
+    });
   }
 }

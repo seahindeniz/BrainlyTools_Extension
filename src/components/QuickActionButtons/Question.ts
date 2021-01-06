@@ -15,13 +15,14 @@ type PropsType = {
 } & QuickActionButtonsPropsType;
 
 export default class QuickActionButtonsForQuestion extends QuickActionButtons {
+  contentType: "Question";
   content: QuestionContentType;
 
   constructor(props: PropsType) {
-    super(props);
+    super("Question", props);
 
-    this.RenderConfirmButton();
     this.RenderDeleteButtons();
+    this.RenderConfirmButton();
   }
 
   RenderDeleteButtons() {
@@ -63,6 +64,7 @@ export default class QuickActionButtonsForQuestion extends QuickActionButtons {
           : resDelete || Error("No response");
       }
 
+      this.NotModerating();
       this.Deleted();
     } catch (error) {
       console.error(error);
@@ -73,7 +75,7 @@ export default class QuickActionButtonsForQuestion extends QuickActionButtons {
           System.data.locale.common.notificationMessages.somethingWentWrong,
       });
 
-      this.EnableButtons();
+      this.NotModerating();
     }
   }
 }

@@ -20,18 +20,17 @@ type PropsType = {
 } & QuickActionButtonsPropsType;
 
 export default class QuickActionButtonsForAnswer extends QuickActionButtons {
+  contentType: "Answer";
   content: AnswerContentType;
 
   askForCorrectionButton: AskForCorrectionButton;
 
   constructor(props: PropsType) {
-    super(props);
+    super("Answer", props);
 
     this.RenderAskForCorrectionButton();
     this.RenderDeleteButtons();
-
-    if (!System.checkBrainlyP(146) || System.checkUserP(38))
-      this.RenderConfirmButton();
+    this.RenderConfirmButton();
   }
 
   RenderAskForCorrectionButton() {
@@ -101,7 +100,11 @@ export default class QuickActionButtonsForAnswer extends QuickActionButtons {
   }
 
   RenderConfirmButton() {
-    if (!this.content.reported && !this.content.reportedForCorrection) return;
+    if (
+      (System.checkBrainlyP(146) && !System.checkUserP(38)) ||
+      (!this.content.reported && !this.content.reportedForCorrection)
+    )
+      return;
 
     super.RenderConfirmButton();
   }
@@ -116,6 +119,7 @@ export default class QuickActionButtonsForAnswer extends QuickActionButtons {
           : resDelete || Error("No response");
       }
 
+      this.NotModerating();
       this.Deleted();
     } catch (error) {
       console.error(error);
@@ -126,7 +130,7 @@ export default class QuickActionButtonsForAnswer extends QuickActionButtons {
           System.data.locale.common.notificationMessages.somethingWentWrong,
       });
 
-      this.EnableButtons();
+      this.NotModerating();
     }
   }
 }

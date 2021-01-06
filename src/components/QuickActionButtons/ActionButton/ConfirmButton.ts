@@ -23,11 +23,24 @@ export default class ConfirmButton extends ActionButton {
       }),
     );
 
-    /* this.button.element.addEventListener("click", this.Clicked.bind(this));
+    this.button.element.addEventListener("click", this.Clicked.bind(this));
   }
 
-  async Clicked() {
+  private async Clicked() {
     await this.Selected();
-    this.main.main.ConfirmConfirming(); */
+    this.main.Moderating();
+
+    if (
+      !confirm(
+        System.data.locale.userContent.notificationMessages
+          .doYouWantToConfirmThisContent,
+      )
+    ) {
+      this.main.NotModerating();
+
+      return;
+    }
+
+    this.main.ConfirmContent();
   }
 }

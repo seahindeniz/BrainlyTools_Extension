@@ -3,7 +3,6 @@ import AttachmentSection from "@components/AttachmentSection/AttachmentSection";
 import notification from "@components/notification2";
 import QuickActionButtonsForQuestion from "@components/QuickActionButtons/Question";
 import Build from "@root/helpers/Build";
-import HideElement from "@root/helpers/HideElement";
 import replaceLatexWithURL from "@root/helpers/replaceLatexWithURL";
 import {
   Avatar,
@@ -351,7 +350,7 @@ export default class QuestionPreview {
 
   Deleted() {
     this.questionContainer.ChangeColor("peach-secondary-light");
-    HideElement(this.quickActionButtons?.container);
+    this.quickActionButtons?.Hide();
     this.attachmentSection.RemoveDeleteButtons();
     this.main.Deleted();
   }

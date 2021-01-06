@@ -1,6 +1,8 @@
-import type { ReportedContentDataType } from "@BrainlyAction";
-import { RemoveQuestionReqDataType } from "@BrainlyAction";
-import HideElement from "@root/helpers/HideElement";
+import type {
+  ReportedContentDataType,
+  RemoveQuestionReqDataType,
+} from "@BrainlyAction";
+import QuickActionButtonsForQuestion from "@components/QuickActionButtons/Question";
 import { Flex, Icon, Label, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import tippy from "tippy.js";
@@ -57,9 +59,7 @@ export default class Question extends Content {
 
     if (!this.extraData.answers.hasVerified) return;
 
-    this.quickDeleteButtons.forEach(quickDeleteButton =>
-      HideElement(quickDeleteButton.container),
-    );
+    this.quickActionButtons.RemoveDeleteButtons();
   }
 
   RenderAttachmentsIcon() {
@@ -176,10 +176,22 @@ export default class Question extends Content {
     this.extraDetailsContainer.append(this.popularIconContainer);
   }
 
-  RenderQuickDeleteButtons() {
-    if (this.extraData?.answers.hasVerified) return;
-
-    super.RenderQuickDeleteButtons();
+  RenderQuickActionButtons() {
+    this.quickActionButtons = new QuickActionButtonsForQuestion({
+      content: {
+        databaseId: this.data.model_id,
+        hasVerifiedAnswers: this.extraData?.answers.hasVerified,
+        reported: true, // !!this.data.report,
+      },
+      containerProps: {
+        grow: true,
+        alignItems: "center",
+        justifyContent: "flex-end",
+        className: "ext-quick-action-buttons",
+      },
+      onDelete: this.Deleted.bind(this),
+      onConfirm: this.Confirmed.bind(this),
+    });
   }
 
   ExpressDelete(data: RemoveQuestionReqDataType) {

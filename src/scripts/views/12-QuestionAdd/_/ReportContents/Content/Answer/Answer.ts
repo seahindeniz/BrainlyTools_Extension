@@ -2,6 +2,7 @@ import type {
   RemoveAnswerReqDataType,
   ReportedContentDataType,
 } from "@BrainlyAction";
+import QuickActionButtonsForAnswer from "@components/QuickActionButtons/Answer";
 import { Flex, Icon, Label, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import tippy from "tippy.js";
@@ -186,6 +187,23 @@ export default class Answer extends Content {
     }
 
     this.questionPreview = new QuestionPreview(this);
+  }
+
+  RenderQuickActionButtons() {
+    this.quickActionButtons = new QuickActionButtonsForAnswer({
+      content: {
+        databaseId: this.data.model_id,
+        reported: true,
+      },
+      containerProps: {
+        grow: true,
+        alignItems: "center",
+        justifyContent: "flex-end",
+        className: "ext-quick-action-buttons",
+      },
+      onDelete: this.Deleted.bind(this),
+      onConfirm: this.Confirmed.bind(this),
+    });
   }
 
   ExpressDelete(data: RemoveAnswerReqDataType) {

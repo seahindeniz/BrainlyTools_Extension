@@ -11,7 +11,7 @@ import type { RankDataType } from "@BrainlyReq/GetMarketConfig";
 import type { ModeratorDataType } from "@BrainlyReq/LiveModerationFeed";
 import CreateElement from "@components/CreateElement";
 import type { ContentNameType } from "@components/ModerationPanel/ModeratePanelController";
-import notification from "@components/notification2";
+import QuickActionButtons from "@components/QuickActionButtons/QuickActionButtons";
 import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
 import InsertAfter from "@root/helpers/InsertAfter";
@@ -26,7 +26,6 @@ import type { TextElement } from "@style-guide/Text";
 import moment from "moment-timezone";
 import tippy, { Instance } from "tippy.js";
 import type ReportedContentsType from "../ReportedContents";
-import QuickDeleteButton from "./QuickDeleteButton";
 
 type StatusNamesType =
   | "default"
@@ -66,7 +65,7 @@ type UserType = {
 };
 
 export default class Content {
-  main: ReportedContentsType;
+  private main: ReportedContentsType;
   data: ReportedContentDataType;
   globalId: string;
   contentType: ContentNameType;
@@ -96,28 +95,24 @@ export default class Content {
 
   container: HTMLDivElement;
   contentWrapper: FlexElementType;
-  box: Box;
-  moderateActionContainer: FlexElementType;
+  private box: Box;
+  private moderateActionContainer: FlexElementType;
   moderateButton: Button;
-  createDateText: TextElement<"i">;
-  reportDateText: TextElement<"span">;
-  reportDetailContainer: FlexElementType;
-  quickDeleteButtonContainer: FlexElementType;
-  confirmButtonContainer: FlexElementType;
-  confirmButton: Button;
-  buttonSpinner: HTMLDivElement;
-  moderatorContainer: FlexElementType;
-  extraDetailsContainer: FlexElementType;
-  quickDeleteButtons: QuickDeleteButton[];
-  quickActionButtonContainer: FlexElementType;
+  private createDateText: TextElement<"i">;
+  private reportDateText: TextElement<"span">;
+  private reportDetailContainer: FlexElementType;
+  protected buttonSpinner: HTMLDivElement;
+  private moderatorContainer: FlexElementType;
+  protected extraDetailsContainer: FlexElementType;
   tippyInstances: Instance[];
-  moderateButtonContainer: FlexElementType;
+  private moderateButtonContainer: FlexElementType;
   ignored: boolean;
-  #ignoreButton?: Button;
-  #ignoreButtonContainer?: FlexElementType;
-  #ignoreButtonIcon?: Icon;
-  reportFlagIcon: Icon;
+  private ignoreButton?: Button;
+  private ignoreButtonContainer?: FlexElementType;
+  private ignoreButtonIcon?: Icon;
+  private reportFlagIcon: Icon;
   contentTypeButtonContainer: FlexElementType;
+  protected quickActionButtons?: QuickActionButtons;
 
   constructor({
     main,
@@ -132,7 +127,7 @@ export default class Content {
     this.data = data;
     this.contentType = contentType;
 
-    this.quickDeleteButtons = [];
+    // this.quickDeleteButtons = [];
     this.tippyInstances = [];
     this.globalId = btoa(`${contentType.toLowerCase()}:${data.model_id}`);
 
@@ -144,7 +139,7 @@ export default class Content {
     this.SetDates();
   }
 
-  PrepareUser(userData: UserDataInReportType) {
+  private PrepareUser(userData: UserDataInReportType) {
     if (!userData) return undefined;
 
     const data = this.main.userData[userData?.id || 0];
@@ -182,7 +177,7 @@ export default class Content {
     return user;
   }
 
-  SetDates() {
+  private SetDates() {
     moment.locale(navigator.language);
 
     const createDate = moment(this.data?.created);
@@ -446,14 +441,14 @@ export default class Content {
           ],
         ],
         System.checkUserP(18) && [
-          (this.#ignoreButtonContainer = Flex({
+          (this.ignoreButtonContainer = Flex({
             className: "ext-corner-button-container",
           })),
-          (this.#ignoreButton = new Button({
+          (this.ignoreButton = new Button({
             size: "s",
             type: "transparent-light",
             iconOnly: true,
-            icon: (this.#ignoreButtonIcon = new Icon({
+            icon: (this.ignoreButtonIcon = new Icon({
               color: "adaptive",
               type: "unseen",
             })),
@@ -493,9 +488,9 @@ export default class Content {
       }),
     );
 
-    if (this.#ignoreButtonContainer) {
+    if (this.ignoreButtonContainer) {
       this.tippyInstances.push(
-        tippy(this.#ignoreButtonContainer, {
+        tippy(this.ignoreButtonContainer, {
           theme: "light",
           content: Text({
             size: "small",
@@ -535,15 +530,12 @@ export default class Content {
     this.createDateText = null;
     this.reportDateText = null;
     this.reportDetailContainer = null;
-    this.quickDeleteButtonContainer = null;
-    this.confirmButtonContainer = null;
-    this.confirmButton = null;
     this.buttonSpinner = null;
     this.moderatorContainer = null;
     this.extraDetailsContainer = null;
-    this.quickDeleteButtons = [];
-    this.#ignoreButton = null;
-    this.#ignoreButtonIcon = null;
+    this.quickActionButtons = null;
+    this.ignoreButton = null;
+    this.ignoreButtonIcon = null;
 
     this.contentWrapper.remove();
     this.contentWrapper = null;
@@ -581,17 +573,17 @@ export default class Content {
       return;
     }
 
-    this.RenderButtons();
+    this.RenderQuickActionButtons();
     this.ShowActionButtons();
   }
 
-  ShowActionButtons() {
+  private ShowActionButtons() {
     if (!this.contentWrapper) {
       this.RenderContent();
     }
 
     if (
-      IsVisible(this.quickActionButtonContainer) ||
+      IsVisible(this.quickActionButtons?.container) ||
       this.has === "deleted" ||
       this.ignored
     )
@@ -603,18 +595,18 @@ export default class Content {
     )
       this.main.queue.focusedContent.HideActionButtons();
 
-    if (!this.quickActionButtonContainer) {
-      this.RenderButtons();
+    if (!this.quickActionButtons) {
+      this.RenderQuickActionButtons();
     }
 
-    if (this.quickActionButtonContainer) {
-      this.main.queue.focusedContent = this;
+    if (!this.quickActionButtons) return;
 
-      InsertAfter(this.quickActionButtonContainer, this.reportDetailContainer);
-    }
+    this.main.queue.focusedContent = this;
+
+    InsertAfter(this.quickActionButtons.container, this.reportDetailContainer);
   }
 
-  HideActionButtons() {
+  private HideActionButtons() {
     if (
       this.has !== "deleted" &&
       (IsVisible(this.buttonSpinner) ||
@@ -629,112 +621,18 @@ export default class Content {
     )
       return;
 
-    HideElement(this.quickActionButtonContainer);
+    this.quickActionButtons?.Hide();
   }
 
-  RenderButtons() {
-    this.RenderActionButtonsContainer();
-    this.RenderQuickDeleteButtons();
-    this.RenderConfirmButton();
+  protected RenderQuickActionButtons() {
+    console.warn(this);
   }
 
-  RenderActionButtonsContainer() {
-    this.quickActionButtonContainer = Flex({
-      grow: true,
-      alignItems: "center",
-      justifyContent: "flex-end",
-      className: "ext-quick-action-buttons",
-    });
-  }
-
-  RenderQuickDeleteButtons() {
-    if (
-      !System.checkUserP(
-        this.contentType === "Question"
-          ? 1
-          : this.contentType === "Answer"
-          ? 2
-          : 45,
-      ) ||
-      !System.checkBrainlyP(102)
-    )
-      return;
-
-    const thisIs = this.contentType.toLocaleLowerCase() as
-      | "answer"
-      | "comment"
-      | "question";
-    const reasonIds = System.data.config.quickDeleteButtonsReasons[thisIs];
-    // eslint-disable-next-line no-underscore-dangle
-    const reasons = System.data.Brainly.deleteReasons.__withIds[thisIs];
-
-    if (
-      !reasonIds ||
-      reasonIds.length === 0 ||
-      !reasons ||
-      Object.keys(reasons).length === 0
-    ) {
-      console.error("Cannot find reasons", reasonIds, reasons);
-
-      return;
-    }
-
-    reasonIds.forEach((reasonId, i) => {
-      const reason = reasons[reasonId];
-
-      if (!reason) {
-        console.error("Cannot find reason", reasonId);
-
-        return;
-      }
-
-      const quickDeleteButton = new QuickDeleteButton(this, reason, i + 1);
-
-      this.quickActionButtonContainer.append(quickDeleteButton.container);
-      this.quickDeleteButtons.push(quickDeleteButton);
-    });
-  }
-
-  RenderConfirmButton() {
-    if (
-      this.contentType === "Answer" &&
-      System.checkBrainlyP(146) &&
-      !System.checkUserP(38)
-    )
-      return;
-
-    this.confirmButtonContainer = Flex({
-      marginTop: "xxs",
-      marginBottom: "xxs",
-      marginLeft: "xs",
-      title: System.data.locale.common.confirm,
-      children: (this.confirmButton = new Button({
-        type: "solid-mint",
-        iconOnly: true,
-        icon: new Icon({ type: "check" }),
-        onClick: this.Confirm.bind(this),
-      })),
-    });
-
-    this.tippyInstances.push(
-      tippy(this.confirmButton.element, {
-        theme: "light",
-        content: Text({
-          size: "small",
-          weight: "bold",
-          children: System.data.locale.common.confirm,
-        }),
-      }),
-    );
-
-    this.quickActionButtonContainer.append(this.confirmButtonContainer);
-  }
-
-  RenderButtonSpinner() {
+  private RenderButtonSpinner() {
     this.buttonSpinner = Spinner({ overlay: true });
   }
 
-  RenderReportDetails() {
+  private RenderReportDetails() {
     const container = Build(document.createDocumentFragment(), [
       "corrected" in this.data && [
         Flex({
@@ -846,59 +744,9 @@ export default class Content {
     return this.main.queue.moderationPanelController.ModerateContent(this);
   }
 
-  async Confirm() {
-    try {
-      await this.Confirming();
-
-      if (
-        !confirm(
-          System.data.locale.userContent.notificationMessages
-            .doYouWantToConfirmThisContent,
-        )
-      ) {
-        this.NotConfirming();
-
-        return;
-      }
-
-      const resConfirm = await this.ExpressConfirm();
-
-      if (!resConfirm)
-        notification({
-          html: System.data.locale.common.notificationMessages.operationError,
-          type: "error",
-        });
-      else if (resConfirm.success === false) {
-        notification({
-          html:
-            resConfirm.message ||
-            System.data.locale.common.notificationMessages.somethingWentWrong,
-          type: "error",
-        });
-      } else {
-        System.log(
-          this.data.model_type_id === 1
-            ? 19
-            : this.data.model_type_id === 2
-            ? 20
-            : 21,
-          {
-            user: {
-              id: this.users.reported.data.id,
-              nick: this.users.reported.data.nick,
-            },
-            data: [this.data.model_id],
-          },
-        );
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   async ExpressConfirm() {
     try {
-      await this.Confirming();
+      await this.Moderating();
 
       const resConfirm = await new Action().ConfirmContent(
         this.data.model_id,
@@ -932,40 +780,32 @@ export default class Content {
       }
 
       this.ChangeBoxColor();
-      this.NotConfirming();
+      this.NotModerating();
 
       return resConfirm;
     } catch (error) {
       console.error(error);
       this.ChangeBoxColor();
-      this.NotConfirming();
+      this.NotModerating();
 
       return Promise.reject(error);
     }
   }
 
-  Confirming() {
-    this.confirmButton?.Disable();
-    this.confirmButton?.element.append(this.buttonSpinner);
-
+  private Moderating() {
     return this.DisableActions();
+  }
+
+  private NotModerating() {
+    this.HideSpinner();
+    this.EnableActions();
   }
 
   Confirmed() {
     this.has = "confirmed";
 
     this.ChangeBoxColor();
-    this.confirmButtonContainer?.remove();
-  }
-
-  NotConfirming() {
-    this.confirmButton?.Enable();
-    this.NotOperating();
-  }
-
-  NotOperating() {
-    this.HideSpinner();
-    this.EnableActions();
+    this.quickActionButtons?.RemoveConfirmButton();
   }
 
   HideSpinner() {
@@ -975,14 +815,14 @@ export default class Content {
 
   DisableActions() {
     this.container?.classList.add("operating");
-    this.quickDeleteButtonContainer?.classList.add("js-disabled");
 
-    return System.Delay(50);
+    return this.quickActionButtons?.Moderating();
   }
 
   EnableActions() {
     this.container?.classList.remove("operating");
-    this.quickDeleteButtonContainer?.classList.remove("js-disabled");
+
+    this.quickActionButtons?.NotModerating();
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -1077,14 +917,14 @@ export default class Content {
       }
 
       this.ChangeBoxColor();
-      this.NotOperating();
+      this.NotModerating();
 
       return resDelete;
     } catch (error) {
       console.error(error);
 
       this.ChangeBoxColor();
-      this.NotOperating();
+      this.NotModerating();
 
       return Promise.reject(error);
     }
@@ -1095,20 +935,20 @@ export default class Content {
 
     this.ChangeBoxColor();
     this.HideActionButtons();
-    this.quickDeleteButtonContainer?.remove();
+    this.quickActionButtons?.Hide();
 
-    if (this.#ignoreButtonContainer) {
-      this.#ignoreButtonContainer?.remove();
+    if (this.ignoreButtonContainer) {
+      this.ignoreButtonContainer?.remove();
 
-      this.#ignoreButtonContainer = null;
+      this.ignoreButtonContainer = null;
     }
   }
 
-  HideModerateButton() {
+  protected HideModerateButton() {
     HideElement(this.moderateButtonContainer);
   }
 
-  ToggleIgnoredState() {
+  private ToggleIgnoredState() {
     this.ignored = !this.ignored;
 
     this.ChangeIgnoredState();
@@ -1116,8 +956,8 @@ export default class Content {
 
   ChangeIgnoredState() {
     if (this.ignored !== true) {
-      this.#ignoreButtonIcon?.ChangeType("unseen");
-      this.#ignoreButton?.ChangeType({ type: "transparent-light" });
+      this.ignoreButtonIcon?.ChangeType("unseen");
+      this.ignoreButton?.ChangeType({ type: "transparent-light" });
       this.ChangeBoxColor();
       this.ShowActionButtons();
 
@@ -1126,7 +966,7 @@ export default class Content {
 
     this.HideActionButtons();
     this.box?.ChangeColor("surf-crest");
-    this.#ignoreButtonIcon?.ChangeType("seen");
-    this.#ignoreButton?.ChangeType({ type: "transparent" });
+    this.ignoreButtonIcon?.ChangeType("seen");
+    this.ignoreButton?.ChangeType({ type: "transparent" });
   }
 }

@@ -7,7 +7,7 @@ import QuickActionButtons, {
 } from "./QuickActionButtons";
 
 type QuestionContentType = {
-  hasVerifiedAnswers: boolean;
+  hasVerifiedAnswers?: boolean;
 } & ContentType;
 
 type PropsType = {

@@ -14,6 +14,7 @@ import notification from "../notification2";
 import type ActionButtonClassType from "./ActionButton/ActionButton";
 import ConfirmButton from "./ActionButton/ConfirmButton";
 import type DeleteButtonClassType from "./ActionButton/DeleteButton";
+import ModerateButton from "./ActionButton/ModerateButton";
 import MoreButton from "./ActionButton/MoreButton";
 
 export type ButtonClassTypes =
@@ -24,10 +25,13 @@ export type ButtonClassTypes =
 
 type OptionalPropsType = {
   buttonSize?: ButtonSizeType;
-  containerProps: FlexPropsType;
+  containerProps?: FlexPropsType;
+  moreButton?: boolean;
   notificationHandler?: (props: NotificationPropsType) => void;
-  onDelete?: () => void;
   onConfirm?: () => void;
+  onDelete?: () => void;
+  onModerate?: () => void;
+  vertical?: boolean;
 };
 
 export type ContentType = {
@@ -53,7 +57,8 @@ export default class QuickActionButtons {
   selectedButton: ButtonClassTypes;
   private confirmButton?: ConfirmButton;
   private moreButton: MoreButton;
-  private moderating: boolean;
+  moderating: boolean;
+  private moderateButton?: ModerateButton;
 
   constructor(
     public contentType: ContentNameType,
@@ -69,6 +74,8 @@ export default class QuickActionButtons {
     }
 
     this.Render();
+    this.RenderModerateButton();
+    this.RenderMoreButton();
   }
 
   private Render() {
@@ -77,14 +84,32 @@ export default class QuickActionButtons {
       justifyContent: "space-between",
       ...this.props.containerProps,
       children: [
-        (this.leftActionButtonContainer = Flex({ wrap: true })),
+        (this.leftActionButtonContainer = Flex({
+          wrap: true,
+          direction: this.props.vertical && "column",
+          alignItems: this.props.vertical ? "flex-end" : undefined,
+        })),
         (this.rightActionButtonContainer = Flex({
           grow: true,
           wrap: true,
           justifyContent: "flex-end",
+          direction: this.props.vertical && "column",
         })),
       ],
     });
+  }
+
+  private RenderModerateButton() {
+    if (
+      this.moderateButton ||
+      !this.props.onModerate ||
+      (this.contentType !== "Question" && !this.content.questionDatabaseId)
+    )
+      return;
+
+    this.moderateButton = new ModerateButton(this);
+
+    this.actionButtons.push(this.moderateButton);
   }
 
   get spinner() {
@@ -102,6 +127,8 @@ export default class QuickActionButtons {
   }
 
   RenderMoreButton() {
+    if (this.moreButton || !this.props.moreButton) return;
+
     this.moreButton = new MoreButton(this);
 
     this.actionButtons.push(this.moreButton);

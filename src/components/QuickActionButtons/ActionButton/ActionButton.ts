@@ -3,31 +3,22 @@ import { Button, Flex } from "@style-guide";
 import type { ButtonPropsType } from "@style-guide/Button";
 import type { FlexElementType } from "@style-guide/Flex";
 import { TextElement } from "@style-guide/Text";
-import tippy from "tippy.js";
+import tippy, { Instance } from "tippy.js";
 import type QuickActionButtonsClassType from "../QuickActionButtons";
 
 type PositionType = "left" | "right";
 
 export default class ActionButton {
-  protected main: QuickActionButtonsClassType;
-  private position: PositionType;
-  private buttonProps: ButtonPropsType;
-  private tooltipContent: string | TextElement<"div">;
-
   container: FlexElementType;
   button: Button;
+  protected buttonTippy: Instance;
 
   constructor(
-    main: QuickActionButtonsClassType,
-    position: PositionType,
-    buttonProps: ButtonPropsType,
-    tooltipContent?: string | TextElement<"div">,
+    protected main: QuickActionButtonsClassType,
+    private position: PositionType,
+    private buttonProps: ButtonPropsType,
+    private tooltipContent?: string | TextElement<"div">,
   ) {
-    this.main = main;
-    this.position = position;
-    this.buttonProps = buttonProps;
-    this.tooltipContent = tooltipContent;
-
     this.Render();
   }
 
@@ -44,11 +35,10 @@ export default class ActionButton {
     });
 
     if (this.tooltipContent) {
-      // const tp =
       if (typeof this.tooltipContent === "string")
         this.tooltipContent = this.tooltipContent.replace(/\n/gi, "<br>");
 
-      tippy(this.button.element, {
+      this.buttonTippy = tippy(this.button.element, {
         allowHTML: true,
         content: this.tooltipContent,
         theme: "light",
@@ -66,13 +56,14 @@ export default class ActionButton {
   }
 
   Hide() {
+    this.buttonTippy?.hide();
     HideElement(this.container);
   }
 
   Selected() {
     this.main.selectedButton = this;
 
-    this.main.DisableButtons();
+    this.main.Moderating();
 
     return this.ShowSpinner();
   }

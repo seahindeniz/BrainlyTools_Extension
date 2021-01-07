@@ -112,7 +112,8 @@
     "copied": "Copiados!",
     "default": "Padrão",
     "yes": "Sim",
-    "workingOnIt": "A trabalhar nisso..."
+    "workingOnIt": "A trabalhar nisso...",
+    "seeMoreDeletionReasons": "Mais motivos de eliminação"
   },
   "popup": {
     "notificationMessages": {
@@ -883,7 +884,7 @@
       },
       "ignoreContent": "Ignore esta denúncia durante a moderação em massa",
       "ignoreContents": "Ignore %{number} denúncias visíveis enquanto moderar em massa",
-      "fetchingReports": "Please wait until the fetch all reports operation has completed or stop the process to continue to moderate"
+      "fetchingReports": "Por favor, aguarde até que a operação de busca por todos os conteúdos denunciados termine ou pare o processo para continuar a moderar"
     },
     "categoryFilterFirstOption": {
       "name": "Motivo de denúncia — TODOS",

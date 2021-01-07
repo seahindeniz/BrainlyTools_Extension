@@ -184,6 +184,9 @@ export default class Fetcher {
 
           this.main.queue.options.option.loadLimiter.SetRangeLimit();
         }
+
+        this.filters.subjectFilter.Show();
+        this.filters.reasonFilter.Show();
       } else {
         this.HideStatusBarSpinner();
 

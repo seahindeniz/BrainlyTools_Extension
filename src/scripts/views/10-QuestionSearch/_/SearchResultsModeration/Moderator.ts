@@ -282,7 +282,7 @@ export default class Moderator {
     }
 
     selectedQuestions.forEach(async question => {
-      await question.Delete(this.deleteReqData);
+      await question.quickActionButtons.DeleteContent(this.deleteReqData);
 
       this.selectedQuestionsLength--;
 

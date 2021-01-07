@@ -1,46 +1,21 @@
-import Action, { RemoveQuestionReqDataType } from "@BrainlyAction";
+import { QuickActionButtonsForQuestion } from "@components";
 import CreateElement from "@components/CreateElement";
-import notification from "@components/notification2";
 import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
 import InsertBefore from "@root/helpers/InsertBefore";
-import {
-  Avatar,
-  Button,
-  Checkbox,
-  Flex,
-  Icon,
-  Label,
-  Spinner,
-  Text,
-} from "@style-guide";
+import { Avatar, Checkbox, Flex, Icon, Label, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import mime from "mime-types";
 import tippy from "tippy.js";
 import Viewer from "viewerjs";
-import { ExtraDetailsQuestionType } from "../extraDetails.fragment";
+import type { ExtraDetailsQuestionType } from "../extraDetails.fragment";
 import type FeedModerationClassType from "../SearchResultsModeration";
-import QuickDeleteButton from "./QuickDeleteButton";
 
 export default class Question {
-  private main: FeedModerationClassType;
-  questionLinkAnchor: HTMLAnchorElement;
-  questionId: number;
-  private author: {
-    id: number;
-    nick: string;
-  };
-
   #container: HTMLDivElement;
 
   private actionButtonsContainer: FlexElementType;
-  private leftActionButtonContainer: FlexElementType;
-  private rightActionButtonContainer: FlexElementType;
-  private moderateButton: Button;
-  private actionButtons: Button[];
   deleted: boolean;
-  private deleting: boolean;
-  #actionButtonSpinner: HTMLDivElement;
   checkbox: Checkbox;
   private checkboxContainer: FlexElementType;
   private questionContainer: HTMLDivElement;
@@ -52,24 +27,20 @@ export default class Question {
   private attachmentContainer: FlexElementType;
   private contentContainer: HTMLDivElement;
   private quickActionButtonContainer: HTMLDivElement;
+  quickActionButtons: QuickActionButtonsForQuestion;
 
   constructor(
-    main: FeedModerationClassType,
+    private main: FeedModerationClassType,
     container: HTMLDivElement,
-    questionLinkAnchor: HTMLAnchorElement,
-    questionId: number,
+    public questionLinkAnchor: HTMLAnchorElement,
+    public questionId: number,
   ) {
-    this.main = main;
-    this.questionLinkAnchor = questionLinkAnchor;
-    this.questionId = questionId;
-
     if (System.checkUserP([14, 26]) && System.checkBrainlyP(102)) {
       this.RenderCheckbox();
     }
 
     // Trigger setter fn
     this.container = container;
-    this.actionButtons = [];
   }
 
   get container() {
@@ -123,6 +94,8 @@ export default class Question {
   private FindQuickActionButtonContainer() {
     this.quickActionButtonContainer = this.questionLinkAnchor
       .parentElement as HTMLDivElement;
+
+    this.quickActionButtonContainer.classList.add("sg-flex--column");
   }
 
   private AddIconContainer() {
@@ -187,7 +160,7 @@ export default class Question {
   }
 
   private HideActionButtons() {
-    if (this.deleting) return;
+    if (this.quickActionButtons.moderating) return;
 
     this.main.focusedQuestion = null;
 
@@ -195,7 +168,7 @@ export default class Question {
   }
 
   private ShowActionButtons() {
-    if (!System.checkBrainlyP(102)) return;
+    if (!System.checkBrainlyP(102) || !this.extraDetails) return;
 
     if (this.main.focusedQuestion && this.main.focusedQuestion !== this) {
       this.main.focusedQuestion.HideActionButtons();
@@ -205,142 +178,41 @@ export default class Question {
 
     if (this.deleted) return;
 
-    if (!this.actionButtonsContainer) {
-      this.RenderActionButtonContainer();
-      this.RenderModerateButton();
-      this.RenderQuickDeleteButtons();
+    if (!this.quickActionButtons) {
+      this.InitQuickActionButtons();
     }
 
-    this.quickActionButtonContainer.prepend(this.actionButtonsContainer);
-
-    this.leftActionButtonContainer.style.maxWidth = `${this.moderateButton.element.offsetWidth}px`;
-    this.rightActionButtonContainer.style.maxWidth = `${this.moderateButton.element.offsetWidth}px`;
+    this.quickActionButtonContainer.append(this.actionButtonsContainer);
   }
 
-  private RenderActionButtonContainer() {
-    this.actionButtonsContainer = Build(
-      Flex({
-        fullWidth: true,
-        relative: true,
-      }),
-      [
-        [
-          Flex({
-            className: "ext-action-buttons__container",
-          }),
-          [
-            (this.leftActionButtonContainer = Flex({
-              alignItems: "flex-end",
-              direction: "column",
-              marginRight: "xs",
-            })),
-            (this.rightActionButtonContainer = Flex({ direction: "column" })),
-          ],
-        ],
-      ],
-    );
-  }
-
-  private RenderModerateButton() {
-    const moderateButtonContainer = Flex({
-      children: (this.moderateButton = new Button({
-        iconOnly: true,
-        children: System.data.locale.common.moderating.moderate,
-        icon: new Icon({
-          type: "pencil",
-        }),
-        reversedOrder: true,
-        type: "solid-blue",
-        onClick: this.Moderate.bind(this),
-        onMouseEnter: this.ShowText.bind(this),
-        onMouseLeave: this.HideText.bind(this),
-      })),
-      marginBottom: "xs",
+  private InitQuickActionButtons() {
+    this.quickActionButtons = new QuickActionButtonsForQuestion({
+      content: {
+        databaseId: this.questionId,
+        hasVerifiedAnswers: this.extraDetails.answers.hasVerified,
+        author: {
+          databaseId: System.DecryptId(this.extraDetails.author.id),
+          nick: this.extraDetails.author.nick,
+        },
+      },
+      containerProps: {
+        className: "ext-action-buttons__container",
+      },
+      onDelete: this.Deleted.bind(this),
+      onModerate: this.Moderate.bind(this),
+      moreButton: true,
     });
 
-    this.actionButtons.push(this.moderateButton);
-    this.leftActionButtonContainer.append(moderateButtonContainer);
+    this.actionButtonsContainer = Flex({
+      grow: true,
+      relative: true,
+      children: this.quickActionButtons.container,
+    });
   }
 
   private async Moderate() {
-    this.ShowModerateButtonSpinner();
-    await System.Delay(50);
     await this.main.moderatePanelController.Moderate(this);
-    this.HideActionButtonSpinner();
-  }
-
-  private ShowModerateButtonSpinner() {
-    this.moderateButton.element.append(this.actionButtonSpinner);
-  }
-
-  HideActionButtonSpinner() {
-    HideElement(this.#actionButtonSpinner);
-  }
-
-  get actionButtonSpinner() {
-    if (!this.#actionButtonSpinner) {
-      this.RenderActionButtonSpinner();
-    }
-
-    return this.#actionButtonSpinner;
-  }
-
-  private RenderActionButtonSpinner() {
-    this.#actionButtonSpinner = Spinner({ overlay: true });
-  }
-
-  async Delete(data: RemoveQuestionReqDataType) {
-    try {
-      this.DisableActionButtons();
-
-      this.deleting = true;
-
-      const res = await new Action().RemoveQuestion({
-        ...data,
-        model_id: this.questionId,
-      });
-      /* console.log({
-        ...data,
-        model_id: this.questionId,
-      });
-      await System.TestDelay();
-
-      const res = { success: true, message: "Failed" }; */
-
-      new Action().CloseModerationTicket(this.questionId);
-
-      if (!res) {
-        throw Error("No response");
-      }
-
-      if (res.success === false) {
-        throw res?.message ? { msg: res?.message } : res;
-      }
-
-      this.Deleted();
-
-      if (this.author)
-        System.log(5, {
-          user: {
-            id: this.author.id,
-            nick: this.author.nick,
-          },
-          data: [this.questionId],
-        });
-    } catch (error) {
-      console.error(error);
-      notification({
-        type: "error",
-        html:
-          error.msg ||
-          System.data.locale.common.notificationMessages.somethingWentWrong,
-      });
-    }
-
-    this.deleting = false;
-
-    this.HideActionButtonSpinner();
-    this.EnableActionButtons();
+    this.quickActionButtons.NotModerating();
   }
 
   Deleted() {
@@ -352,45 +224,6 @@ export default class Question {
     if (this.checkbox) {
       this.checkbox.input.disabled = true;
     }
-  }
-
-  private ShowText() {
-    this.moderateButton.IconOnly(false);
-  }
-
-  private HideText() {
-    this.moderateButton.IconOnly(true);
-  }
-
-  private RenderQuickDeleteButtons() {
-    if (
-      !this.extraDetails ||
-      this.extraDetails.answers.hasVerified ||
-      !System.checkUserP(1) ||
-      !System.checkBrainlyP(102)
-    )
-      return;
-
-    System.data.config.quickDeleteButtonsReasons.question.forEach(
-      (reasonId, index) => {
-        const reason = System.DeleteReason({
-          id: reasonId,
-          type: "question",
-        });
-
-        const qdb = new QuickDeleteButton(this, reason, index);
-
-        this.actionButtons.push(qdb.button);
-      },
-    );
-  }
-
-  private DisableActionButtons() {
-    this.actionButtons.forEach(actionButton => actionButton.Disable());
-  }
-
-  private EnableActionButtons() {
-    this.actionButtons.forEach(actionButton => actionButton.Enable());
   }
 
   RenderExtraDetails() {

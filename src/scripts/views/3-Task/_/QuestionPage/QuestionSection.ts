@@ -1,17 +1,13 @@
-import Action from "@BrainlyAction";
 import type { ModeratorDataType } from "@BrainlyReq/LiveModerationFeed";
+import { QuickActionButtonsForQuestion } from "@components";
 import CreateElement from "@components/CreateElement";
-import notification from "@components/notification2";
-import { DeleteReasonSubCategoryType } from "@root/controllers/System";
 import HideElement from "@root/helpers/HideElement";
 import InsertAfter from "@root/helpers/InsertAfter";
 import WaitForElement from "@root/helpers/WaitForElement";
 import { Avatar, Button, Flex, Icon, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import Hammer from "hammerjs";
-import tippy from "tippy.js";
 import type QuestionPageClassType from "./QuestionPage";
-import QuickDeleteButton from "./QuickDeleteButton";
 
 export default class QuestionSection {
   main: QuestionPageClassType;
@@ -26,6 +22,7 @@ export default class QuestionSection {
   confirmButtonContainer: FlexElementType;
   confirmButton: Button;
   moderatorInfoContainer?: FlexElementType;
+  quickActionButtons: QuickActionButtonsForQuestion;
 
   constructor(main: QuestionPageClassType) {
     this.main = main;
@@ -51,7 +48,6 @@ export default class QuestionSection {
     this.FindModerateButton();
     this.ReplaceModerateButtonWithNew();
     this.RenderQuickActionButtons();
-    this.RenderConfirmButton();
   }
 
   async FindModerationBox(showError: boolean) {
@@ -131,101 +127,29 @@ export default class QuestionSection {
   }
 
   RenderQuickActionButtons() {
-    this.quickActionButtonContainer = Flex({
-      wrap: true,
+    this.quickActionButtons = new QuickActionButtonsForQuestion({
+      content: {
+        databaseId: this.main.data.id,
+        hasVerifiedAnswers: !!this.approvedAnswers.length,
+        reported: this.main.data.isMarkedAbuse,
+        author: {
+          nick: window.jsData.question.author.nick,
+          databaseId: window.jsData.question.author.id,
+        },
+      },
+      moreButton: true,
+      onDelete: this.Deleted.bind(this),
+      onConfirm: this.Confirmed.bind(this),
+      button: {
+        size: "s",
+        marginLeft: "xs",
+      },
     });
 
     InsertAfter(
-      this.quickActionButtonContainer,
+      this.quickActionButtons.container,
       this.moderationBox.firstElementChild,
     );
-
-    if (this.approvedAnswers.length > 0) return;
-
-    System.data.config.quickDeleteButtonsReasons.question.forEach(
-      (reasonId, index) => {
-        const reason = System.DeleteReason({ id: reasonId, type: "question" });
-
-        if (!reason) return;
-
-        const qdb = new QuickDeleteButton(
-          this,
-          { type: "solid-mustard" },
-          reason,
-          index + 1,
-        );
-
-        this.actionButtons.push(qdb.button);
-        this.quickActionButtonContainer.append(qdb.container);
-      },
-    );
-  }
-
-  RenderConfirmButton() {
-    if (!this.main.data.isMarkedAbuse) return;
-
-    this.confirmButtonContainer = Flex({
-      children: (this.confirmButton = new Button({
-        size: "s",
-        type: "solid-mint",
-        iconOnly: true,
-        icon: new Icon({
-          type: "check",
-          color: "light",
-        }),
-        onClick: this.Confirm.bind(this),
-      })),
-    });
-
-    tippy(this.confirmButton.element, {
-      content: Text({
-        size: "small",
-        weight: "bold",
-        children: System.data.locale.common.confirm,
-      }),
-      theme: "light",
-    });
-
-    this.quickActionButtonContainer.append(this.confirmButtonContainer);
-  }
-
-  async Confirm() {
-    if (
-      !confirm(
-        System.data.locale.userContent.notificationMessages
-          .doYouWantToConfirmThisContent,
-      )
-    )
-      return;
-
-    this.confirmButtonContainer.append(this.main.actionButtonSpinner);
-    this.DisableActionButtons();
-
-    try {
-      const resConfirm = await new Action().ConfirmQuestion(this.main.data.id);
-
-      if (!resConfirm) {
-        throw Error("No response");
-      }
-
-      if (resConfirm.success === false) {
-        throw resConfirm.message
-          ? { msg: resConfirm.message }
-          : resConfirm || Error("No response");
-      }
-
-      this.Confirmed();
-    } catch (error) {
-      console.error(error);
-      notification({
-        type: "error",
-        html:
-          error.msg ||
-          System.data.locale.common.notificationMessages.somethingWentWrong,
-      });
-    }
-
-    this.EnableActionButtons();
   }
 
   Confirmed() {
@@ -235,52 +159,6 @@ export default class QuestionSection {
       user: window.jsData.question.author,
       data: [window.jsData.question.databaseId],
     });
-  }
-
-  async Delete(reason: DeleteReasonSubCategoryType) {
-    try {
-      this.DisableActionButtons();
-
-      const giveWarning = System.canBeWarned(reason.id);
-      const taskData = {
-        model_id: this.main.data.id,
-        reason_id: reason.category_id,
-        reason: reason.text,
-        reason_title: reason.title,
-        give_warning: giveWarning,
-        take_points: true,
-        return_points: false,
-      };
-
-      // console.log(taskData);
-      // const res = { success: true, message: "Failed" };
-      // await System.TestDelay();
-
-      const res = await new Action().RemoveQuestion(taskData);
-
-      new Action().CloseModerationTicket(this.main.data.id);
-
-      if (!res) {
-        throw Error("No response");
-      }
-
-      if (res.success === false) {
-        throw res?.message ? { msg: res?.message } : res;
-      }
-
-      this.Deleted();
-    } catch (error) {
-      console.error(error);
-      notification({
-        type: "error",
-        html:
-          error.msg ||
-          System.data.locale.common.notificationMessages.somethingWentWrong,
-      });
-    }
-
-    this.EnableActionButtons();
-    this.main.HideActionButtonSpinner();
   }
 
   Deleted() {

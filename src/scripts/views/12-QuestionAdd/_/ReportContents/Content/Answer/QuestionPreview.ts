@@ -161,7 +161,7 @@ export default class QuestionPreview {
                               }),
                               ...[
                                 this.data.author?.rank,
-                                ...this.data.author?.specialRanks,
+                                ...(this.data.author?.specialRanks || []),
                               ].map(rankData => {
                                 if (!rankData?.id) return undefined;
 
@@ -338,10 +338,15 @@ export default class QuestionPreview {
       content: {
         databaseId: this.databaseId,
         hasVerifiedAnswers: this.data.answers.hasVerified,
+        author: this.data.author && {
+          nick: this.data.author.nick,
+          databaseId: System.DecryptId(this.data.author.id),
+        },
       },
       containerProps: {
         alignItems: "flex-end",
       },
+      moreButton: true,
       onDelete: this.Deleted.bind(this),
     });
 

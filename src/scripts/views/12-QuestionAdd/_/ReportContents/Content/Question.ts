@@ -182,7 +182,12 @@ export default class Question extends Content {
         databaseId: this.data.model_id,
         hasVerifiedAnswers: this.extraData?.answers.hasVerified,
         reported: true, // !!this.data.report,
+        author: {
+          nick: this.users.reported.data.nick,
+          databaseId: this.users.reported.data.id,
+        },
       },
+      moreButton: true,
       containerProps: {
         grow: true,
         alignItems: "center",

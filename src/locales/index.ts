@@ -112,7 +112,8 @@ export default {
     copied: "Copied!",
     default: "Default",
     yes: "Yes",
-    workingOnIt: "Working on it..."
+    workingOnIt: "Working on it...",
+    seeMoreDeletionReasons: "See more deletion reasons"
   },
   popup: {
     notificationMessages: {

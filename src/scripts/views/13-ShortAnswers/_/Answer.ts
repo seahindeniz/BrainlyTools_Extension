@@ -1,11 +1,9 @@
-import Action, { RemoveAnswerReqDataType } from "@BrainlyAction";
+import { QuickActionButtonsForAnswer } from "@components";
 import CreateElement from "@components/CreateElement";
-import notification from "@components/notification2";
 import HideElement from "@root/helpers/HideElement";
 import { Button, Checkbox, Flex, Icon, Label, Spinner } from "@style-guide";
 import type ShortAnswersClassType from "..";
-import { AnswerAttachmentType } from "../answerAttachment.fragment";
-import QuickDeleteButton from "./QuickDeleteButton";
+import type { AnswerAttachmentType } from "../answerAttachment.fragment";
 
 export default class Answer {
   private main: ShortAnswersClassType;
@@ -14,7 +12,7 @@ export default class Answer {
   private actionButtons: Button[];
 
   private author: {
-    id: number;
+    databaseId: number;
     nick: string;
   };
 
@@ -26,12 +24,12 @@ export default class Answer {
   #actionButtonSpinner: HTMLDivElement;
   private dateCell: HTMLTableCellElement;
   deleted: boolean;
-  private deleting: boolean;
   private checkboxContainer?: HTMLTableDataCellElement;
   checkbox?: Checkbox;
 
   attachments: AnswerAttachmentType[];
   private contentCell: HTMLTableCellElement;
+  quickActionButtons: QuickActionButtonsForAnswer;
 
   constructor(main: ShortAnswersClassType, rowElement: HTMLTableRowElement) {
     this.main = main;
@@ -71,7 +69,7 @@ export default class Answer {
     }
 
     this.author = {
-      id: System.ExtractId(authorProfileAnchor.href),
+      databaseId: System.ExtractId(authorProfileAnchor.href),
       nick: authorProfileAnchor.innerText.trim(),
     };
   }
@@ -175,107 +173,36 @@ export default class Answer {
   private ShowQuickDeleteButtons() {
     if (this.deleted) return;
 
-    if (!this.quickDeleteButtonContainer) {
-      this.RenderQuickDeleteButtons();
+    if (!this.quickActionButtons) {
+      this.InitQuickActionButtons();
     }
 
     this.dateCell.append(this.quickDeleteButtonContainer);
   }
 
   private HideQuickDeleteButtons() {
-    if (this.deleting) return;
+    if (this.quickActionButtons.moderating) return;
 
     HideElement(this.quickDeleteButtonContainer);
   }
 
-  private RenderQuickDeleteButtons() {
-    this.quickDeleteButtonContainer = Flex({
-      className: "ext-qdb-container",
+  InitQuickActionButtons() {
+    this.quickActionButtons = new QuickActionButtonsForAnswer({
+      content: {
+        databaseId: this.answerId,
+        author: this.author,
+      },
+      containerProps: {
+        className: "ext-qdb-container",
+      },
+      onDelete: this.Deleted.bind(this),
+      moreButton: true,
     });
 
-    System.data.config.quickDeleteButtonsReasons.answer.forEach(
-      (reasonId, index) => {
-        const reason = System.DeleteReason({ id: reasonId, type: "answer" });
-
-        if (!reason) return;
-
-        const qdb = new QuickDeleteButton(
-          this,
-          { type: "solid-peach" },
-          reason,
-          index + 1,
-        );
-
-        this.actionButtons.push(qdb.button);
-        this.quickDeleteButtonContainer.append(qdb.container);
-      },
-    );
-  }
-
-  async Delete(data: RemoveAnswerReqDataType) {
-    try {
-      this.DisableActionButtons();
-
-      this.deleting = true;
-
-      const res = await new Action().RemoveAnswer({
-        ...data,
-        model_id: this.answerId,
-      });
-      // console.log({
-      //   ...data,
-      //   model_id: this.answerId,
-      // });
-      // await System.TestDelay();
-      // const res = { success: true, message: "Failed" };
-
-      new Action().CloseModerationTicket(this.answerId);
-
-      if (!res) {
-        throw Error("No response");
-      }
-
-      if (res.success === false) {
-        throw res?.message ? { msg: res?.message } : res;
-      }
-
-      this.Deleted();
-
-      System.log(6, {
-        user: {
-          id: this.author.id,
-          nick: this.author.nick,
-        },
-        data: [this.answerId],
-      });
-    } catch (error) {
-      console.error(error);
-      notification({
-        type: "error",
-        html:
-          error.msg ||
-          System.data.locale.common.notificationMessages.somethingWentWrong,
-      });
-    }
-
-    this.deleting = false;
-
-    this.HideActionButtonSpinner();
-    this.EnableActionButtons();
-  }
-
-  private DisableActionButtons() {
-    this.actionButtons.forEach(button => button.Disable());
-  }
-
-  private EnableActionButtons() {
-    this.actionButtons.forEach(button => button.Enable());
-  }
-
-  private HideActionButtonSpinner() {
-    if (!this.#actionButtonSpinner) return;
-
-    HideElement(this.#actionButtonSpinner);
+    this.quickDeleteButtonContainer = Flex({
+      relative: true,
+      children: this.quickActionButtons.container,
+    });
   }
 
   Deleted() {

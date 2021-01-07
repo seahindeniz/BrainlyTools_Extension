@@ -1,43 +1,29 @@
 import type { ModeratorDataType } from "@BrainlyReq/LiveModerationFeed";
+import { QuickActionButtonsForQuestion } from "@components";
 import CreateElement from "@components/CreateElement";
-import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
-import { Avatar, Button, Flex, Icon, Spinner, Text } from "@style-guide";
+import { Avatar, Flex, Icon, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type FeedModerationClassType from "../FeedModeration";
-import QuickDeleteButton from "./QuickDeleteButton";
 
 export default class Question {
-  main: FeedModerationClassType;
-  container: HTMLDivElement;
-  author: {
-    id: number;
+  private author: {
+    databaseId: number;
     nick: string;
   };
 
-  questionId: number;
   actionButtonsContainer: FlexElementType;
-  leftActionButtonContainer: FlexElementType;
-  rightActionButtonContainer: FlexElementType;
-  moderateButton: Button;
-  actionButtons: Button[];
   deleted: boolean;
-  deleting: boolean;
-  #actionButtonSpinner: HTMLDivElement;
   private gridContainer: HTMLDivElement;
   moderatorInfoContainer: FlexElementType;
 
+  private quickActionButtons: QuickActionButtonsForQuestion;
+
   constructor(
-    main: FeedModerationClassType,
-    questionId: number,
-    container: HTMLDivElement,
+    private main: FeedModerationClassType,
+    public questionId: number,
+    private container: HTMLDivElement,
   ) {
-    this.main = main;
-    this.questionId = questionId;
-    this.container = container;
-
-    this.actionButtons = [];
-
     this.FindAuthor();
     this.FindGridContainer();
     this.BindListeners();
@@ -52,7 +38,7 @@ export default class Question {
       throw Error("Can't find authors profile link element");
 
     this.author = {
-      id: System.ExtractId(profileLinkAnchor.href),
+      databaseId: System.ExtractId(profileLinkAnchor.href),
       nick: profileLinkAnchor.title,
     };
   }
@@ -83,7 +69,7 @@ export default class Question {
   }
 
   HideActionButtons() {
-    if (this.deleting) return;
+    if (this.quickActionButtons.moderating) return;
 
     this.main.focusedQuestion = null;
 
@@ -99,86 +85,37 @@ export default class Question {
 
     if (this.deleted) return;
 
-    if (!this.actionButtonsContainer) {
-      this.RenderActionButtonContainer();
-      this.RenderModerateButton();
-      this.RenderQuickDeleteButtons();
+    if (!this.quickActionButtons) {
+      this.InitQuickActionButtons();
     }
 
     this.container.prepend(this.actionButtonsContainer);
-
-    this.leftActionButtonContainer.style.maxWidth = `${this.moderateButton.element.offsetWidth}px`;
-    this.rightActionButtonContainer.style.maxWidth = `${this.moderateButton.element.offsetWidth}px`;
   }
 
-  RenderActionButtonContainer() {
-    this.actionButtonsContainer = Build(
-      Flex({
-        relative: true,
-      }),
-      [
-        [
-          Flex({
-            className: "ext-action-buttons__container",
-          }),
-          [
-            (this.leftActionButtonContainer = Flex({
-              alignItems: "flex-end",
-              direction: "column",
-              marginRight: "xs",
-            })),
-            (this.rightActionButtonContainer = Flex({ direction: "column" })),
-          ],
-        ],
-      ],
-    );
-  }
-
-  RenderModerateButton() {
-    const moderateButtonContainer = Flex({
-      children: (this.moderateButton = new Button({
-        iconOnly: true,
-        children: System.data.locale.common.moderating.moderate,
-        icon: new Icon({
-          type: "ext-shield",
-        }),
-        reversedOrder: true,
-        type: "solid-blue",
-        onClick: this.Moderate.bind(this),
-        onMouseEnter: this.ShowText.bind(this),
-        onMouseLeave: this.HideText.bind(this),
-      })),
+  InitQuickActionButtons() {
+    this.quickActionButtons = new QuickActionButtonsForQuestion({
+      vertical: true,
+      content: {
+        databaseId: this.questionId,
+        author: this.author,
+      },
+      containerProps: {
+        className: "ext-action-buttons__container",
+      },
+      onDelete: this.Deleted.bind(this),
+      onModerate: this.Moderate.bind(this),
+      moreButton: true,
     });
 
-    this.actionButtons.push(this.moderateButton);
-    this.leftActionButtonContainer.append(moderateButtonContainer);
+    this.actionButtonsContainer = Flex({
+      relative: true,
+      children: this.quickActionButtons.container,
+    });
   }
 
   async Moderate() {
-    this.ShowModerateButtonSpinner();
-    await System.Delay(50);
     await this.main.moderatePanelController.Moderate(this);
-    this.HideActionButtonSpinner();
-  }
-
-  ShowModerateButtonSpinner() {
-    this.moderateButton.element.append(this.actionButtonSpinner);
-  }
-
-  HideActionButtonSpinner() {
-    HideElement(this.#actionButtonSpinner);
-  }
-
-  get actionButtonSpinner() {
-    if (!this.#actionButtonSpinner) {
-      this.RenderActionButtonSpinner();
-    }
-
-    return this.#actionButtonSpinner;
-  }
-
-  RenderActionButtonSpinner() {
-    this.#actionButtonSpinner = Spinner({ overlay: true });
+    this.quickActionButtons.NotModerating();
   }
 
   Deleted() {
@@ -186,37 +123,8 @@ export default class Question {
 
     this.actionButtonsContainer.remove();
     this.container.classList.add("deleted");
-  }
 
-  ShowText() {
-    this.moderateButton.IconOnly(false);
-  }
-
-  HideText() {
-    this.moderateButton.IconOnly(true);
-  }
-
-  RenderQuickDeleteButtons() {
-    System.data.config.quickDeleteButtonsReasons.question.forEach(
-      (reasonId, index) => {
-        const reason = System.DeleteReason({
-          id: reasonId,
-          type: "question",
-        });
-
-        const qdb = new QuickDeleteButton(this, reason, index);
-
-        this.actionButtons.push(qdb.button);
-      },
-    );
-  }
-
-  DisableActionButtons() {
-    this.actionButtons.forEach(actionButton => actionButton.Disable());
-  }
-
-  EnableActionButtons() {
-    this.actionButtons.forEach(actionButton => actionButton.Enable());
+    this.quickActionButtons = null;
   }
 
   TicketReserved(moderator: ModeratorDataType) {

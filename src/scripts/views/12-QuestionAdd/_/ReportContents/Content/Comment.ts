@@ -22,7 +22,12 @@ export default class Comment extends Content {
       content: {
         databaseId: this.data.model_id,
         reported: true, // !!this.data.report,
+        author: {
+          nick: this.users.reported.data.nick,
+          databaseId: this.users.reported.data.id,
+        },
       },
+      moreButton: true,
       containerProps: {
         grow: true,
         alignItems: "center",

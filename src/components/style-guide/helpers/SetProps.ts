@@ -3,6 +3,7 @@ type EventHandler = (event: Event) => void;
 type KeyboardEventHandler = (event: KeyboardEvent) => void;
 type MouseEventHandler = (event: MouseEvent) => void;
 type PasteEventHandler = (event: ClipboardEvent) => void;
+type FocusEventHandler = (event: FocusEvent) => void;
 
 export type CommonComponentPropsType = {
   dataset?: DOMStringMap;
@@ -12,14 +13,14 @@ export type CommonComponentPropsType = {
   onInput?: EventHandler | EventHandler[];
   onKeyDown?: KeyboardEventHandler | KeyboardEventHandler[];
   onMouseEnter?: MouseEventHandler | MouseEventHandler[];
+  onMouseDown?: MouseEventHandler | MouseEventHandler[];
   onMouseLeave?: MouseEventHandler | MouseEventHandler[];
   onPaste?: PasteEventHandler | PasteEventHandler[];
+  onBlur?: FocusEventHandler | FocusEventHandler[];
   onTouchStart?: TouchEvent | TouchEvent[];
   onContextMenu?: MouseEventHandler | MouseEventHandler[];
   style?: Partial<CSSStyleDeclaration>;
-} & {
-  [x: string]: any;
-};
+} & ObjectAnyType;
 
 const NAMESPACES = {
   svg: "http://www.w3.org/2000/svg",

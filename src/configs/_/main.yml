@@ -21,7 +21,7 @@ common:
       name: Español
       author: TomRh
     pt_BR:
-      progress: 99
+      progress: 100
       name: Português(BR)
       author: 'HydroXBR, Maxon, Bernard0'
     pl:

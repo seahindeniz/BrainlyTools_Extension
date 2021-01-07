@@ -112,7 +112,8 @@
     "copied": "Copied!",
     "default": "Domyślnie",
     "yes": "Yes",
-    "workingOnIt": "Working on it..."
+    "workingOnIt": "Working on it...",
+    "seeMoreDeletionReasons": "See more deletion reasons"
   },
   "popup": {
     "notificationMessages": {
@@ -493,7 +494,7 @@
       "description": "You can delete all reported comments in Moderate All with one click. Just start the process and leave this tab open.",
       "stopped": "Stopped",
       "numberOfPending": "Pending",
-      "selectAReason": "Select a reason"
+      "selectAReason": "Wybierz powód"
     },
     "noticeBoard": {
       "text": "Noticeboard",
@@ -707,7 +708,7 @@
       "showRest": "Show all warnings"
     },
     "goToOldProfilePage": "Przejdź do starego widoku profilu użytkownika",
-    "comments": "Comments"
+    "comments": "Komentarze"
   },
   "userWarnings": {
     "notificationMessages": {

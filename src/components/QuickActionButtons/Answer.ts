@@ -28,7 +28,7 @@ export default class QuickActionButtonsForAnswer extends QuickActionButtons {
   constructor(props: PropsType) {
     super("Answer", props);
 
-    this.RenderAskForCorrectionButton();
+    // this.RenderAskForCorrectionButton();
     this.RenderDeleteButtons();
     this.RenderConfirmButton();
   }
@@ -121,6 +121,15 @@ export default class QuickActionButtonsForAnswer extends QuickActionButtons {
 
       this.NotModerating();
       this.Deleted();
+
+      if (this.content.author?.databaseId)
+        System.log(6, {
+          data: [this.content.databaseId],
+          user: {
+            id: this.content.author.databaseId,
+            nick: this.content.author.nick,
+          },
+        });
     } catch (error) {
       console.error(error);
       this.props.notificationHandler?.({

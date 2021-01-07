@@ -66,6 +66,15 @@ export default class QuickActionButtonsForQuestion extends QuickActionButtons {
 
       this.NotModerating();
       this.Deleted();
+
+      if (this.content.author?.databaseId)
+        System.log(5, {
+          data: [this.content.databaseId],
+          user: {
+            id: this.content.author.databaseId,
+            nick: this.content.author.nick,
+          },
+        });
     } catch (error) {
       console.error(error);
       this.props.notificationHandler?.({

@@ -9,7 +9,11 @@ import type { NotificationPropsType } from "@components/notification2";
 import HideElement from "@root/helpers/HideElement";
 import { Flex, Spinner } from "@style-guide";
 import type { ButtonSizeType } from "@style-guide/Button";
-import type { FlexElementType, FlexPropsType } from "@style-guide/Flex";
+import type {
+  FlexElementType,
+  FlexMarginsType,
+  FlexPropsType,
+} from "@style-guide/Flex";
 import notification from "../notification2";
 import type ActionButtonClassType from "./ActionButton/ActionButton";
 import ConfirmButton from "./ActionButton/ConfirmButton";
@@ -24,7 +28,10 @@ export type ButtonClassTypes =
   | DeleteButtonClassType;
 
 type OptionalPropsType = {
-  buttonSize?: ButtonSizeType;
+  button?: {
+    size?: ButtonSizeType;
+    marginLeft?: FlexMarginsType;
+  };
   containerProps?: FlexPropsType;
   moreButton?: boolean;
   notificationHandler?: (props: NotificationPropsType) => void;
@@ -38,6 +45,10 @@ export type ContentType = {
   databaseId: number;
   questionDatabaseId?: number;
   reported?: boolean;
+  author: {
+    databaseId: number;
+    nick: string;
+  };
 };
 
 export type QuickActionButtonsPropsType = {

@@ -46,6 +46,15 @@ export default class QuickActionButtonsForComment extends QuickActionButtons {
 
       this.NotModerating();
       this.Deleted();
+
+      if (this.content.author?.databaseId)
+        System.log(7, {
+          data: [this.content.databaseId],
+          user: {
+            id: this.content.author.databaseId,
+            nick: this.content.author.nick,
+          },
+        });
     } catch (error) {
       console.error(error);
       this.props.notificationHandler?.({

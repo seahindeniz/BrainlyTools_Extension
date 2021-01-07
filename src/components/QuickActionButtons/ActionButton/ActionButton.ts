@@ -6,8 +6,6 @@ import { TextElement } from "@style-guide/Text";
 import tippy, { Instance } from "tippy.js";
 import type QuickActionButtonsClassType from "../QuickActionButtons";
 
-type PositionType = "left" | "right";
-
 export default class ActionButton {
   container: FlexElementType;
   button: Button;
@@ -15,9 +13,9 @@ export default class ActionButton {
 
   constructor(
     protected main: QuickActionButtonsClassType,
-    private position: PositionType,
+    private position: "left" | "right",
     private buttonProps: ButtonPropsType,
-    private tooltipContent?: string | TextElement<"div">,
+    protected tooltipContent?: string | TextElement<"div">,
   ) {
     this.Render();
   }
@@ -25,11 +23,11 @@ export default class ActionButton {
   Render() {
     this.container = Flex({
       marginTop: "xxs",
-      marginLeft: "xxs",
+      marginLeft: this.main.props.button?.marginLeft || "xxs",
       marginBottom: "xxs",
       relative: true,
       children: (this.button = new Button({
-        size: this.main.props.buttonSize,
+        size: this.main.props.button?.size,
         ...this.buttonProps,
       })),
     });

@@ -1,18 +1,21 @@
 /* eslint-disable no-underscore-dangle */
 import CreateElement from "@components/CreateElement";
 import type { DeleteReasonSubCategoryType } from "@root/controllers/System";
+import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
-import { Icon, Select, Text } from "@style-guide";
+import { Flex, Icon, Select, Text } from "@style-guide";
 import SetProps from "@style-guide/helpers/SetProps";
 import type QuickActionButtonsClassType from "../QuickActionButtons";
 import ActionButton from "./ActionButton";
 
 export default class MoreButton extends ActionButton {
   private reasonSelect: Select;
-  optionEntries: {
+  private optionEntries: {
     reason: DeleteReasonSubCategoryType;
     element: HTMLOptionElement;
   }[];
+
+  tippyContent: import("@style-guide/Flex").FlexElementType;
 
   constructor(main: QuickActionButtonsClassType) {
     super(
@@ -48,8 +51,11 @@ export default class MoreButton extends ActionButton {
   HideDropdown() {
     if (this.main.moderating) return;
 
-    this.container.append(this.button.element);
-    HideElement(this.reasonSelect?.element);
+    if (this.main.props.vertical) {
+      this.container.append(this.button.element);
+      HideElement(this.reasonSelect?.element);
+    }
+
     this.buttonTippy.hide();
   }
 
@@ -60,8 +66,12 @@ export default class MoreButton extends ActionButton {
       this.RenderDropdown();
     }
 
-    HideElement(this.button.element);
-    this.container.append(this.reasonSelect.element);
+    if (this.main.props.vertical) {
+      HideElement(this.button.element);
+      this.container.append(this.reasonSelect.element);
+    } else if (!this.tippyContent) {
+      this.MoveSelectInFragment();
+    }
   }
 
   RenderDropdown() {
@@ -69,13 +79,19 @@ export default class MoreButton extends ActionButton {
 
     const optionChildren = [];
     const reasonCategories = Object.values(
-      System.data.Brainly.deleteReasons.question,
+      System.data.Brainly.deleteReasons[
+        this.main.contentType === "Question"
+          ? "question"
+          : this.main.contentType === "Answer"
+          ? "answer"
+          : "comment"
+      ],
     );
 
     reasonCategories.forEach(reasonCategory => {
       let group;
 
-      if (reasonCategories.length > 1) {
+      if (reasonCategory.subcategories && reasonCategories.length > 1) {
         group = CreateElement({
           tag: "optgroup",
           label: reasonCategory.text,
@@ -84,7 +100,7 @@ export default class MoreButton extends ActionButton {
         optionChildren.push(group);
       }
 
-      reasonCategory.subcategories.forEach(reason => {
+      reasonCategory.subcategories?.forEach(reason => {
         if (!("id" in reason)) return;
 
         const optionElement = CreateElement({
@@ -97,14 +113,21 @@ export default class MoreButton extends ActionButton {
           element: optionElement,
         });
 
-        if (group) group.append(optionElement);
-        else optionChildren.push(optionElement);
+        if (group) {
+          group.append(optionElement);
+        } else {
+          optionChildren.push(optionElement);
+        }
       });
     });
 
     this.reasonSelect = new Select({
-      onMouseLeave: this.HideDropdown.bind(this),
+      onClick: this.ResetSelection.bind(this),
+      onMouseLeave: this.main.props.vertical && this.HideDropdown.bind(this),
       onChange: this.ReasonSelected.bind(this),
+      style: {
+        minWidth: "max-content",
+      },
       options: [
         {
           selected: true,
@@ -112,6 +135,35 @@ export default class MoreButton extends ActionButton {
         },
         ...optionChildren,
       ],
+    });
+  }
+
+  ResetSelection() {
+    const { selectedOptions } = this.reasonSelect.select;
+
+    if (!selectedOptions.length) return;
+
+    const selectedOption = selectedOptions[0];
+    const selectedEntry = this.optionEntries.find(
+      entry => entry.element === selectedOption,
+    );
+
+    if (!selectedEntry || this.main.moderating) return;
+
+    this.reasonSelect.select.options[0].selected = true;
+  }
+
+  MoveSelectInFragment() {
+    this.tippyContent = Build(Flex({ direction: "column" }), [
+      [Flex({ marginBottom: "s" }), this.tooltipContent],
+      this.reasonSelect.element,
+    ]);
+
+    this.buttonTippy.setContent(this.tippyContent);
+    this.buttonTippy.setProps({
+      interactive: true,
+      maxWidth: 600,
+      trigger: "mouseenter focus click",
     });
   }
 
@@ -135,6 +187,7 @@ export default class MoreButton extends ActionButton {
 
     if (!confirm(confirmMessage)) {
       this.main.NotModerating();
+      (this.reasonSelect.options[0] as HTMLOptionElement).selected = true;
 
       return;
     }

@@ -167,13 +167,14 @@ export default class MassDeleteSection extends ActionSection {
     this.moderatableContents = this.moderatableContents.filter(
       content =>
         !!this.dataMap[content.contentType] &&
-        System.checkUserP(
+        System.checkUserP([
+          18,
           content.contentType === "Question"
             ? 42
             : content.contentType === "Answer"
             ? 43
             : 44,
-        ),
+        ]),
     );
 
     if (this.moderatableContents.length === 0) {

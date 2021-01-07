@@ -48,11 +48,7 @@ export type DeleteReasonSubCategoryType = DeleteReasonType & {
 
 export type DeleteReasonCategoryType = DeleteReasonType & {
   abuse_category_id: number;
-  subcategories: DeleteReasonSubCategoryType[];
-};
-
-type ObjectAnyType = {
-  [x: string]: any;
+  subcategories?: DeleteReasonSubCategoryType[];
 };
 
 export type DefaultConfigDataType = {

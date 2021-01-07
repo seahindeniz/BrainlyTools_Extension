@@ -11,7 +11,7 @@ import type { RankDataType } from "@BrainlyReq/GetMarketConfig";
 import type { ModeratorDataType } from "@BrainlyReq/LiveModerationFeed";
 import CreateElement from "@components/CreateElement";
 import type { ContentNameType } from "@components/ModerationPanel/ModeratePanelController";
-import QuickActionButtons from "@components/QuickActionButtons/QuickActionButtons";
+import type QuickActionButtons from "@components/QuickActionButtons/QuickActionButtons";
 import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
 import InsertAfter from "@root/helpers/InsertAfter";

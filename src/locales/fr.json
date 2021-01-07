@@ -112,7 +112,8 @@
     "copied": "Copié !",
     "default": "Par défaut",
     "yes": "Oui",
-    "workingOnIt": "En cours de réalisation..."
+    "workingOnIt": "En cours de réalisation...",
+    "seeMoreDeletionReasons": "Voir plus de raisons de suppression"
   },
   "popup": {
     "notificationMessages": {

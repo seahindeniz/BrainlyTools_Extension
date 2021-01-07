@@ -280,7 +280,7 @@ export default class Content {
                   }),
                   [
                     [
-                      Flex({ marginRight: "s" }),
+                      Flex({ marginRight: "s", wrap: true }),
                       [
                         [
                           Flex({
@@ -289,7 +289,9 @@ export default class Content {
                           [
                             [
                               (this.contentTypeButtonContainer = Flex({
+                                wrap: true,
                                 alignItems: "center",
+                                justifyContent: "center",
                               })),
                               new Button({
                                 ...CONTENT_TYPE_ICON_COLOR[this.contentType],
@@ -332,7 +334,7 @@ export default class Content {
                           ],
                         ],
                         [
-                          Flex({ direction: "column" }),
+                          Flex({ direction: "column", marginTop: "s" }),
                           [
                             [
                               Flex({ alignItems: "center" }),

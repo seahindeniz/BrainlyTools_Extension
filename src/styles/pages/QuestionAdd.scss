@@ -71,6 +71,7 @@ html.mobile .queue.buttons-visibility-on-hover {
   display: grid;
   grid-auto-flow: dense;
   grid-column-start: 1;
+  width: -webkit-fill-available;
   // grid-template-columns: repeat(auto-fit, minmax(384px, 1fr));
   // grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
 }

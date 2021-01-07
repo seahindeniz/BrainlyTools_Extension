@@ -1,7 +1,8 @@
+import he from "he";
 import HTMLDecode from "./HTMLDecode";
 
 type PropsType = {
-  noDecode?: boolean;
+  decode?: boolean;
   noTitle?: boolean;
 };
 
@@ -15,7 +16,7 @@ export default function replaceLatexWithURL(
 
   let content = _content;
 
-  if (!props.noDecode) {
+  if (props.decode) {
     content = HTMLDecode(content);
   }
 
@@ -27,7 +28,9 @@ export default function replaceLatexWithURL(
       .replace(/(?:https?:)?\/\/(tex\..*?\/\?f=)/gi, defaultLatexURL)
       // .replace(/(?:\r\n|\n)/g, "")
       // https://regex101.com/r/XKRwQN/1
-      .replace(/\[tex\](.*?)\[\/tex\]/gis, (_, latex) => {
+      .replace(/\[tex\](.*?)\[\/tex\]/gis, (_, _latex) => {
+        const latex = he.encode(_latex);
+
         const latexEncodedPath = window.encodeURIComponent(
           latex.replace(/ +/g, " ").replace(/&amp;/g, "&"),
         );

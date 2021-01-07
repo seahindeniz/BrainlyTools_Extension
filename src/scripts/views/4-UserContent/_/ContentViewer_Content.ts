@@ -83,9 +83,9 @@ export default class ContentViewerContent {
   }
 
   private CheckLatex() {
-    if (this.contentData.content) {
-      this.contentData.content = replaceLatexWithURL(this.contentData.content);
-    }
+    if (!this.contentData.content) return;
+
+    this.contentData.content = replaceLatexWithURL(this.contentData.content);
   }
 
   private BoxBorderColor() {

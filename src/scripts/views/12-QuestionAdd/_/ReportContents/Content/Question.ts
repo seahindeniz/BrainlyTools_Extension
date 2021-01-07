@@ -59,7 +59,7 @@ export default class Question extends Content {
 
     if (!this.extraData.answers.hasVerified) return;
 
-    this.quickActionButtons.RemoveDeleteButtons();
+    this.quickActionButtons?.RemoveDeleteButtons();
   }
 
   RenderAttachmentsIcon() {

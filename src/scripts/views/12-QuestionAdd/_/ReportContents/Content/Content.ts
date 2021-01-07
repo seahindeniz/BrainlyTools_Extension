@@ -402,7 +402,9 @@ export default class Content {
                   Text({
                     breakWords: true,
                     size: "small",
-                    html: replaceLatexWithURL(this.data.content_short),
+                    html: replaceLatexWithURL(this.data.content_short, {
+                      decode: true,
+                    }),
                   }),
                 ],
                 (this.extraDetailsContainer = Flex({

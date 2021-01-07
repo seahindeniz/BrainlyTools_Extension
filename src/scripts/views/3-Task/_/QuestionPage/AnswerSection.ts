@@ -195,11 +195,9 @@ export default class AnswerSection {
       if (!contentContainer) throw new Error("Can't find content container");
 
       const contentOnPage = replaceLatexWithURL(contentContainer.innerHTML, {
-        noDecode: true,
         noTitle: true,
       });
       const processedContent = replaceLatexWithURL(this.data.content, {
-        noDecode: true,
         noTitle: true,
       })
         .replace(/<br ?\/?>/gi, "<br>")

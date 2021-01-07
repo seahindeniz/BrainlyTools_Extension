@@ -1,7 +1,7 @@
+import { QuickActionButtonsForQuestion } from "@components";
 import type { AttachmentDataType } from "@components/AttachmentSection/Attachment";
 import AttachmentSection from "@components/AttachmentSection/AttachmentSection";
 import notification from "@components/notification2";
-import QuickActionButtonsForQuestion from "@components/QuickActionButtons/Question";
 import Build from "@root/helpers/Build";
 import replaceLatexWithURL from "@root/helpers/replaceLatexWithURL";
 import {

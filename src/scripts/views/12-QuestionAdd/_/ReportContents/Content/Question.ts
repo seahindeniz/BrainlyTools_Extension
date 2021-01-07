@@ -1,8 +1,8 @@
 import type {
-  ReportedContentDataType,
   RemoveQuestionReqDataType,
+  ReportedContentDataType,
 } from "@BrainlyAction";
-import QuickActionButtonsForQuestion from "@components/QuickActionButtons/Question";
+import { QuickActionButtonsForQuestion } from "@components";
 import { Flex, Icon, Label, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import tippy from "tippy.js";

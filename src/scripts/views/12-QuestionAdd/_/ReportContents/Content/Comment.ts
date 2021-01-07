@@ -2,7 +2,7 @@ import type {
   RemoveCommentReqDataType,
   ReportedContentDataType,
 } from "@BrainlyAction";
-import QuickActionButtonsForComment from "@components/QuickActionButtons/Comment";
+import { QuickActionButtonsForComment } from "@components";
 import type ReportedContentsType from "../ReportedContents";
 import Content from "./Content";
 

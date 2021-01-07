@@ -53,7 +53,7 @@ export default class RadioSection {
   private RenderRadios() {
     const radioName = generateRandomString();
 
-    this.#options.forEach(option => {
+    this.#options?.forEach(option => {
       const radio = new RadioChild(this, radioName, option);
 
       this.container.append(radio.container);

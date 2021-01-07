@@ -1,6 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 
 import CreateElement from "@components/CreateElement";
+import HideElement from "@root/helpers/HideElement";
+import IsVisible from "@root/helpers/IsVisible";
 import type { ChildrenParamType } from "@style-guide/helpers/AddChildren";
 import AddChildren from "@style-guide/helpers/AddChildren";
 import type { CommonComponentPropsType } from "@style-guide/helpers/SetProps";
@@ -325,9 +327,10 @@ class Button {
           [`sg-button__icon--${this.size || ""}`]: this.size,
         }),
       });
-
-      this.element.prepend(this.iconContainer);
     }
+
+    if (!IsVisible(this.iconContainer))
+      this.element.prepend(this.iconContainer);
 
     if (icon instanceof HTMLElement) {
       this.icon = undefined;
@@ -353,19 +356,27 @@ class Button {
   ChangeIcon(icon?: HTMLElement | Icon) {
     if (!icon) return this.DeleteIcon();
 
-    return this.AddIcon(icon);
+    this.AddIcon(icon);
+
+    return this;
   }
 
   DeleteIcon() {
     this.icon = undefined;
 
-    if (this.iconContainer) this.iconContainer.remove();
+    if (this.iconContainer) HideElement(this.iconContainer);
 
     return this;
   }
 
   IconOnly(state: boolean) {
     this.element.classList[state ? "add" : "remove"]("sg-button--icon-only");
+
+    return this;
+  }
+
+  IsIconOnly() {
+    return this.element.classList.contains("sg-button--icon-only");
   }
 
   ChangeChildren(children?: ChildrenParamType) {

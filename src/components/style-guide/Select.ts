@@ -14,8 +14,7 @@ type OptionPropsType = {
   value?: string | number;
   text?: string;
   title?: string;
-  [x: string]: any;
-};
+} & ObjectAnyType;
 
 type SelectPropsType = {
   value?: string | number | string[] | number[];
@@ -28,7 +27,6 @@ type SelectPropsType = {
   color?: SelectColorType;
   className?: string;
   options?: (OptionPropsType | HTMLOptionElement | HTMLOptGroupElement)[];
-  [x: string]: any;
 } & CommonComponentPropsType;
 
 export default class Select {
@@ -58,7 +56,7 @@ export default class Select {
       throw Error("Select can be either valid or invalid!");
 
     this.value = value;
-    this.options = options;
+    this.options = options.filter(Boolean);
 
     const selectClass = classnames(
       SG,

@@ -69,7 +69,7 @@ export default class Question {
   }
 
   HideActionButtons() {
-    if (this.quickActionButtons.moderating) return;
+    if (this.quickActionButtons?.moderating) return;
 
     this.main.focusedQuestion = null;
 

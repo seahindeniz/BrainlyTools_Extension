@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 _Release dates are based on GMT+0 timezone_
 
+## [7.20.1] - 2021.01.08
+
+### Changed
+
+- Special Rank Selection is not working on Mass-Message Sender [#367]
+
+[#367]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/367
+
 ## [7.20.0] - 2021.01.07
 
 ### Added

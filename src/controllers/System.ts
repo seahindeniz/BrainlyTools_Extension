@@ -291,7 +291,7 @@ class _System {
     list: UserType[];
     withNicks: { [nick: string]: UserType };
     withID: { [userId: number]: UserType };
-    withRanks: { [rankId: number]: { [id: number]: UserType }[] };
+    withRanks: { [rankId: number]: UserType[] };
   };
 
   routeMasks: {

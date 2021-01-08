@@ -142,21 +142,22 @@ class RankSection {
       "selectedOptions",
     );
 
-    if (selectedRankOptions.length > 0) {
-      selectedRankOptions = [...selectedRankOptions];
+    if (!selectedRankOptions?.length) return;
 
-      const findTheAllValue = selectedRankOptions.filter(
-        selectedRankOption => selectedRankOption.value === "all",
-      );
+    selectedRankOptions = [...selectedRankOptions];
 
-      this.ClearUserList();
+    const findTheAllValue = selectedRankOptions.filter(
+      selectedRankOption => selectedRankOption.value === "all",
+    );
 
-      if (findTheAllValue.length > 0) this.RenderUsersOfRank();
-      else {
-        selectedRankOptions.forEach(selectedRankOption => {
-          this.RenderUsersOfRank(~~selectedRankOption.value);
-        });
-      }
+    this.ClearUserList();
+
+    if (findTheAllValue.length > 0) {
+      this.RenderUsersOfRank();
+    } else {
+      selectedRankOptions.forEach(selectedRankOption => {
+        this.RenderUsersOfRank(~~selectedRankOption.value);
+      });
     }
   }
 
@@ -169,15 +170,18 @@ class RankSection {
   async RenderUsersOfRank(rankId?: number) {
     if (!System.allModerators) return;
 
-    System.allModerators.list.forEach(user => {
-      if (
-        !rankId ||
-        user.ranks_ids.includes(rankId) ||
-        user.id !== System.data.Brainly.defaultConfig.user.ME.user.id
-      ) {
-        this.ShowUser(user);
-        this.selectedUsersFromRanks.push(user.id);
-      }
+    const rankGroup =
+      rankId !== undefined && rankId !== null
+        ? System.allModerators.withRanks[rankId]
+        : System.allModerators.list;
+
+    if (!rankGroup?.length) return;
+
+    rankGroup.forEach(user => {
+      if (user.id === System.data.Brainly.defaultConfig.user.ME.user.id) return;
+
+      this.ShowUser(user);
+      this.selectedUsersFromRanks.push(user.id);
     });
   }
 

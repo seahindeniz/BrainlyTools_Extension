@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file.
 
 _Release dates are based on GMT+0 timezone_
 
+## [7.20.0] - 2021.01.07
+
+### Added
+
+- A new quick delete button/option to see other deletion reasons [#366]
+
+### Changed
+
+- Answers are formatted differently in the 'View user's content' page. [#360]
+- Subject and Report Reason filters disappear when you visit any other page
+  after visiting last page [#361]
+- kullanıcı biosunda yazılan yazılardan profilin kayma sorunu [#362]
+- \`There's no content available for deletion\` banner when mass moderating.
+  [#363]
+- Display problem when changing the density on the Reported Contents page [#364]
+
+[#360]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/360
+[#361]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/361
+[#362]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/362
+[#363]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/363
+[#364]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/364
+[#366]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/366
+
 ## [7.19.3] - 2021.01.05
 
 ### Changed

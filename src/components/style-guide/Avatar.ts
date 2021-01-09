@@ -36,7 +36,7 @@ const ICON_SIZE: {
 
 export default class Avatar {
   element: HTMLDivElement;
-  private anchor: HTMLAnchorElement;
+  private anchor?: HTMLAnchorElement;
   private avatar: HTMLImageElement | HTMLDivElement;
   private size: Size;
 
@@ -73,6 +73,12 @@ export default class Avatar {
   }
 
   ChangeLink({ link, target }: { link: string; target?: anchorTargetType }) {
+    if (!link) {
+      this.element.append(this.avatar);
+
+      return;
+    }
+
     this.anchor = CreateElement({
       tag: "a",
       href: link,

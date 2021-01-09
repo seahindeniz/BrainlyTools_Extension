@@ -18,6 +18,9 @@ export default async function RemoveQuestion(
   data: RemoveQuestionReqDataType,
   dontReport?: boolean,
 ): Promise<CommonResponseDataType> {
+  if (!data.model_id || Number.isNaN(data.model_id))
+    throw new Error("Invalid question id");
+
   // eslint-disable-next-line no-param-reassign
   data = {
     model_type_id: 1,

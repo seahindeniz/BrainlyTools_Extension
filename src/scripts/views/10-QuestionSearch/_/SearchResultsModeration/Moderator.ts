@@ -30,7 +30,19 @@ export default class Moderator {
     this.main = main;
   }
 
-  Show() {
+  TryToShow() {
+    if (
+      this.main.questions.all.some(question => !question.quickActionButtons)
+    ) {
+      this.Hide();
+
+      return;
+    }
+
+    this.Show();
+  }
+
+  private Show() {
     if (!this.container) {
       this.Render();
       this.RenderDeleteButton();
@@ -282,7 +294,10 @@ export default class Moderator {
     }
 
     selectedQuestions.forEach(async question => {
-      await question.quickActionButtons.DeleteContent(this.deleteReqData);
+      await question.quickActionButtons.DeleteContent({
+        ...this.deleteReqData,
+        model_id: question.questionId,
+      });
 
       this.selectedQuestionsLength--;
 

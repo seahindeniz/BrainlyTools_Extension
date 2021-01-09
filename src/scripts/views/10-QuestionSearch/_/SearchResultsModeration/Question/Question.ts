@@ -27,7 +27,7 @@ export default class Question {
   private attachmentContainer: FlexElementType;
   private contentContainer: HTMLDivElement;
   private quickActionButtonContainer: HTMLDivElement;
-  quickActionButtons: QuickActionButtonsForQuestion;
+  quickActionButtons?: QuickActionButtonsForQuestion;
 
   constructor(
     private main: FeedModerationClassType,
@@ -160,7 +160,7 @@ export default class Question {
   }
 
   private HideActionButtons() {
-    if (this.quickActionButtons.moderating) return;
+    if (this.quickActionButtons?.moderating) return;
 
     this.main.focusedQuestion = null;
 
@@ -178,10 +178,6 @@ export default class Question {
 
     if (this.deleted) return;
 
-    if (!this.quickActionButtons) {
-      this.InitQuickActionButtons();
-    }
-
     this.quickActionButtonContainer.append(this.actionButtonsContainer);
   }
 
@@ -190,7 +186,7 @@ export default class Question {
       content: {
         databaseId: this.questionId,
         hasVerifiedAnswers: this.extraDetails.answers.hasVerified,
-        author: {
+        author: this.extraDetails.author && {
           databaseId: System.DecryptId(this.extraDetails.author.id),
           nick: this.extraDetails.author.nick,
         },
@@ -232,6 +228,12 @@ export default class Question {
     this.RenderAuthor();
     this.RenderAttachments();
     this.AttachVerificationDetails();
+
+    if (!this.quickActionButtons) {
+      this.InitQuickActionButtons();
+    }
+
+    this.main.moderator?.TryToShow();
   }
 
   private RenderAuthor() {

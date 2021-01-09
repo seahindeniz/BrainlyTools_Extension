@@ -122,7 +122,7 @@ export default class SearchResultsModerationClassType {
       throw Error("Results container doesn't have any question container");
     }
 
-    this.moderator?.Show();
+    this.moderator?.TryToShow();
 
     const idList = Array.from(questionContainers)
       .map(this.InitQuestion.bind(this))

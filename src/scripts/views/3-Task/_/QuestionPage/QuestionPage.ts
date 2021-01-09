@@ -8,6 +8,7 @@ import AnswerSection from "./AnswerSection";
 import QuestionPageModeratePanelController from "./ModeratePanelController";
 import type { QuestionDataType } from "./QuestionData";
 import QuestionSection from "./QuestionSection";
+import SuggestionSection from "./SuggestionSection";
 
 export default class QuestionPage {
   answerSections: {
@@ -24,6 +25,7 @@ export default class QuestionPage {
   moderatePanelController?: QuestionPageModeratePanelController;
   private liveModerationFeed: LiveModerationFeed;
   answerContainers: HTMLDivElement[];
+  suggestionSection?: SuggestionSection;
 
   constructor() {
     this.answerSections = {
@@ -101,13 +103,33 @@ export default class QuestionPage {
         )
           return;
 
-        if (mutation.target.classList.contains("js-main-question"))
+        // console.log(mutation.addedNodes);
+
+        if (mutation.target.classList.contains("js-main-question")) {
           this.questionSection.Init(true);
 
-        if (mutation.target.classList.contains("js-react-answers"))
+          return;
+        }
+
+        if (mutation.target.classList.contains("js-react-answers")) {
           this.answerSections.all.forEach(answerSection =>
             answerSection.Init(),
           );
+
+          return;
+        }
+
+        if (
+          mutation.target.classList?.contains("brn-qpage-next-newest-questions")
+        ) {
+          this.suggestionSection?.ChangeVisibility();
+        }
+
+        mutation.addedNodes.forEach((node: HTMLElement) => {
+          if (node.classList?.contains("brn-qpage-next-newest-questions")) {
+            this.suggestionSection = new SuggestionSection(node);
+          }
+        });
       });
     });
 

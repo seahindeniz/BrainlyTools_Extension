@@ -3,13 +3,22 @@ import CreateElement from "@components/CreateElement";
 import Build from "@root/helpers/Build";
 import HideElement from "@root/helpers/HideElement";
 import InsertBefore from "@root/helpers/InsertBefore";
-import { Avatar, Checkbox, Flex, Icon, Label, Text } from "@style-guide";
+import { Avatar, Box, Checkbox, Flex, Icon, Label, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import mime from "mime-types";
 import tippy from "tippy.js";
 import Viewer from "viewerjs";
 import type { ExtraDetailsQuestionType } from "../extraDetails.fragment";
 import type FeedModerationClassType from "../SearchResultsModeration";
+
+let tempBox = new Box({
+  border: false,
+  padding: "xxs",
+});
+
+const containerColor = tempBox.element.className.split(" ");
+
+tempBox = null;
 
 export default class Question {
   #container: HTMLDivElement;
@@ -49,6 +58,8 @@ export default class Question {
 
   set container(container: HTMLDivElement) {
     this.#container = container;
+
+    container.classList.add(...containerColor);
 
     this.FindQuestionContainer();
     this.FindContentContainer();
@@ -130,7 +141,10 @@ export default class Question {
       ),
     });
     this.checkboxContainer = Flex({
+      marginRight: "s",
       children: new Label({
+        noSelection: true,
+        type: "transparent",
         children: System.data.locale.common.select,
         icon: this.checkbox.element,
         tag: "label",
@@ -215,7 +229,7 @@ export default class Question {
     this.deleted = true;
 
     this.actionButtonsContainer.remove();
-    this.container.classList.add("deleted");
+    this.#container?.classList.add("deleted");
 
     if (this.checkbox) {
       this.checkbox.input.disabled = true;

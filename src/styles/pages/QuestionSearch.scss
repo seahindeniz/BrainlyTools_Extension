@@ -7,12 +7,12 @@
   }
 }
 
-.sg-content-box {
-  &.deleted {
+.js-react-search-results {
+  .deleted {
     background-color: #ffc8c0;
   }
 
-  &.warning {
+  .warning {
     background-color: #fedd8e;
   }
 }

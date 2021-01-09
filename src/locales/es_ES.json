@@ -113,7 +113,8 @@
     "default": "Defecto",
     "yes": "Sí",
     "workingOnIt": "Trabajando en ello...",
-    "seeMoreDeletionReasons": "Ver más motivos de eliminación"
+    "seeMoreDeletionReasons": "Ver más motivos de eliminación",
+    "deletedAccount": "Cuenta eliminada"
   },
   "popup": {
     "notificationMessages": {

@@ -113,7 +113,8 @@
     "default": "Varsayılan",
     "yes": "Evet",
     "workingOnIt": "Hallediyorum..",
-    "seeMoreDeletionReasons": "Diğer silim sebepleri"
+    "seeMoreDeletionReasons": "Diğer silim sebepleri",
+    "deletedAccount": "Silinmiş hesap"
   },
   "popup": {
     "notificationMessages": {

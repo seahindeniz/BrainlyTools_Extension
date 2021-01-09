@@ -113,7 +113,8 @@ export default {
     default: "Default",
     yes: "Yes",
     workingOnIt: "Working on it...",
-    seeMoreDeletionReasons: "See more deletion reasons"
+    seeMoreDeletionReasons: "See more deletion reasons",
+    deletedAccount: "Deleted account"
   },
   popup: {
     notificationMessages: {

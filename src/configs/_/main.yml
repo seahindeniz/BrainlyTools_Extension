@@ -28,6 +28,18 @@ common:
       progress: 14
       name: Polskie
       author: Kinga
+    ro:
+      progress: 0
+      name: Română
+      author: null
+    uk:
+      progress: 0
+      name: Український
+      author: null
+    ru:
+      progress: 0
+      name: Русский
+      author: null
 dev:
   serverURL: 'http://localhost:3001'
   serverAPIURL: 'http://localhost:3001/BrainlyTools'

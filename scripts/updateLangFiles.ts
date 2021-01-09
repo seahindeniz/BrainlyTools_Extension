@@ -48,6 +48,18 @@ const LANGUAGE_DETAILS = {
     name: "Polskie",
     author: "Kinga",
   },
+  ro: {
+    name: "Română",
+    author: null,
+  },
+  uk: {
+    name: "Український",
+    author: null,
+  },
+  ru: {
+    name: "Русский",
+    author: null,
+  },
 };
 
 let apiKey: string;

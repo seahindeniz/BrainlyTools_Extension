@@ -113,7 +113,8 @@
     "default": "Default",
     "yes": "Ya",
     "workingOnIt": "Sedang mengerjakannya ..",
-    "seeMoreDeletionReasons": "See more deletion reasons"
+    "seeMoreDeletionReasons": "See more deletion reasons",
+    "deletedAccount": "Akun yang dihapus"
   },
   "popup": {
     "notificationMessages": {

@@ -90,12 +90,16 @@ export default class AnswerSection {
         ":scope > .js-answer > .brn-qpage-next-answer-box__author .brn-qpage-next-answer-box-author__description .sg-text",
       );
 
-      if (nickContainer?.innerText !== this.extraDetails.user.nick) {
+      if (
+        nickContainer?.innerText !== this.extraDetails.user.nick &&
+        this.extraDetails.user.nick !== System.data.locale.common.deletedAccount
+      ) {
         if (System.data.config.extension.env === "development")
           console.log(
             "Nick isn't similar",
             nickContainer?.innerText,
             this.extraDetails.user.nick,
+            System.data.locale.common.deletedAccount,
           );
 
         return false;
@@ -196,21 +200,21 @@ export default class AnswerSection {
 
       const contentOnPage = replaceLatexWithURL(contentContainer.innerHTML, {
         noTitle: true,
-      });
+      }).replace(/^\s+|\s+$|\r/g, "");
       const processedContent = replaceLatexWithURL(this.data.content, {
         noTitle: true,
       })
         .replace(/<br ?\/?>/gi, "<br>")
-        .replace(/<\/?div>?/gi, "")
+        .replace(/<\/?div>?|^\s+|\s+$|\r/gi, "")
         .replace(/\xa0/g, "&nbsp;");
 
       if (contentOnPage !== processedContent) {
         if (System.data.config.extension.env === "development") {
           console.log("contentOnPage isn't similar");
-          console.log(contentOnPage);
-          console.log(this.data.content);
+          console.log(contentOnPage, contentOnPage?.length);
+          console.log(this.data.content, this.data.content?.length);
 
-          console.log(processedContent);
+          console.log(processedContent, processedContent?.length);
         }
 
         return false;

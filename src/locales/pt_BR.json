@@ -113,7 +113,8 @@
     "default": "Padrão",
     "yes": "Sim",
     "workingOnIt": "A trabalhar nisso...",
-    "seeMoreDeletionReasons": "Mais motivos de eliminação"
+    "seeMoreDeletionReasons": "Mais motivos de eliminação",
+    "deletedAccount": "Conta apagada"
   },
   "popup": {
     "notificationMessages": {

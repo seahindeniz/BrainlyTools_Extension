@@ -24,18 +24,33 @@ export default class Question {
     public questionId: number,
     private container: HTMLDivElement,
   ) {
-    this.FindAuthor();
-    this.FindGridContainer();
-    this.BindListeners();
+    this.Init();
+  }
+
+  Init() {
+    try {
+      this.FindAuthor();
+      this.FindGridContainer();
+      this.BindListeners();
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   FindAuthor() {
-    const profileLinkAnchor: HTMLAnchorElement = this.container.querySelector(
-      ".brn-feed-item__avatar .sg-avatar > a",
+    const avatarContainer = this.container.querySelector(
+      ".brn-feed-item__avatar .sg-avatar",
     );
 
-    if (!profileLinkAnchor)
-      throw Error("Can't find authors profile link element");
+    if (!avatarContainer) {
+      throw Error("Can't find authors avatar container");
+    }
+
+    const profileLinkAnchor: HTMLAnchorElement = avatarContainer.querySelector(
+      ":scope > a",
+    );
+
+    if (!profileLinkAnchor) return;
 
     this.author = {
       databaseId: System.ExtractId(profileLinkAnchor.href),

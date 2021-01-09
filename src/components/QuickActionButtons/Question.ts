@@ -49,6 +49,12 @@ export default class QuickActionButtonsForQuestion extends QuickActionButtons {
     );
   }
 
+  RenderMoreButton() {
+    if (this.content.hasVerifiedAnswers) return;
+
+    super.RenderMoreButton();
+  }
+
   async DeleteContent(data: RemoveQuestionReqDataType) {
     try {
       /* console.log(data, this.content.reported);

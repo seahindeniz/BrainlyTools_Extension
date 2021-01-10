@@ -18,7 +18,7 @@ _ℹ Discord server is open to extension users only_
 
 Feature requests or issues can be written in other languages besides
 English. We have lots of users from many countries that can't speak
-English well enough, so it's best to have no restriction on languages. Our
+English very well, so it's best to have no restriction on languages. Our
 primary concern is on how you use your language, and that's all. If you would like to
 post anything, please choose your words carefully and create clean, elegant,
 and smooth sentences in your language and try to provide more details as much as

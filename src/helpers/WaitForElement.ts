@@ -4,6 +4,9 @@ type CommonPropsType = {
   parent?: HTMLElement | Document;
   atLeast?: number;
   noError?: boolean;
+  /**
+   * In seconds
+   */
   expireIn?: number;
 };
 

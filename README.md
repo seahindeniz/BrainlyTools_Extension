@@ -1,7 +1,7 @@
 # <p align="center">Brainly Tools for Brainly markets</p>
 
 **A toolbox for exclusive users of Brainly. It enhances moderation on Brainly and helps
-users to perform fast and quick actions and much more. **
+users to perform fast and quick actions and much more.**
 
 ---
 

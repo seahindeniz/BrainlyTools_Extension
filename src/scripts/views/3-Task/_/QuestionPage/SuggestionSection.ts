@@ -1,7 +1,9 @@
 import Build from "@root/helpers/Build";
 import storage from "@root/helpers/extStorage";
 import HideElement from "@root/helpers/HideElement";
+import WaitForElement from "@root/helpers/WaitForElement";
 import { Button, Flex, Icon } from "@style-guide";
+import type { FlexElementType } from "@style-guide/Flex";
 
 const QuestionPageSuggestionSectionVisibilityKey =
   "questionPageSuggestionSectionVisibility";
@@ -15,53 +17,89 @@ const arrowDownIcon = new Icon({
 });
 
 export default class SuggestionSection {
+  #container: HTMLElement;
+
   private close: boolean;
   private elements?: (HTMLDivElement | HTMLAnchorElement)[];
   private button: Button;
-  headContainer: import("@style-guide/Flex").FlexElementType;
+  private headContainer: FlexElementType;
+  private headTextContainer: FlexElementType;
 
-  constructor(private container: HTMLElement) {
+  constructor() {
     this.elements = [];
 
     this.Init();
   }
 
-  async Init() {
-    await this.GetPreviousState();
+  get container() {
+    return this.#container;
+  }
+
+  set container(container) {
+    console.warn("container", container);
+
+    this.#container = container;
+
     this.Render();
     this.ChangeVisibility();
   }
 
-  async GetPreviousState() {
+  private async Init() {
+    await this.GetPreviousState();
+    this.FindContainerByWaiting();
+
+    this.ChangeVisibility();
+  }
+
+  private async GetPreviousState() {
     this.close = await storage(
       "get",
       QuestionPageSuggestionSectionVisibilityKey,
     );
   }
 
+  private async FindContainerByWaiting() {
+    const container = await WaitForElement(".brn-qpage-next-newest-questions", {
+      expireIn: 5,
+    });
+
+    if (this.#container === container) return;
+
+    this.container = container;
+
+    this.RelocateElements();
+    this.ChangeVisibility();
+  }
+
   private Render() {
+    if (this.headContainer) return;
+
     this.headContainer = Build(
       Flex({
         alignItems: "center",
       }),
       [
-        this.container.firstElementChild,
-        [
-          Flex({
-            inlineFlex: true,
-            marginLeft: "s",
-            onClick: this.ToggleVisibility.bind(this),
-          }),
-          (this.button = new Button({
-            size: "s",
-            iconOnly: true,
-            type: "solid-light",
-            icon: this.close ? arrowDownIcon : arrowUpIcon,
-          })),
-        ],
+        (this.headTextContainer = Flex({
+          inlineFlex: true,
+          marginRight: "s",
+        })),
+        (this.button = new Button({
+          size: "s",
+          iconOnly: true,
+          type: "solid-light",
+          onClick: this.ToggleVisibility.bind(this),
+          icon: this.close ? arrowDownIcon : arrowUpIcon,
+        })),
       ],
     );
 
+    this.RelocateElements();
+  }
+
+  private RelocateElements() {
+    if (!this.container?.firstElementChild) return;
+
+    this.headTextContainer.append(this.container.firstElementChild);
     this.container.prepend(this.headContainer);
   }
 
@@ -76,6 +114,8 @@ export default class SuggestionSection {
   }
 
   ChangeVisibility() {
+    if (!this.button) return;
+
     if (this.close) {
       this.CloseSection();
 

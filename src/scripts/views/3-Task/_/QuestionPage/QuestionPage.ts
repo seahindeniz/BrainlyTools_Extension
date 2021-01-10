@@ -126,9 +126,13 @@ export default class QuestionPage {
         }
 
         mutation.addedNodes.forEach((node: HTMLElement) => {
-          if (node.classList?.contains("brn-qpage-next-newest-questions")) {
-            this.suggestionSection = new SuggestionSection(node);
-          }
+          if (
+            !node.classList?.contains("brn-qpage-next-newest-questions") ||
+            this.suggestionSection?.container === node
+          )
+            return;
+
+          this.suggestionSection.container = node;
         });
       });
     });
@@ -147,6 +151,8 @@ export default class QuestionPage {
     if (System.checkUserP(2)) {
       this.RenderAnswerSections();
     }
+
+    this.suggestionSection = new SuggestionSection();
   }
 
   private async RenderAnswerSections() {

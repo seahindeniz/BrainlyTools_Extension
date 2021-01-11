@@ -963,7 +963,8 @@
       },
       "title": "Filtreler",
       "name": "Şikayetleri filtrele"
-    }
+    },
+    "contentBeforeResettingCache": "%{number_of_reports} adet şikayet çekilmiş ve bu mesajı onayladıktan sonra önbellek temizlenerek yeni şikayetler getirilecek.\nDevam etmek istiyorsanız lütfen onaylayın"
   },
   "moderationPanel": {
     "text": "Ödev Düzenle",

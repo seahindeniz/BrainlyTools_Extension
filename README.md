@@ -1,7 +1,7 @@
 # <p align="center">Brainly Tools for Brainly markets</p>
 
-**A toolbox for exclusive users of Brainly. It enhances the Brainly and it helps
-users to do fast and quick actions and much more..**
+**A toolbox for exclusive users of Brainly. It enhances moderation on Brainly and helps
+users to perform fast, quick actions and much more.**
 
 ---
 
@@ -16,14 +16,13 @@ _ℹ Discord server is open to extension users only_
 
 ### Attention please :warning:
 
-Feature requests or issues can be written in different languages besides
-English. Because we have lots of users from many countries that can't speak
-English well enough. So it's best to have no restriction on languages. Our
-primary concern is how do you use your language and that's it. If you like to
+Feature requests or issues can be written in other languages besides
+English. We have lots of users from many countries that can't speak
+English very well, so it's best to have no restriction on languages. Our
+primary concern is on how you use your language, and that's all. If you would like to
 post anything, please choose your words carefully and create clean, elegant,
 and smooth sentences in your language and try to provide more details as much as
-you can so that readers can understand your words by translating them with a
-Translator app or etc.
+you can so that readers can understand your words by translating them with a translator.
 
 Thanks in advance!
 

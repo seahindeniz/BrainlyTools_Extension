@@ -30,6 +30,7 @@ export default class AttachmentSection {
   container: FlexElementType;
   gallery: Viewer;
   attachments: Attachment[];
+  private isImageHorizontal: boolean;
 
   constructor({ attachments, content, ...props }: PropsType) {
     this.attachmentsData = attachments;
@@ -61,6 +62,8 @@ export default class AttachmentSection {
   }
 
   private InitGallery() {
+    this.isImageHorizontal = true;
+
     this.gallery = new Viewer(this.container, {
       fullscreen: false,
       loop: false,
@@ -75,16 +78,55 @@ export default class AttachmentSection {
         zoomIn: 1,
         zoomOut: 1,
         oneToOne: 1,
-        reset: 1,
-        prev: this.attachmentsData.length > 1 ? 1 : false,
         play: false,
+        reset: this.ResetGallery.bind(this),
+        prev: this.attachmentsData.length > 1 ? 1 : false,
         next: this.attachmentsData.length > 1 ? 1 : false,
-        rotateLeft: 1,
-        rotateRight: 1,
-        flipHorizontal: 1,
-        flipVertical: 1,
+        rotateLeft: this.RotateImageToLeft.bind(this),
+        rotateRight: this.RotateImageToRight.bind(this),
+        flipHorizontal: this.FlipImageHorizontally.bind(this),
+        flipVertical: this.FlipImageVertically.bind(this),
       },
     });
+  }
+
+  private ResetGallery() {
+    this.gallery.reset();
+
+    this.isImageHorizontal = true;
+  }
+
+  private RotateImageToLeft() {
+    this.RotateImage(-90);
+  }
+
+  private RotateImageToRight() {
+    this.RotateImage(90);
+  }
+
+  private RotateImage(degree: 90 | -90) {
+    this.gallery.rotate(degree);
+
+    this.isImageHorizontal = !this.isImageHorizontal;
+  }
+
+  private FlipImageVertically() {
+    this.FlipImage(true);
+  }
+
+  private FlipImageHorizontally() {
+    this.FlipImage(false);
+  }
+
+  private FlipImage(isHorizontal: boolean) {
+    if (!this.isImageHorizontal) {
+      // eslint-disable-next-line no-param-reassign
+      isHorizontal = !isHorizontal;
+    }
+
+    const dimension = isHorizontal ? "scaleY" : "scaleX";
+
+    this.gallery[dimension]?.(-this.gallery.imageData[dimension] || -1);
   }
 
   private BindListener() {

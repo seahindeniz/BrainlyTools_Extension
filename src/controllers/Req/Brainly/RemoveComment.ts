@@ -22,7 +22,7 @@ export default async function RemoveComment(
 
   // eslint-disable-next-line no-param-reassign
   data = {
-    model_type_id: 2,
+    model_type_id: 45,
     give_warning: false,
     ...data,
   };

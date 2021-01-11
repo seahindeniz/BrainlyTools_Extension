@@ -917,7 +917,7 @@
           "Comment": "Commentaire"
         },
         "contentLength": {
-          "name": "Longueur du contenu",
+          "name": "Longueur de l'aperçu du contenu",
           "equals": "est égal à",
           "lowerThan": "inférieur à",
           "label": {
@@ -963,7 +963,8 @@
       },
       "title": "Filtres",
       "name": "Filtrer les signalements"
-    }
+    },
+    "contentBeforeResettingCache": "Tu as récupéré %{number_of_reports} signalements et le cache sera vidé pour récupérer de nouveaux signalements après confirmation.\nMerci de confirmer si tu souhaites poursuivre"
   },
   "moderationPanel": {
     "text": "Modération des questions",

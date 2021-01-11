@@ -36,6 +36,8 @@ export default class PageNumber {
   }
 
   Select() {
+    if (!this.main.main.IsSafeToFetchReports()) return;
+
     this.Highlight();
 
     this.main.main.FetchReports({

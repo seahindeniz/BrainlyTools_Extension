@@ -963,7 +963,8 @@ export default {
       },
       title: "Filters",
       name: "Filter reports"
-    }
+    },
+    contentBeforeResettingCache: "You have fetched %{number_of_reports} reports and the cache will be cleared to fetch new reports after confirming this.\nPlease confirm if you want to continue"
   },
   moderationPanel: {
     text: "Question Moderation",

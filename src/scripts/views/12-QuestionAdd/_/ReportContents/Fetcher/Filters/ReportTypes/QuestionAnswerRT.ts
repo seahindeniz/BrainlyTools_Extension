@@ -1,12 +1,14 @@
 import ReportType from "./ReportType";
-import type ReportTypesType from "./ReportTypes";
+import type ReportTypesClassType from "./ReportTypes";
 
 export default class QuestionAnswerRT extends ReportType {
-  constructor(main: ReportTypesType) {
+  constructor(main: ReportTypesClassType) {
     super(main, "questionAnswerReports");
   }
 
   Selected() {
+    if (!this.main.main.main.IsSafeToFetchReports()) return;
+
     const filters = this.main.main.main.main.queue.filtersPanel.filter;
 
     filters.contentType.Show();

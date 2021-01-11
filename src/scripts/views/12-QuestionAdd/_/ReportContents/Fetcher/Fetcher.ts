@@ -78,6 +78,29 @@ export default class Fetcher {
     });
   }
 
+  IsSafeToFetchReports() {
+    if (
+      !this.fetchAll ||
+      this.main.contents.all.length === 0 ||
+      !this.fetchAll.consentBeforeResettingCache
+    )
+      return true;
+
+    if (
+      !confirm(
+        System.data.locale.reportedContents.contentBeforeResettingCache.replace(
+          /%{number_of_reports}/,
+          String(this.main.contents.all.length),
+        ),
+      )
+    )
+      return false;
+
+    this.fetchAll.consentBeforeResettingCache = false;
+
+    return true;
+  }
+
   async FetchReports({
     fetchOnly,
     keepFetching,

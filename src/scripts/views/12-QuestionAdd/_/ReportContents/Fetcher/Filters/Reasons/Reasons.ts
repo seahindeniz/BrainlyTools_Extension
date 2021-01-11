@@ -94,6 +94,8 @@ export default class Reasons {
   }
 
   ReasonSelected() {
+    if (!this.main.main.IsSafeToFetchReports()) return;
+
     this.UpdateSelectedReasonStore();
 
     this.main.main.pageNumbers.Toggle();

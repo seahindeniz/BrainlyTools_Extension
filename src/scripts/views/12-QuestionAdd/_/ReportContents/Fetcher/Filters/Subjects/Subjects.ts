@@ -51,6 +51,8 @@ export default class Subjects {
   }
 
   SubjectChanged() {
+    if (!this.main.main.IsSafeToFetchReports()) return;
+
     this.AssignSelectedSubject();
 
     if (!this.selectedSubject) {

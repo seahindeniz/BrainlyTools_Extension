@@ -8,11 +8,13 @@ export default class FetchAll {
   container: FlexElementType;
   loadAllButton: Button;
   stopButton: Button;
+  consentBeforeResettingCache: boolean;
 
   constructor(main: FetcherClassType) {
     this.main = main;
 
     this.Render();
+    this.BindListener();
   }
 
   Render() {
@@ -51,6 +53,8 @@ export default class FetchAll {
       fetchOnly: true,
       keepFetching: true,
     });
+
+    this.consentBeforeResettingCache = true;
   }
 
   ShowLoadAllButton() {
@@ -91,5 +95,16 @@ export default class FetchAll {
 
     this.HideStopButton();
     this.ShowLoadAllButton();
+  }
+
+  BindListener() {
+    window.addEventListener("beforeunload", event => {
+      if (!this.consentBeforeResettingCache) return;
+
+      event.preventDefault();
+
+      // Chrome requires returnValue to be set.
+      event.returnValue = "";
+    });
   }
 }

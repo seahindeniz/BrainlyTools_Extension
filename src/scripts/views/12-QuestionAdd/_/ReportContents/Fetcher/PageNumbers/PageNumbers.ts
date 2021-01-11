@@ -184,7 +184,8 @@ export default class PageNumbers {
   PageNumberChanged() {
     const givenPageNumber = Number(this.pageNumberInput.input.value) || 1;
 
-    if (Number.isNaN(givenPageNumber)) return;
+    if (Number.isNaN(givenPageNumber) || !this.main.IsSafeToFetchReports())
+      return;
 
     this.main.FetchReports({
       resetStore: true,

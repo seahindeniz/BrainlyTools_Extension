@@ -36,7 +36,8 @@ export default class StringFilter {
       Flex({
         grow: true,
         tag: "label",
-        marginTop: "s",
+        marginTop: "m",
+        wrap: true,
       }),
       [
         [

@@ -33,7 +33,8 @@ export default class User {
     this.container = Build(
       Flex({
         tag: "label",
-        marginTop: "s",
+        marginTop: "m",
+        wrap: true,
       }),
       [
         [

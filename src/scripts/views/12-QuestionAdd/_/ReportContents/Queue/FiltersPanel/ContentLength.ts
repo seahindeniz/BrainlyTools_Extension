@@ -29,7 +29,8 @@ export default class ContentLength {
     this.container = Build(
       Flex({
         tag: "label",
-        marginTop: "s",
+        marginTop: "m",
+        wrap: true,
       }),
       [
         [

@@ -34,7 +34,8 @@ export default class ContentTypeFilter {
     this.container = Flex();
     this.contentWrapper = Build(
       Flex({
-        marginTop: "s",
+        marginTop: "m",
+        wrap: true,
       }),
       [
         [

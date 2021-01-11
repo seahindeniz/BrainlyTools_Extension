@@ -917,7 +917,7 @@ export default {
           Comment: "Comment"
         },
         contentLength: {
-          name: "Content length",
+          name: "Content preview length",
           equals: "equals",
           lowerThan: "lower than",
           label: {

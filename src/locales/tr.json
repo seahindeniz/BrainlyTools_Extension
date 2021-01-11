@@ -917,7 +917,7 @@
           "Comment": "Yorum"
         },
         "contentLength": {
-          "name": "İçerik uzunluğu",
+          "name": "İçerik önizlemesi karakter sayısı",
           "equals": "eşittir",
           "lowerThan": "küçüktür <",
           "label": {

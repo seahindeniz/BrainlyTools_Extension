@@ -30,7 +30,8 @@ export default class Subjects {
     this.contentWrapper = Build(
       Flex({
         grow: true,
-        marginTop: "s",
+        marginTop: "m",
+        wrap: true,
       }),
       [
         [
@@ -45,17 +46,22 @@ export default class Subjects {
             text: `${System.data.locale.reportedContents.filtersPanel.filters.subject.name}: `,
           }),
         ],
-        (this.subjectSelect = new Select({
-          fullWidth: true,
-          multiple: true,
-          onChange: this.InputChanged.bind(this),
-          options: [
-            {
-              selected: true,
-              text: System.data.locale.common.chooseAnOption,
-            },
-          ],
-        })),
+        [
+          Flex({
+            grow: true,
+          }),
+          (this.subjectSelect = new Select({
+            fullWidth: true,
+            multiple: true,
+            onChange: this.InputChanged.bind(this),
+            options: [
+              {
+                selected: true,
+                text: System.data.locale.common.chooseAnOption,
+              },
+            ],
+          })),
+        ],
       ],
     );
 

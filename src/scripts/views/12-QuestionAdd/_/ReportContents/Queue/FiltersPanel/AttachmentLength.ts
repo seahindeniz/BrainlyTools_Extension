@@ -29,7 +29,8 @@ export default class AttachmentLength {
       Flex({
         grow: true,
         tag: "label",
-        marginTop: "s",
+        marginTop: "m",
+        wrap: true,
       }),
       [
         [

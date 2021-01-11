@@ -20,7 +20,8 @@ export default class Reporter {
     this.container = Build(
       Flex({
         tag: "label",
-        marginTop: "s",
+        marginTop: "m",
+        wrap: true,
       }),
       [
         [

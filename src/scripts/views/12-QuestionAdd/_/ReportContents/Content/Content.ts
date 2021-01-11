@@ -103,7 +103,7 @@ export default class Content {
   private reportDetailContainer: FlexElementType;
   protected buttonSpinner: HTMLDivElement;
   private moderatorContainer: FlexElementType;
-  protected extraDetailsContainer: FlexElementType;
+  #extraDetailsContainer: FlexElementType;
   tippyInstances: Instance[];
   private moderateButtonContainer: FlexElementType;
   ignored: boolean;
@@ -113,6 +113,7 @@ export default class Content {
   private reportFlagIcon: Icon;
   contentTypeButtonContainer: FlexElementType;
   protected quickActionButtons?: QuickActionButtons;
+  private contentContainer: FlexElementType;
 
   constructor({
     main,
@@ -280,7 +281,7 @@ export default class Content {
                   }),
                   [
                     [
-                      Flex({ marginRight: "s", wrap: true }),
+                      Flex({ marginRight: "s", wrap: true, grow: true }),
                       [
                         [
                           Flex({
@@ -334,7 +335,7 @@ export default class Content {
                           ],
                         ],
                         [
-                          Flex({ direction: "column", marginTop: "s" }),
+                          Flex({ direction: "column" }),
                           [
                             [
                               Flex({ alignItems: "center" }),
@@ -394,11 +395,11 @@ export default class Content {
                   ],
                 ],
                 [
-                  Flex({
+                  (this.contentContainer = Flex({
                     marginTop: "s",
                     marginBottom: "m",
                     grow: true,
-                  }),
+                  })),
                   Text({
                     breakWords: true,
                     size: "small",
@@ -407,11 +408,6 @@ export default class Content {
                     }),
                   }),
                 ],
-                (this.extraDetailsContainer = Flex({
-                  alignItems: "center",
-                  // marginLeft: "xs",
-                  marginBottom: "s",
-                })),
                 [
                   Flex({
                     wrap: true,
@@ -536,7 +532,7 @@ export default class Content {
     this.reportDetailContainer = null;
     this.buttonSpinner = null;
     this.moderatorContainer = null;
-    this.extraDetailsContainer = null;
+    this.#extraDetailsContainer = null;
     this.quickActionButtons = null;
     this.ignoreButton = null;
     this.ignoreButtonIcon = null;
@@ -559,6 +555,23 @@ export default class Content {
   // eslint-disable-next-line class-methods-use-this
   RenderExtraDetails() {
     //
+  }
+
+  get extraDetailsContainer() {
+    if (!this.#extraDetailsContainer) {
+      this.RenderExtraDetailsContainer();
+    }
+
+    return this.#extraDetailsContainer;
+  }
+
+  RenderExtraDetailsContainer() {
+    this.#extraDetailsContainer = Flex({
+      alignItems: "center",
+      marginBottom: "s",
+    });
+
+    InsertAfter(this.#extraDetailsContainer, this.contentContainer);
   }
 
   async TryToRenderButtons() {

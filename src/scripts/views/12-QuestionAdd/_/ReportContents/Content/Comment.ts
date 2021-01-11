@@ -29,7 +29,6 @@ export default class Comment extends Content {
       },
       moreButton: true,
       containerProps: {
-        grow: true,
         alignItems: "center",
         justifyContent: "flex-end",
         className: "ext-quick-action-buttons",

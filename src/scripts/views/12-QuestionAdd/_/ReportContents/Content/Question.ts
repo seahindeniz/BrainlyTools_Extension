@@ -51,7 +51,7 @@ export default class Question extends Content {
   }
 
   RenderExtraDetails() {
-    if (!this.extraDetailsContainer || !this.extraData) return;
+    if (!this.contentWrapper || !this.extraData) return;
 
     this.RenderAttachmentsIcon();
     this.RenderApprovedAnswersIcon();
@@ -189,7 +189,6 @@ export default class Question extends Content {
       },
       moreButton: true,
       containerProps: {
-        grow: true,
         alignItems: "center",
         justifyContent: "flex-end",
         className: "ext-quick-action-buttons",

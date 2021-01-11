@@ -17,45 +17,47 @@ iframe {
   // box-shadow: 0 3px 32px 0 rgba(2, 10, 27, 0.15);
 }
 
-.viewer-toolbar > ul > li {
-  width: 33px;
-  height: 33px;
-  margin: 0 3px;
-}
-.viewer-zoom-in:before,
-.viewer-zoom-out:before,
-.viewer-one-to-one:before,
-.viewer-reset:before,
-.viewer-prev:before,
-.viewer-play:before,
-.viewer-next:before,
-.viewer-rotate-left:before,
-.viewer-rotate-right:before,
-.viewer-flip-horizontal:before,
-.viewer-flip-vertical:before,
-.viewer-fullscreen:before,
-.viewer-fullscreen-exit:before {
-  position: relative;
-  top: 5px;
-  left: 5px;
-}
+.viewer {
+  &-toolbar > ul > li {
+    width: 33px;
+    height: 33px;
+    margin: 0 3px;
+  }
+  &-zoom-in:before,
+  &-zoom-out:before,
+  &-one-to-one:before,
+  &-reset:before,
+  &-prev:before,
+  &-play:before,
+  &-next:before,
+  &-rotate-left:before,
+  &-rotate-right:before,
+  &-flip-horizontal:before,
+  &-flip-vertical:before,
+  &-fullscreen:before,
+  &-fullscreen-exit:before {
+    position: relative;
+    top: 5px;
+    left: 5px;
+  }
 
-.viewer-reset {
-  width: 40px !important;
-  border-radius: 12px !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  &-reset {
+    width: 40px !important;
+    border-radius: 12px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-  &:before {
-    content: "Reset";
-    background: none;
-    color: #fff;
-    font-family: "ProximaNova", Arial;
-    font-size: 0.75rem;
-    height: unset;
-    position: unset;
-    width: unset;
+    &:before {
+      content: "Reset";
+      background: none;
+      color: #fff;
+      font-family: "ProximaNova", Arial;
+      font-size: 0.75rem;
+      height: unset;
+      position: unset;
+      width: unset;
+    }
   }
 }
 

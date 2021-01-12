@@ -5,10 +5,10 @@
     "comment": [23, 71, 58]
   },
   "default": {
-    "abuseReportReasons": {
-      "QUESTION": [2, 5],
-      "ANSWER": [8, 7],
-      "COMMENT": [301, null]
+    "abuseReportReason": {
+      "Question": [2, 5],
+      "Answer": [8, 7],
+      "Comment": [301, null]
     }
   }
 }

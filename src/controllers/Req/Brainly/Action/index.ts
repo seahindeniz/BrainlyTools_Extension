@@ -681,7 +681,7 @@ export default class Action extends Brainly {
       if (
         !dontReport &&
         data.reason_title &&
-        System.data.config.marketConfig.default.abuseReportReasons
+        System.data.config.marketConfig.default.abuseReportReason
       ) {
         const resReport = await new Action().ReportQuestion(
           data.model_id,
@@ -715,7 +715,7 @@ export default class Action extends Brainly {
     if (
       !dontReport &&
       data.reason_title &&
-      System.data.config.marketConfig.default.abuseReportReasons
+      System.data.config.marketConfig.default.abuseReportReason
     ) {
       const resReport = await new Action().ReportAnswer(
         data.model_id,
@@ -744,7 +744,7 @@ export default class Action extends Brainly {
     if (
       !dontReport &&
       data.reason_title &&
-      System.data.config.marketConfig.default.abuseReportReasons
+      System.data.config.marketConfig.default.abuseReportReason
     ) {
       const resReport = await new Action().ReportComment(
         data.model_id,
@@ -1288,24 +1288,13 @@ export default class Action extends Brainly {
     );
   }
 
-  /**
-   * @param {1 | "QUESTION" | 2 | "ANSWER" | 45 | "COMMENT" } model_type_id
-   * @param {number} model_id
-   * @param {string} [reason]
-   * @param {number} [category_id]
-   * @param {number} [subcategory_id]
-   */
-  ReportContent(model_type_id, model_id, reason, category_id, subcategory_id) {
-    if (typeof model_type_id === "string")
-      model_type_id =
-        model_type_id === "QUESTION"
-          ? 1
-          : model_type_id === "ANSWER"
-          ? 2
-          : model_type_id === "COMMENT"
-          ? 45
-          : undefined;
-
+  ReportContent(
+    model_type_id: 1 | 2 | 45,
+    model_id: number,
+    reason?: string,
+    category_id?: number,
+    subcategory_id?: number,
+  ) {
     if (
       ~~model_type_id !== 1 &&
       ~~model_type_id !== 2 &&
@@ -1315,21 +1304,21 @@ export default class Action extends Brainly {
 
     const type =
       ~~model_type_id === 1
-        ? "QUESTION"
+        ? "Question"
         : ~~model_type_id === 2
-        ? "ANSWER"
-        : "COMMENT";
+        ? "Answer"
+        : "Comment";
 
-    if (typeof category_id === "undefined")
-      [
-        category_id,
-      ] = System.data.config.marketConfig.default.abuseReportReasons[type];
+    if (category_id === undefined)
+      [category_id] = System.data.config.marketConfig.default.abuseReportReason[
+        type
+      ];
 
-    if (typeof subcategory_id === "undefined")
+    if (subcategory_id === undefined)
       [
         ,
         subcategory_id,
-      ] = System.data.config.marketConfig.default.abuseReportReasons[type];
+      ] = System.data.config.marketConfig.default.abuseReportReason[type];
 
     const data = {
       abuse: {

@@ -4,6 +4,37 @@ All notable changes to this project will be documented in this file.
 
 _Release dates are based on GMT+0 timezone_
 
+## [7.21.0] - 2021.01.12
+
+### Added
+
+- An option to toggle between hiding and unhiding the "New questions in
+  <subject>" section of the question page. [#372]
+
+### Changed
+
+- Quick delete buttons displayed over answers when questions are visited are
+  missing in some answers. [#368]
+- Selective Deletion on Question Search Page isn't Functioning [#369]
+- Question's Background doesn't turn Red to indicate if it has been deleted
+  successfully on Question Search Page while using Quick Delete Buttons [#370]
+- Quick moderation buttons are missing under the categories 'All levels' & 'All'
+  if they're changed (sometimes) in the homepage. [#371]
+- The fetch is reseted if clicks to change the page [#373]
+- Quick delete buttons doesn't work on the comments page [#376]
+- Image viewer flip buttons should adapt to rotated images [#378]
+- Problem with subject change in Reported Content [#381]
+
+[#368]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/368
+[#369]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/369
+[#370]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/370
+[#371]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/371
+[#372]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/372
+[#373]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/373
+[#376]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/376
+[#378]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/378
+[#381]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/381
+
 ## [7.20.1] - 2021.01.08
 
 ### Changed

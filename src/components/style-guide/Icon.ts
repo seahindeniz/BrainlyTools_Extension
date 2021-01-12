@@ -1,5 +1,5 @@
 import type { ChildrenParamType } from "@style-guide/helpers/AddChildren";
-import classnames from "classnames";
+import clsx from "clsx";
 import CreateElement from "@components/CreateElement";
 
 type ExtensionIconTypeType =
@@ -201,7 +201,7 @@ class Icon {
     this.size = size;
     this.color = color;
 
-    const iconClass = classnames(
+    const iconClass = clsx(
       sg,
       {
         [SGD + String(color)]: color,

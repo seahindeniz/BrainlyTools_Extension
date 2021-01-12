@@ -2,7 +2,7 @@ import Build from "@root/helpers/Build";
 import { Flex, Icon, Text } from "@style-guide";
 import type { ChildrenParamType } from "@style-guide/helpers/AddChildren";
 import type { IconTypeType } from "@style-guide/Icon";
-import classNames from "classnames";
+import clsx from "clsx";
 import CreateElement from "@components/CreateElement";
 
 type CounterSizeType = "xs" | "xxs";
@@ -23,7 +23,7 @@ export default ({
   withAnimation,
   ...props
 }: CounterPropsType) => {
-  const counterClass = classNames(
+  const counterClass = clsx(
     "sg-counter",
     {
       [`sg-counter--${String(size)}`]: size,
@@ -58,7 +58,7 @@ export default ({
     const child = Build(document.createDocumentFragment(), [
       [
         Flex({
-          className: classNames("sg-counter__icon-container", {
+          className: clsx("sg-counter__icon-container", {
             "sg-counter__icon-container--xxs": size === "xxs",
           }),
         }),

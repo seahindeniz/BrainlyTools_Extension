@@ -2,7 +2,7 @@ import Build from "@root/helpers/Build";
 import { Spinner, Icon, Text } from "@style-guide";
 import type { ChildrenParamType } from "@style-guide/helpers/AddChildren";
 import type { IconTypeType } from "@style-guide/Icon";
-import classNames from "classnames";
+import clsx from "clsx";
 import CreateElement from "@components/CreateElement";
 
 type FileHandlerColorType = "gray" | "white";
@@ -37,7 +37,7 @@ export default function FileHandler({
   className,
   ...props
 }: PropsType) {
-  const fileHandlerClass = classNames(
+  const fileHandlerClass = clsx(
     "sg-file-handler",
     {
       "sg-file-handler--closable": onClose,

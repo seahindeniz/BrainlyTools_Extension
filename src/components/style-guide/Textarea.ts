@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import clsx from "clsx";
 import CreateElement from "@components/CreateElement";
 import { CommonComponentPropsType } from "./helpers/SetProps";
 
@@ -50,7 +50,7 @@ export default function Textarea<T extends keyof HTMLElementTagNameMap>({
   if (valid === true && invalid === true)
     throw Error("Textarea can be either valid or invalid!");
 
-  const textareaClass = classnames(
+  const textareaClass = clsx(
     SG,
     {
       [SGD + size]: size !== "normal",

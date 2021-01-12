@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import clsx from "clsx";
 import CreateElement from "@components/CreateElement";
 import { CommonComponentPropsType } from "./helpers/SetProps";
 
@@ -17,7 +17,7 @@ export default ({
   className,
   ...props
 }: OverlayPropsType = {}) => {
-  const overlayClass = classNames(
+  const overlayClass = clsx(
     SG,
     {
       [`${SGD}partial`]: partial,

@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import clsx from "clsx";
 import type { ChildrenParamType } from "@style-guide/helpers/AddChildren";
 import CreateElement from "@components/CreateElement";
 import Icon from "./Icon";
@@ -52,7 +52,7 @@ export default class Toplayer {
     className,
     ...props
   }: ToplayerPropsType) {
-    const topLayerClassName = classnames(
+    const topLayerClassName = clsx(
       SG,
       {
         [`${SGD}lead`]: lead,
@@ -70,7 +70,7 @@ export default class Toplayer {
       className,
     );
 
-    const toplayerWrapperClassName = classnames(`${SGL}wrapper`, {
+    const toplayerWrapperClassName = clsx(`${SGL}wrapper`, {
       [`${SGL}wrapper--no-padding`]: noPadding,
     });
 

@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import clsx from "clsx";
 import AddChildren, { ChildrenParamType } from "./helpers/AddChildren";
 import Icon from "./Icon";
 import SetProps from "./helpers/SetProps";
@@ -50,7 +50,7 @@ export default function ({
   className,
   ...props
 }: ToplayerDeprecatedPropsType) {
-  const topLayerClassName = classnames(
+  const topLayerClassName = clsx(
     SG,
     {
       [`${SGD}lead`]: lead,
@@ -68,7 +68,7 @@ export default function ({
     className,
   );
 
-  const toplayerWrapperClassName = classnames(`${SGL}wrapper`, {
+  const toplayerWrapperClassName = clsx(`${SGL}wrapper`, {
     [`${SGL}wrapper--no-padding`]: noPadding,
   });
 

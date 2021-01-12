@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import clsx from "clsx";
 import CreateElement from "@components/CreateElement";
 import generateRandomString from "@root/helpers/generateRandomString";
 import Icon from "./Icon";
@@ -26,7 +26,7 @@ export default class Checkbox {
     className,
     ...props
   }: CheckboxPropsType = {}) {
-    const checkboxClass = classnames(SG, className);
+    const checkboxClass = clsx(SG, className);
 
     this.inputId = id;
 

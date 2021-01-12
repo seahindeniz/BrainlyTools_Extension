@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import classnames from "classnames";
+import clsx from "clsx";
 import SetProps from "./helpers/SetProps";
 
 type InputTypeType =
@@ -96,7 +96,7 @@ InputPropsType = {}): InputElementType => {
   if (valid === true && invalid === true)
     throw Error("Input can be either valid or invalid!");
 
-  const inputClass = classnames(
+  const inputClass = clsx(
     sg,
     {
       [SGD + size]: size,

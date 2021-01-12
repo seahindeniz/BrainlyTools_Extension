@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import clsx from "clsx";
 import CreateElement from "@components/CreateElement";
 
 type ActionsSizeType =
@@ -32,7 +32,7 @@ export default ({
   align = "left",
   ...props
 }: ActionsPropsType = {}) => {
-  const contentBoxClass = classnames(
+  const contentBoxClass = clsx(
     SG,
     {
       [`${SGD}with-centered-elements`]: align === "center",

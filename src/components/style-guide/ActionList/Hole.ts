@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import clsx from "clsx";
 import CreateElement from "@components/CreateElement";
 import { ChildrenParamType } from "../helpers/AddChildren";
 
@@ -41,7 +41,7 @@ export default ({
   className,
   ...props
 }: HolePropsType = {}) => {
-  const actionListHoleClass = classnames(
+  const actionListHoleClass = clsx(
     "sg-actions-list__hole",
     {
       [`${SGD}container`]: asContainer,

@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import clsx from "clsx";
 import CreateElement from "@components/CreateElement";
 
 type HorizontalSeparatorTypeType = "normal" | "spaced" | "short-spaced";
@@ -20,7 +20,7 @@ export default ({
   className,
   ...props
 }: HorizontalSeparatorPropsType = {}) => {
-  const separatorClass = classnames(
+  const separatorClass = clsx(
     SG,
     {
       [SGD + type]: type !== "normal",

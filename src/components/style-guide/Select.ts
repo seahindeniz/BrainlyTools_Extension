@@ -1,5 +1,5 @@
 import CreateElement from "@components/CreateElement";
-import classnames from "classnames";
+import clsx from "clsx";
 import { CommonComponentPropsType } from "./helpers/SetProps";
 import Icon from "./Icon";
 
@@ -58,7 +58,7 @@ export default class Select {
     this.value = value;
     this.options = options.filter(Boolean);
 
-    const selectClass = classnames(
+    const selectClass = clsx(
       SG,
       {
         [`${SGD}valid`]: valid,

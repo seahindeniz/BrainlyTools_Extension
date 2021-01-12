@@ -1,5 +1,5 @@
 import { Button } from "@style-guide";
-import classNames from "classnames";
+import clsx from "clsx";
 import Icon from "./Icon";
 import Input, { InputPropsType } from "./Input";
 
@@ -18,7 +18,7 @@ export default ({
   inputClassName,
   ...props
 }: PropsType = {}) => {
-  const searchClassName = classNames(
+  const searchClassName = clsx(
     SG,
     {
       [`${SG}--${String(size)}`]: size,
@@ -33,7 +33,7 @@ export default ({
 
   const input = new Input({
     type: "search",
-    className: classNames(`${SG}__input`, inputClassName),
+    className: clsx(`${SG}__input`, inputClassName),
     withIcon: true,
     size,
     ...props,

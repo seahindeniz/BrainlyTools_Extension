@@ -1,5 +1,5 @@
 import SetProps from "@style-guide/helpers/SetProps";
-import classnames from "classnames";
+import clsx from "clsx";
 import AddChildren, { ChildrenParamType } from "../helpers/AddChildren";
 import Icon, { IconPropsType } from "../Icon";
 
@@ -28,7 +28,7 @@ export default function ({
   iconSmall,
   ...props
 }: ListItemPropsType = {}) {
-  const listItemClass = classnames(`${SGL}element`, className);
+  const listItemClass = clsx(`${SGL}element`, className);
 
   const item = document.createElement("li");
 
@@ -41,7 +41,7 @@ export default function ({
   if (icon) {
     const iconContainer = document.createElement("div");
 
-    iconContainer.className = classnames(`${SGL}icon`, {
+    iconContainer.className = clsx(`${SGL}icon`, {
       [`${SGL}icon--spacing-right-small`]: iconSmall,
     });
 

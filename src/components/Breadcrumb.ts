@@ -1,5 +1,5 @@
 import { ChildrenParamType } from "@style-guide/helpers/AddChildren";
-import classNames from "classnames";
+import clsx from "clsx";
 import CreateElement from "@components/CreateElement";
 
 type PaddingSizeType = "s" | "m" | "l";
@@ -26,7 +26,7 @@ export default class Breadcrumb {
     padding,
     ...props
   }: PropsType = {}) {
-    const breadcrumbClass = classNames(
+    const breadcrumbClass = clsx(
       "ext-breadcrumb-list",
       {
         "ext-breadcrumb-list--short": short,

@@ -2,7 +2,7 @@ import { Flex, Icon, Text } from "@style-guide";
 import AddChildren, {
   ChildrenParamType,
 } from "@style-guide/helpers/AddChildren";
-import classNames from "classnames";
+import clsx from "clsx";
 import Build from "@root/helpers/Build";
 import CreateElement from "@components/CreateElement";
 
@@ -29,7 +29,7 @@ export default ({
   children,
   ...props
 }: FlashMessageProps = {}) => {
-  const messageClass = classNames(
+  const messageClass = clsx(
     SG,
     {
       [SGD + String(type)]: type,

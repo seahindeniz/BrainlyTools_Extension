@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import clsx from "clsx";
 import CreateElement from "@components/CreateElement";
 import { ChildrenParamType } from "../helpers/AddChildren";
 
@@ -35,7 +35,7 @@ export default ({
   className,
   ...props
 }: ContentBoxPropsType = {}) => {
-  const contentBoxClass = classnames(
+  const contentBoxClass = clsx(
     sg,
     {
       [`${SGD}spaced`]: spaced,

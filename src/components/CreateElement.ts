@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import clsx from "clsx";
 import AddChildren from "@style-guide/helpers/AddChildren";
 import SetProps, {
   CommonComponentPropsType,
@@ -44,7 +44,7 @@ export default function CreateElement<T extends keyof HTMLElementTagNameMap>({
 }: CreateElementPropsType<T>) {
   if (tag === null || tag === undefined) throw Error("Tag name is required");
 
-  const classNames = classnames(className, {
+  const classNames = clsx(className, {
     "sg--full": fullWidth,
   });
 

@@ -1,6 +1,6 @@
 import CreateElement from "@components/CreateElement";
 import InsertAfter from "@root/helpers/InsertAfter";
-import classnames from "classnames";
+import clsx from "clsx";
 import AddChildren, { ChildrenParamType } from "./helpers/AddChildren";
 import { CommonComponentPropsType } from "./helpers/SetProps";
 import Icon, { IconColorType } from "./Icon";
@@ -119,7 +119,7 @@ export default class Label {
   }: LabelPropsType) {
     this.type = type;
 
-    const labelClass = classnames(
+    const labelClass = clsx(
       SG,
       {
         [`${SGD}closable`]: !!onClose,

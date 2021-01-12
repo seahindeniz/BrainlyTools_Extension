@@ -1,5 +1,5 @@
 import Build from "@root/helpers/Build";
-import classnames from "classnames";
+import clsx from "clsx";
 import CreateElement from "@components/CreateElement";
 import Flex from "./Flex";
 import Text from "./Text";
@@ -65,7 +65,7 @@ export default class {
     if (valid === true && invalid === true)
       throw Error("Input can be either valid or invalid!");
 
-    const inputClass = classnames(
+    const inputClass = clsx(
       "sg-input",
       {
         [`sg-input--${String(size)}`]: size !== "m",
@@ -78,7 +78,7 @@ export default class {
       className,
     );
 
-    const wrapperClass = classnames("sg-input__wrapper", {
+    const wrapperClass = clsx("sg-input__wrapper", {
       "sg-input__wrapper--full-width": fullWidth,
     });
 

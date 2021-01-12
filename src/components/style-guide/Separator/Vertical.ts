@@ -1,5 +1,5 @@
 import SetProps from "@style-guide/helpers/SetProps";
-import classnames from "classnames";
+import clsx from "clsx";
 
 type VerticalSeparatorSizeType = "normal" | "small" | "large" | "full";
 type VerticalSeparatorPropsType = {
@@ -20,7 +20,7 @@ export default ({
   className,
   ...props
 }: VerticalSeparatorPropsType = {}) => {
-  const separatorClass = classnames(
+  const separatorClass = clsx(
     SG,
     {
       [SGD + size]: size !== "normal",

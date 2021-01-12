@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import clsx from "clsx";
 import CreateElement from "@components/CreateElement";
 import { ChildrenParamType } from "./helpers/AddChildren";
 
@@ -20,7 +20,7 @@ export default ({
   className,
   ...props
 }: OverlayedBoxPropsType = {}) => {
-  const boxClass = classnames(SG, className);
+  const boxClass = clsx(SG, className);
 
   const overlayElement = CreateElement({
     tag: "div",

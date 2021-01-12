@@ -1,5 +1,5 @@
 import CreateElement from "@components/CreateElement";
-import classnames from "classnames";
+import clsx from "clsx";
 
 type ListPropsType = {
   spaced?: boolean;
@@ -17,7 +17,7 @@ export default ({
   children,
   ...props
 }: ListPropsType = {}) => {
-  const listClass = classnames(
+  const listClass = clsx(
     SG,
     {
       [`${SGD}spaced-elements`]: spaced,

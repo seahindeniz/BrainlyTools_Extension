@@ -1,6 +1,6 @@
 import CreateElement from "@components/CreateElement";
 import { ChildrenParamType } from "@style-guide/helpers/AddChildren";
-import classNames from "classnames";
+import clsx from "clsx";
 
 export type MenuItemPropsType = {
   text?: string;
@@ -26,7 +26,7 @@ export default ({
   className,
   ...props
 }: MenuItemPropsType = {}) => {
-  const linkClass = classNames(`${SGL}link sg-text--link`, className);
+  const linkClass = clsx(`${SGL}link sg-text--link`, className);
 
   const element = document.createElement("li");
 

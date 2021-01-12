@@ -1,5 +1,5 @@
 import CreateElement from "@components/CreateElement";
-import classnames from "classnames";
+import clsx from "clsx";
 import MenuListItem, { MenuItemPropsType } from "./Item";
 
 type MenuSizeType = "small" | "normal" | "large";
@@ -19,7 +19,7 @@ export default ({
   className,
   ...props
 }: MenuPropsType = {}) => {
-  const listClass = classnames(
+  const listClass = clsx(
     SG,
     {
       [SGD + size]: size !== "normal",

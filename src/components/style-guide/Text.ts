@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import classnames from "classnames";
+import clsx from "clsx";
 import CreateElement from "@components/CreateElement";
 import { ChildrenParamType } from "./helpers/AddChildren";
 import { CommonComponentPropsType } from "./helpers/SetProps";
@@ -125,7 +125,7 @@ const Text = <T extends keyof HTMLElementTagNameMap>({
   blockquote,
   ...props
 }: TextPropsType<T>): TextElement<T> => {
-  const textClass = classnames(
+  const textClass = clsx(
     "sg-text",
     {
       [`sg-text--${String(size)}`]: size !== "medium",

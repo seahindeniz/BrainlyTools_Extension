@@ -1,7 +1,7 @@
 import CreateElement from "@components/CreateElement";
 import generateRandomString from "@root/helpers/generateRandomString";
 import { Label } from "@style-guide";
-import classnames from "classnames";
+import clsx from "clsx";
 import type { CommonComponentPropsType } from "./helpers/SetProps";
 import type { LabelPropsType } from "./Label";
 
@@ -35,7 +35,7 @@ export default class Radio {
     label,
     ...props
   }: RadioPropsType = {}) {
-    const radioClass = classnames(
+    const radioClass = clsx(
       SG,
       {
         [SGD + size]: size,

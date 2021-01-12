@@ -1,5 +1,5 @@
 import type { ChildrenParamType } from "@style-guide/helpers/AddChildren";
-import classNames from "classnames";
+import clsx from "clsx";
 import CreateElement from "@components/CreateElement";
 
 type BubbleColorType =
@@ -48,7 +48,7 @@ export default ({
     alignmentClass = `sg-bubble--row-${alignment}`;
   }
 
-  const bubbleClass = classNames(
+  const bubbleClass = clsx(
     "sg-bubble",
     {
       "sg-bubble--full": full,

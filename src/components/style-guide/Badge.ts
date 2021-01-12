@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import clsx from "clsx";
 import CreateElement from "@components/CreateElement";
 import Text, { TextPropsType } from "./Text";
 
@@ -72,7 +72,7 @@ export default ({
   className,
   ...props
 }: BadgePropsType = {}) => {
-  const badgeClass = classnames(
+  const badgeClass = clsx(
     SG,
     {
       [SGD + color]: color !== BADGE_COLOR.NORMAL,

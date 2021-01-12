@@ -2,7 +2,7 @@
 /* eslint-disable no-underscore-dangle */
 import CreateElement from "@components/CreateElement";
 import InsertAfter from "@root/helpers/InsertAfter";
-import classnames from "classnames";
+import clsx from "clsx";
 import type { ChildrenParamType } from "./helpers/AddChildren";
 import SetProps from "./helpers/SetProps";
 import Icon, { IconColorType, IconPropsType } from "./Icon";
@@ -229,7 +229,7 @@ export default function ({
   const filteredColor: string =
     type === "default" ? COLORS_DEFAULT_MAP[color] : COLORS_SOLID_MAP[color];
 
-  const labelClass = classnames(
+  const labelClass = clsx(
     SG,
     {
       [SGD + filteredColor]: (color && type === "solid") || type === "default",

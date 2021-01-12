@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import clsx from "clsx";
 import CreateElement from "@components/CreateElement";
 import { ChildrenParamType } from "../helpers/AddChildren";
 import Text from "../Text";
@@ -40,7 +40,7 @@ export default function ({
   align = "left",
   ...props
 }: TitlePropsType = {}) {
-  const contentBoxClass = classnames(
+  const contentBoxClass = clsx(
     SG,
     {
       [`${SGD}with-centered-elements`]: align === "center",

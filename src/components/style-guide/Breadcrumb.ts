@@ -1,5 +1,5 @@
 import { ChildrenParamType } from "@style-guide/helpers/AddChildren";
-import classNames from "classnames";
+import clsx from "clsx";
 import CreateElement from "@components/CreateElement";
 
 type PropsType = {
@@ -21,7 +21,7 @@ export default class Breadcrumb {
     elements = [],
     ...props
   }: PropsType = {}) {
-    const breadcrumbClass = classNames(
+    const breadcrumbClass = clsx(
       "sg-breadcrumb-list",
       {
         "sg-breadcrumb-list--short": short,

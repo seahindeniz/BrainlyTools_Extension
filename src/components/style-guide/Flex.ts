@@ -1,6 +1,6 @@
 import type { ChildrenParamType } from "@style-guide/helpers/AddChildren";
 import { CommonComponentPropsType } from "@style-guide/helpers/SetProps";
-import classnames from "classnames";
+import clsx from "clsx";
 import CreateElement from "@components/CreateElement";
 
 type FlexAlignmentValuesType =
@@ -148,7 +148,7 @@ const Flex = <T extends keyof HTMLElementTagNameMap>({
   borderLeft,
   ...props
 }: FlexGenericPropsType<T> = {}): FlexElementType => {
-  const flexClass = classnames(
+  const flexClass = clsx(
     "sg-flex",
     {
       "sg-flex--full-width": fullWidth,

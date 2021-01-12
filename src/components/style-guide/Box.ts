@@ -1,7 +1,7 @@
 import AddChildren from "@style-guide/helpers/AddChildren";
 import type { ChildrenParamType } from "@style-guide/helpers/AddChildren";
 import SetProps from "@style-guide/helpers/SetProps";
-import classNames from "classnames";
+import clsx from "clsx";
 
 type ExtraBoxColorType =
   | "lavender-secondary"
@@ -73,7 +73,7 @@ export default class {
     this.color = color;
     this.borderColor = borderColor;
 
-    const classes = classNames(
+    const classes = clsx(
       "sg-box",
       {
         [`sg-box--padding-${String(padding)}`]: padding,

@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import clsx from "clsx";
 import CreateElement from "@components/CreateElement";
 
 export const ALIGNMENT = {
@@ -37,7 +37,7 @@ export default ({
   className,
   ...props
 }: ActionListPropsType = {}) => {
-  const actionListClass = classnames(
+  const actionListClass = clsx(
     sg,
     {
       [SGD + direction]: direction,

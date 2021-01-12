@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import clsx from "clsx";
 import CreateElement from "@components/CreateElement";
 import Spinner, { SpinnerSizeType } from ".";
 import { ChildrenParamType } from "../helpers/AddChildren";
@@ -28,7 +28,7 @@ export default ({
   className,
   ...props
 }: SpinnerContainerPropsType = {}) => {
-  const spinnerContainerClass = classnames(
+  const spinnerContainerClass = clsx(
     SG,
     {
       [`${SG}--full-width`]: fullWidth,

@@ -2,8 +2,8 @@ import { dest, src } from "gulp";
 import gulpChange from "gulp-change";
 import gulpRename from "gulp-rename";
 
-export default () => {
-  return src("src/locales/en_US.json")
+export default () =>
+  src("src/locales/en_US.json")
     .pipe(gulpRename("index.ts"))
     .pipe(
       gulpChange(_content => {
@@ -14,4 +14,3 @@ export default () => {
       }),
     )
     .pipe(dest(`src/locales`));
-};

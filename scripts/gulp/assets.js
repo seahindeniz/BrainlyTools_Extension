@@ -32,11 +32,9 @@ export default () => {
     },
   ];
 
-  assets = assets.map(asset => {
-    return src(asset.src).pipe(
-      dest(`${process.env.BUILD_FOLDER}${asset.dest}`),
-    );
-  });
+  assets = assets.map(asset =>
+    src(asset.src).pipe(dest(`${process.env.BUILD_FOLDER}${asset.dest}`)),
+  );
 
   return assets[assets.length - 1];
 };

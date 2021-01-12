@@ -6,10 +6,7 @@ const manifest = {
   dev: {
     version: process.env.npm_package_version,
     background: {
-      scripts: [
-        "background/livereload.js",
-        "background/background.js",
-      ],
+      scripts: ["background/livereload.js", "background/background.js"],
     },
     permissions: [
       "webRequest",
@@ -37,6 +34,7 @@ export default () => {
     .pipe(
       gulpChange(content => {
         let data = JSON.parse(content);
+
         data = mergeDeep(data, manifestData);
 
         return JSON.stringify(data);

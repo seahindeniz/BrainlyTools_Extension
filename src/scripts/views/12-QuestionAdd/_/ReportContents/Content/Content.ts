@@ -620,7 +620,19 @@ export default class Content {
 
     this.main.queue.focusedContent = this;
 
-    InsertAfter(this.quickActionButtons.container, this.reportDetailContainer);
+    InsertAfter(
+      this.quickActionButtons.container,
+      (!document.documentElement.classList.contains("mobile") &&
+        this.main.queueContainer.classList.contains(
+          "buttons-visibility-always",
+        )) ||
+        (document.documentElement.classList.contains("mobile") &&
+          !this.main.queueContainer.classList.contains(
+            "buttons-visibility-on-hover",
+          ))
+        ? this.reportDetailContainer
+        : this.reportDetailContainer.parentElement,
+    );
   }
 
   private HideActionButtons() {

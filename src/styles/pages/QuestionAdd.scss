@@ -58,6 +58,7 @@ html.mobile .queue.buttons-visibility-on-hover {
   .ext-quick-action-buttons {
     position: absolute;
     right: 0;
+    bottom: 0;
   }
 }
 
@@ -74,6 +75,10 @@ html.mobile .queue.buttons-visibility-on-hover {
   width: -webkit-fill-available;
   // grid-template-columns: repeat(auto-fit, minmax(384px, 1fr));
   // grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+
+  .latex {
+    max-width: 100%;
+  }
 }
 
 $densities: (

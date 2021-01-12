@@ -41,10 +41,13 @@ export default class QuestionPage {
       this.FindQuestionContainer();
       this.SetQuestionData();
 
+      this.suggestionSection = new SuggestionSection();
+
+      this.ObserveForSections();
+
       if (this.data.is_deleted) return;
 
       this.RenderActionButtonSpinner();
-      this.ObserveForSections();
 
       this.moderatePanelController = new QuestionPageModeratePanelController(
         this,
@@ -106,13 +109,13 @@ export default class QuestionPage {
         // console.log(mutation.addedNodes);
 
         if (mutation.target.classList.contains("js-main-question")) {
-          this.questionSection.Init(true);
+          this.questionSection?.Init(true);
 
           return;
         }
 
         if (mutation.target.classList.contains("js-react-answers")) {
-          this.answerSections.all.forEach(answerSection =>
+          this.answerSections?.all.forEach(answerSection =>
             answerSection.Init(),
           );
 
@@ -151,8 +154,6 @@ export default class QuestionPage {
     if (System.checkUserP(2)) {
       this.RenderAnswerSections();
     }
-
-    this.suggestionSection = new SuggestionSection();
   }
 
   private async RenderAnswerSections() {

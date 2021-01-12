@@ -6,7 +6,7 @@ export default cb => {
     "./src/configs/_/main.yml",
     "utf8",
   );
-  const extensionOptions = yaml.safeLoad(extensionOptionsRaw);
+  const extensionOptions = yaml.load(extensionOptionsRaw);
   const config = {
     ...(process.env.NODE_ENV === "production"
       ? extensionOptions.production

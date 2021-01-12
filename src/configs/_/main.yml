@@ -7,11 +7,11 @@ common:
     fr:
       progress: 100
       name: Français
-      author: 'MichaelS, TomRh'
+      author: MichaelS, TomRh
     id:
       progress: 100
       name: Bahasa Indonesia
-      author: 'Zuhh, Lyden'
+      author: Zuhh, Lyden
     tr:
       progress: 100
       name: Türkçe
@@ -23,7 +23,7 @@ common:
     pt_BR:
       progress: 100
       name: Português(BR)
-      author: 'HydroXBR, Maxon, Bernard0'
+      author: HydroXBR, Maxon, Bernard0
     pl:
       progress: 14
       name: Polskie
@@ -41,14 +41,14 @@ common:
       name: Русский
       author: null
 dev:
-  serverURL: 'http://localhost:3001'
-  serverAPIURL: 'http://localhost:3001/BrainlyTools'
-  shortenedLinkURL: 'http://localhost:3001/l'
-  uploadedFilesURL: 'http://localhost:3001/files/uploaded/'
+  serverURL: http://localhost:3001
+  serverAPIURL: http://localhost:3001/BrainlyTools
+  shortenedLinkURL: http://localhost:3001/l
+  uploadedFilesURL: http://localhost:3001/files/uploaded/
   env: development
 production:
-  serverURL: 'https://sahin.in'
-  serverAPIURL: 'https://sahin.in/BrainlyTools'
-  shortenedLinkURL: 'http://sahin.in/l'
-  uploadedFilesURL: 'http://sahin.in/files/uploaded/'
+  serverURL: https://sahin.in
+  serverAPIURL: https://sahin.in/BrainlyTools
+  shortenedLinkURL: http://sahin.in/l
+  uploadedFilesURL: http://sahin.in/files/uploaded/
   env: production

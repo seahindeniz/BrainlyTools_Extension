@@ -143,7 +143,9 @@ async function UpdateStatuses() {
     "./src/configs/_/main.yml",
     "utf8",
   );
-  const extensionOptions = yaml.load(extensionOptionsRaw);
+  const extensionOptions = yaml.load(extensionOptionsRaw) as {
+    [x: string]: any;
+  };
 
   resDetails.statistics.languages.forEach(
     (language: {

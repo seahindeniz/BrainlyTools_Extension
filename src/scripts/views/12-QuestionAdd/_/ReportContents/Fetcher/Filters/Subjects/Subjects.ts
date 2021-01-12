@@ -86,13 +86,13 @@ export default class Subjects {
   }
 
   Show() {
-    this.selectedSubject = null;
-    this.subjectSelect.select.selectedIndex = 0;
-
     this.main.filtersContainer.prepend(this.container);
   }
 
   Hide() {
+    this.selectedSubject = null;
+    this.subjectSelect.select.selectedIndex = 0;
+
     HideElement(this.container);
   }
 }

@@ -1,4 +1,5 @@
 import HideElement from "@root/helpers/HideElement";
+import IsVisible from "@root/helpers/IsVisible";
 import { Flex, Select } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
 import type FiltersType from "../Filters";
@@ -86,10 +87,14 @@ export default class Subjects {
   }
 
   Show() {
+    if (IsVisible(this.container)) return;
+
     this.main.filtersContainer.prepend(this.container);
   }
 
   Hide() {
+    console.warn("Hide subjects");
+
     this.selectedSubject = null;
     this.subjectSelect.select.selectedIndex = 0;
 

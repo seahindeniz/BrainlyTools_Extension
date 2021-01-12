@@ -1,4 +1,5 @@
 import HideElement from "@root/helpers/HideElement";
+import IsVisible from "@root/helpers/IsVisible";
 import { Flex, Select } from "@style-guide";
 import type FiltersClassType from "../Filters";
 import AnswerGroup from "./AnswerGroup";
@@ -116,6 +117,8 @@ export default class Reasons {
   }
 
   Show() {
+    if (IsVisible(this.container)) return;
+
     this.main.filtersContainer.append(this.container);
   }
 

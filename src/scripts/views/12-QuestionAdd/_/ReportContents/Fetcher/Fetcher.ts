@@ -209,7 +209,9 @@ export default class Fetcher {
         }
 
         this.filters.subjectFilter.Show();
-        this.filters.reasonFilter.Show();
+
+        if (selectedReportType.typeName !== "correctionReports")
+          this.filters.reasonFilter.Show();
       } else {
         this.HideStatusBarSpinner();
 

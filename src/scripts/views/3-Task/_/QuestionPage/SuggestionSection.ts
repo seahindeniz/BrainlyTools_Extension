@@ -24,6 +24,7 @@ export default class SuggestionSection {
   private button: Button;
   private headContainer: FlexElementType;
   private headTextContainer: FlexElementType;
+  private headText: HTMLHeadingElement;
 
   constructor() {
     this.elements = [];
@@ -36,9 +37,10 @@ export default class SuggestionSection {
   }
 
   set container(container) {
-    console.warn("container", container);
-
     this.#container = container;
+
+    if (container.firstElementChild instanceof HTMLHeadingElement)
+      this.headText = container.firstElementChild;
 
     this.Render();
     this.ChangeVisibility();
@@ -63,7 +65,7 @@ export default class SuggestionSection {
       expireIn: 5,
     });
 
-    if (this.#container === container) return;
+    if (this.#container && this.#container === container) return;
 
     this.container = container;
 
@@ -99,7 +101,7 @@ export default class SuggestionSection {
   private RelocateElements() {
     if (!this.container?.firstElementChild) return;
 
-    this.headTextContainer.append(this.container.firstElementChild);
+    this.headTextContainer.append(this.headText);
     this.container.prepend(this.headContainer);
   }
 

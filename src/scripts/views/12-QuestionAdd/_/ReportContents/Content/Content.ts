@@ -405,6 +405,7 @@ export default class Content {
                     size: "small",
                     html: replaceLatexWithURL(this.data.content_short, {
                       decode: true,
+                      className: "latex",
                     }),
                   }),
                 ],

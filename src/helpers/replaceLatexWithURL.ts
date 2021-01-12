@@ -3,6 +3,7 @@ import HTMLDecode from "./HTMLDecode";
 type PropsType = {
   decode?: boolean;
   noTitle?: boolean;
+  className?: string;
 };
 
 const defaultLatexURL = `//tex.z-dn.net/?f=`;
@@ -37,7 +38,9 @@ export default function replaceLatexWithURL(
           latexEncodedPath = `%5C${latexEncodedPath}`;
         } */
 
-      return `<div><img class="latex" src="${defaultLatexURL}${latexEncodedPath}"${
+      return `<div><img${
+        props.className ? ` class="${props.className}"` : ""
+      } src="${defaultLatexURL}${latexEncodedPath}"${
         props.noTitle ? "" : ` title="${latex.replace(/\\\\ ?/g, "\n")}"`
       }></div>`;
     });

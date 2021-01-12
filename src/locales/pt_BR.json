@@ -963,7 +963,8 @@
       },
       "title": "Filtros",
       "name": "Filtro de denúncias"
-    }
+    },
+    "contentBeforeResettingCache": "Procurou %{number_of_reports} denúncias e o cache será limpo para procurar novas denúncias, depois de confirmar isto.\nPor favor, confirme que quer continuar."
   },
   "moderationPanel": {
     "text": "Moderação de tarefa",

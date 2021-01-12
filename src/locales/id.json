@@ -113,7 +113,7 @@
     "default": "Default",
     "yes": "Ya",
     "workingOnIt": "Sedang mengerjakannya ..",
-    "seeMoreDeletionReasons": "See more deletion reasons",
+    "seeMoreDeletionReasons": "Lihat lebih banyak alasan penghapusan",
     "deletedAccount": "Akun yang dihapus"
   },
   "popup": {
@@ -917,7 +917,7 @@
           "Comment": "Komentar"
         },
         "contentLength": {
-          "name": "Panjang konten",
+          "name": "Panjang pratinjau konten",
           "equals": "sama dengan",
           "lowerThan": "lebih rendah dari",
           "label": {
@@ -963,7 +963,8 @@
       },
       "title": "Filter",
       "name": "Filter laporan"
-    }
+    },
+    "contentBeforeResettingCache": "Anda telah mengambil %{number_of_reports} laporan dan cache akan dikosongkan untuk mengambil laporan baru setelah mengonfirmasi ini.\nHarap konfirmasi jika Anda ingin melanjutkan"
   },
   "moderationPanel": {
     "text": "Moderasi Pertanyaan",

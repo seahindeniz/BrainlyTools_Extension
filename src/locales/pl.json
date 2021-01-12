@@ -113,7 +113,7 @@
     "default": "Domyślnie",
     "yes": "Yes",
     "workingOnIt": "Working on it...",
-    "seeMoreDeletionReasons": "See more deletion reasons",
+    "seeMoreDeletionReasons": "Zobacz więcej powodów usunięcia",
     "deletedAccount": "Konto usunięte"
   },
   "popup": {
@@ -778,7 +778,7 @@
     "informed": "Informed",
     "reviewWithdrawn": "Review has been successfully withdrawn",
     "reviewsWithdrawn": "Reviews have been successfully withdrawn",
-    "reviewDetails": "Review details"
+    "reviewDetails": "Zobacz szczegóły"
   },
   "question": {
     "keywords": "Keywords"
@@ -963,7 +963,8 @@
       },
       "title": "Filtry",
       "name": "Filtruj zgłoszenia"
-    }
+    },
+    "contentBeforeResettingCache": "You have fetched %{number_of_reports} reports and the cache will be cleared to fetch new reports after confirming this.\nPlease confirm if you want to continue"
   },
   "moderationPanel": {
     "text": "Moderacja pytania",
@@ -998,7 +999,7 @@
         "one": "1 action",
         "other": "%{number_of} actions"
       },
-      "nMore": "%{number_of_occurrences} more"
+      "nMore": "%{number_of_occurrences} więcej"
     }
   },
   "shortAnswersPage": {

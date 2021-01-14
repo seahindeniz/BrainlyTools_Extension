@@ -89,6 +89,7 @@
       "title": "Ajouter une note privée spécifique à cet utilisateur et visible uniquement pour toi",
       "clickToAddANote": "Cliquez pour ajouter une note"
     },
+    "users": "Utilisateurs",
     "listOfIds": "Liste des identifiants",
     "deleting": "Suppression",
     "pointsWithExample": {
@@ -114,7 +115,16 @@
     "yes": "Oui",
     "workingOnIt": "En cours de réalisation...",
     "seeMoreDeletionReasons": "Voir plus de raisons de suppression",
-    "deletedAccount": "Compte supprimé"
+    "deletedAccount": "Compte supprimé",
+    "warnings": "Avertissements",
+    "banUser": {
+      "ban": "Bannissements",
+      "tutorial": "Tutoriel",
+      "nMinutes": "%{n} minutes",
+      "nHours": "%{n} heures",
+      "currentBan": "Bannissement actuel",
+      "appliedBy": "Appliqué par"
+    }
   },
   "popup": {
     "notificationMessages": {
@@ -191,7 +201,6 @@
     "extensionManagement": {
       "title": "Gestion ext.",
       "users": {
-        "text": "Utilisateurs",
         "title": "Tu peux attribuer les permissions et privilèges des utilisateurs de l'extension",
         "changeUserPrivileges": "Modifier les privilèges de tous les utilisateurs",
         "revoke": "Révoquer",

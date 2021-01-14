@@ -2,13 +2,9 @@
 /* eslint-disable no-underscore-dangle */
 import Axios, { AxiosInstance, AxiosRequestConfig, Method } from "axios";
 
-type ObjectAnyPropsType = {
-  [x: string]: any;
-};
-
 const requestsOnHold = [];
 
-function GenerateFormData(data: ObjectAnyPropsType, isWithFile?: boolean) {
+function GenerateFormData(data: ObjectAnyType, isWithFile?: boolean) {
   const TheMethod = isWithFile ? FormData : URLSearchParams;
   const formData = new TheMethod();
 
@@ -29,17 +25,19 @@ export default class Request {
   method: Method;
 
   contentType: string;
-  returnType: string;
+  returnType?: "salt" | "json";
 
   promise: Promise<any>;
   resolve: (value?: any) => void;
   reject: (value?: any) => void;
 
-  data: ObjectAnyPropsType;
+  data: ObjectAnyType;
   axios: AxiosInstance;
+  interfaceProps: ObjectAnyType;
 
   constructor() {
     this.headers = {};
+    this.interfaceProps = {};
     this.errorCount = 0;
   }
 
@@ -91,7 +89,7 @@ export default class Request {
     return this;
   }
 
-  GET(queryString?: ObjectAnyPropsType) {
+  GET(queryString?: ObjectAnyType) {
     this.method = "GET";
 
     this.InitPromise();
@@ -108,7 +106,7 @@ export default class Request {
     });
   }
 
-  QueryString(queryString: ObjectAnyPropsType | [string, any][]) {
+  QueryString(queryString: ObjectAnyType | [string, any][]) {
     if (queryString) {
       if (!(queryString instanceof Array))
         queryString = Object.entries(queryString);
@@ -129,8 +127,9 @@ export default class Request {
 
   OpenConnection() {
     try {
-      let promise: Promise<ObjectAnyPropsType>;
+      let promise: Promise<ObjectAnyType>;
       const connectionData = {
+        ...this.interfaceProps,
         method: this.method,
         headers: undefined,
         data: undefined,
@@ -161,7 +160,7 @@ export default class Request {
     }
   }
 
-  async HandleResponse(res: ObjectAnyPropsType) {
+  async HandleResponse(res: ObjectAnyType) {
     if (
       res.ok ||
       (res.status >= 200 && (res.status < 300 || res.status === 304))
@@ -184,7 +183,7 @@ export default class Request {
     }
   }
 
-  async HandleError(error: ObjectAnyPropsType) {
+  async HandleError(error: ObjectAnyType) {
     if (
       ((error.response && error.response.headers["cf-chl-bypass"]) ||
         (error.headers &&
@@ -217,25 +216,25 @@ export default class Request {
     }
   }
 
-  POST(data?: ObjectAnyPropsType, queryString?: ObjectAnyPropsType) {
+  POST(data?: ObjectAnyType, queryString?: ObjectAnyType) {
     this.method = "POST";
 
     return this._Post(data, queryString);
   }
 
-  PUT(data?: ObjectAnyPropsType, queryString?: ObjectAnyPropsType) {
+  PUT(data?: ObjectAnyType, queryString?: ObjectAnyType) {
     this.method = "PUT";
 
     return this._Post(data, queryString);
   }
 
-  DELETE(data?: ObjectAnyPropsType, queryString?: ObjectAnyPropsType) {
+  DELETE(data?: ObjectAnyType, queryString?: ObjectAnyType) {
     this.method = "DELETE";
 
     return this._Post(data, queryString);
   }
 
-  _Post(data?: ObjectAnyPropsType, queryString?: ObjectAnyPropsType) {
+  _Post(data?: ObjectAnyType, queryString?: ObjectAnyType) {
     if (data) this.data = data;
 
     if (this.data) {

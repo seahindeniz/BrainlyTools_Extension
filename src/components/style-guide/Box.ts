@@ -1,7 +1,7 @@
-import AddChildren from "@style-guide/helpers/AddChildren";
+import CreateElement from "@components/CreateElement";
 import type { ChildrenParamType } from "@style-guide/helpers/AddChildren";
-import SetProps from "@style-guide/helpers/SetProps";
 import clsx from "clsx";
+import { CommonComponentPropsType } from "./helpers/SetProps";
 
 type ExtraBoxColorType =
   | "lavender-secondary"
@@ -23,6 +23,7 @@ export type BoxColorType =
   | "gray-secondary-lightest"
   | "gray-secondary-ultra-light"
   | "mustard-primary"
+  | "mustard-secondary-light"
   | "peach"
   | "peach-secondary"
   | "peach-secondary-light"
@@ -49,7 +50,7 @@ export type BoxPropsType = {
   // additional
   fullHeight?: boolean;
   thinBorder?: boolean;
-} /* & BoxBorderType */;
+} & CommonComponentPropsType;
 
 export default class {
   color: BoxColorType;
@@ -63,7 +64,7 @@ export default class {
     color,
     padding = "m",
     border = false,
-    borderColor = "gray-secondary-lightest",
+    borderColor,
     noBorderRadius = false,
     shadow = false,
     fullHeight,
@@ -87,12 +88,14 @@ export default class {
       className,
     );
 
-    this.element = document.createElement("div");
-    this.element.className = classes;
-
     this.ChangeColor(color);
-    SetProps(this.element, props);
-    AddChildren(this.element, children);
+
+    this.element = CreateElement({
+      tag: "div",
+      className: classes,
+      children,
+      ...props,
+    });
   }
 
   ChangeColor(color?: BoxColorType) {
@@ -107,13 +110,21 @@ export default class {
   }
 
   ChangeBorderColor(borderColor?: BoxColorType) {
+    if (borderColor === this.borderColor) return;
+
     if (this.borderColor)
       this.element.classList.remove(
         `sg-box--border-color-${String(this.borderColor)}`,
       );
 
     if (borderColor)
-      this.element.classList.add(`sg-box--border-color-${String(borderColor)}`);
+      this.element.classList.add(
+        "sg-box--border",
+        `sg-box--border-color-${String(borderColor)}`,
+      );
+    else {
+      this.element.classList.remove("sg-box--border");
+    }
 
     this.borderColor = borderColor;
   }

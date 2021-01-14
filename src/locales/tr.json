@@ -89,6 +89,7 @@
       "title": "Buraya, bu kullanıcıyla alakalı bir not ekleyebilirsin ve bu alan sadece sana özeldir",
       "clickToAddANote": "Not eklemek için tıkla"
     },
+    "users": "Kullanıcılar",
     "listOfIds": "Id listesi",
     "deleting": "Siliniyor",
     "pointsWithExample": {
@@ -114,7 +115,16 @@
     "yes": "Evet",
     "workingOnIt": "Hallediyorum..",
     "seeMoreDeletionReasons": "Diğer silim sebepleri",
-    "deletedAccount": "Silinmiş hesap"
+    "deletedAccount": "Silinmiş hesap",
+    "warnings": "Uyarılar",
+    "banUser": {
+      "ban": "Ban",
+      "tutorial": "Rehber",
+      "nMinutes": "%{n} dakika",
+      "nHours": "%{n} saat",
+      "currentBan": "Mevcut ban",
+      "appliedBy": "Veren"
+    }
   },
   "popup": {
     "notificationMessages": {
@@ -191,7 +201,6 @@
     "extensionManagement": {
       "title": "Ekl. Yönetimi",
       "users": {
-        "text": "Kullanıcılar",
         "title": "Eklenti ile ilişkili kullanıcıların erişim izni ve yetkilerini buradan atayabilirsin",
         "changeUserPrivileges": "Tüm kullanıcıların yetkilerini değiştir",
         "revoke": "Kaldır",

@@ -57,7 +57,7 @@ iframe {
       content: "Reset";
       background: none;
       color: #fff;
-      font-family: "ProximaNova", Arial;
+      font-family: "ProximaNova", Arial, sans-serif;
       font-size: 0.75rem;
       height: unset;
       position: unset;
@@ -482,7 +482,6 @@ blockquote {
     border: none;
     text-align: center;
     border-radius: 50px;
-    display: block;
     height: 26px;
     overflow: hidden;
     padding: 0;
@@ -493,7 +492,7 @@ blockquote {
     justify-content: center;
     align-items: center;
 
-    &::after {
+    &:after {
       content: attr(data-label);
       position: absolute;
       font-weight: bold;

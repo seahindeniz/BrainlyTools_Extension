@@ -89,6 +89,7 @@
       "title": "Add a private note specific to this user and only visible to you",
       "clickToAddANote": "Click to add a note"
     },
+    "users": "Users",
     "listOfIds": "List of IDs",
     "deleting": "Deleting",
     "pointsWithExample": {
@@ -115,7 +116,6 @@
     "workingOnIt": "Working on it...",
     "seeMoreDeletionReasons": "See more deletion reasons",
     "deletedAccount": "Deleted account",
-    "users": "Users",
     "warnings": "Warnings",
     "banUser": {
       "ban": "Ban",

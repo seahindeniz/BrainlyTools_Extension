@@ -10,6 +10,11 @@ iframe {
 @import "~viewerjs";
 @import "~tippy.js/dist/tippy", "~tippy.js/themes/light";
 
+.smooth-transition {
+  transition-duration: 0.9s;
+  transition-property: all;
+}
+
 .tippy-box[data-theme~="light"] {
   padding: 12px 24px;
   border-radius: 8px;

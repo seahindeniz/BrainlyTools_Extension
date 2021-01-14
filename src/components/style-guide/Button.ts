@@ -47,7 +47,14 @@ export type ButtonColorType =
     }
   | {
       type: "outline";
-      toggle?: "peach" | "mustard" | "blue" | "mint" | null;
+      toggle?:
+        | "peach"
+        | "mustard"
+        | "blue"
+        // Extra
+        | "mint"
+        | "gray"
+        | null;
       whiteBg?: boolean;
     };
 

@@ -114,7 +114,17 @@ export default {
     yes: "Yes",
     workingOnIt: "Working on it...",
     seeMoreDeletionReasons: "See more deletion reasons",
-    deletedAccount: "Deleted account"
+    deletedAccount: "Deleted account",
+    users: "Users",
+    warnings: "Warnings",
+    banUser: {
+      ban: "Ban",
+      tutorial: "Tutorial",
+      nMinutes: "%{n} minutes",
+      nHours: "%{n} hours",
+      currentBan: "Current ban",
+      appliedBy: "Applied by"
+    }
   },
   popup: {
     notificationMessages: {
@@ -191,7 +201,6 @@ export default {
     extensionManagement: {
       title: "Ext. Management",
       users: {
-        text: "Users",
         title: "You can set the extension user's permission and privileges",
         changeUserPrivileges: "Change all users' privileges",
         revoke: "Revoke",

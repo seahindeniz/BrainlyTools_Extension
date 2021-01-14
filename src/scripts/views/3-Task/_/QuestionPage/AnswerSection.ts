@@ -66,6 +66,11 @@ export default class AnswerSection {
   async Init() {
     if (this.searchingForModerationBox) return;
 
+    this.main.userDetailsSection.RenderUser({
+      id: this.extraDetails.userId,
+      ...this.extraDetails.user,
+    });
+
     this.FindMainContainer();
 
     if (!this.mainContainer)

@@ -143,7 +143,7 @@ class Users {
 				<div class="message-header" title="${
           System.data.locale.popup.extensionManagement.users.title
         }">
-					<p>${System.data.locale.popup.extensionManagement.users.text}</p>
+					<p>${System.data.locale.common.users}</p>
 				</div>
         <div class="message-body">
           <div>

@@ -9,6 +9,7 @@ import QuestionPageModeratePanelController from "./ModeratePanelController";
 import type { QuestionDataType } from "./QuestionData";
 import QuestionSection from "./QuestionSection";
 import SuggestionSection from "./SuggestionSection";
+import UserDetailsSection from "./UserDetailsSection/UserDetailsSection";
 
 export default class QuestionPage {
   answerSections: {
@@ -25,7 +26,8 @@ export default class QuestionPage {
   moderatePanelController?: QuestionPageModeratePanelController;
   private liveModerationFeed: LiveModerationFeed;
   answerContainers: HTMLDivElement[];
-  suggestionSection?: SuggestionSection;
+  private suggestionSection?: SuggestionSection;
+  userDetailsSection: UserDetailsSection;
 
   constructor() {
     this.answerSections = {
@@ -41,6 +43,7 @@ export default class QuestionPage {
       this.FindQuestionContainer();
       this.SetQuestionData();
 
+      this.userDetailsSection = new UserDetailsSection();
       this.suggestionSection = new SuggestionSection();
 
       this.ObserveForSections();

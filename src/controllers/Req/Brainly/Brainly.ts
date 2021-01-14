@@ -126,7 +126,8 @@ export default class Brainly extends Request {
       this.headers = tempHeaders;
     }
 
-    if (!(tokens instanceof Object)) throw Error("Can't set tokens");
+    if (!tokens?.fields || !tokens?.key || !tokens?.lock)
+      throw Error("Can't set tokens");
 
     return {
       "data[_Token][key]": tokens.key,
@@ -430,6 +431,14 @@ export default class Brainly extends Request {
 
   desktop_view() {
     return this.P("desktop_view");
+  }
+
+  bans() {
+    return this.P("bans");
+  }
+
+  ban() {
+    return this.P("ban");
   }
 }
 

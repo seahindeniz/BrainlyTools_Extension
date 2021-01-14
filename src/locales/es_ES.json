@@ -89,6 +89,7 @@
       "title": "Agregar una nota privada específica para este usuario y solo visible para ti",
       "clickToAddANote": "Haga clic para agregar una nota"
     },
+    "users": "Usuarios",
     "listOfIds": "Lista de IDs",
     "deleting": "Eliminación",
     "pointsWithExample": {
@@ -114,7 +115,16 @@
     "yes": "Sí",
     "workingOnIt": "Trabajando en ello...",
     "seeMoreDeletionReasons": "Ver más motivos de eliminación",
-    "deletedAccount": "Cuenta eliminada"
+    "deletedAccount": "Cuenta eliminada",
+    "warnings": "Advertencias",
+    "banUser": {
+      "ban": "Ban",
+      "tutorial": "Tutorial",
+      "nMinutes": "%{n} minutos",
+      "nHours": "%{n} horas",
+      "currentBan": "Prohibición actual",
+      "appliedBy": "Aplicado por"
+    }
   },
   "popup": {
     "notificationMessages": {
@@ -191,7 +201,6 @@
     "extensionManagement": {
       "title": "Gestión Ext.",
       "users": {
-        "text": "Usuarios",
         "title": "Puede configurar los permisos y privilegios del usuario de la extensión",
         "changeUserPrivileges": "Cambiar los privilegios de todos los usuarios",
         "revoke": "Revocar",

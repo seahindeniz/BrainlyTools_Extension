@@ -3,6 +3,7 @@ import LiveModerationFeed, {
 } from "@BrainlyReq/LiveModerationFeed";
 import HideElement from "@root/helpers/HideElement";
 import WaitForElement from "@root/helpers/WaitForElement";
+import TodaysActions from "@root/scripts/views/1-Home/_/TodaysActions";
 import { Spinner } from "@style-guide";
 import AnswerSection from "./AnswerSection";
 import QuestionPageModeratePanelController from "./ModeratePanelController";
@@ -28,6 +29,7 @@ export default class QuestionPage {
   answerContainers: HTMLDivElement[];
   private suggestionSection?: SuggestionSection;
   userDetailsSection: UserDetailsSection;
+  todaysActions: TodaysActions;
 
   constructor() {
     this.answerSections = {
@@ -45,6 +47,7 @@ export default class QuestionPage {
 
       this.userDetailsSection = new UserDetailsSection();
       this.suggestionSection = new SuggestionSection();
+      this.todaysActions = new TodaysActions();
 
       this.ObserveForSections();
 

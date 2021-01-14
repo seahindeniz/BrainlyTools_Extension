@@ -69,6 +69,9 @@ export default class BanUserSection {
             text: System.data.locale.common.chooseAnOption,
           },
           ...banTypes.map(banType => {
+            if (banType.localeVal && !System.checkBrainlyP(137))
+              return undefined;
+
             const text = System.data.locale.common.banUser[
               banType.locale
             ].replace("%{n}", banType.localeVal);

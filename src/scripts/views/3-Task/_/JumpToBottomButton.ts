@@ -29,7 +29,7 @@ export default class JumpToBottomButton {
       style: {
         position: "fixed",
         bottom: "5px",
-        right: "5px",
+        left: "5px",
       },
     });
 

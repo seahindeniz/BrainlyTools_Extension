@@ -73,6 +73,13 @@ export default class TodaysActions {
 
       if (!node) return;
 
+      userInfoContainer.firstElementChild?.nextElementSibling?.classList.remove(
+        "sg-content-box--spaced-top-xxsmall",
+      );
+      userInfoContainer.firstElementChild?.nextElementSibling?.classList.add(
+        "sg-content-box--spaced-bottom-xxsmall",
+      );
+
       InsertAfter(node, userInfoContainer.firstElementChild);
     });
   }

@@ -44,7 +44,7 @@ export default class MoreSection {
   }
 
   InitActionsAfterUserProfileFetched() {
-    if (!this.main.banDetails) {
+    if (!this.main.banDetails && System.checkBrainlyP([136, 137])) {
       if (!this.sections.banUser)
         this.sections.banUser = new BanUserSection(this);
     } else {

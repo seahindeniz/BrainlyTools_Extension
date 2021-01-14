@@ -1,3 +1,7 @@
+import SpaceBetween, {
+  SpaceBetweenPropsType,
+} from "@style-guide/utils/SpaceBetween";
+
 type DragEventHandler = (event: DragEvent) => void;
 type EventHandler = (event: Event) => void;
 type KeyboardEventHandler = (event: KeyboardEvent) => void;
@@ -20,6 +24,7 @@ export type CommonComponentPropsType = {
   onTouchStart?: TouchEvent | TouchEvent[];
   onContextMenu?: MouseEventHandler | MouseEventHandler[];
   style?: Partial<CSSStyleDeclaration>;
+  spaceBetween?: SpaceBetweenPropsType;
 } & ObjectAnyType;
 
 const NAMESPACES = {
@@ -62,6 +67,8 @@ export default function SetProps(
 
       if (propVal)
         element.addEventListener(propName.substring(2).toLowerCase(), propVal);
+    } else if (propName === "spaceBetween") {
+      element.classList.add(SpaceBetween(propVal));
     } else if (typeof propVal === "object") {
       SetProps(element[propName], propVal);
     } else if (element instanceof SVGElement) {

@@ -1,4 +1,4 @@
-import Action from "@BrainlyReq/Brainly";
+import Brainly from "@BrainlyReq/Brainly";
 
 export type WarningType = {
   relativeTime: string;
@@ -12,7 +12,11 @@ export type WarningType = {
 };
 
 export default async function GetWarnings(id: number): Promise<WarningType[]> {
-  const page: string = await new Action().users().view_user_warns().P(id).GET();
+  const page: string = await new Brainly()
+    .users()
+    .view_user_warns()
+    .P(id)
+    .GET();
 
   const parser = new DOMParser();
   const doc = parser.parseFromString(page, "text/html");

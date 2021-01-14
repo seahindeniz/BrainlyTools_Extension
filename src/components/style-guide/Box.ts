@@ -88,14 +88,14 @@ export default class {
       className,
     );
 
-    this.ChangeColor(color);
-
     this.element = CreateElement({
       tag: "div",
       className: classes,
       children,
       ...props,
     });
+
+    this.ChangeColor(color);
   }
 
   ChangeColor(color?: BoxColorType) {

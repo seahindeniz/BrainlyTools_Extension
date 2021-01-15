@@ -89,6 +89,7 @@
       "title": "Kamu dapat menambahkan catatan pribadi disini dan ini itu hanya akan berhubungan dengan user ini saja",
       "clickToAddANote": "Klik untuk menambahkan catatan"
     },
+    "users": "Pengguna",
     "listOfIds": "Daftar ID",
     "deleting": "Dihapus",
     "pointsWithExample": {
@@ -114,7 +115,16 @@
     "yes": "Ya",
     "workingOnIt": "Sedang mengerjakannya ..",
     "seeMoreDeletionReasons": "Lihat lebih banyak alasan penghapusan",
-    "deletedAccount": "Akun yang dihapus"
+    "deletedAccount": "Akun yang dihapus",
+    "warnings": "Peringatan",
+    "banUser": {
+      "ban": "Ban",
+      "tutorial": "Tutorial",
+      "nMinutes": "%{n} menit",
+      "nHours": "%{n} jam",
+      "currentBan": "Larangan saat ini",
+      "appliedBy": "Diterapkan oleh"
+    }
   },
   "popup": {
     "notificationMessages": {
@@ -191,7 +201,6 @@
     "extensionManagement": {
       "title": "Ext. Management",
       "users": {
-        "text": "Pengguna",
         "title": "Kamu dapat mengatur izin dan privileges pengguna ekstensi",
         "changeUserPrivileges": "Mengubah privilege semua pengguna",
         "revoke": "Hapus",

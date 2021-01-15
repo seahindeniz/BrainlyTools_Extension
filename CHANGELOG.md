@@ -4,6 +4,25 @@ All notable changes to this project will be documented in this file.
 
 _Release dates are based on GMT+0 timezone_
 
+## [7.22.0] - 2021.01.15
+
+### Added
+
+- Kullanıcıyı Yeni Sekmede Açma [#160]
+- Add a banning section on the page of a question [#377]
+
+### Changed
+
+- Report reasons used to report questions/answers/comment are displayed under
+  the correction reports category. [#382]
+- Quick delete buttons don't show up over answers with LaTeX content [sometimes]
+  & another bug in the console tab. [#383]
+
+[#160]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/160
+[#377]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/377
+[#382]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/382
+[#383]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/383
+
 ## [7.21.0] - 2021.01.12
 
 ### Added
@@ -23,6 +42,7 @@ _Release dates are based on GMT+0 timezone_
 - The fetch is reseted if clicks to change the page [#373]
 - Quick delete buttons doesn't work on the comments page [#376]
 - Image viewer flip buttons should adapt to rotated images [#378]
+- The content length filter is not working properly [#380]
 - Problem with subject change in Reported Content [#381]
 
 [#368]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/368
@@ -33,6 +53,7 @@ _Release dates are based on GMT+0 timezone_
 [#373]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/373
 [#376]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/376
 [#378]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/378
+[#380]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/380
 [#381]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/381
 
 ## [7.20.1] - 2021.01.08

@@ -66,7 +66,7 @@ class ModerationPanel {
           constructor: NoticeBoard,
           condition:
             System.checkUserP(20) ||
-            System.data.Brainly.userData.extension.noticeBoard !== null,
+            System.data.Brainly.userData.extension?.noticeBoard,
         },
         {
           constructor: MassMessageSender,

@@ -137,6 +137,8 @@ export default class ServerReq {
       this.Auth(true).then(System.SetUserData.bind(System));
     }
 
+    if (!System.data.Brainly.userData.extension) return;
+
     System.Log("Auth OK!");
   }
 
@@ -159,12 +161,15 @@ export default class ServerReq {
 
     if (!resAuth || !(resAuth instanceof Object) || !resAuth.data) {
       System.changeBadgeColor("error");
-      notification({
-        type: "error",
-        sticky: true,
-        noRemoveOnClick: true,
-        html: `${System.data.locale.core.notificationMessages.extensionServerError}<br>${System.data.locale.core.notificationMessages.ifErrorPersists}`,
-      });
+      // notification({
+      //   type: "error",
+      //   sticky: true,
+      //   noRemoveOnClick: true,
+      //   html: `${System.data.locale.core.notificationMessages.extensionServerError}<br>${System.data.locale.core.notificationMessages.ifErrorPersists}`,
+      // });
+      console.error(
+        `${System.data.locale.core.notificationMessages.extensionServerError}<br>${System.data.locale.core.notificationMessages.ifErrorPersists}`,
+      );
 
       return undefined;
     }
@@ -199,7 +204,7 @@ export default class ServerReq {
 
   GetDeleteReasons() {
     return this.deleteReasons()
-      .P(System.data.Brainly.userData.extension.deleteReasonLastModifiedTime)
+      .P(System.data.Brainly.userData.extension?.deleteReasonLastModifiedTime)
       .GET();
   }
 

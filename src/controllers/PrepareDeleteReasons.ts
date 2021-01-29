@@ -7,7 +7,9 @@ async function GetAndPrepareDeleteReasons() {
   const resDeleteReasons = await new ServerReq().GetDeleteReasons();
   const { data } = resDeleteReasons;
 
-  if (data.deleteReasons.empty) {
+  if (!data) return undefined;
+
+  if (data?.deleteReasons.empty) {
     notification({
       type: "error",
       html: System.data.locale.core.notificationMessages.cantFetchDeleteReasons,

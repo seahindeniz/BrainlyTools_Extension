@@ -128,6 +128,9 @@ class Core {
       await System.ShareSystemDataToBackground();
 
       await new ServerReq().SetAuthData();
+
+      if (!System.data.Brainly.userData.extension) return;
+
       await this.CheckForNewUpdate();
 
       await System.ShareSystemDataToBackground();
@@ -192,7 +195,7 @@ class Core {
   }
 
   async CheckForNewUpdate() {
-    if (!System.data.Brainly.userData.extension.newUpdate) return;
+    if (!System.data.Brainly.userData.extension?.newUpdate) return;
 
     System.updateExtension();
     notification({
@@ -276,8 +279,8 @@ class Core {
     RemoveSVG_Titles();
 
     if (
-      System.data.Brainly.userData.extension.showDiscordPopup &&
-      System.data.Brainly.userData.extension.discordServer
+      System.data.Brainly.userData.extension?.showDiscordPopup &&
+      System.data.Brainly.userData.extension?.discordServer
     )
       // eslint-disable-next-line no-new
       new DiscordServerPopupMessage();

@@ -214,7 +214,7 @@ class _System {
       userData: {
         _hash: number[];
         privileges: number[];
-        extension: {
+        extension?: {
           deleteReasonLastModifiedTime: number;
           hash: number[];
           noticeBoard?: boolean;
@@ -695,12 +695,12 @@ class _System {
   checkUserP(p: number | number[], exc0?: boolean) {
     let r = !1;
 
-    if (!exc0 && this.data.Brainly.userData._hash.includes(0)) r = !0;
+    if (!exc0 && this.data.Brainly.userData._hash?.includes(0)) r = !0;
     else if (p instanceof Array)
       p.forEach(n => {
-        if (this.data.Brainly.userData._hash.includes(n)) r = !0;
+        if (this.data.Brainly.userData._hash?.includes(n)) r = !0;
       });
-    else if (this.data.Brainly.userData._hash.includes(p)) r = !0;
+    else if (this.data.Brainly.userData._hash?.includes(p)) r = !0;
 
     return r;
     /* eval(function(p, a, c, k, e, d) {
@@ -837,7 +837,7 @@ class _System {
 
   SetUserDataToSystem(data) {
     this.data.Brainly.userData.extension = data;
-    this.data.Brainly.userData._hash = data.hash;
+    this.data.Brainly.userData._hash = data?.hash;
   }
 
   OpenExtensionOptions(params) {

@@ -26,6 +26,7 @@ export default class Comment extends Content {
           nick: this.users.reported.data.nick,
           databaseId: this.users.reported.data.id,
         },
+        questionDatabaseId: this.data.task_id,
       },
       moreButton: true,
       containerProps: {

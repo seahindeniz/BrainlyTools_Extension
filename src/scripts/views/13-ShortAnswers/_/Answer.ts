@@ -191,6 +191,7 @@ export default class Answer {
       content: {
         databaseId: this.answerId,
         author: this.author,
+        questionDatabaseId: this.questionId,
       },
       containerProps: {
         className: "ext-qdb-container",

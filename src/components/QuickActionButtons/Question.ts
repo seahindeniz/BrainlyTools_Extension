@@ -1,5 +1,5 @@
 import type { RemoveQuestionReqDataType } from "@BrainlyReq/RemoveQuestion";
-import { RemoveQuestion } from "@BrainlyReq";
+import { CloseModerationTicket, RemoveQuestion } from "@BrainlyReq";
 import DeleteButton from "./ActionButton/DeleteButton";
 import QuickActionButtons, {
   ContentType,
@@ -63,6 +63,8 @@ export default class QuickActionButtonsForQuestion extends QuickActionButtons {
 
       await System.TestDelay(); */
       const resDelete = await RemoveQuestion(data, this.content.reported);
+
+      CloseModerationTicket(this.content.databaseId);
 
       if (resDelete?.success === false) {
         throw resDelete.message

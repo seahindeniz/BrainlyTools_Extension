@@ -1,4 +1,4 @@
-import { RemoveComment } from "@BrainlyReq";
+import { CloseModerationTicket, RemoveComment } from "@BrainlyReq";
 import type { RemoveCommentReqDataType } from "@BrainlyReq/RemoveComment";
 import DeleteButton from "./ActionButton/DeleteButton";
 import QuickActionButtons, {
@@ -37,6 +37,8 @@ export default class QuickActionButtonsForComment extends QuickActionButtons {
   async DeleteContent(data: RemoveCommentReqDataType) {
     try {
       const resDelete = await RemoveComment(data, this.content.reported);
+
+      CloseModerationTicket(this.content.questionDatabaseId);
 
       if (resDelete?.success === false) {
         throw resDelete.message

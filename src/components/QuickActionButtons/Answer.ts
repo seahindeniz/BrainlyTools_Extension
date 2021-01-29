@@ -1,4 +1,4 @@
-import { RemoveAnswer } from "@BrainlyReq";
+import { CloseModerationTicket, RemoveAnswer } from "@BrainlyReq";
 import type { RemoveAnswerReqDataType } from "@BrainlyReq/RemoveAnswer";
 import AskForCorrectionButton from "./ActionButton/AskForCorrectionButton";
 import DeleteButton from "./ActionButton/DeleteButton";
@@ -112,6 +112,8 @@ export default class QuickActionButtonsForAnswer extends QuickActionButtons {
   async DeleteContent(data: RemoveAnswerReqDataType) {
     try {
       const resDelete = await RemoveAnswer(data, this.content.reported);
+
+      CloseModerationTicket(this.content.questionDatabaseId);
 
       if (resDelete?.success === false) {
         throw resDelete.message

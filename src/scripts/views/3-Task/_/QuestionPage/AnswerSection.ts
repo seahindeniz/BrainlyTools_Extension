@@ -310,6 +310,7 @@ export default class AnswerSection {
           nick: this.extraDetails.user.nick,
           databaseId: this.extraDetails.userId,
         },
+        questionDatabaseId: this.main.data.id,
       },
       moreButton: true,
       onDelete: this.Deleted.bind(this),

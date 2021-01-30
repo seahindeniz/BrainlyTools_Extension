@@ -7,7 +7,8 @@ type ExtraBoxColorType =
   | "lavender-secondary"
   | "megaman"
   | "surf-crest"
-  | "mustard-secondary";
+  | "mustard-secondary"
+  | "strips";
 
 export type BoxColorType =
   | "dark"

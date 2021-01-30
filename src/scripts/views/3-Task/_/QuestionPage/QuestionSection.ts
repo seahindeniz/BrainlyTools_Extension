@@ -55,7 +55,7 @@ export default class QuestionSection {
 
     try {
       this.moderationBox = (await WaitForElement(
-        ":scope > div > .sg-box > .sg-flex",
+        `:scope > div[class*="empty"] > .sg-box > .sg-flex`,
         { parent: this.main.questionContainer, noError: showError },
       )) as HTMLDivElement;
     } catch (error) {
@@ -127,24 +127,26 @@ export default class QuestionSection {
   }
 
   RenderQuickActionButtons() {
-    this.quickActionButtons = new QuickActionButtonsForQuestion({
-      content: {
-        databaseId: this.main.data.id,
-        hasVerifiedAnswers: !!this.approvedAnswers.length,
-        reported: this.main.data.isMarkedAbuse,
-        author: {
-          nick: window.jsData.question.author.nick,
-          databaseId: window.jsData.question.author.id,
+    if (!this.quickActionButtons) {
+      this.quickActionButtons = new QuickActionButtonsForQuestion({
+        content: {
+          databaseId: this.main.data.id,
+          hasVerifiedAnswers: !!this.approvedAnswers.length,
+          reported: this.main.data.isMarkedAbuse,
+          author: {
+            nick: window.jsData.question.author.nick,
+            databaseId: window.jsData.question.author.id,
+          },
         },
-      },
-      moreButton: true,
-      onDelete: this.Deleted.bind(this),
-      onConfirm: this.Confirmed.bind(this),
-      button: {
-        size: "s",
-        marginLeft: "xs",
-      },
-    });
+        moreButton: true,
+        onDelete: this.Deleted.bind(this),
+        onConfirm: this.Confirmed.bind(this),
+        button: {
+          size: "s",
+          marginLeft: "xs",
+        },
+      });
+    }
 
     InsertAfter(
       this.quickActionButtons.container,

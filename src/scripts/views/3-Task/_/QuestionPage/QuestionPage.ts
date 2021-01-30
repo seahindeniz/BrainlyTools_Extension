@@ -45,7 +45,7 @@ export default class QuestionPage {
       this.FindQuestionContainer();
       this.SetQuestionData();
 
-      this.userDetailsSection = new UserDetailsSection();
+      this.userDetailsSection = new UserDetailsSection(this);
       this.suggestionSection = new SuggestionSection();
       this.todaysActions = new TodaysActions();
 

@@ -20,6 +20,26 @@
   z-index: 1;
 }
 
+.ext-users-container {
+  display: grid;
+  grid-gap: 8px;
+  grid-auto-flow: dense;
+  grid-column-start: 1;
+  width: -webkit-fill-available;
+
+  @media (max-width: 1024px) {
+    & {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 1024px) {
+    & {
+      margin-bottom: 4px;
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+}
+
 .ext_actions {
   z-index: 2;
   width: 35px;

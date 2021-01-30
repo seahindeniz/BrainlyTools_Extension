@@ -124,7 +124,8 @@
       "nHours": "%{n} saat",
       "currentBan": "Mevcut ban",
       "appliedBy": "Veren"
-    }
+    },
+    "bans": "Ban"
   },
   "popup": {
     "notificationMessages": {

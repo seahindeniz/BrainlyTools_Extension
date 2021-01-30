@@ -124,7 +124,8 @@
       "nHours": "%{n} jam",
       "currentBan": "Larangan saat ini",
       "appliedBy": "Diterapkan oleh"
-    }
+    },
+    "bans": "Bans"
   },
   "popup": {
     "notificationMessages": {
@@ -715,7 +716,7 @@
     },
     "userWarningsList": {
       "name": "Peringatan terakhir",
-      "showRest": "Show rest"
+      "showRest": "Tunjukkan semua peringatan"
     },
     "goToOldProfilePage": "Buka halaman profil lama",
     "comments": "Komentar"

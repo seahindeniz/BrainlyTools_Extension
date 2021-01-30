@@ -124,7 +124,8 @@
       "nHours": "%{n} hours",
       "currentBan": "Current ban",
       "appliedBy": "Applied by"
-    }
+    },
+    "bans": "Bans"
   },
   "popup": {
     "notificationMessages": {

@@ -124,7 +124,8 @@
       "nHours": "%{n} horas",
       "currentBan": "Bloqueio atual",
       "appliedBy": "Aplicado por"
-    }
+    },
+    "bans": "Bans"
   },
   "popup": {
     "notificationMessages": {

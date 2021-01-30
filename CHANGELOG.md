@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 
 _Release dates are based on GMT+0 timezone_
 
+## [7.23.0] - 2021.01.30
+
+### Added
+
+- An ignore comment button/option beside comments to ignore them while deleting
+  comments using the 'Delete All Comments' option. [#388]
+
+### Changed
+
+- Quick moderation buttons are missing over questions. \[sometimes] [#392]
+- The 'Users' ban section that's shown beside questions isn't visible on (some)
+  mobile devices.
+
+[#388]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/388
+[#392]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/392
+[#393]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/393
+
 ## [7.22.0] - 2021.01.15
 
 ### Added

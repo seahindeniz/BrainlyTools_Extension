@@ -124,7 +124,8 @@
       "nHours": "%{n} horas",
       "currentBan": "Prohibición actual",
       "appliedBy": "Aplicado por"
-    }
+    },
+    "bans": "Prohibiciones"
   },
   "popup": {
     "notificationMessages": {

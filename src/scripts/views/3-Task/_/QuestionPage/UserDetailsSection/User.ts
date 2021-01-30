@@ -128,14 +128,19 @@ export default class User {
   }
 
   private async FetchProfileDetails() {
-    const profilePageReq = GetProfilePage(this.data.id);
+    try {
+      const profilePageReq = GetProfilePage(this.data.id);
 
-    this.profilePageHTML = await profilePageReq;
+      this.profilePageHTML = await profilePageReq;
+
+      this.ParseWarningCount();
+      this.ParseBanCount();
+      this.ParseBanDetails();
+    } catch (error) {
+      console.error(error);
+    }
 
     this.HideSpinner();
-    this.ParseWarningCount();
-    this.ParseBanCount();
-    this.ParseBanDetails();
   }
 
   private HideSpinner() {

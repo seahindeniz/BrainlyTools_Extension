@@ -1,6 +1,7 @@
 import Build from "@root/helpers/Build";
 import { Flex, Input, Text } from "@style-guide";
 import type { FlexElementType } from "@style-guide/Flex";
+import { DateTime } from "luxon";
 import type FiltersClassType from "./FiltersPanel";
 
 export default class Reporter {
@@ -46,7 +47,7 @@ export default class Reporter {
                 marginBottom: "xxs",
               }),
               (this.startingDateInput = new Input({
-                type: "date",
+                type: "datetime-local",
                 fullWidth: true,
                 title: `${System.data.locale.reportedContents.filtersPanel.filters.reportingDate.startingDate}..`,
                 onChange: [
@@ -61,7 +62,7 @@ export default class Reporter {
                 alignItems: "center",
               }),
               (this.endingDateInput = new Input({
-                type: "date",
+                type: "datetime-local",
                 fullWidth: true,
                 placeholder: `${System.data.locale.reportedContents.filtersPanel.filters.reportingDate.endingDate}..`,
                 onChange: [
@@ -81,7 +82,9 @@ export default class Reporter {
 
   ResetDates() {
     this.startingDateInput.input.value = "";
-    this.endingDateInput.input.valueAsDate = new Date();
+    this.endingDateInput.input.value = DateTime.local().toFormat(
+      "yyyy-MM-dd'T'HH:mm",
+    );
     this.startingDateInput.input.max = this.endingDateInput.input.value;
     this.endingDateInput.input.max = this.endingDateInput.input.value;
   }

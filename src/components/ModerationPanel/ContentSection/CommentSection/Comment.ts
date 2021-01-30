@@ -14,6 +14,7 @@ import {
   Breadcrumb,
   Button,
   Flex,
+  Icon,
   SeparatorHorizontal,
   Text,
 } from "@style-guide";
@@ -22,25 +23,28 @@ import QuickActionButtonsForComment from "../QuickActionButtons/Comment";
 import type CommentSectionClassType from "./CommentSection";
 
 export default class Comment {
-  main: CommentSectionClassType;
-  data: CommentDataInTicketType;
   #container: FlexElementType;
-  owner: {
+  private owner: {
     data: UsersDataInReportedContentsType;
     profileLink: string;
     avatarLink: string;
   };
 
-  contentBox?: Box;
-  deleteSection: DeleteSection;
-  quickActionButtons?: QuickActionButtonsForComment;
-  reportDetailsBox: FlexElementType;
-  contentContainer: FlexElementType;
-  contentContainerWrapper: FlexElementType;
-  deleteSectionContainer: FlexElementType;
-  deleteButton: Button;
+  private contentBox?: Box;
+  private deleteSection: DeleteSection;
+  private quickActionButtons?: QuickActionButtonsForComment;
+  private reportDetailsBox: FlexElementType;
+  private contentContainer: FlexElementType;
+  private contentContainerWrapper: FlexElementType;
+  private deleteSectionContainer: FlexElementType;
+  private ignoreButton: Button;
+  private ignoreButtonIcon: Icon;
+  ignored: boolean;
 
-  constructor(main: CommentSectionClassType, data: CommentDataInTicketType) {
+  constructor(
+    private main: CommentSectionClassType,
+    public data: CommentDataInTicketType,
+  ) {
     this.main = main;
     this.data = data;
   }
@@ -49,7 +53,6 @@ export default class Comment {
     if (!this.#container) {
       this.SetOwner();
       this.Render();
-      this.BindListener();
     }
 
     return this.#container;
@@ -84,6 +87,9 @@ export default class Comment {
         borderBottom: !this.data.report && !this.data.deleted,
         marginTop: "xxs",
         marginBottom: "xxs",
+        onTouchStart: this.ShowQuickActionButtons.bind(this),
+        onMouseEnter: this.ShowQuickActionButtons.bind(this),
+        onMouseLeave: this.HideQuickActionButtons.bind(this),
       }),
       [
         [
@@ -116,6 +122,23 @@ export default class Comment {
                             alignItems: "center",
                           }),
                           [
+                            System.checkUserP(37) &&
+                              !this.data.deleted && [
+                                Flex({
+                                  marginRight: "xs",
+                                  className: "ext-corner-button-container",
+                                }),
+                                (this.ignoreButton = new Button({
+                                  size: "xs",
+                                  type: "transparent-light",
+                                  iconOnly: true,
+                                  icon: (this.ignoreButtonIcon = new Icon({
+                                    color: "adaptive",
+                                    type: "unseen",
+                                  })),
+                                  onClick: this.ToggleIgnoredState.bind(this),
+                                })),
+                              ],
                             [
                               Flex({ marginRight: "xs" }),
                               new Avatar({
@@ -243,21 +266,32 @@ export default class Comment {
     this.contentContainer.prepend(this.reportDetailsBox);
   }
 
-  BindListener() {
-    if (this.data.deleted || this.main.main.deleted) return;
+  private ToggleIgnoredState() {
+    if (this.data.deleted) return;
 
-    this.#container.addEventListener(
-      "mouseenter",
-      this.ShowQuickActionButtons.bind(this),
-    );
-    this.#container.addEventListener(
-      "mouseleave",
-      this.HideQuickActionButtons.bind(this),
-    );
+    this.ignored = !this.ignored;
+
+    this.ChangeIgnoredState();
+  }
+
+  ChangeIgnoredState() {
+    if (this.ignored !== true) {
+      this.ignoreButtonIcon?.ChangeType("unseen");
+      this.ignoreButton?.ChangeType({ type: "transparent-light" });
+      this.contentBox?.ChangeColor();
+      this.ShowQuickActionButtons();
+
+      return;
+    }
+
+    this.HideQuickActionButtons();
+    this.contentBox?.ChangeColor("strips");
+    this.ignoreButtonIcon?.ChangeType("seen");
+    this.ignoreButton?.ChangeType({ type: "outline" });
   }
 
   ShowQuickActionButtons() {
-    if (this.data.deleted || this.main.main.deleted) return;
+    if (this.ignored || this.data.deleted || this.main.main.deleted) return;
 
     if (!this.quickActionButtons) {
       this.RenderQuickActionButtons();
@@ -341,20 +375,22 @@ export default class Comment {
 
   async Delete(data: RemoveCommentReqDataType) {
     try {
+      // const resDelete: import("@BrainlyAction").CommonResponseDataType = {
+      //   success: true,
+      //   // message: "Failed",
+      // };
+
+      // TODO delete this comment
+      // console.log({
+      //   ...data,
+      //   model_id: this.data.id,
+      // });
+      // await System.TestDelay();
+
       const resDelete = await new Action().RemoveComment({
         ...data,
         model_id: this.data.id,
       });
-
-      // TODO delete this comment
-      /* console.log({
-        ...data,
-        model_id: this.data.id,
-      });
-      const resDelete: import("@BrainlyAction").CommonResponseDataType = {
-        success: true,
-      };
-      await System.TestDelay(); */
 
       if (!resDelete) throw Error("Empty response");
 

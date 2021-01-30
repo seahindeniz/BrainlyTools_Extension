@@ -82,7 +82,7 @@ export default class DeleteCommentsSection {
 
   DeleteSectionButtonClicked() {
     this.removableComments = this.main.comments.filter(
-      comment => !comment.data.deleted,
+      comment => !comment.data.deleted && !comment.ignored,
     );
     this.removableCommentsLength = this.removableComments.length;
 

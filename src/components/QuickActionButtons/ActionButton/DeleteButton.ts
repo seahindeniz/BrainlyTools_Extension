@@ -62,8 +62,8 @@ export default class DeleteButton extends ActionButton {
       reason: this.deleteReason.text,
       reason_title: this.deleteReason.title,
       give_warning: giveWarning,
-      take_points: giveWarning,
-      return_points: giveWarning,
+      take_points: true,
+      return_points: false,
     });
   }
 }

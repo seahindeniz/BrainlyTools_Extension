@@ -117,6 +117,7 @@ export default {
     seeMoreDeletionReasons: "See more deletion reasons",
     deletedAccount: "Deleted account",
     warnings: "Warnings",
+    bans: "Bans",
     banUser: {
       ban: "Ban",
       tutorial: "Tutorial",

@@ -118,7 +118,7 @@ export default class BanUserSection {
     await BanUser(this.main.main.data.id, banTypeEntry.banType, this.tokens);
     await this.main.main.Init();
 
-    if (!this.main.main.banDetails) {
+    if (!this.main.main.activeBanDetails) {
       notification({
         type: "error",
         text: System.data.locale.common.notificationMessages.somethingWentWrong,

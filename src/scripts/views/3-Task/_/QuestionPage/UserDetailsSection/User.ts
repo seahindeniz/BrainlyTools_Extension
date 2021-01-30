@@ -33,8 +33,9 @@ export default class User {
   private moreSection?: MoreSection;
   private spinner: HTMLDivElement;
   private userDetailContainer: FlexElementType;
-  banDetails?: BanDetailsType;
+  activeBanDetails?: BanDetailsType;
   private warningCount: string;
+  private banCount: string;
   profilePageHTML: string;
   profilePagePromise: Promise<void>;
   private warningStatusText: Text;
@@ -43,6 +44,8 @@ export default class User {
   private banTypeContainer: TextElement<"div">;
   private moreButtonContainer: FlexElementType;
   private detailContainer: FlexElementType;
+  banCountContainer: TextElement<"div">;
+  banCountText: Text;
 
   constructor(
     private main: UserDetailsSectionClassType,
@@ -62,7 +65,8 @@ export default class User {
 
     this.moreSection?.InitActionsAfterUserProfileFetched();
     this.RenderWarningStatus();
-    this.RenderBanStatus();
+    this.RenderBanCount();
+    this.RenderActiveBanDetails();
   }
 
   private Render() {
@@ -130,6 +134,7 @@ export default class User {
 
     this.HideSpinner();
     this.ParseWarningCount();
+    this.ParseBanCount();
     this.ParseBanDetails();
   }
 
@@ -146,6 +151,15 @@ export default class User {
     // console.log("warningCount", this.warningCount);
   }
 
+  private ParseBanCount() {
+    // https://regex101.com/r/2KnREl/1
+    this.banCount = this.profilePageHTML.match(
+      /(?<=<span class="fright">.*?:<span class="orange"> ?)\d+(?=<)/,
+    )?.[0];
+
+    // console.log("banCount", this.banCount);
+  }
+
   private ParseBanDetails() {
     // https://regex101.com/r/YALcOz/2
     const banDetailMatch = this.profilePageHTML.match(
@@ -153,7 +167,7 @@ export default class User {
     );
 
     if (banDetailMatch?.length > 0) {
-      this.banDetails = banDetailMatch.groups as any;
+      this.activeBanDetails = banDetailMatch.groups as any;
     }
 
     // console.log("banDetails", banDetailMatch);
@@ -192,8 +206,39 @@ export default class User {
     this.userDetailContainer.append(this.warningStatusContainer);
   }
 
-  private RenderBanStatus() {
-    if (!this.banDetails) {
+  private RenderBanCount() {
+    if (!this.banCount) return;
+
+    if (!this.banCountContainer) {
+      this.RenderBanCountContainer();
+    }
+
+    this.banCountText.nodeValue = this.banCount;
+  }
+
+  private RenderBanCountContainer() {
+    this.banCountText = document.createTextNode("");
+
+    this.banCountContainer = TextComponent({
+      tag: "div",
+      size: "xsmall",
+      children: [
+        `${System.data.locale.common.bans}: `,
+        TextComponent({
+          tag: "span",
+          size: "xsmall",
+          weight: "bold",
+          color: "peach-dark",
+          children: this.banCountText,
+        }),
+      ],
+    });
+
+    this.userDetailContainer.append(this.banCountContainer);
+  }
+
+  private RenderActiveBanDetails() {
+    if (!this.activeBanDetails) {
       HideElement(this.banTypeContainer);
       HideElement(this.bannedByContainer);
 
@@ -203,7 +248,7 @@ export default class User {
     }
 
     if (!this.banTypeContainer) {
-      this.RenderBanDetailsContainer();
+      this.RenderActiveBanDetailsContainer();
     }
 
     this.bannedByContainer.append(
@@ -213,14 +258,14 @@ export default class User {
         size: "xsmall",
         weight: "bold",
         tag: "a",
-        href: this.banDetails.link,
+        href: this.activeBanDetails.link,
         target: "_blank",
-        children: this.banDetails.nick,
+        children: this.activeBanDetails.nick,
       }),
     );
   }
 
-  private RenderBanDetailsContainer() {
+  private RenderActiveBanDetailsContainer() {
     this.userDetailContainer.append(
       (this.banTypeContainer = TextComponent({
         tag: "div",
@@ -232,7 +277,7 @@ export default class User {
             size: "xsmall",
             weight: "bold",
             color: "peach-dark",
-            children: this.banDetails.banType,
+            children: this.activeBanDetails.banType,
           }),
         ],
       })),

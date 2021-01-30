@@ -995,8 +995,8 @@ export default class Content {
     }
 
     this.HideActionButtons();
-    this.box?.ChangeColor("surf-crest");
+    this.box?.ChangeColor("strips");
     this.ignoreButtonIcon?.ChangeType("seen");
-    this.ignoreButton?.ChangeType({ type: "transparent" });
+    this.ignoreButton?.ChangeType({ type: "outline" });
   }
 }

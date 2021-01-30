@@ -98,7 +98,7 @@ export default class QuestionPage {
   }
 
   private ObserveForSections() {
-    const mainContent = document.getElementById("main-content");
+    const mainContent = document.querySelector(".js-main-container");
 
     if (!mainContent) {
       throw Error("Can't find main-content container");

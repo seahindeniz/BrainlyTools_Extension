@@ -113,7 +113,8 @@ export default class SearchResultsModerationClassType {
     RemoveAskQuestionSection(node);
 
     const questionContainers = document.querySelectorAll(
-      `div[data-test="search-stream-wrapper"] > div, [class*="LayoutBox__box"] > .brn-fade-in-fast > div.sg-content-box__content:first-child > div`,
+      `div[data-test="search-stream-wrapper"] > div,
+      [class*="LayoutBox__box"] > .sg-animation-fade-in-fast > div.sg-content-box__content:first-child > div`,
     );
 
     if (questionContainers.length === 0) {

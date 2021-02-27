@@ -125,7 +125,7 @@
       "currentBan": "Bloqueio atual",
       "appliedBy": "Aplicado por"
     },
-    "bans": "Bans"
+    "bans": "Bloqueios"
   },
   "popup": {
     "notificationMessages": {
@@ -974,7 +974,7 @@
       "title": "Filtros",
       "name": "Filtro de denúncias"
     },
-    "contentBeforeResettingCache": "Procurou %{number_of_reports} denúncias e o cache será limpo para procurar novas denúncias, depois de confirmar isto.\nPor favor, confirme que quer continuar."
+    "contentBeforeResettingCache": "Você procurou por %{number_of_reports} denúncias e o cache será limpo para procurar novas denúncias, depois de confirmar isto.\nPor favor, confirme que quer continuar."
   },
   "moderationPanel": {
     "text": "Moderação de tarefa",

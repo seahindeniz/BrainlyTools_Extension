@@ -9,7 +9,7 @@ common:
       name: Français
       author: MichaelS, TomRh
     id:
-      progress: 99
+      progress: 100
       name: Bahasa Indonesia
       author: Zuhh, Lyden
     tr:
@@ -21,7 +21,7 @@ common:
       name: Español
       author: TomRh
     pt_BR:
-      progress: 99
+      progress: 100
       name: Português(BR)
       author: HydroXBR, Maxon, Bernard0
     pl:

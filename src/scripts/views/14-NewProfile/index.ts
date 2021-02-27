@@ -6,11 +6,7 @@ export default class NewProfile {
   private profileDetailContainer: HTMLDivElement;
   private user: { nick: string; id: number };
 
-  constructor() {
-    this.Init();
-  }
-
-  private async Init() {
+  async Init() {
     await this.FindUsernameContainer();
     this.FindProfileDetailContainer();
     this.SetUserData();
@@ -34,9 +30,13 @@ export default class NewProfile {
   }
 
   private SetUserData() {
+    const userIdMatch = location.pathname.match(/(?<=\/)(?<userId>\d+)(?<!\/)/);
+
+    if (!userIdMatch) throw new Error("Can't find user ID");
+
     this.user = {
       nick: this.usernameContainer.innerText.trim(),
-      id: Number(location.pathname.split("/").pop()),
+      id: Number(userIdMatch.groups.userId),
     };
   }
 
@@ -58,4 +58,4 @@ export default class NewProfile {
 }
 
 // eslint-disable-next-line no-new
-new NewProfile();
+new NewProfile().Init();

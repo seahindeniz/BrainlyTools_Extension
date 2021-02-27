@@ -117,7 +117,6 @@ export default {
     seeMoreDeletionReasons: "See more deletion reasons",
     deletedAccount: "Deleted account",
     warnings: "Warnings",
-    bans: "Bans",
     banUser: {
       ban: "Ban",
       tutorial: "Tutorial",
@@ -125,7 +124,8 @@ export default {
       nHours: "%{n} hours",
       currentBan: "Current ban",
       appliedBy: "Applied by"
-    }
+    },
+    bans: "Bans"
   },
   popup: {
     notificationMessages: {

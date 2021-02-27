@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import Action from "@BrainlyAction";
 import type { ModeratorDataType } from "@BrainlyReq/LiveModerationFeed";
 import { QuickActionButtonsForAnswer } from "@components";
@@ -12,6 +13,37 @@ import Hammer from "hammerjs";
 import tippy from "tippy.js";
 import type { AnswerDataType } from "./QuestionData";
 import type QuestionPageClassType from "./QuestionPage";
+
+function transformContent(content: string, replaceEscapedChars?: boolean) {
+  if (replaceEscapedChars) {
+    content = content.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
+  }
+
+  return replaceLatexWithURL(content, {
+    noTitle: true,
+  })
+    .replace(/<br ?\/?>/gi, "<br>")
+    .replace(/<\/?div>?|^\s+|\s+$|\r/gi, "")
+    .replace(/\xa0/g, "&nbsp;");
+}
+
+function transformTrial(
+  contentOnPage: string,
+  content: string,
+  state = 0,
+): boolean {
+  if (state === 0) {
+    content = transformContent(content);
+
+    if (contentOnPage !== content) {
+      return transformTrial(contentOnPage, content, ++state);
+    }
+  }
+
+  if (state === 1) return contentOnPage === transformContent(content, true);
+
+  return false;
+}
 
 export default class AnswerSection {
   main: QuestionPageClassType;
@@ -206,20 +238,20 @@ export default class AnswerSection {
       const contentOnPage = replaceLatexWithURL(contentContainer.innerHTML, {
         noTitle: true,
       }).replace(/^\s+|\s+$|\r/g, "");
-      const processedContent = replaceLatexWithURL(this.data.content, {
-        noTitle: true,
-      })
-        .replace(/<br ?\/?>/gi, "<br>")
-        .replace(/<\/?div>?|^\s+|\s+$|\r/gi, "")
-        .replace(/\xa0/g, "&nbsp;");
 
-      if (contentOnPage !== processedContent) {
+      if (transformTrial(contentOnPage, this.data.content)) {
         if (System.data.config.extension.env === "development") {
           console.log("contentOnPage isn't similar");
           console.log(contentOnPage, contentOnPage?.length);
           console.log(this.data.content, this.data.content?.length);
 
-          console.log(processedContent, processedContent?.length);
+          let transformedContent = transformContent(this.data.content);
+
+          console.log(transformedContent, transformedContent?.length);
+
+          transformedContent = transformContent(this.data.content, true);
+
+          console.log(transformedContent, transformedContent?.length);
         }
 
         return false;

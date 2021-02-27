@@ -404,7 +404,8 @@ export default class Content {
                     breakWords: true,
                     size: "small",
                     html: replaceLatexWithURL(this.data.content_short, {
-                      decode: true,
+                      // Check https://github.com/seahindeniz/BrainlyTools_Extension/issues/403
+                      // decode: true,
                       className: "latex",
                     }),
                   }),

@@ -111,10 +111,10 @@ export default class AnswerSection {
       }
 
       const ratingCountText = answerContainer.querySelector<HTMLSpanElement>(
-        ":scope > .js-answer > .brn-qpage-next-answer-box__actions > .brn-qpage-next-answer-box__rating .brn-qpage-next-rating > .sg-flex:last-child > .sg-text",
+        ".brn-qpage-next-rating > .sg-flex:last-child > div.sg-text",
       );
 
-      const ratingCount = ratingCountText.innerText.replace(/\(| .*$/g, "");
+      const ratingCount = ratingCountText?.innerText.replace(/\(| .*$/g, "");
 
       if (!ratingCount) throw new Error("Can't find rating count");
 

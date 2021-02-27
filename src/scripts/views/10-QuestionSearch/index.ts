@@ -1,12 +1,12 @@
-import SearchResultsModerationClassType from "./_/SearchResultsModeration/SearchResultsModeration";
+import SearchResultsModeration from "./_/SearchResultsModeration/SearchResultsModeration";
 
 System.pageLoaded("Question search page OK!");
 
 export default class QuestionSearch {
-  searchResultsModeration: SearchResultsModerationClassType;
+  searchResultsModeration: SearchResultsModeration;
 
   constructor() {
-    this.searchResultsModeration = new SearchResultsModerationClassType();
+    this.searchResultsModeration = new SearchResultsModeration();
   }
 }
 

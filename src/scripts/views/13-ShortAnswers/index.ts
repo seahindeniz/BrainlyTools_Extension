@@ -279,7 +279,10 @@ export default class ShortAnswers {
     }
 
     selectedAnswers.forEach(async answer => {
-      await answer.quickActionButtons.DeleteContent(this.deleteReqData);
+      await answer.quickActionButtons.DeleteContent({
+        ...this.deleteReqData,
+        model_id: answer.answerId,
+      });
 
       this.selectedAnswersLength--;
 

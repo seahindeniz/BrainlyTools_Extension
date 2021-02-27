@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 
 _Release dates are based on GMT+0 timezone_
 
+## [7.23.1] - 2021.02.27
+
+### Changed
+
+- Kısa cevapların bulunduğu sayfada toplu silim hatası. [#398]
+- Quick delete buttons don't appear in questions responses [#399]
+- Only two items of content are removable from the search page with the
+  extension moderation [#401]
+- The shortcut "go to old profile" doesn't work [#402]
+- HTML/Marquee tags used in answers apply to the Reported Contents page. [#403]
+
+[#398]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/398
+[#399]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/399
+[#401]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/401
+[#402]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/402
+[#403]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/403
+
 ## [7.23.0] - 2021.01.30
 
 ### Added

@@ -2,6 +2,7 @@
 import Action from "@BrainlyAction";
 import { GetUserCommentsPage } from "@BrainlyReq";
 import { CommonGenericResponseType } from "@BrainlyReq/Brainly";
+import { Breadcrumb } from "@components";
 import CreateElement from "@components/CreateElement";
 import UserBio from "@components/UserBio";
 import UserHat from "@components/UserHat";
@@ -252,6 +253,12 @@ export default class UserProfile {
   }
 
   RenderPreviousNicks() {
+    let { previousNicks } = this.extensionUser;
+
+    if (!previousNicks?.length) {
+      previousNicks = [" -"];
+    }
+
     const container = Build(
       Flex({
         marginTop: "m",
@@ -267,13 +274,28 @@ export default class UserProfile {
             children: `${System.data.locale.userProfile.previousNicks.text}: `,
           }),
         ],
-        [
-          Flex(),
-          Text({
-            size: "small",
-            innerText: this.extensionUser?.previousNicks?.join(", ") || " -",
-          }),
-        ],
+        new Breadcrumb({
+          inlineItems: true,
+          padding: "m",
+          elements: previousNicks
+            .map(nick => {
+              const simplifiedNick = nick
+                ?.substring(0, 50)
+                .replace(/\n|\s{2,}/g, " ")
+                .replace(/\.{2,}/g, "")
+                .trim();
+
+              if (!simplifiedNick) return undefined;
+
+              return Text({
+                tag: "span",
+                size: "small",
+                title: nick,
+                innerText: simplifiedNick,
+              });
+            })
+            .filter(Boolean),
+        }),
       ],
     );
 

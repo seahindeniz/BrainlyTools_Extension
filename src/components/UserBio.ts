@@ -27,6 +27,7 @@ class UserBio {
   Render() {
     this.container = Build(
       Flex({
+        marginTop: "s",
         title: System.data.locale.userProfile.userBio.description,
       }),
       [
@@ -35,6 +36,7 @@ class UserBio {
             marginRight: "xs",
           }),
           Text({
+            noWrap: true,
             size: "small",
             weight: "bold",
             children: `${System.data.locale.userProfile.userBio.title}:`,
@@ -59,7 +61,7 @@ class UserBio {
   }
 
   RemovePlaceholder() {
-    if (this.bio) return;
+    if (this.bio || !this.editable) return;
 
     this.bioContent.innerHTML = "";
   }

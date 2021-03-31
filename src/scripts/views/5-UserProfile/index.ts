@@ -1,15 +1,24 @@
 /* eslint-disable no-new */
 import Action from "@BrainlyAction";
 import { GetUserCommentsPage } from "@BrainlyReq";
+import { CommonGenericResponseType } from "@BrainlyReq/Brainly";
 import CreateElement from "@components/CreateElement";
 import UserBio from "@components/UserBio";
 import UserHat from "@components/UserHat";
 import UserNoteBox from "@components/UserNoteBox";
+import Build from "@root/helpers/Build";
 import InsertAfter from "@root/helpers/InsertAfter";
 import IsVisible from "@root/helpers/IsVisible";
 import WaitForElement from "@root/helpers/WaitForElement";
-import ServerReq from "@ServerReq";
-import { ActionList, ActionListHole, ContentBox } from "@style-guide";
+import ServerReq, { UserDetailsType } from "@ServerReq";
+import {
+  ActionList,
+  ActionListHole,
+  Flex,
+  SeparatorHorizontal,
+  Text,
+} from "@style-guide";
+import { FlexElementType } from "@style-guide/Flex";
 import AccountDeleteReporter from "./_/AccountDeleteReporter";
 import FriendsManager from "./_/FriendsManager";
 import MorePanel from "./_/MorePanel";
@@ -55,19 +64,15 @@ export default class UserProfile {
   mainRight: HTMLElement;
   promise: {
     profile: Promise<any>;
-    extension: Promise<
-      {
-        data: import("@root/controllers/Req/Server").UserDetailsType;
-      } & import("@root/controllers/Req/Server").CommonResponsePropsType
-    >;
+    extension: Promise<CommonGenericResponseType<{ data: UserDetailsType }>>;
     moderators: Promise<any>;
   };
 
   profileData: ProfileDataType;
   infoBottomList: HTMLDivElement;
-  infoSection: HTMLDivElement;
+  infoSection: FlexElementType;
   morePanel: MorePanel;
-  extensionUser: any;
+  extensionUser: UserDetailsType;
   noteSection: HTMLDivElement;
   $noteContainer: JQuery<HTMLElement>;
   brainlyUser: any;
@@ -211,15 +216,13 @@ export default class UserProfile {
   }
 
   RenderProfileInfoSection() {
-    this.infoSection = ContentBox({
-      full: true,
-    });
+    this.infoSection = Flex({ direction: "column" });
 
     const personalInfo = document.body.querySelector(
       "#main-left > div.personal_info > div.clear",
     );
 
-    if (personalInfo) personalInfo.after(this.infoSection);
+    personalInfo?.after(this.infoSection);
   }
 
   async LoadComponentsAfterExtensionResolve() {
@@ -249,24 +252,32 @@ export default class UserProfile {
   }
 
   RenderPreviousNicks() {
-    const previousNicks =
-      (this.extensionUser.previousNicks &&
-        this.extensionUser.previousNicks.join(", ")) ||
-      " -";
-    const $previousNickBox = $(`
-		<div class="sg-content-box__actions sg-content-box__actions--spaced-top-large">
-			<div class="sg-actions-list sg-actions-list--no-wrap sg-actions-list--to-top sg-content-box__actions--spaced-bottom">
-				<div class="sg-actions-list__hole" title="${System.data.locale.userProfile.previousNicks.title}">
-					<p class="sg-text sg-text--small sg-text--bold">${System.data.locale.userProfile.previousNicks.text}: </p>
-				</div>
-				<div class="sg-actions-list__hole sg-actions-list__hole--grow">
-					<p class="sg-text sg-text--xsmall">${previousNicks}</p>
-				</div>
-			</div>
-			<div class="sg-horizontal-separator"></div>
-		</div>`);
+    const container = Build(
+      Flex({
+        marginTop: "m",
+        marginBottom: "s",
+      }),
+      [
+        [
+          Flex({ marginRight: "xs" }),
+          Text({
+            noWrap: true,
+            size: "small",
+            weight: "bold",
+            children: `${System.data.locale.userProfile.previousNicks.text}: `,
+          }),
+        ],
+        [
+          Flex(),
+          Text({
+            size: "small",
+            innerText: this.extensionUser?.previousNicks?.join(", ") || " -",
+          }),
+        ],
+      ],
+    );
 
-    $previousNickBox.prependTo(this.infoSection);
+    this.infoSection.append(container, SeparatorHorizontal());
   }
 
   async LoadComponentsAfterBrainlyResolve() {

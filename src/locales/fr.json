@@ -243,12 +243,12 @@
             "description": "Peut ajouter ou modifier les utilisateurs de l'extension et leur donner des privilèges ou la permission d'utiliser l'extension"
           },
           "6": {
-            "title": "Vérifiez les réponses en sélectionnant",
+            "title": "Approuver les réponses en sélectionnant",
             "description": "Sur la page de contenu de l'utilisateur, le modérateur peut vérifier les réponses en sélectionnant jusqu'à 25 réponses sur chaque page"
           },
           "7": {
             "title": "Suppression de masse des contenus",
-            "description": "Dans le panneau de modération, l'utilisateur peut utiliser la fonction pour supprimer plusieurs questions/réponses/commentaires"
+            "description": "Dans le panel de modération, l'utilisateur peut utiliser cette fonction pour supprimer plusieurs questions/réponses/commentaires de Brainly"
           },
           "8": {
             "title": "Messages de groupe",
@@ -268,26 +268,26 @@
           },
           "12": {
             "title": "Rapport de suppression de comptes",
-            "description": "Dans l'extension, l'utilisateur peut voir les rapports de suppression"
+            "description": "Dans les options d'extension, l'utilisateur peut voir les rapports de suppression de compte"
           },
           "13": {
             "title": "Changement de masse des points",
             "description": "Dans le panneau de modération, l'utilisateur peut modifier les points des utilisateurs avec leurs identifiants"
           },
           "14": {
-            "title": "Suppression des questions sélectionnées",
+            "title": "Suppression sélective des questions",
             "description": "Sur la page des contenus d'un utilisateurs et la page de recherche de question, l'utilisateur peut supprimer des questions en les sélectionnant"
           },
           "15": {
-            "title": "Suppression des réponses sélectionnées",
+            "title": "Suppression sélective des réponses",
             "description": "Sur la page des contenus d'un utilisateur, l'utilisateur a la possibilité de supprimer les réponses sélectionnées"
           },
           "16": {
-            "title": "Suppression des commentaires sélectionnés",
+            "title": "Suppression sélective des commentaires",
             "description": "Sur la page des contenus d'un utilisateur, l'utilisateur a la possibilité de supprimer les questions commentaires"
           },
           "17": {
-            "title": "Supprimer les commentaires signalés",
+            "title": "Outil de suppression de tous les commentaires signalés",
             "description": "L'utilisateur peut utiliser cette fonction pour supprimer tous commentaires signalés dans le Tout modérer"
           },
           "18": {
@@ -299,8 +299,8 @@
             "description": "Sur la page des contenus d'un utilisateur, l'utilisateur peut utiliser la demande sélective pour demander la correction de réponses"
           },
           "20": {
-            "title": "Gestion du tableau d'affichage",
-            "description": "Peut modifier le contenu du tableau d'affichage"
+            "title": "Gestion du tableau d'informations",
+            "description": "Peut modifier le contenu du tableau d'informations"
           },
           "21": {
             "title": "Voir les privilèges de l'utilisateur",
@@ -308,19 +308,19 @@
           },
           "22": {
             "title": "Peut changer les permissions d'accès",
-            "description": "L'utilisateur peut gérer les permissions d'utilisateurs de l'extension"
+            "description": "L'utilisateur peut gérer les permissions pour utiliser l'extension"
           },
           "23": {
             "title": "Peut modifier des permissions importantes",
-            "description": "L'utilisateur peut assigner/révoquer les privilèges importants aux autres utilisateurs"
+            "description": "L'utilisateur peut attribuer/révoquer des privilèges importants à d'autres utilisateurs de l'extension"
           },
           "24": {
             "title": "Peut modifier des privilèges moins importants",
-            "description": "L'utilisateur peut assigner/révoquer les privilèges moins importants aux autres utilisateurs"
+            "description": "L'utilisateur peut attribuer/révoquer des privilèges moins importants aux utilisateurs de l'extension"
           },
           "25": {
             "title": "Peut modifier des permissions inoffensives",
-            "description": "L'utilisateur peut assigner/révoquer les autres privilèges aux autres utilisateurs"
+            "description": "L'utilisateur peut attribuer/révoquer des privilèges inoffensifs à d'autres utilisateurs de l'extension"
           },
           "26": {
             "title": "Suppression sélective des questions (plusieurs pages)",
@@ -367,14 +367,14 @@
           },
           "37": {
             "title": "Contenus Signalés > Supprimer tous les commentaires",
-            "description": "Possibilité de supprimer les commentaires en masse depuis \"contenus signalés\""
+            "description": "Possibilité de supprimer les commentaires en masse du panel de modération"
           },
           "38": {
             "title": "Bouton de confirmation de la réponse signalée",
             "description": "Permettre au modérateur d'utiliser le bouton de confirmation pour confirmer/accepter les réponses signalées au lieu de vérifier"
           },
           "39": {
-            "title": "Gestion de l'évaluation de l'historique des actions",
+            "title": "Gestion de l'évaluation de l'historique des modérations",
             "description": "Possibilité de revenir sur les avis d'autres examinateurs sur l'historique de la modération des modérateurs. Sans cela, les évaluateurs ne peuvent annuler que leurs propres évaluations"
           },
           "98": {
@@ -382,7 +382,7 @@
             "description": "L'utilisateur ne verra aucun autre canal que les #annonces et les #règles sur le serveur Discord"
           },
           "40": {
-            "title": "Annuler la vérification des réponses en sélectionnant",
+            "title": "Désapprouver les réponses en sélectionnant",
             "description": "Sur la page de contenu de l'utilisateur, le modérateur peut vérifier les réponses en sélectionnant 25 réponses au maximum sur chaque page"
           },
           "41": {

@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 _Release dates are based on GMT+0 timezone_
 
+## [7.23.2] - 2021.03.31
+
+### Changed
+
+- The previous nicks feature has displaying issue
+
 ## [7.23.1] - 2021.02.27
 
 ### Changed

@@ -58,6 +58,9 @@ export default class QuestionSection {
         `:scope > div[class*="empty"] > .sg-box > .sg-flex`,
         { parent: this.main.questionContainer, noError: showError },
       )) as HTMLDivElement;
+
+      if (this.moderationBox)
+        this.moderationBox.className = this.main.flexWrapClassnames;
     } catch (error) {
       console.error(error);
     }

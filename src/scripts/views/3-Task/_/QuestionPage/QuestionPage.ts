@@ -4,7 +4,7 @@ import LiveModerationFeed, {
 import HideElement from "@root/helpers/HideElement";
 import WaitForElement from "@root/helpers/WaitForElement";
 import TodaysActions from "@root/scripts/views/1-Home/_/TodaysActions";
-import { Spinner } from "@style-guide";
+import { Flex, Spinner } from "@style-guide";
 import AnswerSection from "./AnswerSection";
 import QuestionPageModeratePanelController from "./ModeratePanelController";
 import type { QuestionDataType } from "./QuestionData";
@@ -30,6 +30,7 @@ export default class QuestionPage {
   private suggestionSection?: SuggestionSection;
   userDetailsSection: UserDetailsSection;
   todaysActions: TodaysActions;
+  flexWrapClassnames: string;
 
   constructor() {
     this.answerSections = {
@@ -42,6 +43,10 @@ export default class QuestionPage {
 
   private Init() {
     try {
+      const tempFlex = Flex({ wrap: true, justifyContent: "space-between" });
+
+      this.flexWrapClassnames = tempFlex.className;
+
       this.FindQuestionContainer();
       this.SetQuestionData();
 

@@ -27,7 +27,7 @@
   grid-column-start: 1;
   width: -webkit-fill-available;
 
-  @media (max-width: 1024px) {
+  @media (min-width: 420px) and (max-width: 1024px) {
     & {
       grid-template-columns: repeat(2, 1fr);
     }

@@ -280,6 +280,8 @@ export default class AnswerSection {
     if (!this.moderationBox)
       throw new Error("Can't find main answer's moderation box'");
 
+    this.moderationBox.className = this.main.flexWrapClassnames;
+
     this.answerBox = this.mainContainer.querySelector(":scope > div.js-answer");
 
     if (!this.answerBox) throw new Error("Can't find main answer box'");

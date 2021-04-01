@@ -53,45 +53,54 @@ export default class BanUserSection {
   }
 
   private Render() {
-    this.container = Build(Flex({ alignItems: "center", relative: true }), [
+    this.container = Build(
+      Flex({
+        relative: true,
+        marginLeft: "xs",
+        marginRight: "xxs",
+        alignItems: "center",
+      }),
       [
-        Flex({ marginRight: "xs" }),
-        Text({
-          children: "Ban",
-        }),
-      ],
-      (this.banTypeSelect = new Select({
-        fullWidth: true,
-        onChange: this.BanUser.bind(this),
-        options: [
-          {
-            selected: true,
-            text: System.data.locale.common.chooseAnOption,
-          },
-          ...banTypes.map(banType => {
-            if (banType.localeVal && !System.checkBrainlyP(137))
-              return undefined;
-
-            const text = System.data.locale.common.banUser[
-              banType.locale
-            ].replace("%{n}", banType.localeVal);
-
-            const optionElement = CreateElement({
-              tag: "option",
-              children: text,
-            });
-
-            this.options.push({
-              banType: banType.value,
-              text,
-              element: optionElement,
-            });
-
-            return optionElement;
+        [
+          Flex({ marginRight: "xs" }),
+          Text({
+            weight: "bold",
+            children: System.data.locale.common.banUser.ban,
           }),
         ],
-      })),
-    ]);
+        (this.banTypeSelect = new Select({
+          fullWidth: true,
+          onChange: this.BanUser.bind(this),
+          options: [
+            {
+              selected: true,
+              text: System.data.locale.common.chooseAnOption,
+            },
+            ...banTypes.map(banType => {
+              if (banType.localeVal && !System.checkBrainlyP(137))
+                return undefined;
+
+              const text = System.data.locale.common.banUser[
+                banType.locale
+              ].replace("%{n}", banType.localeVal);
+
+              const optionElement = CreateElement({
+                tag: "option",
+                children: text,
+              });
+
+              this.options.push({
+                banType: banType.value,
+                text,
+                element: optionElement,
+              });
+
+              return optionElement;
+            }),
+          ],
+        })),
+      ],
+    );
 
     this.main.container.append(this.container);
   }

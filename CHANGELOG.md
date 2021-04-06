@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 _Release dates are based on GMT+0 timezone_
 
+## [7.23.4] - 2021.04.06
+
+### Changed
+
+- Extension not working [#412]
+
+[#412]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/412
+
 ## [7.23.2 - 3] - 2021.03.31
 
 ### Changed

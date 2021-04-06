@@ -18,18 +18,18 @@ async function PrepareUserData() {
 }
 
 export default async function SetUserData() {
-  const dataLayer = await WaitForObject("window.dataLayer");
+  const dataLayer = await WaitForObject(() =>
+    window.dataLayer?.length > 1 ? window.dataLayer : undefined,
+  );
 
-  if (!dataLayer[0]?.user?.isLoggedIn) {
+  const userLayer = dataLayer?.find(layer => layer.user);
+
+  if (!userLayer?.user?.isLoggedIn) {
     console.error(dataLayer);
-    throw Error("User data error. Maybe not logged in");
+    throw Error("Invalid user data. Maybe not logged in?");
   }
 
-  System.data.meta.storageKey = `${System.data.meta.marketName}_${
-    window.dataLayer &&
-    window.dataLayer.length > 0 &&
-    window.dataLayer[0].user.id
-  }`;
+  System.data.meta.storageKey = `${System.data.meta.marketName}_${userLayer.user.id}`;
 
   let res = await storage("get", [
     "user",
@@ -37,7 +37,7 @@ export default async function SetUserData() {
     "extendMessagesLayout",
   ]);
 
-  if (Number(res?.user?.user?.id) !== Number(dataLayer[0].user.id))
+  if (Number(res?.user?.user?.id) !== Number(userLayer.user.id))
     res = await PrepareUserData();
   else {
     PrepareUserData();

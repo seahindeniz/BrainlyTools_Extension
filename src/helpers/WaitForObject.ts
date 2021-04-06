@@ -1,11 +1,13 @@
 import MakeExpire from "./MakeExpire";
 
-export default function WaitForObject(
-  expression: string,
-  {
-    expireTime,
-    noError = false,
-  }: { expireTime?: number; noError?: boolean } = {},
+type Props = { expireTime?: number; noError?: boolean };
+
+function WaitForObject(expression: string, props?: Props): Promise<any>;
+function WaitForObject<T>(expression: () => T, props?: Props): Promise<T>;
+
+function WaitForObject(
+  expression: string | (() => void),
+  { expireTime, noError = false }: Props = {},
 ) {
   return new Promise((resolve, reject) => {
     const loopExpireTime = MakeExpire(expireTime);
@@ -22,10 +24,16 @@ export default function WaitForObject(
       }
 
       try {
-        // eslint-disable-next-line no-eval
-        const obj = window.eval(expression);
+        let obj;
 
-        if (typeof obj !== "undefined") {
+        if (typeof expression === "string")
+          // eslint-disable-next-line no-eval
+          obj = window.eval(expression);
+        else {
+          obj = expression();
+        }
+
+        if (obj !== undefined) {
           clearInterval(intervalId);
           resolve(obj);
         }
@@ -35,3 +43,5 @@ export default function WaitForObject(
     });
   });
 }
+
+export default WaitForObject;

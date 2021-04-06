@@ -73,7 +73,6 @@ function injectIt(
           link.dataset.addedByExtension = "true";
 
           if (fileExtension === "css") {
-            // @ts-expect-error
             const head: HTMLHeadElement = await WaitForObject("document.head");
 
             if (head) head.append(link);

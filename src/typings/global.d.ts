@@ -52,7 +52,8 @@ declare global {
     isPageBusy: boolean;
     dataLayer: {
       user: {
-        id;
+        id: number;
+        isLoggedIn: boolean;
       };
     }[];
     jsData: {

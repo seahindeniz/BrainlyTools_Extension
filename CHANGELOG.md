@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 _Release dates are based on GMT+0 timezone_
 
+## [7.24.1] - 2021.04.07
+
+### Changed
+
+- Bio isn't visible
+
 ## [7.24.0] - 2021.04.07
 
 ### Added

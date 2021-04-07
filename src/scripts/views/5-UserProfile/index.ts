@@ -257,11 +257,9 @@ export default class UserProfile {
   }
 
   RenderPreviousNicks() {
-    let { previousNicks } = this.extensionUser;
+    const { previousNicks } = this.extensionUser;
 
-    if (!previousNicks?.length) {
-      previousNicks = [" -"];
-    }
+    if (!previousNicks?.length) return;
 
     const container = Build(
       Flex({
@@ -303,7 +301,7 @@ export default class UserProfile {
       ],
     );
 
-    this.infoSection.append(container, SeparatorHorizontal());
+    this.infoSection.append(container);
   }
 
   async LoadComponentsAfterBrainlyResolve() {
@@ -323,10 +321,19 @@ export default class UserProfile {
   }
 
   RenderUserBio() {
+    if (
+      !this.brainlyUser.description &&
+      Number(window.myData.id) !== Number(this.profileData.id)
+    )
+      return;
+
     const userBio = new UserBio(
       this.brainlyUser.description,
       Number(window.myData.id) === Number(this.profileData.id),
     );
+
+    if (this.extensionUser.previousNicks?.length > 0)
+      this.infoSection.append(SeparatorHorizontal());
 
     this.infoSection.append(userBio.container);
   }

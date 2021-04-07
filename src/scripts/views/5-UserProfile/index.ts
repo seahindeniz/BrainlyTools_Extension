@@ -315,7 +315,6 @@ export default class UserProfile {
 
     this.brainlyUser = res.data;
 
-    this.RenderUserBio();
     // eslint-disable-next-line no-new
     new RankManager(res.data);
   }
@@ -348,6 +347,7 @@ export default class UserProfile {
     await Promise.all([this.promise.extension, this.promise.profile]);
 
     if (this.extensionUser && this.brainlyUser) {
+      this.RenderUserBio();
       this.morePanel.RenderSectionsAfterAllResolved();
 
       if (this.extensionUser.probatus) {

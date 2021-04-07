@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 
 _Release dates are based on GMT+0 timezone_
 
+## [7.24.0] - 2021.04.07
+
+### Added
+
+- Quick moderation buttons over users' profile page (old version). [#411]
+
+### Changed
+
+- User's previous nicks and bio sections will be hidden when they are empty
+- The Noticeboard isn't displayed on the moderation panel [#413]
+- Extension not working (part. 2) [#414]
+
+[#411]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/411
+[#413]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/413
+[#414]: https://github.com/seahindeniz/BrainlyTools_Extension/issues/414
+
 ## [7.23.4] - 2021.04.06
 
 ### Changed

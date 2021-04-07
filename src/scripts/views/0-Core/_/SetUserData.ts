@@ -1,16 +1,13 @@
-import WaitForObject from "../../../../helpers/WaitForObject";
+import { GetMe } from "@BrainlyReq";
 import storage from "../../../../helpers/extStorage";
-
-async function fetchUserData() {
-  const response = await fetch("/api/28/api_users/me");
-  const data = await response.json();
-
-  return data;
-}
+import WaitForObject from "../../../../helpers/WaitForObject";
 
 async function PrepareUserData() {
-  const user = await fetchUserData();
-  const storageData = { user: user.data };
+  const resUser = await GetMe();
+
+  if (resUser.success === false) return undefined;
+
+  const storageData = { user: resUser.data };
 
   await storage("set", storageData);
 
@@ -18,14 +15,14 @@ async function PrepareUserData() {
 }
 
 export default async function SetUserData() {
-  const dataLayer = await WaitForObject(() =>
-    window.dataLayer?.length > 1 ? window.dataLayer : undefined,
-  );
+  const userLayer = await WaitForObject(() => {
+    if (window.dataLayer?.length < 2) return undefined;
 
-  const userLayer = dataLayer?.find(layer => layer.user);
+    return window.dataLayer?.find(layer => layer.user) ?? undefined;
+  });
 
   if (!userLayer?.user?.isLoggedIn) {
-    console.error(dataLayer);
+    console.error(window.dataLayer);
     throw Error("Invalid user data. Maybe not logged in?");
   }
 

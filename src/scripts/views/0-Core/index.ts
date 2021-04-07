@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this, camelcase */
-import Action from "@BrainlyAction";
+import { GetMe } from "@BrainlyReq";
 import CreateElement from "@components/CreateElement";
 import notification from "@components/notification2";
 import InsertBefore from "@root/helpers/InsertBefore";
@@ -411,7 +411,7 @@ class Core {
   PingBrainly() {
     setInterval(async () => {
       try {
-        await new Action().Me();
+        await GetMe();
       } catch (_) {
         //
       }

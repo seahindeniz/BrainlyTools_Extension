@@ -2,6 +2,7 @@ export { default as BanUser } from "./BanUser";
 export { default as CloseModerationTicket } from "./CloseModerationTicket";
 export { default as ConfirmContent } from "./ConfirmContent/ConfirmContent";
 export { default as GetMarketConfig } from "./GetMarketConfig";
+export { default as GetMe } from "./GetMe";
 export { default as GetProfilePage } from "./GetProfilePage";
 export { default as GetQuestion } from "./GetQuestion";
 export { default as GetUserCommentsPage } from "./GetUserCommentsPage";

@@ -725,8 +725,10 @@ class _System {
     ) {
       const user = await new Action().GetUserProfile(log.user.id);
 
-      log.user.nick = user.data.nick;
-      log.user.id = user.data.id;
+      if (user.data?.success) {
+        log.user.nick = user.data.nick;
+        log.user.id = user.data.id;
+      }
     }
 
     new ServerReq().Logger(type, log);

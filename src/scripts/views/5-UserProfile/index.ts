@@ -21,6 +21,7 @@ import {
 } from "@style-guide";
 import { FlexElementType } from "@style-guide/Flex";
 import AccountDeleteReporter from "./_/AccountDeleteReporter";
+import ContentModeration from "./_/ContentModeration/ContentModeration";
 import FriendsManager from "./_/FriendsManager";
 import MorePanel from "./_/MorePanel";
 import RankManager from "./_/RankManager";
@@ -77,6 +78,7 @@ export default class UserProfile {
   noteSection: HTMLDivElement;
   $noteContainer: JQuery<HTMLElement>;
   brainlyUser: any;
+  contentModeration?: ContentModeration;
 
   constructor() {
     this.Init();
@@ -233,12 +235,14 @@ export default class UserProfile {
 
     this.extensionUser = resUser.data;
 
-    if (this.extensionUser) {
-      this.RenderNoteSection();
-      this.RenderPreviousNicks();
-      this.morePanel.ShowPermissionStatus();
-      this.morePanel.RenderSectionsAfterExtensionResolved();
-    }
+    if (!this.extensionUser) return;
+
+    this.RenderNoteSection();
+    this.RenderPreviousNicks();
+    this.morePanel.ShowPermissionStatus();
+    this.morePanel.RenderSectionsAfterExtensionResolved();
+
+    this.contentModeration = new ContentModeration();
   }
 
   RenderNoteSection() {
